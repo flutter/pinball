@@ -4,13 +4,13 @@ import 'package:pinball/game/game.dart';
 void main() {
   group('GameEvent', () {
     group('BallLost', () {
-      test('BallLost can be instantiated', () {
+      test('can be instantiated', () {
         expect(const BallLost(), isNotNull);
       });
     });
 
     group('Scored', () {
-      test('Scored can be instantiated', () {
+      test('can be instantiated', () {
         expect(const Scored(points: 1), isNotNull);
       });
 
