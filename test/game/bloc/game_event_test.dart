@@ -9,7 +9,8 @@ void main() {
       });
 
       test('supports value equality', () {
-        expect(const BallLost(), equals(const BallLost()));
+        // ignore: prefer_const_constructors
+        expect(BallLost(), equals(const BallLost()));
       });
     });
 
@@ -20,6 +21,7 @@ void main() {
 
       test('supports value equality', () {
         expect(const Scored(points: 1), equals(const Scored(points: 1)));
+        expect(const Scored(points: 1), isNot(equals(const Scored(points: 2))));
       });
 
       test(

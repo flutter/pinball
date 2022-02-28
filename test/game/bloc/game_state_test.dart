@@ -103,7 +103,7 @@ void main() {
             score: gameState.score + 1,
             balls: gameState.balls + 1,
           );
-          expect(gameState, isNot(otherGameState));
+          expect(gameState, isNot(equals(otherGameState)));
 
           expect(
             gameState.copyWith(
