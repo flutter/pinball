@@ -1,13 +1,25 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 part 'game_event.dart';
 part 'game_state.dart';
 
 class GameBloc extends Bloc<GameEvent, GameState> {
-  GameBloc() : super(GameInitial()) {
-    on<GameEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+  GameBloc() : super(const GameState(score: 0, ballsLeft: 3)) {
+    on<BallLost>(_onBallLost);
+    on<Scored>(_onScored);
+  }
+
+  void _onBallLost(BallLost event, Emitter emit) {
+    if (state.ballsLeft > 0) {
+      emit(state.copyWith(ballsLeft: state.ballsLeft - 1));
+    }
+  }
+
+  void _onScored(Scored event, Emitter emit) {
+    if (!state.isGameOver) {
+      emit(state.copyWith(score: state.score + event.points));
+    }
   }
 }

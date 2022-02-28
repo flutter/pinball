@@ -1,6 +1,29 @@
 part of 'game_bloc.dart';
 
-@immutable
-abstract class GameState {}
+class GameState extends Equatable {
+  const GameState({
+    required this.score,
+    required this.ballsLeft,
+  });
 
-class GameInitial extends GameState {}
+  final int score;
+  final int ballsLeft;
+
+  bool get isGameOver => ballsLeft == 0;
+
+  GameState copyWith({
+    int? score,
+    int? ballsLeft,
+  }) {
+    return GameState(
+      score: score ?? this.score,
+      ballsLeft: ballsLeft ?? this.ballsLeft,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        score,
+        ballsLeft,
+      ];
+}
