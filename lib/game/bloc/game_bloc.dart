@@ -6,7 +6,7 @@ part 'game_event.dart';
 part 'game_state.dart';
 
 class GameBloc extends Bloc<GameEvent, GameState> {
-  GameBloc() : super(const GameState(score: 0, balls: 3)) {
+  GameBloc() : super(GameState.initial()) {
     on<BallLost>(_onBallLost);
     on<Scored>(_onScored);
   }
