@@ -5,12 +5,16 @@ abstract class GameEvent {
   const GameEvent();
 }
 
+/// Event added when a user drops a ball off the screen.
 class BallLost extends GameEvent {
   const BallLost();
 }
 
+/// Event added when a user increases it's score.
 class Scored extends GameEvent {
-  const Scored(this.points);
+  const Scored({
+    required this.points,
+  }) : assert(points > 0, 'Points must be greater than 0');
 
   final int points;
 }
