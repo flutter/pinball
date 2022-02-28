@@ -13,5 +13,20 @@ void main() {
       await tester.pumpApp(const LandingPage());
       expect(find.byType(TextButton), findsOneWidget);
     });
+
+    testWidgets('tapping on TextButton navigates to PinballGamePage',
+        (tester) async {
+      // TODO(erickzanardo): Make test pass.
+      await tester.pumpApp(const LandingPage());
+      await tester.tap(
+        find.byType(
+          TextButton,
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byType(PinballGamePage), findsOneWidget);
+      expect(find.byType(LandingPage), findsNothing);
+    });
   });
 }
