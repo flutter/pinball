@@ -8,10 +8,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockingjay/mockingjay.dart';
 import 'package:pinball/l10n/l10n.dart';
 
 extension PumpApp on WidgetTester {
-  Future<void> pumpApp(Widget widget) {
+  Future<void> pumpApp(
+    Widget widget, {
+    MockNavigator? navigator,
+  }) {
     return pumpWidget(
       MaterialApp(
         localizationsDelegates: const [
@@ -19,7 +23,9 @@ extension PumpApp on WidgetTester {
           GlobalMaterialLocalizations.delegate,
         ],
         supportedLocales: AppLocalizations.supportedLocales,
-        home: widget,
+        home: navigator != null
+            ? MockNavigatorProvider(navigator: navigator, child: widget)
+            : widget,
       ),
     );
   }

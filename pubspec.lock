@@ -127,6 +127,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.1.2"
+  flame:
+    dependency: "direct main"
+    description:
+      name: flame
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
+  flame_forge2d:
+    dependency: "direct main"
+    description:
+      name: flame_forge2d
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.8.3"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -149,6 +163,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  forge2d:
+    dependency: transitive
+    description:
+      name: forge2d
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.8.1"
   frontend_server_client:
     dependency: transitive
     description:
@@ -233,6 +254,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  mockingjay:
+    dependency: "direct dev"
+    description:
+      name: mockingjay
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.0"
   mocktail:
     dependency: "direct dev"
     description:
@@ -254,6 +282,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  ordered_set:
+    dependency: transitive
+    description:
+      name: ordered_set
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.0"
   package_config:
     dependency: transitive
     description:
@@ -450,4 +485,4 @@ packages:
     version: "3.1.0"
 sdks:
   dart: ">=2.16.0 <3.0.0"
-  flutter: ">=1.16.0"
+  flutter: ">=2.5.0"
