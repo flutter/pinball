@@ -3,27 +3,27 @@ part of 'game_bloc.dart';
 class GameState extends Equatable {
   const GameState({
     required this.score,
-    required this.ballsLeft,
+    required this.balls,
   });
 
   final int score;
-  final int ballsLeft;
+  final int balls;
 
-  bool get isGameOver => ballsLeft == 0;
+  bool get isGameOver => balls == 0;
 
   GameState copyWith({
     int? score,
-    int? ballsLeft,
+    int? balls,
   }) {
     return GameState(
       score: score ?? this.score,
-      ballsLeft: ballsLeft ?? this.ballsLeft,
+      balls: balls ?? this.balls,
     );
   }
 
   @override
   List<Object?> get props => [
         score,
-        ballsLeft,
+        balls,
       ];
 }

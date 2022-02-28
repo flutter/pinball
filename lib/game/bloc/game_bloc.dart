@@ -6,14 +6,14 @@ part 'game_event.dart';
 part 'game_state.dart';
 
 class GameBloc extends Bloc<GameEvent, GameState> {
-  GameBloc() : super(const GameState(score: 0, ballsLeft: 3)) {
+  GameBloc() : super(const GameState(score: 0, balls: 3)) {
     on<BallLost>(_onBallLost);
     on<Scored>(_onScored);
   }
 
   void _onBallLost(BallLost event, Emitter emit) {
-    if (state.ballsLeft > 0) {
-      emit(state.copyWith(ballsLeft: state.ballsLeft - 1));
+    if (state.balls > 0) {
+      emit(state.copyWith(balls: state.balls - 1));
     }
   }
 
