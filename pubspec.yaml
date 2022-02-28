@@ -8,6 +8,8 @@ environment:
 
 dependencies:
   bloc: ^8.0.2
+  flame: ^1.0.0
+  flame_forge2d: ^0.8.3
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
