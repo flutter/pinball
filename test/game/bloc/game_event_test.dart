@@ -7,11 +7,19 @@ void main() {
       test('can be instantiated', () {
         expect(const BallLost(), isNotNull);
       });
+
+      test('supports value equality', () {
+        expect(const BallLost(), equals(const BallLost()));
+      });
     });
 
     group('Scored', () {
       test('can be instantiated', () {
         expect(const Scored(points: 1), isNotNull);
+      });
+
+      test('supports value equality', () {
+        expect(const Scored(points: 1), equals(const Scored(points: 1)));
       });
 
       test(
