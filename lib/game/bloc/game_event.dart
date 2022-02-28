@@ -10,7 +10,7 @@ class BallLost extends GameEvent {
   const BallLost();
 }
 
-/// Event added when a user increases it's score.
+/// Event added when a user increases their score.
 class Scored extends GameEvent {
   const Scored({
     required this.points,
