@@ -26,6 +26,11 @@ class GameState extends Equatable {
     int? score,
     int? balls,
   }) {
+    assert(
+      score == null || score >= this.score,
+      "Score can't be decreased",
+    );
+
     return GameState(
       score: score ?? this.score,
       balls: balls ?? this.balls,
