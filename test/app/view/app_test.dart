@@ -5,15 +5,15 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/app/app.dart';
+import 'package:pinball/landing/landing.dart';
 
 void main() {
   group('App', () {
-    testWidgets('renders CounterPage', (tester) async {
+    testWidgets('renders LandingPage', (tester) async {
       await tester.pumpWidget(const App());
-      expect(find.byType(Container), findsOneWidget);
+      expect(find.byType(LandingPage), findsOneWidget);
     });
   });
 }
