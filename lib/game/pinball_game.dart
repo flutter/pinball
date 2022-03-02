@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_renaming_method_parameters
 
 import 'package:flame_bloc/flame_bloc.dart';
-import 'package:flame_forge2d/forge2d_game.dart';
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
 
 class BallWallContactCallback extends ContactCallback<Ball, Wall> {

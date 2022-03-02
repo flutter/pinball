@@ -6,7 +6,6 @@ import 'package:pinball/game/game.dart';
 
 class Ball extends BodyComponent<PinballGame>
     with BlocComponent<GameBloc, GameState> {
-
   Ball({
     required Vector2 position,
   }) : _position = position {
