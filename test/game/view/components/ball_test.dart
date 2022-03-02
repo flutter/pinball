@@ -7,6 +7,17 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('Ball', () {
+    FlameTester(PinballGame.new).test(
+      'loads correctly',
+      (game) async {
+        final position = Vector2(10, 10);
+        final ball = Ball(position: position);
+        await game.ensureAdd(ball);
+
+        expect(game.contains(ball), isTrue);
+      },
+    );
+
     group('body', () {
       FlameTester(PinballGame.new).test(
         'positions correctly',
@@ -14,6 +25,7 @@ void main() {
           final position = Vector2(10, 10);
           final ball = Ball(position: position);
           await game.ensureAdd(ball);
+          game.contains(ball);
 
           expect(ball.body.position, position);
         },
