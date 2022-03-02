@@ -11,8 +11,8 @@ mixin ScorePoints on BodyComponent {
   int get points;
 }
 
-/// [ContactCallback] that adds points to the score when a [Ball] collides with
-/// a [BodyComponent] that implements [ScorePoints].
+/// Adds points to the score when a [Ball] collides with a [BodyComponent] that
+/// implements [ScorePoints].
 class BallScorePointsCallback extends ContactCallback<Ball, ScorePoints> {
   @override
   void begin(
