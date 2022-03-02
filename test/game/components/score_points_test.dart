@@ -15,7 +15,7 @@ class MockPinballGame extends Mock implements PinballGame {}
 class FakeContact extends Fake implements Contact {}
 
 void main() {
-  group('BallHasScoreCallback', () {
+  group('BallScorePointsCallback', () {
     late MockPinballGame game;
     late MockGameBloc bloc;
     late MockBall ball;
@@ -38,7 +38,7 @@ void main() {
           when<GameBloc>(game.read).thenReturn(bloc);
           when<int>(() => hasScore.points).thenReturn(points);
 
-          BallHasScoreCallback().begin(
+          BallScorePointsCallback().begin(
             ball,
             hasScore,
             FakeContact(),

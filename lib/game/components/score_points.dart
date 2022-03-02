@@ -7,7 +7,7 @@ mixin ScorePoints {
   int get points;
 }
 
-class BallHasScoreCallback extends ContactCallback<Ball, ScorePoints> {
+class BallScorePointsCallback extends ContactCallback<Ball, ScorePoints> {
   @override
   void begin(
     Ball ball,
