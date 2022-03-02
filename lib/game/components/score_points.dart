@@ -23,8 +23,8 @@ class BallScorePointsCallback extends ContactCallback<Ball, ScorePoints> {
     ball.gameRef.read<GameBloc>().add(Scored(points: hasPoints.points));
   }
 
-  // TODO(alestiago): remove if the PR gets merged.
-  // https://github.com/flame-engine/flame/pull/1415
+  // TODO(alestiago): remove once this issue is closed.
+  // https://github.com/flame-engine/flame/issues/1414
   @override
   void end(Ball _, ScorePoints __, Contact ___) {}
 }
