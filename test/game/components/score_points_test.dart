@@ -3,8 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 
-class MockScorePoints extends Mock with ScorePoints {}
-
 class MockBall extends Mock implements Ball {}
 
 class MockGameBloc extends Mock implements GameBloc {}
@@ -15,18 +13,28 @@ class FakeContact extends Fake implements Contact {}
 
 class FakeGameEvent extends Fake implements GameEvent {}
 
+class FakeScorePoints extends BodyComponent with ScorePoints {
+  @override
+  Body createBody() {
+    throw UnimplementedError();
+  }
+
+  @override
+  int get points => 2;
+}
+
 void main() {
   group('BallScorePointsCallback', () {
     late MockPinballGame game;
     late MockGameBloc bloc;
     late MockBall ball;
-    late MockScorePoints scorePoints;
+    late FakeScorePoints fakeScorePoints;
 
     setUp(() {
       game = MockPinballGame();
       bloc = MockGameBloc();
       ball = MockBall();
-      scorePoints = MockScorePoints();
+      fakeScorePoints = FakeScorePoints();
     });
 
     setUpAll(() {
@@ -37,20 +45,19 @@ void main() {
       test(
         'emits Scored event with points',
         () {
-          const points = 2;
-
           when<PinballGame>(() => ball.gameRef).thenReturn(game);
           when<GameBloc>(game.read).thenReturn(bloc);
-          when<int>(() => scorePoints.points).thenReturn(points);
 
           BallScorePointsCallback().begin(
             ball,
-            scorePoints,
+            fakeScorePoints,
             FakeContact(),
           );
 
           verify(
-            () => bloc.add(const Scored(points: points)),
+            () => bloc.add(
+              Scored(points: fakeScorePoints.points),
+            ),
           ).called(1);
         },
       );
@@ -60,7 +67,7 @@ void main() {
       test("doesn't add events to GameBloc", () {
         BallScorePointsCallback().end(
           ball,
-          scorePoints,
+          fakeScorePoints,
           FakeContact(),
         );
 
