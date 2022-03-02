@@ -8,8 +8,10 @@ environment:
 
 dependencies:
   bloc: ^8.0.2
-  flame: ^1.0.0
-  flame_forge2d: ^0.8.3
+  equatable: ^2.0.3
+  flame: ^1.1.0-releasecandidate.1
+  flame_bloc: ^1.2.0-releasecandidate.1
+  flame_forge2d: ^0.9.0-releasecandidate.1
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
@@ -19,6 +21,7 @@ dependencies:
 
 dev_dependencies:
   bloc_test: ^9.0.2
+  flame_test: ^1.1.0
   flutter_test:
     sdk: flutter
   mockingjay: ^0.2.0
