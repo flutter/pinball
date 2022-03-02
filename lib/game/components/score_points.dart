@@ -17,10 +17,10 @@ class BallScorePointsCallback extends ContactCallback<Ball, ScorePoints> {
   @override
   void begin(
     Ball ball,
-    ScorePoints hasPoints,
+    ScorePoints scorePoints,
     Contact _,
   ) {
-    ball.gameRef.read<GameBloc>().add(Scored(points: hasPoints.points));
+    ball.gameRef.read<GameBloc>().add(Scored(points: scorePoints.points));
   }
 
   // TODO(alestiago): remove once this issue is closed.
