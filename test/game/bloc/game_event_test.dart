@@ -11,7 +11,10 @@ void main() {
       });
 
       test('supports value equality', () {
-        expect(BallLost(), equals(const BallLost()));
+        expect(
+          BallLost(),
+          equals(const BallLost()),
+        );
       });
     });
 
@@ -21,8 +24,14 @@ void main() {
       });
 
       test('supports value equality', () {
-        expect(Scored(points: 1), equals(const Scored(points: 1)));
-        expect(const Scored(points: 1), isNot(equals(const Scored(points: 2))));
+        expect(
+          Scored(points: 1),
+          equals(const Scored(points: 1)),
+        );
+        expect(
+          const Scored(points: 1),
+          isNot(equals(const Scored(points: 2))),
+        );
       });
 
       test(
