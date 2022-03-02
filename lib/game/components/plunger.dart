@@ -1,4 +1,3 @@
-import 'package:flame_forge2d/body_component.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 
 class Plunger extends BodyComponent {
@@ -20,10 +19,12 @@ class Plunger extends BodyComponent {
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 
+  // Unused for now - from the previous kinematic plunger implementation.
   void pull() {
     body.linearVelocity = Vector2(0, -5);
   }
 
+  // Unused for now - from the previous kinematic plunger implementation.
   void release() {
     final velocity = (_position.y - body.position.y) * 9;
     body.linearVelocity = Vector2(0, velocity);
