@@ -6,7 +6,7 @@ import 'package:pinball/game/game.dart';
 /// {@template score_points}
 /// Specifies the amount of points received on [Ball] collision.
 /// {@endtemplate}
-mixin ScorePoints {
+mixin ScorePoints on BodyComponent {
   /// {@macro score_points}
   int get points;
 }
