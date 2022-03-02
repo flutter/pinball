@@ -25,9 +25,9 @@ class FakeScorePoints extends BodyComponent with ScorePoints {
 
 void main() {
   group('BallScorePointsCallback', () {
-    late MockPinballGame game;
-    late MockGameBloc bloc;
-    late MockBall ball;
+    late PinballGame game;
+    late GameBloc bloc;
+    late Ball ball;
     late FakeScorePoints fakeScorePoints;
 
     setUp(() {
