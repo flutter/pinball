@@ -10,8 +10,7 @@ void main() {
     FlameTester(PinballGame.new).test(
       'loads correctly',
       (game) async {
-        final position = Vector2(10, 10);
-        final ball = Ball(position: position);
+        final ball = Ball(position: Vector2.zero());
         await game.ensureAdd(ball);
 
         expect(game.contains(ball), isTrue);
@@ -22,7 +21,7 @@ void main() {
       FlameTester(PinballGame.new).test(
         'positions correctly',
         (game) async {
-          final position = Vector2(10, 10);
+          final position = Vector2.all(10);
           final ball = Ball(position: position);
           await game.ensureAdd(ball);
           game.contains(ball);
@@ -34,8 +33,7 @@ void main() {
       FlameTester(PinballGame.new).test(
         'is dynamic',
         (game) async {
-          final position = Vector2(10, 10);
-          final ball = Ball(position: position);
+          final ball = Ball(position: Vector2.zero());
           await game.ensureAdd(ball);
 
           expect(ball.body.bodyType, equals(BodyType.dynamic));
@@ -47,8 +45,7 @@ void main() {
       FlameTester(PinballGame.new).test(
         'exists',
         (game) async {
-          final position = Vector2(10, 10);
-          final ball = Ball(position: position);
+          final ball = Ball(position: Vector2.zero());
           await game.ensureAdd(ball);
 
           expect(ball.body.fixtures.length, equals(1));
@@ -58,8 +55,7 @@ void main() {
       FlameTester(PinballGame.new).test(
         'is dense',
         (game) async {
-          final position = Vector2(10, 10);
-          final ball = Ball(position: position);
+          final ball = Ball(position: Vector2.zero());
           await game.ensureAdd(ball);
 
           final fixture = ball.body.fixtures[0];
@@ -70,8 +66,7 @@ void main() {
       FlameTester(PinballGame.new).test(
         'shape is circular',
         (game) async {
-          final position = Vector2(10, 10);
-          final ball = Ball(position: position);
+          final ball = Ball(position: Vector2.zero());
           await game.ensureAdd(ball);
 
           final fixture = ball.body.fixtures[0];
