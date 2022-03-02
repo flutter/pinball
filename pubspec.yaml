@@ -8,6 +8,7 @@ environment:
 
 dependencies:
   bloc: ^8.0.2
+  equatable: ^2.0.3
   flame: ^1.1.0-releasecandidate.1
   flame_bloc: ^1.2.0-releasecandidate.1
   flame_forge2d: ^0.9.0-releasecandidate.1
