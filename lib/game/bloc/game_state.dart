@@ -11,10 +11,9 @@ class GameState extends Equatable {
   })  : assert(score >= 0, "Score can't be negative"),
         assert(balls >= 0, "Number of balls can't be negative");
 
-  factory GameState.initial() => const GameState(
-        score: 0,
-        balls: 3,
-      );
+  const GameState.initial()
+      : score = 0,
+        balls = 3;
 
   /// The current score of the game.
   final int score;
