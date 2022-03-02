@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
 
@@ -9,7 +11,6 @@ void main() {
       });
 
       test('supports value equality', () {
-        // ignore: prefer_const_constructors
         expect(BallLost(), equals(const BallLost()));
       });
     });
@@ -20,7 +21,7 @@ void main() {
       });
 
       test('supports value equality', () {
-        expect(const Scored(points: 1), equals(const Scored(points: 1)));
+        expect(Scored(points: 1), equals(const Scored(points: 1)));
         expect(const Scored(points: 1), isNot(equals(const Scored(points: 2))));
       });
 
