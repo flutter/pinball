@@ -48,7 +48,7 @@ void main() {
           final ball = Ball(position: Vector2.zero());
           await game.ensureAdd(ball);
 
-          expect(ball.body.fixtures.length, equals(1));
+          expect(ball.body.fixtures[0], isA<Fixture>());
         },
       );
 
