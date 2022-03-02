@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
 
@@ -5,7 +7,7 @@ void main() {
   group('GameState', () {
     test('supports value equality', () {
       expect(
-        const GameState(score: 0, balls: 0),
+        GameState(score: 0, balls: 0),
         equals(const GameState(score: 0, balls: 0)),
       );
     });
