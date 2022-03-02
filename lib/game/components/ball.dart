@@ -6,6 +6,7 @@ import 'package:pinball/game/game.dart';
 
 class Ball extends BodyComponent<PinballGame>
     with BlocComponent<GameBloc, GameState> {
+
   Ball({
     required Vector2 position,
   }) : _position = position {
@@ -27,5 +28,20 @@ class Ball extends BodyComponent<PinballGame>
       ..type = BodyType.dynamic;
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
+  }
+
+  @override
+  void onRemove() {
+    final bloc = gameRef.read<GameBloc>();
+
+    final shouldBallrespwan = bloc.state.balls > 1;
+
+    bloc.add(const BallLost());
+
+    if (shouldBallrespwan) {
+      gameRef.resetBall();
+    }
+
+    super.onRemove();
   }
 }
