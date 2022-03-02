@@ -1,3 +1,5 @@
+// ignore_for_file: cascade_invocations
+
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -7,7 +9,9 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('Ball', () {
-    FlameTester(PinballGame.new).test(
+    final flameTester = FlameTester(PinballGame.new);
+
+    flameTester.test(
       'loads correctly',
       (game) async {
         final ball = Ball(position: Vector2.zero());
@@ -18,7 +22,7 @@ void main() {
     );
 
     group('body', () {
-      FlameTester(PinballGame.new).test(
+      flameTester.test(
         'positions correctly',
         (game) async {
           final position = Vector2.all(10);
@@ -30,7 +34,7 @@ void main() {
         },
       );
 
-      FlameTester(PinballGame.new).test(
+      flameTester.test(
         'is dynamic',
         (game) async {
           final ball = Ball(position: Vector2.zero());
@@ -42,7 +46,7 @@ void main() {
     });
 
     group('first fixture', () {
-      FlameTester(PinballGame.new).test(
+      flameTester.test(
         'exists',
         (game) async {
           final ball = Ball(position: Vector2.zero());
@@ -52,7 +56,7 @@ void main() {
         },
       );
 
-      FlameTester(PinballGame.new).test(
+      flameTester.test(
         'is dense',
         (game) async {
           final ball = Ball(position: Vector2.zero());
@@ -63,7 +67,7 @@ void main() {
         },
       );
 
-      FlameTester(PinballGame.new).test(
+      flameTester.test(
         'shape is circular',
         (game) async {
           final ball = Ball(position: Vector2.zero());
