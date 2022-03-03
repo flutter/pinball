@@ -32,7 +32,7 @@ class Ball extends BodyComponent<PinballGame>
   void ballLost() {
     final bloc = gameRef.read<GameBloc>();
 
-    final shouldBallRespwan = bloc.state.balls > 1;
+    final shouldBallRespwan = !bloc.state.isLastBall;
 
     bloc.add(const BallLost());
 
