@@ -3,32 +3,16 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/components/components.dart';
 
-class BallWallContactCallback extends ContactCallback<Ball, Wall> {
-  @override
-  void begin(Ball ball, Wall wall, Contact contact) {
-    if (wall.type == WallType.bottom) {
-      ball
-        ..ballLost()
-        ..shouldRemove = true;
-    }
-  }
-
-  @override
-  void end(_, __, ___) {}
-}
-
 enum WallType {
-  top,
-  bottom,
-  left,
-  right,
+  fatal,
+  passive,
 }
 
 class Wall extends BodyComponent {
   Wall({
-    required this.type,
     required this.start,
     required this.end,
+    this.type = WallType.passive,
   });
 
   factory Wall.bottom(Forge2DGame game) {
@@ -36,7 +20,7 @@ class Wall extends BodyComponent {
     final bottomLeft = Vector2(0, bottomRight.y);
 
     return Wall(
-      type: WallType.bottom,
+      type: WallType.fatal,
       start: bottomRight,
       end: bottomLeft,
     );
@@ -61,4 +45,18 @@ class Wall extends BodyComponent {
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
+}
+
+class BallWallContactCallback extends ContactCallback<Ball, Wall> {
+  @override
+  void begin(Ball ball, Wall wall, Contact contact) {
+    if (wall.type == WallType.fatal) {
+      ball
+        ..ballLost()
+        ..shouldRemove = true;
+    }
+  }
+
+  @override
+  void end(_, __, ___) {}
 }

@@ -14,13 +14,13 @@ void main() {
   group('Wall', () {
     group('BallWallContactCallback', () {
       test(
-        'removes the ball on begin contact when the wall is a bottom one',
+        'removes the ball on begin contact when the wall is a fatal one',
         () {
           final game = MockPinballGame();
           final wall = MockWall();
           final ball = MockBall();
 
-          when(() => wall.type).thenReturn(WallType.bottom);
+          when(() => wall.type).thenReturn(WallType.fatal);
           when(() => ball.gameRef).thenReturn(game);
 
           BallWallContactCallback()
@@ -39,7 +39,6 @@ void main() {
       'loads correctly',
       (game) async {
         final wall = Wall(
-          type: WallType.bottom,
           start: Vector2.zero(),
           end: Vector2(100, 0),
         );
@@ -54,7 +53,6 @@ void main() {
         'positions correctly',
         (game) async {
           final wall = Wall(
-            type: WallType.top,
             start: Vector2.zero(),
             end: Vector2(100, 0),
           );
@@ -69,7 +67,6 @@ void main() {
         'is static',
         (game) async {
           final wall = Wall(
-            type: WallType.top,
             start: Vector2.zero(),
             end: Vector2(100, 0),
           );
@@ -85,7 +82,6 @@ void main() {
         'exists',
         (game) async {
           final wall = Wall(
-            type: WallType.top,
             start: Vector2.zero(),
             end: Vector2(100, 0),
           );
@@ -99,7 +95,6 @@ void main() {
         'has restitution equals 0',
         (game) async {
           final wall = Wall(
-            type: WallType.top,
             start: Vector2.zero(),
             end: Vector2(100, 0),
           );
@@ -114,7 +109,6 @@ void main() {
         'has friction',
         (game) async {
           final wall = Wall(
-            type: WallType.top,
             start: Vector2.zero(),
             end: Vector2(100, 0),
           );
