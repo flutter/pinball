@@ -125,12 +125,12 @@ void main() {
 
     setUp(() {
       plunger = Plunger(Vector2.zero());
-      anchor = Plunger(Vector2(0, -5));
+      anchor = Plunger(Vector2(0, -1));
     });
 
     group('initializes with', () {
       flameTester.test(
-        'plunger as bodyA',
+        'plunger body as bodyA',
         (game) async {
           await game.ensureAddAll([plunger, anchor]);
 
@@ -139,12 +139,12 @@ void main() {
             anchor: anchor,
           );
 
-          expect(jointDef.bodyA, equals(plunger));
+          expect(jointDef.bodyA, equals(plunger.body));
         },
       );
 
       flameTester.test(
-        'anchor as bodyB',
+        'anchor body as bodyB',
         (game) async {
           await game.ensureAddAll([plunger, anchor]);
 
@@ -154,7 +154,7 @@ void main() {
           );
           game.world.createJoint(jointDef);
 
-          expect(jointDef.bodyB, equals(anchor));
+          expect(jointDef.bodyB, equals(anchor.body));
         },
       );
 
@@ -203,5 +203,44 @@ void main() {
         },
       );
     });
+
+    flameTester.widgetTest(
+      'plunger cannot go below anchor',
+      (game, tester) async {
+        await game.ensureAddAll([plunger, anchor]);
+
+        final jointDef = PlungerAnchorPrismaticJointDef(
+          plunger: plunger,
+          anchor: anchor,
+        );
+        game.world.createJoint(jointDef);
+
+        plunger.pull();
+        await tester.pump(const Duration(seconds: 1));
+
+        expect(plunger.body.position.y > anchor.body.position.y, isTrue);
+      },
+    );
+
+    flameTester.widgetTest(
+      'plunger cannot excessively exceed starting position',
+      (game, tester) async {
+        await game.ensureAddAll([plunger, anchor]);
+
+        final jointDef = PlungerAnchorPrismaticJointDef(
+          plunger: plunger,
+          anchor: anchor,
+        );
+        game.world.createJoint(jointDef);
+
+        plunger.pull();
+        await tester.pump(const Duration(seconds: 1));
+
+        plunger.release();
+        await tester.pump(const Duration(seconds: 1));
+
+        expect(plunger.body.position.y < 1, isTrue);
+      },
+    );
   });
 }
