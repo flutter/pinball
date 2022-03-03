@@ -62,10 +62,10 @@ void main() {
       });
     });
 
-    group('isGameOver', () {
+    group('isLastBall', () {
       test(
         'is true '
-        'when there is only on ball left',
+        'when there is only one ball left',
         () {
           const gameState = GameState(
             balls: 1,
