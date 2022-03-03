@@ -7,6 +7,7 @@ class PinballGame extends Forge2DGame with FlameBloc {
     add(Ball(position: ballStartingPosition));
   }
 
+  // TODO(erickzanardo): Change to the plumber position
   late final ballStartingPosition = screenToWorld(
         Vector2(
           camera.viewport.effectiveSize.x / 2,
