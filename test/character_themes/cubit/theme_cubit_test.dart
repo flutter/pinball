@@ -9,15 +9,13 @@ void main() {
       expect(themeCubit.state.theme, equals(const DashTheme()));
     });
 
-    group('themeSelected', () {
-      blocTest<ThemeCubit, ThemeState>(
-        'emits selected theme',
-        build: ThemeCubit.new,
-        act: (bloc) => bloc.themeSelected(const SparkyTheme()),
-        expect: () => [
-          const ThemeState(SparkyTheme()),
-        ],
-      );
-    });
+    blocTest<ThemeCubit, ThemeState>(
+      'themeSelected emits selected theme',
+      build: ThemeCubit.new,
+      act: (bloc) => bloc.themeSelected(const SparkyTheme()),
+      expect: () => [
+        const ThemeState(SparkyTheme()),
+      ],
+    );
   });
 }
