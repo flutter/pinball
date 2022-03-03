@@ -7,7 +7,7 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('PinballGameView', () {
-    testWidgets('renders', (tester) async {
+    testWidgets('renders game', (tester) async {
       final gameBloc = MockGameBloc();
       whenListen(
         gameBloc,
