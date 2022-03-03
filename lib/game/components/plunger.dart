@@ -28,7 +28,7 @@ class Plunger extends BodyComponent {
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 
-  /// Set a contstant downward velocity on the plunger body.
+  /// Set a constant downward velocity on the plunger body.
   void pull() {
     body.linearVelocity = Vector2(0, -7);
   }
