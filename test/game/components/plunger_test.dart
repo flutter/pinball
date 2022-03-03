@@ -120,13 +120,20 @@ void main() {
   });
 
   group('PlungerAnchorPrismaticJointDef', () {
-    final plunger = Plunger(Vector2.zero())..createBody();
-    final anchor = Plunger(Vector2(0, -5))..createBody();
+    late Plunger plunger;
+    late Plunger anchor;
+
+    setUp(() {
+      plunger = Plunger(Vector2.zero());
+      anchor = Plunger(Vector2(0, -5));
+    });
 
     group('initializes with', () {
       flameTester.test(
         'plunger as bodyA',
         (game) async {
+          await game.ensureAddAll([plunger, anchor]);
+
           final jointDef = PlungerAnchorPrismaticJointDef(
             plunger: plunger,
             anchor: anchor,
@@ -139,6 +146,8 @@ void main() {
       flameTester.test(
         'anchor as bodyB',
         (game) async {
+          await game.ensureAddAll([plunger, anchor]);
+
           final jointDef = PlungerAnchorPrismaticJointDef(
             plunger: plunger,
             anchor: anchor,
@@ -152,6 +161,8 @@ void main() {
       flameTester.test(
         'limits enabled',
         (game) async {
+          await game.ensureAddAll([plunger, anchor]);
+
           final jointDef = PlungerAnchorPrismaticJointDef(
             plunger: plunger,
             anchor: anchor,
@@ -165,6 +176,8 @@ void main() {
       flameTester.test(
         'lower translation limit as negative infinity',
         (game) async {
+          await game.ensureAddAll([plunger, anchor]);
+
           final jointDef = PlungerAnchorPrismaticJointDef(
             plunger: plunger,
             anchor: anchor,
@@ -178,6 +191,8 @@ void main() {
       flameTester.test(
         'connected body collison enabled',
         (game) async {
+          await game.ensureAddAll([plunger, anchor]);
+
           final jointDef = PlungerAnchorPrismaticJointDef(
             plunger: plunger,
             anchor: anchor,
