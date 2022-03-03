@@ -13,7 +13,7 @@ import 'package:mockingjay/mockingjay.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
 
-class MockGameBloc extends Mock implements GameBloc {}
+import 'helpers.dart';
 
 extension PumpApp on WidgetTester {
   Future<void> pumpApp(

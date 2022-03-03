@@ -29,18 +29,15 @@ class Ball extends BodyComponent<PinballGame>
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 
-  @override
-  void onRemove() {
+  void ballLost() {
     final bloc = gameRef.read<GameBloc>();
 
-    final shouldBallrespwan = bloc.state.balls > 1;
+    final shouldBallRespwan = bloc.state.balls > 1;
 
     bloc.add(const BallLost());
 
-    if (shouldBallrespwan) {
-      gameRef.resetBall();
+    if (shouldBallRespwan) {
+      gameRef.spawnBall();
     }
-
-    super.onRemove();
   }
 }

@@ -62,6 +62,32 @@ void main() {
       });
     });
 
+    group('isGameOver', () {
+      test(
+        'is true '
+        'when there is only on ball left',
+        () {
+          const gameState = GameState(
+            balls: 1,
+            score: 0,
+          );
+          expect(gameState.isLastBall, isTrue);
+        },
+      );
+
+      test(
+        'is false '
+        'when there are more balls left',
+        () {
+          const gameState = GameState(
+            balls: 2,
+            score: 0,
+          );
+          expect(gameState.isLastBall, isFalse);
+        },
+      );
+    });
+
     group('copyWith', () {
       test(
         'throws AssertionError '

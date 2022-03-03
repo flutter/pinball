@@ -14,15 +14,7 @@ class PinballGameView extends StatelessWidget {
           showDialog<void>(
             context: context,
             builder: (_) {
-              return const Dialog(
-                child: SizedBox(
-                  width: 200,
-                  height: 200,
-                  child: Center(
-                    child: Text('Game Over'),
-                  ),
-                ),
-              );
+              return const GameOverDialog();
             },
           );
         }
