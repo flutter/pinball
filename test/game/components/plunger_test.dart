@@ -164,6 +164,23 @@ void main() {
       },
     );
 
+    flameTester.test(
+      'throws AssertionError '
+      'when anchor is in same position as plunger',
+      (game) async {
+        final anchor = Anchor(position: Vector2.zero());
+        await game.ensureAddAll([plunger, anchor]);
+
+        expect(
+          () => PlungerAnchorPrismaticJointDef(
+            plunger: plunger,
+            anchor: anchor,
+          ),
+          throwsAssertionError,
+        );
+      },
+    );
+
     group('initializes with', () {
       flameTester.test(
         'plunger body as bodyA',

@@ -57,7 +57,7 @@ class PlungerAnchorPrismaticJointDef extends PrismaticJointDef {
     required Anchor anchor,
   }) : assert(
           anchor.body.position.y < plunger.body.position.y,
-          "Anchor can't be positioned above the Plunger",
+          'Anchor must be below the Plunger',
         ) {
     initialize(
       plunger.body,
