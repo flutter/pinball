@@ -2,20 +2,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pinball/character_themes/character_themes.dart';
+import 'package:pinball_theme/pinball_theme.dart';
 
 void main() {
-  group('AndroidTheme', () {
+  group('DinoTheme', () {
     test('can be instantiated', () {
-      expect(AndroidTheme(), isNotNull);
+      expect(DinoTheme(), isNotNull);
     });
 
     test('supports value equality', () {
-      expect(AndroidTheme(), equals(AndroidTheme()));
+      expect(DinoTheme(), equals(DinoTheme()));
     });
 
     test('ballColor is correct', () {
-      expect(AndroidTheme().ballColor, equals(Colors.green));
+      expect(DinoTheme().ballColor, equals(Colors.grey));
     });
   });
 }

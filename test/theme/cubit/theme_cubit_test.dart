@@ -1,6 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pinball/character_themes/character_themes.dart';
+import 'package:pinball/theme/theme.dart';
+import 'package:pinball_theme/pinball_theme.dart';
 
 void main() {
   group('ThemeCubit', () {

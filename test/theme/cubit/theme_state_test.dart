@@ -1,7 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pinball/character_themes/character_themes.dart';
+import 'package:pinball/theme/theme.dart';
+import 'package:pinball_theme/pinball_theme.dart';
 
 void main() {
   group('ThemeState', () {
