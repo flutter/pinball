@@ -26,7 +26,7 @@ class GameState extends Equatable {
   /// Determines when the game is over.
   bool get isGameOver => balls == 0;
 
-  /// Determines when player has only one chance left.
+  /// Determines when the player has only one ball left.
   bool get isLastBall => balls == 1;
 
   GameState copyWith({
