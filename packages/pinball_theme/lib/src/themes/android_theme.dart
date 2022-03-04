@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
 /// {@template android_theme}
-/// Defines Android theme assets and attributes.
+/// Defines Android character theme assets and attributes.
 /// {@endtemplate}
-class AndroidTheme extends PinballTheme {
+class AndroidTheme extends CharacterTheme {
   /// {@macro android_theme}
   const AndroidTheme();
 
