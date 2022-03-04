@@ -107,7 +107,7 @@ void main() {
         (game, tester) async {
           await game.ready();
 
-          game.children.whereType<Ball>().first.ballLost();
+          game.children.whereType<Ball>().first.lost();
           await tester.pump();
 
           verify(() => gameBloc.add(const BallLost())).called(1);

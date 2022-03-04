@@ -21,7 +21,7 @@ class PinballGame extends Forge2DGame with FlameBloc {
     spawnBall();
     addContactCallback(BallScorePointsCallback());
 
-    await add(Wall.bottom(this));
-    addContactCallback(BallWallContactCallback());
+    await add(BottomWall(this));
+    addContactCallback(BottomWallBallContactCallback());
   }
 }

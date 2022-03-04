@@ -12,24 +12,23 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('Wall', () {
-    group('BallWallContactCallback', () {
+    group('BottomWallBallContactCallback', () {
       test(
-        'removes the ball on begin contact when the wall is a fatal one',
+        'removes the ball on begin contact when the wall is a bottom one',
         () {
           final game = MockPinballGame();
-          final wall = MockWall();
+          final wall = MockBottomWall();
           final ball = MockBall();
 
-          when(() => wall.type).thenReturn(WallType.fatal);
           when(() => ball.gameRef).thenReturn(game);
 
-          BallWallContactCallback()
+          BottomWallBallContactCallback()
             // Remove once https://github.com/flame-engine/flame/pull/1415
             // is merged
-            ..end(MockBall(), MockWall(), MockContact())
+            ..end(MockBall(), MockBottomWall(), MockContact())
             ..begin(ball, wall, MockContact());
 
-          verify(() => ball.shouldRemove = true).called(1);
+          verify(ball.lost).called(1);
         },
       );
     });
