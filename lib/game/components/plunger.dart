@@ -47,7 +47,7 @@ class Plunger extends BodyComponent {
 /// [PrismaticJointDef] between a [Plunger] and an [Anchor] with motion on
 /// the vertical axis.
 ///
-/// The [Plunger] is constrained to vertically between its starting position and
+/// The [Plunger] is constrained vertically between its starting position and
 /// the [Anchor]. The [Anchor] must be below the [Plunger].
 /// {@endtemplate}
 class PlungerAnchorPrismaticJointDef extends PrismaticJointDef {
