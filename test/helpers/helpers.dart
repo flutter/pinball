@@ -5,4 +5,6 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+export 'builders.dart';
+export 'mocks.dart';
 export 'pump_app.dart';
