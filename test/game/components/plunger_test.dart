@@ -1,5 +1,6 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,7 +14,7 @@ void main() {
     flameTester.test(
       'loads correctly',
       (game) async {
-        final plunger = Plunger(Vector2.zero());
+        final plunger = Plunger(position: Vector2.zero());
         await game.ensureAdd(plunger);
 
         expect(game.contains(plunger), isTrue);
@@ -25,7 +26,7 @@ void main() {
         'positions correctly',
         (game) async {
           final position = Vector2.all(10);
-          final plunger = Plunger(position);
+          final plunger = Plunger(position: position);
           await game.ensureAdd(plunger);
           game.contains(plunger);
 
@@ -36,7 +37,7 @@ void main() {
       flameTester.test(
         'is dynamic',
         (game) async {
-          final plunger = Plunger(Vector2.zero());
+          final plunger = Plunger(position: Vector2.zero());
           await game.ensureAdd(plunger);
 
           expect(plunger.body.bodyType, equals(BodyType.dynamic));
@@ -46,7 +47,7 @@ void main() {
       flameTester.test(
         'ignores gravity',
         (game) async {
-          final plunger = Plunger(Vector2.zero());
+          final plunger = Plunger(position: Vector2.zero());
           await game.ensureAdd(plunger);
 
           expect(plunger.body.gravityScale, isZero);
@@ -58,7 +59,7 @@ void main() {
       flameTester.test(
         'exists',
         (game) async {
-          final plunger = Plunger(Vector2.zero());
+          final plunger = Plunger(position: Vector2.zero());
           await game.ensureAdd(plunger);
 
           expect(plunger.body.fixtures[0], isA<Fixture>());
@@ -68,7 +69,7 @@ void main() {
       flameTester.test(
         'shape is a polygon',
         (game) async {
-          final plunger = Plunger(Vector2.zero());
+          final plunger = Plunger(position: Vector2.zero());
           await game.ensureAdd(plunger);
 
           final fixture = plunger.body.fixtures[0];
@@ -80,12 +81,13 @@ void main() {
     flameTester.test(
       'pull sets a negative linear velocity',
       (game) async {
-        final plunger = Plunger(Vector2.zero());
+        final plunger = Plunger(position: Vector2.zero());
         await game.ensureAdd(plunger);
 
         plunger.pull();
 
         expect(plunger.body.linearVelocity.y, isNegative);
+        expect(plunger.body.linearVelocity.x, isZero);
       },
     );
 
@@ -94,12 +96,13 @@ void main() {
         'does not set a linear velocity '
         'when plunger is in starting position',
         (game) async {
-          final plunger = Plunger(Vector2.zero());
+          final plunger = Plunger(position: Vector2.zero());
           await game.ensureAdd(plunger);
 
           plunger.release();
 
           expect(plunger.body.linearVelocity.y, isZero);
+          expect(plunger.body.linearVelocity.x, isZero);
         },
       );
 
@@ -107,13 +110,14 @@ void main() {
         'sets a positive linear velocity '
         'when plunger is below starting position',
         (game) async {
-          final plunger = Plunger(Vector2.zero());
+          final plunger = Plunger(position: Vector2.zero());
           await game.ensureAdd(plunger);
 
           plunger.body.setTransform(Vector2(0, -1), 0);
           plunger.release();
 
           expect(plunger.body.linearVelocity.y, isPositive);
+          expect(plunger.body.linearVelocity.x, isZero);
         },
       );
     });
@@ -121,12 +125,29 @@ void main() {
 
   group('PlungerAnchorPrismaticJointDef', () {
     late Plunger plunger;
-    late Plunger anchor;
+    late Anchor anchor;
 
     setUp(() {
-      plunger = Plunger(Vector2.zero());
-      anchor = Plunger(Vector2(0, -1));
+      plunger = Plunger(position: Vector2.zero());
+      anchor = Anchor(position: Vector2(0, -1));
     });
+
+    flameTester.test(
+      'throws AssertionError '
+      'when anchor is above plunger',
+      (game) async {
+        final anchor = Anchor(position: Vector2(0, 1));
+        await game.ensureAddAll([plunger, anchor]);
+
+        expect(
+          () => PlungerAnchorPrismaticJointDef(
+            plunger: plunger,
+            anchor: anchor,
+          ),
+          throwsAssertionError,
+        );
+      },
+    );
 
     group('initializes with', () {
       flameTester.test(
