@@ -1,10 +1,12 @@
 // ignore_for_file: cascade_invocations
 
-import 'package:flame/extensions.dart';
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
+
+import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -124,13 +126,26 @@ void main() {
   });
 
   group('PlungerAnchorPrismaticJointDef', () {
+    late GameBloc gameBloc;
     late Plunger plunger;
     late Anchor anchor;
 
     setUp(() {
+      gameBloc = MockGameBloc();
+      whenListen(
+        gameBloc,
+        const Stream<GameState>.empty(),
+        initialState: const GameState.initial(),
+      );
       plunger = Plunger(position: Vector2.zero());
       anchor = Anchor(position: Vector2(0, -1));
     });
+
+    final flameTester = flameBlocTester(
+      gameBlocBuilder: () {
+        return gameBloc;
+      },
+    );
 
     flameTester.test(
       'throws AssertionError '
@@ -229,6 +244,9 @@ void main() {
       'plunger cannot go below anchor',
       (game, tester) async {
         await game.ensureAddAll([plunger, anchor]);
+
+        // Giving anchor a shape for the plunger to collide with.
+        anchor.body.createFixtureFromShape(PolygonShape()..setAsBoxXY(2, 1));
 
         final jointDef = PlungerAnchorPrismaticJointDef(
           plunger: plunger,
