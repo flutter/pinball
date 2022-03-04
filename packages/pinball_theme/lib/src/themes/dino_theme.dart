@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
 /// {@template dino_theme}
-/// Defines Dino theme assets and attributes.
+/// Defines Dino character theme assets and attributes.
 /// {@endtemplate}
-class DinoTheme extends PinballTheme {
+class DinoTheme extends CharacterTheme {
   /// {@macro dino_theme}
   const DinoTheme();
 

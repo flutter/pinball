@@ -1,18 +1,22 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+import 'package:pinball_theme/pinball_theme.dart';
 
 /// {@template pinball_theme}
-/// Base class for creating pinball themes.
+/// Defines all theme assets and attributes.
 ///
-/// Character specific game components should have a getter specified here to
-/// load their corresponding assets for the game.
+/// Game components should have a getter specified here to load their
+/// corresponding assets for the game.
 /// {@endtemplate}
-abstract class PinballTheme extends Equatable {
+class PinballTheme extends Equatable {
   /// {@macro pinball_theme}
-  const PinballTheme();
+  const PinballTheme({
+    required CharacterTheme characterTheme,
+  }) : _characterTheme = characterTheme;
 
-  /// Ball color for this theme.
-  Color get ballColor;
+  final CharacterTheme _characterTheme;
+
+  /// [CharacterTheme] for the chosen character.
+  CharacterTheme get characterTheme => _characterTheme;
 
   @override
   List<Object?> get props => [];

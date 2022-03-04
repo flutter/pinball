@@ -5,17 +5,17 @@ import 'package:pinball_theme/pinball_theme.dart';
 
 void main() {
   group('ThemeCubit', () {
-    test('initial state has Dash theme', () {
+    test('initial state has Dash character theme', () {
       final themeCubit = ThemeCubit();
-      expect(themeCubit.state.theme, equals(const DashTheme()));
+      expect(themeCubit.state.theme.characterTheme, equals(const DashTheme()));
     });
 
     blocTest<ThemeCubit, ThemeState>(
-      'themeSelected emits selected theme',
+      'charcterSelected emits selected character theme',
       build: ThemeCubit.new,
-      act: (bloc) => bloc.themeSelected(const SparkyTheme()),
+      act: (bloc) => bloc.characterSelected(const SparkyTheme()),
       expect: () => [
-        const ThemeState(SparkyTheme()),
+        const ThemeState(PinballTheme(characterTheme: SparkyTheme())),
       ],
     );
   });
