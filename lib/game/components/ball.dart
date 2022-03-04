@@ -4,8 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:forge2d/forge2d.dart';
 import 'package:pinball/game/game.dart';
 
+/// {@template ball}
+/// A solid, [BodyType.dynamic] sphere that rolls and bounces along the
+/// [PinballGame].
+/// {@endtemplate}
 class Ball extends BodyComponent<PinballGame>
     with BlocComponent<GameBloc, GameState> {
+  /// {@macro ball}
   Ball({
     required Vector2 position,
   }) : _position = position {
