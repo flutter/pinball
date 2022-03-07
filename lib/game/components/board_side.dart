@@ -11,3 +11,11 @@ enum BoardSide {
   /// The right side of the board.
   right,
 }
+
+extension BoardSideX on BoardSide {
+  /// Whether this side is [BoardSide.left].
+  bool get isLeft => this == BoardSide.left;
+
+  /// Whether this side is [BoardSide.right].
+  bool get isRight => this == BoardSide.right;
+}
