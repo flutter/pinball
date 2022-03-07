@@ -154,6 +154,33 @@ Update the `CFBundleLocalizations` array in the `Info.plist` at `ios/Runner/Info
 }
 ```
 
+### Deploy application to Firebase hosting
+
+Follow the following steps to deploy the application.
+
+## Firebase CLI
+
+Install and authenticate with [Firebase CLI tools](https://firebase.google.com/docs/cli)
+
+## Build the project using the desired enviroment
+
+```bash
+# Development
+$ flutter build web --release --target lib/main_development.dart
+
+# Staging
+$ flutter build web --release --target lib/main_staging.dart
+
+# Production
+$ flutter build web --release --target lib/main_production.dart
+```
+
+## Deploy
+
+```bash
+$ firebase deploy
+```
+
 [coverage_badge]: coverage_badge.svg
 [flutter_localizations_link]: https://api.flutter.dev/flutter/flutter_localizations/flutter_localizations-library.html
 [internationalization_link]: https://flutter.dev/docs/development/accessibility-and-localization/internationalization
