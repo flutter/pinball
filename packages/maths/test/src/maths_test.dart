@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_constructors, cascade_invocations
+import 'package:flame/extensions.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:maths/maths.dart';
 
@@ -11,8 +12,70 @@ class Binomial {
 
 void main() {
   group('Maths', () {
-    group('calculateArc', () {});
-    group('calculateBezierCurve', () {});
+    group('calculateArc', () {
+      test('it returns by default 100 points as indicated by precision', () {
+        final points = calculateArc(
+          center: Vector2.zero(),
+          radius: 100,
+          angle: 90,
+        );
+        expect(points.length, 100);
+      });
+      test('it returns as many points as indicated by precision', () {
+        final points = calculateArc(
+          center: Vector2.zero(),
+          radius: 100,
+          angle: 90,
+          precision: 50,
+        );
+        expect(points.length, 50);
+      });
+    });
+    group('calculateBezierCurve', () {
+      test('fails if step not in range', () {
+        expect(
+          () => calculateBezierCurve(
+            controlPoints: [
+              Vector2(0, 0),
+              Vector2(10, 10),
+            ],
+            step: 2,
+          ),
+          throwsAssertionError,
+        );
+      });
+      test('fails if not enough control points', () {
+        expect(
+          () => calculateBezierCurve(controlPoints: [Vector2.zero()]),
+          throwsAssertionError,
+        );
+        expect(
+          () => calculateBezierCurve(controlPoints: []),
+          throwsAssertionError,
+        );
+      });
+
+      test('it returns by default 1000 points as indicated by step', () {
+        final points = calculateBezierCurve(
+          controlPoints: [
+            Vector2(0, 0),
+            Vector2(10, 10),
+          ],
+        );
+        expect(points.length, 1000);
+      });
+
+      test('it returns as many points as indicated by step', () {
+        final points = calculateBezierCurve(
+          controlPoints: [
+            Vector2(0, 0),
+            Vector2(10, 10),
+          ],
+          step: 0.01,
+        );
+        expect(points.length, 100);
+      });
+    });
 
     group('binomial', () {
       test('fails if k is negative', () {
