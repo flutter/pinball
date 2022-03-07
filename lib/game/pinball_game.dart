@@ -4,7 +4,12 @@ import 'package:pinball/game/game.dart';
 
 class PinballGame extends Forge2DGame with FlameBloc {
   void spawnBall() {
-    add(Ball(position: ballStartingPosition));
+    add(
+      Ball(
+        position: ballStartingPosition,
+        size: Vector2.all(4),
+      ),
+    );
   }
 
   // TODO(erickzanardo): Change to the plumber position
@@ -18,6 +23,8 @@ class PinballGame extends Forge2DGame with FlameBloc {
 
   @override
   Future<void> onLoad() async {
+    await preLoadAssets();
+
     addContactCallback(BallScorePointsCallback());
 
     await add(BottomWall(this));

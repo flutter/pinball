@@ -1,23 +1,32 @@
+import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
-import 'package:flame_forge2d/body_component.dart';
-import 'package:flutter/material.dart';
-import 'package:forge2d/forge2d.dart';
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
 
-class Ball extends BodyComponent<PinballGame>
+class Ball extends PositionBodyComponent<PinballGame, SpriteComponent>
     with BlocComponent<GameBloc, GameState> {
   Ball({
     required Vector2 position,
-  }) : _position = position {
-    // TODO(alestiago): Use asset instead of color when provided.
-    paint = Paint()..color = const Color(0xFFFFFFFF);
-  }
+    required Vector2 size,
+  })  : _position = position,
+        _size = size,
+        super(size: size);
 
   final Vector2 _position;
+  final Vector2 _size;
+
+  static const spritePath = 'components/ball.png';
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    final sprite = await gameRef.loadSprite(spritePath);
+    positionComponent = SpriteComponent(sprite: sprite, size: _size);
+  }
 
   @override
   Body createBody() {
-    final shape = CircleShape()..radius = 2;
+    final shape = CircleShape()..radius = _size.x / 2;
 
     final fixtureDef = FixtureDef(shape)..density = 1;
 

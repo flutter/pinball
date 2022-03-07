@@ -151,9 +151,11 @@ packages:
   flame_forge2d:
     dependency: "direct main"
     description:
-      name: flame_forge2d
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "packages/flame_forge2d"
+      ref: "erick.fix_position_body_component_on_mount"
+      resolved-ref: cccdfe0054743400ad4262aecac54f89e43be944
+      url: "git@github.com:flame-engine/flame.git"
+    source: git
     version: "0.9.0-releasecandidate.1"
   flame_test:
     dependency: "direct dev"
