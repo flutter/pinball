@@ -18,6 +18,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: ^0.17.0
+  maths: 
+    path: packages/maths
 
 dev_dependencies:
   bloc_test: ^9.0.2
