@@ -40,8 +40,11 @@ class Flipper extends BodyComponent {
           isMirrored: false,
         );
 
-  // TODO(alestiago): Use width and height.
-  static final size = Vector2(12, 2.8);
+  /// The width of the [Flipper].
+  static const width = 12.0;
+
+  /// The height of the [Flipper].
+  static const height = 2.8;
 
   /// The total duration of a full flipper's arc motion.
   ///
@@ -54,7 +57,7 @@ class Flipper extends BodyComponent {
   static double _calculateSpeed() {
     // TODO(alestiago): test correctness.
     const angle = FlipperAnchorRevoluteJointDef._sweepingAngle / 2;
-    final sweepingDistance = (size.x * math.sin(angle)) * 2;
+    final sweepingDistance = (width * math.sin(angle)) * 2;
 
     final seconds = _sweepingAnimationDuration.inMicroseconds /
         Duration.microsecondsPerSecond;
@@ -94,39 +97,39 @@ class Flipper extends BodyComponent {
   List<FixtureDef> _createFixtureDefs() {
     final fixtures = <FixtureDef>[];
 
-    final bigRadius = size.y / 2;
+    const bigRadius = height / 2;
     final bigCircleShape = CircleShape()
       ..radius = bigRadius
       ..position.setValues(
-        _isMirrored ? size.x - bigRadius : bigRadius,
+        _isMirrored ? width - bigRadius : bigRadius,
         -bigRadius,
       );
     final bigCircleFixtureDef = FixtureDef(bigCircleShape);
     fixtures.add(bigCircleFixtureDef);
 
-    final smallRadius = bigRadius / 2;
+    const smallRadius = bigRadius / 2;
     final smallCircleShape = CircleShape()
       ..radius = smallRadius
       ..position.setValues(
-        _isMirrored ? smallRadius : size.x - smallRadius,
+        _isMirrored ? smallRadius : width - smallRadius,
         -2 * smallRadius,
       );
     final smallCircleFixtureDef = FixtureDef(smallCircleShape);
     fixtures.add(smallCircleFixtureDef);
 
-    final inclineSpace = (size.y - (2 * smallRadius)) / 2;
+    const inclineSpace = (height - (2 * smallRadius)) / 2;
     final trapeziumVertices = _isMirrored
         ? [
             Vector2(smallRadius, -inclineSpace),
-            Vector2(size.x - bigRadius, 0),
-            Vector2(size.x - bigRadius, -size.y),
-            Vector2(smallRadius, -size.y + inclineSpace),
+            Vector2(width - bigRadius, 0),
+            Vector2(width - bigRadius, -height),
+            Vector2(smallRadius, -height + inclineSpace),
           ]
         : [
             Vector2(bigCircleShape.radius, 0),
-            Vector2(size.x - smallCircleShape.radius, -inclineSpace),
-            Vector2(size.x - smallCircleShape.radius, -size.y + inclineSpace),
-            Vector2(bigCircleShape.radius, -size.y),
+            Vector2(width - smallCircleShape.radius, -inclineSpace),
+            Vector2(width - smallCircleShape.radius, -height + inclineSpace),
+            Vector2(bigCircleShape.radius, -height),
           ];
     final trapezium = PolygonShape()..set(trapeziumVertices);
     final trapeziumFixtureDef = FixtureDef(trapezium)
