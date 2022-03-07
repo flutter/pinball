@@ -187,4 +187,28 @@ class FlipperAnchorRevoluteJointDef extends RevoluteJointDef {
 
   /// The total angle of the arc motion.
   static const _sweepingAngle = math.pi / 7;
+
+  /// Unlocks the [Flipper] from its resting position.
+  ///
+  /// The [Flipper] is locked when initialized in order to force it to be at
+  /// its resting position.
+  // TODO(alestiago): consider refactor once the issue is solved:
+  // https://github.com/flame-engine/forge2d/issues/36
+  static void unlock(RevoluteJoint joint) {
+    assert(joint.bodyA is Flipper && joint.bodyB is Anchor, 'Invalid joint.');
+    final flipper = joint.bodyA as Flipper;
+
+    late final double upperLimit, lowerLimit;
+    switch (flipper.side) {
+      case BoardSide.left:
+        lowerLimit = joint.lowerLimit * -1;
+        upperLimit = joint.upperLimit;
+        break;
+      case BoardSide.right:
+        lowerLimit = joint.lowerLimit;
+        upperLimit = joint.upperLimit * -1;
+    }
+
+    joint.setLimits(lowerLimit, upperLimit);
+  }
 }
