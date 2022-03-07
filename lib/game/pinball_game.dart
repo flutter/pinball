@@ -26,7 +26,6 @@ class PinballGame extends Forge2DGame with FlameBloc, KeyboardEvents {
 
   @override
   Future<void> onLoad() async {
-    spawnBall();
     addContactCallback(BallScorePointsCallback());
 
     await add(BottomWall(this));
@@ -122,5 +121,11 @@ class PinballGame extends Forge2DGame with FlameBloc, KeyboardEvents {
     }
 
     return KeyEventResult.handled;
+  }
+
+  @override
+  void onAttach() {
+    super.onAttach();
+    spawnBall();
   }
 }
