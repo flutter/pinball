@@ -33,6 +33,7 @@ List<Vector2> calculateBezierCurve({
   required List<Vector2> controlPoints,
   double step = 0.001,
 }) {
+  assert(0 <= step && step <= 1, 'Range 0<=step<=1');
   assert(
     controlPoints.length >= 2,
     'At least 2 control points to create a bezier curve',
