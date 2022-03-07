@@ -3,6 +3,10 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:maths/maths.dart';
 
+/// {@template path}
+/// [Path] creates different shapes that sets the pathways that ball can follow
+/// or collide to like walls.
+/// {@endtemplate}
 class Path extends BodyComponent {
   Path._({
     Color? color,
@@ -15,6 +19,12 @@ class Path extends BodyComponent {
       ..style = PaintingStyle.stroke;
   }
 
+  /// {@macro path}
+  /// [Path.straight] creates a straight path for the ball given a [position]
+  /// for the body, between a [start] and [end] points.
+  /// It creates two [ChainShape] separated by a [pathWidth]. If [onlyOneWall]
+  /// is true, just one [ChainShape] is created (like a wall instead of a path)
+  /// The path could be rotated by [rotation] in degrees.
   factory Path.straight({
     Color? color,
     required Vector2 position,
@@ -46,6 +56,15 @@ class Path extends BodyComponent {
     );
   }
 
+  /// {@macro path}
+  /// [Path.straight] creates an arc path for the ball given a [position]
+  /// for the body, a [radius] for the circumference and an [angle] to specify
+  /// the size of the semi circumference.
+  /// It creates two [ChainShape] separated by a [pathWidth], like a circular
+  /// crown. The specified [radius] is for the outer arc, the inner one will
+  /// have a radius of radius-pathWidth.
+  /// If [onlyOneWall] is true, just one [ChainShape] is created.
+  /// The path could be rotated by [rotation] in degrees.
   factory Path.arc({
     Color? color,
     required Vector2 position,
@@ -84,6 +103,14 @@ class Path extends BodyComponent {
     );
   }
 
+  /// {@macro path}
+  /// [Path.straight] creates a bezier curve path for the ball given a
+  /// [position] for the body, with control point specified by [controlPoints].
+  /// First and last points set the beginning and end of the curve, all the
+  /// inner points between them set the bezier curve final shape.
+  /// It creates two [ChainShape] separated by a [pathWidth]. If [onlyOneWall]
+  /// is true, just one [ChainShape] is created (like a wall instead of a path)
+  /// The path could be rotated by [rotation] in degrees.
   factory Path.bezierCurve({
     Color? color,
     required Vector2 position,
