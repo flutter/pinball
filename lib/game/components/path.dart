@@ -22,7 +22,7 @@ class Path extends BodyComponent {
   /// {@macro path}
   /// [Path.straight] creates a straight path for the ball given a [position]
   /// for the body, between a [start] and [end] points.
-  /// It creates two [ChainShape] separated by a [pathWidth]. If [onlyOneWall]
+  /// It creates two [ChainShape] separated by a [pathWidth]. If [singleWall]
   /// is true, just one [ChainShape] is created (like a wall instead of a path)
   /// The path could be rotated by [rotation] in degrees.
   factory Path.straight({
@@ -63,7 +63,7 @@ class Path extends BodyComponent {
   /// It creates two [ChainShape] separated by a [pathWidth], like a circular
   /// crown. The specified [radius] is for the outer arc, the inner one will
   /// have a radius of radius-pathWidth.
-  /// If [onlyOneWall] is true, just one [ChainShape] is created.
+  /// If [singleWall] is true, just one [ChainShape] is created.
   /// The path could be rotated by [rotation] in degrees.
   factory Path.arc({
     Color? color,
@@ -108,7 +108,7 @@ class Path extends BodyComponent {
   /// [position] for the body, with control point specified by [controlPoints].
   /// First and last points set the beginning and end of the curve, all the
   /// inner points between them set the bezier curve final shape.
-  /// It creates two [ChainShape] separated by a [pathWidth]. If [onlyOneWall]
+  /// It creates two [ChainShape] separated by a [pathWidth]. If [singleWall]
   /// is true, just one [ChainShape] is created (like a wall instead of a path)
   /// The path could be rotated by [rotation] in degrees.
   factory Path.bezierCurve({

@@ -13,7 +13,7 @@ class Binomial {
 void main() {
   group('Maths', () {
     group('calculateArc', () {
-      test('it returns by default 100 points as indicated by precision', () {
+      test('returns by default 100 points as indicated by precision', () {
         final points = calculateArc(
           center: Vector2.zero(),
           radius: 100,
@@ -21,7 +21,7 @@ void main() {
         );
         expect(points.length, 100);
       });
-      test('it returns as many points as indicated by precision', () {
+      test('returns as many points as indicated by precision', () {
         final points = calculateArc(
           center: Vector2.zero(),
           radius: 100,
@@ -55,7 +55,7 @@ void main() {
         );
       });
 
-      test('it returns by default 1000 points as indicated by step', () {
+      test('returns by default 1000 points as indicated by step', () {
         final points = calculateBezierCurve(
           controlPoints: [
             Vector2(0, 0),
@@ -65,7 +65,7 @@ void main() {
         expect(points.length, 1000);
       });
 
-      test('it returns as many points as indicated by step', () {
+      test('returns as many points as indicated by step', () {
         final points = calculateBezierCurve(
           controlPoints: [
             Vector2(0, 0),
