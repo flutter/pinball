@@ -5,11 +5,6 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 
-enum FlipperType {
-  left,
-  right,
-}
-
 /// {@template flipper}
 /// A bat, typically found in pairs at the bottom of the board.
 ///
@@ -19,9 +14,8 @@ class Flipper extends BodyComponent {
   /// {@macro flipper}
   Flipper({
     required Vector2 position,
-    required this.type,
+    required this.side,
   })  : _position = position,
-        _isMirrored = type == FlipperType.left,
         _speed = _calculateSpeed() {
     // TODO(alestiago): Use sprite instead of color when provided.
     paint = Paint()
@@ -64,12 +58,11 @@ class Flipper extends BodyComponent {
   /// The initial position of the [Flipper] body.
   final Vector2 _position;
 
-  final FlipperType type;
-
-  /// Whether the [Flipper] is mirrored.
+  /// Whether the [Flipper] is on the left or right side of the board.
   ///
-  /// A mirrored [Flipper] is one positioned at the right of the borad.
-  final bool _isMirrored;
+  /// A [Flipper] with [BoardSide.left] has a counter-clockwise arc motion.
+  /// A [Flipper] with [BoardSide.right] has a clockwise arc motion.
+  final BoardSide side;
 
   /// Applies downard linear velocity to the [Flipper] to move it up.
   void moveDown() {
@@ -81,18 +74,16 @@ class Flipper extends BodyComponent {
     body.linearVelocity = Vector2(0, _speed);
   }
 
-  // TODO(erickzanardo): Remove this once the issue is solved:
-  // https://github.com/flame-engine/flame/issues/1417
-  final Completer hasMounted = Completer<void>();
-
   List<FixtureDef> _createFixtureDefs() {
     final fixtures = <FixtureDef>[];
+
+    final isLeft = side == BoardSide.left;
 
     const bigRadius = height / 2;
     final bigCircleShape = CircleShape()
       ..radius = bigRadius
       ..position.setValues(
-        _isMirrored ? width - bigRadius : bigRadius,
+        isLeft ? width - bigRadius : bigRadius,
         -bigRadius,
       );
     final bigCircleFixtureDef = FixtureDef(bigCircleShape);
@@ -102,14 +93,14 @@ class Flipper extends BodyComponent {
     final smallCircleShape = CircleShape()
       ..radius = smallRadius
       ..position.setValues(
-        _isMirrored ? smallRadius : width - smallRadius,
+        isLeft ? smallRadius : width - smallRadius,
         -2 * smallRadius,
       );
     final smallCircleFixtureDef = FixtureDef(smallCircleShape);
     fixtures.add(smallCircleFixtureDef);
 
     const inclineSpace = (height - (2 * smallRadius)) / 2;
-    final trapeziumVertices = _isMirrored
+    final trapeziumVertices = isLeft
         ? [
             Vector2(smallRadius, -inclineSpace),
             Vector2(width - bigRadius, 0),
@@ -144,6 +135,10 @@ class Flipper extends BodyComponent {
     return body;
   }
 
+  // TODO(erickzanardo): Remove this once the issue is solved:
+  // https://github.com/flame-engine/flame/issues/1417
+  final Completer hasMounted = Completer<void>();
+
   @override
   void onMount() {
     super.onMount();
@@ -151,12 +146,18 @@ class Flipper extends BodyComponent {
   }
 }
 
+/// {@template flipper_anchor_revolute_joint}
+/// [Anchor] positioned at the end of a [Flipper].
+///
+/// The end of a [Flipper] depends on its [Flipper.side].
+/// {@endtemplate}
 class FlipperAnchor extends Anchor {
+  /// {@macro flipper_anchor_revolute_joint}
   FlipperAnchor({
     required Flipper flipper,
   }) : super(
           position: Vector2(
-            flipper.type == FlipperType.left
+            flipper.side == BoardSide.left
                 ? flipper.body.position.x
                 : flipper.body.position.x + Flipper.width,
             flipper.body.position.y - Flipper.height / 2,

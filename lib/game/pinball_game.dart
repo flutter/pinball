@@ -40,7 +40,7 @@ class PinballGame extends Forge2DGame with FlameBloc, KeyboardEvents {
           (center.x - (Flipper.width / 2)) - (flipperSpace / 2),
           center.y,
         ),
-        type: FlipperType.left,
+        side: BoardSide.left,
       ),
     );
     final leftFlipperAnchor = FlipperAnchor(flipper: _leftFlipper);
@@ -60,7 +60,7 @@ class PinballGame extends Forge2DGame with FlameBloc, KeyboardEvents {
           (center.x + (Flipper.width / 2)) + (flipperSpace / 2),
           center.y,
         ),
-        type: FlipperType.right,
+        side: BoardSide.right,
       ),
     );
     final rightFlipperAnchor = FlipperAnchor(flipper: _rightFlipper);
