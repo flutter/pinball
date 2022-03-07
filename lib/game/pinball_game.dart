@@ -35,19 +35,15 @@ class PinballGame extends Forge2DGame with FlameBloc, KeyboardEvents {
     final center = screenToWorld(camera.viewport.effectiveSize / 2);
     const flipperSpace = 2;
     await add(
-      _leftFlipper = Flipper.left(
+      _leftFlipper = Flipper(
         position: Vector2(
           (center.x - (Flipper.width / 2)) - (flipperSpace / 2),
           center.y,
         ),
+        type: FlipperType.left,
       ),
     );
-    final leftFlipperAnchor = Anchor(
-      position: Vector2(
-        _leftFlipper.body.position.x,
-        _leftFlipper.body.position.y - Flipper.height / 2,
-      ),
-    );
+    final leftFlipperAnchor = FlipperAnchor(flipper: _leftFlipper);
     await add(leftFlipperAnchor);
     final leftFlipperRevoluteJointDef = FlipperAnchorRevoluteJointDef(
       flipper: _leftFlipper,
@@ -59,19 +55,15 @@ class PinballGame extends Forge2DGame with FlameBloc, KeyboardEvents {
         world.createJoint(leftFlipperRevoluteJointDef) as RevoluteJoint;
 
     await add(
-      _rightFlipper = Flipper.right(
+      _rightFlipper = Flipper(
         position: Vector2(
           (center.x + (Flipper.width / 2)) + (flipperSpace / 2),
           center.y,
         ),
+        type: FlipperType.right,
       ),
     );
-    final rightFlipperAnchor = Anchor(
-      position: Vector2(
-        _rightFlipper.body.position.x + Flipper.width,
-        _rightFlipper.body.position.y - Flipper.height / 2,
-      ),
-    );
+    final rightFlipperAnchor = FlipperAnchor(flipper: _rightFlipper);
     await add(rightFlipperAnchor);
     final rightFlipperRevoluteJointDef = FlipperAnchorRevoluteJointDef(
       flipper: _rightFlipper,

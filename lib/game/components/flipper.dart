@@ -5,6 +5,11 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 
+enum FlipperType {
+  left,
+  right,
+}
+
 /// {@template flipper}
 /// A bat, typically found in pairs at the bottom of the board.
 ///
@@ -12,33 +17,17 @@ import 'package:pinball/game/game.dart';
 /// {@endtemplate flipper}
 class Flipper extends BodyComponent {
   /// {@macro flipper}
-  Flipper._({
+  Flipper({
     required Vector2 position,
-    bool isMirrored = false,
+    required this.type,
   })  : _position = position,
-        _isMirrored = isMirrored,
+        _isMirrored = type == FlipperType.left,
         _speed = _calculateSpeed() {
     // TODO(alestiago): Use sprite instead of color when provided.
     paint = Paint()
       ..color = const Color(0xFF00FF00)
       ..style = PaintingStyle.fill;
   }
-
-  /// {@macro flipper}
-  Flipper.right({
-    required Vector2 position,
-  }) : this._(
-          position: position,
-          isMirrored: true,
-        );
-
-  /// {@macro flipper}
-  Flipper.left({
-    required Vector2 position,
-  }) : this._(
-          position: position,
-          isMirrored: false,
-        );
 
   /// The width of the [Flipper].
   static const width = 12.0;
@@ -74,6 +63,8 @@ class Flipper extends BodyComponent {
 
   /// The initial position of the [Flipper] body.
   final Vector2 _position;
+
+  final FlipperType type;
 
   /// Whether the [Flipper] is mirrored.
   ///
@@ -160,8 +151,21 @@ class Flipper extends BodyComponent {
   }
 }
 
+class FlipperAnchor extends Anchor {
+  FlipperAnchor({
+    required Flipper flipper,
+  }) : super(
+          position: Vector2(
+            flipper.type == FlipperType.left
+                ? flipper.body.position.x
+                : flipper.body.position.x + Flipper.width,
+            flipper.body.position.y - Flipper.height / 2,
+          ),
+        );
+}
+
 /// {@template flipper_anchor_revolute_joint_def}
-/// Hinges one end of [Flipper] to an [Anchor] to achieve an arc motion.
+/// Hinges one end of [Flipper] to a [Anchor] to achieve an arc motion.
 /// {@endtemplate}
 class FlipperAnchorRevoluteJointDef extends RevoluteJointDef {
   /// {@macro flipper_anchor_revolute_joint_def}
