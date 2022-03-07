@@ -17,7 +17,7 @@ class Flipper extends BodyComponent {
     bool isMirrored = false,
   })  : _position = position,
         _isMirrored = isMirrored,
-        _speed = calculateRequiredSpeed() {
+        _speed = _calculateRequiredSpeed() {
     // TODO(alestiago): Use sprite instead of color when provided.
     paint = Paint()
       ..color = const Color(0xFF00FF00)
@@ -30,11 +30,12 @@ class Flipper extends BodyComponent {
   ///
   /// A full flipper's arc motion is from the lowest position (resting point) to
   /// the highest position.
-  static const _sweepingAnimationDuration = Duration(milliseconds: 250);
+  static const _sweepingAnimationDuration = Duration(milliseconds: 100);
 
-  static double calculateRequiredSpeed() {
+  static double _calculateRequiredSpeed() {
     // TODO(alestiago): Modify to be mathematically correct.
-    final sweepingDistance = math.sqrt(2 * math.pow(size.x, 2));
+    const angle = FlipperAnchorRevoluteJointDef._sweepingAngle / 2;
+    final sweepingDistance = (size.x * math.sin(angle)) * 2;
     final seconds = _sweepingAnimationDuration.inMicroseconds /
         Duration.microsecondsPerSecond;
     return sweepingDistance / seconds;
