@@ -3,6 +3,7 @@ import 'package:flame/extensions.dart';
 
 /// Method to calculate all points (with a required precision amount of them)
 /// of a circumference based on angle, offsetAngle and radius
+/// https://en.wikipedia.org/wiki/Trigonometric_functions
 List<Vector2> calculateArc({
   required Vector2 center,
   required double radius,
@@ -47,9 +48,9 @@ List<Vector2> calculateBezierCurve({
       final point = controlPoints[i];
 
       xCoord +=
-          _binomial(n, i) * math.pow(1 - t, n - i) * math.pow(t, i) * point.x;
+          binomial(n, i) * math.pow(1 - t, n - i) * math.pow(t, i) * point.x;
       yCoord +=
-          _binomial(n, i) * math.pow(1 - t, n - i) * math.pow(t, i) * point.y;
+          binomial(n, i) * math.pow(1 - t, n - i) * math.pow(t, i) * point.y;
     }
     points.add(Vector2(xCoord, yCoord));
 
@@ -61,21 +62,24 @@ List<Vector2> calculateBezierCurve({
 
 /// Method to calculate the binomial coefficient of 'n' and 'k'
 /// https://en.wikipedia.org/wiki/Binomial_coefficient
-num _binomial(num n, num k) {
+num binomial(num n, num k) {
   assert(0 <= k && k <= n, 'Range 0<=k<=n');
   if (k == 0 || n == k) {
     return 1;
   } else {
-    return _factorial(n) / (_factorial(k) * _factorial(n - k));
+    return factorial(n) / (factorial(k) * factorial(n - k));
   }
 }
 
 /// Method to calculate the factorial of some number 'n'
 /// https://en.wikipedia.org/wiki/Factorial
-num _factorial(num n) {
-  if (n == 1) {
+num factorial(num n) {
+  assert(0 <= n, 'Non negative n');
+  if (n == 0) {
+    return 1;
+  } else if (n == 1) {
     return 1;
   } else {
-    return n * _factorial(n - 1);
+    return n * factorial(n - 1);
   }
 }
