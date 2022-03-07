@@ -162,7 +162,7 @@ Follow the following steps to deploy the application.
 
 Install and authenticate with [Firebase CLI tools](https://firebase.google.com/docs/cli)
 
-## Build the project using the desired enviroment
+## Build the project using the desired environment
 
 ```bash
 # Development
