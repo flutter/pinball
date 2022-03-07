@@ -32,7 +32,7 @@ class Path extends BodyComponent {
     required Vector2 end,
     required double pathWidth,
     double rotation = 0,
-    bool onlyOneWall = false,
+    bool singleWall = false,
   }) {
     final paths = <List<Vector2>>[];
     final wall1 = [
@@ -41,7 +41,7 @@ class Path extends BodyComponent {
     ];
     paths.add(wall1.map((e) => e..rotate(radians(rotation))).toList());
 
-    if (!onlyOneWall) {
+    if (!singleWall) {
       final wall2 = [
         start + Vector2(pathWidth, 0),
         end + Vector2(pathWidth, 0),
@@ -72,7 +72,7 @@ class Path extends BodyComponent {
     required double radius,
     required double angle,
     double rotation = 0,
-    bool onlyOneWall = false,
+    bool singleWall = false,
   }) {
     final paths = <List<Vector2>>[];
 
@@ -84,7 +84,7 @@ class Path extends BodyComponent {
     );
     paths.add(wall1);
 
-    if (!onlyOneWall) {
+    if (!singleWall) {
       final minRadius = radius - pathWidth;
 
       final wall2 = calculateArc(
@@ -117,7 +117,7 @@ class Path extends BodyComponent {
     required List<Vector2> controlPoints,
     required double pathWidth,
     double rotation = 0,
-    bool onlyOneWall = false,
+    bool singleWall = false,
   }) {
     final paths = <List<Vector2>>[];
 
@@ -125,7 +125,7 @@ class Path extends BodyComponent {
     paths.add(wall1.map((e) => e..rotate(radians(rotation))).toList());
 
     var wall2 = <Vector2>[];
-    if (!onlyOneWall) {
+    if (!singleWall) {
       wall2 = calculateBezierCurve(
         controlPoints: controlPoints
             .map((e) => e + Vector2(pathWidth, -pathWidth))
@@ -155,7 +155,7 @@ class Path extends BodyComponent {
     for (final path in _paths) {
       final chain = ChainShape()
         ..createChain(
-          path.map((e) => gameRef.screenToWorld(e)).toList(),
+          path.map(gameRef.screenToWorld).toList(),
         );
       final fixtureDef = FixtureDef(chain);
       body.createFixture(fixtureDef);
