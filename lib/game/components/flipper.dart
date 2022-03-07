@@ -60,8 +60,8 @@ class Flipper extends BodyComponent {
 
   /// Whether the [Flipper] is on the left or right side of the board.
   ///
-  /// A [Flipper] with [BoardSide.left] has a counter-clockwise arc motion.
-  /// A [Flipper] with [BoardSide.right] has a clockwise arc motion.
+  /// A [Flipper] with [BoardSide.left] has a counter-clockwise arc motion,
+  /// whereas a [Flipper] with [BoardSide.right] has a clockwise arc motion.
   final BoardSide side;
 
   /// Applies downard linear velocity to the [Flipper] to move it up.
