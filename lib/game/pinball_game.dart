@@ -35,7 +35,7 @@ class PinballGame extends Forge2DGame with FlameBloc, KeyboardEvents {
     final center = screenToWorld(camera.viewport.effectiveSize / 2);
     const flipperSpace = 2;
     await add(
-      _leftFlipper = Flipper(
+      _leftFlipper = Flipper.left(
         position: Vector2(
           (center.x - (Flipper.size.x / 2)) - (flipperSpace / 2),
           center.y,
@@ -59,12 +59,11 @@ class PinballGame extends Forge2DGame with FlameBloc, KeyboardEvents {
         world.createJoint(leftFlipperRevoluteJointDef) as RevoluteJoint;
 
     await add(
-      _rightFlipper = Flipper(
+      _rightFlipper = Flipper.right(
         position: Vector2(
           (center.x + (Flipper.size.x / 2)) + (flipperSpace / 2),
           center.y,
         ),
-        isMirrored: true,
       ),
     );
     final rightFlipperAnchor = Anchor(
