@@ -17,7 +17,7 @@ class Flipper extends BodyComponent {
     bool isMirrored = false,
   })  : _position = position,
         _isMirrored = isMirrored,
-        _speed = _calculateRequiredSpeed() {
+        _speed = _calculateSpeed() {
     // TODO(alestiago): Use sprite instead of color when provided.
     paint = Paint()
       ..color = const Color(0xFF00FF00)
@@ -40,20 +40,25 @@ class Flipper extends BodyComponent {
           isMirrored: false,
         );
 
+  // TODO(alestiago): Use width and height.
   static final size = Vector2(12, 2.8);
 
   /// The total duration of a full flipper's arc motion.
   ///
-  /// A full flipper's arc motion is from the lowest position (resting point) to
-  /// the highest position.
+  /// A full flipper's arc motion is from the resting position to the highest
+  /// position.
   static const _sweepingAnimationDuration = Duration(milliseconds: 100);
 
-  static double _calculateRequiredSpeed() {
+  /// The total amount of speed required to move the [Flipper] from the resting
+  /// position to the highest position.
+  static double _calculateSpeed() {
     // TODO(alestiago): test correctness.
     const angle = FlipperAnchorRevoluteJointDef._sweepingAngle / 2;
     final sweepingDistance = (size.x * math.sin(angle)) * 2;
+
     final seconds = _sweepingAnimationDuration.inMicroseconds /
         Duration.microsecondsPerSecond;
+
     return sweepingDistance / seconds;
   }
 
@@ -125,8 +130,8 @@ class Flipper extends BodyComponent {
           ];
     final trapezium = PolygonShape()..set(trapeziumVertices);
     final trapeziumFixtureDef = FixtureDef(trapezium)
-      ..density = 50.0
-      ..friction = .1;
+      ..density = 50.0 // TODO(alestiago): Use a proper density.
+      ..friction = .1; // TODO(alestiago): Use a proper friction.
     fixtures.add(trapeziumFixtureDef);
 
     return fixtures;
