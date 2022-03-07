@@ -3,12 +3,12 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:maths/maths.dart';
 
-/// {@template path}
-/// [Path] creates different shapes that sets the pathways that ball can follow
-/// or collide to like walls.
+/// {@template pathway}
+/// [Pathway] creates different shapes that sets the pathwayways that ball
+/// can follow or collide to like walls.
 /// {@endtemplate}
-class Path extends BodyComponent {
-  Path._({
+class Pathway extends BodyComponent {
+  Pathway._({
     Color? color,
     required Vector2 position,
     required List<List<Vector2>> paths,
@@ -19,18 +19,19 @@ class Path extends BodyComponent {
       ..style = PaintingStyle.stroke;
   }
 
-  /// {@macro path}
-  /// [Path.straight] creates a straight path for the ball given a [position]
-  /// for the body, between a [start] and [end] points.
-  /// It creates two [ChainShape] separated by a [pathWidth]. If [singleWall]
-  /// is true, just one [ChainShape] is created (like a wall instead of a path)
-  /// The path could be rotated by [rotation] in degrees.
-  factory Path.straight({
+  /// {@macro pathway}
+  /// [Pathway.straight] creates a straight pathway for the ball given
+  /// a [position] for the body, between a [start] and [end] points.
+  /// It creates two [ChainShape] separated by a [pathwayWidth]. If [singleWall]
+  /// is true, just one [ChainShape] is created
+  /// (like a wall instead of a pathway)
+  /// The pathway could be rotated by [rotation] in degrees.
+  factory Pathway.straight({
     Color? color,
     required Vector2 position,
     required Vector2 start,
     required Vector2 end,
-    required double pathWidth,
+    required double pathwayWidth,
     double rotation = 0,
     bool singleWall = false,
   }) {
@@ -43,32 +44,32 @@ class Path extends BodyComponent {
 
     if (!singleWall) {
       final wall2 = [
-        start + Vector2(pathWidth, 0),
-        end + Vector2(pathWidth, 0),
+        start + Vector2(pathwayWidth, 0),
+        end + Vector2(pathwayWidth, 0),
       ];
       paths.add(wall2.map((e) => e..rotate(radians(rotation))).toList());
     }
 
-    return Path._(
+    return Pathway._(
       color: color,
       position: position,
       paths: paths,
     );
   }
 
-  /// {@macro path}
-  /// [Path.straight] creates an arc path for the ball given a [position]
+  /// {@macro pathway}
+  /// [Pathway.straight] creates an arc pathway for the ball given a [position]
   /// for the body, a [radius] for the circumference and an [angle] to specify
   /// the size of the semi circumference.
-  /// It creates two [ChainShape] separated by a [pathWidth], like a circular
+  /// It creates two [ChainShape] separated by a [pathwayWidth], like a circular
   /// crown. The specified [radius] is for the outer arc, the inner one will
-  /// have a radius of radius-pathWidth.
+  /// have a radius of radius-pathwayWidth.
   /// If [singleWall] is true, just one [ChainShape] is created.
-  /// The path could be rotated by [rotation] in degrees.
-  factory Path.arc({
+  /// The pathway could be rotated by [rotation] in degrees.
+  factory Pathway.arc({
     Color? color,
     required Vector2 position,
-    required double pathWidth,
+    required double pathwayWidth,
     required double radius,
     required double angle,
     double rotation = 0,
@@ -85,7 +86,7 @@ class Path extends BodyComponent {
     paths.add(wall1);
 
     if (!singleWall) {
-      final minRadius = radius - pathWidth;
+      final minRadius = radius - pathwayWidth;
 
       final wall2 = calculateArc(
         center: position,
@@ -96,26 +97,27 @@ class Path extends BodyComponent {
       paths.add(wall2);
     }
 
-    return Path._(
+    return Pathway._(
       color: color,
       position: position,
       paths: paths,
     );
   }
 
-  /// {@macro path}
-  /// [Path.straight] creates a bezier curve path for the ball given a
+  /// {@macro pathway}
+  /// [Pathway.straight] creates a bezier curve pathway for the ball given a
   /// [position] for the body, with control point specified by [controlPoints].
   /// First and last points set the beginning and end of the curve, all the
   /// inner points between them set the bezier curve final shape.
-  /// It creates two [ChainShape] separated by a [pathWidth]. If [singleWall]
-  /// is true, just one [ChainShape] is created (like a wall instead of a path)
-  /// The path could be rotated by [rotation] in degrees.
-  factory Path.bezierCurve({
+  /// It creates two [ChainShape] separated by a [pathwayWidth]. If [singleWall]
+  /// is true, just one [ChainShape] is created
+  /// (like a wall instead of a pathway)
+  /// The pathway could be rotated by [rotation] in degrees.
+  factory Pathway.bezierCurve({
     Color? color,
     required Vector2 position,
     required List<Vector2> controlPoints,
-    required double pathWidth,
+    required double pathwayWidth,
     double rotation = 0,
     bool singleWall = false,
   }) {
@@ -128,13 +130,13 @@ class Path extends BodyComponent {
     if (!singleWall) {
       wall2 = calculateBezierCurve(
         controlPoints: controlPoints
-            .map((e) => e + Vector2(pathWidth, -pathWidth))
+            .map((e) => e + Vector2(pathwayWidth, -pathwayWidth))
             .toList(),
       );
       paths.add(wall2.map((e) => e..rotate(radians(rotation))).toList());
     }
 
-    return Path._(
+    return Pathway._(
       color: color,
       position: position,
       paths: paths,

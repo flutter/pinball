@@ -9,25 +9,25 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final flameTester = FlameTester(PinballGame.new);
 
-  group('Path', () {
-    const pathWidth = 50.0;
+  group('Pathway', () {
+    const pathwayWidth = 50.0;
 
     group('straight', () {
       group('color', () {
         flameTester.test(
           'has transparent color by default if not specified',
           (game) async {
-            final path = Path.straight(
+            final pathway = Pathway.straight(
               position: Vector2.zero(),
               start: Vector2(10, 10),
               end: Vector2(20, 20),
-              pathWidth: pathWidth,
+              pathwayWidth: pathwayWidth,
             );
-            await game.ensureAdd(path);
-            expect(game.contains(path), isTrue);
-            expect(path.paint, isNotNull);
+            await game.ensureAdd(pathway);
+            expect(game.contains(pathway), isTrue);
+            expect(pathway.paint, isNotNull);
             expect(
-              path.paint.color,
+              pathway.paint.color,
               equals(Color.fromARGB(0, 0, 0, 0)),
             );
           },
@@ -37,17 +37,17 @@ void main() {
           (game) async {
             const defaultColor = Colors.blue;
 
-            final path = Path.straight(
+            final pathway = Pathway.straight(
               color: defaultColor,
               position: Vector2.zero(),
               start: Vector2(10, 10),
               end: Vector2(20, 20),
-              pathWidth: pathWidth,
+              pathwayWidth: pathwayWidth,
             );
-            await game.ensureAdd(path);
-            expect(game.contains(path), isTrue);
-            expect(path.paint, isNotNull);
-            expect(path.paint.color.value, equals(defaultColor.value));
+            await game.ensureAdd(pathway);
+            expect(game.contains(pathway), isTrue);
+            expect(pathway.paint, isNotNull);
+            expect(pathway.paint.color.value, equals(defaultColor.value));
           },
         );
       });
@@ -55,14 +55,14 @@ void main() {
       flameTester.test(
         'loads correctly',
         (game) async {
-          final path = Path.straight(
+          final pathway = Pathway.straight(
             position: Vector2.zero(),
             start: Vector2(10, 10),
             end: Vector2(20, 20),
-            pathWidth: pathWidth,
+            pathwayWidth: pathwayWidth,
           );
-          await game.ensureAdd(path);
-          expect(game.contains(path), isTrue);
+          await game.ensureAdd(pathway);
+          expect(game.contains(pathway), isTrue);
         },
       );
 
@@ -71,31 +71,31 @@ void main() {
           'positions correctly',
           (game) async {
             final position = Vector2.all(10);
-            final path = Path.straight(
+            final pathway = Pathway.straight(
               position: position,
               start: Vector2(10, 10),
               end: Vector2(20, 20),
-              pathWidth: pathWidth,
+              pathwayWidth: pathwayWidth,
             );
-            await game.ensureAdd(path);
-            game.contains(path);
+            await game.ensureAdd(pathway);
+            game.contains(pathway);
 
-            expect(path.body.position, position);
+            expect(pathway.body.position, position);
           },
         );
 
         flameTester.test(
           'is static',
           (game) async {
-            final path = Path.straight(
+            final pathway = Pathway.straight(
               position: Vector2.zero(),
               start: Vector2(10, 10),
               end: Vector2(20, 20),
-              pathWidth: pathWidth,
+              pathwayWidth: pathwayWidth,
             );
-            await game.ensureAdd(path);
+            await game.ensureAdd(pathway);
 
-            expect(path.body.bodyType, equals(BodyType.static));
+            expect(pathway.body.bodyType, equals(BodyType.static));
           },
         );
       });
@@ -104,17 +104,17 @@ void main() {
         flameTester.test(
           'exists only one ChainShape if just one wall',
           (game) async {
-            final path = Path.straight(
+            final pathway = Pathway.straight(
               position: Vector2.zero(),
               start: Vector2(10, 10),
               end: Vector2(20, 20),
-              pathWidth: pathWidth,
+              pathwayWidth: pathwayWidth,
               singleWall: true,
             );
-            await game.ensureAdd(path);
+            await game.ensureAdd(pathway);
 
-            expect(path.body.fixtures.length, 1);
-            final fixture = path.body.fixtures[0];
+            expect(pathway.body.fixtures.length, 1);
+            final fixture = pathway.body.fixtures[0];
             expect(fixture, isA<Fixture>());
             expect(fixture.shape.shapeType, equals(ShapeType.chain));
           },
@@ -123,16 +123,16 @@ void main() {
         flameTester.test(
           'exists two ChainShape if there is by default two walls',
           (game) async {
-            final path = Path.straight(
+            final pathway = Pathway.straight(
               position: Vector2.zero(),
               start: Vector2(10, 10),
               end: Vector2(20, 20),
-              pathWidth: pathWidth,
+              pathwayWidth: pathwayWidth,
             );
-            await game.ensureAdd(path);
+            await game.ensureAdd(pathway);
 
-            expect(path.body.fixtures.length, 2);
-            for (final fixture in path.body.fixtures) {
+            expect(pathway.body.fixtures.length, 2);
+            for (final fixture in pathway.body.fixtures) {
               expect(fixture, isA<Fixture>());
               expect(fixture.shape.shapeType, equals(ShapeType.chain));
             }
@@ -145,14 +145,14 @@ void main() {
       flameTester.test(
         'loads correctly',
         (game) async {
-          final path = Path.arc(
+          final pathway = Pathway.arc(
             position: Vector2.zero(),
-            pathWidth: pathWidth,
+            pathwayWidth: pathwayWidth,
             radius: 100,
             angle: 90,
           );
-          await game.ensureAdd(path);
-          expect(game.contains(path), isTrue);
+          await game.ensureAdd(pathway);
+          expect(game.contains(pathway), isTrue);
         },
       );
 
@@ -161,31 +161,31 @@ void main() {
           'positions correctly',
           (game) async {
             final position = Vector2.all(10);
-            final path = Path.arc(
+            final pathway = Pathway.arc(
               position: position,
-              pathWidth: pathWidth,
+              pathwayWidth: pathwayWidth,
               radius: 100,
               angle: 90,
             );
-            await game.ensureAdd(path);
-            game.contains(path);
+            await game.ensureAdd(pathway);
+            game.contains(pathway);
 
-            expect(path.body.position, position);
+            expect(pathway.body.position, position);
           },
         );
 
         flameTester.test(
           'is static',
           (game) async {
-            final path = Path.arc(
+            final pathway = Pathway.arc(
               position: Vector2.zero(),
-              pathWidth: pathWidth,
+              pathwayWidth: pathwayWidth,
               radius: 100,
               angle: 90,
             );
-            await game.ensureAdd(path);
+            await game.ensureAdd(pathway);
 
-            expect(path.body.bodyType, equals(BodyType.static));
+            expect(pathway.body.bodyType, equals(BodyType.static));
           },
         );
       });
@@ -202,13 +202,13 @@ void main() {
       flameTester.test(
         'loads correctly',
         (game) async {
-          final path = Path.bezierCurve(
+          final pathway = Pathway.bezierCurve(
             position: Vector2.zero(),
             controlPoints: controlPoints,
-            pathWidth: pathWidth,
+            pathwayWidth: pathwayWidth,
           );
-          await game.ensureAdd(path);
-          expect(game.contains(path), isTrue);
+          await game.ensureAdd(pathway);
+          expect(game.contains(pathway), isTrue);
         },
       );
 
@@ -217,29 +217,29 @@ void main() {
           'positions correctly',
           (game) async {
             final position = Vector2.all(10);
-            final path = Path.bezierCurve(
+            final pathway = Pathway.bezierCurve(
               position: position,
               controlPoints: controlPoints,
-              pathWidth: pathWidth,
+              pathwayWidth: pathwayWidth,
             );
-            await game.ensureAdd(path);
-            game.contains(path);
+            await game.ensureAdd(pathway);
+            game.contains(pathway);
 
-            expect(path.body.position, position);
+            expect(pathway.body.position, position);
           },
         );
 
         flameTester.test(
           'is static',
           (game) async {
-            final path = Path.bezierCurve(
+            final pathway = Pathway.bezierCurve(
               position: Vector2.zero(),
               controlPoints: controlPoints,
-              pathWidth: pathWidth,
+              pathwayWidth: pathwayWidth,
             );
-            await game.ensureAdd(path);
+            await game.ensureAdd(pathway);
 
-            expect(path.body.bodyType, equals(BodyType.static));
+            expect(pathway.body.bodyType, equals(BodyType.static));
           },
         );
       });
