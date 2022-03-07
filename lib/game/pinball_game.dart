@@ -18,10 +18,15 @@ class PinballGame extends Forge2DGame with FlameBloc {
 
   @override
   Future<void> onLoad() async {
-    spawnBall();
     addContactCallback(BallScorePointsCallback());
 
     await add(BottomWall(this));
     addContactCallback(BottomWallBallContactCallback());
+  }
+
+  @override
+  void onAttach() {
+    super.onAttach();
+    spawnBall();
   }
 }
