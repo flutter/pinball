@@ -1,8 +1,4 @@
 // ignore_for_file: cascade_invocations
-
-import 'dart:math';
-import 'dart:ui';
-
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/material.dart';
@@ -133,7 +129,7 @@ void main() {
             await game.ensureAdd(path);
 
             expect(path.body.fixtures.length, 2);
-            for (var fixture in path.body.fixtures) {
+            for (final fixture in path.body.fixtures) {
               expect(fixture, isA<Fixture>());
               expect(fixture.shape.shapeType, equals(ShapeType.chain));
             }
