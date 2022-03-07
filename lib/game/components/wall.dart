@@ -4,10 +4,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/components/components.dart';
 
 /// {@template wall}
-///
-/// A generic wall component, a static component that can
-/// be used to create more complex structures.
-///
+/// A continuos generic and [BodyType.static] barrier that divides a game area.
 /// {@endtemplate}
 class Wall extends BodyComponent {
   Wall({
@@ -36,10 +33,10 @@ class Wall extends BodyComponent {
 }
 
 /// {@template bottom_wall}
+/// [Wall] located at the bottom of the [board].
 ///
-/// An specifc [Wall] used to create bottom boundary of the
-/// game board
-///
+/// Collisions with [BottomWall] are listened by
+/// [BottomWallBallContactCallback].
 /// {@endtemplate}
 class BottomWall extends Wall {
   BottomWall(Forge2DGame game)
@@ -53,10 +50,7 @@ class BottomWall extends Wall {
 }
 
 /// {@template bottom_wall_ball_contact_callback}
-///
-/// The [ContactCallback] responsible for indentifying when a [Ball]
-/// has fall into the bottom of the board
-///
+/// Listens when a [Ball] falls into a [BottomWall].
 /// {@endtemplate}
 class BottomWallBallContactCallback extends ContactCallback<Ball, BottomWall> {
   @override
