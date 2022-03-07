@@ -76,13 +76,13 @@ class Flipper extends BodyComponent {
 
   List<FixtureDef> _createFixtureDefs() {
     final fixtures = <FixtureDef>[];
-    final isRight = side.isRight;
+    final isLeft = side.isLeft;
 
     const bigRadius = height / 2;
     final bigCircleShape = CircleShape()
       ..radius = bigRadius
       ..position.setValues(
-        isRight ? width - bigRadius : bigRadius,
+        isLeft ? bigRadius : width - bigRadius,
         -bigRadius,
       );
     final bigCircleFixtureDef = FixtureDef(bigCircleShape);
@@ -92,25 +92,25 @@ class Flipper extends BodyComponent {
     final smallCircleShape = CircleShape()
       ..radius = smallRadius
       ..position.setValues(
-        isRight ? smallRadius : width - smallRadius,
+        isLeft ? width - smallRadius : smallRadius,
         -2 * smallRadius,
       );
     final smallCircleFixtureDef = FixtureDef(smallCircleShape);
     fixtures.add(smallCircleFixtureDef);
 
     const inclineSpace = (height - (2 * smallRadius)) / 2;
-    final trapeziumVertices = isRight
+    final trapeziumVertices = isLeft
         ? [
-            Vector2(smallRadius, -inclineSpace),
-            Vector2(width - bigRadius, 0),
-            Vector2(width - bigRadius, -height),
-            Vector2(smallRadius, -height + inclineSpace),
-          ]
-        : [
             Vector2(bigCircleShape.radius, 0),
             Vector2(width - smallCircleShape.radius, -inclineSpace),
             Vector2(width - smallCircleShape.radius, -height + inclineSpace),
             Vector2(bigCircleShape.radius, -height),
+          ]
+        : [
+            Vector2(smallRadius, -inclineSpace),
+            Vector2(width - bigRadius, 0),
+            Vector2(width - bigRadius, -height),
+            Vector2(smallRadius, -height + inclineSpace),
           ];
     final trapezium = PolygonShape()..set(trapeziumVertices);
     final trapeziumFixtureDef = FixtureDef(trapezium)
@@ -180,7 +180,7 @@ class FlipperAnchorRevoluteJointDef extends RevoluteJointDef {
     );
     enableLimit = true;
 
-    final angle = flipper.side.isRight ? -_sweepingAngle : _sweepingAngle;
+    final angle = flipper.side.isLeft ? _sweepingAngle : -_sweepingAngle;
     lowerAngle = angle;
     upperAngle = angle;
   }
