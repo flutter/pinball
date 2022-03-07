@@ -1,4 +1,4 @@
-// ignore_for_file: cascade_invocations
+// ignore_for_file: cascade_invocations, prefer_const_constructors
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ void main() {
     group('straight', () {
       group('color', () {
         flameTester.test(
-          'has white color by default if not specified',
+          'has transparent color by default if not specified',
           (game) async {
             final path = Path.straight(
               position: Vector2.zero(),
@@ -26,7 +26,10 @@ void main() {
             await game.ensureAdd(path);
             expect(game.contains(path), isTrue);
             expect(path.paint, isNotNull);
-            expect(path.paint.color, equals(Colors.white));
+            expect(
+              path.paint.color,
+              equals(Color.fromARGB(0, 0, 0, 0)),
+            );
           },
         );
         flameTester.test(

@@ -10,11 +10,9 @@ class Path extends BodyComponent {
     required List<List<Vector2>> paths,
   })  : _position = position,
         _paths = paths {
-    if (color != null) {
-      paint = Paint()
-        ..color = color
-        ..style = PaintingStyle.stroke;
-    }
+    paint = Paint()
+      ..color = color ?? const Color.fromARGB(0, 0, 0, 0)
+      ..style = PaintingStyle.stroke;
   }
 
   factory Path.straight({
