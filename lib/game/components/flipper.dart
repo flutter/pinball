@@ -12,7 +12,7 @@ import 'package:pinball/game/game.dart';
 /// {@endtemplate flipper}
 class Flipper extends BodyComponent {
   /// {@macro flipper}
-  Flipper({
+  Flipper._({
     required Vector2 position,
     bool isMirrored = false,
   })  : _position = position,
@@ -24,6 +24,22 @@ class Flipper extends BodyComponent {
       ..style = PaintingStyle.fill;
   }
 
+  /// {@macro flipper}
+  Flipper.right({
+    required Vector2 position,
+  }) : this._(
+          position: position,
+          isMirrored: true,
+        );
+
+  /// {@macro flipper}
+  Flipper.left({
+    required Vector2 position,
+  }) : this._(
+          position: position,
+          isMirrored: false,
+        );
+
   static final size = Vector2(12, 2.8);
 
   /// The total duration of a full flipper's arc motion.
@@ -33,7 +49,7 @@ class Flipper extends BodyComponent {
   static const _sweepingAnimationDuration = Duration(milliseconds: 100);
 
   static double _calculateRequiredSpeed() {
-    // TODO(alestiago): Modify to be mathematically correct.
+    // TODO(alestiago): test correctness.
     const angle = FlipperAnchorRevoluteJointDef._sweepingAngle / 2;
     final sweepingDistance = (size.x * math.sin(angle)) * 2;
     final seconds = _sweepingAnimationDuration.inMicroseconds /
