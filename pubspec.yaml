@@ -18,6 +18,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: ^0.17.0
+  pinball_theme:
+    path: packages/pinball_theme
 
 dev_dependencies:
   bloc_test: ^9.0.2
