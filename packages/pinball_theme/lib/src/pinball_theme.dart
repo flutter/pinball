@@ -19,5 +19,5 @@ class PinballTheme extends Equatable {
   CharacterTheme get characterTheme => _characterTheme;
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [_characterTheme];
 }

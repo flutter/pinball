@@ -15,5 +15,5 @@ abstract class CharacterTheme extends Equatable {
   Color get ballColor;
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [ballColor];
 }
