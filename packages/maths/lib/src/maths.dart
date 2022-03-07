@@ -11,11 +11,11 @@ List<Vector2> calculateArc({
   double offsetAngle = 0,
   int precision = 100,
 }) {
-  final stepAngle = radians(angle / precision);
+  final stepAngle = radians(angle / (precision - 1));
   final stepOffset = radians(offsetAngle);
 
   final points = <Vector2>[];
-  for (var i = 0; i <= precision; i++) {
+  for (var i = 0; i < precision; i++) {
     final xCoord = center.x + radius * math.cos((stepAngle * i) + stepOffset);
     final yCoord = center.y - radius * math.sin((stepAngle * i) + stepOffset);
 
