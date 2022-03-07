@@ -109,7 +109,7 @@ void main() {
               start: Vector2(10, 10),
               end: Vector2(20, 20),
               pathWidth: pathWidth,
-              onlyOneWall: true,
+              singleWall: true,
             );
             await game.ensureAdd(path);
 
