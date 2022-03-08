@@ -24,6 +24,9 @@ class PinballGame extends Forge2DGame with FlameBloc, KeyboardEvents {
       ) -
       Vector2(0, -20);
 
+  // TODO(alestiago): Change to the design position.
+  late final flippersPosition = ballStartingPosition - Vector2(0, 5);
+
   @override
   Future<void> onLoad() async {
     addContactCallback(BallScorePointsCallback());
@@ -31,13 +34,12 @@ class PinballGame extends Forge2DGame with FlameBloc, KeyboardEvents {
     await add(BottomWall(this));
     addContactCallback(BottomWallBallContactCallback());
 
-    final center = screenToWorld(camera.viewport.effectiveSize / 2);
     const flipperSpace = 2;
     await add(
       _leftFlipper = Flipper(
         position: Vector2(
-          (center.x - (Flipper.width / 2)) - (flipperSpace / 2),
-          center.y,
+          (flippersPosition.x - (Flipper.width / 2)) - (flipperSpace / 2),
+          flippersPosition.y,
         ),
         side: BoardSide.left,
       ),
@@ -56,8 +58,8 @@ class PinballGame extends Forge2DGame with FlameBloc, KeyboardEvents {
     await add(
       _rightFlipper = Flipper(
         position: Vector2(
-          (center.x + (Flipper.width / 2)) + (flipperSpace / 2),
-          center.y,
+          (flippersPosition.x + (Flipper.width / 2)) + (flipperSpace / 2),
+          flippersPosition.y,
         ),
         side: BoardSide.right,
       ),
