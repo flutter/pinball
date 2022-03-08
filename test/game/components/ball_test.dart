@@ -13,19 +13,9 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('Ball', () {
-    final gameBloc = MockGameBloc();
+    final flameTester = FlameTester(PinballGame.initial);
 
-    setUp(() {
-      whenListen(
-        gameBloc,
-        const Stream<GameState>.empty(),
-        initialState: const GameState.initial(),
-      );
-    });
-
-    final tester = flameBlocTester(gameBloc: gameBloc);
-
-    tester.test(
+    flameTester.test(
       'loads correctly',
       (game) async {
         final ball = Ball(position: Vector2.zero());
@@ -36,7 +26,7 @@ void main() {
     );
 
     group('body', () {
-      tester.test(
+      flameTester.test(
         'positions correctly',
         (game) async {
           final position = Vector2.all(10);
@@ -48,7 +38,7 @@ void main() {
         },
       );
 
-      tester.test(
+      flameTester.test(
         'is dynamic',
         (game) async {
           final ball = Ball(position: Vector2.zero());
@@ -60,7 +50,7 @@ void main() {
     });
 
     group('first fixture', () {
-      tester.test(
+      flameTester.test(
         'exists',
         (game) async {
           final ball = Ball(position: Vector2.zero());
@@ -70,7 +60,7 @@ void main() {
         },
       );
 
-      tester.test(
+      flameTester.test(
         'is dense',
         (game) async {
           final ball = Ball(position: Vector2.zero());
@@ -81,7 +71,7 @@ void main() {
         },
       );
 
-      tester.test(
+      flameTester.test(
         'shape is circular',
         (game) async {
           final ball = Ball(position: Vector2.zero());
@@ -95,6 +85,18 @@ void main() {
     });
 
     group('resetting a ball', () {
+      final gameBloc = MockGameBloc();
+
+      setUp(() {
+        whenListen(
+          gameBloc,
+          const Stream<GameState>.empty(),
+          initialState: const GameState.initial(),
+        );
+      });
+
+      final tester = flameBlocTester(gameBloc: gameBloc);
+
       tester.widgetTest(
         'adds BallLost to GameBloc',
         (game, tester) async {

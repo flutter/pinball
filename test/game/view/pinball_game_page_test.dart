@@ -3,7 +3,6 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball/theme/theme.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
 import '../../helpers/helpers.dart';
@@ -28,13 +27,6 @@ void main() {
     });
 
     testWidgets('route returns a valid navigation route', (tester) async {
-      final themeCubit = MockThemeCubit();
-      whenListen(
-        themeCubit,
-        const Stream<ThemeState>.empty(),
-        initialState: const ThemeState.initial(),
-      );
-
       await tester.pumpApp(
         Scaffold(
           body: Builder(
@@ -49,7 +41,6 @@ void main() {
             },
           ),
         ),
-        themeCubit: themeCubit,
       );
 
       await tester.tap(find.text('Tap me'));
@@ -86,24 +77,16 @@ void main() {
       'renders a game over dialog when the user has lost',
       (tester) async {
         final gameBloc = MockGameBloc();
-        const gameState = GameState(score: 0, balls: 0);
+        const state = GameState(score: 0, balls: 0);
         whenListen(
           gameBloc,
-          Stream.value(gameState),
-          initialState: gameState,
-        );
-
-        final themeCubit = MockThemeCubit();
-        whenListen(
-          themeCubit,
-          const Stream<ThemeState>.empty(),
-          initialState: const ThemeState.initial(),
+          Stream.value(state),
+          initialState: state,
         );
 
         await tester.pumpApp(
           const PinballGameView(theme: theme),
           gameBloc: gameBloc,
-          themeCubit: themeCubit,
         );
         await tester.pump();
 

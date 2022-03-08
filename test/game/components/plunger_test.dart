@@ -132,13 +132,13 @@ void main() {
     final gameBloc = MockGameBloc();
 
     setUp(() {
-      plunger = Plunger(position: Vector2.zero());
-      anchor = Anchor(position: Vector2(0, -1));
       whenListen(
         gameBloc,
         const Stream<GameState>.empty(),
         initialState: const GameState.initial(),
       );
+      plunger = Plunger(position: Vector2.zero());
+      anchor = Anchor(position: Vector2(0, -1));
     });
 
     final flameTester = flameBlocTester(gameBloc: gameBloc);
