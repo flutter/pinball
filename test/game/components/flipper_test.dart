@@ -74,8 +74,7 @@ void main() {
             final flipper = Flipper.left(position: Vector2.zero());
             final ball = Ball(position: Vector2.zero());
 
-            await game.ensureAdd(flipper);
-            await game.ensureAdd(ball);
+            await game.ensureAddAll([flipper, ball]);
 
             expect(
               flipper.body.getMassData().mass,
