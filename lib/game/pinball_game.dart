@@ -79,7 +79,7 @@ class PinballGame extends Forge2DGame
 
     // TODO(erickzanardo): Clean this once the issue is solved:
     // https://github.com/flame-engine/flame/issues/1417
-    // FIXME(erickzanardo): when mounted the initial potion is not fully
+    // FIXME(erickzanardo): when mounted the initial position is not fully
     // reached.
     unawaited(
       leftFlipper.hasMounted.future.whenComplete(
