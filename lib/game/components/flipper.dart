@@ -174,13 +174,13 @@ class Flipper extends BodyComponent with KeyboardHandler {
   }
 }
 
-/// {@template flipper_anchor_revolute_joint}
+/// {@template flipper_anchor}
 /// [Anchor] positioned at the end of a [Flipper].
 ///
 /// The end of a [Flipper] depends on its [Flipper.side].
 /// {@endtemplate}
 class FlipperAnchor extends Anchor {
-  /// {@macro flipper_anchor_revolute_joint}
+  /// {@macro flipper_anchor}
   FlipperAnchor({
     required Flipper flipper,
   }) : super(
