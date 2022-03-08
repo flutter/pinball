@@ -7,9 +7,6 @@ import 'package:pinball/game/game.dart';
 
 class PinballGame extends Forge2DGame
     with FlameBloc, HasKeyboardHandlerComponents {
-  late final RevoluteJoint _leftFlipperRevoluteJoint;
-  late final RevoluteJoint _rightFlipperRevoluteJoint;
-
   // TODO(erickzanardo): Change to the plumber position
   late final ballStartingPosition = screenToWorld(
         Vector2(
@@ -59,7 +56,7 @@ class PinballGame extends Forge2DGame
     );
     // TODO(alestiago): Remove casting once the following is closed:
     // https://github.com/flame-engine/forge2d/issues/36
-    _leftFlipperRevoluteJoint =
+    final leftFlipperRevoluteJoint =
         world.createJoint(leftFlipperRevoluteJointDef) as RevoluteJoint;
 
     final rightFlipper = Flipper.right(
@@ -77,7 +74,7 @@ class PinballGame extends Forge2DGame
     );
     // TODO(alestiago): Remove casting once the following is closed:
     // https://github.com/flame-engine/forge2d/issues/36
-    _rightFlipperRevoluteJoint =
+    final rightFlipperRevoluteJoint =
         world.createJoint(rightFlipperRevoluteJointDef) as RevoluteJoint;
 
     // TODO(erickzanardo): Clean this once the issue is solved:
@@ -87,7 +84,7 @@ class PinballGame extends Forge2DGame
     unawaited(
       leftFlipper.hasMounted.future.whenComplete(
         () => FlipperAnchorRevoluteJointDef.unlock(
-          _leftFlipperRevoluteJoint,
+          leftFlipperRevoluteJoint,
           leftFlipper.side,
         ),
       ),
@@ -95,7 +92,7 @@ class PinballGame extends Forge2DGame
     unawaited(
       rightFlipper.hasMounted.future.whenComplete(
         () => FlipperAnchorRevoluteJointDef.unlock(
-          _rightFlipperRevoluteJoint,
+          rightFlipperRevoluteJoint,
           rightFlipper.side,
         ),
       ),
