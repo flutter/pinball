@@ -231,7 +231,7 @@ class FlipperAnchorRevoluteJointDef extends RevoluteJointDef {
         break;
       case BoardSide.right:
         lowerLimit = joint.lowerLimit;
-        upperLimit = joint.upperLimit * -1;
+        upperLimit = -joint.upperLimit;
     }
 
     joint.setLimits(lowerLimit, upperLimit);
