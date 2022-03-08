@@ -85,7 +85,8 @@ class PinballGame extends Forge2DGame with FlameBloc, KeyboardEvents {
     super.onMount();
     // TODO(erickzanardo): Clean this once the issue is solved:
     // https://github.com/flame-engine/flame/issues/1417
-    await Future<void>.delayed(const Duration(milliseconds: 500));
+    // FIXME(erickzanardo): when mounted the initial potion is not fully
+    // reached.
     await _leftFlipper.hasMounted.future;
     await _rightFlipper.hasMounted.future;
 
