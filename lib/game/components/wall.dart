@@ -33,7 +33,7 @@ class Wall extends BodyComponent {
 }
 
 /// {@template bottom_wall}
-/// [Wall] located at the bottom of the [board].
+/// [Wall] located at the bottom of the board.
 ///
 /// Collisions with [BottomWall] are listened by
 /// [BottomWallBallContactCallback].
