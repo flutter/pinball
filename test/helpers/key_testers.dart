@@ -39,12 +39,3 @@ RawKeyDownEvent _mockKeyDownEvent(LogicalKeyboardKey key) {
   );
   return event;
 }
-
-@isTest
-void testRawKeyEvents(
-  List<LogicalKeyboardKey> keys,
-  Function(RawKeyEvent) test,
-) {
-  testRawKeyDownEvents(keys, test);
-  testRawKeyUpEvents(keys, test);
-}
