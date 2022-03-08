@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:geometry/geometry.dart';
 
 /// {@template pathway}
-/// [Pathway] creates lines of various shapes that the [Ball] can collide
+/// [Pathway] creates lines of various shapes that the ball can collide
 /// with and move along.
 /// {@endtemplate}
 class Pathway extends BodyComponent {
@@ -21,7 +21,7 @@ class Pathway extends BodyComponent {
   }
 
   /// {@macro pathway}
-  /// [Pathway.straight] creates a straight pathway for the [Ball].
+  /// [Pathway.straight] creates a straight pathway for the ball.
   ///
   /// given a [position] for the body, between a [start] and [end] points.
   /// It creates two [ChainShape] separated by a [pathwayWidth].
@@ -60,7 +60,7 @@ class Pathway extends BodyComponent {
   }
 
   /// {@macro pathway}
-  /// [Pathway.arc] creates an arc pathway for the [Ball].
+  /// [Pathway.arc] creates an arc pathway for the ball.
   ///
   /// The arc is created given a [position] for the body, a [radius] for the
   /// circumference and an [angle] to specify the size of it (360 will return
@@ -107,7 +107,7 @@ class Pathway extends BodyComponent {
   }
 
   /// {@macro pathway}
-  /// [Pathway.bezierCurve] creates a bezier curve pathway for the [Ball].
+  /// [Pathway.bezierCurve] creates a bezier curve pathway for the ball.
   ///
   /// The curve is created given a [position] for the body, and
   /// with a list of control points specified by [controlPoints].
