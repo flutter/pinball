@@ -3,8 +3,20 @@ import 'dart:async';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_theme/pinball_theme.dart';
 
 class PinballGame extends Forge2DGame with FlameBloc {
+  PinballGame({required this.theme});
+
+  PinballGame.initial()
+      : this(
+          theme: const PinballTheme(
+            characterTheme: DashTheme(),
+          ),
+        );
+
+  final PinballTheme theme;
+
   void spawnBall() {
     add(
       Ball(position: ballStartingPosition),

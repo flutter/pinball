@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/theme/theme.dart';
 import 'package:pinball_theme/pinball_theme.dart';
-import 'package:provider/provider.dart';
 
 class CharacterSelectionPage extends StatelessWidget {
   const CharacterSelectionPage({Key? key}) : super(key: key);
@@ -16,7 +16,10 @@ class CharacterSelectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CharacterSelectionView();
+    return BlocProvider(
+      create: (_) => ThemeCubit(),
+      child: const CharacterSelectionView(),
+    );
   }
 }
 
@@ -42,7 +45,9 @@ class CharacterSelectionView extends StatelessWidget {
             const SizedBox(height: 20),
             TextButton(
               onPressed: () => Navigator.of(context).push<void>(
-                PinballGamePage.route(),
+                PinballGamePage.route(
+                  theme: context.read<ThemeCubit>().state.theme,
+                ),
               ),
               child: Text(l10n.start),
             ),

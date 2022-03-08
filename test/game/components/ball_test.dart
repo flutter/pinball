@@ -6,7 +6,6 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball/theme/cubit/theme_cubit.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -15,7 +14,6 @@ void main() {
 
   group('Ball', () {
     final gameBloc = MockGameBloc();
-    final themeCubit = MockThemeCubit();
 
     setUp(() {
       whenListen(
@@ -23,21 +21,13 @@ void main() {
         const Stream<GameState>.empty(),
         initialState: const GameState.initial(),
       );
-      whenListen(
-        themeCubit,
-        const Stream<ThemeState>.empty(),
-        initialState: const ThemeState.initial(),
-      );
     });
 
-    final tester = flameBlocTester(
-      gameBloc: gameBloc,
-      themeCubit: themeCubit,
-    );
+    final tester = flameBlocTester(gameBloc: gameBloc);
 
-    tester.widgetTest(
+    tester.test(
       'loads correctly',
-      (game, tester) async {
+      (game) async {
         final ball = Ball(position: Vector2.zero());
         await game.ensureAdd(ball);
 
@@ -46,9 +36,9 @@ void main() {
     );
 
     group('body', () {
-      tester.widgetTest(
+      tester.test(
         'positions correctly',
-        (game, tester) async {
+        (game) async {
           final position = Vector2.all(10);
           final ball = Ball(position: position);
           await game.ensureAdd(ball);
@@ -58,9 +48,9 @@ void main() {
         },
       );
 
-      tester.widgetTest(
+      tester.test(
         'is dynamic',
-        (game, tester) async {
+        (game) async {
           final ball = Ball(position: Vector2.zero());
           await game.ensureAdd(ball);
 
@@ -70,9 +60,9 @@ void main() {
     });
 
     group('first fixture', () {
-      tester.widgetTest(
+      tester.test(
         'exists',
-        (game, tester) async {
+        (game) async {
           final ball = Ball(position: Vector2.zero());
           await game.ensureAdd(ball);
 
@@ -80,9 +70,9 @@ void main() {
         },
       );
 
-      tester.widgetTest(
+      tester.test(
         'is dense',
-        (game, tester) async {
+        (game) async {
           final ball = Ball(position: Vector2.zero());
           await game.ensureAdd(ball);
 
@@ -91,9 +81,9 @@ void main() {
         },
       );
 
-      tester.widgetTest(
+      tester.test(
         'shape is circular',
-        (game, tester) async {
+        (game) async {
           final ball = Ball(position: Vector2.zero());
           await game.ensureAdd(ball);
 

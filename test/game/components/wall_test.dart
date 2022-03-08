@@ -32,7 +32,7 @@ void main() {
         },
       );
     });
-    final flameTester = FlameTester(PinballGame.new);
+    final flameTester = FlameTester(PinballGame.initial);
 
     flameTester.test(
       'loads correctly',

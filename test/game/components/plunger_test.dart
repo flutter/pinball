@@ -5,13 +5,12 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball/theme/theme.dart';
 
 import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(PinballGame.new);
+  final flameTester = FlameTester(PinballGame.initial);
 
   group('Plunger', () {
     flameTester.test(
@@ -131,7 +130,6 @@ void main() {
     late Anchor anchor;
 
     final gameBloc = MockGameBloc();
-    final themeCubit = MockThemeCubit();
 
     setUp(() {
       plunger = Plunger(position: Vector2.zero());
@@ -141,17 +139,9 @@ void main() {
         const Stream<GameState>.empty(),
         initialState: const GameState.initial(),
       );
-      whenListen(
-        themeCubit,
-        const Stream<ThemeState>.empty(),
-        initialState: const ThemeState.initial(),
-      );
     });
 
-    final flameTester = flameBlocTester(
-      gameBloc: gameBloc,
-      themeCubit: themeCubit,
-    );
+    final flameTester = flameBlocTester(gameBloc: gameBloc);
 
     flameTester.test(
       'throws AssertionError '
