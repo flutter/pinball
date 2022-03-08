@@ -56,7 +56,7 @@ class Flipper extends BodyComponent with KeyboardHandler {
   /// The height of the [Flipper].
   static const height = 2.8;
 
-  /// The speed required to move the [Flipper] to its heighest position.
+  /// The speed required to move the [Flipper] to its highest position.
   ///
   /// The higher the value, the faster the [Flipper] will move.
   static const double _speed = 60;
