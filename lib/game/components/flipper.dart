@@ -75,7 +75,7 @@ class Flipper extends BodyComponent with KeyboardHandler {
   /// [onKeyEvent] method listens to when one of these keys is pressed.
   final List<LogicalKeyboardKey> _keys;
 
-  /// Applies downard linear velocity to the [Flipper] to move it down.
+  /// Applies downward linear velocity to the [Flipper] to move it down.
   void _moveDown() {
     body.linearVelocity = Vector2(0, -_speed);
   }
