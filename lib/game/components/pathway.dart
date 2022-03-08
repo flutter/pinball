@@ -1,7 +1,7 @@
 import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
-import 'package:maths/maths.dart';
+import 'package:geometry/geometry.dart';
 
 /// {@template pathway}
 /// [Pathway] creates lines of various shapes that the [Ball] can collide
@@ -21,7 +21,7 @@ class Pathway extends BodyComponent {
   }
 
   /// {@macro pathway}
-  /// [Pathway.straight] creates a straight pathway for the ball.
+  /// [Pathway.straight] creates a straight pathway for the [Ball].
   ///
   /// given a [position] for the body, between a [start] and [end] points.
   /// It creates two [ChainShape] separated by a [pathwayWidth].
@@ -60,7 +60,7 @@ class Pathway extends BodyComponent {
   }
 
   /// {@macro pathway}
-  /// [Pathway.arc] creates an arc pathway for the ball.
+  /// [Pathway.arc] creates an arc pathway for the [Ball].
   ///
   /// The arc is created given a [position] for the body, a [radius] for the
   /// circumference and an [angle] to specify the size of it (360 will return
@@ -107,7 +107,7 @@ class Pathway extends BodyComponent {
   }
 
   /// {@macro pathway}
-  /// [Pathway.bezierCurve] creates a bezier curve pathway for the ball.
+  /// [Pathway.bezierCurve] creates a bezier curve pathway for the [Ball].
   ///
   /// The curve is created given a [position] for the body, and
   /// with a list of control points specified by [controlPoints].

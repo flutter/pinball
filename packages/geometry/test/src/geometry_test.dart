@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, cascade_invocations
 import 'package:flame/extensions.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:maths/maths.dart';
+import 'package:geometry/geometry.dart';
 
 class Binomial {
   Binomial({required this.n, required this.k});
@@ -31,6 +31,7 @@ void main() {
         expect(points.length, 50);
       });
     });
+
     group('calculateBezierCurve', () {
       test('fails if step not in range', () {
         expect(
@@ -44,6 +45,7 @@ void main() {
           throwsAssertionError,
         );
       });
+
       test('fails if not enough control points', () {
         expect(
           () => calculateBezierCurve(controlPoints: [Vector2.zero()]),
@@ -81,12 +83,15 @@ void main() {
       test('fails if k is negative', () {
         expect(() => binomial(1, -1), throwsAssertionError);
       });
+
       test('fails if n is negative', () {
         expect(() => binomial(-1, 1), throwsAssertionError);
       });
+
       test('fails if n < k', () {
         expect(() => binomial(1, 2), throwsAssertionError);
       });
+
       test('for a specific input gives a correct value', () {
         final binomialInputsToExpected = {
           Binomial(n: 0, k: 0): 1,
@@ -123,10 +128,12 @@ void main() {
         });
       });
     });
+
     group('factorial', () {
       test('fails if negative number', () {
         expect(() => factorial(-1), throwsAssertionError);
       });
+
       test('for a specific input gives a correct value', () {
         final factorialInputsToExpected = {
           0: 1,
