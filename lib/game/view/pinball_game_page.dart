@@ -56,7 +56,18 @@ class _PinballGameViewState extends State<PinballGameView> {
           );
         }
       },
-      child: GameWidget<PinballGame>(game: _game),
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: GameWidget<PinballGame>(game: _game),
+          ),
+          const Positioned(
+            top: 8,
+            left: 8,
+            child: GameHud(),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -48,7 +48,7 @@ void main() {
   });
 
   group('PinballGameView', () {
-    testWidgets('renders game', (tester) async {
+    testWidgets('renders game and a hud', (tester) async {
       final gameBloc = MockGameBloc();
       whenListen(
         gameBloc,
@@ -59,6 +59,10 @@ void main() {
       await tester.pumpApp(const PinballGameView(), gameBloc: gameBloc);
       expect(
         find.byWidgetPredicate((w) => w is GameWidget<PinballGame>),
+        findsOneWidget,
+      );
+      expect(
+        find.byType(GameHud),
         findsOneWidget,
       );
     });
