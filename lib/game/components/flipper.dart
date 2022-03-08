@@ -111,15 +111,15 @@ class Flipper extends BodyComponent with KeyboardHandler {
 
     final trapeziumVertices = isLeft
         ? [
-            Vector2(bigCircleShape.position.x, height / 2),
+            Vector2(bigCircleShape.position.x, bigCircleShape.radius),
             Vector2(smallCircleShape.position.x, smallCircleShape.radius),
             Vector2(smallCircleShape.position.x, -smallCircleShape.radius),
-            Vector2(bigCircleShape.position.x, -height / 2),
+            Vector2(bigCircleShape.position.x, -bigCircleShape.radius),
           ]
         : [
             Vector2(smallCircleShape.position.x, smallCircleShape.radius),
-            Vector2(bigCircleShape.position.x, height / 2),
-            Vector2(bigCircleShape.position.x, -height / 2),
+            Vector2(bigCircleShape.position.x, bigCircleShape.radius),
+            Vector2(bigCircleShape.position.x, -bigCircleShape.radius),
             Vector2(smallCircleShape.position.x, -smallCircleShape.radius),
           ];
     final trapezium = PolygonShape()..set(trapeziumVertices);
