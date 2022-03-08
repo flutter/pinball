@@ -12,6 +12,7 @@ enum BoardSide {
   right,
 }
 
+/// Utility methods for [BoardSide].
 extension BoardSideX on BoardSide {
   /// Whether this side is [BoardSide.left].
   bool get isLeft => this == BoardSide.left;
