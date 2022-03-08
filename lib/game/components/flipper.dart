@@ -14,24 +14,41 @@ import 'package:pinball/game/game.dart';
 /// {@endtemplate flipper}
 class Flipper extends BodyComponent with KeyboardHandler {
   /// {@macro flipper}
-  Flipper({
+  Flipper._({
     required Vector2 position,
     required this.side,
+    required List<LogicalKeyboardKey> keys,
   })  : _position = position,
-        _keys = side.isLeft
-            ? [
-                LogicalKeyboardKey.arrowLeft,
-                LogicalKeyboardKey.keyA,
-              ]
-            : [
-                LogicalKeyboardKey.arrowRight,
-                LogicalKeyboardKey.keyD,
-              ] {
+        _keys = keys {
     // TODO(alestiago): Use sprite instead of color when provided.
     paint = Paint()
       ..color = const Color(0xFF00FF00)
       ..style = PaintingStyle.fill;
   }
+
+  /// A left positioned [Flipper].
+  Flipper.left({
+    required Vector2 position,
+  }) : this._(
+          position: position,
+          side: BoardSide.left,
+          keys: [
+            LogicalKeyboardKey.arrowLeft,
+            LogicalKeyboardKey.keyA,
+          ],
+        );
+
+  /// A right positioned [Flipper].
+  Flipper.right({
+    required Vector2 position,
+  }) : this._(
+          position: position,
+          side: BoardSide.right,
+          keys: [
+            LogicalKeyboardKey.arrowRight,
+            LogicalKeyboardKey.keyD,
+          ],
+        );
 
   /// The width of the [Flipper].
   static const width = 12.0;

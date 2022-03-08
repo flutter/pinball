@@ -2,8 +2,11 @@
 
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
+
+import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -14,28 +17,20 @@ void main() {
       flameTester.test(
         'loads correctly',
         (game) async {
-          final flipper = Flipper(
-            position: Vector2.zero(),
-            side: BoardSide.left,
-          );
-          await game.ensureAdd(flipper);
+          final leftFlipper = Flipper.left(position: Vector2.zero());
+          final rightFlipper = Flipper.right(position: Vector2.zero());
+          await game.ensureAddAll([leftFlipper, rightFlipper]);
 
-          expect(game.contains(flipper), isTrue);
+          expect(game.contains(leftFlipper), isTrue);
         },
       );
 
       group('constructor', () {
         test('sets BoardSide', () {
-          final leftFlipper = Flipper(
-            position: Vector2.zero(),
-            side: BoardSide.left,
-          );
+          final leftFlipper = Flipper.left(position: Vector2.zero());
           expect(leftFlipper.side, equals(leftFlipper.side));
 
-          final rightFlipper = Flipper(
-            position: Vector2.zero(),
-            side: BoardSide.right,
-          );
+          final rightFlipper = Flipper.right(position: Vector2.zero());
           expect(rightFlipper.side, equals(rightFlipper.side));
         });
       });
@@ -45,7 +40,7 @@ void main() {
           'positions correctly',
           (game) async {
             final position = Vector2.all(10);
-            final flipper = Flipper(position: position, side: BoardSide.left);
+            final flipper = Flipper.left(position: position);
             await game.ensureAdd(flipper);
             game.contains(flipper);
 
@@ -56,10 +51,7 @@ void main() {
         flameTester.test(
           'is dynamic',
           (game) async {
-            final flipper = Flipper(
-              position: Vector2.zero(),
-              side: BoardSide.left,
-            );
+            final flipper = Flipper.left(position: Vector2.zero());
             await game.ensureAdd(flipper);
 
             expect(flipper.body.bodyType, equals(BodyType.dynamic));
@@ -69,10 +61,7 @@ void main() {
         flameTester.test(
           'ignores gravity',
           (game) async {
-            final flipper = Flipper(
-              position: Vector2.zero(),
-              side: BoardSide.left,
-            );
+            final flipper = Flipper.left(position: Vector2.zero());
             await game.ensureAdd(flipper);
 
             expect(flipper.body.gravityScale, isZero);
@@ -82,10 +71,7 @@ void main() {
         flameTester.test(
           'has greater mass than Ball',
           (game) async {
-            final flipper = Flipper(
-              position: Vector2.zero(),
-              side: BoardSide.left,
-            );
+            final flipper = Flipper.left(position: Vector2.zero());
             final ball = Ball(position: Vector2.zero());
 
             await game.ensureAdd(flipper);
@@ -103,10 +89,7 @@ void main() {
         flameTester.test(
           'has three',
           (game) async {
-            final flipper = Flipper(
-              position: Vector2.zero(),
-              side: BoardSide.left,
-            );
+            final flipper = Flipper.left(position: Vector2.zero());
             await game.ensureAdd(flipper);
 
             expect(flipper.body.fixtures.length, equals(3));
@@ -116,10 +99,7 @@ void main() {
         flameTester.test(
           'has density',
           (game) async {
-            final flipper = Flipper(
-              position: Vector2.zero(),
-              side: BoardSide.left,
-            );
+            final flipper = Flipper.left(position: Vector2.zero());
             await game.ensureAdd(flipper);
 
             final fixtures = flipper.body.fixtures;
@@ -133,40 +113,90 @@ void main() {
         );
       });
 
-      group('moveDown', () {
-        flameTester.test(
-          'sets a negative vertical linear velocity',
-          (game) async {
-            final flipper = Flipper(
-              position: Vector2.zero(),
-              side: BoardSide.left,
+      group('onKeyEvent', () {
+        group('and Flipper is left', () {
+          late Flipper flipper;
+
+          setUp(() {
+            flipper = Flipper.left(position: Vector2.zero());
+          });
+
+          testRawKeyDownEvents([
+            LogicalKeyboardKey.arrowLeft,
+            LogicalKeyboardKey.keyA,
+          ], (event) {
+            flameTester.test(
+              'moves upwards '
+              'when ${event.logicalKey.keyLabel} is pressed',
+              (game) async {
+                await game.ensureAdd(flipper);
+                flipper.onKeyEvent(event, {});
+
+                expect(flipper.body.linearVelocity.y, isPositive);
+                expect(flipper.body.linearVelocity.x, isZero);
+              },
             );
-            await game.ensureAdd(flipper);
+          });
 
-            flipper.moveDown();
+          testRawKeyUpEvents([
+            LogicalKeyboardKey.arrowLeft,
+            LogicalKeyboardKey.keyA,
+          ], (event) {
+            flameTester.test(
+              'moves downwards '
+              'when ${event.logicalKey.keyLabel} is released',
+              (game) async {
+                await game.ensureAdd(flipper);
+                flipper.onKeyEvent(event, {});
 
-            expect(flipper.body.linearVelocity.y, isNegative);
-            expect(flipper.body.linearVelocity.x, isZero);
-          },
-        );
-      });
-
-      group('moveUp', () {
-        flameTester.test(
-          'sets a positive vertical linear velocity',
-          (game) async {
-            final flipper = Flipper(
-              position: Vector2.zero(),
-              side: BoardSide.left,
+                expect(flipper.body.linearVelocity.y, isNegative);
+                expect(flipper.body.linearVelocity.x, isZero);
+              },
             );
-            await game.ensureAdd(flipper);
+          });
+        });
 
-            flipper.moveUp();
+        group('and Flipper is right', () {
+          late Flipper flipper;
 
-            expect(flipper.body.linearVelocity.y, isPositive);
-            expect(flipper.body.linearVelocity.x, isZero);
-          },
-        );
+          setUp(() {
+            flipper = Flipper.right(position: Vector2.zero());
+          });
+
+          testRawKeyDownEvents([
+            LogicalKeyboardKey.arrowRight,
+            LogicalKeyboardKey.keyD,
+          ], (event) {
+            flameTester.test(
+              'moves upwards '
+              'when ${event.logicalKey.keyLabel} is pressed',
+              (game) async {
+                await game.ensureAdd(flipper);
+                flipper.onKeyEvent(event, {});
+
+                expect(flipper.body.linearVelocity.y, isPositive);
+                expect(flipper.body.linearVelocity.x, isZero);
+              },
+            );
+          });
+
+          testRawKeyUpEvents([
+            LogicalKeyboardKey.arrowRight,
+            LogicalKeyboardKey.keyD,
+          ], (event) {
+            flameTester.test(
+              'moves downwards '
+              'when ${event.logicalKey.keyLabel} is released',
+              (game) async {
+                await game.ensureAdd(flipper);
+                flipper.onKeyEvent(event, {});
+
+                expect(flipper.body.linearVelocity.y, isNegative);
+                expect(flipper.body.linearVelocity.x, isZero);
+              },
+            );
+          });
+        });
       });
     },
   );
@@ -175,13 +205,9 @@ void main() {
     'FlipperAnchor',
     () {
       flameTester.test(
-        'position is at the left of the flipper '
-        'when BoardSide is left',
+        'position is at the left of the left Flipper',
         (game) async {
-          final flipper = Flipper(
-            position: Vector2.zero(),
-            side: BoardSide.left,
-          );
+          final flipper = Flipper.left(position: Vector2.zero());
           await game.ensureAdd(flipper);
 
           final flipperAnchor = FlipperAnchor(flipper: flipper);
@@ -192,13 +218,9 @@ void main() {
       );
 
       flameTester.test(
-        'position is at the right of the flipper '
-        'when BoardSide is right',
+        'position is at the right of the right Flipper',
         (game) async {
-          final flipper = Flipper(
-            position: Vector2.zero(),
-            side: BoardSide.right,
-          );
+          final flipper = Flipper.right(position: Vector2.zero());
           await game.ensureAdd(flipper);
 
           final flipperAnchor = FlipperAnchor(flipper: flipper);
@@ -215,11 +237,7 @@ void main() {
       flameTester.test(
         'limits enabled',
         (game) async {
-          final flipper = Flipper(
-            position: Vector2.zero(),
-            side: BoardSide.left,
-          );
-          expect(flipper.side, equals(BoardSide.left));
+          final flipper = Flipper.left(position: Vector2.zero());
           await game.ensureAdd(flipper);
 
           final flipperAnchor = FlipperAnchor(flipper: flipper);
@@ -236,13 +254,9 @@ void main() {
 
       group('equal upper and lower limits', () {
         flameTester.test(
-          'when BoardSide is left',
+          'when Flipper is left',
           (game) async {
-            final flipper = Flipper(
-              position: Vector2.zero(),
-              side: BoardSide.left,
-            );
-            expect(flipper.side, equals(BoardSide.left));
+            final flipper = Flipper.left(position: Vector2.zero());
             await game.ensureAdd(flipper);
 
             final flipperAnchor = FlipperAnchor(flipper: flipper);
@@ -258,13 +272,9 @@ void main() {
         );
 
         flameTester.test(
-          'when BoardSide is right',
+          'when Flipper is right',
           (game) async {
-            final flipper = Flipper(
-              position: Vector2.zero(),
-              side: BoardSide.right,
-            );
-            expect(flipper.side, equals(BoardSide.right));
+            final flipper = Flipper.right(position: Vector2.zero());
             await game.ensureAdd(flipper);
 
             final flipperAnchor = FlipperAnchor(flipper: flipper);
@@ -285,13 +295,9 @@ void main() {
       'unlocks',
       () {
         flameTester.test(
-          'when BoardSide is left',
+          'when Flipper is left',
           (game) async {
-            final flipper = Flipper(
-              position: Vector2.zero(),
-              side: BoardSide.left,
-            );
-            expect(flipper.side, equals(BoardSide.left));
+            final flipper = Flipper.left(position: Vector2.zero());
             await game.ensureAdd(flipper);
 
             final flipperAnchor = FlipperAnchor(flipper: flipper);
@@ -313,13 +319,9 @@ void main() {
         );
 
         flameTester.test(
-          'when BoardSide is right',
+          'when Flipper is right',
           (game) async {
-            final flipper = Flipper(
-              position: Vector2.zero(),
-              side: BoardSide.right,
-            );
-            expect(flipper.side, equals(BoardSide.right));
+            final flipper = Flipper.right(position: Vector2.zero());
             await game.ensureAdd(flipper);
 
             final flipperAnchor = FlipperAnchor(flipper: flipper);

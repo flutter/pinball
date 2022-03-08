@@ -28,12 +28,11 @@ class PinballGame extends Forge2DGame
 
   Future<void> _addFlippers() async {
     const spaceBetweenFlippers = 2;
-    final leftFlipper = Flipper(
+    final leftFlipper = Flipper.left(
       position: Vector2(
         flippersPosition.x - (Flipper.width / 2) - (spaceBetweenFlippers / 2),
         flippersPosition.y,
       ),
-      side: BoardSide.left,
     );
     await add(leftFlipper);
     final leftFlipperAnchor = FlipperAnchor(flipper: leftFlipper);
@@ -47,12 +46,11 @@ class PinballGame extends Forge2DGame
     _leftFlipperRevoluteJoint =
         world.createJoint(leftFlipperRevoluteJointDef) as RevoluteJoint;
 
-    final rightFlipper = Flipper(
+    final rightFlipper = Flipper.right(
       position: Vector2(
         flippersPosition.x + (Flipper.width / 2) + (spaceBetweenFlippers / 2),
         flippersPosition.y,
       ),
-      side: BoardSide.right,
     );
     await add(rightFlipper);
     final rightFlipperAnchor = FlipperAnchor(flipper: rightFlipper);
