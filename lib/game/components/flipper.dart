@@ -15,8 +15,7 @@ class Flipper extends BodyComponent {
   Flipper({
     required Vector2 position,
     required this.side,
-  })  : _position = position,
-        _speed = _calculateSpeed() {
+  }) : _position = position {
     // TODO(alestiago): Use sprite instead of color when provided.
     paint = Paint()
       ..color = const Color(0xFF00FF00)
@@ -29,31 +28,10 @@ class Flipper extends BodyComponent {
   /// The height of the [Flipper].
   static const height = 2.8;
 
-  /// The total duration of a full flipper's arc motion.
+  /// The speed required to move the [Flipper] to its heighest position.
   ///
-  /// A full flipper's arc motion is from the resting position to the highest
-  /// position.
-  static const _sweepingAnimationDuration = Duration(milliseconds: 100);
-
-  /// The total amount of speed required to move the [Flipper] from the resting
-  /// position to the highest position.
-  static double _calculateSpeed() {
-    // TODO(alestiago): test correctness.
-    const angle = FlipperAnchorRevoluteJointDef._sweepingAngle / 2;
-    final sweepingDistance = (width * math.sin(angle)) * 2;
-
-    final seconds = _sweepingAnimationDuration.inMicroseconds /
-        Duration.microsecondsPerSecond;
-
-    return sweepingDistance / seconds;
-  }
-
-  /// The speed required to move the [Flipper] to its heighst position, while
-  /// respecting the [_sweepingAnimationDuration].
-  ///
-  /// The speed value is proportional to the time it takes to move the flipper
-  /// to its highest position.
-  final double _speed;
+  /// The higher the value, the faster the [Flipper] will move.
+  static const double _speed = 60;
 
   /// The initial position of the [Flipper] body.
   final Vector2 _position;
