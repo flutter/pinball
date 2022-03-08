@@ -21,7 +21,7 @@ void main() {
               (component) => component is Flipper && component.side == side;
 
           flameTester.test(
-            'has only one left flipper',
+            'has only one left Flipper',
             (game) {
               expect(
                 () => game.children.singleWhere(
@@ -33,7 +33,7 @@ void main() {
           );
 
           flameTester.test(
-            'has only one right flipper',
+            'has only one right Flipper',
             (game) {
               expect(
                 () => game.children.singleWhere(
