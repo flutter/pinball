@@ -181,8 +181,7 @@ class FlipperAnchorRevoluteJointDef extends RevoluteJointDef {
     enableLimit = true;
 
     final angle = flipper.side.isLeft ? _sweepingAngle : -_sweepingAngle;
-    lowerAngle = angle;
-    upperAngle = angle;
+    lowerAngle = upperAngle = angle;
   }
 
   /// The total angle of the arc motion.
