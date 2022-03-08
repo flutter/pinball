@@ -32,8 +32,7 @@ class PinballGame extends Forge2DGame with FlameBloc, KeyboardEvents {
     await add(
       _leftFlipper = Flipper(
         position: Vector2(
-          (flippersPosition.x - (Flipper.width / 2)) -
-              (spaceBetweenFlippers / 2),
+          flippersPosition.x - (Flipper.width / 2) - (spaceBetweenFlippers / 2),
           flippersPosition.y,
         ),
         side: BoardSide.left,
@@ -53,8 +52,7 @@ class PinballGame extends Forge2DGame with FlameBloc, KeyboardEvents {
     await add(
       _rightFlipper = Flipper(
         position: Vector2(
-          (flippersPosition.x + (Flipper.width / 2)) +
-              (spaceBetweenFlippers / 2),
+          flippersPosition.x + (Flipper.width / 2) + (spaceBetweenFlippers / 2),
           flippersPosition.y,
         ),
         side: BoardSide.right,
