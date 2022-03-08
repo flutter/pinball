@@ -27,18 +27,13 @@ class PinballGame extends Forge2DGame with FlameBloc, KeyboardEvents {
   // TODO(alestiago): Change to the design position.
   late final flippersPosition = ballStartingPosition - Vector2(0, 5);
 
-  @override
-  Future<void> onLoad() async {
-    addContactCallback(BallScorePointsCallback());
-
-    await add(BottomWall(this));
-    addContactCallback(BottomWallBallContactCallback());
-
-    const flipperSpace = 2;
+  Future<void> _addFlippers() async {
+    const spaceBetweenFlippers = 2;
     await add(
       _leftFlipper = Flipper(
         position: Vector2(
-          (flippersPosition.x - (Flipper.width / 2)) - (flipperSpace / 2),
+          (flippersPosition.x - (Flipper.width / 2)) -
+              (spaceBetweenFlippers / 2),
           flippersPosition.y,
         ),
         side: BoardSide.left,
@@ -58,7 +53,8 @@ class PinballGame extends Forge2DGame with FlameBloc, KeyboardEvents {
     await add(
       _rightFlipper = Flipper(
         position: Vector2(
-          (flippersPosition.x + (Flipper.width / 2)) + (flipperSpace / 2),
+          (flippersPosition.x + (Flipper.width / 2)) +
+              (spaceBetweenFlippers / 2),
           flippersPosition.y,
         ),
         side: BoardSide.right,
@@ -70,8 +66,20 @@ class PinballGame extends Forge2DGame with FlameBloc, KeyboardEvents {
       flipper: _rightFlipper,
       anchor: rightFlipperAnchor,
     );
+    // TODO(alestiago): Remove casting once the following is closed:
+    // https://github.com/flame-engine/forge2d/issues/36
     _rightFlipperRevoluteJoint =
         world.createJoint(rightFlipperRevoluteJointDef) as RevoluteJoint;
+  }
+
+  @override
+  Future<void> onLoad() async {
+    addContactCallback(BallScorePointsCallback());
+
+    await add(BottomWall(this));
+    addContactCallback(BottomWallBallContactCallback());
+
+    await _addFlippers();
   }
 
   @override
