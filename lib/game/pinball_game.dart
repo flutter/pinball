@@ -10,10 +10,6 @@ class PinballGame extends Forge2DGame
   late final RevoluteJoint _leftFlipperRevoluteJoint;
   late final RevoluteJoint _rightFlipperRevoluteJoint;
 
-  void spawnBall() {
-    add(Ball(position: ballStartingPosition));
-  }
-
   // TODO(erickzanardo): Change to the plumber position
   late final ballStartingPosition = screenToWorld(
         Vector2(
@@ -25,6 +21,26 @@ class PinballGame extends Forge2DGame
 
   // TODO(alestiago): Change to the design position.
   late final flippersPosition = ballStartingPosition - Vector2(0, 5);
+
+  @override
+  void onAttach() {
+    super.onAttach();
+    spawnBall();
+  }
+
+  void spawnBall() {
+    add(Ball(position: ballStartingPosition));
+  }
+
+  @override
+  Future<void> onLoad() async {
+    addContactCallback(BallScorePointsCallback());
+
+    await add(BottomWall(this));
+    addContactCallback(BottomWallBallContactCallback());
+
+    await _addFlippers();
+  }
 
   Future<void> _addFlippers() async {
     const spaceBetweenFlippers = 2;
@@ -84,21 +100,5 @@ class PinballGame extends Forge2DGame
         ),
       ),
     );
-  }
-
-  @override
-  Future<void> onLoad() async {
-    addContactCallback(BallScorePointsCallback());
-
-    await add(BottomWall(this));
-    addContactCallback(BottomWallBallContactCallback());
-
-    await _addFlippers();
-  }
-
-  @override
-  void onAttach() {
-    super.onAttach();
-    spawnBall();
   }
 }
