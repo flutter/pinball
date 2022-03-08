@@ -76,19 +76,18 @@ class Flipper extends BodyComponent {
     final smallCircleFixtureDef = FixtureDef(smallCircleShape);
     fixtures.add(smallCircleFixtureDef);
 
-    final inclineSpace = (height / 2) - smallCircleShape.radius;
     final trapeziumVertices = isLeft
         ? [
             Vector2(bigCircleShape.position.x, height / 2),
-            Vector2(smallCircleShape.position.x, inclineSpace),
-            Vector2(smallCircleShape.position.x, -inclineSpace),
+            Vector2(smallCircleShape.position.x, smallCircleShape.radius),
+            Vector2(smallCircleShape.position.x, -smallCircleShape.radius),
             Vector2(bigCircleShape.position.x, -height / 2),
           ]
         : [
-            Vector2(smallCircleShape.position.x, inclineSpace),
+            Vector2(smallCircleShape.position.x, smallCircleShape.radius),
             Vector2(bigCircleShape.position.x, height / 2),
             Vector2(bigCircleShape.position.x, -height / 2),
-            Vector2(smallCircleShape.position.x, -inclineSpace),
+            Vector2(smallCircleShape.position.x, -smallCircleShape.radius),
           ];
     final trapezium = PolygonShape()..set(trapeziumVertices);
     final trapeziumFixtureDef = FixtureDef(trapezium)
