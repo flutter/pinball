@@ -1,6 +1,5 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/theme/theme.dart';
 
@@ -20,14 +19,19 @@ class Ball extends PositionBodyComponent<PinballGame, SpriteComponent> {
   Future<void> onLoad() async {
     await super.onLoad();
     final sprite = await gameRef.loadSprite(spritePath);
-    positionComponent = SpriteComponent(sprite: sprite, size: ballSize);
+    final tint = gameRef
+        .read<ThemeCubit>()
+        .state
+        .theme
+        .characterTheme
+        .ballColor
+        .withOpacity(0.5);
+    positionComponent = SpriteComponent(sprite: sprite, size: ballSize)
+      ..tint(tint);
   }
 
   @override
   Body createBody() {
-    paint = Paint()
-      ..color = gameRef.read<ThemeCubit>().state.theme.characterTheme.ballColor;
-
     final shape = CircleShape()..radius = ballSize.x / 2;
 
     final fixtureDef = FixtureDef(shape)..density = 1;
