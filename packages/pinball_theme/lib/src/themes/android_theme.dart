@@ -10,4 +10,7 @@ class AndroidTheme extends CharacterTheme {
 
   @override
   Color get ballColor => Colors.green;
+
+  @override
+  AssetGenImage get characterAsset => Assets.images.android;
 }

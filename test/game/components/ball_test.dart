@@ -6,6 +6,7 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/theme/cubit/theme_cubit.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -13,11 +14,30 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('Ball', () {
-    final flameTester = FlameTester(PinballGame.new);
+    final gameBloc = MockGameBloc();
+    final themeCubit = MockThemeCubit();
 
-    flameTester.test(
+    setUp(() {
+      whenListen(
+        gameBloc,
+        const Stream<GameState>.empty(),
+        initialState: const GameState.initial(),
+      );
+      whenListen(
+        themeCubit,
+        const Stream<ThemeState>.empty(),
+        initialState: const ThemeState.initial(),
+      );
+    });
+
+    final tester = flameBlocTester(
+      gameBloc: gameBloc,
+      themeCubit: themeCubit,
+    );
+
+    tester.widgetTest(
       'loads correctly',
-      (game) async {
+      (game, tester) async {
         final ball = Ball(position: Vector2.zero());
         await game.ensureAdd(ball);
 
@@ -26,9 +46,9 @@ void main() {
     );
 
     group('body', () {
-      flameTester.test(
+      tester.widgetTest(
         'positions correctly',
-        (game) async {
+        (game, tester) async {
           final position = Vector2.all(10);
           final ball = Ball(position: position);
           await game.ensureAdd(ball);
@@ -38,9 +58,9 @@ void main() {
         },
       );
 
-      flameTester.test(
+      tester.widgetTest(
         'is dynamic',
-        (game) async {
+        (game, tester) async {
           final ball = Ball(position: Vector2.zero());
           await game.ensureAdd(ball);
 
@@ -50,9 +70,9 @@ void main() {
     });
 
     group('first fixture', () {
-      flameTester.test(
+      tester.widgetTest(
         'exists',
-        (game) async {
+        (game, tester) async {
           final ball = Ball(position: Vector2.zero());
           await game.ensureAdd(ball);
 
@@ -60,9 +80,9 @@ void main() {
         },
       );
 
-      flameTester.test(
+      tester.widgetTest(
         'is dense',
-        (game) async {
+        (game, tester) async {
           final ball = Ball(position: Vector2.zero());
           await game.ensureAdd(ball);
 
@@ -71,9 +91,9 @@ void main() {
         },
       );
 
-      flameTester.test(
+      tester.widgetTest(
         'shape is circular',
-        (game) async {
+        (game, tester) async {
           final ball = Ball(position: Vector2.zero());
           await game.ensureAdd(ball);
 
@@ -85,23 +105,6 @@ void main() {
     });
 
     group('resetting a ball', () {
-      late GameBloc gameBloc;
-
-      setUp(() {
-        gameBloc = MockGameBloc();
-        whenListen(
-          gameBloc,
-          const Stream<GameState>.empty(),
-          initialState: const GameState.initial(),
-        );
-      });
-
-      final tester = flameBlocTester(
-        gameBlocBuilder: () {
-          return gameBloc;
-        },
-      );
-
       tester.widgetTest(
         'adds BallLost to GameBloc',
         (game, tester) async {

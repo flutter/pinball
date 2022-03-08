@@ -10,4 +10,7 @@ class DashTheme extends CharacterTheme {
 
   @override
   Color get ballColor => Colors.blue;
+
+  @override
+  AssetGenImage get characterAsset => Assets.images.dash;
 }

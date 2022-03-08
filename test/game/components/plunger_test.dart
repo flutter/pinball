@@ -5,6 +5,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/theme/theme.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -126,25 +127,30 @@ void main() {
   });
 
   group('PlungerAnchorPrismaticJointDef', () {
-    late GameBloc gameBloc;
     late Plunger plunger;
     late Anchor anchor;
 
+    final gameBloc = MockGameBloc();
+    final themeCubit = MockThemeCubit();
+
     setUp(() {
-      gameBloc = MockGameBloc();
+      plunger = Plunger(position: Vector2.zero());
+      anchor = Anchor(position: Vector2(0, -1));
       whenListen(
         gameBloc,
         const Stream<GameState>.empty(),
         initialState: const GameState.initial(),
       );
-      plunger = Plunger(position: Vector2.zero());
-      anchor = Anchor(position: Vector2(0, -1));
+      whenListen(
+        themeCubit,
+        const Stream<ThemeState>.empty(),
+        initialState: const ThemeState.initial(),
+      );
     });
 
     final flameTester = flameBlocTester(
-      gameBlocBuilder: () {
-        return gameBloc;
-      },
+      gameBloc: gameBloc,
+      themeCubit: themeCubit,
     );
 
     flameTester.test(

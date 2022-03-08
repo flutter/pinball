@@ -1,6 +1,7 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/theme/theme.dart';
 
 class MockPinballGame extends Mock implements PinballGame {}
 
@@ -13,3 +14,5 @@ class MockBall extends Mock implements Ball {}
 class MockContact extends Mock implements Contact {}
 
 class MockGameBloc extends Mock implements GameBloc {}
+
+class MockThemeCubit extends Mock implements ThemeCubit {}
