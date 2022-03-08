@@ -41,8 +41,9 @@ class CharacterSelectionView extends StatelessWidget {
             const _CharacterSelectionGridView(),
             const SizedBox(height: 20),
             TextButton(
-              onPressed: () =>
-                  Navigator.of(context).push<void>(PinballGamePage.route()),
+              onPressed: () => Navigator.of(context).push<void>(
+                PinballGamePage.route(),
+              ),
               child: Text(l10n.start),
             ),
           ],
@@ -65,19 +66,19 @@ class _CharacterSelectionGridView extends StatelessWidget {
         mainAxisSpacing: 20,
         crossAxisSpacing: 20,
         children: const [
-          _CharacterImageButton(
+          CharacterImageButton(
             DashTheme(),
             key: Key('characterSelectionPage_dashButton'),
           ),
-          _CharacterImageButton(
+          CharacterImageButton(
             SparkyTheme(),
             key: Key('characterSelectionPage_sparkyButton'),
           ),
-          _CharacterImageButton(
+          CharacterImageButton(
             AndroidTheme(),
             key: Key('characterSelectionPage_androidButton'),
           ),
-          _CharacterImageButton(
+          CharacterImageButton(
             DinoTheme(),
             key: Key('characterSelectionPage_dinoButton'),
           ),
@@ -87,8 +88,9 @@ class _CharacterSelectionGridView extends StatelessWidget {
   }
 }
 
-class _CharacterImageButton extends StatelessWidget {
-  const _CharacterImageButton(
+@visibleForTesting
+class CharacterImageButton extends StatelessWidget {
+  const CharacterImageButton(
     this.characterTheme, {
     Key? key,
   }) : super(key: key);

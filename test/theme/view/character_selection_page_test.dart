@@ -24,7 +24,7 @@ void main() {
   group('CharacterSelectionPage', () {
     testWidgets('renders CharacterSelectionView', (tester) async {
       await tester.pumpApp(
-        const CharacterSelectionPage(),
+        CharacterSelectionPage(),
         themeCubit: themeCubit,
       );
       expect(find.byType(CharacterSelectionView), findsOneWidget);
@@ -40,7 +40,7 @@ void main() {
                   Navigator.of(context)
                       .push<void>(CharacterSelectionPage.route());
                 },
-                child: const Text('Tap me'),
+                child: Text('Tap me'),
               );
             },
           ),
@@ -64,7 +64,7 @@ void main() {
       );
 
       expect(find.text(titleText), findsOneWidget);
-      expect(find.byType(Image), findsNWidgets(4));
+      expect(find.byType(CharacterImageButton), findsNWidgets(4));
       expect(find.byType(TextButton), findsOneWidget);
     });
 
@@ -97,5 +97,14 @@ void main() {
 
       verify(() => navigator.push<void>(any())).called(1);
     });
+  });
+
+  testWidgets('CharacterImageButton renders correctly', (tester) async {
+    await tester.pumpApp(
+      CharacterImageButton(DashTheme()),
+      themeCubit: themeCubit,
+    );
+
+    expect(find.byType(Image), findsOneWidget);
   });
 }
