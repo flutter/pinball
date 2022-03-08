@@ -1,5 +1,5 @@
 name: geometry
-description: A Very Good Project created by Very Good CLI.
+description: Helper package to calculate points of lines, arcs and curves for the pathways of the ball
 version: 1.0.0+1
 publish_to: none
 
