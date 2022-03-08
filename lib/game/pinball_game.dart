@@ -1,13 +1,12 @@
+import 'dart:async';
+
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:pinball/game/game.dart';
 
-class PinballGame extends Forge2DGame with FlameBloc, KeyboardEvents {
-  late final Flipper _rightFlipper;
-  late final Flipper _leftFlipper;
+class PinballGame extends Forge2DGame
+    with FlameBloc, HasKeyboardHandlerComponents {
   late final RevoluteJoint _leftFlipperRevoluteJoint;
   late final RevoluteJoint _rightFlipperRevoluteJoint;
 
@@ -29,19 +28,18 @@ class PinballGame extends Forge2DGame with FlameBloc, KeyboardEvents {
 
   Future<void> _addFlippers() async {
     const spaceBetweenFlippers = 2;
-    await add(
-      _leftFlipper = Flipper(
-        position: Vector2(
-          flippersPosition.x - (Flipper.width / 2) - (spaceBetweenFlippers / 2),
-          flippersPosition.y,
-        ),
-        side: BoardSide.left,
+    final leftFlipper = Flipper(
+      position: Vector2(
+        flippersPosition.x - (Flipper.width / 2) - (spaceBetweenFlippers / 2),
+        flippersPosition.y,
       ),
+      side: BoardSide.left,
     );
-    final leftFlipperAnchor = FlipperAnchor(flipper: _leftFlipper);
+    await add(leftFlipper);
+    final leftFlipperAnchor = FlipperAnchor(flipper: leftFlipper);
     await add(leftFlipperAnchor);
     final leftFlipperRevoluteJointDef = FlipperAnchorRevoluteJointDef(
-      flipper: _leftFlipper,
+      flipper: leftFlipper,
       anchor: leftFlipperAnchor,
     );
     // TODO(alestiago): Remove casting once the following is closed:
@@ -49,25 +47,45 @@ class PinballGame extends Forge2DGame with FlameBloc, KeyboardEvents {
     _leftFlipperRevoluteJoint =
         world.createJoint(leftFlipperRevoluteJointDef) as RevoluteJoint;
 
-    await add(
-      _rightFlipper = Flipper(
-        position: Vector2(
-          flippersPosition.x + (Flipper.width / 2) + (spaceBetweenFlippers / 2),
-          flippersPosition.y,
-        ),
-        side: BoardSide.right,
+    final rightFlipper = Flipper(
+      position: Vector2(
+        flippersPosition.x + (Flipper.width / 2) + (spaceBetweenFlippers / 2),
+        flippersPosition.y,
       ),
+      side: BoardSide.right,
     );
-    final rightFlipperAnchor = FlipperAnchor(flipper: _rightFlipper);
+    await add(rightFlipper);
+    final rightFlipperAnchor = FlipperAnchor(flipper: rightFlipper);
     await add(rightFlipperAnchor);
     final rightFlipperRevoluteJointDef = FlipperAnchorRevoluteJointDef(
-      flipper: _rightFlipper,
+      flipper: rightFlipper,
       anchor: rightFlipperAnchor,
     );
     // TODO(alestiago): Remove casting once the following is closed:
     // https://github.com/flame-engine/forge2d/issues/36
     _rightFlipperRevoluteJoint =
         world.createJoint(rightFlipperRevoluteJointDef) as RevoluteJoint;
+
+    // TODO(erickzanardo): Clean this once the issue is solved:
+    // https://github.com/flame-engine/flame/issues/1417
+    // FIXME(erickzanardo): when mounted the initial potion is not fully
+    // reached.
+    unawaited(
+      leftFlipper.hasMounted.future.whenComplete(
+        () => FlipperAnchorRevoluteJointDef.unlock(
+          _leftFlipperRevoluteJoint,
+          leftFlipper.side,
+        ),
+      ),
+    );
+    unawaited(
+      rightFlipper.hasMounted.future.whenComplete(
+        () => FlipperAnchorRevoluteJointDef.unlock(
+          _rightFlipperRevoluteJoint,
+          rightFlipper.side,
+        ),
+      ),
+    );
   }
 
   @override
@@ -78,64 +96,6 @@ class PinballGame extends Forge2DGame with FlameBloc, KeyboardEvents {
     addContactCallback(BottomWallBallContactCallback());
 
     await _addFlippers();
-  }
-
-  @override
-  Future<void> onMount() async {
-    super.onMount();
-    // TODO(erickzanardo): Clean this once the issue is solved:
-    // https://github.com/flame-engine/flame/issues/1417
-    // FIXME(erickzanardo): when mounted the initial potion is not fully
-    // reached.
-    await _leftFlipper.hasMounted.future;
-    await _rightFlipper.hasMounted.future;
-
-    FlipperAnchorRevoluteJointDef.unlock(
-      _leftFlipperRevoluteJoint,
-      BoardSide.left,
-    );
-    FlipperAnchorRevoluteJointDef.unlock(
-      _rightFlipperRevoluteJoint,
-      BoardSide.right,
-    );
-  }
-
-  @override
-  KeyEventResult onKeyEvent(
-    RawKeyEvent event,
-    Set<LogicalKeyboardKey> keysPressed,
-  ) {
-    if (event is RawKeyDownEvent &&
-        (event.data.logicalKey == LogicalKeyboardKey.arrowLeft ||
-            event.data.logicalKey == LogicalKeyboardKey.keyA)) {
-      _leftFlipper.moveUp();
-    }
-
-    if (event is RawKeyUpEvent &&
-        (event.data.logicalKey == LogicalKeyboardKey.arrowLeft ||
-            event.data.logicalKey == LogicalKeyboardKey.keyA)) {
-      _leftFlipper.moveDown();
-    }
-
-    if (event is RawKeyDownEvent &&
-        (event.data.logicalKey == LogicalKeyboardKey.arrowLeft ||
-            event.data.logicalKey == LogicalKeyboardKey.keyA)) {
-      _leftFlipper.moveUp();
-    }
-
-    if (event is RawKeyUpEvent &&
-        (event.data.logicalKey == LogicalKeyboardKey.arrowRight ||
-            event.data.logicalKey == LogicalKeyboardKey.keyD)) {
-      _rightFlipper.moveDown();
-    }
-
-    if (event is RawKeyDownEvent &&
-        (event.data.logicalKey == LogicalKeyboardKey.arrowRight ||
-            event.data.logicalKey == LogicalKeyboardKey.keyD)) {
-      _rightFlipper.moveUp();
-    }
-
-    return KeyEventResult.handled;
   }
 
   @override

@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:flame/input.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pinball/game/game.dart';
 
 /// {@template flipper}
@@ -10,12 +12,21 @@ import 'package:pinball/game/game.dart';
 ///
 /// [Flipper] can be controlled by the player in an arc motion.
 /// {@endtemplate flipper}
-class Flipper extends BodyComponent {
+class Flipper extends BodyComponent with KeyboardHandler {
   /// {@macro flipper}
   Flipper({
     required Vector2 position,
     required this.side,
-  }) : _position = position {
+  })  : _position = position,
+        _keys = side.isLeft
+            ? [
+                LogicalKeyboardKey.arrowLeft,
+                LogicalKeyboardKey.keyA,
+              ]
+            : [
+                LogicalKeyboardKey.arrowRight,
+                LogicalKeyboardKey.keyD,
+              ] {
     // TODO(alestiago): Use sprite instead of color when provided.
     paint = Paint()
       ..color = const Color(0xFF00FF00)
@@ -33,22 +44,27 @@ class Flipper extends BodyComponent {
   /// The higher the value, the faster the [Flipper] will move.
   static const double _speed = 60;
 
-  /// The initial position of the [Flipper] body.
-  final Vector2 _position;
-
   /// Whether the [Flipper] is on the left or right side of the board.
   ///
   /// A [Flipper] with [BoardSide.left] has a counter-clockwise arc motion,
   /// whereas a [Flipper] with [BoardSide.right] has a clockwise arc motion.
   final BoardSide side;
 
-  /// Applies downard linear velocity to the [Flipper] to move it up.
-  void moveDown() {
+  /// The initial position of the [Flipper] body.
+  final Vector2 _position;
+
+  /// The [LogicalKeyboardKey]s that will control the [Flipper].
+  ///
+  /// [onKeyEvent] method listens to when one of these keys is pressed.
+  final List<LogicalKeyboardKey> _keys;
+
+  /// Applies downard linear velocity to the [Flipper] to move it down.
+  void _moveDown() {
     body.linearVelocity = Vector2(0, -_speed);
   }
 
   /// Applies upward linear velocity to the [Flipper] to move it up.
-  void moveUp() {
+  void _moveUp() {
     body.linearVelocity = Vector2(0, _speed);
   }
 
@@ -119,6 +135,22 @@ class Flipper extends BodyComponent {
   void onMount() {
     super.onMount();
     hasMounted.complete();
+  }
+
+  @override
+  bool onKeyEvent(
+    RawKeyEvent event,
+    Set<LogicalKeyboardKey> keysPressed,
+  ) {
+    if (!_keys.contains(event.logicalKey)) return true;
+
+    if (event is RawKeyDownEvent) {
+      _moveUp();
+    } else if (event is RawKeyUpEvent) {
+      _moveDown();
+    }
+
+    return true;
   }
 }
 
