@@ -7,13 +7,12 @@ class Ball extends PositionBodyComponent<PinballGame, SpriteComponent>
     with BlocComponent<GameBloc, GameState> {
   Ball({
     required Vector2 position,
-    required Vector2 size,
   })  : _position = position,
-        _size = size,
-        super(size: size);
+        super(size: ballSize);
+
+  static final ballSize = Vector2.all(2);
 
   final Vector2 _position;
-  final Vector2 _size;
 
   static const spritePath = 'components/ball.png';
 
@@ -21,12 +20,12 @@ class Ball extends PositionBodyComponent<PinballGame, SpriteComponent>
   Future<void> onLoad() async {
     await super.onLoad();
     final sprite = await gameRef.loadSprite(spritePath);
-    positionComponent = SpriteComponent(sprite: sprite, size: _size);
+    positionComponent = SpriteComponent(sprite: sprite, size: ballSize);
   }
 
   @override
   Body createBody() {
-    final shape = CircleShape()..radius = _size.x / 2;
+    final shape = CircleShape()..radius = ballSize.x / 2;
 
     final fixtureDef = FixtureDef(shape)..density = 1;
 
