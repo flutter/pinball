@@ -1,5 +1,7 @@
 // ignore_for_file: cascade_invocations
 
+import 'dart:collection';
+
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/services.dart';
@@ -113,6 +115,15 @@ void main() {
       });
 
       group('onKeyEvent', () {
+        final leftKeys = UnmodifiableListView([
+          LogicalKeyboardKey.arrowLeft,
+          LogicalKeyboardKey.keyA,
+        ]);
+        final rightKeys = UnmodifiableListView([
+          LogicalKeyboardKey.arrowRight,
+          LogicalKeyboardKey.keyD,
+        ]);
+
         group('and Flipper is left', () {
           late Flipper flipper;
 
@@ -120,10 +131,7 @@ void main() {
             flipper = Flipper.left(position: Vector2.zero());
           });
 
-          testRawKeyDownEvents([
-            LogicalKeyboardKey.arrowLeft,
-            LogicalKeyboardKey.keyA,
-          ], (event) {
+          testRawKeyDownEvents(leftKeys, (event) {
             flameTester.test(
               'moves upwards '
               'when ${event.logicalKey.keyLabel} is pressed',
@@ -137,10 +145,7 @@ void main() {
             );
           });
 
-          testRawKeyUpEvents([
-            LogicalKeyboardKey.arrowLeft,
-            LogicalKeyboardKey.keyA,
-          ], (event) {
+          testRawKeyUpEvents(leftKeys, (event) {
             flameTester.test(
               'moves downwards '
               'when ${event.logicalKey.keyLabel} is released',
@@ -149,6 +154,34 @@ void main() {
                 flipper.onKeyEvent(event, {});
 
                 expect(flipper.body.linearVelocity.y, isNegative);
+                expect(flipper.body.linearVelocity.x, isZero);
+              },
+            );
+          });
+
+          testRawKeyUpEvents(rightKeys, (event) {
+            flameTester.test(
+              'does nothing '
+              'when ${event.logicalKey.keyLabel} is released',
+              (game) async {
+                await game.ensureAdd(flipper);
+                flipper.onKeyEvent(event, {});
+
+                expect(flipper.body.linearVelocity.y, isZero);
+                expect(flipper.body.linearVelocity.x, isZero);
+              },
+            );
+          });
+
+          testRawKeyDownEvents(rightKeys, (event) {
+            flameTester.test(
+              'does nothing '
+              'when ${event.logicalKey.keyLabel} is pressed',
+              (game) async {
+                await game.ensureAdd(flipper);
+                flipper.onKeyEvent(event, {});
+
+                expect(flipper.body.linearVelocity.y, isZero);
                 expect(flipper.body.linearVelocity.x, isZero);
               },
             );
@@ -162,10 +195,7 @@ void main() {
             flipper = Flipper.right(position: Vector2.zero());
           });
 
-          testRawKeyDownEvents([
-            LogicalKeyboardKey.arrowRight,
-            LogicalKeyboardKey.keyD,
-          ], (event) {
+          testRawKeyDownEvents(rightKeys, (event) {
             flameTester.test(
               'moves upwards '
               'when ${event.logicalKey.keyLabel} is pressed',
@@ -179,10 +209,7 @@ void main() {
             );
           });
 
-          testRawKeyUpEvents([
-            LogicalKeyboardKey.arrowRight,
-            LogicalKeyboardKey.keyD,
-          ], (event) {
+          testRawKeyUpEvents(rightKeys, (event) {
             flameTester.test(
               'moves downwards '
               'when ${event.logicalKey.keyLabel} is released',
@@ -191,6 +218,34 @@ void main() {
                 flipper.onKeyEvent(event, {});
 
                 expect(flipper.body.linearVelocity.y, isNegative);
+                expect(flipper.body.linearVelocity.x, isZero);
+              },
+            );
+          });
+
+          testRawKeyUpEvents(leftKeys, (event) {
+            flameTester.test(
+              'does nothing '
+              'when ${event.logicalKey.keyLabel} is released',
+              (game) async {
+                await game.ensureAdd(flipper);
+                flipper.onKeyEvent(event, {});
+
+                expect(flipper.body.linearVelocity.y, isZero);
+                expect(flipper.body.linearVelocity.x, isZero);
+              },
+            );
+          });
+
+          testRawKeyDownEvents(leftKeys, (event) {
+            flameTester.test(
+              'does nothing '
+              'when ${event.logicalKey.keyLabel} is pressed',
+              (game) async {
+                await game.ensureAdd(flipper);
+                flipper.onKeyEvent(event, {});
+
+                expect(flipper.body.linearVelocity.y, isZero);
                 expect(flipper.body.linearVelocity.x, isZero);
               },
             );
