@@ -1,5 +1,6 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
@@ -16,35 +17,30 @@ void main() {
       'components',
       () {
         group('Flippers', () {
+          bool Function(Component) flipperSelector(BoardSide side) =>
+              (component) => component is Flipper && component.side == side;
+
           flameTester.test(
             'has only one left flipper',
             (game) {
-              final flipper = game.children.firstWhere(
-                (e) => e is Flipper && e.side == BoardSide.left,
-              ) as Flipper;
-
-              final anotherFlipper = game.children.lastWhere(
-                (e) => e is Flipper && e.side == BoardSide.left,
-              ) as Flipper;
-
-              expect(flipper, equals(anotherFlipper));
-              expect(flipper.side, equals(BoardSide.left));
+              expect(
+                () => game.children.singleWhere(
+                  flipperSelector(BoardSide.left),
+                ),
+                returnsNormally,
+              );
             },
           );
 
           flameTester.test(
             'has only one right flipper',
             (game) {
-              final flipper = game.children.firstWhere(
-                (e) => e is Flipper && e.side == BoardSide.right,
-              ) as Flipper;
-
-              final anotherFlipper = game.children.lastWhere(
-                (e) => e is Flipper && e.side == BoardSide.right,
-              ) as Flipper;
-
-              expect(flipper, equals(anotherFlipper));
-              expect(flipper.side, equals(BoardSide.right));
+              expect(
+                () => game.children.singleWhere(
+                  flipperSelector(BoardSide.right),
+                ),
+                returnsNormally,
+              );
             },
           );
         });
