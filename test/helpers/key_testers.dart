@@ -16,9 +16,7 @@ void testRawKeyUpEvents(
 
 RawKeyUpEvent _mockKeyUpEvent(LogicalKeyboardKey key) {
   final event = MockRawKeyUpEvent();
-  when(() => event.logicalKey).thenReturn(
-    LogicalKeyboardKey.keyA,
-  );
+  when(() => event.logicalKey).thenReturn(key);
   return event;
 }
 
@@ -34,8 +32,6 @@ void testRawKeyDownEvents(
 
 RawKeyDownEvent _mockKeyDownEvent(LogicalKeyboardKey key) {
   final event = MockRawKeyDownEvent();
-  when(() => event.logicalKey).thenReturn(
-    LogicalKeyboardKey.keyA,
-  );
+  when(() => event.logicalKey).thenReturn(key);
   return event;
 }
