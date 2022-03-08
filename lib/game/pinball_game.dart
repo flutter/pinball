@@ -81,8 +81,14 @@ class PinballGame extends Forge2DGame with FlameBloc, KeyboardEvents {
     await _leftFlipper.hasMounted.future;
     await _rightFlipper.hasMounted.future;
 
-    FlipperAnchorRevoluteJointDef.unlock(_leftFlipperRevoluteJoint);
-    FlipperAnchorRevoluteJointDef.unlock(_rightFlipperRevoluteJoint);
+    FlipperAnchorRevoluteJointDef.unlock(
+      _leftFlipperRevoluteJoint,
+      BoardSide.left,
+    );
+    FlipperAnchorRevoluteJointDef.unlock(
+      _rightFlipperRevoluteJoint,
+      BoardSide.right,
+    );
   }
 
   @override

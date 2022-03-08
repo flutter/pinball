@@ -193,12 +193,9 @@ class FlipperAnchorRevoluteJointDef extends RevoluteJointDef {
   /// its resting position.
   // TODO(alestiago): consider refactor once the issue is solved:
   // https://github.com/flame-engine/forge2d/issues/36
-  static void unlock(RevoluteJoint joint) {
-    assert(joint.bodyA is Flipper && joint.bodyB is Anchor, 'Invalid joint.');
-    final flipper = joint.bodyA as Flipper;
-
+  static void unlock(RevoluteJoint joint, BoardSide side) {
     late final double upperLimit, lowerLimit;
-    switch (flipper.side) {
+    switch (side) {
       case BoardSide.left:
         lowerLimit = joint.lowerLimit * -1;
         upperLimit = joint.upperLimit;
