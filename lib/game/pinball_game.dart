@@ -142,10 +142,4 @@ class PinballGame extends Forge2DGame with FlameBloc, KeyboardEvents {
     super.onAttach();
     spawnBall();
   }
-
-  @override
-  void onAttach() {
-    super.onAttach();
-    spawnBall();
-  }
 }
