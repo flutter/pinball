@@ -56,39 +56,39 @@ class Flipper extends BodyComponent {
     final fixtures = <FixtureDef>[];
     final isLeft = side.isLeft;
 
-    const bigRadius = height / 2;
-    final bigCircleShape = CircleShape()
-      ..radius = bigRadius
-      ..position.setValues(
-        isLeft ? bigRadius : width - bigRadius,
-        -bigRadius,
-      );
+    final bigCircleShape = CircleShape()..radius = height / 2;
+    bigCircleShape.position.setValues(
+      isLeft
+          ? -(width / 2) + bigCircleShape.radius
+          : (width / 2) - bigCircleShape.radius,
+      0,
+    );
     final bigCircleFixtureDef = FixtureDef(bigCircleShape);
     fixtures.add(bigCircleFixtureDef);
 
-    const smallRadius = bigRadius / 2;
-    final smallCircleShape = CircleShape()
-      ..radius = smallRadius
-      ..position.setValues(
-        isLeft ? width - smallRadius : smallRadius,
-        -2 * smallRadius,
-      );
+    final smallCircleShape = CircleShape()..radius = bigCircleShape.radius / 2;
+    smallCircleShape.position.setValues(
+      isLeft
+          ? (width / 2) - smallCircleShape.radius
+          : -(width / 2) + smallCircleShape.radius,
+      0,
+    );
     final smallCircleFixtureDef = FixtureDef(smallCircleShape);
     fixtures.add(smallCircleFixtureDef);
 
-    const inclineSpace = (height - (2 * smallRadius)) / 2;
+    final inclineSpace = (height / 2) - smallCircleShape.radius;
     final trapeziumVertices = isLeft
         ? [
-            Vector2(bigCircleShape.radius, 0),
-            Vector2(width - smallCircleShape.radius, -inclineSpace),
-            Vector2(width - smallCircleShape.radius, -height + inclineSpace),
-            Vector2(bigCircleShape.radius, -height),
+            Vector2(bigCircleShape.position.x, height / 2),
+            Vector2(smallCircleShape.position.x, inclineSpace),
+            Vector2(smallCircleShape.position.x, -inclineSpace),
+            Vector2(bigCircleShape.position.x, -height / 2),
           ]
         : [
-            Vector2(smallRadius, -inclineSpace),
-            Vector2(width - bigRadius, 0),
-            Vector2(width - bigRadius, -height),
-            Vector2(smallRadius, -height + inclineSpace),
+            Vector2(smallCircleShape.position.x, inclineSpace),
+            Vector2(bigCircleShape.position.x, height / 2),
+            Vector2(bigCircleShape.position.x, -height / 2),
+            Vector2(smallCircleShape.position.x, -inclineSpace),
           ];
     final trapezium = PolygonShape()..set(trapeziumVertices);
     final trapeziumFixtureDef = FixtureDef(trapezium)
@@ -135,9 +135,9 @@ class FlipperAnchor extends Anchor {
   }) : super(
           position: Vector2(
             flipper.side.isLeft
-                ? flipper.body.position.x
-                : flipper.body.position.x + Flipper.width,
-            flipper.body.position.y - Flipper.height / 2,
+                ? flipper.body.position.x - Flipper.width / 2
+                : flipper.body.position.x + Flipper.width / 2,
+            flipper.body.position.y,
           ),
         );
 }
