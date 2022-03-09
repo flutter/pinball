@@ -1,9 +1,13 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
+
+import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -75,7 +79,77 @@ void main() {
 
           final fixture = ball.body.fixtures[0];
           expect(fixture.shape.shapeType, equals(ShapeType.circle));
-          expect(fixture.shape.radius, equals(2));
+          expect(fixture.shape.radius, equals(1));
+        },
+      );
+    });
+
+    group('resetting a ball', () {
+      late GameBloc gameBloc;
+
+      setUp(() {
+        gameBloc = MockGameBloc();
+        whenListen(
+          gameBloc,
+          const Stream<GameState>.empty(),
+          initialState: const GameState.initial(),
+        );
+      });
+
+      final tester = flameBlocTester(
+        gameBlocBuilder: () {
+          return gameBloc;
+        },
+      );
+
+      tester.widgetTest(
+        'adds BallLost to GameBloc',
+        (game, tester) async {
+          await game.ready();
+
+          game.children.whereType<Ball>().first.lost();
+          await tester.pump();
+
+          verify(() => gameBloc.add(const BallLost())).called(1);
+        },
+      );
+
+      tester.widgetTest(
+        'resets the ball if the game is not over',
+        (game, tester) async {
+          await game.ready();
+
+          game.children.whereType<Ball>().first.removeFromParent();
+          await game.ready(); // Making sure that all additions are done
+
+          expect(
+            game.children.whereType<Ball>().length,
+            equals(1),
+          );
+        },
+      );
+
+      tester.widgetTest(
+        'no ball is added on game over',
+        (game, tester) async {
+          whenListen(
+            gameBloc,
+            const Stream<GameState>.empty(),
+            initialState: const GameState(
+              score: 10,
+              balls: 1,
+              bonusLetters: [],
+            ),
+          );
+          await game.ready();
+
+          game.children.whereType<Ball>().first.removeFromParent();
+          await tester.pump();
+
+          expect(
+            game.children.whereType<Ball>().length,
+            equals(0),
+          );
         },
       );
     });
