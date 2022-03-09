@@ -13,7 +13,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('Ball', () {
-    final flameTester = FlameTester(PinballGame.initial);
+    final flameTester = FlameTester(PinballGameX.initial);
 
     flameTester.test(
       'loads correctly',

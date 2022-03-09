@@ -8,13 +8,6 @@ import 'package:pinball_theme/pinball_theme.dart';
 class PinballGame extends Forge2DGame with FlameBloc {
   PinballGame({required this.theme});
 
-  PinballGame.initial()
-      : this(
-          theme: const PinballTheme(
-            characterTheme: DashTheme(),
-          ),
-        );
-
   final PinballTheme theme;
 
   void spawnBall() {
