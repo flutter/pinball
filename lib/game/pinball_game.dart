@@ -1,10 +1,14 @@
+import 'dart:async';
+
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
 
 class PinballGame extends Forge2DGame with FlameBloc {
   void spawnBall() {
-    add(Ball(position: ballStartingPosition));
+    add(
+      Ball(position: ballStartingPosition),
+    );
   }
 
   // TODO(erickzanardo): Change to the plumber position
@@ -18,10 +22,15 @@ class PinballGame extends Forge2DGame with FlameBloc {
 
   @override
   Future<void> onLoad() async {
-    spawnBall();
     addContactCallback(BallScorePointsCallback());
 
     await add(BottomWall(this));
     addContactCallback(BottomWallBallContactCallback());
+  }
+
+  @override
+  void onAttach() {
+    super.onAttach();
+    spawnBall();
   }
 }

@@ -1,0 +1,18 @@
+name: pinball_theme
+
+on:
+  push:
+    paths:
+      - "packages/pinball_theme/**"
+      - ".github/workflows/pinball_theme.yaml"
+
+  pull_request:
+    paths:
+      - "packages/pinball_theme/**"
+      - ".github/workflows/pinball_theme.yaml"
+
+jobs:
+  build:
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
+    with:
+      working_directory: packages/pinball_theme

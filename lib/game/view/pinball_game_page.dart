@@ -23,8 +23,25 @@ class PinballGamePage extends StatelessWidget {
   }
 }
 
-class PinballGameView extends StatelessWidget {
+class PinballGameView extends StatefulWidget {
   const PinballGameView({Key? key}) : super(key: key);
+
+  @override
+  State<PinballGameView> createState() => _PinballGameViewState();
+}
+
+class _PinballGameViewState extends State<PinballGameView> {
+  late PinballGame _game;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // TODO(erickzanardo): Revisit this when we start to have more assets
+    // this could expose a Stream (maybe even a cubit?) so we could show the
+    // the loading progress with some fancy widgets.
+    _game = PinballGame()..preLoadAssets();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +56,7 @@ class PinballGameView extends StatelessWidget {
           );
         }
       },
-      child: GameWidget<PinballGame>(game: PinballGame()),
+      child: GameWidget<PinballGame>(game: _game),
     );
   }
 }
