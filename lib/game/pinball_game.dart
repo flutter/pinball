@@ -37,7 +37,7 @@ class PinballGame extends Forge2DGame
     await add(BottomWall(this));
     addContactCallback(BottomWallBallContactCallback());
 
-    await _addFlippers();
+    unawaited(_addFlippers());
   }
 
   Future<void> _addFlippers() async {

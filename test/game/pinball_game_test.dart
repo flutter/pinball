@@ -22,7 +22,9 @@ void main() {
 
           flameTester.test(
             'has only one left Flipper',
-            (game) {
+            (game) async {
+              await game.ready();
+
               expect(
                 () => game.children.singleWhere(
                   flipperSelector(BoardSide.left),
@@ -34,7 +36,9 @@ void main() {
 
           flameTester.test(
             'has only one right Flipper',
-            (game) {
+            (game) async {
+              await game.ready();
+
               expect(
                 () => game.children.singleWhere(
                   flipperSelector(BoardSide.right),
