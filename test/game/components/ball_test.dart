@@ -34,7 +34,11 @@ void main() {
           await game.ensureAdd(ball);
           game.contains(ball);
 
-          expect(ball.body.position, position);
+          final expectedPosition = Vector2(
+            position.x,
+            position.y + Ball.ballSize.y,
+          );
+          expect(ball.body.position, equals(expectedPosition));
         },
       );
 
