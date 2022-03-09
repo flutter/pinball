@@ -1,6 +1,5 @@
 // ignore_for_file: cascade_invocations, prefer_const_constructors
 import 'dart:math' as math;
-import 'package:flame/input.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/material.dart';
