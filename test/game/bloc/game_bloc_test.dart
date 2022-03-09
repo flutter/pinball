@@ -21,9 +21,9 @@ void main() {
           }
         },
         expect: () => [
-          const GameState(score: 0, balls: 2, bonusLetter: []),
-          const GameState(score: 0, balls: 1, bonusLetter: []),
-          const GameState(score: 0, balls: 0, bonusLetter: []),
+          const GameState(score: 0, balls: 2, bonusLetters: []),
+          const GameState(score: 0, balls: 1, bonusLetters: []),
+          const GameState(score: 0, balls: 0, bonusLetters: []),
         ],
       );
     });
@@ -37,8 +37,8 @@ void main() {
           ..add(const Scored(points: 2))
           ..add(const Scored(points: 3)),
         expect: () => [
-          const GameState(score: 2, balls: 3, bonusLetter: []),
-          const GameState(score: 5, balls: 3, bonusLetter: []),
+          const GameState(score: 2, balls: 3, bonusLetters: []),
+          const GameState(score: 5, balls: 3, bonusLetters: []),
         ],
       );
 
@@ -53,9 +53,9 @@ void main() {
           bloc.add(const Scored(points: 2));
         },
         expect: () => [
-          const GameState(score: 0, balls: 2, bonusLetter: []),
-          const GameState(score: 0, balls: 1, bonusLetter: []),
-          const GameState(score: 0, balls: 0, bonusLetter: []),
+          const GameState(score: 0, balls: 2, bonusLetters: []),
+          const GameState(score: 0, balls: 1, bonusLetters: []),
+          const GameState(score: 0, balls: 0, bonusLetters: []),
         ],
       );
     });
@@ -75,32 +75,32 @@ void main() {
           const GameState(
             score: 0,
             balls: 3,
-            bonusLetter: ['G'],
+            bonusLetters: ['G'],
           ),
           const GameState(
             score: 0,
             balls: 3,
-            bonusLetter: ['G', 'O'],
+            bonusLetters: ['G', 'O'],
           ),
           const GameState(
             score: 0,
             balls: 3,
-            bonusLetter: ['G', 'O', 'O'],
+            bonusLetters: ['G', 'O', 'O'],
           ),
           const GameState(
             score: 0,
             balls: 3,
-            bonusLetter: ['G', 'O', 'O', 'G'],
+            bonusLetters: ['G', 'O', 'O', 'G'],
           ),
           const GameState(
             score: 0,
             balls: 3,
-            bonusLetter: ['G', 'O', 'O', 'G', 'L'],
+            bonusLetters: ['G', 'O', 'O', 'G', 'L'],
           ),
           const GameState(
             score: 0,
             balls: 3,
-            bonusLetter: ['G', 'O', 'O', 'G', 'L', 'E'],
+            bonusLetters: ['G', 'O', 'O', 'G', 'L', 'E'],
           ),
         ],
       );

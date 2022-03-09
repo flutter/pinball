@@ -135,7 +135,11 @@ void main() {
           whenListen(
             gameBloc,
             const Stream<GameState>.empty(),
-            initialState: const GameState(score: 10, balls: 1, bonusLetter: []),
+            initialState: const GameState(
+              score: 10,
+              balls: 1,
+              bonusLetters: [],
+            ),
           );
           await game.ready();
 

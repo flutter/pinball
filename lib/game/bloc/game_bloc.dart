@@ -27,8 +27,8 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   void _onBonusLetterActivated(BonusLetterActivated event, Emitter emit) {
     emit(
       state.copyWith(
-        bonusLetter: [
-          ...state.bonusLetter,
+        bonusLetters: [
+          ...state.bonusLetters,
           event.letter,
         ],
       ),

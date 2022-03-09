@@ -8,14 +8,14 @@ class GameState extends Equatable {
   const GameState({
     required this.score,
     required this.balls,
-    required this.bonusLetter,
+    required this.bonusLetters,
   })  : assert(score >= 0, "Score can't be negative"),
         assert(balls >= 0, "Number of balls can't be negative");
 
   const GameState.initial()
       : score = 0,
         balls = 3,
-        bonusLetter = const [];
+        bonusLetters = const [];
 
   /// The current score of the game.
   final int score;
@@ -26,7 +26,7 @@ class GameState extends Equatable {
   final int balls;
 
   /// Active bonus letters.
-  final List<String> bonusLetter;
+  final List<String> bonusLetters;
 
   /// Determines when the game is over.
   bool get isGameOver => balls == 0;
@@ -37,7 +37,7 @@ class GameState extends Equatable {
   GameState copyWith({
     int? score,
     int? balls,
-    List<String>? bonusLetter,
+    List<String>? bonusLetters,
   }) {
     assert(
       score == null || score >= this.score,
@@ -47,7 +47,7 @@ class GameState extends Equatable {
     return GameState(
       score: score ?? this.score,
       balls: balls ?? this.balls,
-      bonusLetter: bonusLetter ?? this.bonusLetter,
+      bonusLetters: bonusLetters ?? this.bonusLetters,
     );
   }
 
@@ -55,6 +55,6 @@ class GameState extends Equatable {
   List<Object?> get props => [
         score,
         balls,
-        bonusLetter,
+        bonusLetters,
       ];
 }
