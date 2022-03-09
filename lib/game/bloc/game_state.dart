@@ -25,7 +25,7 @@ class GameState extends Equatable {
   /// When the number of balls is 0, the game is over.
   final int balls;
 
-  /// Active bonus letters
+  /// Active bonus letters.
   final List<String> bonusLetter;
 
   /// Determines when the game is over.
