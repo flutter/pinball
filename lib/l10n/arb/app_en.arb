@@ -6,10 +6,10 @@
     },
     "start": "Start",
     "@start": {
-        "description": "Text displayed on the character seleciton page start button"
+        "description": "Text displayed on the character selection page start button"
     },
     "characterSelectionTitle": "Choose your character!",
     "@characterSelectionTitle": {
-        "description": "Title text displayed on the character seleciton page"
+        "description": "Title text displayed on the character selection page"
     }
 }
