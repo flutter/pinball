@@ -7,7 +7,7 @@ class Ball extends PositionBodyComponent<PinballGame, SpriteComponent>
     with BlocComponent<GameBloc, GameState> {
   Ball({
     required Vector2 position,
-  })  : _position = position,
+  })  : _position = Vector2(position.x, position.y + ballSize.y),
         super(size: ballSize);
 
   static final ballSize = Vector2.all(2);

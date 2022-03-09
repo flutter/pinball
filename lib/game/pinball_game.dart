@@ -44,14 +44,7 @@ class PinballGame extends Forge2DGame
   }
 
   void spawnBall() {
-    add(
-      Ball(
-        position: Vector2(
-          plunger.body.position.x,
-          plunger.body.position.y + Ball.ballSize.y,
-        ),
-      ),
-    );
+    add(Ball(position: plunger.body.position));
   }
 
   void _addContactCallbacks() {
@@ -138,7 +131,7 @@ class PinballGame extends Forge2DGame
         position: screenToWorld(
           Vector2(
             camera.viewport.effectiveSize.x - 30,
-            camera.viewport.effectiveSize.y - Plunger.compressionDistance,
+            camera.viewport.effectiveSize.y,
           ),
         ),
       ),
