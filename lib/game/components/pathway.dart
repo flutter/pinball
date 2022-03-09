@@ -38,18 +38,20 @@ class Pathway extends BodyComponent {
     bool singleWall = false,
   }) {
     final paths = <List<Vector2>>[];
-    final wall1 = [
+
+    // TODO(ruialonso): Refactor repetitive logic
+    final firstWall = [
       start.clone(),
       end.clone(),
     ].map((vector) => vector..rotate(rotation)).toList();
-    paths.add(wall1);
+    paths.add(firstWall);
 
     if (!singleWall) {
-      final wall2 = [
+      final secondWall = [
         start + Vector2(width, 0),
         end + Vector2(width, 0),
       ].map((vector) => vector..rotate(rotation)).toList();
-      paths.add(wall2);
+      paths.add(secondWall);
     }
 
     return Pathway._(
@@ -84,22 +86,23 @@ class Pathway extends BodyComponent {
   }) {
     final paths = <List<Vector2>>[];
 
-    final wall1 = calculateArc(
+    // TODO(ruialonso): Refactor repetitive logic
+    final outerWall = calculateArc(
       center: position,
       radius: radius,
       angle: angle,
       offsetAngle: rotation,
     );
-    paths.add(wall1);
+    paths.add(outerWall);
 
     if (!singleWall) {
-      final wall2 = calculateArc(
+      final innerWall = calculateArc(
         center: position,
         radius: radius - width,
         angle: angle,
         offsetAngle: rotation,
       );
-      paths.add(wall2);
+      paths.add(innerWall);
     }
 
     return Pathway._(
@@ -128,18 +131,19 @@ class Pathway extends BodyComponent {
   }) {
     final paths = <List<Vector2>>[];
 
-    final wall1 = calculateBezierCurve(controlPoints: controlPoints)
+    // TODO(ruialonso): Refactor repetitive logic
+    final firstWall = calculateBezierCurve(controlPoints: controlPoints)
         .map((vector) => vector..rotate(rotation))
         .toList();
-    paths.add(wall1);
+    paths.add(firstWall);
 
     if (!singleWall) {
-      final wall2 = calculateBezierCurve(
+      final secondWall = calculateBezierCurve(
         controlPoints: controlPoints
             .map((vector) => vector + Vector2(width, -width))
             .toList(),
       ).map((vector) => vector..rotate(rotation)).toList();
-      paths.add(wall2);
+      paths.add(secondWall);
     }
 
     return Pathway._(
