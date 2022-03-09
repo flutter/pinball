@@ -44,8 +44,8 @@ class PinballGame extends Forge2DGame
     );
   }
 
-  Future<void> spawnBall() async {
-    await add(
+  void spawnBall() {
+    add(
       Ball(
         position: Vector2(
           plunger.body.position.x,
