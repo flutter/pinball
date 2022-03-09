@@ -7,7 +7,7 @@ part 'game_state.dart';
 
 class GameBloc extends Bloc<GameEvent, GameState> {
   GameBloc({
-    int bonusLettersCount = 6,
+    int bonusLettersCount = 'GOOGLE'.length,
   })  : _bonusLettersCount = bonusLettersCount,
         super(const GameState.initial()) {
     on<BallLost>(_onBallLost);
@@ -38,7 +38,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
           activatedBonusLetters: [],
           bonusHistory: [
             ...state.bonusHistory,
-            GameBonus.letterSequence,
+            GameBonus.word,
           ],
         ),
       );
