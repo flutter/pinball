@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:geometry/geometry.dart';
 
 /// {@template pathway}
-/// [Pathway] creates lines of various shapes that the ball can collide
-/// with and move along.
+/// [Pathway] creates lines of various shapes.
+///
+/// [BodyComponent]s such as a Ball can collide and move along a [Pathway].
 /// {@endtemplate}
 class Pathway extends BodyComponent {
   Pathway._({
@@ -20,20 +21,19 @@ class Pathway extends BodyComponent {
       ..style = PaintingStyle.stroke;
   }
 
-  /// {@macro pathway}
-  /// [Pathway.straight] creates a straight pathway for the ball.
+  /// Creates a uniform unidirectional (straight) [Pathway].
   ///
-  /// given a [position] for the body, between a [start] and [end] points.
-  /// It creates two [ChainShape] separated by a [pathwayWidth].
-  /// If [singleWall] is true, just one [ChainShape] is created
-  /// (like a wall instead of a pathway)
-  /// The pathway could be rotated by [rotation] in degrees.
+  /// Does so with two [ChainShape] separated by a [width]. Placed
+  /// at a [position] between [start] and [end] points. Can
+  /// be rotated by a given [rotation] in radians.
+  ///
+  /// If [singleWall] is true, just one [ChainShape] is created.
   factory Pathway.straight({
     Color? color,
     required Vector2 position,
     required Vector2 start,
     required Vector2 end,
-    required double pathwayWidth,
+    required double width,
     double rotation = 0,
     bool singleWall = false,
   }) {
@@ -41,14 +41,14 @@ class Pathway extends BodyComponent {
     final wall1 = [
       start.clone(),
       end.clone(),
-    ].map((vector) => vector..rotate(radians(rotation))).toList();
+    ].map((vector) => vector..rotate(rotation)).toList();
     paths.add(wall1);
 
     if (!singleWall) {
       final wall2 = [
-        start + Vector2(pathwayWidth, 0),
-        end + Vector2(pathwayWidth, 0),
-      ].map((vector) => vector..rotate(radians(rotation))).toList();
+        start + Vector2(width, 0),
+        end + Vector2(width, 0),
+      ].map((vector) => vector..rotate(rotation)).toList();
       paths.add(wall2);
     }
 
@@ -59,21 +59,24 @@ class Pathway extends BodyComponent {
     );
   }
 
-  /// {@macro pathway}
-  /// [Pathway.arc] creates an arc pathway for the ball.
+  /// Creates an arc [Pathway].
   ///
-  /// The arc is created given a [position] for the body, a [radius] for the
-  /// circumference and an [angle] to specify the size of it (360 will return
-  /// a completed circumference and minor angles a semi circumference ).
-  /// It creates two [ChainShape] separated by a [pathwayWidth], like a circular
-  /// crown. The specified [radius] is for the outer arc, the inner one will
-  /// have a radius of radius-pathwayWidth.
+  /// The [angle], in radians, specifies the size of the arc. For example, 2*pi
+  /// returns a complete circumference and minor angles a semi circumference.
+  ///
+  /// The center of the arc is placed at [position].
+  ///
+  /// Does so with two [ChainShape] separated by a [width]. Which can be
+  /// rotated by a given [rotation] in radians.
+  ///
+  /// The outer radius is specified by [radius], whilst the inner one is
+  /// equivalent to [radius] - [width].
+  ///
   /// If [singleWall] is true, just one [ChainShape] is created.
-  /// The pathway could be rotated by [rotation] in degrees.
   factory Pathway.arc({
     Color? color,
     required Vector2 position,
-    required double pathwayWidth,
+    required double width,
     required double radius,
     required double angle,
     double rotation = 0,
@@ -92,7 +95,7 @@ class Pathway extends BodyComponent {
     if (!singleWall) {
       final wall2 = calculateArc(
         center: position,
-        radius: radius - pathwayWidth,
+        radius: radius - width,
         angle: angle,
         offsetAngle: rotation,
       );
@@ -106,38 +109,36 @@ class Pathway extends BodyComponent {
     );
   }
 
-  /// {@macro pathway}
-  /// [Pathway.bezierCurve] creates a bezier curve pathway for the ball.
+  /// Creates a bezier curve [Pathway].
   ///
-  /// The curve is created given a [position] for the body, and
-  /// with a list of control points specified by [controlPoints].
-  /// First and last points set the beginning and end of the curve, all the
-  /// inner points between them set the bezier curve final shape.
-  /// It creates two [ChainShape] separated by a [pathwayWidth].
-  /// If [singleWall] is true, just one [ChainShape] is created
-  /// (like a wall instead of a pathway)
-  /// The pathway could be rotated by [rotation] in degrees.
+  /// Does so with two [ChainShape] separated by a [width]. Which can be
+  /// rotated by a given [rotation] in radians.
+  ///
+  /// First and last [controlPoints] set the beginning and end of the curve,
+  /// inner points between them set its final shape.
+  ///
+  /// If [singleWall] is true, just one [ChainShape] is created.
   factory Pathway.bezierCurve({
     Color? color,
     required Vector2 position,
     required List<Vector2> controlPoints,
-    required double pathwayWidth,
+    required double width,
     double rotation = 0,
     bool singleWall = false,
   }) {
     final paths = <List<Vector2>>[];
 
     final wall1 = calculateBezierCurve(controlPoints: controlPoints)
-        .map((vector) => vector..rotate(radians(rotation)))
+        .map((vector) => vector..rotate(rotation))
         .toList();
     paths.add(wall1);
 
     if (!singleWall) {
       final wall2 = calculateBezierCurve(
         controlPoints: controlPoints
-            .map((vector) => vector + Vector2(pathwayWidth, -pathwayWidth))
+            .map((vector) => vector + Vector2(width, -width))
             .toList(),
-      ).map((vector) => vector..rotate(radians(rotation))).toList();
+      ).map((vector) => vector..rotate(rotation)).toList();
       paths.add(wall2);
     }
 
@@ -158,13 +159,13 @@ class Pathway extends BodyComponent {
       ..position = _position;
 
     final body = world.createBody(bodyDef);
-
     for (final path in _paths) {
       final chain = ChainShape()
         ..createChain(
           path.map(gameRef.screenToWorld).toList(),
         );
       final fixtureDef = FixtureDef(chain);
+
       body.createFixture(fixtureDef);
     }
 

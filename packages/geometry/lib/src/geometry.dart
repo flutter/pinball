@@ -4,7 +4,7 @@ import 'package:flame/extensions.dart';
 /// Calculates all [Vector2]s of a circumference.
 ///
 /// Circumference is created from a [center] and a [radius]
-/// Also semi circumference could be created, specifying its [angle] in degrees
+/// Also semi circumference could be created, specifying its [angle] in radians
 /// and the offset start angle [offsetAngle] for this semi circumference.
 /// The higher the [precision], the more [Vector2]s will be calculated,
 /// achieving a more rounded arc.
@@ -17,13 +17,12 @@ List<Vector2> calculateArc({
   double offsetAngle = 0,
   int precision = 100,
 }) {
-  final stepAngle = radians(angle / (precision - 1));
-  final stepOffset = radians(offsetAngle);
+  final stepAngle = angle / (precision - 1);
 
   final points = <Vector2>[];
   for (var i = 0; i < precision; i++) {
-    final xCoord = center.x + radius * math.cos((stepAngle * i) + stepOffset);
-    final yCoord = center.y - radius * math.sin((stepAngle * i) + stepOffset);
+    final xCoord = center.x + radius * math.cos((stepAngle * i) + offsetAngle);
+    final yCoord = center.y - radius * math.sin((stepAngle * i) + offsetAngle);
 
     final point = Vector2(xCoord, yCoord);
     points.add(point);
@@ -35,11 +34,14 @@ List<Vector2> calculateArc({
 /// Calculates all [Vector2]s of a bezier curve.
 ///
 /// A bezier curve of [controlPoints] that say how to create this curve.
+///
 /// First and last points specify the beginning and the end respectively
 /// of the curve. The inner points specify the shape of the curve and
 /// its turning points.
-/// The [step] must be in range 0<=step<=1 and indicates the precision to
-/// calculate the curve.
+///
+/// The [step] must be between zero and one (inclusive), indicating the
+/// precision to calculate the curve.
+///
 /// For more information read: https://en.wikipedia.org/wiki/B%C3%A9zier_curve
 List<Vector2> calculateBezierCurve({
   required List<Vector2> controlPoints,
@@ -77,7 +79,7 @@ List<Vector2> calculateBezierCurve({
   return points;
 }
 
-/// Method to calculate the binomial coefficient of 'n' and 'k'
+/// Calculates the binomial coefficient of 'n' and 'k'.
 /// For more information read: https://en.wikipedia.org/wiki/Binomial_coefficient
 num binomial(num n, num k) {
   assert(0 <= k && k <= n, 'k ($k) and n ($n) must be in range 0 <= k <= n');
@@ -89,7 +91,7 @@ num binomial(num n, num k) {
   }
 }
 
-/// Method to calculate the factorial of some number 'n'
+/// Calculate the factorial of 'n'.
 /// For more information read: https://en.wikipedia.org/wiki/Factorial
 num factorial(num n) {
   assert(n >= 0, 'Factorial is not defined for negative number n ($n)');

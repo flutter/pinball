@@ -1,4 +1,5 @@
 // ignore_for_file: cascade_invocations, prefer_const_constructors
+import 'dart:math' as math;
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/material.dart';
@@ -10,20 +11,21 @@ void main() {
   final flameTester = FlameTester(PinballGame.new);
 
   group('Pathway', () {
-    const pathwayWidth = 50.0;
+    const width = 50.0;
 
     group('straight', () {
       group('color', () {
         flameTester.test(
-          'has transparent color by default if not specified',
+          'has transparent color by default when no color is specified',
           (game) async {
             final pathway = Pathway.straight(
               position: Vector2.zero(),
               start: Vector2(10, 10),
               end: Vector2(20, 20),
-              pathwayWidth: pathwayWidth,
+              width: width,
             );
             await game.ensureAdd(pathway);
+
             expect(game.contains(pathway), isTrue);
             expect(pathway.paint, isNotNull);
             expect(
@@ -32,8 +34,9 @@ void main() {
             );
           },
         );
+
         flameTester.test(
-          'has a color if set',
+          'has a color when is specified',
           (game) async {
             const defaultColor = Colors.blue;
 
@@ -42,9 +45,10 @@ void main() {
               position: Vector2.zero(),
               start: Vector2(10, 10),
               end: Vector2(20, 20),
-              pathwayWidth: pathwayWidth,
+              width: width,
             );
             await game.ensureAdd(pathway);
+
             expect(game.contains(pathway), isTrue);
             expect(pathway.paint, isNotNull);
             expect(pathway.paint.color.value, equals(defaultColor.value));
@@ -59,9 +63,10 @@ void main() {
             position: Vector2.zero(),
             start: Vector2(10, 10),
             end: Vector2(20, 20),
-            pathwayWidth: pathwayWidth,
+            width: width,
           );
           await game.ensureAdd(pathway);
+
           expect(game.contains(pathway), isTrue);
         },
       );
@@ -75,11 +80,11 @@ void main() {
               position: position,
               start: Vector2(10, 10),
               end: Vector2(20, 20),
-              pathwayWidth: pathwayWidth,
+              width: width,
             );
             await game.ensureAdd(pathway);
-            game.contains(pathway);
 
+            game.contains(pathway);
             expect(pathway.body.position, position);
           },
         );
@@ -91,7 +96,7 @@ void main() {
               position: Vector2.zero(),
               start: Vector2(10, 10),
               end: Vector2(20, 20),
-              pathwayWidth: pathwayWidth,
+              width: width,
             );
             await game.ensureAdd(pathway);
 
@@ -102,13 +107,13 @@ void main() {
 
       group('fixtures', () {
         flameTester.test(
-          'exists only one ChainShape if just one wall',
+          'has only one ChainShape when singleWall is true',
           (game) async {
             final pathway = Pathway.straight(
               position: Vector2.zero(),
               start: Vector2(10, 10),
               end: Vector2(20, 20),
-              pathwayWidth: pathwayWidth,
+              width: width,
               singleWall: true,
             );
             await game.ensureAdd(pathway);
@@ -121,13 +126,13 @@ void main() {
         );
 
         flameTester.test(
-          'exists two ChainShape if there is by default two walls',
+          'has two ChainShape when singleWall is false (default)',
           (game) async {
             final pathway = Pathway.straight(
               position: Vector2.zero(),
               start: Vector2(10, 10),
               end: Vector2(20, 20),
-              pathwayWidth: pathwayWidth,
+              width: width,
             );
             await game.ensureAdd(pathway);
 
@@ -147,11 +152,12 @@ void main() {
         (game) async {
           final pathway = Pathway.arc(
             position: Vector2.zero(),
-            pathwayWidth: pathwayWidth,
-            radius: 100,
-            angle: 90,
+            width: width,
+            radius: math.pi / 2,
+            angle: math.pi / 2,
           );
           await game.ensureAdd(pathway);
+
           expect(game.contains(pathway), isTrue);
         },
       );
@@ -163,13 +169,13 @@ void main() {
             final position = Vector2.all(10);
             final pathway = Pathway.arc(
               position: position,
-              pathwayWidth: pathwayWidth,
-              radius: 100,
-              angle: 90,
+              width: width,
+              radius: math.pi / 2,
+              angle: math.pi / 2,
             );
             await game.ensureAdd(pathway);
-            game.contains(pathway);
 
+            game.contains(pathway);
             expect(pathway.body.position, position);
           },
         );
@@ -179,9 +185,9 @@ void main() {
           (game) async {
             final pathway = Pathway.arc(
               position: Vector2.zero(),
-              pathwayWidth: pathwayWidth,
-              radius: 100,
-              angle: 90,
+              width: width,
+              radius: math.pi / 2,
+              angle: math.pi / 2,
             );
             await game.ensureAdd(pathway);
 
@@ -205,9 +211,10 @@ void main() {
           final pathway = Pathway.bezierCurve(
             position: Vector2.zero(),
             controlPoints: controlPoints,
-            pathwayWidth: pathwayWidth,
+            width: width,
           );
           await game.ensureAdd(pathway);
+
           expect(game.contains(pathway), isTrue);
         },
       );
@@ -220,11 +227,11 @@ void main() {
             final pathway = Pathway.bezierCurve(
               position: position,
               controlPoints: controlPoints,
-              pathwayWidth: pathwayWidth,
+              width: width,
             );
             await game.ensureAdd(pathway);
-            game.contains(pathway);
 
+            game.contains(pathway);
             expect(pathway.body.position, position);
           },
         );
@@ -235,7 +242,7 @@ void main() {
             final pathway = Pathway.bezierCurve(
               position: Vector2.zero(),
               controlPoints: controlPoints,
-              pathwayWidth: pathwayWidth,
+              width: width,
             );
             await game.ensureAdd(pathway);
 
