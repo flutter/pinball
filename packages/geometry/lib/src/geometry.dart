@@ -3,10 +3,11 @@ import 'package:flame/extensions.dart';
 
 /// Calculates all [Vector2]s of a circumference.
 ///
-/// Circumference is created from a [center] and a [radius]
-/// Also semi circumference could be created, specifying its [angle] in radians
-/// and the offset start angle [offsetAngle] for this semi circumference.
-/// The higher the [precision], the more [Vector2]s will be calculated,
+/// A circumference can be achieved by specifying a [center] and a [radius].
+/// In addition, a semi-circle can be achieved by specifying its [angle] and an
+/// [offsetAngle] (both in radians).
+///
+/// The higher the [precision], the more [Vector2]s will be calculated;
 /// achieving a more rounded arc.
 ///
 /// For more information read: https://en.wikipedia.org/wiki/Trigonometric_functions.
@@ -80,6 +81,7 @@ List<Vector2> calculateBezierCurve({
 }
 
 /// Calculates the binomial coefficient of 'n' and 'k'.
+///
 /// For more information read: https://en.wikipedia.org/wiki/Binomial_coefficient
 num binomial(num n, num k) {
   assert(0 <= k && k <= n, 'k ($k) and n ($n) must be in range 0 <= k <= n');
@@ -92,6 +94,7 @@ num binomial(num n, num k) {
 }
 
 /// Calculate the factorial of 'n'.
+///
 /// For more information read: https://en.wikipedia.org/wiki/Factorial
 num factorial(num n) {
   assert(n >= 0, 'Factorial is not defined for negative number n ($n)');
