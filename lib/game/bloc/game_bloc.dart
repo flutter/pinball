@@ -7,7 +7,7 @@ part 'game_state.dart';
 
 class GameBloc extends Bloc<GameEvent, GameState> {
   GameBloc({
-    int bonusLettersCount = 5,
+    int bonusLettersCount = 6,
   })  : _bonusLettersCount = bonusLettersCount,
         super(const GameState.initial()) {
     on<BallLost>(_onBallLost);
@@ -30,12 +30,12 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   void _onBonusLetterActivated(BonusLetterActivated event, Emitter emit) {
-    final updatedList = [...state.bonusLetters, event.letter];
+    final newBonusLetters = [...state.activatedBonusLetters, event.letter];
 
-    if (updatedList.length == _bonusLettersCount) {
+    if (newBonusLetters.length == _bonusLettersCount) {
       emit(
         state.copyWith(
-          bonusLetters: [],
+          activatedBonusLetters: [],
           bonusHistory: [
             ...state.bonusHistory,
             GameBonuses.letterSequence,
@@ -45,7 +45,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     } else {
       emit(
         state.copyWith(
-          bonusLetters: updatedList,
+          activatedBonusLetters: newBonusLetters,
         ),
       );
     }

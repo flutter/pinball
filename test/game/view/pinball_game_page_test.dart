@@ -74,7 +74,7 @@ void main() {
         const state = GameState(
           score: 0,
           balls: 0,
-          bonusLetters: [],
+          activatedBonusLetters: [],
           bonusHistory: [],
         );
 

@@ -138,7 +138,7 @@ void main() {
             initialState: const GameState(
               score: 10,
               balls: 1,
-              bonusLetters: [],
+              activatedBonusLetters: [],
               bonusHistory: [],
             ),
           );

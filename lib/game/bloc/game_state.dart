@@ -14,7 +14,7 @@ class GameState extends Equatable {
   const GameState({
     required this.score,
     required this.balls,
-    required this.bonusLetters,
+    required this.activatedBonusLetters,
     required this.bonusHistory,
   })  : assert(score >= 0, "Score can't be negative"),
         assert(balls >= 0, "Number of balls can't be negative");
@@ -22,7 +22,7 @@ class GameState extends Equatable {
   const GameState.initial()
       : score = 0,
         balls = 3,
-        bonusLetters = const [],
+        activatedBonusLetters = const [],
         bonusHistory = const [];
 
   /// The current score of the game.
@@ -34,7 +34,7 @@ class GameState extends Equatable {
   final int balls;
 
   /// Active bonus letters.
-  final List<int> bonusLetters;
+  final List<int> activatedBonusLetters;
 
   /// Holds the history of all the bonuses
   /// that the palyer earned during the play
@@ -49,7 +49,7 @@ class GameState extends Equatable {
   GameState copyWith({
     int? score,
     int? balls,
-    List<int>? bonusLetters,
+    List<int>? activatedBonusLetters,
     List<GameBonuses>? bonusHistory,
   }) {
     assert(
@@ -60,7 +60,8 @@ class GameState extends Equatable {
     return GameState(
       score: score ?? this.score,
       balls: balls ?? this.balls,
-      bonusLetters: bonusLetters ?? this.bonusLetters,
+      activatedBonusLetters:
+          activatedBonusLetters ?? this.activatedBonusLetters,
       bonusHistory: bonusHistory ?? this.bonusHistory,
     );
   }
@@ -69,7 +70,7 @@ class GameState extends Equatable {
   List<Object?> get props => [
         score,
         balls,
-        bonusLetters,
+        activatedBonusLetters,
         bonusHistory,
       ];
 }
