@@ -6,5 +6,6 @@
 // https://opensource.org/licenses/MIT.
 
 export 'builders.dart';
+export 'key_testers.dart';
 export 'mocks.dart';
 export 'pump_app.dart';
