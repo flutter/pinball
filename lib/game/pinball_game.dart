@@ -7,7 +7,6 @@ import 'package:pinball/game/game.dart';
 
 class PinballGame extends Forge2DGame
     with FlameBloc, HasKeyboardHandlerComponents {
-
   // TODO(erickzanardo): Change to the plumber position
   late final ballStartingPosition = screenToWorld(
         Vector2(
