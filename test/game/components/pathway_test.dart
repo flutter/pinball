@@ -1,5 +1,6 @@
 // ignore_for_file: cascade_invocations, prefer_const_constructors
 import 'dart:math' as math;
+import 'package:flame/input.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/material.dart';
@@ -153,7 +154,7 @@ void main() {
           final pathway = Pathway.arc(
             position: Vector2.zero(),
             width: width,
-            radius: math.pi / 2,
+            radius: 100,
             angle: math.pi / 2,
           );
           await game.ensureAdd(pathway);
@@ -170,7 +171,7 @@ void main() {
             final pathway = Pathway.arc(
               position: position,
               width: width,
-              radius: math.pi / 2,
+              radius: 100,
               angle: math.pi / 2,
             );
             await game.ensureAdd(pathway);
@@ -186,7 +187,7 @@ void main() {
             final pathway = Pathway.arc(
               position: Vector2.zero(),
               width: width,
-              radius: math.pi / 2,
+              radius: 100,
               angle: math.pi / 2,
             );
             await game.ensureAdd(pathway);
