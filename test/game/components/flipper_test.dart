@@ -255,36 +255,33 @@ void main() {
     },
   );
 
-  group(
-    'FlipperAnchor',
-    () {
-      flameTester.test(
-        'position is at the left of the left Flipper',
-        (game) async {
-          final flipper = Flipper.left(position: Vector2.zero());
-          await game.ensureAdd(flipper);
+  group('FlipperAnchor', () {
+    flameTester.test(
+      'position is at the left of the left Flipper',
+      (game) async {
+        final flipper = Flipper.left(position: Vector2.zero());
+        await game.ensureAdd(flipper);
 
-          final flipperAnchor = FlipperAnchor(flipper: flipper);
-          await game.ensureAdd(flipperAnchor);
+        final flipperAnchor = FlipperAnchor(flipper: flipper);
+        await game.ensureAdd(flipperAnchor);
 
-          expect(flipperAnchor.body.position.x, equals(-Flipper.width / 2));
-        },
-      );
+        expect(flipperAnchor.body.position.x, equals(-Flipper.width / 2));
+      },
+    );
 
-      flameTester.test(
-        'position is at the right of the right Flipper',
-        (game) async {
-          final flipper = Flipper.right(position: Vector2.zero());
-          await game.ensureAdd(flipper);
+    flameTester.test(
+      'position is at the right of the right Flipper',
+      (game) async {
+        final flipper = Flipper.right(position: Vector2.zero());
+        await game.ensureAdd(flipper);
 
-          final flipperAnchor = FlipperAnchor(flipper: flipper);
-          await game.ensureAdd(flipperAnchor);
+        final flipperAnchor = FlipperAnchor(flipper: flipper);
+        await game.ensureAdd(flipperAnchor);
 
-          expect(flipperAnchor.body.position.x, equals(Flipper.width / 2));
-        },
-      );
-    },
-  );
+        expect(flipperAnchor.body.position.x, equals(Flipper.width / 2));
+      },
+    );
+  });
 
   group('FlipperAnchorRevoluteJointDef', () {
     group('initializes with', () {

@@ -13,42 +13,84 @@ void main() {
     // TODO(alestiago): test if [PinballGame] registers
     // [BallScorePointsCallback] once the following issue is resolved:
     // https://github.com/flame-engine/flame/issues/1416
-    group(
-      'components',
-      () {
-        group('Flippers', () {
-          bool Function(Component) flipperSelector(BoardSide side) =>
-              (component) => component is Flipper && component.side == side;
+    group('components', () {
+      group('Walls', () {
+        flameTester.test(
+          'has three Walls',
+          (game) async {
+            await game.ready();
+            final walls = game.children
+                .where(
+                  (component) => component is Wall && component is! BottomWall,
+                )
+                .toList();
+            // TODO(allisonryan0002): expect 3 when launch track is added and
+            // temporary wall is removed.
+            expect(walls.length, 4);
+          },
+        );
 
-          flameTester.test(
-            'has only one left Flipper',
-            (game) async {
-              await game.ready();
+        flameTester.test(
+          'has only one BottomWall',
+          (game) async {
+            await game.ready();
 
-              expect(
-                () => game.children.singleWhere(
-                  flipperSelector(BoardSide.left),
-                ),
-                returnsNormally,
-              );
-            },
+            expect(
+              () => game.children.singleWhere(
+                (component) => component is BottomWall,
+              ),
+              returnsNormally,
+            );
+          },
+        );
+      });
+
+      group('Flippers', () {
+        bool Function(Component) flipperSelector(BoardSide side) =>
+            (component) => component is Flipper && component.side == side;
+
+        flameTester.test(
+          'has only one left Flipper',
+          (game) async {
+            await game.ready();
+
+            expect(
+              () => game.children.singleWhere(
+                flipperSelector(BoardSide.left),
+              ),
+              returnsNormally,
+            );
+          },
+        );
+
+        flameTester.test(
+          'has only one right Flipper',
+          (game) async {
+            await game.ready();
+
+            expect(
+              () => game.children.singleWhere(
+                flipperSelector(BoardSide.right),
+              ),
+              returnsNormally,
+            );
+          },
+        );
+      });
+
+      flameTester.test(
+        'Plunger has only one Plunger',
+        (game) async {
+          await game.ready();
+
+          expect(
+            () => game.children.singleWhere(
+              (component) => component is Plunger,
+            ),
+            returnsNormally,
           );
-
-          flameTester.test(
-            'has only one right Flipper',
-            (game) async {
-              await game.ready();
-
-              expect(
-                () => game.children.singleWhere(
-                  flipperSelector(BoardSide.right),
-                ),
-                returnsNormally,
-              );
-            },
-          );
-        });
-      },
-    );
+        },
+      );
+    });
   });
 }
