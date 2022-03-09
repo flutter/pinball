@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/game/game.dart';
 
 /// {@template game_hud}
-/// Overlay of a [PinballGame] that displays the current [GameState.score] and 
+/// Overlay of a [PinballGame] that displays the current [GameState.score] and
 /// [GameState.balls].
 /// {@endtemplate}
 class GameHud extends StatelessWidget {
