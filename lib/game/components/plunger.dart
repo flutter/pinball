@@ -1,5 +1,5 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:pinball/game/game.dart';
+import 'package:pinball/game/game.dart' show Anchor;
 
 /// {@template plunger}
 /// [Plunger] serves as a spring, that shoots the ball on the right side of the
