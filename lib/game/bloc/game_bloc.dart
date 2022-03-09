@@ -38,7 +38,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
           activatedBonusLetters: [],
           bonusHistory: [
             ...state.bonusHistory,
-            GameBonuses.letterSequence,
+            GameBonus.letterSequence,
           ],
         ),
       );

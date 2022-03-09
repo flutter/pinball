@@ -1,7 +1,9 @@
 part of 'game_bloc.dart';
 
-/// Defines bonuses that a player can gain during a [PinballGame].
-enum GameBonuses {
+/// Defines bonuses that a player can gain during a PinballGame.
+enum GameBonus {
+  /// Bonus achieved when the user activate all of the bonus
+  /// letters on the board
   letterSequence,
 }
 
@@ -35,9 +37,9 @@ class GameState extends Equatable {
   /// Active bonus letters.
   final List<int> activatedBonusLetters;
 
-  /// Holds the history of all the [GameBonus]es earned by the player during a 
-  /// [PinballGame].
-  final List<GameBonuses> bonusHistory;
+  /// Holds the history of all the [GameBonus]es earned by the player during a
+  /// PinballGame.
+  final List<GameBonus> bonusHistory;
 
   /// Determines when the game is over.
   bool get isGameOver => balls == 0;
@@ -49,7 +51,7 @@ class GameState extends Equatable {
     int? score,
     int? balls,
     List<int>? activatedBonusLetters,
-    List<GameBonuses>? bonusHistory,
+    List<GameBonus>? bonusHistory,
   }) {
     assert(
       score == null || score >= this.score,

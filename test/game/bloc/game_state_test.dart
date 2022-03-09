@@ -175,7 +175,7 @@ void main() {
             score: gameState.score + 1,
             balls: gameState.balls + 1,
             activatedBonusLetters: const [0],
-            bonusHistory: const [GameBonuses.letterSequence],
+            bonusHistory: const [GameBonus.letterSequence],
           );
           expect(gameState, isNot(equals(otherGameState)));
 

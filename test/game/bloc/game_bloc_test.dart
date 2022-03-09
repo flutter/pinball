@@ -154,7 +154,7 @@ void main() {
             score: 0,
             balls: 3,
             activatedBonusLetters: [],
-            bonusHistory: [GameBonuses.letterSequence],
+            bonusHistory: [GameBonus.letterSequence],
           ),
         ],
       );
