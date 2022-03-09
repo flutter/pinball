@@ -26,11 +26,12 @@ class GameHud extends StatelessWidget {
             '${state.score}',
             style: Theme.of(context).textTheme.headline3,
           ),
-          Column(
+          Wrap(
+            direction: Axis.vertical,
             children: [
               for (var i = 0; i < state.balls; i++)
                 const Padding(
-                  padding: EdgeInsets.only(top: 6),
+                  padding: EdgeInsets.only(top: 6, right: 6),
                   child: CircleAvatar(
                     radius: 8,
                     backgroundColor: Colors.black,
