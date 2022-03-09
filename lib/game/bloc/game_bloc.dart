@@ -9,6 +9,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   GameBloc() : super(const GameState.initial()) {
     on<BallLost>(_onBallLost);
     on<Scored>(_onScored);
+    on<BonusLetterActivated>(_onBonusLetterActivated);
   }
 
   void _onBallLost(BallLost event, Emitter emit) {
@@ -21,5 +22,16 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     if (!state.isGameOver) {
       emit(state.copyWith(score: state.score + event.points));
     }
+  }
+
+  void _onBonusLetterActivated(BonusLetterActivated event, Emitter emit) {
+    emit(
+      state.copyWith(
+        bonusLetters: [
+          ...state.bonusLetters,
+          event.letter,
+        ],
+      ),
+    );
   }
 }
