@@ -1,7 +1,6 @@
 part of 'game_bloc.dart';
 
-/// Enum to describe all the available bonuses
-/// on the game
+/// Defines bonuses that a player can gain during a [PinballGame].
 enum GameBonuses {
   letterSequence,
 }
@@ -36,8 +35,8 @@ class GameState extends Equatable {
   /// Active bonus letters.
   final List<int> activatedBonusLetters;
 
-  /// Holds the history of all the bonuses
-  /// that the palyer earned during the play
+  /// Holds the history of all the [GameBonus]es earned by the player during a 
+  /// [PinballGame].
   final List<GameBonuses> bonusHistory;
 
   /// Determines when the game is over.
