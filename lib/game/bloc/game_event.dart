@@ -24,3 +24,12 @@ class Scored extends GameEvent {
   @override
   List<Object?> get props => [points];
 }
+
+class BonusLetterActivated extends GameEvent {
+  const BonusLetterActivated(this.letter);
+
+  final String letter;
+
+  @override
+  List<Object?> get props => [letter];
+}

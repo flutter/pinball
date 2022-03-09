@@ -40,5 +40,22 @@ void main() {
         expect(() => Scored(points: 0), throwsAssertionError);
       });
     });
+
+    group('BonusLetterActivated', () {
+      test('can be instantiated', () {
+        expect(const BonusLetterActivated('A'), isNotNull);
+      });
+
+      test('supports value equality', () {
+        expect(
+          BonusLetterActivated('A'),
+          equals(BonusLetterActivated('A')),
+        );
+        expect(
+          BonusLetterActivated('B'),
+          isNot(equals(BonusLetterActivated('A'))),
+        );
+      });
+    });
   });
 }
