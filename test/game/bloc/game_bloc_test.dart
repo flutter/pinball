@@ -21,9 +21,24 @@ void main() {
           }
         },
         expect: () => [
-          const GameState(score: 0, balls: 2, bonusLetters: []),
-          const GameState(score: 0, balls: 1, bonusLetters: []),
-          const GameState(score: 0, balls: 0, bonusLetters: []),
+          const GameState(
+            score: 0,
+            balls: 2,
+            bonusLetters: [],
+            bonusHistory: [],
+          ),
+          const GameState(
+            score: 0,
+            balls: 1,
+            bonusLetters: [],
+            bonusHistory: [],
+          ),
+          const GameState(
+            score: 0,
+            balls: 0,
+            bonusLetters: [],
+            bonusHistory: [],
+          ),
         ],
       );
     });
@@ -37,8 +52,18 @@ void main() {
           ..add(const Scored(points: 2))
           ..add(const Scored(points: 3)),
         expect: () => [
-          const GameState(score: 2, balls: 3, bonusLetters: []),
-          const GameState(score: 5, balls: 3, bonusLetters: []),
+          const GameState(
+            score: 2,
+            balls: 3,
+            bonusLetters: [],
+            bonusHistory: [],
+          ),
+          const GameState(
+            score: 5,
+            balls: 3,
+            bonusLetters: [],
+            bonusHistory: [],
+          ),
         ],
       );
 
@@ -53,9 +78,24 @@ void main() {
           bloc.add(const Scored(points: 2));
         },
         expect: () => [
-          const GameState(score: 0, balls: 2, bonusLetters: []),
-          const GameState(score: 0, balls: 1, bonusLetters: []),
-          const GameState(score: 0, balls: 0, bonusLetters: []),
+          const GameState(
+            score: 0,
+            balls: 2,
+            bonusLetters: [],
+            bonusHistory: [],
+          ),
+          const GameState(
+            score: 0,
+            balls: 1,
+            bonusLetters: [],
+            bonusHistory: [],
+          ),
+          const GameState(
+            score: 0,
+            balls: 0,
+            bonusLetters: [],
+            bonusHistory: [],
+          ),
         ],
       );
     });
@@ -65,42 +105,56 @@ void main() {
         'adds the letter to the state',
         build: GameBloc.new,
         act: (bloc) => bloc
-          ..add(const BonusLetterActivated('G'))
-          ..add(const BonusLetterActivated('O'))
-          ..add(const BonusLetterActivated('O'))
-          ..add(const BonusLetterActivated('G'))
-          ..add(const BonusLetterActivated('L'))
-          ..add(const BonusLetterActivated('E')),
-        expect: () => [
-          const GameState(
+          ..add(const BonusLetterActivated(0))
+          ..add(const BonusLetterActivated(1))
+          ..add(const BonusLetterActivated(2)),
+        expect: () => const [
+          GameState(
             score: 0,
             balls: 3,
-            bonusLetters: ['G'],
+            bonusLetters: [0],
+            bonusHistory: [],
           ),
-          const GameState(
+          GameState(
             score: 0,
             balls: 3,
-            bonusLetters: ['G', 'O'],
+            bonusLetters: [0, 1],
+            bonusHistory: [],
           ),
-          const GameState(
+          GameState(
             score: 0,
             balls: 3,
-            bonusLetters: ['G', 'O', 'O'],
+            bonusLetters: [0, 1, 2],
+            bonusHistory: [],
           ),
-          const GameState(
+        ],
+      );
+
+      blocTest<GameBloc, GameState>(
+        'adds the bonus when the sequence is completed',
+        build: () => GameBloc(bonusLettersCount: 3),
+        act: (bloc) => bloc
+          ..add(const BonusLetterActivated(0))
+          ..add(const BonusLetterActivated(1))
+          ..add(const BonusLetterActivated(2)),
+        expect: () => const [
+          GameState(
             score: 0,
             balls: 3,
-            bonusLetters: ['G', 'O', 'O', 'G'],
+            bonusLetters: [0],
+            bonusHistory: [],
           ),
-          const GameState(
+          GameState(
             score: 0,
             balls: 3,
-            bonusLetters: ['G', 'O', 'O', 'G', 'L'],
+            bonusLetters: [0, 1],
+            bonusHistory: [],
           ),
-          const GameState(
+          GameState(
             score: 0,
             balls: 3,
-            bonusLetters: ['G', 'O', 'O', 'G', 'L', 'E'],
+            bonusLetters: [],
+            bonusHistory: [GameBonuses.letterSequence],
           ),
         ],
       );

@@ -43,17 +43,17 @@ void main() {
 
     group('BonusLetterActivated', () {
       test('can be instantiated', () {
-        expect(const BonusLetterActivated('A'), isNotNull);
+        expect(const BonusLetterActivated(0), isNotNull);
       });
 
       test('supports value equality', () {
         expect(
-          BonusLetterActivated('A'),
-          equals(BonusLetterActivated('A')),
+          BonusLetterActivated(0),
+          equals(BonusLetterActivated(0)),
         );
         expect(
-          BonusLetterActivated('B'),
-          isNot(equals(BonusLetterActivated('A'))),
+          BonusLetterActivated(0),
+          isNot(equals(BonusLetterActivated(1))),
         );
       });
     });

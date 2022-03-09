@@ -139,6 +139,7 @@ void main() {
               score: 10,
               balls: 1,
               bonusLetters: [],
+              bonusHistory: [],
             ),
           );
           await game.ready();

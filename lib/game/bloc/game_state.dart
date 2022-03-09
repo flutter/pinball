@@ -1,5 +1,11 @@
 part of 'game_bloc.dart';
 
+/// Enum to describe all the available bonuses
+/// on the game
+enum GameBonuses {
+  letterSequence,
+}
+
 /// {@template game_state}
 /// Represents the state of the pinball game.
 /// {@endtemplate}
@@ -9,13 +15,15 @@ class GameState extends Equatable {
     required this.score,
     required this.balls,
     required this.bonusLetters,
+    required this.bonusHistory,
   })  : assert(score >= 0, "Score can't be negative"),
         assert(balls >= 0, "Number of balls can't be negative");
 
   const GameState.initial()
       : score = 0,
         balls = 3,
-        bonusLetters = const [];
+        bonusLetters = const [],
+        bonusHistory = const [];
 
   /// The current score of the game.
   final int score;
@@ -26,7 +34,11 @@ class GameState extends Equatable {
   final int balls;
 
   /// Active bonus letters.
-  final List<String> bonusLetters;
+  final List<int> bonusLetters;
+
+  /// Holds the history of all the bonuses
+  /// that the palyer earned during the play
+  final List<GameBonuses> bonusHistory;
 
   /// Determines when the game is over.
   bool get isGameOver => balls == 0;
@@ -37,7 +49,8 @@ class GameState extends Equatable {
   GameState copyWith({
     int? score,
     int? balls,
-    List<String>? bonusLetters,
+    List<int>? bonusLetters,
+    List<GameBonuses>? bonusHistory,
   }) {
     assert(
       score == null || score >= this.score,
@@ -48,6 +61,7 @@ class GameState extends Equatable {
       score: score ?? this.score,
       balls: balls ?? this.balls,
       bonusLetters: bonusLetters ?? this.bonusLetters,
+      bonusHistory: bonusHistory ?? this.bonusHistory,
     );
   }
 
@@ -56,5 +70,6 @@ class GameState extends Equatable {
         score,
         balls,
         bonusLetters,
+        bonusHistory,
       ];
 }

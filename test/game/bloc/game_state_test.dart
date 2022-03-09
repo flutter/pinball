@@ -11,12 +11,14 @@ void main() {
           score: 0,
           balls: 0,
           bonusLetters: const [],
+          bonusHistory: const [],
         ),
         equals(
           const GameState(
             score: 0,
             balls: 0,
             bonusLetters: [],
+            bonusHistory: [],
           ),
         ),
       );
@@ -25,7 +27,12 @@ void main() {
     group('constructor', () {
       test('can be instantiated', () {
         expect(
-          const GameState(score: 0, balls: 0, bonusLetters: []),
+          const GameState(
+            score: 0,
+            balls: 0,
+            bonusLetters: [],
+            bonusHistory: [],
+          ),
           isNotNull,
         );
       });
@@ -36,7 +43,12 @@ void main() {
       'when balls are negative',
       () {
         expect(
-          () => GameState(balls: -1, score: 0, bonusLetters: const []),
+          () => GameState(
+            balls: -1,
+            score: 0,
+            bonusLetters: const [],
+            bonusHistory: const [],
+          ),
           throwsAssertionError,
         );
       },
@@ -47,7 +59,12 @@ void main() {
       'when score is negative',
       () {
         expect(
-          () => GameState(balls: 0, score: -1, bonusLetters: const []),
+          () => GameState(
+            balls: 0,
+            score: -1,
+            bonusLetters: const [],
+            bonusHistory: const [],
+          ),
           throwsAssertionError,
         );
       },
@@ -61,6 +78,7 @@ void main() {
           balls: 0,
           score: 0,
           bonusLetters: [],
+          bonusHistory: [],
         );
         expect(gameState.isGameOver, isTrue);
       });
@@ -72,6 +90,7 @@ void main() {
           balls: 1,
           score: 0,
           bonusLetters: [],
+          bonusHistory: [],
         );
         expect(gameState.isGameOver, isFalse);
       });
@@ -86,6 +105,7 @@ void main() {
             balls: 1,
             score: 0,
             bonusLetters: [],
+            bonusHistory: [],
           );
           expect(gameState.isLastBall, isTrue);
         },
@@ -99,6 +119,7 @@ void main() {
             balls: 2,
             score: 0,
             bonusLetters: [],
+            bonusHistory: [],
           );
           expect(gameState.isLastBall, isFalse);
         },
@@ -114,6 +135,7 @@ void main() {
             balls: 0,
             score: 2,
             bonusLetters: [],
+            bonusHistory: [],
           );
           expect(
             () => gameState.copyWith(score: gameState.score - 1),
@@ -130,6 +152,7 @@ void main() {
             balls: 0,
             score: 2,
             bonusLetters: [],
+            bonusHistory: [],
           );
           expect(
             gameState.copyWith(),
@@ -146,11 +169,13 @@ void main() {
             score: 2,
             balls: 0,
             bonusLetters: [],
+            bonusHistory: [],
           );
           final otherGameState = GameState(
             score: gameState.score + 1,
             balls: gameState.balls + 1,
-            bonusLetters: const ['A'],
+            bonusLetters: const [0],
+            bonusHistory: const [GameBonuses.letterSequence],
           );
           expect(gameState, isNot(equals(otherGameState)));
 
@@ -159,6 +184,7 @@ void main() {
               score: otherGameState.score,
               balls: otherGameState.balls,
               bonusLetters: otherGameState.bonusLetters,
+              bonusHistory: otherGameState.bonusHistory,
             ),
             equals(otherGameState),
           );
