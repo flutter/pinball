@@ -48,7 +48,7 @@ void main() {
   });
 
   group('PinballGameView', () {
-    testWidgets('renders game', (tester) async {
+    testWidgets('renders game and a hud', (tester) async {
       final gameBloc = MockGameBloc();
       whenListen(
         gameBloc,
@@ -61,13 +61,17 @@ void main() {
         find.byWidgetPredicate((w) => w is GameWidget<PinballGame>),
         findsOneWidget,
       );
+      expect(
+        find.byType(GameHud),
+        findsOneWidget,
+      );
     });
 
     testWidgets(
       'renders a game over dialog when the user has lost',
       (tester) async {
         final gameBloc = MockGameBloc();
-        const state = GameState(score: 0, balls: 0);
+        const state = GameState(score: 0, balls: 0, bonusLetters: []);
         whenListen(
           gameBloc,
           Stream.value(state),
