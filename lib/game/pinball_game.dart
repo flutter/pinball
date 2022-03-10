@@ -1,11 +1,13 @@
 import 'dart:async';
+import 'dart:ui';
+import 'dart:math' as math;
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
 
 class PinballGame extends Forge2DGame
-    with FlameBloc, HasKeyboardHandlerComponents {
+    with FlameBloc, HasKeyboardHandlerComponents, TapDetector {
   // TODO(erickzanardo): Change to the plumber position
   late final ballStartingPosition = screenToWorld(
         Vector2(
@@ -17,6 +19,29 @@ class PinballGame extends Forge2DGame
 
   // TODO(alestiago): Change to the design position.
   late final flippersPosition = ballStartingPosition - Vector2(0, 5);
+
+  late final launcherRampPosition = screenToWorld(
+    Vector2(
+          camera.viewport.effectiveSize.x / 2,
+          camera.viewport.effectiveSize.y / 2,
+        ) +
+        Vector2(369, -155),
+  );
+  late final jetpackRampPosition = screenToWorld(
+    Vector2(
+          camera.viewport.effectiveSize.x / 2,
+          camera.viewport.effectiveSize.y / 2,
+        ) +
+        Vector2(-150, -150),
+  );
+
+  late final sparkyRampPosition = screenToWorld(
+    Vector2(
+          camera.viewport.effectiveSize.x / 2,
+          camera.viewport.effectiveSize.y / 2,
+        ) +
+        Vector2(80, -100),
+  );
 
   @override
   void onAttach() {
@@ -36,6 +61,8 @@ class PinballGame extends Forge2DGame
     addContactCallback(BottomWallBallContactCallback());
 
     unawaited(_addFlippers());
+
+    unawaited(_addPaths());
   }
 
   Future<void> _addFlippers() async {
@@ -94,6 +121,41 @@ class PinballGame extends Forge2DGame
           rightFlipperRevoluteJoint,
           rightFlipper.side,
         ),
+      ),
+    );
+  }
+
+  Future<void> _addPaths() async {
+    await add(
+      Pathway.straight(
+        color: const Color.fromARGB(255, 34, 255, 0),
+        position: launcherRampPosition,
+        start: Vector2(0, 0),
+        end: Vector2(0, 600),
+        width: 80,
+      ),
+    );
+
+    await add(
+      JetpackRamp(
+        position: jetpackRampPosition,
+      ),
+    );
+
+    await add(
+      SparkyRamp(
+        position: sparkyRampPosition,
+      ),
+    );
+  }
+
+  @override
+  void onTapDown(TapDownInfo details) {
+    super.onTapDown(details);
+    final tapPosition = details.eventPosition.game;
+    add(
+      Ball(
+        position: tapPosition,
       ),
     );
   }
