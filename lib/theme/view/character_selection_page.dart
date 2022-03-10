@@ -95,7 +95,7 @@ class _CharacterSelectionGridView extends StatelessWidget {
   }
 }
 
-// TODO(@allisonryan0002): remove visibility when adding final UI.
+// TODO(allisonryan0002): remove visibility when adding final UI.
 @visibleForTesting
 class CharacterImageButton extends StatelessWidget {
   const CharacterImageButton(
