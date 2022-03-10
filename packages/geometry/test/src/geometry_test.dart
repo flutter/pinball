@@ -42,18 +42,18 @@ void main() {
           ],
           step: 2,
         ),
-        throwsA(const TypeMatcher<AssertionError>()),
+        throwsA(isA<AssertionError>()),
       );
     });
 
     test('fails if not enough control points', () {
       expect(
         () => calculateBezierCurve(controlPoints: [Vector2.zero()]),
-        throwsA(const TypeMatcher<AssertionError>()),
+        throwsA(isA<AssertionError>()),
       );
       expect(
         () => calculateBezierCurve(controlPoints: []),
-        throwsA(const TypeMatcher<AssertionError>()),
+        throwsA(isA<AssertionError>()),
       );
     });
 
@@ -82,17 +82,23 @@ void main() {
   group('binomial', () {
     test('fails if k is negative', () {
       expect(
-          () => binomial(1, -1), throwsA(const TypeMatcher<AssertionError>()));
+        () => binomial(1, -1),
+        throwsA(isA<AssertionError>()),
+      );
     });
 
     test('fails if n is negative', () {
       expect(
-          () => binomial(-1, 1), throwsA(const TypeMatcher<AssertionError>()));
+        () => binomial(-1, 1),
+        throwsA(isA<AssertionError>()),
+      );
     });
 
     test('fails if n < k', () {
       expect(
-          () => binomial(1, 2), throwsA(const TypeMatcher<AssertionError>()));
+        () => binomial(1, 2),
+        throwsA(isA<AssertionError>()),
+      );
     });
 
     test('for a specific input gives a correct value', () {
@@ -134,7 +140,7 @@ void main() {
 
   group('factorial', () {
     test('fails if negative number', () {
-      expect(() => factorial(-1), throwsA(const TypeMatcher<AssertionError>()));
+      expect(() => factorial(-1), throwsA(isA<AssertionError>()));
     });
 
     test('for a specific input gives a correct value', () {
