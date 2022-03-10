@@ -100,5 +100,45 @@ void main() {
         );
       },
     );
+
+    testWidgets('renders the real game when not in debug mode', (tester) async {
+      final gameBloc = MockGameBloc();
+      whenListen(
+        gameBloc,
+        Stream.value(const GameState.initial()),
+        initialState: const GameState.initial(),
+      );
+
+      await tester.pumpApp(
+        const PinballGameView(isDebugMode: false),
+        gameBloc: gameBloc,
+      );
+      expect(
+        find.byWidgetPredicate(
+          (w) => w is GameWidget<PinballGame> && w.game is! DebugPinballGame,
+        ),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('renders the debug game when on debug mode', (tester) async {
+      final gameBloc = MockGameBloc();
+      whenListen(
+        gameBloc,
+        Stream.value(const GameState.initial()),
+        initialState: const GameState.initial(),
+      );
+
+      await tester.pumpApp(
+        const PinballGameView(),
+        gameBloc: gameBloc,
+      );
+      expect(
+        find.byWidgetPredicate(
+          (w) => w is GameWidget<PinballGame> && w.game is DebugPinballGame,
+        ),
+        findsOneWidget,
+      );
+    });
   });
 }
