@@ -13,24 +13,26 @@ class Ball extends PositionBodyComponent<PinballGame, SpriteComponent>
   Ball({
     required Vector2 position,
   })  : _position = position,
-        super(size: ballSize);
+        super(size: Vector2.all(2));
 
-  static final ballSize = Vector2.all(2);
-
+  /// The initial position of the [Ball] body.
   final Vector2 _position;
 
+  /// Asset location of the sprite that renders with the [Ball].
+  ///
+  /// Sprite is preloaded by [PinballGameAssetsX].
   static const spritePath = 'components/ball.png';
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
     final sprite = await gameRef.loadSprite(spritePath);
-    positionComponent = SpriteComponent(sprite: sprite, size: ballSize);
+    positionComponent = SpriteComponent(sprite: sprite, size: size);
   }
 
   @override
   Body createBody() {
-    final shape = CircleShape()..radius = ballSize.x / 2;
+    final shape = CircleShape()..radius = size.x / 2;
 
     final fixtureDef = FixtureDef(shape)..density = 1;
 
@@ -42,6 +44,11 @@ class Ball extends PositionBodyComponent<PinballGame, SpriteComponent>
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 
+  /// Removes the [Ball] from a [PinballGame]; spawning a new [Ball] if
+  /// any are left.
+  ///
+  /// Triggered by [BottomWallBallContactCallback] when the [Ball] falls into
+  /// a [BottomWall].
   void lost() {
     shouldRemove = true;
 
