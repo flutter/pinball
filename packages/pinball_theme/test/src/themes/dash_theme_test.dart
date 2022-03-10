@@ -17,5 +17,9 @@ void main() {
     test('ballColor is correct', () {
       expect(DashTheme().ballColor, equals(Colors.blue));
     });
+
+    test('characterAsset is correct', () {
+      expect(DashTheme().characterAsset, equals(Assets.images.dash));
+    });
   });
 }
