@@ -113,7 +113,7 @@ void main() {
       );
 
       await tester.pumpApp(
-        const PinballGameView(isDebugMode: false),
+        const PinballGameView(theme: theme, isDebugMode: false),
         gameBloc: gameBloc,
       );
       expect(
@@ -133,7 +133,7 @@ void main() {
       );
 
       await tester.pumpApp(
-        const PinballGameView(),
+        const PinballGameView(theme: theme),
         gameBloc: gameBloc,
       );
       expect(

@@ -30,8 +30,11 @@ class PinballGamePage extends StatelessWidget {
 }
 
 class PinballGameView extends StatefulWidget {
-  const PinballGameView({Key? key, required this.theme, bool isDebugMode = kDebugMode})
-      : _isDebugMode = isDebugMode,
+  const PinballGameView({
+    Key? key,
+    required this.theme,
+    bool isDebugMode = kDebugMode,
+  })  : _isDebugMode = isDebugMode,
         super(key: key);
 
   final PinballTheme theme;
@@ -51,7 +54,9 @@ class _PinballGameViewState extends State<PinballGameView> {
     // TODO(erickzanardo): Revisit this when we start to have more assets
     // this could expose a Stream (maybe even a cubit?) so we could show the
     // the loading progress with some fancy widgets.
-    _game = (widget._isDebugMode ? DebugPinballGame(theme: widget.theme) : PinballGame(theme: widget.theme))
+    _game = (widget._isDebugMode
+        ? DebugPinballGame(theme: widget.theme)
+        : PinballGame(theme: widget.theme))
       ..preLoadAssets();
   }
 
