@@ -185,11 +185,11 @@ class Flipper extends PositionBodyComponent with KeyboardHandler {
     final fixtures = <FixtureDef>[];
     final isLeft = side.isLeft;
 
-    final bigCircleShape = CircleShape()..radius = height / 2;
+    final bigCircleShape = CircleShape()..radius = size.y / 2;
     bigCircleShape.position.setValues(
       isLeft
-          ? -(width / 2) + bigCircleShape.radius
-          : (width / 2) - bigCircleShape.radius,
+          ? -(size.x / 2) + bigCircleShape.radius
+          : (size.x / 2) - bigCircleShape.radius,
       0,
     );
     final bigCircleFixtureDef = FixtureDef(bigCircleShape);
@@ -198,8 +198,8 @@ class Flipper extends PositionBodyComponent with KeyboardHandler {
     final smallCircleShape = CircleShape()..radius = bigCircleShape.radius / 2;
     smallCircleShape.position.setValues(
       isLeft
-          ? (width / 2) - smallCircleShape.radius
-          : -(width / 2) + smallCircleShape.radius,
+          ? (size.x / 2) - smallCircleShape.radius
+          : -(size.x / 2) + smallCircleShape.radius,
       0,
     );
     final smallCircleFixtureDef = FixtureDef(smallCircleShape);
@@ -259,8 +259,8 @@ class FlipperAnchor extends Anchor {
   }) : super(
           position: Vector2(
             flipper.side.isLeft
-                ? flipper.body.position.x - Flipper.width / 2
-                : flipper.body.position.x + Flipper.width / 2,
+                ? flipper.body.position.x - flipper.size.x / 2
+                : flipper.body.position.x + flipper.size.x / 2,
             flipper.body.position.y,
           ),
         );
