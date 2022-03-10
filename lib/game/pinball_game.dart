@@ -4,18 +4,14 @@ import 'dart:async';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
 class PinballGame extends Forge2DGame
-    with FlameBloc, HasKeyboardHandlerComponents, TapDetector {
-  PinballGame({required this.theme, bool isDebugMode = kDebugMode}) : _isDebugMode = isDebugMode;
+    with FlameBloc, HasKeyboardHandlerComponents {
+  PinballGame({required this.theme});
 
   final PinballTheme theme;
-
-  final bool _isDebugMode;
 
   // TODO(erickzanardo): Change to the plumber position
   late final ballStartingPosition = screenToWorld(
@@ -108,12 +104,15 @@ class PinballGame extends Forge2DGame
       ),
     );
   }
+}
+
+class DebugPinballGame extends PinballGame with TapDetector {
+
+  DebugPinballGame({ required PinballTheme theme}) : super(theme: theme);
 
   @override
   void onTapUp(TapUpInfo info) {
-    if (_isDebugMode) {
-      add(Ball(position: info.eventPosition.game));
-    }
+    add(Ball(position: info.eventPosition.game));
   }
 }
 
