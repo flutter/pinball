@@ -2,7 +2,7 @@
 
 import 'package:geometry/geometry.dart';
 import 'package:test/test.dart';
-import 'package:vector_math/vector_math.dart';
+import 'package:vector_math/vector_math_64.dart';
 
 class Binomial {
   Binomial({required this.n, required this.k});

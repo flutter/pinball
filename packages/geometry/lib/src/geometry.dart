@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:vector_math/vector_math.dart';
+import 'package:vector_math/vector_math_64.dart';
 
 /// Calculates all [Vector2]s of a circumference.
 ///
