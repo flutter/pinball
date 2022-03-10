@@ -9,15 +9,16 @@ part 'game_state.dart';
 
 class GameBloc extends Bloc<GameEvent, GameState> {
   GameBloc({
-    int bonusLettersCount = 'GOOGLE'.length,
-  })  : _bonusLettersCount = bonusLettersCount,
+    int bonusLettersLength = bonusWord.length,
+  })  : _bonusLettersLength = bonusLettersLength,
         super(const GameState.initial()) {
     on<BallLost>(_onBallLost);
     on<Scored>(_onScored);
     on<BonusLetterActivated>(_onBonusLetterActivated);
   }
 
-  final int _bonusLettersCount;
+  final int _bonusLettersLength;
+  static const bonusWord = 'GOOGLE';
 
   void _onBallLost(BallLost event, Emitter emit) {
     if (state.balls > 0) {
@@ -37,7 +38,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       event.letterIndex,
     ];
 
-    if (newBonusLetters.length == _bonusLettersCount) {
+    if (newBonusLetters.length == _bonusLettersLength) {
       emit(
         state.copyWith(
           activatedBonusLetters: [],

@@ -132,7 +132,7 @@ void main() {
 
       blocTest<GameBloc, GameState>(
         'adds the bonus when the sequence is completed',
-        build: () => GameBloc(bonusLettersCount: 3),
+        build: () => GameBloc(bonusLettersLength: 3),
         act: (bloc) => bloc
           ..add(const BonusLetterActivated(0))
           ..add(const BonusLetterActivated(1))
