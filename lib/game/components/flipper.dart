@@ -11,7 +11,7 @@ import 'package:pinball/game/game.dart';
 /// Loads a [Flipper.right] and a [Flipper.left].
 /// {@endtemplate}
 class FlipperGroup extends PositionComponent {
-  /// @macro {flipper_group}
+  /// {@macro flipper_group}
   FlipperGroup({
     required Vector2 position,
     required this.spacing,
