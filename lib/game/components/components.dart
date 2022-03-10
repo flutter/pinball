@@ -1,5 +1,6 @@
 export 'anchor.dart';
 export 'ball.dart';
+export 'baseboard.dart';
 export 'board_side.dart';
 export 'flipper.dart';
 export 'pathway.dart';
