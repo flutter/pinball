@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:pinball/game/game.dart';
 
+/// {@template game_over_dialog}
+/// [Dialog] displayed when the [PinballGame] is over.
+/// {@endtemplate}
 class GameOverDialog extends StatelessWidget {
+  /// {@macro game_over_dialog}
   const GameOverDialog({Key? key}) : super(key: key);
 
   @override

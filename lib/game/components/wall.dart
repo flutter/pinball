@@ -6,13 +6,18 @@ import 'package:pinball/game/components/components.dart';
 /// {@template wall}
 /// A continuos generic and [BodyType.static] barrier that divides a game area.
 /// {@endtemplate}
+// TODO(alestiago): Remove [Wall] for [Pathway.straight].
 class Wall extends BodyComponent {
+  /// {@macro wall}
   Wall({
     required this.start,
     required this.end,
   });
 
+  /// The [start] of the [Wall].
   final Vector2 start;
+
+  /// The [end] of the [Wall].
   final Vector2 end;
 
   @override
@@ -39,6 +44,7 @@ class Wall extends BodyComponent {
 /// [BottomWallBallContactCallback].
 /// {@endtemplate}
 class BottomWall extends Wall {
+  /// {@macro bottom_wall}
   BottomWall(Forge2DGame game)
       : super(
           start: game.screenToWorld(game.camera.viewport.effectiveSize),

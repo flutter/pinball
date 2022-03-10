@@ -6,6 +6,7 @@ extension PinballGameAssetsX on PinballGame {
   Future<void> preLoadAssets() async {
     await Future.wait([
       images.load(Ball.spritePath),
+      images.load(Flipper.spritePath),
     ]);
   }
 }
