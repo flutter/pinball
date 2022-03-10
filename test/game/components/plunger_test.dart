@@ -16,6 +16,7 @@ void main() {
     flameTester.test(
       'loads correctly',
       (game) async {
+        await game.ready();
         final plunger = Plunger(position: Vector2.zero());
         await game.ensureAdd(plunger);
 

@@ -1,5 +1,6 @@
-import 'dart:async';
+// ignore_for_file: public_member_api_docs
 
+import 'dart:async';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';

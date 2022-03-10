@@ -198,6 +198,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.2"
+  geometry:
+    dependency: "direct main"
+    description:
+      path: "packages/geometry"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   glob:
     dependency: transitive
     description:
