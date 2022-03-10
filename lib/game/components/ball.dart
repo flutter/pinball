@@ -7,12 +7,15 @@ class Ball extends PositionBodyComponent<PinballGame, SpriteComponent>
     with BlocComponent<GameBloc, GameState> {
   Ball({
     required Vector2 position,
+    int? maskBits,
   })  : _position = position,
+        _maskBits = maskBits ?? Filter().maskBits,
         super(size: ballSize);
 
   static final ballSize = Vector2.all(2);
 
   final Vector2 _position;
+  final int _maskBits;
 
   static const spritePath = 'components/ball.png';
 
@@ -34,7 +37,12 @@ class Ball extends PositionBodyComponent<PinballGame, SpriteComponent>
       ..position = _position
       ..type = BodyType.dynamic;
 
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
+    final body = world.createBody(bodyDef);
+
+    body.createFixture(fixtureDef)
+      ..filterData.categoryBits = _maskBits
+      ..filterData.maskBits = _maskBits;
+    return body;
   }
 
   void lost() {
@@ -42,8 +50,8 @@ class Ball extends PositionBodyComponent<PinballGame, SpriteComponent>
 
     final bloc = gameRef.read<GameBloc>()..add(const BallLost());
 
-    final shouldBallRespwan = !bloc.state.isLastBall;
-    if (shouldBallRespwan) {
+    final shouldBallRespawn = !bloc.state.isLastBall;
+    if (shouldBallRespawn) {
       gameRef.spawnBall();
     }
   }
