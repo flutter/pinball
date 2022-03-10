@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:flame/components.dart' show SpriteComponent;
 import 'package:flame/input.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball/game/game.dart';
 
@@ -12,19 +12,15 @@ import 'package:pinball/game/game.dart';
 ///
 /// [Flipper] can be controlled by the player in an arc motion.
 /// {@endtemplate flipper}
-class Flipper extends BodyComponent with KeyboardHandler {
+class Flipper extends PositionBodyComponent with KeyboardHandler {
   /// {@macro flipper}
   Flipper._({
     required Vector2 position,
     required this.side,
     required List<LogicalKeyboardKey> keys,
   })  : _position = position,
-        _keys = keys {
-    // TODO(alestiago): Use sprite instead of color when provided.
-    paint = Paint()
-      ..color = const Color(0xFF00FF00)
-      ..style = PaintingStyle.fill;
-  }
+        _keys = keys,
+        super(size: Vector2(width, height));
 
   /// A left positioned [Flipper].
   Flipper.left({
@@ -50,6 +46,11 @@ class Flipper extends BodyComponent with KeyboardHandler {
           ],
         );
 
+  /// Asset location of the sprite that renders with the [Flipper].
+  ///
+  /// Sprite is preloaded by [PinballGameAssetsX].
+  static const spritePath = 'components/flipper.png';
+
   /// The width of the [Flipper].
   static const width = 12.0;
 
@@ -74,6 +75,20 @@ class Flipper extends BodyComponent with KeyboardHandler {
   ///
   /// [onKeyEvent] method listens to when one of these keys is pressed.
   final List<LogicalKeyboardKey> _keys;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    final sprite = await gameRef.loadSprite(spritePath);
+    positionComponent = SpriteComponent(
+      sprite: sprite,
+      size: size,
+    );
+
+    if (side == BoardSide.right) {
+      positionComponent?.flipHorizontally();
+    }
+  }
 
   /// Applies downward linear velocity to the [Flipper], moving it to its
   /// resting position.
