@@ -79,7 +79,7 @@ class Flipper extends PositionBodyComponent with KeyboardHandler {
     final sprite = await gameRef.loadSprite(spritePath);
     positionComponent = SpriteComponent(
       sprite: sprite,
-      size: Vector2(width, height),
+      size: size,
     );
 
     if (side == BoardSide.right) {
