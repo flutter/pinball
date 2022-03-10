@@ -37,6 +37,7 @@ void main() {
     flameTester.test(
       'loads correctly',
       (game) async {
+        await game.ready();
         final wall = Wall(
           start: Vector2.zero(),
           end: Vector2(100, 0),

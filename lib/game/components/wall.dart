@@ -6,6 +6,7 @@ import 'package:pinball/game/components/components.dart';
 /// {@template wall}
 /// A continuous generic and [BodyType.static] barrier that divides a game area.
 /// {@endtemplate}
+// TODO(alestiago): Remove [Wall] for [Pathway.straight].
 class Wall extends BodyComponent {
   /// {@macro wall}
   Wall({
@@ -13,7 +14,10 @@ class Wall extends BodyComponent {
     required this.end,
   });
 
+  /// The [start] of the [Wall].
   final Vector2 start;
+
+  /// The [end] of the [Wall].
   final Vector2 end;
 
   @override
