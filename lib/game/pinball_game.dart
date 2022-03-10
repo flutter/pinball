@@ -37,7 +37,17 @@ class PinballGame extends Forge2DGame
     await add(BottomWall(this));
     addContactCallback(BottomWallBallContactCallback());
 
+    unawaited(_addSlingShots());
     unawaited(_addFlippers());
+  }
+
+  Future<void> _addSlingShots() async {
+    // TODO(alestiago): Change to the design position.
+    await add(
+      SlingShot(
+        position: ballStartingPosition + Vector2(0, 15),
+      ),
+    );
   }
 
   Future<void> _addFlippers() async {
