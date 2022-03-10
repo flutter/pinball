@@ -12,7 +12,7 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(PinballGameX.initial);
+  final flameTester = FlameTester(PinballGameTest.initial);
   group(
     'Flipper',
     () {
