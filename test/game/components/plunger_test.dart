@@ -16,11 +16,16 @@ void main() {
   final flameTester = FlameTester(PinballGameX.initial);
 
   group('Plunger', () {
+    const compressionDistance = 0.0;
+
     flameTester.test(
       'loads correctly',
       (game) async {
         await game.ready();
-        final plunger = Plunger(position: Vector2.zero());
+        final plunger = Plunger(
+          position: Vector2.zero(),
+          compressionDistance: compressionDistance,
+        );
         await game.ensureAdd(plunger);
 
         expect(game.contains(plunger), isTrue);
@@ -32,7 +37,10 @@ void main() {
         'positions correctly',
         (game) async {
           final position = Vector2.all(10);
-          final plunger = Plunger(position: position);
+          final plunger = Plunger(
+            position: position,
+            compressionDistance: compressionDistance,
+          );
           await game.ensureAdd(plunger);
           game.contains(plunger);
 
@@ -43,7 +51,10 @@ void main() {
       flameTester.test(
         'is dynamic',
         (game) async {
-          final plunger = Plunger(position: Vector2.zero());
+          final plunger = Plunger(
+            position: Vector2.zero(),
+            compressionDistance: compressionDistance,
+          );
           await game.ensureAdd(plunger);
 
           expect(plunger.body.bodyType, equals(BodyType.dynamic));
@@ -53,7 +64,10 @@ void main() {
       flameTester.test(
         'ignores gravity',
         (game) async {
-          final plunger = Plunger(position: Vector2.zero());
+          final plunger = Plunger(
+            position: Vector2.zero(),
+            compressionDistance: compressionDistance,
+          );
           await game.ensureAdd(plunger);
 
           expect(plunger.body.gravityScale, isZero);
@@ -65,7 +79,10 @@ void main() {
       flameTester.test(
         'exists',
         (game) async {
-          final plunger = Plunger(position: Vector2.zero());
+          final plunger = Plunger(
+            position: Vector2.zero(),
+            compressionDistance: compressionDistance,
+          );
           await game.ensureAdd(plunger);
 
           expect(plunger.body.fixtures[0], isA<Fixture>());
@@ -75,7 +92,10 @@ void main() {
       flameTester.test(
         'shape is a polygon',
         (game) async {
-          final plunger = Plunger(position: Vector2.zero());
+          final plunger = Plunger(
+            position: Vector2.zero(),
+            compressionDistance: compressionDistance,
+          );
           await game.ensureAdd(plunger);
 
           final fixture = plunger.body.fixtures[0];
@@ -86,7 +106,10 @@ void main() {
       flameTester.test(
         'has density',
         (game) async {
-          final plunger = Plunger(position: Vector2.zero());
+          final plunger = Plunger(
+            position: Vector2.zero(),
+            compressionDistance: compressionDistance,
+          );
           await game.ensureAdd(plunger);
 
           final fixture = plunger.body.fixtures[0];
@@ -105,7 +128,10 @@ void main() {
       late Plunger plunger;
 
       setUp(() {
-        plunger = Plunger(position: Vector2.zero());
+        plunger = Plunger(
+          position: Vector2.zero(),
+          compressionDistance: compressionDistance,
+        );
       });
 
       testRawKeyUpEvents(keys, (event) {
@@ -162,10 +188,15 @@ void main() {
   });
 
   group('PlungerAnchor', () {
+    const compressionDistance = 10.0;
+
     flameTester.test(
       'position is a compression distance below the Plunger',
       (game) async {
-        final plunger = Plunger(position: Vector2.zero());
+        final plunger = Plunger(
+          position: Vector2.zero(),
+          compressionDistance: compressionDistance,
+        );
         await game.ensureAdd(plunger);
 
         final plungerAnchor = PlungerAnchor(plunger: plunger);
@@ -173,16 +204,16 @@ void main() {
 
         expect(
           plungerAnchor.body.position.y,
-          equals(plunger.body.position.y - Plunger.compressionDistance),
+          equals(plunger.body.position.y - compressionDistance),
         );
       },
     );
   });
 
   group('PlungerAnchorPrismaticJointDef', () {
-    late Plunger plunger;
-
+    const compressionDistance = 10.0;
     final gameBloc = MockGameBloc();
+    late Plunger plunger;
 
     setUp(() {
       whenListen(
@@ -190,7 +221,10 @@ void main() {
         const Stream<GameState>.empty(),
         initialState: const GameState.initial(),
       );
-      plunger = Plunger(position: Vector2.zero());
+      plunger = Plunger(
+        position: Vector2.zero(),
+        compressionDistance: compressionDistance,
+      );
     });
 
     final flameTester = flameBlocTester(gameBloc: gameBloc);

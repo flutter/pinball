@@ -15,18 +15,6 @@ class PinballGame extends Forge2DGame
 
   late final Plunger plunger;
 
-  // TODO(erickzanardo): Change to the plumber position
-  late final ballStartingPosition = screenToWorld(
-        Vector2(
-          camera.viewport.effectiveSize.x / 2,
-          camera.viewport.effectiveSize.y - 20,
-        ),
-      ) -
-      Vector2(0, -20);
-
-  // TODO(alestiago): Change to the design position.
-  late final flippersPosition = ballStartingPosition - Vector2(0, 5);
-
   @override
   void onAttach() {
     super.onAttach();
@@ -80,7 +68,7 @@ class PinballGame extends Forge2DGame
     final flippersPosition = screenToWorld(
       Vector2(
         camera.viewport.effectiveSize.x / 2,
-        camera.viewport.effectiveSize.y - 120,
+        camera.viewport.effectiveSize.y / 1.1,
       ),
     );
     const spaceBetweenFlippers = 2;
@@ -144,15 +132,17 @@ class PinballGame extends Forge2DGame
 
   Future<void> _addPlunger() async {
     late PlungerAnchor plungerAnchor;
+    final compressionDistance = camera.viewport.effectiveSize.y / 12;
 
     await add(
       plunger = Plunger(
         position: screenToWorld(
           Vector2(
-            camera.viewport.effectiveSize.x - 30,
-            camera.viewport.effectiveSize.y - Plunger.compressionDistance,
+            camera.viewport.effectiveSize.x / 1.035,
+            camera.viewport.effectiveSize.y - compressionDistance,
           ),
         ),
+        compressionDistance: compressionDistance,
       ),
     );
     await add(plungerAnchor = PlungerAnchor(plunger: plunger));

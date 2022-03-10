@@ -11,13 +11,16 @@ import 'package:pinball/game/game.dart' show Anchor;
 /// {@endtemplate}
 class Plunger extends BodyComponent with KeyboardHandler {
   /// {@macro plunger}
-  Plunger({required Vector2 position}) : _position = position;
+  Plunger({
+    required Vector2 position,
+    required this.compressionDistance,
+  }) : _position = position;
 
   /// The initial position of the [Plunger] body.
   final Vector2 _position;
 
   /// Distance the plunger can lower.
-  static const compressionDistance = 120.0;
+  final double compressionDistance;
 
   @override
   Body createBody() {
@@ -83,7 +86,7 @@ class PlungerAnchor extends Anchor {
   }) : super(
           position: Vector2(
             plunger.body.position.x,
-            plunger.body.position.y - Plunger.compressionDistance,
+            plunger.body.position.y - plunger.compressionDistance,
           ),
         );
 }
