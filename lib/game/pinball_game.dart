@@ -133,7 +133,7 @@ class PinballGame extends Forge2DGame
         position: screenToWorld(
           Vector2(
             camera.viewport.effectiveSize.x - 30,
-            camera.viewport.effectiveSize.y,
+            camera.viewport.effectiveSize.y - Plunger.compressionDistance,
           ),
         ),
       ),
