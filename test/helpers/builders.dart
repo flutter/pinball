@@ -8,7 +8,7 @@ FlameTester<PinballGame> flameBlocTester({
   required GameBloc gameBloc,
 }) {
   return FlameTester<PinballGame>(
-    PinballGameTest.initial,
+    PinballGameTest.create,
     pumpWidget: (gameWidget, tester) async {
       await tester.pumpWidget(
         BlocProvider.value(
