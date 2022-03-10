@@ -17,6 +17,7 @@ void main() {
       'loads correctly',
       (game) async {
         final anchor = Anchor(position: Vector2.zero());
+        await game.ready();
         await game.ensureAdd(anchor);
 
         expect(game.contains(anchor), isTrue);
@@ -27,6 +28,7 @@ void main() {
       flameTester.test(
         'positions correctly',
         (game) async {
+          await game.ready();
           final position = Vector2.all(10);
           final anchor = Anchor(position: position);
           await game.ensureAdd(anchor);
@@ -39,6 +41,7 @@ void main() {
       flameTester.test(
         'is static',
         (game) async {
+          await game.ready();
           final anchor = Anchor(position: Vector2.zero());
           await game.ensureAdd(anchor);
 
