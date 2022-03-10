@@ -18,7 +18,7 @@ class Ball extends PositionBodyComponent<PinballGame, SpriteComponent>
   /// The initial position of the [Ball] body.
   final Vector2 _position;
 
-  /// Location of the sprite thar renders with the [Ball].
+  /// Asset location of the sprite that renders with the [Ball].
   ///
   /// Sprite is preloaded by [PinballGameAssetsX].
   static const spritePath = 'components/ball.png';
