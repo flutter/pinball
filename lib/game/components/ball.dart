@@ -15,7 +15,7 @@ class Ball extends PositionBodyComponent<PinballGame, SpriteComponent>
   })  : _position = position,
         super(size: Vector2.all(2));
 
-  /// The initial position of the [Flipper] body.
+  /// The initial position of the [Ball] body.
   final Vector2 _position;
 
   /// Location of the sprite thar renders with the [Ball].
