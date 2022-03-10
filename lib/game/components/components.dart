@@ -1,8 +1,11 @@
 export 'anchor.dart';
 export 'ball.dart';
 export 'board_side.dart';
+export 'crossing_ramp.dart';
 export 'flipper.dart';
+export 'jetpack_ramp.dart';
 export 'pathway.dart';
 export 'plunger.dart';
 export 'score_points.dart';
+export 'sparky_ramp.dart';
 export 'wall.dart';
