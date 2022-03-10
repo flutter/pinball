@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:pinball/game/game.dart';
 
 /// {@template flipper_group}
-///
+/// Adds a [Flipper.right] and a [Flipper.left].
 /// {@endtemplate}
 class FlipperGroup extends PositionComponent with HasGameRef<PinballGame> {
   /// @macro {flipper_group}
@@ -30,17 +30,6 @@ class FlipperGroup extends PositionComponent with HasGameRef<PinballGame> {
       ),
     );
     await add(leftFlipper);
-    final leftFlipperAnchor = FlipperAnchor(flipper: leftFlipper);
-    await add(leftFlipperAnchor);
-
-    final leftFlipperRevoluteJointDef = FlipperAnchorRevoluteJointDef(
-      flipper: leftFlipper,
-      anchor: leftFlipperAnchor,
-    );
-    // TODO(alestiago): Remove casting once the following is closed:
-    // https://github.com/flame-engine/forge2d/issues/36
-    final leftFlipperRevoluteJoint =
-        gameRef.world.createJoint(leftFlipperRevoluteJointDef) as RevoluteJoint;
 
     final rightFlipper = Flipper.right(
       position: Vector2(
@@ -49,37 +38,6 @@ class FlipperGroup extends PositionComponent with HasGameRef<PinballGame> {
       ),
     );
     await add(rightFlipper);
-    final rightFlipperAnchor = FlipperAnchor(flipper: rightFlipper);
-    await add(rightFlipperAnchor);
-    final rightFlipperRevoluteJointDef = FlipperAnchorRevoluteJointDef(
-      flipper: rightFlipper,
-      anchor: rightFlipperAnchor,
-    );
-    // TODO(alestiago): Remove casting once the following is closed:
-    // https://github.com/flame-engine/forge2d/issues/36
-    final rightFlipperRevoluteJoint = gameRef.world
-        .createJoint(rightFlipperRevoluteJointDef) as RevoluteJoint;
-
-    // TODO(erickzanardo): Clean this once the issue is solved:
-    // https://github.com/flame-engine/flame/issues/1417
-    // FIXME(erickzanardo): when mounted the initial position is not fully
-    // reached.
-    unawaited(
-      leftFlipper.hasMounted.future.whenComplete(
-        () => FlipperAnchorRevoluteJointDef.unlock(
-          leftFlipperRevoluteJoint,
-          leftFlipper.side,
-        ),
-      ),
-    );
-    unawaited(
-      rightFlipper.hasMounted.future.whenComplete(
-        () => FlipperAnchorRevoluteJointDef.unlock(
-          rightFlipperRevoluteJoint,
-          rightFlipper.side,
-        ),
-      ),
-    );
   }
 }
 
@@ -152,19 +110,7 @@ class Flipper extends PositionBodyComponent with KeyboardHandler {
   /// [onKeyEvent] method listens to when one of these keys is pressed.
   final List<LogicalKeyboardKey> _keys;
 
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    final sprite = await gameRef.loadSprite(spritePath);
-    positionComponent = SpriteComponent(
-      sprite: sprite,
-      size: size,
-    );
-
-    if (side == BoardSide.right) {
-      positionComponent?.flipHorizontally();
-    }
-  }
+  late final RevoluteJoint _joint;
 
   /// Applies downward linear velocity to the [Flipper], moving it to its
   /// resting position.
@@ -176,6 +122,63 @@ class Flipper extends PositionBodyComponent with KeyboardHandler {
   /// position.
   void _moveUp() {
     body.linearVelocity = Vector2(0, _speed);
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    await Future.wait([
+      _loadSprite(),
+      _anchorToJoint(),
+    ]);
+  }
+
+  /// Loads the sprite that renders with the [Flipper].
+  Future<void> _loadSprite() async {
+    final sprite = await gameRef.loadSprite(spritePath);
+    positionComponent = SpriteComponent(
+      sprite: sprite,
+      size: size,
+    );
+
+    if (side == BoardSide.right) {
+      positionComponent?.flipHorizontally();
+    }
+  }
+
+  /// Anchors the [Flipper] to the [RevoluteJoint] that controls its arc motion.
+  Future<void> _anchorToJoint() async {
+    final anchor = FlipperAnchor(flipper: this);
+    await add(anchor);
+
+    final jointDef = FlipperAnchorRevoluteJointDef(
+      flipper: this,
+      anchor: anchor,
+    );
+    // TODO(alestiago): Remove casting once the following is closed:
+    // https://github.com/flame-engine/forge2d/issues/36
+    _joint = world.createJoint(jointDef) as RevoluteJoint;
+
+    // FIXME(erickzanardo): when mounted the initial position is not fully
+    // reached.
+    unawaited(
+      mounted.whenComplete(
+        () => FlipperAnchorRevoluteJointDef.unlock(_joint, side),
+      ),
+    );
+  }
+
+  @override
+  Body createBody() {
+    final bodyDef = BodyDef()
+      ..gravityScale = 0
+      ..type = BodyType.dynamic
+      ..position = _position;
+
+    final body = world.createBody(bodyDef);
+    _createFixtureDefs().forEach(body.createFixture);
+
+    return body;
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -222,30 +225,6 @@ class Flipper extends PositionBodyComponent with KeyboardHandler {
     fixtures.add(trapeziumFixtureDef);
 
     return fixtures;
-  }
-
-  @override
-  Body createBody() {
-    final bodyDef = BodyDef()
-      ..gravityScale = 0
-      ..type = BodyType.dynamic
-      ..position = _position;
-
-    final body = world.createBody(bodyDef);
-    _createFixtureDefs().forEach(body.createFixture);
-
-    return body;
-  }
-
-  // TODO(erickzanardo): Remove this once the issue is solved:
-  // https://github.com/flame-engine/flame/issues/1417
-  // ignore: public_member_api_docs
-  final Completer hasMounted = Completer<void>();
-
-  @override
-  void onMount() {
-    super.onMount();
-    hasMounted.complete();
   }
 
   @override
