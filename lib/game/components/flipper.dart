@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:flame/components.dart'
-    show HasGameRef, PositionComponent, SpriteComponent;
+import 'package:flame/components.dart' show PositionComponent, SpriteComponent;
 import 'package:flame/input.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/services.dart';
@@ -11,7 +10,7 @@ import 'package:pinball/game/game.dart';
 /// {@template flipper_group}
 /// Loads a [Flipper.right] and a [Flipper.left].
 /// {@endtemplate}
-class FlipperGroup extends PositionComponent with HasGameRef<PinballGame> {
+class FlipperGroup extends PositionComponent {
   /// @macro {flipper_group}
   FlipperGroup({
     required Vector2 position,
