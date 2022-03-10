@@ -16,32 +16,16 @@ void main() {
     group(
       'components',
       () {
-        group('Flippers', () {
-          bool Function(Component) flipperSelector(BoardSide side) =>
-              (component) => component is Flipper && component.side == side;
-
-          flameTester.test(
-            'has only one left Flipper',
-            (game) async {
-              await game.ready();
-
-              expect(
-                () => game.children.singleWhere(
-                  flipperSelector(BoardSide.left),
-                ),
-                returnsNormally,
-              );
-            },
-          );
-
+        bool Function(Component) componentSelector<T>() =>
+            (component) => component is T;
+        group('FlipperGroup', () {
           flameTester.test(
             'has only one right Flipper',
             (game) async {
               await game.ready();
-
               expect(
                 () => game.children.singleWhere(
-                  flipperSelector(BoardSide.right),
+                  componentSelector<FlipperGroup>(),
                 ),
                 returnsNormally,
               );
