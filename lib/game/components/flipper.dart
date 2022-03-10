@@ -148,6 +148,7 @@ class Flipper extends BodyComponent with KeyboardHandler {
 
   // TODO(erickzanardo): Remove this once the issue is solved:
   // https://github.com/flame-engine/flame/issues/1417
+  // ignore: public_member_api_docs
   final Completer hasMounted = Completer<void>();
 
   @override
