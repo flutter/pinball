@@ -1,7 +1,8 @@
 // ignore_for_file: prefer_const_constructors, cascade_invocations
-import 'package:flame/extensions.dart';
+
 import 'package:geometry/geometry.dart';
 import 'package:test/test.dart';
+import 'package:vector_math/vector_math.dart';
 
 class Binomial {
   Binomial({required this.n, required this.k});

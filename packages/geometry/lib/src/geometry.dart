@@ -1,5 +1,6 @@
 import 'dart:math' as math;
-import 'package:flame/extensions.dart';
+
+import 'package:vector_math/vector_math.dart';
 
 /// Calculates all [Vector2]s of a circumference.
 ///

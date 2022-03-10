@@ -7,7 +7,7 @@ environment:
   sdk: ">=2.16.0 <3.0.0"
 
 dependencies: 
-  flame: ^1.0.0
+  vector_math: ^2.1.1
 
 dev_dependencies:
   mocktail: ^0.2.0
