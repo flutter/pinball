@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/theme/theme.dart';
 
 class MockPinballGame extends Mock implements PinballGame {}
 
@@ -15,6 +16,8 @@ class MockBall extends Mock implements Ball {}
 class MockContact extends Mock implements Contact {}
 
 class MockGameBloc extends Mock implements GameBloc {}
+
+class MockThemeCubit extends Mock implements ThemeCubit {}
 
 class MockRawKeyDownEvent extends Mock implements RawKeyDownEvent {
   @override

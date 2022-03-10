@@ -13,7 +13,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('Ball', () {
-    final flameTester = FlameTester(PinballGame.new);
+    final flameTester = FlameTester(PinballGameX.initial);
 
     flameTester.test(
       'loads correctly',
@@ -89,10 +89,9 @@ void main() {
     });
 
     group('resetting a ball', () {
-      late GameBloc gameBloc;
+      final gameBloc = MockGameBloc();
 
       setUp(() {
-        gameBloc = MockGameBloc();
         whenListen(
           gameBloc,
           const Stream<GameState>.empty(),
@@ -100,11 +99,7 @@ void main() {
         );
       });
 
-      final tester = flameBlocTester(
-        gameBlocBuilder: () {
-          return gameBloc;
-        },
-      );
+      final tester = flameBlocTester(gameBloc: gameBloc);
 
       tester.widgetTest(
         'adds BallLost to GameBloc',

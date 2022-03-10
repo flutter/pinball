@@ -5,10 +5,27 @@ import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_theme/pinball_theme.dart';
 
 class PinballGame extends Forge2DGame
     with FlameBloc, HasKeyboardHandlerComponents {
-  late Plunger plunger;
+  PinballGame({required this.theme});
+
+  final PinballTheme theme;
+
+  late final Plunger plunger;
+
+  // TODO(erickzanardo): Change to the plumber position
+  late final ballStartingPosition = screenToWorld(
+        Vector2(
+          camera.viewport.effectiveSize.x / 2,
+          camera.viewport.effectiveSize.y - 20,
+        ),
+      ) -
+      Vector2(0, -20);
+
+  // TODO(alestiago): Change to the design position.
+  late final flippersPosition = ballStartingPosition - Vector2(0, 5);
 
   @override
   void onAttach() {

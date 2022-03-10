@@ -13,7 +13,7 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(PinballGame.new);
+  final flameTester = FlameTester(PinballGameX.initial);
 
   group('Plunger', () {
     flameTester.test(
@@ -180,11 +180,11 @@ void main() {
   });
 
   group('PlungerAnchorPrismaticJointDef', () {
-    late GameBloc gameBloc;
     late Plunger plunger;
 
+    final gameBloc = MockGameBloc();
+
     setUp(() {
-      gameBloc = MockGameBloc();
       whenListen(
         gameBloc,
         const Stream<GameState>.empty(),
@@ -193,11 +193,7 @@ void main() {
       plunger = Plunger(position: Vector2.zero());
     });
 
-    final flameTester = flameBlocTester(
-      gameBlocBuilder: () {
-        return gameBloc;
-      },
-    );
+    final flameTester = flameBlocTester(gameBloc: gameBloc);
 
     group('initializes with', () {
       flameTester.test(
