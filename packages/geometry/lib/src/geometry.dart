@@ -105,3 +105,20 @@ num factorial(num n) {
     return n * factorial(n - 1);
   }
 }
+
+/// Arithmetic mean position of all the [Vector2]s in a figure.
+///
+/// For more information read: https://en.wikipedia.org/wiki/Centroid
+Vector2 centroid(List<Vector2> vertices) {
+  assert(
+    vertices.isNotEmpty,
+    'At least one vertex needed to calculate the centroid',
+  );
+
+  final centroid = Vector2.zero();
+  for (final vertex in vertices) {
+    centroid.add(vertex);
+  }
+
+  return centroid / vertices.length.toDouble();
+}
