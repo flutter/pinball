@@ -44,6 +44,7 @@ class PinballGame extends Forge2DGame
 
     unawaited(_addFlippers());
     _addBonusLetters();
+    addContactCallback(BonusLetterBallContactCallback());
   }
 
   void _addBonusLetters() {
