@@ -140,7 +140,7 @@ packages:
       name: flame
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0-releasecandidate.2"
+    version: "1.1.0-releasecandidate.3"
   flame_bloc:
     dependency: "direct main"
     description:
@@ -151,10 +151,12 @@ packages:
   flame_forge2d:
     dependency: "direct main"
     description:
-      name: flame_forge2d
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.9.0-releasecandidate.2"
+      path: "packages/flame_forge2d"
+      ref: "spydon.body-component-no-debug-render"
+      resolved-ref: d54a9269ab60e1d4dfec15f4660217c124ab86af
+      url: "git@github.com:flame-engine/flame.git"
+    source: git
+    version: "0.9.0-releasecandidate.3"
   flame_test:
     dependency: "direct dev"
     description:

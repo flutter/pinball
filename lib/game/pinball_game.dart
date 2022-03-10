@@ -43,6 +43,21 @@ class PinballGame extends Forge2DGame
     addContactCallback(BottomWallBallContactCallback());
 
     unawaited(_addFlippers());
+    _addBonusLetters();
+  }
+
+  void _addBonusLetters() {
+    final letters = 'GOOGLE'.split('');
+
+    for (var i = 0; i < letters.length; i++) {
+      add(
+        BonusLetter(
+          position: ballStartingPosition - Vector2(16 - (i * 6), -10),
+          letter: letters[i],
+          index: i,
+        ),
+      );
+    }
   }
 
   Future<void> _addFlippers() async {
