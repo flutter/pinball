@@ -17,5 +17,9 @@ void main() {
     test('ballColor is correct', () {
       expect(AndroidTheme().ballColor, equals(Colors.green));
     });
+
+    test('characterAsset is correct', () {
+      expect(AndroidTheme().characterAsset, equals(Assets.images.android));
+    });
   });
 }

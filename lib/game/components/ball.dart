@@ -1,5 +1,4 @@
 import 'package:flame/components.dart';
-import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
 
@@ -7,8 +6,7 @@ import 'package:pinball/game/game.dart';
 /// A solid, [BodyType.dynamic] sphere that rolls and bounces along the
 /// [PinballGame].
 /// {@endtemplate}
-class Ball extends PositionBodyComponent<PinballGame, SpriteComponent>
-    with BlocComponent<GameBloc, GameState> {
+class Ball extends PositionBodyComponent<PinballGame, SpriteComponent> {
   /// {@macro ball}
   Ball({
     required Vector2 position,
@@ -27,7 +25,8 @@ class Ball extends PositionBodyComponent<PinballGame, SpriteComponent>
   Future<void> onLoad() async {
     await super.onLoad();
     final sprite = await gameRef.loadSprite(spritePath);
-    positionComponent = SpriteComponent(sprite: sprite, size: size);
+    final tint = gameRef.theme.characterTheme.ballColor.withOpacity(0.5);
+    positionComponent = SpriteComponent(sprite: sprite, size: size)..tint(tint);
   }
 
   @override
