@@ -33,11 +33,11 @@ class SlingShot extends BodyComponent {
     final triangle = PolygonShape()..set(triangleVertices);
     fixtures.add(FixtureDef(triangle));
 
-    final kickerVertices = [
-      triangleVertices.first,
-      triangleVertices.last,
-    ];
-    final kicker = PolygonShape()..set(kickerVertices);
+    final kicker = EdgeShape()
+      ..set(
+        triangleVertices.first,
+        triangleVertices.last,
+      );
     final kickerFixtureDef = FixtureDef(kicker)..restitution = 2.0;
     fixtures.add(kickerFixtureDef);
 
