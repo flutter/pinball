@@ -3,8 +3,13 @@ import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
 
+/// {@template ball}
+/// A solid, [BodyType.dynamic] sphere that rolls and bounces along the
+/// [PinballGame].
+/// {@endtemplate}
 class Ball extends PositionBodyComponent<PinballGame, SpriteComponent>
     with BlocComponent<GameBloc, GameState> {
+  /// {@macro ball}
   Ball({
     required Vector2 position,
   })  : _position = position,
