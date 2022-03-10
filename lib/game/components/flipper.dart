@@ -109,8 +109,6 @@ class Flipper extends PositionBodyComponent with KeyboardHandler {
   /// [onKeyEvent] method listens to when one of these keys is pressed.
   final List<LogicalKeyboardKey> _keys;
 
-  late final RevoluteJoint _joint;
-
   /// Applies downward linear velocity to the [Flipper], moving it to its
   /// resting position.
   void _moveDown() {
@@ -147,13 +145,13 @@ class Flipper extends PositionBodyComponent with KeyboardHandler {
     );
     // TODO(alestiago): Remove casting once the following is closed:
     // https://github.com/flame-engine/forge2d/issues/36
-    _joint = world.createJoint(jointDef) as RevoluteJoint;
+    final joint = world.createJoint(jointDef) as RevoluteJoint;
 
     // FIXME(erickzanardo): when mounted the initial position is not fully
     // reached.
     unawaited(
       mounted.whenComplete(
-        () => FlipperAnchorRevoluteJointDef.unlock(_joint, side),
+        () => FlipperAnchorRevoluteJointDef.unlock(joint, side),
       ),
     );
   }
