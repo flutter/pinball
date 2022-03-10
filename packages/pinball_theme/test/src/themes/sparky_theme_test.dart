@@ -17,5 +17,9 @@ void main() {
     test('ballColor is correct', () {
       expect(SparkyTheme().ballColor, equals(Colors.orange));
     });
+
+    test('characterAsset is correct', () {
+      expect(SparkyTheme().characterAsset, equals(Assets.images.sparky));
+    });
   });
 }
