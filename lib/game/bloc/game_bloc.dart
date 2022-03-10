@@ -44,9 +44,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       );
     } else {
       emit(
-        state.copyWith(
-          activatedBonusLetters: newBonusLetters,
-        ),
+        state.copyWith(activatedBonusLetters: newBonusLetters),
       );
     }
   }
