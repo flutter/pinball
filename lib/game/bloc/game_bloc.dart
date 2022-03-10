@@ -30,7 +30,10 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   void _onBonusLetterActivated(BonusLetterActivated event, Emitter emit) {
-    final newBonusLetters = [...state.activatedBonusLetters, event.letter];
+    final newBonusLetters = [
+      ...state.activatedBonusLetters,
+      event.letterIndex,
+    ];
 
     if (newBonusLetters.length == _bonusLettersCount) {
       emit(
