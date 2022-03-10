@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:pinball/game/game.dart';
 
 /// {@template flipper_group}
-/// Adds a [Flipper.right] and a [Flipper.left].
+/// Loads a [Flipper.right] and a [Flipper.left].
 /// {@endtemplate}
 class FlipperGroup extends PositionComponent with HasGameRef<PinballGame> {
   /// @macro {flipper_group}
