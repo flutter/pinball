@@ -99,11 +99,8 @@ class PlungerAnchorPrismaticJointDef extends PrismaticJointDef {
   /// {@macro plunger_anchor_prismatic_joint_def}
   PlungerAnchorPrismaticJointDef({
     required Plunger plunger,
-    required Anchor anchor,
-  }) : assert(
-          anchor.body.position.y < plunger.body.position.y,
-          'Anchor must be below the Plunger',
-        ) {
+    required PlungerAnchor anchor,
+  }) {
     initialize(
       plunger.body,
       anchor.body,

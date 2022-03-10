@@ -182,7 +182,6 @@ void main() {
   group('PlungerAnchorPrismaticJointDef', () {
     late GameBloc gameBloc;
     late Plunger plunger;
-    late Anchor anchor;
 
     setUp(() {
       gameBloc = MockGameBloc();
@@ -192,7 +191,6 @@ void main() {
         initialState: const GameState.initial(),
       );
       plunger = Plunger(position: Vector2.zero());
-      anchor = Anchor(position: Vector2(0, -1));
     });
 
     final flameTester = flameBlocTester(
@@ -201,45 +199,13 @@ void main() {
       },
     );
 
-    flameTester.test(
-      'throws AssertionError '
-      'when anchor is above plunger',
-      (game) async {
-        final anchor = Anchor(position: Vector2(0, 1));
-        await game.ensureAddAll([plunger, anchor]);
-
-        expect(
-          () => PlungerAnchorPrismaticJointDef(
-            plunger: plunger,
-            anchor: anchor,
-          ),
-          throwsAssertionError,
-        );
-      },
-    );
-
-    flameTester.test(
-      'throws AssertionError '
-      'when anchor is in same position as plunger',
-      (game) async {
-        final anchor = Anchor(position: Vector2.zero());
-        await game.ensureAddAll([plunger, anchor]);
-
-        expect(
-          () => PlungerAnchorPrismaticJointDef(
-            plunger: plunger,
-            anchor: anchor,
-          ),
-          throwsAssertionError,
-        );
-      },
-    );
-
     group('initializes with', () {
       flameTester.test(
         'plunger body as bodyA',
         (game) async {
-          await game.ensureAddAll([plunger, anchor]);
+          await game.ensureAdd(plunger);
+          final anchor = PlungerAnchor(plunger: plunger);
+          await game.ensureAdd(anchor);
 
           final jointDef = PlungerAnchorPrismaticJointDef(
             plunger: plunger,
@@ -253,7 +219,9 @@ void main() {
       flameTester.test(
         'anchor body as bodyB',
         (game) async {
-          await game.ensureAddAll([plunger, anchor]);
+          await game.ensureAdd(plunger);
+          final anchor = PlungerAnchor(plunger: plunger);
+          await game.ensureAdd(anchor);
 
           final jointDef = PlungerAnchorPrismaticJointDef(
             plunger: plunger,
@@ -268,7 +236,9 @@ void main() {
       flameTester.test(
         'limits enabled',
         (game) async {
-          await game.ensureAddAll([plunger, anchor]);
+          await game.ensureAdd(plunger);
+          final anchor = PlungerAnchor(plunger: plunger);
+          await game.ensureAdd(anchor);
 
           final jointDef = PlungerAnchorPrismaticJointDef(
             plunger: plunger,
@@ -283,7 +253,9 @@ void main() {
       flameTester.test(
         'lower translation limit as negative infinity',
         (game) async {
-          await game.ensureAddAll([plunger, anchor]);
+          await game.ensureAdd(plunger);
+          final anchor = PlungerAnchor(plunger: plunger);
+          await game.ensureAdd(anchor);
 
           final jointDef = PlungerAnchorPrismaticJointDef(
             plunger: plunger,
@@ -298,7 +270,9 @@ void main() {
       flameTester.test(
         'connected body collison enabled',
         (game) async {
-          await game.ensureAddAll([plunger, anchor]);
+          await game.ensureAdd(plunger);
+          final anchor = PlungerAnchor(plunger: plunger);
+          await game.ensureAdd(anchor);
 
           final jointDef = PlungerAnchorPrismaticJointDef(
             plunger: plunger,
@@ -315,7 +289,9 @@ void main() {
       flameTester.widgetTest(
         'plunger cannot go below anchor',
         (game, tester) async {
-          await game.ensureAddAll([plunger, anchor]);
+          await game.ensureAdd(plunger);
+          final anchor = PlungerAnchor(plunger: plunger);
+          await game.ensureAdd(anchor);
 
           // Giving anchor a shape for the plunger to collide with.
           anchor.body.createFixtureFromShape(PolygonShape()..setAsBoxXY(2, 1));
@@ -337,7 +313,9 @@ void main() {
       flameTester.widgetTest(
         'plunger cannot excessively exceed starting position',
         (game, tester) async {
-          await game.ensureAddAll([plunger, anchor]);
+          await game.ensureAdd(plunger);
+          final anchor = PlungerAnchor(plunger: plunger);
+          await game.ensureAdd(anchor);
 
           final jointDef = PlungerAnchorPrismaticJointDef(
             plunger: plunger,

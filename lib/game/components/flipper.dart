@@ -218,7 +218,7 @@ class FlipperAnchorRevoluteJointDef extends RevoluteJointDef {
   /// {@macro flipper_anchor_revolute_joint_def}
   FlipperAnchorRevoluteJointDef({
     required Flipper flipper,
-    required Anchor anchor,
+    required FlipperAnchor anchor,
   }) {
     initialize(
       flipper.body,

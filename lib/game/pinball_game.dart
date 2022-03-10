@@ -126,7 +126,7 @@ class PinballGame extends Forge2DGame
   }
 
   Future<void> _addPlunger() async {
-    late Anchor plungerAnchor;
+    late PlungerAnchor plungerAnchor;
 
     await add(
       plunger = Plunger(
