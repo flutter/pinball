@@ -8,12 +8,8 @@ environment:
 
 dependencies: 
   flame: ^1.0.0
-  flutter:
-    sdk: flutter
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
   mocktail: ^0.2.0
   test: ^1.19.2
   very_good_analysis: ^2.4.0
