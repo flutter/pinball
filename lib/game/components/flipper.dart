@@ -123,15 +123,6 @@ class Flipper extends PositionBodyComponent with KeyboardHandler {
     body.linearVelocity = Vector2(0, _speed);
   }
 
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    await Future.wait([
-      _loadSprite(),
-      _anchorToJoint(),
-    ]);
-  }
-
   /// Loads the sprite that renders with the [Flipper].
   Future<void> _loadSprite() async {
     final sprite = await gameRef.loadSprite(spritePath);
@@ -165,19 +156,6 @@ class Flipper extends PositionBodyComponent with KeyboardHandler {
         () => FlipperAnchorRevoluteJointDef.unlock(_joint, side),
       ),
     );
-  }
-
-  @override
-  Body createBody() {
-    final bodyDef = BodyDef()
-      ..gravityScale = 0
-      ..type = BodyType.dynamic
-      ..position = _position;
-
-    final body = world.createBody(bodyDef);
-    _createFixtureDefs().forEach(body.createFixture);
-
-    return body;
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -224,6 +202,28 @@ class Flipper extends PositionBodyComponent with KeyboardHandler {
     fixtures.add(trapeziumFixtureDef);
 
     return fixtures;
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    await Future.wait([
+      _loadSprite(),
+      _anchorToJoint(),
+    ]);
+  }
+
+  @override
+  Body createBody() {
+    final bodyDef = BodyDef()
+      ..gravityScale = 0
+      ..type = BodyType.dynamic
+      ..position = _position;
+
+    final body = world.createBody(bodyDef);
+    _createFixtureDefs().forEach(body.createFixture);
+
+    return body;
   }
 
   @override
