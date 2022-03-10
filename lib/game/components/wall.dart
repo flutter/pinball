@@ -14,10 +14,10 @@ class Wall extends BodyComponent {
     required this.end,
   });
 
-  /// The [start] of the wall.
+  /// The [start] of the [Wall].
   final Vector2 start;
 
-  /// The [end] of the wall.
+  /// The [end] of the [Wall].
   final Vector2 end;
 
   @override
