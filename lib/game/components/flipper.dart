@@ -46,6 +46,9 @@ class Flipper extends PositionBodyComponent with KeyboardHandler {
           ],
         );
 
+  /// Asset location of the sprite that renders with the [Flipper].
+  ///
+  /// Sprite is preloaded by [PinballGameAssetsX].
   static const spritePath = 'components/flipper.png';
 
   /// The width of the [Flipper].
