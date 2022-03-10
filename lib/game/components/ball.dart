@@ -12,11 +12,8 @@ class Ball extends PositionBodyComponent<PinballGame, SpriteComponent>
   /// {@macro ball}
   Ball({
     required Vector2 position,
-  })  : _position = Vector2(position.x, position.y + ballSize.y),
-        super(size: ballSize);
-
-  /// Dimensions of the [Ball].
-  static final ballSize = Vector2.all(2);
+  })  : _position = position,
+        super(size: Vector2.all(2));
 
   /// The initial position of the [Ball] body.
   final Vector2 _position;
@@ -41,7 +38,7 @@ class Ball extends PositionBodyComponent<PinballGame, SpriteComponent>
 
     final bodyDef = BodyDef()
       ..userData = this
-      ..position = _position
+      ..position = Vector2(_position.x, _position.y + size.y)
       ..type = BodyType.dynamic;
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);

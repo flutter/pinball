@@ -36,7 +36,7 @@ void main() {
 
           final expectedPosition = Vector2(
             position.x,
-            position.y + Ball.ballSize.y,
+            position.y + ball.size.y,
           );
           expect(ball.body.position, equals(expectedPosition));
         },
