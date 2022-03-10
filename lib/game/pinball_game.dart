@@ -107,8 +107,7 @@ class PinballGame extends Forge2DGame
 }
 
 class DebugPinballGame extends PinballGame with TapDetector {
-
-  DebugPinballGame({ required PinballTheme theme}) : super(theme: theme);
+  DebugPinballGame({required PinballTheme theme}) : super(theme: theme);
 
   @override
   void onTapUp(TapUpInfo info) {
