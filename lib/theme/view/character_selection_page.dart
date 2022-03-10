@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/game/game.dart';
@@ -93,6 +95,7 @@ class _CharacterSelectionGridView extends StatelessWidget {
   }
 }
 
+// TODO(@allisonryan0002): remove visibility when adding final UI.
 @visibleForTesting
 class CharacterImageButton extends StatelessWidget {
   const CharacterImageButton(
