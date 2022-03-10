@@ -37,10 +37,12 @@ class PinballGame extends Forge2DGame
     await add(BottomWall(this));
     addContactCallback(BottomWallBallContactCallback());
 
-    await add(
-      FlipperGroup(
-        position: flippersPosition,
-        spacing: 2,
+    unawaited(
+      add(
+        FlipperGroup(
+          position: flippersPosition,
+          spacing: 2,
+        ),
       ),
     );
   }
