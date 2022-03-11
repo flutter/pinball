@@ -1,9 +1,10 @@
-import 'package:flame/extensions.dart';
+import 'dart:math' as math;
+
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
 
 /// {@template baseboard}
-/// TODO
+/// Straight, angled board piece to corral the [Ball] towards the [Flipper]s.
 /// {@endtemplate}
 class Baseboard extends BodyComponent {
   /// {@macro baseboard}
@@ -74,7 +75,7 @@ class Baseboard extends BodyComponent {
 
   @override
   Body createBody() {
-    final angle = radians(27);
+    const angle = math.pi / 7;
 
     final bodyDef = BodyDef()
       ..position = _position
