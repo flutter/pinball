@@ -9,15 +9,15 @@ environment:
 dependencies:
   bloc: ^8.0.2
   equatable: ^2.0.3
-  flame: ^1.1.0-releasecandidate.2
-  flame_bloc: ^1.2.0-releasecandidate.2
-  flame_forge2d: ^0.9.0-releasecandidate.2
+  flame: ^1.1.0-releasecandidate.4
+  flame_bloc: ^1.2.0-releasecandidate.4
+  flame_forge2d: ^0.9.0-releasecandidate.4
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
   flutter_localizations:
     sdk: flutter
-  geometry: 
+  geometry:
     path: packages/geometry
   intl: ^0.17.0
   pinball_theme:

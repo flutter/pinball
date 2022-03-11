@@ -89,9 +89,10 @@ void main() {
     });
 
     group('resetting a ball', () {
-      final gameBloc = MockGameBloc();
+      late GameBloc gameBloc;
 
       setUp(() {
+        gameBloc = MockGameBloc();
         whenListen(
           gameBloc,
           const Stream<GameState>.empty(),
@@ -99,7 +100,7 @@ void main() {
         );
       });
 
-      final tester = flameBlocTester(gameBloc: gameBloc);
+      final tester = flameBlocTester(gameBloc: () => gameBloc);
 
       tester.widgetTest(
         'adds BallLost to GameBloc',
@@ -118,7 +119,7 @@ void main() {
         (game, tester) async {
           await game.ready();
 
-          game.children.whereType<Ball>().first.removeFromParent();
+          game.children.whereType<Ball>().first.lost();
           await game.ready(); // Making sure that all additions are done
 
           expect(

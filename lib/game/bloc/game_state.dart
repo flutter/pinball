@@ -49,6 +49,10 @@ class GameState extends Equatable {
   /// Determines when the player has only one ball left.
   bool get isLastBall => balls == 1;
 
+  /// Shortcut method to check if the given [i]
+  /// is activated.
+  bool isLetterActivated(int i) => activatedBonusLetters.contains(i);
+
   GameState copyWith({
     int? score,
     int? balls,

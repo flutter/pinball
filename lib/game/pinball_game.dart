@@ -48,6 +48,25 @@ class PinballGame extends Forge2DGame
       ),
     );
 
+    unawaited(_addFlippers());
+
+    unawaited(_addBonusWord());
+  }
+
+  Future<void> _addBonusWord() async {
+    await add(
+      BonusWord(
+        position: screenToWorld(
+          Vector2(
+            camera.viewport.effectiveSize.x / 2,
+            camera.viewport.effectiveSize.y - 50,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _addFlippers() async {
     final flippersPosition = screenToWorld(
       Vector2(
         camera.viewport.effectiveSize.x / 2,
@@ -73,6 +92,7 @@ class PinballGame extends Forge2DGame
   void _addContactCallbacks() {
     addContactCallback(BallScorePointsCallback());
     addContactCallback(BottomWallBallContactCallback());
+    addContactCallback(BonusLetterBallContactCallback());
   }
 
   Future<void> _addGameBoundaries() async {
