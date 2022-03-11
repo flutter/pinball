@@ -187,10 +187,10 @@ class PinballGame extends Forge2DGame
       plunger = Plunger(
         position: screenToWorld(
           Vector2(
-                camera.viewport.effectiveSize.x / 1.035,
+                camera.viewport.effectiveSize.x / 2,
                 camera.viewport.effectiveSize.y - compressionDistance,
-              ) -
-              Vector2(160, 0),
+              ) +
+              Vector2(400, 0),
         ),
         compressionDistance: compressionDistance,
       ),
