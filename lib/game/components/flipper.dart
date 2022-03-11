@@ -1,11 +1,87 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:flame/components.dart' show SpriteComponent;
+import 'package:flame/components.dart'
+    show HasGameRef, PositionComponent, SpriteComponent;
 import 'package:flame/input.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball/game/game.dart';
+
+/// {@template flipper_group}
+///
+/// {@endtemplate}
+class FlipperGroup extends PositionComponent with HasGameRef<PinballGame> {
+  /// @macro {flipper_group}
+  FlipperGroup({
+    required Vector2 position,
+    required this.spacing,
+  }) : super(position: position);
+
+  /// The amount of space between the [Flipper.right] and [Flipper.left].
+  final double spacing;
+
+  @override
+  Future<void> onLoad() async {
+    final leftFlipper = Flipper.left(
+      position: Vector2(
+        position.x - (Flipper.width / 2) - (spacing / 2),
+        position.y,
+      ),
+    );
+    await add(leftFlipper);
+    final leftFlipperAnchor = FlipperAnchor(flipper: leftFlipper);
+    await add(leftFlipperAnchor);
+
+    final leftFlipperRevoluteJointDef = FlipperAnchorRevoluteJointDef(
+      flipper: leftFlipper,
+      anchor: leftFlipperAnchor,
+    );
+    // TODO(alestiago): Remove casting once the following is closed:
+    // https://github.com/flame-engine/forge2d/issues/36
+    final leftFlipperRevoluteJoint =
+        gameRef.world.createJoint(leftFlipperRevoluteJointDef) as RevoluteJoint;
+
+    final rightFlipper = Flipper.right(
+      position: Vector2(
+        position.x + (Flipper.width / 2) + (spacing / 2),
+        position.y,
+      ),
+    );
+    await add(rightFlipper);
+    final rightFlipperAnchor = FlipperAnchor(flipper: rightFlipper);
+    await add(rightFlipperAnchor);
+    final rightFlipperRevoluteJointDef = FlipperAnchorRevoluteJointDef(
+      flipper: rightFlipper,
+      anchor: rightFlipperAnchor,
+    );
+    // TODO(alestiago): Remove casting once the following is closed:
+    // https://github.com/flame-engine/forge2d/issues/36
+    final rightFlipperRevoluteJoint = gameRef.world
+        .createJoint(rightFlipperRevoluteJointDef) as RevoluteJoint;
+
+    // TODO(erickzanardo): Clean this once the issue is solved:
+    // https://github.com/flame-engine/flame/issues/1417
+    // FIXME(erickzanardo): when mounted the initial position is not fully
+    // reached.
+    unawaited(
+      leftFlipper.hasMounted.future.whenComplete(
+        () => FlipperAnchorRevoluteJointDef.unlock(
+          leftFlipperRevoluteJoint,
+          leftFlipper.side,
+        ),
+      ),
+    );
+    unawaited(
+      rightFlipper.hasMounted.future.whenComplete(
+        () => FlipperAnchorRevoluteJointDef.unlock(
+          rightFlipperRevoluteJoint,
+          rightFlipper.side,
+        ),
+      ),
+    );
+  }
+}
 
 /// {@template flipper}
 /// A bat, typically found in pairs at the bottom of the board.
