@@ -14,8 +14,10 @@ class Pathway extends BodyComponent {
     Color? color,
     required Vector2 position,
     required List<List<Vector2>> paths,
+    int? maskBits,
   })  : _position = position,
-        _paths = paths {
+        _paths = paths,
+        _maskBits = maskBits ?? Filter().maskBits {
     paint = Paint()
       ..color = color ?? const Color.fromARGB(0, 0, 0, 0)
       ..style = PaintingStyle.stroke;
@@ -36,6 +38,7 @@ class Pathway extends BodyComponent {
     required double width,
     double rotation = 0,
     bool singleWall = false,
+    int? maskBits,
   }) {
     final paths = <List<Vector2>>[];
 
@@ -58,6 +61,7 @@ class Pathway extends BodyComponent {
       color: color,
       position: position,
       paths: paths,
+      maskBits: maskBits,
     );
   }
 
@@ -83,6 +87,7 @@ class Pathway extends BodyComponent {
     required double angle,
     double rotation = 0,
     bool singleWall = false,
+    int? maskBits,
   }) {
     final paths = <List<Vector2>>[];
 
@@ -109,6 +114,7 @@ class Pathway extends BodyComponent {
       color: color,
       position: position,
       paths: paths,
+      maskBits: maskBits,
     );
   }
 
@@ -128,6 +134,7 @@ class Pathway extends BodyComponent {
     required double width,
     double rotation = 0,
     bool singleWall = false,
+    int? maskBits,
   }) {
     final paths = <List<Vector2>>[];
 
@@ -150,11 +157,13 @@ class Pathway extends BodyComponent {
       color: color,
       position: position,
       paths: paths,
+      maskBits: maskBits,
     );
   }
 
-  final Vector2 _position;
-  final List<List<Vector2>> _paths;
+  Vector2 _position;
+  List<List<Vector2>> _paths;
+  int _maskBits;
 
   @override
   Body createBody() {
@@ -170,7 +179,9 @@ class Pathway extends BodyComponent {
         );
       final fixtureDef = FixtureDef(chain);
 
-      body.createFixture(fixtureDef);
+      body.createFixture(fixtureDef)
+        ..filterData.categoryBits = _maskBits
+        ..filterData.maskBits = _maskBits;
     }
 
     return body;
