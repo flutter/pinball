@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_renaming_method_parameters
 
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,6 @@ import 'package:pinball/game/game.dart';
 /// {@endtemplate}
 class BonusLetter extends BodyComponent<PinballGame>
     with BlocComponent<GameBloc, GameState> {
-
   /// {@macro bonus_letter}
   BonusLetter({
     required Vector2 position,
@@ -22,14 +22,14 @@ class BonusLetter extends BodyComponent<PinballGame>
   })  : _position = position,
         _letter = letter,
         _index = index {
-    paint = _disablePaint;
+    paint = Paint()..color = _disableColor;
   }
 
   /// The area size of this bonus letter
   static final areaSize = Vector2.all(4);
 
-  static final _activePaint = Paint()..color = Colors.green;
-  static final _disablePaint = Paint()..color = Colors.red;
+  static const _activeColor = Colors.green;
+  static const _disableColor = Colors.red;
 
   final Vector2 _position;
   final String _letter;
@@ -41,7 +41,7 @@ class BonusLetter extends BodyComponent<PinballGame>
 
     await add(
       TextComponent(
-        position: Vector2(-1, 1),
+        position: Vector2(-1, -1),
         text: _letter,
         textRenderer: TextPaint(
           style: const TextStyle(fontSize: 2, color: Colors.white),
@@ -64,12 +64,35 @@ class BonusLetter extends BodyComponent<PinballGame>
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 
+  @override
+  bool listenWhen(GameState? previousState, GameState newState) {
+    final wasActive = previousState?.isLetterActivated(_index) ?? false;
+    final isActive = newState.isLetterActivated(_index);
+
+    return wasActive != isActive;
+  }
+
+  @override
+  void onNewState(GameState state) {
+    final isActive = state.isLetterActivated(_index);
+
+    final color = isActive ? _activeColor : _disableColor;
+
+    add(
+      ColorEffect(
+        color,
+        const Offset(0, 1),
+        EffectController(duration: 0.25),
+      ),
+    );
+  }
+
   /// When called, will activate this letter, if still not activated
   void activate() {
-    // TODO
-    //gameRef.read<GameBloc>().add(BonusLetterActivated(_index));
-
-    paint = _activePaint;
+    final isActive = state?.isLetterActivated(_index) ?? false;
+    if (!isActive) {
+      gameRef.read<GameBloc>().add(BonusLetterActivated(_index));
+    }
   }
 }
 

@@ -130,12 +130,3 @@ class DebugPinballGame extends PinballGame with TapDetector {
     add(Ball(position: info.eventPosition.game));
   }
 }
-
-class DebugPinballGame extends PinballGame with TapDetector {
-  DebugPinballGame({required PinballTheme theme}) : super(theme: theme);
-
-  @override
-  void onTapUp(TapUpInfo info) {
-    add(Ball(position: info.eventPosition.game));
-  }
-}

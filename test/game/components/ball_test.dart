@@ -114,7 +114,7 @@ void main() {
         (game, tester) async {
           await game.ready();
 
-          game.children.whereType<Ball>().first.removeFromParent();
+          game.children.whereType<Ball>().first.lost();
           await game.ready(); // Making sure that all additions are done
 
           expect(
