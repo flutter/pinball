@@ -48,6 +48,7 @@ void main() {
     group('children', () {
       bool Function(Component) flipperSelector(BoardSide side) =>
           (component) => component is Flipper && component.side == side;
+
       flameTester.test(
         'has only one left Flipper',
         (game) async {
