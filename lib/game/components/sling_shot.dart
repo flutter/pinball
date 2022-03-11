@@ -30,12 +30,13 @@ class SlingShot extends BodyComponent {
     // once a sprite is given.
     final size = Vector2(10, 10);
 
+    const additionalIncrement = 2.5;
     final triangleVertices = [
       Vector2(0, 0),
       Vector2(0, -size.y),
       Vector2(
         size.x,
-        -size.y - 2.5,
+        -size.y - additionalIncrement,
         // TODO(alestiago): This magic number can be deduced by specifying the
         // angle and using polar coordinate system to place the bottom right
         // vertex.
@@ -55,7 +56,7 @@ class SlingShot extends BodyComponent {
         triangleVertices.first,
         triangleVertices.last,
       );
-    final kickerFixtureDef = FixtureDef(kicker)..restitution = 15.0;
+    final kickerFixtureDef = FixtureDef(kicker)..restitution = 20.0;
     fixtures.add(kickerFixtureDef);
 
     return fixtures;
