@@ -187,7 +187,6 @@ void main() {
         'adds a ColorEffect',
         (game, tester) async {
           await game.ready();
-          await tester.pump();
 
           const state = GameState(
             score: 0,
@@ -212,7 +211,6 @@ void main() {
         'only listens when there is a change on the letter status',
         (game, tester) async {
           await game.ready();
-          await tester.pump();
 
           const state = GameState(
             score: 0,
