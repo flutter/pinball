@@ -143,6 +143,52 @@ void main() {
             }
           },
         );
+
+        flameTester.test(
+          'has default filter categoryBits when no modified',
+          (game) async {
+            final pathway = Pathway.straight(
+              position: Vector2.zero(),
+              start: Vector2(10, 10),
+              end: Vector2(20, 20),
+              width: width,
+            );
+            await game.ready();
+            await game.ensureAdd(pathway);
+
+            for (final fixture in pathway.body.fixtures) {
+              expect(fixture, isA<Fixture>());
+              expect(
+                fixture.filterData.categoryBits,
+                equals(Filter().categoryBits),
+              );
+            }
+          },
+        );
+
+        flameTester.test(
+          'sets correctly filter categoryBits ',
+          (game) async {
+            const maskBits = 1234;
+            final pathway = Pathway.straight(
+              position: Vector2.zero(),
+              start: Vector2(10, 10),
+              end: Vector2(20, 20),
+              width: width,
+              categoryBits: maskBits,
+            );
+            await game.ready();
+            await game.ensureAdd(pathway);
+
+            for (final fixture in pathway.body.fixtures) {
+              expect(fixture, isA<Fixture>());
+              expect(
+                fixture.filterData.categoryBits,
+                equals(maskBits),
+              );
+            }
+          },
+        );
       });
     });
 
