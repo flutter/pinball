@@ -63,7 +63,4 @@ class BottomWallBallContactCallback extends ContactCallback<Ball, BottomWall> {
   void begin(Ball ball, BottomWall wall, Contact contact) {
     ball.lost();
   }
-
-  @override
-  void end(_, __, ___) {}
 }
