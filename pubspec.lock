@@ -153,7 +153,7 @@ packages:
     description:
       path: "packages/flame_forge2d"
       ref: "spydon.body-component-no-debug-render"
-      resolved-ref: d54a9269ab60e1d4dfec15f4660217c124ab86af
+      resolved-ref: "70ec2d164f6067c6cf8ba173db159f5a9a3a89ff"
       url: "git@github.com:flame-engine/flame.git"
     source: git
     version: "0.9.0-releasecandidate.3"

@@ -46,7 +46,7 @@ class BonusLetter extends BodyComponent<PinballGame>
         textRenderer: TextPaint(
           style: const TextStyle(fontSize: 2, color: Colors.white),
         ),
-      )..flipVertically(),
+      ),
     );
   }
 
