@@ -2,6 +2,13 @@
 
 part of 'game_bloc.dart';
 
+/// Defines bonuses that a player can gain during a PinballGame.
+enum GameBonus {
+  /// Bonus achieved when the user activate all of the bonus
+  /// letters on the board, forming the bonus word
+  word,
+}
+
 /// {@template game_state}
 /// Represents the state of the pinball game.
 /// {@endtemplate}
@@ -10,14 +17,16 @@ class GameState extends Equatable {
   const GameState({
     required this.score,
     required this.balls,
-    required this.bonusLetters,
+    required this.activatedBonusLetters,
+    required this.bonusHistory,
   })  : assert(score >= 0, "Score can't be negative"),
         assert(balls >= 0, "Number of balls can't be negative");
 
   const GameState.initial()
       : score = 0,
         balls = 3,
-        bonusLetters = const [];
+        activatedBonusLetters = const [],
+        bonusHistory = const [];
 
   /// The current score of the game.
   final int score;
@@ -28,7 +37,11 @@ class GameState extends Equatable {
   final int balls;
 
   /// Active bonus letters.
-  final List<String> bonusLetters;
+  final List<int> activatedBonusLetters;
+
+  /// Holds the history of all the [GameBonus]es earned by the player during a
+  /// PinballGame.
+  final List<GameBonus> bonusHistory;
 
   /// Determines when the game is over.
   bool get isGameOver => balls == 0;
@@ -39,7 +52,8 @@ class GameState extends Equatable {
   GameState copyWith({
     int? score,
     int? balls,
-    List<String>? bonusLetters,
+    List<int>? activatedBonusLetters,
+    List<GameBonus>? bonusHistory,
   }) {
     assert(
       score == null || score >= this.score,
@@ -49,7 +63,9 @@ class GameState extends Equatable {
     return GameState(
       score: score ?? this.score,
       balls: balls ?? this.balls,
-      bonusLetters: bonusLetters ?? this.bonusLetters,
+      activatedBonusLetters:
+          activatedBonusLetters ?? this.activatedBonusLetters,
+      bonusHistory: bonusHistory ?? this.bonusHistory,
     );
   }
 
@@ -57,6 +73,7 @@ class GameState extends Equatable {
   List<Object?> get props => [
         score,
         balls,
-        bonusLetters,
+        activatedBonusLetters,
+        bonusHistory,
       ];
 }

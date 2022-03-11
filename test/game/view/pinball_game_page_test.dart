@@ -84,7 +84,13 @@ void main() {
       'renders a game over dialog when the user has lost',
       (tester) async {
         final gameBloc = MockGameBloc();
-        const state = GameState(score: 0, balls: 0, bonusLetters: []);
+        const state = GameState(
+          score: 0,
+          balls: 0,
+          activatedBonusLetters: [],
+          bonusHistory: [],
+        );
+
         whenListen(
           gameBloc,
           Stream.value(state),
