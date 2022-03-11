@@ -10,7 +10,7 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(PinballGameX.initial);
+  final flameTester = FlameTester(PinballGameTest.create);
 
   group('Pathway', () {
     const width = 50.0;
