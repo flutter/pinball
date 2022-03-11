@@ -9,12 +9,11 @@ import 'package:pinball/game/game.dart';
 ///
 /// [SlingShot]s are usually positioned above each [Flipper].
 /// {@endtemplate sling_shot}
-class SlingShot extends PositionBodyComponent {
+class SlingShot extends BodyComponent {
   /// @{macro sling_shot}
   SlingShot({
     required Vector2 position,
-  })  : _position = position,
-        super(size: Vector2(10, 10)) {
+  }) : _position = position {
     // TODO(alestiago): Use sprite instead of color when provided.
     paint = Paint()
       ..color = const Color(0xFF00FF00)
@@ -26,6 +25,9 @@ class SlingShot extends PositionBodyComponent {
 
   List<FixtureDef> _createFixtureDefs() {
     final fixtures = <FixtureDef>[];
+
+    // TODO(alestiago): Use size from PositionedComponent instead.
+    final size = Vector2(10, 10);
 
     final triangleVertices = [
       Vector2(0, 0),
