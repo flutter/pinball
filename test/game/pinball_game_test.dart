@@ -18,6 +18,7 @@ void main() {
       () {
         bool Function(Component) componentSelector<T>() =>
             (component) => component is T;
+ 
         group('FlipperGroup', () {
           flameTester.test(
             'has only one right Flipper',
