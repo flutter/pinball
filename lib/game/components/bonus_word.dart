@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 
 /// {@template bonus_word}
-/// A component that controls the bonus word feature
+/// Loads all [BonusLetter]s to compose a [BonusWord].
 /// {@endtemplate}
 class BonusWord extends Component {
   /// {@macro bonus_word}
@@ -124,7 +124,7 @@ class BonusLetter extends BodyComponent<PinballGame>
 }
 
 /// Triggers [BonusLetter.activate] method when a [BonusLetter] and a [Ball]
-// come in contact.
+/// come in contact.
 class BonusLetterBallContactCallback
     extends ContactCallback<Ball, BonusLetter> {
   @override

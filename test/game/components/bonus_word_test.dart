@@ -78,7 +78,7 @@ void main() {
       );
     });
 
-    group('first fixture', () {
+    group('fixture', () {
       flameTester.test(
         'exists',
         (game) async {
