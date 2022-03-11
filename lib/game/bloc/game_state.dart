@@ -51,8 +51,7 @@ class GameState extends Equatable {
 
   /// Shortcut method to check if the given [i]
   /// is activated.
-  bool isLetterActivated(int i) =>
-      activatedBonusLetters.contains(i);
+  bool isLetterActivated(int i) => activatedBonusLetters.contains(i);
 
   GameState copyWith({
     int? score,
