@@ -54,10 +54,13 @@ class PinballGame extends Forge2DGame
         camera.viewport.effectiveSize.y / 1.1,
       ),
     );
-    await add(
-      FlipperGroup(
-        position: flippersPosition,
-        spacing: 2,
+
+    unawaited(
+      add(
+        FlipperGroup(
+          position: flippersPosition,
+          spacing: 2,
+        ),
       ),
     );
   }
