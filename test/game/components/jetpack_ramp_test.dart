@@ -66,7 +66,8 @@ void main() {
           await game.ready();
           await game.ensureAdd(jetpackRamp);
 
-          final rampAreas = game.children.whereType<JetpackRampArea>().toList();
+          final rampAreas =
+              jetpackRamp.children.whereType<JetpackRampArea>().toList();
           expect(rampAreas.length, 2);
         },
       );
@@ -80,7 +81,8 @@ void main() {
           await game.ready();
           await game.ensureAdd(jetpackRamp);
 
-          final rampAreas = game.children.whereType<JetpackRampArea>().toList();
+          final rampAreas =
+              jetpackRamp.children.whereType<JetpackRampArea>().toList();
           for (final rampArea in rampAreas) {
             expect(rampArea.body.bodyType, equals(BodyType.static));
           }

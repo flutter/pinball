@@ -32,7 +32,7 @@ void main() {
           await game.ensureAdd(sparkyRamp);
 
           expect(
-            () => game.children.singleWhere(
+            () => sparkyRamp.children.singleWhere(
               pathwaySelector(position),
             ),
             returnsNormally,
@@ -66,7 +66,8 @@ void main() {
           await game.ready();
           await game.ensureAdd(sparkyRamp);
 
-          final rampAreas = game.children.whereType<SparkyRampArea>().toList();
+          final rampAreas =
+              sparkyRamp.children.whereType<SparkyRampArea>().toList();
           expect(rampAreas.length, 2);
         },
       );
@@ -80,7 +81,8 @@ void main() {
           await game.ready();
           await game.ensureAdd(sparkyRamp);
 
-          final rampAreas = game.children.whereType<SparkyRampArea>().toList();
+          final rampAreas =
+              sparkyRamp.children.whereType<SparkyRampArea>().toList();
           for (final rampArea in rampAreas) {
             expect(rampArea.body.bodyType, equals(BodyType.static));
           }

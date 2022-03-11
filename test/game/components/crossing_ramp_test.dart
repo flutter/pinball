@@ -67,6 +67,7 @@ void main() {
           position: Vector2.zero(),
           categoryBits: RampType.all.maskBits,
         );
+        await game.ready();
         await game.ensureAdd(ramp);
 
         expect(game.contains(ramp), isTrue);
