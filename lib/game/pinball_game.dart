@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:ui';
-import 'dart:math' as math;
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
@@ -150,9 +149,9 @@ class PinballGame extends Forge2DGame
   }
 
   @override
-  void onTapDown(TapDownInfo details) {
-    super.onTapDown(details);
-    final tapPosition = details.eventPosition.game;
+  void onTapDown(TapDownInfo info) {
+    super.onTapDown(info);
+    final tapPosition = info.eventPosition.game;
     add(
       Ball(
         position: tapPosition,
