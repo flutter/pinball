@@ -22,9 +22,4 @@ class BallScorePointsCallback extends ContactCallback<Ball, ScorePoints> {
   ) {
     ball.gameRef.read<GameBloc>().add(Scored(points: scorePoints.points));
   }
-
-  // TODO(alestiago): remove once this issue is closed.
-  // https://github.com/flame-engine/flame/issues/1414
-  @override
-  void end(Ball _, ScorePoints __, Contact ___) {}
 }
