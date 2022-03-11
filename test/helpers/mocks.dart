@@ -1,3 +1,4 @@
+import 'package:flame/input.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -32,3 +33,7 @@ class MockRawKeyUpEvent extends Mock implements RawKeyUpEvent {
     return super.toString();
   }
 }
+
+class MockTapUpInfo extends Mock implements TapUpInfo {}
+
+class MockEventPosition extends Mock implements EventPosition {}

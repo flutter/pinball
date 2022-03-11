@@ -53,7 +53,7 @@ class Ball extends PositionBodyComponent<PinballGame, SpriteComponent> {
 
     final bloc = gameRef.read<GameBloc>()..add(const BallLost());
 
-    final shouldBallRespwan = !bloc.state.isLastBall;
+    final shouldBallRespwan = !bloc.state.isLastBall && !bloc.state.isGameOver;
     if (shouldBallRespwan) {
       gameRef.spawnBall();
     }

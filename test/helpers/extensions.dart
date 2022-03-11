@@ -10,3 +10,13 @@ extension PinballGameTest on PinballGame {
         ),
       );
 }
+
+/// [DebugPinballGame] extension to reduce boilerplate in tests.
+extension DebugPinballGameTest on DebugPinballGame {
+  /// Create [PinballGame] with default [PinballTheme].
+  static DebugPinballGame create() => DebugPinballGame(
+        theme: const PinballTheme(
+          characterTheme: DashTheme(),
+        ),
+      );
+}
