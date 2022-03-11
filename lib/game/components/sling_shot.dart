@@ -1,3 +1,4 @@
+import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
@@ -8,11 +9,12 @@ import 'package:pinball/game/game.dart';
 ///
 /// [SlingShot]s are usually positioned above each [Flipper].
 /// {@endtemplate sling_shot}
-class SlingShot extends BodyComponent {
+class SlingShot extends PositionBodyComponent {
   /// @{macro sling_shot}
   SlingShot({
     required Vector2 position,
-  }) : _position = position {
+  })  : _position = position,
+        super(size: Vector2(10, 10)) {
     // TODO(alestiago): Use sprite instead of color when provided.
     paint = Paint()
       ..color = const Color(0xFF00FF00)
@@ -24,8 +26,6 @@ class SlingShot extends BodyComponent {
 
   List<FixtureDef> _createFixtureDefs() {
     final fixtures = <FixtureDef>[];
-    // TODO(alestiago): use size from [PositionBodyComponent].
-    final size = Vector2(10, 10);
 
     final triangleVertices = [
       Vector2(0, 0),
