@@ -28,6 +28,26 @@ class PinballGame extends Forge2DGame
     await _addGameBoundaries();
     unawaited(_addPlunger());
 
+    // Corner wall above plunger so the ball deflects into the rest of the
+    // board.
+    // TODO(allisonryan0002): remove once we have the launch track for the ball.
+    await add(
+      Wall(
+        start: screenToWorld(
+          Vector2(
+            camera.viewport.effectiveSize.x,
+            100,
+          ),
+        ),
+        end: screenToWorld(
+          Vector2(
+            camera.viewport.effectiveSize.x - 100,
+            0,
+          ),
+        ),
+      ),
+    );
+
     unawaited(_addFlippers());
 
     unawaited(_addBonusWord());
