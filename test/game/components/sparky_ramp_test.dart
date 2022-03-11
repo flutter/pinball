@@ -12,7 +12,7 @@ class MockSparkyRampArea extends Mock implements SparkyRampArea {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(PinballGame.new);
+  final flameTester = FlameTester(PinballGameTest.create);
 
   group('SparkyRamp', () {
     group('body', () {

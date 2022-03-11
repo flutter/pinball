@@ -1,23 +1,20 @@
+// ignore_for_file: public_member_api_docs
+
 import 'dart:async';
 import 'dart:ui';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_theme/pinball_theme.dart';
 
 class PinballGame extends Forge2DGame
-    with FlameBloc, HasKeyboardHandlerComponents, TapDetector {
-  // TODO(erickzanardo): Change to the plumber position
-  late final ballStartingPosition = screenToWorld(
-        Vector2(
-          camera.viewport.effectiveSize.x / 2,
-          camera.viewport.effectiveSize.y - 20,
-        ),
-      ) -
-      Vector2(0, -20);
+    with FlameBloc, HasKeyboardHandlerComponents {
+  PinballGame({required this.theme});
 
-  // TODO(alestiago): Change to the design position.
-  late final flippersPosition = ballStartingPosition - Vector2(0, 5);
+  final PinballTheme theme;
+
+  late final Plunger plunger;
 
   late final launcherRampPosition = screenToWorld(
     Vector2(
@@ -48,23 +45,57 @@ class PinballGame extends Forge2DGame
     spawnBall();
   }
 
-  void spawnBall() {
-    add(Ball(position: ballStartingPosition));
-  }
-
   @override
   Future<void> onLoad() async {
-    addContactCallback(BallScorePointsCallback());
+    _addContactCallbacks();
 
-    await add(BottomWall(this));
-    addContactCallback(BottomWallBallContactCallback());
-
+    await _addGameBoundaries();
     unawaited(_addFlippers());
-
+    unawaited(_addPlunger());
     unawaited(_addPaths());
+
+    // Corner wall above plunger so the ball deflects into the rest of the
+    // board.
+    // TODO(allisonryan0002): remove once we have the launch track for the ball.
+    await add(
+      Wall(
+        start: screenToWorld(
+          Vector2(
+            camera.viewport.effectiveSize.x,
+            100,
+          ),
+        ),
+        end: screenToWorld(
+          Vector2(
+            camera.viewport.effectiveSize.x - 100,
+            0,
+          ),
+        ),
+      ),
+    );
+  }
+
+  void spawnBall() {
+    add(Ball(position: plunger.body.position));
+  }
+
+  void _addContactCallbacks() {
+    addContactCallback(BallScorePointsCallback());
+    addContactCallback(BottomWallBallContactCallback());
+  }
+
+  Future<void> _addGameBoundaries() async {
+    await add(BottomWall(this));
+    createBoundaries(this).forEach(add);
   }
 
   Future<void> _addFlippers() async {
+    final flippersPosition = screenToWorld(
+      Vector2(
+        camera.viewport.effectiveSize.x / 2,
+        camera.viewport.effectiveSize.y / 1.1,
+      ),
+    );
     const spaceBetweenFlippers = 2;
     final leftFlipper = Flipper.left(
       position: Vector2(
@@ -148,14 +179,38 @@ class PinballGame extends Forge2DGame
     );
   }
 
-  @override
-  void onTapDown(TapDownInfo info) {
-    super.onTapDown(info);
-    final tapPosition = info.eventPosition.game;
-    add(
-      Ball(
-        position: tapPosition,
+  Future<void> _addPlunger() async {
+    late PlungerAnchor plungerAnchor;
+    final compressionDistance = camera.viewport.effectiveSize.y / 12;
+
+    await add(
+      plunger = Plunger(
+        position: screenToWorld(
+          Vector2(
+                camera.viewport.effectiveSize.x / 1.035,
+                camera.viewport.effectiveSize.y - compressionDistance,
+              ) -
+              Vector2(160, 0),
+        ),
+        compressionDistance: compressionDistance,
       ),
     );
+    await add(plungerAnchor = PlungerAnchor(plunger: plunger));
+
+    world.createJoint(
+      PlungerAnchorPrismaticJointDef(
+        plunger: plunger,
+        anchor: plungerAnchor,
+      ),
+    );
+  }
+}
+
+class DebugPinballGame extends PinballGame with TapDetector {
+  DebugPinballGame({required PinballTheme theme}) : super(theme: theme);
+
+  @override
+  void onTapUp(TapUpInfo info) {
+    add(Ball(position: info.eventPosition.game));
   }
 }

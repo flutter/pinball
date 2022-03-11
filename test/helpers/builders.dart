@@ -2,15 +2,17 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/game/game.dart';
 
+import 'helpers.dart';
+
 FlameTester<PinballGame> flameBlocTester({
-  required GameBloc Function() gameBlocBuilder,
+  required GameBloc gameBloc,
 }) {
   return FlameTester<PinballGame>(
-    PinballGame.new,
+    PinballGameTest.create,
     pumpWidget: (gameWidget, tester) async {
       await tester.pumpWidget(
         BlocProvider.value(
-          value: gameBlocBuilder(),
+          value: gameBloc,
           child: gameWidget,
         ),
       );

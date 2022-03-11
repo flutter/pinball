@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
 
+import '../../helpers/helpers.dart';
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(PinballGame.new);
+  final flameTester = FlameTester(PinballGameTest.create);
 
   group('Pathway', () {
     const width = 50.0;
@@ -18,6 +20,7 @@ void main() {
         flameTester.test(
           'has transparent color by default when no color is specified',
           (game) async {
+            await game.ready();
             final pathway = Pathway.straight(
               position: Vector2.zero(),
               start: Vector2(10, 10),
@@ -38,6 +41,7 @@ void main() {
         flameTester.test(
           'has a color when is specified',
           (game) async {
+            await game.ready();
             const defaultColor = Colors.blue;
 
             final pathway = Pathway.straight(
@@ -59,6 +63,7 @@ void main() {
       flameTester.test(
         'loads correctly',
         (game) async {
+          await game.ready();
           final pathway = Pathway.straight(
             position: Vector2.zero(),
             start: Vector2(10, 10),
@@ -75,6 +80,7 @@ void main() {
         flameTester.test(
           'positions correctly',
           (game) async {
+            await game.ready();
             final position = Vector2.all(10);
             final pathway = Pathway.straight(
               position: position,
@@ -92,6 +98,7 @@ void main() {
         flameTester.test(
           'is static',
           (game) async {
+            await game.ready();
             final pathway = Pathway.straight(
               position: Vector2.zero(),
               start: Vector2(10, 10),
@@ -109,6 +116,7 @@ void main() {
         flameTester.test(
           'has only one ChainShape when singleWall is true',
           (game) async {
+            await game.ready();
             final pathway = Pathway.straight(
               position: Vector2.zero(),
               start: Vector2(10, 10),
@@ -128,6 +136,7 @@ void main() {
         flameTester.test(
           'has two ChainShape when singleWall is false (default)',
           (game) async {
+            await game.ready();
             final pathway = Pathway.straight(
               position: Vector2.zero(),
               start: Vector2(10, 10),
@@ -196,6 +205,7 @@ void main() {
       flameTester.test(
         'loads correctly',
         (game) async {
+          await game.ready();
           final pathway = Pathway.arc(
             position: Vector2.zero(),
             width: width,
@@ -212,6 +222,7 @@ void main() {
         flameTester.test(
           'positions correctly',
           (game) async {
+            await game.ready();
             final position = Vector2.all(10);
             final pathway = Pathway.arc(
               position: position,
@@ -229,6 +240,7 @@ void main() {
         flameTester.test(
           'is static',
           (game) async {
+            await game.ready();
             final pathway = Pathway.arc(
               position: Vector2.zero(),
               width: width,
@@ -254,6 +266,7 @@ void main() {
       flameTester.test(
         'loads correctly',
         (game) async {
+          await game.ready();
           final pathway = Pathway.bezierCurve(
             position: Vector2.zero(),
             controlPoints: controlPoints,
@@ -269,6 +282,7 @@ void main() {
         flameTester.test(
           'positions correctly',
           (game) async {
+            await game.ready();
             final position = Vector2.all(10);
             final pathway = Pathway.bezierCurve(
               position: position,
@@ -285,6 +299,7 @@ void main() {
         flameTester.test(
           'is static',
           (game) async {
+            await game.ready();
             final pathway = Pathway.bezierCurve(
               position: Vector2.zero(),
               controlPoints: controlPoints,

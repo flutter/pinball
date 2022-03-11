@@ -12,7 +12,7 @@ class MockJetpackRampArea extends Mock implements JetpackRampArea {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(PinballGame.new);
+  final flameTester = FlameTester(PinballGameTest.create);
 
   group('JetpackRamp', () {
     group('body', () {

@@ -5,6 +5,8 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
 
+import '../../helpers/helpers.dart';
+
 class FakeRampArea extends RampArea {
   FakeRampArea({
     required Vector2 position,
@@ -56,7 +58,7 @@ void main() {
 
   group('RampArea', () {
     TestWidgetsFlutterBinding.ensureInitialized();
-    final flameTester = FlameTester(PinballGame.new);
+    final flameTester = FlameTester(PinballGameTest.create);
 
     flameTester.test(
       'loads correctly',

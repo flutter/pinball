@@ -13,7 +13,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('Ball', () {
-    final flameTester = FlameTester(PinballGame.new);
+    final flameTester = FlameTester(PinballGameTest.create);
 
     flameTester.test(
       'loads correctly',
@@ -34,7 +34,11 @@ void main() {
           await game.ensureAdd(ball);
           game.contains(ball);
 
-          expect(ball.body.position, position);
+          final expectedPosition = Vector2(
+            position.x,
+            position.y + ball.size.y,
+          );
+          expect(ball.body.position, equals(expectedPosition));
         },
       );
 
@@ -49,7 +53,7 @@ void main() {
       );
     });
 
-    group('first fixture', () {
+    group('fixture', () {
       flameTester.test(
         'exists',
         (game) async {
@@ -96,10 +100,9 @@ void main() {
     });
 
     group('resetting a ball', () {
-      late GameBloc gameBloc;
+      final gameBloc = MockGameBloc();
 
       setUp(() {
-        gameBloc = MockGameBloc();
         whenListen(
           gameBloc,
           const Stream<GameState>.empty(),
@@ -107,11 +110,7 @@ void main() {
         );
       });
 
-      final tester = flameBlocTester(
-        gameBlocBuilder: () {
-          return gameBloc;
-        },
-      );
+      final tester = flameBlocTester(gameBloc: gameBloc);
 
       tester.widgetTest(
         'adds BallLost to GameBloc',
@@ -149,7 +148,8 @@ void main() {
             initialState: const GameState(
               score: 10,
               balls: 1,
-              bonusLetters: [],
+              activatedBonusLetters: [],
+              bonusHistory: [],
             ),
           );
           await game.ready();
