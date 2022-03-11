@@ -131,12 +131,15 @@ void main() {
       );
 
       blocTest<GameBloc, GameState>(
-        'adds the bonus when the sequence is completed',
-        build: () => GameBloc(bonusLettersLength: 3),
+        'adds the bonus when the word is completed',
+        build: GameBloc.new,
         act: (bloc) => bloc
           ..add(const BonusLetterActivated(0))
           ..add(const BonusLetterActivated(1))
-          ..add(const BonusLetterActivated(2)),
+          ..add(const BonusLetterActivated(2))
+          ..add(const BonusLetterActivated(3))
+          ..add(const BonusLetterActivated(4))
+          ..add(const BonusLetterActivated(5)),
         expect: () => const [
           GameState(
             score: 0,
@@ -148,6 +151,24 @@ void main() {
             score: 0,
             balls: 3,
             activatedBonusLetters: [0, 1],
+            bonusHistory: [],
+          ),
+          GameState(
+            score: 0,
+            balls: 3,
+            activatedBonusLetters: [0, 1, 2],
+            bonusHistory: [],
+          ),
+          GameState(
+            score: 0,
+            balls: 3,
+            activatedBonusLetters: [0, 1, 2, 3],
+            bonusHistory: [],
+          ),
+          GameState(
+            score: 0,
+            balls: 3,
+            activatedBonusLetters: [0, 1, 2, 3, 4],
             bonusHistory: [],
           ),
           GameState(
