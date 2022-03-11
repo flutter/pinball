@@ -13,7 +13,7 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(PinballGameX.initial);
+  final flameTester = FlameTester(PinballGameTest.create);
 
   group('Plunger', () {
     const compressionDistance = 0.0;
