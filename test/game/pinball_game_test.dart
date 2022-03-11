@@ -98,19 +98,13 @@ void main() {
     });
 
     group('Paths', () {
-      bool Function(Component) rampSelector<T>() =>
-          (component) => component is T;
       flameTester.test(
         'has only one JetpackRamp',
         (game) async {
           await game.ready();
 
-          expect(
-            () => game.children.singleWhere(
-              rampSelector<JetpackRamp>(),
-            ),
-            returnsNormally,
-          );
+          final rampAreas = game.children.whereType<JetpackRamp>().toList();
+          expect(rampAreas.length, 1);
         },
       );
 
@@ -119,12 +113,8 @@ void main() {
         (game) async {
           await game.ready();
 
-          expect(
-            () => game.children.singleWhere(
-              rampSelector<SparkyRamp>(),
-            ),
-            returnsNormally,
-          );
+          final rampAreas = game.children.whereType<SparkyRamp>().toList();
+          expect(rampAreas.length, 1);
         },
       );
     });

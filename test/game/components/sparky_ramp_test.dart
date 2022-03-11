@@ -1,5 +1,6 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -16,17 +17,43 @@ void main() {
 
   group('SparkyRamp', () {
     group('body', () {
+      bool Function(Component) pathwaySelector(Vector2 position) =>
+          (component) =>
+              component is Pathway && component.body.position == position;
+
       flameTester.test(
         'has a Pathway.arc at position',
         (game) async {
+          final position = Vector2.all(10);
           final sparkyRamp = SparkyRamp(
-            position: Vector2.zero(),
+            position: position,
+          );
+          await game.ready();
+          await game.ensureAdd(sparkyRamp);
+
+          expect(
+            () => game.children.singleWhere(
+              pathwaySelector(position),
+            ),
+            returnsNormally,
+          );
+        },
+      );
+
+      flameTester.test(
+        'path is static',
+        (game) async {
+          final position = Vector2.all(10);
+          final sparkyRamp = SparkyRamp(
+            position: position,
           );
           await game.ready();
           await game.ensureAdd(sparkyRamp);
 
           final pathways = game.children.whereType<Pathway>().toList();
-          expect(pathways.length, 1);
+          for (final pathway in pathways) {
+            expect(pathway.body.bodyType, equals(BodyType.static));
+          }
         },
       );
 
@@ -45,7 +72,7 @@ void main() {
       );
 
       flameTester.test(
-        'sensors and ramp are static',
+        'sensors are static',
         (game) async {
           final sparkyRamp = SparkyRamp(
             position: Vector2.zero(),
@@ -53,7 +80,10 @@ void main() {
           await game.ready();
           await game.ensureAdd(sparkyRamp);
 
-          game.contains(sparkyRamp);
+          final rampAreas = game.children.whereType<SparkyRampArea>().toList();
+          for (final rampArea in rampAreas) {
+            expect(rampArea.body.bodyType, equals(BodyType.static));
+          }
         },
       );
     });
@@ -67,6 +97,7 @@ void main() {
           position: Vector2.zero(),
           orientation: RampOrientation.down,
         );
+        await game.ready();
         await game.ensureAdd(ramp);
 
         expect(game.contains(ramp), isTrue);
@@ -81,9 +112,9 @@ void main() {
           position: position,
           orientation: RampOrientation.down,
         );
+        await game.ready();
         await game.ensureAdd(ramp);
 
-        game.contains(ramp);
         expect(ramp.orientation, RampOrientation.down);
       },
     );
@@ -97,9 +128,9 @@ void main() {
             position: position,
             orientation: RampOrientation.down,
           );
+          await game.ready();
           await game.ensureAdd(ramp);
 
-          game.contains(ramp);
           expect(ramp.body.position, position);
         },
       );
@@ -111,6 +142,7 @@ void main() {
             position: Vector2.zero(),
             orientation: RampOrientation.down,
           );
+          await game.ready();
           await game.ensureAdd(ramp);
 
           expect(ramp.body.bodyType, equals(BodyType.static));
@@ -125,6 +157,7 @@ void main() {
               position: Vector2.zero(),
               orientation: RampOrientation.down,
             );
+            await game.ready();
             await game.ensureAdd(ramp);
 
             expect(ramp.body.fixtures.length, 1);
@@ -142,6 +175,7 @@ void main() {
               position: Vector2.zero(),
               orientation: RampOrientation.down,
             );
+            await game.ready();
             await game.ensureAdd(ramp);
 
             final fixture = ramp.body.fixtures.first;
