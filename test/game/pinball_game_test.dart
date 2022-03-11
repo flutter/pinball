@@ -48,6 +48,38 @@ void main() {
             },
           );
         });
+
+        group('Paths', () {
+          bool Function(Component) rampSelector<T>() =>
+              (component) => component is T;
+          flameTester.test(
+            'has only one JetpackRamp',
+            (game) async {
+              await game.ready();
+
+              expect(
+                () => game.children.singleWhere(
+                  rampSelector<JetpackRamp>(),
+                ),
+                returnsNormally,
+              );
+            },
+          );
+
+          flameTester.test(
+            'has only one SparkyRamp',
+            (game) async {
+              await game.ready();
+
+              expect(
+                () => game.children.singleWhere(
+                  rampSelector<SparkyRamp>(),
+                ),
+                returnsNormally,
+              );
+            },
+          );
+        });
       },
     );
   });
