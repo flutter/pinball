@@ -131,7 +131,7 @@ void main() {
       );
 
       blocTest<GameBloc, GameState>(
-        'adds the bonus when the word is completed',
+        'adds the bonus when the bonusWord is completed',
         build: GameBloc.new,
         act: (bloc) => bloc
           ..add(const BonusLetterActivated(0))
