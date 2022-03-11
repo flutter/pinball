@@ -10,7 +10,7 @@ import 'package:pinball/game/game.dart';
 /// [SlingShot]s are usually positioned above each [Flipper].
 /// {@endtemplate sling_shot}
 class SlingShot extends BodyComponent {
-  /// @{macro sling_shot}
+  /// {@macro sling_shot}
   SlingShot({
     required Vector2 position,
   }) : _position = position {
@@ -26,13 +26,21 @@ class SlingShot extends BodyComponent {
   List<FixtureDef> _createFixtureDefs() {
     final fixtures = <FixtureDef>[];
 
-    // TODO(alestiago): Use size from PositionedComponent instead.
+    // TODO(alestiago): Use size from PositionedBodyComponent instead,
+    // once a sprite is given.
     final size = Vector2(10, 10);
 
     final triangleVertices = [
       Vector2(0, 0),
       Vector2(0, -size.y),
-      Vector2(size.x, -size.y),
+      Vector2(
+        size.x,
+        -size.y - 2.5,
+        // TODO(alestiago): This magic number can be deduced by specifying the
+        // angle and using polar coordinate system to place the bottom right
+        // vertex.
+        // Something as: y = -size.y * math.cos(angle)
+      ),
     ];
     final triangleCentroid = centroid(triangleVertices);
     for (final vertex in triangleVertices) {
