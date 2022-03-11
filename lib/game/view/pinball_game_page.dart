@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:flame/game.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/game/game.dart';
@@ -29,9 +30,15 @@ class PinballGamePage extends StatelessWidget {
 }
 
 class PinballGameView extends StatefulWidget {
-  const PinballGameView({Key? key, required this.theme}) : super(key: key);
+  const PinballGameView({
+    Key? key,
+    required this.theme,
+    bool isDebugMode = kDebugMode,
+  })  : _isDebugMode = isDebugMode,
+        super(key: key);
 
   final PinballTheme theme;
+  final bool _isDebugMode;
 
   @override
   State<PinballGameView> createState() => _PinballGameViewState();
@@ -47,7 +54,10 @@ class _PinballGameViewState extends State<PinballGameView> {
     // TODO(erickzanardo): Revisit this when we start to have more assets
     // this could expose a Stream (maybe even a cubit?) so we could show the
     // the loading progress with some fancy widgets.
-    _game = PinballGame(theme: widget.theme)..preLoadAssets();
+    _game = (widget._isDebugMode
+        ? DebugPinballGame(theme: widget.theme)
+        : PinballGame(theme: widget.theme))
+      ..preLoadAssets();
   }
 
   @override

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +22,7 @@ void main() {
       );
 
       await tester.pumpApp(
-        const PinballGamePage(theme: theme),
+        PinballGamePage(theme: theme),
         gameBloc: gameBloc,
       );
       expect(find.byType(PinballGameView), findsOneWidget);
@@ -64,9 +66,10 @@ void main() {
       );
 
       await tester.pumpApp(
-        const PinballGameView(theme: theme),
+        PinballGameView(theme: theme),
         gameBloc: gameBloc,
       );
+
       expect(
         find.byWidgetPredicate((w) => w is GameWidget<PinballGame>),
         findsOneWidget,
@@ -81,7 +84,13 @@ void main() {
       'renders a game over dialog when the user has lost',
       (tester) async {
         final gameBloc = MockGameBloc();
-        const state = GameState(score: 0, balls: 0, bonusLetters: []);
+        const state = GameState(
+          score: 0,
+          balls: 0,
+          activatedBonusLetters: [],
+          bonusHistory: [],
+        );
+
         whenListen(
           gameBloc,
           Stream.value(state),
@@ -100,5 +109,45 @@ void main() {
         );
       },
     );
+
+    testWidgets('renders the real game when not in debug mode', (tester) async {
+      final gameBloc = MockGameBloc();
+      whenListen(
+        gameBloc,
+        Stream.value(const GameState.initial()),
+        initialState: const GameState.initial(),
+      );
+
+      await tester.pumpApp(
+        const PinballGameView(theme: theme, isDebugMode: false),
+        gameBloc: gameBloc,
+      );
+      expect(
+        find.byWidgetPredicate(
+          (w) => w is GameWidget<PinballGame> && w.game is! DebugPinballGame,
+        ),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('renders the debug game when on debug mode', (tester) async {
+      final gameBloc = MockGameBloc();
+      whenListen(
+        gameBloc,
+        Stream.value(const GameState.initial()),
+        initialState: const GameState.initial(),
+      );
+
+      await tester.pumpApp(
+        const PinballGameView(theme: theme),
+        gameBloc: gameBloc,
+      );
+      expect(
+        find.byWidgetPredicate(
+          (w) => w is GameWidget<PinballGame> && w.game is DebugPinballGame,
+        ),
+        findsOneWidget,
+      );
+    });
   });
 }

@@ -13,7 +13,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('Ball', () {
-    final flameTester = FlameTester(PinballGameX.initial);
+    final flameTester = FlameTester(PinballGameTest.create);
 
     flameTester.test(
       'loads correctly',
@@ -133,7 +133,8 @@ void main() {
             initialState: const GameState(
               score: 10,
               balls: 1,
-              bonusLetters: [],
+              activatedBonusLetters: [],
+              bonusHistory: [],
             ),
           );
           await game.ready();

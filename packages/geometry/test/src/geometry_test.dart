@@ -1,7 +1,8 @@
 // ignore_for_file: prefer_const_constructors, cascade_invocations
-import 'package:flame/extensions.dart';
-import 'package:flutter_test/flutter_test.dart';
+
 import 'package:geometry/geometry.dart';
+import 'package:test/test.dart';
+import 'package:vector_math/vector_math_64.dart';
 
 class Binomial {
   Binomial({required this.n, required this.k});
@@ -42,18 +43,18 @@ void main() {
           ],
           step: 2,
         ),
-        throwsAssertionError,
+        throwsA(isA<AssertionError>()),
       );
     });
 
     test('fails if not enough control points', () {
       expect(
         () => calculateBezierCurve(controlPoints: [Vector2.zero()]),
-        throwsAssertionError,
+        throwsA(isA<AssertionError>()),
       );
       expect(
         () => calculateBezierCurve(controlPoints: []),
-        throwsAssertionError,
+        throwsA(isA<AssertionError>()),
       );
     });
 
@@ -81,15 +82,24 @@ void main() {
 
   group('binomial', () {
     test('fails if k is negative', () {
-      expect(() => binomial(1, -1), throwsAssertionError);
+      expect(
+        () => binomial(1, -1),
+        throwsA(isA<AssertionError>()),
+      );
     });
 
     test('fails if n is negative', () {
-      expect(() => binomial(-1, 1), throwsAssertionError);
+      expect(
+        () => binomial(-1, 1),
+        throwsA(isA<AssertionError>()),
+      );
     });
 
     test('fails if n < k', () {
-      expect(() => binomial(1, 2), throwsAssertionError);
+      expect(
+        () => binomial(1, 2),
+        throwsA(isA<AssertionError>()),
+      );
     });
 
     test('for a specific input gives a correct value', () {
@@ -131,7 +141,7 @@ void main() {
 
   group('factorial', () {
     test('fails if negative number', () {
-      expect(() => factorial(-1), throwsAssertionError);
+      expect(() => factorial(-1), throwsA(isA<AssertionError>()));
     });
 
     test('for a specific input gives a correct value', () {
