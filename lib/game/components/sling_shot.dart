@@ -66,9 +66,7 @@ class SlingShot extends BodyComponent {
 /// For more information: https://en.wikipedia.org/wiki/Centroid
 // TODO(alestiago): move to geometry package.
 Vector2 centroid(List<Vector2> vertices) {
-  final centroid = Vector2.zero();
-  for (final vertex in vertices) {
-    centroid.add(vertex);
-  }
-  return centroid / vertices.length.toDouble();
+  assert(vertices.isNotEmpty, 'Vertices must not be empty');
+  final sum = vertices.reduce((a, b) => a + b);
+  return sum / vertices.length.toDouble();
 }
