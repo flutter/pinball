@@ -15,6 +15,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   static const bonusWord = 'GOOGLE';
+  static const bonusWordScore = 10000;
 
   void _onBallLost(BallLost event, Emitter emit) {
     if (state.balls > 0) {
@@ -37,6 +38,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     if (newBonusLetters.length == bonusWord.length) {
       emit(
         state.copyWith(
+          score: state.score + bonusWordScore,
           activatedBonusLetters: [],
           bonusHistory: [
             ...state.bonusHistory,
