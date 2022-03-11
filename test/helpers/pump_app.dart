@@ -12,6 +12,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockingjay/mockingjay.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
+import 'package:pinball/theme/theme.dart';
 
 import 'helpers.dart';
 
@@ -20,17 +21,25 @@ extension PumpApp on WidgetTester {
     Widget widget, {
     MockNavigator? navigator,
     GameBloc? gameBloc,
+    ThemeCubit? themeCubit,
   }) {
     return pumpWidget(
-      MaterialApp(
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
+      MultiBlocProvider(
+        providers: [
+          BlocProvider.value(
+            value: themeCubit ?? MockThemeCubit(),
+          ),
+          BlocProvider.value(
+            value: gameBloc ?? MockGameBloc(),
+          ),
         ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: BlocProvider.value(
-          value: gameBloc ?? MockGameBloc(),
-          child: navigator != null
+        child: MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+          ],
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: navigator != null
               ? MockNavigatorProvider(navigator: navigator, child: widget)
               : widget,
         ),
