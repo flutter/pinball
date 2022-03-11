@@ -8,9 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 
 /// {@template bonus_letter}
-/// A pass through, [BodyType.static] component, part of
-/// a word bonus, which will active its letter once a ball
-/// pass through it
+/// [BodyType.static] sensor component, part of a word bonus,
+/// which will activate its letter after contact with a [Ball].
 /// {@endtemplate}
 class BonusLetter extends BodyComponent<PinballGame>
     with BlocComponent<GameBloc, GameState> {
@@ -25,7 +24,7 @@ class BonusLetter extends BodyComponent<PinballGame>
     paint = Paint()..color = _disableColor;
   }
 
-  /// The area size of this bonus letter
+  /// The area size of this [BonusLetter].
   static final areaSize = Vector2.all(4);
 
   static const _activeColor = Colors.green;
@@ -76,18 +75,16 @@ class BonusLetter extends BodyComponent<PinballGame>
   void onNewState(GameState state) {
     final isActive = state.isLetterActivated(_index);
 
-    final color = isActive ? _activeColor : _disableColor;
-
     add(
       ColorEffect(
-        color,
+        isActive ? _activeColor : _disableColor,
         const Offset(0, 1),
         EffectController(duration: 0.25),
       ),
     );
   }
 
-  /// When called, will activate this letter, if still not activated
+  /// Activates this [BonusLetter], if it's not already activated.
   void activate() {
     final isActive = state?.isLetterActivated(_index) ?? false;
     if (!isActive) {
@@ -96,8 +93,8 @@ class BonusLetter extends BodyComponent<PinballGame>
   }
 }
 
-/// Handles contact for [Ball] and [BonusLetter], which trigger [BonusLetter]
-/// activate method.
+/// Triggers [activate] method when a [BonusLetter] and a [Ball] come in 
+/// contact.
 class BonusLetterBallContactCallback
     extends ContactCallback<Ball, BonusLetter> {
   @override

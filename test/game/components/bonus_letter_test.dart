@@ -136,7 +136,7 @@ void main() {
       );
 
       tester.widgetTest(
-        "don't add BonusLetterActivated to GameBloc when is already activated",
+        "doesn't add BonusLetterActivated to GameBloc when already activated",
         (game, tester) async {
           const state = GameState(
             score: 0,
@@ -159,7 +159,7 @@ void main() {
       );
 
       tester.widgetTest(
-        'adds a ColorEffect when it gets activated',
+        'adds a ColorEffect',
         (game, tester) async {
           await game.ready();
           await tester.pump();
@@ -184,7 +184,7 @@ void main() {
       );
 
       tester.widgetTest(
-        'only listen when there an change on the letter status',
+        'only listens when there is a change on the letter status',
         (game, tester) async {
           await game.ready();
           await tester.pump();

@@ -50,7 +50,7 @@ class GameState extends Equatable {
   bool get isLastBall => balls == 1;
 
   /// Shortcut method to check if the given [i]
-  /// is activated on the state
+  /// is activated.
   bool isLetterActivated(int i) =>
       activatedBonusLetters.contains(i);
 
