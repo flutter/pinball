@@ -26,8 +26,6 @@ class PinballGame extends Forge2DGame
     _addContactCallbacks();
 
     await _addGameBoundaries();
-    unawaited(_addFlippers());
-    unawaited(_addBaseboards());
     unawaited(_addPlunger());
 
     // Corner wall above plunger so the ball deflects into the rest of the
@@ -49,6 +47,23 @@ class PinballGame extends Forge2DGame
         ),
       ),
     );
+
+    final flippersPosition = screenToWorld(
+      Vector2(
+        camera.viewport.effectiveSize.x / 2,
+        camera.viewport.effectiveSize.y / 1.1,
+      ),
+    );
+
+    unawaited(
+      add(
+        FlipperGroup(
+          position: flippersPosition,
+          spacing: 2,
+        ),
+      ),
+    );
+    unawaited(_addBaseboards());
   }
 
   void spawnBall() {
@@ -65,68 +80,27 @@ class PinballGame extends Forge2DGame
     createBoundaries(this).forEach(add);
   }
 
-  Future<void> _addFlippers() async {
-    final flippersPosition = screenToWorld(
-      Vector2(
-        camera.viewport.effectiveSize.x / 2,
-        camera.viewport.effectiveSize.y / 1.1,
-      ),
-    );
-    const spaceBetweenFlippers = 2;
-    final leftFlipper = Flipper.left(
-      position: Vector2(
-        flippersPosition.x - (Flipper.width / 2) - (spaceBetweenFlippers / 2),
-        flippersPosition.y,
-      ),
-    );
-    await add(leftFlipper);
-    final leftFlipperAnchor = FlipperAnchor(flipper: leftFlipper);
-    await add(leftFlipperAnchor);
-    final leftFlipperRevoluteJointDef = FlipperAnchorRevoluteJointDef(
-      flipper: leftFlipper,
-      anchor: leftFlipperAnchor,
-    );
-    // TODO(alestiago): Remove casting once the following is closed:
-    // https://github.com/flame-engine/forge2d/issues/36
-    final leftFlipperRevoluteJoint =
-        world.createJoint(leftFlipperRevoluteJointDef) as RevoluteJoint;
+  Future<void> _addPlunger() async {
+    late PlungerAnchor plungerAnchor;
+    final compressionDistance = camera.viewport.effectiveSize.y / 12;
 
-    final rightFlipper = Flipper.right(
-      position: Vector2(
-        flippersPosition.x + (Flipper.width / 2) + (spaceBetweenFlippers / 2),
-        flippersPosition.y,
+    await add(
+      plunger = Plunger(
+        position: screenToWorld(
+          Vector2(
+            camera.viewport.effectiveSize.x / 1.035,
+            camera.viewport.effectiveSize.y - compressionDistance,
+          ),
+        ),
+        compressionDistance: compressionDistance,
       ),
     );
-    await add(rightFlipper);
-    final rightFlipperAnchor = FlipperAnchor(flipper: rightFlipper);
-    await add(rightFlipperAnchor);
-    final rightFlipperRevoluteJointDef = FlipperAnchorRevoluteJointDef(
-      flipper: rightFlipper,
-      anchor: rightFlipperAnchor,
-    );
-    // TODO(alestiago): Remove casting once the following is closed:
-    // https://github.com/flame-engine/forge2d/issues/36
-    final rightFlipperRevoluteJoint =
-        world.createJoint(rightFlipperRevoluteJointDef) as RevoluteJoint;
+    await add(plungerAnchor = PlungerAnchor(plunger: plunger));
 
-    // TODO(erickzanardo): Clean this once the issue is solved:
-    // https://github.com/flame-engine/flame/issues/1417
-    // FIXME(erickzanardo): when mounted the initial position is not fully
-    // reached.
-    unawaited(
-      leftFlipper.hasMounted.future.whenComplete(
-        () => FlipperAnchorRevoluteJointDef.unlock(
-          leftFlipperRevoluteJoint,
-          leftFlipper.side,
-        ),
-      ),
-    );
-    unawaited(
-      rightFlipper.hasMounted.future.whenComplete(
-        () => FlipperAnchorRevoluteJointDef.unlock(
-          rightFlipperRevoluteJoint,
-          rightFlipper.side,
-        ),
+    world.createJoint(
+      PlungerAnchorPrismaticJointDef(
+        plunger: plunger,
+        anchor: plungerAnchor,
       ),
     );
   }
@@ -154,31 +128,6 @@ class PinballGame extends Forge2DGame
       ),
     );
     await add(rightBaseboard);
-  }
-
-  Future<void> _addPlunger() async {
-    late PlungerAnchor plungerAnchor;
-    final compressionDistance = camera.viewport.effectiveSize.y / 12;
-
-    await add(
-      plunger = Plunger(
-        position: screenToWorld(
-          Vector2(
-            camera.viewport.effectiveSize.x / 1.035,
-            camera.viewport.effectiveSize.y - compressionDistance,
-          ),
-        ),
-        compressionDistance: compressionDistance,
-      ),
-    );
-    await add(plungerAnchor = PlungerAnchor(plunger: plunger));
-
-    world.createJoint(
-      PlungerAnchorPrismaticJointDef(
-        plunger: plunger,
-        anchor: plungerAnchor,
-      ),
-    );
   }
 }
 
