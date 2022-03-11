@@ -53,16 +53,6 @@ class SlingShot extends BodyComponent {
     return fixtures;
   }
 
-  /// https://en.wikipedia.org/wiki/Centroid
-  // TODO(alestiago): use from geometry package.
-  static Vector2 centroid(List<Vector2> vertices) {
-    final centroid = Vector2.zero();
-    for (final vertex in vertices) {
-      centroid.add(vertex);
-    }
-    return centroid / vertices.length.toDouble();
-  }
-
   @override
   Body createBody() {
     final bodyDef = BodyDef()..position = _position;
@@ -71,4 +61,14 @@ class SlingShot extends BodyComponent {
 
     return body;
   }
+}
+
+/// For more information: https://en.wikipedia.org/wiki/Centroid
+// TODO(alestiago): move to geometry package.
+Vector2 centroid(List<Vector2> vertices) {
+  final centroid = Vector2.zero();
+  for (final vertex in vertices) {
+    centroid.add(vertex);
+  }
+  return centroid / vertices.length.toDouble();
 }
