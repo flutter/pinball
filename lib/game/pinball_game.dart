@@ -26,7 +26,6 @@ class PinballGame extends Forge2DGame
     _addContactCallbacks();
 
     await _addGameBoundaries();
-    unawaited(_addFlippers());
     unawaited(_addPlunger());
 
     // Corner wall above plunger so the ball deflects into the rest of the
@@ -48,6 +47,22 @@ class PinballGame extends Forge2DGame
         ),
       ),
     );
+
+    final flippersPosition = screenToWorld(
+      Vector2(
+        camera.viewport.effectiveSize.x / 2,
+        camera.viewport.effectiveSize.y / 1.1,
+      ),
+    );
+
+    unawaited(
+      add(
+        FlipperGroup(
+          position: flippersPosition,
+          spacing: 2,
+        ),
+      ),
+    );
   }
 
   void spawnBall() {
@@ -62,72 +77,6 @@ class PinballGame extends Forge2DGame
   Future<void> _addGameBoundaries() async {
     await add(BottomWall(this));
     createBoundaries(this).forEach(add);
-  }
-
-  Future<void> _addFlippers() async {
-    final flippersPosition = screenToWorld(
-      Vector2(
-        camera.viewport.effectiveSize.x / 2,
-        camera.viewport.effectiveSize.y / 1.1,
-      ),
-    );
-    const spaceBetweenFlippers = 2;
-    final leftFlipper = Flipper.left(
-      position: Vector2(
-        flippersPosition.x - (Flipper.width / 2) - (spaceBetweenFlippers / 2),
-        flippersPosition.y,
-      ),
-    );
-    await add(leftFlipper);
-    final leftFlipperAnchor = FlipperAnchor(flipper: leftFlipper);
-    await add(leftFlipperAnchor);
-    final leftFlipperRevoluteJointDef = FlipperAnchorRevoluteJointDef(
-      flipper: leftFlipper,
-      anchor: leftFlipperAnchor,
-    );
-    // TODO(alestiago): Remove casting once the following is closed:
-    // https://github.com/flame-engine/forge2d/issues/36
-    final leftFlipperRevoluteJoint =
-        world.createJoint(leftFlipperRevoluteJointDef) as RevoluteJoint;
-
-    final rightFlipper = Flipper.right(
-      position: Vector2(
-        flippersPosition.x + (Flipper.width / 2) + (spaceBetweenFlippers / 2),
-        flippersPosition.y,
-      ),
-    );
-    await add(rightFlipper);
-    final rightFlipperAnchor = FlipperAnchor(flipper: rightFlipper);
-    await add(rightFlipperAnchor);
-    final rightFlipperRevoluteJointDef = FlipperAnchorRevoluteJointDef(
-      flipper: rightFlipper,
-      anchor: rightFlipperAnchor,
-    );
-    // TODO(alestiago): Remove casting once the following is closed:
-    // https://github.com/flame-engine/forge2d/issues/36
-    final rightFlipperRevoluteJoint =
-        world.createJoint(rightFlipperRevoluteJointDef) as RevoluteJoint;
-
-    // TODO(erickzanardo): Clean this once the issue is solved:
-    // https://github.com/flame-engine/flame/issues/1417
-    // FIXME(erickzanardo): when mounted the initial position is not fully
-    // reached.
-    unawaited(
-      leftFlipper.hasMounted.future.whenComplete(
-        () => FlipperAnchorRevoluteJointDef.unlock(
-          leftFlipperRevoluteJoint,
-          leftFlipper.side,
-        ),
-      ),
-    );
-    unawaited(
-      rightFlipper.hasMounted.future.whenComplete(
-        () => FlipperAnchorRevoluteJointDef.unlock(
-          rightFlipperRevoluteJoint,
-          rightFlipper.side,
-        ),
-      ),
-    );
   }
 
   Future<void> _addPlunger() async {
