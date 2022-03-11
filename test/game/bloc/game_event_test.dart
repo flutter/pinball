@@ -56,6 +56,16 @@ void main() {
           isNot(equals(BonusLetterActivated(1))),
         );
       });
+
+      test(
+        'throws assertion error if index is bigger than the word length',
+        () {
+          expect(
+            () => BonusLetterActivated(8),
+            throwsAssertionError,
+          );
+        },
+      );
     });
   });
 }
