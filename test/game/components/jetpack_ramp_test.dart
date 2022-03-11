@@ -24,7 +24,9 @@ void main() {
           );
           await game.ready();
           await game.ensureAdd(jetpackRamp);
-          game.contains(jetpackRamp);
+
+          final pathways = game.children.whereType<Pathway>().toList();
+          expect(pathways.length, 1);
         },
       );
 
@@ -37,7 +39,8 @@ void main() {
           await game.ready();
           await game.ensureAdd(jetpackRamp);
 
-          game.contains(jetpackRamp);
+          final rampAreas = game.children.whereType<JetpackRampArea>().toList();
+          expect(rampAreas.length, 2);
         },
       );
 
