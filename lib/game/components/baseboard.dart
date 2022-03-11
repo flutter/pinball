@@ -61,11 +61,9 @@ class Baseboard extends BodyComponent {
     fixtures.add(circle2FixtureDef);
 
     final rectangle = PolygonShape()
-      ..setAsBox(
+      ..setAsBoxXY(
         (Baseboard.width - Baseboard.height) / 2,
         Baseboard.height / 2,
-        (circleShape1.position + circleShape2.position) / 2,
-        0,
       );
     final rectangleFixtureDef = FixtureDef(rectangle);
     fixtures.add(rectangleFixtureDef);
