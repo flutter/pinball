@@ -145,7 +145,7 @@ void main() {
         );
       });
 
-      final tester = flameBlocTester(gameBloc: gameBloc);
+      final tester = flameBlocTester(gameBloc: () => gameBloc);
 
       tester.widgetTest(
         'adds BonusLetterActivated to GameBloc when not activated',
