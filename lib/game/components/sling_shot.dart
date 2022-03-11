@@ -55,7 +55,7 @@ class SlingShot extends BodyComponent {
         triangleVertices.first,
         triangleVertices.last,
       );
-    final kickerFixtureDef = FixtureDef(kicker)..restitution = 2.0;
+    final kickerFixtureDef = FixtureDef(kicker)..restitution = 15.0;
     fixtures.add(kickerFixtureDef);
 
     return fixtures;
