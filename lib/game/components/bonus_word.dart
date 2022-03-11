@@ -1,11 +1,41 @@
 // ignore_for_file: avoid_renaming_method_parameters
 
+import 'dart:async';
+
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
+
+/// {@template bonus_word}
+/// A component that controls the bonus word feature
+/// {@endtemplate}
+class BonusWord extends Component {
+  /// {@macro bonus_word}
+  BonusWord({required Vector2 position}) : _position = position;
+
+  final Vector2 _position;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    final letters = GameBloc.bonusWord.split('');
+
+    for (var i = 0; i < letters.length; i++) {
+      unawaited(
+        add(
+          BonusLetter(
+            position: _position - Vector2(16 - (i * 6), -30),
+            letter: letters[i],
+            index: i,
+          ),
+        ),
+      );
+    }
+  }
+}
 
 /// {@template bonus_letter}
 /// [BodyType.static] sensor component, part of a word bonus,
@@ -93,8 +123,8 @@ class BonusLetter extends BodyComponent<PinballGame>
   }
 }
 
-/// Triggers [activate] method when a [BonusLetter] and a [Ball] come in 
-/// contact.
+/// Triggers [BonusLetter.activate] method when a [BonusLetter] and a [Ball]
+// come in contact.
 class BonusLetterBallContactCallback
     extends ContactCallback<Ball, BonusLetter> {
   @override

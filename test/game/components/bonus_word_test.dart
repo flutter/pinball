@@ -13,6 +13,21 @@ import '../../helpers/helpers.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
+  group('BonusWord', () {
+    final flameTester = FlameTester(PinballGameTest.create);
+
+    flameTester.test(
+      'loads the letters correctly',
+      (game) async {
+        await game.ready();
+
+        final bonusWord = game.children.whereType<BonusWord>().first;
+        final letters = bonusWord.children.whereType<BonusLetter>();
+        expect(letters.length, equals(GameBloc.bonusWord.length));
+      },
+    );
+  });
+
   group('BonusLetter', () {
     final flameTester = FlameTester(PinballGameTest.create);
 
@@ -113,6 +128,15 @@ void main() {
     group('bonus letter activation', () {
       final gameBloc = MockGameBloc();
 
+      BonusLetter _getBonusLetter(PinballGame game) {
+        return game.children
+            .whereType<BonusWord>()
+            .first
+            .children
+            .whereType<BonusLetter>()
+            .first;
+      }
+
       setUp(() {
         whenListen(
           gameBloc,
@@ -128,7 +152,8 @@ void main() {
         (game, tester) async {
           await game.ready();
 
-          game.children.whereType<BonusLetter>().first.activate();
+          _getBonusLetter(game).activate();
+
           await tester.pump();
 
           verify(() => gameBloc.add(const BonusLetterActivated(0))).called(1);
@@ -151,7 +176,7 @@ void main() {
           );
           await game.ready();
 
-          game.children.whereType<BonusLetter>().first.activate();
+          _getBonusLetter(game).activate();
           await game.ready(); // Making sure that all additions are done
 
           verifyNever(() => gameBloc.add(const BonusLetterActivated(0)));
@@ -171,7 +196,7 @@ void main() {
             bonusHistory: [],
           );
 
-          final bonusLetter = game.children.whereType<BonusLetter>().first;
+          final bonusLetter = _getBonusLetter(game);
 
           bonusLetter.onNewState(state);
           await tester.pump();
@@ -196,7 +221,7 @@ void main() {
             bonusHistory: [],
           );
 
-          final bonusLetter = game.children.whereType<BonusLetter>().first;
+          final bonusLetter = _getBonusLetter(game);
 
           expect(
             bonusLetter.listenWhen(const GameState.initial(), state),
