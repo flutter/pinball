@@ -19,7 +19,7 @@ class SparkyRamp extends PositionComponent with HasGameRef<PinballGame> {
 
   final double _radius = 300;
   final double _width = 80;
-  final double _angle = math.pi;
+  final double _angle = radians(200);
   final Vector2 _position;
 
   @override
@@ -36,8 +36,9 @@ class SparkyRamp extends PositionComponent with HasGameRef<PinballGame> {
     );
     await add(
       SparkyRampArea(
-        position: _position + Vector2(-19, 6),
+        position: _position + Vector2(-18, -2),
         orientation: RampOrientation.down,
+        rotation: radians(13),
       ),
     );
     await add(
