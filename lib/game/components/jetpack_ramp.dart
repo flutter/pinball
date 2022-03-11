@@ -16,7 +16,7 @@ class JetpackRamp extends PositionComponent with HasGameRef<PinballGame> {
   Future<void> onLoad() async {
     await add(
       Pathway.arc(
-        color: Color.fromARGB(255, 8, 218, 241),
+        color: const Color.fromARGB(255, 8, 218, 241),
         position: _position,
         width: 80,
         radius: 200,
@@ -30,12 +30,14 @@ class JetpackRamp extends PositionComponent with HasGameRef<PinballGame> {
       JetpackRampArea(
         position: _position + Vector2(-10.5, 0),
         rotation: radians(15),
+        orientation: RampOrientation.down,
       ),
     );
     await add(
       JetpackRampArea(
         position: _position + Vector2(20.5, 3),
         rotation: radians(-5),
+        orientation: RampOrientation.down,
       ),
     );
 
@@ -47,28 +49,36 @@ class JetpackRampArea extends RampArea {
   JetpackRampArea({
     required Vector2 position,
     double rotation = 0,
-    int size = 7,
+    required RampOrientation orientation,
   })  : _rotation = rotation,
-        _size = size,
+        _orientation = orientation,
         super(
           position: position,
           maskBits: RampType.jetpack.maskBits,
         );
 
+  final RampOrientation _orientation;
   final double _rotation;
-  final int _size;
+  final int _size = 7;
+
+  @override
+  RampOrientation get orientation => _orientation;
 
   @override
   Shape get shape => PolygonShape()
     ..set([
-      Vector2(-_size / 2, -.5)..rotate(_rotation),
-      Vector2(-_size / 2, .5)..rotate(_rotation),
-      Vector2(_size / 2, .5)..rotate(_rotation),
-      Vector2(_size / 2, -.5)..rotate(_rotation),
+      Vector2(-_size / 2, -.1)..rotate(_rotation),
+      Vector2(-_size / 2, .1)..rotate(_rotation),
+      Vector2(_size / 2, .1)..rotate(_rotation),
+      Vector2(_size / 2, -.1)..rotate(_rotation),
     ]);
 }
 
 class JetpackRampAreaCallback extends RampAreaCallback<JetpackRampArea> {
+  JetpackRampAreaCallback() : super();
+
+  final _ballsInsideJetpack = <Ball>{};
+
   @override
-  Set get ballsInside => <Ball>{};
+  Set get ballsInside => _ballsInsideJetpack;
 }

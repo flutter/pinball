@@ -1,6 +1,8 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
 
+enum RampOrientation { up, down }
+
 enum RampType { all, jetpack, sparky }
 
 extension RampTypeX on RampType {
@@ -30,6 +32,7 @@ abstract class RampArea extends BodyComponent {
 
   int get maskBits => _maskBits;
   Shape get shape;
+  RampOrientation get orientation;
 
   @override
   Body createBody() {
@@ -59,23 +62,41 @@ abstract class RampAreaCallback<Area extends RampArea>
     Area area,
     Contact _,
   ) {
+    int maskBits;
     if (!ballsInside.contains(ball)) {
-      ball.body.fixtures.first
-        ..filterData.categoryBits = area.maskBits
-        ..filterData.maskBits = area.maskBits;
+      maskBits = area.maskBits;
       ballsInside.add(ball);
+    } else {
+      maskBits = RampType.all.maskBits;
+      ballsInside.remove(ball);
     }
+
+    ball.body.fixtures.first
+      ..filterData.categoryBits = maskBits
+      ..filterData.maskBits = maskBits;
   }
 
   @override
-  void end(Ball ball, Area area, Contact ___) {
-    int maskBits;
-    if (ballsInside.contains(ball)) {
-      ball.body.fixtures.first
-        ..filterData.categoryBits = RampType.all.maskBits
-        ..filterData.maskBits = RampType.all.maskBits;
+  void end(Ball ball, Area area, Contact contact) {
+    int? maskBits;
 
-      ballsInside.remove(ball);
+    switch (area.orientation) {
+      case RampOrientation.up:
+        if (ball.body.position.y > area._position.y) {
+          maskBits = RampType.all.maskBits;
+        }
+        break;
+      case RampOrientation.down:
+        if (ball.body.position.y < area._position.y) {
+          maskBits = RampType.all.maskBits;
+        }
+        break;
+    }
+
+    if (maskBits != null) {
+      ball.body.fixtures.first
+        ..filterData.categoryBits = maskBits
+        ..filterData.maskBits = maskBits;
     }
   }
 }
