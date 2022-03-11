@@ -4,7 +4,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/components/components.dart';
 
 /// {@template wall}
-/// A continuos generic and [BodyType.static] barrier that divides a game area.
+/// A continuous generic and [BodyType.static] barrier that divides a game area.
 /// {@endtemplate}
 // TODO(alestiago): Remove [Wall] for [Pathway.straight].
 class Wall extends BodyComponent {
@@ -25,7 +25,7 @@ class Wall extends BodyComponent {
     final shape = EdgeShape()..set(start, end);
 
     final fixtureDef = FixtureDef(shape)
-      ..restitution = 0.0
+      ..restitution = 0.1
       ..friction = 0.3;
 
     final bodyDef = BodyDef()
@@ -35,6 +35,20 @@ class Wall extends BodyComponent {
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
+}
+
+/// Create top, left, and right [Wall]s for the game board.
+List<Wall> createBoundaries(Forge2DGame game) {
+  final topLeft = Vector2.zero();
+  final bottomRight = game.screenToWorld(game.camera.viewport.effectiveSize);
+  final topRight = Vector2(bottomRight.x, topLeft.y);
+  final bottomLeft = Vector2(topLeft.x, bottomRight.y);
+
+  return [
+    Wall(start: topLeft, end: topRight),
+    Wall(start: topRight, end: bottomRight),
+    Wall(start: bottomLeft, end: topLeft),
+  ];
 }
 
 /// {@template bottom_wall}

@@ -37,7 +37,7 @@ class Ball extends PositionBodyComponent<PinballGame, SpriteComponent> {
 
     final bodyDef = BodyDef()
       ..userData = this
-      ..position = _position
+      ..position = Vector2(_position.x, _position.y + size.y)
       ..type = BodyType.dynamic;
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);

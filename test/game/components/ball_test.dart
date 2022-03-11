@@ -34,7 +34,11 @@ void main() {
           await game.ensureAdd(ball);
           game.contains(ball);
 
-          expect(ball.body.position, position);
+          final expectedPosition = Vector2(
+            position.x,
+            position.y + ball.size.y,
+          );
+          expect(ball.body.position, equals(expectedPosition));
         },
       );
 
@@ -49,7 +53,7 @@ void main() {
       );
     });
 
-    group('first fixture', () {
+    group('fixture', () {
       flameTester.test(
         'exists',
         (game) async {
