@@ -130,7 +130,7 @@ class Flipper extends PositionBodyComponent with KeyboardHandler {
     );
 
     if (side.isRight) {
-      positionComponent?.flipHorizontally();
+      positionComponent!.flipHorizontally();
     }
   }
 
