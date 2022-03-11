@@ -10,8 +10,9 @@ class Baseboard extends BodyComponent {
   /// {@macro baseboard}
   Baseboard._({
     required Vector2 position,
-    required this.side,
-  }) : _position = position;
+    required BoardSide side,
+  })  : _position = position,
+        _side = side;
 
   /// A left positioned [Baseboard].
   Baseboard.left({
@@ -39,7 +40,7 @@ class Baseboard extends BodyComponent {
   final Vector2 _position;
 
   /// Whether the [Baseboard] is on the left or right side of the board.
-  final BoardSide side;
+  final BoardSide _side;
 
   List<FixtureDef> _createFixtureDefs() {
     final fixtures = <FixtureDef>[];
@@ -73,12 +74,14 @@ class Baseboard extends BodyComponent {
 
   @override
   Body createBody() {
+    // TODO(allisonryan0002): share sweeping angle with flipper when components
+    // are grouped.
     const angle = math.pi / 7;
 
     final bodyDef = BodyDef()
       ..position = _position
       ..type = BodyType.static
-      ..angle = side.isLeft ? -angle : angle;
+      ..angle = _side.isLeft ? -angle : angle;
 
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);

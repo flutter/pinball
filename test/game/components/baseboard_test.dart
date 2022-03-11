@@ -25,16 +25,6 @@ void main() {
       },
     );
 
-    group('constructor', () {
-      test('sets BoardSide', () {
-        final leftBaseboard = Baseboard.left(position: Vector2.zero());
-        expect(leftBaseboard.side, equals(leftBaseboard.side));
-
-        final rightBaseboard = Baseboard.right(position: Vector2.zero());
-        expect(rightBaseboard.side, equals(rightBaseboard.side));
-      });
-    });
-
     group('body', () {
       flameTester.test(
         'positions correctly',

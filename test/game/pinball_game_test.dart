@@ -83,6 +83,15 @@ void main() {
       });
 
       flameTester.test(
+        'Baseboards has two Baseboards',
+        (game) async {
+          await game.ready();
+          final baseboards = game.children.whereType<Baseboard>().toList();
+          expect(baseboards.length, 2);
+        },
+      );
+
+      flameTester.test(
         'Plunger has only one Plunger',
         (game) async {
           await game.ready();

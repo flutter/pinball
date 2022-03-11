@@ -27,7 +27,7 @@ class PinballGame extends Forge2DGame
 
     await _addGameBoundaries();
     unawaited(_addFlippers());
-    await _addBaseboards();
+    unawaited(_addBaseboards());
     unawaited(_addPlunger());
 
     // Corner wall above plunger so the ball deflects into the rest of the
