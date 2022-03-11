@@ -14,10 +14,10 @@ class Pathway extends BodyComponent {
     Color? color,
     required Vector2 position,
     required List<List<Vector2>> paths,
-    int? maskBits,
+    int? categoryBits,
   })  : _position = position,
         _paths = paths,
-        _maskBits = maskBits ?? Filter().maskBits {
+        _categoryBits = categoryBits ?? Filter().categoryBits {
     paint = Paint()
       ..color = color ?? const Color.fromARGB(0, 0, 0, 0)
       ..style = PaintingStyle.stroke;
@@ -38,7 +38,7 @@ class Pathway extends BodyComponent {
     required double width,
     double rotation = 0,
     bool singleWall = false,
-    int? maskBits,
+    int? categoryBits,
   }) {
     final paths = <List<Vector2>>[];
 
@@ -61,7 +61,7 @@ class Pathway extends BodyComponent {
       color: color,
       position: position,
       paths: paths,
-      maskBits: maskBits,
+      categoryBits: categoryBits,
     );
   }
 
@@ -87,7 +87,7 @@ class Pathway extends BodyComponent {
     required double angle,
     double rotation = 0,
     bool singleWall = false,
-    int? maskBits,
+    int? categoryBits,
   }) {
     final paths = <List<Vector2>>[];
 
@@ -114,7 +114,7 @@ class Pathway extends BodyComponent {
       color: color,
       position: position,
       paths: paths,
-      maskBits: maskBits,
+      categoryBits: categoryBits,
     );
   }
 
@@ -134,7 +134,7 @@ class Pathway extends BodyComponent {
     required double width,
     double rotation = 0,
     bool singleWall = false,
-    int? maskBits,
+    int? categoryBits,
   }) {
     final paths = <List<Vector2>>[];
 
@@ -157,13 +157,13 @@ class Pathway extends BodyComponent {
       color: color,
       position: position,
       paths: paths,
-      maskBits: maskBits,
+      categoryBits: categoryBits,
     );
   }
 
   Vector2 _position;
   List<List<Vector2>> _paths;
-  int _maskBits;
+  int _categoryBits;
 
   @override
   Body createBody() {
@@ -179,9 +179,7 @@ class Pathway extends BodyComponent {
         );
       final fixtureDef = FixtureDef(chain);
 
-      body.createFixture(fixtureDef)
-        ..filterData.categoryBits = _maskBits
-        ..filterData.maskBits = _maskBits;
+      body.createFixture(fixtureDef).filterData.categoryBits = _categoryBits;
     }
 
     return body;

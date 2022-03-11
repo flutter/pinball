@@ -3,13 +3,37 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
 
-enum RampOrientation { up, down }
+/// Indicates a orientation of the ramp entrance/exit.
+///
+/// Used to know if ramps are looking up or down of the board.
+enum RampOrientation {
+  /// Looking up of the board.
+  up,
 
-enum RampType { all, jetpack, sparky }
+  /// Looking up of the board.
+  down,
+}
 
+/// Indicates a type of the ramp.
+///
+/// Used to set the maskBits of the ramp to determine their possible collisions.
+enum RampType {
+  /// Collide with all elements.
+  all,
+
+  /// Collide only with Jetpack group elements.
+  jetpack,
+
+  /// Collide only with Sparky group elements.
+  sparky,
+}
+
+/// Utility methods for [RampType].
 extension RampTypeX on RampType {
+  /// Mask of bits for each [RampType].
   int get maskBits => _getRampMaskBits(this);
 
+  /// Mask of bits for each [RampType].
   int _getRampMaskBits(RampType type) {
     switch (type) {
       case RampType.all:
@@ -22,17 +46,26 @@ extension RampTypeX on RampType {
   }
 }
 
+/// {@template ramp_area}
+/// [BodyComponent] located at the entrance and exit of a ramp.
+///
+/// Detects when a [Ball] goes through it,
+/// Collisions with [RampArea] are listened by [RampAreaCallback].
+/// {@endtemplate}
 abstract class RampArea extends BodyComponent {
   RampArea({
     required Vector2 position,
-    required int maskBits,
+    required int categoryBits,
   })  : _position = position,
-        _maskBits = maskBits;
+        _categoryBits = categoryBits {
+    // TODO(ruialonso): remove paint color for BodyComponent.
+    // Left white for dev and testing.
+  }
 
   final Vector2 _position;
-  final int _maskBits;
+  final int _categoryBits;
 
-  int get maskBits => _maskBits;
+  int get categoryBits => _categoryBits;
   Shape get shape;
   RampOrientation get orientation;
 
@@ -46,16 +79,21 @@ abstract class RampArea extends BodyComponent {
       ..type = BodyType.static;
 
     final body = world.createBody(bodyDef);
-    body.createFixture(fixtureDef).filterData
-      ..categoryBits = Filter().maskBits
-      ..maskBits = Filter().maskBits;
+    body.createFixture(fixtureDef).filterData.categoryBits = _categoryBits;
 
     return body;
   }
 }
 
+/// {@template ramp_area_callback}
+/// Listens when a [Ball] goes through a [RampArea] and gets into a [Pathway]
+/// ramp, in order to avoid collisions with other crossing ramps.
+/// Modifies [Ball]'s maskBits while is inside the ramp. When exits sets [Ball]
+/// maskBits to collide with all elements.
+/// {@endtemplate}
 abstract class RampAreaCallback<Area extends RampArea>
     extends ContactCallback<Ball, Area> {
+  /// Collection of balls inside ramp pathway.
   Set get ballsInside;
 
   @override
@@ -66,7 +104,7 @@ abstract class RampAreaCallback<Area extends RampArea>
   ) {
     int maskBits;
     if (!ballsInside.contains(ball)) {
-      maskBits = area.maskBits;
+      maskBits = area.categoryBits;
       ballsInside.add(ball);
     } else {
       maskBits = RampType.all.maskBits;

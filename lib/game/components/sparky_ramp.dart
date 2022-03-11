@@ -4,12 +4,22 @@ import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
 
+/// {@template sparky_ramp}
+/// Represent the upper right yellow ramp for the game.
+///
+/// Group of [Component]s composed by a [Pathway.arc] as the ramp, and two
+/// [SparkyRampArea] at the entrance and exit of the ramp, to detect when
+/// a ball gets into/out of the ramp.
+/// {@endtemplate}
 class SparkyRamp extends PositionComponent with HasGameRef<PinballGame> {
   SparkyRamp({
     required Vector2 position,
   })  : _position = position,
         super();
 
+  final double _radius = 300;
+  final double _width = 80;
+  final double _angle = math.pi;
   final Vector2 _position;
 
   @override
@@ -18,10 +28,10 @@ class SparkyRamp extends PositionComponent with HasGameRef<PinballGame> {
       Pathway.arc(
         color: const Color.fromARGB(255, 251, 255, 0),
         position: _position,
-        radius: 300,
-        angle: math.pi,
-        width: 80,
-        maskBits: RampType.sparky.maskBits,
+        radius: _radius,
+        angle: _angle,
+        width: _width,
+        categoryBits: RampType.sparky.maskBits,
       ),
     );
     await add(
@@ -41,6 +51,12 @@ class SparkyRamp extends PositionComponent with HasGameRef<PinballGame> {
   }
 }
 
+/// {@template sparky_ramp_area}
+/// Implementation of [RampArea] for sensors in [SparkyRamp].
+///
+/// [RampArea] with [RampType.sparky] to filter [Ball]s collisions
+/// inside [SparkyRamp].
+/// {@endtemplate}
 class SparkyRampArea extends RampArea {
   SparkyRampArea({
     required Vector2 position,
@@ -50,11 +66,18 @@ class SparkyRampArea extends RampArea {
         _orientation = orientation,
         super(
           position: position,
-          maskBits: RampType.sparky.maskBits,
+          categoryBits: RampType.sparky.maskBits,
         );
 
+  /// Orientation of entrance/exit of [SparkyRamp] where
+  /// this [SparkyRampArea] is placed.
   final RampOrientation _orientation;
+
+  /// Rotation of the [RampArea] to place it right at the
+  /// entrance/exit of [SparkyRamp].
   final double _rotation;
+
+  /// Size of the [RampArea] placed at the entrance/exit of [SparkyRamp].
   final int _size = 7;
 
   @override
@@ -70,9 +93,14 @@ class SparkyRampArea extends RampArea {
     ]);
 }
 
+/// {@template sparky_ramp_area_callback}
+/// Implementation of [RampAreaCallback] to listen when a [Ball]
+/// gets into a [SparkyRampArea].
+/// {@endtemplate}
 class SparkyRampAreaCallback extends RampAreaCallback<SparkyRampArea> {
   SparkyRampAreaCallback() : super();
 
+  /// Collection of balls inside [SparkyRamp].
   final _ballsInsideSparky = <Ball>{};
 
   @override
