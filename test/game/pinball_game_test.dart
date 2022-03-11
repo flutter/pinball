@@ -12,7 +12,7 @@ void main() {
   group('PinballGame', () {
     TestWidgetsFlutterBinding.ensureInitialized();
     final flameTester = FlameTester(PinballGameTest.create);
-    final debugModeFlameTester = FlameTester(DebugPinballGameX.initial);
+    final debugModeFlameTester = FlameTester(DebugPinballGameTest.create);
 
     // TODO(alestiago): test if [PinballGame] registers
     // [BallScorePointsCallback] once the following issue is resolved:
