@@ -13,17 +13,7 @@ class PinballGame extends Forge2DGame
 
   final PinballTheme theme;
 
-  // TODO(erickzanardo): Change to the plumber position
-  late final ballStartingPosition = screenToWorld(
-        Vector2(
-          camera.viewport.effectiveSize.x / 2,
-          camera.viewport.effectiveSize.y - 20,
-        ),
-      ) -
-      Vector2(0, -20);
-
-  // TODO(alestiago): Change to the design position.
-  late final flippersPosition = ballStartingPosition - Vector2(0, 5);
+  late final Plunger plunger;
 
   @override
   void onAttach() {
@@ -31,23 +21,57 @@ class PinballGame extends Forge2DGame
     spawnBall();
   }
 
-  void spawnBall() {
-    add(Ball(position: ballStartingPosition));
-  }
-
   @override
   Future<void> onLoad() async {
-    addContactCallback(BallScorePointsCallback());
+    _addContactCallbacks();
 
-    await add(BottomWall(this));
-    addContactCallback(BottomWallBallContactCallback());
-
+    await _addGameBoundaries();
     unawaited(_addFlippers());
-
     await _addBaseboards();
+    unawaited(_addPlunger());
+
+    // Corner wall above plunger so the ball deflects into the rest of the
+    // board.
+    // TODO(allisonryan0002): remove once we have the launch track for the ball.
+    await add(
+      Wall(
+        start: screenToWorld(
+          Vector2(
+            camera.viewport.effectiveSize.x,
+            100,
+          ),
+        ),
+        end: screenToWorld(
+          Vector2(
+            camera.viewport.effectiveSize.x - 100,
+            0,
+          ),
+        ),
+      ),
+    );
+  }
+
+  void spawnBall() {
+    add(Ball(position: plunger.body.position));
+  }
+
+  void _addContactCallbacks() {
+    addContactCallback(BallScorePointsCallback());
+    addContactCallback(BottomWallBallContactCallback());
+  }
+
+  Future<void> _addGameBoundaries() async {
+    await add(BottomWall(this));
+    createBoundaries(this).forEach(add);
   }
 
   Future<void> _addFlippers() async {
+    final flippersPosition = screenToWorld(
+      Vector2(
+        camera.viewport.effectiveSize.x / 2,
+        camera.viewport.effectiveSize.y / 1.1,
+      ),
+    );
     const spaceBetweenFlippers = 2;
     final leftFlipper = Flipper.left(
       position: Vector2(
@@ -109,12 +133,13 @@ class PinballGame extends Forge2DGame
 
   Future<void> _addBaseboards() async {
     final spaceBetweenBaseboards = camera.viewport.effectiveSize.x / 2;
+    final baseboardY = camera.viewport.effectiveSize.y / 1.12;
 
     final leftBaseboard = Baseboard.left(
       position: screenToWorld(
         Vector2(
           camera.viewport.effectiveSize.x / 2 - (spaceBetweenBaseboards / 2),
-          camera.viewport.effectiveSize.y / 1.17,
+          baseboardY,
         ),
       ),
     );
@@ -124,11 +149,36 @@ class PinballGame extends Forge2DGame
       position: screenToWorld(
         Vector2(
           camera.viewport.effectiveSize.x / 2 + (spaceBetweenBaseboards / 2),
-          camera.viewport.effectiveSize.y / 1.17,
+          baseboardY,
         ),
       ),
     );
     await add(rightBaseboard);
+  }
+
+  Future<void> _addPlunger() async {
+    late PlungerAnchor plungerAnchor;
+    final compressionDistance = camera.viewport.effectiveSize.y / 12;
+
+    await add(
+      plunger = Plunger(
+        position: screenToWorld(
+          Vector2(
+            camera.viewport.effectiveSize.x / 1.035,
+            camera.viewport.effectiveSize.y - compressionDistance,
+          ),
+        ),
+        compressionDistance: compressionDistance,
+      ),
+    );
+    await add(plungerAnchor = PlungerAnchor(plunger: plunger));
+
+    world.createJoint(
+      PlungerAnchorPrismaticJointDef(
+        plunger: plunger,
+        anchor: plungerAnchor,
+      ),
+    );
   }
 }
 
