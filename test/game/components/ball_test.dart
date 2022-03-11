@@ -82,6 +82,17 @@ void main() {
           expect(fixture.shape.radius, equals(1));
         },
       );
+
+      flameTester.test(
+        'has default filter maskBits',
+        (game) async {
+          final ball = Ball(position: Vector2.zero());
+          await game.ensureAdd(ball);
+
+          final fixture = ball.body.fixtures[0];
+          expect(fixture.filterData.maskBits, equals(Filter().maskBits));
+        },
+      );
     });
 
     group('resetting a ball', () {

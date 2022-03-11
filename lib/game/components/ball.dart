@@ -39,9 +39,7 @@ class Ball extends PositionBodyComponent<PinballGame, SpriteComponent>
 
     final body = world.createBody(bodyDef);
 
-    body.createFixture(fixtureDef)
-      ..filterData.categoryBits = _maskBits
-      ..filterData.maskBits = _maskBits;
+    body.createFixture(fixtureDef).filterData.maskBits = _maskBits;
     return body;
   }
 
