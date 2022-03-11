@@ -10,7 +10,7 @@ import '../../helpers/helpers.dart';
 void main() {
   group('Baseboard', () {
     TestWidgetsFlutterBinding.ensureInitialized();
-    final flameTester = FlameTester(PinballGameX.initial);
+    final flameTester = FlameTester(PinballGameTest.create);
 
     flameTester.test(
       'loads correctly',
