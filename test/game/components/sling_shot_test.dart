@@ -66,6 +66,17 @@ void main() {
           expect((fixture.shape as PolygonShape).vertices.length, equals(3));
         },
       );
+
+      flameTester.test(
+        'has no friction',
+        (game) async {
+          final slingShot = SlingShot(position: Vector2.zero());
+          await game.ensureAdd(slingShot);
+
+          final fixture = slingShot.body.fixtures[0];
+          expect(fixture.friction, equals(0));
+        },
+      );
     });
 
     group('second fixture', () {
@@ -98,6 +109,17 @@ void main() {
 
           final fixture = slingShot.body.fixtures[1];
           expect(fixture.restitution, greaterThan(0));
+        },
+      );
+
+      flameTester.test(
+        'has no friction',
+        (game) async {
+          final slingShot = SlingShot(position: Vector2.zero());
+          await game.ensureAdd(slingShot);
+
+          final fixture = slingShot.body.fixtures[1];
+          expect(fixture.friction, equals(0));
         },
       );
     });

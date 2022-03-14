@@ -49,7 +49,8 @@ class SlingShot extends BodyComponent {
     }
 
     final triangle = PolygonShape()..set(triangleVertices);
-    fixtures.add(FixtureDef(triangle));
+    final triangleFixture = FixtureDef(triangle)..friction = 0;
+    fixtures.add(triangleFixture);
 
     final kicker = EdgeShape()
       ..set(
@@ -57,7 +58,9 @@ class SlingShot extends BodyComponent {
         triangleVertices.last,
       );
     // TODO(alestiago): Play with restitution value once game is bundled.
-    final kickerFixtureDef = FixtureDef(kicker)..restitution = 20.0;
+    final kickerFixtureDef = FixtureDef(kicker)
+      ..restitution = 20.0
+      ..friction = 0;
     fixtures.add(kickerFixtureDef);
 
     return fixtures;
