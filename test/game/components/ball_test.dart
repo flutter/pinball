@@ -166,11 +166,11 @@ void main() {
       );
     });
 
-    group('maskBits', () {
+    group('setMaskBits', () {
       final flameTester = FlameTester(PinballGameTest.create);
 
       flameTester.test(
-        'is modified correctly',
+        'modifies maskBits correctly',
         (game) async {
           const newMaskBits = 1234;
 
