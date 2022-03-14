@@ -159,7 +159,7 @@ void main() {
 
   group('centroid', () {
     test('throws AssertionError when vertices are empty', () {
-      expect(() => centroid([]), throwsAssertionError);
+      expect(() => centroid([]), throwsA(isA<AssertionError>()));
     });
 
     test('is correct when one vertex is given', () {
