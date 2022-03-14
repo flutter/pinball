@@ -9,7 +9,12 @@ import '../../helpers/helpers.dart';
 void main() {
   group('GameHud', () {
     late GameBloc gameBloc;
-    const initialState = GameState(score: 10, balls: 2, bonusLetters: []);
+    const initialState = GameState(
+      score: 10,
+      balls: 2,
+      activatedBonusLetters: [],
+      bonusHistory: [],
+    );
 
     void _mockState(GameState state) {
       whenListen(

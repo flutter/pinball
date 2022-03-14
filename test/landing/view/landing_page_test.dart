@@ -12,7 +12,7 @@ void main() {
       expect(find.byType(TextButton), findsOneWidget);
     });
 
-    testWidgets('tapping on TextButton navigates to PinballGamePage',
+    testWidgets('tapping on TextButton navigates to CharacterSelectionPage',
         (tester) async {
       final navigator = MockNavigator();
       when(() => navigator.push<void>(any())).thenAnswer((_) async {});

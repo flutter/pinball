@@ -1,4 +1,15 @@
 {
     "@@locale": "en",
-    "play": "Play"
+    "play": "Play",
+    "@play": {
+        "description": "Text displayed on the landing page play button"
+    },
+    "start": "Start",
+    "@start": {
+        "description": "Text displayed on the character selection page start button"
+    },
+    "characterSelectionTitle": "Choose your character!",
+    "@characterSelectionTitle": {
+        "description": "Title text displayed on the character selection page"
+    }
 }

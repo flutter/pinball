@@ -17,5 +17,9 @@ void main() {
     test('ballColor is correct', () {
       expect(DinoTheme().ballColor, equals(Colors.grey));
     });
+
+    test('characterAsset is correct', () {
+      expect(DinoTheme().characterAsset, equals(Assets.images.dino));
+    });
   });
 }

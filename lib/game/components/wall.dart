@@ -4,15 +4,20 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/components/components.dart';
 
 /// {@template wall}
-/// A continuos generic and [BodyType.static] barrier that divides a game area.
+/// A continuous generic and [BodyType.static] barrier that divides a game area.
 /// {@endtemplate}
+// TODO(alestiago): Remove [Wall] for [Pathway.straight].
 class Wall extends BodyComponent {
+  /// {@macro wall}
   Wall({
     required this.start,
     required this.end,
   });
 
+  /// The [start] of the [Wall].
   final Vector2 start;
+
+  /// The [end] of the [Wall].
   final Vector2 end;
 
   @override
@@ -20,7 +25,7 @@ class Wall extends BodyComponent {
     final shape = EdgeShape()..set(start, end);
 
     final fixtureDef = FixtureDef(shape)
-      ..restitution = 0.0
+      ..restitution = 0.1
       ..friction = 0.3;
 
     final bodyDef = BodyDef()
@@ -32,6 +37,20 @@ class Wall extends BodyComponent {
   }
 }
 
+/// Create top, left, and right [Wall]s for the game board.
+List<Wall> createBoundaries(Forge2DGame game) {
+  final topLeft = Vector2.zero();
+  final bottomRight = game.screenToWorld(game.camera.viewport.effectiveSize);
+  final topRight = Vector2(bottomRight.x, topLeft.y);
+  final bottomLeft = Vector2(topLeft.x, bottomRight.y);
+
+  return [
+    Wall(start: topLeft, end: topRight),
+    Wall(start: topRight, end: bottomRight),
+    Wall(start: bottomLeft, end: topLeft),
+  ];
+}
+
 /// {@template bottom_wall}
 /// [Wall] located at the bottom of the board.
 ///
@@ -39,6 +58,7 @@ class Wall extends BodyComponent {
 /// [BottomWallBallContactCallback].
 /// {@endtemplate}
 class BottomWall extends Wall {
+  /// {@macro bottom_wall}
   BottomWall(Forge2DGame game)
       : super(
           start: game.screenToWorld(game.camera.viewport.effectiveSize),
@@ -57,7 +77,4 @@ class BottomWallBallContactCallback extends ContactCallback<Ball, BottomWall> {
   void begin(Ball ball, BottomWall wall, Contact contact) {
     ball.lost();
   }
-
-  @override
-  void end(_, __, ___) {}
 }

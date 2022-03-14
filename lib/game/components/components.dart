@@ -1,6 +1,8 @@
 export 'anchor.dart';
 export 'ball.dart';
+export 'baseboard.dart';
 export 'board_side.dart';
+export 'bonus_word.dart';
 export 'flipper.dart';
 export 'pathway.dart';
 export 'plunger.dart';
