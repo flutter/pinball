@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flame/components.dart' show PositionComponent, SpriteComponent;
 import 'package:flame/input.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flame_forge2d/position_body_component.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball/game/game.dart';
 

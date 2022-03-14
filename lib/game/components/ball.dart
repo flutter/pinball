@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flame_forge2d/position_body_component.dart';
 import 'package:pinball/game/game.dart';
 
 /// {@template ball}
