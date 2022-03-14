@@ -2,6 +2,7 @@ export 'anchor.dart';
 export 'ball.dart';
 export 'board_side.dart';
 export 'flipper.dart';
+export 'initial_position.dart';
 export 'pathway.dart';
 export 'plunger.dart';
 export 'score_points.dart';
