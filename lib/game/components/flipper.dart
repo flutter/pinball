@@ -1,11 +1,44 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:flame/components.dart' show SpriteComponent;
+import 'package:flame/components.dart' show PositionComponent, SpriteComponent;
 import 'package:flame/input.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball/game/game.dart';
+
+/// {@template flipper_group}
+/// Loads a [Flipper.right] and a [Flipper.left].
+/// {@endtemplate}
+class FlipperGroup extends PositionComponent {
+  /// {@macro flipper_group}
+  FlipperGroup({
+    required Vector2 position,
+    required this.spacing,
+  }) : super(position: position);
+
+  /// The amount of space between the [Flipper.right] and [Flipper.left].
+  final double spacing;
+
+  @override
+  Future<void> onLoad() async {
+    final leftFlipper = Flipper.left(
+      position: Vector2(
+        position.x - (Flipper.width / 2) - (spacing / 2),
+        position.y,
+      ),
+    );
+    await add(leftFlipper);
+
+    final rightFlipper = Flipper.right(
+      position: Vector2(
+        position.x + (Flipper.width / 2) + (spacing / 2),
+        position.y,
+      ),
+    );
+    await add(rightFlipper);
+  }
+}
 
 /// {@template flipper}
 /// A bat, typically found in pairs at the bottom of the board.
@@ -76,20 +109,6 @@ class Flipper extends PositionBodyComponent with KeyboardHandler {
   /// [onKeyEvent] method listens to when one of these keys is pressed.
   final List<LogicalKeyboardKey> _keys;
 
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    final sprite = await gameRef.loadSprite(spritePath);
-    positionComponent = SpriteComponent(
-      sprite: sprite,
-      size: size,
-    );
-
-    if (side == BoardSide.right) {
-      positionComponent?.flipHorizontally();
-    }
-  }
-
   /// Applies downward linear velocity to the [Flipper], moving it to its
   /// resting position.
   void _moveDown() {
@@ -102,15 +121,50 @@ class Flipper extends PositionBodyComponent with KeyboardHandler {
     body.linearVelocity = Vector2(0, _speed);
   }
 
+  /// Loads the sprite that renders with the [Flipper].
+  Future<void> _loadSprite() async {
+    final sprite = await gameRef.loadSprite(spritePath);
+    positionComponent = SpriteComponent(
+      sprite: sprite,
+      size: size,
+    );
+
+    if (side.isRight) {
+      positionComponent!.flipHorizontally();
+    }
+  }
+
+  /// Anchors the [Flipper] to the [RevoluteJoint] that controls its arc motion.
+  Future<void> _anchorToJoint() async {
+    final anchor = FlipperAnchor(flipper: this);
+    await add(anchor);
+
+    final jointDef = FlipperAnchorRevoluteJointDef(
+      flipper: this,
+      anchor: anchor,
+    );
+    // TODO(alestiago): Remove casting once the following is closed:
+    // https://github.com/flame-engine/forge2d/issues/36
+    final joint = world.createJoint(jointDef) as RevoluteJoint;
+
+    // FIXME(erickzanardo): when mounted the initial position is not fully
+    // reached.
+    unawaited(
+      mounted.whenComplete(
+        () => FlipperAnchorRevoluteJointDef.unlock(joint, side),
+      ),
+    );
+  }
+
   List<FixtureDef> _createFixtureDefs() {
     final fixtures = <FixtureDef>[];
     final isLeft = side.isLeft;
 
-    final bigCircleShape = CircleShape()..radius = height / 2;
+    final bigCircleShape = CircleShape()..radius = size.y / 2;
     bigCircleShape.position.setValues(
       isLeft
-          ? -(width / 2) + bigCircleShape.radius
-          : (width / 2) - bigCircleShape.radius,
+          ? -(size.x / 2) + bigCircleShape.radius
+          : (size.x / 2) - bigCircleShape.radius,
       0,
     );
     final bigCircleFixtureDef = FixtureDef(bigCircleShape);
@@ -119,8 +173,8 @@ class Flipper extends PositionBodyComponent with KeyboardHandler {
     final smallCircleShape = CircleShape()..radius = bigCircleShape.radius / 2;
     smallCircleShape.position.setValues(
       isLeft
-          ? (width / 2) - smallCircleShape.radius
-          : -(width / 2) + smallCircleShape.radius,
+          ? (size.x / 2) - smallCircleShape.radius
+          : -(size.x / 2) + smallCircleShape.radius,
       0,
     );
     final smallCircleFixtureDef = FixtureDef(smallCircleShape);
@@ -149,6 +203,15 @@ class Flipper extends PositionBodyComponent with KeyboardHandler {
   }
 
   @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    await Future.wait([
+      _loadSprite(),
+      _anchorToJoint(),
+    ]);
+  }
+
+  @override
   Body createBody() {
     final bodyDef = BodyDef()
       ..gravityScale = 0
@@ -159,17 +222,6 @@ class Flipper extends PositionBodyComponent with KeyboardHandler {
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;
-  }
-
-  // TODO(erickzanardo): Remove this once the issue is solved:
-  // https://github.com/flame-engine/flame/issues/1417
-  // ignore: public_member_api_docs
-  final Completer hasMounted = Completer<void>();
-
-  @override
-  void onMount() {
-    super.onMount();
-    hasMounted.complete();
   }
 
   @override
@@ -204,8 +256,8 @@ class FlipperAnchor extends Anchor {
   }) : super(
           position: Vector2(
             flipper.side.isLeft
-                ? flipper.body.position.x - Flipper.width / 2
-                : flipper.body.position.x + Flipper.width / 2,
+                ? flipper.body.position.x - flipper.size.x / 2
+                : flipper.body.position.x + flipper.size.x / 2,
             flipper.body.position.y,
           ),
         );

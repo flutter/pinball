@@ -50,7 +50,6 @@ class PinballGame extends Forge2DGame
     _addContactCallbacks();
 
     await _addGameBoundaries();
-    unawaited(_addFlippers());
     unawaited(_addPlunger());
     unawaited(_addPaths());
 
@@ -73,20 +72,23 @@ class PinballGame extends Forge2DGame
         ),
       ),
     );
+
+    unawaited(_addFlippers());
+
+    unawaited(_addBonusWord());
   }
 
-  void spawnBall() {
-    add(Ball(position: plunger.body.position));
-  }
-
-  void _addContactCallbacks() {
-    addContactCallback(BallScorePointsCallback());
-    addContactCallback(BottomWallBallContactCallback());
-  }
-
-  Future<void> _addGameBoundaries() async {
-    await add(BottomWall(this));
-    createBoundaries(this).forEach(add);
+  Future<void> _addBonusWord() async {
+    await add(
+      BonusWord(
+        position: screenToWorld(
+          Vector2(
+            camera.viewport.effectiveSize.x / 2,
+            camera.viewport.effectiveSize.y - 50,
+          ),
+        ),
+      ),
+    );
   }
 
   Future<void> _addFlippers() async {
@@ -96,63 +98,31 @@ class PinballGame extends Forge2DGame
         camera.viewport.effectiveSize.y / 1.1,
       ),
     );
-    const spaceBetweenFlippers = 2;
-    final leftFlipper = Flipper.left(
-      position: Vector2(
-        flippersPosition.x - (Flipper.width / 2) - (spaceBetweenFlippers / 2),
-        flippersPosition.y,
-      ),
-    );
-    await add(leftFlipper);
-    final leftFlipperAnchor = FlipperAnchor(flipper: leftFlipper);
-    await add(leftFlipperAnchor);
-    final leftFlipperRevoluteJointDef = FlipperAnchorRevoluteJointDef(
-      flipper: leftFlipper,
-      anchor: leftFlipperAnchor,
-    );
-    // TODO(alestiago): Remove casting once the following is closed:
-    // https://github.com/flame-engine/forge2d/issues/36
-    final leftFlipperRevoluteJoint =
-        world.createJoint(leftFlipperRevoluteJointDef) as RevoluteJoint;
 
-    final rightFlipper = Flipper.right(
-      position: Vector2(
-        flippersPosition.x + (Flipper.width / 2) + (spaceBetweenFlippers / 2),
-        flippersPosition.y,
-      ),
-    );
-    await add(rightFlipper);
-    final rightFlipperAnchor = FlipperAnchor(flipper: rightFlipper);
-    await add(rightFlipperAnchor);
-    final rightFlipperRevoluteJointDef = FlipperAnchorRevoluteJointDef(
-      flipper: rightFlipper,
-      anchor: rightFlipperAnchor,
-    );
-    // TODO(alestiago): Remove casting once the following is closed:
-    // https://github.com/flame-engine/forge2d/issues/36
-    final rightFlipperRevoluteJoint =
-        world.createJoint(rightFlipperRevoluteJointDef) as RevoluteJoint;
-
-    // TODO(erickzanardo): Clean this once the issue is solved:
-    // https://github.com/flame-engine/flame/issues/1417
-    // FIXME(erickzanardo): when mounted the initial position is not fully
-    // reached.
     unawaited(
-      leftFlipper.hasMounted.future.whenComplete(
-        () => FlipperAnchorRevoluteJointDef.unlock(
-          leftFlipperRevoluteJoint,
-          leftFlipper.side,
+      add(
+        FlipperGroup(
+          position: flippersPosition,
+          spacing: 2,
         ),
       ),
     );
-    unawaited(
-      rightFlipper.hasMounted.future.whenComplete(
-        () => FlipperAnchorRevoluteJointDef.unlock(
-          rightFlipperRevoluteJoint,
-          rightFlipper.side,
-        ),
-      ),
-    );
+    unawaited(_addBaseboards());
+  }
+
+  void spawnBall() {
+    add(Ball(position: plunger.body.position));
+  }
+
+  void _addContactCallbacks() {
+    addContactCallback(BallScorePointsCallback());
+    addContactCallback(BottomWallBallContactCallback());
+    addContactCallback(BonusLetterBallContactCallback());
+  }
+
+  Future<void> _addGameBoundaries() async {
+    await add(BottomWall(this));
+    createBoundaries(this).forEach(add);
   }
 
   Future<void> _addPaths() async {
@@ -203,6 +173,31 @@ class PinballGame extends Forge2DGame
         anchor: plungerAnchor,
       ),
     );
+  }
+
+  Future<void> _addBaseboards() async {
+    final spaceBetweenBaseboards = camera.viewport.effectiveSize.x / 2;
+    final baseboardY = camera.viewport.effectiveSize.y / 1.12;
+
+    final leftBaseboard = Baseboard.left(
+      position: screenToWorld(
+        Vector2(
+          camera.viewport.effectiveSize.x / 2 - (spaceBetweenBaseboards / 2),
+          baseboardY,
+        ),
+      ),
+    );
+    await add(leftBaseboard);
+
+    final rightBaseboard = Baseboard.right(
+      position: screenToWorld(
+        Vector2(
+          camera.viewport.effectiveSize.x / 2 + (spaceBetweenBaseboards / 2),
+          baseboardY,
+        ),
+      ),
+    );
+    await add(rightBaseboard);
   }
 }
 

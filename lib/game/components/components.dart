@@ -1,6 +1,8 @@
 export 'anchor.dart';
 export 'ball.dart';
+export 'baseboard.dart';
 export 'board_side.dart';
+export 'bonus_word.dart';
 export 'crossing_ramp.dart';
 export 'flipper.dart';
 export 'jetpack_ramp.dart';
