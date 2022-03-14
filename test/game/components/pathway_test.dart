@@ -176,7 +176,7 @@ void main() {
         );
 
         flameTester.test(
-          'sets correctly filter categoryBits ',
+          'sets filter categoryBits correctly',
           (game) async {
             const maskBits = 1234;
             final pathway = Pathway.straight(
