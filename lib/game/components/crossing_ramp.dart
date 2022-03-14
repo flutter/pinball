@@ -10,7 +10,7 @@ enum RampOrientation {
   /// Looking up of the board.
   up,
 
-  /// Looking up of the board.
+  /// Looking down of the board.
   down,
 }
 
