@@ -29,7 +29,7 @@ void main() {
 
     group('listenWhen', () {
       test(
-        'returns true when there is a new bonus word awarded',
+        'returns true when there is a new word bonus awarded',
         () {
           final previousState = MockGameState();
           when(() => previousState.bonusHistory).thenReturn([]);
@@ -48,7 +48,7 @@ void main() {
       );
 
       test(
-        'returns false when there is no new bonus word awarded',
+        'returns false when there is no new word bonus awarded',
         () {
           final previousState = MockGameState();
           when(() => previousState.bonusHistory).thenReturn([GameBonus.word]);
