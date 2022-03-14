@@ -5,8 +5,6 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
 
-import '../../helpers/helpers.dart';
-
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
