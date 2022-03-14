@@ -64,4 +64,10 @@ class Ball extends PositionBodyComponent<PinballGame, SpriteComponent> {
       gameRef.spawnBall();
     }
   }
+
+  void setMaskBits(int maskBits) {
+    body.fixtures.first
+      ..filterData.categoryBits = maskBits
+      ..filterData.maskBits = maskBits;
+  }
 }

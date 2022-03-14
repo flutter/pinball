@@ -1,20 +1,30 @@
 // ignore_for_file: cascade_invocations
-
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockingjay/mockingjay.dart';
 import 'package:pinball/game/game.dart';
 
 import '../../helpers/helpers.dart';
 
+class MockBody extends Mock implements Body {}
+
+class MockArea extends Mock implements RampArea {}
+
+class MockRampAreaCallback extends Mock implements RampAreaCallback {}
+
 class FakeRampArea extends RampArea {
   FakeRampArea({
     required Vector2 position,
+    required RampOrientation orientation,
     required int categoryBits,
-  }) : super(position: position, categoryBits: categoryBits);
+  })  : _orientation = orientation,
+        super(position: position, categoryBits: categoryBits);
+
+  final RampOrientation _orientation;
 
   @override
-  RampOrientation get orientation => RampOrientation.down;
+  RampOrientation get orientation => _orientation;
 
   @override
   Shape get shape => PolygonShape()
@@ -65,6 +75,7 @@ void main() {
       (game) async {
         final ramp = FakeRampArea(
           position: Vector2.zero(),
+          orientation: RampOrientation.down,
           categoryBits: RampType.all.maskBits,
         );
         await game.ready();
@@ -81,6 +92,7 @@ void main() {
           final position = Vector2.all(10);
           final ramp = FakeRampArea(
             position: position,
+            orientation: RampOrientation.down,
             categoryBits: RampType.all.maskBits,
           );
           await game.ensureAdd(ramp);
@@ -95,6 +107,7 @@ void main() {
         (game) async {
           final ramp = FakeRampArea(
             position: Vector2.zero(),
+            orientation: RampOrientation.down,
             categoryBits: RampType.all.maskBits,
           );
           await game.ensureAdd(ramp);
@@ -109,6 +122,7 @@ void main() {
           (game) async {
             final ramp = FakeRampArea(
               position: Vector2.zero(),
+              orientation: RampOrientation.down,
               categoryBits: RampType.all.maskBits,
             );
             await game.ensureAdd(ramp);
@@ -126,6 +140,7 @@ void main() {
           (game) async {
             final ramp = FakeRampArea(
               position: Vector2.zero(),
+              orientation: RampOrientation.down,
               categoryBits: RampType.all.maskBits,
             );
             await game.ensureAdd(ramp);
@@ -141,6 +156,7 @@ void main() {
             const maskBits = 1234;
             final ramp = FakeRampArea(
               position: Vector2.zero(),
+              orientation: RampOrientation.down,
               categoryBits: maskBits,
             );
             await game.ready();
@@ -157,5 +173,138 @@ void main() {
     });
   });
 
-  group('RampAreaCallback', () {});
+  group('RampAreaCallback', () {
+    const categoryBits = 1234;
+
+    test(
+        'a ball enters from bottom into a down oriented path and keeps inside, '
+        'is saved into collection and set maskBits to path', () {
+      final ball = MockBall();
+      final body = MockBody();
+      final area = FakeRampArea(
+        position: Vector2(0, 10),
+        orientation: RampOrientation.down,
+        categoryBits: categoryBits,
+      );
+      final callback = FakeRampAreaCallback();
+
+      when(() => body.position).thenReturn(Vector2(0, 20));
+      when(() => ball.body).thenReturn(body);
+      expect(callback._ballsInside.isEmpty, isTrue);
+
+      callback.begin(ball, area, MockContact());
+
+      expect(callback._ballsInside.length, equals(1));
+      expect(callback._ballsInside.first, ball);
+      verify(() => ball.setMaskBits(categoryBits)).called(1);
+
+      callback.end(ball, area, MockContact());
+
+      verifyNever(() => ball.setMaskBits(RampType.all.maskBits));
+    });
+
+    test(
+        'a ball enters from up into an up oriented path and keeps inside, '
+        'is saved into collection and set maskBits to path', () {
+      final ball = MockBall();
+      final body = MockBody();
+      final area = FakeRampArea(
+        position: Vector2(0, 10),
+        orientation: RampOrientation.up,
+        categoryBits: categoryBits,
+      );
+      final callback = FakeRampAreaCallback();
+
+      when(() => body.position).thenReturn(Vector2.zero());
+      when(() => ball.body).thenReturn(body);
+      expect(callback._ballsInside.isEmpty, isTrue);
+
+      callback.begin(ball, area, MockContact());
+
+      expect(callback._ballsInside.length, equals(1));
+      expect(callback._ballsInside.first, ball);
+      verify(() => ball.setMaskBits(categoryBits)).called(1);
+
+      callback.end(ball, area, MockContact());
+
+      verifyNever(() => ball.setMaskBits(RampType.all.maskBits));
+    });
+
+    test(
+        'a ball enters into a down oriented path but falls again outside, '
+        'is removed from collection and set maskBits to collide all', () {
+      final ball = MockBall();
+      final body = MockBody();
+      final area = FakeRampArea(
+        position: Vector2(0, 10),
+        orientation: RampOrientation.down,
+        categoryBits: categoryBits,
+      );
+      final callback = FakeRampAreaCallback();
+
+      when(() => body.position).thenReturn(Vector2.zero());
+      when(() => ball.body).thenReturn(body);
+      expect(callback._ballsInside.isEmpty, isTrue);
+
+      callback.begin(ball, area, MockContact());
+
+      expect(callback._ballsInside.length, equals(1));
+      expect(callback._ballsInside.first, ball);
+      verify(() => ball.setMaskBits(categoryBits)).called(1);
+
+      callback.end(ball, area, MockContact());
+
+      verify(() => ball.setMaskBits(RampType.all.maskBits));
+    });
+
+    test(
+        'a ball exits from inside a down oriented path, '
+        'is removed from collection and set maskBits to collide all', () {
+      final ball = MockBall();
+      final body = MockBody();
+      final area = FakeRampArea(
+        position: Vector2(0, 10),
+        orientation: RampOrientation.down,
+        categoryBits: categoryBits,
+      );
+      final callback = FakeRampAreaCallback()..ballsInside.add(ball);
+
+      when(() => body.position).thenReturn(Vector2.zero());
+      when(() => ball.body).thenReturn(body);
+
+      callback.begin(ball, area, MockContact());
+
+      expect(callback._ballsInside.isEmpty, isTrue);
+      verify(() => ball.setMaskBits(RampType.all.maskBits)).called(1);
+
+      callback.end(ball, area, MockContact());
+
+      verify(() => ball.setMaskBits(RampType.all.maskBits)).called(1);
+    });
+
+    test(
+        'a ball exits from inside an up oriented path, '
+        'is removed from collection and set maskBits to collide all', () {
+      final ball = MockBall();
+      final body = MockBody();
+      final area = FakeRampArea(
+        position: Vector2(0, 10),
+        orientation: RampOrientation.up,
+        categoryBits: categoryBits,
+      );
+      final callback = FakeRampAreaCallback()..ballsInside.add(ball);
+
+      when(() => body.position).thenReturn(Vector2(0, 20));
+      when(() => ball.body).thenReturn(body);
+
+      callback.begin(ball, area, MockContact());
+
+      expect(callback._ballsInside.isEmpty, isTrue);
+      verify(() => ball.setMaskBits(RampType.all.maskBits)).called(1);
+
+      callback.end(ball, area, MockContact());
+
+      verify(() => ball.setMaskBits(RampType.all.maskBits)).called(1);
+    });
+  });
 }

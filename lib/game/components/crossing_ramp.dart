@@ -111,9 +111,7 @@ abstract class RampAreaCallback<Area extends RampArea>
       ballsInside.remove(ball);
     }
 
-    ball.body.fixtures.first
-      ..filterData.categoryBits = maskBits
-      ..filterData.maskBits = maskBits;
+    ball.setMaskBits(maskBits);
   }
 
   @override
@@ -134,9 +132,7 @@ abstract class RampAreaCallback<Area extends RampArea>
     }
 
     if (maskBits != null) {
-      ball.body.fixtures.first
-        ..filterData.categoryBits = maskBits
-        ..filterData.maskBits = maskBits;
+      ball.setMaskBits(maskBits);
     }
   }
 }

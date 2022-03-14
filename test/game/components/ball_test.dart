@@ -164,5 +164,29 @@ void main() {
         },
       );
     });
+
+    group('maskBits', () {
+      final flameTester = FlameTester(PinballGameTest.create);
+
+      flameTester.test(
+        'is modified correctly',
+        (game) async {
+          const newMaskBits = 1234;
+
+          final ball = Ball(position: Vector2.zero());
+          await game.ensureAdd(ball);
+
+          final fixture = ball.body.fixtures[0];
+
+          expect(fixture.filterData.categoryBits, equals(1));
+          expect(fixture.filterData.maskBits, equals(Filter().maskBits));
+
+          ball.setMaskBits(newMaskBits);
+
+          expect(fixture.filterData.categoryBits, equals(newMaskBits));
+          expect(fixture.filterData.maskBits, equals(newMaskBits));
+        },
+      );
+    });
   });
 }
