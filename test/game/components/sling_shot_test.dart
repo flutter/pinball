@@ -1,5 +1,7 @@
 // ignore_for_file: cascade_invocations
 
+import 'dart:math';
+
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -79,6 +81,31 @@ void main() {
           final fixture = slingShot.body.fixtures[0];
           expect(fixture.shape.shapeType, equals(ShapeType.polygon));
           expect((fixture.shape as PolygonShape).vertices.length, equals(3));
+        },
+      );
+
+      flameTester.test(
+        'triangular shapes are different '
+        'when side is left or right',
+        (game) async {
+          final leftSlingShot = SlingShot(
+            position: Vector2.zero(),
+            side: BoardSide.left,
+          );
+          final rightSlingShot = SlingShot(
+            position: Vector2.zero(),
+            side: BoardSide.right,
+          );
+
+          await game.ensureAdd(leftSlingShot);
+          await game.ensureAdd(rightSlingShot);
+
+          final rightShape =
+              rightSlingShot.body.fixtures[0].shape as PolygonShape;
+          final leftShape =
+              leftSlingShot.body.fixtures[0].shape as PolygonShape;
+
+          expect(rightShape.vertices, isNot(equals(leftShape.vertices)));
         },
       );
 
