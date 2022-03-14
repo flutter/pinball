@@ -177,6 +177,12 @@ void main() {
             activatedBonusLetters: [],
             bonusHistory: [GameBonus.word],
           ),
+          GameState(
+            score: GameBloc.bonusWordScore,
+            balls: 3,
+            activatedBonusLetters: [],
+            bonusHistory: [GameBonus.word],
+          ),
         ],
       );
     });
