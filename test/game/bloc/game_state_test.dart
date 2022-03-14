@@ -126,6 +126,34 @@ void main() {
       );
     });
 
+    group('isLetterActivated', () {
+      test(
+        'is true when the letter is activated',
+        () {
+          const gameState = GameState(
+            balls: 3,
+            score: 0,
+            activatedBonusLetters: [1],
+            bonusHistory: [],
+          );
+          expect(gameState.isLetterActivated(1), isTrue);
+        },
+      );
+
+      test(
+        'is false when the letter is not activated',
+        () {
+          const gameState = GameState(
+            balls: 3,
+            score: 0,
+            activatedBonusLetters: [1],
+            bonusHistory: [],
+          );
+          expect(gameState.isLetterActivated(0), isFalse);
+        },
+      );
+    });
+
     group('copyWith', () {
       test(
         'throws AssertionError '
