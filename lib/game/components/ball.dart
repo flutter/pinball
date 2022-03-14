@@ -65,6 +65,10 @@ class Ball extends PositionBodyComponent<PinballGame, SpriteComponent> {
     }
   }
 
+  /// Modifies maskBits of [Ball] for collisions.
+  ///
+  /// Changes the [Filter] data for category and maskBits of the [Ball] to
+  /// collide with other objects of same bits and ignore others.
   void setMaskBits(int maskBits) {
     body.fixtures.first
       ..filterData.categoryBits = maskBits

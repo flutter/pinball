@@ -11,6 +11,7 @@ import 'package:pinball/game/game.dart';
 /// a ball gets into/out of the ramp.
 /// {@endtemplate}
 class JetpackRamp extends PositionComponent with HasGameRef<PinballGame> {
+  /// {@macro jetpack_ramp}
   JetpackRamp({
     required Vector2 position,
   })  : _position = position,
@@ -64,6 +65,7 @@ class JetpackRamp extends PositionComponent with HasGameRef<PinballGame> {
 /// inside [JetpackRamp].
 /// {@endtemplate}
 class JetpackRampArea extends RampArea {
+  /// {@macro jetpack_ramp_area}
   JetpackRampArea({
     required Vector2 position,
     double rotation = 0,

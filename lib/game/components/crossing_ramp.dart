@@ -53,6 +53,7 @@ extension RampTypeX on RampType {
 /// Collisions with [RampArea] are listened by [RampAreaCallback].
 /// {@endtemplate}
 abstract class RampArea extends BodyComponent {
+  /// {@macro ramp_area}
   RampArea({
     required Vector2 position,
     required int categoryBits,
@@ -65,8 +66,13 @@ abstract class RampArea extends BodyComponent {
   final Vector2 _position;
   final int _categoryBits;
 
+  /// Mask of category bits for collision with [RampArea]
   int get categoryBits => _categoryBits;
+
+  /// The [Shape] of the [RampArea]
   Shape get shape;
+
+  /// Orientation of the [RampArea] entrance/exit
   RampOrientation get orientation;
 
   @override

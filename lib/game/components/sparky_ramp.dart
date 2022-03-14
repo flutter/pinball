@@ -1,4 +1,3 @@
-import 'dart:math' as math;
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
@@ -12,6 +11,7 @@ import 'package:pinball/game/game.dart';
 /// a ball gets into/out of the ramp.
 /// {@endtemplate}
 class SparkyRamp extends PositionComponent with HasGameRef<PinballGame> {
+  /// {@macro sparky_ramp}
   SparkyRamp({
     required Vector2 position,
   })  : _position = position,
@@ -59,6 +59,7 @@ class SparkyRamp extends PositionComponent with HasGameRef<PinballGame> {
 /// inside [SparkyRamp].
 /// {@endtemplate}
 class SparkyRampArea extends RampArea {
+  /// {@macro sparky_ramp_area}
   SparkyRampArea({
     required Vector2 position,
     double rotation = 0,
@@ -99,6 +100,7 @@ class SparkyRampArea extends RampArea {
 /// gets into a [SparkyRampArea].
 /// {@endtemplate}
 class SparkyRampAreaCallback extends RampAreaCallback<SparkyRampArea> {
+  /// {@macro sparky_ramp_area_callback}
   SparkyRampAreaCallback() : super();
 
   /// Collection of balls inside [SparkyRamp].
