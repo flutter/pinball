@@ -31,7 +31,7 @@ void main() {
       final previousState = MockGameState();
       final currentState = MockGameState();
       test(
-        'returns true when there is a new bonus word awarded',
+        'returns true when there is a new word bonus awarded',
         () {
           when(() => previousState.bonusHistory).thenReturn([]);
           when(() => currentState.bonusHistory).thenReturn([GameBonus.word]);
@@ -47,7 +47,7 @@ void main() {
       );
 
       test(
-        'returns false when there is no new bonus word awarded',
+        'returns false when there is no new word bonus awarded',
         () {
           when(() => previousState.bonusHistory).thenReturn([GameBonus.word]);
           when(() => currentState.bonusHistory).thenReturn([GameBonus.word]);
