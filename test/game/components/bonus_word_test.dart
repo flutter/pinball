@@ -28,13 +28,12 @@ void main() {
     );
 
     group('listenWhen', () {
+      final previousState = MockGameState();
+      final currentState = MockGameState();
       test(
         'returns true when there is a new bonus word awarded',
         () {
-          final previousState = MockGameState();
           when(() => previousState.bonusHistory).thenReturn([]);
-
-          final currentState = MockGameState();
           when(() => currentState.bonusHistory).thenReturn([GameBonus.word]);
 
           expect(
@@ -50,10 +49,7 @@ void main() {
       test(
         'returns false when there is no new bonus word awarded',
         () {
-          final previousState = MockGameState();
           when(() => previousState.bonusHistory).thenReturn([GameBonus.word]);
-
-          final currentState = MockGameState();
           when(() => currentState.bonusHistory).thenReturn([GameBonus.word]);
 
           expect(
@@ -68,10 +64,10 @@ void main() {
     });
 
     group('onNewState', () {
+      final state = MockGameState();
       flameTester.test(
         'adds sequence effect to the letters when the player receives a bonus',
         (game) async {
-          final state = MockGameState();
           when(() => state.bonusHistory).thenReturn([GameBonus.word]);
 
           final bonusWord = BonusWord(position: Vector2.zero());
@@ -96,7 +92,6 @@ void main() {
       flameTester.test(
         'adds a color effect to reset the color when the sequence is finished',
         (game) async {
-          final state = MockGameState();
           when(() => state.bonusHistory).thenReturn([GameBonus.word]);
 
           final bonusWord = BonusWord(position: Vector2.zero());
