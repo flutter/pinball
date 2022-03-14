@@ -110,15 +110,7 @@ num factorial(num n) {
 ///
 /// For more information read: https://en.wikipedia.org/wiki/Centroid
 Vector2 centroid(List<Vector2> vertices) {
-  assert(
-    vertices.isNotEmpty,
-    'At least one vertex needed to calculate the centroid',
-  );
-
-  final centroid = Vector2.zero();
-  for (final vertex in vertices) {
-    centroid.add(vertex);
-  }
-
-  return centroid / vertices.length.toDouble();
+  assert(vertices.isNotEmpty, 'Vertices must not be empty');
+  final sum = vertices.reduce((a, b) => a + b);
+  return sum / vertices.length.toDouble();
 }
