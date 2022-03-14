@@ -28,7 +28,7 @@ class SlingShot extends BodyComponent {
   /// Whether the [SlingShot] is on the left or right side of the board.
   ///
   /// A [SlingShot] with [BoardSide.left] propels the [Ball] to the right,
-  /// whereas a [SlingShot] with [BoardSide.right] propells the [Ball] to the
+  /// whereas a [SlingShot] with [BoardSide.right] propels the [Ball] to the
   /// left.
   final BoardSide _side;
 
