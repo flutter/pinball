@@ -5,8 +5,6 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
 
-class EmptyGame extends Forge2DGame {}
-
 class TestBodyComponent extends BodyComponent with InitialPosition {
   @override
   Body createBody() {
@@ -14,7 +12,7 @@ class TestBodyComponent extends BodyComponent with InitialPosition {
   }
 }
 
-class TestPositionBodyComponent extends BodyComponent with InitialPosition {
+class TestPositionedBodyComponent extends BodyComponent with InitialPosition {
   @override
   Body createBody() {
     return world.createBody(BodyDef()..position = initialPosition);
@@ -22,7 +20,7 @@ class TestPositionBodyComponent extends BodyComponent with InitialPosition {
 }
 
 void main() {
-  final flameTester = FlameTester(EmptyGame.new);
+  final flameTester = FlameTester(Forge2DGame.new);
   group('InitialPosition', () {
     test('correctly sets and gets', () {
       final component = TestBodyComponent()..initialPosition = Vector2(1, 2);
@@ -41,7 +39,7 @@ void main() {
       'returns normally '
       'when the body sets the position to initial position',
       (game) async {
-        final component = TestPositionBodyComponent()
+        final component = TestPositionedBodyComponent()
           ..initialPosition = Vector2.zero();
 
         await expectLater(
