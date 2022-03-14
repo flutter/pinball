@@ -56,6 +56,7 @@ class SlingShot extends BodyComponent {
         triangleVertices.first,
         triangleVertices.last,
       );
+    // TODO(alestiago): Play with restitution value once game is bundled.
     final kickerFixtureDef = FixtureDef(kicker)..restitution = 20.0;
     fixtures.add(kickerFixtureDef);
 
