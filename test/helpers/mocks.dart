@@ -12,9 +12,15 @@ class MockWall extends Mock implements Wall {}
 
 class MockBottomWall extends Mock implements BottomWall {}
 
+class MockBody extends Mock implements Body {}
+
 class MockBall extends Mock implements Ball {}
 
 class MockContact extends Mock implements Contact {}
+
+class MockArea extends Mock implements RampArea {}
+
+class MockRampAreaCallback extends Mock implements RampAreaCallback {}
 
 class MockGameBloc extends Mock implements GameBloc {}
 

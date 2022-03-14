@@ -7,12 +7,6 @@ import 'package:pinball/game/game.dart';
 
 import '../../helpers/helpers.dart';
 
-class MockBody extends Mock implements Body {}
-
-class MockArea extends Mock implements RampArea {}
-
-class MockRampAreaCallback extends Mock implements RampAreaCallback {}
-
 class FakeRampArea extends RampArea {
   FakeRampArea({
     required Vector2 position,
