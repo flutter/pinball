@@ -74,6 +74,25 @@ class Plunger extends BodyComponent with KeyboardHandler {
 
     return true;
   }
+
+  /// Anchors the [Plunger] to the [PrismaticJoint]
+  /// that controls its vertical motion.
+  Future<void> _anchorToJoint() async {
+    final anchor = PlungerAnchor(plunger: this);
+    await add(anchor);
+
+    final jointDef = PlungerAnchorPrismaticJointDef(
+      plunger: this,
+      anchor: anchor,
+    );
+    world.createJoint(jointDef);
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    await _anchorToJoint();
+  }
 }
 
 /// {@template plunger_anchor}
@@ -118,3 +137,29 @@ class PlungerAnchorPrismaticJointDef extends PrismaticJointDef {
     collideConnected = true;
   }
 }
+
+// /// {@template plunger_group}
+// /// Loads a [Plunger].
+// /// {@endtemplate}
+// class PlungerGroup extends Component {
+//   /// {@macro plunger_group}
+//   PlungerGroup({
+//     required this.position,
+//     required this.compressionDistance,
+//   });
+
+//   /// The position of this [PlungerGroup]
+//   final Vector2 position;
+
+//   /// Distance the plunger can lower.
+//   final double compressionDistance;
+
+//   @override
+//   Future<void> onLoad() async {
+//     final plunger = Plunger(
+//       position: position,
+//       compressionDistance: compressionDistance,
+//     );
+//     await add(plunger);
+//   }
+// }
