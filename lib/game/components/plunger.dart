@@ -1,7 +1,7 @@
 import 'package:flame/input.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/services.dart';
-import 'package:pinball/game/game.dart' show Anchor;
+import 'package:pinball/game/game.dart';
 
 /// {@template plunger}
 /// [Plunger] serves as a spring, that shoots the ball on the right side of the
@@ -77,9 +77,9 @@ class Plunger extends BodyComponent with KeyboardHandler {
 }
 
 /// {@template plunger_anchor}
-/// [Anchor] positioned below a [Plunger].
+/// [JointAnchor] positioned below a [Plunger].
 /// {@endtemplate}
-class PlungerAnchor extends Anchor {
+class PlungerAnchor extends JointAnchor {
   /// {@macro plunger_anchor}
   PlungerAnchor({
     required Plunger plunger,
@@ -92,11 +92,11 @@ class PlungerAnchor extends Anchor {
 }
 
 /// {@template plunger_anchor_prismatic_joint_def}
-/// [PrismaticJointDef] between a [Plunger] and an [Anchor] with motion on
+/// [PrismaticJointDef] between a [Plunger] and an [JointAnchor] with motion on
 /// the vertical axis.
 ///
 /// The [Plunger] is constrained vertically between its starting position and
-/// the [Anchor]. The [Anchor] must be below the [Plunger].
+/// the [JointAnchor]. The [JointAnchor] must be below the [Plunger].
 /// {@endtemplate}
 class PlungerAnchorPrismaticJointDef extends PrismaticJointDef {
   /// {@macro plunger_anchor_prismatic_joint_def}

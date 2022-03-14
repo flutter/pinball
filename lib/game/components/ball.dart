@@ -6,15 +6,17 @@ import 'package:pinball/game/game.dart';
 /// A solid, [BodyType.dynamic] sphere that rolls and bounces along the
 /// [PinballGame].
 /// {@endtemplate}
-class Ball extends PositionBodyComponent<PinballGame, SpriteComponent> {
+class Ball extends BodyComponent<PinballGame> {
   /// {@macro ball}
   Ball({
     required Vector2 position,
-  })  : _position = position,
-        super(size: Vector2.all(2));
+  }) : _position = position;
 
   /// The initial position of the [Ball] body.
   final Vector2 _position;
+
+  /// The size of the [Ball]
+  final Vector2 size = Vector2.all(2);
 
   /// Asset location of the sprite that renders with the [Ball].
   ///
@@ -26,7 +28,13 @@ class Ball extends PositionBodyComponent<PinballGame, SpriteComponent> {
     await super.onLoad();
     final sprite = await gameRef.loadSprite(spritePath);
     final tint = gameRef.theme.characterTheme.ballColor.withOpacity(0.5);
-    positionComponent = SpriteComponent(sprite: sprite, size: size)..tint(tint);
+    await add(
+      SpriteComponent(
+        sprite: sprite,
+        size: size,
+        anchor: Anchor.center,
+      )..tint(tint),
+    );
   }
 
   @override
