@@ -26,6 +26,95 @@ void main() {
         expect(letters.length, equals(GameBloc.bonusWord.length));
       },
     );
+
+    group('listenWhen', () {
+      final previousState = MockGameState();
+      final currentState = MockGameState();
+      test(
+        'returns true when there is a new word bonus awarded',
+        () {
+          when(() => previousState.bonusHistory).thenReturn([]);
+          when(() => currentState.bonusHistory).thenReturn([GameBonus.word]);
+
+          expect(
+            BonusWord(position: Vector2.zero()).listenWhen(
+              previousState,
+              currentState,
+            ),
+            isTrue,
+          );
+        },
+      );
+
+      test(
+        'returns false when there is no new word bonus awarded',
+        () {
+          when(() => previousState.bonusHistory).thenReturn([GameBonus.word]);
+          when(() => currentState.bonusHistory).thenReturn([GameBonus.word]);
+
+          expect(
+            BonusWord(position: Vector2.zero()).listenWhen(
+              previousState,
+              currentState,
+            ),
+            isFalse,
+          );
+        },
+      );
+    });
+
+    group('onNewState', () {
+      final state = MockGameState();
+      flameTester.test(
+        'adds sequence effect to the letters when the player receives a bonus',
+        (game) async {
+          when(() => state.bonusHistory).thenReturn([GameBonus.word]);
+
+          final bonusWord = BonusWord(position: Vector2.zero());
+          await game.ensureAdd(bonusWord);
+          await game.ready();
+
+          bonusWord.onNewState(state);
+          game.update(0); // Run one frame so the effects are added
+
+          final letters = bonusWord.children.whereType<BonusLetter>();
+          expect(letters.length, equals(GameBloc.bonusWord.length));
+
+          for (final letter in letters) {
+            expect(
+              letter.children.whereType<SequenceEffect>().length,
+              equals(1),
+            );
+          }
+        },
+      );
+
+      flameTester.test(
+        'adds a color effect to reset the color when the sequence is finished',
+        (game) async {
+          when(() => state.bonusHistory).thenReturn([GameBonus.word]);
+
+          final bonusWord = BonusWord(position: Vector2.zero());
+          await game.ensureAdd(bonusWord);
+          await game.ready();
+
+          bonusWord.onNewState(state);
+          // Run the amount of time necessary for the animation to finish
+          game.update(3);
+          game.update(0); // Run one additional frame so the effects are added
+
+          final letters = bonusWord.children.whereType<BonusLetter>();
+          expect(letters.length, equals(GameBloc.bonusWord.length));
+
+          for (final letter in letters) {
+            expect(
+              letter.children.whereType<ColorEffect>().length,
+              equals(1),
+            );
+          }
+        },
+      );
+    });
   });
 
   group('BonusLetter', () {
