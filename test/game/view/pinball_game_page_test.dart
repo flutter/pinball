@@ -94,7 +94,7 @@ void main() {
         whenListen(
           gameBloc,
           Stream.value(state),
-          initialState: state,
+          initialState: GameState.initial(),
         );
 
         await tester.pumpApp(

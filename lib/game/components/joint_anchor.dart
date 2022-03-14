@@ -1,6 +1,6 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 
-/// {@template anchor}
+/// {@template joint_anchor}
 /// Non visual [BodyComponent] used to hold a [BodyType.dynamic] in [Joint]s
 /// with this [BodyType.static].
 ///
@@ -15,9 +15,9 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 /// );
 /// ```
 /// {@endtemplate}
-class Anchor extends BodyComponent {
-  /// {@macro anchor}
-  Anchor({
+class JointAnchor extends BodyComponent {
+  /// {@macro joint_anchor}
+  JointAnchor({
     required Vector2 position,
   }) : _position = position;
 

@@ -63,6 +63,8 @@ class _PinballGameViewState extends State<PinballGameView> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<GameBloc, GameState>(
+      listenWhen: (previous, current) =>
+          previous.isGameOver != current.isGameOver,
       listener: (context, state) {
         if (state.isGameOver) {
           showDialog<void>(

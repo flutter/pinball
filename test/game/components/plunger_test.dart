@@ -227,7 +227,7 @@ void main() {
       );
     });
 
-    final flameTester = flameBlocTester(gameBloc: gameBloc);
+    final flameTester = flameBlocTester(gameBloc: () => gameBloc);
 
     group('initializes with', () {
       flameTester.test(
