@@ -14,8 +14,7 @@ class JetpackRamp extends PositionComponent with HasGameRef<PinballGame> {
   /// {@macro jetpack_ramp}
   JetpackRamp({
     required Vector2 position,
-  })  : _position = position,
-        super();
+  })  : _position = position;
 
   final double _radius = 200;
   final double _width = 80;
