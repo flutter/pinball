@@ -6,9 +6,8 @@ import 'package:pinball/game/game.dart';
 /// {@template jetpack_ramp}
 /// Represents the upper left blue ramp for the game.
 ///
-/// Group of [Component]s composed by a [Pathway.arc] as the ramp, and two
-/// [JetpackRampArea] at the entrance and exit of the ramp, to detect when
-/// a ball gets into/out of the ramp.
+/// Composed of a [Pathway.arc] defining the ramp, and two
+/// [JetpackRampArea]s at the entrance and exit of the ramp.
 /// {@endtemplate}
 class JetpackRamp extends PositionComponent with HasGameRef<PinballGame> {
   /// {@macro jetpack_ramp}
