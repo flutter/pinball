@@ -17,8 +17,9 @@ class LandingPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextButton(
-              onPressed: () => Navigator.of(context)
-                  .push<void>(CharacterSelectionPage.route()),
+              onPressed: () => Navigator.of(context).push<void>(
+                CharacterSelectionPage.route(),
+              ),
               child: Text(l10n.play),
             ),
             TextButton(
