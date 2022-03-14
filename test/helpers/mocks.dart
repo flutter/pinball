@@ -18,6 +18,8 @@ class MockContact extends Mock implements Contact {}
 
 class MockGameBloc extends Mock implements GameBloc {}
 
+class MockGameState extends Mock implements GameState {}
+
 class MockThemeCubit extends Mock implements ThemeCubit {}
 
 class MockRawKeyDownEvent extends Mock implements RawKeyDownEvent {
