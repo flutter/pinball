@@ -77,17 +77,16 @@ abstract class RampArea extends BodyComponent {
 
   @override
   Body createBody() {
-    final fixtureDef = FixtureDef(shape)..isSensor = true;
+    final fixtureDef = FixtureDef(shape)
+      ..isSensor = true
+      ..filter.categoryBits = _categoryBits;
 
     final bodyDef = BodyDef()
       ..userData = this
       ..position = _position
       ..type = BodyType.static;
 
-    final body = world.createBody(bodyDef);
-    body.createFixture(fixtureDef).filterData.categoryBits = _categoryBits;
-
-    return body;
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
 
