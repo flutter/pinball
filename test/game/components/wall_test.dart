@@ -77,7 +77,7 @@ void main() {
       );
     });
 
-    group('first fixture', () {
+    group('fixture', () {
       flameTester.test(
         'exists',
         (game) async {
@@ -92,7 +92,7 @@ void main() {
       );
 
       flameTester.test(
-        'has restitution equals 0',
+        'has restitution',
         (game) async {
           final wall = Wall(
             start: Vector2.zero(),
@@ -101,7 +101,7 @@ void main() {
           await game.ensureAdd(wall);
 
           final fixture = wall.body.fixtures[0];
-          expect(fixture.restitution, equals(0));
+          expect(fixture.restitution, greaterThan(0));
         },
       );
 

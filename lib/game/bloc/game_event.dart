@@ -34,10 +34,14 @@ class Scored extends GameEvent {
 }
 
 class BonusLetterActivated extends GameEvent {
-  const BonusLetterActivated(this.letter);
+  const BonusLetterActivated(this.letterIndex)
+      : assert(
+          letterIndex < GameBloc.bonusWord.length,
+          'Index must be smaller than the length of the word',
+        );
 
-  final String letter;
+  final int letterIndex;
 
   @override
-  List<Object?> get props => [letter];
+  List<Object?> get props => [letterIndex];
 }

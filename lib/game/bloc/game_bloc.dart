@@ -14,6 +14,8 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     on<BonusLetterActivated>(_onBonusLetterActivated);
   }
 
+  static const bonusWord = 'GOOGLE';
+
   void _onBallLost(BallLost event, Emitter emit) {
     if (state.balls > 0) {
       emit(state.copyWith(balls: state.balls - 1));
@@ -27,13 +29,25 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   void _onBonusLetterActivated(BonusLetterActivated event, Emitter emit) {
-    emit(
-      state.copyWith(
-        bonusLetters: [
-          ...state.bonusLetters,
-          event.letter,
-        ],
-      ),
-    );
+    final newBonusLetters = [
+      ...state.activatedBonusLetters,
+      event.letterIndex,
+    ];
+
+    if (newBonusLetters.length == bonusWord.length) {
+      emit(
+        state.copyWith(
+          activatedBonusLetters: [],
+          bonusHistory: [
+            ...state.bonusHistory,
+            GameBonus.word,
+          ],
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(activatedBonusLetters: newBonusLetters),
+      );
+    }
   }
 }
