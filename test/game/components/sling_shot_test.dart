@@ -14,7 +14,10 @@ void main() {
     flameTester.test(
       'loads correctly',
       (game) async {
-        final slingShot = SlingShot(position: Vector2.zero());
+        final slingShot = SlingShot(
+          position: Vector2.zero(),
+          side: BoardSide.left,
+        );
         await game.ensureAdd(slingShot);
 
         expect(game.contains(slingShot), isTrue);
@@ -26,7 +29,10 @@ void main() {
         'positions correctly',
         (game) async {
           final position = Vector2.all(10);
-          final slingShot = SlingShot(position: position);
+          final slingShot = SlingShot(
+            position: position,
+            side: BoardSide.left,
+          );
           await game.ensureAdd(slingShot);
 
           expect(slingShot.body.position, equals(position));
@@ -36,7 +42,10 @@ void main() {
       flameTester.test(
         'is static',
         (game) async {
-          final slingShot = SlingShot(position: Vector2.zero());
+          final slingShot = SlingShot(
+            position: Vector2.zero(),
+            side: BoardSide.left,
+          );
           await game.ensureAdd(slingShot);
 
           expect(slingShot.body.bodyType, equals(BodyType.static));
@@ -48,7 +57,10 @@ void main() {
       flameTester.test(
         'exists',
         (game) async {
-          final slingShot = SlingShot(position: Vector2.zero());
+          final slingShot = SlingShot(
+            position: Vector2.zero(),
+            side: BoardSide.left,
+          );
           await game.ensureAdd(slingShot);
 
           expect(slingShot.body.fixtures[0], isA<Fixture>());
@@ -58,7 +70,10 @@ void main() {
       flameTester.test(
         'shape is triangular',
         (game) async {
-          final slingShot = SlingShot(position: Vector2.zero());
+          final slingShot = SlingShot(
+            position: Vector2.zero(),
+            side: BoardSide.left,
+          );
           await game.ensureAdd(slingShot);
 
           final fixture = slingShot.body.fixtures[0];
@@ -70,7 +85,10 @@ void main() {
       flameTester.test(
         'has no friction',
         (game) async {
-          final slingShot = SlingShot(position: Vector2.zero());
+          final slingShot = SlingShot(
+            position: Vector2.zero(),
+            side: BoardSide.left,
+          );
           await game.ensureAdd(slingShot);
 
           final fixture = slingShot.body.fixtures[0];
@@ -83,7 +101,10 @@ void main() {
       flameTester.test(
         'exists',
         (game) async {
-          final slingShot = SlingShot(position: Vector2.zero());
+          final slingShot = SlingShot(
+            position: Vector2.zero(),
+            side: BoardSide.left,
+          );
           await game.ensureAdd(slingShot);
 
           expect(slingShot.body.fixtures[1], isA<Fixture>());
@@ -93,7 +114,10 @@ void main() {
       flameTester.test(
         'shape is edge',
         (game) async {
-          final slingShot = SlingShot(position: Vector2.zero());
+          final slingShot = SlingShot(
+            position: Vector2.zero(),
+            side: BoardSide.left,
+          );
           await game.ensureAdd(slingShot);
 
           final fixture = slingShot.body.fixtures[1];
@@ -104,7 +128,10 @@ void main() {
       flameTester.test(
         'has restitution',
         (game) async {
-          final slingShot = SlingShot(position: Vector2.zero());
+          final slingShot = SlingShot(
+            position: Vector2.zero(),
+            side: BoardSide.left,
+          );
           await game.ensureAdd(slingShot);
 
           final fixture = slingShot.body.fixtures[1];
@@ -115,7 +142,10 @@ void main() {
       flameTester.test(
         'has no friction',
         (game) async {
-          final slingShot = SlingShot(position: Vector2.zero());
+          final slingShot = SlingShot(
+            position: Vector2.zero(),
+            side: BoardSide.left,
+          );
           await game.ensureAdd(slingShot);
 
           final fixture = slingShot.body.fixtures[1];

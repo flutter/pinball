@@ -13,7 +13,9 @@ class SlingShot extends BodyComponent {
   /// {@macro sling_shot}
   SlingShot({
     required Vector2 position,
-  }) : _position = position {
+    required BoardSide side,
+  })  : _position = position,
+        _side = side {
     // TODO(alestiago): Use sprite instead of color when provided.
     paint = Paint()
       ..color = const Color(0xFF00FF00)
@@ -23,6 +25,13 @@ class SlingShot extends BodyComponent {
   /// The initial position of the [SlingShot] body.
   final Vector2 _position;
 
+  /// Whether the [SlingShot] is on the left or right side of the board.
+  ///
+  /// A [SlingShot] with [BoardSide.left] propels the [Ball] to the right,
+  /// whereas a [SlingShot] with [BoardSide.right] propells the [Ball] to the
+  /// left.
+  final BoardSide _side;
+
   List<FixtureDef> _createFixtureDefs() {
     final fixtures = <FixtureDef>[];
 
@@ -30,17 +39,17 @@ class SlingShot extends BodyComponent {
     // once a sprite is given.
     final size = Vector2(10, 10);
 
-    const additionalIncrement = 2.5;
+    // TODO(alestiago): This magic number can be deduced by specifying the
+    // angle and using polar coordinate system to place the bottom right
+    // vertex.
+    // Something as: y = -size.y * math.cos(angle)
+    const additionalIncrement = 2;
     final triangleVertices = [
-      Vector2(0, 0),
-      Vector2(0, -size.y),
+      Vector2(_side.isLeft ? 0 : size.x, 0),
+      Vector2(_side.isLeft ? 0 : size.x, -size.y),
       Vector2(
-        size.x,
+        _side.isLeft ? size.x : 0,
         -size.y - additionalIncrement,
-        // TODO(alestiago): This magic number can be deduced by specifying the
-        // angle and using polar coordinate system to place the bottom right
-        // vertex.
-        // Something as: y = -size.y * math.cos(angle)
       ),
     ];
     final triangleCentroid = centroid(triangleVertices);
@@ -49,8 +58,8 @@ class SlingShot extends BodyComponent {
     }
 
     final triangle = PolygonShape()..set(triangleVertices);
-    final triangleFixture = FixtureDef(triangle)..friction = 0;
-    fixtures.add(triangleFixture);
+    final triangleFixtureDef = FixtureDef(triangle)..friction = 0;
+    fixtures.add(triangleFixtureDef);
 
     final kicker = EdgeShape()
       ..set(
