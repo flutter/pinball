@@ -75,8 +75,8 @@ class Plunger extends BodyComponent with KeyboardHandler {
     return true;
   }
 
-  /// Anchors the [Plunger] to the [PrismaticJoint]
-  /// that controls its vertical motion.
+  /// Anchors the [Plunger] to the [PrismaticJoint] that controls its vertical
+  /// motion.
   Future<void> _anchorToJoint() async {
     final anchor = PlungerAnchor(plunger: this);
     await add(anchor);
