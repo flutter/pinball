@@ -91,8 +91,12 @@ void main() {
         (game) async {
           await game.ready();
 
-          final rampAreas = game.children.whereType<JetpackRamp>().toList();
-          expect(rampAreas.length, 1);
+          expect(
+          () => game.children.singleWhere(
+            (component) => component is JetpackRamp,
+          ),
+          returnsNormally,
+        );
         },
       );
 
