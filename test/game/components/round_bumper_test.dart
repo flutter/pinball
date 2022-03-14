@@ -11,7 +11,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('RoundBumper', () {
-    final flameTester = FlameTester(PinballGameTest.create);
+    final flameTester = FlameTester(Forge2DGame.new);
     const radius = 1.0;
     const points = 1;
 

@@ -2,7 +2,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
 
 /// {@template round_bumper}
-/// Circular body that repels a [Ball] on contact and increases the score.
+/// Circular body that repels a [Ball] on contact, increasing the score.
 /// {@endtemplate}
 class RoundBumper extends BodyComponent with ScorePoints {
   /// {@macro round_bumper}
