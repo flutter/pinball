@@ -14,7 +14,7 @@ enum RampOrientation {
   down,
 }
 
-/// Indicates a type of the ramp.
+/// Indicates the type of the ramp.
 ///
 /// Used to set the maskBits of the ramp to determine their possible collisions.
 enum RampType {
