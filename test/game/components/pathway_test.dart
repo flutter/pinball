@@ -154,7 +154,7 @@ void main() {
         );
 
         flameTester.test(
-          'has default filter categoryBits when no modified',
+          'has default filter categoryBits when not modified',
           (game) async {
             final pathway = Pathway.straight(
               position: Vector2.zero(),
