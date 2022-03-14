@@ -21,7 +21,7 @@ class PinballGame extends Forge2DGame
           camera.viewport.effectiveSize.x / 2,
           camera.viewport.effectiveSize.y / 2,
         ) +
-        Vector2(369, -155),
+        Vector2(373, -155),
   );
   late final jetpackRampPosition = screenToWorld(
     Vector2(
