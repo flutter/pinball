@@ -38,7 +38,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     if (newBonusLetters.length == bonusWord.length) {
       emit(
         state.copyWith(
-          score: state.score + bonusWordScore,
           activatedBonusLetters: [],
           bonusHistory: [
             ...state.bonusHistory,
@@ -46,6 +45,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
           ],
         ),
       );
+      add(const Scored(points: bonusWordScore));
     } else {
       emit(
         state.copyWith(activatedBonusLetters: newBonusLetters),

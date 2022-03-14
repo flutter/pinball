@@ -172,6 +172,12 @@ void main() {
             bonusHistory: [],
           ),
           GameState(
+            score: 0,
+            balls: 3,
+            activatedBonusLetters: [],
+            bonusHistory: [GameBonus.word],
+          ),
+          GameState(
             score: GameBloc.bonusWordScore,
             balls: 3,
             activatedBonusLetters: [],
