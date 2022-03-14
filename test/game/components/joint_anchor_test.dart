@@ -10,13 +10,13 @@ import '../../helpers/helpers.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  group('Anchor', () {
+  group('JointAnchor', () {
     final flameTester = FlameTester(PinballGameTest.create);
 
     flameTester.test(
       'loads correctly',
       (game) async {
-        final anchor = Anchor(position: Vector2.zero());
+        final anchor = JointAnchor(position: Vector2.zero());
         await game.ready();
         await game.ensureAdd(anchor);
 
@@ -30,7 +30,7 @@ void main() {
         (game) async {
           await game.ready();
           final position = Vector2.all(10);
-          final anchor = Anchor(position: position);
+          final anchor = JointAnchor(position: position);
           await game.ensureAdd(anchor);
           game.contains(anchor);
 
@@ -42,7 +42,7 @@ void main() {
         'is static',
         (game) async {
           await game.ready();
-          final anchor = Anchor(position: Vector2.zero());
+          final anchor = JointAnchor(position: Vector2.zero());
           await game.ensureAdd(anchor);
 
           expect(anchor.body.bodyType, equals(BodyType.static));
@@ -54,7 +54,7 @@ void main() {
       flameTester.test(
         'has none',
         (game) async {
-          final anchor = Anchor(position: Vector2.zero());
+          final anchor = JointAnchor(position: Vector2.zero());
           await game.ensureAdd(anchor);
 
           expect(anchor.body.fixtures, isEmpty);

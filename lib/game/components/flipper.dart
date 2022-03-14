@@ -1,24 +1,28 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:flame/components.dart' show PositionComponent, SpriteComponent;
+import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball/game/game.dart';
 
 /// {@template flipper_group}
 /// Loads a [Flipper.right] and a [Flipper.left].
 /// {@endtemplate}
-class FlipperGroup extends PositionComponent {
+class FlipperGroup extends Component {
   /// {@macro flipper_group}
   FlipperGroup({
-    required Vector2 position,
+    required this.position,
     required this.spacing,
-  }) : super(position: position);
+  });
 
   /// The amount of space between the [Flipper.right] and [Flipper.left].
   final double spacing;
+
+  /// The position of this [FlipperGroup]
+  final Vector2 position;
 
   @override
   Future<void> onLoad() async {
@@ -45,15 +49,14 @@ class FlipperGroup extends PositionComponent {
 ///
 /// [Flipper] can be controlled by the player in an arc motion.
 /// {@endtemplate flipper}
-class Flipper extends PositionBodyComponent with KeyboardHandler {
+class Flipper extends BodyComponent with KeyboardHandler {
   /// {@macro flipper}
   Flipper._({
     required Vector2 position,
     required this.side,
     required List<LogicalKeyboardKey> keys,
   })  : _position = position,
-        _keys = keys,
-        super(size: Vector2(width, height));
+        _keys = keys;
 
   /// A left positioned [Flipper].
   Flipper.left({
@@ -124,14 +127,17 @@ class Flipper extends PositionBodyComponent with KeyboardHandler {
   /// Loads the sprite that renders with the [Flipper].
   Future<void> _loadSprite() async {
     final sprite = await gameRef.loadSprite(spritePath);
-    positionComponent = SpriteComponent(
+    final spriteComponent = SpriteComponent(
       sprite: sprite,
-      size: size,
+      size: Vector2(width, height),
+      anchor: Anchor.center,
     );
 
     if (side.isRight) {
-      positionComponent!.flipHorizontally();
+      spriteComponent.flipHorizontally();
     }
+
+    await add(spriteComponent);
   }
 
   /// Anchors the [Flipper] to the [RevoluteJoint] that controls its arc motion.
@@ -160,11 +166,11 @@ class Flipper extends PositionBodyComponent with KeyboardHandler {
     final fixtures = <FixtureDef>[];
     final isLeft = side.isLeft;
 
-    final bigCircleShape = CircleShape()..radius = size.y / 2;
+    final bigCircleShape = CircleShape()..radius = height / 2;
     bigCircleShape.position.setValues(
       isLeft
-          ? -(size.x / 2) + bigCircleShape.radius
-          : (size.x / 2) - bigCircleShape.radius,
+          ? -(width / 2) + bigCircleShape.radius
+          : (width / 2) - bigCircleShape.radius,
       0,
     );
     final bigCircleFixtureDef = FixtureDef(bigCircleShape);
@@ -173,8 +179,8 @@ class Flipper extends PositionBodyComponent with KeyboardHandler {
     final smallCircleShape = CircleShape()..radius = bigCircleShape.radius / 2;
     smallCircleShape.position.setValues(
       isLeft
-          ? (size.x / 2) - smallCircleShape.radius
-          : -(size.x / 2) + smallCircleShape.radius,
+          ? (width / 2) - smallCircleShape.radius
+          : -(width / 2) + smallCircleShape.radius,
       0,
     );
     final smallCircleFixtureDef = FixtureDef(smallCircleShape);
@@ -205,6 +211,7 @@ class Flipper extends PositionBodyComponent with KeyboardHandler {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    paint = Paint()..color = Colors.transparent;
     await Future.wait([
       _loadSprite(),
       _anchorToJoint(),
@@ -249,15 +256,15 @@ class Flipper extends PositionBodyComponent with KeyboardHandler {
 ///
 /// The end of a [Flipper] depends on its [Flipper.side].
 /// {@endtemplate}
-class FlipperAnchor extends Anchor {
+class FlipperAnchor extends JointAnchor {
   /// {@macro flipper_anchor}
   FlipperAnchor({
     required Flipper flipper,
   }) : super(
           position: Vector2(
             flipper.side.isLeft
-                ? flipper.body.position.x - flipper.size.x / 2
-                : flipper.body.position.x + flipper.size.x / 2,
+                ? flipper.body.position.x - Flipper.width / 2
+                : flipper.body.position.x + Flipper.width / 2,
             flipper.body.position.y,
           ),
         );
