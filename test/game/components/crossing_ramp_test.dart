@@ -129,6 +129,7 @@ void main() {
             }
           },
         );
+        
         flameTester.test(
           'is sensor',
           (game) async {
