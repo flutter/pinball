@@ -107,7 +107,7 @@ num factorial(num n) {
   }
 }
 
-/// Arithmetic mean position of all the [Vector2]s in a figure.
+/// Arithmetic mean position of all the [Vector2]s in a polygon.
 ///
 /// For more information read: https://en.wikipedia.org/wiki/Centroid
 Vector2 centroid(List<Vector2> vertices) {
