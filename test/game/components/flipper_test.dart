@@ -103,9 +103,7 @@ void main() {
           ) as Flipper;
 
           expect(
-            leftFlipper.body.position.x +
-                leftFlipper.size.x +
-                flipperGroup.spacing,
+            leftFlipper.body.position.x + Flipper.width + flipperGroup.spacing,
             equals(rightFlipper.body.position.x),
           );
         },
@@ -178,6 +176,7 @@ void main() {
             final flipper = Flipper.left(position: Vector2.zero());
             final ball = Ball(position: Vector2.zero());
 
+            await game.ready();
             await game.ensureAddAll([flipper, ball]);
 
             expect(

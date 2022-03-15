@@ -13,7 +13,7 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(PinballGameTest.create);
+  final flameTester = FlameTester(Forge2DGame.new);
 
   group('Plunger', () {
     const compressionDistance = 0.0;
@@ -227,7 +227,7 @@ void main() {
       );
     });
 
-    final flameTester = flameBlocTester(gameBloc: gameBloc);
+    final flameTester = flameBlocTester(gameBloc: () => gameBloc);
 
     group('initializes with', () {
       flameTester.test(
