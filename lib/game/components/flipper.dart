@@ -82,6 +82,18 @@ class Flipper extends BodyComponent with KeyboardHandler {
           ],
         );
 
+  factory Flipper.fromSide({
+    required BoardSide side,
+    required Vector2 position,
+  }) {
+    switch (side) {
+      case BoardSide.left:
+        return Flipper.left(position: position);
+      case BoardSide.right:
+        return Flipper.right(position: position);
+    }
+  }
+
   /// Asset location of the sprite that renders with the [Flipper].
   ///
   /// Sprite is preloaded by [PinballGameAssetsX].

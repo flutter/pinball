@@ -30,6 +30,18 @@ class Baseboard extends BodyComponent {
           side: BoardSide.right,
         );
 
+  factory Baseboard.fromSide({
+    required BoardSide side,
+    required Vector2 position,
+  }) {
+    switch (side) {
+      case BoardSide.left:
+        return Baseboard.left(position: position);
+      case BoardSide.right:
+        return Baseboard.right(position: position);
+    }
+  }
+
   /// The width of the [Baseboard].
   static const width = 10.0;
 
