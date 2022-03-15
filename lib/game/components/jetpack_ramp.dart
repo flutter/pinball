@@ -7,13 +7,13 @@ import 'package:pinball/game/game.dart';
 /// Represents the upper left blue ramp for the game.
 ///
 /// Composed of a [Pathway.arc] defining the ramp, and two
-/// [JetpackRampArea]s at the entrance and exit of the ramp.
+/// [JetpackRampOpening]s at the entrance and exit of the ramp.
 /// {@endtemplate}
-class JetpackRamp extends PositionComponent with HasGameRef<PinballGame> {
+class JetpackRamp extends Component with HasGameRef<PinballGame> {
   /// {@macro jetpack_ramp}
   JetpackRamp({
-    required Vector2 position,
-  }) : _position = position;
+    required this.position,
+  });
 
   final double _radius = 200;
   final double _width = 80;
@@ -21,14 +21,16 @@ class JetpackRamp extends PositionComponent with HasGameRef<PinballGame> {
   final double _rotation = radians(-10);
   final double _entranceRotation = radians(15);
   final double _exitRotation = radians(-5);
-  final Vector2 _position;
+
+  /// The position of this [JetpackRamp]
+  final Vector2 position;
 
   @override
   Future<void> onLoad() async {
     await add(
       Pathway.arc(
         color: const Color.fromARGB(255, 8, 218, 241),
-        position: _position,
+        position: position,
         width: _width,
         radius: _radius,
         angle: _angle,
@@ -38,33 +40,33 @@ class JetpackRamp extends PositionComponent with HasGameRef<PinballGame> {
     );
 
     await add(
-      JetpackRampArea(
-        position: _position + Vector2(-10.5, 0),
+      JetpackRampOpening(
+        position: position + Vector2(-10.5, 0),
         rotation: _entranceRotation,
         orientation: RampOrientation.down,
       ),
     );
     await add(
-      JetpackRampArea(
-        position: _position + Vector2(20.5, 3),
+      JetpackRampOpening(
+        position: position + Vector2(20.5, 3),
         rotation: _exitRotation,
         orientation: RampOrientation.down,
       ),
     );
 
-    gameRef.addContactCallback(JetpackRampAreaCallback());
+    gameRef.addContactCallback(JetpackRampOpeningBallContactCallback());
   }
 }
 
-/// {@template jetpack_ramp_area}
-/// Implementation of [RampArea] for sensors in [JetpackRamp].
+/// {@template jetpack_ramp_opening}
+/// Implementation of [RampOpening] for sensors in [JetpackRamp].
 ///
-/// [RampArea] with [RampType.jetpack] to filter [Ball]s collisions
+/// [RampOpening] with [RampType.jetpack] to filter [Ball]s collisions
 /// inside [JetpackRamp].
 /// {@endtemplate}
-class JetpackRampArea extends RampArea {
-  /// {@macro jetpack_ramp_area}
-  JetpackRampArea({
+class JetpackRampOpening extends RampOpening {
+  /// {@macro jetpack_ramp_opening}
+  JetpackRampOpening({
     required Vector2 position,
     double rotation = 0,
     required RampOrientation orientation,
@@ -76,14 +78,14 @@ class JetpackRampArea extends RampArea {
         );
 
   /// Orientation of entrance/exit of [JetpackRamp] where
-  /// this [JetpackRampArea] is placed.
+  /// this [JetpackRampOpening] is placed.
   final RampOrientation _orientation;
 
-  /// Rotation of the [RampArea] to place it right at the
+  /// Rotation of the [RampOpening] to place it right at the
   /// entrance/exit of [JetpackRamp].
   final double _rotation;
 
-  /// Size of the [RampArea] placed at the entrance/exit of [JetpackRamp].
+  /// Size of the [RampOpening] placed at the entrance/exit of [JetpackRamp].
   final int _size = 7;
 
   @override
@@ -99,13 +101,14 @@ class JetpackRampArea extends RampArea {
     ]);
 }
 
-/// {@template jetpack_ramp_area_callback}
-/// Implementation of [RampAreaCallback] to listen when a [Ball]
-/// gets into a [JetpackRampArea].
+/// {@template jetpack_ramp_opening_ball_contact_callback}
+/// Implementation of [RampOpeningBallContactCallback] to listen when a [Ball]
+/// gets into a [JetpackRampOpening].
 /// {@endtemplate}
-class JetpackRampAreaCallback extends RampAreaCallback<JetpackRampArea> {
-  /// {@macro jetpack_ramp_area_callback}
-  JetpackRampAreaCallback() : super();
+class JetpackRampOpeningBallContactCallback
+    extends RampOpeningBallContactCallback<JetpackRampOpening> {
+  /// {@macro jetpack_ramp_opening_ball_contact_callback}
+  JetpackRampOpeningBallContactCallback() : super();
 
   /// Collection of balls inside [JetpackRamp].
   final _ballsInsideJetpack = <Ball>{};

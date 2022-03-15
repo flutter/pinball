@@ -7,7 +7,7 @@ import 'package:pinball/game/game.dart';
 
 import '../../helpers/helpers.dart';
 
-class TestRampArea extends RampArea {
+class TestRampArea extends RampOpening {
   TestRampArea({
     required Vector2 position,
     required RampOrientation orientation,
@@ -30,7 +30,8 @@ class TestRampArea extends RampArea {
     ]);
 }
 
-class TestRampAreaCallback extends RampAreaCallback<TestRampArea> {
+class TestRampAreaCallback
+    extends RampOpeningBallContactCallback<TestRampArea> {
   TestRampAreaCallback() : super();
 
   final _ballsInside = <Ball>{};

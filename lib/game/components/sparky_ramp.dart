@@ -7,27 +7,28 @@ import 'package:pinball/game/game.dart';
 /// Represent the upper right yellow ramp for the game.
 ///
 /// Group of [Component]s composed by a [Pathway.arc] as the ramp, and two
-/// [SparkyRampArea] at the entrance and exit of the ramp, to detect when
+/// [SparkyRampOpening] at the entrance and exit of the ramp, to detect when
 /// a ball gets into/out of the ramp.
 /// {@endtemplate}
-class SparkyRamp extends PositionComponent with HasGameRef<PinballGame> {
+class SparkyRamp extends Component with HasGameRef<PinballGame> {
   /// {@macro sparky_ramp}
   SparkyRamp({
-    required Vector2 position,
-  })  : _position = position,
-        super();
+    required this.position,
+  });
 
   final double _radius = 300;
   final double _width = 80;
   final double _angle = radians(200);
-  final Vector2 _position;
+
+  /// The position of this [SparkyRamp]
+  final Vector2 position;
 
   @override
   Future<void> onLoad() async {
     await add(
       Pathway.arc(
         color: const Color.fromARGB(255, 251, 255, 0),
-        position: _position,
+        position: position,
         radius: _radius,
         angle: _angle,
         width: _width,
@@ -35,32 +36,32 @@ class SparkyRamp extends PositionComponent with HasGameRef<PinballGame> {
       ),
     );
     await add(
-      SparkyRampArea(
-        position: _position + Vector2(-18, -2),
+      SparkyRampOpening(
+        position: position + Vector2(-18, -2),
         orientation: RampOrientation.down,
         rotation: radians(13),
       ),
     );
     await add(
-      SparkyRampArea(
-        position: _position + Vector2(33, 6),
+      SparkyRampOpening(
+        position: position + Vector2(33, 6),
         orientation: RampOrientation.down,
       ),
     );
 
-    gameRef.addContactCallback(SparkyRampAreaCallback());
+    gameRef.addContactCallback(SparkyRampOpeningBallContactCallback());
   }
 }
 
-/// {@template sparky_ramp_area}
-/// Implementation of [RampArea] for sensors in [SparkyRamp].
+/// {@template sparky_ramp_opening}
+/// Implementation of [RampOpening] for sensors in [SparkyRamp].
 ///
-/// [RampArea] with [RampType.sparky] to filter [Ball]s collisions
+/// [RampOpening] with [RampType.sparky] to filter [Ball]s collisions
 /// inside [SparkyRamp].
 /// {@endtemplate}
-class SparkyRampArea extends RampArea {
-  /// {@macro sparky_ramp_area}
-  SparkyRampArea({
+class SparkyRampOpening extends RampOpening {
+  /// {@macro sparky_ramp_opening}
+  SparkyRampOpening({
     required Vector2 position,
     double rotation = 0,
     required RampOrientation orientation,
@@ -72,14 +73,14 @@ class SparkyRampArea extends RampArea {
         );
 
   /// Orientation of entrance/exit of [SparkyRamp] where
-  /// this [SparkyRampArea] is placed.
+  /// this [SparkyRampOpening] is placed.
   final RampOrientation _orientation;
 
-  /// Rotation of the [RampArea] to place it right at the
+  /// Rotation of the [RampOpening] to place it right at the
   /// entrance/exit of [SparkyRamp].
   final double _rotation;
 
-  /// Size of the [RampArea] placed at the entrance/exit of [SparkyRamp].
+  /// Size of the [RampOpening] placed at the entrance/exit of [SparkyRamp].
   final int _size = 7;
 
   @override
@@ -95,13 +96,14 @@ class SparkyRampArea extends RampArea {
     ]);
 }
 
-/// {@template sparky_ramp_area_callback}
-/// Implementation of [RampAreaCallback] to listen when a [Ball]
-/// gets into a [SparkyRampArea].
+/// {@template sparky_ramp_opening_ball_contact_callback}
+/// Implementation of [RampOpeningBallContactCallback] to listen when a [Ball]
+/// gets into a [SparkyRampOpening].
 /// {@endtemplate}
-class SparkyRampAreaCallback extends RampAreaCallback<SparkyRampArea> {
-  /// {@macro sparky_ramp_area_callback}
-  SparkyRampAreaCallback() : super();
+class SparkyRampOpeningBallContactCallback
+    extends RampOpeningBallContactCallback<SparkyRampOpening> {
+  /// {@macro sparky_ramp_opening_ball_contact_callback}
+  SparkyRampOpeningBallContactCallback() : super();
 
   /// Collection of balls inside [SparkyRamp].
   final _ballsInsideSparky = <Ball>{};

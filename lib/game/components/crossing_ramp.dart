@@ -14,7 +14,7 @@ enum RampOrientation {
   down,
 }
 
-/// Indicates the type of the ramp.
+/// Indicates a type of the ramp.
 ///
 /// Used to set the maskBits of the ramp to determine their possible collisions.
 enum RampType {
@@ -46,15 +46,17 @@ extension RampTypeX on RampType {
   }
 }
 
-/// {@template ramp_area}
+/// {@template ramp_opening}
 /// [BodyComponent] located at the entrance and exit of a ramp.
 ///
-/// Detects when a [Ball] goes through it,
-/// Collisions with [RampArea] are listened by [RampAreaCallback].
+/// [RampOpeningBallContactCallback] detects when a [Ball] passes
+/// through this opening.
+/// Collisions with [RampOpening] are listened
+/// by [RampOpeningBallContactCallback].
 /// {@endtemplate}
-abstract class RampArea extends BodyComponent {
-  /// {@macro ramp_area}
-  RampArea({
+abstract class RampOpening extends BodyComponent {
+  /// {@macro ramp_opening}
+  RampOpening({
     required Vector2 position,
     required int categoryBits,
   })  : _position = position,
@@ -66,37 +68,38 @@ abstract class RampArea extends BodyComponent {
   final Vector2 _position;
   final int _categoryBits;
 
-  /// Mask of category bits for collision with [RampArea]
+  /// Mask of category bits for collision with [RampOpening]
   int get categoryBits => _categoryBits;
 
-  /// The [Shape] of the [RampArea]
+  /// The [Shape] of the [RampOpening]
   Shape get shape;
 
-  /// Orientation of the [RampArea] entrance/exit
+  /// Orientation of the [RampOpening] entrance/exit
   RampOrientation get orientation;
 
   @override
   Body createBody() {
-    final fixtureDef = FixtureDef(shape)
-      ..isSensor = true
-      ..filter.categoryBits = _categoryBits;
+    final fixtureDef = FixtureDef(shape)..isSensor = true;
 
     final bodyDef = BodyDef()
       ..userData = this
       ..position = _position
       ..type = BodyType.static;
 
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
+    final body = world.createBody(bodyDef);
+    body.createFixture(fixtureDef).filterData.categoryBits = _categoryBits;
+
+    return body;
   }
 }
 
-/// {@template ramp_area_callback}
-/// Listens when a [Ball] goes through a [RampArea] and gets into a [Pathway]
-/// ramp, in order to avoid collisions with other crossing ramps.
-/// Modifies [Ball]'s maskBits while is inside the ramp. When exits sets [Ball]
-/// maskBits to collide with all elements.
+/// {@template ramp_opening_ball_contact_callback}
+/// Detects when a [Ball] enters or exits a [Pathway] ramp through a
+/// [RampOpening].
+/// Modifies [Ball]'s maskBits while is inside the ramp. When [Ball] exits,
+/// sets maskBits to collide with all elements.
 /// {@endtemplate}
-abstract class RampAreaCallback<Area extends RampArea>
+abstract class RampOpeningBallContactCallback<Area extends RampOpening>
     extends ContactCallback<Ball, Area> {
   /// Collection of balls inside ramp pathway.
   Set get ballsInside;

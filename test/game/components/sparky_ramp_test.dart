@@ -9,7 +9,7 @@ import 'package:pinball/game/game.dart';
 
 import '../../helpers/helpers.dart';
 
-class MockSparkyRampArea extends Mock implements SparkyRampArea {}
+class MockSparkyRampArea extends Mock implements SparkyRampOpening {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -33,7 +33,7 @@ void main() {
       flameTester.test(
         'positions correctly',
         (game) async {
-          final position = Vector2.zero();
+          final position = Vector2.all(10);
           final ramp = SparkyRamp(
             position: position,
           );
@@ -72,7 +72,8 @@ void main() {
           await game.ready();
           await game.ensureAdd(ramp);
 
-          final rampAreas = ramp.children.whereType<SparkyRampArea>().toList();
+          final rampAreas =
+              ramp.children.whereType<SparkyRampOpening>().toList();
           expect(rampAreas.length, 2);
         },
       );
@@ -84,7 +85,7 @@ void main() {
       'orientation is down',
       (game) async {
         final position = Vector2.all(10);
-        final ramp = SparkyRampArea(
+        final ramp = SparkyRampOpening(
           position: position,
           orientation: RampOrientation.down,
         );
@@ -98,7 +99,8 @@ void main() {
 
   group('SparkyRampAreaCallback', () {
     test('has no ball inside on creation', () {
-      expect(SparkyRampAreaCallback().ballsInside, equals(<Ball>{}));
+      expect(
+          SparkyRampOpeningBallContactCallback().ballsInside, equals(<Ball>{}));
     });
   });
 }
