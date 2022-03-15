@@ -36,10 +36,13 @@ class BottomGroup extends Component {
   }
 }
 
+/// {@template bottom_group_side}
 /// Group with [BottomGroup]'s symmetric [Component]s.
 ///
 /// For example, [Flipper]s are symmetric components.
+/// {@endtemplate}
 class _BottomGroupSide extends Component {
+  /// {@macro bottom_group_side}
   _BottomGroupSide({
     required BoardSide side,
     required Vector2 position,
