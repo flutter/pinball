@@ -6,7 +6,7 @@ import 'package:pinball/game/game.dart';
 /// A solid, [BodyType.dynamic] sphere that rolls and bounces along the
 /// [PinballGame].
 /// {@endtemplate}
-class Ball extends BodyComponent<PinballGame> {
+class Ball extends BodyComponent<PinballGame> with Layer {
   /// {@macro ball}
   Ball({
     required Vector2 position,
@@ -44,17 +44,16 @@ class Ball extends BodyComponent<PinballGame> {
   Body createBody() {
     final shape = CircleShape()..radius = size.x / 2;
 
-    final fixtureDef = FixtureDef(shape)..density = 1;
+    final fixtureDef = FixtureDef(shape)
+      ..density = 1
+      ..filter.maskBits = _maskBits;
 
     final bodyDef = BodyDef()
       ..userData = this
       ..position = Vector2(_position.x, _position.y + size.y)
       ..type = BodyType.dynamic;
 
-    final body = world.createBody(bodyDef);
-
-    body.createFixture(fixtureDef).filterData.maskBits = _maskBits;
-    return body;
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 
   /// Removes the [Ball] from a [PinballGame]; spawning a new [Ball] if
@@ -71,15 +70,5 @@ class Ball extends BodyComponent<PinballGame> {
     if (shouldBallRespwan) {
       gameRef.spawnBall();
     }
-  }
-
-  /// Modifies maskBits of [Ball] for collisions.
-  ///
-  /// Changes the [Filter] data for category and maskBits of the [Ball] to
-  /// collide with other objects of same bits and ignore others.
-  void setMaskBits(int maskBits) {
-    body.fixtures.first
-      ..filterData.categoryBits = maskBits
-      ..filterData.maskBits = maskBits;
   }
 }

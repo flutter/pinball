@@ -3,6 +3,23 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
 
+/// {@template layer}
+/// Modifies maskBits of [BodyComponent] for collisions.
+///
+/// Changes the [Filter] data for category and maskBits of
+/// the [BodyComponent] to collide with other objects of
+/// same bits and ignore others.
+/// {@endtemplate}
+mixin Layer on BodyComponent<PinballGame> {
+  void setMaskBits(int maskBits) {
+    body.fixtures.forEach(
+      (fixture) => fixture
+        ..filterData.categoryBits = maskBits
+        ..filterData.maskBits = maskBits,
+    );
+  }
+}
+
 /// Indicates a orientation of the ramp entrance/exit.
 ///
 /// Used to know if ramps are looking up or down of the board.
@@ -79,17 +96,16 @@ abstract class RampOpening extends BodyComponent {
 
   @override
   Body createBody() {
-    final fixtureDef = FixtureDef(shape)..isSensor = true;
+    final fixtureDef = FixtureDef(shape)
+      ..isSensor = true
+      ..filter.categoryBits = _categoryBits;
 
     final bodyDef = BodyDef()
       ..userData = this
       ..position = _position
       ..type = BodyType.static;
 
-    final body = world.createBody(bodyDef);
-    body.createFixture(fixtureDef).filterData.categoryBits = _categoryBits;
-
-    return body;
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
 
