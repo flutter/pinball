@@ -166,13 +166,13 @@ void main() {
       );
     });
 
-    group('setMaskBits', () {
+    group('setLayer', () {
       final flameTester = FlameTester(PinballGameTest.create);
 
       flameTester.test(
-        'modifies maskBits correctly',
+        'modifies layer correctly',
         (game) async {
-          const newMaskBits = 1234;
+          const newLayer = RampType.jetpack;
 
           final ball = Ball(position: Vector2.zero());
           await game.ensureAdd(ball);
@@ -182,10 +182,10 @@ void main() {
           expect(fixture.filterData.categoryBits, equals(1));
           expect(fixture.filterData.maskBits, equals(Filter().maskBits));
 
-          ball.setMaskBits(newMaskBits);
+          ball.setLayer(newLayer);
 
-          expect(fixture.filterData.categoryBits, equals(newMaskBits));
-          expect(fixture.filterData.maskBits, equals(newMaskBits));
+          expect(fixture.filterData.categoryBits, equals(newLayer.maskBits));
+          expect(fixture.filterData.maskBits, equals(newLayer.maskBits));
         },
       );
     });

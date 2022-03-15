@@ -74,7 +74,7 @@ class JetpackRampOpening extends RampOpening {
         _orientation = orientation,
         super(
           position: position,
-          categoryBits: RampType.jetpack.maskBits,
+          layer: RampType.jetpack,
         );
 
   /// Orientation of entrance/exit of [JetpackRamp] where

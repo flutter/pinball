@@ -99,8 +99,10 @@ void main() {
 
   group('JetpackRampAreaCallback', () {
     test('has no ball inside on creation', () {
-      expect(JetpackRampOpeningBallContactCallback().ballsInside,
-          equals(<Ball>{}));
+      expect(
+        JetpackRampOpeningBallContactCallback().ballsInside,
+        equals(<Ball>{}),
+      );
     });
   });
 }

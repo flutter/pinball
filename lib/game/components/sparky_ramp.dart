@@ -69,7 +69,7 @@ class SparkyRampOpening extends RampOpening {
         _orientation = orientation,
         super(
           position: position,
-          categoryBits: RampType.sparky.maskBits,
+          layer: RampType.sparky,
         );
 
   /// Orientation of entrance/exit of [SparkyRamp] where

@@ -10,13 +10,13 @@ class Ball extends BodyComponent<PinballGame> with Layer {
   /// {@macro ball}
   Ball({
     required Vector2 position,
-    int? maskBits,
+    RampType? layer,
   })  : _position = position,
-        _maskBits = maskBits ?? Filter().maskBits;
+        _layer = layer ?? RampType.all;
 
   /// The initial position of the [Ball] body.
   final Vector2 _position;
-  final int _maskBits;
+  final RampType _layer;
 
   /// The size of the [Ball]
   final Vector2 size = Vector2.all(2);
@@ -46,7 +46,7 @@ class Ball extends BodyComponent<PinballGame> with Layer {
 
     final fixtureDef = FixtureDef(shape)
       ..density = 1
-      ..filter.maskBits = _maskBits;
+      ..filter.maskBits = _layer.maskBits;
 
     final bodyDef = BodyDef()
       ..userData = this

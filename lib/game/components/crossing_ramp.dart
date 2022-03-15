@@ -11,11 +11,11 @@ import 'package:pinball/game/game.dart';
 /// same bits and ignore others.
 /// {@endtemplate}
 mixin Layer on BodyComponent<PinballGame> {
-  void setMaskBits(int maskBits) {
+  void setLayer(RampType layer) {
     for (final fixture in body.fixtures) {
       fixture
-        ..filterData.categoryBits = maskBits
-        ..filterData.maskBits = maskBits;
+        ..filterData.categoryBits = layer.maskBits
+        ..filterData.maskBits = layer.maskBits;
     }
   }
 }
@@ -75,18 +75,18 @@ abstract class RampOpening extends BodyComponent {
   /// {@macro ramp_opening}
   RampOpening({
     required Vector2 position,
-    required int categoryBits,
+    required RampType layer,
   })  : _position = position,
-        _categoryBits = categoryBits {
+        _layer = layer {
     // TODO(ruialonso): remove paint color for BodyComponent.
     // Left white for dev and testing.
   }
 
   final Vector2 _position;
-  final int _categoryBits;
+  final RampType _layer;
 
   /// Mask of category bits for collision with [RampOpening]
-  int get categoryBits => _categoryBits;
+  RampType get layer => _layer;
 
   /// The [Shape] of the [RampOpening]
   Shape get shape;
@@ -98,7 +98,7 @@ abstract class RampOpening extends BodyComponent {
   Body createBody() {
     final fixtureDef = FixtureDef(shape)
       ..isSensor = true
-      ..filter.categoryBits = _categoryBits;
+      ..filter.categoryBits = _layer.maskBits;
 
     final bodyDef = BodyDef()
       ..userData = this
@@ -126,37 +126,37 @@ abstract class RampOpeningBallContactCallback<Area extends RampOpening>
     Area area,
     Contact _,
   ) {
-    int maskBits;
+    RampType layer;
     if (!ballsInside.contains(ball)) {
-      maskBits = area.categoryBits;
+      layer = area.layer;
       ballsInside.add(ball);
     } else {
-      maskBits = RampType.all.maskBits;
+      layer = RampType.all;
       ballsInside.remove(ball);
     }
 
-    ball.setMaskBits(maskBits);
+    ball.setLayer(layer);
   }
 
   @override
   void end(Ball ball, Area area, Contact contact) {
-    int? maskBits;
+    RampType? layer;
 
     switch (area.orientation) {
       case RampOrientation.up:
         if (ball.body.position.y > area._position.y) {
-          maskBits = RampType.all.maskBits;
+          layer = RampType.all;
         }
         break;
       case RampOrientation.down:
         if (ball.body.position.y < area._position.y) {
-          maskBits = RampType.all.maskBits;
+          layer = RampType.all;
         }
         break;
     }
 
-    if (maskBits != null) {
-      ball.setMaskBits(maskBits);
+    if (layer != null) {
+      ball.setLayer(layer);
     }
   }
 }

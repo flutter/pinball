@@ -100,7 +100,9 @@ void main() {
   group('SparkyRampAreaCallback', () {
     test('has no ball inside on creation', () {
       expect(
-          SparkyRampOpeningBallContactCallback().ballsInside, equals(<Ball>{}));
+        SparkyRampOpeningBallContactCallback().ballsInside,
+        equals(<Ball>{}),
+      );
     });
   });
 }
