@@ -23,5 +23,12 @@ void main() {
       expect(side.isLeft, isFalse);
       expect(side.isRight, isTrue);
     });
+
+    test('direction is correct', () {
+      const side = BoardSide.left;
+      expect(side.direction, equals(-1));
+      const side2 = BoardSide.right;
+      expect(side2.direction, equals(1));
+    });
   });
 }
