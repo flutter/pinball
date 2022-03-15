@@ -5,11 +5,9 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
 
-class EmptyGame extends Forge2DGame {}
-
 void main() {
   group('SlingShot', () {
-    final flameTester = FlameTester(EmptyGame.new);
+    final flameTester = FlameTester(Forge2DGame.new);
 
     flameTester.test(
       'loads correctly',
