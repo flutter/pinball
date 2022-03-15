@@ -54,10 +54,10 @@ void main() {
         },
       );
 
-      flameTester.test('has only one FlipperGroup', (game) async {
+      flameTester.test('has only one BottomGroup', (game) async {
         await game.ready();
         expect(
-          game.children.whereType<FlipperGroup>().length,
+          game.children.whereType<BottomGroup>().length,
           equals(1),
         );
       });

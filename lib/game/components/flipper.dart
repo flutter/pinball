@@ -8,42 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball/game/game.dart';
 
-/// {@template flipper_group}
-/// Loads a [Flipper.right] and a [Flipper.left].
-/// {@endtemplate}
-class FlipperGroup extends Component {
-  /// {@macro flipper_group}
-  FlipperGroup({
-    required this.position,
-    required this.spacing,
-  });
-
-  /// The amount of space between the [Flipper.right] and [Flipper.left].
-  final double spacing;
-
-  /// The position of this [FlipperGroup]
-  final Vector2 position;
-
-  @override
-  Future<void> onLoad() async {
-    final leftFlipper = Flipper.left(
-      position: Vector2(
-        position.x - (Flipper.width / 2) - (spacing / 2),
-        position.y,
-      ),
-    );
-    await add(leftFlipper);
-
-    final rightFlipper = Flipper.right(
-      position: Vector2(
-        position.x + (Flipper.width / 2) + (spacing / 2),
-        position.y,
-      ),
-    );
-    await add(rightFlipper);
-  }
-}
-
 /// {@template flipper}
 /// A bat, typically found in pairs at the bottom of the board.
 ///
