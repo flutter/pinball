@@ -16,6 +16,8 @@ class Ball extends BodyComponent<PinballGame> with Layered {
 
   /// The initial position of the [Ball] body.
   final Vector2 _position;
+
+  /// [Layer] of the board that the [Ball] will interact with.
   final Layer _layer;
 
   /// The size of the [Ball]
