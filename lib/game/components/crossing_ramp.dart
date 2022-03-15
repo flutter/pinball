@@ -12,11 +12,11 @@ import 'package:pinball/game/game.dart';
 /// {@endtemplate}
 mixin Layer on BodyComponent<PinballGame> {
   void setMaskBits(int maskBits) {
-    body.fixtures.forEach(
-      (fixture) => fixture
+    for (final fixture in body.fixtures) {
+      fixture
         ..filterData.categoryBits = maskBits
-        ..filterData.maskBits = maskBits,
-    );
+        ..filterData.maskBits = maskBits;
+    }
   }
 }
 
