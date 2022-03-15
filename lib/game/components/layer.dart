@@ -32,8 +32,8 @@ enum Layer {
   /// Collide only with Jetpack group elements.
   jetpack,
 
-  /// Collide only with Sparky group elements.
-  sparky,
+  /// Collide only with Launcher group elements.
+  launcher,
 }
 
 /// Utility methods for [Layer].
@@ -45,7 +45,7 @@ extension LayerX on Layer {
         return 0xFFFF;
       case Layer.jetpack:
         return 0x0010;
-      case Layer.sparky:
+      case Layer.launcher:
         return 0x0100;
     }
   }

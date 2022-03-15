@@ -88,11 +88,11 @@ void main() {
       );
 
       flameTester.test(
-        'has only one SparkyRamp',
+        'has only one LauncherRamp',
         (game) async {
           await game.ready();
 
-          final rampAreas = game.children.whereType<SparkyRamp>().toList();
+          final rampAreas = game.children.whereType<LauncherRamp>().toList();
           expect(rampAreas.length, 1);
         },
       );

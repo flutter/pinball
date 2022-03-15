@@ -9,17 +9,17 @@ import 'package:pinball/game/game.dart';
 
 import '../../helpers/helpers.dart';
 
-class MockSparkyRampArea extends Mock implements SparkyRampOpening {}
+class MockLauncherRampArea extends Mock implements LauncherRampOpening {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final flameTester = FlameTester(PinballGameTest.create);
 
-  group('SparkyRamp', () {
+  group('LauncherRamp', () {
     flameTester.test(
       'loads correctly',
       (game) async {
-        final ramp = SparkyRamp(
+        final ramp = LauncherRamp(
           position: Vector2.zero(),
         );
         await game.ready();
@@ -34,7 +34,7 @@ void main() {
         'positions correctly',
         (game) async {
           final position = Vector2.all(10);
-          final ramp = SparkyRamp(
+          final ramp = LauncherRamp(
             position: position,
           );
           await game.ensureAdd(ramp);
@@ -46,46 +46,42 @@ void main() {
 
     group('children', () {
       flameTester.test(
-        'has only one Pathway.arc',
+        'has two Pathway',
         (game) async {
-          final ramp = SparkyRamp(
+          final ramp = LauncherRamp(
             position: Vector2.zero(),
           );
           await game.ready();
           await game.ensureAdd(ramp);
 
-          expect(
-            () => ramp.children.singleWhere(
-              (component) => component is Pathway,
-            ),
-            returnsNormally,
-          );
+          final pathways = ramp.children.whereType<Pathway>().toList();
+          expect(pathways.length, 2);
         },
       );
 
       flameTester.test(
         'has a two sensors for the ramp',
         (game) async {
-          final ramp = SparkyRamp(
+          final ramp = LauncherRamp(
             position: Vector2.zero(),
           );
           await game.ready();
           await game.ensureAdd(ramp);
 
           final rampAreas =
-              ramp.children.whereType<SparkyRampOpening>().toList();
+              ramp.children.whereType<LauncherRampOpening>().toList();
           expect(rampAreas.length, 2);
         },
       );
     });
   });
 
-  group('SparkyRampOpening', () {
+  group('LauncherRampOpening', () {
     flameTester.test(
       'orientation is down',
       (game) async {
         final position = Vector2.all(10);
-        final ramp = SparkyRampOpening(
+        final ramp = LauncherRampOpening(
           position: position,
           orientation: RampOrientation.down,
         );
@@ -97,10 +93,10 @@ void main() {
     );
   });
 
-  group('SparkyRampOpeningBallContactCallback', () {
+  group('LauncherRampOpeningBallContactCallback', () {
     test('has no ball inside on creation', () {
       expect(
-        SparkyRampOpeningBallContactCallback().ballsInside,
+        LauncherRampOpeningBallContactCallback().ballsInside,
         equals(<Ball>{}),
       );
     });

@@ -50,8 +50,8 @@ void main() {
   group('LayerX', () {
     test('all types are different', () {
       expect(Layer.all.maskBits, isNot(equals(Layer.jetpack.maskBits)));
-      expect(Layer.jetpack.maskBits, isNot(equals(Layer.sparky.maskBits)));
-      expect(Layer.sparky.maskBits, isNot(equals(Layer.all.maskBits)));
+      expect(Layer.jetpack.maskBits, isNot(equals(Layer.launcher.maskBits)));
+      expect(Layer.launcher.maskBits, isNot(equals(Layer.all.maskBits)));
     });
 
     test('all type has default maskBits', () {
@@ -62,8 +62,8 @@ void main() {
       expect(Layer.jetpack.maskBits, equals(0x0010));
     });
 
-    test('sparky type has 0x0100 maskBits', () {
-      expect(Layer.sparky.maskBits, equals(0x0100));
+    test('launcher type has 0x0100 maskBits', () {
+      expect(Layer.launcher.maskBits, equals(0x0100));
     });
   });
 
