@@ -8,39 +8,11 @@ import 'package:pinball/game/game.dart';
 /// {@endtemplate}
 class Baseboard extends BodyComponent {
   /// {@macro baseboard}
-  Baseboard._({
-    required Vector2 position,
-    required BoardSide side,
-  })  : _position = position,
-        _side = side;
-
-  /// A left positioned [Baseboard].
-  Baseboard.left({
-    required Vector2 position,
-  }) : this._(
-          position: position,
-          side: BoardSide.left,
-        );
-
-  /// A right positioned [Baseboard].
-  Baseboard.right({
-    required Vector2 position,
-  }) : this._(
-          position: position,
-          side: BoardSide.right,
-        );
-
-  factory Baseboard.fromSide({
+  Baseboard({
     required BoardSide side,
     required Vector2 position,
-  }) {
-    switch (side) {
-      case BoardSide.left:
-        return Baseboard.left(position: position);
-      case BoardSide.right:
-        return Baseboard.right(position: position);
-    }
-  }
+  })  : _side = side,
+        _position = position;
 
   /// The width of the [Baseboard].
   static const width = 10.0;

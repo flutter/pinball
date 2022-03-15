@@ -60,7 +60,7 @@ class _BottomGroupSide extends Component {
     );
     await add(flipper);
 
-    final bumper = Baseboard.fromSide(
+    final bumper = Baseboard(
       side: _side,
       position: _position +
           Vector2(
