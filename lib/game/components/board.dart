@@ -2,8 +2,11 @@ import 'package:flame/components.dart';
 import 'package:pinball/game/game.dart';
 
 /// {@template bottom_group}
+/// Grouping of the board's bottom components.
 ///
+/// The bottom components are the [Flipper]s and the [Baseboard]s.
 /// {@endtemplate}
+// TODO(alestiago): Add [SlingShot] once provided.
 class BottomGroup extends Component {
   /// {@macro bottom_group}
   BottomGroup({
@@ -20,10 +23,12 @@ class BottomGroup extends Component {
   @override
   Future<void> onLoad() async {
     final spacing = this.spacing + Flipper.width / 2;
-    final rightSide = _BottomGroupSide.right(
+    final rightSide = _BottomGroupSide(
+      side: BoardSide.right,
       position: position + Vector2(spacing, 0),
     );
-    final leftSide = _BottomGroupSide.left(
+    final leftSide = _BottomGroupSide(
+      side: BoardSide.left,
       position: position + Vector2(-spacing, 0),
     );
 
@@ -35,17 +40,11 @@ class BottomGroup extends Component {
 ///
 /// For example, [Flipper.right] and [Flipper.left] are symmetric components.
 class _BottomGroupSide extends Component {
-  _BottomGroupSide._({
+  _BottomGroupSide({
     required BoardSide side,
     required Vector2 position,
   })  : _side = side,
         _position = position;
-
-  _BottomGroupSide.right({required Vector2 position})
-      : this._(side: BoardSide.right, position: position);
-
-  _BottomGroupSide.left({required Vector2 position})
-      : this._(side: BoardSide.left, position: position);
 
   final BoardSide _side;
 
