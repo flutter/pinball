@@ -18,18 +18,13 @@ void main() {
     // [BallScorePointsCallback] once the following issue is resolved:
     // https://github.com/flame-engine/flame/issues/1416
     group('components', () {
-      bool Function(Component) componentSelector<T>() =>
-          (component) => component is T;
-
       flameTester.test(
         'has three Walls',
         (game) async {
           await game.ready();
-          final walls = game.children
-              .where(
-                (component) => component is Wall && component is! BottomWall,
-              )
-              .toList();
+          final walls = game.children.where(
+            (component) => component is Wall && component is! BottomWall,
+          );
           // TODO(allisonryan0002): expect 3 when launch track is added and
           // temporary wall is removed.
           expect(walls.length, 4);
@@ -42,10 +37,8 @@ void main() {
           await game.ready();
 
           expect(
-            () => game.children.singleWhere(
-              componentSelector<BottomWall>(),
-            ),
-            returnsNormally,
+            game.children.whereType<BottomWall>().length,
+            equals(1),
           );
         },
       );
@@ -54,24 +47,18 @@ void main() {
         'has only one Plunger',
         (game) async {
           await game.ready();
-
           expect(
-            () => game.children.singleWhere(
-              (component) => component is Plunger,
-            ),
-            returnsNormally,
+            game.children.whereType<Plunger>().length,
+            equals(1),
           );
         },
       );
 
       flameTester.test('has only one FlipperGroup', (game) async {
         await game.ready();
-
         expect(
-          () => game.children.singleWhere(
-            (component) => component is FlipperGroup,
-          ),
-          returnsNormally,
+          game.children.whereType<FlipperGroup>().length,
+          equals(1),
         );
       });
 
@@ -79,7 +66,7 @@ void main() {
         'has two Baseboards',
         (game) async {
           await game.ready();
-          final baseboards = game.children.whereType<Baseboard>().toList();
+          final baseboards = game.children.whereType<Baseboard>();
           expect(baseboards.length, 2);
         },
       );

@@ -11,10 +11,9 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  final flameTester = FlameTester(PinballGameTest.create);
 
   group('Ball', () {
-    final flameTester = FlameTester(PinballGameTest.create);
-
     flameTester.test(
       'loads correctly',
       (game) async {

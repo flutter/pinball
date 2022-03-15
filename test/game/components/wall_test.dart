@@ -10,6 +10,7 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  final flameTester = FlameTester(Forge2DGame.new);
 
   group('Wall', () {
     group('BottomWallBallContactCallback', () {
@@ -32,7 +33,6 @@ void main() {
         },
       );
     });
-    final flameTester = FlameTester(PinballGameTest.create);
 
     flameTester.test(
       'loads correctly',

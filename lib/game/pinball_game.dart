@@ -101,7 +101,6 @@ class PinballGame extends Forge2DGame
   }
 
   Future<void> _addPlunger() async {
-    late PlungerAnchor plungerAnchor;
     final compressionDistance = camera.viewport.effectiveSize.y / 12;
 
     await add(
@@ -113,14 +112,6 @@ class PinballGame extends Forge2DGame
           ),
         ),
         compressionDistance: compressionDistance,
-      ),
-    );
-    await add(plungerAnchor = PlungerAnchor(plunger: plunger));
-
-    world.createJoint(
-      PlungerAnchorPrismaticJointDef(
-        plunger: plunger,
-        anchor: plungerAnchor,
       ),
     );
   }

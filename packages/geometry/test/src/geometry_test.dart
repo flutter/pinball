@@ -166,4 +166,29 @@ void main() {
       });
     });
   });
+
+  group('centroid', () {
+    test('throws AssertionError when vertices are empty', () {
+      expect(() => centroid([]), throwsA(isA<AssertionError>()));
+    });
+
+    test('is correct when one vertex is given', () {
+      expect(centroid([Vector2.zero()]), Vector2.zero());
+    });
+
+    test('is correct when two vertex are given', () {
+      expect(centroid([Vector2.zero(), Vector2(1, 1)]), Vector2(0.5, 0.5));
+    });
+
+    test('is correct when three vertex are given', () {
+      expect(
+        centroid([
+          Vector2.zero(),
+          Vector2(1, 1),
+          Vector2(2, 2),
+        ]),
+        Vector2(1, 1),
+      );
+    });
+  });
 }

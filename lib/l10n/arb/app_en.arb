@@ -4,6 +4,18 @@
     "@play": {
         "description": "Text displayed on the landing page play button"
     },
+    "howToPlay": "How to Play",
+    "@howToPlay": {
+        "description": "Text displayed on the landing page how to play button"
+    },
+    "launchControls": "Launch Controls",
+    "@launchControls": {
+        "description": "Text displayed on the how to play dialog with the launch controls"
+    },
+    "flipperControls": "Flipper Controls",
+    "@flipperControls": {
+        "description": "Text displayed on the how to play dialog with the flipper controls"
+    },
     "start": "Start",
     "@start": {
         "description": "Text displayed on the character selection page start button"
