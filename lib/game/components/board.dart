@@ -2,9 +2,9 @@ import 'package:flame/components.dart';
 import 'package:pinball/game/game.dart';
 
 /// {@template bottom_group}
-/// Grouping of the board's bottom components.
+/// Grouping of the board's bottom [Component]s.
 ///
-/// The bottom components are the [Flipper]s and the [Baseboard]s.
+/// The bottom [Component]s are the [Flipper]s and the [Baseboard]s.
 /// {@endtemplate}
 // TODO(alestiago): Add [SlingShot] once provided.
 class BottomGroup extends Component {
