@@ -12,10 +12,9 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  final flameTester = FlameTester(PinballGameTest.create);
 
   group('BonusWord', () {
-    final flameTester = FlameTester(PinballGameTest.create);
-
     flameTester.test(
       'loads the letters correctly',
       (game) async {

@@ -6,11 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
 
-import '../../helpers/helpers.dart';
-
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(PinballGameTest.create);
+  final flameTester = FlameTester(Forge2DGame.new);
 
   group('Pathway', () {
     const width = 50.0;
