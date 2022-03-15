@@ -19,6 +19,7 @@ void main() {
       'loads correctly',
       (game) async {
         final ball = Ball(position: Vector2.zero());
+        await game.ready();
         await game.ensureAdd(ball);
 
         expect(game.contains(ball), isTrue);
