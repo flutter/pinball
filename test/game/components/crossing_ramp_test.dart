@@ -7,8 +7,8 @@ import 'package:pinball/game/game.dart';
 
 import '../../helpers/helpers.dart';
 
-class FakeRampArea extends RampArea {
-  FakeRampArea({
+class TestRampArea extends RampArea {
+  TestRampArea({
     required Vector2 position,
     required RampOrientation orientation,
     required int categoryBits,
@@ -30,8 +30,8 @@ class FakeRampArea extends RampArea {
     ]);
 }
 
-class FakeRampAreaCallback extends RampAreaCallback<FakeRampArea> {
-  FakeRampAreaCallback() : super();
+class TestRampAreaCallback extends RampAreaCallback<TestRampArea> {
+  TestRampAreaCallback() : super();
 
   final _ballsInside = <Ball>{};
 
@@ -67,7 +67,7 @@ void main() {
     flameTester.test(
       'loads correctly',
       (game) async {
-        final ramp = FakeRampArea(
+        final ramp = TestRampArea(
           position: Vector2.zero(),
           orientation: RampOrientation.down,
           categoryBits: RampType.all.maskBits,
@@ -84,7 +84,7 @@ void main() {
         'positions correctly',
         (game) async {
           final position = Vector2.all(10);
-          final ramp = FakeRampArea(
+          final ramp = TestRampArea(
             position: position,
             orientation: RampOrientation.down,
             categoryBits: RampType.all.maskBits,
@@ -99,7 +99,7 @@ void main() {
       flameTester.test(
         'is static',
         (game) async {
-          final ramp = FakeRampArea(
+          final ramp = TestRampArea(
             position: Vector2.zero(),
             orientation: RampOrientation.down,
             categoryBits: RampType.all.maskBits,
@@ -111,36 +111,48 @@ void main() {
       );
 
       group('fixtures', () {
+        const maskBits = 1234;
+
         flameTester.test(
-          'has only one shape',
+          'exists',
           (game) async {
-            final ramp = FakeRampArea(
+            final ramp = TestRampArea(
               position: Vector2.zero(),
               orientation: RampOrientation.down,
-              categoryBits: RampType.all.maskBits,
+              categoryBits: maskBits,
             );
             await game.ensureAdd(ramp);
 
-            expect(ramp.body.fixtures.length, 1);
+            expect(ramp.body.fixtures[0], isA<Fixture>());
+          },
+        );
 
-            for (final fixture in ramp.body.fixtures) {
-              expect(fixture, isA<Fixture>());
-              expect(fixture.shape, isA<PolygonShape>());
-            }
+        flameTester.test(
+          'shape is a polygon',
+          (game) async {
+            final ramp = TestRampArea(
+              position: Vector2.zero(),
+              orientation: RampOrientation.down,
+              categoryBits: maskBits,
+            );
+            await game.ensureAdd(ramp);
+
+            final fixture = ramp.body.fixtures[0];
+            expect(fixture.shape.shapeType, equals(ShapeType.polygon));
           },
         );
 
         flameTester.test(
           'is sensor',
           (game) async {
-            final ramp = FakeRampArea(
+            final ramp = TestRampArea(
               position: Vector2.zero(),
               orientation: RampOrientation.down,
-              categoryBits: RampType.all.maskBits,
+              categoryBits: maskBits,
             );
             await game.ensureAdd(ramp);
 
-            final fixture = ramp.body.fixtures.first;
+            final fixture = ramp.body.fixtures[0];
             expect(fixture.isSensor, isTrue);
           },
         );
@@ -148,16 +160,15 @@ void main() {
         flameTester.test(
           'sets filter categoryBits correctly',
           (game) async {
-            const maskBits = 1234;
-            final ramp = FakeRampArea(
+            final ramp = TestRampArea(
               position: Vector2.zero(),
               orientation: RampOrientation.down,
               categoryBits: maskBits,
             );
-            await game.ready();
+
             await game.ensureAdd(ramp);
 
-            final fixture = ramp.body.fixtures.first;
+            final fixture = ramp.body.fixtures[0];
             expect(
               fixture.filterData.categoryBits,
               equals(maskBits),
@@ -176,12 +187,12 @@ void main() {
         'is saved into collection and set maskBits to path', () {
       final ball = MockBall();
       final body = MockBody();
-      final area = FakeRampArea(
+      final area = TestRampArea(
         position: Vector2(0, 10),
         orientation: RampOrientation.down,
         categoryBits: categoryBits,
       );
-      final callback = FakeRampAreaCallback();
+      final callback = TestRampAreaCallback();
 
       when(() => body.position).thenReturn(Vector2(0, 20));
       when(() => ball.body).thenReturn(body);
@@ -203,12 +214,12 @@ void main() {
         'is saved into collection and set maskBits to path', () {
       final ball = MockBall();
       final body = MockBody();
-      final area = FakeRampArea(
+      final area = TestRampArea(
         position: Vector2(0, 10),
         orientation: RampOrientation.up,
         categoryBits: categoryBits,
       );
-      final callback = FakeRampAreaCallback();
+      final callback = TestRampAreaCallback();
 
       when(() => body.position).thenReturn(Vector2.zero());
       when(() => ball.body).thenReturn(body);
@@ -230,12 +241,12 @@ void main() {
         'is removed from collection and set maskBits to collide all', () {
       final ball = MockBall();
       final body = MockBody();
-      final area = FakeRampArea(
+      final area = TestRampArea(
         position: Vector2(0, 10),
         orientation: RampOrientation.down,
         categoryBits: categoryBits,
       );
-      final callback = FakeRampAreaCallback();
+      final callback = TestRampAreaCallback();
 
       when(() => body.position).thenReturn(Vector2.zero());
       when(() => ball.body).thenReturn(body);
@@ -257,12 +268,12 @@ void main() {
         'is removed from collection and set maskBits to collide all', () {
       final ball = MockBall();
       final body = MockBody();
-      final area = FakeRampArea(
+      final area = TestRampArea(
         position: Vector2(0, 10),
         orientation: RampOrientation.down,
         categoryBits: categoryBits,
       );
-      final callback = FakeRampAreaCallback()..ballsInside.add(ball);
+      final callback = TestRampAreaCallback()..ballsInside.add(ball);
 
       when(() => body.position).thenReturn(Vector2.zero());
       when(() => ball.body).thenReturn(body);
@@ -282,12 +293,12 @@ void main() {
         'is removed from collection and set maskBits to collide all', () {
       final ball = MockBall();
       final body = MockBody();
-      final area = FakeRampArea(
+      final area = TestRampArea(
         position: Vector2(0, 10),
         orientation: RampOrientation.up,
         categoryBits: categoryBits,
       );
-      final callback = FakeRampAreaCallback()..ballsInside.add(ball);
+      final callback = TestRampAreaCallback()..ballsInside.add(ball);
 
       when(() => body.position).thenReturn(Vector2(0, 20));
       when(() => ball.body).thenReturn(body);

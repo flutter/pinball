@@ -16,88 +16,11 @@ void main() {
   final flameTester = FlameTester(PinballGameTest.create);
 
   group('JetpackRamp', () {
-    group('body', () {
-      bool Function(Component) pathwaySelector(Vector2 position) =>
-          (component) =>
-              component is Pathway && component.body.position == position;
-
-      flameTester.test(
-        'has a Pathway.arc at position',
-        (game) async {
-          final position = Vector2.all(10);
-          final jetpackRamp = JetpackRamp(
-            position: position,
-          );
-          await game.ready();
-          await game.ensureAdd(jetpackRamp);
-
-          expect(
-            () => jetpackRamp.children.singleWhere(
-              pathwaySelector(position),
-            ),
-            returnsNormally,
-          );
-        },
-      );
-
-      flameTester.test(
-        'path is static',
-        (game) async {
-          final position = Vector2.all(10);
-          final jetpackRamp = JetpackRamp(
-            position: position,
-          );
-          await game.ready();
-          await game.ensureAdd(jetpackRamp);
-
-          final pathways = jetpackRamp.children.whereType<Pathway>().toList();
-          for (final pathway in pathways) {
-            expect(pathway.body.bodyType, equals(BodyType.static));
-          }
-        },
-      );
-
-      flameTester.test(
-        'has a two sensors for the ramp',
-        (game) async {
-          final jetpackRamp = JetpackRamp(
-            position: Vector2.zero(),
-          );
-          await game.ready();
-          await game.ensureAdd(jetpackRamp);
-
-          final rampAreas =
-              jetpackRamp.children.whereType<JetpackRampArea>().toList();
-          expect(rampAreas.length, 2);
-        },
-      );
-
-      flameTester.test(
-        'sensors are static',
-        (game) async {
-          final jetpackRamp = JetpackRamp(
-            position: Vector2.zero(),
-          );
-          await game.ready();
-          await game.ensureAdd(jetpackRamp);
-
-          final rampAreas =
-              jetpackRamp.children.whereType<JetpackRampArea>().toList();
-          for (final rampArea in rampAreas) {
-            expect(rampArea.body.bodyType, equals(BodyType.static));
-          }
-        },
-      );
-    });
-  });
-
-  group('JetpackRampArea', () {
     flameTester.test(
       'loads correctly',
       (game) async {
-        final ramp = JetpackRampArea(
+        final ramp = JetpackRamp(
           position: Vector2.zero(),
-          orientation: RampOrientation.down,
         );
         await game.ready();
         await game.ensureAdd(ramp);
@@ -106,8 +29,59 @@ void main() {
       },
     );
 
+    group('constructor', () {
+      flameTester.test(
+        'positions correctly',
+        (game) async {
+          final position = Vector2.zero();
+          final ramp = JetpackRamp(
+            position: position,
+          );
+          await game.ensureAdd(ramp);
+
+          expect(ramp.position, equals(position));
+        },
+      );
+    });
+
+    group('children', () {
+      flameTester.test(
+        'has only one Pathway.arc',
+        (game) async {
+          final ramp = JetpackRamp(
+            position: Vector2.zero(),
+          );
+          await game.ready();
+          await game.ensureAdd(ramp);
+
+          expect(
+            () => ramp.children.singleWhere(
+              (component) => component is Pathway,
+            ),
+            returnsNormally,
+          );
+        },
+      );
+
+      flameTester.test(
+        'has a two sensors for the ramp',
+        (game) async {
+          final ramp = JetpackRamp(
+            position: Vector2.zero(),
+          );
+          await game.ready();
+          await game.ensureAdd(ramp);
+
+          final rampAreas = ramp.children.whereType<JetpackRampArea>().toList();
+          expect(rampAreas.length, 2);
+        },
+      );
+    });
+  });
+
+  group('JetpackRampArea', () {
     flameTester.test(
-      'orientation correctly',
+      'orientation is down',
       (game) async {
         final position = Vector2.all(10);
         final ramp = JetpackRampArea(
@@ -120,91 +94,6 @@ void main() {
         expect(ramp.orientation, RampOrientation.down);
       },
     );
-
-    group('body', () {
-      flameTester.test(
-        'positions correctly',
-        (game) async {
-          final position = Vector2.all(10);
-          final ramp = JetpackRampArea(
-            position: position,
-            orientation: RampOrientation.down,
-          );
-          await game.ready();
-          await game.ensureAdd(ramp);
-
-          expect(ramp.body.position, position);
-        },
-      );
-
-      flameTester.test(
-        'is static',
-        (game) async {
-          final ramp = JetpackRampArea(
-            position: Vector2.zero(),
-            orientation: RampOrientation.down,
-          );
-          await game.ready();
-          await game.ensureAdd(ramp);
-
-          expect(ramp.body.bodyType, equals(BodyType.static));
-        },
-      );
-
-      group('fixtures', () {
-        flameTester.test(
-          'has only one shape',
-          (game) async {
-            final ramp = JetpackRampArea(
-              position: Vector2.zero(),
-              orientation: RampOrientation.down,
-            );
-            await game.ready();
-            await game.ensureAdd(ramp);
-
-            expect(ramp.body.fixtures.length, 1);
-
-            for (final fixture in ramp.body.fixtures) {
-              expect(fixture, isA<Fixture>());
-              expect(fixture.shape, isA<PolygonShape>());
-            }
-          },
-        );
-
-        flameTester.test(
-          'is sensor',
-          (game) async {
-            final ramp = JetpackRampArea(
-              position: Vector2.zero(),
-              orientation: RampOrientation.down,
-            );
-            await game.ready();
-            await game.ensureAdd(ramp);
-
-            final fixture = ramp.body.fixtures.first;
-            expect(fixture.isSensor, isTrue);
-          },
-        );
-
-        flameTester.test(
-          'sets correctly filter categoryBits to RampType.jetpack',
-          (game) async {
-            final ramp = JetpackRampArea(
-              position: Vector2.zero(),
-              orientation: RampOrientation.down,
-            );
-            await game.ready();
-            await game.ensureAdd(ramp);
-
-            final fixture = ramp.body.fixtures.first;
-            expect(
-              fixture.filterData.categoryBits,
-              equals(RampType.jetpack.maskBits),
-            );
-          },
-        );
-      });
-    });
   });
 
   group('JetpackRampAreaCallback', () {
