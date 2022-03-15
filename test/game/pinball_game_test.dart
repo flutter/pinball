@@ -79,11 +79,11 @@ void main() {
           await game.ready();
 
           expect(
-          () => game.children.singleWhere(
-            (component) => component is JetpackRamp,
-          ),
-          returnsNormally,
-        );
+            () => game.children.singleWhere(
+              (component) => component is JetpackRamp,
+            ),
+            returnsNormally,
+          );
         },
       );
 
