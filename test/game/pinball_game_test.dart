@@ -61,15 +61,6 @@ void main() {
           equals(1),
         );
       });
-
-      flameTester.test(
-        'has two Baseboards',
-        (game) async {
-          await game.ready();
-          final baseboards = game.children.whereType<Baseboard>();
-          expect(baseboards.length, 2);
-        },
-      );
     });
 
     debugModeFlameTester.test('adds a ball on tap up', (game) async {
