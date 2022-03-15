@@ -22,6 +22,6 @@ extension BoardSideX on BoardSide {
 
   /// Direction of the [BoardSide].
   ///
-  /// Represents the line which the [BoardSide] moves.
+  /// Represents the path which the [BoardSide] moves along.
   int get direction => isLeft ? -1 : 1;
 }
