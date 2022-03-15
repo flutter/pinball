@@ -38,7 +38,7 @@ class BottomGroup extends Component {
 
 /// Group with [BottomGroup]'s symmetric [Component]s.
 ///
-/// For example, [Flipper.right] and [Flipper.left] are symmetric components.
+/// For example, [Flipper]s are symmetric components.
 class _BottomGroupSide extends Component {
   _BottomGroupSide({
     required BoardSide side,
