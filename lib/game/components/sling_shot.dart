@@ -1,6 +1,7 @@
 import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
+import 'package:geometry/geometry.dart' show centroid;
 import 'package:pinball/game/game.dart';
 
 /// {@template sling_shot}
@@ -83,12 +84,4 @@ class SlingShot extends BodyComponent {
 
     return body;
   }
-}
-
-/// For more information: https://en.wikipedia.org/wiki/Centroid
-// TODO(alestiago): move to geometry package.
-Vector2 centroid(List<Vector2> vertices) {
-  assert(vertices.isNotEmpty, 'Vertices must not be empty');
-  final sum = vertices.reduce((a, b) => a + b);
-  return sum / vertices.length.toDouble();
 }
