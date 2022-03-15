@@ -55,7 +55,8 @@ class _BottomGroupSide extends Component {
 
   @override
   Future<void> onLoad() async {
-    final magnitude = _side.isLeft ? -1 : 1;
+    // TODO(alestiago): use _side.direction once available.
+    final direction = _side.isLeft ? -1 : 1;
     final flipper = Flipper.fromSide(
       side: _side,
       position: _position,
@@ -66,7 +67,7 @@ class _BottomGroupSide extends Component {
       side: _side,
       position: _position +
           Vector2(
-            (Flipper.width * magnitude) - magnitude,
+            (Flipper.width * direction) - direction,
             Flipper.height,
           ),
     );
