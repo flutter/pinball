@@ -22,8 +22,7 @@ class Flipper extends BodyComponent with KeyboardHandler {
   })  : _position = position,
         _keys = keys;
 
-  /// A left positioned [Flipper].
-  Flipper.left({
+  Flipper._left({
     required Vector2 position,
   }) : this._(
           position: position,
@@ -34,8 +33,7 @@ class Flipper extends BodyComponent with KeyboardHandler {
           ],
         );
 
-  /// A right positioned [Flipper].
-  Flipper.right({
+  Flipper._right({
     required Vector2 position,
   }) : this._(
           position: position,
@@ -46,15 +44,20 @@ class Flipper extends BodyComponent with KeyboardHandler {
           ],
         );
 
+  /// Constructs a [Flipper] from a [BoardSide].
+  ///
+  /// A [Flipper._right] and [Flipper._left] besides being mirrored
+  /// horizontally, they also have different [LogicalKeyboardKey]s that
+  /// control them.
   factory Flipper.fromSide({
     required BoardSide side,
     required Vector2 position,
   }) {
     switch (side) {
       case BoardSide.left:
-        return Flipper.left(position: position);
+        return Flipper._left(position: position);
       case BoardSide.right:
-        return Flipper.right(position: position);
+        return Flipper._right(position: position);
     }
   }
 
