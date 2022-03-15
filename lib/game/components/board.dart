@@ -55,8 +55,8 @@ class _BottomGroupSide extends Component {
 
   @override
   Future<void> onLoad() async {
-    // TODO(alestiago): use _side.direction once available.
-    final direction = _side.isLeft ? -1 : 1;
+    final direction = _side.direction;
+
     final flipper = Flipper.fromSide(
       side: _side,
       position: _position,
