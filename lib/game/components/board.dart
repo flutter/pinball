@@ -7,6 +7,7 @@ import 'package:pinball/game/game.dart';
 /// The bottom [Component]s are the [Flipper]s and the [Baseboard]s.
 /// {@endtemplate}
 // TODO(alestiago): Add [SlingShot] once provided.
+// TODO(alestiago): Consider renaming once entire Board is defined.
 class BottomGroup extends Component {
   /// {@macro bottom_group}
   BottomGroup({
@@ -37,7 +38,7 @@ class BottomGroup extends Component {
 }
 
 /// {@template bottom_group_side}
-/// Group with [BottomGroup]'s symmetric [Component]s.
+/// Group with one side of [BottomGroup]'s symmetric [Component]s.
 ///
 /// For example, [Flipper]s are symmetric components.
 /// {@endtemplate}
