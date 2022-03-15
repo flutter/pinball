@@ -45,14 +45,23 @@ class SlingShot extends BodyComponent {
     // vertex.
     // Something as: y = -size.y * math.cos(angle)
     const additionalIncrement = 2;
-    final triangleVertices = [
-      Vector2(_side.isLeft ? 0 : size.x, 0),
-      Vector2(_side.isLeft ? 0 : size.x, -size.y),
-      Vector2(
-        _side.isLeft ? size.x : 0,
-        -size.y - additionalIncrement,
-      ),
-    ];
+    final triangleVertices = _side.isLeft
+        ? [
+            Vector2(0, 0),
+            Vector2(0, -size.y),
+            Vector2(
+              size.x,
+              -size.y - additionalIncrement,
+            ),
+          ]
+        : [
+            Vector2(size.x, 0),
+            Vector2(size.x, -size.y),
+            Vector2(
+              0,
+              -size.y - additionalIncrement,
+            ),
+          ];
     final triangleCentroid = centroid(triangleVertices);
     for (final vertex in triangleVertices) {
       vertex.setFrom(vertex - triangleCentroid);
