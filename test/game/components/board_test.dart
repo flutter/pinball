@@ -17,20 +17,19 @@ void main() {
       (game) async {
         final bottomGroup = BottomGroup(position: Vector2.zero(), spacing: 0);
         await game.ready();
-        await game.add(bottomGroup);
+        await game.ensureAdd(bottomGroup);
 
         expect(game.contains(bottomGroup), isTrue);
       },
     );
 
     group('children', () {
-      // TODO(alestiago): Make tests pass.
       flameTester.test(
         'has one left flipper',
         (game) async {
           final bottomGroup = BottomGroup(position: Vector2.zero(), spacing: 0);
           await game.ready();
-          await game.add(bottomGroup);
+          await game.ensureAdd(bottomGroup);
 
           final leftFlippers = bottomGroup.findNestedChildren<Flipper>(
             condition: (flipper) => flipper.side.isLeft,
@@ -44,7 +43,7 @@ void main() {
         (game) async {
           final bottomGroup = BottomGroup(position: Vector2.zero(), spacing: 0);
           await game.ready();
-          await game.add(bottomGroup);
+          await game.ensureAdd(bottomGroup);
 
           final leftFlippers = bottomGroup.findNestedChildren<Flipper>(
             condition: (flipper) => flipper.side.isRight,
@@ -58,7 +57,7 @@ void main() {
         (game) async {
           final bottomGroup = BottomGroup(position: Vector2.zero(), spacing: 0);
           await game.ready();
-          await game.add(bottomGroup);
+          await game.ensureAdd(bottomGroup);
 
           final leftFlippers = bottomGroup.findNestedChildren<Baseboard>();
           expect(leftFlippers.length, equals(2));
