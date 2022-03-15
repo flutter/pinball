@@ -47,8 +47,7 @@ class Flipper extends BodyComponent with KeyboardHandler {
   /// Constructs a [Flipper] from a [BoardSide].
   ///
   /// A [Flipper._right] and [Flipper._left] besides being mirrored
-  /// horizontally, they also have different [LogicalKeyboardKey]s that
-  /// control them.
+  /// horizontally, also have different [LogicalKeyboardKey]s that control them.
   factory Flipper.fromSide({
     required BoardSide side,
     required Vector2 position,
