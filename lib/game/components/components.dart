@@ -6,6 +6,7 @@ export 'flipper.dart';
 export 'joint_anchor.dart';
 export 'pathway.dart';
 export 'plunger.dart';
+export 'round_bumper.dart';
 export 'score_points.dart';
 export 'sling_shot.dart';
 export 'wall.dart';
