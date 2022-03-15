@@ -80,7 +80,7 @@ void main() {
     });
   });
 
-  group('SparkyRampArea', () {
+  group('SparkyRampOpening', () {
     flameTester.test(
       'orientation is down',
       (game) async {
@@ -97,7 +97,7 @@ void main() {
     );
   });
 
-  group('SparkyRampAreaCallback', () {
+  group('SparkyRampOpeningBallContactCallback', () {
     test('has no ball inside on creation', () {
       expect(
         SparkyRampOpeningBallContactCallback().ballsInside,

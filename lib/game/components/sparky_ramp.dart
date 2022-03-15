@@ -32,7 +32,7 @@ class SparkyRamp extends Component with HasGameRef<PinballGame> {
         radius: _radius,
         angle: _angle,
         width: _width,
-        categoryBits: RampType.sparky.maskBits,
+        layer: Layer.sparky,
       ),
     );
     await add(
@@ -54,9 +54,7 @@ class SparkyRamp extends Component with HasGameRef<PinballGame> {
 }
 
 /// {@template sparky_ramp_opening}
-/// Implementation of [RampOpening] for sensors in [SparkyRamp].
-///
-/// [RampOpening] with [RampType.sparky] to filter [Ball]s collisions
+/// [RampOpening] with [Layer.sparky] to filter [Ball]s collisions
 /// inside [SparkyRamp].
 /// {@endtemplate}
 class SparkyRampOpening extends RampOpening {
@@ -69,7 +67,7 @@ class SparkyRampOpening extends RampOpening {
         _orientation = orientation,
         super(
           position: position,
-          layer: RampType.sparky,
+          layer: Layer.sparky,
         );
 
   /// Orientation of entrance/exit of [SparkyRamp] where
@@ -97,8 +95,8 @@ class SparkyRampOpening extends RampOpening {
 }
 
 /// {@template sparky_ramp_opening_ball_contact_callback}
-/// Implementation of [RampOpeningBallContactCallback] to listen when a [Ball]
-/// gets into a [SparkyRampOpening].
+/// Detects when a [Ball] enters or exits the [SparkyRamp] through a
+/// [SparkyRampOpening].
 /// {@endtemplate}
 class SparkyRampOpeningBallContactCallback
     extends RampOpeningBallContactCallback<SparkyRampOpening> {

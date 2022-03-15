@@ -2,6 +2,7 @@ import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:geometry/geometry.dart';
+import 'package:pinball/game/components/components.dart';
 
 /// {@template pathway}
 /// [Pathway] creates lines of various shapes.
@@ -14,10 +15,10 @@ class Pathway extends BodyComponent {
     Color? color,
     required Vector2 position,
     required List<List<Vector2>> paths,
-    int? categoryBits,
+    Layer? layer,
   })  : _position = position,
         _paths = paths,
-        _categoryBits = categoryBits ?? Filter().categoryBits {
+        _layer = layer {
     paint = Paint()
       ..color = color ?? const Color.fromARGB(0, 0, 0, 0)
       ..style = PaintingStyle.stroke;
@@ -38,7 +39,7 @@ class Pathway extends BodyComponent {
     required double width,
     double rotation = 0,
     bool singleWall = false,
-    int? categoryBits,
+    Layer? layer,
   }) {
     final paths = <List<Vector2>>[];
 
@@ -61,7 +62,7 @@ class Pathway extends BodyComponent {
       color: color,
       position: position,
       paths: paths,
-      categoryBits: categoryBits,
+      layer: layer,
     );
   }
 
@@ -87,7 +88,7 @@ class Pathway extends BodyComponent {
     required double angle,
     double rotation = 0,
     bool singleWall = false,
-    int? categoryBits,
+    Layer? layer,
   }) {
     final paths = <List<Vector2>>[];
 
@@ -114,7 +115,7 @@ class Pathway extends BodyComponent {
       color: color,
       position: position,
       paths: paths,
-      categoryBits: categoryBits,
+      layer: layer,
     );
   }
 
@@ -134,7 +135,7 @@ class Pathway extends BodyComponent {
     required double width,
     double rotation = 0,
     bool singleWall = false,
-    int? categoryBits,
+    Layer? layer,
   }) {
     final paths = <List<Vector2>>[];
 
@@ -157,13 +158,13 @@ class Pathway extends BodyComponent {
       color: color,
       position: position,
       paths: paths,
-      categoryBits: categoryBits,
+      layer: layer,
     );
   }
 
   Vector2 _position;
   List<List<Vector2>> _paths;
-  int _categoryBits;
+  Layer? _layer;
 
   @override
   Body createBody() {
@@ -179,7 +180,8 @@ class Pathway extends BodyComponent {
         );
       final fixtureDef = FixtureDef(chain);
 
-      body.createFixture(fixtureDef).filterData.categoryBits = _categoryBits;
+      body.createFixture(fixtureDef).filterData.categoryBits =
+          _layer?.maskBits ?? Filter().categoryBits;
     }
 
     return body;

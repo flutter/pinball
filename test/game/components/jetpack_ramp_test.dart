@@ -80,7 +80,7 @@ void main() {
     });
   });
 
-  group('JetpackRampArea', () {
+  group('JetpackRampOpening', () {
     flameTester.test(
       'orientation is down',
       (game) async {
@@ -97,7 +97,7 @@ void main() {
     );
   });
 
-  group('JetpackRampAreaCallback', () {
+  group('JetpackRampOpeningBallContactCallback', () {
     test('has no ball inside on creation', () {
       expect(
         JetpackRampOpeningBallContactCallback().ballsInside,

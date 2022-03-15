@@ -7,11 +7,11 @@ import 'package:pinball/game/game.dart';
 
 import '../../helpers/helpers.dart';
 
-class TestRampArea extends RampOpening {
-  TestRampArea({
+class TestRampOpening extends RampOpening {
+  TestRampOpening({
     required Vector2 position,
     required RampOrientation orientation,
-    required RampType layer,
+    required Layer layer,
   })  : _orientation = orientation,
         super(position: position, layer: layer);
 
@@ -30,9 +30,9 @@ class TestRampArea extends RampOpening {
     ]);
 }
 
-class TestRampAreaCallback
-    extends RampOpeningBallContactCallback<TestRampArea> {
-  TestRampAreaCallback() : super();
+class TestRampOpeningBallContactCallback
+    extends RampOpeningBallContactCallback<TestRampOpening> {
+  TestRampOpeningBallContactCallback() : super();
 
   final _ballsInside = <Ball>{};
 
@@ -41,37 +41,43 @@ class TestRampAreaCallback
 }
 
 void main() {
-  group('RampType', () {
+  group('Layer', () {
     test('has three values', () {
-      expect(RampType.values.length, equals(3));
+      expect(Layer.values.length, equals(3));
     });
   });
 
-  group('RampTypeX', () {
+  group('LayerX', () {
+    test('all types are different', () {
+      expect(Layer.all.maskBits, isNot(equals(Layer.jetpack.maskBits)));
+      expect(Layer.jetpack.maskBits, isNot(equals(Layer.sparky.maskBits)));
+      expect(Layer.sparky.maskBits, isNot(equals(Layer.all.maskBits)));
+    });
+
     test('all type has default maskBits', () {
-      expect(RampType.all.maskBits, equals(Filter().maskBits));
+      expect(Layer.all.maskBits, equals(0xFFFF));
     });
 
     test('jetpack type has 0x010 maskBits', () {
-      expect(RampType.jetpack.maskBits, equals(0x010));
+      expect(Layer.jetpack.maskBits, equals(0x0010));
     });
 
     test('sparky type has 0x0100 maskBits', () {
-      expect(RampType.sparky.maskBits, equals(0x0100));
+      expect(Layer.sparky.maskBits, equals(0x0100));
     });
   });
 
-  group('RampArea', () {
+  group('RampOpening', () {
     TestWidgetsFlutterBinding.ensureInitialized();
     final flameTester = FlameTester(PinballGameTest.create);
 
     flameTester.test(
       'loads correctly',
       (game) async {
-        final ramp = TestRampArea(
+        final ramp = TestRampOpening(
           position: Vector2.zero(),
           orientation: RampOrientation.down,
-          layer: RampType.all,
+          layer: Layer.all,
         );
         await game.ready();
         await game.ensureAdd(ramp);
@@ -85,10 +91,10 @@ void main() {
         'positions correctly',
         (game) async {
           final position = Vector2.all(10);
-          final ramp = TestRampArea(
+          final ramp = TestRampOpening(
             position: position,
             orientation: RampOrientation.down,
-            layer: RampType.all,
+            layer: Layer.all,
           );
           await game.ensureAdd(ramp);
 
@@ -100,10 +106,10 @@ void main() {
       flameTester.test(
         'is static',
         (game) async {
-          final ramp = TestRampArea(
+          final ramp = TestRampOpening(
             position: Vector2.zero(),
             orientation: RampOrientation.down,
-            layer: RampType.all,
+            layer: Layer.all,
           );
           await game.ensureAdd(ramp);
 
@@ -111,13 +117,13 @@ void main() {
         },
       );
 
-      group('fixtures', () {
-        const layer = RampType.jetpack;
+      group('fixture', () {
+        const layer = Layer.jetpack;
 
         flameTester.test(
           'exists',
           (game) async {
-            final ramp = TestRampArea(
+            final ramp = TestRampOpening(
               position: Vector2.zero(),
               orientation: RampOrientation.down,
               layer: layer,
@@ -131,7 +137,7 @@ void main() {
         flameTester.test(
           'shape is a polygon',
           (game) async {
-            final ramp = TestRampArea(
+            final ramp = TestRampOpening(
               position: Vector2.zero(),
               orientation: RampOrientation.down,
               layer: layer,
@@ -146,7 +152,7 @@ void main() {
         flameTester.test(
           'is sensor',
           (game) async {
-            final ramp = TestRampArea(
+            final ramp = TestRampOpening(
               position: Vector2.zero(),
               orientation: RampOrientation.down,
               layer: layer,
@@ -161,7 +167,7 @@ void main() {
         flameTester.test(
           'sets filter categoryBits correctly',
           (game) async {
-            final ramp = TestRampArea(
+            final ramp = TestRampOpening(
               position: Vector2.zero(),
               orientation: RampOrientation.down,
               layer: layer,
@@ -180,20 +186,20 @@ void main() {
     });
   });
 
-  group('RampAreaCallback', () {
-    const layer = RampType.jetpack;
+  group('RampOpeningBallContactCallback', () {
+    const layer = Layer.jetpack;
 
     test(
         'a ball enters from bottom into a down oriented path and keeps inside, '
         'is saved into collection and set maskBits to path', () {
       final ball = MockBall();
       final body = MockBody();
-      final area = TestRampArea(
+      final area = TestRampOpening(
         position: Vector2(0, 10),
         orientation: RampOrientation.down,
         layer: layer,
       );
-      final callback = TestRampAreaCallback();
+      final callback = TestRampOpeningBallContactCallback();
 
       when(() => body.position).thenReturn(Vector2(0, 20));
       when(() => ball.body).thenReturn(body);
@@ -203,11 +209,11 @@ void main() {
 
       expect(callback._ballsInside.length, equals(1));
       expect(callback._ballsInside.first, ball);
-      verify(() => ball.setLayer(layer)).called(1);
+      verify(() => ball.layer = layer).called(1);
 
       callback.end(ball, area, MockContact());
 
-      verifyNever(() => ball.setLayer(RampType.all));
+      verifyNever(() => ball.layer = Layer.all);
     });
 
     test(
@@ -215,12 +221,12 @@ void main() {
         'is saved into collection and set maskBits to path', () {
       final ball = MockBall();
       final body = MockBody();
-      final area = TestRampArea(
+      final area = TestRampOpening(
         position: Vector2(0, 10),
         orientation: RampOrientation.up,
         layer: layer,
       );
-      final callback = TestRampAreaCallback();
+      final callback = TestRampOpeningBallContactCallback();
 
       when(() => body.position).thenReturn(Vector2.zero());
       when(() => ball.body).thenReturn(body);
@@ -230,11 +236,11 @@ void main() {
 
       expect(callback._ballsInside.length, equals(1));
       expect(callback._ballsInside.first, ball);
-      verify(() => ball.setLayer(layer)).called(1);
+      verify(() => ball.layer = layer).called(1);
 
       callback.end(ball, area, MockContact());
 
-      verifyNever(() => ball.setLayer(RampType.all));
+      verifyNever(() => ball.layer = Layer.all);
     });
 
     test(
@@ -242,12 +248,12 @@ void main() {
         'is removed from collection and set maskBits to collide all', () {
       final ball = MockBall();
       final body = MockBody();
-      final area = TestRampArea(
+      final area = TestRampOpening(
         position: Vector2(0, 10),
         orientation: RampOrientation.down,
         layer: layer,
       );
-      final callback = TestRampAreaCallback();
+      final callback = TestRampOpeningBallContactCallback();
 
       when(() => body.position).thenReturn(Vector2.zero());
       when(() => ball.body).thenReturn(body);
@@ -257,11 +263,11 @@ void main() {
 
       expect(callback._ballsInside.length, equals(1));
       expect(callback._ballsInside.first, ball);
-      verify(() => ball.setLayer(layer)).called(1);
+      verify(() => ball.layer = layer).called(1);
 
       callback.end(ball, area, MockContact());
 
-      verify(() => ball.setLayer(RampType.all));
+      verify(() => ball.layer = Layer.all);
     });
 
     test(
@@ -269,12 +275,13 @@ void main() {
         'is removed from collection and set maskBits to collide all', () {
       final ball = MockBall();
       final body = MockBody();
-      final area = TestRampArea(
+      final area = TestRampOpening(
         position: Vector2(0, 10),
         orientation: RampOrientation.down,
         layer: layer,
       );
-      final callback = TestRampAreaCallback()..ballsInside.add(ball);
+      final callback = TestRampOpeningBallContactCallback()
+        ..ballsInside.add(ball);
 
       when(() => body.position).thenReturn(Vector2.zero());
       when(() => ball.body).thenReturn(body);
@@ -282,11 +289,11 @@ void main() {
       callback.begin(ball, area, MockContact());
 
       expect(callback._ballsInside.isEmpty, isTrue);
-      verify(() => ball.setLayer(RampType.all)).called(1);
+      verify(() => ball.layer = Layer.all).called(1);
 
       callback.end(ball, area, MockContact());
 
-      verify(() => ball.setLayer(RampType.all)).called(1);
+      verify(() => ball.layer = Layer.all).called(1);
     });
 
     test(
@@ -294,12 +301,13 @@ void main() {
         'is removed from collection and set maskBits to collide all', () {
       final ball = MockBall();
       final body = MockBody();
-      final area = TestRampArea(
+      final area = TestRampOpening(
         position: Vector2(0, 10),
         orientation: RampOrientation.up,
         layer: layer,
       );
-      final callback = TestRampAreaCallback()..ballsInside.add(ball);
+      final callback = TestRampOpeningBallContactCallback()
+        ..ballsInside.add(ball);
 
       when(() => body.position).thenReturn(Vector2(0, 20));
       when(() => ball.body).thenReturn(body);
@@ -307,11 +315,11 @@ void main() {
       callback.begin(ball, area, MockContact());
 
       expect(callback._ballsInside.isEmpty, isTrue);
-      verify(() => ball.setLayer(RampType.all)).called(1);
+      verify(() => ball.layer = Layer.all).called(1);
 
       callback.end(ball, area, MockContact());
 
-      verify(() => ball.setLayer(RampType.all)).called(1);
+      verify(() => ball.layer = Layer.all).called(1);
     });
   });
 }

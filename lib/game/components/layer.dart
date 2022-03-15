@@ -3,15 +3,16 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
 
-/// {@template layer}
-/// Modifies maskBits of [BodyComponent] for collisions.
+/// Modifies maskBits of [BodyComponent] to control what other bodies it can
+/// have physical interactions with.
 ///
-/// Changes the [Filter] data for category and maskBits of
-/// the [BodyComponent] to collide with other objects of
-/// same bits and ignore others.
+/// Changes the [Filter] data for category and maskBits of the [BodyComponent]
+/// so it will only collide with bodies having the same bit value and ignore
+/// bodies with a different bit value.
 /// {@endtemplate}
-mixin Layer on BodyComponent<PinballGame> {
-  void setLayer(RampType layer) {
+mixin Layered<T extends Forge2DGame> on BodyComponent<T> {
+  /// Sets [Filter] category and mask bits for the [BodyComponent]
+  set layer(Layer layer) {
     for (final fixture in body.fixtures) {
       fixture
         ..filterData.categoryBits = layer.maskBits
@@ -20,21 +21,11 @@ mixin Layer on BodyComponent<PinballGame> {
   }
 }
 
-/// Indicates a orientation of the ramp entrance/exit.
+/// Indicates the type of a layer.
 ///
-/// Used to know if ramps are looking up or down of the board.
-enum RampOrientation {
-  /// Looking up of the board.
-  up,
-
-  /// Looking down of the board.
-  down,
-}
-
-/// Indicates a type of the ramp.
-///
-/// Used to set the maskBits of the ramp to determine their possible collisions.
-enum RampType {
+/// Each layer type is associated with a maskBits value to define possible
+/// collisions within that plane.
+enum Layer {
   /// Collide with all elements.
   all,
 
@@ -45,22 +36,30 @@ enum RampType {
   sparky,
 }
 
-/// Utility methods for [RampType].
-extension RampTypeX on RampType {
-  /// Mask of bits for each [RampType].
-  int get maskBits => _getRampMaskBits(this);
-
-  /// Mask of bits for each [RampType].
-  int _getRampMaskBits(RampType type) {
-    switch (type) {
-      case RampType.all:
-        return Filter().maskBits;
-      case RampType.jetpack:
-        return 0x010;
-      case RampType.sparky:
+/// Utility methods for [Layer].
+extension LayerX on Layer {
+  /// Mask of bits for each [Layer].
+  int get maskBits {
+    switch (this) {
+      case Layer.all:
+        return 0xFFFF;
+      case Layer.jetpack:
+        return 0x0010;
+      case Layer.sparky:
         return 0x0100;
     }
   }
+}
+
+/// Indicates the orientation of a ramp entrance/exit.
+///
+/// Used to know if a ramp is facing up or down on the board.
+enum RampOrientation {
+  /// Facing up on the board.
+  up,
+
+  /// Facing down on the board.
+  down,
 }
 
 /// {@template ramp_opening}
@@ -68,14 +67,12 @@ extension RampTypeX on RampType {
 ///
 /// [RampOpeningBallContactCallback] detects when a [Ball] passes
 /// through this opening.
-/// Collisions with [RampOpening] are listened
-/// by [RampOpeningBallContactCallback].
 /// {@endtemplate}
 abstract class RampOpening extends BodyComponent {
   /// {@macro ramp_opening}
   RampOpening({
     required Vector2 position,
-    required RampType layer,
+    required Layer layer,
   })  : _position = position,
         _layer = layer {
     // TODO(ruialonso): remove paint color for BodyComponent.
@@ -83,10 +80,10 @@ abstract class RampOpening extends BodyComponent {
   }
 
   final Vector2 _position;
-  final RampType _layer;
+  final Layer _layer;
 
   /// Mask of category bits for collision with [RampOpening]
-  RampType get layer => _layer;
+  Layer get layer => _layer;
 
   /// The [Shape] of the [RampOpening]
   Shape get shape;
@@ -112,51 +109,52 @@ abstract class RampOpening extends BodyComponent {
 /// {@template ramp_opening_ball_contact_callback}
 /// Detects when a [Ball] enters or exits a [Pathway] ramp through a
 /// [RampOpening].
-/// Modifies [Ball]'s maskBits while is inside the ramp. When [Ball] exits,
+///
+/// Modifies [Ball]'s maskBits while it is inside the ramp. When [Ball] exits,
 /// sets maskBits to collide with all elements.
 /// {@endtemplate}
-abstract class RampOpeningBallContactCallback<Area extends RampOpening>
-    extends ContactCallback<Ball, Area> {
+abstract class RampOpeningBallContactCallback<Opening extends RampOpening>
+    extends ContactCallback<Ball, Opening> {
   /// Collection of balls inside ramp pathway.
   Set get ballsInside;
 
   @override
   void begin(
     Ball ball,
-    Area area,
+    Opening opening,
     Contact _,
   ) {
-    RampType layer;
+    Layer layer;
     if (!ballsInside.contains(ball)) {
-      layer = area.layer;
+      layer = opening.layer;
       ballsInside.add(ball);
     } else {
-      layer = RampType.all;
+      layer = Layer.all;
       ballsInside.remove(ball);
     }
 
-    ball.setLayer(layer);
+    ball.layer = layer;
   }
 
   @override
-  void end(Ball ball, Area area, Contact contact) {
-    RampType? layer;
+  void end(Ball ball, Opening opening, Contact contact) {
+    Layer? layer;
 
-    switch (area.orientation) {
+    switch (opening.orientation) {
       case RampOrientation.up:
-        if (ball.body.position.y > area._position.y) {
-          layer = RampType.all;
+        if (ball.body.position.y > opening._position.y) {
+          layer = Layer.all;
         }
         break;
       case RampOrientation.down:
-        if (ball.body.position.y < area._position.y) {
-          layer = RampType.all;
+        if (ball.body.position.y < opening._position.y) {
+          layer = Layer.all;
         }
         break;
     }
 
     if (layer != null) {
-      ball.setLayer(layer);
+      ball.layer = layer;
     }
   }
 }

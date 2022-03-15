@@ -172,7 +172,7 @@ void main() {
       flameTester.test(
         'modifies layer correctly',
         (game) async {
-          const newLayer = RampType.jetpack;
+          const newLayer = Layer.jetpack;
 
           final ball = Ball(position: Vector2.zero());
           await game.ensureAdd(ball);
@@ -182,7 +182,7 @@ void main() {
           expect(fixture.filterData.categoryBits, equals(1));
           expect(fixture.filterData.maskBits, equals(Filter().maskBits));
 
-          ball.setLayer(newLayer);
+          ball.layer = newLayer;
 
           expect(fixture.filterData.categoryBits, equals(newLayer.maskBits));
           expect(fixture.filterData.maskBits, equals(newLayer.maskBits));

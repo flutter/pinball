@@ -35,7 +35,7 @@ class JetpackRamp extends Component with HasGameRef<PinballGame> {
         radius: _radius,
         angle: _angle,
         rotation: _rotation,
-        categoryBits: RampType.jetpack.maskBits,
+        layer: Layer.jetpack,
       ),
     );
 
@@ -59,9 +59,7 @@ class JetpackRamp extends Component with HasGameRef<PinballGame> {
 }
 
 /// {@template jetpack_ramp_opening}
-/// Implementation of [RampOpening] for sensors in [JetpackRamp].
-///
-/// [RampOpening] with [RampType.jetpack] to filter [Ball]s collisions
+/// [RampOpening] with [Layer.jetpack] to filter [Ball] collisions
 /// inside [JetpackRamp].
 /// {@endtemplate}
 class JetpackRampOpening extends RampOpening {
@@ -74,7 +72,7 @@ class JetpackRampOpening extends RampOpening {
         _orientation = orientation,
         super(
           position: position,
-          layer: RampType.jetpack,
+          layer: Layer.jetpack,
         );
 
   /// Orientation of entrance/exit of [JetpackRamp] where
@@ -102,8 +100,8 @@ class JetpackRampOpening extends RampOpening {
 }
 
 /// {@template jetpack_ramp_opening_ball_contact_callback}
-/// Implementation of [RampOpeningBallContactCallback] to listen when a [Ball]
-/// gets into a [JetpackRampOpening].
+/// Detects when a [Ball] enters or exits the [JetpackRamp] through a
+/// [JetpackRampOpening].
 /// {@endtemplate}
 class JetpackRampOpeningBallContactCallback
     extends RampOpeningBallContactCallback<JetpackRampOpening> {

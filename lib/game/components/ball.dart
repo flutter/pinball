@@ -6,17 +6,17 @@ import 'package:pinball/game/game.dart';
 /// A solid, [BodyType.dynamic] sphere that rolls and bounces along the
 /// [PinballGame].
 /// {@endtemplate}
-class Ball extends BodyComponent<PinballGame> with Layer {
+class Ball extends BodyComponent<PinballGame> with Layered {
   /// {@macro ball}
   Ball({
     required Vector2 position,
-    RampType? layer,
+    Layer? layer,
   })  : _position = position,
-        _layer = layer ?? RampType.all;
+        _layer = layer ?? Layer.all;
 
   /// The initial position of the [Ball] body.
   final Vector2 _position;
-  final RampType _layer;
+  final Layer _layer;
 
   /// The size of the [Ball]
   final Vector2 size = Vector2.all(2);

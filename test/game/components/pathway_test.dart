@@ -176,13 +176,13 @@ void main() {
         flameTester.test(
           'sets filter categoryBits correctly',
           (game) async {
-            const maskBits = 1234;
+            const layer = Layer.jetpack;
             final pathway = Pathway.straight(
               position: Vector2.zero(),
               start: Vector2(10, 10),
               end: Vector2(20, 20),
               width: width,
-              categoryBits: maskBits,
+              layer: layer,
             );
             await game.ready();
             await game.ensureAdd(pathway);
@@ -191,7 +191,7 @@ void main() {
               expect(fixture, isA<Fixture>());
               expect(
                 fixture.filterData.categoryBits,
-                equals(maskBits),
+                equals(layer.maskBits),
               );
             }
           },
