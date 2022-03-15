@@ -19,4 +19,9 @@ extension BoardSideX on BoardSide {
 
   /// Whether this side is [BoardSide.right].
   bool get isRight => this == BoardSide.right;
+
+  /// Direction of the [BoardSide].
+  ///
+  /// Represents the line along the [BoardSide] moves.
+  int get direction => isLeft ? -1 : 1;
 }
