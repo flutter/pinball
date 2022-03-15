@@ -5,7 +5,7 @@ import 'package:geometry/geometry.dart' show centroid;
 import 'package:pinball/game/game.dart';
 
 /// {@template sling_shot}
-/// Triangular [BodyType.static] body that propels the [Ball] toward the
+/// Triangular [BodyType.static] body that propels the [Ball] towards the
 /// opposite side.
 ///
 /// [SlingShot]s are usually positioned above each [Flipper].
