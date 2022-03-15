@@ -106,3 +106,12 @@ num factorial(num n) {
     return n * factorial(n - 1);
   }
 }
+
+/// Arithmetic mean position of all the [Vector2]s in a polygon.
+///
+/// For more information read: https://en.wikipedia.org/wiki/Centroid
+Vector2 centroid(List<Vector2> vertices) {
+  assert(vertices.isNotEmpty, 'Vertices must not be empty');
+  final sum = vertices.reduce((a, b) => a + b);
+  return sum / vertices.length.toDouble();
+}

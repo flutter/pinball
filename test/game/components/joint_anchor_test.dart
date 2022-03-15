@@ -5,14 +5,11 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
 
-import '../../helpers/helpers.dart';
-
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  final flameTester = FlameTester(Forge2DGame.new);
 
   group('JointAnchor', () {
-    final flameTester = FlameTester(PinballGameTest.create);
-
     flameTester.test(
       'loads correctly',
       (game) async {

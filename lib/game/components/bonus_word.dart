@@ -12,11 +12,58 @@ import 'package:pinball/game/game.dart';
 /// {@template bonus_word}
 /// Loads all [BonusLetter]s to compose a [BonusWord].
 /// {@endtemplate}
-class BonusWord extends Component {
+class BonusWord extends Component with BlocComponent<GameBloc, GameState> {
   /// {@macro bonus_word}
   BonusWord({required Vector2 position}) : _position = position;
 
   final Vector2 _position;
+
+  @override
+  bool listenWhen(GameState? previousState, GameState newState) {
+    if ((previousState?.bonusHistory.length ?? 0) <
+            newState.bonusHistory.length &&
+        newState.bonusHistory.last == GameBonus.word) {
+      return true;
+    }
+
+    return false;
+  }
+
+  @override
+  void onNewState(GameState state) {
+    if (state.bonusHistory.last == GameBonus.word) {
+      final letters = children.whereType<BonusLetter>().toList();
+
+      for (var i = 0; i < letters.length; i++) {
+        final letter = letters[i];
+        letter.add(
+          SequenceEffect(
+            [
+              ColorEffect(
+                i.isOdd ? BonusLetter._activeColor : BonusLetter._disableColor,
+                const Offset(0, 1),
+                EffectController(duration: 0.25),
+              ),
+              ColorEffect(
+                i.isOdd ? BonusLetter._disableColor : BonusLetter._activeColor,
+                const Offset(0, 1),
+                EffectController(duration: 0.25),
+              ),
+            ],
+            repeatCount: 4,
+          )..onFinishCallback = () {
+              letter.add(
+                ColorEffect(
+                  BonusLetter._disableColor,
+                  const Offset(0, 1),
+                  EffectController(duration: 0.25),
+                ),
+              );
+            },
+        );
+      }
+    }
+  }
 
   @override
   Future<void> onLoad() async {
