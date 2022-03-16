@@ -51,7 +51,7 @@ class _FlutterForest extends Component {
   @override
   Future<void> onLoad() async {
     // TODO(alestiago): adjust positioning once sprites are added.
-    // TODO(alestiago): Use [NestBumper] instead of [RoundBumpet] once provided.
+    // TODO(alestiago): Use [NestBumper] instead of [RoundBumper] once provided.
     final smallLeftNest = RoundBumper(
       position: position + Vector2(-4.8, 2.8),
       radius: 1,
