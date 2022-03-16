@@ -9,15 +9,11 @@ import 'package:pinball/game/game.dart';
 ///
 /// [Plunger] ignores gravity so the player controls its downward [_pull].
 /// {@endtemplate}
-class Plunger extends BodyComponent with KeyboardHandler {
+class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
   /// {@macro plunger}
   Plunger({
-    required Vector2 position,
     required this.compressionDistance,
-  }) : _position = position;
-
-  /// The initial position of the [Plunger] body.
-  final Vector2 _position;
+  });
 
   /// Distance the plunger can lower.
   final double compressionDistance;
@@ -30,7 +26,7 @@ class Plunger extends BodyComponent with KeyboardHandler {
 
     final bodyDef = BodyDef()
       ..userData = this
-      ..position = _position
+      ..position = initialPosition
       ..type = BodyType.dynamic
       ..gravityScale = 0;
 
@@ -45,9 +41,9 @@ class Plunger extends BodyComponent with KeyboardHandler {
   /// Set an upward velocity on the [Plunger].
   ///
   /// The velocity's magnitude depends on how far the [Plunger] has been pulled
-  /// from its original [_position].
+  /// from its original [initialPosition].
   void _release() {
-    final velocity = (_position.y - body.position.y) * 9;
+    final velocity = (initialPosition.y - body.position.y) * 9;
     body.linearVelocity = Vector2(0, velocity);
   }
 

@@ -23,9 +23,8 @@ void main() {
       (game) async {
         await game.ready();
         final plunger = Plunger(
-          position: Vector2.zero(),
           compressionDistance: compressionDistance,
-        );
+        )..initialPosition = Vector2.zero();
         await game.ensureAdd(plunger);
 
         expect(game.contains(plunger), isTrue);
@@ -38,9 +37,8 @@ void main() {
         (game) async {
           final position = Vector2.all(10);
           final plunger = Plunger(
-            position: position,
             compressionDistance: compressionDistance,
-          );
+          )..initialPosition = position;
           await game.ensureAdd(plunger);
           game.contains(plunger);
 
@@ -52,9 +50,8 @@ void main() {
         'is dynamic',
         (game) async {
           final plunger = Plunger(
-            position: Vector2.zero(),
             compressionDistance: compressionDistance,
-          );
+          )..initialPosition = Vector2.zero();
           await game.ensureAdd(plunger);
 
           expect(plunger.body.bodyType, equals(BodyType.dynamic));
@@ -65,9 +62,8 @@ void main() {
         'ignores gravity',
         (game) async {
           final plunger = Plunger(
-            position: Vector2.zero(),
             compressionDistance: compressionDistance,
-          );
+          )..initialPosition = Vector2.zero();
           await game.ensureAdd(plunger);
 
           expect(plunger.body.gravityScale, isZero);
@@ -80,9 +76,8 @@ void main() {
         'exists',
         (game) async {
           final plunger = Plunger(
-            position: Vector2.zero(),
             compressionDistance: compressionDistance,
-          );
+          )..initialPosition = Vector2.zero();
           await game.ensureAdd(plunger);
 
           expect(plunger.body.fixtures[0], isA<Fixture>());
@@ -93,9 +88,8 @@ void main() {
         'shape is a polygon',
         (game) async {
           final plunger = Plunger(
-            position: Vector2.zero(),
             compressionDistance: compressionDistance,
-          );
+          )..initialPosition = Vector2.zero();
           await game.ensureAdd(plunger);
 
           final fixture = plunger.body.fixtures[0];
@@ -107,9 +101,8 @@ void main() {
         'has density',
         (game) async {
           final plunger = Plunger(
-            position: Vector2.zero(),
             compressionDistance: compressionDistance,
-          );
+          )..initialPosition = Vector2.zero();
           await game.ensureAdd(plunger);
 
           final fixture = plunger.body.fixtures[0];
@@ -129,9 +122,8 @@ void main() {
 
       setUp(() {
         plunger = Plunger(
-          position: Vector2.zero(),
           compressionDistance: compressionDistance,
-        );
+        )..initialPosition = Vector2.zero();
       });
 
       testRawKeyUpEvents(keys, (event) {
@@ -194,9 +186,8 @@ void main() {
       'position is a compression distance below the Plunger',
       (game) async {
         final plunger = Plunger(
-          position: Vector2.zero(),
           compressionDistance: compressionDistance,
-        );
+        )..initialPosition = Vector2.zero();
         await game.ensureAdd(plunger);
 
         final plungerAnchor = PlungerAnchor(plunger: plunger);
@@ -222,14 +213,14 @@ void main() {
         initialState: const GameState.initial(),
       );
       plunger = Plunger(
-        position: Vector2.zero(),
         compressionDistance: compressionDistance,
-      );
+      )..initialPosition = Vector2.zero();
     });
 
     final flameTester = flameBlocTester(gameBloc: () => gameBloc);
 
     group('initializes with', () {
+      // FIXME(alestiago): Plunger not initialized error.
       flameTester.test(
         'plunger body as bodyA',
         (game) async {
