@@ -18,7 +18,6 @@ void main() {
       (game) async {
         await game.ready();
         final roundBumper = RoundBumper(
-          position: Vector2.zero(),
           radius: radius,
           points: points,
         );
@@ -32,7 +31,6 @@ void main() {
       'has points',
       (game) async {
         final roundBumper = RoundBumper(
-          position: Vector2.zero(),
           radius: radius,
           points: points,
         );
@@ -44,26 +42,9 @@ void main() {
 
     group('body', () {
       flameTester.test(
-        'positions correctly',
-        (game) async {
-          final position = Vector2.all(10);
-          final roundBumper = RoundBumper(
-            position: position,
-            radius: radius,
-            points: points,
-          );
-          await game.ensureAdd(roundBumper);
-          game.contains(roundBumper);
-
-          expect(roundBumper.body.position, equals(position));
-        },
-      );
-
-      flameTester.test(
         'is static',
         (game) async {
           final roundBumper = RoundBumper(
-            position: Vector2.zero(),
             radius: radius,
             points: points,
           );
@@ -79,7 +60,6 @@ void main() {
         'exists',
         (game) async {
           final roundBumper = RoundBumper(
-            position: Vector2.zero(),
             radius: radius,
             points: points,
           );
@@ -93,7 +73,6 @@ void main() {
         'has restitution',
         (game) async {
           final roundBumper = RoundBumper(
-            position: Vector2.zero(),
             radius: radius,
             points: points,
           );
@@ -108,7 +87,6 @@ void main() {
         'shape is circular',
         (game) async {
           final roundBumper = RoundBumper(
-            position: Vector2.zero(),
             radius: radius,
             points: points,
           );

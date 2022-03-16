@@ -123,7 +123,6 @@ void main() {
       'loads correctly',
       (game) async {
         final bonusLetter = BonusLetter(
-          position: Vector2.zero(),
           letter: 'G',
           index: 0,
         );
@@ -136,26 +135,9 @@ void main() {
 
     group('body', () {
       flameTester.test(
-        'positions correctly',
-        (game) async {
-          final position = Vector2.all(10);
-          final bonusLetter = BonusLetter(
-            position: position,
-            letter: 'G',
-            index: 0,
-          );
-          await game.ensureAdd(bonusLetter);
-          game.contains(bonusLetter);
-
-          expect(bonusLetter.body.position, position);
-        },
-      );
-
-      flameTester.test(
         'is static',
         (game) async {
           final bonusLetter = BonusLetter(
-            position: Vector2.zero(),
             letter: 'G',
             index: 0,
           );
@@ -171,7 +153,6 @@ void main() {
         'exists',
         (game) async {
           final bonusLetter = BonusLetter(
-            position: Vector2.zero(),
             letter: 'G',
             index: 0,
           );
@@ -185,7 +166,6 @@ void main() {
         'is sensor',
         (game) async {
           final bonusLetter = BonusLetter(
-            position: Vector2.zero(),
             letter: 'G',
             index: 0,
           );
@@ -200,7 +180,6 @@ void main() {
         'shape is circular',
         (game) async {
           final bonusLetter = BonusLetter(
-            position: Vector2.zero(),
             letter: 'G',
             index: 0,
           );
