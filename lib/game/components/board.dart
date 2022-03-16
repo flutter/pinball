@@ -59,8 +59,7 @@ class _BottomGroupSide extends Component {
 
     final flipper = Flipper.fromSide(
       side: _side,
-      position: _position,
-    );
+    )..initialPosition = _position;
     final baseboard = Baseboard(side: _side)
       ..initialPosition = _position +
           Vector2(

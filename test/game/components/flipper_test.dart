@@ -22,12 +22,10 @@ void main() {
         (game) async {
           final leftFlipper = Flipper.fromSide(
             side: BoardSide.left,
-            position: Vector2.zero(),
-          );
+          )..initialPosition = Vector2.zero();
           final rightFlipper = Flipper.fromSide(
             side: BoardSide.right,
-            position: Vector2.zero(),
-          );
+          )..initialPosition = Vector2.zero();
           await game.ready();
           await game.ensureAddAll([leftFlipper, rightFlipper]);
 
@@ -40,15 +38,13 @@ void main() {
         test('sets BoardSide', () {
           final leftFlipper = Flipper.fromSide(
             side: BoardSide.left,
-            position: Vector2.zero(),
-          );
+          )..initialPosition = Vector2.zero();
 
           expect(leftFlipper.side, equals(leftFlipper.side));
 
           final rightFlipper = Flipper.fromSide(
             side: BoardSide.right,
-            position: Vector2.zero(),
-          );
+          )..initialPosition = Vector2.zero();
           expect(rightFlipper.side, equals(rightFlipper.side));
         });
       });
@@ -60,8 +56,7 @@ void main() {
             final position = Vector2.all(10);
             final flipper = Flipper.fromSide(
               side: BoardSide.left,
-              position: position,
-            );
+            )..initialPosition = position;
             await game.ensureAdd(flipper);
             game.contains(flipper);
 
@@ -74,8 +69,7 @@ void main() {
           (game) async {
             final flipper = Flipper.fromSide(
               side: BoardSide.left,
-              position: Vector2.zero(),
-            );
+            )..initialPosition = Vector2.zero();
             await game.ensureAdd(flipper);
 
             expect(flipper.body.bodyType, equals(BodyType.dynamic));
@@ -87,8 +81,7 @@ void main() {
           (game) async {
             final flipper = Flipper.fromSide(
               side: BoardSide.left,
-              position: Vector2.zero(),
-            );
+            )..initialPosition = Vector2.zero();
             await game.ensureAdd(flipper);
 
             expect(flipper.body.gravityScale, isZero);
@@ -100,8 +93,7 @@ void main() {
           (game) async {
             final flipper = Flipper.fromSide(
               side: BoardSide.left,
-              position: Vector2.zero(),
-            );
+            )..initialPosition = Vector2.zero();
             final ball = Ball(position: Vector2.zero());
 
             await game.ready();
@@ -121,8 +113,7 @@ void main() {
           (game) async {
             final flipper = Flipper.fromSide(
               side: BoardSide.left,
-              position: Vector2.zero(),
-            );
+            )..initialPosition = Vector2.zero();
             await game.ensureAdd(flipper);
 
             expect(flipper.body.fixtures.length, equals(3));
@@ -134,8 +125,7 @@ void main() {
           (game) async {
             final flipper = Flipper.fromSide(
               side: BoardSide.left,
-              position: Vector2.zero(),
-            );
+            )..initialPosition = Vector2.zero();
             await game.ensureAdd(flipper);
 
             final fixtures = flipper.body.fixtures;
@@ -165,8 +155,7 @@ void main() {
           setUp(() {
             flipper = Flipper.fromSide(
               side: BoardSide.left,
-              position: Vector2.zero(),
-            );
+            )..initialPosition = Vector2.zero();
           });
 
           testRawKeyDownEvents(leftKeys, (event) {
@@ -232,8 +221,7 @@ void main() {
           setUp(() {
             flipper = Flipper.fromSide(
               side: BoardSide.right,
-              position: Vector2.zero(),
-            );
+            )..initialPosition = Vector2.zero();
           });
 
           testRawKeyDownEvents(rightKeys, (event) {
@@ -302,8 +290,7 @@ void main() {
       (game) async {
         final flipper = Flipper.fromSide(
           side: BoardSide.left,
-          position: Vector2.zero(),
-        );
+        )..initialPosition = Vector2.zero();
         await game.ensureAdd(flipper);
 
         final flipperAnchor = FlipperAnchor(flipper: flipper);
@@ -318,8 +305,7 @@ void main() {
       (game) async {
         final flipper = Flipper.fromSide(
           side: BoardSide.right,
-          position: Vector2.zero(),
-        );
+        )..initialPosition = Vector2.zero();
         await game.ensureAdd(flipper);
 
         final flipperAnchor = FlipperAnchor(flipper: flipper);
@@ -337,8 +323,7 @@ void main() {
         (game) async {
           final flipper = Flipper.fromSide(
             side: BoardSide.left,
-            position: Vector2.zero(),
-          );
+          )..initialPosition = Vector2.zero();
           await game.ensureAdd(flipper);
 
           final flipperAnchor = FlipperAnchor(flipper: flipper);
@@ -359,8 +344,7 @@ void main() {
           (game) async {
             final flipper = Flipper.fromSide(
               side: BoardSide.left,
-              position: Vector2.zero(),
-            );
+            )..initialPosition = Vector2.zero();
             await game.ensureAdd(flipper);
 
             final flipperAnchor = FlipperAnchor(flipper: flipper);
@@ -380,8 +364,7 @@ void main() {
           (game) async {
             final flipper = Flipper.fromSide(
               side: BoardSide.right,
-              position: Vector2.zero(),
-            );
+            )..initialPosition = Vector2.zero();
             await game.ensureAdd(flipper);
 
             final flipperAnchor = FlipperAnchor(flipper: flipper);
@@ -406,8 +389,7 @@ void main() {
           (game) async {
             final flipper = Flipper.fromSide(
               side: BoardSide.left,
-              position: Vector2.zero(),
-            );
+            )..initialPosition = Vector2.zero();
             await game.ensureAdd(flipper);
 
             final flipperAnchor = FlipperAnchor(flipper: flipper);
@@ -433,8 +415,7 @@ void main() {
           (game) async {
             final flipper = Flipper.fromSide(
               side: BoardSide.right,
-              position: Vector2.zero(),
-            );
+            )..initialPosition = Vector2.zero();
             await game.ensureAdd(flipper);
 
             final flipperAnchor = FlipperAnchor(flipper: flipper);
