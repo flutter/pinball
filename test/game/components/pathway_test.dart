@@ -167,7 +167,7 @@ void main() {
               expect(fixture, isA<Fixture>());
               expect(
                 fixture.filterData.categoryBits,
-                equals(Filter().categoryBits),
+                equals(Layer.board.maskBits),
               );
             }
           },

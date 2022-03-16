@@ -11,9 +11,14 @@ class TestRampOpening extends RampOpening {
   TestRampOpening({
     required Vector2 position,
     required RampOrientation orientation,
-    required Layer layer,
+    required Layer pathwayLayer,
+    required Layer openingLayer,
   })  : _orientation = orientation,
-        super(position: position, pathwayLayer: layer);
+        super(
+          position: position,
+          pathwayLayer: pathwayLayer,
+          openingLayer: openingLayer,
+        );
 
   final RampOrientation _orientation;
 
@@ -43,31 +48,36 @@ class TestRampOpeningBallContactCallback
 void main() {
   group('Layer', () {
     test('has four values', () {
-      expect(Layer.values.length, equals(4));
+      expect(Layer.values.length, equals(5));
     });
   });
 
   group('LayerX', () {
     test('all types are different', () {
       expect(Layer.all.maskBits, isNot(equals(Layer.board.maskBits)));
-      expect(Layer.board.maskBits, isNot(equals(Layer.jetpack.maskBits)));
+      expect(Layer.board.maskBits, isNot(equals(Layer.opening.maskBits)));
+      expect(Layer.opening.maskBits, isNot(equals(Layer.jetpack.maskBits)));
       expect(Layer.jetpack.maskBits, isNot(equals(Layer.launcher.maskBits)));
       expect(Layer.launcher.maskBits, isNot(equals(Layer.board.maskBits)));
     });
 
     test('all type has 0xFFFF maskBits', () {
-      expect(Layer.all.maskBits, equals(0xFF0F));
+      expect(Layer.all.maskBits, equals(0xFFFF));
     });
-    test('board type has 0xFF0F maskBits', () {
-      expect(Layer.board.maskBits, equals(0xFF0F));
-    });
-
-    test('jetpack type has 0x010 maskBits', () {
-      expect(Layer.jetpack.maskBits, equals(0x0010));
+    test('board type has 0x0001 maskBits', () {
+      expect(Layer.board.maskBits, equals(0x0001));
     });
 
-    test('launcher type has 0x0100 maskBits', () {
-      expect(Layer.launcher.maskBits, equals(0x0100));
+    test('opening type has 0x0007 maskBits', () {
+      expect(Layer.opening.maskBits, equals(0x0007));
+    });
+
+    test('jetpack type has 0x0002 maskBits', () {
+      expect(Layer.jetpack.maskBits, equals(0x0002));
+    });
+
+    test('launcher type has 0x0005 maskBits', () {
+      expect(Layer.launcher.maskBits, equals(0x0005));
     });
   });
 
@@ -81,7 +91,8 @@ void main() {
         final ramp = TestRampOpening(
           position: Vector2.zero(),
           orientation: RampOrientation.down,
-          layer: Layer.board,
+          pathwayLayer: Layer.jetpack,
+          openingLayer: Layer.board,
         );
         await game.ready();
         await game.ensureAdd(ramp);
@@ -98,7 +109,8 @@ void main() {
           final ramp = TestRampOpening(
             position: position,
             orientation: RampOrientation.down,
-            layer: Layer.board,
+            pathwayLayer: Layer.jetpack,
+            openingLayer: Layer.board,
           );
           await game.ensureAdd(ramp);
 
@@ -113,7 +125,8 @@ void main() {
           final ramp = TestRampOpening(
             position: Vector2.zero(),
             orientation: RampOrientation.down,
-            layer: Layer.board,
+            pathwayLayer: Layer.jetpack,
+            openingLayer: Layer.board,
           );
           await game.ensureAdd(ramp);
 
@@ -130,7 +143,8 @@ void main() {
             final ramp = TestRampOpening(
               position: Vector2.zero(),
               orientation: RampOrientation.down,
-              layer: layer,
+              pathwayLayer: layer,
+              openingLayer: layer,
             );
             await game.ensureAdd(ramp);
 
@@ -144,7 +158,8 @@ void main() {
             final ramp = TestRampOpening(
               position: Vector2.zero(),
               orientation: RampOrientation.down,
-              layer: layer,
+              pathwayLayer: layer,
+              openingLayer: layer,
             );
             await game.ensureAdd(ramp);
 
@@ -159,7 +174,8 @@ void main() {
             final ramp = TestRampOpening(
               position: Vector2.zero(),
               orientation: RampOrientation.down,
-              layer: layer,
+              pathwayLayer: layer,
+              openingLayer: layer,
             );
             await game.ensureAdd(ramp);
 
@@ -174,7 +190,8 @@ void main() {
             final ramp = TestRampOpening(
               position: Vector2.zero(),
               orientation: RampOrientation.down,
-              layer: layer,
+              pathwayLayer: layer,
+              openingLayer: layer,
             );
 
             await game.ensureAdd(ramp);
@@ -191,8 +208,6 @@ void main() {
   });
 
   group('RampOpeningBallContactCallback', () {
-    const layer = Layer.jetpack;
-
     test(
         'a ball enters from bottom into a down oriented path and keeps inside, '
         'is saved into collection and set maskBits to path', () {
@@ -201,7 +216,8 @@ void main() {
       final area = TestRampOpening(
         position: Vector2(0, 10),
         orientation: RampOrientation.down,
-        layer: layer,
+        pathwayLayer: Layer.jetpack,
+        openingLayer: Layer.board,
       );
       final callback = TestRampOpeningBallContactCallback();
 
@@ -213,7 +229,7 @@ void main() {
 
       expect(callback._ballsInside.length, equals(1));
       expect(callback._ballsInside.first, ball);
-      verify(() => ball.layer = layer).called(1);
+      verify(() => ball.layer = Layer.jetpack).called(1);
 
       callback.end(ball, area, MockContact());
 
@@ -228,7 +244,8 @@ void main() {
       final area = TestRampOpening(
         position: Vector2(0, 10),
         orientation: RampOrientation.up,
-        layer: layer,
+        pathwayLayer: Layer.jetpack,
+        openingLayer: Layer.board,
       );
       final callback = TestRampOpeningBallContactCallback();
 
@@ -240,7 +257,7 @@ void main() {
 
       expect(callback._ballsInside.length, equals(1));
       expect(callback._ballsInside.first, ball);
-      verify(() => ball.layer = layer).called(1);
+      verify(() => ball.layer = Layer.jetpack).called(1);
 
       callback.end(ball, area, MockContact());
 
@@ -255,7 +272,8 @@ void main() {
       final area = TestRampOpening(
         position: Vector2(0, 10),
         orientation: RampOrientation.down,
-        layer: layer,
+        pathwayLayer: Layer.jetpack,
+        openingLayer: Layer.board,
       );
       final callback = TestRampOpeningBallContactCallback();
 
@@ -267,7 +285,7 @@ void main() {
 
       expect(callback._ballsInside.length, equals(1));
       expect(callback._ballsInside.first, ball);
-      verify(() => ball.layer = layer).called(1);
+      verify(() => ball.layer = Layer.jetpack).called(1);
 
       callback.end(ball, area, MockContact());
 
@@ -282,7 +300,8 @@ void main() {
       final area = TestRampOpening(
         position: Vector2(0, 10),
         orientation: RampOrientation.down,
-        layer: layer,
+        pathwayLayer: Layer.jetpack,
+        openingLayer: Layer.board,
       );
       final callback = TestRampOpeningBallContactCallback()
         ..ballsInside.add(ball);
@@ -308,7 +327,8 @@ void main() {
       final area = TestRampOpening(
         position: Vector2(0, 10),
         orientation: RampOrientation.up,
-        layer: layer,
+        pathwayLayer: Layer.jetpack,
+        openingLayer: Layer.board,
       );
       final callback = TestRampOpeningBallContactCallback()
         ..ballsInside.add(ball);

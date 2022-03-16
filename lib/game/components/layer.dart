@@ -32,6 +32,9 @@ enum Layer {
   /// Collide only with board elements (the ground level).
   board,
 
+  /// Collide only with ramps opening elements.
+  opening,
+
   /// Collide only with Jetpack group elements.
   jetpack,
 
@@ -41,17 +44,19 @@ enum Layer {
 
 /// Utility methods for [Layer].
 extension LayerX on Layer {
-  /// Mask of bits for each [Layer].
+  /// Mask of bits for each [Layer] to filter collisions.
   int get maskBits {
     switch (this) {
       case Layer.all:
         return 0xFFFF;
       case Layer.board:
-        return 0xFF0F;
+        return 0x0001;
+      case Layer.opening:
+        return 0x0007;
       case Layer.jetpack:
-        return 0x0010;
+        return 0x0002;
       case Layer.launcher:
-        return 0x0100;
+        return 0x0005;
     }
   }
 }
@@ -139,11 +144,9 @@ abstract class RampOpeningBallContactCallback<Opening extends RampOpening>
     Layer layer;
     if (!ballsInside.contains(ball)) {
       layer = opening.pathwayLayer;
-      print('TOUCH begin (add) layer=$layer');
       ballsInside.add(ball);
     } else {
       layer = Layer.board;
-      print('TOUCH begin (remove) layer=$layer');
       ballsInside.remove(ball);
     }
 
@@ -156,19 +159,13 @@ abstract class RampOpeningBallContactCallback<Opening extends RampOpening>
 
     switch (opening.orientation) {
       case RampOrientation.up:
-        print('TOUCH end up');
         if (ball.body.position.y > opening._position.y) {
-          print('layer=$layer');
           layer = Layer.board;
-          print('layer=$layer');
         }
         break;
       case RampOrientation.down:
-        print('TOUCH end down');
         if (ball.body.position.y < opening._position.y) {
-          print('layer=$layer');
           layer = Layer.board;
-          print('layer=$layer');
         }
         break;
     }

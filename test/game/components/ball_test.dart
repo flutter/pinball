@@ -94,7 +94,7 @@ void main() {
           await game.ensureAdd(ball);
 
           final fixture = ball.body.fixtures[0];
-          expect(fixture.filterData.maskBits, equals(Filter().maskBits));
+          expect(fixture.filterData.maskBits, equals(Layer.board.maskBits));
         },
       );
     });
@@ -180,7 +180,7 @@ void main() {
           final fixture = ball.body.fixtures[0];
 
           expect(fixture.filterData.categoryBits, equals(1));
-          expect(fixture.filterData.maskBits, equals(Filter().maskBits));
+          expect(fixture.filterData.maskBits, equals(Layer.board.maskBits));
 
           ball.layer = newLayer;
 

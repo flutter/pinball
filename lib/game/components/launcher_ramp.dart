@@ -80,6 +80,7 @@ class LauncherRampOpening extends RampOpening {
         super(
           position: position,
           pathwayLayer: Layer.launcher,
+          openingLayer: Layer.opening,
         );
 
   /// Orientation of entrance/exit of [LauncherRamp] where
@@ -91,7 +92,7 @@ class LauncherRampOpening extends RampOpening {
   final double _rotation;
 
   /// Size of the [RampOpening] placed at the entrance/exit of [LauncherRamp].
-  final int _size = 7;
+  final int _size = 6;
 
   @override
   RampOrientation get orientation => _orientation;

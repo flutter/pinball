@@ -181,7 +181,7 @@ class Pathway extends BodyComponent {
       final fixtureDef = FixtureDef(chain);
 
       body.createFixture(fixtureDef).filterData.categoryBits =
-          _layer?.maskBits ?? Filter().categoryBits;
+          _layer?.maskBits ?? Layer.board.maskBits;
     }
 
     return body;
