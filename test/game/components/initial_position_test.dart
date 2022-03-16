@@ -20,14 +20,6 @@ void main() {
       expect(component.initialPosition, Vector2(1, 2));
     });
 
-    test('can only be set once', () {
-      final component = TestBodyComponent()..initialPosition = Vector2(1, 2);
-      expect(
-        () => component.initialPosition = Vector2(3, 4),
-        throwsA(isA<Error>()),
-      );
-    });
-
     flameTester.test(
       'positions correctly',
       (game) async {
