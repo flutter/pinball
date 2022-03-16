@@ -7,8 +7,8 @@ mixin InitialPosition<T extends Forge2DGame> on BodyComponent<T> {
   late final Vector2 initialPosition;
 
   @override
-  void onMount() {
-    super.onMount();
+  Future<void> onLoad() async {
+    await super.onLoad();
     assert(
       body.position == initialPosition,
       'Body position is not equal to initial position.',
