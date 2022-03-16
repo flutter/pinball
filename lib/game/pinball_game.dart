@@ -78,7 +78,11 @@ class PinballGame extends Forge2DGame
   }
 
   void spawnBall() {
-    add(Ball(position: plunger.body.position));
+    final ball = Ball();
+    add(
+      ball
+        ..initialPosition = plunger.body.position + Vector2(0, ball.size.y / 2),
+    );
   }
 
   void _addContactCallbacks() {
@@ -112,6 +116,8 @@ class DebugPinballGame extends PinballGame with TapDetector {
 
   @override
   void onTapUp(TapUpInfo info) {
-    add(Ball(position: info.eventPosition.game));
+    add(
+      Ball()..initialPosition = info.eventPosition.game,
+    );
   }
 }

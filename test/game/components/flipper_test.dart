@@ -94,7 +94,7 @@ void main() {
             final flipper = Flipper.fromSide(
               side: BoardSide.left,
             )..initialPosition = Vector2.zero();
-            final ball = Ball(position: Vector2.zero());
+            final ball = Ball()..initialPosition = Vector2.zero();
 
             await game.ready();
             await game.ensureAddAll([flipper, ball]);
