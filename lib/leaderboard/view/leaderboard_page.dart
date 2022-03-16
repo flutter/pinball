@@ -5,7 +5,7 @@ import 'package:pinball/theme/theme.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
 /// {@template leaderboard_page}
-/// Shows the leaderboard of [Competitor]s.
+/// Shows the leaderboard page of [Competitor]s.
 /// {@endtemplate}
 class LeaderboardPage extends StatelessWidget {
   /// {@macro leaderboard_page}
@@ -30,6 +30,7 @@ class LeaderboardPage extends StatelessWidget {
   }
 }
 
+/// View for leaderboard.
 class LeaderboardView extends StatelessWidget {
   const LeaderboardView({Key? key}) : super(key: key);
 
