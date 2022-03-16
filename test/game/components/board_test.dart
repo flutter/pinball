@@ -45,10 +45,10 @@ void main() {
           await game.ready();
           await game.ensureAdd(bottomGroup);
 
-          final leftFlippers = bottomGroup.findNestedChildren<Flipper>(
+          final rightFlippers = bottomGroup.findNestedChildren<Flipper>(
             condition: (flipper) => flipper.side.isRight,
           );
-          expect(leftFlippers.length, equals(1));
+          expect(rightFlippers.length, equals(1));
         },
       );
 
@@ -59,8 +59,20 @@ void main() {
           await game.ready();
           await game.ensureAdd(bottomGroup);
 
-          final leftFlippers = bottomGroup.findNestedChildren<Baseboard>();
-          expect(leftFlippers.length, equals(2));
+          final baseboards = bottomGroup.findNestedChildren<Baseboard>();
+          expect(baseboards.length, equals(2));
+        },
+      );
+
+      flameTester.test(
+        'has two SlingShots',
+        (game) async {
+          final bottomGroup = BottomGroup(position: Vector2.zero(), spacing: 0);
+          await game.ready();
+          await game.ensureAdd(bottomGroup);
+
+          final slingShots = bottomGroup.findNestedChildren<SlingShot>();
+          expect(slingShots.length, equals(2));
         },
       );
     });

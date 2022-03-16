@@ -4,6 +4,7 @@ export 'board.dart';
 export 'board_side.dart';
 export 'bonus_word.dart';
 export 'flipper.dart';
+export 'initial_position.dart';
 export 'jetpack_ramp.dart';
 export 'joint_anchor.dart';
 export 'launcher_ramp.dart';

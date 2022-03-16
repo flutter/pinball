@@ -6,7 +6,6 @@ import 'package:pinball/game/game.dart';
 ///
 /// The bottom [Component]s are the [Flipper]s and the [Baseboard]s.
 /// {@endtemplate}
-// TODO(alestiago): Add [SlingShot] once provided.
 // TODO(alestiago): Consider renaming once entire Board is defined.
 class BottomGroup extends Component {
   /// {@macro bottom_group}
@@ -70,7 +69,15 @@ class _BottomGroupSide extends Component {
             Flipper.height,
           ),
     );
+    final slingShot = SlingShot(
+      side: _side,
+      position: _position +
+          Vector2(
+            (Flipper.width) * direction,
+            Flipper.height + SlingShot.size.y,
+          ),
+    );
 
-    await addAll([flipper, baseboard]);
+    await addAll([flipper, baseboard, slingShot]);
   }
 }

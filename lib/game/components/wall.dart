@@ -26,7 +26,7 @@ class Wall extends BodyComponent {
 
     final fixtureDef = FixtureDef(shape)
       ..restitution = 0.1
-      ..friction = 0.3;
+      ..friction = 0;
 
     final bodyDef = BodyDef()
       ..userData = this
