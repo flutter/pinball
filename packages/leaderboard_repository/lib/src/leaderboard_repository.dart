@@ -73,7 +73,7 @@ class FetchPlayerRankingException extends LeaderboardException {
 }
 
 /// {@template leaderboard_repository}
-/// Repository that persists leaderboard data in Firebase Cloud Firestore.
+/// Repository to access leaderboard data in Firebase Cloud Firestore.
 /// {@endtemplate}
 class LeaderboardRepository {
   /// {@macro leaderboard_repository}

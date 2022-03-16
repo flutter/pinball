@@ -1,5 +1,5 @@
 name: leaderboard_repository
-description: Repository that persists leaderboard data in Firebase Cloud Firestore.
+description: Repository to access leaderboard data in Firebase Cloud Firestore.
 version: 1.0.0+1
 publish_to: none
 
