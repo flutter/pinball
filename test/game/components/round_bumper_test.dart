@@ -18,10 +18,9 @@ void main() {
       (game) async {
         await game.ready();
         final roundBumper = RoundBumper(
-          position: Vector2.zero(),
           radius: radius,
           points: points,
-        );
+        )..initialPosition = Vector2.zero();
         await game.ensureAdd(roundBumper);
 
         expect(game.contains(roundBumper), isTrue);
@@ -32,10 +31,9 @@ void main() {
       'has points',
       (game) async {
         final roundBumper = RoundBumper(
-          position: Vector2.zero(),
           radius: radius,
           points: points,
-        );
+        )..initialPosition = Vector2.zero();
         await game.ensureAdd(roundBumper);
 
         expect(roundBumper.points, equals(points));
@@ -48,10 +46,9 @@ void main() {
         (game) async {
           final position = Vector2.all(10);
           final roundBumper = RoundBumper(
-            position: position,
             radius: radius,
             points: points,
-          );
+          )..initialPosition = position;
           await game.ensureAdd(roundBumper);
           game.contains(roundBumper);
 
@@ -63,10 +60,9 @@ void main() {
         'is static',
         (game) async {
           final roundBumper = RoundBumper(
-            position: Vector2.zero(),
             radius: radius,
             points: points,
-          );
+          )..initialPosition = Vector2.zero();
           await game.ensureAdd(roundBumper);
 
           expect(roundBumper.body.bodyType, equals(BodyType.static));
@@ -79,10 +75,9 @@ void main() {
         'exists',
         (game) async {
           final roundBumper = RoundBumper(
-            position: Vector2.zero(),
             radius: radius,
             points: points,
-          );
+          )..initialPosition = Vector2.zero();
           await game.ensureAdd(roundBumper);
 
           expect(roundBumper.body.fixtures[0], isA<Fixture>());
@@ -93,10 +88,9 @@ void main() {
         'has restitution',
         (game) async {
           final roundBumper = RoundBumper(
-            position: Vector2.zero(),
             radius: radius,
             points: points,
-          );
+          )..initialPosition = Vector2.zero();
           await game.ensureAdd(roundBumper);
 
           final fixture = roundBumper.body.fixtures[0];
@@ -108,10 +102,9 @@ void main() {
         'shape is circular',
         (game) async {
           final roundBumper = RoundBumper(
-            position: Vector2.zero(),
             radius: radius,
             points: points,
-          );
+          )..initialPosition = Vector2.zero();
           await game.ensureAdd(roundBumper);
 
           final fixture = roundBumper.body.fixtures[0];
