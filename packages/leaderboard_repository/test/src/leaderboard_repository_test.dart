@@ -74,7 +74,7 @@ void main() {
           final queryDocumentSnapshot = MockQueryDocumentSnapshot();
           when(queryDocumentSnapshot.data).thenReturn(<String, dynamic>{
             'character': 'dash',
-            'username': 'user$score',
+            'playerInitials': 'user$score',
             'score': score
           });
           return queryDocumentSnapshot;
@@ -113,7 +113,7 @@ void main() {
           'throws LeaderboardDeserializationException when Exception occurs '
           'during deserialization', () async {
         final top10LeaderboardDataMalformed = <String, dynamic>{
-          'username': 'test123',
+          'playerInitials': 'ABC',
           'score': 1500,
         };
         final queryDocumentSnapshot = MockQueryDocumentSnapshot();
@@ -145,7 +145,7 @@ void main() {
         1000,
       ];
       final leaderboardEntry = LeaderboardEntry(
-        playerInitials: 'test123',
+        playerInitials: 'ABC',
         score: entryScore,
         character: CharacterType.dash,
       );
