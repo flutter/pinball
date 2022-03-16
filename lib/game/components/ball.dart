@@ -39,6 +39,7 @@ class Ball extends BodyComponent<PinballGame> with InitialPosition {
     final fixtureDef = FixtureDef(shape)..density = 1;
 
     final bodyDef = BodyDef()
+      ..position = initialPosition
       ..userData = this
       ..type = BodyType.dynamic;
 
