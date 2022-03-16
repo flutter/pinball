@@ -28,11 +28,39 @@ void main() {
       );
     });
 
-    flameTester.test('positions correctly', (game) async {
-      final position = Vector2.all(10);
-      final component = TestBodyComponent()..initialPosition = position;
-      await game.ensureAdd(component);
-      expect(component.body.position, equals(position));
-    });
+    flameTester.test(
+      'positions correctly',
+      (game) async {
+        final position = Vector2.all(10);
+        final component = TestBodyComponent()..initialPosition = position;
+        await game.ensureAdd(component);
+        expect(component.body.position, equals(position));
+      },
+    );
+
+    flameTester.test(
+      'deafaults to zero '
+      'when no initialPosition is given',
+      (game) async {
+        final component = TestBodyComponent();
+        await game.ensureAdd(component);
+        expect(component.body.position, equals(Vector2.zero()));
+      },
+    );
+
+    flameTester.test(
+      'setting throws AssertionError '
+      'when component has loaded',
+      (game) async {
+        final component = TestBodyComponent();
+        await game.ensureAdd(component);
+
+        expect(component.isLoaded, isTrue);
+        expect(
+          () => component.initialPosition = Vector2.all(4),
+          throwsAssertionError,
+        );
+      },
+    );
   });
 }
