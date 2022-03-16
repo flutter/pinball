@@ -220,7 +220,6 @@ void main() {
     final flameTester = flameBlocTester(gameBloc: () => gameBloc);
 
     group('initializes with', () {
-      // FIXME(alestiago): Plunger not initialized error.
       flameTester.test(
         'plunger body as bodyA',
         (game) async {

@@ -95,12 +95,13 @@ class PinballGame extends Forge2DGame
   Future<void> _addPlunger() async {
     plunger = Plunger(
       compressionDistance: camera.viewport.effectiveSize.y / 12,
-    )..initialPosition = screenToWorld(
-        Vector2(
-          camera.viewport.effectiveSize.x / 1.035,
-          camera.viewport.effectiveSize.y - plunger.compressionDistance,
-        ),
-      );
+    );
+    plunger.initialPosition = screenToWorld(
+      Vector2(
+        camera.viewport.effectiveSize.x / 1.035,
+        camera.viewport.effectiveSize.y - plunger.compressionDistance,
+      ),
+    );
 
     await add(plunger);
   }
