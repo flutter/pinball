@@ -46,6 +46,7 @@ class Ball extends BodyComponent<PinballGame> with InitialPosition, Layered {
       ..filter.maskBits = _layer.maskBits;
 
     final bodyDef = BodyDef()
+      ..position = initialPosition
       ..userData = this
       ..type = BodyType.dynamic;
 
