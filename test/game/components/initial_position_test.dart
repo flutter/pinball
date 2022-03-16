@@ -12,13 +12,6 @@ class TestBodyComponent extends BodyComponent with InitialPosition {
   }
 }
 
-class TestPositionedBodyComponent extends BodyComponent with InitialPosition {
-  @override
-  Body createBody() {
-    return world.createBody(BodyDef()..position = initialPosition);
-  }
-}
-
 void main() {
   final flameTester = FlameTester(Forge2DGame.new);
   group('InitialPosition', () {
@@ -27,37 +20,36 @@ void main() {
       expect(component.initialPosition, Vector2(1, 2));
     });
 
-    test('can only be set once', () {
-      final component = TestBodyComponent()..initialPosition = Vector2(1, 2);
-      expect(
-        () => component.initialPosition = Vector2(3, 4),
-        throwsA(isA<Error>()),
-      );
-    });
-
     flameTester.test(
-      'returns normally '
-      'when the body sets the position to initial position',
+      'positions correctly',
       (game) async {
-        final component = TestPositionedBodyComponent()
-          ..initialPosition = Vector2.zero();
-
-        await expectLater(
-          () async => game.ensureAdd(component),
-          returnsNormally,
-        );
+        final position = Vector2.all(10);
+        final component = TestBodyComponent()..initialPosition = position;
+        await game.ensureAdd(component);
+        expect(component.body.position, equals(position));
       },
     );
 
     flameTester.test(
-      'throws AssertionError '
-      'when not setting initialPosition to body',
+      'deafaults to zero '
+      'when no initialPosition is given',
       (game) async {
-        final component = TestBodyComponent()..initialPosition = Vector2.zero();
+        final component = TestBodyComponent();
+        await game.ensureAdd(component);
+        expect(component.body.position, equals(Vector2.zero()));
+      },
+    );
+
+    flameTester.test(
+      'setting throws AssertionError '
+      'when component has loaded',
+      (game) async {
+        final component = TestBodyComponent();
         await game.ensureAdd(component);
 
-        await expectLater(
-          () async => game.ensureAdd(component),
+        expect(component.isLoaded, isTrue);
+        expect(
+          () => component.initialPosition = Vector2.all(4),
           throwsAssertionError,
         );
       },

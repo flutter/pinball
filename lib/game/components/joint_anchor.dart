@@ -1,11 +1,12 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:pinball/game/game.dart';
 
 /// {@template joint_anchor}
 /// Non visual [BodyComponent] used to hold a [BodyType.dynamic] in [Joint]s
 /// with this [BodyType.static].
 ///
-/// It is recommended to [_position] the anchor first and then use the body
-/// position as the anchor point when initializing a [JointDef].
+/// It is recommended to use [JointAnchor.body.position] to position the anchor
+/// point when initializing a [JointDef].
 ///
 /// ```dart
 /// initialize(
@@ -15,18 +16,12 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 /// );
 /// ```
 /// {@endtemplate}
-class JointAnchor extends BodyComponent {
+class JointAnchor extends BodyComponent with InitialPosition {
   /// {@macro joint_anchor}
-  JointAnchor({
-    required Vector2 position,
-  }) : _position = position;
-
-  final Vector2 _position;
+  JointAnchor();
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()..position = _position;
-
-    return world.createBody(bodyDef);
+    return world.createBody(BodyDef());
   }
 }

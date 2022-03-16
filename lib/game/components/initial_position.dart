@@ -2,16 +2,28 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 
 /// Forces a given [BodyComponent] to position their [body] to an
 /// [initialPosition].
+///
+/// Note: If the [initialPosition] is set after the [BodyComponent] has been
+/// loaded it will have no effect; defaulting to [Vector2.zero].
 mixin InitialPosition<T extends Forge2DGame> on BodyComponent<T> {
+  final Vector2 _initialPosition = Vector2.zero();
+
+  set initialPosition(Vector2 value) {
+    assert(
+      !isLoaded,
+      'Cannot set initialPosition after component has already loaded.',
+    );
+    if (value == initialPosition) return;
+
+    _initialPosition.setFrom(value);
+  }
+
   /// The initial position of the [body].
-  late final Vector2 initialPosition;
+  Vector2 get initialPosition => _initialPosition;
 
   @override
-  void onMount() {
-    super.onMount();
-    assert(
-      body.position == initialPosition,
-      'Body position is not equal to initial position.',
-    );
+  Future<void> onLoad() async {
+    await super.onLoad();
+    body.position.setFrom(initialPosition);
   }
 }

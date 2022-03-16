@@ -6,14 +6,9 @@ import 'package:pinball/game/game.dart';
 /// A solid, [BodyType.dynamic] sphere that rolls and bounces along the
 /// [PinballGame].
 /// {@endtemplate}
-class Ball extends BodyComponent<PinballGame> {
+class Ball extends BodyComponent<PinballGame> with InitialPosition {
   /// {@macro ball}
-  Ball({
-    required Vector2 position,
-  }) : _position = position;
-
-  /// The initial position of the [Ball] body.
-  final Vector2 _position;
+  Ball();
 
   /// The size of the [Ball]
   final Vector2 size = Vector2.all(2);
@@ -45,7 +40,6 @@ class Ball extends BodyComponent<PinballGame> {
 
     final bodyDef = BodyDef()
       ..userData = this
-      ..position = Vector2(_position.x, _position.y + size.y)
       ..type = BodyType.dynamic;
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);

@@ -13,19 +13,15 @@ import 'package:pinball/game/game.dart';
 ///
 /// [Flipper] can be controlled by the player in an arc motion.
 /// {@endtemplate flipper}
-class Flipper extends BodyComponent with KeyboardHandler {
+class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   /// {@macro flipper}
   Flipper._({
-    required Vector2 position,
     required this.side,
     required List<LogicalKeyboardKey> keys,
-  })  : _position = position,
-        _keys = keys;
+  }) : _keys = keys;
 
-  Flipper._left({
-    required Vector2 position,
-  }) : this._(
-          position: position,
+  Flipper._left()
+      : this._(
           side: BoardSide.left,
           keys: [
             LogicalKeyboardKey.arrowLeft,
@@ -33,10 +29,8 @@ class Flipper extends BodyComponent with KeyboardHandler {
           ],
         );
 
-  Flipper._right({
-    required Vector2 position,
-  }) : this._(
-          position: position,
+  Flipper._right()
+      : this._(
           side: BoardSide.right,
           keys: [
             LogicalKeyboardKey.arrowRight,
@@ -50,13 +44,12 @@ class Flipper extends BodyComponent with KeyboardHandler {
   /// horizontally, also have different [LogicalKeyboardKey]s that control them.
   factory Flipper.fromSide({
     required BoardSide side,
-    required Vector2 position,
   }) {
     switch (side) {
       case BoardSide.left:
-        return Flipper._left(position: position);
+        return Flipper._left();
       case BoardSide.right:
-        return Flipper._right(position: position);
+        return Flipper._right();
     }
   }
 
@@ -81,9 +74,6 @@ class Flipper extends BodyComponent with KeyboardHandler {
   /// A [Flipper] with [BoardSide.left] has a counter-clockwise arc motion,
   /// whereas a [Flipper] with [BoardSide.right] has a clockwise arc motion.
   final BoardSide side;
-
-  /// The initial position of the [Flipper] body.
-  final Vector2 _position;
 
   /// The [LogicalKeyboardKey]s that will control the [Flipper].
   ///
@@ -200,9 +190,7 @@ class Flipper extends BodyComponent with KeyboardHandler {
   Body createBody() {
     final bodyDef = BodyDef()
       ..gravityScale = 0
-      ..type = BodyType.dynamic
-      ..position = _position;
-
+      ..type = BodyType.dynamic;
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
 
@@ -238,14 +226,14 @@ class FlipperAnchor extends JointAnchor {
   /// {@macro flipper_anchor}
   FlipperAnchor({
     required Flipper flipper,
-  }) : super(
-          position: Vector2(
-            flipper.side.isLeft
-                ? flipper.body.position.x - Flipper.width / 2
-                : flipper.body.position.x + Flipper.width / 2,
-            flipper.body.position.y,
-          ),
-        );
+  }) {
+    initialPosition = Vector2(
+      flipper.side.isLeft
+          ? flipper.body.position.x - Flipper.width / 2
+          : flipper.body.position.x + Flipper.width / 2,
+      flipper.body.position.y,
+    );
+  }
 }
 
 /// {@template flipper_anchor_revolute_joint_def}
