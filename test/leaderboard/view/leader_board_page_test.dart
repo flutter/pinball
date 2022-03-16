@@ -12,7 +12,6 @@ import '../../helpers/helpers.dart';
 void main() {
   group('LeaderBoardPage', () {
     testWidgets('renders LeaderBoardView', (tester) async {
-      final l10n = await AppLocalizations.delegate.load(Locale('en'));
       await tester.pumpApp(
         LeaderBoardPage(
           theme: PinballTheme(
