@@ -2,22 +2,20 @@ import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:geometry/geometry.dart';
-import 'package:pinball/game/components/components.dart';
+import 'package:pinball/game/game.dart';
 
 /// {@template pathway}
 /// [Pathway] creates lines of various shapes.
 ///
 /// [BodyComponent]s such as a Ball can collide and move along a [Pathway].
 /// {@endtemplate}
-class Pathway extends BodyComponent {
+class Pathway extends BodyComponent with InitialPosition {
   Pathway._({
     // TODO(ruialonso): remove color when assets added.
     Color? color,
-    required Vector2 position,
     required List<List<Vector2>> paths,
     Layer? layer,
-  })  : _position = position,
-        _paths = paths,
+  })  : _paths = paths,
         _layer = layer {
     paint = Paint()
       ..color = color ?? const Color.fromARGB(0, 0, 0, 0)
@@ -26,14 +24,12 @@ class Pathway extends BodyComponent {
 
   /// Creates a uniform unidirectional (straight) [Pathway].
   ///
-  /// Does so with two [ChainShape] separated by a [width]. Placed
-  /// at a [position] between [start] and [end] points. Can
+  /// Does so with two [ChainShape] separated by a [width]. Can
   /// be rotated by a given [rotation] in radians.
   ///
   /// If [singleWall] is true, just one [ChainShape] is created.
   factory Pathway.straight({
     Color? color,
-    required Vector2 position,
     required Vector2 start,
     required Vector2 end,
     required double width,
@@ -60,7 +56,6 @@ class Pathway extends BodyComponent {
 
     return Pathway._(
       color: color,
-      position: position,
       paths: paths,
       layer: layer,
     );
@@ -68,21 +63,19 @@ class Pathway extends BodyComponent {
 
   /// Creates an arc [Pathway].
   ///
-  /// The [angle], in radians, specifies the size of the arc. For example, 2*pi
-  /// returns a complete circumference and minor angles a semi circumference.
-  ///
-  /// The center of the arc is placed at [position].
+  /// The [angle], in radians, specifies the size of the arc. For example, two
+  /// pi returns a complete circumference.
   ///
   /// Does so with two [ChainShape] separated by a [width]. Which can be
   /// rotated by a given [rotation] in radians.
   ///
   /// The outer radius is specified by [radius], whilst the inner one is
-  /// equivalent to [radius] - [width].
+  /// equivalent to the [radius] minus the [width].
   ///
   /// If [singleWall] is true, just one [ChainShape] is created.
   factory Pathway.arc({
     Color? color,
-    required Vector2 position,
+    required Vector2 center,
     required double width,
     required double radius,
     required double angle,
@@ -94,7 +87,7 @@ class Pathway extends BodyComponent {
 
     // TODO(ruialonso): Refactor repetitive logic
     final outerWall = calculateArc(
-      center: position,
+      center: center,
       radius: radius,
       angle: angle,
       offsetAngle: rotation,
@@ -103,7 +96,7 @@ class Pathway extends BodyComponent {
 
     if (!singleWall) {
       final innerWall = calculateArc(
-        center: position,
+        center: center,
         radius: radius - width,
         angle: angle,
         offsetAngle: rotation,
@@ -113,7 +106,6 @@ class Pathway extends BodyComponent {
 
     return Pathway._(
       color: color,
-      position: position,
       paths: paths,
       layer: layer,
     );
@@ -130,7 +122,6 @@ class Pathway extends BodyComponent {
   /// If [singleWall] is true, just one [ChainShape] is created.
   factory Pathway.bezierCurve({
     Color? color,
-    required Vector2 position,
     required List<Vector2> controlPoints,
     required double width,
     double rotation = 0,
@@ -156,22 +147,17 @@ class Pathway extends BodyComponent {
 
     return Pathway._(
       color: color,
-      position: position,
       paths: paths,
       layer: layer,
     );
   }
 
-  Vector2 _position;
-  List<List<Vector2>> _paths;
+  final List<List<Vector2>> _paths;
   Layer? _layer;
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()
-      ..type = BodyType.static
-      ..position = _position;
-
+    final bodyDef = BodyDef()..type = BodyType.static;
     final body = world.createBody(bodyDef);
     for (final path in _paths) {
       final chain = ChainShape()

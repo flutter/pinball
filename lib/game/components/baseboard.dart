@@ -6,22 +6,17 @@ import 'package:pinball/game/game.dart';
 /// {@template baseboard}
 /// Straight, angled board piece to corral the [Ball] towards the [Flipper]s.
 /// {@endtemplate}
-class Baseboard extends BodyComponent {
+class Baseboard extends BodyComponent with InitialPosition {
   /// {@macro baseboard}
   Baseboard({
     required BoardSide side,
-    required Vector2 position,
-  })  : _side = side,
-        _position = position;
+  }) : _side = side;
 
   /// The width of the [Baseboard].
   static const width = 10.0;
 
   /// The height of the [Baseboard].
   static const height = 2.0;
-
-  /// The position of the [Baseboard] body.
-  final Vector2 _position;
 
   /// Whether the [Baseboard] is on the left or right side of the board.
   final BoardSide _side;
@@ -63,7 +58,6 @@ class Baseboard extends BodyComponent {
     const angle = math.pi / 7;
 
     final bodyDef = BodyDef()
-      ..position = _position
       ..type = BodyType.static
       ..angle = _side.isLeft ? -angle : angle;
 

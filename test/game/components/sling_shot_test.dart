@@ -13,7 +13,6 @@ void main() {
       'loads correctly',
       (game) async {
         final slingShot = SlingShot(
-          position: Vector2.zero(),
           side: BoardSide.left,
         );
         await game.ensureAdd(slingShot);
@@ -24,24 +23,9 @@ void main() {
 
     group('body', () {
       flameTester.test(
-        'positions correctly',
-        (game) async {
-          final position = Vector2.all(10);
-          final slingShot = SlingShot(
-            position: position,
-            side: BoardSide.left,
-          );
-          await game.ensureAdd(slingShot);
-
-          expect(slingShot.body.position, equals(position));
-        },
-      );
-
-      flameTester.test(
         'is static',
         (game) async {
           final slingShot = SlingShot(
-            position: Vector2.zero(),
             side: BoardSide.left,
           );
           await game.ensureAdd(slingShot);
@@ -56,7 +40,6 @@ void main() {
         'exists',
         (game) async {
           final slingShot = SlingShot(
-            position: Vector2.zero(),
             side: BoardSide.left,
           );
           await game.ensureAdd(slingShot);
@@ -69,7 +52,6 @@ void main() {
         'shape is triangular',
         (game) async {
           final slingShot = SlingShot(
-            position: Vector2.zero(),
             side: BoardSide.left,
           );
           await game.ensureAdd(slingShot);
@@ -85,11 +67,9 @@ void main() {
         'when side is left or right',
         (game) async {
           final leftSlingShot = SlingShot(
-            position: Vector2.zero(),
             side: BoardSide.left,
           );
           final rightSlingShot = SlingShot(
-            position: Vector2.zero(),
             side: BoardSide.right,
           );
 
@@ -109,7 +89,6 @@ void main() {
         'has no friction',
         (game) async {
           final slingShot = SlingShot(
-            position: Vector2.zero(),
             side: BoardSide.left,
           );
           await game.ensureAdd(slingShot);
@@ -125,7 +104,6 @@ void main() {
         'exists',
         (game) async {
           final slingShot = SlingShot(
-            position: Vector2.zero(),
             side: BoardSide.left,
           );
           await game.ensureAdd(slingShot);
@@ -138,7 +116,6 @@ void main() {
         'shape is edge',
         (game) async {
           final slingShot = SlingShot(
-            position: Vector2.zero(),
             side: BoardSide.left,
           );
           await game.ensureAdd(slingShot);
@@ -152,7 +129,6 @@ void main() {
         'has restitution',
         (game) async {
           final slingShot = SlingShot(
-            position: Vector2.zero(),
             side: BoardSide.left,
           );
           await game.ensureAdd(slingShot);
@@ -166,7 +142,6 @@ void main() {
         'has no friction',
         (game) async {
           final slingShot = SlingShot(
-            position: Vector2.zero(),
             side: BoardSide.left,
           );
           await game.ensureAdd(slingShot);

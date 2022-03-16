@@ -94,7 +94,11 @@ class PinballGame extends Forge2DGame
   }
 
   void spawnBall() {
-    add(Ball(position: plunger.body.position));
+    final ball = Ball();
+    add(
+      ball
+        ..initialPosition = plunger.body.position + Vector2(0, ball.size.y / 2),
+    );
   }
 
   void _addContactCallbacks() {
@@ -123,20 +127,17 @@ class PinballGame extends Forge2DGame
   }
 
   Future<void> _addPlunger() async {
-    final compressionDistance = camera.viewport.effectiveSize.y / 12;
-
-    await add(
-      plunger = Plunger(
-        position: screenToWorld(
-          Vector2(
-                camera.viewport.effectiveSize.x / 2,
-                camera.viewport.effectiveSize.y - compressionDistance,
-              ) +
-              Vector2(400, 0),
-        ),
-        compressionDistance: compressionDistance,
+    plunger = Plunger(
+      compressionDistance: camera.viewport.effectiveSize.y / 12,
+    );
+    plunger.initialPosition = screenToWorld(
+      Vector2(
+        camera.viewport.effectiveSize.x / 1.035,
+        camera.viewport.effectiveSize.y - plunger.compressionDistance,
       ),
     );
+
+    await add(plunger);
   }
 }
 
@@ -145,6 +146,8 @@ class DebugPinballGame extends PinballGame with TapDetector {
 
   @override
   void onTapUp(TapUpInfo info) {
-    add(Ball(position: info.eventPosition.game));
+    add(
+      Ball()..initialPosition = info.eventPosition.game,
+    );
   }
 }

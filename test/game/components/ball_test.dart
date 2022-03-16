@@ -17,7 +17,7 @@ void main() {
     flameTester.test(
       'loads correctly',
       (game) async {
-        final ball = Ball(position: Vector2.zero());
+        final ball = Ball();
         await game.ready();
         await game.ensureAdd(ball);
 
@@ -27,25 +27,9 @@ void main() {
 
     group('body', () {
       flameTester.test(
-        'positions correctly',
-        (game) async {
-          final position = Vector2.all(10);
-          final ball = Ball(position: position);
-          await game.ensureAdd(ball);
-          game.contains(ball);
-
-          final expectedPosition = Vector2(
-            position.x,
-            position.y + ball.size.y,
-          );
-          expect(ball.body.position, equals(expectedPosition));
-        },
-      );
-
-      flameTester.test(
         'is dynamic',
         (game) async {
-          final ball = Ball(position: Vector2.zero());
+          final ball = Ball();
           await game.ensureAdd(ball);
 
           expect(ball.body.bodyType, equals(BodyType.dynamic));
@@ -57,7 +41,7 @@ void main() {
       flameTester.test(
         'exists',
         (game) async {
-          final ball = Ball(position: Vector2.zero());
+          final ball = Ball();
           await game.ensureAdd(ball);
 
           expect(ball.body.fixtures[0], isA<Fixture>());
@@ -67,7 +51,7 @@ void main() {
       flameTester.test(
         'is dense',
         (game) async {
-          final ball = Ball(position: Vector2.zero());
+          final ball = Ball();
           await game.ensureAdd(ball);
 
           final fixture = ball.body.fixtures[0];
@@ -78,7 +62,7 @@ void main() {
       flameTester.test(
         'shape is circular',
         (game) async {
-          final ball = Ball(position: Vector2.zero());
+          final ball = Ball();
           await game.ensureAdd(ball);
 
           final fixture = ball.body.fixtures[0];

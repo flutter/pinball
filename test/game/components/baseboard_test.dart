@@ -15,13 +15,12 @@ void main() {
       (game) async {
         await game.ready();
         final leftBaseboard = Baseboard(
-          position: Vector2.zero(),
           side: BoardSide.left,
         );
         final rightBaseboard = Baseboard(
-          position: Vector2.zero(),
           side: BoardSide.right,
         );
+
         await game.ensureAddAll([leftBaseboard, rightBaseboard]);
 
         expect(game.contains(leftBaseboard), isTrue);
@@ -31,27 +30,12 @@ void main() {
 
     group('body', () {
       flameTester.test(
-        'positions correctly',
-        (game) async {
-          final position = Vector2.all(10);
-          final baseboard = Baseboard(
-            position: position,
-            side: BoardSide.left,
-          );
-          await game.ensureAdd(baseboard);
-          game.contains(baseboard);
-
-          expect(baseboard.body.position, position);
-        },
-      );
-
-      flameTester.test(
         'is static',
         (game) async {
           final baseboard = Baseboard(
-            position: Vector2.zero(),
             side: BoardSide.left,
           );
+
           await game.ensureAdd(baseboard);
 
           expect(baseboard.body.bodyType, equals(BodyType.static));
@@ -62,11 +46,9 @@ void main() {
         'is at an angle',
         (game) async {
           final leftBaseboard = Baseboard(
-            position: Vector2.zero(),
             side: BoardSide.left,
           );
           final rightBaseboard = Baseboard(
-            position: Vector2.zero(),
             side: BoardSide.right,
           );
           await game.ensureAddAll([leftBaseboard, rightBaseboard]);
@@ -82,7 +64,6 @@ void main() {
         'has three',
         (game) async {
           final baseboard = Baseboard(
-            position: Vector2.zero(),
             side: BoardSide.left,
           );
           await game.ensureAdd(baseboard);
