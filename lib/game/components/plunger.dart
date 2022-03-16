@@ -98,12 +98,12 @@ class PlungerAnchor extends JointAnchor {
   /// {@macro plunger_anchor}
   PlungerAnchor({
     required Plunger plunger,
-  }) : super(
-          position: Vector2(
-            plunger.body.position.x,
-            plunger.body.position.y - plunger.compressionDistance,
-          ),
-        );
+  }) {
+    initialPosition = Vector2(
+      plunger.body.position.x,
+      plunger.body.position.y - plunger.compressionDistance,
+    );
+  }
 }
 
 /// {@template plunger_anchor_prismatic_joint_def}

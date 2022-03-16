@@ -238,14 +238,14 @@ class FlipperAnchor extends JointAnchor {
   /// {@macro flipper_anchor}
   FlipperAnchor({
     required Flipper flipper,
-  }) : super(
-          position: Vector2(
-            flipper.side.isLeft
-                ? flipper.body.position.x - Flipper.width / 2
-                : flipper.body.position.x + Flipper.width / 2,
-            flipper.body.position.y,
-          ),
-        );
+  }) {
+    initialPosition = Vector2(
+      flipper.side.isLeft
+          ? flipper.body.position.x - Flipper.width / 2
+          : flipper.body.position.x + Flipper.width / 2,
+      flipper.body.position.y,
+    );
+  }
 }
 
 /// {@template flipper_anchor_revolute_joint_def}
