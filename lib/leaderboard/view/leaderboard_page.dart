@@ -27,13 +27,15 @@ class LeaderboardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ThemeCubit()..characterSelected(theme),
-      child: const LeaderboardView(),
+      child: LeaderboardView(theme: theme),
     );
   }
 }
 
 class LeaderboardView extends StatelessWidget {
-  const LeaderboardView({Key? key}) : super(key: key);
+  const LeaderboardView({Key? key, required this.theme}) : super(key: key);
+
+  final CharacterTheme theme;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +53,7 @@ class LeaderboardView extends StatelessWidget {
                 style: Theme.of(context).textTheme.headline3,
               ),
               const SizedBox(height: 80),
-              const _LeaderboardRanking(),
+              _LeaderboardRanking(theme: theme),
               const SizedBox(height: 20),
               TextButton(
                 onPressed: () => Navigator.of(context).push<void>(
@@ -68,7 +70,9 @@ class LeaderboardView extends StatelessWidget {
 }
 
 class _LeaderboardRanking extends StatelessWidget {
-  const _LeaderboardRanking({Key? key}) : super(key: key);
+  const _LeaderboardRanking({Key? key, required this.theme}) : super(key: key);
+
+  final CharacterTheme theme;
 
   @override
   Widget build(BuildContext context) {
@@ -76,9 +80,9 @@ class _LeaderboardRanking extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          _LeaderboardHeaders(),
-          _LeaderboardList(),
+        children: [
+          _LeaderboardHeaders(theme: theme),
+          const _LeaderboardList(),
         ],
       ),
     );
@@ -86,7 +90,9 @@ class _LeaderboardRanking extends StatelessWidget {
 }
 
 class _LeaderboardHeaders extends StatelessWidget {
-  const _LeaderboardHeaders({Key? key}) : super(key: key);
+  const _LeaderboardHeaders({Key? key, required this.theme}) : super(key: key);
+
+  final CharacterTheme theme;
 
   @override
   Widget build(BuildContext context) {
@@ -95,18 +101,23 @@ class _LeaderboardHeaders extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _LeaderboardHeaderItem(title: l10n.rank),
-        _LeaderboardHeaderItem(title: l10n.character),
-        _LeaderboardHeaderItem(title: l10n.userName),
-        _LeaderboardHeaderItem(title: l10n.score),
+        _LeaderboardHeaderItem(title: l10n.rank, theme: theme),
+        _LeaderboardHeaderItem(title: l10n.character, theme: theme),
+        _LeaderboardHeaderItem(title: l10n.userName, theme: theme),
+        _LeaderboardHeaderItem(title: l10n.score, theme: theme),
       ],
     );
   }
 }
 
 class _LeaderboardHeaderItem extends StatelessWidget {
-  const _LeaderboardHeaderItem({Key? key, required this.title})
-      : super(key: key);
+  const _LeaderboardHeaderItem({
+    Key? key,
+    required this.title,
+    required this.theme,
+  }) : super(key: key);
+
+  final CharacterTheme theme;
   final String title;
 
   @override
@@ -114,8 +125,7 @@ class _LeaderboardHeaderItem extends StatelessWidget {
     return Expanded(
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color:
-              context.read<ThemeCubit>().state.theme.characterTheme.ballColor,
+          color: theme.ballColor,
         ),
         child: Text(
           title,
