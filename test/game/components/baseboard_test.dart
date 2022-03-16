@@ -15,13 +15,12 @@ void main() {
       (game) async {
         await game.ready();
         final leftBaseboard = Baseboard(
-          position: Vector2.zero(),
           side: BoardSide.left,
-        );
+        )..initialPosition = Vector2.zero();
         final rightBaseboard = Baseboard(
-          position: Vector2.zero(),
           side: BoardSide.right,
-        );
+        )..initialPosition = Vector2.zero();
+
         await game.ensureAddAll([leftBaseboard, rightBaseboard]);
 
         expect(game.contains(leftBaseboard), isTrue);
@@ -35,13 +34,13 @@ void main() {
         (game) async {
           final position = Vector2.all(10);
           final baseboard = Baseboard(
-            position: position,
             side: BoardSide.left,
-          );
+          )..initialPosition = position;
+
           await game.ensureAdd(baseboard);
           game.contains(baseboard);
 
-          expect(baseboard.body.position, position);
+          expect(baseboard.body.position, equals(position));
         },
       );
 
@@ -49,9 +48,9 @@ void main() {
         'is static',
         (game) async {
           final baseboard = Baseboard(
-            position: Vector2.zero(),
             side: BoardSide.left,
-          );
+          )..initialPosition = Vector2.zero();
+
           await game.ensureAdd(baseboard);
 
           expect(baseboard.body.bodyType, equals(BodyType.static));
@@ -62,13 +61,11 @@ void main() {
         'is at an angle',
         (game) async {
           final leftBaseboard = Baseboard(
-            position: Vector2.zero(),
             side: BoardSide.left,
-          );
+          )..initialPosition = Vector2.zero();
           final rightBaseboard = Baseboard(
-            position: Vector2.zero(),
             side: BoardSide.right,
-          );
+          )..initialPosition = Vector2.zero();
           await game.ensureAddAll([leftBaseboard, rightBaseboard]);
 
           expect(leftBaseboard.body.angle, isNegative);
@@ -82,9 +79,8 @@ void main() {
         'has three',
         (game) async {
           final baseboard = Baseboard(
-            position: Vector2.zero(),
             side: BoardSide.left,
-          );
+          )..initialPosition = Vector2.zero();
           await game.ensureAdd(baseboard);
 
           expect(baseboard.body.fixtures.length, equals(3));
