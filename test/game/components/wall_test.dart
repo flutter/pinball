@@ -106,7 +106,7 @@ void main() {
       );
 
       flameTester.test(
-        'has friction',
+        'has no friction',
         (game) async {
           final wall = Wall(
             start: Vector2.zero(),
@@ -115,7 +115,7 @@ void main() {
           await game.ensureAdd(wall);
 
           final fixture = wall.body.fixtures[0];
-          expect(fixture.friction, greaterThan(0));
+          expect(fixture.friction, equals(0));
         },
       );
     });
