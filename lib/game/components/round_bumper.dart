@@ -27,7 +27,7 @@ class RoundBumper extends BodyComponent with ScorePoints, InitialPosition {
 
     final fixtureDef = FixtureDef(shape)..restitution = 1;
 
-    final bodyDef = BodyDef()..type = BodyType.static;
+    final bodyDef = BodyDef()..position = initialPosition;
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
