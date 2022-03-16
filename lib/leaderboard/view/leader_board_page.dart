@@ -1,26 +1,27 @@
 // ignore_for_file: public_member_api_docs
 
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pinball/game/view/pinball_game_page.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/theme/theme.dart';
+import 'package:pinball_theme/pinball_theme.dart';
 
 class LeaderBoardPage extends StatelessWidget {
-  const LeaderBoardPage({Key? key}) : super(key: key);
+  const LeaderBoardPage({Key? key, required this.theme}) : super(key: key);
 
-  static Route route() {
+  final PinballTheme theme;
+
+  static Route route(PinballTheme theme) {
     return MaterialPageRoute<void>(
-      builder: (_) => const LeaderBoardPage(),
+      builder: (_) => LeaderBoardPage(theme: theme),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ThemeCubit(),
+      create: (context) =>
+          ThemeCubit()..characterSelected(theme.characterTheme),
       child: const LeaderBoardView(),
     );
   }
@@ -48,9 +49,7 @@ class LeaderBoardView extends StatelessWidget {
             const SizedBox(height: 20),
             TextButton(
               onPressed: () => Navigator.of(context).push<void>(
-                PinballGamePage.route(
-                  theme: context.read<ThemeCubit>().state.theme,
-                ),
+                CharacterSelectionPage.route(),
               ),
               child: Text(l10n.retry),
             ),
@@ -92,6 +91,7 @@ class _LeaderBoardHeaders extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _LeaderBoardHeaderItem(title: l10n.rank),
+        _LeaderBoardHeaderItem(title: l10n.character),
         _LeaderBoardHeaderItem(title: l10n.userName),
         _LeaderBoardHeaderItem(title: l10n.score),
       ],
@@ -131,6 +131,7 @@ class _LeaderBoardList extends StatelessWidget {
       itemBuilder: (_, index) => _LeaderBoardCompetitor(
         competitor: Competitor(
           rank: index,
+          characterTheme: const SparkyTheme(),
           userName: 'user$index',
           score: 0,
         ),
@@ -152,6 +153,9 @@ class _LeaderBoardCompetitor extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _LeaderBoardCompetitorField(text: competitor.rank.toString()),
+        _LeaderBoardCompetitorCharacter(
+          characterTheme: competitor.characterTheme,
+        ),
         _LeaderBoardCompetitorField(text: competitor.userName),
         _LeaderBoardCompetitorField(text: competitor.score.toString()),
       ],
@@ -184,10 +188,43 @@ class _LeaderBoardCompetitorField extends StatelessWidget {
   }
 }
 
+class _LeaderBoardCompetitorCharacter extends StatelessWidget {
+  const _LeaderBoardCompetitorCharacter({
+    Key? key,
+    required this.characterTheme,
+  }) : super(key: key);
+  final CharacterTheme characterTheme;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color:
+                context.read<ThemeCubit>().state.theme.characterTheme.ballColor,
+            width: 2,
+          ),
+        ),
+        child: SizedBox(
+          height: 30,
+          child: characterTheme.characterAsset.image(),
+        ),
+      ),
+    );
+  }
+}
+
 class Competitor {
-  Competitor({required this.rank, required this.userName, required this.score});
+  Competitor({
+    required this.rank,
+    required this.characterTheme,
+    required this.userName,
+    required this.score,
+  });
 
   final int rank;
+  final CharacterTheme characterTheme;
   final String userName;
   final int score;
 }

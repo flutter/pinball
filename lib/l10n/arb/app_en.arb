@@ -36,6 +36,10 @@
     "@rank": {
         "description": "Text displayed on the leaders board page header rank column"
     },
+    "character": "Character",
+    "@character": {
+        "description": "Text displayed on the leaders board page header character column"
+    },
     "userName": "UserName",
     "@userName": {
         "description": "Text displayed on the leaders board page header userName column"
