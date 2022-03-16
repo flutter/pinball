@@ -10,21 +10,16 @@ import 'package:pinball/game/game.dart';
 ///
 /// [SlingShot]s are usually positioned above each [Flipper].
 /// {@endtemplate sling_shot}
-class SlingShot extends BodyComponent {
+class SlingShot extends BodyComponent with InitialPosition {
   /// {@macro sling_shot}
   SlingShot({
-    required Vector2 position,
     required BoardSide side,
-  })  : _position = position,
-        _side = side {
+  }) : _side = side {
     // TODO(alestiago): Use sprite instead of color when provided.
     paint = Paint()
       ..color = const Color(0xFF00FF00)
       ..style = PaintingStyle.fill;
   }
-
-  /// The initial position of the [SlingShot] body.
-  final Vector2 _position;
 
   /// Whether the [SlingShot] is on the left or right side of the board.
   ///
@@ -33,18 +28,19 @@ class SlingShot extends BodyComponent {
   /// left.
   final BoardSide _side;
 
+  /// The size of the [SlingShot] body.
+  // TODO(alestiago): Use size from PositionedBodyComponent instead,
+  // once a sprite is given.
+  static final Vector2 size = Vector2(6, 8);
+
   List<FixtureDef> _createFixtureDefs() {
     final fixtures = <FixtureDef>[];
-
-    // TODO(alestiago): Use size from PositionedBodyComponent instead,
-    // once a sprite is given.
-    final size = Vector2(10, 10);
 
     // TODO(alestiago): This magic number can be deduced by specifying the
     // angle and using polar coordinate system to place the bottom right
     // vertex.
     // Something as: y = -size.y * math.cos(angle)
-    const additionalIncrement = 2;
+    const additionalIncrement = 3;
     final triangleVertices = _side.isLeft
         ? [
             Vector2(0, 0),
@@ -78,7 +74,7 @@ class SlingShot extends BodyComponent {
       );
     // TODO(alestiago): Play with restitution value once game is bundled.
     final kickerFixtureDef = FixtureDef(kicker)
-      ..restitution = 20.0
+      ..restitution = 10.0
       ..friction = 0;
     fixtures.add(kickerFixtureDef);
 
@@ -87,7 +83,7 @@ class SlingShot extends BodyComponent {
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()..position = _position;
+    final bodyDef = BodyDef()..position = initialPosition;
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
 

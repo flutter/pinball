@@ -74,10 +74,9 @@ class BonusWord extends Component with BlocComponent<GameBloc, GameState> {
       unawaited(
         add(
           BonusLetter(
-            position: _position - Vector2(16 - (i * 6), -30),
             letter: letters[i],
             index: i,
-          ),
+          )..initialPosition = _position - Vector2(16 - (i * 6), -30),
         ),
       );
     }
@@ -89,14 +88,12 @@ class BonusWord extends Component with BlocComponent<GameBloc, GameState> {
 /// which will activate its letter after contact with a [Ball].
 /// {@endtemplate}
 class BonusLetter extends BodyComponent<PinballGame>
-    with BlocComponent<GameBloc, GameState> {
+    with BlocComponent<GameBloc, GameState>, InitialPosition {
   /// {@macro bonus_letter}
   BonusLetter({
-    required Vector2 position,
     required String letter,
     required int index,
-  })  : _position = position,
-        _letter = letter,
+  })  : _letter = letter,
         _index = index {
     paint = Paint()..color = _disableColor;
   }
@@ -107,7 +104,6 @@ class BonusLetter extends BodyComponent<PinballGame>
   static const _activeColor = Colors.green;
   static const _disableColor = Colors.red;
 
-  final Vector2 _position;
   final String _letter;
   final int _index;
 
@@ -133,8 +129,8 @@ class BonusLetter extends BodyComponent<PinballGame>
     final fixtureDef = FixtureDef(shape)..isSensor = true;
 
     final bodyDef = BodyDef()
+      ..position = initialPosition
       ..userData = this
-      ..position = _position
       ..type = BodyType.static;
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);

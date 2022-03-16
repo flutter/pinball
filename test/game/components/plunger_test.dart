@@ -23,7 +23,6 @@ void main() {
       (game) async {
         await game.ready();
         final plunger = Plunger(
-          position: Vector2.zero(),
           compressionDistance: compressionDistance,
         );
         await game.ensureAdd(plunger);
@@ -34,25 +33,9 @@ void main() {
 
     group('body', () {
       flameTester.test(
-        'positions correctly',
-        (game) async {
-          final position = Vector2.all(10);
-          final plunger = Plunger(
-            position: position,
-            compressionDistance: compressionDistance,
-          );
-          await game.ensureAdd(plunger);
-          game.contains(plunger);
-
-          expect(plunger.body.position, position);
-        },
-      );
-
-      flameTester.test(
         'is dynamic',
         (game) async {
           final plunger = Plunger(
-            position: Vector2.zero(),
             compressionDistance: compressionDistance,
           );
           await game.ensureAdd(plunger);
@@ -65,7 +48,6 @@ void main() {
         'ignores gravity',
         (game) async {
           final plunger = Plunger(
-            position: Vector2.zero(),
             compressionDistance: compressionDistance,
           );
           await game.ensureAdd(plunger);
@@ -80,7 +62,6 @@ void main() {
         'exists',
         (game) async {
           final plunger = Plunger(
-            position: Vector2.zero(),
             compressionDistance: compressionDistance,
           );
           await game.ensureAdd(plunger);
@@ -93,7 +74,6 @@ void main() {
         'shape is a polygon',
         (game) async {
           final plunger = Plunger(
-            position: Vector2.zero(),
             compressionDistance: compressionDistance,
           );
           await game.ensureAdd(plunger);
@@ -107,7 +87,6 @@ void main() {
         'has density',
         (game) async {
           final plunger = Plunger(
-            position: Vector2.zero(),
             compressionDistance: compressionDistance,
           );
           await game.ensureAdd(plunger);
@@ -129,7 +108,6 @@ void main() {
 
       setUp(() {
         plunger = Plunger(
-          position: Vector2.zero(),
           compressionDistance: compressionDistance,
         );
       });
@@ -194,7 +172,6 @@ void main() {
       'position is a compression distance below the Plunger',
       (game) async {
         final plunger = Plunger(
-          position: Vector2.zero(),
           compressionDistance: compressionDistance,
         );
         await game.ensureAdd(plunger);
@@ -222,7 +199,6 @@ void main() {
         initialState: const GameState.initial(),
       );
       plunger = Plunger(
-        position: Vector2.zero(),
         compressionDistance: compressionDistance,
       );
     });
