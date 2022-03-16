@@ -9,9 +9,6 @@ mixin InitialPosition<T extends Forge2DGame> on BodyComponent<T> {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    assert(
-      body.position == initialPosition,
-      'Body position is not equal to initial position.',
-    );
+    body.position.setFrom(initialPosition);
   }
 }

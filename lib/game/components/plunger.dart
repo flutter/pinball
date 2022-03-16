@@ -26,7 +26,6 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
 
     final bodyDef = BodyDef()
       ..userData = this
-      ..position = initialPosition
       ..type = BodyType.dynamic
       ..gravityScale = 0;
 

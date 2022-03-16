@@ -22,8 +22,6 @@ class JointAnchor extends BodyComponent with InitialPosition {
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()..position = initialPosition;
-
-    return world.createBody(bodyDef);
+    return world.createBody(BodyDef());
   }
 }

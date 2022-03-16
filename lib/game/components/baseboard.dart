@@ -58,7 +58,6 @@ class Baseboard extends BodyComponent with InitialPosition {
     const angle = math.pi / 7;
 
     final bodyDef = BodyDef()
-      ..position = initialPosition
       ..type = BodyType.static
       ..angle = _side.isLeft ? -angle : angle;
 

@@ -40,7 +40,6 @@ class Ball extends BodyComponent<PinballGame> with InitialPosition {
 
     final bodyDef = BodyDef()
       ..userData = this
-      ..position = initialPosition
       ..type = BodyType.dynamic;
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);

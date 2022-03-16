@@ -12,13 +12,6 @@ class TestBodyComponent extends BodyComponent with InitialPosition {
   }
 }
 
-class TestPositionedBodyComponent extends BodyComponent with InitialPosition {
-  @override
-  Body createBody() {
-    return world.createBody(BodyDef()..position = initialPosition);
-  }
-}
-
 void main() {
   final flameTester = FlameTester(Forge2DGame.new);
   group('InitialPosition', () {
@@ -35,32 +28,11 @@ void main() {
       );
     });
 
-    flameTester.test(
-      'returns normally '
-      'when the body sets the position to initial position',
-      (game) async {
-        final component = TestPositionedBodyComponent()
-          ..initialPosition = Vector2.zero();
-
-        await expectLater(
-          () async => game.ensureAdd(component),
-          returnsNormally,
-        );
-      },
-    );
-
-    flameTester.test(
-      'throws AssertionError '
-      'when not setting initialPosition to body',
-      (game) async {
-        final component = TestBodyComponent()..initialPosition = Vector2.zero();
-        await game.ensureAdd(component);
-
-        await expectLater(
-          () async => game.ensureAdd(component),
-          throwsAssertionError,
-        );
-      },
-    );
+    flameTester.test('positions correctly', (game) async {
+      final position = Vector2.all(10);
+      final component = TestBodyComponent()..initialPosition = position;
+      await game.ensureAdd(component);
+      expect(component.body.position, equals(position));
+    });
   });
 }

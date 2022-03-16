@@ -130,7 +130,6 @@ class BonusLetter extends BodyComponent<PinballGame>
 
     final bodyDef = BodyDef()
       ..userData = this
-      ..position = initialPosition
       ..type = BodyType.static;
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
