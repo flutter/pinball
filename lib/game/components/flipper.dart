@@ -203,9 +203,6 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
     RawKeyEvent event,
     Set<LogicalKeyboardKey> keysPressed,
   ) {
-    // TODO(alestiago): Check why false cancels the event for other components.
-    // Investigate why return is of type [bool] expected instead of a type
-    // [KeyEventResult].
     if (!_keys.contains(event.logicalKey)) return true;
 
     if (event is RawKeyDownEvent) {
@@ -214,7 +211,7 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
       _moveDown();
     }
 
-    return true;
+    return false;
   }
 }
 
