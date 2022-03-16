@@ -32,8 +32,10 @@ void main() {
       'when BodyDef is not positioned with initialPosition',
       (game) async {
         // TODO(alestiago): Make this pass.
-        final component = TestBodyComponent();
-        await game.ready();
+        final component = TestBodyComponent()
+          ..initialPosition = Vector2.all(
+            10,
+          );
         await expectLater(
           () => game.ensureAdd(component),
           throwsAssertionError,
