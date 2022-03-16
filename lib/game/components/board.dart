@@ -2,7 +2,8 @@ import 'package:flame/components.dart';
 import 'package:pinball/game/game.dart';
 
 /// {@template board}
-///
+/// The main flat surface of the [PinballGame], where the [Flipper]s,
+/// [RoundBumper]s, [SlingShot]s are arranged.
 /// {entemplate}
 class Board extends Component {
   /// {@macro board}
@@ -21,7 +22,7 @@ class Board extends Component {
       spacing: 2,
     );
 
-    final dashForest = _DashForest(
+    final dashForest = _FlutterForest(
       position: Vector2(
         _size.x / 1.25,
         _size.y / 4.25,
@@ -35,8 +36,13 @@ class Board extends Component {
   }
 }
 
-class _DashForest extends Component {
-  _DashForest({
+/// {@template dash_forest}
+/// Area positioned at the top right of the [Board] where the [Ball]
+/// can bounce off [RoundBumper]s.
+/// {@endtemplate}
+class _FlutterForest extends Component {
+  /// {@macro dash_forest}
+  _FlutterForest({
     required this.position,
   });
 
@@ -45,6 +51,7 @@ class _DashForest extends Component {
   @override
   Future<void> onLoad() async {
     // TODO(alestiago): adjust positioning once sprites are added.
+    // TODO(alestiago): Use [NestBumper] instead of [RoundBumpet] once provided.
     final smallLeftNest = RoundBumper(
       position: position + Vector2(-4.8, 2.8),
       radius: 1,
