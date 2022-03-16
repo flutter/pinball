@@ -36,12 +36,12 @@ class Board extends Component {
   }
 }
 
-/// {@template dash_forest}
+/// {@template flutter_forest}
 /// Area positioned at the top right of the [Board] where the [Ball]
 /// can bounce off [RoundBumper]s.
 /// {@endtemplate}
 class _FlutterForest extends Component {
-  /// {@macro dash_forest}
+  /// {@macro flutter_forest}
   _FlutterForest({
     required this.position,
   });
@@ -79,7 +79,7 @@ class _FlutterForest extends Component {
 /// {@template bottom_group}
 /// Grouping of the board's bottom [Component]s.
 ///
-/// The bottom [Component]s are the [Flipper]s and the [Baseboard]s.
+/// The [_BottomGroup] consists of[Flipper]s, [Baseboard]s and [SlingShot]s.
 /// {@endtemplate}
 // TODO(alestiago): Consider renaming once entire Board is defined.
 class _BottomGroup extends Component {
