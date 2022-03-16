@@ -11,7 +11,7 @@ mixin InitialPosition<T extends Forge2DGame> on BodyComponent<T> {
   set initialPosition(Vector2 value) {
     assert(
       !isLoaded,
-      'Cannot set initialPosition after component has been loaded.',
+      'Cannot set initialPosition after component has already loaded.',
     );
     if (value == initialPosition) return;
 
