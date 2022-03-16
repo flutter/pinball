@@ -112,7 +112,7 @@ class _BottomGroup extends Component {
 }
 
 /// {@template bottom_group_side}
-/// Group with one side of [BottomGroup]'s symmetric [Component]s.
+/// Group with one side of [_BottomGroup]'s symmetric [Component]s.
 ///
 /// For example, [Flipper]s are symmetric components.
 /// {@endtemplate}
