@@ -33,6 +33,7 @@ class LauncherRamp extends Component with HasGameRef<PinballGame> {
         start: Vector2(0, 0),
         end: Vector2(0, 600),
         width: 80,
+        layer: Layer.launcher,
       ),
     );
 
@@ -48,7 +49,7 @@ class LauncherRamp extends Component with HasGameRef<PinballGame> {
     );
     await add(
       LauncherRampOpening(
-        position: position + Vector2(-46.5, -9),
+        position: position + Vector2(-46.5, -8.5),
         orientation: RampOrientation.down,
         rotation: radians(13),
       ),
@@ -78,7 +79,7 @@ class LauncherRampOpening extends RampOpening {
         _orientation = orientation,
         super(
           position: position,
-          layer: Layer.launcher,
+          pathwayLayer: Layer.launcher,
         );
 
   /// Orientation of entrance/exit of [LauncherRamp] where

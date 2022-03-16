@@ -19,8 +19,6 @@ class JetpackRamp extends Component with HasGameRef<PinballGame> {
   final double _width = 80;
   final double _angle = radians(210);
   final double _rotation = radians(-10);
-  final double _entranceRotation = radians(15);
-  final double _exitRotation = radians(-5);
 
   /// The position of this [JetpackRamp]
   final Vector2 position;
@@ -41,16 +39,16 @@ class JetpackRamp extends Component with HasGameRef<PinballGame> {
 
     await add(
       JetpackRampOpening(
-        position: position + Vector2(-10.5, 0),
-        rotation: _entranceRotation,
+        position: position + Vector2(-11, .5),
         orientation: RampOrientation.down,
+        rotation: radians(15),
       ),
     );
     await add(
       JetpackRampOpening(
-        position: position + Vector2(20.5, 3),
-        rotation: _exitRotation,
+        position: position + Vector2(20.5, 3.4),
         orientation: RampOrientation.down,
+        rotation: radians(-9),
       ),
     );
 
@@ -66,13 +64,15 @@ class JetpackRampOpening extends RampOpening {
   /// {@macro jetpack_ramp_opening}
   JetpackRampOpening({
     required Vector2 position,
-    double rotation = 0,
     required RampOrientation orientation,
+    double rotation = 0,
+    Layer? openingLayer,
   })  : _rotation = rotation,
         _orientation = orientation,
         super(
           position: position,
-          layer: Layer.jetpack,
+          pathwayLayer: Layer.jetpack,
+          openingLayer: openingLayer,
         );
 
   /// Orientation of entrance/exit of [JetpackRamp] where

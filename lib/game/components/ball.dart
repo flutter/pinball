@@ -12,7 +12,7 @@ class Ball extends BodyComponent<PinballGame> with Layered {
     required Vector2 position,
     Layer? layer,
   })  : _position = position,
-        _layer = layer ?? Layer.all;
+        _layer = layer ?? Layer.board;
 
   /// The initial position of the [Ball] body.
   final Vector2 _position;
