@@ -74,7 +74,7 @@ void main() {
       flameTester.test(
         'has default filter maskBits',
         (game) async {
-          final ball = Ball(position: Vector2.zero());
+          final ball = Ball();
           await game.ensureAdd(ball);
 
           final fixture = ball.body.fixtures[0];
@@ -158,7 +158,7 @@ void main() {
         (game) async {
           const newLayer = Layer.jetpack;
 
-          final ball = Ball(position: Vector2.zero());
+          final ball = Ball();
           await game.ensureAdd(ball);
 
           final fixture = ball.body.fixtures[0];

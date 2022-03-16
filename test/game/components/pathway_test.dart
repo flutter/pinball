@@ -131,7 +131,6 @@ void main() {
           'has default filter categoryBits when not modified',
           (game) async {
             final pathway = Pathway.straight(
-              position: Vector2.zero(),
               start: Vector2(10, 10),
               end: Vector2(20, 20),
               width: width,
@@ -154,7 +153,6 @@ void main() {
           (game) async {
             const layer = Layer.jetpack;
             final pathway = Pathway.straight(
-              position: Vector2.zero(),
               start: Vector2(10, 10),
               end: Vector2(20, 20),
               width: width,
