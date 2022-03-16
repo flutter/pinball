@@ -1,15 +1,83 @@
 import 'package:flame/components.dart';
 import 'package:pinball/game/game.dart';
 
+/// {@template board}
+///
+/// {entemplate}
+class Board extends Component {
+  /// {@macro board}
+  Board({required Vector2 size}) : _size = size;
+
+  final Vector2 _size;
+
+  @override
+  Future<void> onLoad() async {
+    // TODO(alestiago): adjust positioning once sprites are added.
+    final bottomGroup = _BottomGroup(
+      position: Vector2(
+        _size.x / 2,
+        _size.y / 1.25,
+      ),
+      spacing: 2,
+    );
+
+    final dashForest = _DashForest(
+      position: Vector2(
+        _size.x / 1.25,
+        _size.y / 4.25,
+      ),
+    );
+
+    await addAll([
+      bottomGroup,
+      dashForest,
+    ]);
+  }
+}
+
+class _DashForest extends Component {
+  _DashForest({
+    required this.position,
+  });
+
+  final Vector2 position;
+
+  @override
+  Future<void> onLoad() async {
+    // TODO(alestiago): adjust positioning once sprites are added.
+    final smallLeftNest = RoundBumper(
+      position: position + Vector2(-4.8, 2.8),
+      radius: 1,
+      points: 10,
+    );
+    final smallRightNest = RoundBumper(
+      position: position + Vector2(0.5, -5.5),
+      radius: 1,
+      points: 10,
+    );
+    final bigNest = RoundBumper(
+      position: position,
+      radius: 2,
+      points: 20,
+    );
+
+    await addAll([
+      smallLeftNest,
+      smallRightNest,
+      bigNest,
+    ]);
+  }
+}
+
 /// {@template bottom_group}
 /// Grouping of the board's bottom [Component]s.
 ///
 /// The bottom [Component]s are the [Flipper]s and the [Baseboard]s.
 /// {@endtemplate}
 // TODO(alestiago): Consider renaming once entire Board is defined.
-class BottomGroup extends Component {
+class _BottomGroup extends Component {
   /// {@macro bottom_group}
-  BottomGroup({
+  _BottomGroup({
     required this.position,
     required this.spacing,
   });
@@ -17,7 +85,7 @@ class BottomGroup extends Component {
   /// The amount of space between the line of symmetry.
   final double spacing;
 
-  /// The position of this [BottomGroup].
+  /// The position of this [_BottomGroup].
   final Vector2 position;
 
   @override

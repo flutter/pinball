@@ -49,19 +49,19 @@ class PinballGame extends Forge2DGame
     );
 
     unawaited(_addBonusWord());
-    unawaited(
-      add(
-        BottomGroup(
-          position: screenToWorld(
-            Vector2(
-              camera.viewport.effectiveSize.x / 2,
-              camera.viewport.effectiveSize.y / 1.25,
-            ),
-          ),
-          spacing: 2,
+    unawaited(_addBoard());
+  }
+
+  Future<void> _addBoard() async {
+    final board = Board(
+      size: screenToWorld(
+        Vector2(
+          camera.viewport.effectiveSize.x,
+          camera.viewport.effectiveSize.y,
         ),
       ),
     );
+    await add(board);
   }
 
   Future<void> _addBonusWord() async {
