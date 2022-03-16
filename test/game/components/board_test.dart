@@ -84,8 +84,8 @@ void main() {
           await game.ready();
           await game.ensureAdd(board);
 
-          final leftFlippers = board.findNestedChildren<RoundBumper>();
-          expect(leftFlippers.length, equals(3));
+          final roundBumpers = board.findNestedChildren<RoundBumper>();
+          expect(roundBumpers.length, equals(3));
         },
       );
     });
