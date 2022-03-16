@@ -48,9 +48,20 @@ class PinballGame extends Forge2DGame
       ),
     );
 
-    unawaited(_addFlippers());
-
     unawaited(_addBonusWord());
+    unawaited(
+      add(
+        BottomGroup(
+          position: screenToWorld(
+            Vector2(
+              camera.viewport.effectiveSize.x / 2,
+              camera.viewport.effectiveSize.y / 1.25,
+            ),
+          ),
+          spacing: 2,
+        ),
+      ),
+    );
   }
 
   Future<void> _addBonusWord() async {
@@ -64,25 +75,6 @@ class PinballGame extends Forge2DGame
         ),
       ),
     );
-  }
-
-  Future<void> _addFlippers() async {
-    final flippersPosition = screenToWorld(
-      Vector2(
-        camera.viewport.effectiveSize.x / 2,
-        camera.viewport.effectiveSize.y / 1.1,
-      ),
-    );
-
-    unawaited(
-      add(
-        FlipperGroup(
-          position: flippersPosition,
-          spacing: 2,
-        ),
-      ),
-    );
-    unawaited(_addBaseboards());
   }
 
   void spawnBall() {
@@ -114,31 +106,6 @@ class PinballGame extends Forge2DGame
         compressionDistance: compressionDistance,
       ),
     );
-  }
-
-  Future<void> _addBaseboards() async {
-    final spaceBetweenBaseboards = camera.viewport.effectiveSize.x / 2;
-    final baseboardY = camera.viewport.effectiveSize.y / 1.12;
-
-    final leftBaseboard = Baseboard.left(
-      position: screenToWorld(
-        Vector2(
-          camera.viewport.effectiveSize.x / 2 - (spaceBetweenBaseboards / 2),
-          baseboardY,
-        ),
-      ),
-    );
-    await add(leftBaseboard);
-
-    final rightBaseboard = Baseboard.right(
-      position: screenToWorld(
-        Vector2(
-          camera.viewport.effectiveSize.x / 2 + (spaceBetweenBaseboards / 2),
-          baseboardY,
-        ),
-      ),
-    );
-    await add(rightBaseboard);
   }
 }
 
