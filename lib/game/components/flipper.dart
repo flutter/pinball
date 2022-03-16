@@ -8,61 +8,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball/game/game.dart';
 
-/// {@template flipper_group}
-/// Loads a [Flipper.right] and a [Flipper.left].
-/// {@endtemplate}
-class FlipperGroup extends Component {
-  /// {@macro flipper_group}
-  FlipperGroup({
-    required this.position,
-    required this.spacing,
-  });
-
-  /// The amount of space between the [Flipper.right] and [Flipper.left].
-  final double spacing;
-
-  /// The position of this [FlipperGroup]
-  final Vector2 position;
-
-  @override
-  Future<void> onLoad() async {
-    final leftFlipper = Flipper.left(
-      position: Vector2(
-        position.x - (Flipper.width / 2) - (spacing / 2),
-        position.y,
-      ),
-    );
-    await add(leftFlipper);
-
-    final rightFlipper = Flipper.right(
-      position: Vector2(
-        position.x + (Flipper.width / 2) + (spacing / 2),
-        position.y,
-      ),
-    );
-    await add(rightFlipper);
-  }
-}
-
 /// {@template flipper}
 /// A bat, typically found in pairs at the bottom of the board.
 ///
 /// [Flipper] can be controlled by the player in an arc motion.
 /// {@endtemplate flipper}
-class Flipper extends BodyComponent with KeyboardHandler {
+class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   /// {@macro flipper}
   Flipper._({
-    required Vector2 position,
     required this.side,
     required List<LogicalKeyboardKey> keys,
-  })  : _position = position,
-        _keys = keys;
+  }) : _keys = keys;
 
-  /// A left positioned [Flipper].
-  Flipper.left({
-    required Vector2 position,
-  }) : this._(
-          position: position,
+  Flipper._left()
+      : this._(
           side: BoardSide.left,
           keys: [
             LogicalKeyboardKey.arrowLeft,
@@ -70,17 +29,29 @@ class Flipper extends BodyComponent with KeyboardHandler {
           ],
         );
 
-  /// A right positioned [Flipper].
-  Flipper.right({
-    required Vector2 position,
-  }) : this._(
-          position: position,
+  Flipper._right()
+      : this._(
           side: BoardSide.right,
           keys: [
             LogicalKeyboardKey.arrowRight,
             LogicalKeyboardKey.keyD,
           ],
         );
+
+  /// Constructs a [Flipper] from a [BoardSide].
+  ///
+  /// A [Flipper._right] and [Flipper._left] besides being mirrored
+  /// horizontally, also have different [LogicalKeyboardKey]s that control them.
+  factory Flipper.fromSide({
+    required BoardSide side,
+  }) {
+    switch (side) {
+      case BoardSide.left:
+        return Flipper._left();
+      case BoardSide.right:
+        return Flipper._right();
+    }
+  }
 
   /// Asset location of the sprite that renders with the [Flipper].
   ///
@@ -103,9 +74,6 @@ class Flipper extends BodyComponent with KeyboardHandler {
   /// A [Flipper] with [BoardSide.left] has a counter-clockwise arc motion,
   /// whereas a [Flipper] with [BoardSide.right] has a clockwise arc motion.
   final BoardSide side;
-
-  /// The initial position of the [Flipper] body.
-  final Vector2 _position;
 
   /// The [LogicalKeyboardKey]s that will control the [Flipper].
   ///
@@ -221,10 +189,9 @@ class Flipper extends BodyComponent with KeyboardHandler {
   @override
   Body createBody() {
     final bodyDef = BodyDef()
+      ..position = initialPosition
       ..gravityScale = 0
-      ..type = BodyType.dynamic
-      ..position = _position;
-
+      ..type = BodyType.dynamic;
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
 
@@ -260,14 +227,14 @@ class FlipperAnchor extends JointAnchor {
   /// {@macro flipper_anchor}
   FlipperAnchor({
     required Flipper flipper,
-  }) : super(
-          position: Vector2(
-            flipper.side.isLeft
-                ? flipper.body.position.x - Flipper.width / 2
-                : flipper.body.position.x + Flipper.width / 2,
-            flipper.body.position.y,
-          ),
-        );
+  }) {
+    initialPosition = Vector2(
+      flipper.side.isLeft
+          ? flipper.body.position.x - Flipper.width / 2
+          : flipper.body.position.x + Flipper.width / 2,
+      flipper.body.position.y,
+    );
+  }
 }
 
 /// {@template flipper_anchor_revolute_joint_def}
