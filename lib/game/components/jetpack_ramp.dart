@@ -28,7 +28,7 @@ class JetpackRamp extends Component with HasGameRef<PinballGame> {
     await add(
       Pathway.arc(
         color: const Color.fromARGB(255, 8, 218, 241),
-        position: position,
+        center: position,
         width: _width,
         radius: _radius,
         angle: _angle,

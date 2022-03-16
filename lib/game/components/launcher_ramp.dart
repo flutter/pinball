@@ -29,7 +29,6 @@ class LauncherRamp extends Component with HasGameRef<PinballGame> {
     await add(
       Pathway.straight(
         color: const Color.fromARGB(255, 34, 255, 0),
-        position: position,
         start: Vector2(0, 0),
         end: Vector2(0, 600),
         width: 80,
@@ -40,7 +39,7 @@ class LauncherRamp extends Component with HasGameRef<PinballGame> {
     await add(
       Pathway.arc(
         color: const Color.fromARGB(255, 251, 255, 0),
-        position: position + Vector2(-28.8, -6),
+        center: position + Vector2(-28.8, -6),
         radius: _radius,
         angle: _angle,
         width: _width,
