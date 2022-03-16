@@ -11,7 +11,7 @@ class LeaderBoardPage extends StatelessWidget {
 
   final PinballTheme theme;
 
-  static Route route(PinballTheme theme) {
+  static Route route({required PinballTheme theme}) {
     return MaterialPageRoute<void>(
       builder: (_) => LeaderBoardPage(theme: theme),
     );
@@ -36,24 +36,26 @@ class LeaderBoardView extends StatelessWidget {
 
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(height: 80),
-            Text(
-              l10n.leadersBoard,
-              style: Theme.of(context).textTheme.headline3,
-            ),
-            const SizedBox(height: 80),
-            const _LeaderBoardView(),
-            const SizedBox(height: 20),
-            TextButton(
-              onPressed: () => Navigator.of(context).push<void>(
-                CharacterSelectionPage.route(),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 80),
+              Text(
+                l10n.leadersBoard,
+                style: Theme.of(context).textTheme.headline3,
               ),
-              child: Text(l10n.retry),
-            ),
-          ],
+              const SizedBox(height: 80),
+              const _LeaderBoardView(),
+              const SizedBox(height: 20),
+              TextButton(
+                onPressed: () => Navigator.of(context).push<void>(
+                  CharacterSelectionPage.route(),
+                ),
+                child: Text(l10n.retry),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -67,14 +69,12 @@ class _LeaderBoardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(20),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            _LeaderBoardHeaders(),
-            _LeaderBoardList(),
-          ],
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          _LeaderBoardHeaders(),
+          _LeaderBoardList(),
+        ],
       ),
     );
   }

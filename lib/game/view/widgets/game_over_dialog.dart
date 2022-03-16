@@ -30,7 +30,7 @@ class GameOverDialog extends StatelessWidget {
               Text(l10n.gameOver),
               TextButton(
                 onPressed: () => Navigator.of(context).push<void>(
-                  LeaderBoardPage.route(theme),
+                  LeaderBoardPage.route(theme: theme),
                 ),
                 child: Text(l10n.leadersBoard),
               ),
