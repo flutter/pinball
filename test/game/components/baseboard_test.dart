@@ -16,10 +16,10 @@ void main() {
         await game.ready();
         final leftBaseboard = Baseboard(
           side: BoardSide.left,
-        )..initialPosition = Vector2.zero();
+        );
         final rightBaseboard = Baseboard(
           side: BoardSide.right,
-        )..initialPosition = Vector2.zero();
+        );
 
         await game.ensureAddAll([leftBaseboard, rightBaseboard]);
 
@@ -49,7 +49,7 @@ void main() {
         (game) async {
           final baseboard = Baseboard(
             side: BoardSide.left,
-          )..initialPosition = Vector2.zero();
+          );
 
           await game.ensureAdd(baseboard);
 
@@ -62,10 +62,10 @@ void main() {
         (game) async {
           final leftBaseboard = Baseboard(
             side: BoardSide.left,
-          )..initialPosition = Vector2.zero();
+          );
           final rightBaseboard = Baseboard(
             side: BoardSide.right,
-          )..initialPosition = Vector2.zero();
+          );
           await game.ensureAddAll([leftBaseboard, rightBaseboard]);
 
           expect(leftBaseboard.body.angle, isNegative);
@@ -80,7 +80,7 @@ void main() {
         (game) async {
           final baseboard = Baseboard(
             side: BoardSide.left,
-          )..initialPosition = Vector2.zero();
+          );
           await game.ensureAdd(baseboard);
 
           expect(baseboard.body.fixtures.length, equals(3));

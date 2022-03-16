@@ -125,7 +125,7 @@ void main() {
         final bonusLetter = BonusLetter(
           letter: 'G',
           index: 0,
-        )..initialPosition = Vector2.zero();
+        );
         await game.ensureAdd(bonusLetter);
         await game.ready();
 
@@ -155,7 +155,7 @@ void main() {
           final bonusLetter = BonusLetter(
             letter: 'G',
             index: 0,
-          )..initialPosition = Vector2.zero();
+          );
           await game.ensureAdd(bonusLetter);
 
           expect(bonusLetter.body.bodyType, equals(BodyType.static));
@@ -170,7 +170,7 @@ void main() {
           final bonusLetter = BonusLetter(
             letter: 'G',
             index: 0,
-          )..initialPosition = Vector2.zero();
+          );
           await game.ensureAdd(bonusLetter);
 
           expect(bonusLetter.body.fixtures[0], isA<Fixture>());
@@ -183,7 +183,7 @@ void main() {
           final bonusLetter = BonusLetter(
             letter: 'G',
             index: 0,
-          )..initialPosition = Vector2.zero();
+          );
           await game.ensureAdd(bonusLetter);
 
           final fixture = bonusLetter.body.fixtures[0];
@@ -197,7 +197,7 @@ void main() {
           final bonusLetter = BonusLetter(
             letter: 'G',
             index: 0,
-          )..initialPosition = Vector2.zero();
+          );
           await game.ensureAdd(bonusLetter);
 
           final fixture = bonusLetter.body.fixtures[0];

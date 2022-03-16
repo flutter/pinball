@@ -23,7 +23,7 @@ void main() {
               start: Vector2(10, 10),
               end: Vector2(20, 20),
               width: width,
-            )..initialPosition = Vector2.zero();
+            );
             await game.ensureAdd(pathway);
 
             expect(game.contains(pathway), isTrue);
@@ -46,7 +46,7 @@ void main() {
               start: Vector2(10, 10),
               end: Vector2(20, 20),
               width: width,
-            )..initialPosition = Vector2.zero();
+            );
             await game.ensureAdd(pathway);
 
             expect(game.contains(pathway), isTrue);
@@ -64,7 +64,7 @@ void main() {
             start: Vector2(10, 10),
             end: Vector2(20, 20),
             width: width,
-          )..initialPosition = Vector2.zero();
+          );
           await game.ensureAdd(pathway);
 
           expect(game.contains(pathway), isTrue);
@@ -97,7 +97,7 @@ void main() {
               start: Vector2(10, 10),
               end: Vector2(20, 20),
               width: width,
-            )..initialPosition = Vector2.zero();
+            );
             await game.ensureAdd(pathway);
 
             expect(pathway.body.bodyType, equals(BodyType.static));
@@ -115,7 +115,7 @@ void main() {
               end: Vector2(20, 20),
               width: width,
               singleWall: true,
-            )..initialPosition = Vector2.zero();
+            );
             await game.ensureAdd(pathway);
 
             expect(pathway.body.fixtures.length, 1);
@@ -133,7 +133,7 @@ void main() {
               start: Vector2(10, 10),
               end: Vector2(20, 20),
               width: width,
-            )..initialPosition = Vector2.zero();
+            );
             await game.ensureAdd(pathway);
 
             expect(pathway.body.fixtures.length, 2);
@@ -156,7 +156,7 @@ void main() {
             width: width,
             radius: 100,
             angle: math.pi / 2,
-          )..initialPosition = Vector2.zero();
+          );
           await game.ensureAdd(pathway);
 
           expect(game.contains(pathway), isTrue);
@@ -191,7 +191,7 @@ void main() {
               width: width,
               radius: 100,
               angle: math.pi / 2,
-            )..initialPosition = Vector2.zero();
+            );
             await game.ensureAdd(pathway);
 
             expect(pathway.body.bodyType, equals(BodyType.static));
@@ -215,7 +215,7 @@ void main() {
           final pathway = Pathway.bezierCurve(
             controlPoints: controlPoints,
             width: width,
-          )..initialPosition = Vector2.zero();
+          );
           await game.ensureAdd(pathway);
 
           expect(game.contains(pathway), isTrue);
@@ -246,7 +246,7 @@ void main() {
             final pathway = Pathway.bezierCurve(
               controlPoints: controlPoints,
               width: width,
-            )..initialPosition = Vector2.zero();
+            );
             await game.ensureAdd(pathway);
 
             expect(pathway.body.bodyType, equals(BodyType.static));

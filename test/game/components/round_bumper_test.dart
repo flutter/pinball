@@ -20,7 +20,7 @@ void main() {
         final roundBumper = RoundBumper(
           radius: radius,
           points: points,
-        )..initialPosition = Vector2.zero();
+        );
         await game.ensureAdd(roundBumper);
 
         expect(game.contains(roundBumper), isTrue);
@@ -33,7 +33,7 @@ void main() {
         final roundBumper = RoundBumper(
           radius: radius,
           points: points,
-        )..initialPosition = Vector2.zero();
+        );
         await game.ensureAdd(roundBumper);
 
         expect(roundBumper.points, equals(points));
@@ -62,7 +62,7 @@ void main() {
           final roundBumper = RoundBumper(
             radius: radius,
             points: points,
-          )..initialPosition = Vector2.zero();
+          );
           await game.ensureAdd(roundBumper);
 
           expect(roundBumper.body.bodyType, equals(BodyType.static));
@@ -77,7 +77,7 @@ void main() {
           final roundBumper = RoundBumper(
             radius: radius,
             points: points,
-          )..initialPosition = Vector2.zero();
+          );
           await game.ensureAdd(roundBumper);
 
           expect(roundBumper.body.fixtures[0], isA<Fixture>());
@@ -90,7 +90,7 @@ void main() {
           final roundBumper = RoundBumper(
             radius: radius,
             points: points,
-          )..initialPosition = Vector2.zero();
+          );
           await game.ensureAdd(roundBumper);
 
           final fixture = roundBumper.body.fixtures[0];
@@ -104,7 +104,7 @@ void main() {
           final roundBumper = RoundBumper(
             radius: radius,
             points: points,
-          )..initialPosition = Vector2.zero();
+          );
           await game.ensureAdd(roundBumper);
 
           final fixture = roundBumper.body.fixtures[0];

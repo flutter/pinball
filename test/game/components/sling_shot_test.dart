@@ -14,7 +14,7 @@ void main() {
       (game) async {
         final slingShot = SlingShot(
           side: BoardSide.left,
-        )..initialPosition = Vector2(0, 0);
+        );
         await game.ensureAdd(slingShot);
 
         expect(game.contains(slingShot), isTrue);
@@ -40,7 +40,7 @@ void main() {
         (game) async {
           final slingShot = SlingShot(
             side: BoardSide.left,
-          )..initialPosition = Vector2(0, 0);
+          );
           await game.ensureAdd(slingShot);
 
           expect(slingShot.body.bodyType, equals(BodyType.static));
@@ -54,7 +54,7 @@ void main() {
         (game) async {
           final slingShot = SlingShot(
             side: BoardSide.left,
-          )..initialPosition = Vector2(0, 0);
+          );
           await game.ensureAdd(slingShot);
 
           expect(slingShot.body.fixtures[0], isA<Fixture>());
@@ -66,7 +66,7 @@ void main() {
         (game) async {
           final slingShot = SlingShot(
             side: BoardSide.left,
-          )..initialPosition = Vector2(0, 0);
+          );
           await game.ensureAdd(slingShot);
 
           final fixture = slingShot.body.fixtures[0];
@@ -81,10 +81,10 @@ void main() {
         (game) async {
           final leftSlingShot = SlingShot(
             side: BoardSide.left,
-          )..initialPosition = Vector2(0, 0);
+          );
           final rightSlingShot = SlingShot(
             side: BoardSide.right,
-          )..initialPosition = Vector2(0, 0);
+          );
 
           await game.ensureAdd(leftSlingShot);
           await game.ensureAdd(rightSlingShot);
@@ -103,7 +103,7 @@ void main() {
         (game) async {
           final slingShot = SlingShot(
             side: BoardSide.left,
-          )..initialPosition = Vector2(0, 0);
+          );
           await game.ensureAdd(slingShot);
 
           final fixture = slingShot.body.fixtures[0];
@@ -118,7 +118,7 @@ void main() {
         (game) async {
           final slingShot = SlingShot(
             side: BoardSide.left,
-          )..initialPosition = Vector2(0, 0);
+          );
           await game.ensureAdd(slingShot);
 
           expect(slingShot.body.fixtures[1], isA<Fixture>());
@@ -130,7 +130,7 @@ void main() {
         (game) async {
           final slingShot = SlingShot(
             side: BoardSide.left,
-          )..initialPosition = Vector2(0, 0);
+          );
           await game.ensureAdd(slingShot);
 
           final fixture = slingShot.body.fixtures[1];
@@ -143,7 +143,7 @@ void main() {
         (game) async {
           final slingShot = SlingShot(
             side: BoardSide.left,
-          )..initialPosition = Vector2(0, 0);
+          );
           await game.ensureAdd(slingShot);
 
           final fixture = slingShot.body.fixtures[1];
@@ -156,7 +156,7 @@ void main() {
         (game) async {
           final slingShot = SlingShot(
             side: BoardSide.left,
-          )..initialPosition = Vector2(0, 0);
+          );
           await game.ensureAdd(slingShot);
 
           final fixture = slingShot.body.fixtures[1];

@@ -13,7 +13,7 @@ void main() {
     flameTester.test(
       'loads correctly',
       (game) async {
-        final anchor = JointAnchor()..initialPosition = Vector2.zero();
+        final anchor = JointAnchor();
         await game.ready();
         await game.ensureAdd(anchor);
 
@@ -39,7 +39,7 @@ void main() {
         'is static',
         (game) async {
           await game.ready();
-          final anchor = JointAnchor()..initialPosition = Vector2.zero();
+          final anchor = JointAnchor();
           await game.ensureAdd(anchor);
 
           expect(anchor.body.bodyType, equals(BodyType.static));
@@ -51,7 +51,7 @@ void main() {
       flameTester.test(
         'has none',
         (game) async {
-          final anchor = JointAnchor()..initialPosition = Vector2.zero();
+          final anchor = JointAnchor();
           await game.ensureAdd(anchor);
 
           expect(anchor.body.fixtures, isEmpty);

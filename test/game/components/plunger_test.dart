@@ -24,7 +24,7 @@ void main() {
         await game.ready();
         final plunger = Plunger(
           compressionDistance: compressionDistance,
-        )..initialPosition = Vector2.zero();
+        );
         await game.ensureAdd(plunger);
 
         expect(game.contains(plunger), isTrue);
@@ -51,7 +51,7 @@ void main() {
         (game) async {
           final plunger = Plunger(
             compressionDistance: compressionDistance,
-          )..initialPosition = Vector2.zero();
+          );
           await game.ensureAdd(plunger);
 
           expect(plunger.body.bodyType, equals(BodyType.dynamic));
@@ -63,7 +63,7 @@ void main() {
         (game) async {
           final plunger = Plunger(
             compressionDistance: compressionDistance,
-          )..initialPosition = Vector2.zero();
+          );
           await game.ensureAdd(plunger);
 
           expect(plunger.body.gravityScale, isZero);
@@ -77,7 +77,7 @@ void main() {
         (game) async {
           final plunger = Plunger(
             compressionDistance: compressionDistance,
-          )..initialPosition = Vector2.zero();
+          );
           await game.ensureAdd(plunger);
 
           expect(plunger.body.fixtures[0], isA<Fixture>());
@@ -89,7 +89,7 @@ void main() {
         (game) async {
           final plunger = Plunger(
             compressionDistance: compressionDistance,
-          )..initialPosition = Vector2.zero();
+          );
           await game.ensureAdd(plunger);
 
           final fixture = plunger.body.fixtures[0];
@@ -102,7 +102,7 @@ void main() {
         (game) async {
           final plunger = Plunger(
             compressionDistance: compressionDistance,
-          )..initialPosition = Vector2.zero();
+          );
           await game.ensureAdd(plunger);
 
           final fixture = plunger.body.fixtures[0];
@@ -123,7 +123,7 @@ void main() {
       setUp(() {
         plunger = Plunger(
           compressionDistance: compressionDistance,
-        )..initialPosition = Vector2.zero();
+        );
       });
 
       testRawKeyUpEvents(keys, (event) {
@@ -187,7 +187,7 @@ void main() {
       (game) async {
         final plunger = Plunger(
           compressionDistance: compressionDistance,
-        )..initialPosition = Vector2.zero();
+        );
         await game.ensureAdd(plunger);
 
         final plungerAnchor = PlungerAnchor(plunger: plunger);
@@ -214,7 +214,7 @@ void main() {
       );
       plunger = Plunger(
         compressionDistance: compressionDistance,
-      )..initialPosition = Vector2.zero();
+      );
     });
 
     final flameTester = flameBlocTester(gameBloc: () => gameBloc);
