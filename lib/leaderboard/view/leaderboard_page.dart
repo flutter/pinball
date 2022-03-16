@@ -1,34 +1,37 @@
-// ignore_for_file: public_member_api_docs
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/theme/theme.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
-class LeaderBoardPage extends StatelessWidget {
-  const LeaderBoardPage({Key? key, required this.theme}) : super(key: key);
+/// {@template leaderboard_page}
+/// Shows the leaderboard of [Competitor]s.
+/// {@endtemplate}
+class LeaderboardPage extends StatelessWidget {
+  /// {@macro leaderboard_page}
+  const LeaderboardPage({Key? key, required this.theme}) : super(key: key);
 
-  final PinballTheme theme;
+  /// Current [CharacterTheme] to customize screen
+  final CharacterTheme theme;
 
-  static Route route({required PinballTheme theme}) {
+  ///
+  static Route route({required CharacterTheme theme}) {
     return MaterialPageRoute<void>(
-      builder: (_) => LeaderBoardPage(theme: theme),
+      builder: (_) => LeaderboardPage(theme: theme),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          ThemeCubit()..characterSelected(theme.characterTheme),
-      child: const LeaderBoardView(),
+      create: (context) => ThemeCubit()..characterSelected(theme),
+      child: const LeaderboardView(),
     );
   }
 }
 
-class LeaderBoardView extends StatelessWidget {
-  const LeaderBoardView({Key? key}) : super(key: key);
+class LeaderboardView extends StatelessWidget {
+  const LeaderboardView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +49,7 @@ class LeaderBoardView extends StatelessWidget {
                 style: Theme.of(context).textTheme.headline3,
               ),
               const SizedBox(height: 80),
-              const _LeaderBoardView(),
+              const _LeaderboardRanking(),
               const SizedBox(height: 20),
               TextButton(
                 onPressed: () => Navigator.of(context).push<void>(
@@ -62,8 +65,8 @@ class LeaderBoardView extends StatelessWidget {
   }
 }
 
-class _LeaderBoardView extends StatelessWidget {
-  const _LeaderBoardView({Key? key}) : super(key: key);
+class _LeaderboardRanking extends StatelessWidget {
+  const _LeaderboardRanking({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -72,16 +75,16 @@ class _LeaderBoardView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: const [
-          _LeaderBoardHeaders(),
-          _LeaderBoardList(),
+          _LeaderboardHeaders(),
+          _LeaderboardList(),
         ],
       ),
     );
   }
 }
 
-class _LeaderBoardHeaders extends StatelessWidget {
-  const _LeaderBoardHeaders({Key? key}) : super(key: key);
+class _LeaderboardHeaders extends StatelessWidget {
+  const _LeaderboardHeaders({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -90,17 +93,17 @@ class _LeaderBoardHeaders extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _LeaderBoardHeaderItem(title: l10n.rank),
-        _LeaderBoardHeaderItem(title: l10n.character),
-        _LeaderBoardHeaderItem(title: l10n.userName),
-        _LeaderBoardHeaderItem(title: l10n.score),
+        _LeaderboardHeaderItem(title: l10n.rank),
+        _LeaderboardHeaderItem(title: l10n.character),
+        _LeaderboardHeaderItem(title: l10n.userName),
+        _LeaderboardHeaderItem(title: l10n.score),
       ],
     );
   }
 }
 
-class _LeaderBoardHeaderItem extends StatelessWidget {
-  const _LeaderBoardHeaderItem({Key? key, required this.title})
+class _LeaderboardHeaderItem extends StatelessWidget {
+  const _LeaderboardHeaderItem({Key? key, required this.title})
       : super(key: key);
   final String title;
 
@@ -121,8 +124,8 @@ class _LeaderBoardHeaderItem extends StatelessWidget {
   }
 }
 
-class _LeaderBoardList extends StatelessWidget {
-  const _LeaderBoardList({Key? key}) : super(key: key);
+class _LeaderboardList extends StatelessWidget {
+  const _LeaderboardList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +135,7 @@ class _LeaderBoardList extends StatelessWidget {
         competitor: Competitor(
           rank: index,
           characterTheme: const SparkyTheme(),
-          userName: 'user$index',
+          initials: 'user$index',
           score: 0,
         ),
       ),
@@ -152,19 +155,19 @@ class _LeaderBoardCompetitor extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _LeaderBoardCompetitorField(text: competitor.rank.toString()),
-        _LeaderBoardCompetitorCharacter(
+        _LeaderboardCompetitorField(text: competitor.rank.toString()),
+        _LeaderboardCompetitorCharacter(
           characterTheme: competitor.characterTheme,
         ),
-        _LeaderBoardCompetitorField(text: competitor.userName),
-        _LeaderBoardCompetitorField(text: competitor.score.toString()),
+        _LeaderboardCompetitorField(text: competitor.initials),
+        _LeaderboardCompetitorField(text: competitor.score.toString()),
       ],
     );
   }
 }
 
-class _LeaderBoardCompetitorField extends StatelessWidget {
-  const _LeaderBoardCompetitorField({Key? key, required this.text})
+class _LeaderboardCompetitorField extends StatelessWidget {
+  const _LeaderboardCompetitorField({Key? key, required this.text})
       : super(key: key);
   final String text;
 
@@ -188,8 +191,8 @@ class _LeaderBoardCompetitorField extends StatelessWidget {
   }
 }
 
-class _LeaderBoardCompetitorCharacter extends StatelessWidget {
-  const _LeaderBoardCompetitorCharacter({
+class _LeaderboardCompetitorCharacter extends StatelessWidget {
+  const _LeaderboardCompetitorCharacter({
     Key? key,
     required this.characterTheme,
   }) : super(key: key);
@@ -215,16 +218,27 @@ class _LeaderBoardCompetitorCharacter extends StatelessWidget {
   }
 }
 
+/// {@template competitor}
+/// Class for players at ranking table.
+/// {@endtemplate}
 class Competitor {
+  /// {@macro competitor}
   Competitor({
     required this.rank,
     required this.characterTheme,
-    required this.userName,
+    required this.initials,
     required this.score,
   });
 
+  /// [Competitor]'s position at ranking table.
   final int rank;
+
+  /// [Competitor]'s selected [CharacterTheme].
   final CharacterTheme characterTheme;
-  final String userName;
+
+  /// [Competitor]'s name initials.
+  final String initials;
+
+  /// [Competitor]'s final score.
   final int score;
 }

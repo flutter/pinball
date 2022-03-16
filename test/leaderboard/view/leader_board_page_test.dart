@@ -4,23 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockingjay/mockingjay.dart';
 import 'package:pinball/l10n/l10n.dart';
-import 'package:pinball/leaderboard/view/leader_board_page.dart';
+import 'package:pinball/leaderboard/view/leaderboard_page.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
 import '../../helpers/helpers.dart';
 
 void main() {
-  group('LeaderBoardPage', () {
-    testWidgets('renders LeaderBoardView', (tester) async {
+  group('LeaderboardPage', () {
+    testWidgets('renders LeaderboardView', (tester) async {
       await tester.pumpApp(
-        LeaderBoardPage(
-          theme: PinballTheme(
-            characterTheme: DashTheme(),
-          ),
+        LeaderboardPage(
+          theme: DashTheme(),
         ),
       );
 
-      expect(find.byType(LeaderBoardView), findsOneWidget);
+      expect(find.byType(LeaderboardView), findsOneWidget);
     });
 
     testWidgets('route returns a valid navigation route', (tester) async {
@@ -31,10 +29,8 @@ void main() {
               return ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).push<void>(
-                    LeaderBoardPage.route(
-                      theme: PinballTheme(
-                        characterTheme: DashTheme(),
-                      ),
+                    LeaderboardPage.route(
+                      theme: DashTheme(),
                     ),
                   );
                 },
@@ -48,18 +44,16 @@ void main() {
       await tester.tap(find.text('Tap me'));
       await tester.pumpAndSettle();
 
-      expect(find.byType(LeaderBoardPage), findsOneWidget);
+      expect(find.byType(LeaderboardPage), findsOneWidget);
     });
   });
 
-  group('LeaderBoardView', () {
+  group('LeaderboardView', () {
     testWidgets('renders correctly', (tester) async {
       final l10n = await AppLocalizations.delegate.load(Locale('en'));
       await tester.pumpApp(
-        LeaderBoardPage(
-          theme: PinballTheme(
-            characterTheme: DashTheme(),
-          ),
+        LeaderboardPage(
+          theme: DashTheme(),
         ),
       );
 
@@ -73,10 +67,8 @@ void main() {
       when(() => navigator.push<void>(any())).thenAnswer((_) async {});
 
       await tester.pumpApp(
-        LeaderBoardPage(
-          theme: PinballTheme(
-            characterTheme: DashTheme(),
-          ),
+        LeaderboardPage(
+          theme: DashTheme(),
         ),
         navigator: navigator,
       );

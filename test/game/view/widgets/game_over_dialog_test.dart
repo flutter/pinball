@@ -15,9 +15,7 @@ void main() {
       final l10n = await AppLocalizations.delegate.load(Locale('en'));
       await tester.pumpApp(
         const GameOverDialog(
-          theme: PinballTheme(
-            characterTheme: DashTheme(),
-          ),
+          theme: DashTheme(),
         ),
       );
 
@@ -33,9 +31,7 @@ void main() {
 
       await tester.pumpApp(
         const GameOverDialog(
-          theme: PinballTheme(
-            characterTheme: DashTheme(),
-          ),
+          theme: DashTheme(),
         ),
         navigator: navigator,
       );
