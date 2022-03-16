@@ -58,7 +58,7 @@ void main() {
       final top10Leaderboard = top10Scores
           .map(
             (score) => LeaderboardEntry(
-              username: 'user$score',
+              playerInitials: 'user$score',
               score: score,
               character: CharacterType.dash,
             ),
@@ -145,7 +145,7 @@ void main() {
         1000,
       ];
       final leaderboardEntry = LeaderboardEntry(
-        username: 'test123',
+        playerInitials: 'test123',
         score: entryScore,
         character: CharacterType.dash,
       );

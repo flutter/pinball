@@ -22,14 +22,15 @@ enum CharacterType {
 }
 
 /// {@template leaderboard_entry}
-/// A model representing a leaderboard entry containing a score and a username.
+/// A model representing a leaderboard entry containing the player's initials,
+/// score, and chosen character.
 ///
 /// Stored in Firestore `leaderboard` collection.
 ///
 /// Example:
 /// ```json
 /// {
-///   "username" : "test123",
+///   "playerInitials" : "ABC",
 ///   "score" : 1500,
 ///   "character" : "dash"
 /// }
@@ -39,7 +40,7 @@ enum CharacterType {
 class LeaderboardEntry extends Equatable {
   /// {@macro leaderboard_entry}
   const LeaderboardEntry({
-    required this.username,
+    required this.playerInitials,
     required this.score,
     required this.character,
   });
@@ -52,11 +53,11 @@ class LeaderboardEntry extends Equatable {
   /// Converts the [LeaderboardEntry] to [Map].
   Map<String, dynamic> toJson() => _$LeaderboardEntryToJson(this);
 
-  /// Username for [LeaderboardEntry].
+  /// Player's chosen initials for [LeaderboardEntry].
   ///
-  /// Example: 'test123'.
-  @JsonKey(name: 'username')
-  final String username;
+  /// Example: 'ABC'.
+  @JsonKey(name: 'playerInitials')
+  final String playerInitials;
 
   /// Score for [LeaderboardEntry].
   ///
@@ -72,11 +73,11 @@ class LeaderboardEntry extends Equatable {
 
   /// An empty [LeaderboardEntry] object.
   static const empty = LeaderboardEntry(
-    username: '',
+    playerInitials: '',
     score: 0,
     character: CharacterType.dash,
   );
 
   @override
-  List<Object?> get props => [username, score, character];
+  List<Object?> get props => [playerInitials, score, character];
 }

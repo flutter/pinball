@@ -4,13 +4,13 @@ import 'package:test/test.dart';
 void main() {
   group('LeaderboardEntry', () {
     const data = <String, dynamic>{
-      'username': 'test123',
+      'playerInitials': 'ABC',
       'score': 1500,
       'character': 'dash',
     };
 
     const leaderboardEntry = LeaderboardEntry(
-      username: 'test123',
+      playerInitials: 'ABC',
       score: 1500,
       character: CharacterType.dash,
     );
@@ -29,12 +29,6 @@ void main() {
     });
 
     test('can be converted to json', () {
-      const leaderboardEntry = LeaderboardEntry(
-        username: 'test123',
-        score: 1500,
-        character: CharacterType.dash,
-      );
-
       expect(leaderboardEntry.toJson(), equals(data));
     });
 

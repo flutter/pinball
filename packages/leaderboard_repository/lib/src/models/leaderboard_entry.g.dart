@@ -8,14 +8,14 @@ part of 'leaderboard_entry.dart';
 
 LeaderboardEntry _$LeaderboardEntryFromJson(Map<String, dynamic> json) =>
     LeaderboardEntry(
-      username: json['username'] as String,
+      playerInitials: json['playerInitials'] as String,
       score: json['score'] as int,
       character: $enumDecode(_$CharacterTypeEnumMap, json['character']),
     );
 
 Map<String, dynamic> _$LeaderboardEntryToJson(LeaderboardEntry instance) =>
     <String, dynamic>{
-      'username': instance.username,
+      'playerInitials': instance.playerInitials,
       'score': instance.score,
       'character': _$CharacterTypeEnumMap[instance.character],
     };
