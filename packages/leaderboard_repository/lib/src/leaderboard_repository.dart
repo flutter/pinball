@@ -113,7 +113,8 @@ class LeaderboardRepository {
     return leaderboardEntries;
   }
 
-  /// Adds player's score entry to the leaderboard and get's their ranking.
+  /// Adds player's score entry to the leaderboard and gets their
+  /// [LeaderboardRanking].
   Future<LeaderboardRanking> addLeaderboardEntry(LeaderboardEntry entry) async {
     late DocumentReference entryReference;
     try {
