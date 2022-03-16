@@ -30,21 +30,6 @@ void main() {
 
     group('body', () {
       flameTester.test(
-        'positions correctly',
-        (game) async {
-          final position = Vector2.all(10);
-          final baseboard = Baseboard(
-            side: BoardSide.left,
-          )..initialPosition = position;
-
-          await game.ensureAdd(baseboard);
-          game.contains(baseboard);
-
-          expect(baseboard.body.position, equals(position));
-        },
-      );
-
-      flameTester.test(
         'is static',
         (game) async {
           final baseboard = Baseboard(

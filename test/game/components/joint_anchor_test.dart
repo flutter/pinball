@@ -23,19 +23,6 @@ void main() {
 
     group('body', () {
       flameTester.test(
-        'positions correctly',
-        (game) async {
-          await game.ready();
-          final position = Vector2.all(10);
-          final anchor = JointAnchor()..initialPosition = position;
-          await game.ensureAdd(anchor);
-          game.contains(anchor);
-
-          expect(anchor.body.position, position);
-        },
-      );
-
-      flameTester.test(
         'is static',
         (game) async {
           await game.ready();

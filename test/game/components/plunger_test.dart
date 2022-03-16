@@ -33,20 +33,6 @@ void main() {
 
     group('body', () {
       flameTester.test(
-        'positions correctly',
-        (game) async {
-          final position = Vector2.all(10);
-          final plunger = Plunger(
-            compressionDistance: compressionDistance,
-          )..initialPosition = position;
-          await game.ensureAdd(plunger);
-          game.contains(plunger);
-
-          expect(plunger.body.position, position);
-        },
-      );
-
-      flameTester.test(
         'is dynamic',
         (game) async {
           final plunger = Plunger(

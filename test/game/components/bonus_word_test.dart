@@ -135,21 +135,6 @@ void main() {
 
     group('body', () {
       flameTester.test(
-        'positions correctly',
-        (game) async {
-          final position = Vector2.all(10);
-          final bonusLetter = BonusLetter(
-            letter: 'G',
-            index: 0,
-          )..initialPosition = position;
-          await game.ensureAdd(bonusLetter);
-          game.contains(bonusLetter);
-
-          expect(bonusLetter.body.position, position);
-        },
-      );
-
-      flameTester.test(
         'is static',
         (game) async {
           final bonusLetter = BonusLetter(

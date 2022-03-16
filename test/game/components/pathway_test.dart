@@ -73,23 +73,6 @@ void main() {
 
       group('body', () {
         flameTester.test(
-          'positions correctly',
-          (game) async {
-            await game.ready();
-            final position = Vector2.all(10);
-            final pathway = Pathway.straight(
-              start: Vector2(10, 10),
-              end: Vector2(20, 20),
-              width: width,
-            )..initialPosition = position;
-            await game.ensureAdd(pathway);
-
-            game.contains(pathway);
-            expect(pathway.body.position, equals(position));
-          },
-        );
-
-        flameTester.test(
           'is static',
           (game) async {
             await game.ready();
@@ -165,24 +148,6 @@ void main() {
 
       group('body', () {
         flameTester.test(
-          'positions correctly',
-          (game) async {
-            await game.ready();
-            final position = Vector2.all(10);
-            final pathway = Pathway.arc(
-              center: position,
-              width: width,
-              radius: 100,
-              angle: math.pi / 2,
-            )..initialPosition = position;
-            await game.ensureAdd(pathway);
-
-            game.contains(pathway);
-            expect(pathway.body.position, position);
-          },
-        );
-
-        flameTester.test(
           'is static',
           (game) async {
             await game.ready();
@@ -223,22 +188,6 @@ void main() {
       );
 
       group('body', () {
-        flameTester.test(
-          'positions correctly',
-          (game) async {
-            await game.ready();
-            final position = Vector2.all(10);
-            final pathway = Pathway.bezierCurve(
-              controlPoints: controlPoints,
-              width: width,
-            )..initialPosition = position;
-            await game.ensureAdd(pathway);
-
-            game.contains(pathway);
-            expect(pathway.body.position, position);
-          },
-        );
-
         flameTester.test(
           'is static',
           (game) async {

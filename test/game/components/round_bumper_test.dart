@@ -42,21 +42,6 @@ void main() {
 
     group('body', () {
       flameTester.test(
-        'positions correctly',
-        (game) async {
-          final position = Vector2.all(10);
-          final roundBumper = RoundBumper(
-            radius: radius,
-            points: points,
-          )..initialPosition = position;
-          await game.ensureAdd(roundBumper);
-          game.contains(roundBumper);
-
-          expect(roundBumper.body.position, equals(position));
-        },
-      );
-
-      flameTester.test(
         'is static',
         (game) async {
           final roundBumper = RoundBumper(

@@ -27,18 +27,6 @@ void main() {
 
     group('body', () {
       flameTester.test(
-        'positions correctly',
-        (game) async {
-          final position = Vector2.all(10);
-          final ball = Ball()..initialPosition = position;
-          await game.ensureAdd(ball);
-          game.contains(ball);
-
-          expect(ball.body.position, equals(position));
-        },
-      );
-
-      flameTester.test(
         'is dynamic',
         (game) async {
           final ball = Ball();

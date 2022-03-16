@@ -51,20 +51,6 @@ void main() {
 
       group('body', () {
         flameTester.test(
-          'positions correctly',
-          (game) async {
-            final position = Vector2.all(10);
-            final flipper = Flipper.fromSide(
-              side: BoardSide.left,
-            )..initialPosition = position;
-            await game.ensureAdd(flipper);
-            game.contains(flipper);
-
-            expect(flipper.body.position, position);
-          },
-        );
-
-        flameTester.test(
           'is dynamic',
           (game) async {
             final flipper = Flipper.fromSide(

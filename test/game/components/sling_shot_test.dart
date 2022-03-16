@@ -23,19 +23,6 @@ void main() {
 
     group('body', () {
       flameTester.test(
-        'positions correctly',
-        (game) async {
-          final position = Vector2.all(10);
-          final slingShot = SlingShot(
-            side: BoardSide.left,
-          )..initialPosition = position;
-          await game.ensureAdd(slingShot);
-
-          expect(slingShot.body.position, equals(position));
-        },
-      );
-
-      flameTester.test(
         'is static',
         (game) async {
           final slingShot = SlingShot(
