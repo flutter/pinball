@@ -31,7 +31,6 @@ void main() {
       'throws AssertionError '
       'when BodyDef is not positioned with initialPosition',
       (game) async {
-        // TODO(alestiago): Make this pass.
         final component = TestBodyComponent()
           ..initialPosition = Vector2.all(
             10,
