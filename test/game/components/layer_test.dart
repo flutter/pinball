@@ -135,7 +135,8 @@ void main() {
       );
 
       group('fixture', () {
-        const layer = Layer.jetpack;
+        const pathwayLayer = Layer.jetpack;
+        const openingLayer = Layer.opening;
 
         flameTester.test(
           'exists',
@@ -143,8 +144,8 @@ void main() {
             final ramp = TestRampOpening(
               position: Vector2.zero(),
               orientation: RampOrientation.down,
-              pathwayLayer: layer,
-              openingLayer: layer,
+              pathwayLayer: pathwayLayer,
+              openingLayer: openingLayer,
             );
             await game.ensureAdd(ramp);
 
@@ -158,8 +159,8 @@ void main() {
             final ramp = TestRampOpening(
               position: Vector2.zero(),
               orientation: RampOrientation.down,
-              pathwayLayer: layer,
-              openingLayer: layer,
+              pathwayLayer: pathwayLayer,
+              openingLayer: openingLayer,
             );
             await game.ensureAdd(ramp);
 
@@ -174,8 +175,8 @@ void main() {
             final ramp = TestRampOpening(
               position: Vector2.zero(),
               orientation: RampOrientation.down,
-              pathwayLayer: layer,
-              openingLayer: layer,
+              pathwayLayer: pathwayLayer,
+              openingLayer: openingLayer,
             );
             await game.ensureAdd(ramp);
 
@@ -190,8 +191,8 @@ void main() {
             final ramp = TestRampOpening(
               position: Vector2.zero(),
               orientation: RampOrientation.down,
-              pathwayLayer: layer,
-              openingLayer: layer,
+              pathwayLayer: pathwayLayer,
+              openingLayer: openingLayer,
             );
 
             await game.ensureAdd(ramp);
@@ -199,7 +200,7 @@ void main() {
             final fixture = ramp.body.fixtures[0];
             expect(
               fixture.filterData.categoryBits,
-              equals(layer.maskBits),
+              equals(ramp.openingLayer.maskBits),
             );
           },
         );
