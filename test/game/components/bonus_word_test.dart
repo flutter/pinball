@@ -123,10 +123,9 @@ void main() {
       'loads correctly',
       (game) async {
         final bonusLetter = BonusLetter(
-          position: Vector2.zero(),
           letter: 'G',
           index: 0,
-        );
+        )..initialPosition = Vector2.zero();
         await game.ensureAdd(bonusLetter);
         await game.ready();
 
@@ -140,10 +139,9 @@ void main() {
         (game) async {
           final position = Vector2.all(10);
           final bonusLetter = BonusLetter(
-            position: position,
             letter: 'G',
             index: 0,
-          );
+          )..initialPosition = position;
           await game.ensureAdd(bonusLetter);
           game.contains(bonusLetter);
 
@@ -155,10 +153,9 @@ void main() {
         'is static',
         (game) async {
           final bonusLetter = BonusLetter(
-            position: Vector2.zero(),
             letter: 'G',
             index: 0,
-          );
+          )..initialPosition = Vector2.zero();
           await game.ensureAdd(bonusLetter);
 
           expect(bonusLetter.body.bodyType, equals(BodyType.static));
@@ -171,10 +168,9 @@ void main() {
         'exists',
         (game) async {
           final bonusLetter = BonusLetter(
-            position: Vector2.zero(),
             letter: 'G',
             index: 0,
-          );
+          )..initialPosition = Vector2.zero();
           await game.ensureAdd(bonusLetter);
 
           expect(bonusLetter.body.fixtures[0], isA<Fixture>());
@@ -185,10 +181,9 @@ void main() {
         'is sensor',
         (game) async {
           final bonusLetter = BonusLetter(
-            position: Vector2.zero(),
             letter: 'G',
             index: 0,
-          );
+          )..initialPosition = Vector2.zero();
           await game.ensureAdd(bonusLetter);
 
           final fixture = bonusLetter.body.fixtures[0];
@@ -200,10 +195,9 @@ void main() {
         'shape is circular',
         (game) async {
           final bonusLetter = BonusLetter(
-            position: Vector2.zero(),
             letter: 'G',
             index: 0,
-          );
+          )..initialPosition = Vector2.zero();
           await game.ensureAdd(bonusLetter);
 
           final fixture = bonusLetter.body.fixtures[0];
