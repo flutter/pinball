@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/l10n/l10n.dart';
@@ -30,7 +32,6 @@ class LeaderboardPage extends StatelessWidget {
   }
 }
 
-/// View for leaderboard.
 class LeaderboardView extends StatelessWidget {
   const LeaderboardView({Key? key}) : super(key: key);
 
