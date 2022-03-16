@@ -7,4 +7,6 @@ abstract class LeaderboardEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class LeaderboardRequested extends LeaderboardEvent {}
+class LeaderboardRequested extends LeaderboardEvent {
+  const LeaderboardRequested();
+}
