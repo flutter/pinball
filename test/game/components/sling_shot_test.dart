@@ -13,9 +13,8 @@ void main() {
       'loads correctly',
       (game) async {
         final slingShot = SlingShot(
-          position: Vector2.zero(),
           side: BoardSide.left,
-        );
+        )..initialPosition = Vector2(0, 0);
         await game.ensureAdd(slingShot);
 
         expect(game.contains(slingShot), isTrue);
@@ -28,9 +27,8 @@ void main() {
         (game) async {
           final position = Vector2.all(10);
           final slingShot = SlingShot(
-            position: position,
             side: BoardSide.left,
-          );
+          )..initialPosition = position;
           await game.ensureAdd(slingShot);
 
           expect(slingShot.body.position, equals(position));
@@ -41,9 +39,8 @@ void main() {
         'is static',
         (game) async {
           final slingShot = SlingShot(
-            position: Vector2.zero(),
             side: BoardSide.left,
-          );
+          )..initialPosition = Vector2(0, 0);
           await game.ensureAdd(slingShot);
 
           expect(slingShot.body.bodyType, equals(BodyType.static));
@@ -56,9 +53,8 @@ void main() {
         'exists',
         (game) async {
           final slingShot = SlingShot(
-            position: Vector2.zero(),
             side: BoardSide.left,
-          );
+          )..initialPosition = Vector2(0, 0);
           await game.ensureAdd(slingShot);
 
           expect(slingShot.body.fixtures[0], isA<Fixture>());
@@ -69,9 +65,8 @@ void main() {
         'shape is triangular',
         (game) async {
           final slingShot = SlingShot(
-            position: Vector2.zero(),
             side: BoardSide.left,
-          );
+          )..initialPosition = Vector2(0, 0);
           await game.ensureAdd(slingShot);
 
           final fixture = slingShot.body.fixtures[0];
@@ -85,13 +80,11 @@ void main() {
         'when side is left or right',
         (game) async {
           final leftSlingShot = SlingShot(
-            position: Vector2.zero(),
             side: BoardSide.left,
-          );
+          )..initialPosition = Vector2(0, 0);
           final rightSlingShot = SlingShot(
-            position: Vector2.zero(),
             side: BoardSide.right,
-          );
+          )..initialPosition = Vector2(0, 0);
 
           await game.ensureAdd(leftSlingShot);
           await game.ensureAdd(rightSlingShot);
@@ -109,9 +102,8 @@ void main() {
         'has no friction',
         (game) async {
           final slingShot = SlingShot(
-            position: Vector2.zero(),
             side: BoardSide.left,
-          );
+          )..initialPosition = Vector2(0, 0);
           await game.ensureAdd(slingShot);
 
           final fixture = slingShot.body.fixtures[0];
@@ -125,9 +117,8 @@ void main() {
         'exists',
         (game) async {
           final slingShot = SlingShot(
-            position: Vector2.zero(),
             side: BoardSide.left,
-          );
+          )..initialPosition = Vector2(0, 0);
           await game.ensureAdd(slingShot);
 
           expect(slingShot.body.fixtures[1], isA<Fixture>());
@@ -138,9 +129,8 @@ void main() {
         'shape is edge',
         (game) async {
           final slingShot = SlingShot(
-            position: Vector2.zero(),
             side: BoardSide.left,
-          );
+          )..initialPosition = Vector2(0, 0);
           await game.ensureAdd(slingShot);
 
           final fixture = slingShot.body.fixtures[1];
@@ -152,9 +142,8 @@ void main() {
         'has restitution',
         (game) async {
           final slingShot = SlingShot(
-            position: Vector2.zero(),
             side: BoardSide.left,
-          );
+          )..initialPosition = Vector2(0, 0);
           await game.ensureAdd(slingShot);
 
           final fixture = slingShot.body.fixtures[1];
@@ -166,9 +155,8 @@ void main() {
         'has no friction',
         (game) async {
           final slingShot = SlingShot(
-            position: Vector2.zero(),
             side: BoardSide.left,
-          );
+          )..initialPosition = Vector2(0, 0);
           await game.ensureAdd(slingShot);
 
           final fixture = slingShot.body.fixtures[1];
