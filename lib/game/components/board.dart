@@ -59,24 +59,20 @@ class _BottomGroupSide extends Component {
 
     final flipper = Flipper.fromSide(
       side: _side,
-      position: _position,
-    );
-    final baseboard = Baseboard(
-      side: _side,
-      position: _position +
+    )..initialPosition = _position;
+    final baseboard = Baseboard(side: _side)
+      ..initialPosition = _position +
           Vector2(
             (Flipper.width * direction) - direction,
             Flipper.height,
-          ),
-    );
+          );
     final slingShot = SlingShot(
       side: _side,
-      position: _position +
-          Vector2(
-            (Flipper.width) * direction,
-            Flipper.height + SlingShot.size.y,
-          ),
-    );
+    )..initialPosition = _position +
+        Vector2(
+          (Flipper.width) * direction,
+          Flipper.height + SlingShot.size.y,
+        );
 
     await addAll([flipper, baseboard, slingShot]);
   }

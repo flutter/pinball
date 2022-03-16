@@ -10,21 +10,16 @@ import 'package:pinball/game/game.dart';
 ///
 /// [SlingShot]s are usually positioned above each [Flipper].
 /// {@endtemplate sling_shot}
-class SlingShot extends BodyComponent {
+class SlingShot extends BodyComponent with InitialPosition {
   /// {@macro sling_shot}
   SlingShot({
-    required Vector2 position,
     required BoardSide side,
-  })  : _position = position,
-        _side = side {
+  }) : _side = side {
     // TODO(alestiago): Use sprite instead of color when provided.
     paint = Paint()
       ..color = const Color(0xFF00FF00)
       ..style = PaintingStyle.fill;
   }
-
-  /// The initial position of the [SlingShot] body.
-  final Vector2 _position;
 
   /// Whether the [SlingShot] is on the left or right side of the board.
   ///
@@ -88,8 +83,7 @@ class SlingShot extends BodyComponent {
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()..position = _position;
-    final body = world.createBody(bodyDef);
+    final body = world.createBody(BodyDef());
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;

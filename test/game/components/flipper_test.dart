@@ -22,11 +22,9 @@ void main() {
         (game) async {
           final leftFlipper = Flipper.fromSide(
             side: BoardSide.left,
-            position: Vector2.zero(),
           );
           final rightFlipper = Flipper.fromSide(
             side: BoardSide.right,
-            position: Vector2.zero(),
           );
           await game.ready();
           await game.ensureAddAll([leftFlipper, rightFlipper]);
@@ -40,14 +38,12 @@ void main() {
         test('sets BoardSide', () {
           final leftFlipper = Flipper.fromSide(
             side: BoardSide.left,
-            position: Vector2.zero(),
           );
 
           expect(leftFlipper.side, equals(leftFlipper.side));
 
           final rightFlipper = Flipper.fromSide(
             side: BoardSide.right,
-            position: Vector2.zero(),
           );
           expect(rightFlipper.side, equals(rightFlipper.side));
         });
@@ -55,26 +51,10 @@ void main() {
 
       group('body', () {
         flameTester.test(
-          'positions correctly',
-          (game) async {
-            final position = Vector2.all(10);
-            final flipper = Flipper.fromSide(
-              side: BoardSide.left,
-              position: position,
-            );
-            await game.ensureAdd(flipper);
-            game.contains(flipper);
-
-            expect(flipper.body.position, position);
-          },
-        );
-
-        flameTester.test(
           'is dynamic',
           (game) async {
             final flipper = Flipper.fromSide(
               side: BoardSide.left,
-              position: Vector2.zero(),
             );
             await game.ensureAdd(flipper);
 
@@ -87,7 +67,6 @@ void main() {
           (game) async {
             final flipper = Flipper.fromSide(
               side: BoardSide.left,
-              position: Vector2.zero(),
             );
             await game.ensureAdd(flipper);
 
@@ -100,9 +79,8 @@ void main() {
           (game) async {
             final flipper = Flipper.fromSide(
               side: BoardSide.left,
-              position: Vector2.zero(),
             );
-            final ball = Ball(position: Vector2.zero());
+            final ball = Ball();
 
             await game.ready();
             await game.ensureAddAll([flipper, ball]);
@@ -121,7 +99,6 @@ void main() {
           (game) async {
             final flipper = Flipper.fromSide(
               side: BoardSide.left,
-              position: Vector2.zero(),
             );
             await game.ensureAdd(flipper);
 
@@ -134,7 +111,6 @@ void main() {
           (game) async {
             final flipper = Flipper.fromSide(
               side: BoardSide.left,
-              position: Vector2.zero(),
             );
             await game.ensureAdd(flipper);
 
@@ -165,7 +141,6 @@ void main() {
           setUp(() {
             flipper = Flipper.fromSide(
               side: BoardSide.left,
-              position: Vector2.zero(),
             );
           });
 
@@ -232,7 +207,6 @@ void main() {
           setUp(() {
             flipper = Flipper.fromSide(
               side: BoardSide.right,
-              position: Vector2.zero(),
             );
           });
 
@@ -302,7 +276,6 @@ void main() {
       (game) async {
         final flipper = Flipper.fromSide(
           side: BoardSide.left,
-          position: Vector2.zero(),
         );
         await game.ensureAdd(flipper);
 
@@ -318,7 +291,6 @@ void main() {
       (game) async {
         final flipper = Flipper.fromSide(
           side: BoardSide.right,
-          position: Vector2.zero(),
         );
         await game.ensureAdd(flipper);
 
@@ -337,7 +309,6 @@ void main() {
         (game) async {
           final flipper = Flipper.fromSide(
             side: BoardSide.left,
-            position: Vector2.zero(),
           );
           await game.ensureAdd(flipper);
 
@@ -359,7 +330,6 @@ void main() {
           (game) async {
             final flipper = Flipper.fromSide(
               side: BoardSide.left,
-              position: Vector2.zero(),
             );
             await game.ensureAdd(flipper);
 
@@ -380,7 +350,6 @@ void main() {
           (game) async {
             final flipper = Flipper.fromSide(
               side: BoardSide.right,
-              position: Vector2.zero(),
             );
             await game.ensureAdd(flipper);
 
@@ -406,7 +375,6 @@ void main() {
           (game) async {
             final flipper = Flipper.fromSide(
               side: BoardSide.left,
-              position: Vector2.zero(),
             );
             await game.ensureAdd(flipper);
 
@@ -433,7 +401,6 @@ void main() {
           (game) async {
             final flipper = Flipper.fromSide(
               side: BoardSide.right,
-              position: Vector2.zero(),
             );
             await game.ensureAdd(flipper);
 
