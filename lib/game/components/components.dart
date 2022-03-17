@@ -11,4 +11,5 @@ export 'plunger.dart';
 export 'round_bumper.dart';
 export 'score_points.dart';
 export 'sling_shot.dart';
+export 'spaceship.dart';
 export 'wall.dart';

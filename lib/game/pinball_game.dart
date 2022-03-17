@@ -28,6 +28,8 @@ class PinballGame extends Forge2DGame
     await _addGameBoundaries();
     unawaited(_addPlunger());
 
+    unawaited(_addSpaceship());
+
     // Corner wall above plunger so the ball deflects into the rest of the
     // board.
     // TODO(allisonryan0002): remove once we have the launch track for the ball.
@@ -77,6 +79,20 @@ class PinballGame extends Forge2DGame
     );
   }
 
+  Future<void> _addSpaceship() async{
+    final position = Vector2(20, -24);
+    unawaited(add(SpaceshipSauce(position)));
+    unawaited(add(SpaceshipEntrance(position)));
+    unawaited(add(SpaceshipBridge(position)));
+
+    unawaited(add(SpaceshipHole(position - Vector2(5, 5))));
+    unawaited(add(SpaceshipHole(position - Vector2(-5, 5))));
+
+    unawaited(
+      add(SpaceshipWall(position)),
+    );
+  }
+
   void spawnBall() {
     final ball = Ball();
     add(
@@ -89,6 +105,8 @@ class PinballGame extends Forge2DGame
     addContactCallback(BallScorePointsCallback());
     addContactCallback(BottomWallBallContactCallback());
     addContactCallback(BonusLetterBallContactCallback());
+    addContactCallback(SpaceshipHoleBallContactCallback());
+    addContactCallback(SpaceshipEntranceBallContactCallback());
   }
 
   Future<void> _addGameBoundaries() async {
