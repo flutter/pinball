@@ -128,51 +128,6 @@ void main() {
             }
           },
         );
-
-        flameTester.test(
-          'has default filter categoryBits when not modified',
-          (game) async {
-            final pathway = Pathway.straight(
-              start: Vector2(10, 10),
-              end: Vector2(20, 20),
-              width: width,
-            );
-            await game.ready();
-            await game.ensureAdd(pathway);
-
-            for (final fixture in pathway.body.fixtures) {
-              expect(fixture, isA<Fixture>());
-              expect(
-                fixture.filterData.categoryBits,
-                equals(Layer.board.maskBits),
-              );
-            }
-          },
-        );
-
-        flameTester.test(
-          'sets filter categoryBits correctly',
-          (game) async {
-            const layer = Layer.jetpack;
-            final pathway = Pathway.straight(
-              start: Vector2(10, 10),
-              end: Vector2(20, 20),
-              width: width,
-            )..layer = layer;
-            await game.ready();
-            await game.ensureAdd(pathway);
-            // TODO(alestiago): modify once component.loaded is available.
-            await pathway.mounted;
-
-            for (final fixture in pathway.body.fixtures) {
-              expect(fixture, isA<Fixture>());
-              expect(
-                fixture.filterData.categoryBits,
-                equals(layer.maskBits),
-              );
-            }
-          },
-        );
       });
     });
 

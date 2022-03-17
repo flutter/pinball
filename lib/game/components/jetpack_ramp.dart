@@ -19,6 +19,8 @@ class JetpackRamp extends Component with HasGameRef<PinballGame> {
 
   @override
   Future<void> onLoad() async {
+    const layer = Layer.jetpack;
+
     gameRef.addContactCallback(
       RampOpeningBallContactCallback<_JetpackRampOpening>(),
     );
@@ -34,7 +36,7 @@ class JetpackRamp extends Component with HasGameRef<PinballGame> {
       rotation: -math.pi / 18,
     )
       ..initialPosition = position
-      ..layer = Layer.jetpack;
+      ..layer = layer;
     final leftOpening = _JetpackRampOpening(
       rotation: 15 * math.pi / 180,
     )
@@ -43,7 +45,7 @@ class JetpackRamp extends Component with HasGameRef<PinballGame> {
     final rightOpening = _JetpackRampOpening(
       rotation: -math.pi / 20,
     )
-      ..initialPosition = position + Vector2(-11, 22.5)
+      ..initialPosition = position + Vector2(-11.2, 22.5)
       ..layer = Layer.opening;
 
     await addAll([

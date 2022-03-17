@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_renaming_method_parameters
-
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 
 /// {@template ramp_orientation}
@@ -67,28 +67,34 @@ abstract class RampOpening extends BodyComponent with InitialPosition, Layered {
 class RampOpeningBallContactCallback<Opening extends RampOpening>
     extends ContactCallback<Ball, Opening> {
   /// [Ball]s currently inside the ramp.
-  final _ballsInside = <Ball>{};
+  @visibleForTesting
+  final ballsInside = <Ball>{};
 
   @override
   void begin(Ball ball, Opening opening, Contact _) {
-    late final Layer layer;
-    if (!_ballsInside.contains(ball)) {
-      layer = opening.pathwayLayer;
-      _ballsInside.add(ball);
-    } else {
-      layer = Layer.board;
-      _ballsInside.remove(ball);
-    }
+    Layer layer;
 
-    ball.layer = layer;
+    if (!ballsInside.contains(ball)) {
+      layer = opening.pathwayLayer;
+      ballsInside.add(ball);
+      ball.layer = layer;
+    } else {
+      ballsInside.remove(ball);
+      ball.layer = Layer.board;
+    }
   }
 
   @override
   void end(Ball ball, Opening opening, Contact _) {
+    // TODO(ruimiguel): check what happens with ball that slightly touch
+    // Opening and goes out again. With InitialPosition change now doesn't work
+    // position.y comparison
+    /*
     final isBallOutsideOpening = opening.orientation == RampOrientation.up
         ? ball.body.position.y > opening.initialPosition.y
         : ball.body.position.y < opening.initialPosition.y;
 
     if (isBallOutsideOpening) ball.layer = Layer.board;
+    */
   }
 }

@@ -21,19 +21,19 @@ void main() {
       required List<Fixture> fixtures,
       required Layer layer,
     }) {
+      expect(fixtures.length, greaterThan(0));
       for (final fixture in fixtures) {
         expect(
           fixture.filterData.categoryBits,
-          equals(layer._maskBits),
+          equals(layer.maskBits),
         );
-        expect(fixture.filterData.maskBits, equals(layer._maskBits));
+        expect(fixture.filterData.maskBits, equals(layer.maskBits));
       }
     }
 
     flameTester.test('TestBodyComponent has fixtures', (game) async {
       final component = TestBodyComponent();
       await game.ensureAdd(component);
-      expect(component.body.fixtures.length, greaterThan(0));
     });
 
     test('correctly sets and gets', () {
@@ -122,25 +122,21 @@ void main() {
     );
   });
 
-  group('Layer', () {
-    test('has four values', () {
-      expect(Layer.values.length, equals(5));
-    });
-  });
-
   group('LayerMaskBits', () {
     test('all types are different', () {
-      expect(Layer.all._maskBits, isNot(equals(Layer.board._maskBits)));
-      expect(Layer.board._maskBits, isNot(equals(Layer.opening._maskBits)));
-      expect(Layer.opening._maskBits, isNot(equals(Layer.jetpack._maskBits)));
-      expect(Layer.jetpack._maskBits, isNot(equals(Layer.launcher._maskBits)));
-      expect(Layer.launcher._maskBits, isNot(equals(Layer.board._maskBits)));
+      for (final layer in Layer.values) {
+        for (final otherLayer in Layer.values) {
+          if (layer != otherLayer) {
+            expect(layer.maskBits, isNot(equals(otherLayer.maskBits)));
+          }
+        }
+      }
     });
 
-    test('ensure all maskBits are 16 bits max size', () {
+    test('all maskBits are smaller than 2^16 ', () {
       final maxMaskBitSize = math.pow(2, 16);
       for (final layer in Layer.values) {
-        expect(layer._maskBits, isNot(greaterThan(maxMaskBitSize)));
+        expect(layer.maskBits, isNot(greaterThan(maxMaskBitSize)));
       }
     });
   });

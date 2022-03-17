@@ -30,8 +30,8 @@ mixin Layered<T extends Forge2DGame> on BodyComponent<T> {
   void _applyMaskBits() {
     for (final fixture in body.fixtures) {
       fixture
-        ..filterData.categoryBits = layer._maskBits
-        ..filterData.maskBits = layer._maskBits;
+        ..filterData.categoryBits = layer.maskBits
+        ..filterData.maskBits = layer.maskBits;
     }
   }
 }
@@ -67,7 +67,8 @@ enum Layer {
 @visibleForTesting
 extension LayerMaskBits on Layer {
   /// {@macro layer_mask_bits}
-  int get _maskBits {
+  @visibleForTesting
+  int get maskBits {
     // TODO(ruialonso): test bit groups once final design is implemented.
     switch (this) {
       case Layer.all:
