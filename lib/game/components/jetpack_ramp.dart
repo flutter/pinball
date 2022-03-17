@@ -23,36 +23,39 @@ class JetpackRamp extends Component with HasGameRef<PinballGame> {
   /// The position of this [JetpackRamp]
   final Vector2 position;
 
+  static const _layer = Layer.jetpack;
+
   @override
   Future<void> onLoad() async {
-    await add(
-      Pathway.arc(
-        color: const Color.fromARGB(255, 8, 218, 241),
-        center: position,
-        width: _width,
-        radius: _radius,
-        angle: _angle,
-        rotation: _rotation,
-        layer: Layer.jetpack,
-      )..initialPosition = position,
-    );
-
-    await add(
-      JetpackRampOpening(
-        orientation: RampOrientation.down,
-        rotation: radians(15),
-      )..initialPosition = position + Vector2(-11, 1),
-    );
-    await add(
-      JetpackRampOpening(
-        orientation: RampOrientation.down,
-        rotation: radians(-9),
-      )..initialPosition = position + Vector2(20.5, 3.4),
-    );
-
     gameRef.addContactCallback(
       RampOpeningBallContactCallback<JetpackRampOpening>(),
     );
+
+    final curvePath = Pathway.arc(
+      // TODO(ruialonso): Remove color when not needed.
+      // TODO(ruialonso): Use a bezier curve once control points are defined.
+      color: const Color.fromARGB(255, 8, 218, 241),
+      center: position,
+      width: _width,
+      radius: _radius,
+      angle: _angle,
+      rotation: _rotation,
+      layer: _layer,
+    )..initialPosition = position;
+    final leftOpening = JetpackRampOpening(
+      orientation: RampOrientation.down,
+      rotation: radians(15),
+    )..initialPosition = position + Vector2(-11, 1);
+    final rightOpening = JetpackRampOpening(
+      orientation: RampOrientation.down,
+      rotation: radians(-9),
+    )..initialPosition = position + Vector2(20.5, 3.4);
+
+    await addAll([
+      curvePath,
+      leftOpening,
+      rightOpening,
+    ]);
   }
 }
 

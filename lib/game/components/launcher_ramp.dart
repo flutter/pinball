@@ -26,41 +26,39 @@ class LauncherRamp extends Component with HasGameRef<PinballGame> {
 
   @override
   Future<void> onLoad() async {
-    await add(
-      Pathway.straight(
-        color: const Color.fromARGB(255, 34, 255, 0),
-        start: Vector2(0, 0),
-        end: Vector2(0, 600),
-        width: 80,
-        layer: Layer.launcher,
-      )..initialPosition = position,
-    );
-
-    await add(
-      Pathway.arc(
-        color: const Color.fromARGB(255, 251, 255, 0),
-        center: position + Vector2(-28.8, -6),
-        radius: _radius,
-        angle: _angle,
-        width: _width,
-        layer: Layer.launcher,
-      )..initialPosition = position + Vector2(-28.8, -6),
-    );
-    await add(
-      LauncherRampOpening(
-        orientation: RampOrientation.down,
-        rotation: radians(13),
-      )..initialPosition = position + Vector2(-46.5, -8.5),
-    );
-    await add(
-      LauncherRampOpening(
-        orientation: RampOrientation.down,
-      )..initialPosition = position + Vector2(4, 0),
-    );
-
     gameRef.addContactCallback(
       RampOpeningBallContactCallback<LauncherRampOpening>(),
     );
+
+    final straightPath = Pathway.straight(
+      color: const Color.fromARGB(255, 34, 255, 0),
+      start: Vector2(0, 0),
+      end: Vector2(0, 600),
+      width: 80,
+      layer: Layer.launcher,
+    )..initialPosition = position;
+    final curvedPath = Pathway.arc(
+      color: const Color.fromARGB(255, 251, 255, 0),
+      center: position + Vector2(-28.8, -6),
+      radius: _radius,
+      angle: _angle,
+      width: _width,
+      layer: Layer.launcher,
+    )..initialPosition = position + Vector2(-28.8, -6);
+    final leftOpening = LauncherRampOpening(
+      orientation: RampOrientation.down,
+      rotation: radians(13),
+    )..initialPosition = position + Vector2(-46.5, -8.5);
+    final rightOpening = LauncherRampOpening(
+      orientation: RampOrientation.down,
+    )..initialPosition = position + Vector2(4, 0);
+
+    await addAll([
+      straightPath,
+      curvedPath,
+      leftOpening,
+      rightOpening,
+    ]);
   }
 }
 

@@ -8,12 +8,9 @@ import 'package:pinball/game/game.dart';
 /// {@endtemplate}
 class Ball extends BodyComponent<PinballGame> with InitialPosition, Layered {
   /// {@macro ball}
-  Ball({
-    Layer? layer,
-  }) : _layer = layer ?? Layer.board;
-
-  /// [Layer] of the board that the [Ball] will interact with.
-  final Layer _layer;
+  Ball() {
+    layer = Layer.board;
+  }
 
   /// The size of the [Ball]
   final Vector2 size = Vector2.all(2);
@@ -41,9 +38,7 @@ class Ball extends BodyComponent<PinballGame> with InitialPosition, Layered {
   Body createBody() {
     final shape = CircleShape()..radius = size.x / 2;
 
-    final fixtureDef = FixtureDef(shape)
-      ..density = 1
-      ..filter.maskBits = _layer.maskBits;
+    final fixtureDef = FixtureDef(shape)..density = 1;
 
     final bodyDef = BodyDef()
       ..position = initialPosition
