@@ -9,15 +9,12 @@ enum CharacterType {
   dash,
 
   /// Sparky character.
-
   sparky,
 
   /// Android character.
-
   android,
 
   /// Dino character.
-
   dino,
 }
 

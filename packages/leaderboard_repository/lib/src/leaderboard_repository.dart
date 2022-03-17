@@ -131,6 +131,7 @@ class LeaderboardRepository {
           .orderBy('score')
           .get();
 
+      // TODO(allisonryan0002): see if we can find a more performant solution.
       final documents = querySnapshot.docs;
       final ranking = documents.indexWhere(
             (document) => document.id == entryReference.id,
