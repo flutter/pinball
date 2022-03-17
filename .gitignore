@@ -126,4 +126,6 @@ app.*.map.json
 !.idea/dictionaries/
 !.idea/runConfigurations/
 
+# Firebase related
 .firebase
+web/__/firebase/init.js
