@@ -53,20 +53,17 @@ class _FlutterForest extends Component {
     // TODO(alestiago): adjust positioning once sprites are added.
     // TODO(alestiago): Use [NestBumper] instead of [RoundBumper] once provided.
     final smallLeftNest = RoundBumper(
-      position: position + Vector2(-4.8, 2.8),
       radius: 1,
       points: 10,
-    );
+    )..initialPosition = position + Vector2(-4.8, 2.8);
     final smallRightNest = RoundBumper(
-      position: position + Vector2(0.5, -5.5),
       radius: 1,
       points: 10,
-    );
+    )..initialPosition = position + Vector2(0.5, -5.5);
     final bigNest = RoundBumper(
-      position: position,
       radius: 2,
       points: 20,
-    );
+    )..initialPosition = position;
 
     await addAll([
       smallLeftNest,
