@@ -57,9 +57,6 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
       LogicalKeyboardKey.arrowDown,
       LogicalKeyboardKey.keyS,
     ];
-    // TODO(alestiago): Check why false cancels the event for other components.
-    // Investigate why return is of type [bool] expected instead of a type
-    // [KeyEventResult].
     if (!keys.contains(event.logicalKey)) return true;
 
     if (event is RawKeyDownEvent) {
@@ -68,7 +65,7 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
       _release();
     }
 
-    return true;
+    return false;
   }
 
   /// Anchors the [Plunger] to the [PrismaticJoint] that controls its vertical
