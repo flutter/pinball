@@ -4,9 +4,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flame/components.dart';
-import 'package:flame_forge2d/body_component.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 
 const _spaceShipBits = 0x0002;
@@ -72,6 +70,41 @@ class SpaceshipSauce extends BodyComponent {
   }
 }
 
+class SpaceshipBridgeTop extends BodyComponent {
+  SpaceshipBridgeTop(
+    this.position,
+  ) : super(priority: 6);
+
+  // TODO change to initial position
+  final Vector2 position;
+
+  static const spritePath = 'components/spaceship/android-top.png';
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+
+    final sprite = await gameRef.loadSprite(spritePath);
+    await add(
+      SpriteComponent(
+        sprite: sprite,
+        anchor: Anchor.center,
+        size: Vector2(Spaceship.size / 2.5 - 1, Spaceship.size / 5),
+      ),
+    );
+  }
+
+  @override
+  Body createBody() {
+    final bodyDef = BodyDef()
+      ..userData = this
+      ..position = position + Vector2(0, 5.5)
+      ..type = BodyType.static;
+
+    return world.createBody(bodyDef);
+  }
+}
+
 class SpaceshipEntrance extends BodyComponent {
   SpaceshipEntrance(this.position);
 
@@ -113,10 +146,32 @@ class SpaceshipBridge extends BodyComponent {
   // TODO change to initial position
   final Vector2 position;
 
+  static const spritePath = 'components/spaceship/android-bottom.png';
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+
+    renderBody = false;
+
+    final sprite = await gameRef.images.load(spritePath);
+    await add(
+      SpriteAnimationComponent.fromFrameData(
+        sprite,
+        SpriteAnimationData.sequenced(
+          amount: 14,
+          stepTime: 0.2,
+          textureSize: Vector2(160, 114),
+        ),
+        size: Vector2.all(Spaceship.size / 2.5),
+        anchor: Anchor.center,
+      ),
+    );
+  }
+
   @override
   Body createBody() {
     final circleShape = CircleShape()..radius = Spaceship.size / 5;
-    paint = Paint()..color = Colors.green;
 
     final bodyDef = BodyDef()
       ..userData = this

@@ -84,6 +84,7 @@ class PinballGame extends Forge2DGame
     unawaited(add(SpaceshipSauce(position)));
     unawaited(add(SpaceshipEntrance(position)));
     unawaited(add(SpaceshipBridge(position)));
+    unawaited(add(SpaceshipBridgeTop(position)));
 
     unawaited(add(SpaceshipHole(position - Vector2(5, 5))));
     unawaited(add(SpaceshipHole(position - Vector2(-5, 5))));
