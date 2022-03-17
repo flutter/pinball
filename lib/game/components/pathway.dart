@@ -9,14 +9,12 @@ import 'package:pinball/game/game.dart';
 ///
 /// [BodyComponent]s such as a Ball can collide and move along a [Pathway].
 /// {@endtemplate}
-class Pathway extends BodyComponent with InitialPosition {
+class Pathway extends BodyComponent with InitialPosition, Layered {
   Pathway._({
     // TODO(ruialonso): remove color when assets added.
     Color? color,
     required List<List<Vector2>> paths,
-    Layer? layer,
-  })  : _paths = paths,
-        _layer = layer {
+  }) : _paths = paths {
     paint = Paint()
       ..color = color ?? const Color.fromARGB(0, 0, 0, 0)
       ..style = PaintingStyle.stroke;
@@ -35,7 +33,6 @@ class Pathway extends BodyComponent with InitialPosition {
     required double width,
     double rotation = 0,
     bool singleWall = false,
-    Layer? layer,
   }) {
     final paths = <List<Vector2>>[];
 
@@ -57,7 +54,6 @@ class Pathway extends BodyComponent with InitialPosition {
     return Pathway._(
       color: color,
       paths: paths,
-      layer: layer,
     );
   }
 
@@ -81,7 +77,6 @@ class Pathway extends BodyComponent with InitialPosition {
     required double angle,
     double rotation = 0,
     bool singleWall = false,
-    Layer? layer,
   }) {
     final paths = <List<Vector2>>[];
 
@@ -107,7 +102,6 @@ class Pathway extends BodyComponent with InitialPosition {
     return Pathway._(
       color: color,
       paths: paths,
-      layer: layer,
     );
   }
 
@@ -126,7 +120,6 @@ class Pathway extends BodyComponent with InitialPosition {
     required double width,
     double rotation = 0,
     bool singleWall = false,
-    Layer? layer,
   }) {
     final paths = <List<Vector2>>[];
 
@@ -148,27 +141,30 @@ class Pathway extends BodyComponent with InitialPosition {
     return Pathway._(
       color: color,
       paths: paths,
-      layer: layer,
     );
   }
 
   final List<List<Vector2>> _paths;
-  Layer? _layer;
 
-  @override
-  Body createBody() {
-    final bodyDef = BodyDef()..position = initialPosition;
-    final body = world.createBody(bodyDef);
+  List<FixtureDef> _createFixtureDefs() {
+    final fixturesDef = <FixtureDef>[];
+
     for (final path in _paths) {
       final chain = ChainShape()
         ..createChain(
           path.map(gameRef.screenToWorld).toList(),
         );
-      final fixtureDef = FixtureDef(chain);
-
-      body.createFixture(fixtureDef).filterData.categoryBits =
-          _layer?.maskBits ?? Layer.board.maskBits;
+      fixturesDef.add(FixtureDef(chain));
     }
+
+    return fixturesDef;
+  }
+
+  @override
+  Body createBody() {
+    final bodyDef = BodyDef()..position = initialPosition;
+    final body = world.createBody(bodyDef);
+    _createFixtureDefs().forEach(body.createFixture);
 
     return body;
   }

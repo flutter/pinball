@@ -11,7 +11,7 @@ import 'package:pinball/game/game.dart';
 /// bodies with a different bit value.
 /// {@endtemplate}
 mixin Layered<T extends Forge2DGame> on BodyComponent<T> {
-  Layer _layer = Layer.board;
+  Layer _layer = Layer.all;
 
   /// Sets [Filter] category and mask bits for the [BodyComponent].
   Layer get layer => _layer;
@@ -19,7 +19,7 @@ mixin Layered<T extends Forge2DGame> on BodyComponent<T> {
   set layer(Layer value) {
     _layer = value;
     if (!isLoaded) {
-      // TODO(erickzanardo): Use loaded.whenComplete once provided.
+      // TODO(alestiago): Use loaded.whenComplete once provided.
       mounted.whenComplete(() => layer = value);
     } else {
       for (final fixture in body.fixtures) {

@@ -24,6 +24,8 @@ class LauncherRamp extends Component with HasGameRef<PinballGame> {
   /// The position of this [LauncherRamp]
   final Vector2 position;
 
+  static const _layer = Layer.launcher;
+
   @override
   Future<void> onLoad() async {
     gameRef.addContactCallback(
@@ -35,16 +37,18 @@ class LauncherRamp extends Component with HasGameRef<PinballGame> {
       start: Vector2(0, 0),
       end: Vector2(0, 600),
       width: 80,
-      layer: Layer.launcher,
-    )..initialPosition = position;
+    )
+      ..initialPosition = position
+      ..layer = _layer;
     final curvedPath = Pathway.arc(
       color: const Color.fromARGB(255, 251, 255, 0),
       center: position + Vector2(-28.8, -6),
       radius: _radius,
       angle: _angle,
       width: _width,
-      layer: Layer.launcher,
-    )..initialPosition = position + Vector2(-28.8, -6);
+    )
+      ..initialPosition = position + Vector2(-28.8, -6)
+      ..layer = _layer;
     final leftOpening = LauncherRampOpening(
       orientation: RampOrientation.down,
       rotation: radians(13),
@@ -86,18 +90,22 @@ class LauncherRampOpening extends RampOpening {
   /// entrance/exit of [LauncherRamp].
   final double _rotation;
 
-  /// Size of the [RampOpening] placed at the entrance/exit of [LauncherRamp].
-  final int _size = 6;
+  /// Size of the [RampOpening] placed at the entrance/exit of [JetpackRamp].
+  // TODO(ruialonso): Avoid magic number 3, should be propotional to
+  // [JetpackRamp].
+  final Vector2 _size = Vector2(3, .1);
 
   @override
   RampOrientation get orientation => _orientation;
 
   @override
-  Shape get shape => PolygonShape()
-    ..set([
-      Vector2(-_size / 2, -.1)..rotate(_rotation),
-      Vector2(-_size / 2, .1)..rotate(_rotation),
-      Vector2(_size / 2, .1)..rotate(_rotation),
-      Vector2(_size / 2, -.1)..rotate(_rotation),
-    ]);
+  Shape get shape {
+    final area = PolygonShape()..setAsBoxXY(_size.x, _size.y);
+    // TODO(alestiago): Use shape.rotate() once it's implemented.
+    for (final vertex in area.vertices) {
+      vertex.rotate(_rotation);
+    }
+
+    return area;
+  }
 }

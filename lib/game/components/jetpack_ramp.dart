@@ -17,6 +17,7 @@ class JetpackRamp extends Component with HasGameRef<PinballGame> {
 
   final double _radius = 200;
   final double _width = 80;
+  // TODO(ruialonso): Avoid using radians.
   final double _angle = radians(210);
   final double _rotation = radians(-10);
 
@@ -40,8 +41,9 @@ class JetpackRamp extends Component with HasGameRef<PinballGame> {
       radius: _radius,
       angle: _angle,
       rotation: _rotation,
-      layer: _layer,
-    )..initialPosition = position;
+    )
+      ..initialPosition = position
+      ..layer = _layer;
     final leftOpening = JetpackRampOpening(
       orientation: RampOrientation.down,
       rotation: radians(15),
@@ -84,17 +86,21 @@ class JetpackRampOpening extends RampOpening {
   final double _rotation;
 
   /// Size of the [RampOpening] placed at the entrance/exit of [JetpackRamp].
-  final int _size = 6;
+  // TODO(ruialonso): Avoid magic number 3, should be propotional to
+  // [JetpackRamp].
+  final Vector2 _size = Vector2(3, .1);
 
   @override
   RampOrientation get orientation => _orientation;
 
   @override
-  Shape get shape => PolygonShape()
-    ..set([
-      Vector2(-_size / 2, -.1)..rotate(_rotation),
-      Vector2(-_size / 2, .1)..rotate(_rotation),
-      Vector2(_size / 2, .1)..rotate(_rotation),
-      Vector2(_size / 2, -.1)..rotate(_rotation),
-    ]);
+  Shape get shape {
+    final area = PolygonShape()..setAsBoxXY(_size.x, _size.y);
+    // TODO(alestiago): Use shape.rotate() once it's implemented.
+    for (final vertex in area.vertices) {
+      vertex.rotate(_rotation);
+    }
+
+    return area;
+  }
 }
