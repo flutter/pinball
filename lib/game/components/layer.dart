@@ -132,12 +132,8 @@ class RampOpeningBallContactCallback<Opening extends RampOpening>
   final _ballsInside = <Ball>{};
 
   @override
-  void begin(
-    Ball ball,
-    Opening opening,
-    Contact _,
-  ) {
-    Layer layer;
+  void begin(Ball ball, Opening opening, Contact _) {
+    late final Layer layer;
     if (!_ballsInside.contains(ball)) {
       layer = opening.pathwayLayer;
       _ballsInside.add(ball);
@@ -150,24 +146,11 @@ class RampOpeningBallContactCallback<Opening extends RampOpening>
   }
 
   @override
-  void end(Ball ball, Opening opening, Contact contact) {
-    Layer? layer;
+  void end(Ball ball, Opening opening, Contact _) {
+    final isBallOutsideOpening = opening.orientation == RampOrientation.up
+        ? ball.body.position.y > opening.body.position.y
+        : ball.body.position.y < opening.body.position.y;
 
-    switch (opening.orientation) {
-      case RampOrientation.up:
-        if (ball.body.position.y > opening.body.position.y) {
-          layer = Layer.board;
-        }
-        break;
-      case RampOrientation.down:
-        if (ball.body.position.y < opening.body.position.y) {
-          layer = Layer.board;
-        }
-        break;
-    }
-
-    if (layer != null) {
-      ball.layer = layer;
-    }
+    if (isBallOutsideOpening) ball.layer = Layer.board;
   }
 }
