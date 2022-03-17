@@ -2,7 +2,6 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/leaderboard/leaderboard.dart';
-import 'package:pinball_theme/pinball_theme.dart';
 
 void main() {
   group('LeaderboardState', () {
@@ -25,6 +24,12 @@ void main() {
     });
 
     group('copyWith', () {
+      const leaderboardEntry = LeaderboardEntry(
+        playerInitials: 'ABC',
+        score: 1500,
+        character: CharacterType.dash,
+      );
+
       test(
         'copies correctly '
         'when no argument specified',
@@ -44,22 +49,16 @@ void main() {
           const leaderboardState = LeaderboardState();
           final otherLeaderboardState = LeaderboardState(
             status: LeaderboardStatus.success,
-            ranking: const [
-              Competitor(
-                rank: 1,
-                characterTheme: DashTheme(),
-                initials: 'ABC',
-                score: 10,
-              ),
-            ],
+            ranking: LeaderboardRanking(ranking: 0, outOf: 0),
+            leaderboard: const [leaderboardEntry],
           );
           expect(leaderboardState, isNot(equals(otherLeaderboardState)));
 
           expect(
             leaderboardState.copyWith(
-              status: otherLeaderboardState.status,
-              ranking: otherLeaderboardState.ranking,
-            ),
+                status: otherLeaderboardState.status,
+                ranking: otherLeaderboardState.ranking,
+                leaderboard: otherLeaderboardState.leaderboard),
             equals(otherLeaderboardState),
           );
         },

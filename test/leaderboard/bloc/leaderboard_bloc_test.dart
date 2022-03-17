@@ -4,7 +4,6 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/leaderboard/leaderboard.dart';
-import 'package:pinball_theme/pinball_theme.dart';
 
 class MockLeaderboardRepository extends Mock implements LeaderboardRepository {}
 
@@ -16,50 +15,50 @@ void main() {
       leaderboardRepository = MockLeaderboardRepository();
     });
 
-    test('initial state has state loading and empty ranking', () {
+    test('initial state has state loading no ranking and empty leaderboard',
+        () {
       final bloc = LeaderboardBloc(leaderboardRepository);
       expect(bloc.state.status, equals(LeaderboardStatus.loading));
-      expect(bloc.state.ranking.isEmpty, isTrue);
+      expect(bloc.state.ranking.ranking, equals(0));
+      expect(bloc.state.ranking.outOf, equals(0));
+      expect(bloc.state.leaderboard.isEmpty, isTrue);
     });
 
-    group('LeaderboardRequested', () {
-      final ranking = <Competitor>[
-        Competitor(
-          rank: 1,
-          characterTheme: DashTheme(),
-          initials: 'ABC',
-          score: 100,
-        ),
-        Competitor(
-          rank: 2,
-          characterTheme: SparkyTheme(),
-          initials: 'DEF',
-          score: 200,
-        ),
-        Competitor(
-          rank: 3,
-          characterTheme: AndroidTheme(),
-          initials: 'GHI',
-          score: 300,
-        ),
-        Competitor(
-          rank: 4,
-          characterTheme: DinoTheme(),
-          initials: 'JKL',
-          score: 400,
-        ),
+    group('Top10Fetched', () {
+      final top10Scores = [
+        2500,
+        2200,
+        2200,
+        2000,
+        1800,
+        1400,
+        1300,
+        1000,
+        600,
+        300,
+        100,
       ];
+
+      final top10Leaderboard = top10Scores
+          .map(
+            (score) => LeaderboardEntry(
+              playerInitials: 'user$score',
+              score: score,
+              character: CharacterType.dash,
+            ),
+          )
+          .toList();
 
       blocTest<LeaderboardBloc, LeaderboardState>(
         'emits [loading, success] statuses '
-        'when fetchRanking succeeds',
+        'when fetchTop10Leaderboard succeeds',
         setUp: () {
-          when(() => leaderboardRepository.fetchRanking()).thenAnswer(
-            (_) async => ranking,
+          when(() => leaderboardRepository.fetchTop10Leaderboard()).thenAnswer(
+            (_) async => top10Leaderboard,
           );
         },
         build: () => LeaderboardBloc(leaderboardRepository),
-        act: (bloc) => bloc.add(LeaderboardRequested()),
+        act: (bloc) => bloc.add(Top10Fetched()),
         expect: () => [
           const LeaderboardState(),
           isA<LeaderboardState>()
@@ -69,31 +68,96 @@ void main() {
               equals(LeaderboardStatus.success),
             )
             ..having(
-              (element) => element.ranking.length,
-              'ranking',
-              equals(ranking.length),
+              (element) => element.leaderboard.length,
+              'leaderboard',
+              equals(top10Leaderboard.length),
             )
         ],
         verify: (_) =>
-            verify(() => leaderboardRepository.fetchRanking()).called(1),
+            verify(() => leaderboardRepository.fetchTop10Leaderboard())
+                .called(1),
       );
 
       blocTest<LeaderboardBloc, LeaderboardState>(
         'emits [loading, error] statuses '
-        'when fetchRanking fails',
+        'when fetchTop10Leaderboard fails',
         setUp: () {
-          when(() => leaderboardRepository.fetchRanking()).thenThrow(
+          when(() => leaderboardRepository.fetchTop10Leaderboard()).thenThrow(
             Exception(),
           );
         },
         build: () => LeaderboardBloc(leaderboardRepository),
-        act: (bloc) => bloc.add(LeaderboardRequested()),
+        act: (bloc) => bloc.add(Top10Fetched()),
         expect: () => <LeaderboardState>[
           const LeaderboardState(),
           const LeaderboardState(status: LeaderboardStatus.error),
         ],
         verify: (_) =>
-            verify(() => leaderboardRepository.fetchRanking()).called(1),
+            verify(() => leaderboardRepository.fetchTop10Leaderboard())
+                .called(1),
+        errors: () => [isA<Exception>()],
+      );
+    });
+
+    group('LeaderboardEntryAdded', () {
+      final leaderboardEntry = LeaderboardEntry(
+        playerInitials: 'ABC',
+        score: 1500,
+        character: CharacterType.dash,
+      );
+
+      final ranking = LeaderboardRanking(ranking: 3, outOf: 4);
+
+      blocTest<LeaderboardBloc, LeaderboardState>(
+        'emits [loading, success] statuses '
+        'when addLeaderboardEntry succeeds',
+        setUp: () {
+          when(
+            () => leaderboardRepository.addLeaderboardEntry(leaderboardEntry),
+          ).thenAnswer(
+            (_) async => ranking,
+          );
+        },
+        build: () => LeaderboardBloc(leaderboardRepository),
+        act: (bloc) => bloc.add(LeaderboardEntryAdded(entry: leaderboardEntry)),
+        expect: () => [
+          const LeaderboardState(),
+          isA<LeaderboardState>()
+            ..having(
+              (element) => element.status,
+              'status',
+              equals(LeaderboardStatus.success),
+            )
+            ..having(
+              (element) => element.ranking,
+              'ranking',
+              equals(ranking),
+            )
+        ],
+        verify: (_) => verify(
+          () => leaderboardRepository.addLeaderboardEntry(leaderboardEntry),
+        ).called(1),
+      );
+
+      blocTest<LeaderboardBloc, LeaderboardState>(
+        'emits [loading, error] statuses '
+        'when addLeaderboardEntry fails',
+        setUp: () {
+          when(
+            () => leaderboardRepository.addLeaderboardEntry(leaderboardEntry),
+          ).thenThrow(
+            Exception(),
+          );
+        },
+        build: () => LeaderboardBloc(leaderboardRepository),
+        act: (bloc) => bloc.add(LeaderboardEntryAdded(entry: leaderboardEntry)),
+        expect: () => <LeaderboardState>[
+          const LeaderboardState(),
+          const LeaderboardState(status: LeaderboardStatus.error),
+        ],
+        verify: (_) => verify(
+          () => leaderboardRepository.addLeaderboardEntry(leaderboardEntry),
+        ).called(1),
         errors: () => [isA<Exception>()],
       );
     });
