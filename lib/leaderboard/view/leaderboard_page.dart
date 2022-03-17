@@ -16,7 +16,6 @@ class LeaderboardPage extends StatelessWidget {
   /// Current [CharacterTheme] to customize screen
   final CharacterTheme theme;
 
-  ///
   static Route route({required CharacterTheme theme}) {
     return MaterialPageRoute<void>(
       builder: (_) => LeaderboardPage(theme: theme),
