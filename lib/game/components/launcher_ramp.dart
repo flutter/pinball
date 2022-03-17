@@ -33,7 +33,7 @@ class LauncherRamp extends Component with HasGameRef<PinballGame> {
         end: Vector2(0, 600),
         width: 80,
         layer: Layer.launcher,
-      ),
+      )..initialPosition = position,
     );
 
     await add(
@@ -44,23 +44,23 @@ class LauncherRamp extends Component with HasGameRef<PinballGame> {
         angle: _angle,
         width: _width,
         layer: Layer.launcher,
-      ),
+      )..initialPosition = position + Vector2(-28.8, -6),
     );
     await add(
       LauncherRampOpening(
-        position: position + Vector2(-46.5, -8.5),
         orientation: RampOrientation.down,
         rotation: radians(13),
-      ),
+      )..initialPosition = position + Vector2(-46.5, -8.5),
     );
     await add(
       LauncherRampOpening(
-        position: position + Vector2(4, 0),
         orientation: RampOrientation.down,
-      ),
+      )..initialPosition = position + Vector2(4, 0),
     );
 
-    gameRef.addContactCallback(LauncherRampOpeningBallContactCallback());
+    gameRef.addContactCallback(
+      RampOpeningBallContactCallback<LauncherRampOpening>(),
+    );
   }
 }
 
@@ -71,13 +71,11 @@ class LauncherRamp extends Component with HasGameRef<PinballGame> {
 class LauncherRampOpening extends RampOpening {
   /// {@macro launcher_ramp_opening}
   LauncherRampOpening({
-    required Vector2 position,
     double rotation = 0,
     required RampOrientation orientation,
   })  : _rotation = rotation,
         _orientation = orientation,
         super(
-          position: position,
           pathwayLayer: Layer.launcher,
           openingLayer: Layer.opening,
         );
@@ -104,20 +102,4 @@ class LauncherRampOpening extends RampOpening {
       Vector2(_size / 2, .1)..rotate(_rotation),
       Vector2(_size / 2, -.1)..rotate(_rotation),
     ]);
-}
-
-/// {@template launcher_ramp_opening_ball_contact_callback}
-/// Detects when a [Ball] enters or exits the [LauncherRamp] through a
-/// [LauncherRampOpening].
-/// {@endtemplate}
-class LauncherRampOpeningBallContactCallback
-    extends RampOpeningBallContactCallback<LauncherRampOpening> {
-  /// {@macro launcher_ramp_opening_ball_contact_callback}
-  LauncherRampOpeningBallContactCallback() : super();
-
-  /// Collection of balls inside [LauncherRamp].
-  final _ballsInsideLauncher = <Ball>{};
-
-  @override
-  Set get ballsInside => _ballsInsideLauncher;
 }

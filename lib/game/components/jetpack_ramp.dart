@@ -34,25 +34,25 @@ class JetpackRamp extends Component with HasGameRef<PinballGame> {
         angle: _angle,
         rotation: _rotation,
         layer: Layer.jetpack,
-      ),
+      )..initialPosition = position,
     );
 
     await add(
       JetpackRampOpening(
-        position: position + Vector2(-11, 1),
         orientation: RampOrientation.down,
         rotation: radians(15),
-      ),
+      )..initialPosition = position + Vector2(-11, 1),
     );
     await add(
       JetpackRampOpening(
-        position: position + Vector2(20.5, 3.4),
         orientation: RampOrientation.down,
         rotation: radians(-9),
-      ),
+      )..initialPosition = position + Vector2(20.5, 3.4),
     );
 
-    gameRef.addContactCallback(JetpackRampOpeningBallContactCallback());
+    gameRef.addContactCallback(
+      RampOpeningBallContactCallback<JetpackRampOpening>(),
+    );
   }
 }
 
@@ -63,13 +63,11 @@ class JetpackRamp extends Component with HasGameRef<PinballGame> {
 class JetpackRampOpening extends RampOpening {
   /// {@macro jetpack_ramp_opening}
   JetpackRampOpening({
-    required Vector2 position,
     required RampOrientation orientation,
     double rotation = 0,
   })  : _rotation = rotation,
         _orientation = orientation,
         super(
-          position: position,
           pathwayLayer: Layer.jetpack,
           openingLayer: Layer.opening,
         );
@@ -96,20 +94,4 @@ class JetpackRampOpening extends RampOpening {
       Vector2(_size / 2, .1)..rotate(_rotation),
       Vector2(_size / 2, -.1)..rotate(_rotation),
     ]);
-}
-
-/// {@template jetpack_ramp_opening_ball_contact_callback}
-/// Detects when a [Ball] enters or exits the [JetpackRamp] through a
-/// [JetpackRampOpening].
-/// {@endtemplate}
-class JetpackRampOpeningBallContactCallback
-    extends RampOpeningBallContactCallback<JetpackRampOpening> {
-  /// {@macro jetpack_ramp_opening_ball_contact_callback}
-  JetpackRampOpeningBallContactCallback() : super();
-
-  /// Collection of balls inside [JetpackRamp].
-  final _ballsInsideJetpack = <Ball>{};
-
-  @override
-  Set get ballsInside => _ballsInsideJetpack;
 }

@@ -79,27 +79,24 @@ enum RampOrientation {
 /// through this opening. By default openings are [Layer.board] that
 /// means opening are at ground level, not over board.
 /// {@endtemplate}
-abstract class RampOpening extends BodyComponent {
+abstract class RampOpening extends BodyComponent with InitialPosition {
   /// {@macro ramp_opening}
   RampOpening({
-    required Vector2 position,
     required Layer pathwayLayer,
     Layer? openingLayer,
-  })  : _position = position,
-        _pathwayLayer = pathwayLayer,
+  })  : _pathwayLayer = pathwayLayer,
         _openingLayer = openingLayer ?? Layer.board;
 
-  final Vector2 _position;
   final Layer _openingLayer;
   final Layer _pathwayLayer;
 
-  /// Mask of category bits for collision with [RampOpening]
+  /// Mask of category bits for collision with [RampOpening].
   Layer get openingLayer => _openingLayer;
 
-  /// Mask of category bits for collision inside [Pathway]
+  /// Mask of category bits for collision inside [Pathway].
   Layer get pathwayLayer => _pathwayLayer;
 
-  /// The [Shape] of the [RampOpening]
+  /// The [Shape] of the [RampOpening].
   Shape get shape;
 
   /// Orientation of the [RampOpening] entrance/exit
@@ -115,7 +112,7 @@ abstract class RampOpening extends BodyComponent {
 
     final bodyDef = BodyDef()
       ..userData = this
-      ..position = _position
+      ..position = initialPosition
       ..type = BodyType.static;
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
@@ -129,10 +126,10 @@ abstract class RampOpening extends BodyComponent {
 /// Modifies [Ball]'s maskBits while it is inside the ramp. When [Ball] exits,
 /// sets maskBits to collide with all elements.
 /// {@endtemplate}
-abstract class RampOpeningBallContactCallback<Opening extends RampOpening>
+class RampOpeningBallContactCallback<Opening extends RampOpening>
     extends ContactCallback<Ball, Opening> {
   /// Collection of balls inside ramp pathway.
-  Set get ballsInside;
+  final _ballsInside = <Ball>{};
 
   @override
   void begin(
@@ -141,12 +138,12 @@ abstract class RampOpeningBallContactCallback<Opening extends RampOpening>
     Contact _,
   ) {
     Layer layer;
-    if (!ballsInside.contains(ball)) {
+    if (!_ballsInside.contains(ball)) {
       layer = opening.pathwayLayer;
-      ballsInside.add(ball);
+      _ballsInside.add(ball);
     } else {
       layer = Layer.board;
-      ballsInside.remove(ball);
+      _ballsInside.remove(ball);
     }
 
     ball.layer = layer;
@@ -158,12 +155,12 @@ abstract class RampOpeningBallContactCallback<Opening extends RampOpening>
 
     switch (opening.orientation) {
       case RampOrientation.up:
-        if (ball.body.position.y > opening._position.y) {
+        if (ball.body.position.y > opening.body.position.y) {
           layer = Layer.board;
         }
         break;
       case RampOrientation.down:
-        if (ball.body.position.y < opening._position.y) {
+        if (ball.body.position.y < opening.body.position.y) {
           layer = Layer.board;
         }
         break;
