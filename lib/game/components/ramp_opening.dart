@@ -85,16 +85,22 @@ class RampOpeningBallContactCallback<Opening extends RampOpening>
 
   @override
   void end(Ball ball, Opening opening, Contact _) {
-    // TODO(ruimiguel): check what happens with ball that slightly touch
-    // Opening and goes out again. With InitialPosition change now doesn't work
-    // position.y comparison
-    /*
-    final isBallOutsideOpening = opening.orientation == RampOrientation.up
-        ? ball.body.position.y > opening.initialPosition.y
-        : ball.body.position.y < opening.initialPosition.y;
+    if (!ballsInside.contains(ball)) {
+      ball.layer = Layer.board;
+    } else {
+      // TODO(ruimiguel): change this code. Check what happens with ball that
+      // slightly touch Opening and goes out again. With InitialPosition change
+      // now doesn't work position.y comparison
+      final isBallOutsideOpening =
+          (opening.orientation == RampOrientation.down &&
+                  ball.body.linearVelocity.y < 0) ||
+              (opening.orientation == RampOrientation.up &&
+                  ball.body.linearVelocity.y > 0);
 
-    if (isBallOutsideOpening) ball.layer = Layer.board;
-    */
-    if (!ballsInside.contains(ball)) ball.layer = Layer.board;
+      if (isBallOutsideOpening) {
+        ball.layer = Layer.board;
+        ballsInside.remove(ball);
+      }
+    }
   }
 }

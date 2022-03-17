@@ -144,9 +144,6 @@ void main() {
 
       callback.begin(ball, area, MockContact());
       verify(() => ball.layer = area.pathwayLayer).called(1);
-
-      callback.end(ball, area, MockContact());
-      verifyNever(() => ball.layer = Layer.board);
     });
 
     flameTester.test(
@@ -194,9 +191,6 @@ void main() {
 
       callback.begin(ball, area, MockContact());
       verify(() => ball.layer = area.pathwayLayer).called(1);
-
-      callback.end(ball, area, MockContact());
-      verifyNever(() => ball.layer = Layer.board);
     });
 
     flameTester.test(
@@ -220,15 +214,12 @@ void main() {
 
         callback.begin(ball, area, MockContact());
         expect(callback.ballsInside.contains(ball), isTrue);
-
-        callback.end(ball, area, MockContact());
       },
     );
 
     flameTester.test(
         'removes ball from ballsInside '
-        'when a ball enters upwards into a down oriented path '
-        'but falls again outside', (game) async {
+        'when a ball exits from a downward oriented ramp', (game) async {
       final ball = MockBall();
       final body = MockBody();
       final area = TestRampOpening(
@@ -239,6 +230,7 @@ void main() {
 
       when(() => ball.body).thenReturn(body);
       when(() => body.position).thenReturn(Vector2.zero());
+      when(() => body.linearVelocity).thenReturn(Vector2(0, -1));
       when(() => ball.layer).thenReturn(Layer.board);
 
       await game.ready();
@@ -250,17 +242,13 @@ void main() {
       expect(callback.ballsInside.length, equals(1));
       expect(callback.ballsInside.first, ball);
 
-      // TODO(ruimiguel): check what happens with ball that slightly touch
-      // Opening and goes out again. With InitialPosition change now doesn't
-      // work position.y comparison
       callback.end(ball, area, MockContact());
-      //expect(callback.ballsInside.isEmpty, true);
+      expect(callback.ballsInside.isEmpty, true);
     });
 
     flameTester.test(
         'changes ball layer '
-        'when a ball enters upwards into a down oriented path '
-        'but falls again outside', (game) async {
+        'when a ball exits from a downward oriented ramp', (game) async {
       final ball = MockBall();
       final body = MockBody();
       final area = TestRampOpening(
@@ -271,6 +259,33 @@ void main() {
 
       when(() => ball.body).thenReturn(body);
       when(() => body.position).thenReturn(Vector2.zero());
+      when(() => body.linearVelocity).thenReturn(Vector2(0, -1));
+      when(() => ball.layer).thenReturn(Layer.board);
+
+      await game.ready();
+      await game.ensureAdd(area);
+
+      callback.begin(ball, area, MockContact());
+      verify(() => ball.layer = Layer.jetpack).called(1);
+
+      callback.end(ball, area, MockContact());
+      verify(() => ball.layer = Layer.board);
+    });
+
+    flameTester.test(
+        'removes ball from ballsInside '
+        'when a ball exits from a upward oriented ramp', (game) async {
+      final ball = MockBall();
+      final body = MockBody();
+      final area = TestRampOpening(
+        orientation: RampOrientation.up,
+        pathwayLayer: Layer.jetpack,
+      )..initialPosition = Vector2(0, 10);
+      final callback = TestRampOpeningBallContactCallback();
+
+      when(() => ball.body).thenReturn(body);
+      when(() => body.position).thenReturn(Vector2.zero());
+      when(() => body.linearVelocity).thenReturn(Vector2(0, 1));
       when(() => ball.layer).thenReturn(Layer.board);
 
       await game.ready();
@@ -279,13 +294,37 @@ void main() {
       expect(callback.ballsInside.isEmpty, isTrue);
 
       callback.begin(ball, area, MockContact());
+      expect(callback.ballsInside.length, equals(1));
+      expect(callback.ballsInside.first, ball);
+
+      callback.end(ball, area, MockContact());
+      expect(callback.ballsInside.isEmpty, true);
+    });
+
+    flameTester.test(
+        'changes ball layer '
+        'when a ball exits from a upward oriented ramp', (game) async {
+      final ball = MockBall();
+      final body = MockBody();
+      final area = TestRampOpening(
+        orientation: RampOrientation.up,
+        pathwayLayer: Layer.jetpack,
+      )..initialPosition = Vector2(0, 10);
+      final callback = TestRampOpeningBallContactCallback();
+
+      when(() => ball.body).thenReturn(body);
+      when(() => body.position).thenReturn(Vector2.zero());
+      when(() => body.linearVelocity).thenReturn(Vector2(0, 1));
+      when(() => ball.layer).thenReturn(Layer.board);
+
+      await game.ready();
+      await game.ensureAdd(area);
+
+      callback.begin(ball, area, MockContact());
       verify(() => ball.layer = Layer.jetpack).called(1);
 
-      // TODO(ruimiguel): check what happens with ball that slightly touch
-      // Opening and goes out again. With InitialPosition change now doesn't
-      // work position.y comparison
       callback.end(ball, area, MockContact());
-      //verify(() => ball.layer = Layer.board);
+      verify(() => ball.layer = Layer.board);
     });
   });
 }
