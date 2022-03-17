@@ -251,8 +251,8 @@ void main() {
       expect(callback.ballsInside.first, ball);
 
       // TODO(ruimiguel): check what happens with ball that slightly touch
-      // Opening and goes out again. With InitialPosition change now doesn't work
-      // position.y comparison
+      // Opening and goes out again. With InitialPosition change now doesn't
+      // work position.y comparison
       callback.end(ball, area, MockContact());
       //expect(callback.ballsInside.isEmpty, true);
     });
@@ -282,8 +282,8 @@ void main() {
       verify(() => ball.layer = Layer.jetpack).called(1);
 
       // TODO(ruimiguel): check what happens with ball that slightly touch
-      // Opening and goes out again. With InitialPosition change now doesn't work
-      // position.y comparison
+      // Opening and goes out again. With InitialPosition change now doesn't
+      // work position.y comparison
       callback.end(ball, area, MockContact());
       //verify(() => ball.layer = Layer.board);
     });

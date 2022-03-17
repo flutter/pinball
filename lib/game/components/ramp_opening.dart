@@ -80,7 +80,6 @@ class RampOpeningBallContactCallback<Opening extends RampOpening>
       ball.layer = layer;
     } else {
       ballsInside.remove(ball);
-      ball.layer = Layer.board;
     }
   }
 
@@ -96,5 +95,6 @@ class RampOpeningBallContactCallback<Opening extends RampOpening>
 
     if (isBallOutsideOpening) ball.layer = Layer.board;
     */
+    if (!ballsInside.contains(ball)) ball.layer = Layer.board;
   }
 }
