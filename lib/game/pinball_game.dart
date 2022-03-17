@@ -15,21 +15,6 @@ class PinballGame extends Forge2DGame
 
   late final Plunger plunger;
 
-  late final launcherRampPosition = screenToWorld(
-    Vector2(
-          camera.viewport.effectiveSize.x / 2,
-          camera.viewport.effectiveSize.y / 2,
-        ) +
-        Vector2(373, -155),
-  );
-  late final jetpackRampPosition = screenToWorld(
-    Vector2(
-          camera.viewport.effectiveSize.x / 2,
-          camera.viewport.effectiveSize.y / 2,
-        ) +
-        Vector2(-150, -150),
-  );
-
   @override
   void onAttach() {
     super.onAttach();
@@ -113,17 +98,24 @@ class PinballGame extends Forge2DGame
   }
 
   Future<void> _addPaths() async {
-    await add(
-      JetpackRamp(
-        position: jetpackRampPosition,
+    final jetpackRamp = JetpackRamp(
+      position: screenToWorld(
+        Vector2(
+          camera.viewport.effectiveSize.x / 2 - 150,
+          camera.viewport.effectiveSize.y / 2 - 150,
+        ),
+      ),
+    );
+    final launcherRamp = LauncherRamp(
+      position: screenToWorld(
+        Vector2(
+          camera.viewport.effectiveSize.x / 2 + 373,
+          camera.viewport.effectiveSize.y / 2 - 155,
+        ),
       ),
     );
 
-    await add(
-      LauncherRamp(
-        position: launcherRampPosition,
-      ),
-    );
+    await addAll([jetpackRamp, launcherRamp]);
   }
 
   Future<void> _addPlunger() async {
