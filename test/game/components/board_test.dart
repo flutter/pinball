@@ -11,15 +11,15 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final flameTester = FlameTester(Forge2DGame.new);
 
-  group('BottomGroup', () {
+  group('Board', () {
     flameTester.test(
       'loads correctly',
       (game) async {
-        final bottomGroup = BottomGroup(position: Vector2.zero(), spacing: 0);
+        final board = Board(size: Vector2.all(500));
         await game.ready();
-        await game.ensureAdd(bottomGroup);
+        await game.ensureAdd(board);
 
-        expect(game.contains(bottomGroup), isTrue);
+        expect(game.contains(board), isTrue);
       },
     );
 
@@ -27,11 +27,11 @@ void main() {
       flameTester.test(
         'has one left flipper',
         (game) async {
-          final bottomGroup = BottomGroup(position: Vector2.zero(), spacing: 0);
+          final board = Board(size: Vector2.all(500));
           await game.ready();
-          await game.ensureAdd(bottomGroup);
+          await game.ensureAdd(board);
 
-          final leftFlippers = bottomGroup.findNestedChildren<Flipper>(
+          final leftFlippers = board.findNestedChildren<Flipper>(
             condition: (flipper) => flipper.side.isLeft,
           );
           expect(leftFlippers.length, equals(1));
@@ -41,11 +41,11 @@ void main() {
       flameTester.test(
         'has one right flipper',
         (game) async {
-          final bottomGroup = BottomGroup(position: Vector2.zero(), spacing: 0);
+          final board = Board(size: Vector2.all(500));
           await game.ready();
-          await game.ensureAdd(bottomGroup);
+          await game.ensureAdd(board);
 
-          final rightFlippers = bottomGroup.findNestedChildren<Flipper>(
+          final rightFlippers = board.findNestedChildren<Flipper>(
             condition: (flipper) => flipper.side.isRight,
           );
           expect(rightFlippers.length, equals(1));
@@ -55,11 +55,11 @@ void main() {
       flameTester.test(
         'has two Baseboards',
         (game) async {
-          final bottomGroup = BottomGroup(position: Vector2.zero(), spacing: 0);
+          final board = Board(size: Vector2.all(500));
           await game.ready();
-          await game.ensureAdd(bottomGroup);
+          await game.ensureAdd(board);
 
-          final baseboards = bottomGroup.findNestedChildren<Baseboard>();
+          final baseboards = board.findNestedChildren<Baseboard>();
           expect(baseboards.length, equals(2));
         },
       );
@@ -67,12 +67,25 @@ void main() {
       flameTester.test(
         'has two SlingShots',
         (game) async {
-          final bottomGroup = BottomGroup(position: Vector2.zero(), spacing: 0);
+          final board = Board(size: Vector2.all(500));
           await game.ready();
-          await game.ensureAdd(bottomGroup);
+          await game.ensureAdd(board);
 
-          final slingShots = bottomGroup.findNestedChildren<SlingShot>();
+          final slingShots = board.findNestedChildren<SlingShot>();
           expect(slingShots.length, equals(2));
+        },
+      );
+
+      flameTester.test(
+        'has three RoundBumpers',
+        (game) async {
+          // TODO(alestiago): change to [NestBumpers] once provided.
+          final board = Board(size: Vector2.all(500));
+          await game.ready();
+          await game.ensureAdd(board);
+
+          final roundBumpers = board.findNestedChildren<RoundBumper>();
+          expect(roundBumpers.length, equals(3));
         },
       );
     });
