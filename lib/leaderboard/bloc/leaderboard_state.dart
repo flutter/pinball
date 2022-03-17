@@ -53,8 +53,6 @@ class LeaderboardState extends Equatable {
   }
 }
 
-enum CharacterType { dash, sparky, android, dino }
-
 extension CharacterTypeX on CharacterType {
   CharacterTheme get theme {
     switch (this) {
@@ -85,32 +83,4 @@ extension CharacterThemeX on CharacterTheme {
         return CharacterType.dash;
     }
   }
-}
-
-class LeaderboardEntry extends Equatable {
-  const LeaderboardEntry({
-    required this.playerInitials,
-    required this.score,
-    required this.character,
-  });
-
-  final String playerInitials;
-  final int score;
-  final CharacterType character;
-
-  @override
-  List<Object?> get props => [playerInitials, character, score];
-}
-
-class LeaderboardRanking extends Equatable {
-  const LeaderboardRanking({
-    required this.ranking,
-    required this.outOf,
-  });
-
-  final int ranking;
-  final int outOf;
-
-  @override
-  List<Object?> get props => [ranking, outOf];
 }
