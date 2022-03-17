@@ -87,10 +87,7 @@ abstract class RampOpening extends BodyComponent {
     Layer? openingLayer,
   })  : _position = position,
         _pathwayLayer = pathwayLayer,
-        _openingLayer = openingLayer ?? Layer.board {
-    // TODO(ruialonso): remove paint color for BodyComponent.
-    // Left white for dev and testing.
-  }
+        _openingLayer = openingLayer ?? Layer.board;
 
   final Vector2 _position;
   final Layer _openingLayer;
@@ -106,6 +103,8 @@ abstract class RampOpening extends BodyComponent {
   Shape get shape;
 
   /// Orientation of the [RampOpening] entrance/exit
+  // TODO(ruimiguel): Try to remove the need of [RampOrientation] for collision
+  // calculations.
   RampOrientation get orientation;
 
   @override
