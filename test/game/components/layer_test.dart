@@ -24,9 +24,9 @@ void main() {
       for (final fixture in fixtures) {
         expect(
           fixture.filterData.categoryBits,
-          equals(layer.maskBits),
+          equals(layer._maskBits),
         );
-        expect(fixture.filterData.maskBits, equals(layer.maskBits));
+        expect(fixture.filterData.maskBits, equals(layer._maskBits));
       }
     }
 
@@ -128,39 +128,20 @@ void main() {
     });
   });
 
-  group('LayerX', () {
+  group('LayerMaskBits', () {
     test('all types are different', () {
-      expect(Layer.all.maskBits, isNot(equals(Layer.board.maskBits)));
-      expect(Layer.board.maskBits, isNot(equals(Layer.opening.maskBits)));
-      expect(Layer.opening.maskBits, isNot(equals(Layer.jetpack.maskBits)));
-      expect(Layer.jetpack.maskBits, isNot(equals(Layer.launcher.maskBits)));
-      expect(Layer.launcher.maskBits, isNot(equals(Layer.board.maskBits)));
+      expect(Layer.all._maskBits, isNot(equals(Layer.board._maskBits)));
+      expect(Layer.board._maskBits, isNot(equals(Layer.opening._maskBits)));
+      expect(Layer.opening._maskBits, isNot(equals(Layer.jetpack._maskBits)));
+      expect(Layer.jetpack._maskBits, isNot(equals(Layer.launcher._maskBits)));
+      expect(Layer.launcher._maskBits, isNot(equals(Layer.board._maskBits)));
     });
 
     test('ensure all maskBits are 16 bits max size', () {
       final maxMaskBitSize = math.pow(2, 16);
       for (final layer in Layer.values) {
-        expect(layer.maskBits, isNot(greaterThan(maxMaskBitSize)));
+        expect(layer._maskBits, isNot(greaterThan(maxMaskBitSize)));
       }
-    });
-
-    test('all type has 0xFFFF maskBits', () {
-      expect(Layer.all.maskBits, equals(0xFFFF));
-    });
-    test('board type has 0x0001 maskBits', () {
-      expect(Layer.board.maskBits, equals(0x0001));
-    });
-
-    test('opening type has 0x0007 maskBits', () {
-      expect(Layer.opening.maskBits, equals(0x0007));
-    });
-
-    test('jetpack type has 0x0002 maskBits', () {
-      expect(Layer.jetpack.maskBits, equals(0x0002));
-    });
-
-    test('launcher type has 0x0005 maskBits', () {
-      expect(Layer.launcher.maskBits, equals(0x0005));
     });
   });
 }

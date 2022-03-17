@@ -1,16 +1,17 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 
-/// Modifies maskBits of [BodyComponent] to control what other bodies it can
-/// have physical interactions with.
+/// {@template layered}
+/// Modifies maskBits and categoryBits of all the [BodyComponent]'s [Fixture]s
+/// to specify what other [BodyComponent]s it can collide with.
 ///
-/// Changes the [Filter] data for category and maskBits of the [BodyComponent]
-/// so it will only collide with bodies having the same bit value and ignore
-/// bodies with a different bit value.
+/// [BodyComponent]s with the same [Layer] can collide with each other, ignoring
+/// those with different [Layer]s.
 /// {@endtemplate}
 mixin Layered<T extends Forge2DGame> on BodyComponent<T> {
   Layer _layer = Layer.all;
 
-  /// Sets [Filter] category and mask bits for the [BodyComponent].
+  /// {@macro layered}
   Layer get layer => _layer;
 
   set layer(Layer value) {
@@ -19,18 +20,18 @@ mixin Layered<T extends Forge2DGame> on BodyComponent<T> {
       // TODO(alestiago): Use loaded.whenComplete once provided.
       mounted.whenComplete(() {
         layer = value;
-        _applyMaskbits();
+        _applyMaskBits();
       });
     } else {
-      _applyMaskbits();
+      _applyMaskBits();
     }
   }
 
-  void _applyMaskbits() {
+  void _applyMaskBits() {
     for (final fixture in body.fixtures) {
       fixture
-        ..filterData.categoryBits = layer.maskBits
-        ..filterData.maskBits = layer.maskBits;
+        ..filterData.categoryBits = layer._maskBits
+        ..filterData.maskBits = layer._maskBits;
     }
   }
 }
@@ -56,10 +57,18 @@ enum Layer {
   launcher,
 }
 
-/// Utility methods for [Layer].
-extension LayerX on Layer {
-  /// Mask of bits for each [Layer] to filter collisions.
-  int get maskBits {
+/// {@template layer_mask_bits}
+/// Specifies the maskBits of each [Layer].
+///
+/// Used by [Layered] to specify what other [BodyComponent]s it can collide
+///
+/// Note: the maximum value for maskBits is 2^16.
+/// {@endtemplate}
+@visibleForTesting
+extension LayerMaskBits on Layer {
+  /// {@macro layer_mask_bits}
+  int get _maskBits {
+    // TODO(ruialonso): test bit groups once final design is implemented.
     switch (this) {
       case Layer.all:
         return 0xFFFF;

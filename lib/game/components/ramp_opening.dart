@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_renaming_method_parameters
 
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 
 /// {@template ramp_orientation}
@@ -21,7 +20,7 @@ enum RampOrientation {
 /// [RampOpeningBallContactCallback] detects when a [Ball] passes
 /// through this opening.
 ///
-/// By default the [layer] is set to [Layer.board].
+/// By default the base [layer] is set to [Layer.board].
 /// {@endtemplate}
 // TODO(ruialonso): Consider renaming the class.
 abstract class RampOpening extends BodyComponent with InitialPosition, Layered {
@@ -62,24 +61,23 @@ abstract class RampOpening extends BodyComponent with InitialPosition, Layered {
 /// Detects when a [Ball] enters or exits a [Pathway] ramp through a
 /// [RampOpening].
 ///
-/// Modifies [Ball]'s maskBits while it is inside the ramp. When [Ball] exits,
-/// sets maskBits to collide with all elements.
+/// Modifies [Ball]'s [Layer] accordingly depending on whether the [Ball] is
+/// outside or inside a ramp.
 /// {@endtemplate}
 class RampOpeningBallContactCallback<Opening extends RampOpening>
     extends ContactCallback<Ball, Opening> {
-  /// Collection of balls inside ramp pathway.
-  @visibleForTesting
-  final ballsInside = <Ball>{};
+  /// [Ball]s currently inside the ramp.
+  final _ballsInside = <Ball>{};
 
   @override
   void begin(Ball ball, Opening opening, Contact _) {
     late final Layer layer;
-    if (!ballsInside.contains(ball)) {
+    if (!_ballsInside.contains(ball)) {
       layer = opening.pathwayLayer;
-      ballsInside.add(ball);
+      _ballsInside.add(ball);
     } else {
       layer = Layer.board;
-      ballsInside.remove(ball);
+      _ballsInside.remove(ball);
     }
 
     ball.layer = layer;
