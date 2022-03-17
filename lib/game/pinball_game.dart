@@ -102,15 +102,15 @@ class PinballGame extends Forge2DGame
       position: screenToWorld(
         Vector2(
           camera.viewport.effectiveSize.x / 2 - 150,
-          camera.viewport.effectiveSize.y / 2 - 150,
+          camera.viewport.effectiveSize.y / 2 - 250,
         ),
       ),
     );
     final launcherRamp = LauncherRamp(
       position: screenToWorld(
         Vector2(
-          camera.viewport.effectiveSize.x / 2 + 373,
-          camera.viewport.effectiveSize.y / 2 - 155,
+          camera.viewport.effectiveSize.x / 2 + 400,
+          camera.viewport.effectiveSize.y / 2 - 330,
         ),
       ),
     );
@@ -124,7 +124,7 @@ class PinballGame extends Forge2DGame
     );
     plunger.initialPosition = screenToWorld(
       Vector2(
-        camera.viewport.effectiveSize.x / 1.035,
+        camera.viewport.effectiveSize.x / 2 + 450,
         camera.viewport.effectiveSize.y - plunger.compressionDistance,
       ),
     );

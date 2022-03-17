@@ -1,13 +1,12 @@
+import 'dart:math' as math;
+
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
 
 /// {@template jetpack_ramp}
-/// Represents the upper left blue ramp for the game.
-///
-/// Composed of a [Pathway.arc] defining the ramp, and two
-/// [JetpackRampOpening]s at the entrance and exit of the ramp.
+/// Represents the upper left blue ramp of the [Board].
 /// {@endtemplate}
 class JetpackRamp extends Component with HasGameRef<PinballGame> {
   /// {@macro jetpack_ramp}
@@ -15,21 +14,13 @@ class JetpackRamp extends Component with HasGameRef<PinballGame> {
     required this.position,
   });
 
-  final double _radius = 200;
-  final double _width = 80;
-  // TODO(ruialonso): Avoid using radians.
-  final double _angle = radians(210);
-  final double _rotation = radians(-10);
-
-  /// The position of this [JetpackRamp]
+  /// The position of this [JetpackRamp].
   final Vector2 position;
-
-  static const _layer = Layer.jetpack;
 
   @override
   Future<void> onLoad() async {
     gameRef.addContactCallback(
-      RampOpeningBallContactCallback<JetpackRampOpening>(),
+      RampOpeningBallContactCallback<_JetpackRampOpening>(),
     );
 
     final curvePath = Pathway.arc(
@@ -37,24 +28,22 @@ class JetpackRamp extends Component with HasGameRef<PinballGame> {
       // TODO(ruialonso): Use a bezier curve once control points are defined.
       color: const Color.fromARGB(255, 8, 218, 241),
       center: position,
-      width: _width,
-      radius: _radius,
-      angle: _angle,
-      rotation: _rotation,
+      width: 80,
+      radius: 200,
+      angle: 7 * math.pi / 6,
+      rotation: -math.pi / 18,
     )
       ..initialPosition = position
-      ..layer = _layer;
-    final leftOpening = JetpackRampOpening(
-      orientation: RampOrientation.down,
-      rotation: radians(15),
+      ..layer = Layer.jetpack;
+    final leftOpening = _JetpackRampOpening(
+      rotation: 15 * math.pi / 180,
     )
-      ..initialPosition = position + Vector2(-25.7, 25)
+      ..initialPosition = position + Vector2(-27, 21)
       ..layer = Layer.opening;
-    final rightOpening = JetpackRampOpening(
-      orientation: RampOrientation.down,
-      rotation: radians(-9),
+    final rightOpening = _JetpackRampOpening(
+      rotation: -math.pi / 20,
     )
-      ..initialPosition = position + Vector2(-10, 26.2)
+      ..initialPosition = position + Vector2(-11, 22.5)
       ..layer = Layer.opening;
 
     await addAll([
@@ -69,32 +58,21 @@ class JetpackRamp extends Component with HasGameRef<PinballGame> {
 /// [RampOpening] with [Layer.jetpack] to filter [Ball] collisions
 /// inside [JetpackRamp].
 /// {@endtemplate}
-class JetpackRampOpening extends RampOpening {
+class _JetpackRampOpening extends RampOpening {
   /// {@macro jetpack_ramp_opening}
-  JetpackRampOpening({
-    required RampOrientation orientation,
-    double rotation = 0,
+  _JetpackRampOpening({
+    required double rotation,
   })  : _rotation = rotation,
-        _orientation = orientation,
         super(
           pathwayLayer: Layer.jetpack,
+          orientation: RampOrientation.down,
         );
 
-  /// Orientation of entrance/exit of [JetpackRamp] where
-  /// this [JetpackRampOpening] is placed.
-  final RampOrientation _orientation;
-
-  /// Rotation of the [RampOpening] to place it right at the
-  /// entrance/exit of [JetpackRamp].
   final double _rotation;
 
-  /// Size of the [RampOpening] placed at the entrance/exit of [JetpackRamp].
   // TODO(ruialonso): Avoid magic number 3, should be propotional to
   // [JetpackRamp].
-  final Vector2 _size = Vector2(3, .1);
-
-  @override
-  RampOrientation get orientation => _orientation;
+  static final Vector2 _size = Vector2(3, .1);
 
   @override
   Shape get shape => PolygonShape()

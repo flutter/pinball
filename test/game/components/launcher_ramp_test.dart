@@ -9,8 +9,6 @@ import 'package:pinball/game/game.dart';
 
 import '../../helpers/helpers.dart';
 
-class MockLauncherRampArea extends Mock implements LauncherRampOpening {}
-
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final flameTester = FlameTester(PinballGameTest.create);
@@ -60,7 +58,7 @@ void main() {
       );
 
       flameTester.test(
-        'has a two sensors for the ramp',
+        'has a two RampOpenings for the ramp',
         (game) async {
           final ramp = LauncherRamp(
             position: Vector2.zero(),
@@ -68,27 +66,10 @@ void main() {
           await game.ready();
           await game.ensureAdd(ramp);
 
-          final rampAreas =
-              ramp.children.whereType<LauncherRampOpening>().toList();
+          final rampAreas = ramp.children.whereType<RampOpening>().toList();
           expect(rampAreas.length, 2);
         },
       );
     });
-  });
-
-  group('LauncherRampOpening', () {
-    flameTester.test(
-      'orientation is down',
-      (game) async {
-        final position = Vector2.all(10);
-        final ramp = LauncherRampOpening(
-          orientation: RampOrientation.down,
-        )..initialPosition = position;
-        await game.ready();
-        await game.ensureAdd(ramp);
-
-        expect(ramp.orientation, RampOrientation.down);
-      },
-    );
   });
 }

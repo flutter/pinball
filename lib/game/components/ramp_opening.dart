@@ -4,14 +4,14 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 
-/// Indicates the orientation of a ramp entrance/exit.
-///
-/// Used to know if a ramp is facing up or down on the board.
+/// {@template ramp_orientation}
+/// Determines if a ramp is facing [up] or [down] on the [Board].
+/// {@endtemplate}
 enum RampOrientation {
-  /// Facing up on the board.
+  /// Facing up on the [Board].
   up,
 
-  /// Facing down on the board.
+  /// Facing down on the [Board].
   down,
 }
 
@@ -19,13 +19,16 @@ enum RampOrientation {
 /// [BodyComponent] located at the entrance and exit of a ramp.
 ///
 /// [RampOpeningBallContactCallback] detects when a [Ball] passes
-/// through this opening. By default openings are [Layer.board] that
-/// means opening are at ground level, not over board.
+/// through this opening.
+///
+/// By default the [layer] is set to [Layer.board].
 /// {@endtemplate}
+// TODO(ruialonso): Consider renaming the class.
 abstract class RampOpening extends BodyComponent with InitialPosition, Layered {
   /// {@macro ramp_opening}
   RampOpening({
     required Layer pathwayLayer,
+    required this.orientation,
   }) : _pathwayLayer = pathwayLayer {
     layer = Layer.board;
   }
@@ -37,10 +40,10 @@ abstract class RampOpening extends BodyComponent with InitialPosition, Layered {
   /// The [Shape] of the [RampOpening].
   Shape get shape;
 
-  /// Orientation of the [RampOpening] entrance/exit
+  /// {@macro ramp_orientation}
   // TODO(ruimiguel): Try to remove the need of [RampOrientation] for collision
   // calculations.
-  RampOrientation get orientation;
+  final RampOrientation orientation;
 
   @override
   Body createBody() {
@@ -85,8 +88,8 @@ class RampOpeningBallContactCallback<Opening extends RampOpening>
   @override
   void end(Ball ball, Opening opening, Contact _) {
     final isBallOutsideOpening = opening.orientation == RampOrientation.up
-        ? ball.body.position.y > opening.body.position.y
-        : ball.body.position.y < opening.body.position.y;
+        ? ball.body.position.y > opening.initialPosition.y
+        : ball.body.position.y < opening.initialPosition.y;
 
     if (isBallOutsideOpening) ball.layer = Layer.board;
   }
