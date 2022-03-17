@@ -21,19 +21,14 @@ enum RampOrientation {
 /// through this opening. By default openings are [Layer.board] that
 /// means opening are at ground level, not over board.
 /// {@endtemplate}
-abstract class RampOpening extends BodyComponent with InitialPosition {
+abstract class RampOpening extends BodyComponent with InitialPosition, Layered {
   /// {@macro ramp_opening}
   RampOpening({
     required Layer pathwayLayer,
-    Layer? openingLayer,
-  })  : _pathwayLayer = pathwayLayer,
-        _openingLayer = openingLayer ?? Layer.board;
-
-  final Layer _openingLayer;
+  }) : _pathwayLayer = pathwayLayer {
+    layer = Layer.board;
+  }
   final Layer _pathwayLayer;
-
-  /// Mask of category bits for collision with [RampOpening].
-  Layer get openingLayer => _openingLayer;
 
   /// Mask of category bits for collision inside [Pathway].
   Layer get pathwayLayer => _pathwayLayer;
@@ -48,9 +43,7 @@ abstract class RampOpening extends BodyComponent with InitialPosition {
 
   @override
   Body createBody() {
-    final fixtureDef = FixtureDef(shape)
-      ..isSensor = true
-      ..filter.categoryBits = _openingLayer.maskBits;
+    final fixtureDef = FixtureDef(shape)..isSensor = true;
 
     final bodyDef = BodyDef()
       ..userData = this

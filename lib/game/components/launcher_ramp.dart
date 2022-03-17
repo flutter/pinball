@@ -52,10 +52,14 @@ class LauncherRamp extends Component with HasGameRef<PinballGame> {
     final leftOpening = LauncherRampOpening(
       orientation: RampOrientation.down,
       rotation: radians(13),
-    )..initialPosition = position + Vector2(-46.5, -8.5);
+    )
+      ..initialPosition = position + Vector2(-46.5, -8.5)
+      ..layer = Layer.opening;
     final rightOpening = LauncherRampOpening(
       orientation: RampOrientation.down,
-    )..initialPosition = position + Vector2(4, 0);
+    )
+      ..initialPosition = position + Vector2(4, 0)
+      ..layer = Layer.opening;
 
     await addAll([
       straightPath,
@@ -79,7 +83,6 @@ class LauncherRampOpening extends RampOpening {
         _orientation = orientation,
         super(
           pathwayLayer: Layer.launcher,
-          openingLayer: Layer.opening,
         );
 
   /// Orientation of entrance/exit of [LauncherRamp] where

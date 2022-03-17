@@ -47,11 +47,15 @@ class JetpackRamp extends Component with HasGameRef<PinballGame> {
     final leftOpening = JetpackRampOpening(
       orientation: RampOrientation.down,
       rotation: radians(15),
-    )..initialPosition = position + Vector2(-11, 1);
+    )
+      ..initialPosition = position + Vector2(-11, 1)
+      ..layer = Layer.opening;
     final rightOpening = JetpackRampOpening(
       orientation: RampOrientation.down,
       rotation: radians(-9),
-    )..initialPosition = position + Vector2(20.5, 3.4);
+    )
+      ..initialPosition = position + Vector2(20.5, 3.4)
+      ..layer = Layer.opening;
 
     await addAll([
       curvePath,
@@ -74,7 +78,6 @@ class JetpackRampOpening extends RampOpening {
         _orientation = orientation,
         super(
           pathwayLayer: Layer.jetpack,
-          openingLayer: Layer.opening,
         );
 
   /// Orientation of entrance/exit of [JetpackRamp] where
