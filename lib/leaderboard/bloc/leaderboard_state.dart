@@ -1,8 +1,22 @@
 part of 'leaderboard_bloc.dart';
 
-enum LeaderboardStatus { loading, success, error }
+/// Defines request status
+enum LeaderboardStatus {
+  /// While loading request.
+  loading,
 
+  /// Everything run ok and received response.
+  success,
+
+  /// There were some error on request.
+  error,
+}
+
+/// {@template leaderboard_state}
+/// Represents the state of the leaderboard.
+/// {@endtemplate}
 class LeaderboardState extends Equatable {
+  /// {@macro leaderboard_state}
   const LeaderboardState({
     this.status = LeaderboardStatus.loading,
     this.ranking = const LeaderboardRanking(
@@ -12,13 +26,20 @@ class LeaderboardState extends Equatable {
     this.leaderboard = const [],
   });
 
+  /// The current [LeaderboardStatus] of the state
   final LeaderboardStatus status;
+
+  /// Ranking for the user.
   final LeaderboardRanking ranking;
+
+  /// List of users at leaderboard.
   final List<LeaderboardEntry> leaderboard;
 
   @override
   List<Object> get props => [status, ranking, leaderboard];
 
+  /// Method to copy [LeaderboardState] modifying only explicit params and
+  /// keeping others.
   LeaderboardState copyWith({
     LeaderboardStatus? status,
     LeaderboardRanking? ranking,

@@ -17,7 +17,13 @@ class LeaderboardRepository {
   }
 }
 
+/// {@template leaderboard_bloc}
+/// Bloc for manage events on leaderboard.
+///
+/// Uses a [LeaderboardRepository] to request and update players participations.
+/// {@endtemplate}
 class LeaderboardBloc extends Bloc<LeaderboardEvent, LeaderboardState> {
+  /// {@macro leaderboard_bloc}
   LeaderboardBloc(this._leaderboardRepository)
       : super(const LeaderboardState()) {
     on<Top10Fetched>(_onTop10Fetched);
@@ -26,7 +32,7 @@ class LeaderboardBloc extends Bloc<LeaderboardEvent, LeaderboardState> {
 
   final LeaderboardRepository _leaderboardRepository;
 
-  FutureOr<void> _onTop10Fetched(
+  Future<void> _onTop10Fetched(
     Top10Fetched event,
     Emitter<LeaderboardState> emit,
   ) async {
@@ -46,7 +52,7 @@ class LeaderboardBloc extends Bloc<LeaderboardEvent, LeaderboardState> {
     }
   }
 
-  FutureOr<void> _onLeaderboardEntryAdded(
+  Future<void> _onLeaderboardEntryAdded(
     LeaderboardEntryAdded event,
     Emitter<LeaderboardState> emit,
   ) async {
