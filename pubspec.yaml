@@ -20,6 +20,8 @@ dependencies:
   geometry:
     path: packages/geometry
   intl: ^0.17.0
+  leaderboard_repository:
+    path: packages/leaderboard_repository
   pinball_theme:
     path: packages/pinball_theme
 
