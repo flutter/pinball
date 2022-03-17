@@ -42,7 +42,7 @@ class LauncherRamp extends Component with HasGameRef<PinballGame> {
       ..layer = _layer;
     final curvedPath = Pathway.arc(
       color: const Color.fromARGB(255, 251, 255, 0),
-      center: position + Vector2(-28.8, -6),
+      center: position + Vector2(-24, -6),
       radius: _radius,
       angle: _angle,
       width: _width,

@@ -72,13 +72,13 @@ void main() {
       );
 
       flameTester.test(
-        'has default filter maskBits',
+        'has all as default filter maskBits',
         (game) async {
           final ball = Ball();
           await game.ensureAdd(ball);
 
           final fixture = ball.body.fixtures[0];
-          expect(fixture.filterData.maskBits, equals(Layer.board.maskBits));
+          expect(fixture.filterData.maskBits, equals(Layer.all.maskBits));
         },
       );
     });
@@ -164,7 +164,7 @@ void main() {
           final fixture = ball.body.fixtures[0];
 
           expect(fixture.filterData.categoryBits, equals(1));
-          expect(fixture.filterData.maskBits, equals(Layer.board.maskBits));
+          expect(fixture.filterData.maskBits, equals(Layer.all.maskBits));
 
           ball.layer = newLayer;
 

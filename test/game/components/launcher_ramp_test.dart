@@ -82,23 +82,13 @@ void main() {
       (game) async {
         final position = Vector2.all(10);
         final ramp = LauncherRampOpening(
-          position: position,
           orientation: RampOrientation.down,
-        );
+        )..initialPosition = position;
         await game.ready();
         await game.ensureAdd(ramp);
 
         expect(ramp.orientation, RampOrientation.down);
       },
     );
-  });
-
-  group('LauncherRampOpeningBallContactCallback', () {
-    test('has no ball inside on creation', () {
-      expect(
-        LauncherRampOpeningBallContactCallback().ballsInside,
-        equals(<Ball>{}),
-      );
-    });
   });
 }

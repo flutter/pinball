@@ -29,21 +29,6 @@ void main() {
       },
     );
 
-    group('constructor', () {
-      flameTester.test(
-        'positions correctly',
-        (game) async {
-          final position = Vector2.all(10);
-          final ramp = JetpackRamp(
-            position: position,
-          );
-          await game.ensureAdd(ramp);
-
-          expect(ramp.position, equals(position));
-        },
-      );
-    });
-
     group('children', () {
       flameTester.test(
         'has only one Pathway.arc',
@@ -86,23 +71,13 @@ void main() {
       (game) async {
         final position = Vector2.all(10);
         final ramp = JetpackRampOpening(
-          position: position,
           orientation: RampOrientation.down,
-        );
+        )..initialPosition = position;
         await game.ready();
         await game.ensureAdd(ramp);
 
         expect(ramp.orientation, RampOrientation.down);
       },
     );
-  });
-
-  group('JetpackRampOpeningBallContactCallback', () {
-    test('has no ball inside on creation', () {
-      expect(
-        JetpackRampOpeningBallContactCallback().ballsInside,
-        equals(<Ball>{}),
-      );
-    });
   });
 }

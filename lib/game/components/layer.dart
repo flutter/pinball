@@ -17,13 +17,20 @@ mixin Layered<T extends Forge2DGame> on BodyComponent<T> {
     _layer = value;
     if (!isLoaded) {
       // TODO(alestiago): Use loaded.whenComplete once provided.
-      mounted.whenComplete(() => layer = value);
+      mounted.whenComplete(() {
+        layer = value;
+        _applyMaskbits();
+      });
     } else {
-      for (final fixture in body.fixtures) {
-        fixture
-          ..filterData.categoryBits = layer.maskBits
-          ..filterData.maskBits = layer.maskBits;
-      }
+      _applyMaskbits();
+    }
+  }
+
+  void _applyMaskbits() {
+    for (final fixture in body.fixtures) {
+      fixture
+        ..filterData.categoryBits = layer.maskBits
+        ..filterData.maskBits = layer.maskBits;
     }
   }
 }

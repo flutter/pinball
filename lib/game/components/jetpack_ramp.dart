@@ -48,13 +48,13 @@ class JetpackRamp extends Component with HasGameRef<PinballGame> {
       orientation: RampOrientation.down,
       rotation: radians(15),
     )
-      ..initialPosition = position + Vector2(-11, 1)
+      ..initialPosition = position + Vector2(-25.7, 25)
       ..layer = Layer.opening;
     final rightOpening = JetpackRampOpening(
       orientation: RampOrientation.down,
       rotation: radians(-9),
     )
-      ..initialPosition = position + Vector2(20.5, 3.4)
+      ..initialPosition = position + Vector2(-10, 26.2)
       ..layer = Layer.opening;
 
     await addAll([
@@ -97,13 +97,11 @@ class JetpackRampOpening extends RampOpening {
   RampOrientation get orientation => _orientation;
 
   @override
-  Shape get shape {
-    final area = PolygonShape()..setAsBoxXY(_size.x, _size.y);
-    // TODO(alestiago): Use shape.rotate() once it's implemented.
-    for (final vertex in area.vertices) {
-      vertex.rotate(_rotation);
-    }
-
-    return area;
-  }
+  Shape get shape => PolygonShape()
+    ..setAsBox(
+      _size.x,
+      _size.y,
+      initialPosition,
+      _rotation,
+    );
 }

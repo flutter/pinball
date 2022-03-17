@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_renaming_method_parameters
 
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 
 /// Indicates the orientation of a ramp entrance/exit.
@@ -64,17 +65,18 @@ abstract class RampOpening extends BodyComponent with InitialPosition, Layered {
 class RampOpeningBallContactCallback<Opening extends RampOpening>
     extends ContactCallback<Ball, Opening> {
   /// Collection of balls inside ramp pathway.
-  final _ballsInside = <Ball>{};
+  @visibleForTesting
+  final ballsInside = <Ball>{};
 
   @override
   void begin(Ball ball, Opening opening, Contact _) {
     late final Layer layer;
-    if (!_ballsInside.contains(ball)) {
+    if (!ballsInside.contains(ball)) {
       layer = opening.pathwayLayer;
-      _ballsInside.add(ball);
+      ballsInside.add(ball);
     } else {
       layer = Layer.board;
-      _ballsInside.remove(ball);
+      ballsInside.remove(ball);
     }
 
     ball.layer = layer;
