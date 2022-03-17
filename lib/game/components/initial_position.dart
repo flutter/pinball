@@ -24,6 +24,11 @@ mixin InitialPosition<T extends Forge2DGame> on BodyComponent<T> {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    body.position.setFrom(initialPosition);
+    // TODO(alestiago): Investiagate why body.position.setFrom(initialPosition)
+    // works for some components and not others.
+    assert(
+      body.position == initialPosition,
+      'Body position does not match initialPosition.',
+    );
   }
 }

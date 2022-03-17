@@ -129,6 +129,7 @@ class BonusLetter extends BodyComponent<PinballGame>
     final fixtureDef = FixtureDef(shape)..isSensor = true;
 
     final bodyDef = BodyDef()
+      ..position = initialPosition
       ..userData = this
       ..type = BodyType.static;
 

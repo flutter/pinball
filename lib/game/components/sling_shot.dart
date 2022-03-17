@@ -83,7 +83,8 @@ class SlingShot extends BodyComponent with InitialPosition {
 
   @override
   Body createBody() {
-    final body = world.createBody(BodyDef());
+    final bodyDef = BodyDef()..position = initialPosition;
+    final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;

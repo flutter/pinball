@@ -148,7 +148,7 @@ class Pathway extends BodyComponent with InitialPosition {
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()..type = BodyType.static;
+    final bodyDef = BodyDef()..position = initialPosition;
     final body = world.createBody(bodyDef);
     for (final path in _paths) {
       final chain = ChainShape()
