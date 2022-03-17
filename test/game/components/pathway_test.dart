@@ -161,6 +161,8 @@ void main() {
             )..layer = layer;
             await game.ready();
             await game.ensureAdd(pathway);
+            // TODO(alestiago): modify once component.loaded is available.
+            await pathway.mounted;
 
             for (final fixture in pathway.body.fixtures) {
               expect(fixture, isA<Fixture>());

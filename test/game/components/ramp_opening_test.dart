@@ -156,6 +156,8 @@ void main() {
 
             await game.ready();
             await game.ensureAdd(ramp);
+            // TODO(alestiago): modify once component.loaded is available.
+            await ramp.mounted;
 
             final fixture = ramp.body.fixtures[0];
             expect(
