@@ -34,6 +34,38 @@ class LeaderboardState extends Equatable {
 
 enum CharacterType { dash, sparky, android, dino }
 
+extension CharacterTypeX on CharacterType {
+  CharacterTheme get theme {
+    switch (this) {
+      case CharacterType.dash:
+        return const DashTheme();
+      case CharacterType.sparky:
+        return const SparkyTheme();
+      case CharacterType.android:
+        return const AndroidTheme();
+      case CharacterType.dino:
+        return const DinoTheme();
+    }
+  }
+}
+
+extension CharacterThemeX on CharacterTheme {
+  CharacterType get toType {
+    switch (this.runtimeType) {
+      case DashTheme:
+        return CharacterType.dash;
+      case SparkyTheme:
+        return CharacterType.sparky;
+      case AndroidTheme:
+        return CharacterType.android;
+      case DinoTheme:
+        return CharacterType.dino;
+      default:
+        return CharacterType.dash;
+    }
+  }
+}
+
 class LeaderboardEntry extends Equatable {
   const LeaderboardEntry({
     required this.playerInitials,
