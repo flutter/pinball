@@ -266,7 +266,7 @@ void main() {
       await game.ensureAdd(area);
 
       callback.begin(ball, area, MockContact());
-      verify(() => ball.layer = Layer.jetpack).called(1);
+      verify(() => ball.layer = area.pathwayLayer).called(1);
 
       callback.end(ball, area, MockContact());
       verify(() => ball.layer = Layer.board);
@@ -321,7 +321,72 @@ void main() {
       await game.ensureAdd(area);
 
       callback.begin(ball, area, MockContact());
-      verify(() => ball.layer = Layer.jetpack).called(1);
+      verify(() => ball.layer = area.pathwayLayer).called(1);
+
+      callback.end(ball, area, MockContact());
+      verify(() => ball.layer = Layer.board);
+    });
+
+    flameTester.test(
+        'removes added ball from ballsInside '
+        'when a ball enters and exits from ramp', (game) async {
+      final ball = MockBall();
+      final body = MockBody();
+      final area = TestRampOpening(
+        orientation: RampOrientation.down,
+        pathwayLayer: Layer.jetpack,
+      )..initialPosition = Vector2(0, 10);
+      final callback = TestRampOpeningBallContactCallback();
+
+      when(() => ball.body).thenReturn(body);
+      when(() => body.position).thenReturn(Vector2.zero());
+      when(() => body.linearVelocity).thenReturn(Vector2(0, 1));
+      when(() => ball.layer).thenReturn(Layer.board);
+
+      await game.ready();
+      await game.ensureAdd(area);
+
+      expect(callback.ballsInside.isEmpty, isTrue);
+
+      callback.begin(ball, area, MockContact());
+      expect(callback.ballsInside.length, equals(1));
+      expect(callback.ballsInside.first, ball);
+
+      callback.end(ball, area, MockContact());
+      expect(callback.ballsInside.length, equals(1));
+      expect(callback.ballsInside.first, ball);
+
+      callback.begin(ball, area, MockContact());
+      expect(callback.ballsInside.isEmpty, isTrue);
+    });
+
+    flameTester.test(
+        'change ball layer between pathwayLayer and again to Layer.board '
+        'when a ball enters and exits from ramp', (game) async {
+      final ball = MockBall();
+      final body = MockBody();
+      final area = TestRampOpening(
+        orientation: RampOrientation.down,
+        pathwayLayer: Layer.jetpack,
+      )..initialPosition = Vector2(0, 10);
+      final callback = TestRampOpeningBallContactCallback();
+
+      when(() => ball.body).thenReturn(body);
+      when(() => body.position).thenReturn(Vector2.zero());
+      when(() => body.linearVelocity).thenReturn(Vector2(0, 1));
+      when(() => ball.layer).thenReturn(Layer.board);
+
+      await game.ready();
+      await game.ensureAdd(area);
+
+      callback.begin(ball, area, MockContact());
+      verify(() => ball.layer = area.pathwayLayer).called(1);
+
+      callback.end(ball, area, MockContact());
+      verifyNever(() => ball.layer = Layer.board);
+
+      callback.begin(ball, area, MockContact());
+      verifyNever(() => ball.layer = area.pathwayLayer);
 
       callback.end(ball, area, MockContact());
       verify(() => ball.layer = Layer.board);
