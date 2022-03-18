@@ -10,10 +10,10 @@ class Ball extends BodyComponent<PinballGame> with InitialPosition, Layered {
   /// {@macro ball}
   Ball() {
     // TODO(ruimiguel): while developing Ball can be launched by clicking mouse,
-    //and default  layer is Layer.all. But on final game Ball will be always be
-    //be launched from Plunger and LauncherRamp will modify it to Layer.board.
-    //We need to see what happens if Ball appears from other place like nest
-    //bumper, it will need to explicit change layer to Layer.board then.
+    // and default  layer is Layer.all. But on final game Ball will be always be
+    // be launched from Plunger and LauncherRamp will modify it to Layer.board.
+    // We need to see what happens if Ball appears from other place like nest
+    // bumper, it will need to explicit change layer to Layer.board then.
     layer = Layer.board;
   }
 
