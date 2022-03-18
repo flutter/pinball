@@ -9,7 +9,7 @@ import 'package:pinball/game/game.dart';
 ///
 /// [BodyComponent]s such as a Ball can collide and move along a [Pathway].
 /// {@endtemplate}
-class Pathway extends BodyComponent with InitialPosition {
+class Pathway extends BodyComponent with InitialPosition, Layered {
   Pathway._({
     // TODO(ruialonso): remove color when assets added.
     Color? color,
@@ -146,19 +146,25 @@ class Pathway extends BodyComponent with InitialPosition {
 
   final List<List<Vector2>> _paths;
 
-  @override
-  Body createBody() {
-    final bodyDef = BodyDef()..position = initialPosition;
-    final body = world.createBody(bodyDef);
+  List<FixtureDef> _createFixtureDefs() {
+    final fixturesDef = <FixtureDef>[];
+
     for (final path in _paths) {
       final chain = ChainShape()
         ..createChain(
           path.map(gameRef.screenToWorld).toList(),
         );
-      final fixtureDef = FixtureDef(chain);
-
-      body.createFixture(fixtureDef);
+      fixturesDef.add(FixtureDef(chain));
     }
+
+    return fixturesDef;
+  }
+
+  @override
+  Body createBody() {
+    final bodyDef = BodyDef()..position = initialPosition;
+    final body = world.createBody(bodyDef);
+    _createFixtureDefs().forEach(body.createFixture);
 
     return body;
   }
