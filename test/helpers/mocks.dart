@@ -53,8 +53,6 @@ class MockFilter extends Mock implements Filter {}
 
 class MockFixture extends Mock implements Fixture {}
 
-class MockBody extends Mock implements Body {}
-
 class MockSpaceshipEntrance extends Mock implements SpaceshipEntrance {}
 
 class MockSpaceshipHole extends Mock implements SpaceshipHole {}
