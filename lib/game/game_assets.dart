@@ -10,7 +10,7 @@ extension PinballGameAssetsX on PinballGame {
       images.load(SpaceshipBridge.spritePath),
       images.load(SpaceshipBridgeTop.spritePath),
       images.load(SpaceshipWall.lowerWallPath),
-      images.load(SpaceshipSauce.upperWallPath),
+      images.load(SpaceshipSaucer.upperWallPath),
     ]);
   }
 }

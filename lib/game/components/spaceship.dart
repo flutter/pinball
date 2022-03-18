@@ -12,15 +12,15 @@ import 'package:pinball/game/game.dart';
 const _spaceShipBits = 0x0002;
 const _spaceShipSize = 20.0;
 
-/// {@template spaceship_sauce}
-/// A [BodyComponent] for the base, or the sauce of the spaceship
+/// {@template spaceship_saucer}
+/// A [BodyComponent] for the base, or the saucer of the spaceship
 /// {@endtemplate}
-class SpaceshipSauce extends BodyComponent with InitialPosition {
-  /// {@macro spaceship_sauce}
-  SpaceshipSauce() : super(priority: 2);
+class SpaceshipSaucer extends BodyComponent with InitialPosition {
+  /// {@macro spaceship_saucer}
+  SpaceshipSaucer() : super(priority: 2);
 
   /// Path for the base sprite
-  static const sauceSpritePath = 'components/spaceship/sauce.png';
+  static const saucerSpritePath = 'components/spaceship/saucer.png';
 
   /// Path for the upper wall sprite
   static const upperWallPath = 'components/spaceship/upper.png';
@@ -29,7 +29,7 @@ class SpaceshipSauce extends BodyComponent with InitialPosition {
   Future<void> onLoad() async {
     await super.onLoad();
     final sprites = await Future.wait([
-      gameRef.loadSprite(sauceSpritePath),
+      gameRef.loadSprite(saucerSpritePath),
       gameRef.loadSprite(upperWallPath),
     ]);
 
@@ -227,7 +227,7 @@ class SpaceshipHole extends BodyComponent with InitialPosition {
 /// {@template spaceship_wall}
 /// A [BodyComponent] that provides the collision for the wall
 /// surrounding the spaceship, with a small opening to allow the
-/// [Ball] to get inside the spaceship sauce.
+/// [Ball] to get inside the spaceship saucer.
 /// It also contains the [SpriteComponent] for the lower wall
 /// {@endtemplate}
 class SpaceshipWall extends BodyComponent with InitialPosition {
