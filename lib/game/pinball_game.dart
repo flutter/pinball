@@ -27,6 +27,7 @@ class PinballGame extends Forge2DGame
 
     await _addGameBoundaries();
     unawaited(_addPlunger());
+    unawaited(_addPaths());
 
     // Corner wall above plunger so the ball deflects into the rest of the
     // board.
@@ -96,13 +97,34 @@ class PinballGame extends Forge2DGame
     createBoundaries(this).forEach(add);
   }
 
+  Future<void> _addPaths() async {
+    final jetpackRamp = JetpackRamp(
+      position: screenToWorld(
+        Vector2(
+          camera.viewport.effectiveSize.x / 2 - 150,
+          camera.viewport.effectiveSize.y / 2 - 250,
+        ),
+      ),
+    );
+    final launcherRamp = LauncherRamp(
+      position: screenToWorld(
+        Vector2(
+          camera.viewport.effectiveSize.x / 2 + 400,
+          camera.viewport.effectiveSize.y / 2 - 330,
+        ),
+      ),
+    );
+
+    await addAll([jetpackRamp, launcherRamp]);
+  }
+
   Future<void> _addPlunger() async {
     plunger = Plunger(
       compressionDistance: camera.viewport.effectiveSize.y / 12,
     );
     plunger.initialPosition = screenToWorld(
       Vector2(
-        camera.viewport.effectiveSize.x / 1.035,
+        camera.viewport.effectiveSize.x / 2 + 450,
         camera.viewport.effectiveSize.y - plunger.compressionDistance,
       ),
     );

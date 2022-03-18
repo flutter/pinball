@@ -131,7 +131,7 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   }
 
   List<FixtureDef> _createFixtureDefs() {
-    final fixtures = <FixtureDef>[];
+    final fixturesDef = <FixtureDef>[];
     final isLeft = side.isLeft;
 
     final bigCircleShape = CircleShape()..radius = height / 2;
@@ -142,7 +142,7 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
       0,
     );
     final bigCircleFixtureDef = FixtureDef(bigCircleShape);
-    fixtures.add(bigCircleFixtureDef);
+    fixturesDef.add(bigCircleFixtureDef);
 
     final smallCircleShape = CircleShape()..radius = bigCircleShape.radius / 2;
     smallCircleShape.position.setValues(
@@ -152,7 +152,7 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
       0,
     );
     final smallCircleFixtureDef = FixtureDef(smallCircleShape);
-    fixtures.add(smallCircleFixtureDef);
+    fixturesDef.add(smallCircleFixtureDef);
 
     final trapeziumVertices = isLeft
         ? [
@@ -171,9 +171,9 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
     final trapeziumFixtureDef = FixtureDef(trapezium)
       ..density = 50.0 // TODO(alestiago): Use a proper density.
       ..friction = .1; // TODO(alestiago): Use a proper friction.
-    fixtures.add(trapeziumFixtureDef);
+    fixturesDef.add(trapeziumFixtureDef);
 
-    return fixtures;
+    return fixturesDef;
   }
 
   @override
