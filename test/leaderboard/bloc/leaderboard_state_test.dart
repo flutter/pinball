@@ -57,9 +57,10 @@ void main() {
 
           expect(
             leaderboardState.copyWith(
-                status: otherLeaderboardState.status,
-                ranking: otherLeaderboardState.ranking,
-                leaderboard: otherLeaderboardState.leaderboard),
+              status: otherLeaderboardState.status,
+              ranking: otherLeaderboardState.ranking,
+              leaderboard: otherLeaderboardState.leaderboard,
+            ),
             equals(otherLeaderboardState),
           );
         },

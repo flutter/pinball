@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
-import 'package:pinball_theme/pinball_theme.dart';
 
 part 'leaderboard_event.dart';
 part 'leaderboard_state.dart';
