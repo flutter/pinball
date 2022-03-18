@@ -164,6 +164,7 @@ class SpaceshipBridge extends BodyComponent with InitialPosition {
 /// the spaceship area in order to modify its filter data so the ball
 /// can correctly collide only with the Spaceship
 /// {@endtemplate}
+// TODO(erickzanardo): Use RampOpening once provided.
 class SpaceshipEntrance extends BodyComponent with InitialPosition {
   /// {@macro spaceship_entrance}
   SpaceshipEntrance();
@@ -288,9 +289,11 @@ class SpaceshipWall extends BodyComponent with InitialPosition {
 }
 
 /// [ContactCallback] that handles the contact between the [Ball]
-/// and the [SpaceshipEntrance], it modifies the [Ball] priority
-/// and filter data so it can appear on top of the spaceship and
-/// also only collide with the spaceship
+/// and the [SpaceshipEntrance].
+///
+/// It modifies the [Ball] priority and filter data so it can appear on top of 
+/// the spaceship and also only collide with the spaceship.
+// TODO(alestiago): modify once Layer is implemented in Spaceship.
 class SpaceshipEntranceBallContactCallback
     extends ContactCallback<SpaceshipEntrance, Ball> {
   @override
@@ -307,8 +310,11 @@ class SpaceshipEntranceBallContactCallback
 }
 
 /// [ContactCallback] that handles the contact between the [Ball]
-/// and a [SpaceshipHole], it will reset the [Ball] priority and
-/// filter data so it will "be back" on the board
+/// and a [SpaceshipHole].
+///
+/// It resets the [Ball] priority and filter data so it will "be back" on the
+/// board.
+// TODO(alestiago): modify once Layer is implemented in Spaceship.
 class SpaceshipHoleBallContactCallback
     extends ContactCallback<SpaceshipHole, Ball> {
   @override
