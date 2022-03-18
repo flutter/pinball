@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:very_good_analysis/very_good_analysis.dart';
 
 import 'helpers.dart';
 
-Future<void> expectNavigatesTo<Type>(WidgetTester tester, Route route) async {
+Future<void> expectNavigatesTo<Type>(
+  WidgetTester tester,
+  Route route, {
+  bool hasFlameGameInside = false,
+}) async {
   // ignore: avoid_dynamic_calls
   await tester.pumpApp(
     Scaffold(
@@ -21,7 +26,14 @@ Future<void> expectNavigatesTo<Type>(WidgetTester tester, Route route) async {
   );
 
   await tester.tap(find.text('Tap me'));
-  await tester.pumpAndSettle();
+  if (hasFlameGameInside) {
+    // We can't use pumpAndSettle here because the page renders a Flame game
+    // which is an infinity animation, so it will timeout
+    await tester.pump(); // Runs the button action
+    await tester.pump(); // Runs the navigation
+  } else {
+    await tester.pumpAndSettle();
+  }
 
   expect(find.byType(Type), findsOneWidget);
 }
