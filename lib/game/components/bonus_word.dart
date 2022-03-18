@@ -116,7 +116,8 @@ class BonusLetter extends BodyComponent<PinballGame>
   final int _index;
 
   /// Indicates if [BonusLetter] could be activated on contact with [Ball].
-  /// Deactivated during animation of [GameBonus.word].
+  /// Deactivated during animation of [GameBonus.word] and reactivated once
+  /// animation is finished.
   bool isEnabled = true;
 
   @override
