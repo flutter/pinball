@@ -23,29 +23,12 @@ void main() {
     });
 
     testWidgets('route returns a valid navigation route', (tester) async {
-      await tester.pumpApp(
-        Scaffold(
-          body: Builder(
-            builder: (context) {
-              return ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push<void>(
-                    LeaderboardPage.route(
-                      theme: DashTheme(),
-                    ),
-                  );
-                },
-                child: const Text('Tap me'),
-              );
-            },
-          ),
+      await expectNavigatesTo<LeaderboardPage>(
+        tester,
+        LeaderboardPage.route(
+          theme: DashTheme(),
         ),
       );
-
-      await tester.tap(find.text('Tap me'));
-      await tester.pumpAndSettle();
-
-      expect(find.byType(LeaderboardPage), findsOneWidget);
     });
   });
 
