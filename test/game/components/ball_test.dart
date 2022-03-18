@@ -72,7 +72,7 @@ void main() {
       );
     });
 
-    group('resetting a ball', () {
+    group('lost', () {
       late GameBloc gameBloc;
 
       setUp(() {
@@ -128,7 +128,7 @@ void main() {
           );
           await game.ready();
 
-          game.children.whereType<Ball>().first.removeFromParent();
+          game.children.whereType<Ball>().first.lost();
           await tester.pump();
 
           expect(
