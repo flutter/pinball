@@ -215,7 +215,7 @@ void main() {
     });
 
     flameTester.test(
-        'change ball layer between pathwayLayer and again to Layer.board '
+        'change ball layer from pathwayLayer to Layer.board '
         'when a ball enters and exits from ramp', (game) async {
       final ball = MockBall();
       final body = MockBody();
