@@ -2,11 +2,9 @@
 
 import 'dart:async';
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 
 // TODO(erickzanardo): change this to use the layer class
