@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/theme/theme.dart';
 import 'package:pinball_theme/pinball_theme.dart';
@@ -144,10 +145,12 @@ class _LeaderboardList extends StatelessWidget {
       shrinkWrap: true,
       itemBuilder: (_, index) => _LeaderBoardCompetitor(
         competitor: Competitor(
-          rank: index,
-          characterTheme: const SparkyTheme(),
-          initials: 'user$index',
-          score: 0,
+          rank: (index + 1).toString(),
+          entry: LeaderboardEntry(
+            character: CharacterType.android,
+            playerInitials: 'user$index',
+            score: 0,
+          ),
         ),
       ),
       itemCount: 10,
@@ -166,12 +169,12 @@ class _LeaderBoardCompetitor extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _LeaderboardCompetitorField(text: competitor.rank.toString()),
+        _LeaderboardCompetitorField(text: competitor.rank),
         _LeaderboardCompetitorCharacter(
-          characterTheme: competitor.characterTheme,
+          characterTheme: competitor.entry.character.theme,
         ),
-        _LeaderboardCompetitorField(text: competitor.initials),
-        _LeaderboardCompetitorField(text: competitor.score.toString()),
+        _LeaderboardCompetitorField(text: competitor.entry.playerInitials),
+        _LeaderboardCompetitorField(text: competitor.entry.score.toString()),
       ],
     );
   }
@@ -229,27 +232,41 @@ class _LeaderboardCompetitorCharacter extends StatelessWidget {
   }
 }
 
-/// {@template competitor}
-/// Class for players at ranking table.
-/// {@endtemplate}
 class Competitor {
-  /// {@macro competitor}
-  Competitor({
-    required this.rank,
-    required this.characterTheme,
-    required this.initials,
-    required this.score,
-  });
+  Competitor({required this.rank, required this.entry});
 
-  /// [Competitor]'s position at ranking table.
-  final int rank;
+  final String rank;
+  final LeaderboardEntry entry;
+}
 
-  /// [Competitor]'s selected [CharacterTheme].
-  final CharacterTheme characterTheme;
+extension CharacterTypeX on CharacterType {
+  CharacterTheme get theme {
+    switch (this) {
+      case CharacterType.dash:
+        return const DashTheme();
+      case CharacterType.sparky:
+        return const SparkyTheme();
+      case CharacterType.android:
+        return const AndroidTheme();
+      case CharacterType.dino:
+        return const DinoTheme();
+    }
+  }
+}
 
-  /// [Competitor]'s name initials.
-  final String initials;
-
-  /// [Competitor]'s final score.
-  final int score;
+extension CharacterThemeX on CharacterTheme {
+  CharacterType get toType {
+    switch (runtimeType) {
+      case DashTheme:
+        return CharacterType.dash;
+      case SparkyTheme:
+        return CharacterType.sparky;
+      case AndroidTheme:
+        return CharacterType.android;
+      case DinoTheme:
+        return CharacterType.dino;
+      default:
+        return CharacterType.dash;
+    }
+  }
 }
