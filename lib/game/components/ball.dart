@@ -72,7 +72,7 @@ class Ball extends BodyComponent<PinballGame> with InitialPosition {
 
   /// Allows the [Ball] to be affected by forces.
   ///
-  /// If when previously [stop]ed, the previous ball's velocity is not kept.
+  /// If previously [stop]ed, the previous ball's velocity is not kept.
   void resume() {
     body.setType(BodyType.dynamic);
   }
