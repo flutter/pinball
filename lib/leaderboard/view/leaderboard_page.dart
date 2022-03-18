@@ -232,6 +232,7 @@ class _LeaderboardCompetitorCharacter extends StatelessWidget {
   }
 }
 
+// TODO(ruimiguel): move below model and extensions to LeaderboardState
 class Competitor {
   Competitor({required this.rank, required this.entry});
 
