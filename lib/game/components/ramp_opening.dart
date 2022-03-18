@@ -68,25 +68,24 @@ abstract class RampOpening extends BodyComponent with InitialPosition, Layered {
 class RampOpeningBallContactCallback<Opening extends RampOpening>
     extends ContactCallback<Ball, Opening> {
   /// [Ball]s currently inside the ramp.
-  @visibleForTesting
-  final ballsInside = <Ball>{};
+  final _ballsInside = <Ball>{};
 
   @override
   void begin(Ball ball, Opening opening, Contact _) {
     Layer layer;
 
-    if (!ballsInside.contains(ball)) {
+    if (!_ballsInside.contains(ball)) {
       layer = opening.pathwayLayer;
-      ballsInside.add(ball);
+      _ballsInside.add(ball);
       ball.layer = layer;
     } else {
-      ballsInside.remove(ball);
+      _ballsInside.remove(ball);
     }
   }
 
   @override
   void end(Ball ball, Opening opening, Contact _) {
-    if (!ballsInside.contains(ball)) {
+    if (!_ballsInside.contains(ball)) {
       ball.layer = Layer.board;
     } else {
       // TODO(ruimiguel): change this code. Check what happens with ball that
@@ -100,7 +99,7 @@ class RampOpeningBallContactCallback<Opening extends RampOpening>
 
       if (isBallOutsideOpening) {
         ball.layer = Layer.board;
-        ballsInside.remove(ball);
+        _ballsInside.remove(ball);
       }
     }
   }
