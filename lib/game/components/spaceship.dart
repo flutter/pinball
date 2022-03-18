@@ -282,7 +282,7 @@ class SpaceshipWall extends BodyComponent with InitialPosition {
     return world.createBody(bodyDef)
       ..createFixture(
         FixtureDef(wallShape)
-          ..restitution = 1 
+          ..restitution = 1
           ..filter.maskBits = _spaceShipBits
           ..filter.categoryBits = _spaceShipBits,
       );
