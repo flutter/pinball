@@ -34,10 +34,12 @@ mixin Layered<T extends Forge2DGame> on BodyComponent<T> {
   }
 }
 
-/// Indicates the type of a layer.
+/// The [Layer]s a [BodyComponent] can be in.
 ///
-/// Each layer type is associated with a maskBits value to define possible
+/// Each [Layer] is associated with a maskBits value to define possible
 /// collisions within that plane.
+///
+/// Usually used with [Layered].
 enum Layer {
   /// Collide with all elements.
   all,
