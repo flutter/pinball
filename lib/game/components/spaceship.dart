@@ -2,9 +2,11 @@
 
 import 'dart:async';
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 
 // TODO(erickzanardo): change this to use the layer class
@@ -207,7 +209,7 @@ class SpaceshipHole extends BodyComponent with InitialPosition {
   @override
   Body createBody() {
     renderBody = false;
-    final circleShape = CircleShape()..radius = _spaceShipSize / 14;
+    final circleShape = CircleShape()..radius = _spaceShipSize / 80;
 
     final bodyDef = BodyDef()
       ..userData = this
@@ -280,7 +282,7 @@ class SpaceshipWall extends BodyComponent with InitialPosition {
     return world.createBody(bodyDef)
       ..createFixture(
         FixtureDef(wallShape)
-          ..restitution = 0.8
+          ..restitution = 1 
           ..filter.maskBits = _spaceShipBits
           ..filter.categoryBits = _spaceShipBits,
       );

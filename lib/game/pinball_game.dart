@@ -92,12 +92,12 @@ class PinballGame extends Forge2DGame
 
     unawaited(
       add(
-        SpaceshipHole()..initialPosition = position - Vector2(5, 5),
+        SpaceshipHole()..initialPosition = position - Vector2(5, 4),
       ),
     );
     unawaited(
       add(
-        SpaceshipHole()..initialPosition = position - Vector2(-5, 5),
+        SpaceshipHole()..initialPosition = position - Vector2(-5, 4),
       ),
     );
 
