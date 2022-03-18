@@ -79,18 +79,30 @@ class PinballGame extends Forge2DGame
     );
   }
 
-  Future<void> _addSpaceship() async{
+  Future<void> _addSpaceship() async {
     final position = Vector2(20, -24);
-    unawaited(add(SpaceshipSauce(position)));
-    unawaited(add(SpaceshipEntrance(position)));
-    unawaited(add(SpaceshipBridge(position)));
-    unawaited(add(SpaceshipBridgeTop(position)));
-
-    unawaited(add(SpaceshipHole(position - Vector2(5, 5))));
-    unawaited(add(SpaceshipHole(position - Vector2(-5, 5))));
+    unawaited(add(SpaceshipSauce()..initialPosition = position));
+    unawaited(add(SpaceshipEntrance()..initialPosition = position));
+    unawaited(add(SpaceshipBridge()..initialPosition = position));
+    unawaited(
+      add(
+        SpaceshipBridgeTop()..initialPosition = position + Vector2(0, 5.5),
+      ),
+    );
 
     unawaited(
-      add(SpaceshipWall(position)),
+      add(
+        SpaceshipHole()..initialPosition = position - Vector2(5, 5),
+      ),
+    );
+    unawaited(
+      add(
+        SpaceshipHole()..initialPosition = position - Vector2(-5, 5),
+      ),
+    );
+
+    unawaited(
+      add(SpaceshipWall()..initialPosition = position),
     );
   }
 

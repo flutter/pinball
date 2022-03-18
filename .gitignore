@@ -127,3 +127,5 @@ app.*.map.json
 !.idea/runConfigurations/
 
 .firebase
+
+test/.test_runner.dart
