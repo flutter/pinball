@@ -1,0 +1,18 @@
+name: leaderboard_repository
+
+on:
+  push:
+    paths:
+      - "packages/leaderboard_repository/**"
+      - ".github/workflows/leaderboard_repository.yaml"
+
+  pull_request:
+    paths:
+      - "packages/leaderboard_repository/**"
+      - ".github/workflows/leaderboard_repository.yaml"
+
+jobs:
+  build:
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
+    with:
+      working_directory: packages/leaderboard_repository

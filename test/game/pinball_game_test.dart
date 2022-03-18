@@ -54,10 +54,10 @@ void main() {
         },
       );
 
-      flameTester.test('has only one BottomGroup', (game) async {
+      flameTester.test('has one Board', (game) async {
         await game.ready();
         expect(
-          game.children.whereType<BottomGroup>().length,
+          game.children.whereType<Board>().length,
           equals(1),
         );
       });

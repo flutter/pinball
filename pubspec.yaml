@@ -8,6 +8,7 @@ environment:
 
 dependencies:
   bloc: ^8.0.2
+  cloud_firestore: ^3.1.10
   equatable: ^2.0.3
   flame: ^1.1.0-releasecandidate.5
   flame_bloc: ^1.2.0-releasecandidate.5
@@ -20,6 +21,8 @@ dependencies:
   geometry:
     path: packages/geometry
   intl: ^0.17.0
+  leaderboard_repository:
+    path: packages/leaderboard_repository
   pinball_theme:
     path: packages/pinball_theme
 
