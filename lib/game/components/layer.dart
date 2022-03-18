@@ -18,10 +18,7 @@ mixin Layered<T extends Forge2DGame> on BodyComponent<T> {
     _layer = value;
     if (!isLoaded) {
       // TODO(alestiago): Use loaded.whenComplete once provided.
-      mounted.whenComplete(() {
-        layer = value;
-        _applyMaskBits();
-      });
+      mounted.whenComplete(_applyMaskBits);
     } else {
       _applyMaskBits();
     }
