@@ -72,7 +72,7 @@ void main() {
       );
     });
 
-    group('resetting a ball', () {
+    group('lost', () {
       late GameBloc gameBloc;
 
       setUp(() {
@@ -128,7 +128,7 @@ void main() {
           );
           await game.ready();
 
-          game.children.whereType<Ball>().first.removeFromParent();
+          game.children.whereType<Ball>().first.lost();
           await tester.pump();
 
           expect(
@@ -137,6 +137,59 @@ void main() {
           );
         },
       );
+    });
+
+    group('stop', () {
+      Future<void> newFrame() async {
+        // TODO(alestiago): Remove to wait for new frame.
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+      }
+
+      flameTester.test('can be moved', (game) async {
+        final ball = Ball();
+        await game.ensureAdd(ball);
+
+        await newFrame();
+        expect(ball.body.position, isNot(equals(ball.initialPosition)));
+
+        ball.body.linearVelocity.setValues(10, 10);
+        await newFrame();
+        expect(ball.body.position, isNot(equals(ball.initialPosition)));
+      });
+
+      flameTester.test("can't be moved", (game) async {
+        final ball = Ball();
+        await game.ensureAdd(ball);
+        ball.stop();
+
+        await newFrame();
+        expect(ball.body.position, equals(ball.initialPosition));
+
+        ball.body.linearVelocity.setValues(10, 10);
+        await newFrame();
+        expect(ball.body.position, equals(ball.initialPosition));
+      });
+    });
+
+    group('resume', () {
+      Future<void> newFrame() async {
+        // TODO(alestiago): Remove to wait for new frame.
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+      }
+
+      flameTester.test('can move when previosusly stopped', (game) async {
+        final ball = Ball();
+        await game.ensureAdd(ball);
+        ball.stop();
+        ball.resume();
+
+        await newFrame();
+        expect(ball.body.position, isNot(equals(ball.initialPosition)));
+
+        ball.body.linearVelocity.setValues(10, 10);
+        await newFrame();
+        expect(ball.body.position, isNot(equals(ball.initialPosition)));
+      });
     });
   });
 }
