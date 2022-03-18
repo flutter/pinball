@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:very_good_analysis/very_good_analysis.dart';
-
 import 'helpers.dart';
 
 Future<void> expectNavigatesTo<Type>(
