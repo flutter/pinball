@@ -171,16 +171,16 @@ class SpaceshipEntrance extends BodyComponent with InitialPosition {
 
   @override
   Body createBody() {
-    const r = _spaceShipSize / 2;
+    const radius = _spaceShipSize / 2;
     final entranceShape = PolygonShape()
       ..setAsEdge(
         Vector2(
-          r * cos(20 * pi / 180),
-          r * sin(20 * pi / 180),
+          radius * cos(20 * pi / 180),
+          radius * sin(20 * pi / 180),
         ),
         Vector2(
-          r * cos(340 * pi / 180),
-          r * sin(340 * pi / 180),
+          radius * cos(340 * pi / 180),
+          radius * sin(340 * pi / 180),
         ),
       );
 
@@ -259,15 +259,15 @@ class SpaceshipWall extends BodyComponent with InitialPosition {
   Body createBody() {
     renderBody = false;
 
-    const r = _spaceShipSize / 2;
+    const radius = _spaceShipSize / 2;
 
     final wallShape = ChainShape()
       ..createChain(
         [
-          for (var a = 20; a <= 340; a++)
+          for (var angle = 20; angle <= 340; angle++)
             Vector2(
-              r * cos(a * pi / 180),
-              r * sin(a * pi / 180),
+              radius * cos(angle * pi / 180),
+              radius * sin(angle * pi / 180),
             ),
         ],
       );
@@ -291,7 +291,7 @@ class SpaceshipWall extends BodyComponent with InitialPosition {
 /// [ContactCallback] that handles the contact between the [Ball]
 /// and the [SpaceshipEntrance].
 ///
-/// It modifies the [Ball] priority and filter data so it can appear on top of 
+/// It modifies the [Ball] priority and filter data so it can appear on top of
 /// the spaceship and also only collide with the spaceship.
 // TODO(alestiago): modify once Layer is implemented in Spaceship.
 class SpaceshipEntranceBallContactCallback
