@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 /// Modifies maskBits and categoryBits of all the [BodyComponent]'s [Fixture]s
 /// to specify what other [BodyComponent]s it can collide with.
 ///
-/// [BodyComponent]s with the same [Layer] can collide with each other, ignoring
-/// those with different [Layer]s.
+/// [BodyComponent]s with compatible [Layer]s can collide with each other,
+/// ignoring others. This compatibility depends on bit masking operation
+/// between layers.
+/// For more information read: https://en.wikipedia.org/wiki/Mask_(computing).
 /// {@endtemplate}
 mixin Layered<T extends Forge2DGame> on BodyComponent<T> {
   Layer _layer = Layer.all;
