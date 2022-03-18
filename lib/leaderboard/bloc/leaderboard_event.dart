@@ -6,9 +6,6 @@ part of 'leaderboard_bloc.dart';
 abstract class LeaderboardEvent extends Equatable {
   /// {@macro leaderboard_event}
   const LeaderboardEvent();
-
-  @override
-  List<Object?> get props => [];
 }
 
 /// {@template top_10_fetched}
@@ -17,6 +14,9 @@ abstract class LeaderboardEvent extends Equatable {
 class Top10Fetched extends LeaderboardEvent {
   /// {@macro top_10_fetched}
   const Top10Fetched();
+
+  @override
+  List<Object?> get props => [];
 }
 
 /// {@template leaderboard_entry_added}
