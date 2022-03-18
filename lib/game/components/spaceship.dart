@@ -297,7 +297,7 @@ class SpaceshipWall extends BodyComponent with InitialPosition {
 class SpaceshipEntranceBallContactCallback
     extends ContactCallback<SpaceshipEntrance, Ball> {
   @override
-  void begin(SpaceshipEntrance entrance, Ball ball, Contact contact) {
+  void begin(SpaceshipEntrance entrance, Ball ball, _) {
     ball
       ..priority = 3
       ..gameRef.reorderChildren();
@@ -318,9 +318,10 @@ class SpaceshipEntranceBallContactCallback
 class SpaceshipHoleBallContactCallback
     extends ContactCallback<SpaceshipHole, Ball> {
   @override
-  void begin(SpaceshipHole hole, Ball ball, Contact contact) {
-    ball.priority = 1;
-    ball.gameRef.reorderChildren();
+  void begin(SpaceshipHole hole, Ball ball, _) {
+    ball
+      ..priority = 1
+      ..gameRef.reorderChildren();
 
     for (final fixture in ball.body.fixtures) {
       fixture.filterData.categoryBits = 0xFFFF;
