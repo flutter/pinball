@@ -67,7 +67,7 @@ void main() {
         },
       );
 
-      group('fixture', () {
+      group('first fixture', () {
         const pathwayLayer = Layer.jetpack;
         const openingLayer = Layer.opening;
 

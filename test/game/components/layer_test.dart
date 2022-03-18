@@ -16,6 +16,7 @@ class TestBodyComponent extends BodyComponent with Layered {
 
 void main() {
   final flameTester = FlameTester(Forge2DGame.new);
+
   group('Layered', () {
     void _expectLayerOnFixtures({
       required List<Fixture> fixtures,

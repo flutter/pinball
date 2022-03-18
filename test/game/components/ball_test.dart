@@ -72,13 +72,14 @@ void main() {
       );
 
       flameTester.test(
-        'has all as default filter maskBits',
+        'has Layer.all as default filter maskBits',
         (game) async {
           final ball = Ball();
           await game.ensureAdd(ball);
+          await ball.mounted;
 
           final fixture = ball.body.fixtures[0];
-          expect(fixture.filterData.maskBits, equals(Layer.all.maskBits));
+          expect(fixture.filterData.maskBits, equals(Layer.board.maskBits));
         },
       );
     });
@@ -146,30 +147,6 @@ void main() {
             game.children.whereType<Ball>().length,
             equals(0),
           );
-        },
-      );
-    });
-
-    group('setLayer', () {
-      final flameTester = FlameTester(PinballGameTest.create);
-
-      flameTester.test(
-        'modifies layer correctly',
-        (game) async {
-          const newLayer = Layer.jetpack;
-
-          final ball = Ball();
-          await game.ensureAdd(ball);
-
-          final fixture = ball.body.fixtures[0];
-
-          expect(fixture.filterData.categoryBits, equals(1));
-          expect(fixture.filterData.maskBits, equals(Layer.all.maskBits));
-
-          ball.layer = newLayer;
-
-          expect(fixture.filterData.categoryBits, equals(newLayer.maskBits));
-          expect(fixture.filterData.maskBits, equals(newLayer.maskBits));
         },
       );
     });
