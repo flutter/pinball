@@ -36,7 +36,7 @@ class LeaderboardBloc extends Bloc<LeaderboardEvent, LeaderboardState> {
           leaderboard: top10Leaderboard,
         ),
       );
-    } catch (error, _) {
+    } catch (error) {
       emit(state.copyWith(status: LeaderboardStatus.error));
       addError(error);
     }
