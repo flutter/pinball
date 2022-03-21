@@ -159,6 +159,7 @@ void main() {
         game.update(1);
         expect(ball.body.position, isNot(equals(ball.initialPosition)));
 
+        ball.body.gravityScale = 0;
         ball.body.linearVelocity.setValues(10, 10);
         game.update(1);
         expect(ball.body.position, isNot(equals(ball.initialPosition)));
@@ -188,6 +189,7 @@ void main() {
         game.update(1);
         expect(ball.body.position, isNot(equals(ball.initialPosition)));
 
+        ball.body.gravityScale = 0;
         ball.body.linearVelocity.setValues(10, 10);
         game.update(1);
         expect(ball.body.position, isNot(equals(ball.initialPosition)));
