@@ -309,7 +309,7 @@ void main() {
         verify(bonusLetter.activate).called(1);
       });
 
-      test('do not call ball.activate when letter is disabled', () {
+      test("doesn't call ball.activate when letter is disabled", () {
         final ball = MockBall();
         final bonusLetter = MockBonusLetter();
         final contactCallback = BonusLetterBallContactCallback();
