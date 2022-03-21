@@ -42,7 +42,7 @@ class SlingShot extends BodyComponent with InitialPosition {
 
     final upperCircle = CircleShape()..radius = 1.45;
     upperCircle.position.setValues(0, -upperCircle.radius / 2);
-    final upperCircleFixtureDef = FixtureDef(upperCircle);
+    final upperCircleFixtureDef = FixtureDef(upperCircle)..friction = 0;
     fixturesDefs.add(upperCircleFixtureDef);
 
     final lowerCircle = CircleShape()..radius = 1.45;
@@ -50,7 +50,7 @@ class SlingShot extends BodyComponent with InitialPosition {
       size.x * -direction,
       -size.y,
     );
-    final lowerCircleFixtureDef = FixtureDef(lowerCircle);
+    final lowerCircleFixtureDef = FixtureDef(lowerCircle)..friction = 0;
     fixturesDefs.add(lowerCircleFixtureDef);
 
     final wallFacingEdge = EdgeShape()
@@ -63,7 +63,7 @@ class SlingShot extends BodyComponent with InitialPosition {
         // TODO(alestiago): Use values from design.
         Vector2(2.0 * direction, -size.y + 2),
       );
-    final wallFacingLineFixtureDef = FixtureDef(wallFacingEdge);
+    final wallFacingLineFixtureDef = FixtureDef(wallFacingEdge)..friction = 0;
     fixturesDefs.add(wallFacingLineFixtureDef);
 
     final bottomEdge = EdgeShape()
@@ -75,7 +75,7 @@ class SlingShot extends BodyComponent with InitialPosition {
               -lowerCircle.radius * math.sin(quarterPi),
             ),
       );
-    final bottomLineFixtureDef = FixtureDef(bottomEdge);
+    final bottomLineFixtureDef = FixtureDef(bottomEdge)..friction = 0;
     fixturesDefs.add(bottomLineFixtureDef);
 
     final kickerEdge = EdgeShape()
