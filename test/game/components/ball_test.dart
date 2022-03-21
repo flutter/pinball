@@ -76,7 +76,7 @@ void main() {
         (game) async {
           final ball = Ball();
           await game.ensureAdd(ball);
-          await ball.mounted;
+          await game.ready();
 
           final fixture = ball.body.fixtures[0];
           expect(fixture.filterData.maskBits, equals(Layer.board.maskBits));
