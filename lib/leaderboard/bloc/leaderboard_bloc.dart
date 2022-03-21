@@ -8,7 +8,7 @@ part 'leaderboard_event.dart';
 part 'leaderboard_state.dart';
 
 /// {@template leaderboard_bloc}
-/// Bloc for manage events on leaderboard.
+/// Manages leaderboard events.
 ///
 /// Uses a [LeaderboardRepository] to request and update players participations.
 /// {@endtemplate}
