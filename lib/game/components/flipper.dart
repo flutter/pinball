@@ -235,7 +235,7 @@ class FlipperAnchor extends JointAnchor {
 }
 
 /// {@template flipper_anchor_revolute_joint_def}
-/// Hinges one end of [Flipper] to a [Anchor] to achieve an arc motion.
+/// Hinges one end of [Flipper] to a [FlipperAnchor] to achieve an arc motion.
 /// {@endtemplate}
 class FlipperAnchorRevoluteJointDef extends RevoluteJointDef {
   /// {@macro flipper_anchor_revolute_joint_def}
