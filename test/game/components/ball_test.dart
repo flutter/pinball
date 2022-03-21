@@ -72,7 +72,7 @@ void main() {
       );
 
       flameTester.test(
-        'has Layer.all as default filter maskBits',
+        'has Layer.board as default filter maskBits',
         (game) async {
           final ball = Ball();
           await game.ready();
