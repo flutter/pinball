@@ -7,6 +7,7 @@ import 'package:pinball/game/game.dart';
 
 void main() {
   group('SlingShot', () {
+    // TODO(alestiago): Include golden tests for left and right.
     final flameTester = FlameTester(Forge2DGame.new);
 
     flameTester.test(
@@ -21,135 +22,48 @@ void main() {
       },
     );
 
-    group('body', () {
-      flameTester.test(
-        'is static',
-        (game) async {
-          final slingShot = SlingShot(
-            side: BoardSide.left,
-          );
-          await game.ensureAdd(slingShot);
+    flameTester.test(
+      'body is static',
+      (game) async {
+        final slingShot = SlingShot(
+          side: BoardSide.left,
+        );
+        await game.ensureAdd(slingShot);
 
-          expect(slingShot.body.bodyType, equals(BodyType.static));
-        },
-      );
-    });
+        expect(slingShot.body.bodyType, equals(BodyType.static));
+      },
+    );
 
-    group('first fixture', () {
-      flameTester.test(
-        'exists',
-        (game) async {
-          final slingShot = SlingShot(
-            side: BoardSide.left,
-          );
-          await game.ensureAdd(slingShot);
+    flameTester.test(
+      'has restitution',
+      (game) async {
+        final slingShot = SlingShot(
+          side: BoardSide.left,
+        );
+        await game.ensureAdd(slingShot);
 
-          expect(slingShot.body.fixtures[0], isA<Fixture>());
-        },
-      );
+        final totalRestitution = slingShot.body.fixtures.fold<double>(
+          0,
+          (total, fixture) => total + fixture.restitution,
+        );
+        expect(totalRestitution, greaterThan(0));
+      },
+    );
 
-      flameTester.test(
-        'shape is triangular',
-        (game) async {
-          final slingShot = SlingShot(
-            side: BoardSide.left,
-          );
-          await game.ensureAdd(slingShot);
+    flameTester.test(
+      'has no friction',
+      (game) async {
+        final slingShot = SlingShot(
+          side: BoardSide.left,
+        );
+        await game.ensureAdd(slingShot);
 
-          final fixture = slingShot.body.fixtures[0];
-          expect(fixture.shape.shapeType, equals(ShapeType.polygon));
-          expect((fixture.shape as PolygonShape).vertices.length, equals(3));
-        },
-      );
-
-      flameTester.test(
-        'triangular shapes are different '
-        'when side is left or right',
-        (game) async {
-          final leftSlingShot = SlingShot(
-            side: BoardSide.left,
-          );
-          final rightSlingShot = SlingShot(
-            side: BoardSide.right,
-          );
-
-          await game.ensureAdd(leftSlingShot);
-          await game.ensureAdd(rightSlingShot);
-
-          final rightShape =
-              rightSlingShot.body.fixtures[0].shape as PolygonShape;
-          final leftShape =
-              leftSlingShot.body.fixtures[0].shape as PolygonShape;
-
-          expect(rightShape.vertices, isNot(equals(leftShape.vertices)));
-        },
-      );
-
-      flameTester.test(
-        'has no friction',
-        (game) async {
-          final slingShot = SlingShot(
-            side: BoardSide.left,
-          );
-          await game.ensureAdd(slingShot);
-
-          final fixture = slingShot.body.fixtures[0];
-          expect(fixture.friction, equals(0));
-        },
-      );
-    });
-
-    group('second fixture', () {
-      flameTester.test(
-        'exists',
-        (game) async {
-          final slingShot = SlingShot(
-            side: BoardSide.left,
-          );
-          await game.ensureAdd(slingShot);
-
-          expect(slingShot.body.fixtures[1], isA<Fixture>());
-        },
-      );
-
-      flameTester.test(
-        'shape is edge',
-        (game) async {
-          final slingShot = SlingShot(
-            side: BoardSide.left,
-          );
-          await game.ensureAdd(slingShot);
-
-          final fixture = slingShot.body.fixtures[1];
-          expect(fixture.shape.shapeType, equals(ShapeType.edge));
-        },
-      );
-
-      flameTester.test(
-        'has restitution',
-        (game) async {
-          final slingShot = SlingShot(
-            side: BoardSide.left,
-          );
-          await game.ensureAdd(slingShot);
-
-          final fixture = slingShot.body.fixtures[1];
-          expect(fixture.restitution, greaterThan(0));
-        },
-      );
-
-      flameTester.test(
-        'has no friction',
-        (game) async {
-          final slingShot = SlingShot(
-            side: BoardSide.left,
-          );
-          await game.ensureAdd(slingShot);
-
-          final fixture = slingShot.body.fixtures[1];
-          expect(fixture.friction, equals(0));
-        },
-      );
-    });
+        final totalFriction = slingShot.body.fixtures.fold<double>(
+          0,
+          (total, fixture) => total + fixture.friction,
+        );
+        expect(totalFriction, equals(0));
+      },
+    );
   });
 }
