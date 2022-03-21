@@ -216,7 +216,7 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
 }
 
 /// {@template flipper_anchor}
-/// [Anchor] positioned at the end of a [Flipper].
+/// [JointAnchor] positioned at the end of a [Flipper].
 ///
 /// The end of a [Flipper] depends on its [Flipper.side].
 /// {@endtemplate}
