@@ -28,7 +28,7 @@ class LeaderboardEntryAdded extends LeaderboardEvent {
   /// {@macro leaderboard_entry_added}
   const LeaderboardEntryAdded({required this.entry});
 
-  /// Current entry to persist at leaderboard.
+  /// [LeadboardEntry] to be written to the remote storage.
   final LeaderboardEntry entry;
 
   @override
