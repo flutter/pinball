@@ -9,7 +9,7 @@ abstract class LeaderboardEvent extends Equatable {
 }
 
 /// {@template top_10_fetched}
-/// Request the top 10 from leaderboard.
+/// Request the top 10 [LeaderboardEntry]s.
 /// {endtemplate}
 class Top10Fetched extends LeaderboardEvent {
   /// {@macro top_10_fetched}
