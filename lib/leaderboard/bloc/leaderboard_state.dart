@@ -10,7 +10,7 @@ enum LeaderboardStatus {
   /// Everything run ok and received response.
   success,
 
-  /// There were some error on request.
+  /// Request was processed unsuccessfully and received an error.
   error,
 }
 
