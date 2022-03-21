@@ -2,7 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pinball/flame/extensions.dart';
+import 'package:pinball/flame/blueprint.dart';
 import 'package:pinball/game/game.dart';
 
 import '../helpers/helpers.dart';
@@ -41,10 +41,11 @@ void main() {
 
     test(
       'throws assertion error when adding to an already attached blueprint',
-      () {
+      () async {
         final mockGame = MockPinballGame();
         when(() => mockGame.addAll(any())).thenAnswer((_) async {});
-        final blueprint = MyBlueprint()..attach(mockGame);
+        final blueprint = MyBlueprint();
+        await blueprint.attach(mockGame);
 
         expect(() => blueprint.add(Component()), throwsAssertionError);
         expect(() => blueprint.addAll([Component()]), throwsAssertionError);
@@ -63,22 +64,23 @@ void main() {
       expect(blueprint.callbacks.length, equals(3));
     });
 
-    test('adds the callbacks to a game on attach', () {
+    test('adds the callbacks to a game on attach', () async {
       final mockGame = MockPinballGame();
       when(() => mockGame.addAll(any())).thenAnswer((_) async {});
       when(() => mockGame.addContactCallback(any())).thenAnswer((_) async {});
-      MyForge2dBlueprint().attach(mockGame);
+      await MyForge2dBlueprint().attach(mockGame);
 
       verify(() => mockGame.addContactCallback(any())).called(3);
     });
 
     test(
       'throws assertion error when adding to an already attached blueprint',
-      () {
+      () async {
         final mockGame = MockPinballGame();
         when(() => mockGame.addAll(any())).thenAnswer((_) async {});
         when(() => mockGame.addContactCallback(any())).thenAnswer((_) async {});
-        final blueprint = MyForge2dBlueprint()..attach(mockGame);
+        final blueprint = MyForge2dBlueprint();
+        await blueprint.attach(mockGame);
 
         expect(
           () => blueprint.addContactCallback(MockContactCallback()),

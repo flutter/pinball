@@ -5,7 +5,7 @@ import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:pinball/flame/extensions.dart';
+import 'package:pinball/flame/blueprint.dart';
 import 'package:pinball/game/game.dart';
 
 // TODO(erickzanardo): change this to use the layer class
@@ -20,6 +20,12 @@ class Spaceship extends Forge2DBlueprint {
   @override
   void build() {
     final position = Vector2(20, -24);
+
+    addAllContactCallback([
+      SpaceshipHoleBallContactCallback(),
+      SpaceshipEntranceBallContactCallback(),
+    ]);
+
     addAll([
       SpaceshipSaucer()..initialPosition = position,
       SpaceshipEntrance()..initialPosition = position,
@@ -28,11 +34,6 @@ class Spaceship extends Forge2DBlueprint {
       SpaceshipHole()..initialPosition = position - Vector2(5, 4),
       SpaceshipHole()..initialPosition = position - Vector2(-5, 4),
       SpaceshipWall()..initialPosition = position,
-    ]);
-
-    addAllContactCallback([
-      SpaceshipHoleBallContactCallback(),
-      SpaceshipEntranceBallContactCallback(),
     ]);
   }
 }

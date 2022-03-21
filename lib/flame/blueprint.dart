@@ -23,9 +23,9 @@ abstract class Blueprint {
   /// Attach the [Component]s built on [build] to the [game]
   /// instance
   @mustCallSuper
-  void attach(FlameGame game) {
+  Future<void> attach(FlameGame game) async {
     build();
-    game.addAll(_components);
+    await game.addAll(_components);
     _isAttached = true;
   }
 
@@ -63,8 +63,8 @@ abstract class Forge2DBlueprint extends Blueprint {
   }
 
   @override
-  void attach(FlameGame game) {
-    super.attach(game);
+  Future<void> attach(FlameGame game) async {
+    await super.attach(game);
 
     assert(game is Forge2DGame, 'Forge2DBlueprint used outside a Forge2DGame');
 
@@ -81,7 +81,7 @@ abstract class Forge2DBlueprint extends Blueprint {
 extension FlameGameBlueprint on FlameGame {
   /// Shortcut to attach a [Blueprint] instance to this game
   /// equivalent to `MyBluepinrt().attach(game)`
-  void addFromBlueprint(Blueprint blueprint) {
-    blueprint.attach(this);
+  Future<void> addFromBlueprint(Blueprint blueprint) async {
+    await blueprint.attach(this);
   }
 }

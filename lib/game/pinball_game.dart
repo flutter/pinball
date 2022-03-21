@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:pinball/flame/extensions.dart';
+import 'package:pinball/flame/blueprint.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
@@ -30,7 +30,7 @@ class PinballGame extends Forge2DGame
     unawaited(_addPlunger());
     unawaited(_addPaths());
 
-    addFromBlueprint(Spaceship());
+    unawaited(addFromBlueprint(Spaceship()));
 
     // Corner wall above plunger so the ball deflects into the rest of the
     // board.
