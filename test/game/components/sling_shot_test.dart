@@ -23,7 +23,7 @@ void main() {
     );
 
     flameTester.test(
-      'bdoy is static',
+      'body is static',
       (game) async {
         final slingShot = SlingShot(
           side: BoardSide.left,
