@@ -28,7 +28,7 @@ class LeaderboardState extends Equatable {
     this.leaderboard = const [],
   });
 
-  /// The current [LeaderboardStatus] of the state
+  /// The current [LeaderboardStatus] of the state.
   final LeaderboardStatus status;
 
   /// Rank of the current player.
