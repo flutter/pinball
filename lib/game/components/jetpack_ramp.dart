@@ -36,14 +36,11 @@ class JetpackRamp extends Component with HasGameRef<PinballGame> {
     )
       ..initialPosition = position
       ..layer = layer;
-    final leftOpening = _JetpackRampOpening(
-      rotation: 0,
-      outsideLayer: Layer.spaceship,
-    )
+    final leftOpening = _JetpackRampOpening(outsideLayer: Layer.spaceship)
       ..initialPosition = position + Vector2(-27.6, 25.3)
       ..layer = Layer.jetpack;
 
-    final rightOpening = _JetpackRampOpening(rotation: 0)
+    final rightOpening = _JetpackRampOpening()
       ..initialPosition = position + Vector2(-10.6, 25.3)
       ..layer = Layer.opening;
 
@@ -62,16 +59,12 @@ class JetpackRamp extends Component with HasGameRef<PinballGame> {
 class _JetpackRampOpening extends RampOpening {
   /// {@macro jetpack_ramp_opening}
   _JetpackRampOpening({
-    required double rotation,
     Layer? outsideLayer,
-  })  : _rotation = rotation,
-        super(
+  }) : super(
           pathwayLayer: Layer.jetpack,
           outsideLayer: outsideLayer,
           orientation: RampOrientation.down,
         );
-
-  final double _rotation;
 
   // TODO(ruialonso): Avoid magic number 2, should be proportional to
   // [JetpackRamp].
