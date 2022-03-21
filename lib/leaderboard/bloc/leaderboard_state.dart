@@ -7,7 +7,7 @@ enum LeaderboardStatus {
   /// Request is being loaded.
   loading,
 
-  /// Everything run ok and received response.
+  /// Request was processed successfully and received a valid response.
   success,
 
   /// Request was processed unsuccessfully and received an error.
