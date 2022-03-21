@@ -16,7 +16,8 @@ class ChromeDino extends BodyComponent with InitialPosition {
     paint = Paint()..color = Colors.blue;
   }
 
-  static final size = Vector2(3, 1);
+  /// The size of the dinosour mouth.
+  static final size = Vector2(5, 2.5);
 
   /// Anchors the [ChromeDino] to the [RevoluteJoint] that controls its arc
   /// motion.
@@ -42,22 +43,68 @@ class ChromeDino extends BodyComponent with InitialPosition {
   }
 
   @override
+  void update(double dt) {
+    super.update(dt);
+    // print(body.angle);
+  }
+
+  @override
   Future<void> onLoad() async {
     await super.onLoad();
+
     await _anchorToJoint();
+  }
+
+  List<FixtureDef> _createFixtureDefs() {
+    final fixtureDefs = <FixtureDef>[];
+
+    final box = PolygonShape()..setAsBoxXY(size.x / 2, size.y / 2);
+    final fixtureDef = FixtureDef(box)
+      ..shape = box
+      ..density = 1
+      ..friction = 0.3
+      ..restitution = 0.1
+      ..isSensor = true;
+    fixtureDefs.add(fixtureDef);
+
+    final upperEdge = EdgeShape()
+      ..set(
+        Vector2(-size.x / 2, -size.y / 2),
+        Vector2(size.x / 2, -size.y / 2),
+      );
+    final upperEdgeDef = FixtureDef(upperEdge)..density = 0.5;
+    fixtureDefs.add(upperEdgeDef);
+
+    final lowerEdge = EdgeShape()
+      ..set(
+        Vector2(-size.x / 2, size.y / 2),
+        Vector2(size.x / 2, size.y / 2),
+      );
+    final lowerEdgeDef = FixtureDef(lowerEdge)..density = 0.5;
+    fixtureDefs.add(lowerEdgeDef);
+
+    final rightEdge = EdgeShape()
+      ..set(
+        Vector2(size.x / 2, -size.y / 2),
+        Vector2(size.x / 2, size.y / 2),
+      );
+    final rightEdgeDef = FixtureDef(rightEdge)..density = 0.5;
+    fixtureDefs.add(rightEdgeDef);
+
+    return fixtureDefs;
   }
 
   @override
   Body createBody() {
-    final shape = PolygonShape()..setAsBoxXY(size.x, size.y);
-    final fixtureDef = FixtureDef(shape)..density = 1;
-
     final bodyDef = BodyDef()
       ..gravityScale = 0
       ..position = initialPosition
       ..type = BodyType.dynamic;
 
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
+    final body = world.createBody(bodyDef);
+    _createFixtureDefs().forEach(body.createFixture);
+
+    return body;
   }
 }
 
