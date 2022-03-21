@@ -111,13 +111,7 @@ class SlingShot extends BodyComponent with InitialPosition {
       ],
     );
     for (final fixtureDef in fixturesDefs) {
-      if (fixtureDef.shape is EdgeShape) {
-        final edge = fixtureDef.shape as EdgeShape;
-        edge.set(edge.vertex1 - centroid, edge.vertex2 - centroid);
-      } else if (fixtureDef.shape is CircleShape) {
-        final circle = fixtureDef.shape as CircleShape;
-        circle.position.setFrom(circle.position - centroid);
-      }
+      fixtureDef.shape.moveBy(-centroid);
     }
 
     return fixturesDefs;
@@ -130,5 +124,28 @@ class SlingShot extends BodyComponent with InitialPosition {
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;
+  }
+}
+
+// TODO(alestiago): Evaluate if there's value on reusing this.
+extension on Shape {
+  void moveBy(Vector2 offset) {
+    if (this is CircleShape) {
+      final circle = this as CircleShape;
+      circle.position.setFrom(circle.position + offset);
+    } else if (this is EdgeShape) {
+      final edge = this as EdgeShape;
+      edge.set(edge.vertex1 + offset, edge.vertex2 + offset);
+    } else if (this is PolygonShape) {
+      final polygon = this as PolygonShape;
+      for (final vertex in polygon.vertices) {
+        vertex.setFrom(vertex + offset);
+      }
+    } else if (this is ChainShape) {
+      final chain = this as ChainShape;
+      for (final vertex in chain.vertices) {
+        vertex.setFrom(vertex + offset);
+      }
+    }
   }
 }
