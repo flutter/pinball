@@ -18,7 +18,7 @@ class GameOverDialog extends StatelessWidget {
     return Dialog(
       child: SizedBox(
         width: 200,
-        height: 200,
+        height: 250,
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(10),
@@ -30,14 +30,14 @@ class GameOverDialog extends StatelessWidget {
                   style: Theme.of(context).textTheme.headline4,
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 Text(
                   'Your score is $score',
                   style: Theme.of(context).textTheme.headline6,
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 const TextField(
                   decoration: InputDecoration(
