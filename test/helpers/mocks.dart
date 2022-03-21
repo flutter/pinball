@@ -48,3 +48,11 @@ class MockTapUpInfo extends Mock implements TapUpInfo {}
 class MockEventPosition extends Mock implements EventPosition {}
 
 class MockBonusLetter extends Mock implements BonusLetter {}
+
+class MockFilter extends Mock implements Filter {}
+
+class MockFixture extends Mock implements Fixture {}
+
+class MockSpaceshipEntrance extends Mock implements SpaceshipEntrance {}
+
+class MockSpaceshipHole extends Mock implements SpaceshipHole {}
