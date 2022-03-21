@@ -27,9 +27,12 @@ class Board extends Component {
       ),
     );
 
+    final dino = ChromeDino()..initialPosition = _size / 2 + Vector2(0, -10);
+
     await addAll([
       bottomGroup,
       dashForest,
+      dino,
     ]);
   }
 }
