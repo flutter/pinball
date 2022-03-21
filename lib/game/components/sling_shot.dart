@@ -127,7 +127,8 @@ class SlingShot extends BodyComponent with InitialPosition {
   }
 }
 
-// TODO(alestiago): Evaluate if there's value on reusing this.
+// TODO(alestiago): Evaluate if there's value on generalising this to
+// all shapes.
 extension on Shape {
   void moveBy(Vector2 offset) {
     if (this is CircleShape) {
@@ -136,16 +137,6 @@ extension on Shape {
     } else if (this is EdgeShape) {
       final edge = this as EdgeShape;
       edge.set(edge.vertex1 + offset, edge.vertex2 + offset);
-    } else if (this is PolygonShape) {
-      final polygon = this as PolygonShape;
-      for (final vertex in polygon.vertices) {
-        vertex.setFrom(vertex + offset);
-      }
-    } else if (this is ChainShape) {
-      final chain = this as ChainShape;
-      for (final vertex in chain.vertices) {
-        vertex.setFrom(vertex + offset);
-      }
     }
   }
 }
