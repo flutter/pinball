@@ -23,25 +23,13 @@ class Spaceship extends Forge2DBlueprint {
     ]);
 
     addAll([
-      SpaceshipSaucer()
-        ..initialPosition = position
-        ..layer = Layer.spaceship,
-      SpaceshipEntrance()
-        ..initialPosition = position
-        ..layer = Layer.spaceship,
-      SpaceshipBridge()
-        ..initialPosition = position
-        ..layer = Layer.spaceship,
+      SpaceshipSaucer()..initialPosition = position,
+      SpaceshipEntrance()..initialPosition = position,
+      SpaceshipBridge()..initialPosition = position,
       SpaceshipBridgeTop()..initialPosition = position + Vector2(0, 5.5),
-      SpaceshipHole()
-        ..initialPosition = position - Vector2(5, 4)
-        ..layer = Layer.spaceship,
-      SpaceshipHole()
-        ..initialPosition = position - Vector2(-5, 4)
-        ..layer = Layer.spaceship,
-      SpaceshipWall()
-        ..initialPosition = position
-        ..layer = Layer.spaceship,
+      SpaceshipHole()..initialPosition = position - Vector2(5, 4),
+      SpaceshipHole()..initialPosition = position - Vector2(-5, 4),
+      SpaceshipWall()..initialPosition = position,
     ]);
   }
 }
@@ -51,7 +39,9 @@ class Spaceship extends Forge2DBlueprint {
 /// {@endtemplate}
 class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_saucer}
-  SpaceshipSaucer() : super(priority: 2);
+  SpaceshipSaucer() : super(priority: 2) {
+    layer = Layer.spaceship;
+  }
 
   /// Path for the base sprite
   static const saucerSpritePath = 'components/spaceship/saucer.png';
@@ -145,7 +135,9 @@ class SpaceshipBridgeTop extends BodyComponent with InitialPosition {
 /// {@endtemplate}
 class SpaceshipBridge extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_bridge}
-  SpaceshipBridge() : super(priority: 3);
+  SpaceshipBridge() : super(priority: 3) {
+    layer = Layer.spaceship;
+  }
 
   /// Path to the spaceship bridge
   static const spritePath = 'components/spaceship/android-bottom.png';
@@ -198,7 +190,9 @@ class SpaceshipEntrance extends RampOpening {
       : super(
           pathwayLayer: Layer.spaceship,
           orientation: RampOrientation.up,
-        );
+        ) {
+    layer = Layer.spaceship;
+  }
 
   @override
   Shape get shape {
@@ -223,7 +217,9 @@ class SpaceshipEntrance extends RampOpening {
 /// {@endtemplate}
 class SpaceshipHole extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_hole}
-  SpaceshipHole();
+  SpaceshipHole() {
+    layer = Layer.spaceship;
+  }
 
   @override
   Body createBody() {
@@ -250,7 +246,9 @@ class SpaceshipHole extends BodyComponent with InitialPosition, Layered {
 /// {@endtemplate}
 class SpaceshipWall extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_wall}
-  SpaceshipWall() : super(priority: 4);
+  SpaceshipWall() : super(priority: 4) {
+    layer = Layer.spaceship;
+  }
 
   /// Sprite path for the lower wall
   static const lowerWallPath = 'components/spaceship/lower.png';
