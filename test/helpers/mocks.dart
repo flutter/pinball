@@ -12,9 +12,16 @@ class MockWall extends Mock implements Wall {}
 
 class MockBottomWall extends Mock implements BottomWall {}
 
+class MockBody extends Mock implements Body {}
+
 class MockBall extends Mock implements Ball {}
 
 class MockContact extends Mock implements Contact {}
+
+class MockRampOpening extends Mock implements RampOpening {}
+
+class MockRampOpeningBallContactCallback extends Mock
+    implements RampOpeningBallContactCallback {}
 
 class MockGameBloc extends Mock implements GameBloc {}
 
@@ -41,3 +48,11 @@ class MockTapUpInfo extends Mock implements TapUpInfo {}
 class MockEventPosition extends Mock implements EventPosition {}
 
 class MockBonusLetter extends Mock implements BonusLetter {}
+
+class MockFilter extends Mock implements Filter {}
+
+class MockFixture extends Mock implements Fixture {}
+
+class MockSpaceshipEntrance extends Mock implements SpaceshipEntrance {}
+
+class MockSpaceshipHole extends Mock implements SpaceshipHole {}

@@ -34,7 +34,7 @@ class SlingShot extends BodyComponent with InitialPosition {
   static final Vector2 size = Vector2(6, 8);
 
   List<FixtureDef> _createFixtureDefs() {
-    final fixtures = <FixtureDef>[];
+    final fixturesDef = <FixtureDef>[];
 
     // TODO(alestiago): This magic number can be deduced by specifying the
     // angle and using polar coordinate system to place the bottom right
@@ -65,7 +65,7 @@ class SlingShot extends BodyComponent with InitialPosition {
 
     final triangle = PolygonShape()..set(triangleVertices);
     final triangleFixtureDef = FixtureDef(triangle)..friction = 0;
-    fixtures.add(triangleFixtureDef);
+    fixturesDef.add(triangleFixtureDef);
 
     final kicker = EdgeShape()
       ..set(
@@ -76,9 +76,9 @@ class SlingShot extends BodyComponent with InitialPosition {
     final kickerFixtureDef = FixtureDef(kicker)
       ..restitution = 10.0
       ..friction = 0;
-    fixtures.add(kickerFixtureDef);
+    fixturesDef.add(kickerFixtureDef);
 
-    return fixtures;
+    return fixturesDef;
   }
 
   @override
