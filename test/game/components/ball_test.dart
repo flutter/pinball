@@ -140,20 +140,15 @@ void main() {
     });
 
     group('stop', () {
-      Future<void> newFrame() async {
-        // TODO(alestiago): Remove to wait for new frame.
-        await Future<void>.delayed(const Duration(milliseconds: 100));
-      }
-
       flameTester.test('can be moved', (game) async {
         final ball = Ball();
         await game.ensureAdd(ball);
 
-        await newFrame();
+        game.update(1);
         expect(ball.body.position, isNot(equals(ball.initialPosition)));
 
         ball.body.linearVelocity.setValues(10, 10);
-        await newFrame();
+        game.update(1);
         expect(ball.body.position, isNot(equals(ball.initialPosition)));
       });
 
@@ -162,32 +157,27 @@ void main() {
         await game.ensureAdd(ball);
         ball.stop();
 
-        await newFrame();
+        game.update(1);
         expect(ball.body.position, equals(ball.initialPosition));
 
         ball.body.linearVelocity.setValues(10, 10);
-        await newFrame();
+        game.update(1);
         expect(ball.body.position, equals(ball.initialPosition));
       });
     });
 
     group('resume', () {
-      Future<void> newFrame() async {
-        // TODO(alestiago): Remove to wait for new frame.
-        await Future<void>.delayed(const Duration(milliseconds: 100));
-      }
-
       flameTester.test('can move when previosusly stopped', (game) async {
         final ball = Ball();
         await game.ensureAdd(ball);
         ball.stop();
         ball.resume();
 
-        await newFrame();
+        game.update(1);
         expect(ball.body.position, isNot(equals(ball.initialPosition)));
 
         ball.body.linearVelocity.setValues(10, 10);
-        await newFrame();
+        game.update(1);
         expect(ball.body.position, isNot(equals(ball.initialPosition)));
       });
     });
