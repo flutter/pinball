@@ -15,7 +15,7 @@ const _spaceShipBits = 0x0002;
 /// A [Blueprint] which creates the spaceship feature.
 class Spaceship extends Forge2DBlueprint {
   /// Total size of the spaceship
-  static const size = 20.0;
+  static const radius = 10.0;
 
   @override
   void build() {
@@ -62,7 +62,7 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition {
     await add(
       SpriteComponent(
         sprite: sprites.first,
-        size: Vector2.all(Spaceship.size),
+        size: Vector2.all(Spaceship.radius * 2),
         anchor: Anchor.center,
       ),
     );
@@ -70,9 +70,9 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition {
     await add(
       SpriteComponent(
         sprite: sprites.last,
-        size: Vector2(Spaceship.size + 0.5, Spaceship.size / 2),
+        size: Vector2((Spaceship.radius * 2) + 0.5, Spaceship.radius),
         anchor: Anchor.center,
-        position: Vector2(0, -(Spaceship.size / 3.5)),
+        position: Vector2(0, -((Spaceship.radius * 2) / 3.5)),
       ),
     );
 
@@ -81,7 +81,7 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition {
 
   @override
   Body createBody() {
-    final circleShape = CircleShape()..radius = Spaceship.size / 2;
+    final circleShape = CircleShape()..radius = Spaceship.radius;
 
     final bodyDef = BodyDef()
       ..userData = this
@@ -118,7 +118,7 @@ class SpaceshipBridgeTop extends BodyComponent with InitialPosition {
       SpriteComponent(
         sprite: sprite,
         anchor: Anchor.center,
-        size: Vector2(Spaceship.size / 2.5 - 1, Spaceship.size / 5),
+        size: Vector2((Spaceship.radius * 2) / 2.5 - 1, Spaceship.radius / 2.5),
       ),
     );
   }
@@ -160,7 +160,7 @@ class SpaceshipBridge extends BodyComponent with InitialPosition {
           stepTime: 0.2,
           textureSize: Vector2(160, 114),
         ),
-        size: Vector2.all(Spaceship.size / 2.5),
+        size: Vector2.all((Spaceship.radius * 2) / 2.5),
         anchor: Anchor.center,
       ),
     );
@@ -168,7 +168,7 @@ class SpaceshipBridge extends BodyComponent with InitialPosition {
 
   @override
   Body createBody() {
-    final circleShape = CircleShape()..radius = Spaceship.size / 5;
+    final circleShape = CircleShape()..radius = Spaceship.radius / 2.5;
 
     final bodyDef = BodyDef()
       ..userData = this
@@ -197,16 +197,15 @@ class SpaceshipEntrance extends BodyComponent with InitialPosition {
 
   @override
   Body createBody() {
-    const radius = Spaceship.size / 2;
     final entranceShape = PolygonShape()
       ..setAsEdge(
         Vector2(
-          radius * cos(20 * pi / 180),
-          radius * sin(20 * pi / 180),
+          Spaceship.radius * cos(20 * pi / 180),
+          Spaceship.radius * sin(20 * pi / 180),
         ),
         Vector2(
-          radius * cos(340 * pi / 180),
-          radius * sin(340 * pi / 180),
+          Spaceship.radius * cos(340 * pi / 180),
+          Spaceship.radius * sin(340 * pi / 180),
         ),
       );
 
@@ -234,7 +233,7 @@ class SpaceshipHole extends BodyComponent with InitialPosition {
   @override
   Body createBody() {
     renderBody = false;
-    final circleShape = CircleShape()..radius = Spaceship.size / 80;
+    final circleShape = CircleShape()..radius = Spaceship.radius / 40;
 
     final bodyDef = BodyDef()
       ..userData = this
@@ -273,9 +272,9 @@ class SpaceshipWall extends BodyComponent with InitialPosition {
     await add(
       SpriteComponent(
         sprite: sprite,
-        size: Vector2(Spaceship.size, (Spaceship.size / 2) + 1),
+        size: Vector2(Spaceship.radius * 2, Spaceship.radius + 1),
         anchor: Anchor.center,
-        position: Vector2(-Spaceship.size / 4, 0),
+        position: Vector2(-Spaceship.radius / 2, 0),
         angle: 90 * pi / 180,
       ),
     );
@@ -285,15 +284,13 @@ class SpaceshipWall extends BodyComponent with InitialPosition {
   Body createBody() {
     renderBody = false;
 
-    const radius = Spaceship.size / 2;
-
     final wallShape = ChainShape()
       ..createChain(
         [
           for (var angle = 20; angle <= 340; angle++)
             Vector2(
-              radius * cos(angle * pi / 180),
-              radius * sin(angle * pi / 180),
+              Spaceship.radius * cos(angle * pi / 180),
+              Spaceship.radius * sin(angle * pi / 180),
             ),
         ],
       );
