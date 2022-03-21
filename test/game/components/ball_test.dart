@@ -70,6 +70,18 @@ void main() {
           expect(fixture.shape.radius, equals(1));
         },
       );
+
+      flameTester.test(
+        'has Layer.all as default filter maskBits',
+        (game) async {
+          final ball = Ball();
+          await game.ensureAdd(ball);
+          await ball.mounted;
+
+          final fixture = ball.body.fixtures[0];
+          expect(fixture.filterData.maskBits, equals(Layer.board.maskBits));
+        },
+      );
     });
 
     group('lost', () {

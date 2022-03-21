@@ -6,9 +6,16 @@ import 'package:pinball/game/game.dart';
 /// A solid, [BodyType.dynamic] sphere that rolls and bounces along the
 /// [PinballGame].
 /// {@endtemplate}
-class Ball extends BodyComponent<PinballGame> with InitialPosition {
+class Ball extends BodyComponent<PinballGame> with InitialPosition, Layered {
   /// {@macro ball}
-  Ball();
+  Ball() {
+    // TODO(ruimiguel): while developing Ball can be launched by clicking mouse,
+    // and default  layer is Layer.all. But on final game Ball will be always be
+    // be launched from Plunger and LauncherRamp will modify it to Layer.board.
+    // We need to see what happens if Ball appears from other place like nest
+    // bumper, it will need to explicit change layer to Layer.board then.
+    layer = Layer.board;
+  }
 
   /// The size of the [Ball]
   final Vector2 size = Vector2.all(2);

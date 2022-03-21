@@ -22,7 +22,7 @@ class Baseboard extends BodyComponent with InitialPosition {
   final BoardSide _side;
 
   List<FixtureDef> _createFixtureDefs() {
-    final fixtures = <FixtureDef>[];
+    final fixturesDef = <FixtureDef>[];
 
     final circleShape1 = CircleShape()..radius = Baseboard.height / 2;
     circleShape1.position.setValues(
@@ -30,7 +30,7 @@ class Baseboard extends BodyComponent with InitialPosition {
       0,
     );
     final circle1FixtureDef = FixtureDef(circleShape1);
-    fixtures.add(circle1FixtureDef);
+    fixturesDef.add(circle1FixtureDef);
 
     final circleShape2 = CircleShape()..radius = Baseboard.height / 2;
     circleShape2.position.setValues(
@@ -38,7 +38,7 @@ class Baseboard extends BodyComponent with InitialPosition {
       0,
     );
     final circle2FixtureDef = FixtureDef(circleShape2);
-    fixtures.add(circle2FixtureDef);
+    fixturesDef.add(circle2FixtureDef);
 
     final rectangle = PolygonShape()
       ..setAsBoxXY(
@@ -46,9 +46,9 @@ class Baseboard extends BodyComponent with InitialPosition {
         Baseboard.height / 2,
       );
     final rectangleFixtureDef = FixtureDef(rectangle);
-    fixtures.add(rectangleFixtureDef);
+    fixturesDef.add(rectangleFixtureDef);
 
-    return fixtures;
+    return fixturesDef;
   }
 
   @override

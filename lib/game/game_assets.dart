@@ -7,6 +7,10 @@ extension PinballGameAssetsX on PinballGame {
     await Future.wait([
       images.load(Ball.spritePath),
       images.load(Flipper.spritePath),
+      images.load(SpaceshipBridge.spritePath),
+      images.load(SpaceshipBridgeTop.spritePath),
+      images.load(SpaceshipWall.lowerWallPath),
+      images.load(SpaceshipSaucer.upperWallPath),
     ]);
   }
 }
