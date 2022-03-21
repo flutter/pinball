@@ -20,7 +20,9 @@ class Top10Fetched extends LeaderboardEvent {
 }
 
 /// {@template leaderboard_entry_added}
-/// Insert new entry at leaderboard when user ends game.
+/// Writes a new [LeaderboardEntry].
+///
+/// Should be added when a player finishes a game.
 /// {endtemplate}
 class LeaderboardEntryAdded extends LeaderboardEvent {
   /// {@macro leaderboard_entry_added}
