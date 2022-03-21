@@ -1,6 +1,6 @@
 part of 'leaderboard_bloc.dart';
 
-/// Defines request status
+/// Defines the request status.
 enum LeaderboardStatus {
   /// While loading request.
   loading,
