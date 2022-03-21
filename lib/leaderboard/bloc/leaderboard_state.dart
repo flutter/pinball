@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 part of 'leaderboard_bloc.dart';
 
 /// Defines the request status.
@@ -38,8 +40,6 @@ class LeaderboardState extends Equatable {
   @override
   List<Object> get props => [status, ranking, leaderboard];
 
-  /// Method to copy [LeaderboardState] modifying only explicit params and
-  /// keeping others.
   LeaderboardState copyWith({
     LeaderboardStatus? status,
     LeaderboardRanking? ranking,
