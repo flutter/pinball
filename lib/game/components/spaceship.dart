@@ -8,10 +8,6 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/flame/blueprint.dart';
 import 'package:pinball/game/game.dart';
 
-// TODO(erickzanardo): change this to use the layer class
-// that will be introduced on the path PR
-const _spaceShipBits = 0x0002;
-
 /// A [Blueprint] which creates the spaceship feature.
 class Spaceship extends Forge2DBlueprint {
   /// Total size of the spaceship
@@ -19,7 +15,7 @@ class Spaceship extends Forge2DBlueprint {
 
   @override
   void build() {
-    final position = Vector2(20, -24);
+    final position = Vector2(30, -50);
 
     addAllContactCallback([
       SpaceshipHoleBallContactCallback(),
@@ -27,13 +23,25 @@ class Spaceship extends Forge2DBlueprint {
     ]);
 
     addAll([
-      SpaceshipSaucer()..initialPosition = position,
-      SpaceshipEntrance()..initialPosition = position,
-      SpaceshipBridge()..initialPosition = position,
+      SpaceshipSaucer()
+        ..initialPosition = position
+        ..layer = Layer.spaceship,
+      SpaceshipEntrance()
+        ..initialPosition = position
+        ..layer = Layer.spaceship,
+      SpaceshipBridge()
+        ..initialPosition = position
+        ..layer = Layer.spaceship,
       SpaceshipBridgeTop()..initialPosition = position + Vector2(0, 5.5),
-      SpaceshipHole()..initialPosition = position - Vector2(5, 4),
-      SpaceshipHole()..initialPosition = position - Vector2(-5, 4),
-      SpaceshipWall()..initialPosition = position,
+      SpaceshipHole()
+        ..initialPosition = position - Vector2(5, 4)
+        ..layer = Layer.spaceship,
+      SpaceshipHole()
+        ..initialPosition = position - Vector2(-5, 4)
+        ..layer = Layer.spaceship,
+      SpaceshipWall()
+        ..initialPosition = position
+        ..layer = Layer.spaceship,
     ]);
   }
 }
@@ -41,7 +49,7 @@ class Spaceship extends Forge2DBlueprint {
 /// {@template spaceship_saucer}
 /// A [BodyComponent] for the base, or the saucer of the spaceship
 /// {@endtemplate}
-class SpaceshipSaucer extends BodyComponent with InitialPosition {
+class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_saucer}
   SpaceshipSaucer() : super(priority: 2);
 
@@ -90,10 +98,7 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition {
 
     return world.createBody(bodyDef)
       ..createFixture(
-        FixtureDef(circleShape)
-          ..isSensor = true
-          ..filter.maskBits = _spaceShipBits
-          ..filter.categoryBits = _spaceShipBits,
+        FixtureDef(circleShape)..isSensor = true,
       );
   }
 }
@@ -138,7 +143,7 @@ class SpaceshipBridgeTop extends BodyComponent with InitialPosition {
 /// The main part of the [SpaceshipBridge], this [BodyComponent]
 /// provides both the collision and the rotation animation for the bridge.
 /// {@endtemplate}
-class SpaceshipBridge extends BodyComponent with InitialPosition {
+class SpaceshipBridge extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_bridge}
   SpaceshipBridge() : super(priority: 3);
 
@@ -177,10 +182,7 @@ class SpaceshipBridge extends BodyComponent with InitialPosition {
 
     return world.createBody(bodyDef)
       ..createFixture(
-        FixtureDef(circleShape)
-          ..restitution = 0.4
-          ..filter.maskBits = _spaceShipBits
-          ..filter.categoryBits = _spaceShipBits,
+        FixtureDef(circleShape)..restitution = 0.4,
       );
   }
 }
@@ -190,34 +192,27 @@ class SpaceshipBridge extends BodyComponent with InitialPosition {
 /// the spaceship area in order to modify its filter data so the ball
 /// can correctly collide only with the Spaceship
 /// {@endtemplate}
-// TODO(erickzanardo): Use RampOpening once provided.
-class SpaceshipEntrance extends BodyComponent with InitialPosition {
+class SpaceshipEntrance extends RampOpening {
   /// {@macro spaceship_entrance}
-  SpaceshipEntrance();
+  SpaceshipEntrance()
+      : super(
+          pathwayLayer: Layer.spaceship,
+          orientation: RampOrientation.up,
+        );
 
   @override
-  Body createBody() {
-    final entranceShape = PolygonShape()
+  Shape get shape {
+    const radius = Spaceship.radius * 2;
+    return PolygonShape()
       ..setAsEdge(
         Vector2(
-          Spaceship.radius * cos(20 * pi / 180),
-          Spaceship.radius * sin(20 * pi / 180),
-        ),
+          radius * cos(20 * pi / 180),
+          radius * sin(20 * pi / 180),
+        )..rotate(90 * pi / 180),
         Vector2(
-          Spaceship.radius * cos(340 * pi / 180),
-          Spaceship.radius * sin(340 * pi / 180),
-        ),
-      );
-
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition
-      ..angle = 90 * pi / 180
-      ..type = BodyType.static;
-
-    return world.createBody(bodyDef)
-      ..createFixture(
-        FixtureDef(entranceShape)..isSensor = true,
+          radius * cos(340 * pi / 180),
+          radius * sin(340 * pi / 180),
+        )..rotate(90 * pi / 180),
       );
   }
 }
@@ -226,7 +221,7 @@ class SpaceshipEntrance extends BodyComponent with InitialPosition {
 /// A sensor [BodyComponent] responsible for sending the [Ball]
 /// back to the board.
 /// {@endtemplate}
-class SpaceshipHole extends BodyComponent with InitialPosition {
+class SpaceshipHole extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_hole}
   SpaceshipHole();
 
@@ -242,10 +237,7 @@ class SpaceshipHole extends BodyComponent with InitialPosition {
 
     return world.createBody(bodyDef)
       ..createFixture(
-        FixtureDef(circleShape)
-          ..isSensor = true
-          ..filter.maskBits = _spaceShipBits
-          ..filter.categoryBits = _spaceShipBits,
+        FixtureDef(circleShape)..isSensor = true,
       );
   }
 }
@@ -256,7 +248,7 @@ class SpaceshipHole extends BodyComponent with InitialPosition {
 /// [Ball] to get inside the spaceship saucer.
 /// It also contains the [SpriteComponent] for the lower wall
 /// {@endtemplate}
-class SpaceshipWall extends BodyComponent with InitialPosition {
+class SpaceshipWall extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_wall}
   SpaceshipWall() : super(priority: 4);
 
@@ -303,10 +295,7 @@ class SpaceshipWall extends BodyComponent with InitialPosition {
 
     return world.createBody(bodyDef)
       ..createFixture(
-        FixtureDef(wallShape)
-          ..restitution = 1
-          ..filter.maskBits = _spaceShipBits
-          ..filter.categoryBits = _spaceShipBits,
+        FixtureDef(wallShape)..restitution = 1,
       );
   }
 }
@@ -316,19 +305,14 @@ class SpaceshipWall extends BodyComponent with InitialPosition {
 ///
 /// It modifies the [Ball] priority and filter data so it can appear on top of
 /// the spaceship and also only collide with the spaceship.
-// TODO(alestiago): modify once Layer is implemented in Spaceship.
 class SpaceshipEntranceBallContactCallback
     extends ContactCallback<SpaceshipEntrance, Ball> {
   @override
   void begin(SpaceshipEntrance entrance, Ball ball, _) {
     ball
       ..priority = 3
-      ..gameRef.reorderChildren();
-
-    for (final fixture in ball.body.fixtures) {
-      fixture.filterData.categoryBits = _spaceShipBits;
-      fixture.filterData.maskBits = _spaceShipBits;
-    }
+      ..gameRef.reorderChildren()
+      ..layer = Layer.spaceship;
   }
 }
 
@@ -337,18 +321,13 @@ class SpaceshipEntranceBallContactCallback
 ///
 /// It resets the [Ball] priority and filter data so it will "be back" on the
 /// board.
-// TODO(alestiago): modify once Layer is implemented in Spaceship.
 class SpaceshipHoleBallContactCallback
     extends ContactCallback<SpaceshipHole, Ball> {
   @override
   void begin(SpaceshipHole hole, Ball ball, _) {
     ball
       ..priority = 1
-      ..gameRef.reorderChildren();
-
-    for (final fixture in ball.body.fixtures) {
-      fixture.filterData.categoryBits = 0xFFFF;
-      fixture.filterData.maskBits = 0x0001;
-    }
+      ..gameRef.reorderChildren()
+      ..layer = Layer.board;
   }
 }
