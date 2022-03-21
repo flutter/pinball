@@ -18,6 +18,9 @@ class MockBall extends Mock implements Ball {}
 
 class MockContact extends Mock implements Contact {}
 
+class MockContactCallback extends Mock
+    implements ContactCallback<Object, Object> {}
+
 class MockRampOpening extends Mock implements RampOpening {}
 
 class MockRampOpeningBallContactCallback extends Mock

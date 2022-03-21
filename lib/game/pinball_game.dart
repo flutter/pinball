@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:pinball/flame/blueprint.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
@@ -29,7 +30,7 @@ class PinballGame extends Forge2DGame
     unawaited(_addPlunger());
     unawaited(_addPaths());
 
-    unawaited(_addSpaceship());
+    unawaited(addFromBlueprint(Spaceship()));
 
     // Corner wall above plunger so the ball deflects into the rest of the
     // board.
@@ -80,21 +81,6 @@ class PinballGame extends Forge2DGame
     );
   }
 
-  Future<void> _addSpaceship() async {
-    final position = Vector2(20, -24);
-    await addAll(
-      [
-        SpaceshipSaucer()..initialPosition = position,
-        SpaceshipEntrance()..initialPosition = position,
-        SpaceshipBridge()..initialPosition = position,
-        SpaceshipBridgeTop()..initialPosition = position + Vector2(0, 5.5),
-        SpaceshipHole()..initialPosition = position - Vector2(5, 4),
-        SpaceshipHole()..initialPosition = position - Vector2(-5, 4),
-        SpaceshipWall()..initialPosition = position,
-      ],
-    );
-  }
-
   void spawnBall() {
     final ball = Ball();
     add(
@@ -107,8 +93,6 @@ class PinballGame extends Forge2DGame
     addContactCallback(BallScorePointsCallback());
     addContactCallback(BottomWallBallContactCallback());
     addContactCallback(BonusLetterBallContactCallback());
-    addContactCallback(SpaceshipHoleBallContactCallback());
-    addContactCallback(SpaceshipEntranceBallContactCallback());
   }
 
   Future<void> _addGameBoundaries() async {
