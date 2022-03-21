@@ -68,4 +68,19 @@ class Ball extends BodyComponent<PinballGame> with InitialPosition, Layered {
       gameRef.spawnBall();
     }
   }
+
+  /// Immediatly and completly [stop]s the ball.
+  ///
+  /// The [Ball] will no longer be affected by any forces, including it's
+  /// weight and those emitted from collisions.
+  void stop() {
+    body.setType(BodyType.static);
+  }
+
+  /// Allows the [Ball] to be affected by forces.
+  ///
+  /// If previously [stop]ed, the previous ball's velocity is not kept.
+  void resume() {
+    body.setType(BodyType.dynamic);
+  }
 }
