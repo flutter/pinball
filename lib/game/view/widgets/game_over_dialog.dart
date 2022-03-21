@@ -20,18 +20,43 @@ class GameOverDialog extends StatelessWidget {
         width: 200,
         height: 200,
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('Game Over'),
-              Text('Congratulations! your score is $score'),
-              TextButton(
-                onPressed: () {
-                  //TODO: navigate to LeadersboardPage
-                },
-                child: const Text('Add User'),
-              ),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Game Over',
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'Your score is $score',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter your initials',
+                  ),
+                  maxLength: 3,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextButton(
+                  onPressed: () {
+                    //TODO: navigate to LeadersboardPage
+                  },
+                  child: const Text('Add User'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
