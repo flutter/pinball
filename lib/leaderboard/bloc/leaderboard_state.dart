@@ -29,7 +29,7 @@ class LeaderboardState extends Equatable {
   /// The current [LeaderboardStatus] of the state
   final LeaderboardStatus status;
 
-  /// Ranking for the user.
+  /// Rank of the current player.
   final LeaderboardRanking ranking;
 
   /// List of users at leaderboard.
