@@ -27,14 +27,20 @@ abstract class RampOpening extends BodyComponent with InitialPosition, Layered {
   /// {@macro ramp_opening}
   RampOpening({
     required Layer pathwayLayer,
+    Layer? outsideLayer,
     required this.orientation,
-  }) : _pathwayLayer = pathwayLayer {
+  })  : _pathwayLayer = pathwayLayer,
+        _outsideLayer = outsideLayer ?? Layer.board {
     layer = Layer.board;
   }
   final Layer _pathwayLayer;
+  final Layer _outsideLayer;
 
   /// Mask of category bits for collision inside [Pathway].
   Layer get pathwayLayer => _pathwayLayer;
+
+  /// Mask of category bits for collision outside [Pathway].
+  Layer get outsideLayer => _outsideLayer;
 
   /// The [Shape] of the [RampOpening].
   Shape get shape;
@@ -85,7 +91,7 @@ class RampOpeningBallContactCallback<Opening extends RampOpening>
   @override
   void end(Ball ball, Opening opening, Contact _) {
     if (!_ballsInside.contains(ball)) {
-      ball.layer = Layer.board;
+      ball.layer = opening.outsideLayer;
     } else {
       // TODO(ruimiguel): change this code. Check what happens with ball that
       // slightly touch Opening and goes out again. With InitialPosition change
@@ -97,7 +103,7 @@ class RampOpeningBallContactCallback<Opening extends RampOpening>
                   ball.body.linearVelocity.y > 0);
 
       if (isBallOutsideOpening) {
-        ball.layer = Layer.board;
+        ball.layer = opening.outsideLayer;
         _ballsInside.remove(ball);
       }
     }
