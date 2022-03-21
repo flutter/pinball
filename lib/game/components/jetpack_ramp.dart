@@ -30,12 +30,14 @@ class JetpackRamp extends Component with HasGameRef<PinballGame> {
       // TODO(ruialonso): Use a bezier curve once control points are defined.
       color: const Color.fromARGB(255, 8, 218, 241),
       center: position,
-      width: 62,
-      radius: 200,
+      width: 20,
+      radius: 60,
       angle: math.pi,
     )
-      ..initialPosition = position
+      ..initialPosition = position + Vector2(60, 0)
       ..layer = layer;
+
+    // TODO figure out the new values for this
     final leftOpening = _JetpackRampOpening(outsideLayer: Layer.spaceship)
       ..initialPosition = position + Vector2(-27.6, 25.3)
       ..layer = Layer.jetpack;
