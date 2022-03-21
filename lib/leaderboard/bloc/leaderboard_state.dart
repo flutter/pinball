@@ -32,7 +32,7 @@ class LeaderboardState extends Equatable {
   /// Rank of the current player.
   final LeaderboardRanking ranking;
 
-  /// List of users at leaderboard.
+  /// List of top-ranked players.
   final List<LeaderboardEntry> leaderboard;
 
   @override
