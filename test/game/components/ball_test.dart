@@ -75,6 +75,7 @@ void main() {
         'has Layer.all as default filter maskBits',
         (game) async {
           final ball = Ball();
+          await game.ready();
           await game.ensureAdd(ball);
           await game.ready();
 
