@@ -23,7 +23,7 @@ void main() {
     });
 
     testWidgets('route returns a valid navigation route', (tester) async {
-      await expectNavigatesTo<LeaderboardPage>(
+      await expectNavigatesToRoute<LeaderboardPage>(
         tester,
         LeaderboardPage.route(
           theme: DashTheme(),
@@ -41,7 +41,7 @@ void main() {
         ),
       );
 
-      expect(find.text(l10n.leadersBoard), findsOneWidget);
+      expect(find.text(l10n.leadersboard), findsOneWidget);
       expect(find.text(l10n.retry), findsOneWidget);
     });
 

@@ -49,7 +49,7 @@ class LeaderboardView extends StatelessWidget {
             children: [
               const SizedBox(height: 80),
               Text(
-                l10n.leadersBoard,
+                l10n.leadersboard,
                 style: Theme.of(context).textTheme.headline3,
               ),
               const SizedBox(height: 80),
@@ -82,7 +82,7 @@ class _LeaderboardRanking extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _LeaderboardHeaders(theme: theme),
-          const _LeaderboardList(),
+          _LeaderboardList(theme: theme),
         ],
       ),
     );
@@ -137,7 +137,9 @@ class _LeaderboardHeaderItem extends StatelessWidget {
 }
 
 class _LeaderboardList extends StatelessWidget {
-  const _LeaderboardList({Key? key}) : super(key: key);
+  const _LeaderboardList({Key? key, required this.theme}) : super(key: key);
+
+  final CharacterTheme theme;
 
   @override
   Widget build(BuildContext context) {
@@ -152,6 +154,7 @@ class _LeaderboardList extends StatelessWidget {
             score: 0,
           ),
         ),
+        theme: theme,
       ),
       itemCount: 10,
     );
@@ -159,8 +162,13 @@ class _LeaderboardList extends StatelessWidget {
 }
 
 class _LeaderBoardCompetitor extends StatelessWidget {
-  const _LeaderBoardCompetitor({Key? key, required this.competitor})
-      : super(key: key);
+  const _LeaderBoardCompetitor({
+    Key? key,
+    required this.competitor,
+    required this.theme,
+  }) : super(key: key);
+
+  final CharacterTheme theme;
 
   final Competitor competitor;
 
@@ -169,20 +177,35 @@ class _LeaderBoardCompetitor extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _LeaderboardCompetitorField(text: competitor.rank),
+        _LeaderboardCompetitorField(
+          text: competitor.rank,
+          theme: theme,
+        ),
         _LeaderboardCompetitorCharacter(
           characterTheme: competitor.entry.character.theme,
+          theme: theme,
         ),
-        _LeaderboardCompetitorField(text: competitor.entry.playerInitials),
-        _LeaderboardCompetitorField(text: competitor.entry.score.toString()),
+        _LeaderboardCompetitorField(
+          text: competitor.entry.playerInitials,
+          theme: theme,
+        ),
+        _LeaderboardCompetitorField(
+          text: competitor.entry.score.toString(),
+          theme: theme,
+        ),
       ],
     );
   }
 }
 
 class _LeaderboardCompetitorField extends StatelessWidget {
-  const _LeaderboardCompetitorField({Key? key, required this.text})
-      : super(key: key);
+  const _LeaderboardCompetitorField({
+    Key? key,
+    required this.text,
+    required this.theme,
+  }) : super(key: key);
+
+  final CharacterTheme theme;
   final String text;
 
   @override
@@ -191,8 +214,7 @@ class _LeaderboardCompetitorField extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           border: Border.all(
-            color:
-                context.read<ThemeCubit>().state.theme.characterTheme.ballColor,
+            color: theme.ballColor,
             width: 2,
           ),
         ),
@@ -209,7 +231,10 @@ class _LeaderboardCompetitorCharacter extends StatelessWidget {
   const _LeaderboardCompetitorCharacter({
     Key? key,
     required this.characterTheme,
+    required this.theme,
   }) : super(key: key);
+
+  final CharacterTheme theme;
   final CharacterTheme characterTheme;
 
   @override
@@ -218,8 +243,7 @@ class _LeaderboardCompetitorCharacter extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           border: Border.all(
-            color:
-                context.read<ThemeCubit>().state.theme.characterTheme.ballColor,
+            color: theme.ballColor,
             width: 2,
           ),
         ),

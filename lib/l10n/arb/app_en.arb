@@ -28,8 +28,8 @@
     "@gameOver": {
         "description": "Text displayed on the ending dialog when game finishes"
     },
-    "leadersBoard": "Leaders Board",
-    "@leadersBoard": {
+    "leadersboard": "Leaders Board",
+    "@leadersboard": {
         "description": "Text displayed on the ending dialog leaders board button"
     },
     "rank": "Rank",

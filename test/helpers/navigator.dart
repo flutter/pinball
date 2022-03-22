@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'helpers.dart';
 
-Future<void> expectNavigatesTo<Type>(
+Future<void> expectNavigatesToRoute<Type>(
   WidgetTester tester,
   Route route, {
   bool hasFlameGameInside = false,

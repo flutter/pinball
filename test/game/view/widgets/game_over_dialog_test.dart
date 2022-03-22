@@ -20,7 +20,7 @@ void main() {
       );
 
       expect(find.text(l10n.gameOver), findsOneWidget);
-      expect(find.text(l10n.leadersBoard), findsOneWidget);
+      expect(find.text(l10n.leadersboard), findsOneWidget);
     });
 
     testWidgets('tapping on leaderboard button navigates to LeaderBoardPage',
@@ -36,7 +36,7 @@ void main() {
         navigator: navigator,
       );
 
-      await tester.tap(find.widgetWithText(TextButton, l10n.leadersBoard));
+      await tester.tap(find.widgetWithText(TextButton, l10n.leadersboard));
 
       verify(() => navigator.push<void>(any())).called(1);
     });
