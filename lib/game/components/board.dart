@@ -3,7 +3,7 @@ import 'package:pinball/game/game.dart';
 
 /// {@template board}
 /// The main flat surface of the [PinballGame], where the [Flipper]s,
-/// [RoundBumper]s, [SlingShot]s are arranged.
+/// [RoundBumper]s, [Kicker]s are arranged.
 /// {entemplate}
 class Board extends Component {
   /// {@macro board}
@@ -76,7 +76,7 @@ class _FlutterForest extends Component {
 /// {@template bottom_group}
 /// Grouping of the board's bottom [Component]s.
 ///
-/// The [_BottomGroup] consists of[Flipper]s, [Baseboard]s and [SlingShot]s.
+/// The [_BottomGroup] consists of[Flipper]s, [Baseboard]s and [Kicker]s.
 /// {@endtemplate}
 // TODO(alestiago): Consider renaming once entire Board is defined.
 class _BottomGroup extends Component {
@@ -138,14 +138,14 @@ class _BottomGroupSide extends Component {
             (Flipper.size.x * direction) - direction,
             Flipper.size.y,
           );
-    final slingShot = SlingShot(
+    final kicker = Kicker(
       side: _side,
     )..initialPosition = _position +
         Vector2(
           (Flipper.size.x) * direction,
-          Flipper.size.y + SlingShot.size.y,
+          Flipper.size.y + Kicker.size.y,
         );
 
-    await addAll([flipper, baseboard, slingShot]);
+    await addAll([flipper, baseboard, kicker]);
   }
 }
