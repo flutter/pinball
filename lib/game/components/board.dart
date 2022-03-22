@@ -7,25 +7,23 @@ import 'package:pinball/game/game.dart';
 /// {entemplate}
 class Board extends Component {
   /// {@macro board}
-  Board({required Vector2 size}) : _size = size;
-
-  final Vector2 _size;
+  Board();
 
   @override
   Future<void> onLoad() async {
     // TODO(alestiago): adjust positioning once sprites are added.
     final bottomGroup = _BottomGroup(
       position: Vector2(
-        _size.x / 2,
-        _size.y / 1.25,
+        PinballGame.boardBounds.center.dx,
+        PinballGame.boardBounds.bottom + 10,
       ),
       spacing: 2,
     );
 
     final dashForest = _FlutterForest(
       position: Vector2(
-        _size.x / 1.25,
-        _size.y / 4.25,
+        PinballGame.boardBounds.right - 20,
+        PinballGame.boardBounds.top - 20,
       ),
     );
 

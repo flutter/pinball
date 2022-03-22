@@ -15,7 +15,10 @@ class Spaceship extends Forge2DBlueprint {
 
   @override
   void build() {
-    final position = Vector2(30, -50);
+    final position = Vector2(
+      PinballGame.boardBounds.left + radius + 0.5,
+      PinballGame.boardBounds.center.dy + 34,
+    );
 
     addAllContactCallback([
       SpaceshipHoleBallContactCallback(),

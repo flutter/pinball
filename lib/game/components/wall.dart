@@ -1,7 +1,9 @@
 // ignore_for_file: avoid_renaming_method_parameters
 
+import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/components/components.dart';
+import 'package:pinball/game/pinball_game.dart';
 
 /// {@template wall}
 /// A continuous generic and [BodyType.static] barrier that divides a game area.
@@ -39,15 +41,16 @@ class Wall extends BodyComponent {
 
 /// Create top, left, and right [Wall]s for the game board.
 List<Wall> createBoundaries(Forge2DGame game) {
-  final topLeft = Vector2.zero();
-  final bottomRight = game.screenToWorld(game.camera.viewport.effectiveSize);
+  final topLeft = PinballGame.boardBounds.topLeft.toVector2();
+  final bottomRight = PinballGame.boardBounds.bottomRight.toVector2();
+
   final topRight = Vector2(bottomRight.x, topLeft.y);
   final bottomLeft = Vector2(topLeft.x, bottomRight.y);
 
   return [
     Wall(start: topLeft, end: topRight),
     Wall(start: topRight, end: bottomRight),
-    Wall(start: bottomLeft, end: topLeft),
+    Wall(start: topLeft, end: bottomLeft),
   ];
 }
 
@@ -59,13 +62,10 @@ List<Wall> createBoundaries(Forge2DGame game) {
 /// {@endtemplate}
 class BottomWall extends Wall {
   /// {@macro bottom_wall}
-  BottomWall(Forge2DGame game)
+  BottomWall()
       : super(
-          start: game.screenToWorld(game.camera.viewport.effectiveSize),
-          end: Vector2(
-            0,
-            game.screenToWorld(game.camera.viewport.effectiveSize).y,
-          ),
+          start: PinballGame.boardBounds.bottomLeft.toVector2(),
+          end: PinballGame.boardBounds.bottomRight.toVector2(),
         );
 }
 

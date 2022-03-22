@@ -15,7 +15,7 @@ void main() {
     flameTester.test(
       'loads correctly',
       (game) async {
-        final board = Board(size: Vector2.all(500));
+        final board = Board();
         await game.ready();
         await game.ensureAdd(board);
 
@@ -27,7 +27,7 @@ void main() {
       flameTester.test(
         'has one left flipper',
         (game) async {
-          final board = Board(size: Vector2.all(500));
+          final board = Board();
           await game.ready();
           await game.ensureAdd(board);
 
@@ -41,7 +41,7 @@ void main() {
       flameTester.test(
         'has one right flipper',
         (game) async {
-          final board = Board(size: Vector2.all(500));
+          final board = Board();
           await game.ready();
           await game.ensureAdd(board);
 
@@ -55,7 +55,7 @@ void main() {
       flameTester.test(
         'has two Baseboards',
         (game) async {
-          final board = Board(size: Vector2.all(500));
+          final board = Board();
           await game.ready();
           await game.ensureAdd(board);
 
@@ -67,7 +67,7 @@ void main() {
       flameTester.test(
         'has two Kickers',
         (game) async {
-          final board = Board(size: Vector2.all(500));
+          final board = Board();
           await game.ready();
           await game.ensureAdd(board);
 
@@ -80,7 +80,7 @@ void main() {
         'has three RoundBumpers',
         (game) async {
           // TODO(alestiago): change to [NestBumpers] once provided.
-          final board = Board(size: Vector2.all(500));
+          final board = Board();
           await game.ready();
           await game.ensureAdd(board);
 
