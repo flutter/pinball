@@ -7,6 +7,7 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/flame/blueprint.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/gen/assets.gen.dart';
 
 /// A [Blueprint] which creates the spaceship feature.
 class Spaceship extends Forge2DBlueprint {
@@ -46,18 +47,12 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
     layer = Layer.spaceship;
   }
 
-  /// Path for the base sprite
-  static const saucerSpritePath = 'components/spaceship/saucer.png';
-
-  /// Path for the upper wall sprite
-  static const upperWallPath = 'components/spaceship/upper.png';
-
   @override
   Future<void> onLoad() async {
     await super.onLoad();
     final sprites = await Future.wait([
-      gameRef.loadSprite(saucerSpritePath),
-      gameRef.loadSprite(upperWallPath),
+      gameRef.loadSprite(Assets.images.components.spaceship.saucer.path),
+      gameRef.loadSprite(Assets.images.components.spaceship.upper.path),
     ]);
 
     await add(
@@ -104,14 +99,13 @@ class SpaceshipBridgeTop extends BodyComponent with InitialPosition {
   /// {@macro spaceship_bridge_top}
   SpaceshipBridgeTop() : super(priority: 6);
 
-  /// Path to the top of this sprite
-  static const spritePath = 'components/spaceship/android-top.png';
-
   @override
   Future<void> onLoad() async {
     await super.onLoad();
 
-    final sprite = await gameRef.loadSprite(spritePath);
+    final sprite = await gameRef.loadSprite(
+      Assets.images.components.spaceship.androidTop.path,
+    );
     await add(
       SpriteComponent(
         sprite: sprite,
@@ -142,16 +136,15 @@ class SpaceshipBridge extends BodyComponent with InitialPosition, Layered {
     layer = Layer.spaceship;
   }
 
-  /// Path to the spaceship bridge
-  static const spritePath = 'components/spaceship/android-bottom.png';
-
   @override
   Future<void> onLoad() async {
     await super.onLoad();
 
     renderBody = false;
 
-    final sprite = await gameRef.images.load(spritePath);
+    final sprite = await gameRef.images.load(
+      Assets.images.components.spaceship.androidBottom.path,
+    );
     await add(
       SpriteAnimationComponent.fromFrameData(
         sprite,
@@ -253,14 +246,13 @@ class SpaceshipWall extends BodyComponent with InitialPosition, Layered {
     layer = Layer.spaceship;
   }
 
-  /// Sprite path for the lower wall
-  static const lowerWallPath = 'components/spaceship/lower.png';
-
   @override
   Future<void> onLoad() async {
     await super.onLoad();
 
-    final sprite = await gameRef.loadSprite(lowerWallPath);
+    final sprite = await gameRef.loadSprite(
+      Assets.images.components.spaceship.lower.path,
+    );
 
     await add(
       SpriteComponent(

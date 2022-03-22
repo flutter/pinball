@@ -11,7 +11,9 @@ import 'package:pinball_theme/pinball_theme.dart';
 
 class PinballGame extends Forge2DGame
     with FlameBloc, HasKeyboardHandlerComponents {
-  PinballGame({required this.theme});
+  PinballGame({required this.theme}) {
+    images.prefix = '';
+  }
 
   final PinballTheme theme;
 
