@@ -65,14 +65,14 @@ void main() {
       );
 
       flameTester.test(
-        'has two SlingShots',
+        'has two Kickers',
         (game) async {
           final board = Board(size: Vector2.all(500));
           await game.ready();
           await game.ensureAdd(board);
 
-          final slingShots = board.findNestedChildren<SlingShot>();
-          expect(slingShots.length, equals(2));
+          final kickers = board.findNestedChildren<Kicker>();
+          expect(kickers.length, equals(2));
         },
       );
 
