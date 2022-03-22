@@ -1,16 +1,17 @@
 import 'package:pinball/game/game.dart';
+import 'package:pinball/gen/assets.gen.dart';
 
 /// Add methods to help loading and caching game assets.
 extension PinballGameAssetsX on PinballGame {
   /// Pre load the initial assets of the game.
   Future<void> preLoadAssets() async {
     await Future.wait([
-      images.load(Ball.spritePath),
-      images.load(Flipper.spritePath),
-      images.load(SpaceshipBridge.spritePath),
-      images.load(SpaceshipBridgeTop.spritePath),
-      images.load(SpaceshipWall.lowerWallPath),
-      images.load(SpaceshipSaucer.upperWallPath),
+      images.load(Assets.images.components.ball.path),
+      images.load(Assets.images.components.flipper.path),
+      images.load(Assets.images.components.spaceship.androidTop.path),
+      images.load(Assets.images.components.spaceship.androidBottom.path),
+      images.load(Assets.images.components.spaceship.lower.path),
+      images.load(Assets.images.components.spaceship.upper.path),
     ]);
   }
 }

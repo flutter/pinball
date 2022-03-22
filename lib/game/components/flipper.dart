@@ -6,6 +6,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/gen/assets.gen.dart';
 
 /// {@template flipper}
 /// A bat, typically found in pairs at the bottom of the board.
@@ -52,11 +53,6 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
     }
   }
 
-  /// Asset location of the sprite that renders with the [Flipper].
-  ///
-  /// Sprite is preloaded by [PinballGameAssetsX].
-  static const spritePath = 'components/flipper.png';
-
   /// The size of the [Flipper].
   static final size = Vector2(12, 2.8);
 
@@ -90,7 +86,9 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
 
   /// Loads the sprite that renders with the [Flipper].
   Future<void> _loadSprite() async {
-    final sprite = await gameRef.loadSprite(spritePath);
+    final sprite = await gameRef.loadSprite(
+      Assets.images.components.flipper.path,
+    );
     final spriteComponent = SpriteComponent(
       sprite: sprite,
       size: size,
