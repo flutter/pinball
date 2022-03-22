@@ -6,43 +6,43 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
 
 void main() {
-  group('SlingShot', () {
+  group('Kicker', () {
     // TODO(alestiago): Include golden tests for left and right.
     final flameTester = FlameTester(Forge2DGame.new);
 
     flameTester.test(
       'loads correctly',
       (game) async {
-        final slingShot = SlingShot(
+        final kicker = Kicker(
           side: BoardSide.left,
         );
-        await game.ensureAdd(slingShot);
+        await game.ensureAdd(kicker);
 
-        expect(game.contains(slingShot), isTrue);
+        expect(game.contains(kicker), isTrue);
       },
     );
 
     flameTester.test(
       'body is static',
       (game) async {
-        final slingShot = SlingShot(
+        final kicker = Kicker(
           side: BoardSide.left,
         );
-        await game.ensureAdd(slingShot);
+        await game.ensureAdd(kicker);
 
-        expect(slingShot.body.bodyType, equals(BodyType.static));
+        expect(kicker.body.bodyType, equals(BodyType.static));
       },
     );
 
     flameTester.test(
       'has restitution',
       (game) async {
-        final slingShot = SlingShot(
+        final kicker = Kicker(
           side: BoardSide.left,
         );
-        await game.ensureAdd(slingShot);
+        await game.ensureAdd(kicker);
 
-        final totalRestitution = slingShot.body.fixtures.fold<double>(
+        final totalRestitution = kicker.body.fixtures.fold<double>(
           0,
           (total, fixture) => total + fixture.restitution,
         );
@@ -53,12 +53,12 @@ void main() {
     flameTester.test(
       'has no friction',
       (game) async {
-        final slingShot = SlingShot(
+        final kicker = Kicker(
           side: BoardSide.left,
         );
-        await game.ensureAdd(slingShot);
+        await game.ensureAdd(kicker);
 
-        final totalFriction = slingShot.body.fixtures.fold<double>(
+        final totalFriction = kicker.body.fixtures.fold<double>(
           0,
           (total, fixture) => total + fixture.friction,
         );

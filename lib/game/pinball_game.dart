@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs
 
 import 'dart:async';
+import 'package:flame/extensions.dart';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
@@ -10,11 +11,20 @@ import 'package:pinball_theme/pinball_theme.dart';
 
 class PinballGame extends Forge2DGame
     with FlameBloc, HasKeyboardHandlerComponents {
-  PinballGame({required this.theme});
+  PinballGame({required this.theme}) {
+    images.prefix = '';
+  }
 
   final PinballTheme theme;
 
   late final Plunger plunger;
+
+  static final boardSize = Vector2(72, 128);
+  static final boardBounds = Rect.fromCenter(
+    center: Offset.zero,
+    width: boardSize.x,
+    height: -boardSize.y,
+  );
 
   @override
   void onAttach() {
@@ -27,66 +37,16 @@ class PinballGame extends Forge2DGame
     _addContactCallbacks();
 
     await _addGameBoundaries();
+    unawaited(add(Board()));
     unawaited(_addPlunger());
+    unawaited(_addBonusWord());
     unawaited(_addPaths());
-
     unawaited(addFromBlueprint(Spaceship()));
 
-    // Corner wall above plunger so the ball deflects into the rest of the
-    // board.
-    // TODO(allisonryan0002): remove once we have the launch track for the ball.
-    await add(
-      Wall(
-        start: screenToWorld(
-          Vector2(
-            camera.viewport.effectiveSize.x,
-            100,
-          ),
-        ),
-        end: screenToWorld(
-          Vector2(
-            camera.viewport.effectiveSize.x - 100,
-            0,
-          ),
-        ),
-      ),
-    );
-
-    unawaited(_addBonusWord());
-    unawaited(_addBoard());
-  }
-
-  Future<void> _addBoard() async {
-    final board = Board(
-      size: screenToWorld(
-        Vector2(
-          camera.viewport.effectiveSize.x,
-          camera.viewport.effectiveSize.y,
-        ),
-      ),
-    );
-    await add(board);
-  }
-
-  Future<void> _addBonusWord() async {
-    await add(
-      BonusWord(
-        position: screenToWorld(
-          Vector2(
-            camera.viewport.effectiveSize.x / 2,
-            camera.viewport.effectiveSize.y - 50,
-          ),
-        ),
-      ),
-    );
-  }
-
-  void spawnBall() {
-    final ball = Ball();
-    add(
-      ball
-        ..initialPosition = plunger.body.position + Vector2(0, ball.size.y / 2),
-    );
+    // Fix camera on the center of the board.
+    camera
+      ..followVector2(Vector2.zero())
+      ..zoom = size.y / 14;
   }
 
   void _addContactCallbacks() {
@@ -96,43 +56,58 @@ class PinballGame extends Forge2DGame
   }
 
   Future<void> _addGameBoundaries() async {
-    await add(BottomWall(this));
+    await add(BottomWall());
     createBoundaries(this).forEach(add);
+  }
+
+  Future<void> _addPlunger() async {
+    plunger = Plunger(compressionDistance: 2);
+
+    plunger.initialPosition = boardBounds.bottomRight.toVector2() -
+        Vector2(
+          8,
+          -10,
+        );
+    await add(plunger);
+  }
+
+  Future<void> _addBonusWord() async {
+    await add(
+      BonusWord(
+        position: Vector2(
+          boardBounds.center.dx,
+          boardBounds.bottom + 10,
+        ),
+      ),
+    );
   }
 
   Future<void> _addPaths() async {
     final jetpackRamp = JetpackRamp(
-      position: screenToWorld(
-        Vector2(
-          camera.viewport.effectiveSize.x / 2 - 150,
-          camera.viewport.effectiveSize.y / 2 - 250,
-        ),
+      position: Vector2(
+        PinballGame.boardBounds.left + 25,
+        PinballGame.boardBounds.top - 20,
       ),
     );
     final launcherRamp = LauncherRamp(
-      position: screenToWorld(
-        Vector2(
-          camera.viewport.effectiveSize.x / 2 + 400,
-          camera.viewport.effectiveSize.y / 2 - 330,
-        ),
+      position: Vector2(
+        PinballGame.boardBounds.right - 23,
+        PinballGame.boardBounds.bottom + 40,
       ),
     );
 
-    await addAll([jetpackRamp, launcherRamp]);
+    await addAll([
+      jetpackRamp,
+      launcherRamp,
+    ]);
   }
 
-  Future<void> _addPlunger() async {
-    plunger = Plunger(
-      compressionDistance: camera.viewport.effectiveSize.y / 12,
+  void spawnBall() {
+    final ball = Ball();
+    add(
+      ball
+        ..initialPosition = plunger.body.position + Vector2(0, ball.size.y / 2),
     );
-    plunger.initialPosition = screenToWorld(
-      Vector2(
-        camera.viewport.effectiveSize.x / 2 + 450,
-        camera.viewport.effectiveSize.y - plunger.compressionDistance,
-      ),
-    );
-
-    await add(plunger);
   }
 }
 
