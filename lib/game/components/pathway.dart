@@ -150,8 +150,7 @@ class Pathway extends BodyComponent with InitialPosition, Layered {
     final fixturesDef = <FixtureDef>[];
 
     for (final path in _paths) {
-      final chain = ChainShape()
-        ..createChain(path);
+      final chain = ChainShape()..createChain(path);
       fixturesDef.add(FixtureDef(chain));
     }
 
