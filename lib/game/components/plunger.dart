@@ -1,4 +1,4 @@
-import 'package:flame/input.dart';
+import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball/game/game.dart';
