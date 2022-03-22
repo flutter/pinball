@@ -25,9 +25,7 @@ void main() {
           final walls = game.children.where(
             (component) => component is Wall && component is! BottomWall,
           );
-          // TODO(allisonryan0002): expect 3 when launch track is added and
-          // temporary wall is removed.
-          expect(walls.length, 4);
+          expect(walls.length, 3);
         },
       );
 

@@ -35,6 +35,26 @@ void main() {
           expect(ball.body.bodyType, equals(BodyType.dynamic));
         },
       );
+
+      group('can be moved', () {
+        flameTester.test('by its weight', (game) async {
+          final ball = Ball();
+          await game.ensureAdd(ball);
+
+          game.update(1);
+          expect(ball.body.position, isNot(equals(ball.initialPosition)));
+        });
+
+        flameTester.test('by applying velocity', (game) async {
+          final ball = Ball();
+          await game.ensureAdd(ball);
+
+          ball.body.gravityScale = 0;
+          ball.body.linearVelocity.setValues(10, 10);
+          game.update(1);
+          expect(ball.body.position, isNot(equals(ball.initialPosition)));
+        });
+      });
     });
 
     group('fixture', () {
@@ -150,6 +170,61 @@ void main() {
           );
         },
       );
+    });
+
+    group('stop', () {
+      group("can't be moved", () {
+        flameTester.test('by its weight', (game) async {
+          final ball = Ball();
+          await game.ensureAdd(ball);
+          ball.stop();
+
+          game.update(1);
+          expect(ball.body.position, equals(ball.initialPosition));
+        });
+      });
+
+      flameTester.test('by applying velocity', (game) async {
+        final ball = Ball();
+        await game.ensureAdd(ball);
+        ball.stop();
+
+        ball.body.linearVelocity.setValues(10, 10);
+        game.update(1);
+        expect(ball.body.position, equals(ball.initialPosition));
+      });
+    });
+
+    group('resume', () {
+      group('can move', () {
+        flameTester.test(
+          'by its weight when previously stopped',
+          (game) async {
+            final ball = Ball();
+            await game.ensureAdd(ball);
+            ball.stop();
+            ball.resume();
+
+            game.update(1);
+            expect(ball.body.position, isNot(equals(ball.initialPosition)));
+          },
+        );
+
+        flameTester.test(
+          'by applying velocity when previously stopped',
+          (game) async {
+            final ball = Ball();
+            await game.ensureAdd(ball);
+            ball.stop();
+            ball.resume();
+
+            ball.body.gravityScale = 0;
+            ball.body.linearVelocity.setValues(10, 10);
+            game.update(1);
+            expect(ball.body.position, isNot(equals(ball.initialPosition)));
+          },
+        );
+      });
     });
   });
 }
