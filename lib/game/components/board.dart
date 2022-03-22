@@ -94,7 +94,7 @@ class _BottomGroup extends Component {
 
   @override
   Future<void> onLoad() async {
-    final spacing = this.spacing + Flipper.width / 2;
+    final spacing = this.spacing + Flipper.size.x / 2;
     final rightSide = _BottomGroupSide(
       side: BoardSide.right,
       position: position + Vector2(spacing, 0),
@@ -135,15 +135,15 @@ class _BottomGroupSide extends Component {
     final baseboard = Baseboard(side: _side)
       ..initialPosition = _position +
           Vector2(
-            (Flipper.width * direction) - direction,
-            Flipper.height,
+            (Flipper.size.x * direction) - direction,
+            Flipper.size.y,
           );
     final slingShot = SlingShot(
       side: _side,
     )..initialPosition = _position +
         Vector2(
-          (Flipper.width) * direction,
-          Flipper.height + SlingShot.size.y,
+          (Flipper.size.x) * direction,
+          Flipper.size.y + SlingShot.size.y,
         );
 
     await addAll([flipper, baseboard, slingShot]);
