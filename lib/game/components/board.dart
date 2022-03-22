@@ -27,7 +27,8 @@ class Board extends Component {
       ),
     );
 
-    final dino = ChromeDino()..initialPosition = _size / 2 + Vector2(0, -10);
+    // TODO(alestiago): adjust positioning once aspect ratio is fixed.
+    final dino = ChromeDino()..initialPosition = _size / 2 + Vector2(15, 5);
 
     await addAll([
       bottomGroup,

@@ -22,18 +22,20 @@ class ChromeDino extends BodyComponent with InitialPosition {
   /// Anchors the [ChromeDino] to the [RevoluteJoint] that controls its arc
   /// motion.
   Future<void> _anchorToJoint() async {
-    final anchor = ChromeDinoAnchor(chromeDino: this);
+    final anchor = _ChromeDinoAnchor(chromeDino: this);
     await add(anchor);
 
-    final jointDef = ChromeDinoAnchorRevoluteJointDef(
+    final jointDef = _ChromeDinoAnchorRevoluteJointDef(
       chromeDino: this,
       anchor: anchor,
     );
     final joint = world.createJoint(jointDef) as RevoluteJoint;
 
-    ChromeDinoAnchorRevoluteJointDef.spin(joint, removed);
+    _ChromeDinoAnchorRevoluteJointDef.swivel(joint, removed);
   }
 
+  // TODO(alestiago): Remove once the following is added to Flame.
+  // ignore: public_member_api_docs
   Completer removed = Completer<bool>();
 
   @override
@@ -43,21 +45,15 @@ class ChromeDino extends BodyComponent with InitialPosition {
   }
 
   @override
-  void update(double dt) {
-    super.update(dt);
-    // print(body.angle);
-  }
-
-  @override
   Future<void> onLoad() async {
     await super.onLoad();
-
     await _anchorToJoint();
   }
 
   List<FixtureDef> _createFixtureDefs() {
     final fixtureDefs = <FixtureDef>[];
 
+    // TODO(alestiago): Subject to change when sprites are added.
     final box = PolygonShape()..setAsBoxXY(size.x / 2, size.y / 2);
     final fixtureDef = FixtureDef(box)
       ..shape = box
@@ -111,9 +107,9 @@ class ChromeDino extends BodyComponent with InitialPosition {
 /// {@template flipper_anchor}
 /// [JointAnchor] positioned at the end of a [ChromeDino].
 /// {@endtemplate}
-class ChromeDinoAnchor extends JointAnchor {
+class _ChromeDinoAnchor extends JointAnchor {
   /// {@macro flipper_anchor}
-  ChromeDinoAnchor({
+  _ChromeDinoAnchor({
     required ChromeDino chromeDino,
   }) {
     initialPosition = Vector2(
@@ -124,13 +120,13 @@ class ChromeDinoAnchor extends JointAnchor {
 }
 
 /// {@template chrome_dino_anchor_revolute_joint_def}
-/// Hinges a [ChromeDino] to a [ChromeDinoAnchor].
+/// Hinges a [ChromeDino] to a [_ChromeDinoAnchor].
 /// {@endtemplate}
-class ChromeDinoAnchorRevoluteJointDef extends RevoluteJointDef {
+class _ChromeDinoAnchorRevoluteJointDef extends RevoluteJointDef {
   /// {@macro chrome_dino_anchor_revolute_joint_def}
-  ChromeDinoAnchorRevoluteJointDef({
+  _ChromeDinoAnchorRevoluteJointDef({
     required ChromeDino chromeDino,
-    required ChromeDinoAnchor anchor,
+    required _ChromeDinoAnchor anchor,
   }) {
     initialize(
       chromeDino.body,
@@ -138,26 +134,27 @@ class ChromeDinoAnchorRevoluteJointDef extends RevoluteJointDef {
       anchor.body.position,
     );
     enableLimit = true;
-    const halfAngle = _sweepingAngle / 2;
-    lowerAngle = -halfAngle;
-    upperAngle = halfAngle;
+    const angle = math.pi / 3.5;
+    lowerAngle = -angle / 2;
+    upperAngle = angle / 2;
 
     enableMotor = true;
+    // TODO(alestiago): Tune this values.
     maxMotorTorque = 999;
     motorSpeed = 999;
   }
 
-  // TODO(alestiago): Refactor.
-  static void spin(RevoluteJoint joint, Completer completer) {
+  /// Sweeps the [ChromeDino] up and down repeatedly.
+  // TODO(alestiago): consider refactor once the issue is solved:
+  // https://github.com/flame-engine/forge2d/issues/36
+  static void swivel(RevoluteJoint joint, Completer completer) {
     Future.doWhile(() async {
       if (completer.isCompleted) return false;
 
-      await Future<void>.delayed(Duration(milliseconds: 1000));
+      // TODO(alestiago): Tune this values.
+      await Future<void>.delayed(const Duration(milliseconds: 1000));
       joint.setMotorSpeed(-joint.motorSpeed);
       return true;
     });
   }
-
-  /// The total angle of the arc motion.
-  static const _sweepingAngle = math.pi / 3.5;
 }
