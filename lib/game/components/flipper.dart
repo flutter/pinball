@@ -106,10 +106,10 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
 
   /// Anchors the [Flipper] to the [RevoluteJoint] that controls its arc motion.
   Future<void> _anchorToJoint() async {
-    final anchor = FlipperAnchor(flipper: this);
+    final anchor = _FlipperAnchor(flipper: this);
     await add(anchor);
 
-    final jointDef = FlipperAnchorRevoluteJointDef(
+    final jointDef = _FlipperAnchorRevoluteJointDef(
       flipper: this,
       anchor: anchor,
     );
@@ -208,7 +208,7 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
 }
 
 class _FlipperJoint extends RevoluteJoint {
-  _FlipperJoint(FlipperAnchorRevoluteJointDef def)
+  _FlipperJoint(_FlipperAnchorRevoluteJointDef def)
       : side = def.side,
         super(def);
 
@@ -234,13 +234,13 @@ class _FlipperJoint extends RevoluteJoint {
 }
 
 /// {@template flipper_anchor_revolute_joint_def}
-/// Hinges one end of [Flipper] to a [FlipperAnchor] to achieve an arc motion.
+/// Hinges one end of [Flipper] to a [_FlipperAnchor] to achieve an arc motion.
 /// {@endtemplate}
-class FlipperAnchorRevoluteJointDef extends RevoluteJointDef {
+class _FlipperAnchorRevoluteJointDef extends RevoluteJointDef {
   /// {@macro flipper_anchor_revolute_joint_def}
-  FlipperAnchorRevoluteJointDef({
+  _FlipperAnchorRevoluteJointDef({
     required Flipper flipper,
-    required FlipperAnchor anchor,
+    required _FlipperAnchor anchor,
   }) : side = flipper.side {
     initialize(
       flipper.body,
@@ -249,7 +249,7 @@ class FlipperAnchorRevoluteJointDef extends RevoluteJointDef {
     );
 
     enableLimit = true;
-    final angle = (flipper.side.isLeft ? _sweepingAngle : -_sweepingAngle) / 2;
+    final angle = (_sweepingAngle * -side.direction) / 2;
     lowerAngle = upperAngle = angle;
   }
 
@@ -264,15 +264,13 @@ class FlipperAnchorRevoluteJointDef extends RevoluteJointDef {
 ///
 /// The end of a [Flipper] depends on its [Flipper.side].
 /// {@endtemplate}
-class FlipperAnchor extends JointAnchor {
+class _FlipperAnchor extends JointAnchor {
   /// {@macro flipper_anchor}
-  FlipperAnchor({
+  _FlipperAnchor({
     required Flipper flipper,
   }) {
     initialPosition = Vector2(
-      flipper.side.isLeft
-          ? flipper.body.position.x - Flipper.size.x / 2
-          : flipper.body.position.x + Flipper.size.x / 2,
+      flipper.body.position.x + ((Flipper.size.x * flipper.side.direction) / 2),
       flipper.body.position.y,
     );
   }
