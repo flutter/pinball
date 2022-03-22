@@ -6,15 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:geometry/geometry.dart' as geometry show centroid;
 import 'package:pinball/game/game.dart';
 
-/// {@template sling_shot}
+/// {@template kicker}
 /// Triangular [BodyType.static] body that propels the [Ball] towards the
 /// opposite side.
 ///
-/// [SlingShot]s are usually positioned above each [Flipper].
-/// {@endtemplate sling_shot}
-class SlingShot extends BodyComponent with InitialPosition {
-  /// {@macro sling_shot}
-  SlingShot({
+/// [Kicker]s are usually positioned above each [Flipper].
+/// {@endtemplate kicker}
+class Kicker extends BodyComponent with InitialPosition {
+  /// {@macro kicker}
+  Kicker({
     required BoardSide side,
   }) : _side = side {
     // TODO(alestiago): Use sprite instead of color when provided.
@@ -23,14 +23,14 @@ class SlingShot extends BodyComponent with InitialPosition {
       ..style = PaintingStyle.fill;
   }
 
-  /// Whether the [SlingShot] is on the left or right side of the board.
+  /// Whether the [Kicker] is on the left or right side of the board.
   ///
-  /// A [SlingShot] with [BoardSide.left] propels the [Ball] to the right,
-  /// whereas a [SlingShot] with [BoardSide.right] propels the [Ball] to the
+  /// A [Kicker] with [BoardSide.left] propels the [Ball] to the right,
+  /// whereas a [Kicker] with [BoardSide.right] propels the [Ball] to the
   /// left.
   final BoardSide _side;
 
-  /// The size of the [SlingShot] body.
+  /// The size of the [Kicker] body.
   // TODO(alestiago): Use size from PositionedBodyComponent instead,
   // once a sprite is given.
   static final Vector2 size = Vector2(4, 10);
@@ -78,7 +78,7 @@ class SlingShot extends BodyComponent with InitialPosition {
     final bottomLineFixtureDef = FixtureDef(bottomEdge)..friction = 0;
     fixturesDefs.add(bottomLineFixtureDef);
 
-    final kickerEdge = EdgeShape()
+    final bouncyEdge = EdgeShape()
       ..set(
         upperCircle.position +
             Vector2(
@@ -92,11 +92,11 @@ class SlingShot extends BodyComponent with InitialPosition {
             ),
       );
 
-    final kickerFixtureDef = FixtureDef(kickerEdge)
+    final bouncyFixtureDef = FixtureDef(bouncyEdge)
       // TODO(alestiago): Play with restitution value once game is bundled.
       ..restitution = 10.0
       ..friction = 0;
-    fixturesDefs.add(kickerFixtureDef);
+    fixturesDefs.add(bouncyFixtureDef);
 
     // TODO(alestiago): Evaluate if there is value on centering the fixtures.
     final centroid = geometry.centroid(
