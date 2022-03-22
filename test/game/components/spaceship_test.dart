@@ -54,17 +54,6 @@ void main() {
 
         verify(game.reorderChildren).called(1);
       });
-
-      test('changes the filter data from the ball fixtures', () {
-        SpaceshipEntranceBallContactCallback().begin(
-          entrance,
-          ball,
-          MockContact(),
-        );
-
-        verify(() => filterData.maskBits = 0x0002).called(1);
-        verify(() => filterData.categoryBits = 0x0002).called(1);
-      });
     });
 
     group('SpaceshipHoleBallContactCallback', () {
@@ -86,17 +75,6 @@ void main() {
         );
 
         verify(game.reorderChildren).called(1);
-      });
-
-      test('changes the filter data from the ball fixtures', () {
-        SpaceshipHoleBallContactCallback().begin(
-          hole,
-          ball,
-          MockContact(),
-        );
-
-        verify(() => filterData.categoryBits = 0xFFFF).called(1);
-        verify(() => filterData.maskBits = 0x0001).called(1);
       });
     });
   });

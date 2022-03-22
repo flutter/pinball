@@ -30,22 +30,18 @@ class JetpackRamp extends Component with HasGameRef<PinballGame> {
       // TODO(ruialonso): Use a bezier curve once control points are defined.
       color: const Color.fromARGB(255, 8, 218, 241),
       center: position,
-      width: 80,
+      width: 62,
       radius: 200,
-      angle: 7 * math.pi / 6,
-      rotation: -math.pi / 18,
+      angle: math.pi,
     )
       ..initialPosition = position
       ..layer = layer;
-    final leftOpening = _JetpackRampOpening(
-      rotation: 15 * math.pi / 180,
-    )
-      ..initialPosition = position + Vector2(-27, 21)
-      ..layer = Layer.opening;
-    final rightOpening = _JetpackRampOpening(
-      rotation: -math.pi / 20,
-    )
-      ..initialPosition = position + Vector2(-11.2, 22.5)
+    final leftOpening = _JetpackRampOpening(outsideLayer: Layer.spaceship)
+      ..initialPosition = position + Vector2(-27.6, 25.3)
+      ..layer = Layer.jetpack;
+
+    final rightOpening = _JetpackRampOpening()
+      ..initialPosition = position + Vector2(-10.6, 25.3)
       ..layer = Layer.opening;
 
     await addAll([
@@ -63,25 +59,21 @@ class JetpackRamp extends Component with HasGameRef<PinballGame> {
 class _JetpackRampOpening extends RampOpening {
   /// {@macro jetpack_ramp_opening}
   _JetpackRampOpening({
-    required double rotation,
-  })  : _rotation = rotation,
-        super(
+    Layer? outsideLayer,
+  }) : super(
           pathwayLayer: Layer.jetpack,
+          outsideLayer: outsideLayer,
           orientation: RampOrientation.down,
         );
 
-  final double _rotation;
-
-  // TODO(ruialonso): Avoid magic number 3, should be propotional to
+  // TODO(ruialonso): Avoid magic number 2, should be proportional to
   // [JetpackRamp].
-  static final Vector2 _size = Vector2(3, .1);
+  static const _size = 2;
 
   @override
   Shape get shape => PolygonShape()
-    ..setAsBox(
-      _size.x,
-      _size.y,
-      initialPosition,
-      _rotation,
+    ..setAsEdge(
+      Vector2(initialPosition.x - _size, initialPosition.y),
+      Vector2(initialPosition.x + _size, initialPosition.y),
     );
 }
