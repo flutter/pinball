@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:geometry/geometry.dart' as geometry show centroid;
 import 'package:pinball/game/game.dart';
 
-/// {@template sling_shot}
+/// {@template kicker}
 /// Triangular [BodyType.static] body that propels the [Ball] towards the
 /// opposite side.
 ///
 /// [Kicker]s are usually positioned above each [Flipper].
-/// {@endtemplate sling_shot}
+/// {@endtemplate kicker}
 class Kicker extends BodyComponent with InitialPosition {
-  /// {@macro sling_shot}
+  /// {@macro kicker}
   Kicker({
     required BoardSide side,
   }) : _side = side {
