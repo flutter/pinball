@@ -41,9 +41,9 @@ class PinballGame extends Forge2DGame
     unawaited(_addPaths());
     unawaited(addFromBlueprint(Spaceship()));
 
-    // Fix camera on the center of the board size
+    // Fix camera on the center of the board.
     camera
-      ..followVector2(screenToWorld(boardSize / 2))
+      ..followVector2(Vector2.zero())
       ..zoom = size.y / 14;
   }
 
