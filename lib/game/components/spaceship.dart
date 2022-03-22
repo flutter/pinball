@@ -47,7 +47,6 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
     layer = Layer.spaceship;
   }
 
-  /// Path for the upper wall sprit  @override
   @override
   Future<void> onLoad() async {
     await super.onLoad();
