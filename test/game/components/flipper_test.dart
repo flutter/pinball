@@ -282,7 +282,7 @@ void main() {
         final flipperAnchor = FlipperAnchor(flipper: flipper);
         await game.ensureAdd(flipperAnchor);
 
-        expect(flipperAnchor.body.position.x, equals(-Flipper.width / 2));
+        expect(flipperAnchor.body.position.x, equals(-Flipper.size.x / 2));
       },
     );
 
@@ -297,7 +297,7 @@ void main() {
         final flipperAnchor = FlipperAnchor(flipper: flipper);
         await game.ensureAdd(flipperAnchor);
 
-        expect(flipperAnchor.body.position.x, equals(Flipper.width / 2));
+        expect(flipperAnchor.body.position.x, equals(Flipper.size.x / 2));
       },
     );
   });

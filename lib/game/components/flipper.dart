@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flame/components.dart';
-import 'package:flame/input.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -58,11 +57,8 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   /// Sprite is preloaded by [PinballGameAssetsX].
   static const spritePath = 'components/flipper.png';
 
-  /// The width of the [Flipper].
-  static const width = 12.0;
-
-  /// The height of the [Flipper].
-  static const height = 2.8;
+  /// The size of the [Flipper].
+  static final size = Vector2(12, 2.8);
 
   /// The speed required to move the [Flipper] to its highest position.
   ///
@@ -97,7 +93,7 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
     final sprite = await gameRef.loadSprite(spritePath);
     final spriteComponent = SpriteComponent(
       sprite: sprite,
-      size: Vector2(width, height),
+      size: size,
       anchor: Anchor.center,
     );
 
@@ -134,21 +130,21 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
     final fixturesDef = <FixtureDef>[];
     final isLeft = side.isLeft;
 
-    final bigCircleShape = CircleShape()..radius = height / 2;
+    final bigCircleShape = CircleShape()..radius = 1.75;
     bigCircleShape.position.setValues(
       isLeft
-          ? -(width / 2) + bigCircleShape.radius
-          : (width / 2) - bigCircleShape.radius,
+          ? -(size.x / 2) + bigCircleShape.radius
+          : (size.x / 2) - bigCircleShape.radius,
       0,
     );
     final bigCircleFixtureDef = FixtureDef(bigCircleShape);
     fixturesDef.add(bigCircleFixtureDef);
 
-    final smallCircleShape = CircleShape()..radius = bigCircleShape.radius / 2;
+    final smallCircleShape = CircleShape()..radius = 0.9;
     smallCircleShape.position.setValues(
       isLeft
-          ? (width / 2) - smallCircleShape.radius
-          : -(width / 2) + smallCircleShape.radius,
+          ? (size.x / 2) - smallCircleShape.radius
+          : -(size.x / 2) + smallCircleShape.radius,
       0,
     );
     final smallCircleFixtureDef = FixtureDef(smallCircleShape);
@@ -216,7 +212,7 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
 }
 
 /// {@template flipper_anchor}
-/// [Anchor] positioned at the end of a [Flipper].
+/// [JointAnchor] positioned at the end of a [Flipper].
 ///
 /// The end of a [Flipper] depends on its [Flipper.side].
 /// {@endtemplate}
@@ -227,15 +223,15 @@ class FlipperAnchor extends JointAnchor {
   }) {
     initialPosition = Vector2(
       flipper.side.isLeft
-          ? flipper.body.position.x - Flipper.width / 2
-          : flipper.body.position.x + Flipper.width / 2,
+          ? flipper.body.position.x - Flipper.size.x / 2
+          : flipper.body.position.x + Flipper.size.x / 2,
       flipper.body.position.y,
     );
   }
 }
 
 /// {@template flipper_anchor_revolute_joint_def}
-/// Hinges one end of [Flipper] to a [Anchor] to achieve an arc motion.
+/// Hinges one end of [Flipper] to a [FlipperAnchor] to achieve an arc motion.
 /// {@endtemplate}
 class FlipperAnchorRevoluteJointDef extends RevoluteJointDef {
   /// {@macro flipper_anchor_revolute_joint_def}
