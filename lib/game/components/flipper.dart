@@ -113,16 +113,12 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
       flipper: this,
       anchor: anchor,
     );
-    // TODO(alestiago): Remove casting once the following is closed:
-    // https://github.com/flame-engine/forge2d/issues/36
-    final joint = world.createJoint(jointDef) as RevoluteJoint;
+    final joint = _FlipperJoint(jointDef)..create(world);
 
     // FIXME(erickzanardo): when mounted the initial position is not fully
     // reached.
     unawaited(
-      mounted.whenComplete(
-        () => FlipperAnchorRevoluteJointDef.unlock(joint, side),
-      ),
+      mounted.whenComplete(joint.unlock),
     );
   }
 
@@ -211,6 +207,58 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   }
 }
 
+class _FlipperJoint extends RevoluteJoint {
+  _FlipperJoint(FlipperAnchorRevoluteJointDef def)
+      : side = def.side,
+        super(def);
+
+  final BoardSide side;
+
+  // TODO(alestiago): Remove once Forge2D supports custom joints.
+  void create(World world) {
+    world.joints.add(this);
+    bodyA.joints.add(this);
+    bodyB.joints.add(this);
+  }
+
+  /// Unlocks the [Flipper] from its resting position.
+  ///
+  /// The [Flipper] is locked when initialized in order to force it to be at
+  /// its resting position.
+  void unlock() {
+    setLimits(
+      lowerLimit * side.direction,
+      -upperLimit * side.direction,
+    );
+  }
+}
+
+/// {@template flipper_anchor_revolute_joint_def}
+/// Hinges one end of [Flipper] to a [FlipperAnchor] to achieve an arc motion.
+/// {@endtemplate}
+class FlipperAnchorRevoluteJointDef extends RevoluteJointDef {
+  /// {@macro flipper_anchor_revolute_joint_def}
+  FlipperAnchorRevoluteJointDef({
+    required Flipper flipper,
+    required FlipperAnchor anchor,
+  }) : side = flipper.side {
+    initialize(
+      flipper.body,
+      anchor.body,
+      anchor.body.position,
+    );
+
+    enableLimit = true;
+    final angle = (flipper.side.isLeft ? _sweepingAngle : -_sweepingAngle) / 2;
+    lowerAngle = upperAngle = angle;
+  }
+
+  final BoardSide side;
+
+  /// The total angle of the arc motion.
+  static const _sweepingAngle = math.pi / 3.5;
+}
+
 /// {@template flipper_anchor}
 /// [JointAnchor] positioned at the end of a [Flipper].
 ///
@@ -227,50 +275,5 @@ class FlipperAnchor extends JointAnchor {
           : flipper.body.position.x + Flipper.size.x / 2,
       flipper.body.position.y,
     );
-  }
-}
-
-/// {@template flipper_anchor_revolute_joint_def}
-/// Hinges one end of [Flipper] to a [FlipperAnchor] to achieve an arc motion.
-/// {@endtemplate}
-class FlipperAnchorRevoluteJointDef extends RevoluteJointDef {
-  /// {@macro flipper_anchor_revolute_joint_def}
-  FlipperAnchorRevoluteJointDef({
-    required Flipper flipper,
-    required FlipperAnchor anchor,
-  }) {
-    initialize(
-      flipper.body,
-      anchor.body,
-      anchor.body.position,
-    );
-    enableLimit = true;
-
-    final angle = (flipper.side.isLeft ? _sweepingAngle : -_sweepingAngle) / 2;
-    lowerAngle = upperAngle = angle;
-  }
-
-  /// The total angle of the arc motion.
-  static const _sweepingAngle = math.pi / 3.5;
-
-  /// Unlocks the [Flipper] from its resting position.
-  ///
-  /// The [Flipper] is locked when initialized in order to force it to be at
-  /// its resting position.
-  // TODO(alestiago): consider refactor once the issue is solved:
-  // https://github.com/flame-engine/forge2d/issues/36
-  static void unlock(RevoluteJoint joint, BoardSide side) {
-    late final double upperLimit, lowerLimit;
-    switch (side) {
-      case BoardSide.left:
-        lowerLimit = -joint.lowerLimit;
-        upperLimit = joint.upperLimit;
-        break;
-      case BoardSide.right:
-        lowerLimit = joint.lowerLimit;
-        upperLimit = -joint.upperLimit;
-    }
-
-    joint.setLimits(lowerLimit, upperLimit);
   }
 }
