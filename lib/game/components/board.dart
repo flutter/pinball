@@ -143,7 +143,7 @@ class _BottomGroupSide extends Component {
     )..initialPosition = _position +
         Vector2(
           (Flipper.size.x) * direction,
-          Flipper.size.y + SlingShot.size.y,
+          Flipper.size.y + Kicker.size.y,
         );
 
     await addAll([flipper, baseboard, kicker]);
