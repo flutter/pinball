@@ -92,11 +92,11 @@ class Kicker extends BodyComponent with InitialPosition {
             ),
       );
 
-    final boncyFixtureDef = FixtureDef(bouncyEdge)
+    final bouncyFixtureDef = FixtureDef(bouncyEdge)
       // TODO(alestiago): Play with restitution value once game is bundled.
       ..restitution = 10.0
       ..friction = 0;
-    fixturesDefs.add(boncyFixtureDef);
+    fixturesDefs.add(bouncyFixtureDef);
 
     // TODO(alestiago): Evaluate if there is value on centering the fixtures.
     final centroid = geometry.centroid(
