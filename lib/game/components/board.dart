@@ -22,8 +22,8 @@ class Board extends Component {
 
     final dashForest = _FlutterForest(
       position: Vector2(
-        PinballGame.boardBounds.right - 20,
-        PinballGame.boardBounds.top - 20,
+        PinballGame.boardBounds.center.dx + 20,
+        PinballGame.boardBounds.center.dy + 48,
       ),
     );
 
