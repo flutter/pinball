@@ -44,7 +44,7 @@ class PinballGame extends Forge2DGame
     // Fix camera on the center of the board.
     camera
       ..followVector2(Vector2.zero())
-      ..zoom = size.y / 14;
+      ..zoom = size.y / 16;
   }
 
   void _addContactCallbacks() {
