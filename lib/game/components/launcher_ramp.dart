@@ -29,27 +29,26 @@ class LauncherRamp extends Component with HasGameRef<PinballGame> {
     final straightPath = Pathway.straight(
       color: const Color.fromARGB(255, 34, 255, 0),
       start: Vector2(position.x, position.y),
-      end: Vector2(position.x, 620),
-      width: 25,
+      end: Vector2(position.x, 74),
+      width: 5,
     )
       ..initialPosition = position
       ..layer = layer;
+
     final curvedPath = Pathway.arc(
       color: const Color.fromARGB(255, 251, 255, 0),
-      center: position + Vector2(116, -20),
-      radius: 80,
-      angle: 10 * math.pi / 12,
-      width: 25,
-    )
-      ..initialPosition = position + Vector2(-28.8, -6)
-      ..layer = layer;
+      center: position + Vector2(-1, 68),
+      radius: 20,
+      angle: 8 * math.pi / 9,
+      width: 5,
+      rotation: math.pi,
+    )..layer = layer;
 
-    // TODO figure the new values for the openings
     final leftOpening = _LauncherRampOpening(rotation: 13 * math.pi / 180)
-      ..initialPosition = position + Vector2(-72.5, 12)
+      ..initialPosition = position + Vector2(1, 49)
       ..layer = Layer.opening;
     final rightOpening = _LauncherRampOpening(rotation: 0)
-      ..initialPosition = position + Vector2(-46.8, 17)
+      ..initialPosition = position + Vector2(-16, 46)
       ..layer = Layer.opening;
 
     await addAll([

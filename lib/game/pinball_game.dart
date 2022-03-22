@@ -83,14 +83,14 @@ class PinballGame extends Forge2DGame
   Future<void> _addPaths() async {
     final jetpackRamp = JetpackRamp(
       position: Vector2(
-        boardBounds.left - 14,
-        boardBounds.top - 10,
+        PinballGame.boardBounds.left + 25,
+        PinballGame.boardBounds.top - 20,
       ),
     );
     final launcherRamp = LauncherRamp(
       position: Vector2(
-        boardBounds.right - 14,
-        boardBounds.top - 10,
+        PinballGame.boardBounds.right - 23,
+        PinballGame.boardBounds.bottom + 40,
       ),
     );
 

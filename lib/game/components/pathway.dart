@@ -152,7 +152,7 @@ class Pathway extends BodyComponent with InitialPosition, Layered {
     for (final path in _paths) {
       final chain = ChainShape()
         ..createChain(
-          path.map(gameRef.screenToWorld).toList(),
+          path.toList(),
         );
       fixturesDef.add(FixtureDef(chain));
     }
