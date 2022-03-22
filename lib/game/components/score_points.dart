@@ -9,6 +9,12 @@ import 'package:pinball/game/game.dart';
 mixin ScorePoints on BodyComponent {
   /// {@macro score_points}
   int get points;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    body.userData = this;
+  }
 }
 
 /// Adds points to the score when a [Ball] collides with a [BodyComponent] that
