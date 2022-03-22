@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/gen/assets.gen.dart';
 
 /// {@template ball}
 /// A solid, [BodyType.dynamic] sphere that rolls and bounces along the
@@ -20,15 +21,10 @@ class Ball extends BodyComponent<PinballGame> with InitialPosition, Layered {
   /// The size of the [Ball]
   final Vector2 size = Vector2.all(2);
 
-  /// Asset location of the sprite that renders with the [Ball].
-  ///
-  /// Sprite is preloaded by [PinballGameAssetsX].
-  static const spritePath = 'components/ball.png';
-
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final sprite = await gameRef.loadSprite(spritePath);
+    final sprite = await gameRef.loadSprite(Assets.images.components.ball.path);
     final tint = gameRef.theme.characterTheme.ballColor.withOpacity(0.5);
     await add(
       SpriteComponent(

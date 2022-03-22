@@ -9,7 +9,7 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(Forge2DGame.new);
+  final flameTester = FlameTester(PinballGameTest.create);
 
   group('Board', () {
     flameTester.test(
