@@ -26,7 +26,7 @@ void main() {
     });
 
     group('Top10Fetched', () {
-      final top10Scores = [
+      const top10Scores = [
         2500,
         2200,
         2200,
@@ -61,7 +61,7 @@ void main() {
         build: () => LeaderboardBloc(leaderboardRepository),
         act: (bloc) => bloc.add(Top10Fetched()),
         expect: () => [
-          const LeaderboardState(),
+          LeaderboardState.initial(),
           isA<LeaderboardState>()
             ..having(
               (element) => element.status,
@@ -90,8 +90,8 @@ void main() {
         build: () => LeaderboardBloc(leaderboardRepository),
         act: (bloc) => bloc.add(Top10Fetched()),
         expect: () => <LeaderboardState>[
-          const LeaderboardState(),
-          const LeaderboardState(status: LeaderboardStatus.error),
+          LeaderboardState.initial(),
+          LeaderboardState.initial().copyWith(status: LeaderboardStatus.error),
         ],
         verify: (_) =>
             verify(() => leaderboardRepository.fetchTop10Leaderboard())
@@ -122,7 +122,7 @@ void main() {
         build: () => LeaderboardBloc(leaderboardRepository),
         act: (bloc) => bloc.add(LeaderboardEntryAdded(entry: leaderboardEntry)),
         expect: () => [
-          const LeaderboardState(),
+          LeaderboardState.initial(),
           isA<LeaderboardState>()
             ..having(
               (element) => element.status,
@@ -153,8 +153,8 @@ void main() {
         build: () => LeaderboardBloc(leaderboardRepository),
         act: (bloc) => bloc.add(LeaderboardEntryAdded(entry: leaderboardEntry)),
         expect: () => <LeaderboardState>[
-          const LeaderboardState(),
-          const LeaderboardState(status: LeaderboardStatus.error),
+          LeaderboardState.initial(),
+          LeaderboardState.initial().copyWith(status: LeaderboardStatus.error),
         ],
         verify: (_) => verify(
           () => leaderboardRepository.addLeaderboardEntry(leaderboardEntry),

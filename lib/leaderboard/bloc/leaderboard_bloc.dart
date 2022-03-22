@@ -15,7 +15,7 @@ part 'leaderboard_state.dart';
 class LeaderboardBloc extends Bloc<LeaderboardEvent, LeaderboardState> {
   /// {@macro leaderboard_bloc}
   LeaderboardBloc(this._leaderboardRepository)
-      : super(const LeaderboardState()) {
+      : super(const LeaderboardState.initial()) {
     on<Top10Fetched>(_onTop10Fetched);
     on<LeaderboardEntryAdded>(_onLeaderboardEntryAdded);
   }

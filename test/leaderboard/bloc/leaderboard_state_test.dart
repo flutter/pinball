@@ -8,9 +8,9 @@ void main() {
   group('LeaderboardState', () {
     test('supports value equality', () {
       expect(
-        LeaderboardState(),
+        LeaderboardState.initial(),
         equals(
-          LeaderboardState(),
+          LeaderboardState.initial(),
         ),
       );
     });
@@ -18,7 +18,7 @@ void main() {
     group('constructor', () {
       test('can be instantiated', () {
         expect(
-          LeaderboardState(),
+          LeaderboardState.initial(),
           isNotNull,
         );
       });
@@ -35,7 +35,7 @@ void main() {
         'copies correctly '
         'when no argument specified',
         () {
-          const leaderboardState = LeaderboardState();
+          const leaderboardState = LeaderboardState.initial();
           expect(
             leaderboardState.copyWith(),
             equals(leaderboardState),
@@ -47,7 +47,7 @@ void main() {
         'copies correctly '
         'when all arguments specified',
         () {
-          const leaderboardState = LeaderboardState();
+          const leaderboardState = LeaderboardState.initial();
           final otherLeaderboardState = LeaderboardState(
             status: LeaderboardStatus.success,
             ranking: LeaderboardRanking(ranking: 0, outOf: 0),

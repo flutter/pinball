@@ -20,13 +20,18 @@ enum LeaderboardStatus {
 class LeaderboardState extends Equatable {
   /// {@macro leaderboard_state}
   const LeaderboardState({
-    this.status = LeaderboardStatus.loading,
-    this.ranking = const LeaderboardRanking(
-      ranking: 0,
-      outOf: 0,
-    ),
-    this.leaderboard = const [],
+    required this.status,
+    required this.ranking,
+    required this.leaderboard,
   });
+
+  const LeaderboardState.initial()
+      : status = LeaderboardStatus.loading,
+        ranking = const LeaderboardRanking(
+          ranking: 0,
+          outOf: 0,
+        ),
+        leaderboard = const [];
 
   /// The current [LeaderboardStatus] of the state.
   final LeaderboardStatus status;
