@@ -234,6 +234,7 @@ void main() {
             score: 0,
             balls: 2,
             activatedBonusLetters: [0],
+            activatedDashNests: {},
             bonusHistory: [],
           );
           whenListen(
@@ -259,6 +260,7 @@ void main() {
             score: 0,
             balls: 2,
             activatedBonusLetters: [0],
+            activatedDashNests: {},
             bonusHistory: [],
           );
 
@@ -283,6 +285,7 @@ void main() {
             score: 0,
             balls: 2,
             activatedBonusLetters: [0],
+            activatedDashNests: {},
             bonusHistory: [],
           );
 
