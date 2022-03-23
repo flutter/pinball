@@ -40,7 +40,7 @@ class LeaderboardState extends Equatable {
   final LeaderboardRanking ranking;
 
   /// List of top-ranked players.
-  final List<LeaderboardEntryData> leaderboard;
+  final List<LeaderboardEntry> leaderboard;
 
   @override
   List<Object> get props => [status, ranking, leaderboard];
@@ -48,7 +48,7 @@ class LeaderboardState extends Equatable {
   LeaderboardState copyWith({
     LeaderboardStatus? status,
     LeaderboardRanking? ranking,
-    List<LeaderboardEntryData>? leaderboard,
+    List<LeaderboardEntry>? leaderboard,
   }) {
     return LeaderboardState(
       status: status ?? this.status,
