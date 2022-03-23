@@ -8,7 +8,7 @@ enum GameBonus {
   /// letters on the board, forming the bonus word
   word,
 
-  /// Bonus achieved when the user activate all of the dash
+  /// Bonus achieved when the user activates all of the Dash
   /// nests on the board, adding a new ball to the board.
   dashNest,
 }
