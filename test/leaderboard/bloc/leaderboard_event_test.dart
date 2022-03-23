@@ -20,7 +20,7 @@ void main() {
     });
 
     group('LeaderboardEntryAdded', () {
-      const leaderboardEntry = LeaderboardEntry(
+      const leaderboardEntry = LeaderboardEntryData(
         playerInitials: 'ABC',
         score: 1500,
         character: CharacterType.dash,
