@@ -12,8 +12,7 @@ void main() {
     late Body body;
     late PinballGame game;
     late Ball ball;
-    late SpaceshipEntrance entrance;
-    late SpaceshipHole hole;
+    late SpaceshipDropHole hole;
 
     setUp(() {
       filterData = MockFilter();
@@ -30,37 +29,14 @@ void main() {
       when(() => ball.gameRef).thenReturn(game);
       when(() => ball.body).thenReturn(body);
 
-      entrance = MockSpaceshipEntrance();
-      hole = MockSpaceshipHole();
+      hole = MockSpaceshipDropHole();
     });
 
-    group('SpaceshipEntranceBallContactCallback', () {
-      test('changes the ball priority on contact', () {
-        SpaceshipEntranceBallContactCallback().begin(
-          entrance,
-          ball,
-          MockContact(),
-        );
-
-        verify(() => ball.priority = 3).called(1);
-      });
-
-      test('re order the game children', () {
-        SpaceshipEntranceBallContactCallback().begin(
-          entrance,
-          ball,
-          MockContact(),
-        );
-
-        verify(game.reorderChildren).called(1);
-      });
-    });
-
-    group('SpaceshipHoleBallContactCallback', () {
+    group('SpaceshipDropHoleBallContactCallback', () {
       test('changes the ball priority on contact', () {
         when(() => hole.outsideLayer).thenReturn(Layer.board);
 
-        SpaceshipHoleBallContactCallback().begin(
+        SpaceshipDropHoleBallContactCallback().begin(
           hole,
           ball,
           MockContact(),
@@ -72,7 +48,7 @@ void main() {
       test('re order the game children', () {
         when(() => hole.outsideLayer).thenReturn(Layer.board);
 
-        SpaceshipHoleBallContactCallback().begin(
+        SpaceshipDropHoleBallContactCallback().begin(
           hole,
           ball,
           MockContact(),
