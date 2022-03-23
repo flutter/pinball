@@ -1,4 +1,3 @@
-import 'package:flame/components.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
@@ -20,42 +19,4 @@ extension DebugPinballGameTest on DebugPinballGame {
           characterTheme: DashTheme(),
         ),
       );
-}
-
-extension ComponentX on Component {
-  T findNestedChild<T extends Component>({
-    bool Function(T)? condition,
-  }) {
-    T? nestedChild;
-    propagateToChildren<T>((child) {
-      final foundChild = (condition ?? (_) => true)(child);
-      if (foundChild) {
-        nestedChild = child;
-      }
-
-      return !foundChild;
-    });
-
-    if (nestedChild == null) {
-      throw Exception('No child of type $T found.');
-    } else {
-      return nestedChild!;
-    }
-  }
-
-  List<T> findNestedChildren<T extends Component>({
-    bool Function(T)? condition,
-  }) {
-    final nestedChildren = <T>[];
-    propagateToChildren<T>((child) {
-      final foundChild = (condition ?? (_) => true)(child);
-      if (foundChild) {
-        nestedChildren.add(child);
-      }
-
-      return true;
-    });
-
-    return nestedChildren;
-  }
 }
