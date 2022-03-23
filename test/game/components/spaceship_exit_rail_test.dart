@@ -6,7 +6,7 @@ import 'package:pinball/game/game.dart';
 import '../../helpers/helpers.dart';
 
 void main() {
-  group('Spaceship', () {
+  group('SpaceshipExitRail', () {
     late Filter filterData;
     late Fixture fixture;
     late Body body;
@@ -45,7 +45,7 @@ void main() {
         verify(() => ball.priority = 1).called(1);
       });
 
-      test('re order the game children', () {
+      test('reorders the game children', () {
         when(() => hole.outsideLayer).thenReturn(Layer.board);
 
         SpaceshipExitHoleBallContactCallback().begin(

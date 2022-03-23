@@ -7,7 +7,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/flame/blueprint.dart';
 import 'package:pinball/game/game.dart';
 
-/// A [Blueprint] for the spaceship drop ramp.
+/// A [Blueprint] for the spaceship exit rail.
 class SpaceshipExitRail extends Forge2DBlueprint {
   @override
   void build() {
