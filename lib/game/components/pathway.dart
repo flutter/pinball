@@ -146,7 +146,8 @@ class Pathway extends BodyComponent with InitialPosition, Layered {
 
   final List<List<Vector2>> _paths;
 
-  List<FixtureDef> _createFixtureDefs() {
+  /// Constructs different [ChainShape]s to form the [Pathway] shape.
+  List<FixtureDef> createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
 
     for (final path in _paths) {
@@ -161,7 +162,7 @@ class Pathway extends BodyComponent with InitialPosition, Layered {
   Body createBody() {
     final bodyDef = BodyDef()..position = initialPosition;
     final body = world.createBody(bodyDef);
-    _createFixtureDefs().forEach(body.createFixture);
+    createFixtureDefs().forEach(body.createFixture);
 
     return body;
   }
