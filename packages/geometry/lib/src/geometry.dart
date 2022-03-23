@@ -37,8 +37,6 @@ List<Vector2> calculateArc({
 ///
 /// An ellipse can be achieved by specifying a [center], a [bigRadius] and a
 /// [smallRadius].
-/// In addition, a semi-ellipse can be achieved by specifying its [angle] and an
-/// [offsetAngle] (both in radians).
 ///
 /// The higher the [precision], the more [Vector2]s will be calculated;
 /// achieving a more rounded ellipse.

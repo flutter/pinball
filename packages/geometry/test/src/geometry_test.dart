@@ -52,6 +52,25 @@ void main() {
       );
       expect(points.length, 50);
     });
+
+    test('fails if radius not in range', () {
+      expect(
+        () => calculateEllipse(
+          center: Vector2.zero(),
+          bigRadius: 100,
+          smallRadius: 150,
+        ),
+        throwsA(isA<AssertionError>()),
+      );
+      expect(
+        () => calculateEllipse(
+          center: Vector2.zero(),
+          bigRadius: 100,
+          smallRadius: 0,
+        ),
+        throwsA(isA<AssertionError>()),
+      );
+    });
   });
 
   group('calculateBezierCurve', () {
