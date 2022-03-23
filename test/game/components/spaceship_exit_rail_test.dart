@@ -6,7 +6,7 @@ import 'package:pinball/game/game.dart';
 import '../../helpers/helpers.dart';
 
 void main() {
-  group('Spaceship', () {
+  group('SpaceshipExitRail', () {
     late Filter filterData;
     late Fixture fixture;
     late Body body;
