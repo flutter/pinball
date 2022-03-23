@@ -29,9 +29,8 @@ class ChromeDino extends BodyComponent with InitialPosition {
       chromeDino: this,
       anchor: anchor,
     );
-    final joint = world.createJoint(jointDef) as RevoluteJoint;
-
-    _ChromeDinoAnchorRevoluteJointDef.swivel(joint, removed);
+    final joint = _ChromeDinoJoint(jointDef)..create(world);
+    joint.swivel(joint, removed);
   }
 
   // TODO(alestiago): Remove once the following is added to Flame.
@@ -143,11 +142,20 @@ class _ChromeDinoAnchorRevoluteJointDef extends RevoluteJointDef {
     maxMotorTorque = 999;
     motorSpeed = 999;
   }
+}
+
+class _ChromeDinoJoint extends RevoluteJoint {
+  _ChromeDinoJoint(_ChromeDinoAnchorRevoluteJointDef def) : super(def);
+
+  // TODO(alestiago): Remove once Forge2D supports custom joints.
+  void create(World world) {
+    world.joints.add(this);
+    bodyA.joints.add(this);
+    bodyB.joints.add(this);
+  }
 
   /// Sweeps the [ChromeDino] up and down repeatedly.
-  // TODO(alestiago): consider refactor once the issue is solved:
-  // https://github.com/flame-engine/forge2d/issues/36
-  static void swivel(RevoluteJoint joint, Completer completer) {
+  void swivel(RevoluteJoint joint, Completer completer) {
     Future.doWhile(() async {
       if (completer.isCompleted) return false;
 
