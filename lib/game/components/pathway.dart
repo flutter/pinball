@@ -156,7 +156,6 @@ class Pathway extends BodyComponent with InitialPosition, Layered {
     required double width,
     required double bigRadius,
     required double smallRadius,
-    required double angle,
     double rotation = 0,
     bool singleWall = false,
   }) {
