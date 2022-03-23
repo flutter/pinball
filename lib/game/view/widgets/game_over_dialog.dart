@@ -86,6 +86,7 @@ class _GameOverDialogViewState extends State<GameOverDialogView> {
                 const SizedBox(
                   height: 10,
                 ),
+                // TODO(ruimiguel): refactor this view once UI design finished.
                 BlocBuilder<LeaderboardBloc, LeaderboardState>(
                   builder: (context, state) {
                     switch (state.status) {
