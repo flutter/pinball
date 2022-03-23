@@ -124,13 +124,11 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
-    final isLeft = side.isLeft;
+    final direction = side.direction;
 
     final bigCircleShape = CircleShape()..radius = 1.75;
     bigCircleShape.position.setValues(
-      isLeft
-          ? -(size.x / 2) + bigCircleShape.radius
-          : (size.x / 2) - bigCircleShape.radius,
+      ((size.x / 2) * direction) + (bigCircleShape.radius * -direction),
       0,
     );
     final bigCircleFixtureDef = FixtureDef(bigCircleShape);
@@ -138,15 +136,13 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
 
     final smallCircleShape = CircleShape()..radius = 0.9;
     smallCircleShape.position.setValues(
-      isLeft
-          ? (size.x / 2) - smallCircleShape.radius
-          : -(size.x / 2) + smallCircleShape.radius,
+      ((size.x / 2) * -direction) + (smallCircleShape.radius * direction),
       0,
     );
     final smallCircleFixtureDef = FixtureDef(smallCircleShape);
     fixturesDef.add(smallCircleFixtureDef);
 
-    final trapeziumVertices = isLeft
+    final trapeziumVertices = side.isLeft
         ? [
             Vector2(bigCircleShape.position.x, bigCircleShape.radius),
             Vector2(smallCircleShape.position.x, smallCircleShape.radius),
