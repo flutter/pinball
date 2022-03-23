@@ -41,10 +41,12 @@ class Spaceship extends Forge2DBlueprint {
 /// {@template spaceship_saucer}
 /// A [BodyComponent] for the base, or the saucer of the spaceship
 /// {@endtemplate}
-class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
+class SpaceshipSaucer extends BodyComponent
+    with InitialPosition, Layered, Elevated {
   /// {@macro spaceship_saucer}
-  SpaceshipSaucer() : super(priority: 2) {
+  SpaceshipSaucer() {
     layer = Layer.spaceship;
+    elevation = Elevation.spaceship.order - 1;
   }
 
   @override
@@ -95,9 +97,11 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
 /// The bridge of the spaceship (the android head) is divided in two
 // [BodyComponent]s, this is the top part of it which contains a single sprite
 /// {@endtemplate}
-class SpaceshipBridgeTop extends BodyComponent with InitialPosition {
+class SpaceshipBridgeTop extends BodyComponent with InitialPosition, Elevated {
   /// {@macro spaceship_bridge_top}
-  SpaceshipBridgeTop() : super(priority: 6);
+  SpaceshipBridgeTop() {
+    elevation = Elevation.spaceship.order * 2;
+  }
 
   @override
   Future<void> onLoad() async {
@@ -130,10 +134,12 @@ class SpaceshipBridgeTop extends BodyComponent with InitialPosition {
 /// The main part of the [SpaceshipBridge], this [BodyComponent]
 /// provides both the collision and the rotation animation for the bridge.
 /// {@endtemplate}
-class SpaceshipBridge extends BodyComponent with InitialPosition, Layered {
+class SpaceshipBridge extends BodyComponent
+    with InitialPosition, Layered, Elevated {
   /// {@macro spaceship_bridge}
-  SpaceshipBridge() : super(priority: 3) {
+  SpaceshipBridge() {
     layer = Layer.spaceship;
+    elevation = Elevation.spaceship.order;
   }
 
   @override
@@ -240,10 +246,12 @@ class SpaceshipHole extends BodyComponent with InitialPosition, Layered {
 /// [Ball] to get inside the spaceship saucer.
 /// It also contains the [SpriteComponent] for the lower wall
 /// {@endtemplate}
-class SpaceshipWall extends BodyComponent with InitialPosition, Layered {
+class SpaceshipWall extends BodyComponent
+    with InitialPosition, Layered, Elevated {
   /// {@macro spaceship_wall}
   SpaceshipWall() : super(priority: 4) {
     layer = Layer.spaceship;
+    elevation = Elevation.spaceship.order + 1;
   }
 
   @override
@@ -303,8 +311,7 @@ class SpaceshipEntranceBallContactCallback
   @override
   void begin(SpaceshipEntrance entrance, Ball ball, _) {
     ball
-      ..priority = 3
-      ..gameRef.reorderChildren()
+      ..elevation = Elevation.spaceship.order
       ..layer = Layer.spaceship;
   }
 }
@@ -319,8 +326,7 @@ class SpaceshipHoleBallContactCallback
   @override
   void begin(SpaceshipHole hole, Ball ball, _) {
     ball
-      ..priority = 1
-      ..gameRef.reorderChildren()
+      ..elevation = Elevation.board.order
       ..layer = Layer.board;
   }
 }
