@@ -45,7 +45,7 @@ void main() {
         verify(() => ball.priority = 1).called(1);
       });
 
-      test('re order the game children', () {
+      test('reorders the game children', () {
         when(() => hole.outsideLayer).thenReturn(Layer.board);
 
         SpaceshipExitHoleBallContactCallback().begin(
