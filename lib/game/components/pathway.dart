@@ -146,7 +146,7 @@ class Pathway extends BodyComponent with InitialPosition, Layered {
 
   /// Creates an ellipse [Pathway].
   ///
-  /// Does so with two [ChainShape] separated by a [width]. Can
+  /// Does so with two [ChainShape]s separated by a [width]. Can
   /// be rotated by a given [rotation] in radians.
   ///
   /// If [singleWall] is true, just one [ChainShape] is created.
@@ -154,8 +154,8 @@ class Pathway extends BodyComponent with InitialPosition, Layered {
     Color? color,
     required Vector2 center,
     required double width,
-    required double bigRadius,
-    required double smallRadius,
+    required double majorRadius,
+    required double minorRadius,
     double rotation = 0,
     bool singleWall = false,
   }) {
@@ -164,16 +164,16 @@ class Pathway extends BodyComponent with InitialPosition, Layered {
     // TODO(ruialonso): Refactor repetitive logic
     final outerWall = calculateEllipse(
       center: center,
-      majorRadius: bigRadius,
-      minorRadius: smallRadius,
+      majorRadius: majorRadius,
+      minorRadius: minorRadius,
     ).map((vector) => vector..rotate(rotation)).toList();
     paths.add(outerWall);
 
     if (!singleWall) {
       final innerWall = calculateEllipse(
         center: center,
-        majorRadius: bigRadius - width,
-        minorRadius: smallRadius - width,
+        majorRadius: majorRadius - width,
+        minorRadius: minorRadius - width,
       ).map((vector) => vector..rotate(rotation)).toList();
       paths.add(innerWall);
     }
