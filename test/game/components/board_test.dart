@@ -100,6 +100,18 @@ void main() {
           expect(roundBumpers.length, equals(3));
         },
       );
+
+      flameTester.test(
+        'has one ChromeDino',
+        (game) async {
+          final board = Board();
+          await game.ready();
+          await game.ensureAdd(board);
+
+          final roundBumpers = board.descendants().whereType<ChromeDino>();
+          expect(roundBumpers.length, equals(1));
+        },
+      );
     });
   });
 }
