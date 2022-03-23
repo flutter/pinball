@@ -300,11 +300,25 @@ void main() {
       test('calls ball.activate', () {
         final ball = MockBall();
         final bonusLetter = MockBonusLetter();
-
         final contactCallback = BonusLetterBallContactCallback();
+
+        when(() => bonusLetter.isEnabled).thenReturn(true);
+
         contactCallback.begin(ball, bonusLetter, MockContact());
 
         verify(bonusLetter.activate).called(1);
+      });
+
+      test("doesn't call ball.activate when letter is disabled", () {
+        final ball = MockBall();
+        final bonusLetter = MockBonusLetter();
+        final contactCallback = BonusLetterBallContactCallback();
+
+        when(() => bonusLetter.isEnabled).thenReturn(false);
+
+        contactCallback.begin(ball, bonusLetter, MockContact());
+
+        verifyNever(bonusLetter.activate);
       });
     });
   });

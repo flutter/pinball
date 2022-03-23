@@ -36,31 +36,39 @@ class BonusWord extends Component with BlocComponent<GameBloc, GameState> {
 
       for (var i = 0; i < letters.length; i++) {
         final letter = letters[i];
-        letter.add(
-          SequenceEffect(
-            [
-              ColorEffect(
-                i.isOdd ? BonusLetter._activeColor : BonusLetter._disableColor,
-                const Offset(0, 1),
-                EffectController(duration: 0.25),
-              ),
-              ColorEffect(
-                i.isOdd ? BonusLetter._disableColor : BonusLetter._activeColor,
-                const Offset(0, 1),
-                EffectController(duration: 0.25),
-              ),
-            ],
-            repeatCount: 4,
-          )..onFinishCallback = () {
-              letter.add(
+        letter
+          ..isEnabled = false
+          ..add(
+            SequenceEffect(
+              [
                 ColorEffect(
-                  BonusLetter._disableColor,
+                  i.isOdd
+                      ? BonusLetter._activeColor
+                      : BonusLetter._disableColor,
                   const Offset(0, 1),
                   EffectController(duration: 0.25),
                 ),
-              );
-            },
-        );
+                ColorEffect(
+                  i.isOdd
+                      ? BonusLetter._disableColor
+                      : BonusLetter._activeColor,
+                  const Offset(0, 1),
+                  EffectController(duration: 0.25),
+                ),
+              ],
+              repeatCount: 4,
+            )..onFinishCallback = () {
+                letter
+                  ..isEnabled = true
+                  ..add(
+                    ColorEffect(
+                      BonusLetter._disableColor,
+                      const Offset(0, 1),
+                      EffectController(duration: 0.25),
+                    ),
+                  );
+              },
+          );
       }
     }
   }
@@ -106,6 +114,13 @@ class BonusLetter extends BodyComponent<PinballGame>
 
   final String _letter;
   final int _index;
+
+  /// Indicates if a [BonusLetter] can be activated on [Ball] contact.
+  ///
+  /// It is disabled whilst animating and enabled again once the animation
+  /// completes. The animation is triggered when [GameBonus.word] is
+  /// awarded.
+  bool isEnabled = true;
 
   @override
   Future<void> onLoad() async {
@@ -172,6 +187,8 @@ class BonusLetterBallContactCallback
     extends ContactCallback<Ball, BonusLetter> {
   @override
   void begin(Ball ball, BonusLetter bonusLetter, Contact contact) {
-    bonusLetter.activate();
+    if (bonusLetter.isEnabled) {
+      bonusLetter.activate();
+    }
   }
 }

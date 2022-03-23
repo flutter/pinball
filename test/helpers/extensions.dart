@@ -9,7 +9,7 @@ extension PinballGameTest on PinballGame {
         theme: const PinballTheme(
           characterTheme: DashTheme(),
         ),
-      );
+      )..images.prefix = '';
 }
 
 /// [DebugPinballGame] extension to reduce boilerplate in tests.
