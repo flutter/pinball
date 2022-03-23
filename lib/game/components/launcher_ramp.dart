@@ -26,28 +26,33 @@ class LauncherRamp extends Component with HasGameRef<PinballGame> {
       RampOpeningBallContactCallback<_LauncherRampOpening>(),
     );
 
+    final launcherRampRotation =
+        -math.atan(18.6 / PinballGame.boardBounds.height);
+
     final straightPath = Pathway.straight(
       color: const Color.fromARGB(255, 34, 255, 0),
-      start: Vector2(0, 0),
-      end: Vector2(0, 700),
-      width: 80,
+      start: position + Vector2(-1.2, 10),
+      end: position + Vector2(-1.2, 117),
+      width: 5,
+      rotation: launcherRampRotation,
     )
       ..initialPosition = position
       ..layer = layer;
+
     final curvedPath = Pathway.arc(
       color: const Color.fromARGB(255, 251, 255, 0),
-      center: position + Vector2(-29, -8),
-      radius: 300,
-      angle: 10 * math.pi / 9,
-      width: 80,
-    )
-      ..initialPosition = position + Vector2(-28.8, -6)
-      ..layer = layer;
-    final leftOpening = _LauncherRampOpening(rotation: 13 * math.pi / 180)
-      ..initialPosition = position + Vector2(-72.5, 12)
+      center: position + Vector2(-2.8, 87.2),
+      radius: 16.3,
+      angle: math.pi / 2,
+      width: 5,
+      rotation: 3 * math.pi / 2,
+    )..layer = layer;
+
+    final leftOpening = _LauncherRampOpening(rotation: math.pi / 2)
+      ..initialPosition = position + Vector2(-11.8, 66.3)
       ..layer = Layer.opening;
     final rightOpening = _LauncherRampOpening(rotation: 0)
-      ..initialPosition = position + Vector2(-46.8, 17)
+      ..initialPosition = position + Vector2(-4.9, 59.4)
       ..layer = Layer.opening;
 
     await addAll([
