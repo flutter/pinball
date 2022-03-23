@@ -17,7 +17,10 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   Flipper._({
     required this.side,
     required List<LogicalKeyboardKey> keys,
-  }) : _keys = keys;
+  }) : _keys = keys {
+    // TODO(alestiago): Remove paint with asset and size correctly.
+    paint = Paint()..color = Colors.transparent;
+  }
 
   Flipper._left()
       : this._(
@@ -167,7 +170,6 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    paint = Paint()..color = Colors.transparent;
     await Future.wait([
       _loadSprite(),
       _anchorToJoint(),
