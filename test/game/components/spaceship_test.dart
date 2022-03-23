@@ -42,17 +42,7 @@ void main() {
           MockContact(),
         );
 
-        verify(() => ball.priority = 3).called(1);
-      });
-
-      test('re order the game children', () {
-        SpaceshipEntranceBallContactCallback().begin(
-          entrance,
-          ball,
-          MockContact(),
-        );
-
-        verify(game.reorderChildren).called(1);
+        verify(() => ball.elevation = Elevation.spaceship.order).called(1);
       });
     });
 
@@ -64,17 +54,7 @@ void main() {
           MockContact(),
         );
 
-        verify(() => ball.priority = 1).called(1);
-      });
-
-      test('re order the game children', () {
-        SpaceshipHoleBallContactCallback().begin(
-          hole,
-          ball,
-          MockContact(),
-        );
-
-        verify(game.reorderChildren).called(1);
+        verify(() => ball.elevation = Elevation.board.order).called(1);
       });
     });
   });
