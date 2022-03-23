@@ -1,5 +1,10 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/leaderboard/leaderboard.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
 /// {@template game_over_dialog}
@@ -12,6 +17,37 @@ class GameOverDialog extends StatelessWidget {
 
   final int score;
   final CharacterTheme theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => LeaderboardBloc(
+        context.read<LeaderboardRepository>(),
+      ),
+      child: GameOverDialogView(score: score, theme: theme),
+    );
+  }
+}
+
+class GameOverDialogView extends StatefulWidget {
+  const GameOverDialogView({Key? key, required this.score, required this.theme})
+      : super(key: key);
+
+  final int score;
+  final CharacterTheme theme;
+
+  @override
+  State<GameOverDialogView> createState() => _GameOverDialogViewState();
+}
+
+class _GameOverDialogViewState extends State<GameOverDialogView> {
+  final playerInitialsInputController = TextEditingController();
+
+  @override
+  void dispose() {
+    playerInitialsInputController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +69,15 @@ class GameOverDialog extends StatelessWidget {
                   height: 20,
                 ),
                 Text(
-                  'Your score is $score',
+                  'Your score is ${widget.score}',
                   style: Theme.of(context).textTheme.headline6,
                 ),
                 const SizedBox(
                   height: 15,
                 ),
-                const TextField(
-                  decoration: InputDecoration(
+                TextField(
+                  controller: playerInitialsInputController,
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: 'Enter your initials',
                   ),
@@ -49,11 +86,31 @@ class GameOverDialog extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                TextButton(
-                  onPressed: () {
-                    //TODO: navigate to LeadersboardPage
+                BlocBuilder<LeaderboardBloc, LeaderboardState>(
+                  builder: (context, state) {
+                    switch (state.status) {
+                      case LeaderboardStatus.loading:
+                        return TextButton(
+                          onPressed: () {
+                            context.read<LeaderboardBloc>().add(
+                                  LeaderboardEntryAdded(
+                                    entry: LeaderboardEntryData(
+                                      playerInitials:
+                                          playerInitialsInputController.text,
+                                      score: widget.score,
+                                      character: widget.theme.toType,
+                                    ),
+                                  ),
+                                );
+                          },
+                          child: const Text('Add User'),
+                        );
+                      case LeaderboardStatus.success:
+                        return const Text('succeed');
+                      case LeaderboardStatus.error:
+                        return const Text('error');
+                    }
                   },
-                  child: const Text('Add User'),
                 ),
               ],
             ),
