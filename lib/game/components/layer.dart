@@ -60,7 +60,7 @@ enum Layer {
   spaceship,
 
   /// Collide only with Spaceship drop group elements.
-  spaceship_drop,
+  spaceshipDrop,
 }
 
 /// {@template layer_mask_bits}
@@ -89,7 +89,7 @@ extension LayerMaskBits on Layer {
         return 0x0005;
       case Layer.spaceship:
         return 0x000A;
-      case Layer.spaceship_drop:
+      case Layer.spaceshipDrop:
         return 0x0004;
     }
   }

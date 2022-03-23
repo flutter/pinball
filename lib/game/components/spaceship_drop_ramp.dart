@@ -1,7 +1,8 @@
+// ignore_for_file: avoid_renaming_method_parameters
+
 import 'dart:math' as math;
 import 'dart:ui';
 
-import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/flame/blueprint.dart';
 import 'package:pinball/game/game.dart';
@@ -28,7 +29,7 @@ class SpaceshipDropRamp extends Forge2DBlueprint {
         Vector2(30, 0),
         Vector2(30, 30),
       ],
-    )..layer = Layer.spaceship_drop;
+    )..layer = Layer.spaceshipDrop;
 
     final curvedEntrance = Pathway.arc(
       color: const Color.fromARGB(255, 226, 226, 218),
@@ -38,7 +39,7 @@ class SpaceshipDropRamp extends Forge2DBlueprint {
       width: 5,
       rotation: 218 * math.pi / 180,
       singleWall: true,
-    )..layer = Layer.spaceship_drop;
+    )..layer = Layer.spaceshipDrop;
 
     final curvedExit = Pathway.arc(
       color: const Color.fromARGB(255, 226, 226, 218),
@@ -48,7 +49,7 @@ class SpaceshipDropRamp extends Forge2DBlueprint {
       width: 5,
       rotation: 36 * math.pi / 180,
       singleWall: true,
-    )..layer = Layer.spaceship_drop;
+    )..layer = Layer.spaceshipDrop;
 
     addAll([
       curvedPath..initialPosition = position,
@@ -67,10 +68,10 @@ class SpaceshipDropHole extends RampOpening {
   /// {@macro spaceship_drop_hole}
   SpaceshipDropHole()
       : super(
-          pathwayLayer: Layer.spaceship_drop,
+          pathwayLayer: Layer.spaceshipDrop,
           orientation: RampOrientation.down,
         ) {
-    layer = Layer.spaceship_drop;
+    layer = Layer.spaceshipDrop;
   }
 
   @override
