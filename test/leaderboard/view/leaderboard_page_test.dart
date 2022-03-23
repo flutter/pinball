@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:mockingjay/mockingjay.dart';
 import 'package:pinball/l10n/l10n.dart';
+import 'package:pinball/leaderboard/leaderboard.dart';
 import 'package:pinball/leaderboard/view/leaderboard_page.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
@@ -33,16 +36,99 @@ void main() {
   });
 
   group('LeaderboardView', () {
+    late LeaderboardBloc leaderboardBloc;
+
+    setUp(() {
+      leaderboardBloc = MockLeaderboardBloc();
+    });
+
     testWidgets('renders correctly', (tester) async {
       final l10n = await AppLocalizations.delegate.load(Locale('en'));
+      when(() => leaderboardBloc.state).thenReturn(LeaderboardState.initial());
+
       await tester.pumpApp(
-        LeaderboardPage(
-          theme: DashTheme(),
+        BlocProvider.value(
+          value: leaderboardBloc,
+          child: LeaderboardView(
+            theme: DashTheme(),
+          ),
         ),
       );
 
       expect(find.text(l10n.leadersboard), findsOneWidget);
       expect(find.text(l10n.retry), findsOneWidget);
+    });
+
+    testWidgets('renders loading view when bloc emits [loading]',
+        (tester) async {
+      when(() => leaderboardBloc.state).thenReturn(LeaderboardState.initial());
+
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: leaderboardBloc,
+          child: LeaderboardView(
+            theme: DashTheme(),
+          ),
+        ),
+      );
+
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      expect(find.text('There was en error loading data!'), findsNothing);
+      expect(find.byType(ListView), findsNothing);
+    });
+
+    testWidgets('renders error view when bloc emits [error]', (tester) async {
+      when(() => leaderboardBloc.state).thenReturn(
+        LeaderboardState.initial().copyWith(status: LeaderboardStatus.error),
+      );
+
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: leaderboardBloc,
+          child: LeaderboardView(
+            theme: DashTheme(),
+          ),
+        ),
+      );
+
+      expect(find.byType(CircularProgressIndicator), findsNothing);
+      expect(find.text('There was en error loading data!'), findsOneWidget);
+      expect(find.byType(ListView), findsNothing);
+    });
+
+    testWidgets('renders success view when bloc emits [success]',
+        (tester) async {
+      final l10n = await AppLocalizations.delegate.load(Locale('en'));
+      when(() => leaderboardBloc.state).thenReturn(
+        LeaderboardState(
+          status: LeaderboardStatus.success,
+          ranking: LeaderboardRanking(ranking: 0, outOf: 0),
+          leaderboard: const [
+            LeaderboardEntry(
+              playerInitials: 'ABC',
+              score: 10000,
+              character: CharacterType.dash,
+            ),
+          ],
+        ),
+      );
+
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: leaderboardBloc,
+          child: LeaderboardView(
+            theme: DashTheme(),
+          ),
+        ),
+      );
+
+      expect(find.byType(CircularProgressIndicator), findsNothing);
+      expect(find.text('There was en error loading data!'), findsNothing);
+      expect(find.text(l10n.rank), findsOneWidget);
+      expect(find.text(l10n.character), findsOneWidget);
+      expect(find.text(l10n.username), findsOneWidget);
+      expect(find.text(l10n.score), findsOneWidget);
+      expect(find.byType(ListView), findsOneWidget);
     });
 
     testWidgets('navigates to CharacterSelectionPage when retry is tapped',

@@ -40,8 +40,8 @@
     "@character": {
         "description": "Text displayed on the leaders board page header character column"
     },
-    "userName": "UserName",
-    "@userName": {
+    "username": "Username",
+    "@username": {
         "description": "Text displayed on the leaders board page header userName column"
     },
     "score": "Score",

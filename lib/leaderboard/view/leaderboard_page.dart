@@ -8,14 +8,9 @@ import 'package:pinball/leaderboard/leaderboard.dart';
 import 'package:pinball/theme/theme.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
-/// {@template leaderboard_page}
-/// Shows the leaderboard page of [Competitor]s.
-/// {@endtemplate}
 class LeaderboardPage extends StatelessWidget {
-  /// {@macro leaderboard_page}
   const LeaderboardPage({Key? key, required this.theme}) : super(key: key);
 
-  /// Current [CharacterTheme] to customize screen
   final CharacterTheme theme;
 
   static Route route({required CharacterTheme theme}) {
@@ -29,7 +24,7 @@ class LeaderboardPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => LeaderboardBloc(
         context.read<LeaderboardRepository>(),
-      ),
+      )..add(const Top10Fetched()),
       child: LeaderboardView(theme: theme),
     );
   }
@@ -56,7 +51,21 @@ class LeaderboardView extends StatelessWidget {
                 style: Theme.of(context).textTheme.headline3,
               ),
               const SizedBox(height: 80),
-              _LeaderboardRanking(theme: theme),
+              BlocBuilder<LeaderboardBloc, LeaderboardState>(
+                builder: (context, state) {
+                  switch (state.status) {
+                    case LeaderboardStatus.loading:
+                      return _LeaderboardLoading(theme: theme);
+                    case LeaderboardStatus.success:
+                      return _LeaderboardRanking(
+                        ranking: state.leaderboard,
+                        theme: theme,
+                      );
+                    case LeaderboardStatus.error:
+                      return _LeaderboardError(theme: theme);
+                  }
+                },
+              ),
               const SizedBox(height: 20),
               TextButton(
                 onPressed: () => Navigator.of(context).push<void>(
@@ -72,9 +81,45 @@ class LeaderboardView extends StatelessWidget {
   }
 }
 
-class _LeaderboardRanking extends StatelessWidget {
-  const _LeaderboardRanking({Key? key, required this.theme}) : super(key: key);
+class _LeaderboardLoading extends StatelessWidget {
+  const _LeaderboardLoading({Key? key, required this.theme}) : super(key: key);
 
+  final CharacterTheme theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+}
+
+class _LeaderboardError extends StatelessWidget {
+  const _LeaderboardError({Key? key, required this.theme}) : super(key: key);
+
+  final CharacterTheme theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Text(
+        'There was en error loading data!',
+        style:
+            Theme.of(context).textTheme.headline6?.copyWith(color: Colors.red),
+      ),
+    );
+  }
+}
+
+class _LeaderboardRanking extends StatelessWidget {
+  const _LeaderboardRanking({
+    Key? key,
+    required this.ranking,
+    required this.theme,
+  }) : super(key: key);
+
+  final List<LeaderboardEntry> ranking;
   final CharacterTheme theme;
 
   @override
@@ -85,7 +130,10 @@ class _LeaderboardRanking extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _LeaderboardHeaders(theme: theme),
-          _LeaderboardList(theme: theme),
+          _LeaderboardList(
+            ranking: ranking,
+            theme: theme,
+          ),
         ],
       ),
     );
@@ -106,7 +154,7 @@ class _LeaderboardHeaders extends StatelessWidget {
       children: [
         _LeaderboardHeaderItem(title: l10n.rank, theme: theme),
         _LeaderboardHeaderItem(title: l10n.character, theme: theme),
-        _LeaderboardHeaderItem(title: l10n.userName, theme: theme),
+        _LeaderboardHeaderItem(title: l10n.username, theme: theme),
         _LeaderboardHeaderItem(title: l10n.score, theme: theme),
       ],
     );
@@ -140,8 +188,13 @@ class _LeaderboardHeaderItem extends StatelessWidget {
 }
 
 class _LeaderboardList extends StatelessWidget {
-  const _LeaderboardList({Key? key, required this.theme}) : super(key: key);
+  const _LeaderboardList({
+    Key? key,
+    required this.ranking,
+    required this.theme,
+  }) : super(key: key);
 
+  final List<LeaderboardEntry> ranking;
   final CharacterTheme theme;
 
   @override
@@ -159,7 +212,7 @@ class _LeaderboardList extends StatelessWidget {
         ),
         theme: theme,
       ),
-      itemCount: 10,
+      itemCount: ranking.length,
     );
   }
 }

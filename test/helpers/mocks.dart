@@ -1,9 +1,12 @@
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/input.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/leaderboard/leaderboard.dart';
 import 'package:pinball/theme/theme.dart';
 
 class MockPinballGame extends Mock implements PinballGame {}
@@ -31,6 +34,11 @@ class MockGameBloc extends Mock implements GameBloc {}
 class MockGameState extends Mock implements GameState {}
 
 class MockThemeCubit extends Mock implements ThemeCubit {}
+
+class MockLeaderboardBloc extends MockBloc<LeaderboardEvent, LeaderboardState>
+    implements LeaderboardBloc {}
+
+class MockLeaderboardRepository extends Mock implements LeaderboardRepository {}
 
 class MockRawKeyDownEvent extends Mock implements RawKeyDownEvent {
   @override
