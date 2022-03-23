@@ -28,8 +28,9 @@ class LeaderboardEntry {
   final AssetGenImage character;
 }
 
-/// Converts [LeaderboardEntryData] to [LeaderboardEntry].
+/// Converts [LeaderboardEntryData] from repository to [LeaderboardEntry].
 extension LeaderboardEntryDataX on LeaderboardEntryData {
+  /// Conversion method to [LeaderboardEntry]
   LeaderboardEntry toEntry(int position) {
     return LeaderboardEntry(
       rank: position.toString(),
