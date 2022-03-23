@@ -1,5 +1,6 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -20,7 +21,11 @@ void main() {
           final wall = MockBottomWall();
           final ballController = MockBallController();
           final ball = MockBall();
-          when(() => ball.controller).thenReturn(ballController);
+          final componentSet = MockComponentSet();
+
+          when(() => componentSet.whereType<BallController>())
+              .thenReturn([ballController]);
+          when(() => ball.children).thenReturn(componentSet);
 
           BottomWallBallContactCallback()
             // Remove once https://github.com/flame-engine/flame/pull/1415

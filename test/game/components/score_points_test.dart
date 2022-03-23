@@ -1,3 +1,4 @@
+import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -29,6 +30,7 @@ void main() {
     late PinballGame game;
     late GameBloc bloc;
     late Ball ball;
+    late ComponentSet componentSet;
     late BallController ballController;
     late FakeScorePoints fakeScorePoints;
 
@@ -36,6 +38,7 @@ void main() {
       game = MockPinballGame();
       bloc = MockGameBloc();
       ball = MockBall();
+      componentSet = MockComponentSet();
       ballController = MockBallController();
       fakeScorePoints = FakeScorePoints();
     });
@@ -48,8 +51,10 @@ void main() {
       test(
         'emits Scored event with points',
         () {
-          when(() => ball.controller).thenReturn(ballController);
-          when<Forge2DGame>(() => ball.gameRef).thenReturn(game);
+          when(() => componentSet.whereType<BallController>())
+              .thenReturn([ballController]);
+          when(() => ball.children).thenReturn(componentSet);
+          when<Forge2DGame>(() => ballController.gameRef).thenReturn(game);
           when<GameBloc>(game.read).thenReturn(bloc);
 
           BallScorePointsCallback().begin(
