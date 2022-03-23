@@ -16,5 +16,5 @@ export 'ramp_opening.dart';
 export 'round_bumper.dart';
 export 'score_points.dart';
 export 'spaceship.dart';
-export 'spaceship_drop_ramp.dart';
+export 'spaceship_exit_rail.dart';
 export 'wall.dart';

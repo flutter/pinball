@@ -60,4 +60,4 @@ class MockSpaceshipEntrance extends Mock implements SpaceshipEntrance {}
 
 class MockSpaceshipHole extends Mock implements SpaceshipHole {}
 
-class MockSpaceshipDropHole extends Mock implements SpaceshipDropHole {}
+class MockSpaceshipExitHole extends Mock implements SpaceshipExitHole {}
