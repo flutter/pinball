@@ -146,7 +146,7 @@ class Pathway extends BodyComponent with InitialPosition, Layered {
 
   /// Creates an ellipse [Pathway].
   ///
-  /// Does so with two [ChainShape] separated by a [width]. Can
+  /// Does so with two [ChainShape]s separated by a [width]. Can
   /// be rotated by a given [rotation] in radians.
   ///
   /// If [singleWall] is true, just one [ChainShape] is created.
