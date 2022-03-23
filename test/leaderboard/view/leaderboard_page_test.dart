@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -8,7 +7,6 @@ import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:mockingjay/mockingjay.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/leaderboard/leaderboard.dart';
-import 'package:pinball/leaderboard/view/leaderboard_page.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
 import '../../helpers/helpers.dart';
