@@ -58,6 +58,9 @@ enum Layer {
 
   /// Collide only with Spaceship group elements.
   spaceship,
+
+  /// Collide only with Spaceship drop group elements.
+  spaceship_drop,
 }
 
 /// {@template layer_mask_bits}
@@ -86,6 +89,8 @@ extension LayerMaskBits on Layer {
         return 0x0005;
       case Layer.spaceship:
         return 0x000A;
+      case Layer.spaceship_drop:
+        return 0x0004;
     }
   }
 }

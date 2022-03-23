@@ -83,6 +83,8 @@ class PinballGame extends Forge2DGame
   }
 
   Future<void> _addPaths() async {
+    unawaited(addFromBlueprint(SpaceshipDropRamp()));
+
     final jetpackRamp = JetpackRamp(
       position: Vector2(
         PinballGame.boardBounds.left + 40.5,
