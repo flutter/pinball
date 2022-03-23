@@ -3,29 +3,27 @@ import 'package:pinball/game/game.dart';
 
 /// {@template board}
 /// The main flat surface of the [PinballGame], where the [Flipper]s,
-/// [RoundBumper]s, [SlingShot]s are arranged.
+/// [RoundBumper]s, [Kicker]s are arranged.
 /// {entemplate}
 class Board extends Component {
   /// {@macro board}
-  Board({required Vector2 size}) : _size = size;
-
-  final Vector2 _size;
+  Board();
 
   @override
   Future<void> onLoad() async {
     // TODO(alestiago): adjust positioning once sprites are added.
     final bottomGroup = _BottomGroup(
       position: Vector2(
-        _size.x / 2,
-        _size.y / 1.25,
+        PinballGame.boardBounds.center.dx,
+        PinballGame.boardBounds.bottom + 10,
       ),
       spacing: 2,
     );
 
     final dashForest = _FlutterForest(
       position: Vector2(
-        _size.x / 1.25,
-        _size.y / 4.25,
+        PinballGame.boardBounds.center.dx + 20,
+        PinballGame.boardBounds.center.dy + 48,
       ),
     );
 
@@ -76,7 +74,7 @@ class _FlutterForest extends Component {
 /// {@template bottom_group}
 /// Grouping of the board's bottom [Component]s.
 ///
-/// The [_BottomGroup] consists of[Flipper]s, [Baseboard]s and [SlingShot]s.
+/// The [_BottomGroup] consists of[Flipper]s, [Baseboard]s and [Kicker]s.
 /// {@endtemplate}
 // TODO(alestiago): Consider renaming once entire Board is defined.
 class _BottomGroup extends Component {
@@ -94,7 +92,7 @@ class _BottomGroup extends Component {
 
   @override
   Future<void> onLoad() async {
-    final spacing = this.spacing + Flipper.width / 2;
+    final spacing = this.spacing + Flipper.size.x / 2;
     final rightSide = _BottomGroupSide(
       side: BoardSide.right,
       position: position + Vector2(spacing, 0),
@@ -135,17 +133,17 @@ class _BottomGroupSide extends Component {
     final baseboard = Baseboard(side: _side)
       ..initialPosition = _position +
           Vector2(
-            (Flipper.width * direction) - direction,
-            Flipper.height,
+            (Flipper.size.x * direction) - direction,
+            Flipper.size.y,
           );
-    final slingShot = SlingShot(
+    final kicker = Kicker(
       side: _side,
     )..initialPosition = _position +
         Vector2(
-          (Flipper.width) * direction,
-          Flipper.height + SlingShot.size.y,
+          (Flipper.size.x) * direction,
+          Flipper.size.y + Kicker.size.y,
         );
 
-    await addAll([flipper, baseboard, slingShot]);
+    await addAll([flipper, baseboard, kicker]);
   }
 }

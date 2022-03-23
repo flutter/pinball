@@ -3,7 +3,7 @@ import 'package:pinball/game/game.dart';
 /// Indicates a side of the board.
 ///
 /// Usually used to position or mirror elements of a [PinballGame]; such as a
-/// [Flipper] or [SlingShot].
+/// [Flipper] or [Kicker].
 enum BoardSide {
   /// The left side of the board.
   left,
