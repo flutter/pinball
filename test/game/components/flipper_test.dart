@@ -17,6 +17,7 @@ void main() {
   group(
     'Flipper',
     () {
+      // TODO(alestiago): Add golden tests.
       flameTester.test(
         'loads correctly',
         (game) async {
