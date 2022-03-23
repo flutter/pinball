@@ -25,7 +25,7 @@ void main() {
     });
 
     group('copyWith', () {
-      const leaderboardEntry = LeaderboardEntry(
+      const leaderboardEntry = LeaderboardEntryData(
         playerInitials: 'ABC',
         score: 1500,
         character: CharacterType.dash,
