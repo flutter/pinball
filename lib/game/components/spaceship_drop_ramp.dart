@@ -10,18 +10,17 @@ class SpaceshipDropRamp extends Forge2DBlueprint {
   @override
   void build() {
     final position = Vector2(
-      PinballGame.boardBounds.left + 23,
-      PinballGame.boardBounds.center.dy + 25,
+      PinballGame.boardBounds.left + 22,
+      PinballGame.boardBounds.center.dy + 27,
     );
 
     addAllContactCallback([
-      SpaceshipHoleBallContactCallback(),
-      SpaceshipEntranceBallContactCallback(),
+      SpaceshipDropHoleBallContactCallback(),
     ]);
 
     final curvedPath = Pathway.bezierCurve(
-      color: Color.fromARGB(255, 226, 226, 218),
-      width: 5,
+      color: const Color.fromARGB(255, 226, 226, 218),
+      width: 4,
       rotation: 230 * math.pi / 180,
       controlPoints: [
         Vector2(0, 0),
@@ -31,32 +30,42 @@ class SpaceshipDropRamp extends Forge2DBlueprint {
       ],
     )..layer = Layer.spaceship_drop;
 
+    final curvedEntrance = Pathway.arc(
+      color: const Color.fromARGB(255, 226, 226, 218),
+      center: position,
+      radius: 4,
+      angle: math.pi / 2,
+      width: 5,
+      rotation: 218 * math.pi / 180,
+      singleWall: true,
+    )..layer = Layer.spaceship_drop;
+
+    final curvedExit = Pathway.arc(
+      color: const Color.fromARGB(255, 226, 226, 218),
+      center: position,
+      radius: 4,
+      angle: math.pi / 2,
+      width: 5,
+      rotation: 36 * math.pi / 180,
+      singleWall: true,
+    )..layer = Layer.spaceship_drop;
+
     addAll([
       curvedPath..initialPosition = position,
+      curvedEntrance..initialPosition = position + Vector2(26.5, -30),
+      curvedExit..initialPosition = position + Vector2(29, -66.5),
+      SpaceshipDropHole()..initialPosition = position + Vector2(0, -42),
     ]);
   }
 }
 
-class SpaceshipRampEntrance extends RampOpening {
-  /// {@macro spaceship_ramp_entrance}
-  SpaceshipRampEntrance()
-      : super(
-          pathwayLayer: Layer.spaceship_drop,
-          orientation: RampOrientation.up,
-        ) {
-    layer = Layer.spaceship_drop;
-  }
-
-  @override
-  Shape get shape {
-    const radius = Spaceship.radius * 2;
-    return PolygonShape();
-  }
-}
-
-class SpaceshipRampExit extends RampOpening {
-  /// {@macro spaceship_ramp_entrance}
-  SpaceshipRampExit()
+/// {@template spaceship_drop_hole}
+/// A sensor [BodyComponent] responsible for sending the [Ball]
+/// back to the board.
+/// {@endtemplate}
+class SpaceshipDropHole extends RampOpening {
+  /// {@macro spaceship_drop_hole}
+  SpaceshipDropHole()
       : super(
           pathwayLayer: Layer.spaceship_drop,
           orientation: RampOrientation.down,
@@ -66,7 +75,22 @@ class SpaceshipRampExit extends RampOpening {
 
   @override
   Shape get shape {
-    const radius = Spaceship.radius * 2;
-    return PolygonShape();
+    return CircleShape()..radius = Spaceship.radius / 40;
+  }
+}
+
+/// [ContactCallback] that handles the contact between the [Ball]
+/// and a [SpaceshipDropHole].
+///
+/// It resets the [Ball] priority and filter data so it will "be back" on the
+/// board.
+class SpaceshipDropHoleBallContactCallback
+    extends ContactCallback<SpaceshipDropHole, Ball> {
+  @override
+  void begin(SpaceshipDropHole hole, Ball ball, _) {
+    ball
+      ..priority = 1
+      ..gameRef.reorderChildren()
+      ..layer = hole.outsideLayer;
   }
 }

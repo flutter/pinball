@@ -31,7 +31,9 @@ class Spaceship extends Forge2DBlueprint {
       SpaceshipEntrance()..initialPosition = position,
       SpaceshipBridge()..initialPosition = position,
       SpaceshipBridgeTop()..initialPosition = position + Vector2(0, 5.5),
-      SpaceshipHole()..initialPosition = position - Vector2(5, 4),
+      SpaceshipHole(
+        onExitLayer: Layer.spaceship_drop,
+      )..initialPosition = position - Vector2(5, 4),
       SpaceshipHole()..initialPosition = position - Vector2(-5, 4),
       SpaceshipWall()..initialPosition = position,
     ]);
@@ -211,26 +213,20 @@ class SpaceshipEntrance extends RampOpening {
 /// A sensor [BodyComponent] responsible for sending the [Ball]
 /// back to the board.
 /// {@endtemplate}
-class SpaceshipHole extends BodyComponent with InitialPosition, Layered {
+class SpaceshipHole extends RampOpening {
   /// {@macro spaceship_hole}
-  SpaceshipHole() {
+  SpaceshipHole({Layer? onExitLayer})
+      : super(
+          pathwayLayer: Layer.spaceship,
+          outsideLayer: onExitLayer,
+          orientation: RampOrientation.up,
+        ) {
     layer = Layer.spaceship;
   }
 
   @override
-  Body createBody() {
-    renderBody = false;
-    final circleShape = CircleShape()..radius = Spaceship.radius / 40;
-
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition
-      ..type = BodyType.static;
-
-    return world.createBody(bodyDef)
-      ..createFixture(
-        FixtureDef(circleShape)..isSensor = true,
-      );
+  Shape get shape {
+    return CircleShape()..radius = Spaceship.radius / 40;
   }
 }
 
@@ -321,6 +317,6 @@ class SpaceshipHoleBallContactCallback
     ball
       ..priority = 1
       ..gameRef.reorderChildren()
-      ..layer = Layer.board;
+      ..layer = hole.outsideLayer;
   }
 }
