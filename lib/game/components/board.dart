@@ -27,8 +27,12 @@ class Board extends Component {
       ),
     );
 
-    // TODO(alestiago): adjust positioning once aspect ratio is fixed.
-    final dino = ChromeDino()..initialPosition = _size / 2 + Vector2(15, 5);
+    // TODO(alestiago): adjust positioning to real design.
+    final dino = ChromeDino()
+      ..initialPosition = Vector2(
+        PinballGame.boardBounds.center.dx + 25,
+        PinballGame.boardBounds.center.dy + 10,
+      );
 
     await addAll([
       bottomGroup,
