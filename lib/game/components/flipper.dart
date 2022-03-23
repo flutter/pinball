@@ -181,28 +181,19 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   }
 }
 
-class _FlipperJoint extends RevoluteJoint {
-  _FlipperJoint(_FlipperAnchorRevoluteJointDef def)
-      : side = def.side,
-        super(def);
-
-  final BoardSide side;
-
-  // TODO(alestiago): Remove once Forge2D supports custom joints.
-  void create(World world) {
-    world.joints.add(this);
-    bodyA.joints.add(this);
-    bodyB.joints.add(this);
-  }
-
-  /// Unlocks the [Flipper] from its resting position.
-  ///
-  /// The [Flipper] is locked when initialized in order to force it to be at
-  /// its resting position.
-  void unlock() {
-    setLimits(
-      lowerLimit * side.direction,
-      -upperLimit * side.direction,
+/// {@template flipper_anchor}
+/// [JointAnchor] positioned at the end of a [Flipper].
+///
+/// The end of a [Flipper] depends on its [Flipper.side].
+/// {@endtemplate}
+class _FlipperAnchor extends JointAnchor {
+  /// {@macro flipper_anchor}
+  _FlipperAnchor({
+    required Flipper flipper,
+  }) {
+    initialPosition = Vector2(
+      flipper.body.position.x + ((Flipper.size.x * flipper.side.direction) / 2),
+      flipper.body.position.y,
     );
   }
 }
@@ -233,19 +224,28 @@ class _FlipperAnchorRevoluteJointDef extends RevoluteJointDef {
   final BoardSide side;
 }
 
-/// {@template flipper_anchor}
-/// [JointAnchor] positioned at the end of a [Flipper].
-///
-/// The end of a [Flipper] depends on its [Flipper.side].
-/// {@endtemplate}
-class _FlipperAnchor extends JointAnchor {
-  /// {@macro flipper_anchor}
-  _FlipperAnchor({
-    required Flipper flipper,
-  }) {
-    initialPosition = Vector2(
-      flipper.body.position.x + ((Flipper.size.x * flipper.side.direction) / 2),
-      flipper.body.position.y,
+class _FlipperJoint extends RevoluteJoint {
+  _FlipperJoint(_FlipperAnchorRevoluteJointDef def)
+      : side = def.side,
+        super(def);
+
+  final BoardSide side;
+
+  // TODO(alestiago): Remove once Forge2D supports custom joints.
+  void create(World world) {
+    world.joints.add(this);
+    bodyA.joints.add(this);
+    bodyB.joints.add(this);
+  }
+
+  /// Unlocks the [Flipper] from its resting position.
+  ///
+  /// The [Flipper] is locked when initialized in order to force it to be at
+  /// its resting position.
+  void unlock() {
+    setLimits(
+      lowerLimit * side.direction,
+      -upperLimit * side.direction,
     );
   }
 }
