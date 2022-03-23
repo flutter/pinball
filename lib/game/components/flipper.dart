@@ -28,8 +28,7 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   Flipper({
     required this.side,
   }) : _keys = side.isLeft ? _leftFlipperKeys : _rightFlipperKeys {
-    // TODO(alestiago): Remove paint with asset and size correctly.
-    paint = Paint()..color = Colors.transparent;
+    renderBody = false;
   }
 
   /// The size of the [Flipper].
