@@ -70,13 +70,13 @@ class LeaderboardBloc extends Bloc<LeaderboardEvent, LeaderboardState> {
   }
 }
 
-/// {@template leaderboard_entry_data}
+/// {@template leaderboard_entry}
 /// A model representing a leaderboard entry containing the ranking position,
 /// player's initials, score, and chosen character.
 ///
 /// {@endtemplate}
 class LeaderboardEntry {
-  /// {@macro leaderboard_entry_data}
+  /// {@macro leaderboard_entry}
   LeaderboardEntry({
     required this.rank,
     required this.playerInitials,
@@ -84,7 +84,7 @@ class LeaderboardEntry {
     required this.character,
   });
 
-  /// Position at ranking for [LeaderboardEntry].
+  /// Ranking position for [LeaderboardEntry].
   final String rank;
 
   /// Player's chosen initials for [LeaderboardEntry].
