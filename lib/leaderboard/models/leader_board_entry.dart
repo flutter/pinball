@@ -25,7 +25,7 @@ class LeaderboardEntry {
   final int score;
 
   /// [CharacterTheme] for [LeaderboardEntry].
-  final CharacterTheme character;
+  final AssetGenImage character;
 }
 
 /// Converts [LeaderboardEntryData] to [LeaderboardEntry].
@@ -35,7 +35,7 @@ extension LeaderboardEntryDataX on LeaderboardEntryData {
       rank: position.toString(),
       playerInitials: playerInitials,
       score: score,
-      character: character.toTheme,
+      character: character.toTheme.characterAsset,
     );
   }
 }
