@@ -164,16 +164,16 @@ class Pathway extends BodyComponent with InitialPosition, Layered {
     // TODO(ruialonso): Refactor repetitive logic
     final outerWall = calculateEllipse(
       center: center,
-      bigRadius: bigRadius,
-      smallRadius: smallRadius,
+      majorRadius: bigRadius,
+      minorRadius: smallRadius,
     ).map((vector) => vector..rotate(rotation)).toList();
     paths.add(outerWall);
 
     if (!singleWall) {
       final innerWall = calculateEllipse(
         center: center,
-        bigRadius: bigRadius - width,
-        smallRadius: smallRadius - width,
+        majorRadius: bigRadius - width,
+        minorRadius: smallRadius - width,
       ).map((vector) => vector..rotate(rotation)).toList();
       paths.add(innerWall);
     }

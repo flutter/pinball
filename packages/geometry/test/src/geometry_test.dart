@@ -37,8 +37,8 @@ void main() {
     test('returns by default 100 points as indicated by precision', () {
       final points = calculateEllipse(
         center: Vector2.zero(),
-        bigRadius: 100,
-        smallRadius: 50,
+        majorRadius: 100,
+        minorRadius: 50,
       );
       expect(points.length, 100);
     });
@@ -46,8 +46,8 @@ void main() {
     test('returns as many points as indicated by precision', () {
       final points = calculateEllipse(
         center: Vector2.zero(),
-        bigRadius: 100,
-        smallRadius: 50,
+        majorRadius: 100,
+        minorRadius: 50,
         precision: 50,
       );
       expect(points.length, 50);
@@ -57,16 +57,16 @@ void main() {
       expect(
         () => calculateEllipse(
           center: Vector2.zero(),
-          bigRadius: 100,
-          smallRadius: 150,
+          majorRadius: 100,
+          minorRadius: 150,
         ),
         throwsA(isA<AssertionError>()),
       );
       expect(
         () => calculateEllipse(
           center: Vector2.zero(),
-          bigRadius: 100,
-          smallRadius: 0,
+          majorRadius: 100,
+          minorRadius: 0,
         ),
         throwsA(isA<AssertionError>()),
       );
