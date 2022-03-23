@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'leaderboard_entry.g.dart';
+part 'leaderboard_entry_data.g.dart';
 
 /// Google character type associated with a [LeaderboardEntryData].
 enum CharacterType {
