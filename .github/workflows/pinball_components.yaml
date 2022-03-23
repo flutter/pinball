@@ -1,0 +1,19 @@
+name: pinball_components
+
+on:
+  push:
+    paths:
+      - "packages/pinball_components/**"
+      - ".github/workflows/pinball_components.yaml"
+
+  pull_request:
+    paths:
+      - "packages/pinball_components/**"
+      - ".github/workflows/pinball_components.yaml"
+
+jobs:
+  build:
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
+    with:
+      working_directory: packages/pinball_components
+      coverage_excludes: "lib/src/generated/*.dart"
