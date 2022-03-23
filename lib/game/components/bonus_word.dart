@@ -78,16 +78,40 @@ class BonusWord extends Component with BlocComponent<GameBloc, GameState> {
     await super.onLoad();
     final letters = GameBloc.bonusWord.split('');
 
-    for (var i = 0; i < letters.length; i++) {
-      unawaited(
-        add(
-          BonusLetter(
-            letter: letters[i],
-            index: i,
-          )..initialPosition = _position - Vector2(16 - (i * 6), -30),
-        ),
-      );
-    }
+    final letter0 = BonusLetter(letter: letters[0], index: 0)
+      ..initialPosition = _position + Vector2(-12.92, -1.82);
+    final letter1 = BonusLetter(letter: letters[1], index: 1)
+      ..initialPosition = _position + Vector2(-8.33, 0.65);
+    final letter2 = BonusLetter(letter: letters[2], index: 2)
+      ..initialPosition = _position + Vector2(-2.88, 1.75);
+    final letter3 = BonusLetter(letter: letters[3], index: 3)
+      ..initialPosition = _position + Vector2(2.88, 1.75);
+    final letter4 = BonusLetter(letter: letters[4], index: 4)
+      ..initialPosition = _position + Vector2(8.33, 0.65);
+    final letter5 = BonusLetter(letter: letters[5], index: 5)
+      ..initialPosition = _position + Vector2(12.92, -1.82);
+
+    unawaited(
+      addAll([
+        letter0,
+        letter1,
+        letter2,
+        letter3,
+        letter4,
+        letter5,
+      ]),
+    );
+
+    // for (var i = 0; i < letters.length; i++) {
+    //   unawaited(
+    //     add(
+    //       BonusLetter(
+    //         letter: letters[i],
+    //         index: i,
+    //       )..initialPosition = _position - Vector2(16 - (i * 6), -30),
+    //     ),
+    //   );
+    // }
   }
 }
 
@@ -107,7 +131,7 @@ class BonusLetter extends BodyComponent<PinballGame>
   }
 
   /// The area size of this [BonusLetter].
-  static final areaSize = Vector2.all(4);
+  static final areaSize = Vector2.all(3.7);
 
   static const _activeColor = Colors.green;
   static const _disableColor = Colors.red;
