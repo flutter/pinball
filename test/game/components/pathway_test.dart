@@ -172,8 +172,8 @@ void main() {
           final pathway = Pathway.ellipse(
             center: Vector2.zero(),
             width: width,
-            bigRadius: 150,
-            smallRadius: 70,
+            majorRadius: 150,
+            minorRadius: 70,
           );
           await game.ready();
           await game.ensureAdd(pathway);
@@ -189,8 +189,8 @@ void main() {
             final pathway = Pathway.ellipse(
               center: Vector2.zero(),
               width: width,
-              bigRadius: 150,
-              smallRadius: 70,
+              majorRadius: 150,
+              minorRadius: 70,
             );
             await game.ready();
             await game.ensureAdd(pathway);
