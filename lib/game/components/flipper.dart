@@ -26,9 +26,7 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   /// {@macro flipper}
   Flipper({
     required this.side,
-  }) : _keys = side.isLeft ? _leftFlipperKeys : _rightFlipperKeys {
-    renderBody = false;
-  }
+  }) : _keys = side.isLeft ? _leftFlipperKeys : _rightFlipperKeys;
 
   /// The size of the [Flipper].
   static final size = Vector2(12, 2.8);
@@ -142,6 +140,8 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    renderBody = false;
+
     await Future.wait([
       _loadSprite(),
       _anchorToJoint(),
