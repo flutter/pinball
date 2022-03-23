@@ -45,3 +45,12 @@ class BonusLetterActivated extends GameEvent {
   @override
   List<Object?> get props => [letterIndex];
 }
+
+class DashNestActivated extends GameEvent {
+  const DashNestActivated(this.nestId);
+
+  final String nestId;
+
+  @override
+  List<Object?> get props => [nestId];
+}

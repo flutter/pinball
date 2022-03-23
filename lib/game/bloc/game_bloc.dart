@@ -12,6 +12,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     on<BallLost>(_onBallLost);
     on<Scored>(_onScored);
     on<BonusLetterActivated>(_onBonusLetterActivated);
+    on<DashNestActivated>(_onDashNestActivated);
   }
 
   static const bonusWord = 'GOOGLE';
@@ -49,6 +50,30 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     } else {
       emit(
         state.copyWith(activatedBonusLetters: newBonusLetters),
+      );
+    }
+  }
+
+  void _onDashNestActivated(DashNestActivated event, Emitter emit) {
+    const nestsRequiredForBonus = 3;
+
+    final newNests = {
+      ...state.activatedDashNests,
+      event.nestId,
+    };
+    if (newNests.length == nestsRequiredForBonus) {
+      emit(
+        state.copyWith(
+          activatedDashNests: {},
+          bonusHistory: [
+            ...state.bonusHistory,
+            GameBonus.dashNest,
+          ],
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(activatedDashNests: newNests),
       );
     }
   }
