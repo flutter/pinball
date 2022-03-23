@@ -25,11 +25,6 @@ mixin Elevated<T extends Forge2DGame> on BodyComponent<T> {
     priority = elevation;
     reorderChildren();
   }
-
-  void _applyCustomElevation(int customElevation) {
-    priority = customElevation;
-    reorderChildren();
-  }
 }
 
 /// The [Elevation]s a [BodyComponent] can be in.
