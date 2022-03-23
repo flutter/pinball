@@ -40,13 +40,13 @@ class JetpackRamp extends Component with HasGameRef<PinballGame> {
       outsideLayer: Layer.spaceship,
       rotation: math.pi,
     )
-      ..initialPosition = position - Vector2(2, 22)
+      ..initialPosition = position + Vector2(-2.5, -20.2)
       ..layer = Layer.jetpack;
 
     final rightOpening = _JetpackRampOpening(
       rotation: math.pi,
     )
-      ..initialPosition = position - Vector2(-13, 22)
+      ..initialPosition = position + Vector2(12.9, -20.2)
       ..layer = Layer.opening;
 
     await addAll([
