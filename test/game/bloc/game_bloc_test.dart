@@ -207,7 +207,7 @@ void main() {
 
     group('DashNestActivated', () {
       blocTest<GameBloc, GameState>(
-        'adds the bonus when all nest are activated',
+        'adds the bonus when all nests are activated',
         build: GameBloc.new,
         act: (bloc) => bloc
           ..add(const DashNestActivated('0'))
