@@ -3,6 +3,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/leaderboard/leaderboard.dart';
+import 'package:pinball_theme/pinball_theme.dart';
 
 void main() {
   group('LeaderboardState', () {
@@ -25,10 +26,11 @@ void main() {
     });
 
     group('copyWith', () {
-      const leaderboardEntry = LeaderboardEntry(
+      final leaderboardEntry = LeaderboardEntry(
+        rank: '1',
         playerInitials: 'ABC',
         score: 1500,
-        character: CharacterType.dash,
+        character: DashTheme().characterAsset,
       );
 
       test(
@@ -51,7 +53,7 @@ void main() {
           final otherLeaderboardState = LeaderboardState(
             status: LeaderboardStatus.success,
             ranking: LeaderboardRanking(ranking: 0, outOf: 0),
-            leaderboard: const [leaderboardEntry],
+            leaderboard: [leaderboardEntry],
           );
           expect(leaderboardState, isNot(equals(otherLeaderboardState)));
 
