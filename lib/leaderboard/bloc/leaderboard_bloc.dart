@@ -84,7 +84,7 @@ class LeaderboardEntry {
     required this.character,
   });
 
-  /// Position at ranking for [LeaderboardEntry].
+  /// Ranking position for [LeaderboardEntry].
   final String rank;
 
   /// Player's chosen initials for [LeaderboardEntry].
