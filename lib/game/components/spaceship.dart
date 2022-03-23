@@ -32,7 +32,7 @@ class Spaceship extends Forge2DBlueprint {
       SpaceshipBridge()..initialPosition = position,
       SpaceshipBridgeTop()..initialPosition = position + Vector2(0, 5.5),
       SpaceshipHole(
-        onExitLayer: Layer.spaceshipDrop,
+        onExitLayer: Layer.spaceshipExitRail,
         onExitElevation: 2,
       )..initialPosition = position - Vector2(5, 4),
       SpaceshipHole()..initialPosition = position - Vector2(-5, 4),

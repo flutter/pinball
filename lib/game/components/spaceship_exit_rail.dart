@@ -30,7 +30,7 @@ class SpaceshipExitRail extends Forge2DBlueprint {
         Vector2(30, 0),
         Vector2(30, 30),
       ],
-    )..layer = Layer.spaceshipDrop;
+    )..layer = Layer.spaceshipExitRail;
 
     final entrance = Pathway.arc(
       color: const Color.fromARGB(255, 226, 226, 218),
@@ -40,7 +40,7 @@ class SpaceshipExitRail extends Forge2DBlueprint {
       width: 5,
       rotation: 218 * math.pi / 180,
       singleWall: true,
-    )..layer = Layer.spaceshipDrop;
+    )..layer = Layer.spaceshipExitRail;
 
     final exit = Pathway.arc(
       color: const Color.fromARGB(255, 226, 226, 218),
@@ -50,7 +50,7 @@ class SpaceshipExitRail extends Forge2DBlueprint {
       width: 5,
       rotation: 36 * math.pi / 180,
       singleWall: true,
-    )..layer = Layer.spaceshipDrop;
+    )..layer = Layer.spaceshipExitRail;
 
     addAll([
       pathway..initialPosition = position,
@@ -69,10 +69,10 @@ class SpaceshipExitHole extends RampOpening {
   /// {@macro spaceship_exit_hole}
   SpaceshipExitHole()
       : super(
-          pathwayLayer: Layer.spaceshipDrop,
+          pathwayLayer: Layer.spaceshipExitRail,
           orientation: RampOrientation.down,
         ) {
-    layer = Layer.spaceshipDrop;
+    layer = Layer.spaceshipExitRail;
   }
 
   @override
