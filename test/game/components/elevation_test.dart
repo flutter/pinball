@@ -1,6 +1,4 @@
 // ignore_for_file: cascade_invocations
-import 'dart:math' as math;
-
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -18,98 +16,98 @@ class TestBodyComponent extends BodyComponent with Elevated {
 void main() {
   final flameTester = FlameTester(Forge2DGame.new);
 
-  group('Prioritized', () {
+  group('Elevated', () {
     test('correctly sets and gets', () {
       final component = TestBodyComponent()
         ..elevation = Elevation.spaceship.order;
-      expect(component.elevation, Elevation.spaceship);
+      expect(component.elevation, Elevation.spaceship.order);
     });
 
     flameTester.test(
-      'priority correctly before being loaded',
+      'elevation correctly before being loaded',
       (game) async {
-        const expectedPriority = Elevation.spaceship;
+        const expectedElevation = Elevation.spaceship;
         final component = TestBodyComponent()
-          ..elevation = expectedPriority.order;
+          ..elevation = expectedElevation.order;
         await game.ensureAdd(component);
         // TODO(alestiago): modify once component.loaded is available.
         await component.mounted;
 
-        expect(component.elevation, equals(expectedPriority));
+        expect(component.elevation, equals(expectedElevation.order));
       },
     );
 
     flameTester.test(
-      'priority correctly before being loaded '
+      'elevation correctly before being loaded '
       'when multiple different sets',
       (game) async {
-        const expectedPriority = Elevation.spaceship;
+        const expectedElevation = Elevation.spaceship;
         final component = TestBodyComponent()
           ..elevation = Elevation.jetpack.order;
 
-        expect(component.elevation, isNot(equals(expectedPriority)));
-        component.elevation = expectedPriority.order;
+        expect(component.elevation, isNot(equals(expectedElevation.order)));
+        component.elevation = expectedElevation.order;
 
         await game.ensureAdd(component);
         // TODO(alestiago): modify once component.loaded is available.
         await component.mounted;
 
-        expect(component.elevation, expectedPriority);
+        expect(component.elevation, expectedElevation.order);
       },
     );
 
     flameTester.test(
-      'priority correctly after being loaded',
+      'elevation correctly after being loaded',
       (game) async {
-        const expectedPriority = Elevation.spaceship;
+        const expectedElevation = Elevation.spaceship;
         final component = TestBodyComponent();
         await game.ensureAdd(component);
-        component.elevation = expectedPriority.order;
-        expect(component.elevation, expectedPriority);
+        component.elevation = expectedElevation.order;
+        expect(component.elevation, expectedElevation.order);
       },
     );
 
     flameTester.test(
-      'priority correctly after being loaded '
+      'elevation correctly after being loaded '
       'when multiple different sets',
       (game) async {
-        const expectedPriority = Elevation.spaceship;
+        const expectedElevation = Elevation.spaceship;
         final component = TestBodyComponent();
         await game.ensureAdd(component);
 
         component.elevation = Elevation.jetpack.order;
-        expect(component.elevation, isNot(equals(expectedPriority)));
-        component.elevation = expectedPriority.order;
+        expect(component.elevation, isNot(equals(expectedElevation.order)));
+        component.elevation = expectedElevation.order;
 
-        expect(component.elevation, expectedPriority);
+        expect(component.elevation, expectedElevation.order);
       },
     );
 
     flameTester.test(
-      'defaults to Priority.board '
-      'when no priority is given',
+      'defaults to Elevation.board '
+      'when no elevation is given',
       (game) async {
         final component = TestBodyComponent();
         await game.ensureAdd(component);
-        expect(component.elevation, equals(Elevation.board));
+        expect(component.elevation, equals(Elevation.board.order));
       },
     );
   });
 
-  group('PriorityOrder', () {
-    test('board is the lowest priority', () {
-      for (final priority in Elevation.values) {
-        if (priority != Elevation.board) {
-          expect(priority.order, greaterThan(Elevation.board.order));
+  group('ElevationOrder', () {
+    test('board is the lowest elevation', () {
+      for (final elevation in Elevation.values) {
+        if (elevation != Elevation.board) {
+          expect(elevation.order, greaterThan(Elevation.board.order));
         }
       }
     });
 
-    test('jetpack has greater priority than board', () {
+    test('jetpack has greater elevation than board', () {
       expect(Elevation.jetpack.order, greaterThan(Elevation.board.order));
     });
 
-    test('spaceship has greater priority than board and next ramps', () {
+    test('spaceship has greater elevation than board and next ramps', () {
       expect(Elevation.spaceship.order, greaterThan(Elevation.jetpack.order));
       expect(
         Elevation.spaceship.order,
@@ -117,7 +115,7 @@ void main() {
       );
     });
 
-    test('spaceshipExitRail has greater priority than board', () {
+    test('spaceshipExitRail has greater elevation than board', () {
       expect(
         Elevation.spaceshipExitRail.order,
         greaterThan(Elevation.board.order),
