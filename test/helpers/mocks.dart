@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/theme/theme.dart';
+import 'package:pinball_components/pinball_components.dart';
 
 class MockPinballGame extends Mock implements PinballGame {}
 
@@ -15,6 +16,8 @@ class MockBottomWall extends Mock implements BottomWall {}
 class MockBody extends Mock implements Body {}
 
 class MockBall extends Mock implements Ball {}
+
+class MockBallController extends Mock implements BallController {}
 
 class MockContact extends Mock implements Contact {}
 

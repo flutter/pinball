@@ -2,8 +2,9 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_components/pinball_components.dart';
 
-class MockBall extends Mock implements Ball {}
+import '../../helpers/helpers.dart';
 
 class MockGameBloc extends Mock implements GameBloc {}
 
@@ -28,12 +29,14 @@ void main() {
     late PinballGame game;
     late GameBloc bloc;
     late Ball ball;
+    late BallController ballController;
     late FakeScorePoints fakeScorePoints;
 
     setUp(() {
       game = MockPinballGame();
       bloc = MockGameBloc();
       ball = MockBall();
+      ballController = MockBallController();
       fakeScorePoints = FakeScorePoints();
     });
 
@@ -45,7 +48,8 @@ void main() {
       test(
         'emits Scored event with points',
         () {
-          when<PinballGame>(() => ball.gameRef).thenReturn(game);
+          when(() => ball.controller).thenReturn(ballController);
+          when<Forge2DGame>(() => ball.gameRef).thenReturn(game);
           when<GameBloc>(game.read).thenReturn(bloc);
 
           BallScorePointsCallback().begin(

@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_components/pinball_components.dart';
 
 /// {@template baseboard}
 /// Straight, angled board piece to corral the [Ball] towards the [Flipper]s.
