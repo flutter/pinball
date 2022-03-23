@@ -7,6 +7,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball/game/game.dart';
 
+const _leftFlipperKeys = [
+  LogicalKeyboardKey.arrowLeft,
+  LogicalKeyboardKey.keyA,
+];
+
+const _rightFlipperKeys = [
+  LogicalKeyboardKey.arrowRight,
+  LogicalKeyboardKey.keyD,
+];
+
 /// {@template flipper}
 /// A bat, typically found in pairs at the bottom of the board.
 ///
@@ -14,45 +24,11 @@ import 'package:pinball/game/game.dart';
 /// {@endtemplate flipper}
 class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   /// {@macro flipper}
-  Flipper._({
+  Flipper({
     required this.side,
-    required List<LogicalKeyboardKey> keys,
-  }) : _keys = keys {
+  }) : _keys = side.isLeft ? _leftFlipperKeys : _rightFlipperKeys {
     // TODO(alestiago): Remove paint with asset and size correctly.
     paint = Paint()..color = Colors.transparent;
-  }
-
-  Flipper._left()
-      : this._(
-          side: BoardSide.left,
-          keys: [
-            LogicalKeyboardKey.arrowLeft,
-            LogicalKeyboardKey.keyA,
-          ],
-        );
-
-  Flipper._right()
-      : this._(
-          side: BoardSide.right,
-          keys: [
-            LogicalKeyboardKey.arrowRight,
-            LogicalKeyboardKey.keyD,
-          ],
-        );
-
-  /// Constructs a [Flipper] from a [BoardSide].
-  ///
-  /// A [Flipper._right] and [Flipper._left] besides being mirrored
-  /// horizontally, also have different [LogicalKeyboardKey]s that control them.
-  factory Flipper.fromSide({
-    required BoardSide side,
-  }) {
-    switch (side) {
-      case BoardSide.left:
-        return Flipper._left();
-      case BoardSide.right:
-        return Flipper._right();
-    }
   }
 
   /// Asset location of the sprite that renders with the [Flipper].
@@ -251,10 +227,10 @@ class _FlipperAnchorRevoluteJointDef extends RevoluteJointDef {
     lowerAngle = upperAngle = angle;
   }
 
-  final BoardSide side;
-
   /// The total angle of the arc motion.
   static const _sweepingAngle = math.pi / 3.5;
+
+  final BoardSide side;
 }
 
 /// {@template flipper_anchor}
