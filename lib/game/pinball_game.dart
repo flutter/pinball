@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs
-
+import 'dart:math' as math;
 import 'dart:async';
 import 'package:flame/extensions.dart';
 import 'package:flame/input.dart';

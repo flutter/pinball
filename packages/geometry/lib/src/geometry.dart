@@ -33,6 +33,43 @@ List<Vector2> calculateArc({
   return points;
 }
 
+/// Calculates all [Vector2]s of an ellipse.
+///
+/// An ellipse can be achieved by specifying a [center], a [bigRadius] and a
+/// [smallRadius].
+/// In addition, a semi-ellipse can be achieved by specifying its [angle] and an
+/// [offsetAngle] (both in radians).
+///
+/// The higher the [precision], the more [Vector2]s will be calculated;
+/// achieving a more rounded ellipse.
+///
+/// For more information read: https://en.wikipedia.org/wiki/Ellipse.
+List<Vector2> calculateEllipse({
+  required Vector2 center,
+  required double bigRadius,
+  required double smallRadius,
+  int precision = 100,
+}) {
+  assert(
+    0 < smallRadius && smallRadius <= bigRadius,
+    'smallRadius ($smallRadius) and bigRadius ($bigRadius) must be in '
+    'range 0 < smallRadius <= bigRadius',
+  );
+
+  final stepAngle = 2 * math.pi / (precision - 1);
+
+  final points = <Vector2>[];
+  for (var i = 0; i < precision; i++) {
+    final xCoord = center.x + smallRadius * math.cos(stepAngle * i);
+    final yCoord = center.y - bigRadius * math.sin(stepAngle * i);
+
+    final point = Vector2(xCoord, yCoord);
+    points.add(point);
+  }
+
+  return points;
+}
+
 /// Calculates all [Vector2]s of a bezier curve.
 ///
 /// A bezier curve of [controlPoints] that say how to create this curve.
