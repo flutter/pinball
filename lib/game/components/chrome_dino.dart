@@ -56,7 +56,7 @@ class ChromeDino extends BodyComponent with InitialPosition {
     final box = PolygonShape()..setAsBoxXY(size.x / 2, size.y / 2);
     final fixtureDef = FixtureDef(box)
       ..shape = box
-      ..density = 1
+      ..density = 999
       ..friction = 0.3
       ..restitution = 0.1
       ..isSensor = true;
@@ -139,15 +139,14 @@ class _ChromeDinoAnchorRevoluteJointDef extends RevoluteJointDef {
 
     enableMotor = true;
     // TODO(alestiago): Tune this values.
-    maxMotorTorque = 999;
-    motorSpeed = 999;
+    maxMotorTorque = motorSpeed = chromeDino.body.mass * 30;
   }
 }
 
 class _ChromeDinoJoint extends RevoluteJoint {
   _ChromeDinoJoint(_ChromeDinoAnchorRevoluteJointDef def) : super(def) {
     _timer = Timer.periodic(
-      const Duration(milliseconds: 100),
+      const Duration(seconds: 1),
       (_) => _swivel(),
     );
   }
