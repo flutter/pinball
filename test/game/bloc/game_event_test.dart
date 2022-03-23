@@ -67,5 +67,22 @@ void main() {
         },
       );
     });
+
+    group('DashNestActivated', () {
+      test('can be instantiated', () {
+        expect(const DashNestActivated('0'), isNotNull);
+      });
+
+      test('supports value equality', () {
+        expect(
+          DashNestActivated('0'),
+          equals(DashNestActivated('0')),
+        );
+        expect(
+          DashNestActivated('0'),
+          isNot(equals(DashNestActivated('1'))),
+        );
+      });
+    });
   });
 }
