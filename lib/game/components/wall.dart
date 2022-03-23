@@ -41,11 +41,13 @@ class Wall extends BodyComponent {
 
 /// Create top, left, and right [Wall]s for the game board.
 List<Wall> createBoundaries(Forge2DGame game) {
-  final topLeft = PinballGame.boardBounds.topLeft.toVector2();
+  final topLeft =
+      PinballGame.boardBounds.topLeft.toVector2() + Vector2(18.6, 0);
   final bottomRight = PinballGame.boardBounds.bottomRight.toVector2();
 
-  final topRight = Vector2(bottomRight.x, topLeft.y);
-  final bottomLeft = Vector2(topLeft.x, bottomRight.y);
+  final topRight =
+      PinballGame.boardBounds.topRight.toVector2() - Vector2(18.6, 0);
+  final bottomLeft = PinballGame.boardBounds.bottomLeft.toVector2();
 
   return [
     Wall(start: topLeft, end: topRight),

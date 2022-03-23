@@ -19,7 +19,7 @@ class PinballGame extends Forge2DGame
 
   late final Plunger plunger;
 
-  static final boardSize = Vector2(72, 128);
+  static final boardSize = Vector2(101.6, 143.8);
   static final boardBounds = Rect.fromCenter(
     center: Offset.zero,
     width: boardSize.x,
@@ -46,7 +46,7 @@ class PinballGame extends Forge2DGame
     // Fix camera on the center of the board.
     camera
       ..followVector2(Vector2.zero())
-      ..zoom = size.y / 14;
+      ..zoom = size.y / 16;
   }
 
   void _addContactCallbacks() {
@@ -63,10 +63,10 @@ class PinballGame extends Forge2DGame
   Future<void> _addPlunger() async {
     plunger = Plunger(compressionDistance: 2);
 
-    plunger.initialPosition = boardBounds.bottomRight.toVector2() -
+    plunger.initialPosition = boardBounds.bottomRight.toVector2() +
         Vector2(
-          8,
-          -10,
+          -5,
+          10,
         );
     await add(plunger);
   }
@@ -85,13 +85,13 @@ class PinballGame extends Forge2DGame
   Future<void> _addPaths() async {
     final jetpackRamp = JetpackRamp(
       position: Vector2(
-        PinballGame.boardBounds.left + 25,
-        PinballGame.boardBounds.top - 20,
+        PinballGame.boardBounds.left + 40.5,
+        PinballGame.boardBounds.top - 31.5,
       ),
     );
     final launcherRamp = LauncherRamp(
       position: Vector2(
-        PinballGame.boardBounds.right - 23,
+        PinballGame.boardBounds.right - 30,
         PinballGame.boardBounds.bottom + 40,
       ),
     );
