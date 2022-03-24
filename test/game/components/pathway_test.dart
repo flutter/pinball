@@ -165,6 +165,42 @@ void main() {
       });
     });
 
+    group('ellipse', () {
+      flameTester.test(
+        'loads correctly',
+        (game) async {
+          final pathway = Pathway.ellipse(
+            center: Vector2.zero(),
+            width: width,
+            majorRadius: 150,
+            minorRadius: 70,
+          );
+          await game.ready();
+          await game.ensureAdd(pathway);
+
+          expect(game.contains(pathway), isTrue);
+        },
+      );
+
+      group('body', () {
+        flameTester.test(
+          'is static',
+          (game) async {
+            final pathway = Pathway.ellipse(
+              center: Vector2.zero(),
+              width: width,
+              majorRadius: 150,
+              minorRadius: 70,
+            );
+            await game.ready();
+            await game.ensureAdd(pathway);
+
+            expect(pathway.body.bodyType, equals(BodyType.static));
+          },
+        );
+      });
+    });
+
     group('bezier curve', () {
       final controlPoints = [
         Vector2(0, 0),
