@@ -83,7 +83,6 @@ class BonusWord extends Component with BlocComponent<GameBloc, GameState> {
       Vector2(-8.33, 0.65),
       Vector2(-2.88, 1.75),
     ];
-
     offsets.addAll(
       offsets.reversed
           .map(
