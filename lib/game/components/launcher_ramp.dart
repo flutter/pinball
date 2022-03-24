@@ -11,10 +11,10 @@ import 'package:pinball_components/pinball_components.dart';
 
 /// A [Blueprint] which creates the launcher ramp.
 class Launcher extends Forge2DBlueprint {
-  /// Width between walls of the [Pathway].
+  /// Width between walls of the pathway.
   static const width = 5.0;
 
-  /// Size for the radius of the external wall [Pathway].
+  /// Size for the radius of the external wall pathway.
   static const externalRadius = 16.3;
 
   @override

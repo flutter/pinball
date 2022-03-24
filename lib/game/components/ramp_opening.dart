@@ -37,10 +37,10 @@ abstract class RampOpening extends BodyComponent with InitialPosition, Layered {
   final Layer _pathwayLayer;
   final Layer _outsideLayer;
 
-  /// Mask of category bits for collision inside [Pathway].
+  /// Mask of category bits for collision inside pathway.
   Layer get pathwayLayer => _pathwayLayer;
 
-  /// Mask of category bits for collision outside [Pathway].
+  /// Mask of category bits for collision outside pathway.
   Layer get outsideLayer => _outsideLayer;
 
   /// The [Shape] of the [RampOpening].
@@ -65,7 +65,7 @@ abstract class RampOpening extends BodyComponent with InitialPosition, Layered {
 }
 
 /// {@template ramp_opening_ball_contact_callback}
-/// Detects when a [Ball] enters or exits a [Pathway] ramp through a
+/// Detects when a [Ball] enters or exits a pathway ramp through a
 /// [RampOpening].
 ///
 /// Modifies [Ball]'s [Layer] accordingly depending on whether the [Ball] is
