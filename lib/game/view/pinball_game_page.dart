@@ -70,10 +70,14 @@ class _PinballGameViewState extends State<PinballGameView> {
           showDialog<void>(
             context: context,
             builder: (_) {
+<<<<<<< HEAD
               return GameOverDialog(
                 score: state.score,
                 theme: widget.theme.characterTheme,
               );
+=======
+              return GameOverDialog(theme: widget.theme.characterTheme);
+>>>>>>> main
             },
           );
         }

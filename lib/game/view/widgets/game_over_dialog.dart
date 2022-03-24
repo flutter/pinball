@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/leaderboard/leaderboard.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
@@ -109,7 +110,12 @@ class _GameOverDialogViewState extends State<GameOverDialogView> {
                           child: const Text('Add User'),
                         );
                       case LeaderboardStatus.success:
-                        return const Text('succeed');
+                        return TextButton(
+                          onPressed: () => Navigator.of(context).push<void>(
+                            LeaderboardPage.route(theme: widget.theme),
+                          ),
+                          child: Text(l10n.leaderboard),
+                        );
                       case LeaderboardStatus.error:
                         return const Text('error');
                     }

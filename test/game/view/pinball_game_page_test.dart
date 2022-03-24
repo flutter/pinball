@@ -104,10 +104,7 @@ void main() {
         );
         await tester.pump();
 
-        expect(
-          find.text('Game Over'),
-          findsOneWidget,
-        );
+        expect(find.byType(GameOverDialog), findsOneWidget);
       },
     );
 
