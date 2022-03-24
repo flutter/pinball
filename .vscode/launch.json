@@ -29,6 +29,12 @@
       "type": "dart",
       "program": "lib/main_production.dart",
       "args": ["--flavor", "production", "--target", "lib/main_production.dart"]
+    },
+    {
+      "name": "Launch component sandbox",
+      "request": "launch",
+      "type": "dart",
+      "program": "packages/pinball_components/sandbox/lib/main.dart"
     }
   ]
 }

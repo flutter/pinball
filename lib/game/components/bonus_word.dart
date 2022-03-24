@@ -21,13 +21,9 @@ class BonusWord extends Component with BlocComponent<GameBloc, GameState> {
 
   @override
   bool listenWhen(GameState? previousState, GameState newState) {
-    if ((previousState?.bonusHistory.length ?? 0) <
+    return (previousState?.bonusHistory.length ?? 0) <
             newState.bonusHistory.length &&
-        newState.bonusHistory.last == GameBonus.word) {
-      return true;
-    }
-
-    return false;
+        newState.bonusHistory.last == GameBonus.word;
   }
 
   @override
