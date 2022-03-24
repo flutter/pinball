@@ -14,6 +14,8 @@ const _attachedErrorMessage = "Can't add to attached Blueprints";
 /// the [FlameGame] level.
 abstract class Blueprint<T extends FlameGame> {
   final List<Component> _components = [];
+  final List<Blueprint> _blueprints = [];
+
   bool _isAttached = false;
 
   /// Called before the the [Component]s managed
@@ -25,7 +27,10 @@ abstract class Blueprint<T extends FlameGame> {
   @mustCallSuper
   Future<void> attach(T game) async {
     build(game);
-    await game.addAll(_components);
+    await Future.wait([
+      game.addAll(_components),
+      ..._blueprints.map(game.addFromBlueprint).toList(),
+    ]);
     _isAttached = true;
   }
 
@@ -41,8 +46,23 @@ abstract class Blueprint<T extends FlameGame> {
     _components.add(component);
   }
 
+  /// Adds a list of [Blueprint]s to this blueprint.
+  void addAllBlueprints(List<Blueprint> blueprints) {
+    assert(!_isAttached, _attachedErrorMessage);
+    _blueprints.addAll(blueprints);
+  }
+
+  /// Adds a single [Blueprint] to this blueprint.
+  void addBlueprint(Blueprint blueprint) {
+    assert(!_isAttached, _attachedErrorMessage);
+    _blueprints.add(blueprint);
+  }
+
   /// Returns a copy of the components built by this blueprint
   List<Component> get components => List.unmodifiable(_components);
+
+  /// Returns a copy of the children blueprints
+  List<Blueprint> get blueprints => List.unmodifiable(_blueprints);
 }
 
 /// A [Blueprint] that provides additional
