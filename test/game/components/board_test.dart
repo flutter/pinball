@@ -75,15 +75,15 @@ void main() {
       );
 
       flameTester.test(
-        'has three RoundBumpers',
+        'has one FlutterForest',
         (game) async {
           // TODO(alestiago): change to [NestBumpers] once provided.
           final board = Board();
           await game.ready();
           await game.ensureAdd(board);
 
-          final roundBumpers = board.descendants().whereType<DashNestBumper>();
-          expect(roundBumpers.length, equals(3));
+          final flutterForest = board.descendants().whereType<FlutterForest>();
+          expect(flutterForest.length, equals(1));
         },
       );
     });
