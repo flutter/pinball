@@ -1,5 +1,5 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:pinball/game/game.dart';
+import 'package:pinball_components/pinball_components.dart';
 
 /// {@template joint_anchor}
 /// Non visual [BodyComponent] used to hold a [BodyType.dynamic] in [Joint]s

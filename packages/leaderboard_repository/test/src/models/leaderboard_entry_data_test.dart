@@ -9,21 +9,21 @@ void main() {
       'character': 'dash',
     };
 
-    const leaderboardEntry = LeaderboardEntry(
+    const leaderboardEntry = LeaderboardEntryData(
       playerInitials: 'ABC',
       score: 1500,
       character: CharacterType.dash,
     );
 
     test('can be instantiated', () {
-      const leaderboardEntry = LeaderboardEntry.empty;
+      const leaderboardEntry = LeaderboardEntryData.empty;
 
       expect(leaderboardEntry, isNotNull);
     });
 
     test('supports value equality.', () {
-      const leaderboardEntry = LeaderboardEntry.empty;
-      const leaderboardEntry2 = LeaderboardEntry.empty;
+      const leaderboardEntry = LeaderboardEntryData.empty;
+      const leaderboardEntry2 = LeaderboardEntryData.empty;
 
       expect(leaderboardEntry, equals(leaderboardEntry2));
     });
@@ -33,7 +33,7 @@ void main() {
     });
 
     test('can be obtained from json', () {
-      final leaderboardEntryFrom = LeaderboardEntry.fromJson(data);
+      final leaderboardEntryFrom = LeaderboardEntryData.fromJson(data);
 
       expect(leaderboardEntry, equals(leaderboardEntryFrom));
     });

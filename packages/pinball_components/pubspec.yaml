@@ -7,10 +7,24 @@ environment:
   sdk: ">=2.16.0 <3.0.0"
 
 dependencies:
+  flame: ^1.1.0-releasecandidate.6
+  flame_forge2d: ^0.9.0-releasecandidate.6
   flutter:
     sdk: flutter
 
 dev_dependencies:
+  flame_test: ^1.1.0
   flutter_test:
     sdk: flutter
+  mocktail: ^0.2.0
   very_good_analysis: ^2.4.0
+
+flutter:
+  generate: true
+  assets:
+    - assets/images/
+
+flutter_gen:
+  line_length: 80
+  assets:
+    package_parameter_enabled: true
