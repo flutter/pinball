@@ -237,6 +237,7 @@ void main() {
           await game.ready();
           final bonusLetter = game.descendants().whereType<BonusLetter>().first;
           bonusLetter.activate();
+          await game.ready();
 
           verifyNever(() => gameBloc.add(const BonusLetterActivated(0)));
         },
