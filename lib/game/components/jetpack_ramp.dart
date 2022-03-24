@@ -4,6 +4,7 @@ import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_components/pinball_components.dart';
 
 /// {@template jetpack_ramp}
 /// Represents the upper left blue ramp of the [Board].

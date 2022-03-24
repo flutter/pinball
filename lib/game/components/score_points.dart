@@ -2,6 +2,7 @@
 
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_components/pinball_components.dart';
 
 /// {@template score_points}
 /// Specifies the amount of points received on [Ball] collision.
@@ -26,6 +27,8 @@ class BallScorePointsCallback extends ContactCallback<Ball, ScorePoints> {
     ScorePoints scorePoints,
     Contact _,
   ) {
-    ball.gameRef.read<GameBloc>().add(Scored(points: scorePoints.points));
+    ball.controller.gameRef.read<GameBloc>().add(
+          Scored(points: scorePoints.points),
+        );
   }
 }
