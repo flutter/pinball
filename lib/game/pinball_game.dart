@@ -83,17 +83,7 @@ class PinballGame extends Forge2DGame
 
   Future<void> _addPaths() async {
     unawaited(addFromBlueprint(Jetpack()));
-
-    final launcherRamp = LauncherRamp(
-      position: Vector2(
-        PinballGame.boardBounds.right - 30,
-        PinballGame.boardBounds.bottom + 40,
-      ),
-    );
-
-    await addAll([
-      launcherRamp,
-    ]);
+    unawaited(addFromBlueprint(Launcher()));
   }
 
   void spawnBall() {
