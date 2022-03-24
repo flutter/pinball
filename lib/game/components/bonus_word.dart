@@ -78,17 +78,17 @@ class BonusWord extends Component with BlocComponent<GameBloc, GameState> {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    final positions = [
+    final offsets = [
       Vector2(-12.92, -1.82),
       Vector2(-8.33, 0.65),
       Vector2(-2.88, 1.75),
     ];
 
-    final mirroredPositions = positions.reversed
+    final mirroredOffsets = offsets.reversed
         .map((position) => Vector2(position.x * -1, position.y))
         .toList();
-    positions.addAll(mirroredPositions);
-    assert(positions.length == GameBloc.bonusWord.length, 'Invalid positions');
+    offsets.addAll(mirroredOffsets);
+    assert(offsets.length == GameBloc.bonusWord.length, 'Invalid positions');
 
     for (var i = 0; i < GameBloc.bonusWord.length; i++) {
       unawaited(
@@ -96,7 +96,7 @@ class BonusWord extends Component with BlocComponent<GameBloc, GameState> {
           BonusLetter(
             letter: GameBloc.bonusWord[i],
             index: i,
-          )..initialPosition = positions[i],
+          )..initialPosition = _position + offsets[i],
         ),
       );
     }
