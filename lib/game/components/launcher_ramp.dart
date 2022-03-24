@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs
+// ignore_for_file: public_member_api_docs, avoid_renaming_method_parameters
 
 import 'dart:math' as math;
 
@@ -9,7 +9,7 @@ import 'package:pinball/flame/blueprint.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-/// A [Blueprint] which creates the [LauncherRamp].
+/// A [Blueprint] which creates the launcher ramp.
 class Launcher extends Forge2DBlueprint {
   /// Width between walls of the [Pathway].
   static const width = 5.0;
@@ -155,7 +155,7 @@ class LauncherCurveRamp extends BodyComponent with InitialPosition, Layered {
 
 /// {@template launcher_ramp_opening}
 /// [RampOpening] with [Layer.launcher] to filter [Ball]s collisions
-/// inside [LauncherRamp].
+/// inside launcher ramp.
 /// {@endtemplate}
 class _LauncherRampOpening extends RampOpening {
   /// {@macro launcher_ramp_opening}
