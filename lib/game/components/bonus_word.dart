@@ -77,35 +77,30 @@ class BonusWord extends Component with BlocComponent<GameBloc, GameState> {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+
     final letters = GameBloc.bonusWord.split('');
-    final rightSide = Vector2(-1, 1);
-    final bottomOffset = Vector2(-12.92, -1.82);
-    final midOffset = Vector2(-8.33, 0.65);
-    final topOffset = Vector2(-2.88, 1.75);
+    final positions = [
+      Vector2(-12.92, -1.82),
+      Vector2(-8.33, 0.65),
+      Vector2(-2.88, 1.75),
+    ];
 
-    final letter0 = BonusLetter(letter: letters[0], index: 0)
-      ..initialPosition = _position + bottomOffset;
-    final letter1 = BonusLetter(letter: letters[1], index: 1)
-      ..initialPosition = _position + midOffset;
-    final letter2 = BonusLetter(letter: letters[2], index: 2)
-      ..initialPosition = _position + topOffset;
-    final letter3 = BonusLetter(letter: letters[3], index: 3)
-      ..initialPosition = _position + (topOffset..multiply(rightSide));
-    final letter4 = BonusLetter(letter: letters[4], index: 4)
-      ..initialPosition = _position + (midOffset..multiply(rightSide));
-    final letter5 = BonusLetter(letter: letters[5], index: 5)
-      ..initialPosition = _position + (bottomOffset..multiply(rightSide));
+    final mirroredPositions = positions.reversed
+        .map((position) => Vector2(position.x * -1, position.y))
+        .toList();
+    positions.addAll(mirroredPositions);
+    assert(positions.length == GameBloc.bonusWord.length, 'Invalid positions');
 
-    unawaited(
-      addAll([
-        letter0,
-        letter1,
-        letter2,
-        letter3,
-        letter4,
-        letter5,
-      ]),
-    );
+    for (var i = 0; i < GameBloc.bonusWord.length; i++) {
+      unawaited(
+        add(
+          BonusLetter(
+            letter: letters[i],
+            index: i,
+          )..initialPosition = positions[i],
+        ),
+      );
+    }
   }
 }
 
