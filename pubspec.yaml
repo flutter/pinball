@@ -23,6 +23,8 @@ dependencies:
   intl: ^0.17.0
   leaderboard_repository:
     path: packages/leaderboard_repository
+  pinball_components:
+    path: packages/pinball_components
   pinball_theme:
     path: packages/pinball_theme
 
