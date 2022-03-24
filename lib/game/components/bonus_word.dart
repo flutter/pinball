@@ -101,17 +101,6 @@ class BonusWord extends Component with BlocComponent<GameBloc, GameState> {
         letter5,
       ]),
     );
-
-    // for (var i = 0; i < letters.length; i++) {
-    //   unawaited(
-    //     add(
-    //       BonusLetter(
-    //         letter: letters[i],
-    //         index: i,
-    //       )..initialPosition = _position - Vector2(16 - (i * 6), -30),
-    //     ),
-    //   );
-    // }
   }
 }
 
