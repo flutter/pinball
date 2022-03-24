@@ -7,7 +7,7 @@ import 'package:pinball_components/pinball_components.dart';
 /// {@template score_points}
 /// Specifies the amount of points received on [Ball] collision.
 /// {@endtemplate}
-mixin ScorePoints on BodyComponent {
+mixin ScorePoints<T extends Forge2DGame> on BodyComponent<T> {
   /// {@macro score_points}
   int get points;
 
