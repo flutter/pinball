@@ -8,7 +8,7 @@ import 'package:pinball/game/game.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  group('RoundBumper', () {
+  group('DashNestBumper', () {
     final flameTester = FlameTester(Forge2DGame.new);
     const radius = 1.0;
     const points = 1;
