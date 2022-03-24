@@ -78,7 +78,6 @@ class BonusWord extends Component with BlocComponent<GameBloc, GameState> {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    final letters = GameBloc.bonusWord.split('');
     final positions = [
       Vector2(-12.92, -1.82),
       Vector2(-8.33, 0.65),
@@ -95,7 +94,7 @@ class BonusWord extends Component with BlocComponent<GameBloc, GameState> {
       unawaited(
         add(
           BonusLetter(
-            letter: letters[i],
+            letter: GameBloc.bonusWord[i],
             index: i,
           )..initialPosition = positions[i],
         ),
@@ -119,8 +118,8 @@ class BonusLetter extends BodyComponent<PinballGame>
     paint = Paint()..color = _disableColor;
   }
 
-  /// The area size of this [BonusLetter].
-  static final areaSize = Vector2.all(3.7);
+  /// The size of the [BonusLetter].
+  static final size = Vector2.all(3.7);
 
   static const _activeColor = Colors.green;
   static const _disableColor = Colors.red;
@@ -152,7 +151,7 @@ class BonusLetter extends BodyComponent<PinballGame>
 
   @override
   Body createBody() {
-    final shape = CircleShape()..radius = areaSize.x / 2;
+    final shape = CircleShape()..radius = size.x / 2;
 
     final fixtureDef = FixtureDef(shape)..isSensor = true;
 
