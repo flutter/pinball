@@ -13,6 +13,7 @@ void main() {
       score: 10,
       balls: 2,
       activatedBonusLetters: [],
+      activatedDashNests: {},
       bonusHistory: [],
     );
 

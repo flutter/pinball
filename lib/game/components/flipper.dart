@@ -3,10 +3,19 @@ import 'dart:math' as math;
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/gen/assets.gen.dart';
+
+const _leftFlipperKeys = [
+  LogicalKeyboardKey.arrowLeft,
+  LogicalKeyboardKey.keyA,
+];
+
+const _rightFlipperKeys = [
+  LogicalKeyboardKey.arrowRight,
+  LogicalKeyboardKey.keyD,
+];
 
 /// {@template flipper}
 /// A bat, typically found in pairs at the bottom of the board.
@@ -15,43 +24,9 @@ import 'package:pinball/gen/assets.gen.dart';
 /// {@endtemplate flipper}
 class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   /// {@macro flipper}
-  Flipper._({
+  Flipper({
     required this.side,
-    required List<LogicalKeyboardKey> keys,
-  }) : _keys = keys;
-
-  Flipper._left()
-      : this._(
-          side: BoardSide.left,
-          keys: [
-            LogicalKeyboardKey.arrowLeft,
-            LogicalKeyboardKey.keyA,
-          ],
-        );
-
-  Flipper._right()
-      : this._(
-          side: BoardSide.right,
-          keys: [
-            LogicalKeyboardKey.arrowRight,
-            LogicalKeyboardKey.keyD,
-          ],
-        );
-
-  /// Constructs a [Flipper] from a [BoardSide].
-  ///
-  /// A [Flipper._right] and [Flipper._left] besides being mirrored
-  /// horizontally, also have different [LogicalKeyboardKey]s that control them.
-  factory Flipper.fromSide({
-    required BoardSide side,
-  }) {
-    switch (side) {
-      case BoardSide.left:
-        return Flipper._left();
-      case BoardSide.right:
-        return Flipper._right();
-    }
-  }
+  }) : _keys = side.isLeft ? _leftFlipperKeys : _rightFlipperKeys;
 
   /// The size of the [Flipper].
   static final size = Vector2(12, 2.8);
@@ -104,35 +79,29 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
 
   /// Anchors the [Flipper] to the [RevoluteJoint] that controls its arc motion.
   Future<void> _anchorToJoint() async {
-    final anchor = FlipperAnchor(flipper: this);
+    final anchor = _FlipperAnchor(flipper: this);
     await add(anchor);
 
-    final jointDef = FlipperAnchorRevoluteJointDef(
+    final jointDef = _FlipperAnchorRevoluteJointDef(
       flipper: this,
       anchor: anchor,
     );
-    // TODO(alestiago): Remove casting once the following is closed:
-    // https://github.com/flame-engine/forge2d/issues/36
-    final joint = world.createJoint(jointDef) as RevoluteJoint;
+    final joint = _FlipperJoint(jointDef)..create(world);
 
     // FIXME(erickzanardo): when mounted the initial position is not fully
     // reached.
     unawaited(
-      mounted.whenComplete(
-        () => FlipperAnchorRevoluteJointDef.unlock(joint, side),
-      ),
+      mounted.whenComplete(joint.unlock),
     );
   }
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
-    final isLeft = side.isLeft;
+    final direction = side.direction;
 
     final bigCircleShape = CircleShape()..radius = 1.75;
     bigCircleShape.position.setValues(
-      isLeft
-          ? -(size.x / 2) + bigCircleShape.radius
-          : (size.x / 2) - bigCircleShape.radius,
+      ((size.x / 2) * direction) + (bigCircleShape.radius * -direction),
       0,
     );
     final bigCircleFixtureDef = FixtureDef(bigCircleShape);
@@ -140,15 +109,13 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
 
     final smallCircleShape = CircleShape()..radius = 0.9;
     smallCircleShape.position.setValues(
-      isLeft
-          ? (size.x / 2) - smallCircleShape.radius
-          : -(size.x / 2) + smallCircleShape.radius,
+      ((size.x / 2) * -direction) + (smallCircleShape.radius * direction),
       0,
     );
     final smallCircleFixtureDef = FixtureDef(smallCircleShape);
     fixturesDef.add(smallCircleFixtureDef);
 
-    final trapeziumVertices = isLeft
+    final trapeziumVertices = side.isLeft
         ? [
             Vector2(bigCircleShape.position.x, bigCircleShape.radius),
             Vector2(smallCircleShape.position.x, smallCircleShape.radius),
@@ -173,7 +140,8 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    paint = Paint()..color = Colors.transparent;
+    renderBody = false;
+
     await Future.wait([
       _loadSprite(),
       _anchorToJoint(),
@@ -214,61 +182,66 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
 ///
 /// The end of a [Flipper] depends on its [Flipper.side].
 /// {@endtemplate}
-class FlipperAnchor extends JointAnchor {
+class _FlipperAnchor extends JointAnchor {
   /// {@macro flipper_anchor}
-  FlipperAnchor({
+  _FlipperAnchor({
     required Flipper flipper,
   }) {
     initialPosition = Vector2(
-      flipper.side.isLeft
-          ? flipper.body.position.x - Flipper.size.x / 2
-          : flipper.body.position.x + Flipper.size.x / 2,
+      flipper.body.position.x + ((Flipper.size.x * flipper.side.direction) / 2),
       flipper.body.position.y,
     );
   }
 }
 
 /// {@template flipper_anchor_revolute_joint_def}
-/// Hinges one end of [Flipper] to a [FlipperAnchor] to achieve an arc motion.
+/// Hinges one end of [Flipper] to a [_FlipperAnchor] to achieve an arc motion.
 /// {@endtemplate}
-class FlipperAnchorRevoluteJointDef extends RevoluteJointDef {
+class _FlipperAnchorRevoluteJointDef extends RevoluteJointDef {
   /// {@macro flipper_anchor_revolute_joint_def}
-  FlipperAnchorRevoluteJointDef({
+  _FlipperAnchorRevoluteJointDef({
     required Flipper flipper,
-    required FlipperAnchor anchor,
-  }) {
+    required _FlipperAnchor anchor,
+  }) : side = flipper.side {
     initialize(
       flipper.body,
       anchor.body,
       anchor.body.position,
     );
-    enableLimit = true;
 
-    final angle = (flipper.side.isLeft ? _sweepingAngle : -_sweepingAngle) / 2;
+    enableLimit = true;
+    final angle = (_sweepingAngle * -side.direction) / 2;
     lowerAngle = upperAngle = angle;
   }
 
   /// The total angle of the arc motion.
   static const _sweepingAngle = math.pi / 3.5;
 
+  final BoardSide side;
+}
+
+class _FlipperJoint extends RevoluteJoint {
+  _FlipperJoint(_FlipperAnchorRevoluteJointDef def)
+      : side = def.side,
+        super(def);
+
+  final BoardSide side;
+
+  // TODO(alestiago): Remove once Forge2D supports custom joints.
+  void create(World world) {
+    world.joints.add(this);
+    bodyA.joints.add(this);
+    bodyB.joints.add(this);
+  }
+
   /// Unlocks the [Flipper] from its resting position.
   ///
   /// The [Flipper] is locked when initialized in order to force it to be at
   /// its resting position.
-  // TODO(alestiago): consider refactor once the issue is solved:
-  // https://github.com/flame-engine/forge2d/issues/36
-  static void unlock(RevoluteJoint joint, BoardSide side) {
-    late final double upperLimit, lowerLimit;
-    switch (side) {
-      case BoardSide.left:
-        lowerLimit = -joint.lowerLimit;
-        upperLimit = joint.upperLimit;
-        break;
-      case BoardSide.right:
-        lowerLimit = joint.lowerLimit;
-        upperLimit = -joint.upperLimit;
-    }
-
-    joint.setLimits(lowerLimit, upperLimit);
+  void unlock() {
+    setLimits(
+      lowerLimit * side.direction,
+      -upperLimit * side.direction,
+    );
   }
 }
