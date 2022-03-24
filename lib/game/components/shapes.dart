@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs
+// TODO(alestiago): Move this file to an appropriate location.
 
 import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
