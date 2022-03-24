@@ -18,7 +18,7 @@ class ArcShape extends ChainShape {
     createChain(
       calculateArc(
         center: center,
-        radius: radius,
+        radius: arcRadius,
         angle: angle,
         offsetAngle: rotation,
       ),
