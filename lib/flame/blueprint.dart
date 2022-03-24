@@ -12,19 +12,19 @@ const _attachedErrorMessage = "Can't add to attached Blueprints";
 /// A [Blueprint] is a virtual way of grouping [Component]s
 /// that are related, but they need to be added directly on
 /// the [FlameGame] level.
-abstract class Blueprint {
+abstract class Blueprint<T extends FlameGame> {
   final List<Component> _components = [];
   bool _isAttached = false;
 
   /// Called before the the [Component]s managed
   /// by this blueprint is added to the [FlameGame]
-  void build();
+  void build(T gameRef);
 
   /// Attach the [Component]s built on [build] to the [game]
   /// instance
   @mustCallSuper
-  Future<void> attach(FlameGame game) async {
-    build();
+  Future<void> attach(T game) async {
+    build(game);
     await game.addAll(_components);
     _isAttached = true;
   }
@@ -47,7 +47,7 @@ abstract class Blueprint {
 
 /// A [Blueprint] that provides additional
 /// structures specific to flame_forge2d
-abstract class Forge2DBlueprint extends Blueprint {
+abstract class Forge2DBlueprint extends Blueprint<Forge2DGame> {
   final List<ContactCallback> _callbacks = [];
 
   /// Adds a single [ContactCallback] to this blueprint
@@ -63,13 +63,11 @@ abstract class Forge2DBlueprint extends Blueprint {
   }
 
   @override
-  Future<void> attach(FlameGame game) async {
+  Future<void> attach(Forge2DGame game) async {
     await super.attach(game);
 
-    assert(game is Forge2DGame, 'Forge2DBlueprint used outside a Forge2DGame');
-
     for (final callback in _callbacks) {
-      (game as Forge2DGame).addContactCallback(callback);
+      game.addContactCallback(callback);
     }
   }
 
