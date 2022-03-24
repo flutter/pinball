@@ -48,6 +48,7 @@ class BallController extends Component with HasGameRef<PinballGame> {
 /// Adds helper methods to the [Ball]
 extension BallX on Ball {
   /// Returns the controller instance of the ball
+  // TODO(erickzanardo): Remove the need of an extension.
   BallController get controller {
     return children.whereType<BallController>().first;
   }
