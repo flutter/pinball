@@ -85,21 +85,22 @@ class BonusWord extends Component with BlocComponent<GameBloc, GameState> {
     ];
 
     final mirroredOffsets = offsets.reversed
-        .map((position) => Vector2(position.x * -1, position.y))
+        .map((position) => Vector2(-position.x, position.y))
         .toList();
     offsets.addAll(mirroredOffsets);
     assert(offsets.length == GameBloc.bonusWord.length, 'Invalid positions');
 
+    final letters = <BonusLetter>[];
     for (var i = 0; i < GameBloc.bonusWord.length; i++) {
-      unawaited(
-        add(
-          BonusLetter(
-            letter: GameBloc.bonusWord[i],
-            index: i,
-          )..initialPosition = _position + offsets[i],
-        ),
+      letters.add(
+        BonusLetter(
+          letter: GameBloc.bonusWord[i],
+          index: i,
+        )..initialPosition = _position + offsets[i],
       );
     }
+
+    await addAll(letters);
   }
 }
 
