@@ -77,6 +77,7 @@ class _GameOverDialogViewState extends State<GameOverDialogView> {
                 ),
                 TextField(
                   controller: playerInitialsInputController,
+                  textCapitalization: TextCapitalization.characters,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: 'Enter your initials',
@@ -97,7 +98,8 @@ class _GameOverDialogViewState extends State<GameOverDialogView> {
                                   LeaderboardEntryAdded(
                                     entry: LeaderboardEntryData(
                                       playerInitials:
-                                          playerInitialsInputController.text,
+                                          playerInitialsInputController.text
+                                              .toUpperCase(),
                                       score: widget.score,
                                       character: widget.theme.toType,
                                     ),
