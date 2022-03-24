@@ -65,7 +65,7 @@ class PinballGame extends Forge2DGame
 
   Future<void> _addPlunger() async {
     plunger = Plunger(compressionDistance: 29)
-      ..initialPosition = Vector2(41.5, -49);
+      ..initialPosition = boardBounds.center.toVector2() + Vector2(41.5, -49);
     await add(plunger);
   }
 
