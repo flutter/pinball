@@ -195,15 +195,6 @@ void main() {
     group('bonus letter activation', () {
       final gameBloc = MockGameBloc();
 
-      BonusLetter _getBonusLetter(PinballGame game) {
-        return game.children
-            .whereType<BonusWord>()
-            .first
-            .children
-            .whereType<BonusLetter>()
-            .first;
-      }
-
       setUp(() {
         whenListen(
           gameBloc,
@@ -218,8 +209,8 @@ void main() {
         'adds BonusLetterActivated to GameBloc when not activated',
         (game, tester) async {
           await game.ready();
-
-          _getBonusLetter(game).activate();
+          final bonusLetter = game.descendants().whereType<BonusLetter>().first;
+          bonusLetter.activate();
 
           await tester.pump();
 
@@ -242,10 +233,10 @@ void main() {
             Stream.value(state),
             initialState: state,
           );
-          await game.ready();
 
-          _getBonusLetter(game).activate();
-          await game.ready(); // Making sure that all additions are done
+          await game.ready();
+          final bonusLetter = game.descendants().whereType<BonusLetter>().first;
+          bonusLetter.activate();
 
           verifyNever(() => gameBloc.add(const BonusLetterActivated(0)));
         },
@@ -254,8 +245,6 @@ void main() {
       tester.widgetTest(
         'adds a ColorEffect',
         (game, tester) async {
-          await game.ready();
-
           const state = GameState(
             score: 0,
             balls: 2,
@@ -264,7 +253,9 @@ void main() {
             bonusHistory: [],
           );
 
-          final bonusLetter = _getBonusLetter(game);
+          await game.ready();
+          final bonusLetter = game.descendants().whereType<BonusLetter>().first;
+          bonusLetter.activate();
 
           bonusLetter.onNewState(state);
           await tester.pump();
@@ -279,8 +270,6 @@ void main() {
       tester.widgetTest(
         'only listens when there is a change on the letter status',
         (game, tester) async {
-          await game.ready();
-
           const state = GameState(
             score: 0,
             balls: 2,
@@ -289,7 +278,9 @@ void main() {
             bonusHistory: [],
           );
 
-          final bonusLetter = _getBonusLetter(game);
+          await game.ready();
+          final bonusLetter = game.descendants().whereType<BonusLetter>().first;
+          bonusLetter.activate();
 
           expect(
             bonusLetter.listenWhen(const GameState.initial(), state),
