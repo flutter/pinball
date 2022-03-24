@@ -74,9 +74,7 @@ abstract class DashNestBumper extends BodyComponent<PinballGame>
   final String id;
 }
 
-/// {@template bottom_wall_ball_contact_callback}
-/// Listens when a [Ball] bounces against a [DashNestBumper].
-/// {@endtemplate}
+/// Listens when a [Ball] bounces bounces against a [DashNestBumper].
 @visibleForTesting
 class DashNestBumperBallContactCallback
     extends ContactCallback<DashNestBumper, Ball> {
