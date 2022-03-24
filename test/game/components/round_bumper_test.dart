@@ -17,7 +17,7 @@ void main() {
       'loads correctly',
       (game) async {
         await game.ready();
-        final roundBumper = RoundBumper(
+        final roundBumper = DashNestBumper(
           radius: radius,
           points: points,
         );
@@ -30,7 +30,7 @@ void main() {
     flameTester.test(
       'has points',
       (game) async {
-        final roundBumper = RoundBumper(
+        final roundBumper = DashNestBumper(
           radius: radius,
           points: points,
         );
@@ -44,7 +44,7 @@ void main() {
       flameTester.test(
         'is static',
         (game) async {
-          final roundBumper = RoundBumper(
+          final roundBumper = DashNestBumper(
             radius: radius,
             points: points,
           );
@@ -59,7 +59,7 @@ void main() {
       flameTester.test(
         'exists',
         (game) async {
-          final roundBumper = RoundBumper(
+          final roundBumper = DashNestBumper(
             radius: radius,
             points: points,
           );
@@ -72,7 +72,7 @@ void main() {
       flameTester.test(
         'has restitution',
         (game) async {
-          final roundBumper = RoundBumper(
+          final roundBumper = DashNestBumper(
             radius: radius,
             points: points,
           );
@@ -86,7 +86,7 @@ void main() {
       flameTester.test(
         'shape is circular',
         (game) async {
-          final roundBumper = RoundBumper(
+          final roundBumper = DashNestBumper(
             radius: radius,
             points: points,
           );

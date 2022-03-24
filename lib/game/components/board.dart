@@ -3,7 +3,7 @@ import 'package:pinball/game/game.dart';
 
 /// {@template board}
 /// The main flat surface of the [PinballGame], where the [Flipper]s,
-/// [RoundBumper]s, [Kicker]s are arranged.
+/// [DashNestBumper]s, [Kicker]s are arranged.
 /// {entemplate}
 class Board extends Component {
   /// {@macro board}
@@ -36,7 +36,7 @@ class Board extends Component {
 
 /// {@template flutter_forest}
 /// Area positioned at the top right of the [Board] where the [Ball]
-/// can bounce off [RoundBumper]s.
+/// can bounce off [DashNestBumper]s.
 /// {@endtemplate}
 class _FlutterForest extends Component {
   /// {@macro flutter_forest}
@@ -50,15 +50,15 @@ class _FlutterForest extends Component {
   Future<void> onLoad() async {
     // TODO(alestiago): adjust positioning once sprites are added.
     // TODO(alestiago): Use [NestBumper] instead of [RoundBumper] once provided.
-    final smallLeftNest = RoundBumper(
+    final smallLeftNest = DashNestBumper(
       radius: 1,
       points: 10,
     )..initialPosition = position + Vector2(-4.8, 2.8);
-    final smallRightNest = RoundBumper(
+    final smallRightNest = DashNestBumper(
       radius: 1,
       points: 10,
     )..initialPosition = position + Vector2(0.5, -5.5);
-    final bigNest = RoundBumper(
+    final bigNest = DashNestBumper(
       radius: 2,
       points: 20,
     )..initialPosition = position;

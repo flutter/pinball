@@ -1,21 +1,21 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
 
-/// {@template round_bumper}
+/// {@template dash_nest_bumper}
 /// Circular body that repels a [Ball] on contact, increasing the score.
 /// {@endtemplate}
-class RoundBumper extends BodyComponent with ScorePoints, InitialPosition {
-  /// {@macro round_bumper}
-  RoundBumper({
+class DashNestBumper extends BodyComponent with ScorePoints, InitialPosition {
+  /// {@macro dash_nest_bumper}
+  DashNestBumper({
     required double radius,
     required int points,
   })  : _radius = radius,
         _points = points;
 
-  /// The radius of the [RoundBumper].
+  /// The radius of the [DashNestBumper].
   final double _radius;
 
-  /// Points awarded from hitting this [RoundBumper].
+  /// Points awarded from hitting this [DashNestBumper].
   final int _points;
 
   @override
@@ -24,7 +24,6 @@ class RoundBumper extends BodyComponent with ScorePoints, InitialPosition {
   @override
   Body createBody() {
     final shape = CircleShape()..radius = _radius;
-
     final fixtureDef = FixtureDef(shape)..restitution = 1;
 
     final bodyDef = BodyDef()..position = initialPosition;

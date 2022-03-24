@@ -82,7 +82,7 @@ void main() {
           await game.ready();
           await game.ensureAdd(board);
 
-          final roundBumpers = board.descendants().whereType<RoundBumper>();
+          final roundBumpers = board.descendants().whereType<DashNestBumper>();
           expect(roundBumpers.length, equals(3));
         },
       );
