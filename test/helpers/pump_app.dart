@@ -26,12 +26,8 @@ extension PumpApp on WidgetTester {
     LeaderboardRepository? leaderboardRepository,
   }) {
     return pumpWidget(
-      MultiRepositoryProvider(
-        providers: [
-          RepositoryProvider.value(
-            value: leaderboardRepository ?? MockLeaderboardRepository(),
-          )
-        ],
+      RepositoryProvider.value(
+        value: leaderboardRepository ?? MockLeaderboardRepository(),
         child: MultiBlocProvider(
           providers: [
             BlocProvider.value(
