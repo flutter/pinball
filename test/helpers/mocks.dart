@@ -68,3 +68,5 @@ class MockSpaceshipEntrance extends Mock implements SpaceshipEntrance {}
 class MockSpaceshipHole extends Mock implements SpaceshipHole {}
 
 class MockComponentSet extends Mock implements ComponentSet {}
+
+class MockDashNestBumper extends Mock implements DashNestBumper {}
