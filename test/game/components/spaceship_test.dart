@@ -36,25 +36,30 @@ void main() {
 
     group('SpaceshipEntranceBallContactCallback', () {
       test('changes the ball priority on contact', () {
+        when(() => ball.priority).thenReturn(1);
+        when(() => entrance.priority).thenReturn(2);
+
         SpaceshipEntranceBallContactCallback().begin(
           entrance,
           ball,
           MockContact(),
         );
 
-        verify(() => ball.elevation = Elevation.spaceship.order).called(1);
+        verify(() => ball.showInFrontOf(entrance)).called(1);
       });
     });
 
     group('SpaceshipHoleBallContactCallback', () {
       test('changes the ball priority on contact', () {
+        when(() => ball.priority).thenReturn(1);
+
         SpaceshipHoleBallContactCallback().begin(
           hole,
           ball,
           MockContact(),
         );
 
-        verify(() => ball.elevation = Elevation.board.order).called(1);
+        verify(() => ball.sendToBack()).called(1);
       });
     });
   });
