@@ -127,7 +127,7 @@ class _BottomGroupSide extends Component {
   Future<void> onLoad() async {
     final direction = _side.direction;
 
-    final flipper = Flipper.fromSide(
+    final flipper = Flipper(
       side: _side,
     )..initialPosition = _position;
     final baseboard = Baseboard(side: _side)

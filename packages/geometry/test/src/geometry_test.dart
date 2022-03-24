@@ -33,6 +33,46 @@ void main() {
     });
   });
 
+  group('calculateEllipse', () {
+    test('returns by default 100 points as indicated by precision', () {
+      final points = calculateEllipse(
+        center: Vector2.zero(),
+        majorRadius: 100,
+        minorRadius: 50,
+      );
+      expect(points.length, 100);
+    });
+
+    test('returns as many points as indicated by precision', () {
+      final points = calculateEllipse(
+        center: Vector2.zero(),
+        majorRadius: 100,
+        minorRadius: 50,
+        precision: 50,
+      );
+      expect(points.length, 50);
+    });
+
+    test('fails if radius not in range', () {
+      expect(
+        () => calculateEllipse(
+          center: Vector2.zero(),
+          majorRadius: 100,
+          minorRadius: 150,
+        ),
+        throwsA(isA<AssertionError>()),
+      );
+      expect(
+        () => calculateEllipse(
+          center: Vector2.zero(),
+          majorRadius: 100,
+          minorRadius: 0,
+        ),
+        throwsA(isA<AssertionError>()),
+      );
+    });
+  });
+
   group('calculateBezierCurve', () {
     test('fails if step not in range', () {
       expect(
