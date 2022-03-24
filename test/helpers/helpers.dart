@@ -8,4 +8,5 @@ export 'builders.dart';
 export 'extensions.dart';
 export 'key_testers.dart';
 export 'mocks.dart';
+export 'navigator.dart';
 export 'pump_app.dart';

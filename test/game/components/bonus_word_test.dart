@@ -187,13 +187,14 @@ void main() {
 
           final fixture = bonusLetter.body.fixtures[0];
           expect(fixture.shape.shapeType, equals(ShapeType.circle));
-          expect(fixture.shape.radius, equals(2));
+          expect(fixture.shape.radius, equals(1.85));
         },
       );
     });
 
     group('bonus letter activation', () {
       final gameBloc = MockGameBloc();
+      final tester = flameBlocTester(gameBloc: () => gameBloc);
 
       BonusLetter _getBonusLetter(PinballGame game) {
         return game.children
@@ -211,8 +212,6 @@ void main() {
           initialState: const GameState.initial(),
         );
       });
-
-      final tester = flameBlocTester(gameBloc: () => gameBloc);
 
       tester.widgetTest(
         'adds BonusLetterActivated to GameBloc when not activated',

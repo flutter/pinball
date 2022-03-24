@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:mockingjay/mockingjay.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
@@ -22,26 +23,30 @@ extension PumpApp on WidgetTester {
     MockNavigator? navigator,
     GameBloc? gameBloc,
     ThemeCubit? themeCubit,
+    LeaderboardRepository? leaderboardRepository,
   }) {
     return pumpWidget(
-      MultiBlocProvider(
-        providers: [
-          BlocProvider.value(
-            value: themeCubit ?? MockThemeCubit(),
-          ),
-          BlocProvider.value(
-            value: gameBloc ?? MockGameBloc(),
-          ),
-        ],
-        child: MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
+      RepositoryProvider.value(
+        value: leaderboardRepository ?? MockLeaderboardRepository(),
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider.value(
+              value: themeCubit ?? MockThemeCubit(),
+            ),
+            BlocProvider.value(
+              value: gameBloc ?? MockGameBloc(),
+            ),
           ],
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: navigator != null
-              ? MockNavigatorProvider(navigator: navigator, child: widget)
-              : widget,
+          child: MaterialApp(
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: navigator != null
+                ? MockNavigatorProvider(navigator: navigator, child: widget)
+                : widget,
+          ),
         ),
       ),
     );
