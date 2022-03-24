@@ -47,7 +47,7 @@ class LeaderboardView extends StatelessWidget {
             children: [
               const SizedBox(height: 80),
               Text(
-                l10n.leadersboard,
+                l10n.leaderboard,
                 style: Theme.of(context).textTheme.headline3,
               ),
               const SizedBox(height: 80),

@@ -31,7 +31,7 @@ class GameOverDialog extends StatelessWidget {
                 onPressed: () => Navigator.of(context).push<void>(
                   LeaderboardPage.route(theme: theme),
                 ),
-                child: Text(l10n.leadersboard),
+                child: Text(l10n.leaderboard),
               ),
             ],
           ),

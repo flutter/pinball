@@ -28,25 +28,25 @@
     "@gameOver": {
         "description": "Text displayed on the ending dialog when game finishes"
     },
-    "leadersboard": "Leaders Board",
-    "@leadersboard": {
-        "description": "Text displayed on the ending dialog leaders board button"
+    "leaderboard": "Leaderboard",
+    "@leaderboard": {
+        "description": "Text displayed on the ending dialog leaderboard button"
     },
     "rank": "Rank",
     "@rank": {
-        "description": "Text displayed on the leaders board page header rank column"
+        "description": "Text displayed on the leaderboard page header rank column"
     },
     "character": "Character",
     "@character": {
-        "description": "Text displayed on the leaders board page header character column"
+        "description": "Text displayed on the leaderboard page header character column"
     },
     "username": "Username",
     "@username": {
-        "description": "Text displayed on the leaders board page header userName column"
+        "description": "Text displayed on the leaderboard page header userName column"
     },
     "score": "Score",
     "@score": {
-        "description": "Text displayed on the leaders board page header score column"
+        "description": "Text displayed on the leaderboard page header score column"
     },
     "retry": "Retry",
     "@retry": {
