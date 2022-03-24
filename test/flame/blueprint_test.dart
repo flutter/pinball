@@ -14,6 +14,13 @@ class MyBlueprint extends Blueprint {
   }
 }
 
+class MyComposedBlueprint extends Blueprint {
+  @override
+  void build(_) {
+    addBlueprint(MyBlueprint());
+  }
+}
+
 class MyForge2dBlueprint extends Forge2DBlueprint {
   @override
   void build(_) {
@@ -24,6 +31,11 @@ class MyForge2dBlueprint extends Forge2DBlueprint {
 
 void main() {
   group('Blueprint', () {
+    setUpAll(() {
+      registerFallbackValue(MyBlueprint());
+      registerFallbackValue(Component());
+    });
+
     test('components can be added to it', () {
       final blueprint = MyBlueprint()..build(MockPinballGame());
 
@@ -36,6 +48,14 @@ void main() {
       MyBlueprint().attach(mockGame);
 
       verify(() => mockGame.addAll(any())).called(1);
+    });
+
+    test('adds components from a child Blueprint the to a game on attach', () {
+      final mockGame = MockPinballGame();
+      when(() => mockGame.addAll(any())).thenAnswer((_) async {});
+      MyComposedBlueprint().attach(mockGame);
+
+      verify(() => mockGame.addAll(any())).called(2);
     });
 
     test(
