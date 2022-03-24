@@ -102,8 +102,7 @@ class BigDashNestBumper extends DashNestBumper {
 
     final bodyDef = BodyDef()
       ..position = initialPosition
-      ..userData = this
-      ..type = BodyType.static;
+      ..userData = this;
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
@@ -125,8 +124,7 @@ class SmallDashNestBumper extends DashNestBumper {
 
     final bodyDef = BodyDef()
       ..position = initialPosition
-      ..userData = this
-      ..type = BodyType.static;
+      ..userData = this;
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
