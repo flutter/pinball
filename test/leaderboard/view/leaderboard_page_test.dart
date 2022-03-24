@@ -147,40 +147,4 @@ void main() {
       verify(() => navigator.push<void>(any())).called(1);
     });
   });
-
-  group('CharacterTypeX', () {
-    test('converts CharacterType.android to AndroidTheme', () {
-      expect(CharacterType.android.toTheme, equals(AndroidTheme()));
-    });
-
-    test('converts CharacterType.dash to DashTheme', () {
-      expect(CharacterType.dash.toTheme, equals(DashTheme()));
-    });
-
-    test('converts CharacterType.dino to DinoTheme', () {
-      expect(CharacterType.dino.toTheme, equals(DinoTheme()));
-    });
-
-    test('converts CharacterType.sparky to SparkyTheme', () {
-      expect(CharacterType.sparky.toTheme, equals(SparkyTheme()));
-    });
-  });
-
-  group('CharacterThemeX', () {
-    test('converts AndroidTheme to CharacterType.android', () {
-      expect(AndroidTheme().toType, equals(CharacterType.android));
-    });
-
-    test('converts DashTheme to CharacterType.dash', () {
-      expect(DashTheme().toType, equals(CharacterType.dash));
-    });
-
-    test('converts DinoTheme to CharacterType.dino', () {
-      expect(DinoTheme().toType, equals(CharacterType.dino));
-    });
-
-    test('converts SparkyTheme to CharacterType.sparky', () {
-      expect(SparkyTheme().toType, equals(CharacterType.sparky));
-    });
-  });
 }
