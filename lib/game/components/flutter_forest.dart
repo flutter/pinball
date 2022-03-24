@@ -60,19 +60,23 @@ class FlutterForest extends Component
 }
 
 /// {@template dash_nest_bumper}
-/// Body that repels a [Ball] on contact.
-///
-/// When hit, the [GameState.score] is increased.
+/// Bumper located in the [FlutterForest].
 /// {@endtemplate}
 @visibleForTesting
 abstract class DashNestBumper extends BodyComponent<PinballGame>
     with ScorePoints, InitialPosition {
-  /// {@template dash_nest_bumper}
+  /// {@macro dash_nest_bumper}
   DashNestBumper({required this.id});
 
+  /// Unique identifier for this [DashNestBumper].
+  ///
+  /// Used to identify [DashNestBumper]s in [GameState.activatedDashNests].
   final String id;
 }
 
+/// {@template bottom_wall_ball_contact_callback}
+/// Listens when a [Ball] falls bounces against a [DashNestBumper].
+/// {@endtemplate}
 @visibleForTesting
 class DashNestBumperBallContactCallback
     extends ContactCallback<DashNestBumper, Ball> {
@@ -84,8 +88,10 @@ class DashNestBumperBallContactCallback
   }
 }
 
+/// {@macro dash_nest_bumper}
 @visibleForTesting
 class BigDashNestBumper extends DashNestBumper {
+  /// {@macro dash_nest_bumper}
   BigDashNestBumper({required String id}) : super(id: id);
 
   @override
@@ -105,8 +111,10 @@ class BigDashNestBumper extends DashNestBumper {
   }
 }
 
+/// {@macro dash_nest_bumper}
 @visibleForTesting
 class SmallDashNestBumper extends DashNestBumper {
+  /// {@macro dash_nest_bumper}
   SmallDashNestBumper({required String id}) : super(id: id);
 
   @override
