@@ -61,14 +61,14 @@ void main() {
 
     group('fixtures', () {
       flameTester.test(
-        'has three',
+        'has six',
         (game) async {
           final baseboard = Baseboard(
             side: BoardSide.left,
           );
           await game.ensureAdd(baseboard);
 
-          expect(baseboard.body.fixtures.length, equals(3));
+          expect(baseboard.body.fixtures.length, equals(6));
         },
       );
     });
