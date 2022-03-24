@@ -4,7 +4,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 
 class BasicBallGame extends BasicGame with TapDetector {
-  BasicBallGame({ required this.color });
+  BasicBallGame({required this.color});
 
   static const info = '''
       Basic example of how a Ball works, tap anywhere on the
@@ -15,8 +15,8 @@ class BasicBallGame extends BasicGame with TapDetector {
 
   @override
   void onTapUp(TapUpInfo info) {
-    add(Ball(baseColor: color)
-      ..initialPosition = info.eventPosition.game,
+    add(
+      Ball(baseColor: color)..initialPosition = info.eventPosition.game,
     );
   }
 }

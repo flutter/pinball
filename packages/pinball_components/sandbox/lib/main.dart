@@ -6,11 +6,13 @@
 // https://opensource.org/licenses/MIT.
 import 'package:dashbook/dashbook.dart';
 import 'package:flutter/material.dart';
+import 'package:sandbox/stories/effects/effects.dart';
 import 'package:sandbox/stories/stories.dart';
 
 void main() {
   final dashbook = Dashbook(theme: ThemeData.dark());
 
   addBallStories(dashbook);
+  addEffectsStories(dashbook);
   runApp(dashbook);
 }
