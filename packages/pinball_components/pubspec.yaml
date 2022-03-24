@@ -11,6 +11,9 @@ dependencies:
   flame_forge2d: ^0.9.0-releasecandidate.6
   flutter:
     sdk: flutter
+  geometry: 
+    path: ../geometry
+
 
 dev_dependencies:
   flame_test: ^1.1.0
