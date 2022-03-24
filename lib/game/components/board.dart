@@ -1,9 +1,9 @@
 import 'package:flame/components.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/flame/blueprint.dart';
 
 /// {@template board}
-/// The main flat surface of the [PinballGame], where the [Flipper]s,
-/// [DashNestBumper]s, [Kicker]s are arranged.
+/// The main flat surface of the [PinballGame].
 /// {entemplate}
 class Board extends Component {
   /// {@macro board}
@@ -20,7 +20,7 @@ class Board extends Component {
       spacing: 2,
     );
 
-    final dashForest = _FlutterForest(
+    final flutterForest = FlutterForest(
       position: Vector2(
         PinballGame.boardBounds.center.dx + 20,
         PinballGame.boardBounds.center.dy + 48,
@@ -29,44 +29,7 @@ class Board extends Component {
 
     await addAll([
       bottomGroup,
-      dashForest,
-    ]);
-  }
-}
-
-/// {@template flutter_forest}
-/// Area positioned at the top right of the [Board] where the [Ball]
-/// can bounce off [DashNestBumper]s.
-/// {@endtemplate}
-class _FlutterForest extends Component {
-  /// {@macro flutter_forest}
-  _FlutterForest({
-    required this.position,
-  });
-
-  final Vector2 position;
-
-  @override
-  Future<void> onLoad() async {
-    // TODO(alestiago): adjust positioning once sprites are added.
-    // TODO(alestiago): Use [NestBumper] instead of [RoundBumper] once provided.
-    final smallLeftNest = DashNestBumper(
-      radius: 1,
-      points: 10,
-    )..initialPosition = position + Vector2(-4.8, 2.8);
-    final smallRightNest = DashNestBumper(
-      radius: 1,
-      points: 10,
-    )..initialPosition = position + Vector2(0.5, -5.5);
-    final bigNest = DashNestBumper(
-      radius: 2,
-      points: 20,
-    )..initialPosition = position;
-
-    await addAll([
-      smallLeftNest,
-      smallRightNest,
-      bigNest,
+      flutterForest,
     ]);
   }
 }
