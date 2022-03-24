@@ -31,7 +31,7 @@
       "args": ["--flavor", "production", "--target", "lib/main_production.dart"]
     },
     {
-      "name": "Component Sandbox",
+      "name": "Launch component sandbox",
       "request": "launch",
       "type": "dart",
       "program": "packages/pinball_components/sandbox/lib/main.dart"
