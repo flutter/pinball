@@ -52,6 +52,8 @@ class _GameOverDialogViewState extends State<GameOverDialogView> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Dialog(
       child: SizedBox(
         width: 200,
