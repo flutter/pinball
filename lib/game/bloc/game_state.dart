@@ -7,6 +7,10 @@ enum GameBonus {
   /// Bonus achieved when the user activate all of the bonus
   /// letters on the board, forming the bonus word
   word,
+
+  /// Bonus achieved when the user activates all of the Dash
+  /// nests on the board, adding a new ball to the board.
+  dashNest,
 }
 
 /// {@template game_state}
@@ -19,6 +23,7 @@ class GameState extends Equatable {
     required this.balls,
     required this.activatedBonusLetters,
     required this.bonusHistory,
+    required this.activatedDashNests,
   })  : assert(score >= 0, "Score can't be negative"),
         assert(balls >= 0, "Number of balls can't be negative");
 
@@ -26,6 +31,7 @@ class GameState extends Equatable {
       : score = 0,
         balls = 3,
         activatedBonusLetters = const [],
+        activatedDashNests = const {},
         bonusHistory = const [];
 
   /// The current score of the game.
@@ -38,6 +44,9 @@ class GameState extends Equatable {
 
   /// Active bonus letters.
   final List<int> activatedBonusLetters;
+
+  /// Active dash nests.
+  final Set<String> activatedDashNests;
 
   /// Holds the history of all the [GameBonus]es earned by the player during a
   /// PinballGame.
@@ -57,6 +66,7 @@ class GameState extends Equatable {
     int? score,
     int? balls,
     List<int>? activatedBonusLetters,
+    Set<String>? activatedDashNests,
     List<GameBonus>? bonusHistory,
   }) {
     assert(
@@ -69,6 +79,7 @@ class GameState extends Equatable {
       balls: balls ?? this.balls,
       activatedBonusLetters:
           activatedBonusLetters ?? this.activatedBonusLetters,
+      activatedDashNests: activatedDashNests ?? this.activatedDashNests,
       bonusHistory: bonusHistory ?? this.bonusHistory,
     );
   }
@@ -78,6 +89,7 @@ class GameState extends Equatable {
         score,
         balls,
         activatedBonusLetters,
+        activatedDashNests,
         bonusHistory,
       ];
 }

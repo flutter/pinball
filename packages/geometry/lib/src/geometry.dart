@@ -23,10 +23,45 @@ List<Vector2> calculateArc({
 
   final points = <Vector2>[];
   for (var i = 0; i < precision; i++) {
-    final xCoord = center.x + radius * math.cos((stepAngle * i) + offsetAngle);
-    final yCoord = center.y - radius * math.sin((stepAngle * i) + offsetAngle);
+    final x = center.x + radius * math.cos((stepAngle * i) + offsetAngle);
+    final y = center.y - radius * math.sin((stepAngle * i) + offsetAngle);
 
-    final point = Vector2(xCoord, yCoord);
+    final point = Vector2(x, y);
+    points.add(point);
+  }
+
+  return points;
+}
+
+/// Calculates all [Vector2]s of an ellipse.
+///
+/// An ellipse can be achieved by specifying a [center], a [majorRadius] and a
+/// [minorRadius].
+///
+/// The higher the [precision], the more [Vector2]s will be calculated;
+/// achieving a more rounded ellipse.
+///
+/// For more information read: https://en.wikipedia.org/wiki/Ellipse.
+List<Vector2> calculateEllipse({
+  required Vector2 center,
+  required double majorRadius,
+  required double minorRadius,
+  int precision = 100,
+}) {
+  assert(
+    0 < minorRadius && minorRadius <= majorRadius,
+    'smallRadius ($minorRadius) and bigRadius ($majorRadius) must be in '
+    'range 0 < smallRadius <= bigRadius',
+  );
+
+  final stepAngle = 2 * math.pi / (precision - 1);
+
+  final points = <Vector2>[];
+  for (var i = 0; i < precision; i++) {
+    final x = center.x + minorRadius * math.cos(stepAngle * i);
+    final y = center.y - majorRadius * math.sin(stepAngle * i);
+
+    final point = Vector2(x, y);
     points.add(point);
   }
 
@@ -63,17 +98,15 @@ List<Vector2> calculateBezierCurve({
   final points = <Vector2>[];
 
   do {
-    var xCoord = 0.0;
-    var yCoord = 0.0;
+    var x = 0.0;
+    var y = 0.0;
     for (var i = 0; i <= n; i++) {
       final point = controlPoints[i];
 
-      xCoord +=
-          binomial(n, i) * math.pow(1 - t, n - i) * math.pow(t, i) * point.x;
-      yCoord +=
-          binomial(n, i) * math.pow(1 - t, n - i) * math.pow(t, i) * point.y;
+      x += binomial(n, i) * math.pow(1 - t, n - i) * math.pow(t, i) * point.x;
+      y += binomial(n, i) * math.pow(1 - t, n - i) * math.pow(t, i) * point.y;
     }
-    points.add(Vector2(xCoord, yCoord));
+    points.add(Vector2(x, y));
 
     t = t + step;
   } while (t <= 1);

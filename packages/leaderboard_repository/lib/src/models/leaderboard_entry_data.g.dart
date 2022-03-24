@@ -1,19 +1,19 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'leaderboard_entry.dart';
+part of 'leaderboard_entry_data.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-LeaderboardEntry _$LeaderboardEntryFromJson(Map<String, dynamic> json) =>
-    LeaderboardEntry(
+LeaderboardEntryData _$LeaderboardEntryFromJson(Map<String, dynamic> json) =>
+    LeaderboardEntryData(
       playerInitials: json['playerInitials'] as String,
       score: json['score'] as int,
       character: $enumDecode(_$CharacterTypeEnumMap, json['character']),
     );
 
-Map<String, dynamic> _$LeaderboardEntryToJson(LeaderboardEntry instance) =>
+Map<String, dynamic> _$LeaderboardEntryToJson(LeaderboardEntryData instance) =>
     <String, dynamic>{
       'playerInitials': instance.playerInitials,
       'score': instance.score,
