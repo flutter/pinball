@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_components/pinball_components.dart';
 
 /// {@template board}
 /// The main flat surface of the [PinballGame], where the [Flipper]s,
@@ -133,8 +134,8 @@ class _BottomGroupSide extends Component {
     final baseboard = Baseboard(side: _side)
       ..initialPosition = _position +
           Vector2(
-            (Flipper.size.x * direction) - direction,
-            Flipper.size.y,
+            (Baseboard.size.x / 1.6 * direction),
+            Baseboard.size.y - 2,
           );
     final kicker = Kicker(
       side: _side,

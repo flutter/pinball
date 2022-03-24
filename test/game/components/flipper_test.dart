@@ -4,9 +4,11 @@ import 'dart:collection';
 
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_components/pinball_components.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -81,7 +83,7 @@ void main() {
             final flipper = Flipper(
               side: BoardSide.left,
             );
-            final ball = Ball();
+            final ball = Ball(baseColor: Colors.white);
 
             await game.ready();
             await game.ensureAddAll([flipper, ball]);
