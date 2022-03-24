@@ -134,8 +134,8 @@ class _BottomGroupSide extends Component {
     final baseboard = Baseboard(side: _side)
       ..initialPosition = _position +
           Vector2(
-            (Flipper.size.x * direction) - direction,
-            Flipper.size.y,
+            (Baseboard.size.x / 1.6 * direction),
+            Baseboard.size.y - 2,
           );
     final kicker = Kicker(
       side: _side,
