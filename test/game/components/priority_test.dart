@@ -62,7 +62,7 @@ void main() {
 
     group('showBehindOf', () {
       flameTester.test(
-        'changes the priority if is greater than other component',
+        'changes the priority if it is greater than other component',
         (game) async {
           const startPriority = 2;
           final component = TestBodyComponent()..priority = startPriority;
