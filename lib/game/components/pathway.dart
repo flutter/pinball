@@ -1,209 +1,130 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/material.dart';
 import 'package:geometry/geometry.dart';
-import 'package:pinball/game/game.dart';
 
-/// {@template pathway}
-/// [Pathway] creates lines of various shapes.
-///
-/// [BodyComponent]s such as a Ball can collide and move along a [Pathway].
+/// {@template arc_shape}
+/// Creates an arc.
 /// {@endtemplate}
-class Pathway extends BodyComponent with InitialPosition, Layered {
-  Pathway._({
-    // TODO(ruialonso): remove color when assets added.
-    Color? color,
-    required List<List<Vector2>> paths,
-  }) : _paths = paths {
-    paint = Paint()
-      ..color = color ?? const Color.fromARGB(0, 0, 0, 0)
-      ..style = PaintingStyle.stroke;
-  }
-
-  /// Creates a uniform unidirectional (straight) [Pathway].
-  ///
-  /// Does so with two [ChainShape] separated by a [width]. Can
-  /// be rotated by a given [rotation] in radians.
-  ///
-  /// If [singleWall] is true, just one [ChainShape] is created.
-  factory Pathway.straight({
-    Color? color,
-    required Vector2 start,
-    required Vector2 end,
-    required double width,
-    double rotation = 0,
-    bool singleWall = false,
+class ArcShape extends ChainShape {
+  /// {@macro arc_shape}
+  ArcShape({
+    required this.center,
+    required this.arcRadius,
+    required this.angle,
+    required this.rotation,
   }) {
-    final paths = <List<Vector2>>[];
-
-    // TODO(ruialonso): Refactor repetitive logic
-    final firstWall = [
-      start.clone(),
-      end.clone(),
-    ].map((vector) => vector..rotate(rotation)).toList();
-    paths.add(firstWall);
-
-    if (!singleWall) {
-      final secondWall = [
-        start + Vector2(width, 0),
-        end + Vector2(width, 0),
-      ].map((vector) => vector..rotate(rotation)).toList();
-      paths.add(secondWall);
-    }
-
-    return Pathway._(
-      color: color,
-      paths: paths,
-    );
-  }
-
-  /// Creates an arc [Pathway].
-  ///
-  /// The [angle], in radians, specifies the size of the arc. For example, two
-  /// pi returns a complete circumference.
-  ///
-  /// Does so with two [ChainShape] separated by a [width]. Which can be
-  /// rotated by a given [rotation] in radians.
-  ///
-  /// The outer radius is specified by [radius], whilst the inner one is
-  /// equivalent to the [radius] minus the [width].
-  ///
-  /// If [singleWall] is true, just one [ChainShape] is created.
-  factory Pathway.arc({
-    Color? color,
-    required Vector2 center,
-    required double width,
-    required double radius,
-    required double angle,
-    double rotation = 0,
-    bool singleWall = false,
-  }) {
-    final paths = <List<Vector2>>[];
-
-    // TODO(ruialonso): Refactor repetitive logic
-    final outerWall = calculateArc(
-      center: center,
-      radius: radius,
-      angle: angle,
-      offsetAngle: rotation,
-    );
-    paths.add(outerWall);
-
-    if (!singleWall) {
-      final innerWall = calculateArc(
+    createChain(
+      calculateArc(
         center: center,
-        radius: radius - width,
+        radius: radius,
         angle: angle,
         offsetAngle: rotation,
-      );
-      paths.add(innerWall);
-    }
-
-    return Pathway._(
-      color: color,
-      paths: paths,
+      ),
     );
   }
 
-  /// Creates a bezier curve [Pathway].
+  /// The center of the arc.
+  final Vector2 center;
+
+  /// The radius of the arc.
+  // TODO(alestiago): Check if modifying the parent radius makes sense.
+  final double arcRadius;
+
+  /// Specifies the size of the arc, in radians.
   ///
-  /// Does so with two [ChainShape] separated by a [width]. Which can be
-  /// rotated by a given [rotation] in radians.
+  /// For example, two pi returns a complete circumference.
+  final double angle;
+
+  /// Which can be rotated by a given [rotation] in radians.
+  final double rotation;
+
+  ArcShape copyWith({
+    Vector2? center,
+    double? arcRadius,
+    double? angle,
+    double? rotation,
+  }) =>
+      ArcShape(
+        center: center ?? this.center,
+        arcRadius: arcRadius ?? this.arcRadius,
+        angle: angle ?? this.angle,
+        rotation: rotation ?? this.rotation,
+      );
+}
+
+/// {@template bezier_curve_shape}
+/// Creates a bezier curve.
+/// {@endtemplate}
+class BezierCurveShape extends ChainShape {
+  /// {@macro bezier_curve_shape}
+  BezierCurveShape({
+    required this.controlPoints,
+  }) {
+    createChain(
+      calculateBezierCurve(controlPoints: controlPoints),
+    );
+  }
+
+  /// Specifies the control points of the curve.
   ///
   /// First and last [controlPoints] set the beginning and end of the curve,
   /// inner points between them set its final shape.
-  ///
-  /// If [singleWall] is true, just one [ChainShape] is created.
-  factory Pathway.bezierCurve({
-    Color? color,
-    required List<Vector2> controlPoints,
-    required double width,
-    double rotation = 0,
-    bool singleWall = false,
-  }) {
-    final paths = <List<Vector2>>[];
+  final List<Vector2> controlPoints;
 
-    // TODO(ruialonso): Refactor repetitive logic
-    final firstWall = calculateBezierCurve(controlPoints: controlPoints)
-        .map((vector) => vector..rotate(rotation))
-        .toList();
-    paths.add(firstWall);
-
-    if (!singleWall) {
-      final secondWall = calculateBezierCurve(
-        controlPoints: controlPoints
-            .map((vector) => vector + Vector2(width, -width))
-            .toList(),
-      ).map((vector) => vector..rotate(rotation)).toList();
-      paths.add(secondWall);
-    }
-
-    return Pathway._(
-      color: color,
-      paths: paths,
-    );
+  /// Rotates the curve by a given [angle] in radians.
+  void rotate(double angle) {
+    vertices.map((vector) => vector..rotate(angle)).toList();
   }
+}
 
-  /// Creates an ellipse [Pathway].
-  ///
-  /// Does so with two [ChainShape]s separated by a [width]. Can
-  /// be rotated by a given [rotation] in radians.
-  ///
-  /// If [singleWall] is true, just one [ChainShape] is created.
-  factory Pathway.ellipse({
-    Color? color,
-    required Vector2 center,
-    required double width,
-    required double majorRadius,
-    required double minorRadius,
-    double rotation = 0,
-    bool singleWall = false,
+/// {@template ellipse_shape}
+/// Creates an ellipse.
+/// {@endtemplate}
+class EllipseShape extends ChainShape {
+  /// {@macro ellipse_shape}
+  EllipseShape({
+    required this.center,
+    required this.majorRadius,
+    required this.minorRadius,
   }) {
-    final paths = <List<Vector2>>[];
-
-    // TODO(ruialonso): Refactor repetitive logic
-    final outerWall = calculateEllipse(
-      center: center,
-      majorRadius: majorRadius,
-      minorRadius: minorRadius,
-    ).map((vector) => vector..rotate(rotation)).toList();
-    paths.add(outerWall);
-
-    if (!singleWall) {
-      final innerWall = calculateEllipse(
+    createChain(
+      calculateEllipse(
         center: center,
-        majorRadius: majorRadius - width,
-        minorRadius: minorRadius - width,
-      ).map((vector) => vector..rotate(rotation)).toList();
-      paths.add(innerWall);
-    }
-
-    return Pathway._(
-      color: color,
-      paths: paths,
+        majorRadius: majorRadius,
+        minorRadius: minorRadius,
+      ),
     );
   }
 
-  final List<List<Vector2>> _paths;
+  /// The top left corner of the ellipse.
+  ///
+  /// Where the initial painting begines.
+  // TODO(ruialonso): Change to use appropiate center.
+  final Vector2 center;
 
-  /// Constructs different [ChainShape]s to form the [Pathway] shape.
-  List<FixtureDef> createFixtureDefs() {
-    final fixturesDef = <FixtureDef>[];
+  /// Major radius is specified by [majorRadius].
+  final double majorRadius;
 
-    for (final path in _paths) {
-      final chain = ChainShape()..createChain(path);
-      fixturesDef.add(FixtureDef(chain));
-    }
+  /// Minor radius is specified by [minorRadius].
+  final double minorRadius;
 
-    return fixturesDef;
+  /// Rotates the ellipse by a given [angle] in radians.
+  void rotate(double angle) {
+    createChain(
+      vertices.map((vector) => vector..rotate(angle)).toList(),
+    );
   }
 
-  @override
-  Body createBody() {
-    final bodyDef = BodyDef()..position = initialPosition;
-    final body = world.createBody(bodyDef);
-    createFixtureDefs().forEach(body.createFixture);
-
-    return body;
-  }
+  EllipseShape copyWith({
+    Vector2? center,
+    double? majorRadius,
+    double? minorRadius,
+  }) =>
+      EllipseShape(
+        center: center ?? this.center,
+        majorRadius: majorRadius ?? this.majorRadius,
+        minorRadius: minorRadius ?? this.minorRadius,
+      );
 }
