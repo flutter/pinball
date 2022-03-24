@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_components/pinball_components.dart';
 
 /// {@template board}
 /// The main flat surface of the [PinballGame], where the [Flipper]s,

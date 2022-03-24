@@ -8,34 +8,7 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
-  $AssetsImagesComponentsGen get components =>
-      const $AssetsImagesComponentsGen();
-}
-
-class $AssetsImagesComponentsGen {
-  const $AssetsImagesComponentsGen();
-
-  AssetGenImage get flipper =>
-      const AssetGenImage('assets/images/components/flipper.png');
-  AssetGenImage get sauce =>
-      const AssetGenImage('assets/images/components/sauce.png');
-  $AssetsImagesComponentsSpaceshipGen get spaceship =>
-      const $AssetsImagesComponentsSpaceshipGen();
-}
-
-class $AssetsImagesComponentsSpaceshipGen {
-  const $AssetsImagesComponentsSpaceshipGen();
-
-  AssetGenImage get androidBottom => const AssetGenImage(
-      'assets/images/components/spaceship/android-bottom.png');
-  AssetGenImage get androidTop =>
-      const AssetGenImage('assets/images/components/spaceship/android-top.png');
-  AssetGenImage get lower =>
-      const AssetGenImage('assets/images/components/spaceship/lower.png');
-  AssetGenImage get saucer =>
-      const AssetGenImage('assets/images/components/spaceship/saucer.png');
-  AssetGenImage get upper =>
-      const AssetGenImage('assets/images/components/spaceship/upper.png');
+  AssetGenImage get ball => const AssetGenImage('assets/images/ball.png');
 }
 
 class Assets {
@@ -45,7 +18,8 @@ class Assets {
 }
 
 class AssetGenImage extends AssetImage {
-  const AssetGenImage(String assetName) : super(assetName);
+  const AssetGenImage(String assetName)
+      : super(assetName, package: 'pinball_components');
 
   Image image({
     Key? key,

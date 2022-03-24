@@ -1,5 +1,4 @@
 import 'package:flame/components.dart';
-import 'package:flame/game.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/flame/blueprint.dart';
@@ -9,7 +8,7 @@ import '../helpers/helpers.dart';
 
 class MyBlueprint extends Blueprint {
   @override
-  void build() {
+  void build(_) {
     add(Component());
     addAll([Component(), Component()]);
   }
@@ -17,7 +16,7 @@ class MyBlueprint extends Blueprint {
 
 class MyForge2dBlueprint extends Forge2DBlueprint {
   @override
-  void build() {
+  void build(_) {
     addContactCallback(MockContactCallback());
     addAllContactCallback([MockContactCallback(), MockContactCallback()]);
   }
@@ -26,7 +25,7 @@ class MyForge2dBlueprint extends Forge2DBlueprint {
 void main() {
   group('Blueprint', () {
     test('components can be added to it', () {
-      final blueprint = MyBlueprint()..build();
+      final blueprint = MyBlueprint()..build(MockPinballGame());
 
       expect(blueprint.components.length, equals(3));
     });
@@ -59,7 +58,7 @@ void main() {
     });
 
     test('callbacks can be added to it', () {
-      final blueprint = MyForge2dBlueprint()..build();
+      final blueprint = MyForge2dBlueprint()..build(MockPinballGame());
 
       expect(blueprint.callbacks.length, equals(3));
     });
@@ -92,12 +91,5 @@ void main() {
         );
       },
     );
-
-    test('throws assertion error when used on a non Forge2dGame', () {
-      expect(
-        () => MyForge2dBlueprint().attach(FlameGame()),
-        throwsAssertionError,
-      );
-    });
   });
 }
