@@ -7,11 +7,10 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:pinball/app/app.dart';
 import 'package:pinball/landing/landing.dart';
 
-class MockLeaderboardRepository extends Mock implements LeaderboardRepository {}
+import '../../helpers/mocks.dart';
 
 void main() {
   group('App', () {

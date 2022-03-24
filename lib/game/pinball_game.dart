@@ -74,8 +74,8 @@ class PinballGame extends Forge2DGame
     await add(
       BonusWord(
         position: Vector2(
-          boardBounds.center.dx,
-          boardBounds.bottom + 10,
+          boardBounds.center.dx - 3.07,
+          boardBounds.center.dy - 2.4,
         ),
       ),
     );
