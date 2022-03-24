@@ -1,4 +1,5 @@
-// ignore_for_file: avoid_renaming_method_parameters, avoid_function_literals_in_foreach_calls
+// ignore_for_file: avoid_renaming_method_parameters,
+// ignore_for_file: avoid_function_literals_in_foreach_calls
 
 import 'dart:async';
 import 'dart:math';
