@@ -3,7 +3,7 @@ import 'package:pinball/game/game.dart';
 
 /// {@template board}
 /// The main flat surface of the [PinballGame].
-/// {entemplate}
+/// {endtemplate}
 class Board extends Component {
   /// {@macro board}
   Board();
