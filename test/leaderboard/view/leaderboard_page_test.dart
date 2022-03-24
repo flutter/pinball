@@ -53,7 +53,7 @@ void main() {
         ),
       );
 
-      expect(find.text(l10n.leadersboard), findsOneWidget);
+      expect(find.text(l10n.leaderboard), findsOneWidget);
       expect(find.text(l10n.retry), findsOneWidget);
     });
 
@@ -101,11 +101,12 @@ void main() {
         LeaderboardState(
           status: LeaderboardStatus.success,
           ranking: LeaderboardRanking(ranking: 0, outOf: 0),
-          leaderboard: const [
+          leaderboard: [
             LeaderboardEntry(
+              rank: '1',
               playerInitials: 'ABC',
               score: 10000,
-              character: CharacterType.dash,
+              character: DashTheme().characterAsset,
             ),
           ],
         ),
@@ -149,19 +150,19 @@ void main() {
 
   group('CharacterTypeX', () {
     test('converts CharacterType.android to AndroidTheme', () {
-      expect(CharacterType.android.theme, equals(AndroidTheme()));
+      expect(CharacterType.android.toTheme, equals(AndroidTheme()));
     });
 
     test('converts CharacterType.dash to DashTheme', () {
-      expect(CharacterType.dash.theme, equals(DashTheme()));
+      expect(CharacterType.dash.toTheme, equals(DashTheme()));
     });
 
     test('converts CharacterType.dino to DinoTheme', () {
-      expect(CharacterType.dino.theme, equals(DinoTheme()));
+      expect(CharacterType.dino.toTheme, equals(DinoTheme()));
     });
 
     test('converts CharacterType.sparky to SparkyTheme', () {
-      expect(CharacterType.sparky.theme, equals(SparkyTheme()));
+      expect(CharacterType.sparky.toTheme, equals(SparkyTheme()));
     });
   });
 
