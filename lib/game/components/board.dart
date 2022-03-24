@@ -1,6 +1,5 @@
 import 'package:flame/components.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball/flame/blueprint.dart';
 
 /// {@template board}
 /// The main flat surface of the [PinballGame].
