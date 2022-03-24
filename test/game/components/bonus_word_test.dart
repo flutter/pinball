@@ -194,6 +194,7 @@ void main() {
 
     group('bonus letter activation', () {
       final gameBloc = MockGameBloc();
+      final tester = flameBlocTester(gameBloc: () => gameBloc);
 
       BonusLetter _getBonusLetter(PinballGame game) {
         return game.children
@@ -211,8 +212,6 @@ void main() {
           initialState: const GameState.initial(),
         );
       });
-
-      final tester = flameBlocTester(gameBloc: () => gameBloc);
 
       tester.widgetTest(
         'adds BonusLetterActivated to GameBloc when not activated',

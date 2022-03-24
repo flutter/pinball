@@ -3,16 +3,17 @@
 import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball/flame/blueprint.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template flutter_forest}
 /// Area positioned at the top right of the [Board] where the [Ball]
-/// can bounce off [_DashNestBumper]s.
+/// can bounce off [DashNestBumper]s.
 ///
-/// When all [_DashNestBumper]s are hit at least once, the [GameBonus.dashNest]
-/// is awarded, and the [_BigDashNestBumper] releases a new [Ball].
+/// When all [DashNestBumper]s are hit at least once, the [GameBonus.dashNest]
+/// is awarded, and the [BigDashNestBumper] releases a new [Ball].
 /// {@endtemplate}
 // TODO(alestiago): Make a [Blueprint] once nesting [Blueprint] is implemented.
 class FlutterForest extends Component
@@ -40,14 +41,14 @@ class FlutterForest extends Component
 
   @override
   Future<void> onLoad() async {
-    gameRef.addContactCallback(_DashNestBumperBallContactCallback());
+    gameRef.addContactCallback(DashNestBumperBallContactCallback());
 
     // TODO(alestiago): adjust positioning once sprites are added.
-    final smallLeftNest = _SmallDashNestBumper(id: 'small_left_nest')
+    final smallLeftNest = SmallDashNestBumper(id: 'small_left_nest')
       ..initialPosition = position + Vector2(-4.8, 2.8);
-    final smallRightNest = _SmallDashNestBumper(id: 'small_right_nest')
+    final smallRightNest = SmallDashNestBumper(id: 'small_right_nest')
       ..initialPosition = position + Vector2(0.5, -5.5);
-    final bigNest = _BigDashNestBumper(id: 'big_nest')
+    final bigNest = BigDashNestBumper(id: 'big_nest')
       ..initialPosition = position;
 
     await addAll([
@@ -63,26 +64,29 @@ class FlutterForest extends Component
 ///
 /// When hit, the [GameState.score] is increased.
 /// {@endtemplate}
-abstract class _DashNestBumper extends BodyComponent<PinballGame>
+@visibleForTesting
+abstract class DashNestBumper extends BodyComponent<PinballGame>
     with ScorePoints, InitialPosition {
   /// {@template dash_nest_bumper}
-  _DashNestBumper({required this.id});
+  DashNestBumper({required this.id});
 
   final String id;
 }
 
-class _DashNestBumperBallContactCallback
-    extends ContactCallback<_DashNestBumper, Ball> {
+@visibleForTesting
+class DashNestBumperBallContactCallback
+    extends ContactCallback<DashNestBumper, Ball> {
   @override
-  void begin(_DashNestBumper dashNestBumper, Ball ball, Contact _) {
+  void begin(DashNestBumper dashNestBumper, Ball ball, Contact _) {
     dashNestBumper.gameRef.read<GameBloc>().add(
           DashNestActivated(dashNestBumper.id),
         );
   }
 }
 
-class _BigDashNestBumper extends _DashNestBumper {
-  _BigDashNestBumper({required String id}) : super(id: id);
+@visibleForTesting
+class BigDashNestBumper extends DashNestBumper {
+  BigDashNestBumper({required String id}) : super(id: id);
 
   @override
   int get points => 20;
@@ -101,8 +105,9 @@ class _BigDashNestBumper extends _DashNestBumper {
   }
 }
 
-class _SmallDashNestBumper extends _DashNestBumper {
-  _SmallDashNestBumper({required String id}) : super(id: id);
+@visibleForTesting
+class SmallDashNestBumper extends DashNestBumper {
+  SmallDashNestBumper({required String id}) : super(id: id);
 
   @override
   int get points => 10;
