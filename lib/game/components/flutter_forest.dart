@@ -13,7 +13,8 @@ import 'package:pinball/game/game.dart';
 /// is awarded, and the [_BigDashNestBumper] releases a new [Ball].
 /// {@endtemplate}
 // TODO(alestiago): Make a [Blueprint] once nesting [Blueprint] is implemented.
-class FlutterForest extends Component with HasGameRef<PinballGame> {
+class FlutterForest extends Component
+    with HasGameRef<PinballGame>, BlocComponent<GameBloc, GameState> {
   /// {@macro flutter_forest}
   FlutterForest({
     required this.position,
@@ -21,6 +22,19 @@ class FlutterForest extends Component with HasGameRef<PinballGame> {
 
   /// The position of the [FlutterForest] on the [Board].
   final Vector2 position;
+
+  @override
+  bool listenWhen(GameState? previousState, GameState newState) {
+    return (previousState?.bonusHistory.length ?? 0) <
+            newState.bonusHistory.length &&
+        newState.bonusHistory.last == GameBonus.dashNest;
+  }
+
+  @override
+  void onNewState(GameState state) {
+    super.onNewState(state);
+    gameRef.add(Ball()..initialPosition = position);
+  }
 
   @override
   Future<void> onLoad() async {
@@ -48,7 +62,7 @@ class FlutterForest extends Component with HasGameRef<PinballGame> {
 /// When hit, the [GameState.score] is increased.
 /// {@endtemplate}
 abstract class _DashNestBumper extends BodyComponent<PinballGame>
-    with BlocComponent<GameBloc, GameState>, ScorePoints, InitialPosition {
+    with ScorePoints, InitialPosition {
   /// {@template dash_nest_bumper}
   _DashNestBumper({required this.id});
 
