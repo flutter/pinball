@@ -4,9 +4,11 @@ import 'dart:collection';
 
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_components/pinball_components.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -17,13 +19,14 @@ void main() {
   group(
     'Flipper',
     () {
+      // TODO(alestiago): Add golden tests.
       flameTester.test(
         'loads correctly',
         (game) async {
-          final leftFlipper = Flipper.fromSide(
+          final leftFlipper = Flipper(
             side: BoardSide.left,
           );
-          final rightFlipper = Flipper.fromSide(
+          final rightFlipper = Flipper(
             side: BoardSide.right,
           );
           await game.ready();
@@ -36,13 +39,13 @@ void main() {
 
       group('constructor', () {
         test('sets BoardSide', () {
-          final leftFlipper = Flipper.fromSide(
+          final leftFlipper = Flipper(
             side: BoardSide.left,
           );
 
           expect(leftFlipper.side, equals(leftFlipper.side));
 
-          final rightFlipper = Flipper.fromSide(
+          final rightFlipper = Flipper(
             side: BoardSide.right,
           );
           expect(rightFlipper.side, equals(rightFlipper.side));
@@ -53,7 +56,7 @@ void main() {
         flameTester.test(
           'is dynamic',
           (game) async {
-            final flipper = Flipper.fromSide(
+            final flipper = Flipper(
               side: BoardSide.left,
             );
             await game.ensureAdd(flipper);
@@ -65,7 +68,7 @@ void main() {
         flameTester.test(
           'ignores gravity',
           (game) async {
-            final flipper = Flipper.fromSide(
+            final flipper = Flipper(
               side: BoardSide.left,
             );
             await game.ensureAdd(flipper);
@@ -77,10 +80,10 @@ void main() {
         flameTester.test(
           'has greater mass than Ball',
           (game) async {
-            final flipper = Flipper.fromSide(
+            final flipper = Flipper(
               side: BoardSide.left,
             );
-            final ball = Ball();
+            final ball = Ball(baseColor: Colors.white);
 
             await game.ready();
             await game.ensureAddAll([flipper, ball]);
@@ -97,7 +100,7 @@ void main() {
         flameTester.test(
           'has three',
           (game) async {
-            final flipper = Flipper.fromSide(
+            final flipper = Flipper(
               side: BoardSide.left,
             );
             await game.ensureAdd(flipper);
@@ -109,7 +112,7 @@ void main() {
         flameTester.test(
           'has density',
           (game) async {
-            final flipper = Flipper.fromSide(
+            final flipper = Flipper(
               side: BoardSide.left,
             );
             await game.ensureAdd(flipper);
@@ -139,7 +142,7 @@ void main() {
           late Flipper flipper;
 
           setUp(() {
-            flipper = Flipper.fromSide(
+            flipper = Flipper(
               side: BoardSide.left,
             );
           });
@@ -205,7 +208,7 @@ void main() {
           late Flipper flipper;
 
           setUp(() {
-            flipper = Flipper.fromSide(
+            flipper = Flipper(
               side: BoardSide.right,
             );
           });
@@ -269,159 +272,4 @@ void main() {
       });
     },
   );
-
-  group('FlipperAnchor', () {
-    flameTester.test(
-      'position is at the left of the left Flipper',
-      (game) async {
-        final flipper = Flipper.fromSide(
-          side: BoardSide.left,
-        );
-        await game.ensureAdd(flipper);
-
-        final flipperAnchor = FlipperAnchor(flipper: flipper);
-        await game.ensureAdd(flipperAnchor);
-
-        expect(flipperAnchor.body.position.x, equals(-Flipper.size.x / 2));
-      },
-    );
-
-    flameTester.test(
-      'position is at the right of the right Flipper',
-      (game) async {
-        final flipper = Flipper.fromSide(
-          side: BoardSide.right,
-        );
-        await game.ensureAdd(flipper);
-
-        final flipperAnchor = FlipperAnchor(flipper: flipper);
-        await game.ensureAdd(flipperAnchor);
-
-        expect(flipperAnchor.body.position.x, equals(Flipper.size.x / 2));
-      },
-    );
-  });
-
-  group('FlipperAnchorRevoluteJointDef', () {
-    group('initializes with', () {
-      flameTester.test(
-        'limits enabled',
-        (game) async {
-          final flipper = Flipper.fromSide(
-            side: BoardSide.left,
-          );
-          await game.ensureAdd(flipper);
-
-          final flipperAnchor = FlipperAnchor(flipper: flipper);
-          await game.ensureAdd(flipperAnchor);
-
-          final jointDef = FlipperAnchorRevoluteJointDef(
-            flipper: flipper,
-            anchor: flipperAnchor,
-          );
-
-          expect(jointDef.enableLimit, isTrue);
-        },
-      );
-
-      group('equal upper and lower limits', () {
-        flameTester.test(
-          'when Flipper is left',
-          (game) async {
-            final flipper = Flipper.fromSide(
-              side: BoardSide.left,
-            );
-            await game.ensureAdd(flipper);
-
-            final flipperAnchor = FlipperAnchor(flipper: flipper);
-            await game.ensureAdd(flipperAnchor);
-
-            final jointDef = FlipperAnchorRevoluteJointDef(
-              flipper: flipper,
-              anchor: flipperAnchor,
-            );
-
-            expect(jointDef.lowerAngle, equals(jointDef.upperAngle));
-          },
-        );
-
-        flameTester.test(
-          'when Flipper is right',
-          (game) async {
-            final flipper = Flipper.fromSide(
-              side: BoardSide.right,
-            );
-            await game.ensureAdd(flipper);
-
-            final flipperAnchor = FlipperAnchor(flipper: flipper);
-            await game.ensureAdd(flipperAnchor);
-
-            final jointDef = FlipperAnchorRevoluteJointDef(
-              flipper: flipper,
-              anchor: flipperAnchor,
-            );
-
-            expect(jointDef.lowerAngle, equals(jointDef.upperAngle));
-          },
-        );
-      });
-    });
-
-    group(
-      'unlocks',
-      () {
-        flameTester.test(
-          'when Flipper is left',
-          (game) async {
-            final flipper = Flipper.fromSide(
-              side: BoardSide.left,
-            );
-            await game.ensureAdd(flipper);
-
-            final flipperAnchor = FlipperAnchor(flipper: flipper);
-            await game.ensureAdd(flipperAnchor);
-
-            final jointDef = FlipperAnchorRevoluteJointDef(
-              flipper: flipper,
-              anchor: flipperAnchor,
-            );
-            final joint = game.world.createJoint(jointDef) as RevoluteJoint;
-
-            FlipperAnchorRevoluteJointDef.unlock(joint, flipper.side);
-
-            expect(
-              joint.upperLimit,
-              isNot(equals(joint.lowerLimit)),
-            );
-          },
-        );
-
-        flameTester.test(
-          'when Flipper is right',
-          (game) async {
-            final flipper = Flipper.fromSide(
-              side: BoardSide.right,
-            );
-            await game.ensureAdd(flipper);
-
-            final flipperAnchor = FlipperAnchor(flipper: flipper);
-            await game.ensureAdd(flipperAnchor);
-
-            final jointDef = FlipperAnchorRevoluteJointDef(
-              flipper: flipper,
-              anchor: flipperAnchor,
-            );
-            final joint = game.world.createJoint(jointDef) as RevoluteJoint;
-
-            FlipperAnchorRevoluteJointDef.unlock(joint, flipper.side);
-
-            expect(
-              joint.upperLimit,
-              isNot(equals(joint.lowerLimit)),
-            );
-          },
-        );
-      },
-    );
-  });
 }

@@ -57,7 +57,7 @@ void main() {
 
       final top10Leaderboard = top10Scores
           .map(
-            (score) => LeaderboardEntry(
+            (score) => LeaderboardEntryData(
               playerInitials: 'user$score',
               score: score,
               character: CharacterType.dash,
@@ -144,7 +144,7 @@ void main() {
         entryScore,
         1000,
       ];
-      final leaderboardEntry = LeaderboardEntry(
+      final leaderboardEntry = LeaderboardEntryData(
         playerInitials: 'ABC',
         score: entryScore,
         character: CharacterType.dash,

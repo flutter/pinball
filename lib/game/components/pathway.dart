@@ -2,7 +2,7 @@ import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:geometry/geometry.dart';
-import 'package:pinball/game/game.dart';
+import 'package:pinball_components/pinball_components.dart';
 
 /// {@template pathway}
 /// [Pathway] creates lines of various shapes.
@@ -136,6 +136,46 @@ class Pathway extends BodyComponent with InitialPosition, Layered {
             .toList(),
       ).map((vector) => vector..rotate(rotation)).toList();
       paths.add(secondWall);
+    }
+
+    return Pathway._(
+      color: color,
+      paths: paths,
+    );
+  }
+
+  /// Creates an ellipse [Pathway].
+  ///
+  /// Does so with two [ChainShape]s separated by a [width]. Can
+  /// be rotated by a given [rotation] in radians.
+  ///
+  /// If [singleWall] is true, just one [ChainShape] is created.
+  factory Pathway.ellipse({
+    Color? color,
+    required Vector2 center,
+    required double width,
+    required double majorRadius,
+    required double minorRadius,
+    double rotation = 0,
+    bool singleWall = false,
+  }) {
+    final paths = <List<Vector2>>[];
+
+    // TODO(ruialonso): Refactor repetitive logic
+    final outerWall = calculateEllipse(
+      center: center,
+      majorRadius: majorRadius,
+      minorRadius: minorRadius,
+    ).map((vector) => vector..rotate(rotation)).toList();
+    paths.add(outerWall);
+
+    if (!singleWall) {
+      final innerWall = calculateEllipse(
+        center: center,
+        majorRadius: majorRadius - width,
+        minorRadius: minorRadius - width,
+      ).map((vector) => vector..rotate(rotation)).toList();
+      paths.add(innerWall);
     }
 
     return Pathway._(
