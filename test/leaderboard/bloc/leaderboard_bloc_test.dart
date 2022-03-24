@@ -5,8 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/leaderboard/leaderboard.dart';
+import 'package:pinball_theme/pinball_theme.dart';
 
-class MockLeaderboardRepository extends Mock implements LeaderboardRepository {}
+import '../../helpers/helpers.dart';
 
 void main() {
   group('LeaderboardBloc', () {
@@ -42,7 +43,7 @@ void main() {
 
       final top10Leaderboard = top10Scores
           .map(
-            (score) => LeaderboardEntry(
+            (score) => LeaderboardEntryData(
               playerInitials: 'user$score',
               score: score,
               character: CharacterType.dash,
@@ -101,7 +102,7 @@ void main() {
     });
 
     group('LeaderboardEntryAdded', () {
-      final leaderboardEntry = LeaderboardEntry(
+      final leaderboardEntry = LeaderboardEntryData(
         playerInitials: 'ABC',
         score: 1500,
         character: CharacterType.dash,
@@ -161,6 +162,42 @@ void main() {
         ).called(1),
         errors: () => [isA<Exception>()],
       );
+    });
+  });
+
+  group('CharacterTypeX', () {
+    test('converts CharacterType.android to AndroidTheme', () {
+      expect(CharacterType.android.toTheme, equals(AndroidTheme()));
+    });
+
+    test('converts CharacterType.dash to DashTheme', () {
+      expect(CharacterType.dash.toTheme, equals(DashTheme()));
+    });
+
+    test('converts CharacterType.dino to DinoTheme', () {
+      expect(CharacterType.dino.toTheme, equals(DinoTheme()));
+    });
+
+    test('converts CharacterType.sparky to SparkyTheme', () {
+      expect(CharacterType.sparky.toTheme, equals(SparkyTheme()));
+    });
+  });
+
+  group('CharacterThemeX', () {
+    test('converts AndroidTheme to CharacterType.android', () {
+      expect(AndroidTheme().toType, equals(CharacterType.android));
+    });
+
+    test('converts DashTheme to CharacterType.dash', () {
+      expect(DashTheme().toType, equals(CharacterType.dash));
+    });
+
+    test('converts DinoTheme to CharacterType.dino', () {
+      expect(DinoTheme().toType, equals(CharacterType.dino));
+    });
+
+    test('converts SparkyTheme to CharacterType.sparky', () {
+      expect(SparkyTheme().toType, equals(CharacterType.sparky));
     });
   });
 }
