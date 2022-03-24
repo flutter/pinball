@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'leaderboard_entry.g.dart';
+part 'leaderboard_entry_data.g.dart';
 
-/// Google character type associated with a [LeaderboardEntry].
+/// Google character type associated with a [LeaderboardEntryData].
 enum CharacterType {
   /// Dash character.
   dash,
@@ -18,7 +18,7 @@ enum CharacterType {
   dino,
 }
 
-/// {@template leaderboard_entry}
+/// {@template leaderboard_entry_data}
 /// A model representing a leaderboard entry containing the player's initials,
 /// score, and chosen character.
 ///
@@ -34,42 +34,42 @@ enum CharacterType {
 /// ```
 /// {@endtemplate}
 @JsonSerializable()
-class LeaderboardEntry extends Equatable {
-  /// {@macro leaderboard_entry}
-  const LeaderboardEntry({
+class LeaderboardEntryData extends Equatable {
+  /// {@macro leaderboard_entry_data}
+  const LeaderboardEntryData({
     required this.playerInitials,
     required this.score,
     required this.character,
   });
 
-  /// Factory which converts a [Map] into a [LeaderboardEntry].
-  factory LeaderboardEntry.fromJson(Map<String, dynamic> json) {
+  /// Factory which converts a [Map] into a [LeaderboardEntryData].
+  factory LeaderboardEntryData.fromJson(Map<String, dynamic> json) {
     return _$LeaderboardEntryFromJson(json);
   }
 
-  /// Converts the [LeaderboardEntry] to [Map].
+  /// Converts the [LeaderboardEntryData] to [Map].
   Map<String, dynamic> toJson() => _$LeaderboardEntryToJson(this);
 
-  /// Player's chosen initials for [LeaderboardEntry].
+  /// Player's chosen initials for [LeaderboardEntryData].
   ///
   /// Example: 'ABC'.
   @JsonKey(name: 'playerInitials')
   final String playerInitials;
 
-  /// Score for [LeaderboardEntry].
+  /// Score for [LeaderboardEntryData].
   ///
   /// Example: 1500.
   @JsonKey(name: 'score')
   final int score;
 
-  /// [CharacterType] for [LeaderboardEntry].
+  /// [CharacterType] for [LeaderboardEntryData].
   ///
   /// Example: [CharacterType.dash].
   @JsonKey(name: 'character')
   final CharacterType character;
 
-  /// An empty [LeaderboardEntry] object.
-  static const empty = LeaderboardEntry(
+  /// An empty [LeaderboardEntryData] object.
+  static const empty = LeaderboardEntryData(
     playerInitials: '',
     score: 0,
     character: CharacterType.dash,

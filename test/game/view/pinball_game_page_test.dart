@@ -88,6 +88,7 @@ void main() {
           score: 0,
           balls: 0,
           activatedBonusLetters: [],
+          activatedDashNests: {},
           bonusHistory: [],
         );
 

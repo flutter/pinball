@@ -156,6 +156,7 @@ void main() {
               score: 10,
               balls: 1,
               activatedBonusLetters: [],
+              activatedDashNests: {},
               bonusHistory: [],
             ),
           );

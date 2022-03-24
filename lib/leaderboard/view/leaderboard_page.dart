@@ -202,14 +202,7 @@ class _LeaderboardList extends StatelessWidget {
     return ListView.builder(
       shrinkWrap: true,
       itemBuilder: (_, index) => _LeaderBoardCompetitor(
-        competitor: Competitor(
-          rank: (index + 1).toString(),
-          entry: LeaderboardEntry(
-            character: CharacterType.android,
-            playerInitials: 'user$index',
-            score: 0,
-          ),
-        ),
+        entry: ranking[index],
         theme: theme,
       ),
       itemCount: ranking.length,
@@ -220,13 +213,13 @@ class _LeaderboardList extends StatelessWidget {
 class _LeaderBoardCompetitor extends StatelessWidget {
   const _LeaderBoardCompetitor({
     Key? key,
-    required this.competitor,
+    required this.entry,
     required this.theme,
   }) : super(key: key);
 
   final CharacterTheme theme;
 
-  final Competitor competitor;
+  final LeaderboardEntry entry;
 
   @override
   Widget build(BuildContext context) {
@@ -234,19 +227,19 @@ class _LeaderBoardCompetitor extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _LeaderboardCompetitorField(
-          text: competitor.rank,
+          text: entry.rank,
           theme: theme,
         ),
         _LeaderboardCompetitorCharacter(
-          characterTheme: competitor.entry.character.theme,
+          characterAsset: entry.character,
           theme: theme,
         ),
         _LeaderboardCompetitorField(
-          text: competitor.entry.playerInitials,
+          text: entry.playerInitials,
           theme: theme,
         ),
         _LeaderboardCompetitorField(
-          text: competitor.entry.score.toString(),
+          text: entry.score.toString(),
           theme: theme,
         ),
       ],
@@ -286,12 +279,12 @@ class _LeaderboardCompetitorField extends StatelessWidget {
 class _LeaderboardCompetitorCharacter extends StatelessWidget {
   const _LeaderboardCompetitorCharacter({
     Key? key,
-    required this.characterTheme,
+    required this.characterAsset,
     required this.theme,
   }) : super(key: key);
 
   final CharacterTheme theme;
-  final CharacterTheme characterTheme;
+  final AssetGenImage characterAsset;
 
   @override
   Widget build(BuildContext context) {
@@ -305,49 +298,9 @@ class _LeaderboardCompetitorCharacter extends StatelessWidget {
         ),
         child: SizedBox(
           height: 30,
-          child: characterTheme.characterAsset.image(),
+          child: characterAsset.image(),
         ),
       ),
     );
-  }
-}
-
-// TODO(ruimiguel): move below model and extensions to LeaderboardState
-class Competitor {
-  Competitor({required this.rank, required this.entry});
-
-  final String rank;
-  final LeaderboardEntry entry;
-}
-
-extension CharacterTypeX on CharacterType {
-  CharacterTheme get theme {
-    switch (this) {
-      case CharacterType.dash:
-        return const DashTheme();
-      case CharacterType.sparky:
-        return const SparkyTheme();
-      case CharacterType.android:
-        return const AndroidTheme();
-      case CharacterType.dino:
-        return const DinoTheme();
-    }
-  }
-}
-
-extension CharacterThemeX on CharacterTheme {
-  CharacterType get toType {
-    switch (runtimeType) {
-      case DashTheme:
-        return CharacterType.dash;
-      case SparkyTheme:
-        return CharacterType.sparky;
-      case AndroidTheme:
-        return CharacterType.android;
-      case DinoTheme:
-        return CharacterType.dino;
-      default:
-        return CharacterType.dash;
-    }
   }
 }

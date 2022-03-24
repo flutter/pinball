@@ -144,9 +144,50 @@ class Pathway extends BodyComponent with InitialPosition, Layered {
     );
   }
 
+  /// Creates an ellipse [Pathway].
+  ///
+  /// Does so with two [ChainShape]s separated by a [width]. Can
+  /// be rotated by a given [rotation] in radians.
+  ///
+  /// If [singleWall] is true, just one [ChainShape] is created.
+  factory Pathway.ellipse({
+    Color? color,
+    required Vector2 center,
+    required double width,
+    required double majorRadius,
+    required double minorRadius,
+    double rotation = 0,
+    bool singleWall = false,
+  }) {
+    final paths = <List<Vector2>>[];
+
+    // TODO(ruialonso): Refactor repetitive logic
+    final outerWall = calculateEllipse(
+      center: center,
+      majorRadius: majorRadius,
+      minorRadius: minorRadius,
+    ).map((vector) => vector..rotate(rotation)).toList();
+    paths.add(outerWall);
+
+    if (!singleWall) {
+      final innerWall = calculateEllipse(
+        center: center,
+        majorRadius: majorRadius - width,
+        minorRadius: minorRadius - width,
+      ).map((vector) => vector..rotate(rotation)).toList();
+      paths.add(innerWall);
+    }
+
+    return Pathway._(
+      color: color,
+      paths: paths,
+    );
+  }
+
   final List<List<Vector2>> _paths;
 
-  List<FixtureDef> _createFixtureDefs() {
+  /// Constructs different [ChainShape]s to form the [Pathway] shape.
+  List<FixtureDef> createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
 
     for (final path in _paths) {
@@ -161,7 +202,7 @@ class Pathway extends BodyComponent with InitialPosition, Layered {
   Body createBody() {
     final bodyDef = BodyDef()..position = initialPosition;
     final body = world.createBody(bodyDef);
-    _createFixtureDefs().forEach(body.createFixture);
+    createFixtureDefs().forEach(body.createFixture);
 
     return body;
   }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
+import 'package:pinball/leaderboard/leaderboard.dart';
 
 part 'leaderboard_event.dart';
 part 'leaderboard_state.dart';
@@ -30,10 +31,16 @@ class LeaderboardBloc extends Bloc<LeaderboardEvent, LeaderboardState> {
     try {
       final top10Leaderboard =
           await _leaderboardRepository.fetchTop10Leaderboard();
+
+      final leaderboardEntries = <LeaderboardEntry>[];
+      top10Leaderboard.asMap().forEach(
+            (index, value) => leaderboardEntries.add(value.toEntry(index + 1)),
+          );
+
       emit(
         state.copyWith(
           status: LeaderboardStatus.success,
-          leaderboard: top10Leaderboard,
+          leaderboard: leaderboardEntries,
         ),
       );
     } catch (error) {
