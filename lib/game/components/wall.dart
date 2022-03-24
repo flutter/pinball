@@ -4,6 +4,7 @@ import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/components/components.dart';
 import 'package:pinball/game/pinball_game.dart';
+import 'package:pinball_components/pinball_components.dart';
 
 /// {@template wall}
 /// A continuous generic and [BodyType.static] barrier that divides a game area.
@@ -77,6 +78,6 @@ class BottomWall extends Wall {
 class BottomWallBallContactCallback extends ContactCallback<Ball, BottomWall> {
   @override
   void begin(Ball ball, BottomWall wall, Contact contact) {
-    ball.lost();
+    ball.controller.lost();
   }
 }

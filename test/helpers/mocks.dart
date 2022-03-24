@@ -1,3 +1,4 @@
+import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/foundation.dart';
@@ -6,6 +7,7 @@ import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/theme/theme.dart';
+import 'package:pinball_components/pinball_components.dart';
 
 class MockPinballGame extends Mock implements PinballGame {}
 
@@ -16,6 +18,8 @@ class MockBottomWall extends Mock implements BottomWall {}
 class MockBody extends Mock implements Body {}
 
 class MockBall extends Mock implements Ball {}
+
+class MockBallController extends Mock implements BallController {}
 
 class MockContact extends Mock implements Contact {}
 
@@ -62,3 +66,5 @@ class MockFixture extends Mock implements Fixture {}
 class MockSpaceshipEntrance extends Mock implements SpaceshipEntrance {}
 
 class MockSpaceshipHole extends Mock implements SpaceshipHole {}
+
+class MockComponentSet extends Mock implements ComponentSet {}

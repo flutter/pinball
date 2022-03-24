@@ -5,6 +5,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:geometry/geometry.dart' as geometry show centroid;
 import 'package:pinball/game/game.dart';
+import 'package:pinball_components/pinball_components.dart';
 
 /// {@template kicker}
 /// Triangular [BodyType.static] body that propels the [Ball] towards the

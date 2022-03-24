@@ -10,7 +10,6 @@ export 'jetpack_ramp.dart';
 export 'joint_anchor.dart';
 export 'kicker.dart';
 export 'launcher_ramp.dart';
-export 'layer.dart';
 export 'pathway.dart';
 export 'plunger.dart';
 export 'ramp_opening.dart';
