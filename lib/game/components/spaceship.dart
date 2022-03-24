@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_renaming_method_parameters
+// ignore_for_file: avoid_renaming_method_parameters, avoid_function_literals_in_foreach_calls
 
 import 'dart:async';
 import 'dart:math';
@@ -26,14 +26,28 @@ class Spaceship extends Forge2DBlueprint {
       SpaceshipEntranceBallContactCallback(),
     ]);
 
-    addAll([
-      SpaceshipSaucer()..initialPosition = position,
+    const ballPriorityWhenOnSpaceship = 3;
+
+    final rendersBehindBall = [
       SpaceshipEntrance()..initialPosition = position,
+      SpaceshipSaucer()..initialPosition = position,
+    ]..forEach(
+        (component) => component.priority = ballPriorityWhenOnSpaceship - 1,
+      );
+
+    final rendersInFrontOfBall = [
       SpaceshipBridge()..initialPosition = position,
       SpaceshipBridgeTop()..initialPosition = position + Vector2(0, 5.5),
+      SpaceshipWall()..initialPosition = position,
+    ]..forEach(
+        (component) => component.priority = ballPriorityWhenOnSpaceship + 1,
+      );
+
+    addAll([
+      ...rendersBehindBall,
+      ...rendersInFrontOfBall,
       SpaceshipHole()..initialPosition = position - Vector2(5, 4),
       SpaceshipHole()..initialPosition = position - Vector2(-5, 4),
-      SpaceshipWall()..initialPosition = position,
     ]);
   }
 }
@@ -41,12 +55,10 @@ class Spaceship extends Forge2DBlueprint {
 /// {@template spaceship_saucer}
 /// A [BodyComponent] for the base, or the saucer of the spaceship
 /// {@endtemplate}
-class SpaceshipSaucer extends BodyComponent
-    with InitialPosition, Layered, Elevated {
+class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_saucer}
   SpaceshipSaucer() {
     layer = Layer.spaceship;
-    elevation = Elevation.spaceship.order - 1;
   }
 
   @override
@@ -97,11 +109,9 @@ class SpaceshipSaucer extends BodyComponent
 /// The bridge of the spaceship (the android head) is divided in two
 // [BodyComponent]s, this is the top part of it which contains a single sprite
 /// {@endtemplate}
-class SpaceshipBridgeTop extends BodyComponent with InitialPosition, Elevated {
+class SpaceshipBridgeTop extends BodyComponent with InitialPosition {
   /// {@macro spaceship_bridge_top}
-  SpaceshipBridgeTop() {
-    elevation = Elevation.spaceship.order * 2;
-  }
+  SpaceshipBridgeTop();
 
   @override
   Future<void> onLoad() async {
@@ -134,12 +144,10 @@ class SpaceshipBridgeTop extends BodyComponent with InitialPosition, Elevated {
 /// The main part of the [SpaceshipBridge], this [BodyComponent]
 /// provides both the collision and the rotation animation for the bridge.
 /// {@endtemplate}
-class SpaceshipBridge extends BodyComponent
-    with InitialPosition, Layered, Elevated {
+class SpaceshipBridge extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_bridge}
   SpaceshipBridge() {
     layer = Layer.spaceship;
-    elevation = Elevation.spaceship.order;
   }
 
   @override
@@ -246,12 +254,10 @@ class SpaceshipHole extends BodyComponent with InitialPosition, Layered {
 /// [Ball] to get inside the spaceship saucer.
 /// It also contains the [SpriteComponent] for the lower wall
 /// {@endtemplate}
-class SpaceshipWall extends BodyComponent
-    with InitialPosition, Layered, Elevated {
+class SpaceshipWall extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_wall}
-  SpaceshipWall() : super(priority: 4) {
+  SpaceshipWall() {
     layer = Layer.spaceship;
-    elevation = Elevation.spaceship.order + 1;
   }
 
   @override
@@ -311,8 +317,8 @@ class SpaceshipEntranceBallContactCallback
   @override
   void begin(SpaceshipEntrance entrance, Ball ball, _) {
     ball
-      ..elevation = Elevation.spaceship.order
-      ..layer = Layer.spaceship;
+      ..layer = Layer.spaceship
+      ..showInFrontOf(entrance);
   }
 }
 
@@ -326,7 +332,7 @@ class SpaceshipHoleBallContactCallback
   @override
   void begin(SpaceshipHole hole, Ball ball, _) {
     ball
-      ..elevation = Elevation.board.order
-      ..layer = Layer.board;
+      ..layer = Layer.board
+      ..sendToBack();
   }
 }

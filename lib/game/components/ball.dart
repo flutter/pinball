@@ -7,8 +7,7 @@ import 'package:pinball/gen/assets.gen.dart';
 /// A solid, [BodyType.dynamic] sphere that rolls and bounces along the
 /// [PinballGame].
 /// {@endtemplate}
-class Ball extends BodyComponent<PinballGame>
-    with InitialPosition, Layered, Elevated {
+class Ball extends BodyComponent<PinballGame> with InitialPosition, Layered {
   /// {@macro ball}
   Ball() {
     // TODO(ruimiguel): while developing Ball can be launched by clicking mouse,

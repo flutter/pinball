@@ -2,10 +2,10 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pinball/game/components/elevation.dart';
+import 'package:pinball/game/components/priority.dart';
 import 'package:pinball/game/game.dart';
 
-class TestBodyComponent extends BodyComponent with Elevated {
+class TestBodyComponent extends BodyComponent {
   @override
   Body createBody() {
     final fixtureDef = FixtureDef(CircleShape());
@@ -16,7 +16,7 @@ class TestBodyComponent extends BodyComponent with Elevated {
 void main() {
   final flameTester = FlameTester(Forge2DGame.new);
 
-  group('Elevated', () {
+  group('ComponentPriorityX', () {
     test('correctly sets and gets', () {
       final component = TestBodyComponent()
         ..elevation = Elevation.spaceship.order;
