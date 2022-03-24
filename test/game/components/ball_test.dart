@@ -38,7 +38,7 @@ void main() {
 
       group('can be moved', () {
         flameTester.test('by its weight', (game) async {
-          final ball = Ball();
+          final ball = Ball()..initialPosition = Vector2(0, 10);
           await game.ensureAdd(ball);
 
           game.update(1);
@@ -46,7 +46,7 @@ void main() {
         });
 
         flameTester.test('by applying velocity', (game) async {
-          final ball = Ball();
+          final ball = Ball()..initialPosition = Vector2(0, 10);
           await game.ensureAdd(ball);
 
           ball.body.gravityScale = 0;
@@ -201,7 +201,7 @@ void main() {
         flameTester.test(
           'by its weight when previously stopped',
           (game) async {
-            final ball = Ball();
+            final ball = Ball()..initialPosition = Vector2(0, 10);
             await game.ensureAdd(ball);
             ball.stop();
             ball.resume();
@@ -214,7 +214,7 @@ void main() {
         flameTester.test(
           'by applying velocity when previously stopped',
           (game) async {
-            final ball = Ball();
+            final ball = Ball()..initialPosition = Vector2(0, 10);
             await game.ensureAdd(ball);
             ball.stop();
             ball.resume();

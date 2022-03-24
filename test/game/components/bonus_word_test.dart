@@ -187,7 +187,7 @@ void main() {
 
           final fixture = bonusLetter.body.fixtures[0];
           expect(fixture.shape.shapeType, equals(ShapeType.circle));
-          expect(fixture.shape.radius, equals(2));
+          expect(fixture.shape.radius, equals(1.85));
         },
       );
     });
