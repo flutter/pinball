@@ -1,3 +1,4 @@
+import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/foundation.dart';
@@ -59,3 +60,5 @@ class MockFixture extends Mock implements Fixture {}
 class MockSpaceshipEntrance extends Mock implements SpaceshipEntrance {}
 
 class MockSpaceshipHole extends Mock implements SpaceshipHole {}
+
+class MockComponent extends Mock implements Component {}

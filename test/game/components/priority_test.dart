@@ -1,9 +1,13 @@
 // ignore_for_file: cascade_invocations
+import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockingjay/mockingjay.dart';
 import 'package:pinball/game/components/priority.dart';
 import 'package:pinball/game/game.dart';
+
+import '../../helpers/helpers.dart';
 
 class TestBodyComponent extends BodyComponent {
   @override
@@ -17,108 +21,173 @@ void main() {
   final flameTester = FlameTester(Forge2DGame.new);
 
   group('ComponentPriorityX', () {
-    test('correctly sets and gets', () {
-      final component = TestBodyComponent()
-        ..elevation = Elevation.spaceship.order;
-      expect(component.elevation, Elevation.spaceship.order);
-    });
+    group('sendToBack', () {
+      flameTester.test(
+        'changes the priority correctly to board level',
+        (game) async {
+          final component = TestBodyComponent()..priority = 4;
 
-    flameTester.test(
-      'elevation correctly before being loaded',
-      (game) async {
-        const expectedElevation = Elevation.spaceship;
-        final component = TestBodyComponent()
-          ..elevation = expectedElevation.order;
-        await game.ensureAdd(component);
-        // TODO(alestiago): modify once component.loaded is available.
-        await component.mounted;
+          await game.ensureAdd(component);
+          component.sendToBack();
 
-        expect(component.elevation, equals(expectedElevation.order));
-      },
-    );
+          expect(component.priority, equals(0));
+        },
+      );
 
-    flameTester.test(
-      'elevation correctly before being loaded '
-      'when multiple different sets',
-      (game) async {
-        const expectedElevation = Elevation.spaceship;
-        final component = TestBodyComponent()
-          ..elevation = Elevation.jetpack.order;
+      flameTester.test(
+        'calls reorderChildren if the priority is greater than lowest level',
+        (game) async {
+          final component = MockComponent();
+          when(() => component.priority).thenReturn(4);
 
-        expect(component.elevation, isNot(equals(expectedElevation.order)));
-        component.elevation = expectedElevation.order;
+          await game.ensureAdd(component);
+          component.sendToBack();
 
-        await game.ensureAdd(component);
-        // TODO(alestiago): modify once component.loaded is available.
-        await component.mounted;
+          verify(component.reorderChildren).called(1);
+        },
+      );
 
-        expect(component.elevation, expectedElevation.order);
-      },
-    );
+      flameTester.test(
+        "doesn't call reorderChildren if the priority is the lowest level",
+        (game) async {
+          final component = MockComponent();
+          when(() => component.priority).thenReturn(0);
 
-    flameTester.test(
-      'elevation correctly after being loaded',
-      (game) async {
-        const expectedElevation = Elevation.spaceship;
-        final component = TestBodyComponent();
-        await game.ensureAdd(component);
-        component.elevation = expectedElevation.order;
-        expect(component.elevation, expectedElevation.order);
-      },
-    );
+          await game.ensureAdd(component);
+          component.sendToBack();
 
-    flameTester.test(
-      'elevation correctly after being loaded '
-      'when multiple different sets',
-      (game) async {
-        const expectedElevation = Elevation.spaceship;
-        final component = TestBodyComponent();
-        await game.ensureAdd(component);
-
-        component.elevation = Elevation.jetpack.order;
-        expect(component.elevation, isNot(equals(expectedElevation.order)));
-        component.elevation = expectedElevation.order;
-
-        expect(component.elevation, expectedElevation.order);
-      },
-    );
-
-    flameTester.test(
-      'defaults to Elevation.board '
-      'when no elevation is given',
-      (game) async {
-        final component = TestBodyComponent();
-        await game.ensureAdd(component);
-        expect(component.elevation, equals(Elevation.board.order));
-      },
-    );
-  });
-
-  group('ElevationOrder', () {
-    test('board is the lowest elevation', () {
-      for (final elevation in Elevation.values) {
-        if (elevation != Elevation.board) {
-          expect(elevation.order, greaterThan(Elevation.board.order));
-        }
-      }
-    });
-
-    test('jetpack has greater elevation than board', () {
-      expect(Elevation.jetpack.order, greaterThan(Elevation.board.order));
-    });
-
-    test('spaceship has greater elevation than board and next ramps', () {
-      expect(Elevation.spaceship.order, greaterThan(Elevation.jetpack.order));
-      expect(
-        Elevation.spaceship.order,
-        greaterThan(Elevation.spaceshipExitRail.order),
+          verifyNever(component.reorderChildren);
+        },
       );
     });
 
-    test('spaceshipExitRail has greater elevation than board', () {
-      expect(
-        Elevation.spaceshipExitRail.order,
-        greaterThan(Elevation.board.order),
+    group('showBehindOf', () {
+      flameTester.test(
+        'changes the priority if is greater than other component',
+        (game) async {
+          const startPriority = 2;
+          final component = TestBodyComponent()..priority = startPriority;
+          final otherComponent = TestBodyComponent()
+            ..priority = startPriority - 1;
+
+          await game.ensureAddAll([component, otherComponent]);
+          component.showBehindOf(otherComponent);
+
+          expect(component.priority, equals(otherComponent.priority - 1));
+        },
+      );
+
+      flameTester.test(
+        "doesn't change the priority if is lower than other component",
+        (game) async {
+          const startPriority = 2;
+          final component = TestBodyComponent()..priority = startPriority;
+          final otherComponent = TestBodyComponent()
+            ..priority = startPriority + 1;
+
+          await game.ensureAddAll([component, otherComponent]);
+          component.showBehindOf(otherComponent);
+
+          expect(component.priority, equals(startPriority));
+        },
+      );
+
+      flameTester.test(
+        'calls reorderChildren if the priority is greater than other component',
+        (game) async {
+          const startPriority = 2;
+          final component = MockComponent();
+          final otherComponent = MockComponent();
+          when(() => component.priority).thenReturn(startPriority);
+          when(() => otherComponent.priority).thenReturn(startPriority - 1);
+
+          await game.ensureAddAll([component, otherComponent]);
+          component.showBehindOf(otherComponent);
+
+          verify(component.reorderChildren).called(1);
+        },
+      );
+
+      flameTester.test(
+        "doesn't call reorderChildren if the priority is lower than other "
+        'component',
+        (game) async {
+          const startPriority = 2;
+          final component = MockComponent();
+          final otherComponent = MockComponent();
+          when(() => component.priority).thenReturn(startPriority);
+          when(() => otherComponent.priority).thenReturn(startPriority + 1);
+
+          await game.ensureAddAll([component, otherComponent]);
+          component.showBehindOf(otherComponent);
+
+          verifyNever(component.reorderChildren);
+        },
+      );
+    });
+
+    group('showInFrontOf', () {
+      flameTester.test(
+        'changes the priority if is lower than other component',
+        (game) async {
+          const startPriority = 2;
+          final component = TestBodyComponent()..priority = startPriority;
+          final otherComponent = TestBodyComponent()
+            ..priority = startPriority + 1;
+
+          await game.ensureAddAll([component, otherComponent]);
+          component.showInFrontOf(otherComponent);
+
+          expect(component.priority, equals(otherComponent.priority + 1));
+        },
+      );
+
+      flameTester.test(
+        "doesn't change the priority if is greater than other component",
+        (game) async {
+          const startPriority = 2;
+          final component = TestBodyComponent()..priority = startPriority;
+          final otherComponent = TestBodyComponent()
+            ..priority = startPriority - 1;
+
+          await game.ensureAddAll([component, otherComponent]);
+          component.showInFrontOf(otherComponent);
+
+          expect(component.priority, equals(startPriority));
+        },
+      );
+
+      flameTester.test(
+        'calls reorderChildren if the priority is lower than other component',
+        (game) async {
+          const startPriority = 2;
+          final component = MockComponent();
+          final otherComponent = MockComponent();
+          when(() => component.priority).thenReturn(startPriority);
+          when(() => otherComponent.priority).thenReturn(startPriority + 1);
+
+          await game.ensureAddAll([component, otherComponent]);
+          component.showInFrontOf(otherComponent);
+
+          verify(component.reorderChildren).called(1);
+        },
+      );
+
+      flameTester.test(
+        "doesn't call reorderChildren if the priority is greater than other "
+        'component',
+        (game) async {
+          const startPriority = 2;
+          final component = MockComponent();
+          final otherComponent = MockComponent();
+          when(() => component.priority).thenReturn(startPriority);
+          when(() => otherComponent.priority).thenReturn(startPriority - 1);
+
+          await game.ensureAddAll([component, otherComponent]);
+          component.showInFrontOf(otherComponent);
+
+          verifyNever(component.reorderChildren);
+        },
       );
     });
   });
