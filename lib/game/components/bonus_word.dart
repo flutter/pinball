@@ -84,10 +84,13 @@ class BonusWord extends Component with BlocComponent<GameBloc, GameState> {
       Vector2(-2.88, 1.75),
     ];
 
-    final mirroredOffsets = offsets.reversed
-        .map((position) => Vector2(-position.x, position.y))
-        .toList();
-    offsets.addAll(mirroredOffsets);
+    offsets.addAll(
+      offsets.reversed
+          .map(
+            (offset) => Vector2(-offset.x, offset.y),
+          )
+          .toList(),
+    );
     assert(offsets.length == GameBloc.bonusWord.length, 'Invalid positions');
 
     final letters = <BonusLetter>[];
