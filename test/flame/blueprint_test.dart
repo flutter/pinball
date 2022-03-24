@@ -14,10 +14,25 @@ class MyBlueprint extends Blueprint {
   }
 }
 
+class MyOtherBlueprint extends Blueprint {
+  @override
+  void build(_) {
+    add(Component());
+  }
+}
+
+class YetMyOtherBlueprint extends Blueprint {
+  @override
+  void build(_) {
+    add(Component());
+  }
+}
+
 class MyComposedBlueprint extends Blueprint {
   @override
   void build(_) {
     addBlueprint(MyBlueprint());
+    addAllBlueprints([MyOtherBlueprint(), YetMyOtherBlueprint()]);
   }
 }
 
@@ -42,6 +57,12 @@ void main() {
       expect(blueprint.components.length, equals(3));
     });
 
+    test('blueprints can be added to it', () {
+      final blueprint = MyComposedBlueprint()..build(MockPinballGame());
+
+      expect(blueprint.blueprints.length, equals(3));
+    });
+
     test('adds the components to a game on attach', () {
       final mockGame = MockPinballGame();
       when(() => mockGame.addAll(any())).thenAnswer((_) async {});
@@ -55,7 +76,7 @@ void main() {
       when(() => mockGame.addAll(any())).thenAnswer((_) async {});
       MyComposedBlueprint().attach(mockGame);
 
-      verify(() => mockGame.addAll(any())).called(2);
+      verify(() => mockGame.addAll(any())).called(4);
     });
 
     test(
