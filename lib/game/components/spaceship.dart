@@ -15,6 +15,7 @@ class Spaceship extends Forge2DBlueprint {
   /// Total size of the spaceship
   static const radius = 10.0;
 
+  /// Base priority for wall while be on spaceship.
   static const ballPriorityWhenOnSpaceship = 3;
 
   @override
