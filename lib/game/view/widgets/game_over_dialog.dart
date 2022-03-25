@@ -54,6 +54,7 @@ class _GameOverDialogViewState extends State<GameOverDialogView> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
+    // TODO(ruimiguel): refactor this view once UI design finished.
     return Dialog(
       child: SizedBox(
         width: 200,
@@ -61,73 +62,98 @@ class _GameOverDialogViewState extends State<GameOverDialogView> {
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Game Over',
-                  style: Theme.of(context).textTheme.headline4,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Your score is ${widget.score}',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                TextField(
-                  controller: playerInitialsInputController,
-                  textCapitalization: TextCapitalization.characters,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Enter your initials',
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    l10n.gameOver,
+                    style: Theme.of(context).textTheme.headline4,
                   ),
-                  maxLength: 3,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                // TODO(ruimiguel): refactor this view once UI design finished.
-                BlocBuilder<LeaderboardBloc, LeaderboardState>(
-                  builder: (context, state) {
-                    switch (state.status) {
-                      case LeaderboardStatus.loading:
-                        return TextButton(
-                          onPressed: () {
-                            context.read<LeaderboardBloc>().add(
-                                  LeaderboardEntryAdded(
-                                    entry: LeaderboardEntryData(
-                                      playerInitials:
-                                          playerInitialsInputController.text
-                                              .toUpperCase(),
-                                      score: widget.score,
-                                      character: widget.theme.toType,
-                                    ),
-                                  ),
-                                );
-                          },
-                          child: const Text('Add User'),
-                        );
-                      case LeaderboardStatus.success:
-                        return TextButton(
-                          onPressed: () => Navigator.of(context).push<void>(
-                            LeaderboardPage.route(theme: widget.theme),
-                          ),
-                          child: Text(l10n.leaderboard),
-                        );
-                      case LeaderboardStatus.error:
-                        return const Text('error');
-                    }
-                  },
-                ),
-              ],
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    '${l10n.yourScore} ${widget.score}',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  TextField(
+                    controller: playerInitialsInputController,
+                    textCapitalization: TextCapitalization.characters,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      hintText: l10n.enterInitials,
+                    ),
+                    maxLength: 3,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  _GameOverDialogActions(
+                    score: widget.score,
+                    theme: widget.theme,
+                    playerInitialsInputController:
+                        playerInitialsInputController,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class _GameOverDialogActions extends StatelessWidget {
+  const _GameOverDialogActions({
+    Key? key,
+    required this.score,
+    required this.theme,
+    required this.playerInitialsInputController,
+  }) : super(key: key);
+
+  final int score;
+  final CharacterTheme theme;
+  final TextEditingController playerInitialsInputController;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    return BlocBuilder<LeaderboardBloc, LeaderboardState>(
+      builder: (context, state) {
+        switch (state.status) {
+          case LeaderboardStatus.loading:
+            return TextButton(
+              onPressed: () {
+                context.read<LeaderboardBloc>().add(
+                      LeaderboardEntryAdded(
+                        entry: LeaderboardEntryData(
+                          playerInitials:
+                              playerInitialsInputController.text.toUpperCase(),
+                          score: score,
+                          character: theme.toType,
+                        ),
+                      ),
+                    );
+              },
+              child: Text(l10n.addUser),
+            );
+          case LeaderboardStatus.success:
+            return TextButton(
+              onPressed: () => Navigator.of(context).push<void>(
+                LeaderboardPage.route(theme: theme),
+              ),
+              child: Text(l10n.leaderboard),
+            );
+          case LeaderboardStatus.error:
+            return Text(l10n.error);
+        }
+      },
     );
   }
 }

@@ -51,5 +51,21 @@
     "retry": "Retry",
     "@retry": {
         "description": "Text displayed on the retry button leaders board page"
+    },
+    "addUser": "Add User",
+    "@addUser": {
+        "description": "Text displayed on the add user button at ending dialog"
+    },
+    "error": "Error",
+    "@error": {
+        "description": "Text displayed on the ending dialog when there is any error on sending user"
+    },
+    "yourScore": "Your score is",
+    "@yourScore": {
+        "description":  "Text displayed on the ending dialog when game finishes to show the final score"
+    },
+    "enterInitials": "Enter your initials",
+    "@enterInitials": {
+        "description":  "Text displayed on the ending dialog when game finishes to ask the user for his initials"
     }
 }
