@@ -13,6 +13,7 @@ void main() {
   final dashbook = Dashbook(theme: ThemeData.dark());
 
   addBallStories(dashbook);
+  addLayerStories(dashbook);
   addEffectsStories(dashbook);
   runApp(dashbook);
 }
