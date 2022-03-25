@@ -9,7 +9,7 @@ import 'package:pinball/flame/blueprint.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-/// A [Blueprint] which creates the launcher ramp.
+/// A [Blueprint] which creates the [LauncherRamp].
 class Launcher extends Forge2DBlueprint {
   /// Width between walls of the pathway.
   static const width = 5.0;
@@ -28,12 +28,8 @@ class Launcher extends Forge2DBlueprint {
       RampOpeningBallContactCallback<_LauncherRampOpening>(),
     ]);
 
-    final straightPath = LauncherStraightRamp()
+    final curvedPath = LauncherRamp()
       ..initialPosition = position + Vector2(1.7, 0)
-      ..layer = Layer.launcher;
-
-    final curvedPath = LauncherCurveRamp()
-      ..initialPosition = position + Vector2(-12, 59.3)
       ..layer = Layer.launcher;
 
     final leftOpening = _LauncherRampOpening(rotation: math.pi / 2)
@@ -44,7 +40,6 @@ class Launcher extends Forge2DBlueprint {
       ..layer = Layer.opening;
 
     addAll([
-      straightPath,
       curvedPath,
       leftOpening,
       rightOpening,
@@ -52,16 +47,16 @@ class Launcher extends Forge2DBlueprint {
   }
 }
 
-/// {@template launcher_straight_ramp}
-/// The green left ramp, where the [Ball] goes through when launched from the
+/// {@template launcher_ramp}
+/// The yellow right ramp, where the [Ball] goes through when launched from the
 /// [Plunger].
 /// {@endtemplate}
-class LauncherStraightRamp extends BodyComponent with InitialPosition, Layered {
-  /// {@macro launcher_straight_ramp}
-  LauncherStraightRamp() : super(priority: 2) {
+class LauncherRamp extends BodyComponent with InitialPosition, Layered {
+  /// {@macro launcher_ramp}
+  LauncherRamp() : super(priority: 2) {
     layer = Layer.launcher;
     paint = Paint()
-      ..color = const Color.fromARGB(255, 34, 255, 0)
+      ..color = const Color.fromARGB(255, 251, 255, 0)
       ..style = PaintingStyle.stroke;
   }
 
@@ -90,40 +85,8 @@ class LauncherStraightRamp extends BodyComponent with InitialPosition, Layered {
     final internalStraightFixtureDef = FixtureDef(internalStraightShape);
     fixturesDef.add(internalStraightFixtureDef);
 
-    return fixturesDef;
-  }
-
-  @override
-  Body createBody() {
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition;
-
-    final body = world.createBody(bodyDef);
-    _createFixtureDefs().forEach(body.createFixture);
-
-    return body;
-  }
-}
-
-/// {@template launcher_curve_ramp}
-/// The yellow left ramp, where the [Ball] goes through when launched from the
-/// [Plunger].
-/// {@endtemplate}
-class LauncherCurveRamp extends BodyComponent with InitialPosition, Layered {
-  /// {@macro launcher_curve_ramp}
-  LauncherCurveRamp() : super(priority: 2) {
-    layer = Layer.launcher;
-    paint = Paint()
-      ..color = const Color.fromARGB(255, 251, 255, 0)
-      ..style = PaintingStyle.stroke;
-  }
-
-  List<FixtureDef> _createFixtureDefs() {
-    final fixturesDef = <FixtureDef>[];
-
     final externalCurveShape = ArcShape(
-      center: initialPosition,
+      center: initialPosition + Vector2(-27.5, 119),
       arcRadius: Launcher.externalRadius,
       angle: math.pi / 2,
       rotation: 3 * math.pi / 2,
@@ -155,7 +118,7 @@ class LauncherCurveRamp extends BodyComponent with InitialPosition, Layered {
 
 /// {@template launcher_ramp_opening}
 /// [RampOpening] with [Layer.launcher] to filter [Ball]s collisions
-/// inside launcher ramp.
+/// inside [LauncherRamp].
 /// {@endtemplate}
 class _LauncherRampOpening extends RampOpening {
   /// {@macro launcher_ramp_opening}
