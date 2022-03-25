@@ -25,7 +25,7 @@ class EllipseShape extends ChainShape {
 
   /// The top left corner of the ellipse.
   ///
-  /// Where the initial painting begines.
+  /// Where the initial painting begins.
   // TODO(ruialonso): Change to use appropiate center.
   final Vector2 center;
 
@@ -37,9 +37,7 @@ class EllipseShape extends ChainShape {
 
   /// Rotates the ellipse by a given [angle] in radians.
   void rotate(double angle) {
-    createChain(
-      vertices.map((vector) => vector..rotate(angle)).toList(),
-    );
+    vertices.map((vector) => vector..rotate(angle)).toList();
   }
 
   EllipseShape copyWith({
