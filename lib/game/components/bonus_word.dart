@@ -73,18 +73,32 @@ class BonusWord extends Component with BlocComponent<GameBloc, GameState> {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final letters = GameBloc.bonusWord.split('');
 
-    for (var i = 0; i < letters.length; i++) {
-      unawaited(
-        add(
-          BonusLetter(
-            letter: letters[i],
-            index: i,
-          )..initialPosition = _position - Vector2(16 - (i * 6), -30),
-        ),
+    final offsets = [
+      Vector2(-12.92, -1.82),
+      Vector2(-8.33, 0.65),
+      Vector2(-2.88, 1.75),
+    ];
+    offsets.addAll(
+      offsets.reversed
+          .map(
+            (offset) => Vector2(-offset.x, offset.y),
+          )
+          .toList(),
+    );
+    assert(offsets.length == GameBloc.bonusWord.length, 'Invalid positions');
+
+    final letters = <BonusLetter>[];
+    for (var i = 0; i < GameBloc.bonusWord.length; i++) {
+      letters.add(
+        BonusLetter(
+          letter: GameBloc.bonusWord[i],
+          index: i,
+        )..initialPosition = _position + offsets[i],
       );
     }
+
+    await addAll(letters);
   }
 }
 
@@ -103,8 +117,8 @@ class BonusLetter extends BodyComponent<PinballGame>
     paint = Paint()..color = _disableColor;
   }
 
-  /// The area size of this [BonusLetter].
-  static final areaSize = Vector2.all(4);
+  /// The size of the [BonusLetter].
+  static final size = Vector2.all(3.7);
 
   static const _activeColor = Colors.green;
   static const _disableColor = Colors.red;
@@ -136,7 +150,7 @@ class BonusLetter extends BodyComponent<PinballGame>
 
   @override
   Body createBody() {
-    final shape = CircleShape()..radius = areaSize.x / 2;
+    final shape = CircleShape()..radius = size.x / 2;
 
     final fixtureDef = FixtureDef(shape)..isSensor = true;
 
