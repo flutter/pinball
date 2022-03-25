@@ -1,5 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:async';
+
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -28,8 +31,15 @@ void main() {
     group('GameOverDialogView', () {
       late LeaderboardBloc leaderboardBloc;
 
+      final entryData = LeaderboardEntryData(
+        playerInitials: 'ABC',
+        score: 10000,
+        character: CharacterType.dash,
+      );
+
       setUp(() {
         leaderboardBloc = MockLeaderboardBloc();
+        registerFallbackValue(LeaderboardEntryAdded(entry: entryData));
       });
 
       testWidgets('renders input text view when bloc emits [loading]',
@@ -49,7 +59,7 @@ void main() {
           ),
         );
 
-        expect(find.text(l10n.addUser), findsOneWidget);
+        expect(find.widgetWithText(TextButton, l10n.addUser), findsOneWidget);
       });
 
       testWidgets('renders error view when bloc emits [error]', (tester) async {
@@ -101,7 +111,70 @@ void main() {
           ),
         );
 
-        expect(find.text(l10n.leaderboard), findsOneWidget);
+        expect(
+          find.widgetWithText(TextButton, l10n.leaderboard),
+          findsOneWidget,
+        );
+      });
+
+      testWidgets('adds LeaderboardEntryAdded when tap on add user button',
+          (tester) async {
+        final l10n = await AppLocalizations.delegate.load(Locale('en'));
+
+        when(() => leaderboardBloc.state)
+            .thenReturn(LeaderboardState.initial());
+
+        await tester.pumpApp(
+          BlocProvider.value(
+            value: leaderboardBloc,
+            child: GameOverDialogView(
+              score: 10000,
+              theme: DashTheme(),
+            ),
+          ),
+        );
+
+        await tester.tap(find.widgetWithText(TextButton, l10n.addUser));
+
+        verify(
+          () => leaderboardBloc.add(LeaderboardEntryAdded(entry: entryData)),
+        ).called(1);
+      });
+
+      testWidgets('navigates to LeaderboardPage when tap on leaderboard button',
+          (tester) async {
+        final l10n = await AppLocalizations.delegate.load(Locale('en'));
+        final navigator = MockNavigator();
+        when(() => navigator.push<void>(any())).thenAnswer((_) async {});
+        when(() => leaderboardBloc.state).thenReturn(
+          LeaderboardState(
+            status: LeaderboardStatus.success,
+            ranking: LeaderboardRanking(ranking: 0, outOf: 0),
+            leaderboard: [
+              LeaderboardEntry(
+                rank: '1',
+                playerInitials: 'ABC',
+                score: 10000,
+                character: DashTheme().characterAsset,
+              ),
+            ],
+          ),
+        );
+
+        await tester.pumpApp(
+          BlocProvider.value(
+            value: leaderboardBloc,
+            child: GameOverDialogView(
+              score: 10000,
+              theme: DashTheme(),
+            ),
+          ),
+          navigator: navigator,
+        );
+
+        await tester.tap(find.widgetWithText(TextButton, l10n.leaderboard));
+
+        verify(() => navigator.push<void>(any())).called(1);
       });
     });
   });
