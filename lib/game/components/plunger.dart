@@ -21,9 +21,15 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
 
   @override
   Body createBody() {
-    final shape = PolygonShape()..setAsBoxXY(2, 0.75);
+    final shape = PolygonShape()
+      ..setAsBox(
+        1.35,
+        0.5,
+        Vector2.zero(),
+        PinballGame.boardPerspectiveAngle,
+      );
 
-    final fixtureDef = FixtureDef(shape)..density = 5;
+    final fixtureDef = FixtureDef(shape)..density = 20;
 
     final bodyDef = BodyDef()
       ..position = initialPosition
@@ -36,7 +42,7 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
 
   /// Set a constant downward velocity on the [Plunger].
   void _pull() {
-    body.linearVelocity = Vector2(0, -3);
+    body.linearVelocity = Vector2(0, -7);
   }
 
   /// Set an upward velocity on the [Plunger].
@@ -44,7 +50,7 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
   /// The velocity's magnitude depends on how far the [Plunger] has been pulled
   /// from its original [initialPosition].
   void _release() {
-    final velocity = (initialPosition.y - body.position.y) * 9;
+    final velocity = (initialPosition.y - body.position.y) * 4;
     body.linearVelocity = Vector2(0, velocity);
   }
 
@@ -121,12 +127,12 @@ class PlungerAnchorPrismaticJointDef extends PrismaticJointDef {
       plunger.body,
       anchor.body,
       anchor.body.position,
-      Vector2(0, -1),
+      Vector2(18.6, PinballGame.boardBounds.height),
     );
     enableLimit = true;
     lowerTranslation = double.negativeInfinity;
     enableMotor = true;
-    motorSpeed = 50;
+    motorSpeed = 80;
     maxMotorForce = motorSpeed;
     collideConnected = true;
   }
