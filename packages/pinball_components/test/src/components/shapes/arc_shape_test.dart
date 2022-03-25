@@ -20,7 +20,9 @@ void main() {
   });
 
   group('copyWith', () {
-    test('returns same shape when no properties are passed', () {
+    test(
+        'copies correctly '
+        'when no argument specified', () {
       final arcShape = ArcShape(
         center: Vector2.zero(),
         arcRadius: 10,
@@ -37,19 +39,26 @@ void main() {
       }
     });
 
-    test('returns object with updated properties when are passed', () {
+    test(
+        'copies correctly '
+        'when all arguments specified', () {
       final arcShapeExpected = ArcShape(
         center: Vector2.all(10),
-        arcRadius: 10,
+        arcRadius: 15,
         angle: 2 * math.pi,
-        rotation: 0,
+        rotation: math.pi,
       );
       final arcShapeCopied = ArcShape(
         center: Vector2.zero(),
         arcRadius: 10,
-        angle: 2 * math.pi,
+        angle: math.pi,
         rotation: 0,
-      ).copyWith(center: Vector2.all(10));
+      ).copyWith(
+        center: Vector2.all(10),
+        arcRadius: 15,
+        angle: 2 * math.pi,
+        rotation: math.pi,
+      );
 
       for (var index = 0; index < arcShapeCopied.vertices.length; index++) {
         expect(

@@ -14,24 +14,6 @@ class TestBodyComponent extends BodyComponent with Layered {
   }
 }
 
-class TestNestedBodyComponent extends BodyComponent with Layered {
-  TestNestedBodyComponent({required this.childLayer});
-
-  final Layer childLayer;
-
-  @override
-  Body createBody() {
-    final fixtureDef = FixtureDef(CircleShape());
-    return world.createBody(BodyDef())..createFixture(fixtureDef);
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    await add(TestBodyComponent()..layer = childLayer);
-  }
-}
-
 void main() {
   final flameTester = FlameTester(Forge2DGame.new);
 
@@ -146,8 +128,9 @@ void main() {
         const parentLayer = Layer.jetpack;
         const childLayer = Layer.board;
 
-        final component = TestNestedBodyComponent(childLayer: childLayer)
-          ..layer = parentLayer;
+        final component = TestBodyComponent()..layer = parentLayer;
+        final childComponent = TestBodyComponent()..layer = childLayer;
+        await component.add(childComponent);
 
         await game.ensureAdd(component);
         expect(childLayer, isNot(equals(parentLayer)));
