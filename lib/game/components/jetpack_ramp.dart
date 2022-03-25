@@ -11,12 +11,6 @@ import 'package:pinball_components/pinball_components.dart';
 
 /// A [Blueprint] which creates the [JetpackRamp].
 class Jetpack extends Forge2DBlueprint {
-  /// Width between walls of the pathway.
-  static const width = 5.0;
-
-  /// Size for the radius of the external wall pathway.
-  static const externalRadius = 18.0;
-
   @override
   void build(_) {
     final position = Vector2(
@@ -63,12 +57,18 @@ class JetpackRamp extends BodyComponent with InitialPosition, Layered {
       ..style = PaintingStyle.stroke;
   }
 
+  /// Size for the radius of the external wall pathway.
+  static const _externalRadius = 18.0;
+
+  /// Width between walls of the pathway.
+  static const width = 5.0;
+
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
 
     final externalCurveShape = ArcShape(
       center: initialPosition,
-      arcRadius: Jetpack.externalRadius,
+      arcRadius: _externalRadius,
       angle: math.pi,
       rotation: math.pi,
     );
@@ -76,7 +76,7 @@ class JetpackRamp extends BodyComponent with InitialPosition, Layered {
     fixturesDef.add(externalFixtureDef);
 
     final internalCurveShape = externalCurveShape.copyWith(
-      arcRadius: Jetpack.externalRadius - Jetpack.width,
+      arcRadius: _externalRadius - width,
     );
     final internalFixtureDef = FixtureDef(internalCurveShape);
     fixturesDef.add(internalFixtureDef);
@@ -115,7 +115,7 @@ class _JetpackRampOpening extends RampOpening {
 
   final double _rotation;
 
-  static final Vector2 _size = Vector2(Jetpack.width / 3, .1);
+  static final Vector2 _size = Vector2(JetpackRamp.width / 3, .1);
 
   @override
   Shape get shape => PolygonShape()

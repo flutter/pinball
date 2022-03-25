@@ -11,12 +11,6 @@ import 'package:pinball_components/pinball_components.dart';
 
 /// A [Blueprint] which creates the [LauncherRamp].
 class Launcher extends Forge2DBlueprint {
-  /// Width between walls of the pathway.
-  static const width = 5.0;
-
-  /// Size for the radius of the external wall pathway.
-  static const externalRadius = 16.3;
-
   @override
   void build(_) {
     final position = Vector2(
@@ -60,6 +54,12 @@ class LauncherRamp extends BodyComponent with InitialPosition, Layered {
       ..style = PaintingStyle.stroke;
   }
 
+  /// Width between walls of the pathway.
+  static const width = 5.0;
+
+  /// Size for the radius of the external wall pathway.
+  static const _externalRadius = 16.3;
+
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
 
@@ -76,15 +76,15 @@ class LauncherRamp extends BodyComponent with InitialPosition, Layered {
 
     final internalStraightShape = EdgeShape()
       ..set(
-        startPosition - Vector2(Launcher.width, 0),
-        endPosition - Vector2(Launcher.width, 0),
+        startPosition - Vector2(width, 0),
+        endPosition - Vector2(width, 0),
       );
     final internalStraightFixtureDef = FixtureDef(internalStraightShape);
     fixturesDef.add(internalStraightFixtureDef);
 
     final externalCurveShape = ArcShape(
       center: initialPosition + Vector2(-28.2, 132),
-      arcRadius: Launcher.externalRadius,
+      arcRadius: _externalRadius,
       angle: math.pi / 2,
       rotation: 3 * math.pi / 2,
     );
@@ -92,7 +92,7 @@ class LauncherRamp extends BodyComponent with InitialPosition, Layered {
     fixturesDef.add(externalCurveFixtureDef);
 
     final internalCurveShape = externalCurveShape.copyWith(
-      arcRadius: Launcher.externalRadius - Launcher.width,
+      arcRadius: _externalRadius - width,
     );
     final internalCurveFixtureDef = FixtureDef(internalCurveShape);
     fixturesDef.add(internalCurveFixtureDef);
@@ -129,7 +129,7 @@ class _LauncherRampOpening extends RampOpening {
 
   final double _rotation;
 
-  static final Vector2 _size = Vector2(Launcher.width / 3, .1);
+  static final Vector2 _size = Vector2(LauncherRamp.width / 3, .1);
 
   @override
   Shape get shape => PolygonShape()
