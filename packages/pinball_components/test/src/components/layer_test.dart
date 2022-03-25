@@ -1,12 +1,21 @@
 // ignore_for_file: cascade_invocations
 import 'dart:math' as math;
 
+import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-class TestBodyComponent extends BodyComponent with Layered {
+class TestLayeredBodyComponent extends BodyComponent with Layered {
+  @override
+  Body createBody() {
+    final fixtureDef = FixtureDef(CircleShape());
+    return world.createBody(BodyDef())..createFixture(fixtureDef);
+  }
+}
+
+class TestBodyComponent extends BodyComponent {
   @override
   Body createBody() {
     final fixtureDef = FixtureDef(CircleShape());
@@ -38,7 +47,7 @@ void main() {
     });
 
     test('correctly sets and gets', () {
-      final component = TestBodyComponent()..layer = Layer.jetpack;
+      final component = TestLayeredBodyComponent()..layer = Layer.jetpack;
       expect(component.layer, Layer.jetpack);
     });
 
@@ -46,7 +55,7 @@ void main() {
       'layers correctly before being loaded',
       (game) async {
         const expectedLayer = Layer.jetpack;
-        final component = TestBodyComponent()..layer = expectedLayer;
+        final component = TestLayeredBodyComponent()..layer = expectedLayer;
         await game.ensureAdd(component);
         // TODO(alestiago): modify once component.loaded is available.
         await component.mounted;
@@ -63,7 +72,7 @@ void main() {
       'when multiple different sets',
       (game) async {
         const expectedLayer = Layer.launcher;
-        final component = TestBodyComponent()..layer = Layer.jetpack;
+        final component = TestLayeredBodyComponent()..layer = Layer.jetpack;
 
         expect(component.layer, isNot(equals(expectedLayer)));
         component.layer = expectedLayer;
@@ -83,7 +92,7 @@ void main() {
       'layers correctly after being loaded',
       (game) async {
         const expectedLayer = Layer.jetpack;
-        final component = TestBodyComponent();
+        final component = TestLayeredBodyComponent();
         await game.ensureAdd(component);
         component.layer = expectedLayer;
         _expectLayerOnFixtures(
@@ -98,7 +107,7 @@ void main() {
       'when multiple different sets',
       (game) async {
         const expectedLayer = Layer.launcher;
-        final component = TestBodyComponent();
+        final component = TestLayeredBodyComponent();
         await game.ensureAdd(component);
 
         component.layer = Layer.jetpack;
@@ -116,9 +125,28 @@ void main() {
       'defaults to Layer.all '
       'when no layer is given',
       (game) async {
-        final component = TestBodyComponent();
+        final component = TestLayeredBodyComponent();
         await game.ensureAdd(component);
         expect(component.layer, equals(Layer.all));
+      },
+    );
+
+    flameTester.test(
+      'nested Layered children will keep their layer',
+      (game) async {
+        const parentLayer = Layer.jetpack;
+        const childLayer = Layer.board;
+
+        final component = TestLayeredBodyComponent()..layer = parentLayer;
+        final childComponent = TestLayeredBodyComponent()..layer = childLayer;
+        await component.add(childComponent);
+
+        await game.ensureAdd(component);
+        expect(childLayer, isNot(equals(parentLayer)));
+
+        for (final child in component.children) {
+          expect((child as TestLayeredBodyComponent).layer, equals(childLayer));
+        }
       },
     );
 
@@ -126,17 +154,23 @@ void main() {
       'nested children will keep their layer',
       (game) async {
         const parentLayer = Layer.jetpack;
-        const childLayer = Layer.board;
 
-        final component = TestBodyComponent()..layer = parentLayer;
-        final childComponent = TestBodyComponent()..layer = childLayer;
+        final component = TestLayeredBodyComponent()..layer = parentLayer;
+        final childComponent = TestBodyComponent();
         await component.add(childComponent);
 
         await game.ensureAdd(component);
-        expect(childLayer, isNot(equals(parentLayer)));
 
         for (final child in component.children) {
-          expect((child as TestBodyComponent).layer, equals(childLayer));
+          expect(
+            (child as TestBodyComponent)
+                .body
+                .fixtures
+                .first
+                .filterData
+                .maskBits,
+            equals(Filter().maskBits),
+          );
         }
       },
     );
