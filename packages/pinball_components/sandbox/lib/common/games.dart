@@ -72,3 +72,4 @@ class _PreviewLine extends PositionComponent with HasGameRef<LineGame> {
     }
   }
 }
+
