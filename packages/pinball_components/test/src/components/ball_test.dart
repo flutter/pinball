@@ -86,7 +86,7 @@ void main() {
 
           final fixture = ball.body.fixtures[0];
           expect(fixture.shape.shapeType, equals(ShapeType.circle));
-          expect(fixture.shape.radius, equals(1));
+          expect(fixture.shape.radius, equals(1.5));
         },
       );
 
@@ -156,6 +156,30 @@ void main() {
             expect(ball.body.position, isNot(equals(ball.initialPosition)));
           },
         );
+      });
+    });
+
+    group('boost', () {
+      flameTester.test('applies an impulse to the ball', (game) async {
+        final ball = Ball(baseColor: Colors.blue);
+        await game.ensureAdd(ball);
+
+        expect(ball.body.linearVelocity, equals(Vector2.zero()));
+
+        ball.boost(Vector2.all(10));
+        expect(ball.body.linearVelocity.x, greaterThan(0));
+        expect(ball.body.linearVelocity.y, greaterThan(0));
+      });
+
+      flameTester.test('adds fire effect components to the game', (game) async {
+        final ball = Ball(baseColor: Colors.blue);
+        await game.ensureAdd(ball);
+
+        ball.boost(Vector2.all(10));
+        game.update(0);
+        await game.ready();
+
+        expect(game.children.whereType<FireEffect>().length, greaterThan(0));
       });
     });
   });
