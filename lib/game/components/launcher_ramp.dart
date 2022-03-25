@@ -20,8 +20,8 @@ class Launcher extends Forge2DBlueprint {
   @override
   void build(_) {
     final position = Vector2(
-      PinballGame.boardBounds.right - 30,
-      PinballGame.boardBounds.bottom + 40,
+      PinballGame.boardBounds.right - 31.3,
+      PinballGame.boardBounds.bottom + 33,
     );
 
     addAllContactCallback([
@@ -29,10 +29,10 @@ class Launcher extends Forge2DBlueprint {
     ]);
 
     final leftOpening = _LauncherRampOpening(rotation: math.pi / 2)
-      ..initialPosition = position + Vector2(-11.6, 66.3)
+      ..initialPosition = position + Vector2(-11.8, 72.7)
       ..layer = Layer.opening;
     final rightOpening = _LauncherRampOpening(rotation: 0)
-      ..initialPosition = position + Vector2(-4.9, 59.4)
+      ..initialPosition = position + Vector2(-5.4, 65.4)
       ..layer = Layer.opening;
 
     final launcherRamp = LauncherRamp()
@@ -63,16 +63,13 @@ class LauncherRamp extends BodyComponent with InitialPosition, Layered {
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
 
-    final launcherRampRotation =
-        -math.atan(18.6 / PinballGame.boardBounds.height);
-
     final startPosition = initialPosition + Vector2(0, 3);
-    final endPosition = initialPosition + Vector2(0, 117);
+    final endPosition = initialPosition + Vector2(0, 130);
 
     final externalStraightShape = EdgeShape()
       ..set(
-        startPosition..rotate(launcherRampRotation),
-        endPosition..rotate(launcherRampRotation),
+        startPosition..rotate(PinballGame.boardPerspectiveAngle),
+        endPosition..rotate(PinballGame.boardPerspectiveAngle),
       );
     final externalStraightFixtureDef = FixtureDef(externalStraightShape);
     fixturesDef.add(externalStraightFixtureDef);
@@ -86,7 +83,7 @@ class LauncherRamp extends BodyComponent with InitialPosition, Layered {
     fixturesDef.add(internalStraightFixtureDef);
 
     final externalCurveShape = ArcShape(
-      center: initialPosition + Vector2(-27.5, 119),
+      center: initialPosition + Vector2(-28.2, 132),
       arcRadius: Launcher.externalRadius,
       angle: math.pi / 2,
       rotation: 3 * math.pi / 2,
