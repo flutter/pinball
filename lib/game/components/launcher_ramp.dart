@@ -28,10 +28,6 @@ class Launcher extends Forge2DBlueprint {
       RampOpeningBallContactCallback<_LauncherRampOpening>(),
     ]);
 
-    final curvedPath = LauncherRamp()
-      ..initialPosition = position + Vector2(1.7, 0)
-      ..layer = Layer.launcher;
-
     final leftOpening = _LauncherRampOpening(rotation: math.pi / 2)
       ..initialPosition = position + Vector2(-11.6, 66.3)
       ..layer = Layer.opening;
@@ -39,10 +35,14 @@ class Launcher extends Forge2DBlueprint {
       ..initialPosition = position + Vector2(-4.9, 59.4)
       ..layer = Layer.opening;
 
+    final launcherRamp = LauncherRamp()
+      ..initialPosition = position + Vector2(1.7, 0)
+      ..layer = Layer.launcher;
+
     addAll([
-      curvedPath,
       leftOpening,
       rightOpening,
+      launcherRamp,
     ]);
   }
 }

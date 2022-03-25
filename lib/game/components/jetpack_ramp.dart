@@ -28,26 +28,26 @@ class Jetpack extends Forge2DBlueprint {
       RampOpeningBallContactCallback<_JetpackRampOpening>(),
     ]);
 
-    final _leftOpening = _JetpackRampOpening(
+    final rightOpening = _JetpackRampOpening(
+      rotation: math.pi,
+    )
+      ..initialPosition = position + Vector2(12.9, -20)
+      ..layer = Layer.opening;
+    final leftOpening = _JetpackRampOpening(
       outsideLayer: Layer.spaceship,
       rotation: math.pi,
     )
-      ..initialPosition = position + Vector2(-2.5, -20.2)
+      ..initialPosition = position + Vector2(-2.5, -20)
       ..layer = Layer.jetpack;
 
-    final _curve = JetpackRamp()
+    final jetpackRamp = JetpackRamp()
       ..initialPosition = position + Vector2(5, -20.2)
       ..layer = Layer.jetpack;
-    final _rightOpening = _JetpackRampOpening(
-      rotation: math.pi,
-    )
-      ..initialPosition = position + Vector2(12.9, -20.2)
-      ..layer = Layer.opening;
 
     addAll([
-      _leftOpening,
-      _curve,
-      _rightOpening,
+      rightOpening,
+      leftOpening,
+      jetpackRamp,
     ]);
   }
 }
