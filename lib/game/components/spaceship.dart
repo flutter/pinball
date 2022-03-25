@@ -15,6 +15,8 @@ class Spaceship extends Forge2DBlueprint {
   /// Total size of the spaceship
   static const radius = 10.0;
 
+  static const ballPriorityWhenOnSpaceship = 3;
+
   @override
   void build(_) {
     final position = Vector2(
@@ -27,22 +29,16 @@ class Spaceship extends Forge2DBlueprint {
       SpaceshipEntranceBallContactCallback(),
     ]);
 
-    const ballPriorityWhenOnSpaceship = 3;
-
     final rendersBehindBall = [
       SpaceshipEntrance()..initialPosition = position,
       SpaceshipSaucer()..initialPosition = position,
-    ]..forEach(
-        (component) => component.priority = ballPriorityWhenOnSpaceship - 1,
-      );
+    ];
 
     final rendersInFrontOfBall = [
       SpaceshipBridge()..initialPosition = position,
       SpaceshipBridgeTop()..initialPosition = position + Vector2(0, 5.5),
       SpaceshipWall()..initialPosition = position,
-    ]..forEach(
-        (component) => component.priority = ballPriorityWhenOnSpaceship + 1,
-      );
+    ];
 
     addAll([
       ...rendersBehindBall,
@@ -58,7 +54,8 @@ class Spaceship extends Forge2DBlueprint {
 /// {@endtemplate}
 class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_saucer}
-  SpaceshipSaucer() {
+  SpaceshipSaucer()
+      : super(priority: Spaceship.ballPriorityWhenOnSpaceship - 1) {
     layer = Layer.spaceship;
   }
 
@@ -112,7 +109,8 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
 /// {@endtemplate}
 class SpaceshipBridgeTop extends BodyComponent with InitialPosition {
   /// {@macro spaceship_bridge_top}
-  SpaceshipBridgeTop();
+  SpaceshipBridgeTop()
+      : super(priority: Spaceship.ballPriorityWhenOnSpaceship + 1);
 
   @override
   Future<void> onLoad() async {
@@ -147,7 +145,8 @@ class SpaceshipBridgeTop extends BodyComponent with InitialPosition {
 /// {@endtemplate}
 class SpaceshipBridge extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_bridge}
-  SpaceshipBridge() {
+  SpaceshipBridge()
+      : super(priority: Spaceship.ballPriorityWhenOnSpaceship + 1) {
     layer = Layer.spaceship;
   }
 
@@ -202,6 +201,7 @@ class SpaceshipEntrance extends RampOpening {
           pathwayLayer: Layer.spaceship,
           orientation: RampOrientation.up,
         ) {
+    priority = Spaceship.ballPriorityWhenOnSpaceship - 1;
     layer = Layer.spaceship;
   }
 
@@ -257,7 +257,7 @@ class SpaceshipHole extends BodyComponent with InitialPosition, Layered {
 /// {@endtemplate}
 class SpaceshipWall extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_wall}
-  SpaceshipWall() {
+  SpaceshipWall() : super(priority: Spaceship.ballPriorityWhenOnSpaceship + 1) {
     layer = Layer.spaceship;
   }
 
