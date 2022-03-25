@@ -12,5 +12,6 @@ void main() {
   final dashbook = Dashbook(theme: ThemeData.dark());
 
   addBallStories(dashbook);
+  addLayerStories(dashbook);
   runApp(dashbook);
 }

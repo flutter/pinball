@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 
-class BasicBallGame extends BasicGame with TapDetector {
-  BasicBallGame({required this.color});
+class BasicLayerGame extends BasicGame with TapDetector {
+  BasicLayerGame({required this.color});
 
   static const info = '''
-      Basic example of how a Ball works, tap anywhere on the
-      screen to spawn a ball into the game.
+      Basic example of how layers work with a Ball hitting other components, 
+      tap anywhere on the screen to spawn a ball into the game.
 ''';
 
   final Color color;
