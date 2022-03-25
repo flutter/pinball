@@ -82,7 +82,7 @@ void main() {
 
         when(() => firestore.collection('leaderboard'))
             .thenAnswer((_) => collectionReference);
-        when(() => collectionReference.orderBy('score'))
+        when(() => collectionReference.orderBy('score', descending: true))
             .thenAnswer((_) => query);
         when(() => query.limit(10)).thenAnswer((_) => query);
         when(query.get).thenAnswer((_) async => querySnapshot);
@@ -173,7 +173,7 @@ void main() {
             .thenAnswer((_) => collectionReference);
         when(() => collectionReference.add(any()))
             .thenAnswer((_) async => documentReference);
-        when(() => collectionReference.orderBy('score'))
+        when(() => collectionReference.orderBy('score', descending: true))
             .thenAnswer((_) => query);
         when(query.get).thenAnswer((_) async => querySnapshot);
         when(() => querySnapshot.docs).thenReturn(queryDocumentSnapshots);
@@ -203,7 +203,8 @@ void main() {
       test(
           'throws FetchPlayerRankingException when Exception occurs '
           'when trying to retrieve information from firestore', () async {
-        when(() => collectionReference.orderBy('score')).thenThrow(Exception());
+        when(() => collectionReference.orderBy('score', descending: true))
+            .thenThrow(Exception());
 
         expect(
           () => leaderboardRepository.addLeaderboardEntry(leaderboardEntry),
