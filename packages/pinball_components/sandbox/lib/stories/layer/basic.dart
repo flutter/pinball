@@ -18,7 +18,7 @@ class BasicLayerGame extends BasicGame with TapDetector {
   Future<void> onLoad() async {
     await add(BigSquare()..initialPosition = Vector2(30, -40));
     await add(SmallSquare()..initialPosition = Vector2(50, -40));
-    await add(SimpleBodyComponent()..initialPosition = Vector2(60, -40));
+    await add(UnlayeredSquare()..initialPosition = Vector2(60, -40));
   }
 
   @override
@@ -53,7 +53,7 @@ class BigSquare extends BodyComponent with InitialPosition, Layered {
 
     await addAll(
       [
-        SimpleBodyComponent()..initialPosition = Vector2.all(4),
+        UnlayeredSquare()..initialPosition = Vector2.all(4),
         SmallSquare()..initialPosition = Vector2.all(-4),
       ],
     );
@@ -79,8 +79,8 @@ class SmallSquare extends BodyComponent with InitialPosition, Layered {
   }
 }
 
-class SimpleBodyComponent extends BodyComponent with InitialPosition {
-  SimpleBodyComponent() {
+class UnlayeredSquare extends BodyComponent with InitialPosition {
+  UnlayeredSquare() {
     paint = Paint()
       ..color = const Color.fromARGB(255, 241, 8, 8)
       ..style = PaintingStyle.stroke;
