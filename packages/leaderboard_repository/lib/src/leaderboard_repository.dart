@@ -91,7 +91,7 @@ class LeaderboardRepository {
     try {
       final querySnapshot = await _firebaseFirestore
           .collection('leaderboard')
-          .orderBy('score')
+          .orderBy('score', descending: true)
           .limit(10)
           .get();
       documents = querySnapshot.docs;
@@ -130,7 +130,7 @@ class LeaderboardRepository {
     try {
       final querySnapshot = await _firebaseFirestore
           .collection('leaderboard')
-          .orderBy('score')
+          .orderBy('score', descending: true)
           .get();
 
       // TODO(allisonryan0002): see if we can find a more performant solution.
