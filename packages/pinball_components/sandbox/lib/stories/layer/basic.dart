@@ -18,6 +18,7 @@ class BasicLayerGame extends BasicGame with TapDetector {
   Future<void> onLoad() async {
     await add(BigSquare()..initialPosition = Vector2(30, -40));
     await add(SmallSquare()..initialPosition = Vector2(50, -40));
+    await add(SimpleBodyComponent()..initialPosition = Vector2(60, -40));
   }
 
   @override
@@ -38,7 +39,7 @@ class BigSquare extends BodyComponent with InitialPosition, Layered {
 
   @override
   Body createBody() {
-    final shape = PolygonShape()..setAsBoxXY(8, 8);
+    final shape = PolygonShape()..setAsBoxXY(16, 16);
     final fixtureDef = FixtureDef(shape);
 
     final bodyDef = BodyDef()..position = initialPosition;
@@ -50,8 +51,11 @@ class BigSquare extends BodyComponent with InitialPosition, Layered {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    await add(
-      SmallSquare()..initialPosition = Vector2.zero(),
+    await addAll(
+      [
+        SimpleBodyComponent()..initialPosition = Vector2.all(4),
+        SmallSquare()..initialPosition = Vector2.all(-4),
+      ],
     );
   }
 }
@@ -59,9 +63,27 @@ class BigSquare extends BodyComponent with InitialPosition, Layered {
 class SmallSquare extends BodyComponent with InitialPosition, Layered {
   SmallSquare() {
     paint = Paint()
-      ..color = Color.fromARGB(255, 27, 241, 8)
+      ..color = const Color.fromARGB(255, 27, 241, 8)
       ..style = PaintingStyle.stroke;
     layer = Layer.board;
+  }
+
+  @override
+  Body createBody() {
+    final shape = PolygonShape()..setAsBoxXY(2, 2);
+    final fixtureDef = FixtureDef(shape);
+
+    final bodyDef = BodyDef()..position = initialPosition;
+
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
+  }
+}
+
+class SimpleBodyComponent extends BodyComponent with InitialPosition {
+  SimpleBodyComponent() {
+    paint = Paint()
+      ..color = const Color.fromARGB(255, 241, 8, 8)
+      ..style = PaintingStyle.stroke;
   }
 
   @override
