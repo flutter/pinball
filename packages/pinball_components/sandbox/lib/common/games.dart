@@ -67,9 +67,7 @@ class _PreviewLine extends PositionComponent with HasGameRef<LineGame> {
       canvas.drawLine(
         Vector2.zero().toOffset(),
         lineEnd!.toOffset(),
-        _previewLinePaint,
-      );
+        _previewLinePaint);
     }
   }
 }
-
