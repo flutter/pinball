@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flame/components.dart';
@@ -26,6 +27,9 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
 
   /// The base [Color] used to tint this [Ball]
   final Color baseColor;
+
+  double _boostTimer = 0;
+  static const _boostDuration = 2.0;
 
   @override
   Future<void> onLoad() async {
@@ -68,5 +72,27 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   /// If previously [stop]ed, the previous ball's velocity is not kept.
   void resume() {
     body.setType(BodyType.dynamic);
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    if (_boostTimer > 0) {
+      _boostTimer -= dt;
+      final direction = body.linearVelocity.normalized();
+      final effect = FireEffect(
+        burstPower: _boostTimer,
+        direction: direction,
+        position: body.position,
+      );
+
+      unawaited(gameRef.add(effect));
+    }
+  }
+
+  /// Applies a boost on this [Ball]
+  void boost(Vector2 impulse) {
+    body.applyLinearImpulse(impulse);
+    _boostTimer = _boostDuration;
   }
 }
