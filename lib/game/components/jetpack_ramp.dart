@@ -57,7 +57,7 @@ class JetpackRamp extends BodyComponent with InitialPosition, Layered {
       ..style = PaintingStyle.stroke;
   }
 
-  /// Size for the radius of the external wall pathway.
+  /// Radius of the external arc.
   static const _externalRadius = 18.0;
 
   /// Width between walls of the pathway.
