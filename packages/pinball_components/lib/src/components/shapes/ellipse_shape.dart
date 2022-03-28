@@ -13,17 +13,14 @@ class EllipseShape extends ChainShape {
     required this.center,
     required this.majorRadius,
     required this.minorRadius,
-    this.rotation = 0,
   }) {
-    final points = calculateEllipse(
-      center: center,
-      majorRadius: majorRadius,
-      minorRadius: minorRadius,
+    createChain(
+      calculateEllipse(
+        center: center,
+        majorRadius: majorRadius,
+        minorRadius: minorRadius,
+      ),
     );
-    if (rotation != 0) {
-      points.map((vector) => vector..rotate(rotation)).toList();
-    }
-    createChain(points);
   }
 
   /// The top left corner of the ellipse.
@@ -38,19 +35,19 @@ class EllipseShape extends ChainShape {
   /// Minor radius is specified by [minorRadius].
   final double minorRadius;
 
-  /// Which can be rotated by a given [rotation] in radians.
-  final double rotation;
+  /// Rotates the ellipse by a given [angle] in radians.
+  void rotate(double angle) {
+    vertices.map((vector) => vector..rotate(angle)).toList();
+  }
 
   EllipseShape copyWith({
     Vector2? center,
     double? majorRadius,
     double? minorRadius,
-    double? rotation,
   }) =>
       EllipseShape(
         center: center ?? this.center,
         majorRadius: majorRadius ?? this.majorRadius,
         minorRadius: minorRadius ?? this.minorRadius,
-        rotation: rotation ?? this.rotation,
       );
 }

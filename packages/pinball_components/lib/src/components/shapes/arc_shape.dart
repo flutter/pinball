@@ -13,17 +13,14 @@ class ArcShape extends ChainShape {
     required this.center,
     required this.arcRadius,
     required this.angle,
-    this.rotation = 0,
   }) {
-    final points = calculateArc(
-      center: center,
-      radius: arcRadius,
-      angle: angle,
-    ).map((vector) => vector..rotate(rotation)).toList();
-    if (rotation != 0) {
-      points.map((vector) => vector..rotate(rotation)).toList();
-    }
-    createChain(points);
+    createChain(
+      calculateArc(
+        center: center,
+        radius: arcRadius,
+        angle: angle,
+      ),
+    );
   }
 
   /// The center of the arc.
@@ -38,19 +35,19 @@ class ArcShape extends ChainShape {
   /// For example, two pi returns a complete circumference.
   final double angle;
 
-  /// Angle in radians to rotate the arc around its [center].
-  final double rotation;
+  /// Rotates the arc by a given [angle] in radians.
+  void rotate(double angle) {
+    vertices.map((vector) => vector..rotate(angle)).toList();
+  }
 
   ArcShape copyWith({
     Vector2? center,
     double? arcRadius,
     double? angle,
-    double? rotation,
   }) =>
       ArcShape(
         center: center ?? this.center,
         arcRadius: arcRadius ?? this.arcRadius,
         angle: angle ?? this.angle,
-        rotation: rotation ?? this.rotation,
       );
 }

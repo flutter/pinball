@@ -11,15 +11,8 @@ class BezierCurveShape extends ChainShape {
   /// {@macro bezier_curve_shape}
   BezierCurveShape({
     required this.controlPoints,
-    this.rotation = 0,
   }) {
-    final points = calculateBezierCurve(controlPoints: controlPoints)
-        .map((vector) => vector..rotate(rotation))
-        .toList();
-    if (rotation != 0) {
-      points.map((vector) => vector..rotate(rotation)).toList();
-    }
-    createChain(points);
+    createChain(calculateBezierCurve(controlPoints: controlPoints));
   }
 
   /// Specifies the control points of the curve.
@@ -28,6 +21,8 @@ class BezierCurveShape extends ChainShape {
   /// inner points between them set its final shape.
   final List<Vector2> controlPoints;
 
-  /// Which can be rotated by a given [rotation] in radians.
-  final double rotation;
+  /// Rotates the bezier curve by a given [angle] in radians.
+  void rotate(double angle) {
+    vertices.map((vector) => vector..rotate(angle)).toList();
+  }
 }
