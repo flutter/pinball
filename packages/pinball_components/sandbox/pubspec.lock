@@ -142,6 +142,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  geometry:
+    dependency: transitive
+    description:
+      path: "../../geometry"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   js:
     dependency: transitive
     description:

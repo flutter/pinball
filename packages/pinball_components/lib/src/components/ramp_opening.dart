@@ -4,13 +4,13 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template ramp_orientation}
-/// Determines if a ramp is facing [up] or [down] on the [Board].
+/// Determines if a ramp is facing [up] or [down] on the Board.
 /// {@endtemplate}
 enum RampOrientation {
-  /// Facing up on the [Board].
+  /// Facing up on the Board.
   up,
 
-  /// Facing down on the [Board].
+  /// Facing down on the Board.
   down,
 }
 
@@ -109,4 +109,3 @@ class RampOpeningBallContactCallback<Opening extends RampOpening>
     }
   }
 }
-
