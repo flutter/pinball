@@ -43,7 +43,6 @@ void main() {
           center: Vector2.all(10),
           arcRadius: 15,
           angle: 2 * math.pi,
-          rotation: math.pi,
         );
         final arcShapeCopied = ArcShape(
           center: Vector2.zero(),
@@ -53,7 +52,6 @@ void main() {
           center: Vector2.all(10),
           arcRadius: 15,
           angle: 2 * math.pi,
-          rotation: math.pi,
         );
 
         for (var index = 0; index < arcShapeCopied.vertices.length; index++) {

@@ -5,8 +5,8 @@ import 'package:vector_math/vector_math_64.dart';
 /// Calculates all [Vector2]s of a circumference.
 ///
 /// A circumference can be achieved by specifying a [center] and a [radius].
-/// In addition, a semi-circle can be achieved by specifying its [angle] in
-/// radians.
+/// In addition, a semi-circle can be achieved by specifying its [angle] and an
+/// [offsetAngle] (both in radians).
 ///
 /// The higher the [precision], the more [Vector2]s will be calculated;
 /// achieving a more rounded arc.
@@ -16,14 +16,15 @@ List<Vector2> calculateArc({
   required Vector2 center,
   required double radius,
   required double angle,
+  double offsetAngle = 0,
   int precision = 100,
 }) {
   final stepAngle = angle / (precision - 1);
 
   final points = <Vector2>[];
   for (var i = 0; i < precision; i++) {
-    final x = center.x + radius * math.cos(stepAngle * i);
-    final y = center.y - radius * math.sin(stepAngle * i);
+    final x = center.x + radius * math.cos((stepAngle * i) + offsetAngle);
+    final y = center.y - radius * math.sin((stepAngle * i) + offsetAngle);
 
     final point = Vector2(x, y);
     points.add(point);
