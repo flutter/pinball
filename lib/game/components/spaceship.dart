@@ -6,6 +6,7 @@ import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/flame/blueprint.dart';
+import 'package:pinball/flame/priority.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;

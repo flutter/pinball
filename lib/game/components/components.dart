@@ -11,7 +11,6 @@ export 'kicker.dart';
 export 'launcher_ramp.dart';
 export 'pathway.dart';
 export 'plunger.dart';
-export 'priority.dart';
 export 'ramp_opening.dart';
 export 'score_points.dart';
 export 'spaceship.dart';

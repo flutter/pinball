@@ -3,10 +3,9 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockingjay/mockingjay.dart';
-import 'package:pinball/game/components/priority.dart';
-import 'package:pinball/game/game.dart';
+import 'package:pinball/flame/priority.dart';
 
-import '../../helpers/helpers.dart';
+import '../helpers/helpers.dart';
 
 class TestBodyComponent extends BodyComponent {
   @override

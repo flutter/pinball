@@ -1,6 +1,7 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pinball/flame/priority.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
