@@ -7,6 +7,7 @@ import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/flame/blueprint.dart';
+import 'package:pinball/game/components/background.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
@@ -48,8 +49,10 @@ class PinballGame extends Forge2DGame
 
     // Fix camera on the center of the board.
     camera
-      ..followVector2(Vector2.zero())
+      ..followVector2(Vector2(0, -7.8))
       ..zoom = size.y / 16;
+
+    unawaited(add(Background()));
   }
 
   void _addContactCallbacks() {
