@@ -2,6 +2,7 @@
 
 import 'package:flame/game.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -50,7 +51,7 @@ void main() {
         });
 
         await expectLater(
-          find.byWidgetPredicate((w) => w is GameWidget<Forge2DGame>).first,
+          find.byGame<Forge2DGame>(),
           matchesGoldenFile('golden/spaceship.png'),
         );
       });
