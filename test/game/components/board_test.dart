@@ -108,8 +108,8 @@ void main() {
           await game.ready();
           await game.ensureAdd(board);
 
-          final roundBumpers = board.descendants().whereType<ChromeDino>();
-          expect(roundBumpers.length, equals(1));
+          final chromeDino = board.descendants().whereType<ChromeDino>();
+          expect(chromeDino.length, equals(1));
         },
       );
     });
