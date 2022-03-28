@@ -36,7 +36,7 @@ class ArcShape extends ChainShape {
   /// For example, two pi returns a complete circumference.
   final double angle;
 
-  /// Which can be rotated by a given [rotation] in radians.
+  /// Angle in radians to rotate the arc around its [center].
   final double rotation;
 
   ArcShape copyWith({
