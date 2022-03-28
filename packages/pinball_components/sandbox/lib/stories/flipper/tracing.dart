@@ -16,10 +16,18 @@ class FlipperTracingGame extends BasicGame with TapDetector {
   Future<void> onLoad() async {
     await super.onLoad();
     final center = screenToWorld(camera.viewport.canvasSize! / 2);
-    final leftFlipper = Flipper(side: BoardSide.left)..initialPosition = center;
 
-    await add(leftFlipper);
+    final leftFlipper = Flipper(side: BoardSide.left)
+      ..initialPosition = center - Vector2(Flipper.size.x, 0);
+    final rightFlipper = Flipper(side: BoardSide.right)
+      ..initialPosition = center + Vector2(Flipper.size.x, 0);
+
+    await addAll([
+      leftFlipper,
+      rightFlipper,
+    ]);
     leftFlipper.trace();
+    rightFlipper.trace();
   }
 
   @override
