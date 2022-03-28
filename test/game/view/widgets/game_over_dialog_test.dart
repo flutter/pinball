@@ -32,7 +32,7 @@ void main() {
       late LeaderboardBloc leaderboardBloc;
 
       final entryData = LeaderboardEntryData(
-        playerInitials: 'ABC',
+        playerInitials: '',
         score: 10000,
         character: CharacterType.dash,
       );
@@ -137,15 +137,15 @@ void main() {
           BlocProvider.value(
             value: leaderboardBloc,
             child: GameOverDialogView(
-              score: 10000,
-              theme: DashTheme(),
+              score: entryData.score,
+              theme: entryData.character.toTheme,
             ),
           ),
         );
 
-        expect(find.widgetWithText(TextButton, l10n.addUser), findsOneWidget);
-
-        await tester.tap(find.widgetWithText(TextButton, l10n.addUser));
+        final button = find.widgetWithText(TextButton, l10n.addUser);
+        await tester.ensureVisible(button);
+        await tester.tap(button);
         await tester.pumpAndSettle();
 
         verify(
@@ -186,12 +186,12 @@ void main() {
           navigator: navigator,
         );
 
-        expect(
-            find.widgetWithText(TextButton, l10n.leaderboard), findsOneWidget);
+        final button = find.widgetWithText(TextButton, l10n.leaderboard);
+        await tester.ensureVisible(button);
+        await tester.tap(button);
+        await tester.pumpAndSettle();
 
-        //await tester.tap(find.widgetWithText(TextButton, l10n.leaderboard));
-
-        //verify(() => navigator.push<void>(any())).called(1);
+        verify(() => navigator.push<void>(any())).called(1);
       });
     });
   });
