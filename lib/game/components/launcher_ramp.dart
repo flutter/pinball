@@ -54,10 +54,10 @@ class LauncherRamp extends BodyComponent with InitialPosition, Layered {
       ..style = PaintingStyle.stroke;
   }
 
-  /// Width between walls of the pathway.
+  /// Width between walls of the ramp.
   static const width = 5.0;
 
-  /// Size for the radius of the external wall pathway.
+  /// Radius of the external arc at the top of the ramp.
   static const _externalRadius = 16.3;
 
   List<FixtureDef> _createFixtureDefs() {
