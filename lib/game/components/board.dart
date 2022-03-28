@@ -19,12 +19,7 @@ class Board extends Component {
       spacing: 2,
     );
 
-    final flutterForest = FlutterForest(
-      position: Vector2(
-        PinballGame.boardBounds.center.dx + 20,
-        PinballGame.boardBounds.center.dy + 48,
-      ),
-    );
+    final flutterForest = FlutterForest();
 
     await addAll([
       bottomGroup,
