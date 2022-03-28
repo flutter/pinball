@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs
 
+import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:geometry/geometry.dart';
 
@@ -12,16 +13,17 @@ class ArcShape extends ChainShape {
     required this.center,
     required this.arcRadius,
     required this.angle,
-    required this.rotation,
+    this.rotation = 0,
   }) {
-    createChain(
-      calculateArc(
-        center: center,
-        radius: arcRadius,
-        angle: angle,
-        offsetAngle: rotation,
-      ),
-    );
+    final points = calculateArc(
+      center: center,
+      radius: arcRadius,
+      angle: angle,
+    ).map((vector) => vector..rotate(rotation)).toList();
+    if (rotation != 0) {
+      points.map((vector) => vector..rotate(rotation)).toList();
+    }
+    createChain(points);
   }
 
   /// The center of the arc.
