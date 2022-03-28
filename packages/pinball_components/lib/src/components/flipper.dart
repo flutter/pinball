@@ -65,13 +65,9 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
       flipper: this,
       anchor: anchor,
     );
-    final joint = _FlipperJoint(jointDef)..create(world);
-
-    // FIXME(erickzanardo): when mounted the initial position is not fully
-    // reached.
-    unawaited(
-      mounted.whenComplete(joint.unlock),
-    );
+    final joint = _FlipperJoint(jointDef);
+    world.createJoint2(joint);
+    unawaited(mounted.whenComplete(joint.unlock));
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -166,45 +162,60 @@ class _FlipperAnchorRevoluteJointDef extends RevoluteJointDef {
     required Flipper flipper,
     required _FlipperAnchor anchor,
   }) : side = flipper.side {
+    enableLimit = true;
     initialize(
       flipper.body,
       anchor.body,
       anchor.body.position,
     );
+  }
 
-    enableLimit = true;
-    final angle = (_sweepingAngle * -side.direction) / 2;
-    lowerAngle = upperAngle = angle;
+  final BoardSide side;
+}
+
+/// {@template flipper_joint}
+/// [RevoluteJoint] that controls the arc motion of a [Flipper].
+/// {@endtemplate}
+class _FlipperJoint extends RevoluteJoint {
+  /// {@macro flipper_joint}
+  _FlipperJoint(_FlipperAnchorRevoluteJointDef def)
+      : side = def.side,
+        super(def) {
+    lock();
   }
 
   /// The total angle of the arc motion.
   static const _sweepingAngle = math.pi / 3.5;
 
   final BoardSide side;
-}
 
-class _FlipperJoint extends RevoluteJoint {
-  _FlipperJoint(_FlipperAnchorRevoluteJointDef def)
-      : side = def.side,
-        super(def);
-
-  final BoardSide side;
-
-  // TODO(alestiago): Remove once Forge2D supports custom joints.
-  void create(World world) {
-    world.joints.add(this);
-    bodyA.joints.add(this);
-    bodyB.joints.add(this);
+  /// Locks the [Flipper] to its resting position.
+  ///
+  /// The joint is locked when initialized in order to force the [Flipper
+  /// at its resting position.
+  void lock() {
+    const angle = _sweepingAngle / 2;
+    setLimits(
+      -angle * side.direction,
+      -angle * side.direction,
+    );
   }
 
   /// Unlocks the [Flipper] from its resting position.
-  ///
-  /// The [Flipper] is locked when initialized in order to force it to be at
-  /// its resting position.
   void unlock() {
-    setLimits(
-      lowerLimit * side.direction,
-      -upperLimit * side.direction,
-    );
+    const angle = _sweepingAngle / 2;
+    setLimits(-angle, angle);
+  }
+}
+
+extension on World {
+  // TODO(alestiago): Remove once Forge2D supports custom joints.
+  void createJoint2(Joint joint) {
+    assert(!isLocked, '');
+
+    joints.add(joint);
+
+    joint.bodyA.joints.add(joint);
+    joint.bodyB.joints.add(joint);
   }
 }
