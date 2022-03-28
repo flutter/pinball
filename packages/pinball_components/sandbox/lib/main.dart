@@ -15,5 +15,6 @@ void main() {
   addBallStories(dashbook);
   addLayerStories(dashbook);
   addEffectsStories(dashbook);
+  addFlipperStories(dashbook);
   runApp(dashbook);
 }
