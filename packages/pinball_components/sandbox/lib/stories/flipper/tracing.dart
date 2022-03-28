@@ -1,13 +1,12 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
-import 'package:flame/input.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 
-class FlipperTracingGame extends BasicGame with TapDetector {
+class FlipperTracingGame extends BasicGame {
   static const info = '''
       Basic example of how a Flipper works.
 ''';
@@ -28,13 +27,6 @@ class FlipperTracingGame extends BasicGame with TapDetector {
     ]);
     leftFlipper.trace();
     rightFlipper.trace();
-  }
-
-  @override
-  void onTapUp(TapUpInfo info) {
-    add(
-      Ball(baseColor: Colors.yellow)..initialPosition = info.eventPosition.game,
-    );
   }
 }
 
