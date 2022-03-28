@@ -23,5 +23,33 @@
     "characterSelectionTitle": "Choose your character!",
     "@characterSelectionTitle": {
         "description": "Title text displayed on the character selection page"
+    },
+    "gameOver": "Game Over",
+    "@gameOver": {
+        "description": "Text displayed on the ending dialog when game finishes"
+    },
+    "leaderboard": "Leaderboard",
+    "@leaderboard": {
+        "description": "Text displayed on the ending dialog leaderboard button"
+    },
+    "rank": "Rank",
+    "@rank": {
+        "description": "Text displayed on the leaderboard page header rank column"
+    },
+    "character": "Character",
+    "@character": {
+        "description": "Text displayed on the leaderboard page header character column"
+    },
+    "username": "Username",
+    "@username": {
+        "description": "Text displayed on the leaderboard page header userName column"
+    },
+    "score": "Score",
+    "@score": {
+        "description": "Text displayed on the leaderboard page header score column"
+    },
+    "retry": "Retry",
+    "@retry": {
+        "description": "Text displayed on the retry button leaders board page"
     }
 }
