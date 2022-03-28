@@ -66,21 +66,21 @@ class LauncherRamp extends BodyComponent with InitialPosition, Layered {
     final startPosition = initialPosition + Vector2(0, 3);
     final endPosition = initialPosition + Vector2(0, 130);
 
-    final externalStraightShape = EdgeShape()
+    final rightStraightShape = EdgeShape()
       ..set(
         startPosition..rotate(PinballGame.boardPerspectiveAngle),
         endPosition..rotate(PinballGame.boardPerspectiveAngle),
       );
-    final externalStraightFixtureDef = FixtureDef(externalStraightShape);
-    fixturesDef.add(externalStraightFixtureDef);
+    final rightStraightFixtureDef = FixtureDef(rightStraightShape);
+    fixturesDef.add(rightStraightFixtureDef);
 
-    final internalStraightShape = EdgeShape()
+    final leftStraightShape = EdgeShape()
       ..set(
         startPosition - Vector2(width, 0),
         endPosition - Vector2(width, 0),
       );
-    final internalStraightFixtureDef = FixtureDef(internalStraightShape);
-    fixturesDef.add(internalStraightFixtureDef);
+    final leftStraightFixtureDef = FixtureDef(leftStraightShape);
+    fixturesDef.add(leftStraightFixtureDef);
 
     final externalCurveShape = ArcShape(
       center: initialPosition + Vector2(-28.2, 132),
