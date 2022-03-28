@@ -60,7 +60,7 @@ class JetpackRamp extends BodyComponent with InitialPosition, Layered {
   /// Radius of the external arc.
   static const _externalRadius = 18.0;
 
-  /// Width between walls of the pathway.
+  /// Width between walls of the ramp.
   static const width = 5.0;
 
   List<FixtureDef> _createFixtureDefs() {
