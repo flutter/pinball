@@ -5,6 +5,7 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_components/pinball_components.dart';
 
 import '../helpers/helpers.dart';
 
@@ -59,32 +60,6 @@ void main() {
           equals(1),
         );
       });
-    });
-
-    group('Paths', () {
-      flameTester.test(
-        'has only one JetpackRamp',
-        (game) async {
-          await game.ready();
-
-          expect(
-            () => game.children.singleWhere(
-              (component) => component is JetpackRamp,
-            ),
-            returnsNormally,
-          );
-        },
-      );
-
-      flameTester.test(
-        'has only one LauncherRamp',
-        (game) async {
-          await game.ready();
-
-          final rampAreas = game.children.whereType<LauncherRamp>().toList();
-          expect(rampAreas.length, 1);
-        },
-      );
     });
 
     debugModeFlameTester.test('adds a ball on tap up', (game) async {

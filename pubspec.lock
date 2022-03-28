@@ -392,6 +392,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
+  pinball_components:
+    dependency: "direct main"
+    description:
+      path: "packages/pinball_components"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   pinball_theme:
     dependency: "direct main"
     description:

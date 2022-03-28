@@ -30,9 +30,9 @@ void main() {
           await game.ready();
           await game.ensureAdd(board);
 
-          final leftFlippers = board.findNestedChildren<Flipper>(
-            condition: (flipper) => flipper.side.isLeft,
-          );
+          final leftFlippers = board.descendants().whereType<Flipper>().where(
+                (flipper) => flipper.side.isLeft,
+              );
           expect(leftFlippers.length, equals(1));
         },
       );
@@ -43,10 +43,9 @@ void main() {
           final board = Board();
           await game.ready();
           await game.ensureAdd(board);
-
-          final rightFlippers = board.findNestedChildren<Flipper>(
-            condition: (flipper) => flipper.side.isRight,
-          );
+          final rightFlippers = board.descendants().whereType<Flipper>().where(
+                (flipper) => flipper.side.isRight,
+              );
           expect(rightFlippers.length, equals(1));
         },
       );
@@ -58,7 +57,7 @@ void main() {
           await game.ready();
           await game.ensureAdd(board);
 
-          final baseboards = board.findNestedChildren<Baseboard>();
+          final baseboards = board.descendants().whereType<Baseboard>();
           expect(baseboards.length, equals(2));
         },
       );
@@ -70,21 +69,21 @@ void main() {
           await game.ready();
           await game.ensureAdd(board);
 
-          final kickers = board.findNestedChildren<Kicker>();
+          final kickers = board.descendants().whereType<Kicker>();
           expect(kickers.length, equals(2));
         },
       );
 
       flameTester.test(
-        'has three RoundBumpers',
+        'has one FlutterForest',
         (game) async {
           // TODO(alestiago): change to [NestBumpers] once provided.
           final board = Board();
           await game.ready();
           await game.ensureAdd(board);
 
-          final roundBumpers = board.findNestedChildren<RoundBumper>();
-          expect(roundBumpers.length, equals(3));
+          final flutterForest = board.descendants().whereType<FlutterForest>();
+          expect(flutterForest.length, equals(1));
         },
       );
 

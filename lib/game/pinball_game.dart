@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs
-
 import 'dart:async';
+import 'dart:math' as math;
+
 import 'package:flame/extensions.dart';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
@@ -25,6 +26,8 @@ class PinballGame extends Forge2DGame
     width: boardSize.x,
     height: -boardSize.y,
   );
+  static final boardPerspectiveAngle =
+      -math.atan(18.6 / PinballGame.boardBounds.height);
 
   @override
   void onAttach() {
@@ -61,13 +64,8 @@ class PinballGame extends Forge2DGame
   }
 
   Future<void> _addPlunger() async {
-    plunger = Plunger(compressionDistance: 2);
-
-    plunger.initialPosition = boardBounds.bottomRight.toVector2() +
-        Vector2(
-          -5,
-          10,
-        );
+    plunger = Plunger(compressionDistance: 29)
+      ..initialPosition = boardBounds.center.toVector2() + Vector2(41.5, -49);
     await add(plunger);
   }
 
@@ -75,39 +73,20 @@ class PinballGame extends Forge2DGame
     await add(
       BonusWord(
         position: Vector2(
-          boardBounds.center.dx,
-          boardBounds.bottom + 10,
+          boardBounds.center.dx - 3.07,
+          boardBounds.center.dy - 2.4,
         ),
       ),
     );
   }
 
   Future<void> _addPaths() async {
-    final jetpackRamp = JetpackRamp(
-      position: Vector2(
-        PinballGame.boardBounds.left + 40.5,
-        PinballGame.boardBounds.top - 31.5,
-      ),
-    );
-    final launcherRamp = LauncherRamp(
-      position: Vector2(
-        PinballGame.boardBounds.right - 30,
-        PinballGame.boardBounds.bottom + 40,
-      ),
-    );
-
-    await addAll([
-      jetpackRamp,
-      launcherRamp,
-    ]);
+    unawaited(addFromBlueprint(Jetpack()));
+    unawaited(addFromBlueprint(Launcher()));
   }
 
   void spawnBall() {
-    final ball = Ball();
-    add(
-      ball
-        ..initialPosition = plunger.body.position + Vector2(0, ball.size.y / 2),
-    );
+    addFromBlueprint(BallBlueprint(position: plunger.body.position));
   }
 }
 
@@ -116,8 +95,6 @@ class DebugPinballGame extends PinballGame with TapDetector {
 
   @override
   void onTapUp(TapUpInfo info) {
-    add(
-      Ball()..initialPosition = info.eventPosition.game,
-    );
+    addFromBlueprint(BallBlueprint(position: info.eventPosition.game));
   }
 }

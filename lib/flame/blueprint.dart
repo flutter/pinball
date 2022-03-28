@@ -12,20 +12,25 @@ const _attachedErrorMessage = "Can't add to attached Blueprints";
 /// A [Blueprint] is a virtual way of grouping [Component]s
 /// that are related, but they need to be added directly on
 /// the [FlameGame] level.
-abstract class Blueprint {
+abstract class Blueprint<T extends FlameGame> {
   final List<Component> _components = [];
+  final List<Blueprint> _blueprints = [];
+
   bool _isAttached = false;
 
   /// Called before the the [Component]s managed
   /// by this blueprint is added to the [FlameGame]
-  void build();
+  void build(T gameRef);
 
   /// Attach the [Component]s built on [build] to the [game]
   /// instance
   @mustCallSuper
-  Future<void> attach(FlameGame game) async {
-    build();
-    await game.addAll(_components);
+  Future<void> attach(T game) async {
+    build(game);
+    await Future.wait([
+      game.addAll(_components),
+      ..._blueprints.map(game.addFromBlueprint).toList(),
+    ]);
     _isAttached = true;
   }
 
@@ -41,13 +46,28 @@ abstract class Blueprint {
     _components.add(component);
   }
 
+  /// Adds a list of [Blueprint]s to this blueprint.
+  void addAllBlueprints(List<Blueprint> blueprints) {
+    assert(!_isAttached, _attachedErrorMessage);
+    _blueprints.addAll(blueprints);
+  }
+
+  /// Adds a single [Blueprint] to this blueprint.
+  void addBlueprint(Blueprint blueprint) {
+    assert(!_isAttached, _attachedErrorMessage);
+    _blueprints.add(blueprint);
+  }
+
   /// Returns a copy of the components built by this blueprint
   List<Component> get components => List.unmodifiable(_components);
+
+  /// Returns a copy of the children blueprints
+  List<Blueprint> get blueprints => List.unmodifiable(_blueprints);
 }
 
 /// A [Blueprint] that provides additional
 /// structures specific to flame_forge2d
-abstract class Forge2DBlueprint extends Blueprint {
+abstract class Forge2DBlueprint extends Blueprint<Forge2DGame> {
   final List<ContactCallback> _callbacks = [];
 
   /// Adds a single [ContactCallback] to this blueprint
@@ -63,13 +83,11 @@ abstract class Forge2DBlueprint extends Blueprint {
   }
 
   @override
-  Future<void> attach(FlameGame game) async {
+  Future<void> attach(Forge2DGame game) async {
     await super.attach(game);
 
-    assert(game is Forge2DGame, 'Forge2DBlueprint used outside a Forge2DGame');
-
     for (final callback in _callbacks) {
-      (game as Forge2DGame).addContactCallback(callback);
+      game.addContactCallback(callback);
     }
   }
 

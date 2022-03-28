@@ -83,15 +83,15 @@ class LeaderboardRepository {
 
   final FirebaseFirestore _firebaseFirestore;
 
-  /// Acquires top 10 [LeaderboardEntry]s.
-  Future<List<LeaderboardEntry>> fetchTop10Leaderboard() async {
-    final leaderboardEntries = <LeaderboardEntry>[];
+  /// Acquires top 10 [LeaderboardEntryData]s.
+  Future<List<LeaderboardEntryData>> fetchTop10Leaderboard() async {
+    final leaderboardEntries = <LeaderboardEntryData>[];
     late List<QueryDocumentSnapshot> documents;
 
     try {
       final querySnapshot = await _firebaseFirestore
           .collection('leaderboard')
-          .orderBy('score')
+          .orderBy('score', descending: true)
           .limit(10)
           .get();
       documents = querySnapshot.docs;
@@ -103,7 +103,7 @@ class LeaderboardRepository {
       final data = document.data() as Map<String, dynamic>?;
       if (data != null) {
         try {
-          leaderboardEntries.add(LeaderboardEntry.fromJson(data));
+          leaderboardEntries.add(LeaderboardEntryData.fromJson(data));
         } catch (error, stackTrace) {
           throw LeaderboardDeserializationException(error, stackTrace);
         }
@@ -115,7 +115,9 @@ class LeaderboardRepository {
 
   /// Adds player's score entry to the leaderboard and gets their
   /// [LeaderboardRanking].
-  Future<LeaderboardRanking> addLeaderboardEntry(LeaderboardEntry entry) async {
+  Future<LeaderboardRanking> addLeaderboardEntry(
+    LeaderboardEntryData entry,
+  ) async {
     late DocumentReference entryReference;
     try {
       entryReference = await _firebaseFirestore
@@ -128,7 +130,7 @@ class LeaderboardRepository {
     try {
       final querySnapshot = await _firebaseFirestore
           .collection('leaderboard')
-          .orderBy('score')
+          .orderBy('score', descending: true)
           .get();
 
       // TODO(allisonryan0002): see if we can find a more performant solution.

@@ -88,6 +88,7 @@ void main() {
           score: 0,
           balls: 0,
           activatedBonusLetters: [],
+          activatedDashNests: {},
           bonusHistory: [],
         );
 
@@ -103,10 +104,7 @@ void main() {
         );
         await tester.pump();
 
-        expect(
-          find.text('Game Over'),
-          findsOneWidget,
-        );
+        expect(find.byType(GameOverDialog), findsOneWidget);
       },
     );
 
