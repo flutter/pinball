@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart' hide Timer;
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
@@ -19,6 +20,8 @@ class ChromeDino extends BodyComponent with InitialPosition {
   /// The size of the dinosour mouth.
   static final size = Vector2(5, 2.5);
 
+  late final _ChromeDinoJoint _joint;
+
   /// Anchors the [ChromeDino] to the [RevoluteJoint] that controls its arc
   /// motion.
   Future<void> _anchorToJoint() async {
@@ -29,8 +32,7 @@ class ChromeDino extends BodyComponent with InitialPosition {
       chromeDino: this,
       anchor: anchor,
     );
-    final joint = _ChromeDinoJoint(jointDef)..create(world);
-    unawaited(removed.future.whenComplete(joint.dispose));
+    _joint = _ChromeDinoJoint(jointDef)..create(world);
   }
 
   // TODO(alestiago): Remove once the following is added to Flame.
@@ -47,6 +49,7 @@ class ChromeDino extends BodyComponent with InitialPosition {
   Future<void> onLoad() async {
     await super.onLoad();
     await _anchorToJoint();
+    await add(TimerComponent(period: 1, onTick: _joint.swivel));
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -144,14 +147,7 @@ class _ChromeDinoAnchorRevoluteJointDef extends RevoluteJointDef {
 }
 
 class _ChromeDinoJoint extends RevoluteJoint {
-  _ChromeDinoJoint(_ChromeDinoAnchorRevoluteJointDef def) : super(def) {
-    _timer = Timer.periodic(
-      const Duration(seconds: 1),
-      (_) => _swivel(),
-    );
-  }
-
-  late final Timer _timer;
+  _ChromeDinoJoint(_ChromeDinoAnchorRevoluteJointDef def) : super(def);
 
   // TODO(alestiago): Remove once Forge2D supports custom joints.
   void create(World world) {
@@ -161,11 +157,7 @@ class _ChromeDinoJoint extends RevoluteJoint {
   }
 
   /// Sweeps the [ChromeDino] up and down repeatedly.
-  void _swivel() {
+  void swivel() {
     setMotorSpeed(-motorSpeed);
-  }
-
-  void dispose() {
-    _timer.cancel();
   }
 }
