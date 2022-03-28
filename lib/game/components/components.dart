@@ -2,7 +2,7 @@ export 'ball.dart';
 export 'baseboard.dart';
 export 'board.dart';
 export 'bonus_word.dart';
-export 'flipper.dart';
+export 'flipper_controller.dart';
 export 'flutter_forest.dart';
 export 'jetpack_ramp.dart';
 export 'kicker.dart';
