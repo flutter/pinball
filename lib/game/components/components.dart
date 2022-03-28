@@ -1,12 +1,10 @@
 export 'ball.dart';
 export 'baseboard.dart';
 export 'board.dart';
-export 'board_side.dart';
 export 'bonus_word.dart';
 export 'flipper.dart';
 export 'flutter_forest.dart';
 export 'jetpack_ramp.dart';
-export 'joint_anchor.dart';
 export 'kicker.dart';
 export 'launcher_ramp.dart';
 export 'pathway.dart';
