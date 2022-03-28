@@ -12,6 +12,7 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/ball.png
   AssetGenImage get ball => const AssetGenImage('assets/images/ball.png');
+<<<<<<< HEAD
 
   $AssetsImagesFlipperGen get flipper => const $AssetsImagesFlipperGen();
 }
@@ -26,6 +27,12 @@ class $AssetsImagesFlipperGen {
   /// File path: assets/images/flipper/right.png
   AssetGenImage get right =>
       const AssetGenImage('assets/images/flipper/right.png');
+=======
+  AssetGenImage get spaceshipBridge =>
+      const AssetGenImage('assets/images/spaceship_bridge.png');
+  AssetGenImage get spaceshipSaucer =>
+      const AssetGenImage('assets/images/spaceship_saucer.png');
+>>>>>>> 990de50 (feat: applying assets to the spaceship)
 }
 
 class Assets {

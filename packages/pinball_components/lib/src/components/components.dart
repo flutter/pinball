@@ -5,4 +5,6 @@ export 'flipper.dart';
 export 'initial_position.dart';
 export 'joint_anchor.dart';
 export 'layer.dart';
+export 'ramp_opening.dart';
 export 'shapes/shapes.dart';
+export 'spaceship.dart';

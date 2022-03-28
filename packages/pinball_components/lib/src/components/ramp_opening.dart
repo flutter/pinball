@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_renaming_method_parameters
 
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template ramp_orientation}
@@ -110,3 +109,4 @@ class RampOpeningBallContactCallback<Opening extends RampOpening>
     }
   }
 }
+

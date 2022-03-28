@@ -1,7 +1,6 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 import '../../helpers/helpers.dart';
@@ -11,10 +10,10 @@ void main() {
     late Filter filterData;
     late Fixture fixture;
     late Body body;
-    late PinballGame game;
     late Ball ball;
     late SpaceshipEntrance entrance;
     late SpaceshipHole hole;
+    late Forge2DGame game;
 
     setUp(() {
       filterData = MockFilter();
@@ -25,7 +24,7 @@ void main() {
       body = MockBody();
       when(() => body.fixtures).thenReturn([fixture]);
 
-      game = MockPinballGame();
+      game = MockGame();
 
       ball = MockBall();
       when(() => ball.gameRef).thenReturn(game);
