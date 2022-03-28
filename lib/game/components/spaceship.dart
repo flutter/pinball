@@ -8,6 +8,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/flame/blueprint.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/gen/assets.gen.dart';
+import 'package:pinball_components/pinball_components.dart' hide Assets;
 
 /// A [Blueprint] which creates the spaceship feature.
 class Spaceship extends Forge2DBlueprint {
@@ -15,7 +16,7 @@ class Spaceship extends Forge2DBlueprint {
   static const radius = 10.0;
 
   @override
-  void build() {
+  void build(_) {
     final position = Vector2(
       PinballGame.boardBounds.left + radius + 15,
       PinballGame.boardBounds.center.dy + 30,

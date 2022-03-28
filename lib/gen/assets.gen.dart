@@ -15,12 +15,8 @@ class $AssetsImagesGen {
 class $AssetsImagesComponentsGen {
   const $AssetsImagesComponentsGen();
 
-  AssetGenImage get ball =>
-      const AssetGenImage('assets/images/components/ball.png');
   AssetGenImage get flipper =>
       const AssetGenImage('assets/images/components/flipper.png');
-  AssetGenImage get sauce =>
-      const AssetGenImage('assets/images/components/sauce.png');
   $AssetsImagesComponentsSpaceshipGen get spaceship =>
       const $AssetsImagesComponentsSpaceshipGen();
 }

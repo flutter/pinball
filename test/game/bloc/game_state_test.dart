@@ -186,7 +186,7 @@ void main() {
 
       test(
         'copies correctly '
-        'when no arguement specified',
+        'when no argument specified',
         () {
           const gameState = GameState(
             balls: 0,
@@ -204,7 +204,7 @@ void main() {
 
       test(
         'copies correctly '
-        'when all arguements specified',
+        'when all arguments specified',
         () {
           const gameState = GameState(
             score: 2,

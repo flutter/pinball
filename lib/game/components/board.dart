@@ -2,9 +2,8 @@ import 'package:flame/components.dart';
 import 'package:pinball/game/game.dart';
 
 /// {@template board}
-/// The main flat surface of the [PinballGame], where the [Flipper]s,
-/// [RoundBumper]s, [Kicker]s are arranged.
-/// {entemplate}
+/// The main flat surface of the [PinballGame].
+/// {endtemplate}
 class Board extends Component {
   /// {@macro board}
   Board();
@@ -20,7 +19,7 @@ class Board extends Component {
       spacing: 2,
     );
 
-    final dashForest = _FlutterForest(
+    final flutterForest = FlutterForest(
       position: Vector2(
         PinballGame.boardBounds.center.dx + 20,
         PinballGame.boardBounds.center.dy + 48,
@@ -29,44 +28,7 @@ class Board extends Component {
 
     await addAll([
       bottomGroup,
-      dashForest,
-    ]);
-  }
-}
-
-/// {@template flutter_forest}
-/// Area positioned at the top right of the [Board] where the [Ball]
-/// can bounce off [RoundBumper]s.
-/// {@endtemplate}
-class _FlutterForest extends Component {
-  /// {@macro flutter_forest}
-  _FlutterForest({
-    required this.position,
-  });
-
-  final Vector2 position;
-
-  @override
-  Future<void> onLoad() async {
-    // TODO(alestiago): adjust positioning once sprites are added.
-    // TODO(alestiago): Use [NestBumper] instead of [RoundBumper] once provided.
-    final smallLeftNest = RoundBumper(
-      radius: 1,
-      points: 10,
-    )..initialPosition = position + Vector2(-4.8, 2.8);
-    final smallRightNest = RoundBumper(
-      radius: 1,
-      points: 10,
-    )..initialPosition = position + Vector2(0.5, -5.5);
-    final bigNest = RoundBumper(
-      radius: 2,
-      points: 20,
-    )..initialPosition = position;
-
-    await addAll([
-      smallLeftNest,
-      smallRightNest,
-      bigNest,
+      flutterForest,
     ]);
   }
 }
@@ -127,14 +89,14 @@ class _BottomGroupSide extends Component {
   Future<void> onLoad() async {
     final direction = _side.direction;
 
-    final flipper = Flipper.fromSide(
+    final flipper = Flipper(
       side: _side,
     )..initialPosition = _position;
     final baseboard = Baseboard(side: _side)
       ..initialPosition = _position +
           Vector2(
-            (Flipper.size.x * direction) - direction,
-            Flipper.size.y,
+            (Baseboard.size.x / 1.6 * direction),
+            Baseboard.size.y - 2,
           );
     final kicker = Kicker(
       side: _side,

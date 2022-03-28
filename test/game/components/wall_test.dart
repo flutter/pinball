@@ -17,11 +17,14 @@ void main() {
       test(
         'removes the ball on begin contact when the wall is a bottom one',
         () {
-          final game = MockPinballGame();
           final wall = MockBottomWall();
+          final ballController = MockBallController();
           final ball = MockBall();
+          final componentSet = MockComponentSet();
 
-          when(() => ball.gameRef).thenReturn(game);
+          when(() => componentSet.whereType<BallController>())
+              .thenReturn([ballController]);
+          when(() => ball.children).thenReturn(componentSet);
 
           BottomWallBallContactCallback()
             // Remove once https://github.com/flame-engine/flame/pull/1415
@@ -29,7 +32,7 @@ void main() {
             ..end(MockBall(), MockBottomWall(), MockContact())
             ..begin(ball, wall, MockContact());
 
-          verify(ball.lost).called(1);
+          verify(ballController.lost).called(1);
         },
       );
     });
