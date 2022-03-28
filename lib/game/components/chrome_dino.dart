@@ -32,24 +32,21 @@ class ChromeDino extends BodyComponent with InitialPosition {
       chromeDino: this,
       anchor: anchor,
     );
-    _joint = _ChromeDinoJoint(jointDef)..create(world);
-  }
-
-  // TODO(alestiago): Remove once the following is added to Flame.
-  // ignore: public_member_api_docs
-  Completer removed = Completer<bool>();
-
-  @override
-  void onRemove() {
-    super.onRemove();
-    removed.complete(true);
+    _joint = _ChromeDinoJoint(jointDef);
+    world.createJoint2(_joint);
   }
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
     await _anchorToJoint();
-    await add(TimerComponent(period: 1, onTick: _joint.swivel));
+    await add(
+      TimerComponent(
+        period: 1,
+        onTick: _joint.swivel,
+        repeat: true,
+      ),
+    );
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -65,29 +62,31 @@ class ChromeDino extends BodyComponent with InitialPosition {
       ..isSensor = true;
     fixtureDefs.add(fixtureDef);
 
-    final upperEdge = EdgeShape()
-      ..set(
-        Vector2(-size.x / 2, -size.y / 2),
-        Vector2(size.x / 2, -size.y / 2),
-      );
-    final upperEdgeDef = FixtureDef(upperEdge)..density = 0.5;
-    fixtureDefs.add(upperEdgeDef);
+    // FIXME(alestiago): Investigate why adding these fixtures is considered as
+    // an invalid contact type.
+    // final upperEdge = EdgeShape()
+    //   ..set(
+    //     Vector2(-size.x / 2, -size.y / 2),
+    //     Vector2(size.x / 2, -size.y / 2),
+    //   );
+    // final upperEdgeDef = FixtureDef(upperEdge)..density = 0.5;
+    // fixtureDefs.add(upperEdgeDef);
 
-    final lowerEdge = EdgeShape()
-      ..set(
-        Vector2(-size.x / 2, size.y / 2),
-        Vector2(size.x / 2, size.y / 2),
-      );
-    final lowerEdgeDef = FixtureDef(lowerEdge)..density = 0.5;
-    fixtureDefs.add(lowerEdgeDef);
+    // final lowerEdge = EdgeShape()
+    //   ..set(
+    //     Vector2(-size.x / 2, size.y / 2),
+    //     Vector2(size.x / 2, size.y / 2),
+    //   );
+    // final lowerEdgeDef = FixtureDef(lowerEdge)..density = 0.5;
+    // fixtureDefs.add(lowerEdgeDef);
 
-    final rightEdge = EdgeShape()
-      ..set(
-        Vector2(size.x / 2, -size.y / 2),
-        Vector2(size.x / 2, size.y / 2),
-      );
-    final rightEdgeDef = FixtureDef(rightEdge)..density = 0.5;
-    fixtureDefs.add(rightEdgeDef);
+    // final rightEdge = EdgeShape()
+    //   ..set(
+    //     Vector2(size.x / 2, -size.y / 2),
+    //     Vector2(size.x / 2, size.y / 2),
+    //   );
+    // final rightEdgeDef = FixtureDef(rightEdge)..density = 0.5;
+    // fixtureDefs.add(rightEdgeDef);
 
     return fixtureDefs;
   }
@@ -149,15 +148,20 @@ class _ChromeDinoAnchorRevoluteJointDef extends RevoluteJointDef {
 class _ChromeDinoJoint extends RevoluteJoint {
   _ChromeDinoJoint(_ChromeDinoAnchorRevoluteJointDef def) : super(def);
 
-  // TODO(alestiago): Remove once Forge2D supports custom joints.
-  void create(World world) {
-    world.joints.add(this);
-    bodyA.joints.add(this);
-    bodyB.joints.add(this);
-  }
-
   /// Sweeps the [ChromeDino] up and down repeatedly.
   void swivel() {
     setMotorSpeed(-motorSpeed);
+  }
+}
+
+extension on World {
+  // TODO(alestiago): Remove once Forge2D supports custom joints.
+  void createJoint2(Joint joint) {
+    assert(!isLocked, '');
+
+    joints.add(joint);
+
+    joint.bodyA.joints.add(joint);
+    joint.bodyB.joints.add(joint);
   }
 }
