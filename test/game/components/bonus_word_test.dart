@@ -210,9 +210,9 @@ void main() {
           await game.ready();
           final bonusLetter = game.descendants().whereType<BonusLetter>().first;
           bonusLetter.activate();
+          await game.ready();
 
           await tester.pump();
-
           verify(() => gameBloc.add(const BonusLetterActivated(0))).called(1);
         },
       );
