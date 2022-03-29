@@ -18,7 +18,7 @@ class ChromeDino extends BodyComponent with InitialPosition {
     paint = Paint()..color = Colors.blue;
   }
 
-  /// The size of the dinosour mouth.
+  /// The size of the dinosaur mouth.
   static final size = Vector2(5, 2.5);
 
   /// Anchors the [ChromeDino] to the [RevoluteJoint] that controls its arc
