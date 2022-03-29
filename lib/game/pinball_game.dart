@@ -86,7 +86,12 @@ class PinballGame extends Forge2DGame
   }
 
   void spawnBall() {
-    addFromBlueprint(BallBlueprint(position: plunger.body.position));
+    addFromBlueprint(
+      BallBlueprint(
+        position: plunger.body.position,
+        type: BallType.normal,
+      ),
+    );
   }
 }
 
@@ -95,6 +100,11 @@ class DebugPinballGame extends PinballGame with TapDetector {
 
   @override
   void onTapUp(TapUpInfo info) {
-    addFromBlueprint(BallBlueprint(position: info.eventPosition.game));
+    addFromBlueprint(
+      BallBlueprint(
+        position: info.eventPosition.game,
+        type: BallType.egg,
+      ),
+    );
   }
 }
