@@ -17,9 +17,6 @@ class Baseboard extends BodyComponent with InitialPosition {
     required BoardSide side,
   }) : _side = side;
 
-  /// The size of the [Baseboard].
-  static final size = Vector2(24.79, 15.5);
-
   /// Whether the [Baseboard] is on the left or right side of the board.
   final BoardSide _side;
 

@@ -14,9 +14,9 @@ class BasicBaseboardGame extends BasicGame {
     final center = screenToWorld(camera.viewport.canvasSize! / 2);
 
     final leftBaseboard = Baseboard(side: BoardSide.left)
-      ..initialPosition = center - Vector2(Baseboard.size.x, 0);
+      ..initialPosition = center - Vector2(25, 0);
     final rightBaseboard = Baseboard(side: BoardSide.right)
-      ..initialPosition = center + Vector2(Baseboard.size.x, 0);
+      ..initialPosition = center + Vector2(25, 0);
 
     await addAll([
       leftBaseboard,
