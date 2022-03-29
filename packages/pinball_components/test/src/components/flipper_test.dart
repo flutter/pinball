@@ -12,117 +12,122 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final flameTester = FlameTester(TestGame.new);
 
-  group(
-    'Flipper',
-    () {
-      // TODO(alestiago): Add golden tests.
-      flameTester.test(
-        'loads correctly',
-        (game) async {
-          final leftFlipper = Flipper(
-            side: BoardSide.left,
-          );
-          final rightFlipper = Flipper(
-            side: BoardSide.right,
-          );
-          await game.ready();
-          await game.ensureAddAll([leftFlipper, rightFlipper]);
+  group('Flipper', () {
+    // TODO(alestiago): Add golden tests.
+    // TODO(alestiago): Consider testing always both left and right Flipper.
 
-          expect(game.contains(leftFlipper), isTrue);
-          expect(game.contains(rightFlipper), isTrue);
+    flameTester.test(
+      'loads correctly',
+      (game) async {
+        final leftFlipper = Flipper(side: BoardSide.left);
+        final rightFlipper = Flipper(side: BoardSide.right);
+        await game.ready();
+        await game.ensureAddAll([leftFlipper, rightFlipper]);
+
+        expect(game.contains(leftFlipper), isTrue);
+        expect(game.contains(rightFlipper), isTrue);
+      },
+    );
+
+    group('constructor', () {
+      test('sets BoardSide', () {
+        final leftFlipper = Flipper(side: BoardSide.left);
+        expect(leftFlipper.side, equals(leftFlipper.side));
+
+        final rightFlipper = Flipper(side: BoardSide.right);
+        expect(rightFlipper.side, equals(rightFlipper.side));
+      });
+    });
+
+    group('body', () {
+      flameTester.test(
+        'is dynamic',
+        (game) async {
+          final flipper = Flipper(side: BoardSide.left);
+          await game.ensureAdd(flipper);
+          expect(flipper.body.bodyType, equals(BodyType.dynamic));
         },
       );
 
-      group('constructor', () {
-        test('sets BoardSide', () {
-          final leftFlipper = Flipper(
-            side: BoardSide.left,
+      flameTester.test(
+        'ignores gravity',
+        (game) async {
+          final flipper = Flipper(side: BoardSide.left);
+          await game.ensureAdd(flipper);
+
+          expect(flipper.body.gravityScale, isZero);
+        },
+      );
+
+      flameTester.test(
+        'has greater mass than Ball',
+        (game) async {
+          final flipper = Flipper(side: BoardSide.left);
+          final ball = Ball(baseColor: Colors.white);
+
+          await game.ready();
+          await game.ensureAddAll([flipper, ball]);
+
+          expect(
+            flipper.body.getMassData().mass,
+            greaterThan(ball.body.getMassData().mass),
+          );
+        },
+      );
+    });
+
+    group('fixtures', () {
+      flameTester.test(
+        'has three',
+        (game) async {
+          final flipper = Flipper(side: BoardSide.left);
+          await game.ensureAdd(flipper);
+
+          expect(flipper.body.fixtures.length, equals(3));
+        },
+      );
+
+      flameTester.test(
+        'has density',
+        (game) async {
+          final flipper = Flipper(side: BoardSide.left);
+          await game.ensureAdd(flipper);
+
+          final fixtures = flipper.body.fixtures;
+          final density = fixtures.fold<double>(
+            0,
+            (sum, fixture) => sum + fixture.density,
           );
 
-          expect(leftFlipper.side, equals(leftFlipper.side));
+          expect(density, greaterThan(0));
+        },
+      );
+    });
 
-          final rightFlipper = Flipper(
-            side: BoardSide.right,
-          );
-          expect(rightFlipper.side, equals(rightFlipper.side));
-        });
-      });
+    flameTester.test(
+      'moveDown applies downward velocity',
+      (game) async {
+        final flipper = Flipper(side: BoardSide.left);
+        await game.ensureAdd(flipper);
 
-      group('body', () {
-        flameTester.test(
-          'is dynamic',
-          (game) async {
-            final flipper = Flipper(
-              side: BoardSide.left,
-            );
-            await game.ensureAdd(flipper);
+        expect(flipper.body.linearVelocity, equals(Vector2.zero()));
+        flipper.moveDown();
 
-            expect(flipper.body.bodyType, equals(BodyType.dynamic));
-          },
-        );
+        expect(flipper.body.linearVelocity.y, lessThan(0));
+      },
+    );
 
-        flameTester.test(
-          'ignores gravity',
-          (game) async {
-            final flipper = Flipper(
-              side: BoardSide.left,
-            );
-            await game.ensureAdd(flipper);
+    flameTester.test(
+      'moveUp applies upward velocity',
+      (game) async {
+        final flipper = Flipper(side: BoardSide.left);
+        await game.ensureAdd(flipper);
 
-            expect(flipper.body.gravityScale, isZero);
-          },
-        );
+        expect(flipper.body.linearVelocity, equals(Vector2.zero()));
+        flipper.moveUp();
 
-        flameTester.test(
-          'has greater mass than Ball',
-          (game) async {
-            final flipper = Flipper(
-              side: BoardSide.left,
-            );
-            final ball = Ball(baseColor: Colors.white);
-
-            await game.ready();
-            await game.ensureAddAll([flipper, ball]);
-
-            expect(
-              flipper.body.getMassData().mass,
-              greaterThan(ball.body.getMassData().mass),
-            );
-          },
-        );
-      });
-
-      group('fixtures', () {
-        flameTester.test(
-          'has three',
-          (game) async {
-            final flipper = Flipper(
-              side: BoardSide.left,
-            );
-            await game.ensureAdd(flipper);
-
-            expect(flipper.body.fixtures.length, equals(3));
-          },
-        );
-
-        flameTester.test(
-          'has density',
-          (game) async {
-            final flipper = Flipper(
-              side: BoardSide.left,
-            );
-            await game.ensureAdd(flipper);
-
-            final fixtures = flipper.body.fixtures;
-            final density = fixtures.fold<double>(
-              0,
-              (sum, fixture) => sum + fixture.density,
-            );
-
-            expect(density, greaterThan(0));
-          },
-        );
-      });
-    },
-  );
+        expect(flipper.body.linearVelocity.y, greaterThan(0));
+      },
+    );
+  });
 }
