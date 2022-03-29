@@ -125,6 +125,7 @@ app.*.map.json
 !.idea/codeStyles/
 !.idea/dictionaries/
 !.idea/runConfigurations/
+!**/flutter_sign_post.png
 
 # Firebase related
 .firebase

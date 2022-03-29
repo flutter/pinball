@@ -3,12 +3,19 @@
 ///  FlutterGen
 /// *****************************************************
 
+// ignore_for_file: directives_ordering,unnecessary_import
+
 import 'package:flutter/widgets.dart';
 
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/ball.png
   AssetGenImage get ball => const AssetGenImage('assets/images/ball.png');
+
+  /// File path: assets/images/flutter_sign_post.png
+  AssetGenImage get flutterSignPost =>
+      const AssetGenImage('assets/images/flutter_sign_post.png');
 }
 
 class Assets {
