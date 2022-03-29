@@ -101,6 +101,7 @@ class DinoTopWall extends BodyComponent with InitialPosition {
     final wallPerspectiveAngle =
         PinballGame.boardPerspectiveAngle + math.pi / 2;
 
+    // TODO(ruimiguel): calculate final UI wall shape.
     final topCurveShape = BezierCurveShape(
       controlPoints: [
         Vector2(0, 0),
@@ -114,18 +115,20 @@ class DinoTopWall extends BodyComponent with InitialPosition {
       ..friction = 0;
     fixturesDef.add(topFixtureDef);
 
-    final mediumCurveShape = BezierCurveShape(
+    const bottomCurveShift = -5.0;
+    // TODO(ruimiguel): calculate final UI wall shape.
+    final bottomCurveShape = BezierCurveShape(
       controlPoints: [
-        Vector2(0 - 5, 0),
-        Vector2(0 - 5, 8),
-        Vector2(3 - 5, 8),
-        Vector2(7 - 5, 0),
+        Vector2(0 + bottomCurveShift, 0),
+        Vector2(0 + bottomCurveShift, 8),
+        Vector2(3 + bottomCurveShift, 8),
+        Vector2(7 + bottomCurveShift, 0),
       ],
     )..rotate(wallPerspectiveAngle);
-    final mediumFixtureDef = FixtureDef(mediumCurveShape)
+    final bottomFixtureDef = FixtureDef(bottomCurveShape)
       ..restitution = 0.1
       ..friction = 0;
-    fixturesDef.add(mediumFixtureDef);
+    fixturesDef.add(bottomFixtureDef);
 
     return fixturesDef;
   }
@@ -162,6 +165,7 @@ class DinoBottomWall extends BodyComponent with InitialPosition {
     final wallPerspectiveAngle =
         PinballGame.boardPerspectiveAngle + math.pi / 2;
 
+    // TODO(ruimiguel): calculate final UI wall shape.
     final topVertices = [
       Vector2(0, 0),
       Vector2(0, 5),
@@ -178,11 +182,12 @@ class DinoBottomWall extends BodyComponent with InitialPosition {
       ..friction = 0;
     fixturesDef.add(topWallFixtureDef);
 
+    const bottomShift = -20.0;
     final bottomVertices = [
-      Vector2(0 - 20, 0),
-      Vector2(0 - 20, 4),
-      Vector2(-40 - 20, 4),
-      Vector2(-40 - 20, 0),
+      Vector2(0 + bottomShift, 0),
+      Vector2(0 + bottomShift, 4),
+      Vector2(-40 + bottomShift, 4),
+      Vector2(-40 + bottomShift, 0),
     ]..forEach((point) {
         point.rotate(wallPerspectiveAngle);
       });
