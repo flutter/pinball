@@ -101,7 +101,8 @@ class DebugPinballGame extends PinballGame with TapDetector {
     await _loadBackground();
   }
 
-  // TODO(alestiago): Remove once it is no longer needed.
+  // TODO(alestiago): Move to PinballGame once we have the real background
+  // component.
   Future<void> _loadBackground() async {
     final sprite = await loadSprite(
       Assets.images.components.background.path,
