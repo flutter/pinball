@@ -125,10 +125,12 @@ app.*.map.json
 !.idea/codeStyles/
 !.idea/dictionaries/
 !.idea/runConfigurations/
-!**/flutter_sign_post.png
 
 # Firebase related
 .firebase
 
 test/.test_runner.dart
 web/__/firebase/init.js
+
+# Application expections
+!/packages/pinball_components/assets/images/flutter_sign_post.png
