@@ -31,7 +31,7 @@ class Spaceship extends Forge2DBlueprint {
     addAll([
       SpaceshipSaucer()..initialPosition = position,
       SpaceshipEntrance()..initialPosition = position,
-      SpaceshipBridge()..initialPosition = position,
+      AndroidHead()..initialPosition = position,
       SpaceshipHole()..initialPosition = position - Vector2(4.8, 4.2),
       SpaceshipHole()..initialPosition = position - Vector2(-7.2, 0.6),
       SpaceshipWall()..initialPosition = position,
@@ -86,9 +86,9 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
 /// A [BodyComponent] that provides both the collision and the rotation
 /// animation for the bridge.
 /// {@endtemplate}
-class SpaceshipBridge extends BodyComponent with InitialPosition, Layered {
+class AndroidHead extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_bridge}
-  SpaceshipBridge() : super(priority: 3) {
+  AndroidHead() : super(priority: 3) {
     layer = Layer.spaceship;
   }
 
