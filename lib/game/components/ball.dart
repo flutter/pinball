@@ -15,8 +15,10 @@ enum BallType {
   /// the [BottomWall].
   normal,
 
-  /// A [Ball] was spawned by Dash in the [FlutterForest].
-  egg,
+  /// A [Ball] that does not alter [GameState.balls].
+  ///
+  /// For example, a [Ball] spawned by Dash in the [FlutterForest].
+  extra,
 }
 
 /// {@template ball_blueprint}
