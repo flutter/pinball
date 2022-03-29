@@ -44,9 +44,11 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
 
   /// Loads the sprite that renders with the [Flipper].
   Future<void> _loadSprite() async {
-    final asset = Assets.images.flipper;
-    final spritePath = (side.isLeft ? asset.left : asset.right).keyName;
-    final sprite = await gameRef.loadSprite(spritePath);
+    final sprite = await gameRef.loadSprite(
+      (_side.isLeft)
+          ? Assets.images.flipper.left.keyName
+          : Assets.images.flipper.right.keyName,
+    );
     final spriteComponent = SpriteComponent(
       sprite: sprite,
       size: size,
