@@ -33,6 +33,7 @@ class ChromeDino extends BodyComponent with InitialPosition {
     );
     final joint = _ChromeDinoJoint(jointDef);
     world.createJoint2(joint);
+
     return joint;
   }
 
