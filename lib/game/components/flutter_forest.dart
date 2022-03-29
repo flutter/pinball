@@ -43,6 +43,8 @@ class FlutterForest extends Component
   Future<void> onLoad() async {
     gameRef.addContactCallback(DashNestBumperBallContactCallback());
 
+    final signPost = FlutterSignPost()..initialPosition = Vector2(8.35, 58.3);
+
     // TODO(alestiago): adjust positioning once sprites are added.
     final smallLeftNest = SmallDashNestBumper(id: 'small_left_nest')
       ..initialPosition = Vector2(8.95, 51.95);
@@ -52,6 +54,7 @@ class FlutterForest extends Component
       ..initialPosition = Vector2(18.55, 59.35);
 
     await addAll([
+      signPost,
       smallLeftNest,
       smallRightNest,
       bigNest,
