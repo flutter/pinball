@@ -26,6 +26,8 @@ flutter:
   generate: true
   assets:
     - assets/images/
+    - assets/images/baseboard/
+
 
 flutter_gen:
   line_length: 80

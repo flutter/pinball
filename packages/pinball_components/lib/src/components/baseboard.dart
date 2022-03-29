@@ -2,9 +2,11 @@ import 'dart:math' as math;
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:pinball/game/game.dart';
-import 'package:pinball/gen/assets.gen.dart';
-import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_components/pinball_components.dart';
+
+// ignore_for_file: comment_references
+// TODO(allisonryan0002): Revisit ignore lint rule once Flipper is moved to this
+// package.
 
 /// {@template baseboard}
 /// Wing-shaped board piece to corral the [Ball] towards the [Flipper]s.
@@ -90,8 +92,8 @@ class Baseboard extends BodyComponent with InitialPosition {
 
     final sprite = await gameRef.loadSprite(
       (_side.isLeft)
-          ? Assets.images.components.baseboards.leftBaseboard.path
-          : Assets.images.components.baseboards.rightBaseboard.path,
+          ? Assets.images.baseboard.left.keyName
+          : Assets.images.baseboard.right.keyName,
     );
 
     await add(

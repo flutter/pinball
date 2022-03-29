@@ -9,6 +9,16 @@ class $AssetsImagesGen {
   const $AssetsImagesGen();
 
   AssetGenImage get ball => const AssetGenImage('assets/images/ball.png');
+  $AssetsImagesBaseboardGen get baseboard => const $AssetsImagesBaseboardGen();
+}
+
+class $AssetsImagesBaseboardGen {
+  const $AssetsImagesBaseboardGen();
+
+  AssetGenImage get left =>
+      const AssetGenImage('assets/images/baseboard/left.png');
+  AssetGenImage get right =>
+      const AssetGenImage('assets/images/baseboard/right.png');
 }
 
 class Assets {
