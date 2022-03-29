@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template flutter_sign_post}
-/// A sign, found at the FlutterForest.
+/// A sign, found in the FlutterForest.
 /// {@endtemplate}
 // TODO(alestiago): Revisit doc comment if FlutterForest is moved to package.
 class FlutterSignPost extends BodyComponent with InitialPosition {
