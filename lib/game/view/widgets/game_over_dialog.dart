@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
@@ -16,7 +14,10 @@ class GameOverDialog extends StatelessWidget {
   const GameOverDialog({Key? key, required this.score, required this.theme})
       : super(key: key);
 
+  /// Score achieved by the current user.
   final int score;
+
+  /// Theme of the current user.
   final CharacterTheme theme;
 
   @override
@@ -30,11 +31,22 @@ class GameOverDialog extends StatelessWidget {
   }
 }
 
+/// {@template game_over_dialog_view}
+/// View for showing final score when the game is finished.
+/// {@endtemplate}
+@visibleForTesting
 class GameOverDialogView extends StatefulWidget {
-  const GameOverDialogView({Key? key, required this.score, required this.theme})
-      : super(key: key);
+  /// {@macro game_over_dialog_view}
+  const GameOverDialogView({
+    Key? key,
+    required this.score,
+    required this.theme,
+  }) : super(key: key);
 
+  /// Score achieved by the current user.
   final int score;
+
+  /// Theme of the current user.
   final CharacterTheme theme;
 
   @override
@@ -81,6 +93,7 @@ class _GameOverDialogViewState extends State<GameOverDialogView> {
                     height: 15,
                   ),
                   TextField(
+                    key: const Key('player_initials_text_field'),
                     controller: playerInitialsInputController,
                     textCapitalization: TextCapitalization.characters,
                     decoration: InputDecoration(

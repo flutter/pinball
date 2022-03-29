@@ -31,8 +31,16 @@ void main() {
     group('GameOverDialogView', () {
       late LeaderboardBloc leaderboardBloc;
 
+      final leaderboard = [
+        LeaderboardEntry(
+          rank: '1',
+          playerInitials: 'ABC',
+          score: 5000,
+          character: DashTheme().characterAsset,
+        ),
+      ];
       final entryData = LeaderboardEntryData(
-        playerInitials: '',
+        playerInitials: 'VGV',
         score: 10000,
         character: CharacterType.dash,
       );
@@ -54,8 +62,8 @@ void main() {
           BlocProvider.value(
             value: leaderboardBloc,
             child: GameOverDialogView(
-              score: 10000,
-              theme: DashTheme(),
+              score: entryData.score,
+              theme: entryData.character.toTheme,
             ),
           ),
         );
@@ -77,8 +85,8 @@ void main() {
           BlocProvider.value(
             value: leaderboardBloc,
             child: GameOverDialogView(
-              score: 10000,
-              theme: DashTheme(),
+              score: entryData.score,
+              theme: entryData.character.toTheme,
             ),
           ),
         );
@@ -96,14 +104,7 @@ void main() {
           initialState: LeaderboardState(
             status: LeaderboardStatus.success,
             ranking: LeaderboardRanking(ranking: 1, outOf: 2),
-            leaderboard: [
-              LeaderboardEntry(
-                rank: '1',
-                playerInitials: 'ABC',
-                score: 5000,
-                character: DashTheme().characterAsset,
-              ),
-            ],
+            leaderboard: leaderboard,
           ),
         );
 
@@ -111,8 +112,8 @@ void main() {
           BlocProvider.value(
             value: leaderboardBloc,
             child: GameOverDialogView(
-              score: 10000,
-              theme: DashTheme(),
+              score: entryData.score,
+              theme: entryData.character.toTheme,
             ),
           ),
         );
@@ -143,10 +144,14 @@ void main() {
           ),
         );
 
+        await tester.enterText(
+          find.byKey(const Key('player_initials_text_field')),
+          entryData.playerInitials,
+        );
+
         final button = find.widgetWithText(TextButton, l10n.addUser);
         await tester.ensureVisible(button);
         await tester.tap(button);
-        await tester.pumpAndSettle();
 
         verify(
           () => leaderboardBloc.add(LeaderboardEntryAdded(entry: entryData)),
@@ -163,15 +168,8 @@ void main() {
           const Stream<LeaderboardState>.empty(),
           initialState: LeaderboardState(
             status: LeaderboardStatus.success,
-            ranking: LeaderboardRanking(ranking: 0, outOf: 0),
-            leaderboard: [
-              LeaderboardEntry(
-                rank: '1',
-                playerInitials: 'ABC',
-                score: 10000,
-                character: DashTheme().characterAsset,
-              ),
-            ],
+            ranking: LeaderboardRanking(ranking: 1, outOf: 2),
+            leaderboard: leaderboard,
           ),
         );
 
@@ -179,8 +177,8 @@ void main() {
           BlocProvider.value(
             value: leaderboardBloc,
             child: GameOverDialogView(
-              score: 10000,
-              theme: DashTheme(),
+              score: entryData.score,
+              theme: entryData.character.toTheme,
             ),
           ),
           navigator: navigator,
@@ -189,7 +187,6 @@ void main() {
         final button = find.widgetWithText(TextButton, l10n.leaderboard);
         await tester.ensureVisible(button);
         await tester.tap(button);
-        await tester.pumpAndSettle();
 
         verify(() => navigator.push<void>(any())).called(1);
       });
