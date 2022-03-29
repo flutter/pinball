@@ -8,7 +8,7 @@ import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template chrome_dino}
-/// Dinosour that gobbles up a [Ball], swivel his head around, and shoots it
+/// Dinosaur that gobbles up a [Ball], swivel his head around, and shoots it
 /// back out.
 /// {@endtemplate}
 class ChromeDino extends BodyComponent with InitialPosition {
