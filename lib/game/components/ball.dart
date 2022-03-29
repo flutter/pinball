@@ -11,7 +11,8 @@ import 'package:pinball_components/pinball_components.dart';
 enum BallType {
   /// A [Ball] spawned from the [Plunger].
   ///
-  /// [normal] balls reduce the [GameState.balls]
+  /// [normal] balls decrease the [GameState.balls] when they fall through the
+  /// the [BottomWall].
   normal,
 
   /// A [Ball] was spawned by Dash in the [FlutterForest].
