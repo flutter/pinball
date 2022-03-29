@@ -6,7 +6,7 @@ import 'package:pinball_components/pinball_components.dart';
 /// {@template ball_type}
 /// Specifies the type of [Ball].
 ///
-/// Different [BallType]s have different game mechanics.
+/// Different [BallType]s are affected by different game mechanics.
 /// {@endtemplate}
 enum BallType {
   /// A [Ball] spawned from the [Plunger].
