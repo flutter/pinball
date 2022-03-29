@@ -103,7 +103,7 @@ class DebugPinballGame extends PinballGame with TapDetector {
     addFromBlueprint(
       BallBlueprint(
         position: info.eventPosition.game,
-        type: BallType.egg,
+        type: BallType.extra,
       ),
     );
   }
