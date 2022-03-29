@@ -205,6 +205,7 @@ class SpaceshipWallShape extends ChainShape {
 
     createChain(
       [
+        // TODO(alestiago): Try converting this logic to radian.
         for (var angle = 20; angle <= 340; angle++)
           Vector2(
             minorRadius * cos(angle * pi / 180),
