@@ -8,7 +8,7 @@ import 'package:sandbox/common/common.dart';
 
 class FlipperTracingGame extends BasicGame {
   static const info = '''
-      Basic example of how a Flipper works.
+      Basic example of how the Flipper body overlays the sprite.
 ''';
 
   @override
@@ -37,10 +37,7 @@ extension on BodyComponent {
     body.joints.whereType<RevoluteJoint>().forEach(
           (joint) => joint.setLimits(0, 0),
         );
-
-    for (final fixture in body.fixtures) {
-      fixture.setSensor(true);
-    }
+    body.setType(BodyType.static);
 
     unawaited(
       mounted.whenComplete(() {
