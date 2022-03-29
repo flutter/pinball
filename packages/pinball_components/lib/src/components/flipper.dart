@@ -76,9 +76,9 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
     final fixturesDef = <FixtureDef>[];
     final direction = side.direction;
 
-    final circleAssetShadow = Flipper.size.x * 0.012 * -direction;
+    final assetShadow = Flipper.size.x * 0.012 * -direction;
     final size = Vector2(
-      Flipper.size.x - (circleAssetShadow * 2),
+      Flipper.size.x - (assetShadow * 2),
       Flipper.size.y,
     );
 
@@ -86,7 +86,7 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
     bigCircleShape.position.setValues(
       ((size.x / 2) * direction) +
           (bigCircleShape.radius * -direction) +
-          circleAssetShadow,
+          assetShadow,
       0,
     );
     final bigCircleFixtureDef = FixtureDef(bigCircleShape);
@@ -96,7 +96,7 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
     smallCircleShape.position.setValues(
       ((size.x / 2) * -direction) +
           (smallCircleShape.radius * direction) -
-          circleAssetShadow,
+          assetShadow,
       0,
     );
     final smallCircleFixtureDef = FixtureDef(smallCircleShape);
