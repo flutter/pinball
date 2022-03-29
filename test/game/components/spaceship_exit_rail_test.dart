@@ -2,6 +2,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_components/pinball_components.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -12,7 +13,7 @@ void main() {
     late Body body;
     late PinballGame game;
     late Ball ball;
-    late SpaceshipExitHole hole;
+    late SpaceshipExitRailEnd exitRailEnd;
 
     setUp(() {
       filterData = MockFilter();
@@ -29,15 +30,15 @@ void main() {
       when(() => ball.gameRef).thenReturn(game);
       when(() => ball.body).thenReturn(body);
 
-      hole = MockSpaceshipExitHole();
+      exitRailEnd = MockSpaceshipExitRailEnd();
     });
 
     group('SpaceshipExitHoleBallContactCallback', () {
       test('changes the ball priority on contact', () {
-        when(() => hole.outsideLayer).thenReturn(Layer.board);
+        when(() => exitRailEnd.outsideLayer).thenReturn(Layer.board);
 
-        SpaceshipExitHoleBallContactCallback().begin(
-          hole,
+        SpaceshipExitRailEndBallContactCallback().begin(
+          exitRailEnd,
           ball,
           MockContact(),
         );
@@ -46,10 +47,10 @@ void main() {
       });
 
       test('reorders the game children', () {
-        when(() => hole.outsideLayer).thenReturn(Layer.board);
+        when(() => exitRailEnd.outsideLayer).thenReturn(Layer.board);
 
-        SpaceshipExitHoleBallContactCallback().begin(
-          hole,
+        SpaceshipExitRailEndBallContactCallback().begin(
+          exitRailEnd,
           ball,
           MockContact(),
         );

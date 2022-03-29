@@ -6,68 +6,170 @@ import 'dart:ui';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/flame/blueprint.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_components/pinball_components.dart';
 
 /// A [Blueprint] for the spaceship exit rail.
 class SpaceshipExitRail extends Forge2DBlueprint {
   @override
-  void build() {
+  void build(_) {
     final position = Vector2(
-      PinballGame.boardBounds.left + 22,
-      PinballGame.boardBounds.center.dy + 27,
+      PinballGame.boardBounds.left + 17.5,
+      PinballGame.boardBounds.center.dy + 26,
     );
 
     addAllContactCallback([
-      SpaceshipExitHoleBallContactCallback(),
+      SpaceshipExitRailEndBallContactCallback(),
     ]);
 
-    final pathway = Pathway.bezierCurve(
-      color: const Color.fromARGB(255, 226, 226, 218),
-      width: 4,
-      rotation: 230 * math.pi / 180,
-      controlPoints: [
-        Vector2(0, 0),
-        Vector2(0, 30),
-        Vector2(30, 0),
-        Vector2(30, 30),
-      ],
-    )..layer = Layer.spaceshipExitRail;
-
-    final entrance = Pathway.arc(
-      color: const Color.fromARGB(255, 226, 226, 218),
-      center: position,
-      radius: 4,
-      angle: math.pi / 2,
-      width: 5,
-      rotation: 218 * math.pi / 180,
-      singleWall: true,
-    )..layer = Layer.spaceshipExitRail;
-
-    final exit = Pathway.arc(
-      color: const Color.fromARGB(255, 226, 226, 218),
-      center: position,
-      radius: 4,
-      angle: math.pi / 2,
-      width: 5,
-      rotation: 36 * math.pi / 180,
-      singleWall: true,
-    )..layer = Layer.spaceshipExitRail;
+    final spaceshipExitRailTopRamp = _SpaceshipExitRailTopRamp()
+      ..initialPosition = position;
+    final spaceshipExitRailBottomRamp = _SpaceshipExitRailBottomRamp()
+      ..initialPosition = position + Vector2(2.5, -29.5);
+    final exitRail = SpaceshipExitRailEnd()
+      ..initialPosition = position + Vector2(7.5, -60);
 
     addAll([
-      pathway..initialPosition = position,
-      entrance..initialPosition = position + Vector2(26.5, -30),
-      exit..initialPosition = position + Vector2(29, -66.5),
-      SpaceshipExitHole()..initialPosition = position + Vector2(0, -42),
+      spaceshipExitRailTopRamp,
+      spaceshipExitRailBottomRamp,
+      exitRail,
     ]);
   }
 }
 
-/// {@template spaceship_exit_hole}
+/// {@template jetpack_ramp}
+/// Represents the upper left blue ramp of the [Board].
+/// {@endtemplate}
+class _SpaceshipExitRailTopRamp extends BodyComponent
+    with InitialPosition, Layered {
+  _SpaceshipExitRailTopRamp() : super(priority: 2) {
+    layer = Layer.spaceshipExitRail;
+    paint = Paint()
+      ..color = const Color.fromARGB(255, 185, 188, 189)
+      ..style = PaintingStyle.stroke;
+  }
+
+  /// Width between walls of the ramp.
+  static const width = 5.0;
+
+  List<FixtureDef> _createFixtureDefs() {
+    final fixturesDef = <FixtureDef>[];
+
+    final leftCurveShape = BezierCurveShape(
+      controlPoints: [
+        Vector2(0, 0),
+        Vector2(15, 0),
+        Vector2(20, 10),
+        Vector2(30, 10),
+      ],
+    )..rotate(275 * math.pi / 180);
+    final leftFixtureDef = FixtureDef(leftCurveShape);
+    fixturesDef.add(leftFixtureDef);
+
+    final rightCurveShape = BezierCurveShape(
+      controlPoints: [
+        Vector2(0, 0 + width),
+        Vector2(15, 0 + width),
+        Vector2(20, 10 + width),
+        Vector2(30, 10 + width),
+      ],
+    )..rotate(275 * math.pi / 180);
+    final rightFixtureDef = FixtureDef(rightCurveShape);
+    fixturesDef.add(rightFixtureDef);
+
+    final entranceWall = ArcShape(
+      center: initialPosition + Vector2(35.7, -25.5),
+      arcRadius: width / 2,
+      angle: math.pi,
+      rotation: 170 * math.pi / 180,
+    );
+    final entranceFixtureDef = FixtureDef(entranceWall);
+    fixturesDef.add(entranceFixtureDef);
+
+    return fixturesDef;
+  }
+
+  @override
+  Body createBody() {
+    final bodyDef = BodyDef()
+      ..userData = this
+      ..position = initialPosition;
+
+    final body = world.createBody(bodyDef);
+    _createFixtureDefs().forEach(body.createFixture);
+
+    return body;
+  }
+}
+
+class _SpaceshipExitRailBottomRamp extends BodyComponent
+    with InitialPosition, Layered {
+  _SpaceshipExitRailBottomRamp() : super(priority: 2) {
+    layer = Layer.spaceshipExitRail;
+    paint = Paint()
+      ..color = const Color.fromARGB(255, 185, 188, 189)
+      ..style = PaintingStyle.stroke;
+  }
+
+  /// Width between walls of the ramp.
+  static const width = 5.0;
+
+  List<FixtureDef> _createFixtureDefs() {
+    final fixturesDef = <FixtureDef>[];
+
+    final leftCurveShape = BezierCurveShape(
+      controlPoints: [
+        Vector2(0, 10),
+        Vector2(15, 10),
+        Vector2(20, 0),
+        Vector2(30, 0),
+      ],
+    )..rotate(275 * math.pi / 180);
+    final leftFixtureDef = FixtureDef(leftCurveShape);
+    fixturesDef.add(leftFixtureDef);
+
+    final rightCurveShape = BezierCurveShape(
+      controlPoints: [
+        Vector2(0, 10 + width),
+        Vector2(15, 10 + width),
+        Vector2(20, 0 + width),
+        Vector2(30, 0 + width),
+      ],
+    )..rotate(275 * math.pi / 180);
+    final rightFixtureDef = FixtureDef(rightCurveShape);
+    fixturesDef.add(rightFixtureDef);
+
+    final exitWall = ArcShape(
+      center: initialPosition + Vector2(36, -26),
+      arcRadius: width / 2,
+      angle: math.pi,
+      rotation: 350 * math.pi / 180,
+    );
+    final exitFixtureDef = FixtureDef(exitWall);
+    fixturesDef.add(exitFixtureDef);
+
+    return fixturesDef;
+  }
+
+  @override
+  Body createBody() {
+    final bodyDef = BodyDef()
+      ..userData = this
+      ..position = initialPosition;
+
+    final body = world.createBody(bodyDef);
+    _createFixtureDefs().forEach(body.createFixture);
+
+    return body;
+  }
+}
+
+/// {@template spaceship_exit_rail_end}
 /// A sensor [BodyComponent] responsible for sending the [Ball]
 /// back to the board.
 /// {@endtemplate}
-class SpaceshipExitHole extends RampOpening {
-  /// {@macro spaceship_exit_hole}
-  SpaceshipExitHole()
+class SpaceshipExitRailEnd extends RampOpening {
+  /// {@macro spaceship_exit_rail_end}
+  SpaceshipExitRailEnd()
       : super(
           pathwayLayer: Layer.spaceshipExitRail,
           orientation: RampOrientation.down,
@@ -82,17 +184,17 @@ class SpaceshipExitHole extends RampOpening {
 }
 
 /// [ContactCallback] that handles the contact between the [Ball]
-/// and a [SpaceshipExitHole].
+/// and a [SpaceshipExitRailEnd].
 ///
 /// It resets the [Ball] priority and filter data so it will "be back" on the
 /// board.
-class SpaceshipExitHoleBallContactCallback
-    extends ContactCallback<SpaceshipExitHole, Ball> {
+class SpaceshipExitRailEndBallContactCallback
+    extends ContactCallback<SpaceshipExitRailEnd, Ball> {
   @override
-  void begin(SpaceshipExitHole hole, Ball ball, _) {
+  void begin(SpaceshipExitRailEnd exitRail, Ball ball, _) {
     ball
       ..priority = 1
       ..gameRef.reorderChildren()
-      ..layer = hole.outsideLayer;
+      ..layer = exitRail.outsideLayer;
   }
 }

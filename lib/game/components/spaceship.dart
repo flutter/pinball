@@ -48,7 +48,7 @@ class Spaceship extends Forge2DBlueprint {
 class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_saucer}
   // TODO(ruimiguel): apply Elevated when PR merged.
-  SpaceshipSaucer() : super(priority: 2) {
+  SpaceshipSaucer() : super(priority: 3) {
     layer = Layer.spaceship;
   }
 
@@ -139,7 +139,7 @@ class SpaceshipBridgeTop extends BodyComponent with InitialPosition {
 class SpaceshipBridge extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_bridge}
   // TODO(ruimiguel): apply Elevated when PR merged.
-  SpaceshipBridge() : super(priority: 3) {
+  SpaceshipBridge() : super(priority: 4) {
     layer = Layer.spaceship;
   }
 
@@ -199,7 +199,7 @@ class SpaceshipEntrance extends RampOpening {
 
   /// Priority order for [SpaceshipHole] on enter.
   // TODO(ruimiguel): apply Elevated when PR merged.
-  final int onEnterElevation = 3;
+  final int onEnterElevation = 4;
 
   @override
   Shape get shape {
