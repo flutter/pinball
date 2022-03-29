@@ -7,7 +7,6 @@ export 'flutter_forest.dart';
 export 'jetpack_ramp.dart';
 export 'kicker.dart';
 export 'launcher_ramp.dart';
-export 'pathway.dart';
 export 'plunger.dart';
 export 'ramp_opening.dart';
 export 'score_points.dart';

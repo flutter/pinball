@@ -46,25 +46,23 @@ class Baseboard extends BodyComponent with InitialPosition {
     final outerEdgeShapeFixtureDef = FixtureDef(outerEdgeShape);
     fixturesDef.add(outerEdgeShapeFixtureDef);
 
-    final upperArcFixtureDefs = Pathway.arc(
+    final upperArcShape = ArcShape(
       center: Vector2(1.76 * direction, 3.25),
-      width: 0,
-      radius: 6.1,
+      arcRadius: 6.1,
       angle: arcsAngle,
       rotation: arcsRotation,
-      singleWall: true,
-    ).createFixtureDefs();
-    fixturesDef.addAll(upperArcFixtureDefs);
+    );
+    final upperArcFixtureDefs = FixtureDef(upperArcShape);
+    fixturesDef.add(upperArcFixtureDefs);
 
-    final lowerArcFixtureDefs = Pathway.arc(
+    final lowerArcShape = ArcShape(
       center: Vector2(1.85 * direction, -2.15),
-      width: 0,
-      radius: 4.5,
+      arcRadius: 4.5,
       angle: arcsAngle,
       rotation: arcsRotation,
-      singleWall: true,
-    ).createFixtureDefs();
-    fixturesDef.addAll(lowerArcFixtureDefs);
+    );
+    final lowerArcFixtureDefs = FixtureDef(lowerArcShape);
+    fixturesDef.add(lowerArcFixtureDefs);
 
     final bottomRectangle = PolygonShape()
       ..setAsBox(
