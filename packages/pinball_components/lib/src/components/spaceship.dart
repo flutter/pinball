@@ -10,15 +10,15 @@ import 'package:pinball_components/pinball_components.dart' hide Assets;
 
 /// {@template spaceship}
 /// A [Blueprint] which creates the spaceship feature.
-/// P@endtemplate}
+/// {@endtemplate}
 class Spaceship extends Forge2DBlueprint {
   /// {@macro spaceship}
   Spaceship({required this.position});
 
-  /// Total size of the spaceship
+  /// Total size of the spaceship.
   static final size = Vector2(24, 18);
 
-  /// The [position] that the elements will be created
+  /// The [position] where the elements will be created
   final Vector2 position;
 
   @override

@@ -42,6 +42,8 @@ void main() {
       testWidgets('renders correctly', (tester) async {
         final game = TestGame();
 
+        // TODO(erickzanardo): This should be handled by flame test.
+        // refctor it when https://github.com/flame-engine/flame/pull/1501 is merged
         await tester.runAsync(() async {
           await tester.pumpWidget(GameWidget(game: game));
           await game.ready();
