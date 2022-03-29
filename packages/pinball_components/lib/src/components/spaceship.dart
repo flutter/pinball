@@ -5,23 +5,24 @@ import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:pinball/flame/blueprint.dart';
-import 'package:pinball/game/game.dart';
-import 'package:pinball/gen/assets.gen.dart';
+import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 
+/// {@template spaceship}
 /// A [Blueprint] which creates the spaceship feature.
+/// {@endtemplate}
 class Spaceship extends Forge2DBlueprint {
-  /// Total size of the spaceship
-  static const radius = 10.0;
+  /// {@macro spaceship}
+  Spaceship({required this.position});
+
+  /// Total size of the spaceship.
+  static final size = Vector2(24, 18);
+
+  /// The [position] where the elements will be created
+  final Vector2 position;
 
   @override
   void build(_) {
-    final position = Vector2(
-      PinballGame.boardBounds.left + radius + 15,
-      PinballGame.boardBounds.center.dy + 30,
-    );
-
     addAllContactCallback([
       SpaceshipHoleBallContactCallback(),
       SpaceshipEntranceBallContactCallback(),
@@ -30,10 +31,9 @@ class Spaceship extends Forge2DBlueprint {
     addAll([
       SpaceshipSaucer()..initialPosition = position,
       SpaceshipEntrance()..initialPosition = position,
-      SpaceshipBridge()..initialPosition = position,
-      SpaceshipBridgeTop()..initialPosition = position + Vector2(0, 5.5),
-      SpaceshipHole()..initialPosition = position - Vector2(5, 4),
-      SpaceshipHole()..initialPosition = position - Vector2(-5, 4),
+      AndroidHead()..initialPosition = position,
+      SpaceshipHole()..initialPosition = position - Vector2(4.8, 4.2),
+      SpaceshipHole()..initialPosition = position - Vector2(-7.2, 0.6),
       SpaceshipWall()..initialPosition = position,
     ]);
   }
@@ -51,25 +51,15 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final sprites = await Future.wait([
-      gameRef.loadSprite(Assets.images.components.spaceship.saucer.path),
-      gameRef.loadSprite(Assets.images.components.spaceship.upper.path),
-    ]);
-
-    await add(
-      SpriteComponent(
-        sprite: sprites.first,
-        size: Vector2.all(Spaceship.radius * 2),
-        anchor: Anchor.center,
-      ),
+    final sprite = await gameRef.loadSprite(
+      Assets.images.spaceshipSaucer.keyName,
     );
 
     await add(
       SpriteComponent(
-        sprite: sprites.last,
-        size: Vector2((Spaceship.radius * 2) + 0.5, Spaceship.radius),
+        sprite: sprite,
+        size: Spaceship.size,
         anchor: Anchor.center,
-        position: Vector2(0, -((Spaceship.radius * 2) / 3.5)),
       ),
     );
 
@@ -78,7 +68,7 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
 
   @override
   Body createBody() {
-    final circleShape = CircleShape()..radius = Spaceship.radius;
+    final circleShape = CircleShape()..radius = 3;
 
     final bodyDef = BodyDef()
       ..userData = this
@@ -92,48 +82,13 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
   }
 }
 
-/// {@spaceship_bridge_top}
-/// The bridge of the spaceship (the android head) is divided in two
-// [BodyComponent]s, this is the top part of it which contains a single sprite
-/// {@endtemplate}
-class SpaceshipBridgeTop extends BodyComponent with InitialPosition {
-  /// {@macro spaceship_bridge_top}
-  SpaceshipBridgeTop() : super(priority: 6);
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-
-    final sprite = await gameRef.loadSprite(
-      Assets.images.components.spaceship.androidTop.path,
-    );
-    await add(
-      SpriteComponent(
-        sprite: sprite,
-        anchor: Anchor.center,
-        size: Vector2((Spaceship.radius * 2) / 2.5 - 1, Spaceship.radius / 2.5),
-      ),
-    );
-  }
-
-  @override
-  Body createBody() {
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition
-      ..type = BodyType.static;
-
-    return world.createBody(bodyDef);
-  }
-}
-
 /// {@template spaceship_bridge}
-/// The main part of the [SpaceshipBridge], this [BodyComponent]
-/// provides both the collision and the rotation animation for the bridge.
+/// A [BodyComponent] that provides both the collision and the rotation
+/// animation for the bridge.
 /// {@endtemplate}
-class SpaceshipBridge extends BodyComponent with InitialPosition, Layered {
+class AndroidHead extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_bridge}
-  SpaceshipBridge() : super(priority: 3) {
+  AndroidHead() : super(priority: 3) {
     layer = Layer.spaceship;
   }
 
@@ -144,17 +99,20 @@ class SpaceshipBridge extends BodyComponent with InitialPosition, Layered {
     renderBody = false;
 
     final sprite = await gameRef.images.load(
-      Assets.images.components.spaceship.androidBottom.path,
+      Assets.images.spaceshipBridge.keyName,
     );
+
     await add(
       SpriteAnimationComponent.fromFrameData(
         sprite,
         SpriteAnimationData.sequenced(
-          amount: 14,
-          stepTime: 0.2,
-          textureSize: Vector2(160, 114),
+          amount: 72,
+          amountPerRow: 24,
+          stepTime: 0.05,
+          textureSize: Vector2(82, 100),
         ),
-        size: Vector2.all((Spaceship.radius * 2) / 2.5),
+        size: Vector2(8.2, 10),
+        position: Vector2(0, -2),
         anchor: Anchor.center,
       ),
     );
@@ -162,7 +120,7 @@ class SpaceshipBridge extends BodyComponent with InitialPosition, Layered {
 
   @override
   Body createBody() {
-    final circleShape = CircleShape()..radius = Spaceship.radius / 2.5;
+    final circleShape = CircleShape()..radius = 2;
 
     final bodyDef = BodyDef()
       ..userData = this
@@ -193,7 +151,8 @@ class SpaceshipEntrance extends RampOpening {
 
   @override
   Shape get shape {
-    const radius = Spaceship.radius * 2;
+    renderBody = false;
+    final radius = Spaceship.size.y / 2;
     return PolygonShape()
       ..setAsEdge(
         Vector2(
@@ -221,7 +180,7 @@ class SpaceshipHole extends BodyComponent with InitialPosition, Layered {
   @override
   Body createBody() {
     renderBody = false;
-    final circleShape = CircleShape()..radius = Spaceship.radius / 40;
+    final circleShape = CircleShape()..radius = 1.5;
 
     final bodyDef = BodyDef()
       ..userData = this
@@ -232,6 +191,28 @@ class SpaceshipHole extends BodyComponent with InitialPosition, Layered {
       ..createFixture(
         FixtureDef(circleShape)..isSensor = true,
       );
+  }
+}
+
+/// {@template spaceship_wall_shape}
+/// The [ChainShape] that defines the shape of the [SpaceshipWall].
+/// {@endtemplate}
+class _SpaceshipWallShape extends ChainShape {
+  /// {@macro spaceship_wall_shape}
+  _SpaceshipWallShape() {
+    final minorRadius = (Spaceship.size.y - 2) / 2;
+    final majorRadius = (Spaceship.size.x - 2) / 2;
+
+    createChain(
+      [
+        // TODO(alestiago): Try converting this logic to radian.
+        for (var angle = 20; angle <= 340; angle++)
+          Vector2(
+            minorRadius * cos(angle * pi / 180),
+            majorRadius * sin(angle * pi / 180),
+          ),
+      ],
+    );
   }
 }
 
@@ -248,38 +229,10 @@ class SpaceshipWall extends BodyComponent with InitialPosition, Layered {
   }
 
   @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-
-    final sprite = await gameRef.loadSprite(
-      Assets.images.components.spaceship.lower.path,
-    );
-
-    await add(
-      SpriteComponent(
-        sprite: sprite,
-        size: Vector2(Spaceship.radius * 2, Spaceship.radius + 1),
-        anchor: Anchor.center,
-        position: Vector2(-Spaceship.radius / 2, 0),
-        angle: 90 * pi / 180,
-      ),
-    );
-  }
-
-  @override
   Body createBody() {
     renderBody = false;
 
-    final wallShape = ChainShape()
-      ..createChain(
-        [
-          for (var angle = 20; angle <= 340; angle++)
-            Vector2(
-              Spaceship.radius * cos(angle * pi / 180),
-              Spaceship.radius * sin(angle * pi / 180),
-            ),
-        ],
-      );
+    final wallShape = _SpaceshipWallShape();
 
     final bodyDef = BodyDef()
       ..userData = this

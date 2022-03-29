@@ -9,7 +9,5 @@ export 'jetpack_ramp.dart';
 export 'kicker.dart';
 export 'launcher_ramp.dart';
 export 'plunger.dart';
-export 'ramp_opening.dart';
 export 'score_points.dart';
-export 'spaceship.dart';
 export 'wall.dart';
