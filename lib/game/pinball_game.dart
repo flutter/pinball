@@ -2,14 +2,15 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/flame/blueprint.dart';
-import 'package:pinball/game/components/background.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball_theme/pinball_theme.dart';
+import 'package:pinball/gen/assets.gen.dart';
+import 'package:pinball_theme/pinball_theme.dart' hide Assets;
 
 class PinballGame extends Forge2DGame
     with FlameBloc, HasKeyboardHandlerComponents {
@@ -51,8 +52,6 @@ class PinballGame extends Forge2DGame
     camera
       ..followVector2(Vector2(0, -7.8))
       ..zoom = size.y / 16;
-
-    unawaited(add(Background()));
   }
 
   void _addContactCallbacks() {
@@ -95,6 +94,26 @@ class PinballGame extends Forge2DGame
 
 class DebugPinballGame extends PinballGame with TapDetector {
   DebugPinballGame({required PinballTheme theme}) : super(theme: theme);
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    await _loadBackground();
+  }
+
+  // TODO(alestiago): Remove once it is no longer needed.
+  Future<void> _loadBackground() async {
+    final sprite = await loadSprite(
+      Assets.images.components.background.path,
+    );
+    final spriteComponent = SpriteComponent(
+      sprite: sprite,
+      size: Vector2(120, 160),
+      anchor: Anchor.center,
+    )..position = Vector2(0, -7.8);
+
+    await add(spriteComponent);
+  }
 
   @override
   void onTapUp(TapUpInfo info) {
