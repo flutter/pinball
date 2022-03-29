@@ -35,6 +35,7 @@ class FlutterForest extends Component
     gameRef.addFromBlueprint(
       BallBlueprint(
         position: Vector2(17.2, 52.7),
+        type: BallType.extra,
       ),
     );
   }
