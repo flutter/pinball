@@ -21,11 +21,9 @@ class ChromeDino extends BodyComponent with InitialPosition {
   /// The size of the dinosour mouth.
   static final size = Vector2(5, 2.5);
 
-  late final _ChromeDinoJoint _joint;
-
   /// Anchors the [ChromeDino] to the [RevoluteJoint] that controls its arc
   /// motion.
-  Future<void> _anchorToJoint() async {
+  Future<_ChromeDinoJoint> _anchorToJoint() async {
     final anchor = _ChromeDinoAnchor(chromeDino: this);
     await add(anchor);
 
@@ -33,18 +31,19 @@ class ChromeDino extends BodyComponent with InitialPosition {
       chromeDino: this,
       anchor: anchor,
     );
-    _joint = _ChromeDinoJoint(jointDef);
-    world.createJoint2(_joint);
+    final joint = _ChromeDinoJoint(jointDef);
+    world.createJoint2(joint);
+    return joint;
   }
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _anchorToJoint();
+    final joint = await _anchorToJoint();
     await add(
       TimerComponent(
         period: 1,
-        onTick: _joint.swivel,
+        onTick: joint.swivel,
         repeat: true,
       ),
     );
@@ -136,6 +135,7 @@ class _ChromeDinoAnchorRevoluteJointDef extends RevoluteJointDef {
       anchor.body.position,
     );
     enableLimit = true;
+    // TODO(alestiago): Apply design angle value.
     const angle = math.pi / 3.5;
     lowerAngle = -angle / 2;
     upperAngle = angle / 2;
