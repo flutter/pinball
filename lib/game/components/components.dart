@@ -3,6 +3,7 @@ export 'baseboard.dart';
 export 'board.dart';
 export 'board_side.dart';
 export 'bonus_word.dart';
+export 'chrome_dino.dart';
 export 'flipper.dart';
 export 'flutter_forest.dart';
 export 'jetpack_ramp.dart';

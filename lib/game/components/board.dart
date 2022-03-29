@@ -21,8 +21,16 @@ class Board extends Component {
 
     final flutterForest = FlutterForest();
 
+    // TODO(alestiago): adjust positioning to real design.
+    final dino = ChromeDino()
+      ..initialPosition = Vector2(
+        PinballGame.boardBounds.center.dx + 25,
+        PinballGame.boardBounds.center.dy + 10,
+      );
+
     await addAll([
       bottomGroup,
+      dino,
       flutterForest,
     ]);
   }
