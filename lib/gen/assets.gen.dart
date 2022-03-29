@@ -21,12 +21,27 @@ class $AssetsImagesComponentsGen {
   AssetGenImage get background =>
       const AssetGenImage('assets/images/components/background.png');
 
+  $AssetsImagesComponentsBaseboardsGen get baseboards =>
+      const $AssetsImagesComponentsBaseboardsGen();
+
   /// File path: assets/images/components/flipper.png
   AssetGenImage get flipper =>
       const AssetGenImage('assets/images/components/flipper.png');
 
   $AssetsImagesComponentsSpaceshipGen get spaceship =>
       const $AssetsImagesComponentsSpaceshipGen();
+}
+
+class $AssetsImagesComponentsBaseboardsGen {
+  const $AssetsImagesComponentsBaseboardsGen();
+
+  /// File path: assets/images/components/baseboards/left-baseboard.png
+  AssetGenImage get leftBaseboard => const AssetGenImage(
+      'assets/images/components/baseboards/left-baseboard.png');
+
+  /// File path: assets/images/components/baseboards/right-baseboard.png
+  AssetGenImage get rightBaseboard => const AssetGenImage(
+      'assets/images/components/baseboards/right-baseboard.png');
 }
 
 class $AssetsImagesComponentsSpaceshipGen {
