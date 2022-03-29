@@ -1,4 +1,8 @@
-import 'package:pinball/game/game.dart';
+// ignore_for_file: comment_references
+// TODO(alestiago): Revisit ignore lint rule once Kicker is moved to this
+// package.
+
+import 'package:pinball_components/pinball_components.dart';
 
 /// Indicates a side of the board.
 ///

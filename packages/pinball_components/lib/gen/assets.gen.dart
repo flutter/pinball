@@ -3,12 +3,29 @@
 ///  FlutterGen
 /// *****************************************************
 
+// ignore_for_file: directives_ordering,unnecessary_import
+
 import 'package:flutter/widgets.dart';
 
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/ball.png
   AssetGenImage get ball => const AssetGenImage('assets/images/ball.png');
+
+  $AssetsImagesFlipperGen get flipper => const $AssetsImagesFlipperGen();
+}
+
+class $AssetsImagesFlipperGen {
+  const $AssetsImagesFlipperGen();
+
+  /// File path: assets/images/flipper/left.png
+  AssetGenImage get left =>
+      const AssetGenImage('assets/images/flipper/left.png');
+
+  /// File path: assets/images/flipper/right.png
+  AssetGenImage get right =>
+      const AssetGenImage('assets/images/flipper/right.png');
 }
 
 class Assets {
