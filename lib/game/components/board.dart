@@ -13,8 +13,8 @@ class Board extends Component {
     // TODO(alestiago): adjust positioning once sprites are added.
     final bottomGroup = _BottomGroup(
       position: Vector2(
-        PinballGame.boardBounds.center.dx,
-        PinballGame.boardBounds.bottom + 10,
+        PinballGame.boardBounds.center.dx - 5,
+        PinballGame.boardBounds.bottom + 20,
       ),
       spacing: 2,
     );
