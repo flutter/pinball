@@ -5,6 +5,7 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart' hide Timer;
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_components/pinball_components.dart';
 
 /// {@template chrome_dino}
 /// Dinosour that gobbles up a [Ball], swivel his head around, and shoots it
