@@ -197,9 +197,9 @@ class SpaceshipHole extends BodyComponent with InitialPosition, Layered {
 /// {@template spaceship_wall_shape}
 /// The [ChainShape] that defines the shape of the [SpaceshipWall].
 /// {@endtemplate}
-class SpaceshipWallShape extends ChainShape {
+class _SpaceshipWallShape extends ChainShape {
   /// {@macro spaceship_wall_shape}
-  SpaceshipWallShape() {
+  _SpaceshipWallShape() {
     final minorRadius = (Spaceship.size.y - 2) / 2;
     final majorRadius = (Spaceship.size.x - 2) / 2;
 
@@ -232,7 +232,7 @@ class SpaceshipWall extends BodyComponent with InitialPosition, Layered {
   Body createBody() {
     renderBody = false;
 
-    final wallShape = SpaceshipWallShape();
+    final wallShape = _SpaceshipWallShape();
 
     final bodyDef = BodyDef()
       ..userData = this
