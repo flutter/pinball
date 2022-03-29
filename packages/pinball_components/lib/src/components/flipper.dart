@@ -201,7 +201,7 @@ class _FlipperJoint extends RevoluteJoint {
 
   /// Locks the [Flipper] to its resting position.
   ///
-  /// The joint is locked when initialized in order to force the [Flipper
+  /// The joint is locked when initialized in order to force the [Flipper]
   /// at its resting position.
   void lock() {
     const angle = _sweepingAngle / 2;
@@ -218,8 +218,8 @@ class _FlipperJoint extends RevoluteJoint {
   }
 }
 
+// TODO(alestiago): Remove once Forge2D supports custom joints.
 extension on World {
-  // TODO(alestiago): Remove once Forge2D supports custom joints.
   void createJoint2(Joint joint) {
     assert(!isLocked, '');
 
