@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_renaming_method_parameters
 
+import 'dart:math' as math;
+
 import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
@@ -19,12 +21,6 @@ import 'package:pinball_components/pinball_components.dart';
 class FlutterForest extends Component
     with HasGameRef<PinballGame>, BlocComponent<GameBloc, GameState> {
   /// {@macro flutter_forest}
-  FlutterForest({
-    required this.position,
-  });
-
-  /// The position of the [FlutterForest] on the [Board].
-  final Vector2 position;
 
   @override
   bool listenWhen(GameState? previousState, GameState newState) {
@@ -36,7 +32,11 @@ class FlutterForest extends Component
   @override
   void onNewState(GameState state) {
     super.onNewState(state);
-    gameRef.addFromBlueprint(BallBlueprint(position: position));
+    gameRef.addFromBlueprint(
+      BallBlueprint(
+        position: Vector2(17.2, 52.7),
+      ),
+    );
   }
 
   @override
@@ -45,11 +45,11 @@ class FlutterForest extends Component
 
     // TODO(alestiago): adjust positioning once sprites are added.
     final smallLeftNest = SmallDashNestBumper(id: 'small_left_nest')
-      ..initialPosition = position + Vector2(-4.8, 2.8);
+      ..initialPosition = Vector2(8.95, 51.95);
     final smallRightNest = SmallDashNestBumper(id: 'small_right_nest')
-      ..initialPosition = position + Vector2(0.5, -5.5);
+      ..initialPosition = Vector2(23.3, 46.75);
     final bigNest = BigDashNestBumper(id: 'big_nest')
-      ..initialPosition = position;
+      ..initialPosition = Vector2(18.55, 59.35);
 
     await addAll([
       smallLeftNest,
@@ -66,7 +66,11 @@ class FlutterForest extends Component
 abstract class DashNestBumper extends BodyComponent<PinballGame>
     with ScorePoints, InitialPosition {
   /// {@macro dash_nest_bumper}
-  DashNestBumper({required this.id});
+  DashNestBumper({required this.id}) {
+    paint = Paint()
+      ..color = Colors.blue.withOpacity(0.5)
+      ..style = PaintingStyle.fill;
+  }
 
   /// Unique identifier for this [DashNestBumper].
   ///
@@ -97,7 +101,11 @@ class BigDashNestBumper extends DashNestBumper {
 
   @override
   Body createBody() {
-    final shape = CircleShape()..radius = 2.5;
+    final shape = EllipseShape(
+      center: Vector2.zero(),
+      majorRadius: 4.85,
+      minorRadius: 3.95,
+    )..rotate(math.pi / 2);
     final fixtureDef = FixtureDef(shape);
 
     final bodyDef = BodyDef()
@@ -119,8 +127,14 @@ class SmallDashNestBumper extends DashNestBumper {
 
   @override
   Body createBody() {
-    final shape = CircleShape()..radius = 1;
-    final fixtureDef = FixtureDef(shape);
+    final shape = EllipseShape(
+      center: Vector2.zero(),
+      majorRadius: 3,
+      minorRadius: 2.25,
+    )..rotate(math.pi / 2);
+    final fixtureDef = FixtureDef(shape)
+      ..friction = 0
+      ..restitution = 4;
 
     final bodyDef = BodyDef()
       ..position = initialPosition
