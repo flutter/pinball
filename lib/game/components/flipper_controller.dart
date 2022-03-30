@@ -1,16 +1,17 @@
 import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
+import 'package:pinball/flame/flame.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template flipper_controller}
-/// A [Component] that controls the [Flipper]s movement.
+/// A [ComponentController] that controls a [Flipper]s movement.
 /// {@endtemplate}
-class FlipperController extends Component with KeyboardHandler {
+class FlipperController extends ComponentController<Flipper>
+    with KeyboardHandler {
   /// {@macro flipper_controller}
-  FlipperController(this.flipper) : _keys = flipper.side.flipperKeys;
-
-  /// The [Flipper] this controller is controlling.
-  final Flipper flipper;
+  FlipperController(Flipper flipper)
+      : _keys = flipper.side.flipperKeys,
+        super(flipper);
 
   /// The [LogicalKeyboardKey]s that will control the [Flipper].
   ///
@@ -25,9 +26,9 @@ class FlipperController extends Component with KeyboardHandler {
     if (!_keys.contains(event.logicalKey)) return true;
 
     if (event is RawKeyDownEvent) {
-      flipper.moveUp();
+      component.moveUp();
     } else if (event is RawKeyUpEvent) {
-      flipper.moveDown();
+      component.moveDown();
     }
 
     return false;

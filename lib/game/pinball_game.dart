@@ -68,7 +68,7 @@ class PinballGame extends Forge2DGame
   }
 
   void _addContactCallbacks() {
-    addContactCallback(BallScorePointsCallback());
+    addContactCallback(BallScorePointsCallback(this));
     addContactCallback(BottomWallBallContactCallback());
     addContactCallback(BonusLetterBallContactCallback());
   }
@@ -101,12 +101,14 @@ class PinballGame extends Forge2DGame
   }
 
   void spawnBall() {
-    addFromBlueprint(
-      BallBlueprint(
-        position: plunger.body.position,
-        type: BallType.normal,
-      ),
-    );
+    final ball = Ball(
+      baseColor: theme.characterTheme.ballColor,
+    )..initialPosition = Vector2(
+        plunger.body.position.x,
+        plunger.body.position.y + Ball.size.y,
+      );
+    BallController(ball).attach();
+    add(ball);
   }
 }
 
@@ -138,11 +140,9 @@ class DebugPinballGame extends PinballGame with TapDetector {
 
   @override
   void onTapUp(TapUpInfo info) {
-    addFromBlueprint(
-      BallBlueprint(
-        position: info.eventPosition.game,
-        type: BallType.extra,
-      ),
+    add(
+      Ball(baseColor: const Color(0xFFFF0000))
+        ..initialPosition = info.eventPosition.game,
     );
   }
 }

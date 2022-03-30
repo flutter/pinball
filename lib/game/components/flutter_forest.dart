@@ -31,11 +31,10 @@ class FlutterForest extends Component
   @override
   void onNewState(GameState state) {
     super.onNewState(state);
-    gameRef.addFromBlueprint(
-      BallBlueprint(
-        position: Vector2(17.2, 52.7),
-        type: BallType.extra,
-      ),
+    gameRef.add(
+      Ball(
+        baseColor: gameRef.theme.characterTheme.ballColor,
+      )..initialPosition = Vector2(17.2, 52.7),
     );
   }
 

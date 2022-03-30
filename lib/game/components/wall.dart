@@ -78,6 +78,13 @@ class BottomWall extends Wall {
 class BottomWallBallContactCallback extends ContactCallback<Ball, BottomWall> {
   @override
   void begin(Ball ball, BottomWall wall, Contact contact) {
-    ball.controller.lost();
+    ball.shouldRemove = true;
+
+    // TODO(alestiago): replace with .firstChild when available.
+    late final BallController? controller;
+    final children = ball.children.whereType<BallController>();
+    controller = children.isEmpty ? null : children.first;
+
+    if (controller != null) controller.lost();
   }
 }

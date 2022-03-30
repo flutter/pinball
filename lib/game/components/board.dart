@@ -97,7 +97,7 @@ class _BottomGroupSide extends Component {
     final flipper = Flipper(
       side: _side,
     )..initialPosition = _position;
-    await flipper.add(FlipperController(flipper));
+    await FlipperController(flipper).attach();
 
     final baseboard = Baseboard(side: _side)
       ..initialPosition = _position +
