@@ -37,9 +37,6 @@ class FlutterForest extends Component
         theme: gameRef.theme,
       )..initialPosition = Vector2(17.2, 52.7),
     );
-    children.whereType<DashNestBumper>().forEach(
-          (bumper) => bumper.deactivate,
-        );
   }
 
   @override
@@ -69,7 +66,7 @@ class FlutterForest extends Component
 /// {@endtemplate}
 @visibleForTesting
 abstract class DashNestBumper extends BodyComponent<PinballGame>
-    with ScorePoints, InitialPosition {
+    with ScorePoints, InitialPosition, BlocComponent<GameBloc, GameState> {
   /// {@macro dash_nest_bumper}
   DashNestBumper({
     required this.id,
@@ -99,23 +96,33 @@ abstract class DashNestBumper extends BodyComponent<PinballGame>
     _activeSprite = await gameRef.loadSprite(_activeAssetPath);
   }
 
-  bool _active = false;
-
-  /// Whether this [DashNestBumper] is active.
-  // TODO(alestiago): Question if we want this ephemeral state to be stores as
-  // so.
-  bool get active => _active;
-
   /// Activates the [DashNestBumper].
   void activate() {
-    _active = true;
     _spriteComponent.sprite = _activeSprite;
   }
 
   /// Deactivates the [DashNestBumper].
   void deactivate() {
-    _active = false;
     _spriteComponent.sprite = _inactiveSprite;
+  }
+
+  @override
+  bool listenWhen(GameState? previousState, GameState newState) {
+    final wasActive = previousState?.activatedDashNests.contains(id) ?? false;
+    final isActive = newState.activatedDashNests.contains(id);
+
+    return wasActive != isActive;
+  }
+
+  @override
+  void onNewState(GameState state) {
+    super.onNewState(state);
+
+    if (state.activatedDashNests.contains(id)) {
+      activate();
+    } else {
+      deactivate();
+    }
   }
 
   @override
@@ -134,12 +141,9 @@ class DashNestBumperBallContactCallback
     extends ContactCallback<DashNestBumper, Ball> {
   @override
   void begin(DashNestBumper dashNestBumper, Ball _, Contact __) {
-    if (!dashNestBumper.active) {
-      dashNestBumper.gameRef.read<GameBloc>().add(
-            DashNestActivated(dashNestBumper.id),
-          );
-      dashNestBumper.activate();
-    }
+    dashNestBumper.gameRef.read<GameBloc>().add(
+          DashNestActivated(dashNestBumper.id),
+        );
   }
 }
 
