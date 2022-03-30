@@ -4,10 +4,6 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-// ignore_for_file: comment_references
-// TODO(allisonryan0002): Revisit ignore lint rule once Flipper is moved to this
-// package.
-
 /// {@template baseboard}
 /// Wing-shaped board piece to corral the [Ball] towards the [Flipper]s.
 /// {@endtemplate}
