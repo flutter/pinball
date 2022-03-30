@@ -107,7 +107,7 @@ class PinballGame extends Forge2DGame
         plunger.body.position.x,
         plunger.body.position.y + Ball.size.y,
       );
-    BallController(ball).attach();
+    PlungerBallController(ball).attach();
     add(ball);
   }
 }
@@ -140,9 +140,9 @@ class DebugPinballGame extends PinballGame with TapDetector {
 
   @override
   void onTapUp(TapUpInfo info) {
-    add(
-      Ball(baseColor: const Color(0xFFFF0000))
-        ..initialPosition = info.eventPosition.game,
-    );
+    final ball = Ball(baseColor: const Color(0xFFFF0000))
+      ..initialPosition = info.eventPosition.game;
+    BallController(ball).attach();
+    add(ball);
   }
 }

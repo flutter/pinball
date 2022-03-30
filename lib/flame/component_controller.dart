@@ -16,6 +16,7 @@ abstract class ComponentController<T extends Component> extends Component {
 
   /// Ads the [ComponentController] to its [component].
   Future<void> attach() async {
+    // TODO(alestiago): check if component already attached.
     await component.add(this);
   }
 

@@ -1,4 +1,4 @@
-export 'ball.dart';
+export 'ball_controller.dart';
 export 'baseboard.dart';
 export 'board.dart';
 export 'bonus_word.dart';
