@@ -196,7 +196,12 @@ class SpaceshipHole extends RampOpening {
 
   @override
   Shape get shape {
-    return ArcShape(center: Vector2(-3.5, 2), arcRadius: 6, angle: 1);
+    return ArcShape(
+      center: Vector2(0, 4.2),
+      arcRadius: 6,
+      angle: 1,
+      rotation: 60 * pi / 180,
+    );
   }
 }
 
