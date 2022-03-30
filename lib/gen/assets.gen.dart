@@ -25,8 +25,23 @@ class $AssetsImagesComponentsGen {
   AssetGenImage get flipper =>
       const AssetGenImage('assets/images/components/flipper.png');
 
+  $AssetsImagesComponentsLaunchRampGen get launchRamp =>
+      const $AssetsImagesComponentsLaunchRampGen();
+
   $AssetsImagesComponentsSpaceshipGen get spaceship =>
       const $AssetsImagesComponentsSpaceshipGen();
+}
+
+class $AssetsImagesComponentsLaunchRampGen {
+  const $AssetsImagesComponentsLaunchRampGen();
+
+  /// File path: assets/images/components/launch_ramp/launch-ramp.png
+  AssetGenImage get launchRamp => const AssetGenImage(
+      'assets/images/components/launch_ramp/launch-ramp.png');
+
+  /// File path: assets/images/components/launch_ramp/launch-rail-FG.png
+  AssetGenImage get launchRailFG => const AssetGenImage(
+      'assets/images/components/launch_ramp/launch-rail-FG.png');
 }
 
 class $AssetsImagesComponentsSpaceshipGen {

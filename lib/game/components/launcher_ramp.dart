@@ -1,103 +1,133 @@
-// ignore_for_file: public_member_api_docs, avoid_renaming_method_parameters
+// ignore_for_file: avoid_renaming_method_parameters
 
 import 'dart:math' as math;
 
+import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/flame/blueprint.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball/gen/assets.gen.dart';
+import 'package:pinball_components/pinball_components.dart' hide Assets;
 
-/// A [Blueprint] which creates the [LauncherRamp].
+/// {@template launcher}
+/// A [Blueprint] which creates the [LauncherRamp] and
+/// [LauncherForegroundRailing].
+/// {@endtemplate}
 class Launcher extends Forge2DBlueprint {
   @override
   void build(_) {
-    final position = Vector2(
-      PinballGame.boardBounds.right - 31.3,
-      PinballGame.boardBounds.bottom + 33,
-    );
-
     addAllContactCallback([
-      RampOpeningBallContactCallback<_LauncherRampOpening>(),
+      RampOpeningBallContactCallback<_LauncherExit>(),
     ]);
 
-    final leftOpening = _LauncherRampOpening(rotation: math.pi / 2)
-      ..initialPosition = position + Vector2(-11.8, 72.7)
-      ..layer = Layer.opening;
-    final rightOpening = _LauncherRampOpening(rotation: 0)
-      ..initialPosition = position + Vector2(-5.4, 65.4)
-      ..layer = Layer.opening;
+    final launcherRamp = LauncherRamp()..layer = Layer.launcher;
 
-    final launcherRamp = LauncherRamp()
-      ..initialPosition = position + Vector2(1.7, 0)
+    final launcherForegroundRailing = LauncherForegroundRailing()
       ..layer = Layer.launcher;
 
+    final launcherExit = _LauncherExit(rotation: math.pi / 2)
+      ..initialPosition = Vector2(1.8, 34.2)
+      ..layer = Layer.opening
+      ..renderBody = false;
+
     addAll([
-      leftOpening,
-      rightOpening,
       launcherRamp,
+      launcherForegroundRailing,
+      launcherExit,
     ]);
   }
 }
 
 /// {@template launcher_ramp}
-/// The yellow right ramp, where the [Ball] goes through when launched from the
-/// [Plunger].
+/// Ramp the [Ball] is launched from at the beginning of each ball life.
 /// {@endtemplate}
 class LauncherRamp extends BodyComponent with InitialPosition, Layered {
   /// {@macro launcher_ramp}
-  LauncherRamp() : super(priority: 2) {
+  LauncherRamp() : super(priority: -1) {
     layer = Layer.launcher;
     paint = Paint()
       ..color = const Color.fromARGB(255, 251, 255, 0)
       ..style = PaintingStyle.stroke;
   }
 
-  /// Width between walls of the ramp.
-  static const width = 5.0;
-
-  /// Radius of the external arc at the top of the ramp.
-  static const _externalRadius = 16.3;
-
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
 
-    final startPosition = initialPosition + Vector2(0, 3);
-    final endPosition = initialPosition + Vector2(0, 130);
-
-    final rightStraightShape = EdgeShape()
+    final elevatedRightStraightShape = EdgeShape()
       ..set(
-        startPosition..rotate(PinballGame.boardPerspectiveAngle),
-        endPosition..rotate(PinballGame.boardPerspectiveAngle),
+        Vector2(31.4, 61.4),
+        Vector2(46.5, -68.4),
       );
-    final rightStraightFixtureDef = FixtureDef(rightStraightShape);
-    fixturesDef.add(rightStraightFixtureDef);
+    final elevatedRightStraightFixtureDef =
+        FixtureDef(elevatedRightStraightShape);
+    fixturesDef.add(elevatedRightStraightFixtureDef);
 
-    final leftStraightShape = EdgeShape()
+    final elevatedLeftStraightShape = EdgeShape()
       ..set(
-        startPosition - Vector2(width, 0),
-        endPosition - Vector2(width, 0),
+        Vector2(27.8, 61.4),
+        Vector2(41.5, -68.4),
       );
-    final leftStraightFixtureDef = FixtureDef(leftStraightShape);
-    fixturesDef.add(leftStraightFixtureDef);
+    final elevatedLeftStraightFixtureDef =
+        FixtureDef(elevatedLeftStraightShape);
+    fixturesDef.add(elevatedLeftStraightFixtureDef);
 
-    final externalCurveShape = ArcShape(
-      center: initialPosition + Vector2(-28.2, 132),
-      arcRadius: _externalRadius,
-      angle: math.pi / 2,
-      rotation: 3 * math.pi / 2,
+    final elevatedTopCurveShape = ArcShape(
+      center: Vector2(20.5, 61.1),
+      arcRadius: 11,
+      angle: 1.6,
+      rotation: -1.65,
     );
-    final externalCurveFixtureDef = FixtureDef(externalCurveShape);
-    fixturesDef.add(externalCurveFixtureDef);
+    final elevatedTopCurveFixtureDef = FixtureDef(elevatedTopCurveShape);
+    fixturesDef.add(elevatedTopCurveFixtureDef);
 
-    final internalCurveShape = externalCurveShape.copyWith(
-      arcRadius: _externalRadius - width,
+    final elevatedTopStraightShape = EdgeShape()
+      ..set(
+        Vector2(3.7, 70.1),
+        Vector2(19.1, 72.1),
+      );
+    final elevatedTopStraightFixtureDef = FixtureDef(elevatedTopStraightShape);
+    fixturesDef.add(elevatedTopStraightFixtureDef);
+
+    final elevatedBottomCurveShape = ArcShape(
+      center: Vector2(19.3, 60.3),
+      arcRadius: 8.5,
+      angle: 1.48,
+      rotation: -1.58,
     );
-    final internalCurveFixtureDef = FixtureDef(internalCurveShape);
-    fixturesDef.add(internalCurveFixtureDef);
+    final elevatedBottomCurveFixtureDef = FixtureDef(elevatedBottomCurveShape);
+    fixturesDef.add(elevatedBottomCurveFixtureDef);
+
+    final elevatedBottomStraightShape = EdgeShape()
+      ..set(
+        Vector2(3.7, 66.9),
+        Vector2(19.1, 68.8),
+      );
+    final elevatedBottomStraightFixtureDef =
+        FixtureDef(elevatedBottomStraightShape);
+    fixturesDef.add(elevatedBottomStraightFixtureDef);
 
     return fixturesDef;
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+
+    final sprite = await gameRef.loadSprite(
+      Assets.images.components.launchRamp.launchRamp.path,
+    );
+    final spriteComponent = SpriteComponent(
+      sprite: sprite,
+      size: Vector2(44.7, 144.1),
+      anchor: Anchor.center,
+      position: Vector2(25.65, 0),
+    );
+
+    await gameRef.add(spriteComponent);
+
+    renderBody = false;
   }
 
   @override
@@ -113,13 +143,91 @@ class LauncherRamp extends BodyComponent with InitialPosition, Layered {
   }
 }
 
-/// {@template launcher_ramp_opening}
-/// [RampOpening] with [Layer.launcher] to filter [Ball]s collisions
-/// inside [LauncherRamp].
+/// {@template launcher_ramp}
+/// The yellow right ramp, where the [Ball] goes through when launched from the
+/// [Plunger].
 /// {@endtemplate}
-class _LauncherRampOpening extends RampOpening {
-  /// {@macro launcher_ramp_opening}
-  _LauncherRampOpening({
+class LauncherForegroundRailing extends BodyComponent
+    with InitialPosition, Layered {
+  /// {@macro launcher_ramp}
+  LauncherForegroundRailing() : super(priority: 5) {
+    layer = Layer.launcher;
+    paint = Paint()
+      ..color = const Color.fromARGB(255, 251, 255, 0)
+      ..style = PaintingStyle.stroke;
+  }
+
+  List<FixtureDef> _createFixtureDefs() {
+    final fixturesDef = <FixtureDef>[];
+
+    final groundRightStraightShape = EdgeShape()
+      ..set(
+        Vector2(27.6, 57.9),
+        Vector2(30, 35.1),
+      );
+    final groundRightStraightFixtureDef = FixtureDef(groundRightStraightShape);
+    fixturesDef.add(groundRightStraightFixtureDef);
+
+    final groundTopStraightShape = EdgeShape()
+      ..set(
+        Vector2(3.7, 66.8),
+        Vector2(19.7, 66.8),
+      );
+    final groundTopStraightFixtureDef = FixtureDef(groundTopStraightShape);
+    fixturesDef.add(groundTopStraightFixtureDef);
+
+    final groundCurveShape = ArcShape(
+      center: Vector2(20.1, 59.3),
+      arcRadius: 7.5,
+      angle: 1.8,
+      rotation: -1.63,
+    );
+    final groundCurveFixtureDef = FixtureDef(groundCurveShape);
+    fixturesDef.add(groundCurveFixtureDef);
+
+    return fixturesDef;
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+
+    final sprite = await gameRef.loadSprite(
+      Assets.images.components.launchRamp.launchRailFG.path,
+    );
+    final spriteComponent = SpriteComponent(
+      sprite: sprite,
+      size: Vector2(38.1, 138.6),
+      anchor: Anchor.center,
+      position: Vector2(22.8, 0),
+      priority: 5,
+    );
+
+    await gameRef.add(spriteComponent);
+
+    renderBody = false;
+  }
+
+  @override
+  Body createBody() {
+    final bodyDef = BodyDef()
+      ..userData = this
+      ..position = initialPosition;
+
+    final body = world.createBody(bodyDef);
+    _createFixtureDefs().forEach(body.createFixture);
+
+    return body;
+  }
+}
+
+/// {@template launcher_exit}
+/// [RampOpening] with [Layer.launcher] to filter [Ball]s exiting the
+/// [Launcher].
+/// {@endtemplate}
+class _LauncherExit extends RampOpening {
+  /// {@macro launcher_exit}
+  _LauncherExit({
     required double rotation,
   })  : _rotation = rotation,
         super(
@@ -129,7 +237,7 @@ class _LauncherRampOpening extends RampOpening {
 
   final double _rotation;
 
-  static final Vector2 _size = Vector2(LauncherRamp.width / 3, .1);
+  static final Vector2 _size = Vector2(1.6, 0.1);
 
   @override
   Shape get shape => PolygonShape()
