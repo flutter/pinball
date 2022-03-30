@@ -101,7 +101,10 @@ class PinballGame extends Forge2DGame
   }
 
   void spawnBall() {
-    final ball = PlungerBall(this, plunger: plunger);
+    final ball = PlungerBall(
+      theme: theme,
+      plunger: plunger,
+    );
     add(ball);
   }
 }

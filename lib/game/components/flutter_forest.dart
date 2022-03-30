@@ -33,7 +33,9 @@ class FlutterForest extends Component
     super.onNewState(state);
 
     add(
-      BonusBall(gameRef)..initialPosition = Vector2(17.2, 52.7),
+      BonusBall(
+        theme: gameRef.theme,
+      )..initialPosition = Vector2(17.2, 52.7),
     );
   }
 

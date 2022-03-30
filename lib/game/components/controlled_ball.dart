@@ -5,6 +5,7 @@ import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:pinball/flame/flame.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_theme/pinball_theme.dart';
 
 /// {@template controlled_ball}
 /// A [Ball] with a [BallController] attached.
@@ -21,12 +22,11 @@ abstract class _ControlledBall<T extends BallController> extends Ball
 /// and a new [PlungerBall] is spawned if it's possible.
 /// {@endtemplate}
 class PlungerBall extends _ControlledBall<PlungerBallController> {
-  // TODO(alestiago): Work on a better solution than passing the game.
   /// {@macro plunger_ball}
-  PlungerBall(
-    PinballGame game, {
+  PlungerBall({
+    required PinballTheme theme,
     required Plunger plunger,
-  }) : super(baseColor: game.theme.characterTheme.ballColor) {
+  }) : super(baseColor: theme.characterTheme.ballColor) {
     // TODO(alestiago): Dicuss if this is a good idea.
     initialPosition = Vector2(
       plunger.body.position.x,
@@ -45,8 +45,9 @@ class PlungerBall extends _ControlledBall<PlungerBallController> {
 /// {@endtemplate}
 class BonusBall extends _ControlledBall<BallController> {
   /// {@macro bonus_ball}
-  BonusBall(PinballGame game)
-      : super(baseColor: game.theme.characterTheme.ballColor);
+  BonusBall({
+    required PinballTheme theme,
+  }) : super(baseColor: theme.characterTheme.ballColor);
 
   @override
   BallController controllerBuilder() => BallController(this);
