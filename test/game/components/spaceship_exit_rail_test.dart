@@ -21,10 +21,10 @@ void main() {
       exitRailEnd = MockSpaceshipExitRailEnd();
 
       ball = MockBall();
+      body = MockBody();
       when(() => ball.gameRef).thenReturn(game);
       when(() => ball.body).thenReturn(body);
 
-      body = MockBody();
       fixture = MockFixture();
       filterData = MockFilter();
       when(() => body.fixtures).thenReturn([fixture]);
