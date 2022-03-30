@@ -1,7 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/services.dart';
-import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template plunger}
@@ -26,7 +25,7 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
         1.35,
         0.5,
         Vector2.zero(),
-        PinballGame.boardPerspectiveAngle,
+        BoardDimensions.perspectiveAngle,
       );
 
     final fixtureDef = FixtureDef(shape)..density = 20;
@@ -50,7 +49,7 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
   /// The velocity's magnitude depends on how far the [Plunger] has been pulled
   /// from its original [initialPosition].
   void _release() {
-    final velocity = (initialPosition.y - body.position.y) * 4;
+    final velocity = (initialPosition.y - body.position.y) * 5;
     body.linearVelocity = Vector2(0, velocity);
   }
 
@@ -127,7 +126,7 @@ class PlungerAnchorPrismaticJointDef extends PrismaticJointDef {
       plunger.body,
       anchor.body,
       anchor.body.position,
-      Vector2(18.6, PinballGame.boardBounds.height),
+      Vector2(18.6, BoardDimensions.bounds.height),
     );
     enableLimit = true;
     lowerTranslation = double.negativeInfinity;

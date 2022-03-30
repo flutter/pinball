@@ -3,7 +3,6 @@
 import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/components/components.dart';
-import 'package:pinball/game/pinball_game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template wall}
@@ -42,13 +41,12 @@ class Wall extends BodyComponent {
 
 /// Create top, left, and right [Wall]s for the game board.
 List<Wall> createBoundaries(Forge2DGame game) {
-  final topLeft =
-      PinballGame.boardBounds.topLeft.toVector2() + Vector2(18.6, 0);
-  final bottomRight = PinballGame.boardBounds.bottomRight.toVector2();
+  final topLeft = BoardDimensions.bounds.topLeft.toVector2() + Vector2(18.6, 0);
+  final bottomRight = BoardDimensions.bounds.bottomRight.toVector2();
 
   final topRight =
-      PinballGame.boardBounds.topRight.toVector2() - Vector2(18.6, 0);
-  final bottomLeft = PinballGame.boardBounds.bottomLeft.toVector2();
+      BoardDimensions.bounds.topRight.toVector2() - Vector2(18.6, 0);
+  final bottomLeft = BoardDimensions.bounds.bottomLeft.toVector2();
 
   return [
     Wall(start: topLeft, end: topRight),
@@ -67,8 +65,8 @@ class BottomWall extends Wall {
   /// {@macro bottom_wall}
   BottomWall()
       : super(
-          start: PinballGame.boardBounds.bottomLeft.toVector2(),
-          end: PinballGame.boardBounds.bottomRight.toVector2(),
+          start: BoardDimensions.bounds.bottomLeft.toVector2(),
+          end: BoardDimensions.bounds.bottomRight.toVector2(),
         );
 }
 
