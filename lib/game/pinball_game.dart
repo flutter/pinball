@@ -56,7 +56,7 @@ class PinballGame extends Forge2DGame
     unawaited(
       addFromBlueprint(
         SpaceshipExitRail(
-          position: Vector2(-32.5, 28),
+          position: Vector2(-32.6, 28),
         ),
       ),
     );

@@ -178,7 +178,7 @@ class SpaceshipExitRailEnd extends RampOpening {
 
   @override
   Shape get shape {
-    return CircleShape()..radius = 1.5;
+    return CircleShape()..radius = 1;
   }
 }
 
