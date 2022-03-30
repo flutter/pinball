@@ -11,9 +11,6 @@ import 'package:pinball_theme/pinball_theme.dart';
 /// A [Ball] with a [BallController] attached.
 /// {@endtemplate}
 class ControlledBall extends Ball with Controls<BallController> {
-  /// {@macro controlled_ball}
-  ControlledBall({required Color baseColor}) : super(baseColor: baseColor);
-
   /// A [Ball] that starts at the [Plunger].
   ///
   /// When a launched [Ball] is lost, it will decrease the [GameState.balls]
