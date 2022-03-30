@@ -73,8 +73,10 @@ class BallController extends ComponentController<Ball> {
   /// Removes the [Ball] from a [PinballGame]; spawning a new [Ball] if
   /// any are left.
   ///
+  /// {@template ball_controller_lost}
   /// Triggered by [BottomWallBallContactCallback] when the [Ball] falls into
   /// a [BottomWall].
+  /// {@endtemplate}
   void lost() {
     component.shouldRemove = true;
   }
@@ -87,6 +89,11 @@ class PlungerBallController extends BallController
   PlungerBallController(Ball<Forge2DGame> ball) : super(ball);
 
   @override
+
+  /// Removes the [Ball] from a [PinballGame]; spawning a new [Ball] if
+  /// any are left.
+  ///
+  /// {@macro ball_controller_lost}
   void lost() {
     super.lost();
     final bloc = gameRef.read<GameBloc>()..add(const BallLost());
