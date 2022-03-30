@@ -12,12 +12,18 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/ball.png
   AssetGenImage get ball => const AssetGenImage('assets/images/ball.png');
+
+  $AssetsImagesFlipperGen get flipper => const $AssetsImagesFlipperGen();
+
   /// File path: assets/images/flutter_sign_post.png
   AssetGenImage get flutterSignPost =>
       const AssetGenImage('assets/images/flutter_sign_post.png');
-  $AssetsImagesFlipperGen get flipper => const $AssetsImagesFlipperGen();
+
+  /// File path: assets/images/spaceship_bridge.png
   AssetGenImage get spaceshipBridge =>
       const AssetGenImage('assets/images/spaceship_bridge.png');
+
+  /// File path: assets/images/spaceship_saucer.png
   AssetGenImage get spaceshipSaucer =>
       const AssetGenImage('assets/images/spaceship_saucer.png');
 }
@@ -25,8 +31,11 @@ class $AssetsImagesGen {
 class $AssetsImagesFlipperGen {
   const $AssetsImagesFlipperGen();
 
+  /// File path: assets/images/flipper/left.png
   AssetGenImage get left =>
       const AssetGenImage('assets/images/flipper/left.png');
+
+  /// File path: assets/images/flipper/right.png
   AssetGenImage get right =>
       const AssetGenImage('assets/images/flipper/right.png');
 }
