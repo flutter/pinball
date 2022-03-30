@@ -238,7 +238,7 @@ class SpaceshipWall extends BodyComponent with InitialPosition, Layered {
     final bodyDef = BodyDef()
       ..userData = this
       ..position = initialPosition
-      ..angle = 90 * pi / 180
+      ..angle = 90 * pi / 172
       ..type = BodyType.static;
 
     return world.createBody(bodyDef)
