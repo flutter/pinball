@@ -98,12 +98,16 @@ abstract class DashNestBumper extends BodyComponent<PinballGame>
 
   /// Activates the [DashNestBumper].
   void activate() {
-    _spriteComponent.sprite = _activeSprite;
+    _spriteComponent
+      ..sprite = _inactiveSprite
+      ..size = _activeSprite.originalSize / 10;
   }
 
   /// Deactivates the [DashNestBumper].
   void deactivate() {
-    _spriteComponent.sprite = _inactiveSprite;
+    _spriteComponent
+      ..sprite = _inactiveSprite
+      ..size = _inactiveSprite.originalSize / 10;
   }
 
   @override
@@ -157,7 +161,6 @@ class BigDashNestBumper extends DashNestBumper {
           activeAssetPath: Assets.images.dashBumper.main.active.keyName,
           inactiveAssetPath: Assets.images.dashBumper.main.inactive.keyName,
           spriteComponent: SpriteComponent(
-            size: Vector2(10.8, 8.6),
             anchor: Anchor.center,
           ),
         );
@@ -206,7 +209,6 @@ class SmallDashNestBumper extends DashNestBumper {
           activeAssetPath: Assets.images.dashBumper.a.active.keyName,
           inactiveAssetPath: Assets.images.dashBumper.a.inactive.keyName,
           spriteComponent: SpriteComponent(
-            size: Vector2(7.1, 7.5),
             anchor: Anchor.center,
             position: Vector2(0.35, -1.2),
           ),
@@ -220,7 +222,6 @@ class SmallDashNestBumper extends DashNestBumper {
           activeAssetPath: Assets.images.dashBumper.b.active.keyName,
           inactiveAssetPath: Assets.images.dashBumper.b.inactive.keyName,
           spriteComponent: SpriteComponent(
-            size: Vector2(7.5, 7.4),
             anchor: Anchor.center,
             position: Vector2(0.35, -1.2),
           ),
