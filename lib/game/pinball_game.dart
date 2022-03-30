@@ -7,9 +7,9 @@ import 'package:flame/extensions.dart';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:pinball/flame/blueprint.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/gen/assets.gen.dart';
+import 'package:pinball_components/pinball_components.dart' hide Assets;
 import 'package:pinball_theme/pinball_theme.dart' hide Assets;
 
 class PinballGame extends Forge2DGame
@@ -46,7 +46,13 @@ class PinballGame extends Forge2DGame
     unawaited(_addPlunger());
     unawaited(_addBonusWord());
     unawaited(_addPaths());
-    unawaited(addFromBlueprint(Spaceship()));
+    unawaited(
+      addFromBlueprint(
+        Spaceship(
+          position: Vector2(-25, 32),
+        ),
+      ),
+    );
 
     // Fix camera on the center of the board.
     camera

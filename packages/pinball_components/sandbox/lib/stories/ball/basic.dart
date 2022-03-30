@@ -7,8 +7,9 @@ class BasicBallGame extends BasicGame with TapDetector {
   BasicBallGame({required this.color});
 
   static const info = '''
-      Basic example of how a Ball works, tap anywhere on the
-      screen to spawn a ball into the game.
+      Basic example of how a Ball works.
+      
+      Tap anywhere on the screen to spawn a ball into the game.
 ''';
 
   final Color color;
