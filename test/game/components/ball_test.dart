@@ -27,11 +27,12 @@ void main() {
 
       final tester = flameBlocTester(gameBloc: () => gameBloc);
 
-      tester.widgetTest(
+      tester.testGameWidget(
         'adds BallLost to GameBloc',
-        (game, tester) async {
+        setUp: (game, tester) async {
           await game.ready();
-
+        },
+        verify: (game, tester) async {
           game.children.whereType<Ball>().first.controller.lost();
           await tester.pump();
 
@@ -39,14 +40,15 @@ void main() {
         },
       );
 
-      tester.widgetTest(
+      tester.testGameWidget(
         'resets the ball if the game is not over',
-        (game, tester) async {
+        setUp: (game, tester) async {
           await game.ready();
 
           game.children.whereType<Ball>().first.controller.lost();
           await game.ready(); // Making sure that all additions are done
-
+        },
+        verify: (game, tester) async {
           expect(
             game.children.whereType<Ball>().length,
             equals(1),
@@ -54,9 +56,9 @@ void main() {
         },
       );
 
-      tester.widgetTest(
+      tester.testGameWidget(
         'no ball is added on game over',
-        (game, tester) async {
+        setUp: (game, tester) async {
           whenListen(
             gameBloc,
             const Stream<GameState>.empty(),
@@ -72,7 +74,8 @@ void main() {
 
           game.children.whereType<Ball>().first.controller.lost();
           await tester.pump();
-
+        },
+        verify: (game, tester) async {
           expect(
             game.children.whereType<Ball>().length,
             equals(0),

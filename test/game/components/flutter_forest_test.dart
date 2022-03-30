@@ -30,8 +30,6 @@ void main() {
         'a FlutterSignPost',
         (game) async {
           await game.ready();
-          final flutterForest = FlutterForest();
-          await game.ensureAdd(flutterForest);
 
           expect(
             game.descendants().whereType<FlutterSignPost>().length,
@@ -71,10 +69,12 @@ void main() {
         );
       });
 
-      tester.widgetTest(
+      tester.testGameWidget(
         'listens when a Bonus.dashNest is added',
-        (game, tester) async {
+        setUp: (game, tester) async {
           await game.ready();
+        },
+        verify: (game, tester) async {
           final flutterForest =
               game.descendants().whereType<FlutterForest>().first;
 
@@ -85,7 +85,6 @@ void main() {
             activatedDashNests: {},
             bonusHistory: [GameBonus.dashNest],
           );
-
           expect(
             flutterForest.listenWhen(const GameState.initial(), state),
             isTrue,
@@ -107,15 +106,16 @@ void main() {
       );
     });
 
-    tester.widgetTest(
+    final dashNestBumper = MockDashNestBumper();
+    tester.testGameWidget(
       'adds a DashNestActivated event with DashNestBumper.id',
-      (game, tester) async {
-        final contactCallback = DashNestBumperBallContactCallback();
+      setUp: (game, tester) async {
         const id = '0';
-        final dashNestBumper = MockDashNestBumper();
         when(() => dashNestBumper.id).thenReturn(id);
         when(() => dashNestBumper.gameRef).thenReturn(game);
-
+      },
+      verify: (game, tester) async {
+        final contactCallback = DashNestBumperBallContactCallback();
         contactCallback.begin(dashNestBumper, MockBall(), MockContact());
 
         verify(() => gameBloc.add(DashNestActivated(dashNestBumper.id)))

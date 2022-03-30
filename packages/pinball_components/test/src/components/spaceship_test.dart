@@ -1,6 +1,5 @@
 // ignore_for_file: cascade_invocations
 
-import 'package:flame/game.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -39,24 +38,22 @@ void main() {
     });
 
     group('Spaceship', () {
-      testWidgets('renders correctly', (tester) async {
-        final game = TestGame();
+      final tester = FlameTester(TestGame.new);
 
-        // TODO(erickzanardo): This should be handled by flame test.
-        // refctor it when https://github.com/flame-engine/flame/pull/1501 is merged
-        await tester.runAsync(() async {
-          await tester.pumpWidget(GameWidget(game: game));
-          await game.ready();
+      tester.testGameWidget(
+        'renders correctly',
+        setUp: (game, tester) async {
           await game.addFromBlueprint(Spaceship(position: Vector2(30, -30)));
           await game.ready();
           await tester.pump();
-        });
-
-        await expectLater(
-          find.byGame<Forge2DGame>(),
-          matchesGoldenFile('golden/spaceship.png'),
-        );
-      });
+        },
+        verify: (game, tester) async {
+          await expectLater(
+            find.byGame<Forge2DGame>(),
+            matchesGoldenFile('golden/spaceship.png'),
+          );
+        },
+      );
     });
 
     group('SpaceshipEntranceBallContactCallback', () {
