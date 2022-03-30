@@ -18,8 +18,7 @@ abstract class ComponentController<T extends Component> extends Component {
   Future<void> addToParent(Component parent) async {
     assert(
       parent == component,
-      'ComponentController should be child of $component. '
-      'Use attach() instead.',
+      'ComponentController should be child of $component.',
     );
     await super.addToParent(parent);
   }
