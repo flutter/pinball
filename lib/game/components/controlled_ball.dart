@@ -23,7 +23,7 @@ class ControlledBall extends Ball with Controls<BallController> {
       plunger.body.position.x,
       plunger.body.position.y + Ball.size.y,
     );
-    controller = PlungerBallController(this);
+    controller = LaunchedBallController(this);
   }
 
   /// {@template bonus_ball}
@@ -50,8 +50,7 @@ class BallController extends ComponentController<Ball> {
   /// {@macro ball_controller}
   BallController(Ball ball) : super(ball);
 
-  /// Removes the [Ball] from a [PinballGame]; spawning a new [Ball] if
-  /// any are left.
+  /// Removes the [Ball] from a [PinballGame].
   ///
   /// {@template ball_controller_lost}
   /// Triggered by [BottomWallBallContactCallback] when the [Ball] falls into
@@ -63,10 +62,10 @@ class BallController extends ComponentController<Ball> {
 }
 
 /// {@macro ball_controller}
-class PlungerBallController extends BallController
+class LaunchedBallController extends BallController
     with HasGameRef<PinballGame> {
   /// {@macro ball_controller}
-  PlungerBallController(Ball<Forge2DGame> ball) : super(ball);
+  LaunchedBallController(Ball<Forge2DGame> ball) : super(ball);
 
   @override
 
