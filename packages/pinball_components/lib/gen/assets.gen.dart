@@ -9,6 +9,20 @@ class $AssetsImagesGen {
   const $AssetsImagesGen();
 
   AssetGenImage get ball => const AssetGenImage('assets/images/ball.png');
+  $AssetsImagesFlipperGen get flipper => const $AssetsImagesFlipperGen();
+  AssetGenImage get spaceshipBridge =>
+      const AssetGenImage('assets/images/spaceship_bridge.png');
+  AssetGenImage get spaceshipSaucer =>
+      const AssetGenImage('assets/images/spaceship_saucer.png');
+}
+
+class $AssetsImagesFlipperGen {
+  const $AssetsImagesFlipperGen();
+
+  AssetGenImage get left =>
+      const AssetGenImage('assets/images/flipper/left.png');
+  AssetGenImage get right =>
+      const AssetGenImage('assets/images/flipper/right.png');
 }
 
 class Assets {

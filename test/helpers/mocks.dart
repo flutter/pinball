@@ -1,4 +1,3 @@
-import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
@@ -39,8 +38,7 @@ class MockGameState extends Mock implements GameState {}
 
 class MockThemeCubit extends Mock implements ThemeCubit {}
 
-class MockLeaderboardBloc extends MockBloc<LeaderboardEvent, LeaderboardState>
-    implements LeaderboardBloc {}
+class MockLeaderboardBloc extends Mock implements LeaderboardBloc {}
 
 class MockLeaderboardRepository extends Mock implements LeaderboardRepository {}
 

@@ -5,7 +5,6 @@ import 'dart:ui';
 
 import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:pinball/flame/blueprint.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 
@@ -177,7 +176,7 @@ class SpaceshipExitRailEnd extends RampOpening {
 
   @override
   Shape get shape {
-    return CircleShape()..radius = Spaceship.radius / 40;
+    return CircleShape()..radius = 1.5;
   }
 }
 

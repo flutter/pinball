@@ -1,10 +1,9 @@
 import 'package:flame/components.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pinball/flame/blueprint.dart';
-import 'package:pinball/game/game.dart';
+import 'package:pinball_components/pinball_components.dart';
 
-import '../helpers/helpers.dart';
+import '../../helpers/helpers.dart';
 
 class MyBlueprint extends Blueprint {
   @override
@@ -52,19 +51,19 @@ void main() {
     });
 
     test('components can be added to it', () {
-      final blueprint = MyBlueprint()..build(MockPinballGame());
+      final blueprint = MyBlueprint()..build(MockGame());
 
       expect(blueprint.components.length, equals(3));
     });
 
     test('blueprints can be added to it', () {
-      final blueprint = MyComposedBlueprint()..build(MockPinballGame());
+      final blueprint = MyComposedBlueprint()..build(MockGame());
 
       expect(blueprint.blueprints.length, equals(3));
     });
 
     test('adds the components to a game on attach', () {
-      final mockGame = MockPinballGame();
+      final mockGame = MockGame();
       when(() => mockGame.addAll(any())).thenAnswer((_) async {});
       MyBlueprint().attach(mockGame);
 
@@ -72,7 +71,7 @@ void main() {
     });
 
     test('adds components from a child Blueprint the to a game on attach', () {
-      final mockGame = MockPinballGame();
+      final mockGame = MockGame();
       when(() => mockGame.addAll(any())).thenAnswer((_) async {});
       MyComposedBlueprint().attach(mockGame);
 
@@ -82,7 +81,7 @@ void main() {
     test(
       'throws assertion error when adding to an already attached blueprint',
       () async {
-        final mockGame = MockPinballGame();
+        final mockGame = MockGame();
         when(() => mockGame.addAll(any())).thenAnswer((_) async {});
         final blueprint = MyBlueprint();
         await blueprint.attach(mockGame);
@@ -99,13 +98,13 @@ void main() {
     });
 
     test('callbacks can be added to it', () {
-      final blueprint = MyForge2dBlueprint()..build(MockPinballGame());
+      final blueprint = MyForge2dBlueprint()..build(MockGame());
 
       expect(blueprint.callbacks.length, equals(3));
     });
 
     test('adds the callbacks to a game on attach', () async {
-      final mockGame = MockPinballGame();
+      final mockGame = MockGame();
       when(() => mockGame.addAll(any())).thenAnswer((_) async {});
       when(() => mockGame.addContactCallback(any())).thenAnswer((_) async {});
       await MyForge2dBlueprint().attach(mockGame);
@@ -116,7 +115,7 @@ void main() {
     test(
       'throws assertion error when adding to an already attached blueprint',
       () async {
-        final mockGame = MockPinballGame();
+        final mockGame = MockGame();
         when(() => mockGame.addAll(any())).thenAnswer((_) async {});
         when(() => mockGame.addContactCallback(any())).thenAnswer((_) async {});
         final blueprint = MyForge2dBlueprint();
