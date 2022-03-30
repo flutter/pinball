@@ -99,7 +99,7 @@ abstract class DashNestBumper extends BodyComponent<PinballGame>
   /// Activates the [DashNestBumper].
   void activate() {
     _spriteComponent
-      ..sprite = _inactiveSprite
+      ..sprite = _activeSprite
       ..size = _activeSprite.originalSize / 10;
   }
 
