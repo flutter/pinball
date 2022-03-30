@@ -27,7 +27,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/baseboard/
-
+    - assets/images/flipper/
 
 flutter_gen:
   line_length: 80

@@ -6,7 +6,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template ball}
-/// A solid, [BodyType.dynamic] sphere that rolls and bounces around
+/// A solid, [BodyType.dynamic] sphere that rolls and bounces around.
 /// {@endtemplate}
 class Ball<T extends Forge2DGame> extends BodyComponent<T>
     with Layered, InitialPosition {
@@ -90,7 +90,7 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
     }
   }
 
-  /// Applies a boost on this [Ball]
+  /// Applies a boost on this [Ball].
   void boost(Vector2 impulse) {
     body.applyLinearImpulse(impulse);
     _boostTimer = _boostDuration;

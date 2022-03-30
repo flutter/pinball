@@ -23,9 +23,9 @@ void main() {
       },
     );
 
-    group('children', () {
+    group('loads', () {
       flameTester.test(
-        'has one left flipper',
+        'one left flipper',
         (game) async {
           final board = Board();
           await game.ready();
@@ -39,7 +39,7 @@ void main() {
       );
 
       flameTester.test(
-        'has one right flipper',
+        'one right flipper',
         (game) async {
           final board = Board();
           await game.ready();
@@ -52,7 +52,7 @@ void main() {
       );
 
       flameTester.test(
-        'has two Baseboards',
+        'two Baseboards',
         (game) async {
           final board = Board();
           await game.ready();
@@ -64,7 +64,7 @@ void main() {
       );
 
       flameTester.test(
-        'has two Kickers',
+        'two Kickers',
         (game) async {
           final board = Board();
           await game.ready();
@@ -76,7 +76,7 @@ void main() {
       );
 
       flameTester.test(
-        'has one FlutterForest',
+        'one FlutterForest',
         (game) async {
           // TODO(alestiago): change to [NestBumpers] once provided.
           final board = Board();
@@ -89,7 +89,7 @@ void main() {
       );
 
       flameTester.test(
-        'has one ChromeDino',
+        'one ChromeDino',
         (game) async {
           final board = Board();
           await game.ready();
