@@ -28,7 +28,7 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
         BoardDimensions.perspectiveAngle,
       );
 
-    final fixtureDef = FixtureDef(shape)..density = 20;
+    final fixtureDef = FixtureDef(shape)..density = 80;
 
     final bodyDef = BodyDef()
       ..position = initialPosition
@@ -131,7 +131,7 @@ class PlungerAnchorPrismaticJointDef extends PrismaticJointDef {
     enableLimit = true;
     lowerTranslation = double.negativeInfinity;
     enableMotor = true;
-    motorSpeed = 80;
+    motorSpeed = 1000;
     maxMotorForce = motorSpeed;
     collideConnected = true;
   }
