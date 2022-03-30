@@ -10,6 +10,14 @@ class TestComponentController extends ComponentController {
   TestComponentController(Component component) : super(component);
 }
 
+class ControlledComponent extends Component
+    with Controls<TestComponentController> {
+  ControlledComponent() : super();
+
+  @override
+  TestComponentController controllerBuilder() => TestComponentController(this);
+}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final flameTester = FlameTester(FlameGame.new);
@@ -37,5 +45,23 @@ void main() {
         );
       },
     );
+  });
+
+  group('Controls', () {
+    flameTester.test(
+      'can be instantiated',
+      (game) async {
+        expect(ControlledComponent(), isA<Component>());
+      },
+    );
+
+    flameTester.test('adds controller', (game) async {
+      final component = ControlledComponent();
+
+      await game.add(component);
+      await game.ready();
+
+      expect(component.contains(component.controller), isTrue);
+    });
   });
 }
