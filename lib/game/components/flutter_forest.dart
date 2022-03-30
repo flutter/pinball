@@ -102,9 +102,6 @@ abstract class DashNestBumper extends BodyComponent<PinballGame>
   bool _active = false;
 
   /// Whether this [DashNestBumper] is active.
-  ///
-  /// The only difference between an active and inactive [DashNestBumper] is that
-  /// they show different sprites.
   // TODO(alestiago): Question if we want this ephemeral state to be stores as
   // so.
   bool get active => _active;
