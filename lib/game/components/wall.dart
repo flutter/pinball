@@ -1,11 +1,13 @@
 // ignore_for_file: avoid_renaming_method_parameters
 import 'dart:math' as math;
+
+import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
-import 'package:pinball/game/components/components.dart';
-import 'package:pinball/game/pinball_game.dart';
-import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball/game/game.dart';
+import 'package:pinball/gen/assets.gen.dart';
+import 'package:pinball_components/pinball_components.dart' hide Assets;
 
 /// {@template wall}
 /// A continuous generic and [BodyType.static] barrier that divides a game area.
@@ -101,34 +103,27 @@ class DinoTopWall extends BodyComponent with InitialPosition {
     final wallPerspectiveAngle =
         PinballGame.boardPerspectiveAngle + math.pi / 2;
 
-    // TODO(ruimiguel): calculate final UI wall shape.
-    final topCurveShape = BezierCurveShape(
-      controlPoints: [
-        Vector2(0, 0),
-        Vector2(0, 8),
-        Vector2(8, 8),
-        Vector2(15, 0),
-      ],
-    )..rotate(wallPerspectiveAngle);
-    final topFixtureDef = FixtureDef(topCurveShape)
-      ..restitution = 0.1
-      ..friction = 0;
-    fixturesDef.add(topFixtureDef);
-
-    const bottomCurveShift = -5.0;
-    // TODO(ruimiguel): calculate final UI wall shape.
+    final bottomCurveControlPoints = [
+      Vector2(-4, 5),
+      Vector2(-5, 6.8),
+      Vector2(-9, 11.8),
+      Vector2(-9.5, 0),
+    ];
     final bottomCurveShape = BezierCurveShape(
-      controlPoints: [
-        Vector2(0 + bottomCurveShift, 0),
-        Vector2(0 + bottomCurveShift, 8),
-        Vector2(3 + bottomCurveShift, 8),
-        Vector2(7 + bottomCurveShift, 0),
-      ],
+      controlPoints: bottomCurveControlPoints,
     )..rotate(wallPerspectiveAngle);
-    final bottomFixtureDef = FixtureDef(bottomCurveShape)
-      ..restitution = 0.1
-      ..friction = 0;
-    fixturesDef.add(bottomFixtureDef);
+    fixturesDef.add(FixtureDef(bottomCurveShape));
+
+    final topCurveControlPoints = [
+      Vector2(-4, 5),
+      Vector2(2, 10),
+      Vector2(7, 10),
+      Vector2(17, 0),
+    ];
+    final topCurveShape = BezierCurveShape(
+      controlPoints: topCurveControlPoints,
+    )..rotate(wallPerspectiveAngle);
+    fixturesDef.add(FixtureDef(topCurveShape));
 
     return fixturesDef;
   }
@@ -141,75 +136,35 @@ class DinoTopWall extends BodyComponent with InitialPosition {
       ..type = BodyType.static;
 
     final body = world.createBody(bodyDef);
-    _createFixtureDefs().forEach(body.createFixture);
+    _createFixtureDefs().forEach(
+      (fixture) => body.createFixture(
+        fixture
+          ..restitution = 0.1
+          ..friction = 0,
+      ),
+    );
 
     return body;
-  }
-}
-
-/// {@template dino_bottom_wall}
-/// Wall located below dino, at the right of the board.
-/// {@endtemplate}
-class DinoBottomWall extends BodyComponent with InitialPosition {
-  /// {@macro dino_bottom_wall}
-  DinoBottomWall() : super(priority: 2) {
-    // TODO(ruimiguel): remove color once sprites are added.
-    paint = Paint()
-      ..color = const Color.fromARGB(255, 3, 188, 249)
-      ..style = PaintingStyle.stroke;
-  }
-
-  List<FixtureDef> _createFixtureDefs() {
-    final fixturesDef = <FixtureDef>[];
-
-    final wallPerspectiveAngle =
-        PinballGame.boardPerspectiveAngle + math.pi / 2;
-
-    // TODO(ruimiguel): calculate final UI wall shape.
-    final topVertices = [
-      Vector2(0, 0),
-      Vector2(0, 5),
-      Vector2(-2, 8),
-      Vector2(-10, 6),
-      Vector2(-20, 4),
-      Vector2(-20, 0),
-    ]..forEach((point) {
-        point.rotate(wallPerspectiveAngle);
-      });
-    final topWallShape = PolygonShape()..set(topVertices);
-    final topWallFixtureDef = FixtureDef(topWallShape)
-      ..restitution = 0.1
-      ..friction = 0;
-    fixturesDef.add(topWallFixtureDef);
-
-    const bottomShift = -20.0;
-    final bottomVertices = [
-      Vector2(0 + bottomShift, 0),
-      Vector2(0 + bottomShift, 4),
-      Vector2(-40 + bottomShift, 4),
-      Vector2(-40 + bottomShift, 0),
-    ]..forEach((point) {
-        point.rotate(wallPerspectiveAngle);
-      });
-    final bottomWallShape = PolygonShape()..set(bottomVertices);
-    final bottomWallFixtureDef = FixtureDef(bottomWallShape)
-      ..restitution = 0.1
-      ..friction = 0;
-    fixturesDef.add(bottomWallFixtureDef);
-
-    return fixturesDef;
   }
 
   @override
-  Body createBody() {
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition
-      ..type = BodyType.static;
+  Future<void> onLoad() async {
+    await super.onLoad();
+    await _loadBackground();
+  }
 
-    final body = world.createBody(bodyDef);
-    _createFixtureDefs().forEach(body.createFixture);
+  Future<void> _loadBackground() async {
+    final sprite = await gameRef.loadSprite(
+      Assets.images.components.dinoLandTop.path,
+    );
+    final spriteComponent = SpriteComponent(
+      sprite: sprite,
+      size: Vector2(10.6, 27.7),
+      anchor: Anchor.center,
+    )
+      ..position = Vector2(-3.2, -4)
+      ..priority = -1;
 
-    return body;
+    await add(spriteComponent);
   }
 }

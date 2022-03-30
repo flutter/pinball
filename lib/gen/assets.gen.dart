@@ -3,6 +3,8 @@
 ///  FlutterGen
 /// *****************************************************
 
+// ignore_for_file: directives_ordering,unnecessary_import
+
 import 'package:flutter/widgets.dart';
 
 class $AssetsImagesGen {
@@ -15,8 +17,13 @@ class $AssetsImagesGen {
 class $AssetsImagesComponentsGen {
   const $AssetsImagesComponentsGen();
 
+  /// File path: assets/images/components/background.png
   AssetGenImage get background =>
       const AssetGenImage('assets/images/components/background.png');
+
+  /// File path: assets/images/components/dino-land-top.png
+  AssetGenImage get dinoLandTop =>
+      const AssetGenImage('assets/images/components/dino-land-top.png');
 }
 
 class Assets {

@@ -70,19 +70,7 @@ class PinballGame extends Forge2DGame
     await add(BottomWall());
     createBoundaries(this).forEach(add);
     await add(
-      DinoTopWall()
-        ..initialPosition = Vector2(
-          boardBounds.center.dx + 30,
-          boardBounds.center.dy + 20,
-        ),
-    );
-
-    await add(
-      DinoBottomWall()
-        ..initialPosition = Vector2(
-          boardBounds.center.dx + 31.5,
-          boardBounds.center.dy + 8,
-        ),
+      DinoTopWall()..initialPosition = Vector2(31.5, 24.5), //Vector2(27, 24.5),
     );
   }
 
@@ -124,7 +112,7 @@ class DebugPinballGame extends PinballGame with TapDetector {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadBackground();
+    //await _loadBackground();
   }
 
   // TODO(alestiago): Move to PinballGame once we have the real background
