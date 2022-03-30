@@ -8,29 +8,27 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('SpaceshipExitRail', () {
-    late Filter filterData;
-    late Fixture fixture;
-    late Body body;
     late PinballGame game;
-    late Ball ball;
     late SpaceshipExitRailEnd exitRailEnd;
+    late Ball ball;
+    late Body body;
+    late Fixture fixture;
+    late Filter filterData;
 
     setUp(() {
-      filterData = MockFilter();
-
-      fixture = MockFixture();
-      when(() => fixture.filterData).thenReturn(filterData);
-
-      body = MockBody();
-      when(() => body.fixtures).thenReturn([fixture]);
-
       game = MockPinballGame();
+
+      exitRailEnd = MockSpaceshipExitRailEnd();
 
       ball = MockBall();
       when(() => ball.gameRef).thenReturn(game);
       when(() => ball.body).thenReturn(body);
 
-      exitRailEnd = MockSpaceshipExitRailEnd();
+      body = MockBody();
+      fixture = MockFixture();
+      filterData = MockFilter();
+      when(() => body.fixtures).thenReturn([fixture]);
+      when(() => fixture.filterData).thenReturn(filterData);
     });
 
     group('SpaceshipExitHoleBallContactCallback', () {
