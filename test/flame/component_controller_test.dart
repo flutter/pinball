@@ -16,6 +16,15 @@ void main() {
 
   group('ComponentController', () {
     flameTester.test(
+      'can  be instantiated',
+      (game) async {
+        expect(
+          TestComponentController(Component()),
+          isA<ComponentController>(),
+        );
+      },
+    );
+    flameTester.test(
       'throws AssertionError when not attached to controlled component',
       (game) async {
         final component = Component();
