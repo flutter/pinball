@@ -7,6 +7,7 @@
 import 'package:dashbook/dashbook.dart';
 import 'package:flutter/material.dart';
 import 'package:sandbox/stories/effects/effects.dart';
+import 'package:sandbox/stories/spaceship/spaceship.dart';
 import 'package:sandbox/stories/stories.dart';
 
 void main() {
@@ -15,5 +16,7 @@ void main() {
   addBallStories(dashbook);
   addLayerStories(dashbook);
   addEffectsStories(dashbook);
+  addFlipperStories(dashbook);
+  addSpaceshipStories(dashbook);
   runApp(dashbook);
 }

@@ -26,6 +26,7 @@ flutter:
   generate: true
   assets:
     - assets/images/
+    - assets/images/flipper/
 
 flutter_gen:
   line_length: 80

@@ -3,6 +3,7 @@
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_components/pinball_components.dart';
 
 import '../../helpers/helpers.dart';
 
