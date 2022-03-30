@@ -14,9 +14,10 @@ class FlutterSignPost extends BodyComponent with InitialPosition {
     );
     final spriteComponent = SpriteComponent(
       sprite: sprite,
-      size: Vector2(8.8, 16.5),
+      size: sprite.originalSize / 10,
       anchor: Anchor.bottomCenter,
-    )..position = Vector2(0.65, 0.45);
+      position: Vector2(0.65, 0.45),
+    );
     await add(spriteComponent);
   }
 
