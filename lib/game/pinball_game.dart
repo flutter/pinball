@@ -53,7 +53,13 @@ class PinballGame extends Forge2DGame
         ),
       ),
     );
-    unawaited(addFromBlueprint(SpaceshipExitRail()));
+    unawaited(
+      addFromBlueprint(
+        SpaceshipExitRail(
+          position: Vector2(-32.5, 28),
+        ),
+      ),
+    );
 
     // Fix camera on the center of the board.
     camera

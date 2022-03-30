@@ -5,18 +5,20 @@ import 'dart:ui';
 
 import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 
-/// A [Blueprint] for the spaceship exit rail.
+/// {@template spaceship_exit_rail}
+/// A [Blueprint] for the spaceship drop tube.
+/// {@endtemplate}
 class SpaceshipExitRail extends Forge2DBlueprint {
+  /// {@macro spaceship_exit_rail}
+  SpaceshipExitRail({required this.position});
+
+  /// The [position] where the elements will be created
+  final Vector2 position;
+
   @override
   void build(_) {
-    final position = Vector2(
-      PinballGame.boardBounds.left + 17,
-      PinballGame.boardBounds.center.dy + 26,
-    );
-
     addAllContactCallback([
       SpaceshipExitRailEndBallContactCallback(),
     ]);

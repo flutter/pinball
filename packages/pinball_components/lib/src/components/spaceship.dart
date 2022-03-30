@@ -92,7 +92,7 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
 /// {@endtemplate}
 class AndroidHead extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_bridge}
-  AndroidHead() : super(priority: 3) {
+  AndroidHead() : super(priority: 4) {
     layer = Layer.spaceship;
   }
 
