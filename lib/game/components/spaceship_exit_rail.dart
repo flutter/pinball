@@ -3,17 +3,18 @@
 import 'dart:math' as math;
 import 'dart:ui';
 
+import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/flame/blueprint.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/pinball_components.dart' hide Assets;
 
 /// A [Blueprint] for the spaceship exit rail.
 class SpaceshipExitRail extends Forge2DBlueprint {
   @override
   void build(_) {
     final position = Vector2(
-      PinballGame.boardBounds.left + 17.5,
+      PinballGame.boardBounds.left + 17,
       PinballGame.boardBounds.center.dy + 26,
     );
 
@@ -21,128 +22,125 @@ class SpaceshipExitRail extends Forge2DBlueprint {
       SpaceshipExitRailEndBallContactCallback(),
     ]);
 
-    final spaceshipExitRailTopRamp = _SpaceshipExitRailTopRamp()
+    final spaceshipExitRailRamp = _SpaceshipExitRailRamp()
       ..initialPosition = position;
-    final spaceshipExitRailBottomRamp = _SpaceshipExitRailBottomRamp()
-      ..initialPosition = position + Vector2(2.5, -29.5);
     final exitRail = SpaceshipExitRailEnd()
-      ..initialPosition = position + Vector2(7.5, -60);
+      ..initialPosition = position + _SpaceshipExitRailRamp.exitPoint;
 
     addAll([
-      spaceshipExitRailTopRamp,
-      spaceshipExitRailBottomRamp,
+      spaceshipExitRailRamp,
       exitRail,
     ]);
   }
 }
 
-/// {@template jetpack_ramp}
-/// Represents the upper left blue ramp of the [Board].
-/// {@endtemplate}
-class _SpaceshipExitRailTopRamp extends BodyComponent
+class _SpaceshipExitRailRamp extends BodyComponent
     with InitialPosition, Layered {
-  _SpaceshipExitRailTopRamp() : super(priority: 2) {
+  _SpaceshipExitRailRamp() : super(priority: 2) {
     layer = Layer.spaceshipExitRail;
+    // TODO(ruimiguel): remove color once asset is placed.
     paint = Paint()
-      ..color = const Color.fromARGB(255, 185, 188, 189)
+      ..color = const Color.fromARGB(255, 249, 65, 3)
       ..style = PaintingStyle.stroke;
   }
 
-  /// Width between walls of the ramp.
-  static const width = 5.0;
+  static const width = 5.5;
+
+  static final exitPoint = Vector2(9.2, -48.5);
 
   List<FixtureDef> _createFixtureDefs() {
+    const entranceRotationAngle = 175 * math.pi / 180;
+    const curveRotationAngle = 275 * math.pi / 180;
+    const exitRotationAngle = 340 * math.pi / 180;
+
     final fixturesDef = <FixtureDef>[];
 
-    final leftCurveShape = BezierCurveShape(
-      controlPoints: [
-        Vector2(0, 0),
-        Vector2(15, 0),
-        Vector2(20, 10),
-        Vector2(30, 10),
-      ],
-    )..rotate(275 * math.pi / 180);
-    final leftFixtureDef = FixtureDef(leftCurveShape);
-    fixturesDef.add(leftFixtureDef);
-
-    final rightCurveShape = BezierCurveShape(
-      controlPoints: [
-        Vector2(0, 0 + width),
-        Vector2(15, 0 + width),
-        Vector2(20, 10 + width),
-        Vector2(30, 10 + width),
-      ],
-    )..rotate(275 * math.pi / 180);
-    final rightFixtureDef = FixtureDef(rightCurveShape);
-    fixturesDef.add(rightFixtureDef);
-
     final entranceWall = ArcShape(
-      center: initialPosition + Vector2(35.7, -25.5),
+      center: Vector2(width / 2, 0),
       arcRadius: width / 2,
       angle: math.pi,
-      rotation: 170 * math.pi / 180,
+      rotation: entranceRotationAngle,
     );
     final entranceFixtureDef = FixtureDef(entranceWall);
     fixturesDef.add(entranceFixtureDef);
 
-    return fixturesDef;
-  }
+    final topLeftControlPoints = [
+      Vector2(0, 0),
+      Vector2(10, .5),
+      Vector2(7, 4),
+      Vector2(15.5, 8.3),
+    ];
+    final topLeftCurveShape = BezierCurveShape(
+      controlPoints: topLeftControlPoints,
+    )..rotate(curveRotationAngle);
+    final topLeftFixtureDef = FixtureDef(topLeftCurveShape);
+    fixturesDef.add(topLeftFixtureDef);
 
-  @override
-  Body createBody() {
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition;
+    final topRightControlPoints = [
+      Vector2(0, width),
+      Vector2(10, 6.5),
+      Vector2(7, 10),
+      Vector2(15.5, 13.2),
+    ];
+    final topRightCurveShape = BezierCurveShape(
+      controlPoints: topRightControlPoints,
+    )..rotate(curveRotationAngle);
+    final topRightFixtureDef = FixtureDef(topRightCurveShape);
+    fixturesDef.add(topRightFixtureDef);
 
-    final body = world.createBody(bodyDef);
-    _createFixtureDefs().forEach(body.createFixture);
+    final mediumLeftControlPoints = [
+      topLeftControlPoints.last,
+      Vector2(21, 12.9),
+      Vector2(30, 7.1),
+      Vector2(32, 4.8),
+    ];
+    final mediumLeftCurveShape = BezierCurveShape(
+      controlPoints: mediumLeftControlPoints,
+    )..rotate(curveRotationAngle);
+    final mediumLeftFixtureDef = FixtureDef(mediumLeftCurveShape);
+    fixturesDef.add(mediumLeftFixtureDef);
 
-    return body;
-  }
-}
+    final mediumRightControlPoints = [
+      topRightControlPoints.last,
+      Vector2(21, 17.2),
+      Vector2(30, 12.1),
+      Vector2(32, 10.2),
+    ];
+    final mediumRightCurveShape = BezierCurveShape(
+      controlPoints: mediumRightControlPoints,
+    )..rotate(curveRotationAngle);
+    final mediumRightFixtureDef = FixtureDef(mediumRightCurveShape);
+    fixturesDef.add(mediumRightFixtureDef);
 
-class _SpaceshipExitRailBottomRamp extends BodyComponent
-    with InitialPosition, Layered {
-  _SpaceshipExitRailBottomRamp() : super(priority: 2) {
-    layer = Layer.spaceshipExitRail;
-    paint = Paint()
-      ..color = const Color.fromARGB(255, 185, 188, 189)
-      ..style = PaintingStyle.stroke;
-  }
+    final bottomLeftControlPoints = [
+      mediumLeftControlPoints.last,
+      Vector2(40, -1),
+      Vector2(48, 1.9),
+      Vector2(50.5, 2.5),
+    ];
+    final bottomLeftCurveShape = BezierCurveShape(
+      controlPoints: bottomLeftControlPoints,
+    )..rotate(curveRotationAngle);
+    final bottomLeftFixtureDef = FixtureDef(bottomLeftCurveShape);
+    fixturesDef.add(bottomLeftFixtureDef);
 
-  /// Width between walls of the ramp.
-  static const width = 5.0;
-
-  List<FixtureDef> _createFixtureDefs() {
-    final fixturesDef = <FixtureDef>[];
-
-    final leftCurveShape = BezierCurveShape(
-      controlPoints: [
-        Vector2(0, 10),
-        Vector2(15, 10),
-        Vector2(20, 0),
-        Vector2(30, 0),
-      ],
-    )..rotate(275 * math.pi / 180);
-    final leftFixtureDef = FixtureDef(leftCurveShape);
-    fixturesDef.add(leftFixtureDef);
-
-    final rightCurveShape = BezierCurveShape(
-      controlPoints: [
-        Vector2(0, 10 + width),
-        Vector2(15, 10 + width),
-        Vector2(20, 0 + width),
-        Vector2(30, 0 + width),
-      ],
-    )..rotate(275 * math.pi / 180);
-    final rightFixtureDef = FixtureDef(rightCurveShape);
-    fixturesDef.add(rightFixtureDef);
+    final bottomRightControlPoints = [
+      mediumRightControlPoints.last,
+      Vector2(40, 4),
+      Vector2(46, 6.5),
+      Vector2(48.8, 7.6),
+    ];
+    final bottomRightCurveShape = BezierCurveShape(
+      controlPoints: bottomRightControlPoints,
+    )..rotate(curveRotationAngle);
+    final bottomRightFixtureDef = FixtureDef(bottomRightCurveShape);
+    fixturesDef.add(bottomRightFixtureDef);
 
     final exitWall = ArcShape(
-      center: initialPosition + Vector2(36, -26),
+      center: exitPoint,
       arcRadius: width / 2,
       angle: math.pi,
-      rotation: 350 * math.pi / 180,
+      rotation: exitRotationAngle,
     );
     final exitFixtureDef = FixtureDef(exitWall);
     fixturesDef.add(exitFixtureDef);
