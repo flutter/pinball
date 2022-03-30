@@ -32,7 +32,10 @@ class Spaceship extends Forge2DBlueprint {
       SpaceshipSaucer()..initialPosition = position,
       SpaceshipEntrance()..initialPosition = position,
       AndroidHead()..initialPosition = position,
-      SpaceshipHole()..initialPosition = position - Vector2(5.2, 4.8),
+      SpaceshipHole(
+        onExitLayer: Layer.spaceshipExitRail,
+        onExitElevation: 2,
+      )..initialPosition = position - Vector2(5.2, 4.8),
       SpaceshipHole()..initialPosition = position - Vector2(-7.2, 0.8),
       SpaceshipWall()..initialPosition = position,
     ]);
@@ -44,7 +47,8 @@ class Spaceship extends Forge2DBlueprint {
 /// {@endtemplate}
 class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_saucer}
-  SpaceshipSaucer() : super(priority: 2) {
+  // TODO(ruimiguel): apply Elevated when PR merged.
+  SpaceshipSaucer() : super(priority: 3) {
     layer = Layer.spaceship;
   }
 
@@ -88,7 +92,7 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
 /// {@endtemplate}
 class AndroidHead extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_bridge}
-  AndroidHead() : super(priority: 3) {
+  AndroidHead() : super(priority: 4) {
     layer = Layer.spaceship;
   }
 
@@ -149,6 +153,10 @@ class SpaceshipEntrance extends RampOpening {
     layer = Layer.spaceship;
   }
 
+  /// Priority order for [SpaceshipHole] on enter.
+  // TODO(ruimiguel): apply Elevated when PR merged.
+  final int onEnterElevation = 4;
+
   @override
   Shape get shape {
     renderBody = false;
@@ -169,29 +177,31 @@ class SpaceshipEntrance extends RampOpening {
 
 /// {@template spaceship_hole}
 /// A sensor [BodyComponent] responsible for sending the [Ball]
-/// back to the board.
+/// out from the [Spaceship].
 /// {@endtemplate}
-class SpaceshipHole extends BodyComponent with InitialPosition, Layered {
+class SpaceshipHole extends RampOpening {
   /// {@macro spaceship_hole}
-  SpaceshipHole() {
+  SpaceshipHole({Layer? onExitLayer, this.onExitElevation = 1})
+      : super(
+          pathwayLayer: Layer.spaceship,
+          outsideLayer: onExitLayer,
+          orientation: RampOrientation.up,
+        ) {
     layer = Layer.spaceship;
   }
 
+  /// Priority order for [SpaceshipHole] on exit.
+  // TODO(ruimiguel): apply Elevated when PR merged.
+  final int onExitElevation;
+
   @override
-  Body createBody() {
-    renderBody = false;
-    final shape = ArcShape(center: Vector2(-3.5, 2), arcRadius: 6, angle: 1);
-
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition
-      ..angle = 5.2
-      ..type = BodyType.static;
-
-    return world.createBody(bodyDef)
-      ..createFixture(
-        FixtureDef(shape)..isSensor = true,
-      );
+  Shape get shape {
+    return ArcShape(
+      center: Vector2(0, 4.2),
+      arcRadius: 6,
+      angle: 1,
+      rotation: 60 * pi / 180,
+    );
   }
 }
 
@@ -225,6 +235,7 @@ class _SpaceshipWallShape extends ChainShape {
 /// {@endtemplate}
 class SpaceshipWall extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_wall}
+  // TODO(ruimiguel): apply Elevated when PR merged
   SpaceshipWall() : super(priority: 4) {
     layer = Layer.spaceship;
   }
@@ -258,7 +269,8 @@ class SpaceshipEntranceBallContactCallback
   @override
   void begin(SpaceshipEntrance entrance, Ball ball, _) {
     ball
-      ..priority = 3
+      // TODO(ruimiguel): apply Elevated when PR merged.
+      ..priority = entrance.onEnterElevation
       ..gameRef.reorderChildren()
       ..layer = Layer.spaceship;
   }
@@ -267,15 +279,16 @@ class SpaceshipEntranceBallContactCallback
 /// [ContactCallback] that handles the contact between the [Ball]
 /// and a [SpaceshipHole].
 ///
-/// It resets the [Ball] priority and filter data so it will "be back" on the
+/// It sets the [Ball] priority and filter data so it will "be back" on the
 /// board.
 class SpaceshipHoleBallContactCallback
     extends ContactCallback<SpaceshipHole, Ball> {
   @override
   void begin(SpaceshipHole hole, Ball ball, _) {
     ball
-      ..priority = 1
+      // TODO(ruimiguel): apply Elevated when PR merged.
+      ..priority = hole.onExitElevation
       ..gameRef.reorderChildren()
-      ..layer = Layer.board;
+      ..layer = hole.outsideLayer;
   }
 }

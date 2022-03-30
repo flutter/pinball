@@ -114,7 +114,7 @@ class _JetpackRampOpening extends RampOpening {
 
   final double _rotation;
 
-  static final Vector2 _size = Vector2(JetpackRamp.width / 3, .1);
+  static final Vector2 _size = Vector2(JetpackRamp.width / 4, .1);
 
   @override
   Shape get shape => PolygonShape()
