@@ -134,6 +134,9 @@ abstract class DashNestBumper extends BodyComponent<PinballGame>
     await super.onLoad();
     await _loadSprites();
 
+    // TODO(alestiago): Look into using onNewState instead.
+    // onNewState(gameRef.read<GameState>());
+    // Exception: build context is not available yet
     deactivate();
     await add(_spriteComponent);
   }
