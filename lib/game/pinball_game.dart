@@ -101,7 +101,7 @@ class PinballGame extends Forge2DGame
   }
 
   void spawnBall() {
-    final ball = PlungerBall(
+    final ball = ControlledBall.launch(
       theme: theme,
       plunger: plunger,
     );
@@ -138,7 +138,7 @@ class DebugPinballGame extends PinballGame with TapDetector {
   @override
   void onTapUp(TapUpInfo info) {
     add(
-      DebugBall()..initialPosition = info.eventPosition.game,
+      ControlledBall.debug()..initialPosition = info.eventPosition.game,
     );
   }
 }

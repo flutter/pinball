@@ -10,58 +10,40 @@ import 'package:pinball_theme/pinball_theme.dart';
 /// {@template controlled_ball}
 /// A [Ball] with a [BallController] attached.
 /// {@endtemplate}
-abstract class _ControlledBall<T extends BallController> extends Ball
-    with Controls<T> {
-  _ControlledBall({required Color baseColor}) : super(baseColor: baseColor);
-}
+class ControlledBall extends Ball with Controls<BallController> {
+  /// {@macro controlled_ball}
+  ControlledBall({required Color baseColor}) : super(baseColor: baseColor);
 
-/// {@template plunger_ball}
-/// A [Ball] that starts at the [Plunger].
-///
-/// When a [PlungerBall] is lost, it will decrease the [GameState.balls] count,
-/// and a new [PlungerBall] is spawned if it's possible.
-/// {@endtemplate}
-class PlungerBall extends _ControlledBall<PlungerBallController> {
-  /// {@macro plunger_ball}
-  PlungerBall({
+  /// A [Ball] that starts at the [Plunger].
+  ///
+  /// When a launched [Ball] is lost, it will decrease the [GameState.balls]
+  /// count, and a new [Ball] is spawned at the [Plunger].
+  ControlledBall.launch({
     required PinballTheme theme,
     required Plunger plunger,
   }) : super(baseColor: theme.characterTheme.ballColor) {
-    // TODO(alestiago): Dicuss if this is a good idea.
     initialPosition = Vector2(
       plunger.body.position.x,
       plunger.body.position.y + Ball.size.y,
     );
+    controller = PlungerBallController(this);
   }
 
-  @override
-  PlungerBallController controllerBuilder() => PlungerBallController(this);
-}
-
-/// {@template bonus_ball}
-/// {@macro controlled_ball}
-///
-/// When a [BonusBall] is lost, the [GameState.balls] doesn't change.
-/// {@endtemplate}
-class BonusBall extends _ControlledBall<BallController> {
-  /// {@macro bonus_ball}
-  BonusBall({
+  /// {@template bonus_ball}
+  /// {@macro controlled_ball}
+  ///
+  /// When a bonus [Ball] is lost, the [GameState.balls] doesn't change.
+  /// {@endtemplate}
+  ControlledBall.bonus({
     required PinballTheme theme,
-  }) : super(baseColor: theme.characterTheme.ballColor);
+  }) : super(baseColor: theme.characterTheme.ballColor) {
+    controller = BallController(this);
+  }
 
-  @override
-  BallController controllerBuilder() => BallController(this);
-}
-
-/// {@template debug_ball}
-/// [Ball] used in [DebugPinballGame].
-/// {@endtemplate}
-class DebugBall extends _ControlledBall<BallController> {
-  /// {@macro debug_ball}
-  DebugBall() : super(baseColor: const Color(0xFFFF0000));
-
-  @override
-  BallController controllerBuilder() => BallController(this);
+  /// [Ball] used in [DebugPinballGame].
+  ControlledBall.debug() : super(baseColor: const Color(0xFFFF0000)) {
+    controller = BallController(this);
+  }
 }
 
 /// {@template ball_controller}

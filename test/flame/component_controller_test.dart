@@ -12,10 +12,9 @@ class TestComponentController extends ComponentController {
 
 class ControlledComponent extends Component
     with Controls<TestComponentController> {
-  ControlledComponent() : super();
-
-  @override
-  TestComponentController controllerBuilder() => TestComponentController(this);
+  ControlledComponent() : super() {
+    controller = TestComponentController(this);
+  }
 }
 
 void main() {

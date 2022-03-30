@@ -8,10 +8,11 @@ import 'package:pinball_components/pinball_components.dart';
 /// {@endtemplate}
 class ControlledFlipper extends Flipper with Controls<FlipperController> {
   /// {@macro controlled_flipper}
-  ControlledFlipper({required BoardSide side}) : super(side: side);
-
-  @override
-  FlipperController controllerBuilder() => FlipperController(this);
+  ControlledFlipper({
+    required BoardSide side,
+  }) : super(side: side) {
+    controller = FlipperController(this);
+  }
 }
 
 /// {@template flipper_controller}
