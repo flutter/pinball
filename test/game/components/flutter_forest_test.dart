@@ -25,6 +25,22 @@ void main() {
       },
     );
 
+    group('loads', () {
+      flameTester.test(
+        'a FlutterSignPost',
+        (game) async {
+          await game.ready();
+          final flutterForest = FlutterForest();
+          await game.ensureAdd(flutterForest);
+
+          expect(
+            game.descendants().whereType<FlutterSignPost>().length,
+            equals(1),
+          );
+        },
+      );
+    });
+
     flameTester.test(
       'onNewState adds a new ball',
       (game) async {
