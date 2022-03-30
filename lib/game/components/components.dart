@@ -10,4 +10,5 @@ export 'kicker.dart';
 export 'launcher_ramp.dart';
 export 'plunger.dart';
 export 'score_points.dart';
+export 'spaceship_exit_rail.dart';
 export 'wall.dart';
