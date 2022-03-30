@@ -16,7 +16,7 @@ class Spaceship extends Forge2DBlueprint {
   Spaceship({required this.position});
 
   /// Total size of the spaceship.
-  static final size = Vector2(24, 18);
+  static final size = Vector2(25, 19);
 
   /// The [position] where the elements will be created
   final Vector2 position;
@@ -32,8 +32,8 @@ class Spaceship extends Forge2DBlueprint {
       SpaceshipSaucer()..initialPosition = position,
       SpaceshipEntrance()..initialPosition = position,
       AndroidHead()..initialPosition = position,
-      SpaceshipHole()..initialPosition = position - Vector2(4.8, 4.2),
-      SpaceshipHole()..initialPosition = position - Vector2(-7.2, 0.6),
+      SpaceshipHole()..initialPosition = position - Vector2(5.2, 4.8),
+      SpaceshipHole()..initialPosition = position - Vector2(-7.2, 0.8),
       SpaceshipWall()..initialPosition = position,
     ]);
   }
@@ -180,16 +180,17 @@ class SpaceshipHole extends BodyComponent with InitialPosition, Layered {
   @override
   Body createBody() {
     renderBody = false;
-    final circleShape = CircleShape()..radius = 1.5;
+    final shape = ArcShape(center: Vector2(-3.5, 2), arcRadius: 6, angle: 1);
 
     final bodyDef = BodyDef()
       ..userData = this
       ..position = initialPosition
+      ..angle = 5.2
       ..type = BodyType.static;
 
     return world.createBody(bodyDef)
       ..createFixture(
-        FixtureDef(circleShape)..isSensor = true,
+        FixtureDef(shape)..isSensor = true,
       );
   }
 }
