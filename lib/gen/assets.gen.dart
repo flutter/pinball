@@ -15,25 +15,8 @@ class $AssetsImagesGen {
 class $AssetsImagesComponentsGen {
   const $AssetsImagesComponentsGen();
 
-  AssetGenImage get flipper =>
-      const AssetGenImage('assets/images/components/flipper.png');
-  $AssetsImagesComponentsSpaceshipGen get spaceship =>
-      const $AssetsImagesComponentsSpaceshipGen();
-}
-
-class $AssetsImagesComponentsSpaceshipGen {
-  const $AssetsImagesComponentsSpaceshipGen();
-
-  AssetGenImage get androidBottom => const AssetGenImage(
-      'assets/images/components/spaceship/android-bottom.png');
-  AssetGenImage get androidTop =>
-      const AssetGenImage('assets/images/components/spaceship/android-top.png');
-  AssetGenImage get lower =>
-      const AssetGenImage('assets/images/components/spaceship/lower.png');
-  AssetGenImage get saucer =>
-      const AssetGenImage('assets/images/components/spaceship/saucer.png');
-  AssetGenImage get upper =>
-      const AssetGenImage('assets/images/components/spaceship/upper.png');
+  AssetGenImage get background =>
+      const AssetGenImage('assets/images/components/background.png');
 }
 
 class Assets {

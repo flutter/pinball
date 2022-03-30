@@ -3,6 +3,7 @@
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_components/pinball_components.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -84,6 +85,18 @@ void main() {
 
           final flutterForest = board.descendants().whereType<FlutterForest>();
           expect(flutterForest.length, equals(1));
+        },
+      );
+
+      flameTester.test(
+        'has one ChromeDino',
+        (game) async {
+          final board = Board();
+          await game.ready();
+          await game.ensureAdd(board);
+
+          final chromeDino = board.descendants().whereType<ChromeDino>();
+          expect(chromeDino.length, equals(1));
         },
       );
     });

@@ -29,6 +29,7 @@ void main() {
     group('listenWhen', () {
       final previousState = MockGameState();
       final currentState = MockGameState();
+
       test(
         'returns true when there is a new word bonus awarded',
         () {

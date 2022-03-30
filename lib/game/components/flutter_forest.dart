@@ -6,7 +6,6 @@ import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
-import 'package:pinball/flame/blueprint.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
@@ -35,6 +34,7 @@ class FlutterForest extends Component
     gameRef.addFromBlueprint(
       BallBlueprint(
         position: Vector2(17.2, 52.7),
+        type: BallType.extra,
       ),
     );
   }
