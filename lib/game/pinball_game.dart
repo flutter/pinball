@@ -103,8 +103,10 @@ class PinballGame extends Forge2DGame
   void spawnBall() {
     final ball = ControlledBall.launch(
       theme: theme,
-      plunger: plunger,
-    );
+    )..initialPosition = Vector2(
+        plunger.body.position.x,
+        plunger.body.position.y + Ball.size.y,
+      );
     add(ball);
   }
 }

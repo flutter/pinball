@@ -17,12 +17,7 @@ class ControlledBall extends Ball with Controls<BallController> {
   /// count, and a new [Ball] is spawned at the [Plunger].
   ControlledBall.launch({
     required PinballTheme theme,
-    required Plunger plunger,
   }) : super(baseColor: theme.characterTheme.ballColor) {
-    initialPosition = Vector2(
-      plunger.body.position.x,
-      plunger.body.position.y + Ball.size.y,
-    );
     controller = LaunchedBallController(this);
   }
 
