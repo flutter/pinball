@@ -45,16 +45,15 @@ class _SpaceshipExitRailRamp extends BodyComponent
       ..style = PaintingStyle.stroke;
   }
 
-  static const width = 5.5;
-
   static final exitPoint = Vector2(9.2, -48.5);
 
   List<FixtureDef> _createFixtureDefs() {
     const entranceRotationAngle = 175 * math.pi / 180;
     const curveRotationAngle = 275 * math.pi / 180;
     const exitRotationAngle = 340 * math.pi / 180;
+    const width = 5.5;
 
-    final fixturesDef = <FixtureDef>[];
+    final fixturesDefs = <FixtureDef>[];
 
     final entranceWall = ArcShape(
       center: Vector2(width / 2, 0),
@@ -63,7 +62,7 @@ class _SpaceshipExitRailRamp extends BodyComponent
       rotation: entranceRotationAngle,
     );
     final entranceFixtureDef = FixtureDef(entranceWall);
-    fixturesDef.add(entranceFixtureDef);
+    fixturesDefs.add(entranceFixtureDef);
 
     final topLeftControlPoints = [
       Vector2(0, 0),
@@ -75,7 +74,7 @@ class _SpaceshipExitRailRamp extends BodyComponent
       controlPoints: topLeftControlPoints,
     )..rotate(curveRotationAngle);
     final topLeftFixtureDef = FixtureDef(topLeftCurveShape);
-    fixturesDef.add(topLeftFixtureDef);
+    fixturesDefs.add(topLeftFixtureDef);
 
     final topRightControlPoints = [
       Vector2(0, width),
@@ -87,7 +86,7 @@ class _SpaceshipExitRailRamp extends BodyComponent
       controlPoints: topRightControlPoints,
     )..rotate(curveRotationAngle);
     final topRightFixtureDef = FixtureDef(topRightCurveShape);
-    fixturesDef.add(topRightFixtureDef);
+    fixturesDefs.add(topRightFixtureDef);
 
     final mediumLeftControlPoints = [
       topLeftControlPoints.last,
@@ -99,7 +98,7 @@ class _SpaceshipExitRailRamp extends BodyComponent
       controlPoints: mediumLeftControlPoints,
     )..rotate(curveRotationAngle);
     final mediumLeftFixtureDef = FixtureDef(mediumLeftCurveShape);
-    fixturesDef.add(mediumLeftFixtureDef);
+    fixturesDefs.add(mediumLeftFixtureDef);
 
     final mediumRightControlPoints = [
       topRightControlPoints.last,
@@ -111,7 +110,7 @@ class _SpaceshipExitRailRamp extends BodyComponent
       controlPoints: mediumRightControlPoints,
     )..rotate(curveRotationAngle);
     final mediumRightFixtureDef = FixtureDef(mediumRightCurveShape);
-    fixturesDef.add(mediumRightFixtureDef);
+    fixturesDefs.add(mediumRightFixtureDef);
 
     final bottomLeftControlPoints = [
       mediumLeftControlPoints.last,
@@ -123,7 +122,7 @@ class _SpaceshipExitRailRamp extends BodyComponent
       controlPoints: bottomLeftControlPoints,
     )..rotate(curveRotationAngle);
     final bottomLeftFixtureDef = FixtureDef(bottomLeftCurveShape);
-    fixturesDef.add(bottomLeftFixtureDef);
+    fixturesDefs.add(bottomLeftFixtureDef);
 
     final bottomRightControlPoints = [
       mediumRightControlPoints.last,
@@ -135,7 +134,7 @@ class _SpaceshipExitRailRamp extends BodyComponent
       controlPoints: bottomRightControlPoints,
     )..rotate(curveRotationAngle);
     final bottomRightFixtureDef = FixtureDef(bottomRightCurveShape);
-    fixturesDef.add(bottomRightFixtureDef);
+    fixturesDefs.add(bottomRightFixtureDef);
 
     final exitWall = ArcShape(
       center: exitPoint,
@@ -144,9 +143,9 @@ class _SpaceshipExitRailRamp extends BodyComponent
       rotation: exitRotationAngle,
     );
     final exitFixtureDef = FixtureDef(exitWall);
-    fixturesDef.add(exitFixtureDef);
+    fixturesDefs.add(exitFixtureDef);
 
-    return fixturesDef;
+    return fixturesDefs;
   }
 
   @override
