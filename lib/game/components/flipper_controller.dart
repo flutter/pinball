@@ -3,6 +3,17 @@ import 'package:flutter/services.dart';
 import 'package:pinball/flame/flame.dart';
 import 'package:pinball_components/pinball_components.dart';
 
+/// {@template controlled_flipper}
+/// A [Flipper] with a [FlipperController] attached.
+/// {@endtemplate}
+class ControlledFlipper extends Flipper with Controls<FlipperController> {
+  /// {@macro controlled_flipper}
+  ControlledFlipper({required BoardSide side}) : super(side: side);
+
+  @override
+  FlipperController controllerBuilder() => FlipperController(this);
+}
+
 /// {@template flipper_controller}
 /// A [ComponentController] that controls a [Flipper]s movement.
 /// {@endtemplate}

@@ -37,36 +37,5 @@ void main() {
         );
       },
     );
-
-    group('attach', () {
-      flameTester.test(
-        'adds component controller to controlled component',
-        (game) async {
-          final component = Component();
-          final controller = TestComponentController(component);
-
-          await controller.attach();
-          await game.add(component);
-          await game.ready();
-
-          expect(component.contains(controller), isTrue);
-        },
-      );
-
-      flameTester.test(
-        "doesn't fail when already has a parent",
-        (game) async {
-          final component = Component();
-          final controller = TestComponentController(component);
-
-          await controller.attach();
-
-          await expectLater(
-            () async => controller.attach(),
-            returnsNormally,
-          );
-        },
-      );
-    });
   });
 }

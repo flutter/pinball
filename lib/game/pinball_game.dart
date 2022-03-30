@@ -101,13 +101,7 @@ class PinballGame extends Forge2DGame
   }
 
   void spawnBall() {
-    final ball = Ball(
-      baseColor: theme.characterTheme.ballColor,
-    )..initialPosition = Vector2(
-        plunger.body.position.x,
-        plunger.body.position.y + Ball.size.y,
-      );
-    PlungerBallController(ball).attach();
+    final ball = PlungerBall(this, plunger: plunger);
     add(ball);
   }
 }
@@ -140,9 +134,8 @@ class DebugPinballGame extends PinballGame with TapDetector {
 
   @override
   void onTapUp(TapUpInfo info) {
-    final ball = Ball(baseColor: const Color(0xFFFF0000))
-      ..initialPosition = info.eventPosition.game;
-    BallController(ball).attach();
-    add(ball);
+    add(
+      DebugBall()..initialPosition = info.eventPosition.game,
+    );
   }
 }

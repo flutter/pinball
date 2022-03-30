@@ -23,9 +23,23 @@ abstract class ComponentController<T extends Component> extends Component {
     );
     await super.addToParent(parent);
   }
+}
 
-  /// Ads the [ComponentController] to its [component].
-  Future<void> attach() async {
-    if (parent == null) await component.add(this);
+/// {@template controller}
+/// Mixin that attaches a single [ComponentController] to a [Component].
+/// {@endtemplate}
+mixin Controls<T extends ComponentController> on Component {
+  /// Builds a [ComponentController] for this [Component].
+  ///
+  /// **Note**: This method should not be directly called.
+  T controllerBuilder();
+
+  /// The [ComponentController] attached to this [Component].
+  late final T controller;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    await add(controller = controllerBuilder());
   }
 }

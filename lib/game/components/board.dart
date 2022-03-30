@@ -94,10 +94,9 @@ class _BottomGroupSide extends Component {
   Future<void> onLoad() async {
     final direction = _side.direction;
 
-    final flipper = Flipper(
+    final flipper = ControlledFlipper(
       side: _side,
     )..initialPosition = _position;
-    await FlipperController(flipper).attach();
 
     final baseboard = Baseboard(side: _side)
       ..initialPosition = _position +

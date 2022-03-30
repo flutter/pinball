@@ -32,11 +32,9 @@ class FlutterForest extends Component
   void onNewState(GameState state) {
     super.onNewState(state);
 
-    final ball = Ball(
-      baseColor: gameRef.theme.characterTheme.ballColor,
-    )..initialPosition = Vector2(17.2, 52.7);
-    BallController(ball).attach();
-    gameRef.add(ball);
+    add(
+      BonusBall(gameRef)..initialPosition = Vector2(17.2, 52.7),
+    );
   }
 
   @override
