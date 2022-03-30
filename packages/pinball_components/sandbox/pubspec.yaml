@@ -8,8 +8,8 @@ environment:
 
 dependencies:
   dashbook: ^0.1.7
-  flame: ^1.1.0-releasecandidate.6
-  flame_forge2d: ^0.9.0-releasecandidate.6
+  flame: ^1.1.0
+  flame_forge2d: ^0.10.0
   flutter:
     sdk: flutter
   pinball_components:
