@@ -3,8 +3,9 @@
 import 'dart:math' as math;
 import 'dart:ui';
 
-import 'package:flame/extensions.dart';
+import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:pinball/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 
 /// {@template spaceship_exit_rail}
@@ -27,10 +28,15 @@ class SpaceshipExitRail extends Forge2DBlueprint {
       ..initialPosition = position;
     final exitRail = SpaceshipExitRailEnd()
       ..initialPosition = position + _SpaceshipExitRailRamp.exitPoint;
-
+    final topBase = _SpaceshipExitRailBase(radius: 0.55)
+      ..initialPosition = position + Vector2(12, -11.5);
+    final bottomBase = _SpaceshipExitRailBase(radius: 0.8)
+      ..initialPosition = position + Vector2(12.8, -43.5);
     addAll([
       spaceshipExitRailRamp,
       exitRail,
+      topBase,
+      bottomBase,
     ]);
   }
 }
@@ -38,11 +44,8 @@ class SpaceshipExitRail extends Forge2DBlueprint {
 class _SpaceshipExitRailRamp extends BodyComponent
     with InitialPosition, Layered {
   _SpaceshipExitRailRamp() : super(priority: 2) {
+    renderBody = false;
     layer = Layer.spaceshipExitRail;
-    // TODO(ruimiguel): remove color once asset is placed.
-    paint = Paint()
-      ..color = const Color.fromARGB(255, 249, 65, 3)
-      ..style = PaintingStyle.stroke;
   }
 
   static final exitPoint = Vector2(9.2, -48.5);
@@ -159,6 +162,50 @@ class _SpaceshipExitRailRamp extends BodyComponent
 
     return body;
   }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    await _loadBackground();
+  }
+
+  Future<void> _loadBackground() async {
+    final sprite = await gameRef.loadSprite(
+      Assets.images.components.spaceshipDropTube.path,
+    );
+    final spriteComponent = SpriteComponent(
+      sprite: sprite,
+      size: Vector2(17.5, 55.7),
+      anchor: Anchor.center,
+    )
+      ..position = Vector2(8.7, 24.5)
+      ..priority = 2;
+
+    await add(spriteComponent);
+  }
+}
+
+class _SpaceshipExitRailBase extends BodyComponent
+    with InitialPosition, Layered {
+  _SpaceshipExitRailBase({required this.radius}) : super(priority: 5) {
+    layer = Layer.board;
+  }
+
+  final double radius;
+
+  @override
+  Body createBody() {
+    final shape = CircleShape()..radius = radius;
+
+    final fixtureDef = FixtureDef(shape);
+
+    final bodyDef = BodyDef()
+      ..position = initialPosition
+      ..userData = this
+      ..type = BodyType.static;
+
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
+  }
 }
 
 /// {@template spaceship_exit_rail_end}
@@ -172,6 +219,7 @@ class SpaceshipExitRailEnd extends RampOpening {
           pathwayLayer: Layer.spaceshipExitRail,
           orientation: RampOrientation.down,
         ) {
+    renderBody = false;
     layer = Layer.spaceshipExitRail;
   }
 
