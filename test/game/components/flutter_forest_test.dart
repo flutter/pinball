@@ -136,9 +136,16 @@ void main() {
   });
 
   group('SmallDashNestBumper', () {
-    test('has points', () {
-      final dashNestBumper = SmallDashNestBumper(id: '');
-      expect(dashNestBumper.points, greaterThan(0));
+    group('has points', () {
+      test('when a', () {
+        final dashNestBumper = SmallDashNestBumper.a(id: '');
+        expect(dashNestBumper.points, greaterThan(0));
+      });
+
+      test('when b', () {
+        final dashNestBumper = SmallDashNestBumper.b(id: '');
+        expect(dashNestBumper.points, greaterThan(0));
+      });
     });
   });
 }
