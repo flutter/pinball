@@ -11,10 +11,10 @@ import 'package:pinball_theme/pinball_theme.dart';
 /// A [Ball] with a [BallController] attached.
 /// {@endtemplate}
 class ControlledBall extends Ball with Controls<BallController> {
-  /// A [Ball] that starts at the [Plunger].
+  /// A [Ball] that launches from the [Plunger].
   ///
   /// When a launched [Ball] is lost, it will decrease the [GameState.balls]
-  /// count, and a new [Ball] is spawned at the [Plunger].
+  /// count, and a new [Ball] is spawned.
   ControlledBall.launch({
     required PinballTheme theme,
   }) : super(baseColor: theme.characterTheme.ballColor) {
