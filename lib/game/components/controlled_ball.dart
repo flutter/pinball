@@ -67,12 +67,11 @@ class LaunchedBallController extends BallController
   /// {@macro ball_controller}
   LaunchedBallController(Ball<Forge2DGame> ball) : super(ball);
 
-  @override
-
   /// Removes the [Ball] from a [PinballGame]; spawning a new [Ball] if
   /// any are left.
   ///
   /// {@macro ball_controller_lost}
+  @override
   void lost() {
     super.lost();
     final bloc = gameRef.read<GameBloc>()..add(const BallLost());
