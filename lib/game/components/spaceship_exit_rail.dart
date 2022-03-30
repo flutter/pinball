@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_renaming_method_parameters
 
 import 'dart:math' as math;
-import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
