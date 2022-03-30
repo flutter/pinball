@@ -62,7 +62,7 @@ void main() {
         'removes ball',
         (game, tester) async {
           await game.add(ball);
-          final controller = PlungerBallController(ball);
+          final controller = LaunchedBallController(ball);
           await ball.add(controller);
           await game.ready();
 
@@ -76,7 +76,7 @@ void main() {
       tester.widgetTest(
         'adds BallLost to GameBloc',
         (game, tester) async {
-          final controller = PlungerBallController(ball);
+          final controller = LaunchedBallController(ball);
           await ball.add(controller);
           await game.add(ball);
           await game.ready();
@@ -90,7 +90,7 @@ void main() {
       tester.widgetTest(
         'adds a new ball if the game is not over',
         (game, tester) async {
-          final controller = PlungerBallController(ball);
+          final controller = LaunchedBallController(ball);
           await ball.add(controller);
           await game.add(ball);
           await game.ready();
