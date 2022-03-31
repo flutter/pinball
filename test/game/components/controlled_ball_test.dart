@@ -95,15 +95,12 @@ void main() {
           await game.add(ball);
           await game.ready();
 
-          final previousBalls = game.descendants().whereType<Ball>();
+          final previousBalls = game.descendants().whereType<Ball>().length;
           controller.lost();
           await game.ready();
-          final currentBalls = game.descendants().whereType<Ball>();
+          final currentBalls = game.descendants().whereType<Ball>().length;
 
-          expect(
-            previousBalls.length,
-            equals(currentBalls.length),
-          );
+          expect(previousBalls, equals(currentBalls));
         },
       );
 
@@ -126,16 +123,14 @@ void main() {
           await game.add(ball);
           await game.ready();
 
-          final previousBalls = game.descendants().whereType<Ball>();
+          final previousBalls = game.descendants().whereType<Ball>().toList();
           controller.lost();
           await game.ready();
-          final currentBalls = game.descendants().whereType<Ball>();
+          final currentBalls = game.descendants().whereType<Ball>().length;
 
           expect(
-            currentBalls.length,
-            equals(
-              (previousBalls.toList()..remove(ball)).length,
-            ),
+            currentBalls,
+            equals((previousBalls..remove(ball)).length),
           );
         },
       );
