@@ -48,8 +48,9 @@ void main() {
       final canvas = MockCanvas();
       effect.render(canvas);
 
-      verify(() => canvas.drawCircle(any(), any(), any()))
-          .called(greaterThan(0));
+      verify(() => canvas.drawCircle(any(), any(), any())).called(
+        greaterThan(0),
+      );
     });
   });
 }
