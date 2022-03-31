@@ -38,7 +38,7 @@ void main() {
     );
   });
 
-  group('PlungerBallController', () {
+  group('LaunchedBallController', () {
     group('lost', () {
       late GameBloc gameBloc;
       late Ball ball;
