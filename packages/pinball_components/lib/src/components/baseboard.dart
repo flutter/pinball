@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
 
@@ -12,9 +13,6 @@ class Baseboard extends BodyComponent with InitialPosition {
     required BoardSide side,
   }) : _side = side;
 
-  /// The size of the [Baseboard].
-  static final size = Vector2(24.2, 13.5);
-
   /// Whether the [Baseboard] is on the left or right side of the board.
   final BoardSide _side;
 
@@ -24,50 +22,55 @@ class Baseboard extends BodyComponent with InitialPosition {
     final arcsAngle = -1.11 * direction;
     const arcsRotation = math.pi / 2.08;
 
+    final pegBumperShape = CircleShape()..radius = 0.7;
+    pegBumperShape.position.setValues(11.11 * direction, 7.15);
+    final pegBumperFixtureDef = FixtureDef(pegBumperShape);
+    fixturesDef.add(pegBumperFixtureDef);
+
     final topCircleShape = CircleShape()..radius = 0.7;
-    topCircleShape.position.setValues(11.39 * direction, 6.05);
+    topCircleShape.position.setValues(9.71 * direction, 4.95);
     final topCircleFixtureDef = FixtureDef(topCircleShape);
     fixturesDef.add(topCircleFixtureDef);
 
     final innerEdgeShape = EdgeShape()
       ..set(
-        Vector2(10.86 * direction, 6.45),
-        Vector2(6.96 * direction, 0.25),
+        Vector2(9.01 * direction, 5.35),
+        Vector2(5.29 * direction, -0.95),
       );
     final innerEdgeShapeFixtureDef = FixtureDef(innerEdgeShape);
     fixturesDef.add(innerEdgeShapeFixtureDef);
 
     final outerEdgeShape = EdgeShape()
       ..set(
-        Vector2(11.96 * direction, 5.85),
-        Vector2(5.48 * direction, -4.85),
+        Vector2(10.41 * direction, 4.75),
+        Vector2(3.79 * direction, -5.95),
       );
     final outerEdgeShapeFixtureDef = FixtureDef(outerEdgeShape);
     fixturesDef.add(outerEdgeShapeFixtureDef);
 
     final upperArcShape = ArcShape(
-      center: Vector2(1.76 * direction, 3.25),
+      center: Vector2(0.09 * direction, 2.15),
       arcRadius: 6.1,
       angle: arcsAngle,
       rotation: arcsRotation,
     );
-    final upperArcFixtureDefs = FixtureDef(upperArcShape);
-    fixturesDef.add(upperArcFixtureDefs);
+    final upperArcFixtureDef = FixtureDef(upperArcShape);
+    fixturesDef.add(upperArcFixtureDef);
 
     final lowerArcShape = ArcShape(
-      center: Vector2(1.85 * direction, -2.15),
+      center: Vector2(0.09 * direction, -3.35),
       arcRadius: 4.5,
       angle: arcsAngle,
       rotation: arcsRotation,
     );
-    final lowerArcFixtureDefs = FixtureDef(lowerArcShape);
-    fixturesDef.add(lowerArcFixtureDefs);
+    final lowerArcFixtureDef = FixtureDef(lowerArcShape);
+    fixturesDef.add(lowerArcFixtureDef);
 
     final bottomRectangle = PolygonShape()
       ..setAsBox(
-        7,
+        6.8,
         2,
-        Vector2(-5.14 * direction, -4.75),
+        Vector2(-6.3 * direction, -5.85),
         0,
       );
     final bottomRectangleFixtureDef = FixtureDef(bottomRectangle);
@@ -77,10 +80,30 @@ class Baseboard extends BodyComponent with InitialPosition {
   }
 
   @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+
+    final sprite = await gameRef.loadSprite(
+      (_side.isLeft)
+          ? Assets.images.baseboard.left.keyName
+          : Assets.images.baseboard.right.keyName,
+    );
+
+    await add(
+      SpriteComponent(
+        sprite: sprite,
+        size: Vector2(27.5, 17.9),
+        anchor: Anchor.center,
+        position: Vector2(_side.isLeft ? 0.4 : -0.4, 0),
+      ),
+    );
+
+    renderBody = false;
+  }
+
+  @override
   Body createBody() {
-    // TODO(allisonryan0002): share sweeping angle with flipper when components
-    // are grouped.
-    const angle = math.pi / 5;
+    const angle = 37.1 * (math.pi / 180);
 
     final bodyDef = BodyDef()
       ..position = initialPosition

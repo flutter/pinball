@@ -68,7 +68,7 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
       anchor: anchor,
     );
     final joint = _FlipperJoint(jointDef);
-    world.createJoint2(joint);
+    world.createJoint(joint);
     unawaited(mounted.whenComplete(joint.unlock));
   }
 
@@ -217,17 +217,5 @@ class _FlipperJoint extends RevoluteJoint {
   void unlock() {
     const angle = _sweepingAngle / 2;
     setLimits(-angle, angle);
-  }
-}
-
-// TODO(alestiago): Remove once Forge2D supports custom joints.
-extension on World {
-  void createJoint2(Joint joint) {
-    assert(!isLocked, '');
-
-    joints.add(joint);
-
-    joint.bodyA.joints.add(joint);
-    joint.bodyB.joints.add(joint);
   }
 }

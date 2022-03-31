@@ -3,13 +3,16 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
+
+import '../../helpers/helpers.dart';
 
 void main() {
   group('Baseboard', () {
+    // TODO(allisonryan0002): Add golden tests.
+
     TestWidgetsFlutterBinding.ensureInitialized();
-    final flameTester = FlameTester(Forge2DGame.new);
+    final flameTester = FlameTester(TestGame.new);
 
     flameTester.test(
       'loads correctly',
@@ -62,14 +65,14 @@ void main() {
 
     group('fixtures', () {
       flameTester.test(
-        'has six',
+        'has seven',
         (game) async {
           final baseboard = Baseboard(
             side: BoardSide.left,
           );
           await game.ensureAdd(baseboard);
 
-          expect(baseboard.body.fixtures.length, equals(6));
+          expect(baseboard.body.fixtures.length, equals(7));
         },
       );
     });
