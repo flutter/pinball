@@ -66,12 +66,9 @@ class PinballGame extends Forge2DGame
   Future<void> _addGameBoundaries() async {
     await add(BottomWall());
     createBoundaries(this).forEach(add);
-    await add(
-      DinoTopWall()..initialPosition = Vector2(-2.4, 0),
-    );
-    await add(
-      DinoBottomWall()..initialPosition = Vector2(-2.4, 0),
-    );
+    unawaited(addFromBlueprint(DinoWalls(
+      position: Vector2(-2.4, 0),
+    )));
   }
 
   Future<void> _addPlunger() async {

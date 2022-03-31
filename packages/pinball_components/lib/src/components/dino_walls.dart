@@ -1,12 +1,35 @@
-// ignore_for_file: avoid_renaming_method_parameters
+import 'dart:async';
+import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:pinball/gen/assets.gen.dart';
+import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 
+/// {@template spaceship}
+/// A [Blueprint] which creates the spaceship feature.
+/// {@endtemplate}
+class DinoWalls extends Forge2DBlueprint {
+  /// {@macro spaceship}
+  DinoWalls({required this.position});
+
+  /// Total size of the spaceship.
+  static final size = Vector2(25, 19);
+
+  /// The [position] where the elements will be created
+  final Vector2 position;
+
+  @override
+  void build(_) {
+    addAll([
+      DinoTopWall()..initialPosition = position,
+      DinoBottomWall()..initialPosition = position,
+    ]);
+  }
+}
+
 /// {@template dino_top_wall}
-/// Wall located above dino, at the right of the board.
+/// Wall segment located above [ChromeDino].
 /// {@endtemplate}
 class DinoTopWall extends BodyComponent with InitialPosition {
   ///{@macro dino_top_wall}
@@ -96,25 +119,26 @@ class DinoTopWall extends BodyComponent with InitialPosition {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadBackground();
+    await _loadSprite();
   }
 
-  Future<void> _loadBackground() async {
+  Future<void> _loadSprite() async {
     final sprite = await gameRef.loadSprite(
-      Assets.images.components.dinoLandTop.path,
+      Assets.images.dino.dinoLandTop.keyName,
     );
     final spriteComponent = SpriteComponent(
       sprite: sprite,
       size: Vector2(10.6, 27.7),
       anchor: Anchor.center,
-    )..position = Vector2(27, -28.2);
+      position: Vector2(27, -28.2),
+    );
 
     await add(spriteComponent);
   }
 }
 
 /// {@template dino_bottom_wall}
-/// Wall located below dino, at the right of the board.
+/// Wall segment located below [ChromeDino].
 /// {@endtemplate}
 class DinoBottomWall extends BodyComponent with InitialPosition {
   ///{@macro dino_top_wall}
@@ -196,12 +220,12 @@ class DinoBottomWall extends BodyComponent with InitialPosition {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadBackground();
+    await _loadSprite();
   }
 
-  Future<void> _loadBackground() async {
+  Future<void> _loadSprite() async {
     final sprite = await gameRef.loadSprite(
-      Assets.images.components.dinoLandBottom.path,
+      Assets.images.dino.dinoLandBottom.keyName,
     );
     final spriteComponent = SpriteComponent(
       sprite: sprite,

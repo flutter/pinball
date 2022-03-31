@@ -2,6 +2,7 @@ export 'ball.dart';
 export 'baseboard.dart';
 export 'board_dimensions.dart';
 export 'board_side.dart';
+export 'dino_walls.dart';
 export 'fire_effect.dart';
 export 'flipper.dart';
 export 'flutter_sign_post.dart';
