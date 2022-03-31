@@ -4,7 +4,6 @@ import 'dart:math' as math;
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
@@ -90,12 +89,7 @@ class BottomWallBallContactCallback extends ContactCallback<Ball, BottomWall> {
 /// {@endtemplate}
 class DinoTopWall extends BodyComponent with InitialPosition {
   ///{@macro dino_top_wall}
-  DinoTopWall() : super(priority: 2) {
-    // TODO(ruimiguel): remove color once sprites are added.
-    paint = Paint()
-      ..color = const Color.fromARGB(255, 3, 188, 249)
-      ..style = PaintingStyle.stroke;
-  }
+  DinoTopWall() : super(priority: 2);
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
@@ -104,32 +98,69 @@ class DinoTopWall extends BodyComponent with InitialPosition {
         PinballGame.boardPerspectiveAngle + math.pi / 2;
 
     final bottomCurveControlPoints = [
-      Vector2(-4, 5),
-      Vector2(-5, 6.8),
-      Vector2(-9, 11.8),
-      Vector2(-9.5, 0),
+      Vector2(-8, 0),
+      Vector2(-9, 1.5),
+      Vector2(-8.5, 4),
+      Vector2(-6.6, 7.5),
     ];
     final bottomCurveShape = BezierCurveShape(
       controlPoints: bottomCurveControlPoints,
     )..rotate(wallPerspectiveAngle);
     fixturesDef.add(FixtureDef(bottomCurveShape));
 
+    final mediumCurveControlPoints = [
+      bottomCurveControlPoints.last.clone(),
+      Vector2(-4.3, 7),
+      Vector2(-4.8, 4.2),
+      Vector2(-1, 5),
+    ];
+    final mediumCurveShape = BezierCurveShape(
+      controlPoints: mediumCurveControlPoints,
+    )..rotate(wallPerspectiveAngle);
+    fixturesDef.add(FixtureDef(mediumCurveShape));
+
     final topCurveControlPoints = [
-      Vector2(-4, 5),
-      Vector2(2, 10),
-      Vector2(7, 10),
-      Vector2(17, 0),
+      mediumCurveControlPoints.last.clone(),
+      Vector2(1, 8.7),
+      Vector2(6, 9.3),
+      Vector2(13.5, 1),
     ];
     final topCurveShape = BezierCurveShape(
       controlPoints: topCurveControlPoints,
     )..rotate(wallPerspectiveAngle);
     fixturesDef.add(FixtureDef(topCurveShape));
 
+    final topStraightPoints = [
+      topCurveControlPoints.last.clone(),
+      Vector2(13.5, 0),
+    ];
+    final topStraightShape = EdgeShape()
+      ..set(
+        topStraightPoints.first.clone()..rotate(wallPerspectiveAngle),
+        topStraightPoints.last.clone()..rotate(wallPerspectiveAngle),
+      );
+    final topStraightFixtureDef = FixtureDef(topStraightShape);
+    fixturesDef.add(topStraightFixtureDef);
+
+    final wallStraightPoints = [
+      bottomCurveControlPoints.first.clone(),
+      topStraightPoints.last.clone(),
+    ];
+    final wallStraightShape = EdgeShape()
+      ..set(
+        wallStraightPoints.first..rotate(wallPerspectiveAngle),
+        wallStraightPoints.last..rotate(wallPerspectiveAngle),
+      );
+    final wallStraightFixtureDef = FixtureDef(wallStraightShape);
+    fixturesDef.add(wallStraightFixtureDef);
+
     return fixturesDef;
   }
 
   @override
   Body createBody() {
+    renderBody = false;
+
     final bodyDef = BodyDef()
       ..userData = this
       ..position = initialPosition
@@ -162,7 +193,7 @@ class DinoTopWall extends BodyComponent with InitialPosition {
       size: Vector2(10.6, 27.7),
       anchor: Anchor.center,
     )
-      ..position = Vector2(-3.2, -4)
+      ..position = Vector2(-3, -5)
       ..priority = -1;
 
     await add(spriteComponent);
