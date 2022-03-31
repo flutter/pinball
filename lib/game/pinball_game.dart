@@ -69,6 +69,9 @@ class PinballGame extends Forge2DGame
     await add(
       DinoTopWall()..initialPosition = Vector2(-2.4, 0),
     );
+    await add(
+      DinoBottomWall()..initialPosition = Vector2(-2.4, 0),
+    );
   }
 
   Future<void> _addPlunger() async {
@@ -111,7 +114,7 @@ class DebugPinballGame extends PinballGame with TapDetector {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadBackground();
+    //await _loadBackground();
   }
 
   // TODO(alestiago): Move to PinballGame once we have the real background
@@ -125,7 +128,7 @@ class DebugPinballGame extends PinballGame with TapDetector {
       size: Vector2(120, 160),
       anchor: Anchor.center,
     )
-      ..position = Vector2(0, -15)
+      ..position = Vector2(0, -7.8)
       ..priority = -1;
 
     await add(spriteComponent);

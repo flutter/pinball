@@ -21,6 +21,10 @@ class $AssetsImagesComponentsGen {
   AssetGenImage get background =>
       const AssetGenImage('assets/images/components/background.png');
 
+  /// File path: assets/images/components/dino-land-bottom.png
+  AssetGenImage get dinoLandBottom =>
+      const AssetGenImage('assets/images/components/dino-land-bottom.png');
+
   /// File path: assets/images/components/dino-land-top.png
   AssetGenImage get dinoLandTop =>
       const AssetGenImage('assets/images/components/dino-land-top.png');
