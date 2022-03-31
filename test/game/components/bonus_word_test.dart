@@ -196,7 +196,7 @@ void main() {
     group('bonus letter activation', () {
       late GameBloc gameBloc;
 
-      final tester = flameBlocTester(
+      final tester = flameBlocTester<PinballGame>(
         // TODO(alestiago): Use TestGame once BonusLetter has controller.
         game: PinballGameTest.create,
         gameBloc: () => gameBloc,
@@ -217,13 +217,8 @@ void main() {
           await game.ready();
           final bonusLetter = game.descendants().whereType<BonusLetter>().first;
 
-          await game.add(bonusLetter);
-          await game.ready();
-
           bonusLetter.activate();
           await game.ready();
-
-          await tester.pump();
         },
         verify: (game, tester) async {
           verify(() => gameBloc.add(const BonusLetterActivated(0))).called(1);
