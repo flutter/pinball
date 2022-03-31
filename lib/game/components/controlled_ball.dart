@@ -81,14 +81,14 @@ class LaunchedBallController extends BallController
 
   @override
   bool listenWhen(GameState? previousState, GameState newState) {
-    return (previousState?.balls ?? 0) < newState.balls;
+    return (previousState?.balls ?? 0) > newState.balls;
   }
 
   @override
   void onNewState(GameState state) {
     super.onNewState(state);
     component.shouldRemove = true;
-    if (state.balls > 0) gameRef.spawnBall();
+    if (state.balls > 1) gameRef.spawnBall();
   }
 
   /// Removes the [Ball] from a [PinballGame]; spawning a new [Ball] if
