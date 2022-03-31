@@ -18,10 +18,6 @@ class $AssetsImagesComponentsGen {
   AssetGenImage get background =>
       const AssetGenImage('assets/images/components/background.png');
 
-  /// File path: assets/images/components/flipper.png
-  AssetGenImage get flipper =>
-      const AssetGenImage('assets/images/components/flipper.png');
-
   $AssetsImagesComponentsLaunchRampGen get launchRamp =>
       const $AssetsImagesComponentsLaunchRampGen();
 }
