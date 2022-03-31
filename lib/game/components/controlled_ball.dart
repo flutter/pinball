@@ -28,19 +28,19 @@ class ControlledBall extends Ball with Controls<BallController> {
   ControlledBall.bonus({
     required PinballTheme theme,
   }) : super(baseColor: theme.characterTheme.ballColor) {
-    controller = BallController(this);
+    controller = BonusBallController(this);
   }
 
   /// [Ball] used in [DebugPinballGame].
   ControlledBall.debug() : super(baseColor: const Color(0xFFFF0000)) {
-    controller = BallController(this);
+    controller = BonusBallController(this);
   }
 }
 
 /// {@template ball_controller}
 /// Controller attached to a [Ball] that handles its game related logic.
 /// {@endtemplate}
-class BallController extends ComponentController<Ball> {
+abstract class BallController extends ComponentController<Ball> {
   /// {@macro ball_controller}
   BallController(Ball ball) : super(ball);
 
@@ -50,7 +50,19 @@ class BallController extends ComponentController<Ball> {
   /// Triggered by [BottomWallBallContactCallback] when the [Ball] falls into
   /// a [BottomWall].
   /// {@endtemplate}
-  @mustCallSuper
+  void lost();
+}
+
+/// {@template bonus_ball_controller}
+/// {@macro ball_controller}
+///
+/// A [BonusBallController] doesn't change the [GameState.balls] count.
+/// {@endtemplate}
+class BonusBallController extends BallController {
+  /// {@macro bonus_ball_controller}
+  BonusBallController(Ball<Forge2DGame> component) : super(component);
+
+  @override
   void lost() {
     component.shouldRemove = true;
   }
@@ -68,8 +80,6 @@ class LaunchedBallController extends BallController
   /// {@macro ball_controller_lost}
   @override
   void lost() {
-    super.lost();
-
     final bloc = gameRef.read<GameBloc>()..add(const BallLost());
 
     // TODO(alestiago): Consider the use of onNewState instead.

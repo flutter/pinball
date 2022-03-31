@@ -15,7 +15,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final flameTester = FlameTester(PinballGameTest.create);
 
-  group('BallController', () {
+  group('BonusBallController', () {
     late Ball ball;
 
     setUp(() {
@@ -26,7 +26,7 @@ void main() {
       'lost removes ball',
       (game) async {
         await game.add(ball);
-        final controller = BallController(ball);
+        final controller = BonusBallController(ball);
         await ball.add(controller);
         await game.ready();
 
@@ -118,7 +118,7 @@ void main() {
               bonusHistory: [],
             ),
           );
-          final controller = BallController(ball);
+          final controller = LaunchedBallController(ball);
           await ball.add(controller);
           await game.add(ball);
           await game.ready();
