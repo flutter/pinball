@@ -215,6 +215,10 @@ void main() {
         setUp: (game, tester) async {
           await game.ready();
           final bonusLetter = game.descendants().whereType<BonusLetter>().first;
+
+          await game.add(bonusLetter);
+          await game.ready();
+
           bonusLetter.activate();
           await game.ready();
 
