@@ -1,4 +1,5 @@
 export 'ball.dart';
+export 'board_dimensions.dart';
 export 'board_side.dart';
 export 'fire_effect.dart';
 export 'flipper.dart';

@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs
 import 'dart:async';
-import 'dart:math' as math;
 
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
@@ -21,15 +20,6 @@ class PinballGame extends Forge2DGame
   final PinballTheme theme;
 
   late final Plunger plunger;
-
-  static final boardSize = Vector2(101.6, 143.8);
-  static final boardBounds = Rect.fromCenter(
-    center: Offset.zero,
-    width: boardSize.x,
-    height: -boardSize.y,
-  );
-  static final boardPerspectiveAngle =
-      -math.atan(18.6 / PinballGame.boardBounds.height);
 
   @override
   void onAttach() {
@@ -80,7 +70,8 @@ class PinballGame extends Forge2DGame
 
   Future<void> _addPlunger() async {
     plunger = Plunger(compressionDistance: 29)
-      ..initialPosition = boardBounds.center.toVector2() + Vector2(41.5, -49);
+      ..initialPosition =
+          BoardDimensions.bounds.center.toVector2() + Vector2(41.5, -49);
     await add(plunger);
   }
 
@@ -88,8 +79,8 @@ class PinballGame extends Forge2DGame
     await add(
       BonusWord(
         position: Vector2(
-          boardBounds.center.dx - 3.07,
-          boardBounds.center.dy - 2.4,
+          BoardDimensions.bounds.center.dx - 3.07,
+          BoardDimensions.bounds.center.dy - 2.4,
         ),
       ),
     );

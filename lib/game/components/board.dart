@@ -15,8 +15,8 @@ class Board extends Component {
     // TODO(alestiago): adjust positioning once sprites are added.
     final bottomGroup = _BottomGroup(
       position: Vector2(
-        PinballGame.boardBounds.center.dx,
-        PinballGame.boardBounds.bottom + 10,
+        BoardDimensions.bounds.center.dx,
+        BoardDimensions.bounds.bottom + 10,
       ),
       spacing: 2,
     );
@@ -26,8 +26,8 @@ class Board extends Component {
     // TODO(alestiago): adjust positioning to real design.
     final dino = ChromeDino()
       ..initialPosition = Vector2(
-        PinballGame.boardBounds.center.dx + 25,
-        PinballGame.boardBounds.center.dy + 10,
+        BoardDimensions.bounds.center.dx + 25,
+        BoardDimensions.bounds.center.dy + 10,
       );
 
     await addAll([
