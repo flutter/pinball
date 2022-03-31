@@ -48,58 +48,55 @@ class LauncherRamp extends BodyComponent with InitialPosition, Layered {
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
 
-    final elevatedRightStraightShape = EdgeShape()
+    final rightStraightShape = EdgeShape()
       ..set(
         Vector2(31.4, 61.4),
         Vector2(46.5, -68.4),
       );
-    final elevatedRightStraightFixtureDef =
-        FixtureDef(elevatedRightStraightShape);
-    fixturesDef.add(elevatedRightStraightFixtureDef);
+    final rightStraightFixtureDef = FixtureDef(rightStraightShape);
+    fixturesDef.add(rightStraightFixtureDef);
 
-    final elevatedLeftStraightShape = EdgeShape()
+    final leftStraightShape = EdgeShape()
       ..set(
         Vector2(27.8, 61.4),
         Vector2(41.5, -68.4),
       );
-    final elevatedLeftStraightFixtureDef =
-        FixtureDef(elevatedLeftStraightShape);
-    fixturesDef.add(elevatedLeftStraightFixtureDef);
+    final leftStraightFixtureDef = FixtureDef(leftStraightShape);
+    fixturesDef.add(leftStraightFixtureDef);
 
-    final elevatedTopCurveShape = ArcShape(
+    final topCurveShape = ArcShape(
       center: Vector2(20.5, 61.1),
       arcRadius: 11,
       angle: 1.6,
       rotation: -1.65,
     );
-    final elevatedTopCurveFixtureDef = FixtureDef(elevatedTopCurveShape);
-    fixturesDef.add(elevatedTopCurveFixtureDef);
+    final topCurveFixtureDef = FixtureDef(topCurveShape);
+    fixturesDef.add(topCurveFixtureDef);
 
-    final elevatedTopStraightShape = EdgeShape()
-      ..set(
-        Vector2(3.7, 70.1),
-        Vector2(19.1, 72.1),
-      );
-    final elevatedTopStraightFixtureDef = FixtureDef(elevatedTopStraightShape);
-    fixturesDef.add(elevatedTopStraightFixtureDef);
-
-    final elevatedBottomCurveShape = ArcShape(
+    final bottomCurveShape = ArcShape(
       center: Vector2(19.3, 60.3),
       arcRadius: 8.5,
       angle: 1.48,
       rotation: -1.58,
     );
-    final elevatedBottomCurveFixtureDef = FixtureDef(elevatedBottomCurveShape);
-    fixturesDef.add(elevatedBottomCurveFixtureDef);
+    final bottomCurveFixtureDef = FixtureDef(bottomCurveShape);
+    fixturesDef.add(bottomCurveFixtureDef);
 
-    final elevatedBottomStraightShape = EdgeShape()
+    final topStraightShape = EdgeShape()
+      ..set(
+        Vector2(3.7, 70.1),
+        Vector2(19.1, 72.1),
+      );
+    final topStraightFixtureDef = FixtureDef(topStraightShape);
+    fixturesDef.add(topStraightFixtureDef);
+
+    final bottomStraightShape = EdgeShape()
       ..set(
         Vector2(3.7, 66.9),
         Vector2(19.1, 68.8),
       );
-    final elevatedBottomStraightFixtureDef =
-        FixtureDef(elevatedBottomStraightShape);
-    fixturesDef.add(elevatedBottomStraightFixtureDef);
+    final bottomStraightFixtureDef = FixtureDef(bottomStraightShape);
+    fixturesDef.add(bottomStraightFixtureDef);
 
     return fixturesDef;
   }
@@ -149,30 +146,30 @@ class LauncherForegroundRailing extends BodyComponent
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
 
-    final groundRightStraightShape = EdgeShape()
+    final rightStraightShape = EdgeShape()
       ..set(
         Vector2(27.6, 57.9),
         Vector2(30, 35.1),
       );
-    final groundRightStraightFixtureDef = FixtureDef(groundRightStraightShape);
-    fixturesDef.add(groundRightStraightFixtureDef);
+    final rightStraightFixtureDef = FixtureDef(rightStraightShape);
+    fixturesDef.add(rightStraightFixtureDef);
 
-    final groundTopStraightShape = EdgeShape()
-      ..set(
-        Vector2(3.7, 66.8),
-        Vector2(19.7, 66.8),
-      );
-    final groundTopStraightFixtureDef = FixtureDef(groundTopStraightShape);
-    fixturesDef.add(groundTopStraightFixtureDef);
-
-    final groundCurveShape = ArcShape(
+    final curveShape = ArcShape(
       center: Vector2(20.1, 59.3),
       arcRadius: 7.5,
       angle: 1.8,
       rotation: -1.63,
     );
-    final groundCurveFixtureDef = FixtureDef(groundCurveShape);
-    fixturesDef.add(groundCurveFixtureDef);
+    final curveFixtureDef = FixtureDef(curveShape);
+    fixturesDef.add(curveFixtureDef);
+
+    final topStraightShape = EdgeShape()
+      ..set(
+        Vector2(3.7, 66.8),
+        Vector2(19.7, 66.8),
+      );
+    final topStraightFixtureDef = FixtureDef(topStraightShape);
+    fixturesDef.add(topStraightFixtureDef);
 
     return fixturesDef;
   }
