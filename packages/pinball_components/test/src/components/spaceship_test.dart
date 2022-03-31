@@ -59,7 +59,7 @@ void main() {
     group('SpaceshipEntranceBallContactCallback', () {
       test('changes the ball priority on contact', () {
         when(() => ball.priority).thenReturn(2);
-        when(() => entrance.priority).thenReturn(3);
+        when(() => entrance.pathwayPriority).thenReturn(3);
 
         SpaceshipEntranceBallContactCallback().begin(
           entrance,
@@ -67,14 +67,14 @@ void main() {
           MockContact(),
         );
 
-        verify(() => ball.showInFrontOf(entrance)).called(1);
+        verify(() => ball.sendTo(entrance.pathwayPriority)).called(1);
       });
     });
 
     group('SpaceshipHoleBallContactCallback', () {
       test('changes the ball priority on contact', () {
         when(() => hole.outsideLayer).thenReturn(Layer.board);
-        when(() => hole.onExitElevation).thenReturn(1);
+        when(() => hole.outsidePriority).thenReturn(1);
 
         SpaceshipHoleBallContactCallback().begin(
           hole,
@@ -82,20 +82,7 @@ void main() {
           MockContact(),
         );
 
-        verify(() => ball.priority = hole.onExitElevation).called(1);
-      });
-
-      test('re order the game children', () {
-        when(() => hole.outsideLayer).thenReturn(Layer.board);
-        when(() => hole.onExitElevation).thenReturn(1);
-
-        SpaceshipHoleBallContactCallback().begin(
-          hole,
-          ball,
-          MockContact(),
-        );
-
-        verify(() => ball.sendToBack()).called(1);
+        verify(() => ball.sendTo(hole.outsidePriority)).called(1);
       });
     });
   });

@@ -36,8 +36,8 @@ class Spaceship extends Forge2DBlueprint {
       SpaceshipEntrance()..initialPosition = position,
       AndroidHead()..initialPosition = position,
       SpaceshipHole(
-        onExitLayer: Layer.spaceshipExitRail,
-        onExitElevation: 2,
+        outsideLayer: Layer.spaceshipExitRail,
+        outsidePriority: 2,
       )..initialPosition = position - Vector2(5.2, 4.8),
       SpaceshipHole()..initialPosition = position - Vector2(-7.2, 0.8),
       SpaceshipWall()..initialPosition = position,
@@ -181,18 +181,15 @@ class SpaceshipEntrance extends RampOpening {
 /// {@endtemplate}
 class SpaceshipHole extends RampOpening {
   /// {@macro spaceship_hole}
-  SpaceshipHole({Layer? onExitLayer, this.onExitElevation = 1})
+  SpaceshipHole({Layer? outsideLayer, int? outsidePriority = 1})
       : super(
           pathwayLayer: Layer.spaceship,
-          outsideLayer: onExitLayer,
-          outsidePriority: onExitElevation,
+          outsideLayer: outsideLayer,
+          outsidePriority: outsidePriority,
           orientation: RampOrientation.up,
         ) {
     layer = Layer.spaceship;
   }
-
-  /// Priority order for [SpaceshipHole] on exit.
-  final int onExitElevation;
 
   @override
   Shape get shape {

@@ -2,10 +2,10 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockingjay/mockingjay.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/src/flame/priority.dart';
 
-import '../helpers/helpers.dart';
+import '../../helpers/helpers.dart';
 
 class TestBodyComponent extends BodyComponent {
   @override
@@ -19,13 +19,52 @@ void main() {
   final flameTester = FlameTester(Forge2DGame.new);
 
   group('ComponentPriorityX', () {
+    group('sendTo', () {
+      flameTester.test(
+        'changes the priority correctly to other level',
+        (game) async {
+          const newPriority = 5;
+          final component = TestBodyComponent()..priority = 4;
+
+          component.sendTo(newPriority);
+
+          expect(component.priority, equals(newPriority));
+        },
+      );
+
+      flameTester.test(
+        'calls reorderChildren if the new priority is different',
+        (game) async {
+          const newPriority = 5;
+          final component = MockComponent();
+          when(() => component.priority).thenReturn(4);
+
+          component.sendTo(newPriority);
+
+          verify(component.reorderChildren).called(1);
+        },
+      );
+
+      flameTester.test(
+        "doesn't call reorderChildren if the priority is the same",
+        (game) async {
+          const newPriority = 5;
+          final component = MockComponent();
+          when(() => component.priority).thenReturn(newPriority);
+
+          component.sendTo(newPriority);
+
+          verifyNever(component.reorderChildren);
+        },
+      );
+    });
+
     group('sendToBack', () {
       flameTester.test(
         'changes the priority correctly to board level',
         (game) async {
           final component = TestBodyComponent()..priority = 4;
 
-          await game.ensureAdd(component);
           component.sendToBack();
 
           expect(component.priority, equals(0));
@@ -38,7 +77,6 @@ void main() {
           final component = MockComponent();
           when(() => component.priority).thenReturn(4);
 
-          await game.ensureAdd(component);
           component.sendToBack();
 
           verify(component.reorderChildren).called(1);
@@ -51,7 +89,6 @@ void main() {
           final component = MockComponent();
           when(() => component.priority).thenReturn(0);
 
-          await game.ensureAdd(component);
           component.sendToBack();
 
           verifyNever(component.reorderChildren);
@@ -68,7 +105,6 @@ void main() {
           final otherComponent = TestBodyComponent()
             ..priority = startPriority - 1;
 
-          await game.ensureAddAll([component, otherComponent]);
           component.showBehindOf(otherComponent);
 
           expect(component.priority, equals(otherComponent.priority - 1));
@@ -83,7 +119,6 @@ void main() {
           final otherComponent = TestBodyComponent()
             ..priority = startPriority + 1;
 
-          await game.ensureAddAll([component, otherComponent]);
           component.showBehindOf(otherComponent);
 
           expect(component.priority, equals(startPriority));
@@ -99,7 +134,6 @@ void main() {
           when(() => component.priority).thenReturn(startPriority);
           when(() => otherComponent.priority).thenReturn(startPriority - 1);
 
-          await game.ensureAddAll([component, otherComponent]);
           component.showBehindOf(otherComponent);
 
           verify(component.reorderChildren).called(1);
@@ -116,7 +150,6 @@ void main() {
           when(() => component.priority).thenReturn(startPriority);
           when(() => otherComponent.priority).thenReturn(startPriority + 1);
 
-          await game.ensureAddAll([component, otherComponent]);
           component.showBehindOf(otherComponent);
 
           verifyNever(component.reorderChildren);
@@ -133,7 +166,6 @@ void main() {
           final otherComponent = TestBodyComponent()
             ..priority = startPriority + 1;
 
-          await game.ensureAddAll([component, otherComponent]);
           component.showInFrontOf(otherComponent);
 
           expect(component.priority, equals(otherComponent.priority + 1));
@@ -148,7 +180,6 @@ void main() {
           final otherComponent = TestBodyComponent()
             ..priority = startPriority - 1;
 
-          await game.ensureAddAll([component, otherComponent]);
           component.showInFrontOf(otherComponent);
 
           expect(component.priority, equals(startPriority));
@@ -164,7 +195,6 @@ void main() {
           when(() => component.priority).thenReturn(startPriority);
           when(() => otherComponent.priority).thenReturn(startPriority + 1);
 
-          await game.ensureAddAll([component, otherComponent]);
           component.showInFrontOf(otherComponent);
 
           verify(component.reorderChildren).called(1);
@@ -181,7 +211,6 @@ void main() {
           when(() => component.priority).thenReturn(startPriority);
           when(() => otherComponent.priority).thenReturn(startPriority - 1);
 
-          await game.ensureAddAll([component, otherComponent]);
           component.showInFrontOf(otherComponent);
 
           verifyNever(component.reorderChildren);
