@@ -68,9 +68,9 @@ class Baseboard extends BodyComponent with InitialPosition {
 
     final bottomRectangle = PolygonShape()
       ..setAsBox(
-        7,
+        6.8,
         2,
-        Vector2(-6.81 * direction, -5.85),
+        Vector2(-6.3 * direction, -5.85),
         0,
       );
     final bottomRectangleFixtureDef = FixtureDef(bottomRectangle);
