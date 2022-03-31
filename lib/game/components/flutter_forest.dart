@@ -37,6 +37,9 @@ class FlutterForest extends Component
         theme: gameRef.theme,
       )..initialPosition = Vector2(17.2, 52.7),
     );
+    children.whereType<DashNestBumper>().forEach(
+          (bumper) => bumper.deactivate,
+        );
   }
 
   @override
@@ -45,13 +48,12 @@ class FlutterForest extends Component
 
     final signPost = FlutterSignPost()..initialPosition = Vector2(8.35, 58.3);
 
-    // TODO(alestiago): adjust positioning once sprites are added.
-    final smallLeftNest = _SmallDashNestBumperA(id: 'small_nest_bumper_a')
-      ..initialPosition = Vector2(8.95, 51.95);
-    final smallRightNest = _SmallDashNestBumperB(id: 'small_nest_bumper_b')
-      ..initialPosition = Vector2(23.3, 46.75);
     final bigNest = BigDashNestBumper(id: 'big_nest_bumper')
       ..initialPosition = Vector2(18.55, 59.35);
+    final smallLeftNest = SmallDashNestBumper.a(id: 'small_nest_bumper_a')
+      ..initialPosition = Vector2(8.95, 51.95);
+    final smallRightNest = SmallDashNestBumper.b(id: 'small_nest_bumper_b')
+      ..initialPosition = Vector2(23.3, 46.75);
 
     await addAll([
       signPost,
@@ -69,16 +71,68 @@ class FlutterForest extends Component
 abstract class DashNestBumper extends BodyComponent<PinballGame>
     with ScorePoints, InitialPosition {
   /// {@macro dash_nest_bumper}
-  DashNestBumper({required this.id}) {
-    paint = Paint()
-      ..color = Colors.blue.withOpacity(0.5)
-      ..style = PaintingStyle.fill;
-  }
+  DashNestBumper({
+    required this.id,
+    required String activeAssetPath,
+    required String inactiveAssetPath,
+    required SpriteComponent spriteComponent,
+  })  : _activeAssetPath = activeAssetPath,
+        _inactiveAssetPath = inactiveAssetPath,
+        _spriteComponent = spriteComponent;
 
   /// Unique identifier for this [DashNestBumper].
   ///
   /// Used to identify [DashNestBumper]s in [GameState.activatedDashNests].
   final String id;
+
+  final String _activeAssetPath;
+  late final Sprite _activeSprite;
+  final String _inactiveAssetPath;
+  late final Sprite _inactiveSprite;
+  final SpriteComponent _spriteComponent;
+
+  Future<void> _loadSprites() async {
+    // TODO(alestiago): I think ideally we would like to do:
+    // Sprite(path).load so we don't require to store the activeAssetPath and
+    // the inactive assetPath.
+    _inactiveSprite = await gameRef.loadSprite(_inactiveAssetPath);
+    _activeSprite = await gameRef.loadSprite(_activeAssetPath);
+  }
+
+  bool _active = false;
+
+  /// Whether this [DashNestBumper] is active.
+  ///
+  /// The only difference between an active and inactive [DashNestBumper] is that
+  /// they show different sprites.
+  // TODO(alestiago): Question if we want this ephemeral state to be stores as
+  // so.
+  bool get active => _active;
+
+  /// Activates the [DashNestBumper].
+  void activate() {
+    if (active) return;
+
+    _active = true;
+    _spriteComponent.sprite = _activeSprite;
+  }
+
+  /// Deactivates the [DashNestBumper].
+  void deactivate() {
+    if (!active) return;
+
+    _active = false;
+    _spriteComponent.sprite = _inactiveSprite;
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    await _loadSprites();
+
+    deactivate();
+    await add(_spriteComponent);
+  }
 }
 
 /// Listens when a [Ball] bounces bounces against a [DashNestBumper].
@@ -86,10 +140,13 @@ abstract class DashNestBumper extends BodyComponent<PinballGame>
 class DashNestBumperBallContactCallback
     extends ContactCallback<DashNestBumper, Ball> {
   @override
-  void begin(DashNestBumper dashNestBumper, Ball ball, Contact _) {
-    dashNestBumper.gameRef.read<GameBloc>().add(
-          DashNestActivated(dashNestBumper.id),
-        );
+  void begin(DashNestBumper dashNestBumper, Ball _, Contact __) {
+    if (!dashNestBumper.active) {
+      dashNestBumper.gameRef.read<GameBloc>().add(
+            DashNestActivated(dashNestBumper.id),
+          );
+      dashNestBumper.activate();
+    }
   }
 }
 
@@ -97,28 +154,19 @@ class DashNestBumperBallContactCallback
 @visibleForTesting
 class BigDashNestBumper extends DashNestBumper {
   /// {@macro dash_nest_bumper}
-  BigDashNestBumper({required String id}) : super(id: id);
+  BigDashNestBumper({required String id})
+      : super(
+          id: id,
+          activeAssetPath: Assets.images.dashBumper.main.active.keyName,
+          inactiveAssetPath: Assets.images.dashBumper.main.inactive.keyName,
+          spriteComponent: SpriteComponent(
+            size: Vector2(10.8, 8.6),
+            anchor: Anchor.center,
+          ),
+        );
 
   @override
   int get points => 20;
-
-  Future<void> _loadSprite() async {
-    final sprite = await gameRef.loadSprite(
-      Assets.images.dashBumper.main.inactive.keyName,
-    );
-    final spriteComponent = SpriteComponent(
-      sprite: sprite,
-      size: Vector2(10.8, 8.6),
-      anchor: Anchor.center,
-    );
-    await add(spriteComponent);
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    await _loadSprite();
-  }
 
   @override
   Body createBody() {
@@ -139,9 +187,47 @@ class BigDashNestBumper extends DashNestBumper {
 
 /// {@macro dash_nest_bumper}
 @visibleForTesting
-abstract class SmallDashNestBumper extends DashNestBumper {
+class SmallDashNestBumper extends DashNestBumper {
   /// {@macro dash_nest_bumper}
-  SmallDashNestBumper({required String id}) : super(id: id);
+  SmallDashNestBumper._({
+    required String id,
+    required String activeAssetPath,
+    required String inactiveAssetPath,
+    required SpriteComponent spriteComponent,
+  }) : super(
+          id: id,
+          activeAssetPath: activeAssetPath,
+          inactiveAssetPath: inactiveAssetPath,
+          spriteComponent: spriteComponent,
+        );
+
+  /// {@macro dash_nest_bumper}
+  SmallDashNestBumper.a({
+    required String id,
+  }) : this._(
+          id: id,
+          activeAssetPath: Assets.images.dashBumper.a.active.keyName,
+          inactiveAssetPath: Assets.images.dashBumper.a.inactive.keyName,
+          spriteComponent: SpriteComponent(
+            size: Vector2(7.1, 7.5),
+            anchor: Anchor.center,
+            position: Vector2(0.35, -1.2),
+          ),
+        );
+
+  /// {@macro dash_nest_bumper}
+  SmallDashNestBumper.b({
+    required String id,
+  }) : this._(
+          id: id,
+          activeAssetPath: Assets.images.dashBumper.b.active.keyName,
+          inactiveAssetPath: Assets.images.dashBumper.b.inactive.keyName,
+          spriteComponent: SpriteComponent(
+            size: Vector2(7.5, 7.4),
+            anchor: Anchor.center,
+            position: Vector2(0.35, -1.2),
+          ),
+        );
 
   @override
   int get points => 10;
@@ -162,51 +248,5 @@ abstract class SmallDashNestBumper extends DashNestBumper {
       ..userData = this;
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
-  }
-}
-
-class _SmallDashNestBumperA extends SmallDashNestBumper {
-  _SmallDashNestBumperA({required String id}) : super(id: id);
-
-  Future<void> _loadSprite() async {
-    final sprite = await gameRef.loadSprite(
-      Assets.images.dashBumper.a.inactive.keyName,
-    );
-    final spriteComponent = SpriteComponent(
-      sprite: sprite,
-      size: Vector2(7.1, 7.5),
-      anchor: Anchor.center,
-      position: Vector2(0.35, -1.2),
-    );
-    await add(spriteComponent);
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    await _loadSprite();
-  }
-}
-
-class _SmallDashNestBumperB extends SmallDashNestBumper {
-  _SmallDashNestBumperB({required String id}) : super(id: id);
-
-  Future<void> _loadSprite() async {
-    final sprite = await gameRef.loadSprite(
-      Assets.images.dashBumper.b.inactive.keyName,
-    );
-    final spriteComponent = SpriteComponent(
-      sprite: sprite,
-      size: Vector2(7.5, 7.4),
-      anchor: Anchor.center,
-      position: Vector2(0.35, -1.2),
-    );
-    await add(spriteComponent);
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    await _loadSprite();
   }
 }
