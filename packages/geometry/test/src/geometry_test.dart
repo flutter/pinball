@@ -105,7 +105,7 @@ void main() {
           Vector2(10, 10),
         ],
       );
-      expect(points.length, 1000);
+      expect(points.length, 100);
     });
 
     test('returns as many points as indicated by step', () {
