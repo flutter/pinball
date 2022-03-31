@@ -129,11 +129,9 @@ void main() {
       final callback = TestRampOpeningBallContactCallback();
 
       when(() => ball.body).thenReturn(body);
+      when(() => ball.priority).thenReturn(1);
       when(() => body.position).thenReturn(Vector2.zero());
       when(() => ball.layer).thenReturn(Layer.board);
-
-      await game.ready();
-      await game.ensureAdd(area);
 
       callback.begin(ball, area, MockContact());
       verify(() => ball.layer = area.pathwayLayer).called(1);
@@ -152,11 +150,9 @@ void main() {
       final callback = TestRampOpeningBallContactCallback();
 
       when(() => ball.body).thenReturn(body);
+      when(() => ball.priority).thenReturn(1);
       when(() => body.position).thenReturn(Vector2.zero());
       when(() => ball.layer).thenReturn(Layer.board);
-
-      await game.ready();
-      await game.ensureAdd(area);
 
       callback.begin(ball, area, MockContact());
       verify(() => ball.layer = area.pathwayLayer).called(1);
@@ -174,12 +170,10 @@ void main() {
       final callback = TestRampOpeningBallContactCallback();
 
       when(() => ball.body).thenReturn(body);
+      when(() => ball.priority).thenReturn(1);
       when(() => body.position).thenReturn(Vector2.zero());
       when(() => body.linearVelocity).thenReturn(Vector2(0, -1));
       when(() => ball.layer).thenReturn(Layer.board);
-
-      await game.ready();
-      await game.ensureAdd(area);
 
       callback.begin(ball, area, MockContact());
       verify(() => ball.layer = area.pathwayLayer).called(1);
@@ -200,12 +194,10 @@ void main() {
       final callback = TestRampOpeningBallContactCallback();
 
       when(() => ball.body).thenReturn(body);
+      when(() => ball.priority).thenReturn(1);
       when(() => body.position).thenReturn(Vector2.zero());
       when(() => body.linearVelocity).thenReturn(Vector2(0, 1));
       when(() => ball.layer).thenReturn(Layer.board);
-
-      await game.ready();
-      await game.ensureAdd(area);
 
       callback.begin(ball, area, MockContact());
       verify(() => ball.layer = area.pathwayLayer).called(1);
@@ -226,12 +218,10 @@ void main() {
       final callback = TestRampOpeningBallContactCallback();
 
       when(() => ball.body).thenReturn(body);
+      when(() => ball.priority).thenReturn(1);
       when(() => body.position).thenReturn(Vector2.zero());
       when(() => body.linearVelocity).thenReturn(Vector2(0, 1));
       when(() => ball.layer).thenReturn(Layer.board);
-
-      await game.ready();
-      await game.ensureAdd(area);
 
       callback.begin(ball, area, MockContact());
       verify(() => ball.layer = area.pathwayLayer).called(1);

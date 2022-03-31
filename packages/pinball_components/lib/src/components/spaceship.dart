@@ -188,6 +188,7 @@ class SpaceshipHole extends RampOpening {
           outsidePriority: outsidePriority,
           orientation: RampOrientation.up,
         ) {
+    renderBody = false;
     layer = Layer.spaceship;
   }
 

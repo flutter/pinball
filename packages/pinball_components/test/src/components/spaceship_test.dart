@@ -73,6 +73,7 @@ void main() {
 
     group('SpaceshipHoleBallContactCallback', () {
       test('changes the ball priority on contact', () {
+        when(() => ball.priority).thenReturn(2);
         when(() => hole.outsideLayer).thenReturn(Layer.board);
         when(() => hole.outsidePriority).thenReturn(1);
 
