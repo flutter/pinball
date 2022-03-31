@@ -1,16 +1,17 @@
+// ignore_for_file: comment_references
+
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 
-/// {@template spaceship}
-/// A [Blueprint] which creates the spaceship feature.
+/// {@template dinowalls}
+/// A [Blueprint] which creates walls for the [ChromeDino].
 /// {@endtemplate}
 class DinoWalls extends Forge2DBlueprint {
-  /// {@macro spaceship}
+  /// {@macro dinowalls}
   DinoWalls({required this.position});
 
   /// Total size of the spaceship.
