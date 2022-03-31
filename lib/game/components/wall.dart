@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
@@ -107,9 +108,9 @@ class DinoTopWall extends BodyComponent with InitialPosition {
     fixturesDef.add(topStraightFixtureDef);
 
     final topCurveControlPoints = [
-      Vector2(28.4, 35.1),
-      Vector2(18, 26.38),
-      Vector2(26.6, 20.5),
+      topStraightControlPoints.last,
+      Vector2(17.4, 26.38),
+      Vector2(25.5, 20.7),
     ];
     final topCurveShape = BezierCurveShape(
       controlPoints: topCurveControlPoints,
@@ -117,9 +118,9 @@ class DinoTopWall extends BodyComponent with InitialPosition {
     fixturesDef.add(FixtureDef(topCurveShape));
 
     final middleCurveControlPoints = [
-      Vector2(26.6, 20.5),
-      Vector2(27.5, 20.1),
-      Vector2(26.6, 18.8),
+      topCurveControlPoints.last,
+      Vector2(27.8, 20.1),
+      Vector2(26.8, 19.5),
     ];
     final middleCurveShape = BezierCurveShape(
       controlPoints: middleCurveControlPoints,
@@ -127,9 +128,9 @@ class DinoTopWall extends BodyComponent with InitialPosition {
     fixturesDef.add(FixtureDef(middleCurveShape));
 
     final bottomCurveControlPoints = [
-      Vector2(26.6, 18.8),
-      Vector2(21.15, 17.1),
-      Vector2(24.6, 15.1),
+      middleCurveControlPoints.last,
+      Vector2(21.15, 16),
+      Vector2(25.6, 15.2),
     ];
     final bottomCurveShape = BezierCurveShape(
       controlPoints: bottomCurveControlPoints,
@@ -137,8 +138,8 @@ class DinoTopWall extends BodyComponent with InitialPosition {
     fixturesDef.add(FixtureDef(bottomCurveShape));
 
     final bottomStraightControlPoints = [
-      Vector2(24.6, 15.1),
-      Vector2(31.8, 14.1),
+      bottomCurveControlPoints.last,
+      Vector2(31, 14.5),
     ];
     final bottomStraightShape = EdgeShape()
       ..set(
@@ -186,9 +187,7 @@ class DinoTopWall extends BodyComponent with InitialPosition {
       sprite: sprite,
       size: Vector2(10.6, 27.7),
       anchor: Anchor.center,
-    )
-      ..position = Vector2(-3, -5)
-      ..priority = -1;
+    )..position = Vector2(27, -28.2);
 
     await add(spriteComponent);
   }

@@ -67,7 +67,7 @@ class PinballGame extends Forge2DGame
     await add(BottomWall());
     createBoundaries(this).forEach(add);
     await add(
-      DinoTopWall()..initialPosition = Vector2(27.4, 23.1),
+      DinoTopWall()..initialPosition = Vector2(-2.4, 0),
     );
   }
 
@@ -125,7 +125,7 @@ class DebugPinballGame extends PinballGame with TapDetector {
       size: Vector2(120, 160),
       anchor: Anchor.center,
     )
-      ..position = Vector2(0, -7.8)
+      ..position = Vector2(0, -15)
       ..priority = -1;
 
     await add(spriteComponent);
