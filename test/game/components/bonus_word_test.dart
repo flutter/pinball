@@ -194,10 +194,11 @@ void main() {
     });
 
     group('bonus letter activation', () {
-      final gameBloc = MockGameBloc();
+      late GameBloc gameBloc;
       final tester = flameBlocTester(gameBloc: () => gameBloc);
 
       setUp(() {
+        gameBloc = MockGameBloc();
         whenListen(
           gameBloc,
           const Stream<GameState>.empty(),
