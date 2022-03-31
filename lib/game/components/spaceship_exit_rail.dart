@@ -14,6 +14,9 @@ class SpaceshipExitRail extends Forge2DBlueprint {
   /// {@macro spaceship_exit_rail}
   SpaceshipExitRail();
 
+  /// Base priority for wall while be on jetpack ramp.
+  static const ballPriorityWhenOnSpaceshipExitRail = 2;
+
   @override
   void build(_) {
     addAllContactCallback([
@@ -38,7 +41,10 @@ class SpaceshipExitRail extends Forge2DBlueprint {
 
 class _SpaceshipExitRailRamp extends BodyComponent
     with InitialPosition, Layered {
-  _SpaceshipExitRailRamp() : super(priority: 2) {
+  _SpaceshipExitRailRamp()
+      : super(
+          priority: SpaceshipExitRail.ballPriorityWhenOnSpaceshipExitRail - 1,
+        ) {
     renderBody = false;
     layer = Layer.spaceshipExitRail;
   }
@@ -142,9 +148,8 @@ class _SpaceshipExitRailRamp extends BodyComponent
       sprite: sprite,
       size: Vector2(17.5, 55.7),
       anchor: Anchor.center,
-    )
-      ..position = Vector2(-29.4, -5.7)
-      ..priority = 2;
+      position: Vector2(-29.4, -5.7),
+    );
 
     await add(spriteComponent);
   }
@@ -152,7 +157,10 @@ class _SpaceshipExitRailRamp extends BodyComponent
 
 class _SpaceshipExitRailBase extends BodyComponent
     with InitialPosition, Layered {
-  _SpaceshipExitRailBase({required this.radius}) : super(priority: 5) {
+  _SpaceshipExitRailBase({required this.radius})
+      : super(
+          priority: SpaceshipExitRail.ballPriorityWhenOnSpaceshipExitRail + 1,
+        ) {
     renderBody = false;
     layer = Layer.board;
   }
@@ -209,8 +217,7 @@ class SpaceshipExitRailEndBallContactCallback
   @override
   void begin(SpaceshipExitRailEnd exitRail, Ball ball, _) {
     ball
-      ..priority = 1
-      ..gameRef.reorderChildren()
+      ..sendTo(1) // TODO(ruimiguel): sendTo board priority
       ..layer = exitRail.outsideLayer;
   }
 }
