@@ -21,6 +21,9 @@ class Spaceship extends Forge2DBlueprint {
   /// The [position] where the elements will be created
   final Vector2 position;
 
+  /// Base priority for wall while be on spaceship.
+  static const ballPriorityWhenOnSpaceship = 4;
+
   @override
   void build(_) {
     addAllContactCallback([
@@ -33,8 +36,8 @@ class Spaceship extends Forge2DBlueprint {
       SpaceshipEntrance()..initialPosition = position,
       AndroidHead()..initialPosition = position,
       SpaceshipHole(
-        onExitLayer: Layer.spaceshipExitRail,
-        onExitElevation: 2,
+        outsideLayer: Layer.spaceshipExitRail,
+        outsidePriority: 2,
       )..initialPosition = position - Vector2(5.2, 4.8),
       SpaceshipHole()..initialPosition = position - Vector2(-7.2, 0.8),
       SpaceshipWall()..initialPosition = position,
@@ -47,8 +50,8 @@ class Spaceship extends Forge2DBlueprint {
 /// {@endtemplate}
 class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_saucer}
-  // TODO(ruimiguel): apply Elevated when PR merged.
-  SpaceshipSaucer() : super(priority: 3) {
+  SpaceshipSaucer()
+      : super(priority: Spaceship.ballPriorityWhenOnSpaceship - 1) {
     layer = Layer.spaceship;
   }
 
@@ -92,7 +95,7 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
 /// {@endtemplate}
 class AndroidHead extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_bridge}
-  AndroidHead() : super(priority: 4) {
+  AndroidHead() : super(priority: Spaceship.ballPriorityWhenOnSpaceship + 1) {
     layer = Layer.spaceship;
   }
 
@@ -147,15 +150,12 @@ class SpaceshipEntrance extends RampOpening {
   /// {@macro spaceship_entrance}
   SpaceshipEntrance()
       : super(
-          pathwayLayer: Layer.spaceship,
+          insideLayer: Layer.spaceship,
           orientation: RampOrientation.up,
+          insidePriority: Spaceship.ballPriorityWhenOnSpaceship,
         ) {
     layer = Layer.spaceship;
   }
-
-  /// Priority order for [SpaceshipHole] on enter.
-  // TODO(ruimiguel): apply Elevated when PR merged.
-  final int onEnterElevation = 4;
 
   @override
   Shape get shape {
@@ -181,18 +181,16 @@ class SpaceshipEntrance extends RampOpening {
 /// {@endtemplate}
 class SpaceshipHole extends RampOpening {
   /// {@macro spaceship_hole}
-  SpaceshipHole({Layer? onExitLayer, this.onExitElevation = 1})
+  SpaceshipHole({Layer? outsideLayer, int? outsidePriority = 1})
       : super(
-          pathwayLayer: Layer.spaceship,
-          outsideLayer: onExitLayer,
+          insideLayer: Layer.spaceship,
+          outsideLayer: outsideLayer,
+          outsidePriority: outsidePriority,
           orientation: RampOrientation.up,
         ) {
+    renderBody = false;
     layer = Layer.spaceship;
   }
-
-  /// Priority order for [SpaceshipHole] on exit.
-  // TODO(ruimiguel): apply Elevated when PR merged.
-  final int onExitElevation;
 
   @override
   Shape get shape {
@@ -235,8 +233,7 @@ class _SpaceshipWallShape extends ChainShape {
 /// {@endtemplate}
 class SpaceshipWall extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_wall}
-  // TODO(ruimiguel): apply Elevated when PR merged
-  SpaceshipWall() : super(priority: 4) {
+  SpaceshipWall() : super(priority: Spaceship.ballPriorityWhenOnSpaceship + 1) {
     layer = Layer.spaceship;
   }
 
@@ -269,9 +266,7 @@ class SpaceshipEntranceBallContactCallback
   @override
   void begin(SpaceshipEntrance entrance, Ball ball, _) {
     ball
-      // TODO(ruimiguel): apply Elevated when PR merged.
-      ..priority = entrance.onEnterElevation
-      ..gameRef.reorderChildren()
+      ..sendTo(entrance.insidePriority)
       ..layer = Layer.spaceship;
   }
 }
@@ -279,16 +274,14 @@ class SpaceshipEntranceBallContactCallback
 /// [ContactCallback] that handles the contact between the [Ball]
 /// and a [SpaceshipHole].
 ///
-/// It sets the [Ball] priority and filter data so it will "be back" on the
-/// board.
+/// It sets the [Ball] priority and filter data so it will outside of the
+/// [Spaceship].
 class SpaceshipHoleBallContactCallback
     extends ContactCallback<SpaceshipHole, Ball> {
   @override
   void begin(SpaceshipHole hole, Ball ball, _) {
     ball
-      // TODO(ruimiguel): apply Elevated when PR merged.
-      ..priority = hole.onExitElevation
-      ..gameRef.reorderChildren()
+      ..sendTo(hole.outsidePriority)
       ..layer = hole.outsideLayer;
   }
 }

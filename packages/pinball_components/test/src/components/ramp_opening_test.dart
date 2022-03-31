@@ -12,7 +12,7 @@ class TestRampOpening extends RampOpening {
     required RampOrientation orientation,
     required Layer pathwayLayer,
   }) : super(
-          pathwayLayer: pathwayLayer,
+          insideLayer: pathwayLayer,
           orientation: orientation,
         );
 
@@ -129,14 +129,12 @@ void main() {
       final callback = TestRampOpeningBallContactCallback();
 
       when(() => ball.body).thenReturn(body);
+      when(() => ball.priority).thenReturn(1);
       when(() => body.position).thenReturn(Vector2.zero());
       when(() => ball.layer).thenReturn(Layer.board);
 
-      await game.ready();
-      await game.ensureAdd(area);
-
       callback.begin(ball, area, MockContact());
-      verify(() => ball.layer = area.pathwayLayer).called(1);
+      verify(() => ball.layer = area.insideLayer).called(1);
     });
 
     flameTester.test(
@@ -152,14 +150,12 @@ void main() {
       final callback = TestRampOpeningBallContactCallback();
 
       when(() => ball.body).thenReturn(body);
+      when(() => ball.priority).thenReturn(1);
       when(() => body.position).thenReturn(Vector2.zero());
       when(() => ball.layer).thenReturn(Layer.board);
 
-      await game.ready();
-      await game.ensureAdd(area);
-
       callback.begin(ball, area, MockContact());
-      verify(() => ball.layer = area.pathwayLayer).called(1);
+      verify(() => ball.layer = area.insideLayer).called(1);
     });
 
     flameTester.test(
@@ -174,15 +170,13 @@ void main() {
       final callback = TestRampOpeningBallContactCallback();
 
       when(() => ball.body).thenReturn(body);
+      when(() => ball.priority).thenReturn(1);
       when(() => body.position).thenReturn(Vector2.zero());
       when(() => body.linearVelocity).thenReturn(Vector2(0, -1));
       when(() => ball.layer).thenReturn(Layer.board);
 
-      await game.ready();
-      await game.ensureAdd(area);
-
       callback.begin(ball, area, MockContact());
-      verify(() => ball.layer = area.pathwayLayer).called(1);
+      verify(() => ball.layer = area.insideLayer).called(1);
 
       callback.end(ball, area, MockContact());
       verify(() => ball.layer = Layer.board);
@@ -200,15 +194,13 @@ void main() {
       final callback = TestRampOpeningBallContactCallback();
 
       when(() => ball.body).thenReturn(body);
+      when(() => ball.priority).thenReturn(1);
       when(() => body.position).thenReturn(Vector2.zero());
       when(() => body.linearVelocity).thenReturn(Vector2(0, 1));
       when(() => ball.layer).thenReturn(Layer.board);
 
-      await game.ready();
-      await game.ensureAdd(area);
-
       callback.begin(ball, area, MockContact());
-      verify(() => ball.layer = area.pathwayLayer).called(1);
+      verify(() => ball.layer = area.insideLayer).called(1);
 
       callback.end(ball, area, MockContact());
       verify(() => ball.layer = Layer.board);
@@ -226,21 +218,19 @@ void main() {
       final callback = TestRampOpeningBallContactCallback();
 
       when(() => ball.body).thenReturn(body);
+      when(() => ball.priority).thenReturn(1);
       when(() => body.position).thenReturn(Vector2.zero());
       when(() => body.linearVelocity).thenReturn(Vector2(0, 1));
       when(() => ball.layer).thenReturn(Layer.board);
 
-      await game.ready();
-      await game.ensureAdd(area);
-
       callback.begin(ball, area, MockContact());
-      verify(() => ball.layer = area.pathwayLayer).called(1);
+      verify(() => ball.layer = area.insideLayer).called(1);
 
       callback.end(ball, area, MockContact());
       verifyNever(() => ball.layer = Layer.board);
 
       callback.begin(ball, area, MockContact());
-      verifyNever(() => ball.layer = area.pathwayLayer);
+      verifyNever(() => ball.layer = area.insideLayer);
 
       callback.end(ball, area, MockContact());
       verify(() => ball.layer = Layer.board);
