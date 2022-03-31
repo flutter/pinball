@@ -1,11 +1,10 @@
 // ignore_for_file: avoid_renaming_method_parameters
 
-import 'dart:math' as math;
-
 import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
+import 'package:pinball/flame/flame.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
@@ -16,10 +15,50 @@ import 'package:pinball_components/pinball_components.dart';
 /// When all [DashNestBumper]s are hit at least once, the [GameBonus.dashNest]
 /// is awarded, and the [BigDashNestBumper] releases a new [Ball].
 /// {@endtemplate}
-// TODO(alestiago): Make a [Blueprint] once nesting [Blueprint] is implemented.
+// TODO(alestiago): Make a [Blueprint] once [Blueprint] inherits from [Component].
 class FlutterForest extends Component
-    with HasGameRef<PinballGame>, BlocComponent<GameBloc, GameState> {
+    with Controls<FlutterForestController>, HasGameRef<PinballGame> {
   /// {@macro flutter_forest}
+  FlutterForest() {
+    controller = FlutterForestController(this);
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    final signPost = FlutterSignPost()..initialPosition = Vector2(8.35, 58.3);
+
+    final bigNest = ControlledBigDashNestBumper(id: 'big_nest_bumper')
+      ..initialPosition = Vector2(18.55, 59.35);
+    final smallLeftNest =
+        ControlledSmallDashNestBumper.a(id: 'small_nest_bumper_a')
+          ..initialPosition = Vector2(8.95, 51.95);
+    final smallRightNest =
+        ControlledSmallDashNestBumper.b(id: 'small_nest_bumper_b')
+          ..initialPosition = Vector2(23.3, 46.75);
+
+    await addAll([
+      signPost,
+      smallLeftNest,
+      smallRightNest,
+      bigNest,
+    ]);
+  }
+}
+
+/// {@template flutter_forest_controller}
+///
+/// {@endtemplate}
+class FlutterForestController extends ComponentController<FlutterForest>
+    with BlocComponent<GameBloc, GameState>, HasGameRef<PinballGame> {
+  /// {@macro flutter_forest_controller}
+  FlutterForestController(FlutterForest flutterForest) : super(flutterForest);
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    gameRef.addContactCallback(ControlledDashNestBumperBallContactCallback());
+  }
 
   @override
   bool listenWhen(GameState? previousState, GameState newState) {
@@ -32,88 +71,67 @@ class FlutterForest extends Component
   void onNewState(GameState state) {
     super.onNewState(state);
 
-    add(
-      ControlledBall.bonus(
-        theme: gameRef.theme,
-      )..initialPosition = Vector2(17.2, 52.7),
+    component.add(
+      ControlledBall.bonus(theme: gameRef.theme)
+        ..initialPosition = Vector2(17.2, 52.7),
     );
-  }
-
-  @override
-  Future<void> onLoad() async {
-    gameRef.addContactCallback(DashNestBumperBallContactCallback());
-
-    final signPost = FlutterSignPost()..initialPosition = Vector2(8.35, 58.3);
-
-    final bigNest = BigDashNestBumper(id: 'big_nest_bumper')
-      ..initialPosition = Vector2(18.55, 59.35);
-    final smallLeftNest = SmallDashNestBumper.a(id: 'small_nest_bumper_a')
-      ..initialPosition = Vector2(8.95, 51.95);
-    final smallRightNest = SmallDashNestBumper.b(id: 'small_nest_bumper_b')
-      ..initialPosition = Vector2(23.3, 46.75);
-
-    await addAll([
-      signPost,
-      smallLeftNest,
-      smallRightNest,
-      bigNest,
-    ]);
   }
 }
 
-/// {@template dash_nest_bumper}
-/// Bumper located in the [FlutterForest].
+/// {@template controlled_big_dash_nest_bumper}
+/// A [BigDashNestBumper] controlled by a [DashNestBumperController].
 /// {@endtemplate}
-@visibleForTesting
-abstract class DashNestBumper extends BodyComponent<PinballGame>
-    with ScorePoints, InitialPosition, BlocComponent<GameBloc, GameState> {
-  /// {@macro dash_nest_bumper}
-  DashNestBumper({
-    required this.id,
-    required String activeAssetPath,
-    required String inactiveAssetPath,
-    required SpriteComponent spriteComponent,
-  })  : _activeAssetPath = activeAssetPath,
-        _inactiveAssetPath = inactiveAssetPath,
-        _spriteComponent = spriteComponent;
-
-  /// Unique identifier for this [DashNestBumper].
-  ///
-  /// Used to identify [DashNestBumper]s in [GameState.activatedDashNests].
-  final String id;
-
-  final String _activeAssetPath;
-  late final Sprite _activeSprite;
-  final String _inactiveAssetPath;
-  late final Sprite _inactiveSprite;
-  final SpriteComponent _spriteComponent;
-
-  Future<void> _loadSprites() async {
-    // TODO(alestiago): I think ideally we would like to do:
-    // Sprite(path).load so we don't require to store the activeAssetPath and
-    // the inactive assetPath.
-    _inactiveSprite = await gameRef.loadSprite(_inactiveAssetPath);
-    _activeSprite = await gameRef.loadSprite(_activeAssetPath);
-  }
-
-  /// Activates the [DashNestBumper].
-  void activate() {
-    _spriteComponent
-      ..sprite = _activeSprite
-      ..size = _activeSprite.originalSize / 10;
-  }
-
-  /// Deactivates the [DashNestBumper].
-  void deactivate() {
-    _spriteComponent
-      ..sprite = _inactiveSprite
-      ..size = _inactiveSprite.originalSize / 10;
+class ControlledBigDashNestBumper extends BigDashNestBumper
+    with Controls<DashNestBumperController>, ScorePoints {
+  /// {@macro controlled_big_dash_nest_bumper}
+  ControlledBigDashNestBumper({required String id}) : super() {
+    controller = DashNestBumperController(this, id: id);
   }
 
   @override
+  int get points => 20;
+}
+
+/// {@template controlled_small_dash_nest_bumper}
+/// A [SmallDashNestBumper] controlled by a [DashNestBumperController].
+/// {@endtemplate}
+class ControlledSmallDashNestBumper extends SmallDashNestBumper
+    with Controls<DashNestBumperController>, ScorePoints {
+  /// {@macro controlled_small_dash_nest_bumper}
+  ControlledSmallDashNestBumper.a({required String id}) : super.a() {
+    controller = DashNestBumperController(this, id: id);
+  }
+
+  /// {@macro controlled_small_dash_nest_bumper}
+  ControlledSmallDashNestBumper.b({required String id}) : super.b() {
+    controller = DashNestBumperController(this, id: id);
+  }
+
+  @override
+  int get points => 10;
+}
+
+/// {@template dash_nest_bumper_controller}
+/// Controls a [DashNestBumper].
+/// {@endtemplate}
+class DashNestBumperController extends ComponentController<DashNestBumper>
+    with BlocComponent<GameBloc, GameState>, HasGameRef<PinballGame> {
+  /// {@macro dash_nest_bumper_controller}
+  DashNestBumperController(
+    DashNestBumper dashNestBumper, {
+    required String id,
+  })  : _id = id,
+        super(dashNestBumper);
+
+  /// Unique identifier for the controlled [DashNestBumper].
+  ///
+  /// Used to identify [DashNestBumper]s in [GameState.activatedDashNests].
+  final String _id;
+
+  @override
   bool listenWhen(GameState? previousState, GameState newState) {
-    final wasActive = previousState?.activatedDashNests.contains(id) ?? false;
-    final isActive = newState.activatedDashNests.contains(id);
+    final wasActive = previousState?.activatedDashNests.contains(_id) ?? false;
+    final isActive = newState.activatedDashNests.contains(_id);
 
     return wasActive != isActive;
   }
@@ -122,132 +140,31 @@ abstract class DashNestBumper extends BodyComponent<PinballGame>
   void onNewState(GameState state) {
     super.onNewState(state);
 
-    if (state.activatedDashNests.contains(id)) {
-      activate();
+    if (state.activatedDashNests.contains(_id)) {
+      component.activate();
     } else {
-      deactivate();
+      component.deactivate();
     }
   }
 
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    await _loadSprites();
-
-    // TODO(erickzanardo): Look into using onNewState instead.
-    // Currently doing: onNewState(gameRef.read<GameState>()) will throw an
-    // `Exception: build context is not available yet`
-    deactivate();
-    await add(_spriteComponent);
+  /// Registers when a [DashNestBumper] is hit by a [Ball].
+  ///
+  /// Triggered by [ControlledDashNestBumperBallContactCallback].
+  void hit() {
+    gameRef.read<GameBloc>().add(DashNestActivated(_id));
   }
 }
 
-/// Listens when a [Ball] bounces bounces against a [DashNestBumper].
+/// Listens when a [Ball] bounces bounces against a [DashNestBumper]
 @visibleForTesting
-class DashNestBumperBallContactCallback
-    extends ContactCallback<DashNestBumper, Ball> {
+class ControlledDashNestBumperBallContactCallback
+    extends ContactCallback<Controls<DashNestBumperController>, Ball> {
   @override
-  void begin(DashNestBumper dashNestBumper, Ball _, Contact __) {
-    dashNestBumper.gameRef.read<GameBloc>().add(
-          DashNestActivated(dashNestBumper.id),
-        );
-  }
-}
-
-/// {@macro dash_nest_bumper}
-@visibleForTesting
-class BigDashNestBumper extends DashNestBumper {
-  /// {@macro dash_nest_bumper}
-  BigDashNestBumper({required String id})
-      : super(
-          id: id,
-          activeAssetPath: Assets.images.dashBumper.main.active.keyName,
-          inactiveAssetPath: Assets.images.dashBumper.main.inactive.keyName,
-          spriteComponent: SpriteComponent(
-            anchor: Anchor.center,
-          ),
-        );
-
-  @override
-  int get points => 20;
-
-  @override
-  Body createBody() {
-    final shape = EllipseShape(
-      center: Vector2.zero(),
-      majorRadius: 4.85,
-      minorRadius: 3.95,
-    )..rotate(math.pi / 2);
-    final fixtureDef = FixtureDef(shape);
-
-    final bodyDef = BodyDef()
-      ..position = initialPosition
-      ..userData = this;
-
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
-  }
-}
-
-/// {@macro dash_nest_bumper}
-@visibleForTesting
-class SmallDashNestBumper extends DashNestBumper {
-  /// {@macro dash_nest_bumper}
-  SmallDashNestBumper._({
-    required String id,
-    required String activeAssetPath,
-    required String inactiveAssetPath,
-    required SpriteComponent spriteComponent,
-  }) : super(
-          id: id,
-          activeAssetPath: activeAssetPath,
-          inactiveAssetPath: inactiveAssetPath,
-          spriteComponent: spriteComponent,
-        );
-
-  /// {@macro dash_nest_bumper}
-  SmallDashNestBumper.a({
-    required String id,
-  }) : this._(
-          id: id,
-          activeAssetPath: Assets.images.dashBumper.a.active.keyName,
-          inactiveAssetPath: Assets.images.dashBumper.a.inactive.keyName,
-          spriteComponent: SpriteComponent(
-            anchor: Anchor.center,
-            position: Vector2(0.35, -1.2),
-          ),
-        );
-
-  /// {@macro dash_nest_bumper}
-  SmallDashNestBumper.b({
-    required String id,
-  }) : this._(
-          id: id,
-          activeAssetPath: Assets.images.dashBumper.b.active.keyName,
-          inactiveAssetPath: Assets.images.dashBumper.b.inactive.keyName,
-          spriteComponent: SpriteComponent(
-            anchor: Anchor.center,
-            position: Vector2(0.35, -1.2),
-          ),
-        );
-
-  @override
-  int get points => 10;
-
-  @override
-  Body createBody() {
-    final shape = EllipseShape(
-      center: Vector2.zero(),
-      majorRadius: 3,
-      minorRadius: 2.25,
-    )..rotate(math.pi / 2);
-    final fixtureDef = FixtureDef(shape)
-      ..friction = 0
-      ..restitution = 4;
-
-    final bodyDef = BodyDef()
-      ..position = initialPosition
-      ..userData = this;
-
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
+  void begin(
+    Controls<DashNestBumperController> controlledDashNestBumper,
+    Ball _,
+    Contact __,
+  ) {
+    controlledDashNestBumper.controller.hit();
   }
 }
