@@ -1,5 +1,7 @@
 // ignore_for_file: cascade_invocations
 
+import 'dart:math';
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/painting.dart';
@@ -169,7 +171,7 @@ void main() {
 
             final currentBalls = game.descendants().whereType<Ball>();
 
-            // TODO(erickzanardo): This expect should be in verify?
+            expect(currentBalls.contains(ball), isFalse);
             expect(currentBalls.length, equals(previousBalls.length));
           },
         );
@@ -191,7 +193,7 @@ void main() {
 
             final currentBalls = game.descendants().whereType<Ball>();
 
-            // TODO(erickzanardo): This expect should be in verify?
+            expect(currentBalls.contains(ball), isFalse);
             expect(
               currentBalls.length,
               equals((previousBalls..remove(ball)).length),
