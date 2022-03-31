@@ -59,7 +59,10 @@ void main() {
 
     group('listenWhen', () {
       final gameBloc = MockGameBloc();
-      final tester = flameBlocTester(gameBloc: () => gameBloc);
+      final tester = flameBlocTester(
+        game: TestGame.new,
+        gameBloc: () => gameBloc,
+      );
 
       setUp(() {
         whenListen(
@@ -71,12 +74,8 @@ void main() {
 
       tester.testGameWidget(
         'listens when a Bonus.dashNest is added',
-        setUp: (game, tester) async {
-          await game.ready();
-        },
         verify: (game, tester) async {
-          final flutterForest =
-              game.descendants().whereType<FlutterForest>().first;
+          final flutterForest = FlutterForest();
 
           const state = GameState(
             score: 0,
@@ -96,7 +95,11 @@ void main() {
 
   group('DashNestBumperBallContactCallback', () {
     final gameBloc = MockGameBloc();
-    final tester = flameBlocTester(gameBloc: () => gameBloc);
+    final tester = flameBlocTester(
+      // TODO(alestiago): Use TestGame.new once a controller is implemented.
+      game: PinballGameTest.create,
+      gameBloc: () => gameBloc,
+    );
 
     setUp(() {
       whenListen(
@@ -118,8 +121,9 @@ void main() {
         final contactCallback = DashNestBumperBallContactCallback();
         contactCallback.begin(dashNestBumper, MockBall(), MockContact());
 
-        verify(() => gameBloc.add(DashNestActivated(dashNestBumper.id)))
-            .called(1);
+        verify(
+          () => gameBloc.add(DashNestActivated(dashNestBumper.id)),
+        ).called(1);
       },
     );
   });
