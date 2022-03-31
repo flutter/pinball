@@ -20,7 +20,8 @@ enum RampOrientation {
 /// [RampOpeningBallContactCallback] detects when a [Ball] passes
 /// through this opening.
 ///
-/// By default the base [layer] is set to [Layer.board].
+/// By default the base [layer] is set to [Layer.board] and the
+/// [outsidePriority] is set to the lowest.
 /// {@endtemplate}
 // TODO(ruialonso): Consider renaming the class.
 abstract class RampOpening extends BodyComponent with InitialPosition, Layered {
@@ -28,19 +29,31 @@ abstract class RampOpening extends BodyComponent with InitialPosition, Layered {
   RampOpening({
     required Layer pathwayLayer,
     Layer? outsideLayer,
+    required int pathwayPriority,
+    int? outsidePriority,
     required this.orientation,
   })  : _pathwayLayer = pathwayLayer,
-        _outsideLayer = outsideLayer ?? Layer.board {
-    layer = Layer.board;
+        _outsideLayer = outsideLayer ?? Layer.board,
+        _pathwayPriority = pathwayPriority,
+        _outsidePriority = outsidePriority ?? 0 {
+    layer = Layer.opening;
   }
   final Layer _pathwayLayer;
   final Layer _outsideLayer;
+  final int _pathwayPriority;
+  final int _outsidePriority;
 
   /// Mask of category bits for collision inside pathway.
   Layer get pathwayLayer => _pathwayLayer;
 
   /// Mask of category bits for collision outside pathway.
   Layer get outsideLayer => _outsideLayer;
+
+  /// Priority for the [Ball] inside pathway.
+  int get pathwayPriority => _pathwayPriority;
+
+  /// Priority for the [Ball] outside pathway.
+  int get outsidePriority => _outsidePriority;
 
   /// The [Shape] of the [RampOpening].
   Shape get shape;
@@ -82,7 +95,9 @@ class RampOpeningBallContactCallback<Opening extends RampOpening>
     if (!_ballsInside.contains(ball)) {
       layer = opening.pathwayLayer;
       _ballsInside.add(ball);
-      ball.layer = layer;
+      ball
+        ..layer = layer
+        ..priority = opening.pathwayPriority;
     } else {
       _ballsInside.remove(ball);
     }
@@ -103,7 +118,9 @@ class RampOpeningBallContactCallback<Opening extends RampOpening>
                   ball.body.linearVelocity.y > 0);
 
       if (isBallOutsideOpening) {
-        ball.layer = opening.outsideLayer;
+        ball
+          ..layer = opening.outsideLayer
+          ..priority = opening.outsidePriority;
         _ballsInside.remove(ball);
       }
     }
