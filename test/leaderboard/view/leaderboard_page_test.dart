@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -42,7 +43,11 @@ void main() {
 
     testWidgets('renders correctly', (tester) async {
       final l10n = await AppLocalizations.delegate.load(Locale('en'));
-      when(() => leaderboardBloc.state).thenReturn(LeaderboardState.initial());
+      whenListen(
+        leaderboardBloc,
+        const Stream<LeaderboardState>.empty(),
+        initialState: LeaderboardState.initial(),
+      );
 
       await tester.pumpApp(
         BlocProvider.value(
@@ -59,7 +64,11 @@ void main() {
 
     testWidgets('renders loading view when bloc emits [loading]',
         (tester) async {
-      when(() => leaderboardBloc.state).thenReturn(LeaderboardState.initial());
+      whenListen(
+        leaderboardBloc,
+        const Stream<LeaderboardState>.empty(),
+        initialState: LeaderboardState.initial(),
+      );
 
       await tester.pumpApp(
         BlocProvider.value(
@@ -76,8 +85,12 @@ void main() {
     });
 
     testWidgets('renders error view when bloc emits [error]', (tester) async {
-      when(() => leaderboardBloc.state).thenReturn(
-        LeaderboardState.initial().copyWith(status: LeaderboardStatus.error),
+      whenListen(
+        leaderboardBloc,
+        const Stream<LeaderboardState>.empty(),
+        initialState: LeaderboardState.initial().copyWith(
+          status: LeaderboardStatus.error,
+        ),
       );
 
       await tester.pumpApp(
@@ -97,8 +110,10 @@ void main() {
     testWidgets('renders success view when bloc emits [success]',
         (tester) async {
       final l10n = await AppLocalizations.delegate.load(Locale('en'));
-      when(() => leaderboardBloc.state).thenReturn(
-        LeaderboardState(
+      whenListen(
+        leaderboardBloc,
+        const Stream<LeaderboardState>.empty(),
+        initialState: LeaderboardState(
           status: LeaderboardStatus.success,
           ranking: LeaderboardRanking(ranking: 0, outOf: 0),
           leaderboard: [

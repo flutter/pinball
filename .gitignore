@@ -131,3 +131,6 @@ app.*.map.json
 
 test/.test_runner.dart
 web/__/firebase/init.js
+
+# Application exceptions
+!/packages/pinball_components/assets/images/flutter_sign_post.png

@@ -1,0 +1,102 @@
+// ignore_for_file: cascade_invocations
+
+import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flame_test/flame_test.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:pinball_components/pinball_components.dart';
+
+import '../../helpers/helpers.dart';
+
+void main() {
+  group('Spaceship', () {
+    late Filter filterData;
+    late Fixture fixture;
+    late Body body;
+    late Ball ball;
+    late SpaceshipEntrance entrance;
+    late SpaceshipHole hole;
+    late Forge2DGame game;
+
+    setUp(() {
+      filterData = MockFilter();
+
+      fixture = MockFixture();
+      when(() => fixture.filterData).thenReturn(filterData);
+
+      body = MockBody();
+      when(() => body.fixtures).thenReturn([fixture]);
+
+      game = MockGame();
+
+      ball = MockBall();
+      when(() => ball.gameRef).thenReturn(game);
+      when(() => ball.body).thenReturn(body);
+
+      entrance = MockSpaceshipEntrance();
+      hole = MockSpaceshipHole();
+    });
+
+    group('Spaceship', () {
+      final tester = FlameTester(TestGame.new);
+
+      tester.testGameWidget(
+        'renders correctly',
+        setUp: (game, tester) async {
+          await game.addFromBlueprint(Spaceship(position: Vector2(30, -30)));
+          await game.ready();
+          await tester.pump();
+        },
+        verify: (game, tester) async {
+          await expectLater(
+            find.byGame<Forge2DGame>(),
+            matchesGoldenFile('golden/spaceship.png'),
+          );
+        },
+      );
+    });
+
+    group('SpaceshipEntranceBallContactCallback', () {
+      test('changes the ball priority on contact', () {
+        when(() => ball.priority).thenReturn(2);
+        when(() => entrance.priority).thenReturn(3);
+
+        SpaceshipEntranceBallContactCallback().begin(
+          entrance,
+          ball,
+          MockContact(),
+        );
+
+        verify(() => ball.showInFrontOf(entrance)).called(1);
+      });
+    });
+
+    group('SpaceshipHoleBallContactCallback', () {
+      test('changes the ball priority on contact', () {
+        when(() => hole.outsideLayer).thenReturn(Layer.board);
+        when(() => hole.onExitElevation).thenReturn(1);
+
+        SpaceshipHoleBallContactCallback().begin(
+          hole,
+          ball,
+          MockContact(),
+        );
+
+        verify(() => ball.priority = hole.onExitElevation).called(1);
+      });
+
+      test('re order the game children', () {
+        when(() => hole.outsideLayer).thenReturn(Layer.board);
+        when(() => hole.onExitElevation).thenReturn(1);
+
+        SpaceshipHoleBallContactCallback().begin(
+          hole,
+          ball,
+          MockContact(),
+        );
+
+        verify(() => ball.sendToBack()).called(1);
+      });
+    });
+  });
+}

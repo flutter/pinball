@@ -6,7 +6,6 @@ import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
-import 'package:pinball/flame/blueprint.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
@@ -35,6 +34,7 @@ class FlutterForest extends Component
     gameRef.addFromBlueprint(
       BallBlueprint(
         position: Vector2(17.2, 52.7),
+        type: BallType.extra,
       ),
     );
   }
@@ -42,6 +42,8 @@ class FlutterForest extends Component
   @override
   Future<void> onLoad() async {
     gameRef.addContactCallback(DashNestBumperBallContactCallback());
+
+    final signPost = FlutterSignPost()..initialPosition = Vector2(8.35, 58.3);
 
     // TODO(alestiago): adjust positioning once sprites are added.
     final smallLeftNest = SmallDashNestBumper(id: 'small_left_nest')
@@ -52,6 +54,7 @@ class FlutterForest extends Component
       ..initialPosition = Vector2(18.55, 59.35);
 
     await addAll([
+      signPost,
       smallLeftNest,
       smallRightNest,
       bigNest,

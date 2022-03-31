@@ -1,12 +1,14 @@
 import 'package:flame/components.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_components/pinball_components.dart';
 
 /// {@template board}
 /// The main flat surface of the [PinballGame].
 /// {endtemplate}
 class Board extends Component {
   /// {@macro board}
-  Board();
+  // TODO(alestiago): Make Board a Blueprint and sort out priorities.
+  Board() : super(priority: 5);
 
   @override
   Future<void> onLoad() async {
@@ -21,8 +23,16 @@ class Board extends Component {
 
     final flutterForest = FlutterForest();
 
+    // TODO(alestiago): adjust positioning to real design.
+    final dino = ChromeDino()
+      ..initialPosition = Vector2(
+        PinballGame.boardBounds.center.dx + 25,
+        PinballGame.boardBounds.center.dy + 10,
+      );
+
     await addAll([
       bottomGroup,
+      dino,
       flutterForest,
     ]);
   }
@@ -87,12 +97,15 @@ class _BottomGroupSide extends Component {
     final flipper = Flipper(
       side: _side,
     )..initialPosition = _position;
+    await flipper.add(FlipperController(flipper));
+
     final baseboard = Baseboard(side: _side)
       ..initialPosition = _position +
           Vector2(
             (Baseboard.size.x / 1.6 * direction),
             Baseboard.size.y - 2,
           );
+
     final kicker = Kicker(
       side: _side,
     )..initialPosition = _position +

@@ -29,6 +29,7 @@ void main() {
     group('listenWhen', () {
       final previousState = MockGameState();
       final currentState = MockGameState();
+
       test(
         'returns true when there is a new word bonus awarded',
         () {
@@ -193,10 +194,11 @@ void main() {
     });
 
     group('bonus letter activation', () {
-      final gameBloc = MockGameBloc();
+      late GameBloc gameBloc;
       final tester = flameBlocTester(gameBloc: () => gameBloc);
 
       setUp(() {
+        gameBloc = MockGameBloc();
         whenListen(
           gameBloc,
           const Stream<GameState>.empty(),
@@ -204,22 +206,24 @@ void main() {
         );
       });
 
-      tester.widgetTest(
+      tester.testGameWidget(
         'adds BonusLetterActivated to GameBloc when not activated',
-        (game, tester) async {
+        setUp: (game, tester) async {
           await game.ready();
           final bonusLetter = game.descendants().whereType<BonusLetter>().first;
           bonusLetter.activate();
           await game.ready();
 
           await tester.pump();
+        },
+        verify: (game, tester) async {
           verify(() => gameBloc.add(const BonusLetterActivated(0))).called(1);
         },
       );
 
-      tester.widgetTest(
+      tester.testGameWidget(
         "doesn't add BonusLetterActivated to GameBloc when already activated",
-        (game, tester) async {
+        setUp: (game, tester) async {
           const state = GameState(
             score: 0,
             balls: 2,
@@ -237,14 +241,15 @@ void main() {
           final bonusLetter = game.descendants().whereType<BonusLetter>().first;
           bonusLetter.activate();
           await game.ready();
-
+        },
+        verify: (game, tester) async {
           verifyNever(() => gameBloc.add(const BonusLetterActivated(0)));
         },
       );
 
-      tester.widgetTest(
+      tester.testGameWidget(
         'adds a ColorEffect',
-        (game, tester) async {
+        setUp: (game, tester) async {
           const state = GameState(
             score: 0,
             balls: 2,
@@ -259,7 +264,9 @@ void main() {
 
           bonusLetter.onNewState(state);
           await tester.pump();
-
+        },
+        verify: (game, tester) async {
+          final bonusLetter = game.descendants().whereType<BonusLetter>().first;
           expect(
             bonusLetter.children.whereType<ColorEffect>().length,
             equals(1),
@@ -267,9 +274,14 @@ void main() {
         },
       );
 
-      tester.widgetTest(
+      tester.testGameWidget(
         'only listens when there is a change on the letter status',
-        (game, tester) async {
+        setUp: (game, tester) async {
+          await game.ready();
+          final bonusLetter = game.descendants().whereType<BonusLetter>().first;
+          bonusLetter.activate();
+        },
+        verify: (game, tester) async {
           const state = GameState(
             score: 0,
             balls: 2,
@@ -277,11 +289,7 @@ void main() {
             activatedDashNests: {},
             bonusHistory: [],
           );
-
-          await game.ready();
           final bonusLetter = game.descendants().whereType<BonusLetter>().first;
-          bonusLetter.activate();
-
           expect(
             bonusLetter.listenWhen(const GameState.initial(), state),
             isTrue,

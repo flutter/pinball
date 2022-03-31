@@ -3,6 +3,7 @@
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_components/pinball_components.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -22,9 +23,9 @@ void main() {
       },
     );
 
-    group('children', () {
+    group('loads', () {
       flameTester.test(
-        'has one left flipper',
+        'one left flipper',
         (game) async {
           final board = Board();
           await game.ready();
@@ -38,7 +39,7 @@ void main() {
       );
 
       flameTester.test(
-        'has one right flipper',
+        'one right flipper',
         (game) async {
           final board = Board();
           await game.ready();
@@ -51,7 +52,7 @@ void main() {
       );
 
       flameTester.test(
-        'has two Baseboards',
+        'two Baseboards',
         (game) async {
           final board = Board();
           await game.ready();
@@ -63,7 +64,7 @@ void main() {
       );
 
       flameTester.test(
-        'has two Kickers',
+        'two Kickers',
         (game) async {
           final board = Board();
           await game.ready();
@@ -75,7 +76,7 @@ void main() {
       );
 
       flameTester.test(
-        'has one FlutterForest',
+        'one FlutterForest',
         (game) async {
           // TODO(alestiago): change to [NestBumpers] once provided.
           final board = Board();
@@ -84,6 +85,18 @@ void main() {
 
           final flutterForest = board.descendants().whereType<FlutterForest>();
           expect(flutterForest.length, equals(1));
+        },
+      );
+
+      flameTester.test(
+        'one ChromeDino',
+        (game) async {
+          final board = Board();
+          await game.ready();
+          await game.ensureAdd(board);
+
+          final chromeDino = board.descendants().whereType<ChromeDino>();
+          expect(chromeDino.length, equals(1));
         },
       );
     });
