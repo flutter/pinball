@@ -16,11 +16,10 @@ import 'package:pinball_components/pinball_components.dart';
 /// is awarded, and the [BigDashNestBumper] releases a new [Ball].
 /// {@endtemplate}
 // TODO(alestiago): Make a [Blueprint] once [Blueprint] inherits from [Component].
-class FlutterForest extends Component
-    with Controls<FlutterForestController>, HasGameRef<PinballGame> {
+class FlutterForest extends Component with Controls<_FlutterForestController> {
   /// {@macro flutter_forest}
   FlutterForest() {
-    controller = FlutterForestController(this);
+    controller = _FlutterForestController(this);
   }
 
   @override
@@ -28,14 +27,15 @@ class FlutterForest extends Component
     await super.onLoad();
     final signPost = FlutterSignPost()..initialPosition = Vector2(8.35, 58.3);
 
-    final bigNest = ControlledBigDashNestBumper(id: 'big_nest_bumper')
-      ..initialPosition = Vector2(18.55, 59.35);
-    final smallLeftNest =
-        ControlledSmallDashNestBumper.a(id: 'small_nest_bumper_a')
-          ..initialPosition = Vector2(8.95, 51.95);
-    final smallRightNest =
-        ControlledSmallDashNestBumper.b(id: 'small_nest_bumper_b')
-          ..initialPosition = Vector2(23.3, 46.75);
+    final bigNest = _ControlledBigDashNestBumper(
+      id: 'big_nest_bumper',
+    )..initialPosition = Vector2(18.55, 59.35);
+    final smallLeftNest = _ControlledSmallDashNestBumper.a(
+      id: 'small_nest_bumper_a',
+    )..initialPosition = Vector2(8.95, 51.95);
+    final smallRightNest = _ControlledSmallDashNestBumper.b(
+      id: 'small_nest_bumper_b',
+    )..initialPosition = Vector2(23.3, 46.75);
 
     await addAll([
       signPost,
@@ -49,15 +49,15 @@ class FlutterForest extends Component
 /// {@template flutter_forest_controller}
 ///
 /// {@endtemplate}
-class FlutterForestController extends ComponentController<FlutterForest>
+class _FlutterForestController extends ComponentController<FlutterForest>
     with BlocComponent<GameBloc, GameState>, HasGameRef<PinballGame> {
   /// {@macro flutter_forest_controller}
-  FlutterForestController(FlutterForest flutterForest) : super(flutterForest);
+  _FlutterForestController(FlutterForest flutterForest) : super(flutterForest);
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    gameRef.addContactCallback(ControlledDashNestBumperBallContactCallback());
+    gameRef.addContactCallback(_ControlledDashNestBumperBallContactCallback());
   }
 
   @override
@@ -81,10 +81,10 @@ class FlutterForestController extends ComponentController<FlutterForest>
 /// {@template controlled_big_dash_nest_bumper}
 /// A [BigDashNestBumper] controlled by a [DashNestBumperController].
 /// {@endtemplate}
-class ControlledBigDashNestBumper extends BigDashNestBumper
+class _ControlledBigDashNestBumper extends BigDashNestBumper
     with Controls<DashNestBumperController>, ScorePoints {
   /// {@macro controlled_big_dash_nest_bumper}
-  ControlledBigDashNestBumper({required String id}) : super() {
+  _ControlledBigDashNestBumper({required String id}) : super() {
     controller = DashNestBumperController(this, id: id);
   }
 
@@ -95,15 +95,15 @@ class ControlledBigDashNestBumper extends BigDashNestBumper
 /// {@template controlled_small_dash_nest_bumper}
 /// A [SmallDashNestBumper] controlled by a [DashNestBumperController].
 /// {@endtemplate}
-class ControlledSmallDashNestBumper extends SmallDashNestBumper
+class _ControlledSmallDashNestBumper extends SmallDashNestBumper
     with Controls<DashNestBumperController>, ScorePoints {
   /// {@macro controlled_small_dash_nest_bumper}
-  ControlledSmallDashNestBumper.a({required String id}) : super.a() {
+  _ControlledSmallDashNestBumper.a({required String id}) : super.a() {
     controller = DashNestBumperController(this, id: id);
   }
 
   /// {@macro controlled_small_dash_nest_bumper}
-  ControlledSmallDashNestBumper.b({required String id}) : super.b() {
+  _ControlledSmallDashNestBumper.b({required String id}) : super.b() {
     controller = DashNestBumperController(this, id: id);
   }
 
@@ -114,24 +114,24 @@ class ControlledSmallDashNestBumper extends SmallDashNestBumper
 /// {@template dash_nest_bumper_controller}
 /// Controls a [DashNestBumper].
 /// {@endtemplate}
+@visibleForTesting
 class DashNestBumperController extends ComponentController<DashNestBumper>
     with BlocComponent<GameBloc, GameState>, HasGameRef<PinballGame> {
   /// {@macro dash_nest_bumper_controller}
   DashNestBumperController(
     DashNestBumper dashNestBumper, {
-    required String id,
-  })  : _id = id,
-        super(dashNestBumper);
+    required this.id,
+  }) : super(dashNestBumper);
 
   /// Unique identifier for the controlled [DashNestBumper].
   ///
   /// Used to identify [DashNestBumper]s in [GameState.activatedDashNests].
-  final String _id;
+  final String id;
 
   @override
   bool listenWhen(GameState? previousState, GameState newState) {
-    final wasActive = previousState?.activatedDashNests.contains(_id) ?? false;
-    final isActive = newState.activatedDashNests.contains(_id);
+    final wasActive = previousState?.activatedDashNests.contains(id) ?? false;
+    final isActive = newState.activatedDashNests.contains(id);
 
     return wasActive != isActive;
   }
@@ -140,7 +140,7 @@ class DashNestBumperController extends ComponentController<DashNestBumper>
   void onNewState(GameState state) {
     super.onNewState(state);
 
-    if (state.activatedDashNests.contains(_id)) {
+    if (state.activatedDashNests.contains(id)) {
       component.activate();
     } else {
       component.deactivate();
@@ -149,15 +149,14 @@ class DashNestBumperController extends ComponentController<DashNestBumper>
 
   /// Registers when a [DashNestBumper] is hit by a [Ball].
   ///
-  /// Triggered by [ControlledDashNestBumperBallContactCallback].
+  /// Triggered by [_ControlledDashNestBumperBallContactCallback].
   void hit() {
-    gameRef.read<GameBloc>().add(DashNestActivated(_id));
+    gameRef.read<GameBloc>().add(DashNestActivated(id));
   }
 }
 
 /// Listens when a [Ball] bounces bounces against a [DashNestBumper]
-@visibleForTesting
-class ControlledDashNestBumperBallContactCallback
+class _ControlledDashNestBumperBallContactCallback
     extends ContactCallback<Controls<DashNestBumperController>, Ball> {
   @override
   void begin(
