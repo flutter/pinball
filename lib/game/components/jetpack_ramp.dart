@@ -5,7 +5,6 @@ import 'dart:math' as math;
 import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
-import 'package:pinball/flame/blueprint.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
@@ -14,8 +13,8 @@ class Jetpack extends Forge2DBlueprint {
   @override
   void build(_) {
     final position = Vector2(
-      PinballGame.boardBounds.left + 40.5,
-      PinballGame.boardBounds.top - 31.5,
+      BoardDimensions.bounds.left + 40.5,
+      BoardDimensions.bounds.top - 31.5,
     );
 
     addAllContactCallback([
@@ -115,7 +114,7 @@ class _JetpackRampOpening extends RampOpening {
 
   final double _rotation;
 
-  static final Vector2 _size = Vector2(JetpackRamp.width / 3, .1);
+  static final Vector2 _size = Vector2(JetpackRamp.width / 4, .1);
 
   @override
   Shape get shape => PolygonShape()

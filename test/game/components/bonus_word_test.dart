@@ -29,6 +29,7 @@ void main() {
     group('listenWhen', () {
       final previousState = MockGameState();
       final currentState = MockGameState();
+
       test(
         'returns true when there is a new word bonus awarded',
         () {
@@ -193,10 +194,16 @@ void main() {
     });
 
     group('bonus letter activation', () {
-      final gameBloc = MockGameBloc();
-      final tester = flameBlocTester(gameBloc: () => gameBloc);
+      late GameBloc gameBloc;
+
+      final tester = flameBlocTester<PinballGame>(
+        // TODO(alestiago): Use TestGame once BonusLetter has controller.
+        game: PinballGameTest.create,
+        gameBloc: () => gameBloc,
+      );
 
       setUp(() {
+        gameBloc = MockGameBloc();
         whenListen(
           gameBloc,
           const Stream<GameState>.empty(),
@@ -204,22 +211,23 @@ void main() {
         );
       });
 
-      tester.widgetTest(
+      tester.testGameWidget(
         'adds BonusLetterActivated to GameBloc when not activated',
-        (game, tester) async {
+        setUp: (game, tester) async {
           await game.ready();
           final bonusLetter = game.descendants().whereType<BonusLetter>().first;
+
           bonusLetter.activate();
           await game.ready();
-
-          await tester.pump();
+        },
+        verify: (game, tester) async {
           verify(() => gameBloc.add(const BonusLetterActivated(0))).called(1);
         },
       );
 
-      tester.widgetTest(
+      tester.testGameWidget(
         "doesn't add BonusLetterActivated to GameBloc when already activated",
-        (game, tester) async {
+        setUp: (game, tester) async {
           const state = GameState(
             score: 0,
             balls: 2,
@@ -233,18 +241,21 @@ void main() {
             initialState: state,
           );
 
-          await game.ready();
-          final bonusLetter = game.descendants().whereType<BonusLetter>().first;
-          bonusLetter.activate();
+          final bonusLetter = BonusLetter(letter: '', index: 0);
+          await game.add(bonusLetter);
           await game.ready();
 
+          bonusLetter.activate();
+          await game.ready();
+        },
+        verify: (game, tester) async {
           verifyNever(() => gameBloc.add(const BonusLetterActivated(0)));
         },
       );
 
-      tester.widgetTest(
+      tester.testGameWidget(
         'adds a ColorEffect',
-        (game, tester) async {
+        setUp: (game, tester) async {
           const state = GameState(
             score: 0,
             balls: 2,
@@ -253,13 +264,19 @@ void main() {
             bonusHistory: [],
           );
 
+          final bonusLetter = BonusLetter(letter: '', index: 0);
+          await game.add(bonusLetter);
           await game.ready();
-          final bonusLetter = game.descendants().whereType<BonusLetter>().first;
+
           bonusLetter.activate();
 
           bonusLetter.onNewState(state);
           await tester.pump();
-
+        },
+        verify: (game, tester) async {
+          // TODO(aleastiago): Look into making `testGameWidget` pass the
+          // subject.
+          final bonusLetter = game.descendants().whereType<BonusLetter>().last;
           expect(
             bonusLetter.children.whereType<ColorEffect>().length,
             equals(1),
@@ -267,9 +284,14 @@ void main() {
         },
       );
 
-      tester.widgetTest(
+      tester.testGameWidget(
         'only listens when there is a change on the letter status',
-        (game, tester) async {
+        setUp: (game, tester) async {
+          await game.ready();
+          final bonusLetter = game.descendants().whereType<BonusLetter>().first;
+          bonusLetter.activate();
+        },
+        verify: (game, tester) async {
           const state = GameState(
             score: 0,
             balls: 2,
@@ -277,11 +299,7 @@ void main() {
             activatedDashNests: {},
             bonusHistory: [],
           );
-
-          await game.ready();
           final bonusLetter = game.descendants().whereType<BonusLetter>().first;
-          bonusLetter.activate();
-
           expect(
             bonusLetter.listenWhen(const GameState.initial(), state),
             isTrue,

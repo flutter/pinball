@@ -25,6 +25,20 @@ void main() {
       },
     );
 
+    group('loads', () {
+      flameTester.test(
+        'a FlutterSignPost',
+        (game) async {
+          await game.ready();
+
+          expect(
+            game.descendants().whereType<FlutterSignPost>().length,
+            equals(1),
+          );
+        },
+      );
+    });
+
     flameTester.test(
       'onNewState adds a new ball',
       (game) async {
@@ -45,7 +59,10 @@ void main() {
 
     group('listenWhen', () {
       final gameBloc = MockGameBloc();
-      final tester = flameBlocTester(gameBloc: () => gameBloc);
+      final tester = flameBlocTester(
+        game: TestGame.new,
+        gameBloc: () => gameBloc,
+      );
 
       setUp(() {
         whenListen(
@@ -55,12 +72,10 @@ void main() {
         );
       });
 
-      tester.widgetTest(
+      tester.testGameWidget(
         'listens when a Bonus.dashNest is added',
-        (game, tester) async {
-          await game.ready();
-          final flutterForest =
-              game.descendants().whereType<FlutterForest>().first;
+        verify: (game, tester) async {
+          final flutterForest = FlutterForest();
 
           const state = GameState(
             score: 0,
@@ -69,7 +84,6 @@ void main() {
             activatedDashNests: {},
             bonusHistory: [GameBonus.dashNest],
           );
-
           expect(
             flutterForest.listenWhen(const GameState.initial(), state),
             isTrue,
@@ -81,7 +95,11 @@ void main() {
 
   group('DashNestBumperBallContactCallback', () {
     final gameBloc = MockGameBloc();
-    final tester = flameBlocTester(gameBloc: () => gameBloc);
+    final tester = flameBlocTester(
+      // TODO(alestiago): Use TestGame.new once a controller is implemented.
+      game: PinballGameTest.create,
+      gameBloc: () => gameBloc,
+    );
 
     setUp(() {
       whenListen(
@@ -91,19 +109,21 @@ void main() {
       );
     });
 
-    tester.widgetTest(
+    final dashNestBumper = MockDashNestBumper();
+    tester.testGameWidget(
       'adds a DashNestActivated event with DashNestBumper.id',
-      (game, tester) async {
-        final contactCallback = DashNestBumperBallContactCallback();
+      setUp: (game, tester) async {
         const id = '0';
-        final dashNestBumper = MockDashNestBumper();
         when(() => dashNestBumper.id).thenReturn(id);
         when(() => dashNestBumper.gameRef).thenReturn(game);
-
+      },
+      verify: (game, tester) async {
+        final contactCallback = DashNestBumperBallContactCallback();
         contactCallback.begin(dashNestBumper, MockBall(), MockContact());
 
-        verify(() => gameBloc.add(DashNestActivated(dashNestBumper.id)))
-            .called(1);
+        verify(
+          () => gameBloc.add(DashNestActivated(dashNestBumper.id)),
+        ).called(1);
       },
     );
   });

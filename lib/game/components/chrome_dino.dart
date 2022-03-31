@@ -4,7 +4,6 @@ import 'dart:math' as math;
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart' hide Timer;
 import 'package:flutter/material.dart';
-import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template chrome_dino}
@@ -32,7 +31,7 @@ class ChromeDino extends BodyComponent with InitialPosition {
       anchor: anchor,
     );
     final joint = _ChromeDinoJoint(jointDef);
-    world.createJoint2(joint);
+    world.createJoint(joint);
 
     return joint;
   }
@@ -153,17 +152,5 @@ class _ChromeDinoJoint extends RevoluteJoint {
   /// Sweeps the [ChromeDino] up and down repeatedly.
   void swivel() {
     setMotorSpeed(-motorSpeed);
-  }
-}
-
-extension on World {
-  // TODO(alestiago): Remove once Forge2D supports custom joints.
-  void createJoint2(Joint joint) {
-    assert(!isLocked, '');
-
-    joints.add(joint);
-
-    joint.bodyA.joints.add(joint);
-    joint.bodyB.joints.add(joint);
   }
 }

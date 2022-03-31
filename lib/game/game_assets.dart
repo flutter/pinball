@@ -8,7 +8,9 @@ extension PinballGameAssetsX on PinballGame {
   Future<void> preLoadAssets() async {
     await Future.wait([
       images.load(components.Assets.images.ball.keyName),
-      images.load(Assets.images.components.flipper.path),
+      images.load(components.Assets.images.flutterSignPost.keyName),
+      images.load(components.Assets.images.flipper.left.keyName),
+      images.load(components.Assets.images.flipper.right.keyName),
       images.load(Assets.images.components.background.path),
       images.load(Assets.images.components.launchRamp.launchRamp.path),
       images.load(Assets.images.components.launchRamp.launchRailFG.path),

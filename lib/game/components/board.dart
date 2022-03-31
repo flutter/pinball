@@ -1,20 +1,22 @@
 import 'package:flame/components.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_components/pinball_components.dart';
 
 /// {@template board}
 /// The main flat surface of the [PinballGame].
 /// {endtemplate}
 class Board extends Component {
   /// {@macro board}
-  Board();
+  // TODO(alestiago): Make Board a Blueprint and sort out priorities.
+  Board() : super(priority: 5);
 
   @override
   Future<void> onLoad() async {
     // TODO(alestiago): adjust positioning once sprites are added.
     final bottomGroup = _BottomGroup(
       position: Vector2(
-        PinballGame.boardBounds.center.dx,
-        PinballGame.boardBounds.bottom + 10,
+        BoardDimensions.bounds.center.dx,
+        BoardDimensions.bounds.bottom + 10,
       ),
       spacing: 2,
     );
@@ -24,8 +26,8 @@ class Board extends Component {
     // TODO(alestiago): adjust positioning to real design.
     final dino = ChromeDino()
       ..initialPosition = Vector2(
-        PinballGame.boardBounds.center.dx + 25,
-        PinballGame.boardBounds.center.dy + 10,
+        BoardDimensions.bounds.center.dx + 25,
+        BoardDimensions.bounds.center.dy + 10,
       );
 
     await addAll([
@@ -92,15 +94,17 @@ class _BottomGroupSide extends Component {
   Future<void> onLoad() async {
     final direction = _side.direction;
 
-    final flipper = Flipper(
+    final flipper = ControlledFlipper(
       side: _side,
     )..initialPosition = _position;
+
     final baseboard = Baseboard(side: _side)
       ..initialPosition = _position +
           Vector2(
             (Baseboard.size.x / 1.6 * direction),
             Baseboard.size.y - 2,
           );
+
     final kicker = Kicker(
       side: _side,
     )..initialPosition = _position +
