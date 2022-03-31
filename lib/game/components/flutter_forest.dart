@@ -46,11 +46,11 @@ class FlutterForest extends Component
     final signPost = FlutterSignPost()..initialPosition = Vector2(8.35, 58.3);
 
     // TODO(alestiago): adjust positioning once sprites are added.
-    final smallLeftNest = SmallDashNestBumper(id: 'small_left_nest')
+    final smallLeftNest = _SmallDashNestBumperA(id: 'small_nest_bumper_a')
       ..initialPosition = Vector2(8.95, 51.95);
-    final smallRightNest = SmallDashNestBumper(id: 'small_right_nest')
+    final smallRightNest = _SmallDashNestBumperB(id: 'small_nest_bumper_b')
       ..initialPosition = Vector2(23.3, 46.75);
-    final bigNest = BigDashNestBumper(id: 'big_nest')
+    final bigNest = BigDashNestBumper(id: 'big_nest_bumper')
       ..initialPosition = Vector2(18.55, 59.35);
 
     await addAll([
@@ -102,6 +102,24 @@ class BigDashNestBumper extends DashNestBumper {
   @override
   int get points => 20;
 
+  Future<void> _loadSprite() async {
+    final sprite = await gameRef.loadSprite(
+      Assets.images.dashBumper.main.inactive.keyName,
+    );
+    final spriteComponent = SpriteComponent(
+      sprite: sprite,
+      size: Vector2(10.8, 8.6),
+      anchor: Anchor.center,
+    );
+    await add(spriteComponent);
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    await _loadSprite();
+  }
+
   @override
   Body createBody() {
     final shape = EllipseShape(
@@ -121,7 +139,7 @@ class BigDashNestBumper extends DashNestBumper {
 
 /// {@macro dash_nest_bumper}
 @visibleForTesting
-class SmallDashNestBumper extends DashNestBumper {
+abstract class SmallDashNestBumper extends DashNestBumper {
   /// {@macro dash_nest_bumper}
   SmallDashNestBumper({required String id}) : super(id: id);
 
@@ -144,5 +162,51 @@ class SmallDashNestBumper extends DashNestBumper {
       ..userData = this;
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
+  }
+}
+
+class _SmallDashNestBumperA extends SmallDashNestBumper {
+  _SmallDashNestBumperA({required String id}) : super(id: id);
+
+  Future<void> _loadSprite() async {
+    final sprite = await gameRef.loadSprite(
+      Assets.images.dashBumper.a.inactive.keyName,
+    );
+    final spriteComponent = SpriteComponent(
+      sprite: sprite,
+      size: Vector2(7.1, 7.5),
+      anchor: Anchor.center,
+      position: Vector2(0.35, -1.2),
+    );
+    await add(spriteComponent);
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    await _loadSprite();
+  }
+}
+
+class _SmallDashNestBumperB extends SmallDashNestBumper {
+  _SmallDashNestBumperB({required String id}) : super(id: id);
+
+  Future<void> _loadSprite() async {
+    final sprite = await gameRef.loadSprite(
+      Assets.images.dashBumper.b.inactive.keyName,
+    );
+    final spriteComponent = SpriteComponent(
+      sprite: sprite,
+      size: Vector2(7.5, 7.4),
+      anchor: Anchor.center,
+      position: Vector2(0.35, -1.2),
+    );
+    await add(spriteComponent);
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    await _loadSprite();
   }
 }

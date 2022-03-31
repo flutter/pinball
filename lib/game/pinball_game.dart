@@ -115,7 +115,7 @@ class DebugPinballGame extends PinballGame with TapDetector {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadBackground();
+    // await _loadBackground();
   }
 
   // TODO(alestiago): Move to PinballGame once we have the real background
