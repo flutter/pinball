@@ -19,8 +19,8 @@ class Board extends Component {
     // TODO(alestiago): adjust positioning to real design.
     final dino = ChromeDino()
       ..initialPosition = Vector2(
-        PinballGame.boardBounds.center.dx + 25,
-        PinballGame.boardBounds.center.dy + 10,
+        BoardDimensions.bounds.center.dx + 25,
+        BoardDimensions.bounds.center.dy + 10,
       );
 
     await addAll([
