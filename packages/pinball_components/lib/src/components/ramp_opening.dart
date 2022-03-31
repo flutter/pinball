@@ -21,7 +21,7 @@ enum RampOrientation {
 /// through this opening.
 ///
 /// By default the base [layer] is set to [Layer.board] and the
-/// [outsidePriority] is set to the lowest.
+/// [outsidePriority] is set to the lowest possible [Layer].
 /// {@endtemplate}
 // TODO(ruialonso): Consider renaming the class.
 abstract class RampOpening extends BodyComponent with InitialPosition, Layered {
