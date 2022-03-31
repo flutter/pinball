@@ -24,9 +24,7 @@ abstract class ComponentController<T extends Component> extends Component {
   }
 }
 
-/// {@template controller}
 /// Mixin that attaches a single [ComponentController] to a [Component].
-/// {@endtemplate}
 mixin Controls<T extends ComponentController> on Component {
   /// The [ComponentController] attached to this [Component].
   late final T controller;
