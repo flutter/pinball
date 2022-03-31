@@ -150,9 +150,9 @@ class SpaceshipEntrance extends RampOpening {
   /// {@macro spaceship_entrance}
   SpaceshipEntrance()
       : super(
-          pathwayLayer: Layer.spaceship,
+          insideLayer: Layer.spaceship,
           orientation: RampOrientation.up,
-          pathwayPriority: Spaceship.ballPriorityWhenOnSpaceship,
+          insidePriority: Spaceship.ballPriorityWhenOnSpaceship,
         ) {
     layer = Layer.spaceship;
   }
@@ -183,7 +183,7 @@ class SpaceshipHole extends RampOpening {
   /// {@macro spaceship_hole}
   SpaceshipHole({Layer? outsideLayer, int? outsidePriority = 1})
       : super(
-          pathwayLayer: Layer.spaceship,
+          insideLayer: Layer.spaceship,
           outsideLayer: outsideLayer,
           outsidePriority: outsidePriority,
           orientation: RampOrientation.up,
@@ -266,7 +266,7 @@ class SpaceshipEntranceBallContactCallback
   @override
   void begin(SpaceshipEntrance entrance, Ball ball, _) {
     ball
-      ..sendTo(entrance.pathwayPriority)
+      ..sendTo(entrance.insidePriority)
       ..layer = Layer.spaceship;
   }
 }

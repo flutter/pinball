@@ -12,7 +12,7 @@ class TestRampOpening extends RampOpening {
     required RampOrientation orientation,
     required Layer pathwayLayer,
   }) : super(
-          pathwayLayer: pathwayLayer,
+          insideLayer: pathwayLayer,
           orientation: orientation,
         );
 
@@ -134,7 +134,7 @@ void main() {
       when(() => ball.layer).thenReturn(Layer.board);
 
       callback.begin(ball, area, MockContact());
-      verify(() => ball.layer = area.pathwayLayer).called(1);
+      verify(() => ball.layer = area.insideLayer).called(1);
     });
 
     flameTester.test(
@@ -155,7 +155,7 @@ void main() {
       when(() => ball.layer).thenReturn(Layer.board);
 
       callback.begin(ball, area, MockContact());
-      verify(() => ball.layer = area.pathwayLayer).called(1);
+      verify(() => ball.layer = area.insideLayer).called(1);
     });
 
     flameTester.test(
@@ -176,7 +176,7 @@ void main() {
       when(() => ball.layer).thenReturn(Layer.board);
 
       callback.begin(ball, area, MockContact());
-      verify(() => ball.layer = area.pathwayLayer).called(1);
+      verify(() => ball.layer = area.insideLayer).called(1);
 
       callback.end(ball, area, MockContact());
       verify(() => ball.layer = Layer.board);
@@ -200,7 +200,7 @@ void main() {
       when(() => ball.layer).thenReturn(Layer.board);
 
       callback.begin(ball, area, MockContact());
-      verify(() => ball.layer = area.pathwayLayer).called(1);
+      verify(() => ball.layer = area.insideLayer).called(1);
 
       callback.end(ball, area, MockContact());
       verify(() => ball.layer = Layer.board);
@@ -224,13 +224,13 @@ void main() {
       when(() => ball.layer).thenReturn(Layer.board);
 
       callback.begin(ball, area, MockContact());
-      verify(() => ball.layer = area.pathwayLayer).called(1);
+      verify(() => ball.layer = area.insideLayer).called(1);
 
       callback.end(ball, area, MockContact());
       verifyNever(() => ball.layer = Layer.board);
 
       callback.begin(ball, area, MockContact());
-      verifyNever(() => ball.layer = area.pathwayLayer);
+      verifyNever(() => ball.layer = area.insideLayer);
 
       callback.end(ball, area, MockContact());
       verify(() => ball.layer = Layer.board);

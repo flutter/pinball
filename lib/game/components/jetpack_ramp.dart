@@ -107,7 +107,7 @@ class _JetpackRampOpening extends RampOpening {
     required double rotation,
   })  : _rotation = rotation,
         super(
-          pathwayLayer: Layer.jetpack,
+          insideLayer: Layer.jetpack,
           outsideLayer: outsideLayer,
           orientation: RampOrientation.down,
         );
