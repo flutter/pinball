@@ -103,38 +103,6 @@ void main() {
       });
     });
 
-    group('isLastBall', () {
-      test(
-        'is true '
-        'when there is only one ball left',
-        () {
-          const gameState = GameState(
-            balls: 1,
-            score: 0,
-            activatedBonusLetters: [],
-            activatedDashNests: {},
-            bonusHistory: [],
-          );
-          expect(gameState.isLastBall, isTrue);
-        },
-      );
-
-      test(
-        'is false '
-        'when there are more balls left',
-        () {
-          const gameState = GameState(
-            balls: 2,
-            score: 0,
-            activatedBonusLetters: [],
-            activatedDashNests: {},
-            bonusHistory: [],
-          );
-          expect(gameState.isLastBall, isFalse);
-        },
-      );
-    });
-
     group('isLetterActivated', () {
       test(
         'is true when the letter is activated',
