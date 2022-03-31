@@ -85,15 +85,13 @@ class _SpaceshipExitRailRamp extends BodyComponent
     final bottomLeftCurveFixtureDef = FixtureDef(bottomLeftCurveShape);
     fixturesDefs.add(bottomLeftCurveFixtureDef);
 
-    final topRightCurveShape = BezierCurveShape(
-      controlPoints: [
+    final topRightStraightShape = EdgeShape()
+      ..set(
         Vector2(-33, 31.3),
-        Vector2(-33.2, 26.4),
         Vector2(-27.2, 21.3),
-      ],
-    );
-    final topRightCurveFixtureDef = FixtureDef(topRightCurveShape);
-    fixturesDefs.add(topRightCurveFixtureDef);
+      );
+    final topRightStraightFixtureDef = FixtureDef(topRightStraightShape);
+    fixturesDefs.add(topRightStraightFixtureDef);
 
     final middleRightCurveShape = BezierCurveShape(
       controlPoints: [
