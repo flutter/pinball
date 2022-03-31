@@ -58,9 +58,9 @@ void main() {
         gameBloc: () => gameBloc,
       );
 
-      tester.widgetTest(
+      tester.testGameWidget(
         'removes ball',
-        (game, tester) async {
+        verify: (game, tester) async {
           await game.add(ball);
           final controller = LaunchedBallController(ball);
           await ball.add(controller);
@@ -73,9 +73,9 @@ void main() {
         },
       );
 
-      tester.widgetTest(
+      tester.testGameWidget(
         'adds BallLost to GameBloc',
-        (game, tester) async {
+        verify: (game, tester) async {
           final controller = LaunchedBallController(ball);
           await ball.add(controller);
           await game.add(ball);
@@ -87,9 +87,9 @@ void main() {
         },
       );
 
-      tester.widgetTest(
+      tester.testGameWidget(
         'adds a new ball if the game is not over',
-        (game, tester) async {
+        verify: (game, tester) async {
           final controller = LaunchedBallController(ball);
           await ball.add(controller);
           await game.add(ball);
@@ -104,9 +104,9 @@ void main() {
         },
       );
 
-      tester.widgetTest(
+      tester.testGameWidget(
         'no ball is added on game over',
-        (game, tester) async {
+        verify: (game, tester) async {
           whenListen(
             gameBloc,
             const Stream<GameState>.empty(),
