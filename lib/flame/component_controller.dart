@@ -25,7 +25,7 @@ abstract class ComponentController<T extends Component> extends Component {
 
   @override
   Future<void> add(Component component) {
-    throw Exception('ComponentController should not add other components.');
+    throw Exception('ComponentController cannot add other components.');
   }
 }
 

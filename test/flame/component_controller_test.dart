@@ -47,7 +47,7 @@ void main() {
     );
 
     flameTester.test(
-      'throws Exception when adding other component',
+      'throws Exception when adding a component',
       (game) async {
         final component = ControlledComponent();
         final controller = TestComponentController(component);
