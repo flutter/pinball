@@ -15,7 +15,8 @@ import 'package:pinball_components/pinball_components.dart';
 /// When all [DashNestBumper]s are hit at least once, the [GameBonus.dashNest]
 /// is awarded, and the [BigDashNestBumper] releases a new [Ball].
 /// {@endtemplate}
-// TODO(alestiago): Make a [Blueprint] once [Blueprint] inherits from [Component].
+// TODO(alestiago): Make a [Blueprint] once [Blueprint] inherits from
+// [Component].
 class FlutterForest extends Component with Controls<_FlutterForestController> {
   /// {@macro flutter_forest}
   FlutterForest() {
