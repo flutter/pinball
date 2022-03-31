@@ -310,5 +310,3 @@ void main() {
     );
   });
 }
-
-class MockDashNestBumper extends Mock implements DashNestBumper {}
