@@ -1,9 +1,6 @@
 // ignore_for_file: cascade_invocations
 
-import 'dart:math';
-
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -28,7 +25,7 @@ void main() {
     test('can be instantiated', () {
       expect(
         BonusBallController(ball),
-        isA<LaunchedBallController>(),
+        isA<BonusBallController>(),
       );
     });
 
