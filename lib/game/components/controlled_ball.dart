@@ -69,9 +69,11 @@ class LaunchedBallController extends BallController
   @override
   void lost() {
     super.lost();
-    final bloc = gameRef.read<GameBloc>()..add(const BallLost());
-    final shouldBallRespwan = !bloc.state.isLastBall && !bloc.state.isGameOver;
 
+    final bloc = gameRef.read<GameBloc>()..add(const BallLost());
+
+    // TODO(alestiago): Consider the use of onNewState instead.
+    final shouldBallRespwan = !bloc.state.isLastBall && !bloc.state.isGameOver;
     if (shouldBallRespwan) gameRef.spawnBall();
   }
 }
