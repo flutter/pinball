@@ -31,6 +31,7 @@ void main() {
         );
       },
     );
+
     flameTester.test(
       'throws AssertionError when not attached to controlled component',
       (game) async {
@@ -41,6 +42,20 @@ void main() {
         await expectLater(
           () async => await anotherComponet.add(controller),
           throwsAssertionError,
+        );
+      },
+    );
+
+    flameTester.test(
+      'throws Exception when adding other component',
+      (game) async {
+        final component = ControlledComponent();
+        final controller = TestComponentController(component);
+
+        final anotherComponet = Component();
+        await expectLater(
+          () async => controller.add(anotherComponet),
+          throwsException,
         );
       },
     );
