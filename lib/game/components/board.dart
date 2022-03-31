@@ -12,14 +12,7 @@ class Board extends Component {
 
   @override
   Future<void> onLoad() async {
-    // TODO(alestiago): adjust positioning once sprites are added.
-    final bottomGroup = _BottomGroup(
-      position: Vector2(
-        BoardDimensions.bounds.center.dx,
-        BoardDimensions.bounds.bottom + 10,
-      ),
-      spacing: 2,
-    );
+    final bottomGroup = _BottomGroup();
 
     final flutterForest = FlutterForest();
 
@@ -46,27 +39,15 @@ class Board extends Component {
 // TODO(alestiago): Consider renaming once entire Board is defined.
 class _BottomGroup extends Component {
   /// {@macro bottom_group}
-  _BottomGroup({
-    required this.position,
-    required this.spacing,
-  });
-
-  /// The amount of space between the line of symmetry.
-  final double spacing;
-
-  /// The position of this [_BottomGroup].
-  final Vector2 position;
+  _BottomGroup();
 
   @override
   Future<void> onLoad() async {
-    final spacing = this.spacing + Flipper.size.x / 2;
     final rightSide = _BottomGroupSide(
       side: BoardSide.right,
-      position: position + Vector2(spacing, 0),
     );
     final leftSide = _BottomGroupSide(
       side: BoardSide.left,
-      position: position + Vector2(-spacing, 0),
     );
 
     await addAll([rightSide, leftSide]);
@@ -82,36 +63,29 @@ class _BottomGroupSide extends Component {
   /// {@macro bottom_group_side}
   _BottomGroupSide({
     required BoardSide side,
-    required Vector2 position,
-  })  : _side = side,
-        _position = position;
+  }) : _side = side;
 
   final BoardSide _side;
-
-  final Vector2 _position;
 
   @override
   Future<void> onLoad() async {
     final direction = _side.direction;
+    final centerXAdjustment = _side.isLeft ? 0 : -6.5;
 
     final flipper = ControlledFlipper(
       side: _side,
-    )..initialPosition = _position;
-
+    )..initialPosition = Vector2((11.0 * direction) + centerXAdjustment, -42.4);
     final baseboard = Baseboard(side: _side)
-      ..initialPosition = _position +
-          Vector2(
-            (Baseboard.size.x / 1.6 * direction),
-            Baseboard.size.y - 2,
-          );
-
+      ..initialPosition = Vector2(
+        (25.58 * direction) + centerXAdjustment,
+        -28.69,
+      );
     final kicker = Kicker(
       side: _side,
-    )..initialPosition = _position +
-        Vector2(
-          (Flipper.size.x) * direction,
-          Flipper.size.y + Kicker.size.y,
-        );
+    )..initialPosition = Vector2(
+        (22.0 * direction) + centerXAdjustment,
+        -26,
+      );
 
     await addAll([flipper, baseboard, kicker]);
   }
