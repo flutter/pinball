@@ -195,6 +195,7 @@ void main() {
 
     group('bonus letter activation', () {
       late GameBloc gameBloc;
+      
       final tester = flameBlocTester(
         // TODO(alestiago): Use TestGame once BonusLetter has controller.
         game: PinballGameTest.create,
