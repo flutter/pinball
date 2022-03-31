@@ -2,7 +2,6 @@
 
 import 'dart:collection';
 
-import 'package:bloc_test/bloc_test.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/services.dart';
@@ -189,21 +188,13 @@ void main() {
 
   group('PlungerAnchorPrismaticJointDef', () {
     const compressionDistance = 10.0;
-    final gameBloc = MockGameBloc();
     late Plunger plunger;
 
     setUp(() {
-      whenListen(
-        gameBloc,
-        const Stream<GameState>.empty(),
-        initialState: const GameState.initial(),
-      );
       plunger = Plunger(
         compressionDistance: compressionDistance,
       );
     });
-
-    final flameTester = flameBlocTester(gameBloc: () => gameBloc);
 
     group('initializes with', () {
       flameTester.test(
