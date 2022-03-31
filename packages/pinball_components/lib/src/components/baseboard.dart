@@ -103,7 +103,7 @@ class Baseboard extends BodyComponent with InitialPosition {
 
   @override
   Body createBody() {
-    const angle = 0.6475;
+    const angle = 37.1 * (math.pi / 180);
 
     final bodyDef = BodyDef()
       ..position = initialPosition
