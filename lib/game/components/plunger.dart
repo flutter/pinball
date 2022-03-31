@@ -85,7 +85,7 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
       plunger: this,
       anchor: anchor,
     );
-    world.createJoint(jointDef);
+    world.createJoint(PrismaticJoint(jointDef));
   }
 
   @override
