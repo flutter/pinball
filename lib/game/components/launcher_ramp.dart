@@ -3,10 +3,7 @@
 import 'dart:math' as math;
 
 import 'package:flame/components.dart';
-import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/material.dart';
-import 'package:pinball/game/game.dart';
 import 'package:pinball/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 
@@ -46,9 +43,6 @@ class LauncherRamp extends BodyComponent with InitialPosition, Layered {
   /// {@macro launcher_ramp}
   LauncherRamp() : super(priority: -1) {
     layer = Layer.launcher;
-    paint = Paint()
-      ..color = const Color.fromARGB(255, 251, 255, 0)
-      ..style = PaintingStyle.stroke;
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -142,18 +136,14 @@ class LauncherRamp extends BodyComponent with InitialPosition, Layered {
   }
 }
 
-/// {@template launcher_ramp}
-/// The yellow right ramp, where the [Ball] goes through when launched from the
-/// [Plunger].
+/// {@template launcher_foreground_railing}
+/// Foreground railing for the [LauncherRamp] to render in front of the [Ball].
 /// {@endtemplate}
 class LauncherForegroundRailing extends BodyComponent
     with InitialPosition, Layered {
-  /// {@macro launcher_ramp}
-  LauncherForegroundRailing() : super(priority: 5) {
+  /// {@macro launcher_foreground_railing}
+  LauncherForegroundRailing() : super(priority: 4) {
     layer = Layer.launcher;
-    paint = Paint()
-      ..color = const Color.fromARGB(255, 251, 255, 0)
-      ..style = PaintingStyle.stroke;
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -199,7 +189,7 @@ class LauncherForegroundRailing extends BodyComponent
       size: Vector2(38.1, 138.6),
       anchor: Anchor.center,
       position: Vector2(22.8, 0),
-      priority: 5,
+      priority: 4,
     );
 
     await gameRef.add(spriteComponent);

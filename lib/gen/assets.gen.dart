@@ -24,9 +24,6 @@ class $AssetsImagesComponentsGen {
 
   $AssetsImagesComponentsLaunchRampGen get launchRamp =>
       const $AssetsImagesComponentsLaunchRampGen();
-
-  $AssetsImagesComponentsSpaceshipGen get spaceship =>
-      const $AssetsImagesComponentsSpaceshipGen();
 }
 
 class $AssetsImagesComponentsLaunchRampGen {
@@ -39,30 +36,6 @@ class $AssetsImagesComponentsLaunchRampGen {
   /// File path: assets/images/components/launch_ramp/launch-rail-FG.png
   AssetGenImage get launchRailFG => const AssetGenImage(
       'assets/images/components/launch_ramp/launch-rail-FG.png');
-}
-
-class $AssetsImagesComponentsSpaceshipGen {
-  const $AssetsImagesComponentsSpaceshipGen();
-
-  /// File path: assets/images/components/spaceship/android-bottom.png
-  AssetGenImage get androidBottom => const AssetGenImage(
-      'assets/images/components/spaceship/android-bottom.png');
-
-  /// File path: assets/images/components/spaceship/android-top.png
-  AssetGenImage get androidTop =>
-      const AssetGenImage('assets/images/components/spaceship/android-top.png');
-
-  /// File path: assets/images/components/spaceship/lower.png
-  AssetGenImage get lower =>
-      const AssetGenImage('assets/images/components/spaceship/lower.png');
-
-  /// File path: assets/images/components/spaceship/saucer.png
-  AssetGenImage get saucer =>
-      const AssetGenImage('assets/images/components/spaceship/saucer.png');
-
-  /// File path: assets/images/components/spaceship/upper.png
-  AssetGenImage get upper =>
-      const AssetGenImage('assets/images/components/spaceship/upper.png');
 }
 
 class Assets {
