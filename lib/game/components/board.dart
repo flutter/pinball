@@ -72,7 +72,7 @@ class _BottomGroupSide extends Component {
     final direction = _side.direction;
     final centerXAdjustment = _side.isLeft ? 0 : -6.5;
 
-    final flipper = Flipper(
+    final flipper = ControlledFlipper(
       side: _side,
     )..initialPosition = Vector2((11.0 * direction) + centerXAdjustment, -42.4);
     final baseboard = Baseboard(side: _side)
