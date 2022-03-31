@@ -13,8 +13,8 @@ class Launcher extends Forge2DBlueprint {
   @override
   void build(_) {
     final position = Vector2(
-      PinballGame.boardBounds.right - 31.3,
-      PinballGame.boardBounds.bottom + 33,
+      BoardDimensions.bounds.right - 31.3,
+      BoardDimensions.bounds.bottom + 33,
     );
 
     addAllContactCallback([
@@ -67,8 +67,8 @@ class LauncherRamp extends BodyComponent with InitialPosition, Layered {
 
     final rightStraightShape = EdgeShape()
       ..set(
-        startPosition..rotate(PinballGame.boardPerspectiveAngle),
-        endPosition..rotate(PinballGame.boardPerspectiveAngle),
+        startPosition..rotate(BoardDimensions.perspectiveAngle),
+        endPosition..rotate(BoardDimensions.perspectiveAngle),
       );
     final rightStraightFixtureDef = FixtureDef(rightStraightShape);
     fixturesDef.add(rightStraightFixtureDef);

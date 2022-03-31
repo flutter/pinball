@@ -44,13 +44,12 @@ class Wall extends BodyComponent {
 
 /// Create top, left, and right [Wall]s for the game board.
 List<Wall> createBoundaries(Forge2DGame game) {
-  final topLeft =
-      PinballGame.boardBounds.topLeft.toVector2() + Vector2(18.6, 0);
-  final bottomRight = PinballGame.boardBounds.bottomRight.toVector2();
+  final topLeft = BoardDimensions.bounds.topLeft.toVector2() + Vector2(18.6, 0);
+  final bottomRight = BoardDimensions.bounds.bottomRight.toVector2();
 
   final topRight =
-      PinballGame.boardBounds.topRight.toVector2() - Vector2(18.6, 0);
-  final bottomLeft = PinballGame.boardBounds.bottomLeft.toVector2();
+      BoardDimensions.bounds.topRight.toVector2() - Vector2(18.6, 0);
+  final bottomLeft = BoardDimensions.bounds.bottomLeft.toVector2();
 
   return [
     Wall(start: topLeft, end: topRight),
@@ -69,8 +68,8 @@ class BottomWall extends Wall {
   /// {@macro bottom_wall}
   BottomWall()
       : super(
-          start: PinballGame.boardBounds.bottomLeft.toVector2(),
-          end: PinballGame.boardBounds.bottomRight.toVector2(),
+          start: BoardDimensions.bounds.bottomLeft.toVector2(),
+          end: BoardDimensions.bounds.bottomRight.toVector2(),
         );
 }
 
@@ -95,65 +94,59 @@ class DinoTopWall extends BodyComponent with InitialPosition {
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
 
-    final wallPerspectiveAngle =
-        PinballGame.boardPerspectiveAngle + math.pi / 2;
-
-    final bottomCurveControlPoints = [
-      Vector2(-8, 0),
-      Vector2(-9, 1.5),
-      Vector2(-8.5, 4),
-      Vector2(-6.6, 7.5),
-    ];
-    final bottomCurveShape = BezierCurveShape(
-      controlPoints: bottomCurveControlPoints,
-    )..rotate(wallPerspectiveAngle);
-    fixturesDef.add(FixtureDef(bottomCurveShape));
-
-    final mediumCurveControlPoints = [
-      bottomCurveControlPoints.last.clone(),
-      Vector2(-4.3, 7),
-      Vector2(-4.8, 4.2),
-      Vector2(-1, 5),
-    ];
-    final mediumCurveShape = BezierCurveShape(
-      controlPoints: mediumCurveControlPoints,
-    )..rotate(wallPerspectiveAngle);
-    fixturesDef.add(FixtureDef(mediumCurveShape));
-
-    final topCurveControlPoints = [
-      mediumCurveControlPoints.last.clone(),
-      Vector2(1, 8.7),
-      Vector2(6, 9.3),
-      Vector2(13.5, 1),
-    ];
-    final topCurveShape = BezierCurveShape(
-      controlPoints: topCurveControlPoints,
-    )..rotate(wallPerspectiveAngle);
-    fixturesDef.add(FixtureDef(topCurveShape));
-
-    final topStraightPoints = [
-      topCurveControlPoints.last.clone(),
-      Vector2(13.5, 0),
+    final topStraightControlPoints = [
+      Vector2(29.5, 35.1),
+      Vector2(28.4, 35.1),
     ];
     final topStraightShape = EdgeShape()
       ..set(
-        topStraightPoints.first.clone()..rotate(wallPerspectiveAngle),
-        topStraightPoints.last.clone()..rotate(wallPerspectiveAngle),
+        topStraightControlPoints.first,
+        topStraightControlPoints.last,
       );
     final topStraightFixtureDef = FixtureDef(topStraightShape);
     fixturesDef.add(topStraightFixtureDef);
 
-    final wallStraightPoints = [
-      bottomCurveControlPoints.first.clone(),
-      topStraightPoints.last.clone(),
+    final topCurveControlPoints = [
+      Vector2(28.4, 35.1),
+      Vector2(18, 26.38),
+      Vector2(26.6, 20.5),
     ];
-    final wallStraightShape = EdgeShape()
+    final topCurveShape = BezierCurveShape(
+      controlPoints: topCurveControlPoints,
+    );
+    fixturesDef.add(FixtureDef(topCurveShape));
+
+    final middleCurveControlPoints = [
+      Vector2(26.6, 20.5),
+      Vector2(27.5, 20.1),
+      Vector2(26.6, 18.8),
+    ];
+    final middleCurveShape = BezierCurveShape(
+      controlPoints: middleCurveControlPoints,
+    );
+    fixturesDef.add(FixtureDef(middleCurveShape));
+
+    final bottomCurveControlPoints = [
+      Vector2(26.6, 18.8),
+      Vector2(21.15, 17.1),
+      Vector2(24.6, 15.1),
+    ];
+    final bottomCurveShape = BezierCurveShape(
+      controlPoints: bottomCurveControlPoints,
+    );
+    fixturesDef.add(FixtureDef(bottomCurveShape));
+
+    final bottomStraightControlPoints = [
+      Vector2(24.6, 15.1),
+      Vector2(31.8, 14.1),
+    ];
+    final bottomStraightShape = EdgeShape()
       ..set(
-        wallStraightPoints.first..rotate(wallPerspectiveAngle),
-        wallStraightPoints.last..rotate(wallPerspectiveAngle),
+        bottomStraightControlPoints.first,
+        bottomStraightControlPoints.last,
       );
-    final wallStraightFixtureDef = FixtureDef(wallStraightShape);
-    fixturesDef.add(wallStraightFixtureDef);
+    final bottomStraightFixtureDef = FixtureDef(bottomStraightShape);
+    fixturesDef.add(bottomStraightFixtureDef);
 
     return fixturesDef;
   }

@@ -13,8 +13,8 @@ class Jetpack extends Forge2DBlueprint {
   @override
   void build(_) {
     final position = Vector2(
-      PinballGame.boardBounds.left + 40.5,
-      PinballGame.boardBounds.top - 31.5,
+      BoardDimensions.bounds.left + 40.5,
+      BoardDimensions.bounds.top - 31.5,
     );
 
     addAllContactCallback([
