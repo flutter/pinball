@@ -149,13 +149,10 @@ class SpaceshipEntrance extends RampOpening {
       : super(
           pathwayLayer: Layer.spaceship,
           orientation: RampOrientation.up,
+          pathwayPriority: 4,
         ) {
     layer = Layer.spaceship;
   }
-
-  /// Priority order for [SpaceshipHole] on enter.
-  // TODO(ruimiguel): apply Elevated when PR merged.
-  final int onEnterElevation = 4;
 
   @override
   Shape get shape {
@@ -186,6 +183,8 @@ class SpaceshipHole extends RampOpening {
           pathwayLayer: Layer.spaceship,
           outsideLayer: onExitLayer,
           orientation: RampOrientation.up,
+          pathwayPriority: 4,
+          outsidePriority: onExitElevation,
         ) {
     layer = Layer.spaceship;
   }
@@ -269,8 +268,7 @@ class SpaceshipEntranceBallContactCallback
   @override
   void begin(SpaceshipEntrance entrance, Ball ball, _) {
     ball
-      // TODO(ruimiguel): apply Elevated when PR merged.
-      ..priority = entrance.onEnterElevation
+      ..priority = entrance.pathwayPriority
       ..gameRef.reorderChildren()
       ..layer = Layer.spaceship;
   }
@@ -287,7 +285,7 @@ class SpaceshipHoleBallContactCallback
   void begin(SpaceshipHole hole, Ball ball, _) {
     ball
       // TODO(ruimiguel): apply Elevated when PR merged.
-      ..priority = hole.onExitElevation
+      ..priority = hole.outsidePriority
       ..gameRef.reorderChildren()
       ..layer = hole.outsideLayer;
   }

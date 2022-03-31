@@ -171,6 +171,7 @@ class SpaceshipExitRailEnd extends RampOpening {
       : super(
           pathwayLayer: Layer.spaceshipExitRail,
           orientation: RampOrientation.down,
+          pathwayPriority: 3,
         ) {
     layer = Layer.spaceshipExitRail;
   }

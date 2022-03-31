@@ -27,12 +27,18 @@ abstract class RampOpening extends BodyComponent with InitialPosition, Layered {
   /// {@macro ramp_opening}
   RampOpening({
     required Layer pathwayLayer,
+    required int pathwayPriority,
     Layer? outsideLayer,
+    int? outsidePriority,
     required this.orientation,
   })  : _pathwayLayer = pathwayLayer,
-        _outsideLayer = outsideLayer ?? Layer.board {
+        _outsideLayer = outsideLayer ?? Layer.board,
+        _pathwayPriority = pathwayPriority,
+        _outsidePriority = outsidePriority ?? 1 {
     layer = Layer.board;
   }
+  final int _pathwayPriority;
+  final int _outsidePriority;
   final Layer _pathwayLayer;
   final Layer _outsideLayer;
 
@@ -41,6 +47,12 @@ abstract class RampOpening extends BodyComponent with InitialPosition, Layered {
 
   /// Mask of category bits for collision outside pathway.
   Layer get outsideLayer => _outsideLayer;
+
+  /// Mask of category bits for collision outside pathway.
+  int get pathwayPriority => _pathwayPriority;
+
+  /// Mask of category bits for collision outside pathway.
+  int get outsidePriority => _outsidePriority;
 
   /// The [Shape] of the [RampOpening].
   Shape get shape;
@@ -82,7 +94,9 @@ class RampOpeningBallContactCallback<Opening extends RampOpening>
     if (!_ballsInside.contains(ball)) {
       layer = opening.pathwayLayer;
       _ballsInside.add(ball);
-      ball.layer = layer;
+      ball
+        ..layer = layer
+        ..priority = opening.pathwayPriority;
     } else {
       _ballsInside.remove(ball);
     }
@@ -103,7 +117,9 @@ class RampOpeningBallContactCallback<Opening extends RampOpening>
                   ball.body.linearVelocity.y > 0);
 
       if (isBallOutsideOpening) {
-        ball.layer = opening.outsideLayer;
+        ball
+          ..layer = opening.outsideLayer
+          ..priority = opening.outsidePriority;
         _ballsInside.remove(ball);
       }
     }
