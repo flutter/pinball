@@ -12,10 +12,7 @@ import 'package:pinball_components/pinball_components.dart' hide Assets;
 /// {@endtemplate}
 class SpaceshipExitRail extends Forge2DBlueprint {
   /// {@macro spaceship_exit_rail}
-  SpaceshipExitRail({required this.position});
-
-  /// The [position] where the elements will be created
-  final Vector2 position;
+  SpaceshipExitRail();
 
   @override
   void build(_) {
@@ -23,17 +20,16 @@ class SpaceshipExitRail extends Forge2DBlueprint {
       SpaceshipExitRailEndBallContactCallback(),
     ]);
 
-    final spaceshipExitRailRamp = _SpaceshipExitRailRamp()
-      ..initialPosition = position;
-    final exitRail = SpaceshipExitRailEnd()
-      ..initialPosition = position + _SpaceshipExitRailRamp.exitPoint;
+    final exitRailRamp = _SpaceshipExitRailRamp();
+    final exitRailEnd = SpaceshipExitRailEnd();
     final topBase = _SpaceshipExitRailBase(radius: 0.55)
-      ..initialPosition = position + Vector2(12, -11.5);
+      ..initialPosition = Vector2(-26.15, 18.65);
     final bottomBase = _SpaceshipExitRailBase(radius: 0.8)
-      ..initialPosition = position + Vector2(12.8, -43.5);
+      ..initialPosition = Vector2(-25.5, -12.9);
+
     addAll([
-      spaceshipExitRailRamp,
-      exitRail,
+      exitRailRamp,
+      exitRailEnd,
       topBase,
       bottomBase,
     ]);
@@ -47,105 +43,77 @@ class _SpaceshipExitRailRamp extends BodyComponent
     layer = Layer.spaceshipExitRail;
   }
 
-  static final exitPoint = Vector2(9.2, -48.5);
-
   List<FixtureDef> _createFixtureDefs() {
-    const entranceRotationAngle = 175 * math.pi / 180;
-    const curveRotationAngle = 275 * math.pi / 180;
-    const exitRotationAngle = 340 * math.pi / 180;
-    const width = 5.5;
-
     final fixturesDefs = <FixtureDef>[];
 
-    final entranceWall = ArcShape(
-      center: Vector2(width / 2, 0),
-      arcRadius: width / 2,
+    final topArcShape = ArcShape(
+      center: Vector2(-35.5, 30.9),
+      arcRadius: 2.5,
       angle: math.pi,
-      rotation: entranceRotationAngle,
+      rotation: 2.9,
     );
-    final entranceFixtureDef = FixtureDef(entranceWall);
-    fixturesDefs.add(entranceFixtureDef);
+    final topArcFixtureDef = FixtureDef(topArcShape);
+    fixturesDefs.add(topArcFixtureDef);
 
-    final topLeftControlPoints = [
-      Vector2(0, 0),
-      Vector2(10, .5),
-      Vector2(7, 4),
-      Vector2(15.5, 8.3),
-    ];
     final topLeftCurveShape = BezierCurveShape(
-      controlPoints: topLeftControlPoints,
-    )..rotate(curveRotationAngle);
-    final topLeftFixtureDef = FixtureDef(topLeftCurveShape);
-    fixturesDefs.add(topLeftFixtureDef);
-
-    final topRightControlPoints = [
-      Vector2(0, width),
-      Vector2(10, 6.5),
-      Vector2(7, 10),
-      Vector2(15.5, 13.2),
-    ];
-    final topRightCurveShape = BezierCurveShape(
-      controlPoints: topRightControlPoints,
-    )..rotate(curveRotationAngle);
-    final topRightFixtureDef = FixtureDef(topRightCurveShape);
-    fixturesDefs.add(topRightFixtureDef);
-
-    final mediumLeftControlPoints = [
-      topLeftControlPoints.last,
-      Vector2(21, 12.9),
-      Vector2(30, 7.1),
-      Vector2(32, 4.8),
-    ];
-    final mediumLeftCurveShape = BezierCurveShape(
-      controlPoints: mediumLeftControlPoints,
-    )..rotate(curveRotationAngle);
-    final mediumLeftFixtureDef = FixtureDef(mediumLeftCurveShape);
-    fixturesDefs.add(mediumLeftFixtureDef);
-
-    final mediumRightControlPoints = [
-      topRightControlPoints.last,
-      Vector2(21, 17.2),
-      Vector2(30, 12.1),
-      Vector2(32, 10.2),
-    ];
-    final mediumRightCurveShape = BezierCurveShape(
-      controlPoints: mediumRightControlPoints,
-    )..rotate(curveRotationAngle);
-    final mediumRightFixtureDef = FixtureDef(mediumRightCurveShape);
-    fixturesDefs.add(mediumRightFixtureDef);
-
-    final bottomLeftControlPoints = [
-      mediumLeftControlPoints.last,
-      Vector2(40, -1),
-      Vector2(48, 1.9),
-      Vector2(50.5, 2.5),
-    ];
-    final bottomLeftCurveShape = BezierCurveShape(
-      controlPoints: bottomLeftControlPoints,
-    )..rotate(curveRotationAngle);
-    final bottomLeftFixtureDef = FixtureDef(bottomLeftCurveShape);
-    fixturesDefs.add(bottomLeftFixtureDef);
-
-    final bottomRightControlPoints = [
-      mediumRightControlPoints.last,
-      Vector2(40, 4),
-      Vector2(46, 6.5),
-      Vector2(48.8, 7.6),
-    ];
-    final bottomRightCurveShape = BezierCurveShape(
-      controlPoints: bottomRightControlPoints,
-    )..rotate(curveRotationAngle);
-    final bottomRightFixtureDef = FixtureDef(bottomRightCurveShape);
-    fixturesDefs.add(bottomRightFixtureDef);
-
-    final exitWall = ArcShape(
-      center: exitPoint,
-      arcRadius: width / 2,
-      angle: math.pi,
-      rotation: exitRotationAngle,
+      controlPoints: [
+        Vector2(-37.9, 30.4),
+        Vector2(-38, 23.9),
+        Vector2(-30.93, 18.2),
+      ],
     );
-    final exitFixtureDef = FixtureDef(exitWall);
-    fixturesDefs.add(exitFixtureDef);
+    final topLeftCurveFixtureDef = FixtureDef(topLeftCurveShape);
+    fixturesDefs.add(topLeftCurveFixtureDef);
+
+    final middleLeftCurveShape = BezierCurveShape(
+      controlPoints: [
+        Vector2(-30.93, 18.2),
+        Vector2(-22.6, 10.3),
+        Vector2(-30, 0.2),
+      ],
+    );
+    final middleLeftCurveFixtureDef = FixtureDef(middleLeftCurveShape);
+    fixturesDefs.add(middleLeftCurveFixtureDef);
+
+    final bottomLeftCurveShape = BezierCurveShape(
+      controlPoints: [
+        Vector2(-30, 0.2),
+        Vector2(-36, -8.6),
+        Vector2(-32.04, -18.3),
+      ],
+    );
+    final bottomLeftCurveFixtureDef = FixtureDef(bottomLeftCurveShape);
+    fixturesDefs.add(bottomLeftCurveFixtureDef);
+
+    final topRightCurveShape = BezierCurveShape(
+      controlPoints: [
+        Vector2(-33, 31.3),
+        Vector2(-33.2, 26.4),
+        Vector2(-27.2, 21.3),
+      ],
+    );
+    final topRightCurveFixtureDef = FixtureDef(topRightCurveShape);
+    fixturesDefs.add(topRightCurveFixtureDef);
+
+    final middleRightCurveShape = BezierCurveShape(
+      controlPoints: [
+        Vector2(-27.2, 21.3),
+        Vector2(-16.5, 11.4),
+        Vector2(-25.29, -1.7),
+      ],
+    );
+    final middleRightCurveFixtureDef = FixtureDef(middleRightCurveShape);
+    fixturesDefs.add(middleRightCurveFixtureDef);
+
+    final bottomRightCurveShape = BezierCurveShape(
+      controlPoints: [
+        Vector2(-25.29, -1.7),
+        Vector2(-29.91, -8.5),
+        Vector2(-26.8, -15.7),
+      ],
+    );
+    final bottomRightCurveFixtureDef = FixtureDef(bottomRightCurveShape);
+    fixturesDefs.add(bottomRightCurveFixtureDef);
 
     return fixturesDefs;
   }
@@ -165,10 +133,10 @@ class _SpaceshipExitRailRamp extends BodyComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadBackground();
+    await _loadSprite();
   }
 
-  Future<void> _loadBackground() async {
+  Future<void> _loadSprite() async {
     final sprite = await gameRef.loadSprite(
       Assets.images.components.spaceshipDropTube.path,
     );
@@ -177,7 +145,7 @@ class _SpaceshipExitRailRamp extends BodyComponent
       size: Vector2(17.5, 55.7),
       anchor: Anchor.center,
     )
-      ..position = Vector2(8.7, 24.5)
+      ..position = Vector2(-29.4, -5.7)
       ..priority = 2;
 
     await add(spriteComponent);
@@ -187,6 +155,7 @@ class _SpaceshipExitRailRamp extends BodyComponent
 class _SpaceshipExitRailBase extends BodyComponent
     with InitialPosition, Layered {
   _SpaceshipExitRailBase({required this.radius}) : super(priority: 5) {
+    renderBody = false;
     layer = Layer.board;
   }
 
@@ -200,8 +169,7 @@ class _SpaceshipExitRailBase extends BodyComponent
 
     final bodyDef = BodyDef()
       ..position = initialPosition
-      ..userData = this
-      ..type = BodyType.static;
+      ..userData = this;
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
@@ -224,7 +192,12 @@ class SpaceshipExitRailEnd extends RampOpening {
 
   @override
   Shape get shape {
-    return CircleShape()..radius = 1;
+    return ArcShape(
+      center: Vector2(-29, -17.8),
+      arcRadius: 2.5,
+      angle: math.pi * 0.8,
+      rotation: -0.16,
+    );
   }
 }
 

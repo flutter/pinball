@@ -82,7 +82,7 @@ List<Vector2> calculateEllipse({
 /// For more information read: https://en.wikipedia.org/wiki/B%C3%A9zier_curve
 List<Vector2> calculateBezierCurve({
   required List<Vector2> controlPoints,
-  double step = 0.001,
+  double step = 0.01,
 }) {
   assert(
     0 <= step && step <= 1,
