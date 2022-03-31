@@ -23,7 +23,7 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   }
 
   /// The size of the [Ball]
-  final Vector2 size = Vector2.all(4.5);
+  static final Vector2 size = Vector2.all(4.5);
 
   /// The base [Color] used to tint this [Ball]
   final Color baseColor;

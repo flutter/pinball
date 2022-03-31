@@ -18,16 +18,23 @@ mixin ScorePoints<T extends Forge2DGame> on BodyComponent<T> {
   }
 }
 
+/// {@template ball_score_points_callbacks}
 /// Adds points to the score when a [Ball] collides with a [BodyComponent] that
 /// implements [ScorePoints].
+/// {@endtemplate}
 class BallScorePointsCallback extends ContactCallback<Ball, ScorePoints> {
+  /// {@macro ball_score_points_callbacks}
+  BallScorePointsCallback(PinballGame game) : _gameRef = game;
+
+  final PinballGame _gameRef;
+
   @override
   void begin(
-    Ball ball,
+    Ball _,
     ScorePoints scorePoints,
-    Contact _,
+    Contact __,
   ) {
-    ball.controller.gameRef.read<GameBloc>().add(
+    _gameRef.read<GameBloc>().add(
           Scored(points: scorePoints.points),
         );
   }

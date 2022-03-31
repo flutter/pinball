@@ -194,10 +194,16 @@ void main() {
     });
 
     group('bonus letter activation', () {
-      final gameBloc = MockGameBloc();
-      final tester = flameBlocTester(gameBloc: () => gameBloc);
+      late GameBloc gameBloc;
+
+      final tester = flameBlocTester(
+        // TODO(alestiago): Use TestGame once BonusLetter has controller.
+        game: PinballGameTest.create,
+        gameBloc: () => gameBloc,
+      );
 
       setUp(() {
+        gameBloc = MockGameBloc();
         whenListen(
           gameBloc,
           const Stream<GameState>.empty(),
@@ -210,6 +216,10 @@ void main() {
         setUp: (game, tester) async {
           await game.ready();
           final bonusLetter = game.descendants().whereType<BonusLetter>().first;
+
+          await game.add(bonusLetter);
+          await game.ready();
+
           bonusLetter.activate();
           await game.ready();
 
@@ -236,8 +246,10 @@ void main() {
             initialState: state,
           );
 
+          final bonusLetter = BonusLetter(letter: '', index: 0);
+          await game.add(bonusLetter);
           await game.ready();
-          final bonusLetter = game.descendants().whereType<BonusLetter>().first;
+
           bonusLetter.activate();
           await game.ready();
         },
@@ -257,15 +269,19 @@ void main() {
             bonusHistory: [],
           );
 
+          final bonusLetter = BonusLetter(letter: '', index: 0);
+          await game.add(bonusLetter);
           await game.ready();
-          final bonusLetter = game.descendants().whereType<BonusLetter>().first;
+
           bonusLetter.activate();
 
           bonusLetter.onNewState(state);
           await tester.pump();
         },
         verify: (game, tester) async {
-          final bonusLetter = game.descendants().whereType<BonusLetter>().first;
+          // TODO(aleastiago): Look into making `testGameWidget` pass the
+          // subject.
+          final bonusLetter = game.descendants().whereType<BonusLetter>().last;
           expect(
             bonusLetter.children.whereType<ColorEffect>().length,
             equals(1),
