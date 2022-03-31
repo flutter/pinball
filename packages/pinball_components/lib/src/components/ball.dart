@@ -104,10 +104,10 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
     const maxShrinkAmount = BoardDimensions.perspectiveShrinkFactor;
 
     final adjustedYPosition = body.position.y + (boardHeight / 2);
-    final adjustedHeight = (1 / (1 - maxShrinkAmount)) * boardHeight;
 
-    final scaleFactor =
-        ((boardHeight - adjustedYPosition) / adjustedHeight) + maxShrinkAmount;
+    final scaleFactor = ((boardHeight - adjustedYPosition) /
+            BoardDimensions.shrinkAdjustedHeight) +
+        maxShrinkAmount;
 
     body.fixtures.first.shape.radius = (size.x / 2) * scaleFactor;
     _spriteComponent.scale = Vector2.all(scaleFactor);

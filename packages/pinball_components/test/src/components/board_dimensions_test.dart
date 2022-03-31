@@ -19,5 +19,9 @@ void main() {
     test('has perspectiveShrinkFactor', () {
       expect(BoardDimensions.perspectiveShrinkFactor, equals(0.63));
     });
+
+    test('has shrinkAdjustedHeight', () {
+      expect(BoardDimensions.shrinkAdjustedHeight, isNotNull);
+    });
   });
 }
