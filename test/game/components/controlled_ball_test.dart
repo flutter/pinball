@@ -1,7 +1,5 @@
 // ignore_for_file: cascade_invocations
 
-import 'dart:math';
-
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/painting.dart';
@@ -36,8 +34,7 @@ void main() {
       (game) async {
         await game.add(ball);
         final controller = BonusBallController(ball);
-        await ball.add(controller);
-        await game.ready();
+        await ball.ensureAdd(controller);
 
         controller.lost();
         await game.ready();
@@ -79,8 +76,7 @@ void main() {
         setUp: (game, tester) async {
           final controller = LaunchedBallController(ball);
           await ball.add(controller);
-          await game.add(ball);
-          await game.ready();
+          await game.ensureAdd(ball);
 
           controller.lost();
         },
@@ -96,8 +92,7 @@ void main() {
             final controller = LaunchedBallController(ball);
 
             await ball.add(controller);
-            await game.add(ball);
-            await game.ready();
+            await game.ensureAdd(ball);
           },
           verify: (game, tester) async {
             final controller =
@@ -118,8 +113,7 @@ void main() {
             final controller = LaunchedBallController(ball);
 
             await ball.add(controller);
-            await game.add(ball);
-            await game.ready();
+            await game.ensureAdd(ball);
           },
           verify: (game, tester) async {
             final controller =
@@ -141,8 +135,7 @@ void main() {
           setUp: (game, tester) async {
             final controller = LaunchedBallController(ball);
             await ball.add(controller);
-            await game.add(ball);
-            await game.ready();
+            await game.ensureAdd(ball);
 
             final state = MockGameState();
             when(() => state.balls).thenReturn(1);
@@ -159,8 +152,7 @@ void main() {
           setUp: (game, tester) async {
             final controller = LaunchedBallController(ball);
             await ball.add(controller);
-            await game.add(ball);
-            await game.ready();
+            await game.ensureAdd(ball);
 
             final state = MockGameState();
             when(() => state.balls).thenReturn(2);
@@ -181,8 +173,7 @@ void main() {
           setUp: (game, tester) async {
             final controller = LaunchedBallController(ball);
             await ball.add(controller);
-            await game.add(ball);
-            await game.ready();
+            await game.ensureAdd(ball);
 
             final state = MockGameState();
             when(() => state.balls).thenReturn(1);
