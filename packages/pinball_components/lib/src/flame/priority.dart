@@ -1,10 +1,17 @@
-// TODO(ruimiguel): move file to appropiate location.
 import 'dart:math' as math;
 import 'package:flame/components.dart';
 
 /// Helper methods to change the [priority] of a [Component].
 extension ComponentPriorityX on Component {
   static const _lowestPriority = 0;
+
+  /// Changes the priority to a specific one.
+  void sendTo(int destinationPriority) {
+    if (priority != destinationPriority) {
+      priority = math.max(destinationPriority, _lowestPriority);
+      reorderChildren();
+    }
+  }
 
   /// Changes the priority to the lowest possible.
   void sendToBack() {

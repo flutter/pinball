@@ -29,12 +29,12 @@ abstract class RampOpening extends BodyComponent with InitialPosition, Layered {
   RampOpening({
     required Layer pathwayLayer,
     Layer? outsideLayer,
-    required int pathwayPriority,
+    int? pathwayPriority,
     int? outsidePriority,
     required this.orientation,
   })  : _pathwayLayer = pathwayLayer,
         _outsideLayer = outsideLayer ?? Layer.board,
-        _pathwayPriority = pathwayPriority,
+        _pathwayPriority = pathwayPriority ?? 0,
         _outsidePriority = outsidePriority ?? 0 {
     layer = Layer.opening;
   }
@@ -96,8 +96,8 @@ class RampOpeningBallContactCallback<Opening extends RampOpening>
       layer = opening.pathwayLayer;
       _ballsInside.add(ball);
       ball
-        ..layer = layer
-        ..priority = opening.pathwayPriority;
+        ..sendTo(opening.pathwayPriority)
+        ..layer = layer;
     } else {
       _ballsInside.remove(ball);
     }
@@ -119,8 +119,8 @@ class RampOpeningBallContactCallback<Opening extends RampOpening>
 
       if (isBallOutsideOpening) {
         ball
-          ..layer = opening.outsideLayer
-          ..priority = opening.outsidePriority;
+          ..sendTo(opening.outsidePriority)
+          ..layer = opening.outsideLayer;
         _ballsInside.remove(ball);
       }
     }
