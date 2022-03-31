@@ -96,7 +96,13 @@ class PinballGame extends Forge2DGame
   }
 
   Future<void> _addPaths() async {
-    unawaited(addFromBlueprint(Jetpack()));
+    unawaited(
+      addFromBlueprint(
+        Jetpack(
+          position: Vector2(0, 0),
+        ),
+      ),
+    );
     unawaited(addFromBlueprint(Launcher()));
   }
 
