@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/flame/flame.dart';
@@ -68,11 +69,27 @@ class BonusBallController extends BallController {
   }
 }
 
+/// {@template launched_ball_controller}
 /// {@macro ball_controller}
+///
+/// A [LaunchedBallController] changes the [GameState.balls] count.
+/// {@endtemplate}
 class LaunchedBallController extends BallController
-    with HasGameRef<PinballGame> {
-  /// {@macro ball_controller}
+    with HasGameRef<PinballGame>, BlocComponent<GameBloc, GameState> {
+  /// {@macro launched_ball_controller}
   LaunchedBallController(Ball<Forge2DGame> ball) : super(ball);
+
+  @override
+  bool listenWhen(GameState? previousState, GameState newState) {
+    return (previousState?.balls ?? 0) < newState.balls;
+  }
+
+  @override
+  void onNewState(GameState state) {
+    super.onNewState(state);
+    component.shouldRemove = true;
+    if (state.balls > 0) gameRef.spawnBall();
+  }
 
   /// Removes the [Ball] from a [PinballGame]; spawning a new [Ball] if
   /// any are left.
@@ -80,10 +97,6 @@ class LaunchedBallController extends BallController
   /// {@macro ball_controller_lost}
   @override
   void lost() {
-    final bloc = gameRef.read<GameBloc>()..add(const BallLost());
-
-    // TODO(alestiago): Consider the use of onNewState instead.
-    final shouldBallRespwan = !bloc.state.isLastBall && !bloc.state.isGameOver;
-    if (shouldBallRespwan) gameRef.spawnBall();
+    gameRef.read<GameBloc>().add(const BallLost());
   }
 }

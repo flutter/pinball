@@ -39,13 +39,77 @@ void main() {
   });
 
   group('LaunchedBallController', () {
-    group('lost', () {
-      late GameBloc gameBloc;
-      late Ball ball;
+    late Ball ball;
+    late GameBloc gameBloc;
 
+    setUp(() {
+      ball = Ball(baseColor: const Color(0xFF00FFFF));
+      gameBloc = MockGameBloc();
+      whenListen(
+        gameBloc,
+        const Stream<GameState>.empty(),
+        initialState: const GameState.initial(),
+      );
+    });
+
+    final tester = flameBlocTester<PinballGame>(
+      game: PinballGameTest.create,
+      gameBloc: () => gameBloc,
+    );
+
+    flameTester.testGameWidget(
+      'lost adds BallLost to GameBloc',
+      setUp: (game, tester) async {
+        final controller = LaunchedBallController(ball);
+        await ball.add(controller);
+        await game.add(ball);
+        await game.ready();
+
+        controller.lost();
+      },
+      verify: (game, tester) async {
+        verify(() => gameBloc.add(const BallLost())).called(1);
+      },
+    );
+
+    group('listenWhen', () {
+      flameTester.testGameWidget(
+        'listens when a ball has been lost',
+        verify: (game, tester) async {
+          final controller = LaunchedBallController(ball);
+          await ball.add(controller);
+          await game.add(ball);
+          await game.ready();
+
+          final previousState = MockGameState();
+          final newState = MockGameState();
+          when(() => previousState.balls).thenReturn(3);
+          when(() => newState.balls).thenReturn(2);
+
+          expect(controller.listenWhen(previousState, newState), isTrue);
+        },
+      );
+
+      flameTester.testGameWidget(
+        'does not listen when a ball has not been lost',
+        verify: (game, tester) async {
+          final controller = LaunchedBallController(ball);
+          await ball.add(controller);
+          await game.add(ball);
+          await game.ready();
+
+          final previousState = MockGameState();
+          final newState = MockGameState();
+          when(() => previousState.balls).thenReturn(3);
+          when(() => newState.balls).thenReturn(3);
+
+          expect(controller.listenWhen(previousState, newState), isTrue);
+        },
+      );
+    });
+
+    group('onNewState', () {
       setUp(() {
-        gameBloc = MockGameBloc();
-        ball = Ball(baseColor: const Color(0xFF00FFFF));
         whenListen(
           gameBloc,
           const Stream<GameState>.empty(),
@@ -53,85 +117,53 @@ void main() {
         );
       });
 
-      final tester = flameBlocTester<PinballGame>(
-        game: PinballGameTest.create,
-        gameBloc: () => gameBloc,
-      );
-
       tester.testGameWidget(
         'removes ball',
+        setUp: (game, _) => game.ready(),
         verify: (game, tester) async {
-          await game.add(ball);
           final controller = LaunchedBallController(ball);
-          await ball.add(controller);
+          await game.add(ball);
           await game.ready();
 
-          controller.lost();
-          await game.ready();
+          final state = MockGameState();
+          when(() => state.balls).thenReturn(any());
+          controller.onNewState(MockGameState());
 
           expect(game.contains(ball), isFalse);
         },
       );
 
       tester.testGameWidget(
-        'adds BallLost to GameBloc',
-        verify: (game, tester) async {
+        'spawns a new ball when the ball is not the last one',
+        setUp: (game, tester) async {
           final controller = LaunchedBallController(ball);
-          await ball.add(controller);
           await game.add(ball);
           await game.ready();
 
-          controller.lost();
+          final state = MockGameState();
+          when(() => state.balls).thenReturn(2);
 
-          verify(() => gameBloc.add(const BallLost())).called(1);
+          controller.onNewState(state);
+        },
+        verify: (game, tester) async {
+          expect(game.contains(ball), isFalse);
         },
       );
 
       tester.testGameWidget(
-        'adds a new ball if the game is not over',
-        verify: (game, tester) async {
+        'does not spawn a new ball is the last one',
+        setUp: (game, tester) async {
           final controller = LaunchedBallController(ball);
-          await ball.add(controller);
           await game.add(ball);
           await game.ready();
 
-          final previousBalls = game.descendants().whereType<Ball>().length;
-          controller.lost();
-          await game.ready();
-          final currentBalls = game.descendants().whereType<Ball>().length;
+          final state = MockGameState();
+          when(() => state.balls).thenReturn(1);
 
-          expect(previousBalls, equals(currentBalls));
+          controller.onNewState(state);
         },
-      );
-
-      tester.testGameWidget(
-        'no ball is added on game over',
         verify: (game, tester) async {
-          whenListen(
-            gameBloc,
-            const Stream<GameState>.empty(),
-            initialState: const GameState(
-              score: 10,
-              balls: 1,
-              activatedBonusLetters: [],
-              activatedDashNests: {},
-              bonusHistory: [],
-            ),
-          );
-          final controller = LaunchedBallController(ball);
-          await ball.add(controller);
-          await game.add(ball);
-          await game.ready();
-
-          final previousBalls = game.descendants().whereType<Ball>().toList();
-          controller.lost();
-          await game.ready();
-          final currentBalls = game.descendants().whereType<Ball>().length;
-
-          expect(
-            currentBalls,
-            equals((previousBalls..remove(ball)).length),
-          );
+          expect(game.contains(ball), isFalse);
         },
       );
     });
