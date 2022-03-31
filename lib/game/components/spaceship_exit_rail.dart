@@ -181,7 +181,7 @@ class SpaceshipExitRailEnd extends RampOpening {
   /// {@macro spaceship_exit_rail_end}
   SpaceshipExitRailEnd()
       : super(
-          pathwayLayer: Layer.spaceshipExitRail,
+          insideLayer: Layer.spaceshipExitRail,
           orientation: RampOrientation.down,
         ) {
     renderBody = false;
