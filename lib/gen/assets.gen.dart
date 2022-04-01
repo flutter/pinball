@@ -24,6 +24,18 @@ class $AssetsImagesComponentsGen {
   /// File path: assets/images/components/spaceship-drop-tube.png
   AssetGenImage get spaceshipDropTube =>
       const AssetGenImage('assets/images/components/spaceship-drop-tube.png');
+
+  /// File path: assets/images/components/spaceship_railing_bg.png
+  AssetGenImage get spaceshipRailingBg =>
+      const AssetGenImage('assets/images/components/spaceship_railing_bg.png');
+
+  /// File path: assets/images/components/spaceship_railing_fg.png
+  AssetGenImage get spaceshipRailingFg =>
+      const AssetGenImage('assets/images/components/spaceship_railing_fg.png');
+
+  /// File path: assets/images/components/spaceship_ramp.png
+  AssetGenImage get spaceshipRamp =>
+      const AssetGenImage('assets/images/components/spaceship_ramp.png');
 }
 
 class Assets {

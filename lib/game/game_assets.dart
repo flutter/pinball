@@ -24,6 +24,9 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.boundary.bottom.keyName),
       images.load(components.Assets.images.boundary.outer.keyName),
       images.load(Assets.images.components.background.path),
+      images.load(Assets.images.components.spaceshipRamp.path),
+      images.load(Assets.images.components.spaceshipRailingBg.path),
+      images.load(Assets.images.components.spaceshipRailingFg.path),
       images.load(Assets.images.components.spaceshipDropTube.path),
     ]);
   }
