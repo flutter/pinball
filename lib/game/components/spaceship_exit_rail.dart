@@ -213,7 +213,7 @@ class SpaceshipExitRailEnd extends RampOpening {
           orientation: RampOrientation.down,
           insidePriority: 3,
         ) {
-    // renderBody = false;
+    renderBody = false;
     layer = Layer.spaceshipExitRail;
   }
 
