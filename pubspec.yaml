@@ -43,7 +43,6 @@ flutter:
 
   assets:
     - assets/images/components/
-    - assets/images/components/launch_ramp/
 
 flutter_gen:
   line_length: 80
