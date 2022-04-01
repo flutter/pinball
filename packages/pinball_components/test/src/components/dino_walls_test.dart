@@ -29,11 +29,9 @@ void main() {
       flameTester.testGameWidget(
         'renders correctly',
         setUp: (game, tester) async {
-          await game.add(
+          await game.ensureAdd(
             DinoTopWall()..initialPosition = Vector2(0, -50),
           );
-          await game.ready();
-          await tester.pump();
         },
         verify: (game, tester) async {
           await expectLater(
@@ -48,11 +46,9 @@ void main() {
       flameTester.testGameWidget(
         'renders correctly',
         setUp: (game, tester) async {
-          await game.add(
+          await game.ensureAdd(
             DinoBottomWall()..initialPosition = Vector2(0, -12),
           );
-          await game.ready();
-          await tester.pump();
         },
         verify: (game, tester) async {
           await expectLater(
