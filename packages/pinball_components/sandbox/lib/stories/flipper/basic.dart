@@ -12,14 +12,15 @@ class BasicFlipperGame extends BasicBallGame with KeyboardEvents {
       Basic example of how a Flipper works.
 ''';
 
-  static final _leftFlipperKeys = {
+  static const _leftFlipperKeys = [
     LogicalKeyboardKey.arrowLeft,
     LogicalKeyboardKey.keyA,
-  };
+  ];
 
-  static final _rightFlipperKeys = {
+  static const _rightFlipperKeys = [
     LogicalKeyboardKey.arrowRight,
-  };
+    LogicalKeyboardKey.keyD,
+  ];
 
   late Flipper leftFlipper;
   late Flipper rightFlipper;
@@ -46,20 +47,22 @@ class BasicFlipperGame extends BasicBallGame with KeyboardEvents {
     RawKeyEvent event,
     Set<LogicalKeyboardKey> keysPressed,
   ) {
-    final movedLeftFlipper =
-        _leftFlipperKeys.intersection(keysPressed).isNotEmpty;
-    if (event is RawKeyDownEvent && movedLeftFlipper) {
-      leftFlipper.moveUp();
-    } else if (event is RawKeyUpEvent && movedLeftFlipper) {
-      leftFlipper.moveDown();
+    final movedLeftFlipper = _leftFlipperKeys.contains(event.logicalKey);
+    if (movedLeftFlipper) {
+      if (event is RawKeyDownEvent) {
+        leftFlipper.moveUp();
+      } else if (event is RawKeyUpEvent) {
+        leftFlipper.moveDown();
+      }
     }
 
-    final movedRightFlipper =
-        _rightFlipperKeys.intersection(keysPressed).isNotEmpty;
-    if (event is RawKeyDownEvent && movedRightFlipper) {
-      rightFlipper.moveUp();
-    } else if (event is RawKeyUpEvent && movedRightFlipper) {
-      rightFlipper.moveDown();
+    final movedRightFlipper = _rightFlipperKeys.contains(event.logicalKey);
+    if (movedRightFlipper) {
+      if (event is RawKeyDownEvent) {
+        rightFlipper.moveUp();
+      } else if (event is RawKeyUpEvent) {
+        rightFlipper.moveDown();
+      }
     }
 
     return movedLeftFlipper || movedRightFlipper
