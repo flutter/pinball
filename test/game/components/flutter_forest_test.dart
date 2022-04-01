@@ -86,12 +86,12 @@ void main() {
     group('controller', () {
       group('listenWhen', () {
         final gameBloc = MockGameBloc();
-        final tester = flameBlocTester(
-          game: TestGame.new,
-          gameBloc: () => gameBloc,
+        final flameBlocTester = FlameBlocTester<TestGame, GameBloc>(
+          gameBuilder: TestGame.new,
+          blocBuilder: () => gameBloc,
         );
 
-        tester.testGameWidget(
+        flameBlocTester.testGameWidget(
           'listens when a Bonus.dashNest is added',
           verify: (game, tester) async {
             final flutterForest = FlutterForest();
@@ -145,12 +145,12 @@ void main() {
         );
       });
 
-      final tester = flameBlocTester<PinballGame>(
-        game: PinballGameTest.create,
-        gameBloc: () => gameBloc,
+      final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
+        gameBuilder: PinballGameTest.create,
+        blocBuilder: () => gameBloc,
       );
 
-      tester.testGameWidget(
+      flameBlocTester.testGameWidget(
         'add DashNestActivated event',
         setUp: (game, tester) async {
           await game.ready();
@@ -171,7 +171,7 @@ void main() {
         },
       );
 
-      tester.testGameWidget(
+      flameBlocTester.testGameWidget(
         'add Scored event',
         setUp: (game, tester) async {
           final flutterForest = FlutterForest();
