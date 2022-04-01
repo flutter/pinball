@@ -2,9 +2,12 @@ import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:sandbox/common/common.dart';
 
-class BasicFlipperGame extends BasicGame with KeyboardEvents {
+import 'package:sandbox/stories/ball/basic.dart';
+
+class BasicFlipperGame extends BasicBallGame with KeyboardEvents {
+  BasicFlipperGame() : super(color: Colors.blue);
+
   static const info = '''
       Basic example of how a Flipper works.
 ''';
