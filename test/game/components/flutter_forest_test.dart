@@ -153,8 +153,9 @@ void main() {
       tester.testGameWidget(
         'add DashNestActivated event',
         setUp: (game, tester) async {
-          final flutterForest = FlutterForest();
-          await game.ensureAdd(flutterForest);
+          await game.ready();
+          final flutterForest =
+              game.descendants().whereType<FlutterForest>().first;
           await game.ensureAdd(ball);
 
           final bumpers =
@@ -163,11 +164,9 @@ void main() {
           for (final bumper in bumpers) {
             beginContact(game, bumper, ball);
             final controller = bumper.firstChild<DashNestBumperController>()!;
-            // TODO(alestiago): Investiagate why is is being called twice
-            // instead of once.
             verify(
               () => gameBloc.add(DashNestActivated(controller.id)),
-            ).called(2);
+            ).called(1);
           }
         },
       );
