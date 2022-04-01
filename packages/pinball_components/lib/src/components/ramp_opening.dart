@@ -20,38 +20,39 @@ enum RampOrientation {
 /// [RampOpeningBallContactCallback] detects when a [Ball] passes
 /// through this opening.
 ///
-/// By default the base [layer] is set to [Layer.board].
+/// By default the base [layer] is set to [Layer.board] and the
+/// [outsidePriority] is set to the lowest possible [Layer].
 /// {@endtemplate}
 // TODO(ruialonso): Consider renaming the class.
 abstract class RampOpening extends BodyComponent with InitialPosition, Layered {
   /// {@macro ramp_opening}
   RampOpening({
-    required Layer pathwayLayer,
-    required int pathwayPriority,
+    required Layer insideLayer,
     Layer? outsideLayer,
+    int? insidePriority,
     int? outsidePriority,
     required this.orientation,
-  })  : _pathwayLayer = pathwayLayer,
+  })  : _insideLayer = insideLayer,
         _outsideLayer = outsideLayer ?? Layer.board,
-        _pathwayPriority = pathwayPriority,
-        _outsidePriority = outsidePriority ?? 1 {
-    layer = Layer.board;
+        _insidePriority = insidePriority ?? 0,
+        _outsidePriority = outsidePriority ?? 0 {
+    layer = Layer.opening;
   }
-  final int _pathwayPriority;
-  final int _outsidePriority;
-  final Layer _pathwayLayer;
+  final Layer _insideLayer;
   final Layer _outsideLayer;
+  final int _insidePriority;
+  final int _outsidePriority;
 
-  /// Mask of category bits for collision inside pathway.
-  Layer get pathwayLayer => _pathwayLayer;
+  /// Mask of category bits for collision inside ramp.
+  Layer get insideLayer => _insideLayer;
 
-  /// Mask of category bits for collision outside pathway.
+  /// Mask of category bits for collision outside ramp.
   Layer get outsideLayer => _outsideLayer;
 
-  /// Mask of category bits for collision outside pathway.
-  int get pathwayPriority => _pathwayPriority;
+  /// Priority for the [Ball] inside ramp.
+  int get insidePriority => _insidePriority;
 
-  /// Mask of category bits for collision outside pathway.
+  /// Priority for the [Ball] outside ramp.
   int get outsidePriority => _outsidePriority;
 
   /// The [Shape] of the [RampOpening].
@@ -76,8 +77,7 @@ abstract class RampOpening extends BodyComponent with InitialPosition, Layered {
 }
 
 /// {@template ramp_opening_ball_contact_callback}
-/// Detects when a [Ball] enters or exits a pathway ramp through a
-/// [RampOpening].
+/// Detects when a [Ball] enters or exits a ramp through a [RampOpening].
 ///
 /// Modifies [Ball]'s [Layer] accordingly depending on whether the [Ball] is
 /// outside or inside a ramp.
@@ -92,11 +92,11 @@ class RampOpeningBallContactCallback<Opening extends RampOpening>
     Layer layer;
 
     if (!_ballsInside.contains(ball)) {
-      layer = opening.pathwayLayer;
+      layer = opening.insideLayer;
       _ballsInside.add(ball);
       ball
-        ..layer = layer
-        ..priority = opening.pathwayPriority;
+        ..sendTo(opening.insidePriority)
+        ..layer = layer;
     } else {
       _ballsInside.remove(ball);
     }
@@ -118,8 +118,8 @@ class RampOpeningBallContactCallback<Opening extends RampOpening>
 
       if (isBallOutsideOpening) {
         ball
-          ..layer = opening.outsideLayer
-          ..priority = opening.outsidePriority;
+          ..sendTo(opening.outsidePriority)
+          ..layer = opening.outsideLayer;
         _ballsInside.remove(ball);
       }
     }

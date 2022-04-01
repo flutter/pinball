@@ -23,13 +23,14 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   }
 
   /// The size of the [Ball]
-  static final Vector2 size = Vector2.all(3);
+  static final Vector2 size = Vector2.all(4.5);
 
   /// The base [Color] used to tint this [Ball]
   final Color baseColor;
 
   double _boostTimer = 0;
   static const _boostDuration = 2.0;
+  late SpriteComponent _spriteComponent;
 
   @override
   Future<void> onLoad() async {
@@ -37,9 +38,9 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
     final sprite = await gameRef.loadSprite(Assets.images.ball.keyName);
     final tint = baseColor.withOpacity(0.5);
     await add(
-      SpriteComponent(
+      _spriteComponent = SpriteComponent(
         sprite: sprite,
-        size: size,
+        size: size * 1.15,
         anchor: Anchor.center,
       )..tint(tint),
     );
@@ -88,11 +89,27 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
 
       unawaited(gameRef.add(effect));
     }
+
+    _rescale();
   }
 
   /// Applies a boost on this [Ball].
   void boost(Vector2 impulse) {
     body.applyLinearImpulse(impulse);
     _boostTimer = _boostDuration;
+  }
+
+  void _rescale() {
+    final boardHeight = BoardDimensions.size.y;
+    const maxShrinkAmount = BoardDimensions.perspectiveShrinkFactor;
+
+    final adjustedYPosition = body.position.y + (boardHeight / 2);
+
+    final scaleFactor = ((boardHeight - adjustedYPosition) /
+            BoardDimensions.shrinkAdjustedHeight) +
+        maxShrinkAmount;
+
+    body.fixtures.first.shape.radius = (size.x / 2) * scaleFactor;
+    _spriteComponent.scale = Vector2.all(scaleFactor);
   }
 }

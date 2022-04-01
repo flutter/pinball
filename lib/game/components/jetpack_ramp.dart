@@ -21,6 +21,11 @@ class Jetpack extends Forge2DBlueprint {
 
   @override
   void build(_) {
+    final position = Vector2(
+      BoardDimensions.bounds.left + 40.5,
+      BoardDimensions.bounds.top - 31.5,
+    );
+
     addAllContactCallback([
       RampOpeningBallContactCallback<_JetpackRampOpening>(),
     ]);
@@ -250,10 +255,10 @@ class _JetpackRampOpening extends RampOpening {
     required double rotation,
   })  : _rotation = rotation,
         super(
-          pathwayLayer: Layer.jetpack,
+          insideLayer: Layer.jetpack,
           outsideLayer: outsideLayer,
           orientation: RampOrientation.down,
-          pathwayPriority: Jetpack.ballPriorityInsideRamp,
+          insidePriority: Jetpack.ballPriorityInsideRamp,
           outsidePriority: outsidePriority,
         );
 
