@@ -2,6 +2,7 @@ export 'ball.dart';
 export 'baseboard.dart';
 export 'board.dart';
 export 'bonus_word.dart';
+export 'camera_controller.dart';
 export 'chrome_dino.dart';
 export 'flipper_controller.dart';
 export 'flutter_forest.dart';

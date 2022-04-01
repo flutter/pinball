@@ -7,6 +7,8 @@ import 'package:flame/extensions.dart';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
@@ -41,7 +43,9 @@ class PinballGame extends Forge2DGame
   Future<void> onLoad() async {
     _addContactCallbacks();
 
+    unawaited(add(CameraController()));
     await _addGameBoundaries();
+    unawaited(add(Panel(position: Vector2(0, -88))));
     unawaited(add(Board()));
     unawaited(_addPlunger());
     unawaited(_addBonusWord());
@@ -60,11 +64,6 @@ class PinballGame extends Forge2DGame
         ),
       ),
     );
-
-    // Fix camera on the center of the board.
-    camera
-      ..followVector2(Vector2(0, -7.8))
-      ..zoom = size.y / 16;
   }
 
   void _addContactCallbacks() {

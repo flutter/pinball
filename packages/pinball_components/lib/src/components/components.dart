@@ -1,11 +1,14 @@
 export 'ball.dart';
 export 'board_side.dart';
+export 'camera_zoom.dart';
+export 'curve.dart';
 export 'fire_effect.dart';
 export 'flipper.dart';
 export 'flutter_sign_post.dart';
 export 'initial_position.dart';
 export 'joint_anchor.dart';
 export 'layer.dart';
+export 'panel.dart';
 export 'ramp_opening.dart';
 export 'shapes/shapes.dart';
 export 'spaceship.dart';

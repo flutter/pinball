@@ -6,7 +6,9 @@
 // https://opensource.org/licenses/MIT.
 import 'package:dashbook/dashbook.dart';
 import 'package:flutter/material.dart';
+import 'package:sandbox/stories/camera/camera.dart';
 import 'package:sandbox/stories/effects/effects.dart';
+import 'package:sandbox/stories/panel/panel.dart';
 import 'package:sandbox/stories/spaceship/spaceship.dart';
 import 'package:sandbox/stories/stories.dart';
 
@@ -18,5 +20,7 @@ void main() {
   addEffectsStories(dashbook);
   addFlipperStories(dashbook);
   addSpaceshipStories(dashbook);
+  addPanelStories(dashbook);
+  addCameraStories(dashbook);
   runApp(dashbook);
 }
