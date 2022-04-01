@@ -15,6 +15,12 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.baseboard.right.keyName),
       images.load(components.Assets.images.dino.dinoLandTop.keyName),
       images.load(components.Assets.images.dino.dinoLandBottom.keyName),
+      images.load(components.Assets.images.dashBumper.a.active.keyName),
+      images.load(components.Assets.images.dashBumper.a.inactive.keyName),
+      images.load(components.Assets.images.dashBumper.b.active.keyName),
+      images.load(components.Assets.images.dashBumper.b.inactive.keyName),
+      images.load(components.Assets.images.dashBumper.main.active.keyName),
+      images.load(components.Assets.images.dashBumper.main.inactive.keyName),
       images.load(Assets.images.components.background.path),
     ]);
   }
