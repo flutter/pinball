@@ -170,8 +170,9 @@ class _SpaceshipExitRailForeground extends SpriteComponent with HasGameRef {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    sprite = await gameRef
-        .loadSprite(Assets.images.components.spaceshipDropTubeFront.path);
+    sprite = await gameRef.loadSprite(
+      Assets.images.components.spaceshipDropTubeFront.path,
+    );
   }
 }
 
