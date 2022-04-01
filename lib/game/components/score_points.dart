@@ -2,6 +2,7 @@
 
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template score_points}
@@ -37,5 +38,7 @@ class BallScorePointsCallback extends ContactCallback<Ball, ScorePoints> {
     _gameRef.read<GameBloc>().add(
           Scored(points: scorePoints.points),
         );
+
+    _gameRef.read<PinballAudio>().score();
   }
 }

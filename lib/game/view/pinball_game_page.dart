@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
 class PinballGamePage extends StatelessWidget {
@@ -46,6 +47,7 @@ class PinballGameView extends StatefulWidget {
 
 class _PinballGameViewState extends State<PinballGameView> {
   late PinballGame _game;
+  bool _loading = true;
 
   @override
   void initState() {
@@ -54,14 +56,31 @@ class _PinballGameViewState extends State<PinballGameView> {
     // TODO(erickzanardo): Revisit this when we start to have more assets
     // this could expose a Stream (maybe even a cubit?) so we could show the
     // the loading progress with some fancy widgets.
-    _game = (widget._isDebugMode
+    _game = widget._isDebugMode
         ? DebugPinballGame(theme: widget.theme)
-        : PinballGame(theme: widget.theme))
-      ..preLoadAssets();
+        : PinballGame(theme: widget.theme);
+
+    _fetchAssets();
+  }
+
+  Future<void> _fetchAssets() async {
+    final pinballAudio = context.read<PinballAudio>();
+    await Future.wait([
+      _game.preLoadAssets(),
+      pinballAudio.load(),
+    ]);
+
+    setState(() {
+      _loading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_loading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     return BlocListener<GameBloc, GameState>(
       listenWhen: (previous, current) =>
           previous.isGameOver != current.isGameOver,

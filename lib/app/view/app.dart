@@ -13,18 +13,27 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/landing/landing.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key, required LeaderboardRepository leaderboardRepository})
-      : _leaderboardRepository = leaderboardRepository,
+  const App({
+    Key? key,
+    required LeaderboardRepository leaderboardRepository,
+    required PinballAudio pinballAudio,
+  })  : _leaderboardRepository = leaderboardRepository,
+        _pinballAudio = pinballAudio,
         super(key: key);
 
   final LeaderboardRepository _leaderboardRepository;
+  final PinballAudio _pinballAudio;
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: _leaderboardRepository,
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider.value(value: _leaderboardRepository),
+        RepositoryProvider.value(value: _pinballAudio),
+      ],
       child: MaterialApp(
         title: 'I/O Pinball',
         theme: ThemeData(
