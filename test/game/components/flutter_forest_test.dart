@@ -88,7 +88,7 @@ void main() {
         final gameBloc = MockGameBloc();
         final flameBlocTester = FlameBlocTester<TestGame, GameBloc>(
           gameBuilder: TestGame.new,
-          bloc: () => gameBloc,
+          blocBuilder: () => gameBloc,
         );
 
         flameBlocTester.testGameWidget(
@@ -147,7 +147,7 @@ void main() {
 
       final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
         gameBuilder: PinballGameTest.create,
-        bloc: () => gameBloc,
+        blocBuilder: () => gameBloc,
       );
 
       flameBlocTester.testGameWidget(

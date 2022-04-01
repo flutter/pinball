@@ -199,7 +199,7 @@ void main() {
       final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
         // TODO(alestiago): Use TestGame once BonusLetter has controller.
         gameBuilder: PinballGameTest.create,
-        bloc: () => gameBloc,
+        blocBuilder: () => gameBloc,
       );
 
       setUp(() {

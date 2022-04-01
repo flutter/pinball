@@ -6,13 +6,13 @@ class FlameBlocTester<T extends FlameGame, B extends Bloc<dynamic, dynamic>>
     extends FlameTester<T> {
   FlameBlocTester({
     required GameCreateFunction<T> gameBuilder,
-    required B Function() bloc,
+    required B Function() blocBuilder,
   }) : super(
           gameBuilder,
           pumpWidget: (gameWidget, tester) async {
             await tester.pumpWidget(
               BlocProvider.value(
-                value: bloc(),
+                value: blocBuilder(),
                 child: gameWidget,
               ),
             );
