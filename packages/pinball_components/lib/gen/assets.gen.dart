@@ -14,7 +14,7 @@ class $AssetsImagesGen {
   AssetGenImage get ball => const AssetGenImage('assets/images/ball.png');
 
   $AssetsImagesBaseboardGen get baseboard => const $AssetsImagesBaseboardGen();
-
+  $AssetsImagesDinoGen get dino => const $AssetsImagesDinoGen();
   $AssetsImagesFlipperGen get flipper => const $AssetsImagesFlipperGen();
 
   /// File path: assets/images/flutter_sign_post.png
@@ -40,6 +40,18 @@ class $AssetsImagesBaseboardGen {
   /// File path: assets/images/baseboard/right.png
   AssetGenImage get right =>
       const AssetGenImage('assets/images/baseboard/right.png');
+}
+
+class $AssetsImagesDinoGen {
+  const $AssetsImagesDinoGen();
+
+  /// File path: assets/images/dino/dino-land-bottom.png
+  AssetGenImage get dinoLandBottom =>
+      const AssetGenImage('assets/images/dino/dino-land-bottom.png');
+
+  /// File path: assets/images/dino/dino-land-top.png
+  AssetGenImage get dinoLandTop =>
+      const AssetGenImage('assets/images/dino/dino-land-top.png');
 }
 
 class $AssetsImagesFlipperGen {

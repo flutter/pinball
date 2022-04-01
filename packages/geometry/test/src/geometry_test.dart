@@ -98,7 +98,7 @@ void main() {
       );
     });
 
-    test('returns by default 1000 points as indicated by step', () {
+    test('returns by default 100 points as indicated by step', () {
       final points = calculateBezierCurve(
         controlPoints: [
           Vector2(0, 0),
