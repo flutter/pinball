@@ -1,11 +1,7 @@
-import 'dart:ui';
-
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
-
-class MockCanvas extends Mock implements Canvas {}
 
 class MockFilter extends Mock implements Filter {}
 
