@@ -26,7 +26,11 @@ class FireEffect extends ParticleSystemComponent {
     required this.burstPower,
     required this.direction,
     Vector2? position,
-  }) : super(position: position);
+    int? priority,
+  }) : super(
+          position: position,
+          priority: priority,
+        );
 
   /// A [double] value that will define how "strong" the burst of particles
   /// will be.
