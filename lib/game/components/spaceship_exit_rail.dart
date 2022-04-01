@@ -191,6 +191,7 @@ class SpaceshipExitRailEnd extends RampOpening {
       : super(
           insideLayer: Layer.spaceshipExitRail,
           orientation: RampOrientation.down,
+          insidePriority: 3,
         ) {
     renderBody = false;
     layer = Layer.spaceshipExitRail;

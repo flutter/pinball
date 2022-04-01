@@ -92,7 +92,9 @@ class PinballGame extends Forge2DGame
   }
 
   Future<void> _addRamps() async {
-    unawaited(addFromBlueprint(Jetpack()));
+    unawaited(
+      addFromBlueprint(Jetpack()),
+    );
     unawaited(addFromBlueprint(LaunchRamp()));
   }
 
