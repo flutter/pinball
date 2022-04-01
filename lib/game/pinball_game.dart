@@ -6,6 +6,7 @@ import 'package:flame/extensions.dart';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
@@ -109,11 +110,16 @@ class PinballGame extends Forge2DGame
   }
 }
 
-class DebugPinballGame extends PinballGame with TapDetector {
+class DebugPinballGame extends PinballGame with TapDetector, PanDetector {
   DebugPinballGame({required PinballTheme theme}) : super(theme: theme);
+
+  Vector2? lineStart;
+  Vector2? lineEnd;
 
   @override
   Future<void> onLoad() async {
+    unawaited(add(PreviewLine()));
+
     await super.onLoad();
     await _loadBackground();
   }
@@ -140,5 +146,64 @@ class DebugPinballGame extends PinballGame with TapDetector {
     add(
       ControlledBall.debug()..initialPosition = info.eventPosition.game,
     );
+  }
+
+  @override
+  void onPanStart(DragStartInfo info) {
+    lineStart = info.eventPosition.game;
+  }
+
+  @override
+  void onPanUpdate(DragUpdateInfo info) {
+    lineEnd = info.eventPosition.game;
+  }
+
+  @override
+  void onPanEnd(DragEndInfo info) {
+    if (lineEnd != null) {
+      final line = lineEnd! - lineStart!;
+      onLine(line);
+      lineEnd = null;
+      lineStart = null;
+    }
+  }
+
+  void onLine(Vector2 line) {
+    final ball = ControlledBall.debug()..initialPosition = lineStart!;
+    add(ball);
+
+    ball.mounted.then((value) => ball.boost(line * 20));
+  }
+}
+
+class PreviewLine extends PositionComponent with HasGameRef<DebugPinballGame> {
+  static final _previewLinePaint = Paint()
+    ..color = Colors.pink
+    ..strokeWidth = 0.2
+    ..style = PaintingStyle.stroke;
+
+  Vector2? lineStart;
+  Vector2? lineEnd;
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+
+    lineEnd = gameRef.lineEnd?.clone()?..multiply(Vector2(1, -1));
+  }
+
+  @override
+  void render(Canvas canvas) {
+    super.render(canvas);
+
+    if (lineEnd != null) {
+      lineStart = gameRef.lineStart?.clone()?..multiply(Vector2(1, -1));
+
+      canvas.drawLine(
+        lineStart!.toOffset(),
+        lineEnd!.toOffset(),
+        _previewLinePaint,
+      );
+    }
   }
 }

@@ -11,6 +11,6 @@ class BallBoosterExample extends LineGame {
     final ball = Ball(baseColor: Colors.transparent);
     add(ball);
 
-    ball.mounted.then((value) => ball.boost(line * -1 * 20));
+    ball.mounted.then((value) => ball.boost(line * 20));
   }
 }

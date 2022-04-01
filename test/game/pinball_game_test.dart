@@ -13,7 +13,6 @@ void main() {
   group('PinballGame', () {
     TestWidgetsFlutterBinding.ensureInitialized();
     final flameTester = FlameTester(PinballGameTest.create);
-    final debugModeFlameTester = FlameTester(DebugPinballGameTest.create);
 
     // TODO(alestiago): test if [PinballGame] registers
     // [BallScorePointsCallback] once the following issue is resolved:
@@ -61,6 +60,10 @@ void main() {
         );
       });
     });
+  });
+
+  group('DebugPinballGame', () {
+    final debugModeFlameTester = FlameTester(DebugPinballGameTest.create);
 
     debugModeFlameTester.test('adds a ball on tap up', (game) async {
       await game.ready();
@@ -77,6 +80,49 @@ void main() {
       expect(
         game.children.whereType<Ball>().length,
         equals(1),
+      );
+    });
+
+    debugModeFlameTester.test('adds a ball on pan detection', (game) async {
+      await game.ready();
+
+      final eventStartPosition = MockEventPosition();
+      when(() => eventStartPosition.game).thenReturn(Vector2.all(10));
+
+      final dragStartInfo = MockDragStartInfo();
+      when(() => dragStartInfo.eventPosition).thenReturn(eventStartPosition);
+
+      final eventUpdatePosition = MockEventPosition();
+      when(() => eventUpdatePosition.game).thenReturn(Vector2.all(20));
+
+      final dragUpdateInfo = MockDragUpdateInfo();
+      when(() => dragUpdateInfo.eventPosition).thenReturn(eventUpdatePosition);
+
+      final dragEndInfo = MockDragEndInfo();
+
+      game.onPanStart(dragStartInfo);
+      game.onPanUpdate(dragUpdateInfo);
+      game.onPanEnd(dragEndInfo);
+      await game.ready();
+
+      final balls = game.children.whereType<Ball>();
+      expect(
+        balls.length,
+        equals(1),
+      );
+    });
+
+    group('PreviewLine', () {
+      debugModeFlameTester.test(
+        'loads correctly',
+        (game) async {
+          final previewLine = PreviewLine();
+
+          await game.ready();
+          await game.ensureAdd(previewLine);
+
+          expect(game.contains(previewLine), isTrue);
+        },
       );
     });
   });

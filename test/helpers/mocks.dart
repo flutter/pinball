@@ -58,6 +58,12 @@ class MockRawKeyUpEvent extends Mock implements RawKeyUpEvent {
 
 class MockTapUpInfo extends Mock implements TapUpInfo {}
 
+class MockDragStartInfo extends Mock implements DragStartInfo {}
+
+class MockDragUpdateInfo extends Mock implements DragUpdateInfo {}
+
+class MockDragEndInfo extends Mock implements DragEndInfo {}
+
 class MockEventPosition extends Mock implements EventPosition {}
 
 class MockBonusLetter extends Mock implements BonusLetter {}
