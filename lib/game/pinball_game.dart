@@ -93,7 +93,7 @@ class PinballGame extends Forge2DGame
 
   Future<void> _addPaths() async {
     unawaited(
-      addFromBlueprint(Jetpack()),
+      addFromBlueprint(SpaceshipEntranceRamp()),
     );
     unawaited(addFromBlueprint(Launcher()));
   }

@@ -14,7 +14,7 @@ class SpaceshipExitRail extends Forge2DBlueprint {
   /// {@macro spaceship_exit_rail}
   SpaceshipExitRail();
 
-  /// Base priority for wall while be on jetpack ramp.
+  /// Base priority for wall while be on [_SpaceshipExitRailRamp].
   static const ballPriorityWhenOnSpaceshipExitRail = 2;
 
   @override

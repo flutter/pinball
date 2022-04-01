@@ -8,56 +8,59 @@ import 'package:pinball/game/game.dart';
 import 'package:pinball/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 
-/// A [Blueprint] which creates the [JetpackRamp].
-class Jetpack extends Forge2DBlueprint {
-  /// {@macro spaceship}
-  Jetpack();
+/// {@template spaceship_entrance_ramp}
+/// A [Blueprint] which creates the [SpaceshipRamp].
+/// {@endtemplate}
+class SpaceshipEntranceRamp extends Forge2DBlueprint {
+  /// {@macro spaceship_entrance_ramp}
+  SpaceshipEntranceRamp();
 
   static const int ballPriorityInsideRamp = 4;
 
   @override
   void build(_) {
     addAllContactCallback([
-      RampOpeningBallContactCallback<_JetpackRampOpening>(),
+      RampOpeningBallContactCallback<_SpaceshipRampOpening>(),
     ]);
 
-    final rightOpening = _JetpackRampOpening(
+    final rightOpening = _SpaceshipRampOpening(
       // TODO(ruimiguel): set Board priority when defined.
       outsidePriority: 1,
       rotation: math.pi,
     )
       ..initialPosition = Vector2(1.7, 19)
       ..layer = Layer.opening;
-    final leftOpening = _JetpackRampOpening(
+    final leftOpening = _SpaceshipRampOpening(
       outsideLayer: Layer.spaceship,
       outsidePriority: Spaceship.ballPriorityWhenOnSpaceship,
       rotation: math.pi,
     )
       ..initialPosition = Vector2(-13.7, 19)
-      ..layer = Layer.jetpack;
+      ..layer = Layer.spaceshipEntranceRamp;
 
-    final jetpackRamp = JetpackRamp();
+    final spaceshipRamp = _SpaceshipRamp();
 
-    final jetpackRampWallFg = _JetpackRampForegroundRailing();
+    final spaceshipRampForegroundRailing = _SpaceshipRampForegroundRailing();
 
-    final baseRight = _JetpackBase()..initialPosition = Vector2(1.7, 20);
+    final baseRight = _SpaceshipRampBase()..initialPosition = Vector2(1.7, 20);
 
     addAll([
       rightOpening,
       leftOpening,
       baseRight,
-      jetpackRamp,
-      jetpackRampWallFg,
+      spaceshipRamp,
+      spaceshipRampForegroundRailing,
     ]);
   }
 }
 
-/// {@template jetpack_ramp}
+/// {@template spaceship_ramp}
 /// Represents the upper left blue ramp of the [Board].
 /// {@endtemplate}
-class JetpackRamp extends BodyComponent with InitialPosition, Layered {
-  JetpackRamp() : super(priority: Jetpack.ballPriorityInsideRamp - 1) {
-    layer = Layer.jetpack;
+class _SpaceshipRamp extends BodyComponent with InitialPosition, Layered {
+  _SpaceshipRamp()
+      : super(priority: SpaceshipEntranceRamp.ballPriorityInsideRamp - 1) {
+    layer = Layer.spaceshipEntranceRamp;
   }
 
   /// Width between walls of the ramp.
@@ -140,11 +143,11 @@ class JetpackRamp extends BodyComponent with InitialPosition, Layered {
   }
 }
 
-class _JetpackRampForegroundRailing extends BodyComponent
+class _SpaceshipRampForegroundRailing extends BodyComponent
     with InitialPosition, Layered {
-  _JetpackRampForegroundRailing()
-      : super(priority: Jetpack.ballPriorityInsideRamp + 1) {
-    layer = Layer.jetpack;
+  _SpaceshipRampForegroundRailing()
+      : super(priority: SpaceshipEntranceRamp.ballPriorityInsideRamp + 1) {
+    layer = Layer.spaceshipEntranceRamp;
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -210,8 +213,8 @@ class _JetpackRampForegroundRailing extends BodyComponent
   }
 }
 
-class _JetpackBase extends BodyComponent with InitialPosition, Layered {
-  _JetpackBase() {
+class _SpaceshipRampBase extends BodyComponent with InitialPosition, Layered {
+  _SpaceshipRampBase() {
     layer = Layer.board;
   }
 
@@ -240,28 +243,28 @@ class _JetpackBase extends BodyComponent with InitialPosition, Layered {
   }
 }
 
-/// {@template jetpack_ramp_opening}
-/// [RampOpening] with [Layer.jetpack] to filter [Ball] collisions
-/// inside [JetpackRamp].
+/// {@template spaceship_ramp_opening}
+/// [RampOpening] with [Layer.spaceshipEntranceRamp] to filter [Ball] collisions
+/// inside [_SpaceshipRamp].
 /// {@endtemplate}
-class _JetpackRampOpening extends RampOpening {
-  /// {@macro jetpack_ramp_opening}
-  _JetpackRampOpening({
+class _SpaceshipRampOpening extends RampOpening {
+  /// {@macro spaceship_ramp_opening}
+  _SpaceshipRampOpening({
     Layer? outsideLayer,
     int? outsidePriority,
     required double rotation,
   })  : _rotation = rotation,
         super(
-          insideLayer: Layer.jetpack,
+          insideLayer: Layer.spaceshipEntranceRamp,
           outsideLayer: outsideLayer,
           orientation: RampOrientation.down,
-          insidePriority: Jetpack.ballPriorityInsideRamp,
+          insidePriority: SpaceshipEntranceRamp.ballPriorityInsideRamp,
           outsidePriority: outsidePriority,
         );
 
   final double _rotation;
 
-  static final Vector2 _size = Vector2(JetpackRamp.width / 4, .1);
+  static final Vector2 _size = Vector2(_SpaceshipRamp.width / 4, .1);
 
   @override
   Shape get shape {
