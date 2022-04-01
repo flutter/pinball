@@ -217,7 +217,7 @@ class _LaunchRampExit extends RampOpening {
     required double rotation,
   })  : _rotation = rotation,
         super(
-          pathwayLayer: Layer.launcher,
+          insideLayer: Layer.launcher,
           orientation: RampOrientation.down,
         );
 
