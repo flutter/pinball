@@ -133,7 +133,8 @@ class _LaunchRampBase extends BodyComponent with InitialPosition, Layered {
 }
 
 /// {@template launch_ramp_foreground_railing}
-/// Foreground railing for the [_LaunchRampBase] to render in front of the [Ball].
+/// Foreground railing for the [_LaunchRampBase] to render in front of the
+/// [Ball].
 /// {@endtemplate}
 class _LaunchRampForegroundRailing extends BodyComponent
     with InitialPosition, Layered {
