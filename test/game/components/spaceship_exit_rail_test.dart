@@ -31,8 +31,8 @@ void main() {
       when(() => fixture.filterData).thenReturn(filterData);
     });
 
-   // TODO(alestiago): Make ContactCallback private and use `beginContact`
-   // instead.
+    // TODO(alestiago): Make ContactCallback private and use `beginContact`
+    // instead.
     group('SpaceshipExitHoleBallContactCallback', () {
       setUp(() {
         when(() => ball.priority).thenReturn(1);
