@@ -35,22 +35,5 @@ void main() {
       await game.ready();
       expect(game.children.whereType<FireEffect>().length, equals(0));
     });
-
-    flameTester.test('render circles on the canvas', (game) async {
-      final effect = FireEffect(
-        burstPower: 1,
-        position: Vector2.zero(),
-        direction: Vector2.all(2),
-      );
-      await game.ensureAdd(effect);
-      await game.ready();
-
-      final canvas = MockCanvas();
-      effect.render(canvas);
-
-      verify(() => canvas.drawCircle(any(), any(), any())).called(
-        greaterThan(0),
-      );
-    });
   });
 }
