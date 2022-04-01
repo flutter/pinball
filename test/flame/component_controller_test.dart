@@ -52,9 +52,24 @@ void main() {
         final component = ControlledComponent();
         final controller = TestComponentController(component);
 
-        final anotherComponent = Component();
         await expectLater(
-          () async => controller.add(anotherComponent),
+          () async => controller.add(Component()),
+          throwsException,
+        );
+      },
+    );
+
+    flameTester.test(
+      'throws Exception when adding multiple components',
+      (game) async {
+        final component = ControlledComponent();
+        final controller = TestComponentController(component);
+
+        await expectLater(
+          () async => controller.addAll([
+            Component(),
+            Component(),
+          ]),
           throwsException,
         );
       },
