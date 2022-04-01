@@ -83,8 +83,9 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
       final direction = body.linearVelocity.normalized();
       final effect = FireEffect(
         burstPower: _boostTimer,
-        direction: direction,
-        position: body.position,
+        direction: -direction,
+        position: Vector2(body.position.x, -body.position.y),
+        priority: priority - 1,
       );
 
       unawaited(gameRef.add(effect));
