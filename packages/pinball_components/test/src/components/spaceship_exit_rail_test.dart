@@ -1,3 +1,5 @@
+// ignore_for_file: cascade_invocations
+
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
