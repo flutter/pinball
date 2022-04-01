@@ -49,8 +49,8 @@ class Jetpack extends Forge2DBlueprint {
     addAll([
       rightOpening,
       leftOpening,
-      jetpackRamp,
       baseRight,
+      jetpackRamp,
       jetpackRampWallFg,
     ]);
   }
