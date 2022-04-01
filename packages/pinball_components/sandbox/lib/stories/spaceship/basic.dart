@@ -25,7 +25,7 @@ class BasicSpaceship extends BasicGame with TapDetector {
     add(
       Ball(baseColor: Colors.blue)
         ..initialPosition = info.eventPosition.game
-        ..layer = Layer.jetpack,
+        ..layer = Layer.spaceshipEntranceRamp,
     );
   }
 }
