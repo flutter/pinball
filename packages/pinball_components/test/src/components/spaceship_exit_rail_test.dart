@@ -1,4 +1,5 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -7,6 +8,26 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('SpaceshipExitRail', () {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    final flameTester = FlameTester(TestGame.new);
+
+    flameTester.test(
+      'loads correctly',
+      (game) async {
+        final spaceshipExitRail = SpaceshipExitRail();
+        await game.addFromBlueprint(spaceshipExitRail);
+        await game.ready();
+
+        for (final element in spaceshipExitRail.components) {
+          expect(game.contains(element), isTrue);
+        }
+      },
+    );
+  });
+
+  // TODO(alestiago): Make ContactCallback private and use `beginContact`
+  // instead.
+  group('SpaceshipExitHoleBallContactCallback', () {
     late Forge2DGame game;
     late SpaceshipExitRailEnd exitRailEnd;
     late Ball ball;
@@ -30,34 +51,30 @@ void main() {
       when(() => fixture.filterData).thenReturn(filterData);
     });
 
-    // TODO(alestiago): Make ContactCallback private and use `beginContact`
-    // instead.
-    group('SpaceshipExitHoleBallContactCallback', () {
-      setUp(() {
-        when(() => ball.priority).thenReturn(1);
-        when(() => exitRailEnd.outsideLayer).thenReturn(Layer.board);
-        when(() => exitRailEnd.outsidePriority).thenReturn(0);
-      });
+    setUp(() {
+      when(() => ball.priority).thenReturn(1);
+      when(() => exitRailEnd.outsideLayer).thenReturn(Layer.board);
+      when(() => exitRailEnd.outsidePriority).thenReturn(0);
+    });
 
-      test('changes the ball priority on contact', () {
-        SpaceshipExitRailEndBallContactCallback().begin(
-          exitRailEnd,
-          ball,
-          MockContact(),
-        );
+    test('changes the ball priority on contact', () {
+      SpaceshipExitRailEndBallContactCallback().begin(
+        exitRailEnd,
+        ball,
+        MockContact(),
+      );
 
-        verify(() => ball.sendTo(exitRailEnd.outsidePriority)).called(1);
-      });
+      verify(() => ball.sendTo(exitRailEnd.outsidePriority)).called(1);
+    });
 
-      test('changes the ball layer on contact', () {
-        SpaceshipExitRailEndBallContactCallback().begin(
-          exitRailEnd,
-          ball,
-          MockContact(),
-        );
+    test('changes the ball layer on contact', () {
+      SpaceshipExitRailEndBallContactCallback().begin(
+        exitRailEnd,
+        ball,
+        MockContact(),
+      );
 
-        verify(() => ball.layer = exitRailEnd.outsideLayer).called(1);
-      });
+      verify(() => ball.layer = exitRailEnd.outsideLayer).called(1);
     });
   });
 }
