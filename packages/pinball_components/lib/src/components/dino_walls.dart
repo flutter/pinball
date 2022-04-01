@@ -36,56 +36,45 @@ class DinoTopWall extends BodyComponent with InitialPosition {
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
 
-    final topStraightControlPoints = [
-      Vector2(29.5, 35.1),
-      Vector2(28.4, 35.1),
-    ];
     final topStraightShape = EdgeShape()
       ..set(
-        topStraightControlPoints.first,
-        topStraightControlPoints.last,
+        Vector2(29.5, 35.1),
+        Vector2(28.4, 35.1),
       );
     final topStraightFixtureDef = FixtureDef(topStraightShape);
     fixturesDef.add(topStraightFixtureDef);
 
-    final topCurveControlPoints = [
-      topStraightControlPoints.last,
-      Vector2(17.4, 26.38),
-      Vector2(25.5, 20.7),
-    ];
     final topCurveShape = BezierCurveShape(
-      controlPoints: topCurveControlPoints,
+      controlPoints: [
+        topStraightShape.vertex1,
+        Vector2(17.4, 26.38),
+        Vector2(25.5, 20.7),
+      ],
     );
     fixturesDef.add(FixtureDef(topCurveShape));
 
-    final middleCurveControlPoints = [
-      topCurveControlPoints.last,
-      Vector2(27.8, 20.1),
-      Vector2(26.8, 19.5),
-    ];
     final middleCurveShape = BezierCurveShape(
-      controlPoints: middleCurveControlPoints,
+      controlPoints: [
+        topCurveShape.vertices.last,
+        Vector2(27.8, 20.1),
+        Vector2(26.8, 19.5),
+      ],
     );
     fixturesDef.add(FixtureDef(middleCurveShape));
 
-    final bottomCurveControlPoints = [
-      middleCurveControlPoints.last,
-      Vector2(21.15, 16),
-      Vector2(25.6, 15.2),
-    ];
     final bottomCurveShape = BezierCurveShape(
-      controlPoints: bottomCurveControlPoints,
+      controlPoints: [
+        middleCurveShape.vertices.last,
+        Vector2(21.15, 16),
+        Vector2(25.6, 15.2),
+      ],
     );
     fixturesDef.add(FixtureDef(bottomCurveShape));
 
-    final bottomStraightControlPoints = [
-      bottomCurveControlPoints.last,
-      Vector2(31, 14.5),
-    ];
     final bottomStraightShape = EdgeShape()
       ..set(
-        bottomStraightControlPoints.first,
-        bottomStraightControlPoints.last,
+        bottomCurveShape.vertices.last,
+        Vector2(31, 14.5),
       );
     final bottomStraightFixtureDef = FixtureDef(bottomStraightShape);
     fixturesDef.add(bottomStraightFixtureDef);
