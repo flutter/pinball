@@ -13,6 +13,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/ball.png
   AssetGenImage get ball => const AssetGenImage('assets/images/ball.png');
 
+  $AssetsImagesBaseboardGen get baseboard => const $AssetsImagesBaseboardGen();
+  $AssetsImagesDashBumperGen get dashBumper =>
+      const $AssetsImagesDashBumperGen();
+  $AssetsImagesDinoGen get dino => const $AssetsImagesDinoGen();
   $AssetsImagesFlipperGen get flipper => const $AssetsImagesFlipperGen();
 
   /// File path: assets/images/flutter_sign_post.png
@@ -28,6 +32,39 @@ class $AssetsImagesGen {
       const AssetGenImage('assets/images/spaceship_saucer.png');
 }
 
+class $AssetsImagesBaseboardGen {
+  const $AssetsImagesBaseboardGen();
+
+  /// File path: assets/images/baseboard/left.png
+  AssetGenImage get left =>
+      const AssetGenImage('assets/images/baseboard/left.png');
+
+  /// File path: assets/images/baseboard/right.png
+  AssetGenImage get right =>
+      const AssetGenImage('assets/images/baseboard/right.png');
+}
+
+class $AssetsImagesDashBumperGen {
+  const $AssetsImagesDashBumperGen();
+
+  $AssetsImagesDashBumperAGen get a => const $AssetsImagesDashBumperAGen();
+  $AssetsImagesDashBumperBGen get b => const $AssetsImagesDashBumperBGen();
+  $AssetsImagesDashBumperMainGen get main =>
+      const $AssetsImagesDashBumperMainGen();
+}
+
+class $AssetsImagesDinoGen {
+  const $AssetsImagesDinoGen();
+
+  /// File path: assets/images/dino/dino-land-bottom.png
+  AssetGenImage get dinoLandBottom =>
+      const AssetGenImage('assets/images/dino/dino-land-bottom.png');
+
+  /// File path: assets/images/dino/dino-land-top.png
+  AssetGenImage get dinoLandTop =>
+      const AssetGenImage('assets/images/dino/dino-land-top.png');
+}
+
 class $AssetsImagesFlipperGen {
   const $AssetsImagesFlipperGen();
 
@@ -38,6 +75,42 @@ class $AssetsImagesFlipperGen {
   /// File path: assets/images/flipper/right.png
   AssetGenImage get right =>
       const AssetGenImage('assets/images/flipper/right.png');
+}
+
+class $AssetsImagesDashBumperAGen {
+  const $AssetsImagesDashBumperAGen();
+
+  /// File path: assets/images/dash_bumper/a/active.png
+  AssetGenImage get active =>
+      const AssetGenImage('assets/images/dash_bumper/a/active.png');
+
+  /// File path: assets/images/dash_bumper/a/inactive.png
+  AssetGenImage get inactive =>
+      const AssetGenImage('assets/images/dash_bumper/a/inactive.png');
+}
+
+class $AssetsImagesDashBumperBGen {
+  const $AssetsImagesDashBumperBGen();
+
+  /// File path: assets/images/dash_bumper/b/active.png
+  AssetGenImage get active =>
+      const AssetGenImage('assets/images/dash_bumper/b/active.png');
+
+  /// File path: assets/images/dash_bumper/b/inactive.png
+  AssetGenImage get inactive =>
+      const AssetGenImage('assets/images/dash_bumper/b/inactive.png');
+}
+
+class $AssetsImagesDashBumperMainGen {
+  const $AssetsImagesDashBumperMainGen();
+
+  /// File path: assets/images/dash_bumper/main/active.png
+  AssetGenImage get active =>
+      const AssetGenImage('assets/images/dash_bumper/main/active.png');
+
+  /// File path: assets/images/dash_bumper/main/inactive.png
+  AssetGenImage get inactive =>
+      const AssetGenImage('assets/images/dash_bumper/main/inactive.png');
 }
 
 class Assets {
