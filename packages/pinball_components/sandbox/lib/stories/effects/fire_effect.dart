@@ -34,7 +34,6 @@ class _EffectEmitter extends Component {
       add(
         FireEffect(
           burstPower: (_timer / _timerLimit) * _force,
-          position: Vector2.zero(),
           direction: _direction,
         ),
       );
