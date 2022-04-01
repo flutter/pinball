@@ -4,7 +4,7 @@ import 'dart:math' as math;
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:pinball/gen/assets.gen.dart';
+import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 
 /// {@template spaceship_exit_rail}
@@ -14,7 +14,7 @@ class SpaceshipExitRail extends Forge2DBlueprint {
   /// {@macro spaceship_exit_rail}
   SpaceshipExitRail();
 
-  /// Base priority for wall while be on jetpack ramp.
+  /// Base priority for ball while be in [_SpaceshipExitRailRamp].
   static const ballPriorityWhenOnSpaceshipExitRail = 2;
 
   @override
@@ -73,7 +73,7 @@ class _SpaceshipExitRailRamp extends BodyComponent
 
     final middleLeftCurveShape = BezierCurveShape(
       controlPoints: [
-        Vector2(-30.93, 18.2),
+        topLeftCurveShape.vertices.last,
         Vector2(-22.6, 10.3),
         Vector2(-30, 0.2),
       ],
@@ -83,7 +83,7 @@ class _SpaceshipExitRailRamp extends BodyComponent
 
     final bottomLeftCurveShape = BezierCurveShape(
       controlPoints: [
-        Vector2(-30, 0.2),
+        middleLeftCurveShape.vertices.last,
         Vector2(-36, -8.6),
         Vector2(-32.04, -18.3),
       ],
@@ -111,7 +111,7 @@ class _SpaceshipExitRailRamp extends BodyComponent
 
     final bottomRightCurveShape = BezierCurveShape(
       controlPoints: [
-        Vector2(-25.29, -1.7),
+        middleRightCurveShape.vertices.last,
         Vector2(-29.91, -8.5),
         Vector2(-26.8, -15.7),
       ],
@@ -142,7 +142,7 @@ class _SpaceshipExitRailRamp extends BodyComponent
 
   Future<void> _loadSprite() async {
     final sprite = await gameRef.loadSprite(
-      Assets.images.components.spaceshipDropTube.path,
+      Assets.images.spaceshipRamp.spaceshipDropTube.keyName,
     );
     final spriteComponent = SpriteComponent(
       sprite: sprite,

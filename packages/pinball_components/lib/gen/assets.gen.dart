@@ -27,6 +27,9 @@ class $AssetsImagesGen {
   AssetGenImage get spaceshipBridge =>
       const AssetGenImage('assets/images/spaceship_bridge.png');
 
+  $AssetsImagesSpaceshipRampGen get spaceshipRamp =>
+      const $AssetsImagesSpaceshipRampGen();
+
   /// File path: assets/images/spaceship_saucer.png
   AssetGenImage get spaceshipSaucer =>
       const AssetGenImage('assets/images/spaceship_saucer.png');
@@ -75,6 +78,14 @@ class $AssetsImagesFlipperGen {
   /// File path: assets/images/flipper/right.png
   AssetGenImage get right =>
       const AssetGenImage('assets/images/flipper/right.png');
+}
+
+class $AssetsImagesSpaceshipRampGen {
+  const $AssetsImagesSpaceshipRampGen();
+
+  /// File path: assets/images/spaceship_ramp/spaceship-drop-tube.png
+  AssetGenImage get spaceshipDropTube => const AssetGenImage(
+      'assets/images/spaceship_ramp/spaceship-drop-tube.png');
 }
 
 class $AssetsImagesDashBumperAGen {

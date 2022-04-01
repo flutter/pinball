@@ -32,6 +32,7 @@ flutter:
     - assets/images/dash_bumper/a/
     - assets/images/dash_bumper/b/
     - assets/images/dash_bumper/main/
+    - assets/images/spaceship_ramp/
 
 flutter_gen:
   line_length: 80

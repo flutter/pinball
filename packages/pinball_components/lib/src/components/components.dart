@@ -13,3 +13,4 @@ export 'layer.dart';
 export 'ramp_opening.dart';
 export 'shapes/shapes.dart';
 export 'spaceship.dart';
+export 'spaceship_exit_rail.dart';
