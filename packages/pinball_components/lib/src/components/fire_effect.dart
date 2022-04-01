@@ -63,7 +63,7 @@ class FireEffect extends ParticleSystemComponent {
     final spreadTween = Tween<double>(begin: -0.2, end: 0.2);
 
     particle = Particle.generate(
-      count: (random.nextDouble() * (burstPower * 10)).toInt(),
+      count: math.max((random.nextDouble() * (burstPower * 10)).toInt(), 1),
       generator: (_) {
         final spread = Vector2(
           spreadTween.transform(random.nextDouble()),
