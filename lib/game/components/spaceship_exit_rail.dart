@@ -217,7 +217,7 @@ class SpaceshipExitRailEndBallContactCallback
   @override
   void begin(SpaceshipExitRailEnd exitRail, Ball ball, _) {
     ball
-      ..sendTo(1) // TODO(ruimiguel): sendTo board priority
+      ..sendTo(exitRail.outsidePriority)
       ..layer = exitRail.outsideLayer;
   }
 }

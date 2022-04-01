@@ -32,28 +32,30 @@ void main() {
     });
 
     group('SpaceshipExitHoleBallContactCallback', () {
-      test('changes the ball priority on contact', () {
+      setUp(() {
+        when(() => ball.priority).thenReturn(1);
         when(() => exitRailEnd.outsideLayer).thenReturn(Layer.board);
-
-        SpaceshipExitRailEndBallContactCallback().begin(
-          exitRailEnd,
-          ball,
-          MockContact(),
-        );
-
-        verify(() => ball.priority = 1).called(1);
+        when(() => exitRailEnd.outsidePriority).thenReturn(0);
       });
 
-      test('reorders the game children', () {
-        when(() => exitRailEnd.outsideLayer).thenReturn(Layer.board);
-
+      test('changes the ball priority on contact', () {
         SpaceshipExitRailEndBallContactCallback().begin(
           exitRailEnd,
           ball,
           MockContact(),
         );
 
-        verify(game.reorderChildren).called(1);
+        verify(() => ball.sendTo(exitRailEnd.outsidePriority)).called(1);
+      });
+
+      test('changes the ball layer on contact', () {
+        SpaceshipExitRailEndBallContactCallback().begin(
+          exitRailEnd,
+          ball,
+          MockContact(),
+        );
+
+        verify(() => ball.layer = exitRailEnd.outsideLayer).called(1);
       });
     });
   });
