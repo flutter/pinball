@@ -52,9 +52,22 @@ class _BottomBoundary extends BodyComponent with InitialPosition {
   }
 
   @override
+  Body createBody() {
+    final bodyDef = BodyDef()..position = initialPosition;
+    final body = world.createBody(bodyDef);
+    _createFixtureDefs().forEach(body.createFixture);
+
+    return body;
+  }
+
+  @override
   Future<void> onLoad() async {
     await super.onLoad();
+    await _loadSprite();
+    renderBody = false;
+  }
 
+  Future<void> _loadSprite() async {
     final sprite = await gameRef.loadSprite(
       Assets.images.boundary.bottom.keyName,
     );
@@ -62,22 +75,11 @@ class _BottomBoundary extends BodyComponent with InitialPosition {
     await add(
       SpriteComponent(
         sprite: sprite,
-        size: Vector2(96.7, 29.1),
+        size: sprite.originalSize / 10,
         anchor: Anchor.center,
         position: Vector2(-5.4, 57.4),
       ),
     );
-
-    renderBody = false;
-  }
-
-  @override
-  Body createBody() {
-    final bodyDef = BodyDef()..position = initialPosition;
-    final body = world.createBody(bodyDef);
-    _createFixtureDefs().forEach(body.createFixture);
-
-    return body;
   }
 }
 
@@ -122,9 +124,22 @@ class _OuterBoundary extends BodyComponent with InitialPosition {
   }
 
   @override
+  Body createBody() {
+    final bodyDef = BodyDef()..position = initialPosition;
+    final body = world.createBody(bodyDef);
+    _createFixtureDefs().forEach(body.createFixture);
+
+    return body;
+  }
+
+  @override
   Future<void> onLoad() async {
     await super.onLoad();
+    await _loadSprite();
+    renderBody = false;
+  }
 
+  Future<void> _loadSprite() async {
     final sprite = await gameRef.loadSprite(
       Assets.images.boundary.outer.keyName,
     );
@@ -132,21 +147,10 @@ class _OuterBoundary extends BodyComponent with InitialPosition {
     await add(
       SpriteComponent(
         sprite: sprite,
-        size: Vector2(105.1, 146.7),
+        size: sprite.originalSize / 10,
         anchor: Anchor.center,
         position: Vector2(-0.2, -1.4),
       ),
     );
-
-    renderBody = false;
-  }
-
-  @override
-  Body createBody() {
-    final bodyDef = BodyDef()..position = initialPosition;
-    final body = world.createBody(bodyDef);
-    _createFixtureDefs().forEach(body.createFixture);
-
-    return body;
   }
 }
