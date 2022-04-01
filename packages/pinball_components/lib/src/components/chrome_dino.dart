@@ -43,7 +43,7 @@ class ChromeDino extends BodyComponent with InitialPosition {
     await add(
       TimerComponent(
         period: 1,
-        onTick: joint.swivel,
+        onTick: joint._swivel,
         repeat: true,
       ),
     );
@@ -150,7 +150,7 @@ class _ChromeDinoJoint extends RevoluteJoint {
   _ChromeDinoJoint(_ChromeDinoAnchorRevoluteJointDef def) : super(def);
 
   /// Sweeps the [ChromeDino] up and down repeatedly.
-  void swivel() {
+  void _swivel() {
     setMotorSpeed(-motorSpeed);
   }
 }
