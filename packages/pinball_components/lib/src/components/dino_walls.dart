@@ -14,9 +14,6 @@ class DinoWalls extends Forge2DBlueprint {
   /// {@macro dinowalls}
   DinoWalls({required this.position});
 
-  /// Total size of the spaceship.
-  static final size = Vector2(25, 19);
-
   /// The [position] where the elements will be created
   final Vector2 position;
 
