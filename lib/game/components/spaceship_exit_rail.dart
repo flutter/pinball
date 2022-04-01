@@ -29,12 +29,14 @@ class SpaceshipExitRail extends Forge2DBlueprint {
       ..initialPosition = Vector2(-26.15, 18.65);
     final bottomBase = _SpaceshipExitRailBase(radius: 0.8)
       ..initialPosition = Vector2(-25.5, -12.9);
+    final exitRailForeground = _SpaceshipExitRailForeground();
 
     addAll([
       exitRailRamp,
       exitRailEnd,
       topBase,
       bottomBase,
+      exitRailForeground,
     ]);
   }
 }
@@ -155,6 +157,24 @@ class _SpaceshipExitRailRamp extends BodyComponent
   }
 }
 
+class _SpaceshipExitRailForeground extends SpriteComponent with HasGameRef {
+  _SpaceshipExitRailForeground()
+      : super(
+          size: Vector2(7.6, 5.7),
+          anchor: Anchor.center,
+          position: Vector2(-28.5, 19.7),
+          priority: SpaceshipExitRail.ballPriorityWhenOnSpaceshipExitRail + 1,
+        );
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+
+    sprite = await gameRef
+        .loadSprite(Assets.images.components.spaceshipDropTubeFront.path);
+  }
+}
+
 class _SpaceshipExitRailBase extends BodyComponent
     with InitialPosition, Layered {
   _SpaceshipExitRailBase({required this.radius})
@@ -193,16 +213,16 @@ class SpaceshipExitRailEnd extends RampOpening {
           orientation: RampOrientation.down,
           insidePriority: 3,
         ) {
-    renderBody = false;
+    // renderBody = false;
     layer = Layer.spaceshipExitRail;
   }
 
   @override
   Shape get shape {
     return ArcShape(
-      center: Vector2(-29, -17.8),
+      center: Vector2(-28, -19),
       arcRadius: 2.5,
-      angle: math.pi * 0.8,
+      angle: math.pi * 0.4,
       rotation: -0.16,
     );
   }

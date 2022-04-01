@@ -21,6 +21,10 @@ class $AssetsImagesComponentsGen {
   AssetGenImage get background =>
       const AssetGenImage('assets/images/components/background.png');
 
+  /// File path: assets/images/components/spaceship-drop-tube-front.png
+  AssetGenImage get spaceshipDropTubeFront => const AssetGenImage(
+      'assets/images/components/spaceship-drop-tube-front.png');
+
   /// File path: assets/images/components/spaceship-drop-tube.png
   AssetGenImage get spaceshipDropTube =>
       const AssetGenImage('assets/images/components/spaceship-drop-tube.png');
