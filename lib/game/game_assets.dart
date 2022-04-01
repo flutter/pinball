@@ -15,6 +15,10 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.baseboard.right.keyName),
       images.load(components.Assets.images.spaceshipSaucer.keyName),
       images.load(components.Assets.images.spaceshipBridge.keyName),
+      images.load(components.Assets.images.launchRamp.ramp.keyName),
+      images.load(
+        components.Assets.images.launchRamp.foregroundRailing.keyName,
+      ),
       images.load(Assets.images.components.background.path),
       images.load(Assets.images.components.launchRamp.launchRamp.path),
       images.load(Assets.images.components.launchRamp.launchRailFG.path),

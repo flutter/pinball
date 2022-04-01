@@ -35,7 +35,7 @@ class PinballGame extends Forge2DGame
     unawaited(add(Board()));
     unawaited(_addPlunger());
     unawaited(_addBonusWord());
-    unawaited(_addPaths());
+    unawaited(_addRamps());
     unawaited(
       addFromBlueprint(
         Spaceship(
@@ -86,9 +86,9 @@ class PinballGame extends Forge2DGame
     );
   }
 
-  Future<void> _addPaths() async {
+  Future<void> _addRamps() async {
     unawaited(addFromBlueprint(Jetpack()));
-    unawaited(addFromBlueprint(Launcher()));
+    unawaited(addFromBlueprint(LaunchRamp()));
   }
 
   void spawnBall() {

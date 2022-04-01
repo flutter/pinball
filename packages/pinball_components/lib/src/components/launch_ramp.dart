@@ -4,44 +4,43 @@ import 'dart:math' as math;
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:pinball/gen/assets.gen.dart';
-import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_components/pinball_components.dart';
 
-/// {@template launcher}
-/// A [Blueprint] which creates the [LauncherRamp] and
-/// [LauncherForegroundRailing].
+/// {@template launch_ramp}
+/// A [Blueprint] which creates the [_LaunchRampBase] and
+/// [_LaunchRampForegroundRailing].
 /// {@endtemplate}
-class Launcher extends Forge2DBlueprint {
+class LaunchRamp extends Forge2DBlueprint {
   @override
   void build(_) {
     addAllContactCallback([
-      RampOpeningBallContactCallback<_LauncherExit>(),
+      RampOpeningBallContactCallback<_LaunchRampExit>(),
     ]);
 
-    final launcherRamp = LauncherRamp()..layer = Layer.launcher;
+    final launchRampBase = _LaunchRampBase()..layer = Layer.launcher;
 
-    final launcherForegroundRailing = LauncherForegroundRailing()
+    final launchRampForegroundRailing = _LaunchRampForegroundRailing()
       ..layer = Layer.launcher;
 
-    final launcherExit = _LauncherExit(rotation: math.pi / 2)
+    final launchRampExit = _LaunchRampExit(rotation: math.pi / 2)
       ..initialPosition = Vector2(1.8, 34.2)
       ..layer = Layer.opening
       ..renderBody = false;
 
     addAll([
-      launcherRamp,
-      launcherForegroundRailing,
-      launcherExit,
+      launchRampBase,
+      launchRampForegroundRailing,
+      launchRampExit,
     ]);
   }
 }
 
-/// {@template launcher_ramp}
+/// {@template launch_ramp_base}
 /// Ramp the [Ball] is launched from at the beginning of each ball life.
 /// {@endtemplate}
-class LauncherRamp extends BodyComponent with InitialPosition, Layered {
-  /// {@macro launcher_ramp}
-  LauncherRamp() : super(priority: -1) {
+class _LaunchRampBase extends BodyComponent with InitialPosition, Layered {
+  /// {@macro launch_ramp_base}
+  _LaunchRampBase() : super(priority: -1) {
     layer = Layer.launcher;
   }
 
@@ -106,7 +105,7 @@ class LauncherRamp extends BodyComponent with InitialPosition, Layered {
     await super.onLoad();
 
     final sprite = await gameRef.loadSprite(
-      Assets.images.components.launchRamp.launchRamp.path,
+      Assets.images.launchRamp.ramp.keyName,
     );
     final spriteComponent = SpriteComponent(
       sprite: sprite,
@@ -133,13 +132,13 @@ class LauncherRamp extends BodyComponent with InitialPosition, Layered {
   }
 }
 
-/// {@template launcher_foreground_railing}
-/// Foreground railing for the [LauncherRamp] to render in front of the [Ball].
+/// {@template launch_ramp_foreground_railing}
+/// Foreground railing for the [_LaunchRampBase] to render in front of the [Ball].
 /// {@endtemplate}
-class LauncherForegroundRailing extends BodyComponent
+class _LaunchRampForegroundRailing extends BodyComponent
     with InitialPosition, Layered {
-  /// {@macro launcher_foreground_railing}
-  LauncherForegroundRailing() : super(priority: 4) {
+  /// {@macro launch_ramp_foreground_railing}
+  _LaunchRampForegroundRailing() : super(priority: 4) {
     layer = Layer.launcher;
   }
 
@@ -179,7 +178,7 @@ class LauncherForegroundRailing extends BodyComponent
     await super.onLoad();
 
     final sprite = await gameRef.loadSprite(
-      Assets.images.components.launchRamp.launchRailFG.path,
+      Assets.images.launchRamp.foregroundRailing.keyName,
     );
     final spriteComponent = SpriteComponent(
       sprite: sprite,
@@ -207,13 +206,13 @@ class LauncherForegroundRailing extends BodyComponent
   }
 }
 
-/// {@template launcher_exit}
+/// {@template launch_ramp_exit}
 /// [RampOpening] with [Layer.launcher] to filter [Ball]s exiting the
-/// [Launcher].
+/// [LaunchRamp].
 /// {@endtemplate}
-class _LauncherExit extends RampOpening {
-  /// {@macro launcher_exit}
-  _LauncherExit({
+class _LaunchRampExit extends RampOpening {
+  /// {@macro launch_ramp_exit}
+  _LaunchRampExit({
     required double rotation,
   })  : _rotation = rotation,
         super(
