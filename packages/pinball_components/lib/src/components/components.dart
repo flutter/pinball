@@ -9,6 +9,7 @@ export 'flipper.dart';
 export 'flutter_sign_post.dart';
 export 'initial_position.dart';
 export 'joint_anchor.dart';
+export 'kicker.dart';
 export 'layer.dart';
 export 'ramp_opening.dart';
 export 'shapes/shapes.dart';
