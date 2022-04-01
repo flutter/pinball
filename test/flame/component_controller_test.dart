@@ -52,9 +52,9 @@ void main() {
         final component = ControlledComponent();
         final controller = TestComponentController(component);
 
-        final anotherComponet = Component();
+        final anotherComponent = Component();
         await expectLater(
-          () async => controller.add(anotherComponet),
+          () async => controller.add(anotherComponent),
           throwsException,
         );
       },
