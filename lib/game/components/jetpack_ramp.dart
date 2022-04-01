@@ -21,11 +21,6 @@ class Jetpack extends Forge2DBlueprint {
 
   @override
   void build(_) {
-    final position = Vector2(
-      BoardDimensions.bounds.left + 40.5,
-      BoardDimensions.bounds.top - 31.5,
-    );
-
     addAllContactCallback([
       RampOpeningBallContactCallback<_JetpackRampOpening>(),
     ]);
@@ -51,8 +46,13 @@ class Jetpack extends Forge2DBlueprint {
     final baseRight = _JetpackBase()
       ..initialPosition = position + Vector2(1.7, 20);
 
-    addAll(
-        [rightOpening, leftOpening, jetpackRamp, baseRight, jetpackRampWallFg]);
+    addAll([
+      rightOpening,
+      leftOpening,
+      jetpackRamp,
+      baseRight,
+      jetpackRampWallFg,
+    ]);
   }
 }
 
@@ -70,25 +70,23 @@ class JetpackRamp extends BodyComponent with InitialPosition, Layered {
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
 
-    final outerLeftControlPoints = [
-      Vector2(-30.95, 38),
-      Vector2(-32.5, 71.25),
-      Vector2(-14.2, 71.25),
-    ];
     final outerLeftCurveShape = BezierCurveShape(
-      controlPoints: outerLeftControlPoints,
+      controlPoints: [
+        Vector2(-30.95, 38),
+        Vector2(-32.5, 71.25),
+        Vector2(-14.2, 71.25),
+      ],
     );
 
     final outerLeftCurveFixtureDef = FixtureDef(outerLeftCurveShape);
     fixturesDef.add(outerLeftCurveFixtureDef);
 
-    final outerRightControlPoints = [
-      outerLeftControlPoints.last,
-      Vector2(4.7, 71.25),
-      Vector2(6.3, 40),
-    ];
     final outerRightCurveShape = BezierCurveShape(
-      controlPoints: outerRightControlPoints,
+      controlPoints: [
+        outerLeftCurveShape.vertices.last,
+        Vector2(4.7, 71.25),
+        Vector2(6.3, 40),
+      ],
     );
 
     final outerRightCurveFixtureDef = FixtureDef(outerRightCurveShape);
@@ -126,7 +124,8 @@ class JetpackRamp extends BodyComponent with InitialPosition, Layered {
       sprite: spriteRamp,
       size: Vector2(38.1, 33.8),
       anchor: Anchor.center,
-    )..position = Vector2(-12.2, -53.5);
+      position: Vector2(-12.2, -53.5),
+    );
 
     final spriteRailingBg = await gameRef.loadSprite(
       Assets.images.components.spaceshipRailingBg.path,
@@ -135,7 +134,8 @@ class JetpackRamp extends BodyComponent with InitialPosition, Layered {
       sprite: spriteRailingBg,
       size: Vector2(38.3, 35.1),
       anchor: Anchor.center,
-    )..position = spriteRampComponent.position + Vector2(0, -1);
+      position: spriteRampComponent.position + Vector2(0, -1),
+    );
 
     await addAll([
       spriteRailingBgComponent,
@@ -152,25 +152,23 @@ class _JetpackRampWallFg extends BodyComponent with InitialPosition, Layered {
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
 
-    final innerLeftControlPoints = [
-      Vector2(-24.5, 38),
-      Vector2(-26.3, 64),
-      Vector2(-13.8, 64.5),
-    ];
     final innerLeftCurveShape = BezierCurveShape(
-      controlPoints: innerLeftControlPoints,
+      controlPoints: [
+        Vector2(-24.5, 38),
+        Vector2(-26.3, 64),
+        Vector2(-13.8, 64.5),
+      ],
     );
 
     final innerLeftCurveFixtureDef = FixtureDef(innerLeftCurveShape);
     fixturesDef.add(innerLeftCurveFixtureDef);
 
-    final innerRightControlPoints = [
-      innerLeftControlPoints.last,
-      Vector2(-1, 64.5),
-      Vector2(0.1, 39.5),
-    ];
     final innerRightCurveShape = BezierCurveShape(
-      controlPoints: innerRightControlPoints,
+      controlPoints: [
+        innerLeftCurveShape.vertices.last,
+        Vector2(-1, 64.5),
+        Vector2(0.1, 39.5),
+      ],
     );
 
     final innerRightCurveFixtureDef = FixtureDef(innerRightCurveShape);
@@ -207,7 +205,8 @@ class _JetpackRampWallFg extends BodyComponent with InitialPosition, Layered {
       sprite: spriteRailingFg,
       size: Vector2(26.1, 28.3),
       anchor: Anchor.center,
-    )..position = Vector2(-12.2, -52.5);
+      position: Vector2(-12.2, -52.5),
+    );
 
     await add(spriteRailingFgComponent);
   }

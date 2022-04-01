@@ -124,7 +124,7 @@ class _LauncherRampOpening extends RampOpening {
         super(
           insideLayer: Layer.launcher,
           orientation: RampOrientation.down,
-          pathwayPriority: 3,
+          insidePriority: 3,
         );
 
   final double _rotation;
