@@ -1,7 +1,7 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pinball/game/game.dart';
+import 'package:pinball_components/pinball_components.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -12,8 +12,6 @@ void main() {
       'loads correctly',
       (game) async {
         final chromeDino = ChromeDino();
-
-        await game.ready();
         await game.ensureAdd(chromeDino);
 
         expect(game.contains(chromeDino), isTrue);
