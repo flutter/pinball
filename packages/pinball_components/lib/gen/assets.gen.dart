@@ -14,9 +14,14 @@ class $AssetsImagesGen {
   AssetGenImage get ball => const AssetGenImage('assets/images/ball.png');
 
   $AssetsImagesBaseboardGen get baseboard => const $AssetsImagesBaseboardGen();
+
+  $AssetsImagesBoundaryGen get boundary => const $AssetsImagesBoundaryGen();
+
   $AssetsImagesDashBumperGen get dashBumper =>
       const $AssetsImagesDashBumperGen();
+
   $AssetsImagesDinoGen get dino => const $AssetsImagesDinoGen();
+
   $AssetsImagesFlipperGen get flipper => const $AssetsImagesFlipperGen();
 
   /// File path: assets/images/flutter_sign_post.png
@@ -42,6 +47,18 @@ class $AssetsImagesBaseboardGen {
   /// File path: assets/images/baseboard/right.png
   AssetGenImage get right =>
       const AssetGenImage('assets/images/baseboard/right.png');
+}
+
+class $AssetsImagesBoundaryGen {
+  const $AssetsImagesBoundaryGen();
+
+  /// File path: assets/images/boundary/bottom.png
+  AssetGenImage get bottom =>
+      const AssetGenImage('assets/images/boundary/bottom.png');
+
+  /// File path: assets/images/boundary/outer.png
+  AssetGenImage get outer =>
+      const AssetGenImage('assets/images/boundary/outer.png');
 }
 
 class $AssetsImagesDashBumperGen {

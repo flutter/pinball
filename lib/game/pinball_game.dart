@@ -33,6 +33,7 @@ class PinballGame extends Forge2DGame
 
     await _addGameBoundaries();
     unawaited(add(Board()));
+    unawaited(addFromBlueprint(Boundaries()));
     unawaited(_addPlunger());
     unawaited(_addBonusWord());
     unawaited(_addPaths());
@@ -128,7 +129,7 @@ class DebugPinballGame extends PinballGame with TapDetector {
       anchor: Anchor.center,
     )
       ..position = Vector2(0, -7.8)
-      ..priority = -1;
+      ..priority = -2;
 
     await add(spriteComponent);
   }
