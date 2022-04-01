@@ -196,10 +196,10 @@ void main() {
     group('bonus letter activation', () {
       late GameBloc gameBloc;
 
-      final tester = flameBlocTester<PinballGame>(
+      final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
         // TODO(alestiago): Use TestGame once BonusLetter has controller.
-        game: PinballGameTest.create,
-        gameBloc: () => gameBloc,
+        gameBuilder: PinballGameTest.create,
+        blocBuilder: () => gameBloc,
       );
 
       setUp(() {
@@ -211,7 +211,7 @@ void main() {
         );
       });
 
-      tester.testGameWidget(
+      flameBlocTester.testGameWidget(
         'adds BonusLetterActivated to GameBloc when not activated',
         setUp: (game, tester) async {
           await game.ready();
@@ -225,7 +225,7 @@ void main() {
         },
       );
 
-      tester.testGameWidget(
+      flameBlocTester.testGameWidget(
         "doesn't add BonusLetterActivated to GameBloc when already activated",
         setUp: (game, tester) async {
           const state = GameState(
@@ -253,7 +253,7 @@ void main() {
         },
       );
 
-      tester.testGameWidget(
+      flameBlocTester.testGameWidget(
         'adds a ColorEffect',
         setUp: (game, tester) async {
           const state = GameState(
@@ -284,7 +284,7 @@ void main() {
         },
       );
 
-      tester.testGameWidget(
+      flameBlocTester.testGameWidget(
         'only listens when there is a change on the letter status',
         setUp: (game, tester) async {
           await game.ready();
