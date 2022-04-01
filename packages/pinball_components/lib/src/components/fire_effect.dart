@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame/particles.dart';
 import 'package:flame_forge2d/flame_forge2d.dart' hide Particle;
@@ -19,33 +20,24 @@ const _particleRadius = 0.25;
 /// A [BodyComponent] which creates a fire trail effect using the given
 /// parameters
 /// {@endtemplate}
-class FireEffect extends BodyComponent {
+class FireEffect extends ParticleSystemComponent {
   /// {@macro fire_effect}
   FireEffect({
     required this.burstPower,
-    required this.position,
     required this.direction,
-  });
+    Vector2? position,
+    int? priority,
+  }) : super(
+          position: position,
+          priority: priority,
+        );
 
   /// A [double] value that will define how "strong" the burst of particles
-  /// will be
+  /// will be.
   final double burstPower;
 
-  /// The position of the burst
-  final Vector2 position;
-
-  /// Which direction the burst will aim
+  /// Which direction the burst will aim.
   final Vector2 direction;
-  late Particle _particle;
-
-  @override
-  Body createBody() {
-    final bodyDef = BodyDef()..position = position;
-
-    final fixtureDef = FixtureDef(CircleShape()..radius = 0)..isSensor = true;
-
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
-  }
 
   @override
   Future<void> onLoad() async {
@@ -71,15 +63,15 @@ class FireEffect extends BodyComponent {
         );
       }),
     ];
-    final rng = math.Random();
+    final random = math.Random();
     final spreadTween = Tween<double>(begin: -0.2, end: 0.2);
 
-    _particle = Particle.generate(
-      count: (rng.nextDouble() * (burstPower * 10)).toInt(),
+    particle = Particle.generate(
+      count: math.max((random.nextDouble() * (burstPower * 10)).toInt(), 1),
       generator: (_) {
         final spread = Vector2(
-          spreadTween.transform(rng.nextDouble()),
-          spreadTween.transform(rng.nextDouble()),
+          spreadTween.transform(random.nextDouble()),
+          spreadTween.transform(random.nextDouble()),
         );
         final finalDirection = Vector2(direction.x, -direction.y) + spread;
         final speed = finalDirection * (burstPower * 20);
@@ -88,26 +80,9 @@ class FireEffect extends BodyComponent {
           lifespan: 5 / burstPower,
           position: Vector2.zero(),
           speed: speed,
-          child: children[rng.nextInt(children.length)],
+          child: children[random.nextInt(children.length)],
         );
       },
     );
-  }
-
-  @override
-  void update(double dt) {
-    super.update(dt);
-    _particle.update(dt);
-
-    if (_particle.shouldRemove) {
-      removeFromParent();
-    }
-  }
-
-  @override
-  void render(Canvas canvas) {
-    super.render(canvas);
-
-    _particle.render(canvas);
   }
 }

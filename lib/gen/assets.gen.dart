@@ -3,6 +3,8 @@
 ///  FlutterGen
 /// *****************************************************
 
+// ignore_for_file: directives_ordering,unnecessary_import
+
 import 'package:flutter/widgets.dart';
 
 class $AssetsImagesGen {
@@ -15,23 +17,13 @@ class $AssetsImagesGen {
 class $AssetsImagesComponentsGen {
   const $AssetsImagesComponentsGen();
 
+  /// File path: assets/images/components/background.png
   AssetGenImage get background =>
       const AssetGenImage('assets/images/components/background.png');
 
-  $AssetsImagesComponentsLaunchRampGen get launchRamp =>
-      const $AssetsImagesComponentsLaunchRampGen();
-}
-
-class $AssetsImagesComponentsLaunchRampGen {
-  const $AssetsImagesComponentsLaunchRampGen();
-
-  /// File path: assets/images/components/launch_ramp/launch-ramp.png
-  AssetGenImage get launchRamp => const AssetGenImage(
-      'assets/images/components/launch_ramp/launch-ramp.png');
-
-  /// File path: assets/images/components/launch_ramp/launch-rail-FG.png
-  AssetGenImage get launchRailFG => const AssetGenImage(
-      'assets/images/components/launch_ramp/launch-rail-FG.png');
+  /// File path: assets/images/components/spaceship-drop-tube.png
+  AssetGenImage get spaceshipDropTube =>
+      const AssetGenImage('assets/images/components/spaceship-drop-tube.png');
 }
 
 class Assets {

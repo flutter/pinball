@@ -59,7 +59,8 @@ void main() {
 
     group('SpaceshipEntranceBallContactCallback', () {
       test('changes the ball priority on contact', () {
-        when(() => entrance.onEnterElevation).thenReturn(3);
+        when(() => ball.priority).thenReturn(2);
+        when(() => entrance.insidePriority).thenReturn(3);
 
         SpaceshipEntranceBallContactCallback().begin(
           entrance,
@@ -67,26 +68,15 @@ void main() {
           MockContact(),
         );
 
-        verify(() => ball.priority = entrance.onEnterElevation).called(1);
-      });
-
-      test('re order the game children', () {
-        when(() => entrance.onEnterElevation).thenReturn(3);
-
-        SpaceshipEntranceBallContactCallback().begin(
-          entrance,
-          ball,
-          MockContact(),
-        );
-
-        verify(game.reorderChildren).called(1);
+        verify(() => ball.sendTo(entrance.insidePriority)).called(1);
       });
     });
 
     group('SpaceshipHoleBallContactCallback', () {
       test('changes the ball priority on contact', () {
+        when(() => ball.priority).thenReturn(2);
         when(() => hole.outsideLayer).thenReturn(Layer.board);
-        when(() => hole.onExitElevation).thenReturn(1);
+        when(() => hole.outsidePriority).thenReturn(1);
 
         SpaceshipHoleBallContactCallback().begin(
           hole,
@@ -94,20 +84,7 @@ void main() {
           MockContact(),
         );
 
-        verify(() => ball.priority = hole.onExitElevation).called(1);
-      });
-
-      test('re order the game children', () {
-        when(() => hole.outsideLayer).thenReturn(Layer.board);
-        when(() => hole.onExitElevation).thenReturn(1);
-
-        SpaceshipHoleBallContactCallback().begin(
-          hole,
-          ball,
-          MockContact(),
-        );
-
-        verify(game.reorderChildren).called(1);
+        verify(() => ball.sendTo(hole.outsidePriority)).called(1);
       });
     });
   });

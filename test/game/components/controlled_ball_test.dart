@@ -66,12 +66,12 @@ void main() {
         );
       });
 
-      final tester = flameBlocTester<PinballGame>(
-        game: PinballGameTest.create,
-        gameBloc: () => gameBloc,
+      final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
+        gameBuilder: PinballGameTest.create,
+        blocBuilder: () => gameBloc,
       );
 
-      tester.testGameWidget(
+      flameBlocTester.testGameWidget(
         'lost adds BallLost to GameBloc',
         setUp: (game, tester) async {
           final controller = LaunchedBallController(ball);
@@ -86,7 +86,7 @@ void main() {
       );
 
       group('listenWhen', () {
-        tester.testGameWidget(
+        flameBlocTester.testGameWidget(
           'listens when a ball has been lost',
           setUp: (game, tester) async {
             final controller = LaunchedBallController(ball);
@@ -107,7 +107,7 @@ void main() {
           },
         );
 
-        tester.testGameWidget(
+        flameBlocTester.testGameWidget(
           'does not listen when a ball has not been lost',
           setUp: (game, tester) async {
             final controller = LaunchedBallController(ball);
@@ -130,7 +130,7 @@ void main() {
       });
 
       group('onNewState', () {
-        tester.testGameWidget(
+        flameBlocTester.testGameWidget(
           'removes ball',
           setUp: (game, tester) async {
             final controller = LaunchedBallController(ball);
@@ -147,7 +147,7 @@ void main() {
           },
         );
 
-        tester.testGameWidget(
+        flameBlocTester.testGameWidget(
           'spawns a new ball when the ball is not the last one',
           setUp: (game, tester) async {
             final controller = LaunchedBallController(ball);
@@ -168,7 +168,7 @@ void main() {
           },
         );
 
-        tester.testGameWidget(
+        flameBlocTester.testGameWidget(
           'does not spawn a new ball is the last one',
           setUp: (game, tester) async {
             final controller = LaunchedBallController(ball);
