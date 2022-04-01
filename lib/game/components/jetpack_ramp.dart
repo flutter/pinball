@@ -11,10 +11,7 @@ import 'package:pinball_components/pinball_components.dart' hide Assets;
 /// A [Blueprint] which creates the [JetpackRamp].
 class Jetpack extends Forge2DBlueprint {
   /// {@macro spaceship}
-  Jetpack({required this.position});
-
-  /// The [position] where the elements will be created
-  final Vector2 position;
+  Jetpack();
 
   static const int ballPriorityInsideRamp = 4;
 
@@ -29,22 +26,21 @@ class Jetpack extends Forge2DBlueprint {
       outsidePriority: 1,
       rotation: math.pi,
     )
-      ..initialPosition = position + Vector2(1.7, 19)
+      ..initialPosition = Vector2(1.7, 19)
       ..layer = Layer.opening;
     final leftOpening = _JetpackRampOpening(
       outsideLayer: Layer.spaceship,
       outsidePriority: Spaceship.ballPriorityWhenOnSpaceship,
       rotation: math.pi,
     )
-      ..initialPosition = position + Vector2(-13.7, 19)
+      ..initialPosition = Vector2(-13.7, 19)
       ..layer = Layer.jetpack;
 
-    final jetpackRamp = JetpackRamp()..initialPosition = position;
+    final jetpackRamp = JetpackRamp();
 
-    final jetpackRampWallFg = _JetpackRampWallFg()..initialPosition = position;
+    final jetpackRampWallFg = _JetpackRampForegroundRailing();
 
-    final baseRight = _JetpackBase()
-      ..initialPosition = position + Vector2(1.7, 20);
+    final baseRight = _JetpackBase()..initialPosition = Vector2(1.7, 20);
 
     addAll([
       rightOpening,
@@ -112,10 +108,10 @@ class JetpackRamp extends BodyComponent with InitialPosition, Layered {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadBackground();
+    await _loadSprites();
   }
 
-  Future<void> _loadBackground() async {
+  Future<void> _loadSprites() async {
     final spriteRamp = await gameRef.loadSprite(
       Assets.images.components.spaceshipRamp.path,
     );
@@ -144,8 +140,10 @@ class JetpackRamp extends BodyComponent with InitialPosition, Layered {
   }
 }
 
-class _JetpackRampWallFg extends BodyComponent with InitialPosition, Layered {
-  _JetpackRampWallFg() : super(priority: Jetpack.ballPriorityInsideRamp + 1) {
+class _JetpackRampForegroundRailing extends BodyComponent
+    with InitialPosition, Layered {
+  _JetpackRampForegroundRailing()
+      : super(priority: Jetpack.ballPriorityInsideRamp + 1) {
     layer = Layer.jetpack;
   }
 
@@ -194,10 +192,10 @@ class _JetpackRampWallFg extends BodyComponent with InitialPosition, Layered {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadBackground();
+    await _loadSprites();
   }
 
-  Future<void> _loadBackground() async {
+  Future<void> _loadSprites() async {
     final spriteRailingFg = await gameRef.loadSprite(
       Assets.images.components.spaceshipRailingFg.path,
     );
