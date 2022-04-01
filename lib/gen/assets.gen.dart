@@ -20,6 +20,10 @@ class $AssetsImagesComponentsGen {
   /// File path: assets/images/components/background.png
   AssetGenImage get background =>
       const AssetGenImage('assets/images/components/background.png');
+
+  /// File path: assets/images/components/spaceship-drop-tube.png
+  AssetGenImage get spaceshipDropTube =>
+      const AssetGenImage('assets/images/components/spaceship-drop-tube.png');
 }
 
 class Assets {
