@@ -101,25 +101,6 @@ class _LaunchRampBase extends BodyComponent with InitialPosition, Layered {
   }
 
   @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-
-    final sprite = await gameRef.loadSprite(
-      Assets.images.launchRamp.ramp.keyName,
-    );
-    final spriteComponent = SpriteComponent(
-      sprite: sprite,
-      size: Vector2(44.7, 144.1),
-      anchor: Anchor.center,
-      position: Vector2(25.65, 0),
-    );
-
-    await gameRef.add(spriteComponent);
-
-    renderBody = false;
-  }
-
-  @override
   Body createBody() {
     final bodyDef = BodyDef()
       ..userData = this
@@ -129,6 +110,28 @@ class _LaunchRampBase extends BodyComponent with InitialPosition, Layered {
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    await _loadSprite();
+    renderBody = false;
+  }
+
+  Future<void> _loadSprite() async {
+    final sprite = await gameRef.loadSprite(
+      Assets.images.launchRamp.ramp.keyName,
+    );
+
+    await add(
+      SpriteComponent(
+        sprite: sprite,
+        size: sprite.originalSize / 10,
+        anchor: Anchor.center,
+        position: Vector2(25.65, 0),
+      ),
+    );
   }
 }
 
@@ -175,26 +178,6 @@ class _LaunchRampForegroundRailing extends BodyComponent
   }
 
   @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-
-    final sprite = await gameRef.loadSprite(
-      Assets.images.launchRamp.foregroundRailing.keyName,
-    );
-    final spriteComponent = SpriteComponent(
-      sprite: sprite,
-      size: Vector2(38.1, 138.6),
-      anchor: Anchor.center,
-      position: Vector2(22.8, 0),
-      priority: 4,
-    );
-
-    await gameRef.add(spriteComponent);
-
-    renderBody = false;
-  }
-
-  @override
   Body createBody() {
     final bodyDef = BodyDef()
       ..userData = this
@@ -204,6 +187,29 @@ class _LaunchRampForegroundRailing extends BodyComponent
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    await _loadSprite();
+    renderBody = false;
+  }
+
+  Future<void> _loadSprite() async {
+    final sprite = await gameRef.loadSprite(
+      Assets.images.launchRamp.foregroundRailing.keyName,
+    );
+
+    await add(
+      SpriteComponent(
+        sprite: sprite,
+        size: sprite.originalSize / 10,
+        anchor: Anchor.center,
+        position: Vector2(22.8, 0),
+        priority: 4,
+      ),
+    );
   }
 }
 
