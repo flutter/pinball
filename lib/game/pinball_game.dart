@@ -45,9 +45,7 @@ class PinballGame extends Forge2DGame
     );
     unawaited(
       addFromBlueprint(
-        SpaceshipExitRail(
-          position: Vector2(-34.3, 23.8),
-        ),
+        SpaceshipExitRail(),
       ),
     );
 
@@ -94,7 +92,9 @@ class PinballGame extends Forge2DGame
   }
 
   Future<void> _addPaths() async {
-    unawaited(addFromBlueprint(Jetpack()));
+    unawaited(
+      addFromBlueprint(Jetpack()),
+    );
     unawaited(addFromBlueprint(Launcher()));
   }
 

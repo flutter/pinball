@@ -114,9 +114,9 @@ void main() {
           Vector2(0, 0),
           Vector2(10, 10),
         ],
-        step: 0.001,
+        step: 0.02,
       );
-      expect(points.length, 1000);
+      expect(points.length, 50);
     });
   });
 
