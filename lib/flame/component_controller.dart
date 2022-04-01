@@ -23,6 +23,11 @@ abstract class ComponentController<T extends Component> extends Component {
     );
     await super.addToParent(parent);
   }
+
+  @override
+  Future<void> add(Component component) {
+    throw Exception('ComponentController cannot add other components.');
+  }
 }
 
 /// Mixin that attaches a single [ComponentController] to a [Component].
