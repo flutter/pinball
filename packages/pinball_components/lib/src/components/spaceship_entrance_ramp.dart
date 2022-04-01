@@ -1,20 +1,20 @@
-// ignore_for_file: public_member_api_docs, avoid_renaming_method_parameters
+// ignore_for_file: avoid_renaming_method_parameters, comment_references
 
 import 'dart:math' as math;
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:pinball/game/game.dart';
-import 'package:pinball/gen/assets.gen.dart';
+import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 
 /// {@template spaceship_entrance_ramp}
-/// A [Blueprint] which creates the [SpaceshipRamp].
+/// A [Blueprint] which creates the [_SpaceshipRamp].
 /// {@endtemplate}
 class SpaceshipEntranceRamp extends Forge2DBlueprint {
   /// {@macro spaceship_entrance_ramp}
   SpaceshipEntranceRamp();
 
+  /// Base priority for wall while be in the ramp.
   static const int ballPriorityInsideRamp = 4;
 
   @override
@@ -116,7 +116,7 @@ class _SpaceshipRamp extends BodyComponent with InitialPosition, Layered {
 
   Future<void> _loadSprites() async {
     final spriteRamp = await gameRef.loadSprite(
-      Assets.images.components.spaceshipRamp.path,
+      Assets.images.spaceshipRamp.spaceshipRamp.keyName,
     );
 
     final spriteRampComponent = SpriteComponent(
@@ -127,7 +127,7 @@ class _SpaceshipRamp extends BodyComponent with InitialPosition, Layered {
     );
 
     final spriteRailingBg = await gameRef.loadSprite(
-      Assets.images.components.spaceshipRailingBg.path,
+      Assets.images.spaceshipRamp.spaceshipRailingBg.keyName,
     );
     final spriteRailingBgComponent = SpriteComponent(
       sprite: spriteRailingBg,
@@ -200,7 +200,7 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
 
   Future<void> _loadSprites() async {
     final spriteRailingFg = await gameRef.loadSprite(
-      Assets.images.components.spaceshipRailingFg.path,
+      Assets.images.spaceshipRamp.spaceshipRailingFg.keyName,
     );
     final spriteRailingFgComponent = SpriteComponent(
       sprite: spriteRailingFg,
