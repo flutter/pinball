@@ -1,6 +1,5 @@
 export 'board.dart';
 export 'bonus_word.dart';
-export 'chrome_dino.dart';
 export 'controlled_ball.dart';
 export 'controlled_flipper.dart';
 export 'flutter_forest.dart';
