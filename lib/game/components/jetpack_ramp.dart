@@ -25,6 +25,7 @@ class Jetpack extends Forge2DBlueprint {
     ]);
 
     final rightOpening = _JetpackRampOpening(
+      // TODO(ruimiguel): set Board priority when defined.
       outsidePriority: 1,
       rotation: math.pi,
     )
@@ -32,7 +33,7 @@ class Jetpack extends Forge2DBlueprint {
       ..layer = Layer.opening;
     final leftOpening = _JetpackRampOpening(
       outsideLayer: Layer.spaceship,
-      outsidePriority: 4,
+      outsidePriority: Spaceship.ballPriorityWhenOnSpaceship,
       rotation: math.pi,
     )
       ..initialPosition = position + Vector2(-13.7, 19)
