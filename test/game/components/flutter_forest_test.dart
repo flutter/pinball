@@ -227,7 +227,7 @@ void main() {
           expect(controller.listenWhen(previousState, newState), isTrue);
         });
 
-        test('listens when the id is removed to activatedDashNests', () {
+        test('listens when the id is removed from activatedDashNests', () {
           const id = '';
           final controller = DashNestBumperController(
             dashNestBumper,
