@@ -24,39 +24,5 @@ void main() {
         }
       },
     );
-
-    group('DinoTopWall', () {
-      flameTester.testGameWidget(
-        'renders correctly',
-        setUp: (game, tester) async {
-          await game.ensureAdd(
-            DinoTopWall()..initialPosition = Vector2(0, -50),
-          );
-        },
-        verify: (game, tester) async {
-          await expectLater(
-            find.byGame<Forge2DGame>(),
-            matchesGoldenFile('golden/dino-top-wall.png'),
-          );
-        },
-      );
-    });
-
-    group('DinoBottomWall', () {
-      flameTester.testGameWidget(
-        'renders correctly',
-        setUp: (game, tester) async {
-          await game.ensureAdd(
-            DinoBottomWall()..initialPosition = Vector2(0, -12),
-          );
-        },
-        verify: (game, tester) async {
-          await expectLater(
-            find.byGame<Forge2DGame>(),
-            matchesGoldenFile('golden/dino-bottom-wall.png'),
-          );
-        },
-      );
-    });
   });
 }

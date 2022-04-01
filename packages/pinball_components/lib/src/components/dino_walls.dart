@@ -20,8 +20,8 @@ class DinoWalls extends Forge2DBlueprint {
   @override
   void build(_) {
     addAll([
-      DinoTopWall()..initialPosition = position,
-      DinoBottomWall()..initialPosition = position,
+      _DinoTopWall()..initialPosition = position,
+      _DinoBottomWall()..initialPosition = position,
     ]);
   }
 }
@@ -29,9 +29,9 @@ class DinoWalls extends Forge2DBlueprint {
 /// {@template dino_top_wall}
 /// Wall segment located above [ChromeDino].
 /// {@endtemplate}
-class DinoTopWall extends BodyComponent with InitialPosition {
+class _DinoTopWall extends BodyComponent with InitialPosition {
   ///{@macro dino_top_wall}
-  DinoTopWall() : super(priority: 2);
+  _DinoTopWall() : super(priority: 2);
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
@@ -127,9 +127,9 @@ class DinoTopWall extends BodyComponent with InitialPosition {
 /// {@template dino_bottom_wall}
 /// Wall segment located below [ChromeDino].
 /// {@endtemplate}
-class DinoBottomWall extends BodyComponent with InitialPosition {
+class _DinoBottomWall extends BodyComponent with InitialPosition {
   ///{@macro dino_top_wall}
-  DinoBottomWall() : super(priority: 2);
+  _DinoBottomWall() : super(priority: 2);
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
