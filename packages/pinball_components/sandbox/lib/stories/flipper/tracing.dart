@@ -3,10 +3,9 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
-import 'package:pinball_components/pinball_components.dart';
-import 'package:sandbox/common/common.dart';
+import 'package:sandbox/stories/flipper/basic.dart';
 
-class FlipperTracingGame extends BasicGame {
+class FlipperTracingGame extends BasicFlipperGame {
   static const info = '''
       Basic example of how the Flipper body overlays the sprite.
 ''';
@@ -14,17 +13,6 @@ class FlipperTracingGame extends BasicGame {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final center = screenToWorld(camera.viewport.canvasSize! / 2);
-
-    final leftFlipper = Flipper(side: BoardSide.left)
-      ..initialPosition = center - Vector2(Flipper.size.x, 0);
-    final rightFlipper = Flipper(side: BoardSide.right)
-      ..initialPosition = center + Vector2(Flipper.size.x, 0);
-
-    await addAll([
-      leftFlipper,
-      rightFlipper,
-    ]);
     leftFlipper.trace();
     rightFlipper.trace();
   }
@@ -37,7 +25,6 @@ extension on BodyComponent {
     body.joints.whereType<RevoluteJoint>().forEach(
           (joint) => joint.setLimits(0, 0),
         );
-    body.setType(BodyType.static);
 
     unawaited(
       mounted.whenComplete(() {
