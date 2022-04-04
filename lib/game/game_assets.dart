@@ -29,14 +29,14 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.boundary.outer.keyName),
       images.load(components.Assets.images.spaceship.saucer.keyName),
       images.load(components.Assets.images.spaceship.bridge.keyName),
-      images.load(components.Assets.images.spaceship.ramp.ramp.keyName),
+      images.load(components.Assets.images.spaceship.ramp.main.keyName),
       images.load(
         components.Assets.images.spaceship.ramp.railingBackground.keyName,
       ),
       images.load(
         components.Assets.images.spaceship.ramp.railingForeground.keyName,
       ),
-      images.load(components.Assets.images.spaceship.rail.rail.keyName),
+      images.load(components.Assets.images.spaceship.rail.main.keyName),
       images.load(components.Assets.images.spaceship.rail.foreground.keyName),
       images.load(components.Assets.images.chromeDino.mouth.keyName),
       images.load(components.Assets.images.chromeDino.head.keyName),

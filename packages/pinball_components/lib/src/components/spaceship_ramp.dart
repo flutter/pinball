@@ -116,7 +116,7 @@ class _SpaceshipRampBackground extends BodyComponent
 
   Future<void> _loadSprites() async {
     final spriteRamp = await gameRef.loadSprite(
-      Assets.images.spaceship.ramp.ramp.keyName,
+      Assets.images.spaceship.ramp.main.keyName,
     );
 
     final spriteRampComponent = SpriteComponent(

@@ -172,13 +172,17 @@ class $AssetsImagesSpaceshipRailGen {
   AssetGenImage get foreground =>
       const AssetGenImage('assets/images/spaceship/rail/foreground.png');
 
-  /// File path: assets/images/spaceship/rail/rail.png
-  AssetGenImage get rail =>
-      const AssetGenImage('assets/images/spaceship/rail/rail.png');
+  /// File path: assets/images/spaceship/rail/main.png
+  AssetGenImage get main =>
+      const AssetGenImage('assets/images/spaceship/rail/main.png');
 }
 
 class $AssetsImagesSpaceshipRampGen {
   const $AssetsImagesSpaceshipRampGen();
+
+  /// File path: assets/images/spaceship/ramp/main.png
+  AssetGenImage get main =>
+      const AssetGenImage('assets/images/spaceship/ramp/main.png');
 
   /// File path: assets/images/spaceship/ramp/railing-background.png
   AssetGenImage get railingBackground => const AssetGenImage(
@@ -187,10 +191,6 @@ class $AssetsImagesSpaceshipRampGen {
   /// File path: assets/images/spaceship/ramp/railing-foreground.png
   AssetGenImage get railingForeground => const AssetGenImage(
       'assets/images/spaceship/ramp/railing-foreground.png');
-
-  /// File path: assets/images/spaceship/ramp/ramp.png
-  AssetGenImage get ramp =>
-      const AssetGenImage('assets/images/spaceship/ramp/ramp.png');
 }
 
 class Assets {
