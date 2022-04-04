@@ -14,6 +14,7 @@ class $AssetsImagesGen {
   AssetGenImage get ball => const AssetGenImage('assets/images/ball.png');
 
   $AssetsImagesBaseboardGen get baseboard => const $AssetsImagesBaseboardGen();
+  $AssetsImagesBoundaryGen get boundary => const $AssetsImagesBoundaryGen();
   $AssetsImagesChromeDinoGen get chromeDino =>
       const $AssetsImagesChromeDinoGen();
   $AssetsImagesDashBumperGen get dashBumper =>
@@ -24,6 +25,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/flutter_sign_post.png
   AssetGenImage get flutterSignPost =>
       const AssetGenImage('assets/images/flutter_sign_post.png');
+
+  $AssetsImagesLaunchRampGen get launchRamp =>
+      const $AssetsImagesLaunchRampGen();
 
   /// File path: assets/images/spaceship_bridge.png
   AssetGenImage get spaceshipBridge =>
@@ -47,6 +51,18 @@ class $AssetsImagesBaseboardGen {
   /// File path: assets/images/baseboard/right.png
   AssetGenImage get right =>
       const AssetGenImage('assets/images/baseboard/right.png');
+}
+
+class $AssetsImagesBoundaryGen {
+  const $AssetsImagesBoundaryGen();
+
+  /// File path: assets/images/boundary/bottom.png
+  AssetGenImage get bottom =>
+      const AssetGenImage('assets/images/boundary/bottom.png');
+
+  /// File path: assets/images/boundary/outer.png
+  AssetGenImage get outer =>
+      const AssetGenImage('assets/images/boundary/outer.png');
 }
 
 class $AssetsImagesChromeDinoGen {
@@ -92,6 +108,18 @@ class $AssetsImagesFlipperGen {
   /// File path: assets/images/flipper/right.png
   AssetGenImage get right =>
       const AssetGenImage('assets/images/flipper/right.png');
+}
+
+class $AssetsImagesLaunchRampGen {
+  const $AssetsImagesLaunchRampGen();
+
+  /// File path: assets/images/launch_ramp/foreground-railing.png
+  AssetGenImage get foregroundRailing =>
+      const AssetGenImage('assets/images/launch_ramp/foreground-railing.png');
+
+  /// File path: assets/images/launch_ramp/ramp.png
+  AssetGenImage get ramp =>
+      const AssetGenImage('assets/images/launch_ramp/ramp.png');
 }
 
 class $AssetsImagesSpaceshipRampGen {
