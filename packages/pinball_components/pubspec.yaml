@@ -27,11 +27,17 @@ flutter:
   assets:
     - assets/images/
     - assets/images/baseboard/
+    - assets/images/boundary/
     - assets/images/dino/
     - assets/images/flipper/
+    - assets/images/launch_ramp/
     - assets/images/dash_bumper/a/
     - assets/images/dash_bumper/b/
     - assets/images/dash_bumper/main/
+    - assets/images/spaceship/
+    - assets/images/spaceship/rail/
+    - assets/images/spaceship/ramp/
+    - assets/images/chrome_dino/
 
 flutter_gen:
   line_length: 80

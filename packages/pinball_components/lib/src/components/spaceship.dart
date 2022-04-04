@@ -37,7 +37,7 @@ class Spaceship extends Forge2DBlueprint {
       AndroidHead()..initialPosition = position,
       SpaceshipHole(
         outsideLayer: Layer.spaceshipExitRail,
-        outsidePriority: 2,
+        outsidePriority: SpaceshipRail.ballPriorityWhenOnSpaceshipRail,
       )..initialPosition = position - Vector2(5.2, 4.8),
       SpaceshipHole()..initialPosition = position - Vector2(-7.2, 0.8),
       SpaceshipWall()..initialPosition = position,
@@ -59,7 +59,7 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
   Future<void> onLoad() async {
     await super.onLoad();
     final sprite = await gameRef.loadSprite(
-      Assets.images.spaceshipSaucer.keyName,
+      Assets.images.spaceship.saucer.keyName,
     );
 
     await add(
@@ -106,7 +106,7 @@ class AndroidHead extends BodyComponent with InitialPosition, Layered {
     renderBody = false;
 
     final sprite = await gameRef.images.load(
-      Assets.images.spaceshipBridge.keyName,
+      Assets.images.spaceship.bridge.keyName,
     );
 
     await add(
@@ -185,8 +185,9 @@ class SpaceshipHole extends RampOpening {
       : super(
           insideLayer: Layer.spaceship,
           outsideLayer: outsideLayer,
-          outsidePriority: outsidePriority,
           orientation: RampOrientation.up,
+          insidePriority: 4,
+          outsidePriority: outsidePriority,
         ) {
     renderBody = false;
     layer = Layer.spaceship;
@@ -195,8 +196,8 @@ class SpaceshipHole extends RampOpening {
   @override
   Shape get shape {
     return ArcShape(
-      center: Vector2(0, 4.2),
-      arcRadius: 6,
+      center: Vector2(0, 3.2),
+      arcRadius: 5,
       angle: 1,
       rotation: 60 * pi / 180,
     );
