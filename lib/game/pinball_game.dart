@@ -45,7 +45,7 @@ class PinballGame extends Forge2DGame
     );
     unawaited(
       addFromBlueprint(
-        SpaceshipExitRail(),
+        SpaceshipRail(),
       ),
     );
 
@@ -92,9 +92,7 @@ class PinballGame extends Forge2DGame
   }
 
   Future<void> _addRamps() async {
-    unawaited(
-      addFromBlueprint(Jetpack()),
-    );
+    unawaited(addFromBlueprint(SpaceshipRamp()));
     unawaited(addFromBlueprint(LaunchRamp()));
   }
 

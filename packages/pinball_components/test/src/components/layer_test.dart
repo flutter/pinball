@@ -46,14 +46,15 @@ void main() {
     });
 
     test('correctly sets and gets', () {
-      final component = TestLayeredBodyComponent()..layer = Layer.jetpack;
-      expect(component.layer, Layer.jetpack);
+      final component = TestLayeredBodyComponent()
+        ..layer = Layer.spaceshipEntranceRamp;
+      expect(component.layer, Layer.spaceshipEntranceRamp);
     });
 
     flameTester.test(
       'layers correctly before being loaded',
       (game) async {
-        const expectedLayer = Layer.jetpack;
+        const expectedLayer = Layer.spaceshipEntranceRamp;
         final component = TestLayeredBodyComponent()..layer = expectedLayer;
         await game.ensureAdd(component);
         // TODO(alestiago): modify once component.loaded is available.
@@ -71,7 +72,8 @@ void main() {
       'when multiple different sets',
       (game) async {
         const expectedLayer = Layer.launcher;
-        final component = TestLayeredBodyComponent()..layer = Layer.jetpack;
+        final component = TestLayeredBodyComponent()
+          ..layer = Layer.spaceshipEntranceRamp;
 
         expect(component.layer, isNot(equals(expectedLayer)));
         component.layer = expectedLayer;
@@ -90,7 +92,7 @@ void main() {
     flameTester.test(
       'layers correctly after being loaded',
       (game) async {
-        const expectedLayer = Layer.jetpack;
+        const expectedLayer = Layer.spaceshipEntranceRamp;
         final component = TestLayeredBodyComponent();
         await game.ensureAdd(component);
         component.layer = expectedLayer;
@@ -109,7 +111,7 @@ void main() {
         final component = TestLayeredBodyComponent();
         await game.ensureAdd(component);
 
-        component.layer = Layer.jetpack;
+        component.layer = Layer.spaceshipEntranceRamp;
         expect(component.layer, isNot(equals(expectedLayer)));
         component.layer = expectedLayer;
 
@@ -133,7 +135,7 @@ void main() {
     flameTester.test(
       'nested Layered children will keep their layer',
       (game) async {
-        const parentLayer = Layer.jetpack;
+        const parentLayer = Layer.spaceshipEntranceRamp;
         const childLayer = Layer.board;
 
         final component = TestLayeredBodyComponent()..layer = parentLayer;
@@ -152,7 +154,7 @@ void main() {
     flameTester.test(
       'nested children will keep their layer',
       (game) async {
-        const parentLayer = Layer.jetpack;
+        const parentLayer = Layer.spaceshipEntranceRamp;
 
         final component = TestLayeredBodyComponent()..layer = parentLayer;
         final childComponent = TestBodyComponent();

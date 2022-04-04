@@ -53,8 +53,8 @@ enum Layer {
   /// Collide only with ramps opening elements.
   opening,
 
-  /// Collide only with Jetpack group elements.
-  jetpack,
+  /// Collide only with Spaceship entrance ramp group elements.
+  spaceshipEntranceRamp,
 
   /// Collide only with Launcher group elements.
   launcher,
@@ -86,7 +86,7 @@ extension LayerMaskBits on Layer {
         return 0x0001;
       case Layer.opening:
         return 0x0007;
-      case Layer.jetpack:
+      case Layer.spaceshipEntranceRamp:
         return 0x0002;
       case Layer.launcher:
         return 0x0005;
