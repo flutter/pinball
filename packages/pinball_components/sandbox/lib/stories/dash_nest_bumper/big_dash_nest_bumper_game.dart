@@ -3,7 +3,7 @@ import 'dart:ui';
 
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
-import 'package:sandbox/stories/ball/basic.dart';
+import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class BigDashNestBumperGame extends BasicBallGame {
   BigDashNestBumperGame({
@@ -11,9 +11,9 @@ class BigDashNestBumperGame extends BasicBallGame {
   }) : super(color: const Color(0xFF0000FF));
 
   static const info = '''
-      Shows how a BigDashNestBumper is rendered.
+    Shows how a BigDashNestBumper is rendered.
 
-      Activate the trace to see the body shape.
+    Activate the "trace" parameter to overlay the body.
 ''';
 
   final bool trace;

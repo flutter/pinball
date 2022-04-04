@@ -2,7 +2,7 @@ import 'package:dashbook/dashbook.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:sandbox/common/common.dart';
-import 'package:sandbox/stories/layer/basic.dart';
+import 'package:sandbox/stories/layer/basic_layer_game.dart';
 
 void addLayerStories(Dashbook dashbook) {
   dashbook.storiesOf('Layer').add(

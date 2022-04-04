@@ -3,9 +3,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 
 class BasicBaseboardGame extends BasicGame {
-  static const info = '''
-      Basic example of how a Baseboard works.
-''';
+  static const info = 'Shows how a Baseboard works.';
 
   @override
   Future<void> onLoad() async {

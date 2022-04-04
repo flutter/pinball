@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:sandbox/common/common.dart';
-import 'package:sandbox/stories/flipper/basic.dart';
+import 'package:sandbox/stories/flipper/basic_flipper_game.dart';
 
 class FlipperTracingGame extends BasicFlipperGame {
   static const info = '''
-      Basic example of how the Flipper body overlays the sprite.
+    Basic example of how the Flipper body overlays the sprite.
 ''';
 
   @override
