@@ -5,11 +5,12 @@ part of 'game_bloc.dart';
 /// Defines bonuses that a player can gain during a PinballGame.
 enum GameBonus {
   /// Bonus achieved when the user activate all of the bonus
-  /// letters on the board, forming the bonus word
+  /// letters on the board, forming the bonus word.
   word,
 
-  /// Bonus achieved when the user activates all of the Dash
-  /// nests on the board, adding a new ball to the board.
+  /// Bonus achieved when the user activates all [FlutterForest] bumpers.
+  ///
+  /// Adds a [GameState.bonusBalls] to the game.
   dashNest,
 }
 
@@ -21,15 +22,18 @@ class GameState extends Equatable {
   const GameState({
     required this.score,
     required this.balls,
+    required this.bonusBalls,
     required this.activatedBonusLetters,
     required this.bonusHistory,
     required this.activatedDashNests,
   })  : assert(score >= 0, "Score can't be negative"),
-        assert(balls >= 0, "Number of balls can't be negative");
+        assert(balls >= 0, "Number of balls can't be negative"),
+        assert(bonusBalls >= 0, "Number of bonus balls can't be negative");
 
   const GameState.initial()
       : score = 0,
         balls = 3,
+        bonusBalls = 0,
         activatedBonusLetters = const [],
         activatedDashNests = const {},
         bonusHistory = const [];
@@ -41,6 +45,12 @@ class GameState extends Equatable {
   ///
   /// When the number of balls is 0, the game is over.
   final int balls;
+
+  /// The number of bonus balls in the game.
+  ///
+  /// [bonusBalls] are gained during the game. Usually triggered by activating
+  /// a [GameBonus].
+  final int bonusBalls;
 
   /// Active bonus letters.
   final List<int> activatedBonusLetters;
@@ -62,6 +72,7 @@ class GameState extends Equatable {
   GameState copyWith({
     int? score,
     int? balls,
+    int? bonusBalls,
     List<int>? activatedBonusLetters,
     Set<String>? activatedDashNests,
     List<GameBonus>? bonusHistory,
@@ -74,6 +85,7 @@ class GameState extends Equatable {
     return GameState(
       score: score ?? this.score,
       balls: balls ?? this.balls,
+      bonusBalls: bonusBalls ?? this.bonusBalls,
       activatedBonusLetters:
           activatedBonusLetters ?? this.activatedBonusLetters,
       activatedDashNests: activatedDashNests ?? this.activatedDashNests,

@@ -36,7 +36,8 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       event.letterIndex,
     ];
 
-    if (newBonusLetters.length == bonusWord.length) {
+    final achievedBonus = newBonusLetters.length == bonusWord.length;
+    if (achievedBonus) {
       emit(
         state.copyWith(
           activatedBonusLetters: [],
@@ -55,15 +56,19 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   void _onDashNestActivated(DashNestActivated event, Emitter emit) {
-    const nestsRequiredForBonus = 3;
-
     final newNests = {
       ...state.activatedDashNests,
       event.nestId,
     };
-    if (newNests.length == nestsRequiredForBonus) {
+
+    final achievedBonus = newNests.length == 3;
+    if (achievedBonus) {
       emit(
         state.copyWith(
+          // TODO(alestiago): Question if we should have a private event
+          // _onBonusBallActivated() to avoid the duplication of code and
+          // split the logic.
+          bonusBalls: state.bonusBalls + 1,
           activatedDashNests: {},
           bonusHistory: [
             ...state.bonusHistory,

@@ -59,13 +59,25 @@ abstract class BallController extends ComponentController<Ball> {
 ///
 /// A [BonusBallController] doesn't change the [GameState.balls] count.
 /// {@endtemplate}
-class BonusBallController extends BallController {
+class BonusBallController extends BallController
+    with HasGameRef<PinballGame>, BlocComponent<GameBloc, GameState> {
   /// {@macro bonus_ball_controller}
   BonusBallController(Ball<Forge2DGame> component) : super(component);
 
   @override
-  void lost() {
+  bool listenWhen(GameState? previousState, GameState newState) {
+    return (previousState?.balls ?? 0) > newState.balls;
+  }
+
+  @override
+  void onNewState(GameState state) {
+    super.onNewState(state);
     component.shouldRemove = true;
+  }
+
+  @override
+  void lost() {
+    gameRef.read<GameBloc>().add(const BonusBallLost());
   }
 }
 
