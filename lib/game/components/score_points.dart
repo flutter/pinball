@@ -39,6 +39,6 @@ class BallScorePointsCallback extends ContactCallback<Ball, ScorePoints> {
           Scored(points: scorePoints.points),
         );
 
-    _gameRef.read<PinballAudio>().score();
+    _gameRef.audio.score();
   }
 }

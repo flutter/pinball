@@ -8,6 +8,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/leaderboard/leaderboard.dart';
 import 'package:pinball/theme/theme.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 class MockPinballGame extends Mock implements PinballGame {}
@@ -71,3 +72,5 @@ class MockSpaceshipExitRailEnd extends Mock implements SpaceshipExitRailEnd {}
 class MockComponentSet extends Mock implements ComponentSet {}
 
 class MockDashNestBumper extends Mock implements DashNestBumper {}
+
+class MockPinballAudio extends Mock implements PinballAudio {}

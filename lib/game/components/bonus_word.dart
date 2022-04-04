@@ -8,7 +8,6 @@ import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template bonus_word}
@@ -31,7 +30,7 @@ class BonusWord extends Component
   @override
   void onNewState(GameState state) {
     if (state.bonusHistory.last == GameBonus.word) {
-      gameRef.read<PinballAudio>().googleBonus();
+      gameRef.audio.googleBonus();
 
       final letters = children.whereType<BonusLetter>().toList();
 

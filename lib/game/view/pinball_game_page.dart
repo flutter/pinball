@@ -53,13 +53,15 @@ class _PinballGameViewState extends State<PinballGameView> {
   void initState() {
     super.initState();
 
+    final audio = context.read<PinballAudio>();
+
+    _game = widget._isDebugMode
+        ? DebugPinballGame(theme: widget.theme, audio: audio)
+        : PinballGame(theme: widget.theme, audio: audio);
+
     // TODO(erickzanardo): Revisit this when we start to have more assets
     // this could expose a Stream (maybe even a cubit?) so we could show the
     // the loading progress with some fancy widgets.
-    _game = widget._isDebugMode
-        ? DebugPinballGame(theme: widget.theme)
-        : PinballGame(theme: widget.theme);
-
     _fetchAssets();
   }
 
