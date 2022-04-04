@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:sandbox/common/trace.dart';
+import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/flipper/basic.dart';
 
 class FlipperTracingGame extends BasicFlipperGame {
