@@ -68,7 +68,7 @@ class _FlutterForestController extends ComponentController<FlutterForest>
   void onNewState(GameState state) {
     super.onNewState(state);
 
-    component.add(
+    gameRef.add(
       ControlledBall.bonus(theme: gameRef.theme)
         ..initialPosition = Vector2(17.2, 52.7),
     );

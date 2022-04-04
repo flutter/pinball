@@ -27,6 +27,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/baseboard/
+    - assets/images/boundary/
     - assets/images/dino/
     - assets/images/flipper/
     - assets/images/launch_ramp/
