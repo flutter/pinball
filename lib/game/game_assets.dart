@@ -31,6 +31,8 @@ extension PinballGameAssetsX on PinballGame {
       images.load(
         components.Assets.images.spaceshipRamp.spaceshipDropTube.keyName,
       ),
+      images.load(components.Assets.images.chromeDino.mouth.keyName),
+      images.load(components.Assets.images.chromeDino.head.keyName),
       images.load(Assets.images.components.background.path),
     ]);
   }
