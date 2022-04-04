@@ -47,7 +47,6 @@ class PinballGameView extends StatefulWidget {
 
 class _PinballGameViewState extends State<PinballGameView> {
   late PinballGame _game;
-  bool _loading = true;
 
   @override
   void initState() {
@@ -71,18 +70,10 @@ class _PinballGameViewState extends State<PinballGameView> {
       _game.preLoadAssets(),
       pinballAudio.load(),
     ]);
-
-    setState(() {
-      _loading = false;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_loading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
     return BlocListener<GameBloc, GameState>(
       listenWhen: (previous, current) =>
           previous.isGameOver != current.isGameOver,

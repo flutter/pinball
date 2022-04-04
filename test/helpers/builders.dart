@@ -14,10 +14,12 @@ class FlameBlocTester<T extends FlameGame, B extends Bloc<dynamic, dynamic>>
             await tester.pumpWidget(
               BlocProvider.value(
                 value: blocBuilder(),
-                child: MultiRepositoryProvider(
-                  providers: repositories?.call() ?? [],
-                  child: gameWidget,
-                ),
+                child: repositories == null
+                    ? gameWidget
+                    : MultiRepositoryProvider(
+                        providers: repositories.call(),
+                        child: gameWidget,
+                      ),
               ),
             );
           },
