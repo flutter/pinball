@@ -15,5 +15,5 @@ export 'layer.dart';
 export 'ramp_opening.dart';
 export 'shapes/shapes.dart';
 export 'spaceship.dart';
-export 'spaceship_exit_rail.dart';
+export 'spaceship_rail.dart';
 export 'spaceship_ramp.dart';
