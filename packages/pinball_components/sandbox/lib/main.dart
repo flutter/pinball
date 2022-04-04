@@ -19,5 +19,6 @@ void main() {
   addSpaceshipStories(dashbook);
   addBaseboardStories(dashbook);
   addChromeDinoStories(dashbook);
+  addDashNestBumperStories(dashbook);
   runApp(dashbook);
 }
