@@ -14,6 +14,7 @@ class $AssetsImagesGen {
   AssetGenImage get ball => const AssetGenImage('assets/images/ball.png');
 
   $AssetsImagesBaseboardGen get baseboard => const $AssetsImagesBaseboardGen();
+  $AssetsImagesBoundaryGen get boundary => const $AssetsImagesBoundaryGen();
   $AssetsImagesChromeDinoGen get chromeDino =>
       const $AssetsImagesChromeDinoGen();
   $AssetsImagesDashBumperGen get dashBumper =>
@@ -50,6 +51,18 @@ class $AssetsImagesBaseboardGen {
   /// File path: assets/images/baseboard/right.png
   AssetGenImage get right =>
       const AssetGenImage('assets/images/baseboard/right.png');
+}
+
+class $AssetsImagesBoundaryGen {
+  const $AssetsImagesBoundaryGen();
+
+  /// File path: assets/images/boundary/bottom.png
+  AssetGenImage get bottom =>
+      const AssetGenImage('assets/images/boundary/bottom.png');
+
+  /// File path: assets/images/boundary/outer.png
+  AssetGenImage get outer =>
+      const AssetGenImage('assets/images/boundary/outer.png');
 }
 
 class $AssetsImagesChromeDinoGen {
