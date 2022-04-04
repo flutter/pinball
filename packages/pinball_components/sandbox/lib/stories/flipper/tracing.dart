@@ -1,8 +1,7 @@
 import 'dart:async';
 
-import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/material.dart';
+import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/flipper/basic.dart';
 
 class FlipperTracingGame extends BasicFlipperGame {
@@ -13,24 +12,15 @@ class FlipperTracingGame extends BasicFlipperGame {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    leftFlipper.trace();
-    rightFlipper.trace();
-  }
-}
 
-extension on BodyComponent {
-  void trace({Color color = Colors.red}) {
-    paint = Paint()..color = color;
-    renderBody = true;
-    body.joints.whereType<RevoluteJoint>().forEach(
+    leftFlipper.trace();
+    leftFlipper.body.joints.whereType<RevoluteJoint>().forEach(
           (joint) => joint.setLimits(0, 0),
         );
 
-    unawaited(
-      mounted.whenComplete(() {
-        final sprite = children.whereType<SpriteComponent>().first;
-        sprite.paint.color = sprite.paint.color.withOpacity(0.5);
-      }),
-    );
+    rightFlipper.trace();
+    rightFlipper.body.joints.whereType<RevoluteJoint>().forEach(
+          (joint) => joint.setLimits(0, 0),
+        );
   }
 }

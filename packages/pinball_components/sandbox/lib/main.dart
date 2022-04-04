@@ -18,5 +18,6 @@ void main() {
   addFlipperStories(dashbook);
   addSpaceshipStories(dashbook);
   addBaseboardStories(dashbook);
+  addDashNestBumperStories(dashbook);
   runApp(dashbook);
 }
