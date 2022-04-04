@@ -13,6 +13,12 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.flipper.right.keyName),
       images.load(components.Assets.images.baseboard.left.keyName),
       images.load(components.Assets.images.baseboard.right.keyName),
+      images.load(components.Assets.images.spaceshipSaucer.keyName),
+      images.load(components.Assets.images.spaceshipBridge.keyName),
+      images.load(components.Assets.images.launchRamp.ramp.keyName),
+      images.load(
+        components.Assets.images.launchRamp.foregroundRailing.keyName,
+      ),
       images.load(components.Assets.images.dino.dinoLandTop.keyName),
       images.load(components.Assets.images.dino.dinoLandBottom.keyName),
       images.load(components.Assets.images.dashBumper.a.active.keyName),
@@ -23,11 +29,19 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.dashBumper.main.inactive.keyName),
       images.load(components.Assets.images.boundary.bottom.keyName),
       images.load(components.Assets.images.boundary.outer.keyName),
+      images.load(components.Assets.images.spaceshipRamp.spaceshipRamp.keyName),
+      images.load(
+        components.Assets.images.spaceshipRamp.spaceshipRailingBg.keyName,
+      ),
+      images.load(
+        components.Assets.images.spaceshipRamp.spaceshipRailingFg.keyName,
+      ),
+      images.load(
+        components.Assets.images.spaceshipRamp.spaceshipDropTube.keyName,
+      ),
+      images.load(components.Assets.images.chromeDino.mouth.keyName),
+      images.load(components.Assets.images.chromeDino.head.keyName),
       images.load(Assets.images.components.background.path),
-      images.load(Assets.images.components.spaceshipRamp.path),
-      images.load(Assets.images.components.spaceshipRailingBg.path),
-      images.load(Assets.images.components.spaceshipRailingFg.path),
-      images.load(Assets.images.components.spaceshipDropTube.path),
     ]);
   }
 }

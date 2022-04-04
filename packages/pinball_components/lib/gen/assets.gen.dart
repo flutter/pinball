@@ -14,23 +14,27 @@ class $AssetsImagesGen {
   AssetGenImage get ball => const AssetGenImage('assets/images/ball.png');
 
   $AssetsImagesBaseboardGen get baseboard => const $AssetsImagesBaseboardGen();
-
   $AssetsImagesBoundaryGen get boundary => const $AssetsImagesBoundaryGen();
-
+  $AssetsImagesChromeDinoGen get chromeDino =>
+      const $AssetsImagesChromeDinoGen();
   $AssetsImagesDashBumperGen get dashBumper =>
       const $AssetsImagesDashBumperGen();
-
   $AssetsImagesDinoGen get dino => const $AssetsImagesDinoGen();
-
   $AssetsImagesFlipperGen get flipper => const $AssetsImagesFlipperGen();
 
   /// File path: assets/images/flutter_sign_post.png
   AssetGenImage get flutterSignPost =>
       const AssetGenImage('assets/images/flutter_sign_post.png');
 
+  $AssetsImagesLaunchRampGen get launchRamp =>
+      const $AssetsImagesLaunchRampGen();
+
   /// File path: assets/images/spaceship_bridge.png
   AssetGenImage get spaceshipBridge =>
       const AssetGenImage('assets/images/spaceship_bridge.png');
+
+  $AssetsImagesSpaceshipRampGen get spaceshipRamp =>
+      const $AssetsImagesSpaceshipRampGen();
 
   /// File path: assets/images/spaceship_saucer.png
   AssetGenImage get spaceshipSaucer =>
@@ -59,6 +63,18 @@ class $AssetsImagesBoundaryGen {
   /// File path: assets/images/boundary/outer.png
   AssetGenImage get outer =>
       const AssetGenImage('assets/images/boundary/outer.png');
+}
+
+class $AssetsImagesChromeDinoGen {
+  const $AssetsImagesChromeDinoGen();
+
+  /// File path: assets/images/chrome_dino/head.png
+  AssetGenImage get head =>
+      const AssetGenImage('assets/images/chrome_dino/head.png');
+
+  /// File path: assets/images/chrome_dino/mouth.png
+  AssetGenImage get mouth =>
+      const AssetGenImage('assets/images/chrome_dino/mouth.png');
 }
 
 class $AssetsImagesDashBumperGen {
@@ -92,6 +108,38 @@ class $AssetsImagesFlipperGen {
   /// File path: assets/images/flipper/right.png
   AssetGenImage get right =>
       const AssetGenImage('assets/images/flipper/right.png');
+}
+
+class $AssetsImagesLaunchRampGen {
+  const $AssetsImagesLaunchRampGen();
+
+  /// File path: assets/images/launch_ramp/foreground-railing.png
+  AssetGenImage get foregroundRailing =>
+      const AssetGenImage('assets/images/launch_ramp/foreground-railing.png');
+
+  /// File path: assets/images/launch_ramp/ramp.png
+  AssetGenImage get ramp =>
+      const AssetGenImage('assets/images/launch_ramp/ramp.png');
+}
+
+class $AssetsImagesSpaceshipRampGen {
+  const $AssetsImagesSpaceshipRampGen();
+
+  /// File path: assets/images/spaceship_ramp/spaceship_drop_tube.png
+  AssetGenImage get spaceshipDropTube => const AssetGenImage(
+      'assets/images/spaceship_ramp/spaceship_drop_tube.png');
+
+  /// File path: assets/images/spaceship_ramp/spaceship_railing_bg.png
+  AssetGenImage get spaceshipRailingBg => const AssetGenImage(
+      'assets/images/spaceship_ramp/spaceship_railing_bg.png');
+
+  /// File path: assets/images/spaceship_ramp/spaceship_railing_fg.png
+  AssetGenImage get spaceshipRailingFg => const AssetGenImage(
+      'assets/images/spaceship_ramp/spaceship_railing_fg.png');
+
+  /// File path: assets/images/spaceship_ramp/spaceship_ramp.png
+  AssetGenImage get spaceshipRamp =>
+      const AssetGenImage('assets/images/spaceship_ramp/spaceship_ramp.png');
 }
 
 class $AssetsImagesDashBumperAGen {
