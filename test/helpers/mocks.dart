@@ -66,8 +66,6 @@ class MockFilter extends Mock implements Filter {}
 
 class MockFixture extends Mock implements Fixture {}
 
-class MockSpaceshipExitRailEnd extends Mock implements SpaceshipExitRailEnd {}
-
 class MockComponentSet extends Mock implements ComponentSet {}
 
 class MockDashNestBumper extends Mock implements DashNestBumper {}

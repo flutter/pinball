@@ -44,7 +44,7 @@ void main() {
       (game) async {
         final ramp = TestRampOpening(
           orientation: RampOrientation.down,
-          pathwayLayer: Layer.jetpack,
+          pathwayLayer: Layer.spaceshipEntranceRamp,
         );
         await game.ready();
         await game.ensureAdd(ramp);
@@ -59,7 +59,7 @@ void main() {
         (game) async {
           final ramp = TestRampOpening(
             orientation: RampOrientation.down,
-            pathwayLayer: Layer.jetpack,
+            pathwayLayer: Layer.spaceshipEntranceRamp,
           );
           await game.ensureAdd(ramp);
 
@@ -68,7 +68,7 @@ void main() {
       );
 
       group('first fixture', () {
-        const pathwayLayer = Layer.jetpack;
+        const pathwayLayer = Layer.spaceshipEntranceRamp;
         const openingLayer = Layer.opening;
 
         flameTester.test(
@@ -124,7 +124,7 @@ void main() {
       final body = MockBody();
       final area = TestRampOpening(
         orientation: RampOrientation.down,
-        pathwayLayer: Layer.jetpack,
+        pathwayLayer: Layer.spaceshipEntranceRamp,
       );
       final callback = TestRampOpeningBallContactCallback();
 
@@ -145,7 +145,7 @@ void main() {
       final body = MockBody();
       final area = TestRampOpening(
         orientation: RampOrientation.up,
-        pathwayLayer: Layer.jetpack,
+        pathwayLayer: Layer.spaceshipEntranceRamp,
       );
       final callback = TestRampOpeningBallContactCallback();
 
@@ -165,7 +165,7 @@ void main() {
       final body = MockBody();
       final area = TestRampOpening(
         orientation: RampOrientation.down,
-        pathwayLayer: Layer.jetpack,
+        pathwayLayer: Layer.spaceshipEntranceRamp,
       )..initialPosition = Vector2(0, 10);
       final callback = TestRampOpeningBallContactCallback();
 
@@ -189,7 +189,7 @@ void main() {
       final body = MockBody();
       final area = TestRampOpening(
         orientation: RampOrientation.up,
-        pathwayLayer: Layer.jetpack,
+        pathwayLayer: Layer.spaceshipEntranceRamp,
       )..initialPosition = Vector2(0, 10);
       final callback = TestRampOpeningBallContactCallback();
 
@@ -213,7 +213,7 @@ void main() {
       final body = MockBody();
       final area = TestRampOpening(
         orientation: RampOrientation.down,
-        pathwayLayer: Layer.jetpack,
+        pathwayLayer: Layer.spaceshipEntranceRamp,
       )..initialPosition = Vector2(0, 10);
       final callback = TestRampOpeningBallContactCallback();
 

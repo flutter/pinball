@@ -35,7 +35,7 @@ class BigSquare extends BodyComponent with InitialPosition, Layered {
     paint = Paint()
       ..color = const Color.fromARGB(255, 8, 218, 241)
       ..style = PaintingStyle.stroke;
-    layer = Layer.jetpack;
+    layer = Layer.spaceshipEntranceRamp;
   }
 
   @override

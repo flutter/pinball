@@ -17,6 +17,8 @@ class MockSpaceshipEntrance extends Mock implements SpaceshipEntrance {}
 
 class MockSpaceshipHole extends Mock implements SpaceshipHole {}
 
+class MockSpaceshipRailExit extends Mock implements SpaceshipRailExit {}
+
 class MockContact extends Mock implements Contact {}
 
 class MockContactCallback extends Mock
