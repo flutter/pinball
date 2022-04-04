@@ -59,7 +59,7 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
   Future<void> onLoad() async {
     await super.onLoad();
     final sprite = await gameRef.loadSprite(
-      Assets.images.spaceshipSaucer.keyName,
+      Assets.images.spaceship.saucer.keyName,
     );
 
     await add(
@@ -106,7 +106,7 @@ class AndroidHead extends BodyComponent with InitialPosition, Layered {
     renderBody = false;
 
     final sprite = await gameRef.images.load(
-      Assets.images.spaceshipBridge.keyName,
+      Assets.images.spaceship.bridge.keyName,
     );
 
     await add(

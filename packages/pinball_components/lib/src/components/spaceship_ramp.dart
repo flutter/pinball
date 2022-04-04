@@ -116,7 +116,7 @@ class _SpaceshipRampBackground extends BodyComponent
 
   Future<void> _loadSprites() async {
     final spriteRamp = await gameRef.loadSprite(
-      Assets.images.spaceshipRamp.spaceshipRamp.keyName,
+      Assets.images.spaceship.ramp.main.keyName,
     );
 
     final spriteRampComponent = SpriteComponent(
@@ -127,7 +127,7 @@ class _SpaceshipRampBackground extends BodyComponent
     );
 
     final spriteRailingBg = await gameRef.loadSprite(
-      Assets.images.spaceshipRamp.spaceshipRailingBg.keyName,
+      Assets.images.spaceship.ramp.railingBackground.keyName,
     );
     final spriteRailingBgComponent = SpriteComponent(
       sprite: spriteRailingBg,
@@ -201,7 +201,7 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
 
   Future<void> _loadSprites() async {
     final spriteRailingFg = await gameRef.loadSprite(
-      Assets.images.spaceshipRamp.spaceshipRailingFg.keyName,
+      Assets.images.spaceship.ramp.railingForeground.keyName,
     );
     final spriteRailingFgComponent = SpriteComponent(
       sprite: spriteRailingFg,
