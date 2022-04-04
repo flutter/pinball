@@ -3,8 +3,11 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 
 class FireEffectExample extends LineGame {
-  static const info = 'Demonstrate the fire trail effect '
-      'drag a line to define the trail direction';
+  static const info = '''
+  Shows how the FireEffect renders.
+
+  Drag a line to define the trail direction.
+''';
 
   @override
   void onLine(Vector2 line) {

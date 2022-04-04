@@ -8,9 +8,7 @@ import 'package:sandbox/stories/ball/basic.dart';
 class BasicFlipperGame extends BasicBallGame with KeyboardEvents {
   BasicFlipperGame() : super(color: Colors.blue);
 
-  static const info = '''
-      Basic example of how a Flipper works.
-''';
+  static const info = 'Shows how a Flipper works.';
 
   static const _leftFlipperKeys = [
     LogicalKeyboardKey.arrowLeft,

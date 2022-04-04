@@ -13,7 +13,7 @@ class BigDashNestBumperGame extends BasicBallGame {
   static const info = '''
       Shows how a BigDashNestBumper is rendered.
 
-      Activate the trace to see the body shape.
+      Activate the "trace" parameter to overlay the body.
 ''';
 
   final bool trace;
