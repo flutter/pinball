@@ -1,8 +1,8 @@
 import 'package:dashbook/dashbook.dart';
 import 'package:flame/game.dart';
 import 'package:sandbox/common/common.dart';
-import 'package:sandbox/stories/flipper/basic.dart';
-import 'package:sandbox/stories/flipper/tracing.dart';
+import 'package:sandbox/stories/flipper/basic_flipper_game.dart';
+import 'package:sandbox/stories/flipper/flipper_tracing_game.dart';
 
 void addFlipperStories(Dashbook dashbook) {
   dashbook.storiesOf('Flipper')

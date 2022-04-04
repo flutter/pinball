@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 
-class BallBoosterExample extends LineGame {
-  static const info = '';
+class BallBoosterGame extends LineGame {
+  static const info = '''
+    Shows how a Ball with a boost works.
+
+    Drag to launch a boosted Ball.
+''';
 
   @override
   void onLine(Vector2 line) {

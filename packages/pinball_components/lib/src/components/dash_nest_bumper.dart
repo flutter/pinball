@@ -67,6 +67,7 @@ class BigDashNestBumper extends DashNestBumper {
           inactiveAssetPath: Assets.images.dashBumper.main.inactive.keyName,
           spriteComponent: SpriteComponent(
             anchor: Anchor.center,
+            position: Vector2(0, -0.3),
           ),
         );
 
@@ -74,9 +75,9 @@ class BigDashNestBumper extends DashNestBumper {
   Body createBody() {
     final shape = EllipseShape(
       center: Vector2.zero(),
-      majorRadius: 4.85,
-      minorRadius: 3.95,
-    )..rotate(math.pi / 2);
+      majorRadius: 5.1,
+      minorRadius: 3.75,
+    )..rotate(math.pi / 2.1);
     final fixtureDef = FixtureDef(shape);
 
     final bodyDef = BodyDef()

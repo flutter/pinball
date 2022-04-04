@@ -2,8 +2,8 @@ import 'package:dashbook/dashbook.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:sandbox/common/common.dart';
-import 'package:sandbox/stories/ball/ball_booster.dart';
-import 'package:sandbox/stories/ball/basic.dart';
+import 'package:sandbox/stories/ball/ball_booster_game.dart';
+import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 void addBallStories(Dashbook dashbook) {
   dashbook.storiesOf('Ball')
@@ -20,9 +20,9 @@ void addBallStories(Dashbook dashbook) {
     ..add(
       'Booster',
       (context) => GameWidget(
-        game: BallBoosterExample(),
+        game: BallBoosterGame(),
       ),
       codeLink: buildSourceLink('ball/ball_booster.dart'),
-      info: BallBoosterExample.info,
+      info: BallBoosterGame.info,
     );
 }
