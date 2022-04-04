@@ -23,7 +23,9 @@ class BigDashNestBumperGame extends BasicBallGame {
     await super.onLoad();
 
     final center = screenToWorld(camera.viewport.canvasSize! / 2);
-    final bigDashNestBumper = BigDashNestBumper()..initialPosition = center;
+    final bigDashNestBumper = BigDashNestBumper()
+      ..initialPosition = center
+      ..priority = 1;
     await add(bigDashNestBumper);
 
     if (trace) bigDashNestBumper.trace();
