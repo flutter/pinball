@@ -144,7 +144,7 @@ class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
 
   Future<void> _loadSprite() async {
     final sprite = await gameRef.loadSprite(
-      Assets.images.spaceshipRamp.spaceshipDropTube.keyName,
+      Assets.images.spaceship.rail.rail.keyName,
     );
     final spriteComponent = SpriteComponent(
       sprite: sprite,
@@ -171,7 +171,7 @@ class _SpaceshipRailForeground extends SpriteComponent with HasGameRef {
     await super.onLoad();
 
     sprite = await gameRef.loadSprite(
-      Assets.images.components.spaceshipDropTubeFront.path,
+      Assets.images.spaceship.rail.foreground.keyName,
     );
   }
 }
