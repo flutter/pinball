@@ -32,11 +32,13 @@ class PinballGame extends Forge2DGame
     _addContactCallbacks();
 
     await _addGameBoundaries();
-    unawaited(add(Board()));
     unawaited(addFromBlueprint(Boundaries()));
+    unawaited(addFromBlueprint(LaunchRamp()));
     unawaited(_addPlunger());
+    unawaited(add(Board()));
+    unawaited(addFromBlueprint(DinoWalls()));
     unawaited(_addBonusWord());
-    unawaited(_addRamps());
+    unawaited(addFromBlueprint(SpaceshipRamp()));
     unawaited(
       addFromBlueprint(
         Spaceship(
@@ -65,13 +67,6 @@ class PinballGame extends Forge2DGame
   Future<void> _addGameBoundaries() async {
     await add(BottomWall());
     createBoundaries(this).forEach(add);
-    unawaited(
-      addFromBlueprint(
-        DinoWalls(
-          position: Vector2(-2.4, 0),
-        ),
-      ),
-    );
   }
 
   Future<void> _addPlunger() async {
@@ -90,11 +85,6 @@ class PinballGame extends Forge2DGame
         ),
       ),
     );
-  }
-
-  Future<void> _addRamps() async {
-    unawaited(addFromBlueprint(SpaceshipRamp()));
-    unawaited(addFromBlueprint(LaunchRamp()));
   }
 
   void spawnBall() {

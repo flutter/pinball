@@ -8,7 +8,7 @@ import 'package:pinball_components/pinball_components.dart';
 class Board extends Component {
   /// {@macro board}
   // TODO(alestiago): Make Board a Blueprint and sort out priorities.
-  Board() : super(priority: 5);
+  Board() : super(priority: 1);
 
   @override
   Future<void> onLoad() async {
