@@ -176,7 +176,7 @@ void main() {
             await game.ensureAdd(ball);
 
             final state = MockGameState();
-            when(() => state.balls).thenReturn(1);
+            when(() => state.balls).thenReturn(0);
 
             final previousBalls = game.descendants().whereType<Ball>().toList();
             controller.onNewState(state);

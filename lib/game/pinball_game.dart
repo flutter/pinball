@@ -33,9 +33,10 @@ class PinballGame extends Forge2DGame
 
     await _addGameBoundaries();
     unawaited(add(Board()));
+    unawaited(addFromBlueprint(Boundaries()));
     unawaited(_addPlunger());
     unawaited(_addBonusWord());
-    unawaited(_addPaths());
+    unawaited(_addRamps());
     unawaited(
       addFromBlueprint(
         Spaceship(
@@ -91,9 +92,9 @@ class PinballGame extends Forge2DGame
     );
   }
 
-  Future<void> _addPaths() async {
+  Future<void> _addRamps() async {
     unawaited(addFromBlueprint(SpaceshipRamp()));
-    unawaited(addFromBlueprint(Launcher()));
+    unawaited(addFromBlueprint(LaunchRamp()));
   }
 
   void spawnBall() {
@@ -128,7 +129,7 @@ class DebugPinballGame extends PinballGame with TapDetector {
       anchor: Anchor.center,
     )
       ..position = Vector2(0, -7.8)
-      ..priority = -1;
+      ..priority = -2;
 
     await add(spriteComponent);
   }
