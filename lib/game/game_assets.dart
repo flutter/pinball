@@ -21,6 +21,7 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.dashBumper.b.inactive.keyName),
       images.load(components.Assets.images.dashBumper.main.active.keyName),
       images.load(components.Assets.images.dashBumper.main.inactive.keyName),
+<<<<<<< HEAD
       images.load(
         components.Assets.images.spaceshipRamp.spaceshipDropTube.keyName,
       ),
@@ -28,6 +29,17 @@ extension PinballGameAssetsX on PinballGame {
       images.load(Assets.images.components.spaceshipRamp.path),
       images.load(Assets.images.components.spaceshipRailingBg.path),
       images.load(Assets.images.components.spaceshipRailingFg.path),
+=======
+      images.load(components.Assets.images.spaceshipRamp.spaceshipRamp.keyName),
+      images.load(
+        components.Assets.images.spaceshipRamp.spaceshipRailingBg.keyName,
+      ),
+      images.load(
+        components.Assets.images.spaceshipRamp.spaceshipRailingFg.keyName,
+      ),
+      images.load(Assets.images.components.background.path),
+      images.load(Assets.images.components.spaceshipDropTube.path),
+>>>>>>> main
     ]);
   }
 }
