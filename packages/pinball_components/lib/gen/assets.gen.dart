@@ -83,6 +83,10 @@ class $AssetsImagesFlipperGen {
 class $AssetsImagesSpaceshipRampGen {
   const $AssetsImagesSpaceshipRampGen();
 
+  /// File path: assets/images/spaceship_ramp/spaceship_drop_tube.png
+  AssetGenImage get spaceshipDropTube => const AssetGenImage(
+      'assets/images/spaceship_ramp/spaceship_drop_tube.png');
+
   /// File path: assets/images/spaceship_ramp/spaceship_railing_bg.png
   AssetGenImage get spaceshipRailingBg => const AssetGenImage(
       'assets/images/spaceship_ramp/spaceship_railing_bg.png');

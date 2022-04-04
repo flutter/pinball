@@ -28,8 +28,10 @@ extension PinballGameAssetsX on PinballGame {
       images.load(
         components.Assets.images.spaceshipRamp.spaceshipRailingFg.keyName,
       ),
+      images.load(
+        components.Assets.images.spaceshipRamp.spaceshipDropTube.keyName,
+      ),
       images.load(Assets.images.components.background.path),
-      images.load(Assets.images.components.spaceshipDropTube.path),
     ]);
   }
 }
