@@ -2,7 +2,7 @@ import 'package:flame/components.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 
-class FireEffectExample extends LineGame {
+class FireEffectGame extends LineGame {
   static const info = '''
   Shows how the FireEffect renders.
 

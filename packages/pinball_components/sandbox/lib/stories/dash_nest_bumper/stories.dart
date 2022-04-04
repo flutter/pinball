@@ -1,8 +1,8 @@
 import 'package:dashbook/dashbook.dart';
 import 'package:flame/game.dart';
 import 'package:sandbox/common/common.dart';
-import 'package:sandbox/stories/ball/basic.dart';
-import 'package:sandbox/stories/dash_nest_bumper/big.dart';
+import 'package:sandbox/stories/ball/basic_ball_game.dart';
+import 'package:sandbox/stories/dash_nest_bumper/big_dash_nest_bumper_game.dart';
 
 void addDashNestBumperStories(Dashbook dashbook) {
   dashbook.storiesOf('Dash Nest Bumpers').add(

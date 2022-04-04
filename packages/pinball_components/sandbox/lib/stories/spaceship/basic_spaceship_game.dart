@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 
-class BasicSpaceship extends BasicGame with TapDetector {
+class BasicSpaceshipGame extends BasicGame with TapDetector {
   static const info = '''
-      Shows how a Spaceship works.
+    Shows how a Spaceship works.
       
-      Tap anywhere on the screen to spawn a Ball into the game.
+    Tap anywhere on the screen to spawn a Ball into the game.
 ''';
 
   @override
