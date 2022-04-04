@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball_components/pinball_components.dart';
 
@@ -13,7 +14,11 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
   /// {@macro plunger}
   Plunger({
     required this.compressionDistance,
-  });
+  }) : super(
+          priority: 5,
+          // TODO(allisonryan0002): remove paint after asset is added.
+          paint: Paint()..color = const Color.fromARGB(255, 241, 8, 8),
+        );
 
   /// Distance the plunger can lower.
   final double compressionDistance;
