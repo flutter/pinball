@@ -10,9 +10,7 @@ class ChromeDinoGame extends Forge2DGame {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    final center = screenToWorld(camera.viewport.canvasSize! / 2);
-    await add(
-      ChromeDino()..initialPosition = center,
-    );
+    camera.followVector2(Vector2.zero());
+    await add(ChromeDino());
   }
 }
