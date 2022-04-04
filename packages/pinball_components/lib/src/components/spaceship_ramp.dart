@@ -7,12 +7,12 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 
-/// {@template spaceship_entrance_ramp}
-/// A [Blueprint] which creates the [_SpaceshipRamp].
+/// {@template spaceship_ramp}
+/// A [Blueprint] which creates the [_SpaceshipRampBackground].
 /// {@endtemplate}
-class SpaceshipEntranceRamp extends Forge2DBlueprint {
-  /// {@macro spaceship_entrance_ramp}
-  SpaceshipEntranceRamp();
+class SpaceshipRamp extends Forge2DBlueprint {
+  /// {@macro spaceship_ramp}
+  SpaceshipRamp();
 
   /// Base priority for wall while be in the ramp.
   static const int ballPriorityInsideRamp = 4;
@@ -38,7 +38,7 @@ class SpaceshipEntranceRamp extends Forge2DBlueprint {
       ..initialPosition = Vector2(-13.7, 19)
       ..layer = Layer.spaceshipEntranceRamp;
 
-    final spaceshipRamp = _SpaceshipRamp();
+    final spaceshipRamp = _SpaceshipRampBackground();
 
     final spaceshipRampForegroundRailing = _SpaceshipRampForegroundRailing();
 
@@ -54,12 +54,12 @@ class SpaceshipEntranceRamp extends Forge2DBlueprint {
   }
 }
 
-/// {@template spaceship_ramp}
-/// Represents the upper left blue ramp of the [Board].
-/// {@endtemplate}
-class _SpaceshipRamp extends BodyComponent with InitialPosition, Layered {
-  _SpaceshipRamp()
-      : super(priority: SpaceshipEntranceRamp.ballPriorityInsideRamp - 1) {
+/// Represents the upper left blue ramp of the [Board] with its background
+/// railing.
+class _SpaceshipRampBackground extends BodyComponent
+    with InitialPosition, Layered {
+  _SpaceshipRampBackground()
+      : super(priority: SpaceshipRamp.ballPriorityInsideRamp - 1) {
     layer = Layer.spaceshipEntranceRamp;
   }
 
@@ -143,10 +143,11 @@ class _SpaceshipRamp extends BodyComponent with InitialPosition, Layered {
   }
 }
 
+/// Represents the foreground of the railing upper left blue ramp.
 class _SpaceshipRampForegroundRailing extends BodyComponent
     with InitialPosition, Layered {
   _SpaceshipRampForegroundRailing()
-      : super(priority: SpaceshipEntranceRamp.ballPriorityInsideRamp + 1) {
+      : super(priority: SpaceshipRamp.ballPriorityInsideRamp + 1) {
     layer = Layer.spaceshipEntranceRamp;
   }
 
@@ -213,6 +214,7 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
   }
 }
 
+/// Represents the ground right base of the [SpaceshipRamp].
 class _SpaceshipRampBase extends BodyComponent with InitialPosition, Layered {
   _SpaceshipRampBase() {
     layer = Layer.board;
@@ -245,7 +247,7 @@ class _SpaceshipRampBase extends BodyComponent with InitialPosition, Layered {
 
 /// {@template spaceship_ramp_opening}
 /// [RampOpening] with [Layer.spaceshipEntranceRamp] to filter [Ball] collisions
-/// inside [_SpaceshipRamp].
+/// inside [_SpaceshipRampBackground].
 /// {@endtemplate}
 class _SpaceshipRampOpening extends RampOpening {
   /// {@macro spaceship_ramp_opening}
@@ -258,13 +260,13 @@ class _SpaceshipRampOpening extends RampOpening {
           insideLayer: Layer.spaceshipEntranceRamp,
           outsideLayer: outsideLayer,
           orientation: RampOrientation.down,
-          insidePriority: SpaceshipEntranceRamp.ballPriorityInsideRamp,
+          insidePriority: SpaceshipRamp.ballPriorityInsideRamp,
           outsidePriority: outsidePriority,
         );
 
   final double _rotation;
 
-  static final Vector2 _size = Vector2(_SpaceshipRamp.width / 4, .1);
+  static final Vector2 _size = Vector2(_SpaceshipRampBackground.width / 4, .1);
 
   @override
   Shape get shape {

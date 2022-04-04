@@ -7,14 +7,14 @@ import 'package:pinball_components/pinball_components.dart';
 import '../../helpers/helpers.dart';
 
 void main() {
-  group('SpaceshipEntranceRamp', () {
+  group('SpaceshipRamp', () {
     TestWidgetsFlutterBinding.ensureInitialized();
     final flameTester = FlameTester(TestGame.new);
 
     flameTester.test(
       'loads correctly',
       (game) async {
-        final spaceshipEntranceRamp = SpaceshipEntranceRamp();
+        final spaceshipEntranceRamp = SpaceshipRamp();
         await game.addFromBlueprint(spaceshipEntranceRamp);
         await game.ready();
 

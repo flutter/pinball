@@ -15,4 +15,4 @@ export 'layer.dart';
 export 'ramp_opening.dart';
 export 'shapes/shapes.dart';
 export 'spaceship.dart';
-export 'spaceship_entrance_ramp.dart';
+export 'spaceship_ramp.dart';
