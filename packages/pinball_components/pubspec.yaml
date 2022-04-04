@@ -29,6 +29,7 @@ flutter:
     - assets/images/baseboard/
     - assets/images/dino/
     - assets/images/flipper/
+    - assets/images/launch_ramp/
     - assets/images/dash_bumper/a/
     - assets/images/dash_bumper/b/
     - assets/images/dash_bumper/main/
