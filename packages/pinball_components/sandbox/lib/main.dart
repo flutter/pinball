@@ -6,7 +6,6 @@
 // https://opensource.org/licenses/MIT.
 import 'package:dashbook/dashbook.dart';
 import 'package:flutter/material.dart';
-import 'package:sandbox/stories/spaceship/spaceship.dart';
 import 'package:sandbox/stories/stories.dart';
 
 void main() {
@@ -18,5 +17,7 @@ void main() {
   addFlipperStories(dashbook);
   addSpaceshipStories(dashbook);
   addBaseboardStories(dashbook);
+  addChromeDinoStories(dashbook);
+  addDashNestBumperStories(dashbook);
   runApp(dashbook);
 }

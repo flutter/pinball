@@ -28,17 +28,7 @@ class $AssetsImagesGen {
 
   $AssetsImagesLaunchRampGen get launchRamp =>
       const $AssetsImagesLaunchRampGen();
-
-  /// File path: assets/images/spaceship_bridge.png
-  AssetGenImage get spaceshipBridge =>
-      const AssetGenImage('assets/images/spaceship_bridge.png');
-
-  $AssetsImagesSpaceshipRampGen get spaceshipRamp =>
-      const $AssetsImagesSpaceshipRampGen();
-
-  /// File path: assets/images/spaceship_saucer.png
-  AssetGenImage get spaceshipSaucer =>
-      const AssetGenImage('assets/images/spaceship_saucer.png');
+  $AssetsImagesSpaceshipGen get spaceship => const $AssetsImagesSpaceshipGen();
 }
 
 class $AssetsImagesBaseboardGen {
@@ -122,24 +112,21 @@ class $AssetsImagesLaunchRampGen {
       const AssetGenImage('assets/images/launch_ramp/ramp.png');
 }
 
-class $AssetsImagesSpaceshipRampGen {
-  const $AssetsImagesSpaceshipRampGen();
+class $AssetsImagesSpaceshipGen {
+  const $AssetsImagesSpaceshipGen();
 
-  /// File path: assets/images/spaceship_ramp/spaceship_drop_tube.png
-  AssetGenImage get spaceshipDropTube => const AssetGenImage(
-      'assets/images/spaceship_ramp/spaceship_drop_tube.png');
+  /// File path: assets/images/spaceship/bridge.png
+  AssetGenImage get bridge =>
+      const AssetGenImage('assets/images/spaceship/bridge.png');
 
-  /// File path: assets/images/spaceship_ramp/spaceship_railing_bg.png
-  AssetGenImage get spaceshipRailingBg => const AssetGenImage(
-      'assets/images/spaceship_ramp/spaceship_railing_bg.png');
+  $AssetsImagesSpaceshipRailGen get rail =>
+      const $AssetsImagesSpaceshipRailGen();
+  $AssetsImagesSpaceshipRampGen get ramp =>
+      const $AssetsImagesSpaceshipRampGen();
 
-  /// File path: assets/images/spaceship_ramp/spaceship_railing_fg.png
-  AssetGenImage get spaceshipRailingFg => const AssetGenImage(
-      'assets/images/spaceship_ramp/spaceship_railing_fg.png');
-
-  /// File path: assets/images/spaceship_ramp/spaceship_ramp.png
-  AssetGenImage get spaceshipRamp =>
-      const AssetGenImage('assets/images/spaceship_ramp/spaceship_ramp.png');
+  /// File path: assets/images/spaceship/saucer.png
+  AssetGenImage get saucer =>
+      const AssetGenImage('assets/images/spaceship/saucer.png');
 }
 
 class $AssetsImagesDashBumperAGen {
@@ -176,6 +163,34 @@ class $AssetsImagesDashBumperMainGen {
   /// File path: assets/images/dash_bumper/main/inactive.png
   AssetGenImage get inactive =>
       const AssetGenImage('assets/images/dash_bumper/main/inactive.png');
+}
+
+class $AssetsImagesSpaceshipRailGen {
+  const $AssetsImagesSpaceshipRailGen();
+
+  /// File path: assets/images/spaceship/rail/foreground.png
+  AssetGenImage get foreground =>
+      const AssetGenImage('assets/images/spaceship/rail/foreground.png');
+
+  /// File path: assets/images/spaceship/rail/main.png
+  AssetGenImage get main =>
+      const AssetGenImage('assets/images/spaceship/rail/main.png');
+}
+
+class $AssetsImagesSpaceshipRampGen {
+  const $AssetsImagesSpaceshipRampGen();
+
+  /// File path: assets/images/spaceship/ramp/main.png
+  AssetGenImage get main =>
+      const AssetGenImage('assets/images/spaceship/ramp/main.png');
+
+  /// File path: assets/images/spaceship/ramp/railing-background.png
+  AssetGenImage get railingBackground => const AssetGenImage(
+      'assets/images/spaceship/ramp/railing-background.png');
+
+  /// File path: assets/images/spaceship/ramp/railing-foreground.png
+  AssetGenImage get railingForeground => const AssetGenImage(
+      'assets/images/spaceship/ramp/railing-foreground.png');
 }
 
 class Assets {

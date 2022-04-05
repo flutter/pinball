@@ -23,18 +23,20 @@ class SpaceshipRail extends Forge2DBlueprint {
       SpaceshipRailExitBallContactCallback(),
     ]);
 
-    final exitRailRamp = _SpaceshipRailRamp();
-    final exitRailEnd = SpaceshipRailExit();
+    final railRamp = _SpaceshipRailRamp();
+    final railEnd = SpaceshipRailExit();
     final topBase = _SpaceshipRailBase(radius: 0.55)
       ..initialPosition = Vector2(-26.15, 18.65);
     final bottomBase = _SpaceshipRailBase(radius: 0.8)
       ..initialPosition = Vector2(-25.5, -12.9);
+    final railForeground = _SpaceshipRailForeground();
 
     addAll([
-      exitRailRamp,
-      exitRailEnd,
+      railRamp,
+      railEnd,
       topBase,
       bottomBase,
+      railForeground,
     ]);
   }
 }
@@ -142,7 +144,7 @@ class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
 
   Future<void> _loadSprite() async {
     final sprite = await gameRef.loadSprite(
-      Assets.images.spaceshipRamp.spaceshipDropTube.keyName,
+      Assets.images.spaceship.rail.main.keyName,
     );
     final spriteComponent = SpriteComponent(
       sprite: sprite,
@@ -152,6 +154,26 @@ class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
     );
 
     await add(spriteComponent);
+  }
+}
+
+class _SpaceshipRailForeground extends SpriteComponent with HasGameRef {
+  _SpaceshipRailForeground()
+      : super(
+          anchor: Anchor.center,
+          position: Vector2(-28.5, 19.7),
+          priority: SpaceshipRail.ballPriorityWhenOnSpaceshipRail + 1,
+        );
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+
+    final sprite = await gameRef.loadSprite(
+      Assets.images.spaceship.rail.foreground.keyName,
+    );
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
   }
 }
 
@@ -200,9 +222,9 @@ class SpaceshipRailExit extends RampOpening {
   @override
   Shape get shape {
     return ArcShape(
-      center: Vector2(-29, -17.8),
+      center: Vector2(-28, -19),
       arcRadius: 2.5,
-      angle: math.pi * 0.8,
+      angle: math.pi * 0.4,
       rotation: -0.16,
     );
   }
