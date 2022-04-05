@@ -7,6 +7,7 @@
 export 'builders.dart';
 export 'extensions.dart';
 export 'fakes.dart';
+export 'forge2d.dart';
 export 'key_testers.dart';
 export 'mocks.dart';
 export 'navigator.dart';

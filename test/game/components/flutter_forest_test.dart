@@ -1,7 +1,6 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -10,18 +9,6 @@ import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 import '../../helpers/helpers.dart';
-
-void beginContact(Forge2DGame game, BodyComponent bodyA, BodyComponent bodyB) {
-  assert(
-    bodyA.body.fixtures.isNotEmpty && bodyB.body.fixtures.isNotEmpty,
-    'Bodies require fixtures to contact each other.',
-  );
-
-  final fixtureA = bodyA.body.fixtures.first;
-  final fixtureB = bodyB.body.fixtures.first;
-  final contact = Contact.init(fixtureA, 0, fixtureB, 0);
-  game.world.contactManager.contactListener?.beginContact(contact);
-}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
