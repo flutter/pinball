@@ -14,8 +14,17 @@ import 'package:mockingjay/mockingjay.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/theme/theme.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 
 import 'helpers.dart';
+
+PinballAudio _buildDefaultPinballAudio() {
+  final audio = MockPinballAudio();
+
+  when(audio.load).thenAnswer((_) => Future.value());
+
+  return audio;
+}
 
 extension PumpApp on WidgetTester {
   Future<void> pumpApp(
@@ -24,31 +33,41 @@ extension PumpApp on WidgetTester {
     GameBloc? gameBloc,
     ThemeCubit? themeCubit,
     LeaderboardRepository? leaderboardRepository,
+    PinballAudio? pinballAudio,
   }) {
-    return pumpWidget(
-      RepositoryProvider.value(
-        value: leaderboardRepository ?? MockLeaderboardRepository(),
-        child: MultiBlocProvider(
+    return runAsync(() {
+      return pumpWidget(
+        MultiRepositoryProvider(
           providers: [
-            BlocProvider.value(
-              value: themeCubit ?? MockThemeCubit(),
+            RepositoryProvider.value(
+              value: leaderboardRepository ?? MockLeaderboardRepository(),
             ),
-            BlocProvider.value(
-              value: gameBloc ?? MockGameBloc(),
+            RepositoryProvider.value(
+              value: pinballAudio ?? _buildDefaultPinballAudio(),
             ),
           ],
-          child: MaterialApp(
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider.value(
+                value: themeCubit ?? MockThemeCubit(),
+              ),
+              BlocProvider.value(
+                value: gameBloc ?? MockGameBloc(),
+              ),
             ],
-            supportedLocales: AppLocalizations.supportedLocales,
-            home: navigator != null
-                ? MockNavigatorProvider(navigator: navigator, child: widget)
-                : widget,
+            child: MaterialApp(
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+              ],
+              supportedLocales: AppLocalizations.supportedLocales,
+              home: navigator != null
+                  ? MockNavigatorProvider(navigator: navigator, child: widget)
+                  : widget,
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

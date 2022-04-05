@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
 class PinballGamePage extends StatelessWidget {
@@ -51,13 +52,24 @@ class _PinballGameViewState extends State<PinballGameView> {
   void initState() {
     super.initState();
 
+    final audio = context.read<PinballAudio>();
+
+    _game = widget._isDebugMode
+        ? DebugPinballGame(theme: widget.theme, audio: audio)
+        : PinballGame(theme: widget.theme, audio: audio);
+
     // TODO(erickzanardo): Revisit this when we start to have more assets
     // this could expose a Stream (maybe even a cubit?) so we could show the
     // the loading progress with some fancy widgets.
-    _game = (widget._isDebugMode
-        ? DebugPinballGame(theme: widget.theme)
-        : PinballGame(theme: widget.theme))
-      ..preLoadAssets();
+    _fetchAssets();
+  }
+
+  Future<void> _fetchAssets() async {
+    final pinballAudio = context.read<PinballAudio>();
+    await Future.wait([
+      _game.preLoadAssets(),
+      pinballAudio.load(),
+    ]);
   }
 
   @override

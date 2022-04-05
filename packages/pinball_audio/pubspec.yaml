@@ -1,0 +1,28 @@
+name: pinball_audio
+description: Package with the sound manager for the pinball game
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: ">=2.16.0 <3.0.0"
+
+dependencies:
+  audioplayers: ^0.20.1
+  flame_audio: ^1.0.1
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mocktail: ^0.3.0
+  very_good_analysis: ^2.4.0
+
+flutter_gen:
+  line_length: 80
+  assets:
+    package_parameter_enabled: true
+
+flutter:
+  assets:
+    - assets/sfx/

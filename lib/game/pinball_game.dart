@@ -8,16 +8,19 @@ import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/gen/assets.gen.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 import 'package:pinball_theme/pinball_theme.dart' hide Assets;
 
 class PinballGame extends Forge2DGame
     with FlameBloc, HasKeyboardHandlerComponents {
-  PinballGame({required this.theme}) {
+  PinballGame({required this.theme, required this.audio}) {
     images.prefix = '';
   }
 
   final PinballTheme theme;
+
+  final PinballAudio audio;
 
   late final Plunger plunger;
 
@@ -109,7 +112,13 @@ class PinballGame extends Forge2DGame
 }
 
 class DebugPinballGame extends PinballGame with TapDetector {
-  DebugPinballGame({required PinballTheme theme}) : super(theme: theme);
+  DebugPinballGame({
+    required PinballTheme theme,
+    required PinballAudio audio,
+  }) : super(
+          theme: theme,
+          audio: audio,
+        );
 
   @override
   Future<void> onLoad() async {

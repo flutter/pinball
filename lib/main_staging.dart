@@ -8,10 +8,15 @@
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/app/app.dart';
 import 'package:pinball/bootstrap.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 
 void main() {
   bootstrap((firestore) async {
     final leaderboardRepository = LeaderboardRepository(firestore);
-    return App(leaderboardRepository: leaderboardRepository);
+    final pinballAudio = PinballAudio();
+    return App(
+      leaderboardRepository: leaderboardRepository,
+      pinballAudio: pinballAudio,
+    );
   });
 }

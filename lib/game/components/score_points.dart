@@ -37,5 +37,7 @@ class BallScorePointsCallback extends ContactCallback<Ball, ScorePoints> {
     _gameRef.read<GameBloc>().add(
           Scored(points: scorePoints.points),
         );
+
+    _gameRef.audio.score();
   }
 }
