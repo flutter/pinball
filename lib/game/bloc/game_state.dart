@@ -8,7 +8,7 @@ enum GameBonus {
   /// letters on the board, forming the bonus word.
   word,
 
-  /// Bonus achieved when the user activates all [FlutterForest] bumpers.
+  /// Bonus achieved when the user activates all dash nest bumpers.
   ///
   /// Adds a [GameState.bonusBalls] to the game.
   dashNest,
