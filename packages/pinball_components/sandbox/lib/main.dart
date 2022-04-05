@@ -6,6 +6,7 @@
 // https://opensource.org/licenses/MIT.
 import 'package:dashbook/dashbook.dart';
 import 'package:flutter/material.dart';
+import 'package:sandbox/stories/kicker/stories.dart';
 import 'package:sandbox/stories/stories.dart';
 
 void main() {
@@ -19,5 +20,6 @@ void main() {
   addBaseboardStories(dashbook);
   addChromeDinoStories(dashbook);
   addDashNestBumperStories(dashbook);
+  addKickerStories(dashbook);
   runApp(dashbook);
 }
