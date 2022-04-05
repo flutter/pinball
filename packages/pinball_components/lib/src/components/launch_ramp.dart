@@ -142,7 +142,7 @@ class _LaunchRampBase extends BodyComponent with InitialPosition, Layered {
 class _LaunchRampForegroundRailing extends BodyComponent
     with InitialPosition, Layered {
   /// {@macro launch_ramp_foreground_railing}
-  _LaunchRampForegroundRailing() : super(priority: 4) {
+  _LaunchRampForegroundRailing() : super(priority: 1) {
     layer = Layer.launcher;
   }
 
@@ -207,7 +207,6 @@ class _LaunchRampForegroundRailing extends BodyComponent
         size: sprite.originalSize / 10,
         anchor: Anchor.center,
         position: Vector2(22.8, 0),
-        priority: 4,
       ),
     );
   }

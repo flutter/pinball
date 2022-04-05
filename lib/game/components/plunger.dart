@@ -15,7 +15,6 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
   Plunger({
     required this.compressionDistance,
   }) : super(
-          priority: 5,
           // TODO(allisonryan0002): remove paint after asset is added.
           paint: Paint()..color = const Color.fromARGB(255, 241, 8, 8),
         );
