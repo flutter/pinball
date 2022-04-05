@@ -97,6 +97,7 @@ class GameState extends Equatable {
   List<Object?> get props => [
         score,
         balls,
+        bonusBalls,
         activatedBonusLetters,
         activatedDashNests,
         bonusHistory,
