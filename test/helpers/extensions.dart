@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
@@ -15,6 +16,19 @@ extension PinballGameTest on PinballGame {
 extension DebugPinballGameTest on DebugPinballGame {
   /// Create [PinballGame] with default [PinballTheme].
   static DebugPinballGame create() => DebugPinballGame(
+        theme: const PinballTheme(
+          characterTheme: DashTheme(),
+        ),
+      );
+}
+
+class EmptyPinballGame extends PinballGame {
+  EmptyPinballGame({required PinballTheme theme}) : super(theme: theme);
+
+  @override
+  Future<void> onLoad() async {}
+
+  static PinballGame create() => EmptyPinballGame(
         theme: const PinballTheme(
           characterTheme: DashTheme(),
         ),

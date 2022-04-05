@@ -19,8 +19,6 @@ class PinballGame extends Forge2DGame
 
   final PinballTheme theme;
 
-  late final Plunger plunger;
-
   @override
   void onAttach() {
     super.onAttach();
@@ -75,7 +73,7 @@ class PinballGame extends Forge2DGame
   }
 
   Future<void> _addPlunger() async {
-    plunger = Plunger(compressionDistance: 29)
+    final plunger = Plunger(compressionDistance: 29)
       ..initialPosition =
           BoardDimensions.bounds.center.toVector2() + Vector2(41.5, -49);
     await add(plunger);
@@ -98,6 +96,10 @@ class PinballGame extends Forge2DGame
   }
 
   void spawnBall() {
+    // TODO(alestiago): Remove once this logic is moved to controller.
+    final plunger = firstChild<Plunger>();
+    if (plunger == null) return;
+
     final ball = ControlledBall.launch(
       theme: theme,
     )..initialPosition = Vector2(
