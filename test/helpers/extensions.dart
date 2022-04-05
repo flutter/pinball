@@ -1,6 +1,8 @@
 import 'package:pinball/game/game.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
+import 'helpers.dart';
+
 /// [PinballGame] extension to reduce boilerplate in tests.
 extension PinballGameTest on PinballGame {
   /// Create [PinballGame] with default [PinballTheme].
@@ -8,6 +10,7 @@ extension PinballGameTest on PinballGame {
         theme: const PinballTheme(
           characterTheme: DashTheme(),
         ),
+        audio: MockPinballAudio(),
       )..images.prefix = '';
 }
 
@@ -18,5 +21,6 @@ extension DebugPinballGameTest on DebugPinballGame {
         theme: const PinballTheme(
           characterTheme: DashTheme(),
         ),
+        audio: MockPinballAudio(),
       );
 }

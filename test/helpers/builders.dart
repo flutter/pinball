@@ -7,13 +7,19 @@ class FlameBlocTester<T extends FlameGame, B extends Bloc<dynamic, dynamic>>
   FlameBlocTester({
     required GameCreateFunction<T> gameBuilder,
     required B Function() blocBuilder,
+    List<RepositoryProvider> Function()? repositories,
   }) : super(
           gameBuilder,
           pumpWidget: (gameWidget, tester) async {
             await tester.pumpWidget(
               BlocProvider.value(
                 value: blocBuilder(),
-                child: gameWidget,
+                child: repositories == null
+                    ? gameWidget
+                    : MultiRepositoryProvider(
+                        providers: repositories.call(),
+                        child: gameWidget,
+                      ),
               ),
             );
           },

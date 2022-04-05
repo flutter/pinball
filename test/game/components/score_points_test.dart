@@ -2,6 +2,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 import '../../helpers/helpers.dart';
@@ -20,6 +21,7 @@ void main() {
   group('BallScorePointsCallback', () {
     late PinballGame game;
     late GameBloc bloc;
+    late PinballAudio audio;
     late Ball ball;
     late FakeScorePoints fakeScorePoints;
 
@@ -27,6 +29,7 @@ void main() {
       game = MockPinballGame();
       bloc = MockGameBloc();
       ball = MockBall();
+      audio = MockPinballAudio();
       fakeScorePoints = FakeScorePoints();
     });
 
@@ -38,7 +41,8 @@ void main() {
       test(
         'emits Scored event with points',
         () {
-          when<GameBloc>(game.read).thenReturn(bloc);
+          when(game.read<GameBloc>).thenReturn(bloc);
+          when(() => game.audio).thenReturn(audio);
 
           BallScorePointsCallback(game).begin(
             ball,
@@ -51,6 +55,22 @@ void main() {
               Scored(points: fakeScorePoints.points),
             ),
           ).called(1);
+        },
+      );
+
+      test(
+        'plays a Score sound',
+        () {
+          when(game.read<GameBloc>).thenReturn(bloc);
+          when(() => game.audio).thenReturn(audio);
+
+          BallScorePointsCallback(game).begin(
+            ball,
+            fakeScorePoints,
+            FakeContact(),
+          );
+
+          verify(audio.score).called(1);
         },
       );
     });

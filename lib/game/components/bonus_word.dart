@@ -13,7 +13,8 @@ import 'package:pinball_components/pinball_components.dart';
 /// {@template bonus_word}
 /// Loads all [BonusLetter]s to compose a [BonusWord].
 /// {@endtemplate}
-class BonusWord extends Component with BlocComponent<GameBloc, GameState> {
+class BonusWord extends Component
+    with BlocComponent<GameBloc, GameState>, HasGameRef<PinballGame> {
   /// {@macro bonus_word}
   BonusWord({required Vector2 position}) : _position = position;
 
@@ -29,6 +30,8 @@ class BonusWord extends Component with BlocComponent<GameBloc, GameState> {
   @override
   void onNewState(GameState state) {
     if (state.bonusHistory.last == GameBonus.word) {
+      gameRef.audio.googleBonus();
+
       final letters = children.whereType<BonusLetter>().toList();
 
       for (var i = 0; i < letters.length; i++) {

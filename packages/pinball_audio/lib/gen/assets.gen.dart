@@ -5,28 +5,22 @@
 
 import 'package:flutter/widgets.dart';
 
-class $AssetsImagesGen {
-  const $AssetsImagesGen();
+class $AssetsSfxGen {
+  const $AssetsSfxGen();
 
-  $AssetsImagesComponentsGen get components =>
-      const $AssetsImagesComponentsGen();
-}
-
-class $AssetsImagesComponentsGen {
-  const $AssetsImagesComponentsGen();
-
-  AssetGenImage get background =>
-      const AssetGenImage('assets/images/components/background.png');
+  String get google => 'assets/sfx/google.ogg';
+  String get plim => 'assets/sfx/plim.ogg';
 }
 
 class Assets {
   Assets._();
 
-  static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsSfxGen sfx = $AssetsSfxGen();
 }
 
 class AssetGenImage extends AssetImage {
-  const AssetGenImage(String assetName) : super(assetName);
+  const AssetGenImage(String assetName)
+      : super(assetName, package: 'pinball_audio');
 
   Image image({
     Key? key,
