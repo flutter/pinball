@@ -95,10 +95,12 @@ class PinballGame extends Forge2DGame
     unawaited(addFromBlueprint(LaunchRamp()));
   }
 
-  void spawnBall() {
+  Future<void> spawnBall() async {
     // TODO(alestiago): Remove once this logic is moved to controller.
-    final plunger = firstChild<Plunger>();
-    if (plunger == null) return;
+    var plunger = firstChild<Plunger>();
+    if (plunger == null) {
+      await add(plunger = Plunger(compressionDistance: 1));
+    }
 
     final ball = ControlledBall.launch(
       theme: theme,
@@ -106,7 +108,7 @@ class PinballGame extends Forge2DGame
         plunger.body.position.x,
         plunger.body.position.y + Ball.size.y,
       );
-    add(ball);
+    await add(ball);
   }
 }
 
