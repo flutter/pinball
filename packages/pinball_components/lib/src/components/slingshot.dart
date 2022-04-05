@@ -17,16 +17,19 @@ class Slingshots extends Forge2DBlueprint {
       angle: -1.5 * (math.pi / 180),
       spritePath: Assets.images.slingshot.leftUpper.keyName,
     )..initialPosition = Vector2(-29, 1.5);
+
     final leftLowerSlingshot = Slingshot(
       length: 3.54,
       angle: -29.1 * (math.pi / 180),
       spritePath: Assets.images.slingshot.leftLower.keyName,
     )..initialPosition = Vector2(-31, -6.2);
+
     final rightUpperSlingshot = Slingshot(
       length: 5.64,
       angle: 1 * (math.pi / 180),
       spritePath: Assets.images.slingshot.rightUpper.keyName,
     )..initialPosition = Vector2(22.3, 1.58);
+
     final rightLowerSlingshot = Slingshot(
       length: 3.46,
       angle: 26.8 * (math.pi / 180),
@@ -68,12 +71,12 @@ class Slingshot extends BodyComponent with InitialPosition {
 
     final topCircleShape = CircleShape()..radius = circleRadius;
     topCircleShape.position.setValues(0, _length / 2);
-    final topCircleFixtureDef = FixtureDef(topCircleShape);
+    final topCircleFixtureDef = FixtureDef(topCircleShape)..friction = 0;
     fixturesDef.add(topCircleFixtureDef);
 
     final bottomCircleShape = CircleShape()..radius = circleRadius;
     bottomCircleShape.position.setValues(0, -_length / 2);
-    final bottomCircleFixtureDef = FixtureDef(bottomCircleShape);
+    final bottomCircleFixtureDef = FixtureDef(bottomCircleShape)..friction = 0;
     fixturesDef.add(bottomCircleFixtureDef);
 
     final leftEdgeShape = EdgeShape()
@@ -81,17 +84,20 @@ class Slingshot extends BodyComponent with InitialPosition {
         Vector2(circleRadius, _length / 2),
         Vector2(circleRadius, -_length / 2),
       );
-    final leftEdgeShapeFixtureDef = FixtureDef(leftEdgeShape)..restitution = 5;
+    final leftEdgeShapeFixtureDef = FixtureDef(leftEdgeShape)
+      ..friction = 0
+      ..restitution = 5;
     fixturesDef.add(leftEdgeShapeFixtureDef);
 
-    final righttEdgeShape = EdgeShape()
+    final rightEdgeShape = EdgeShape()
       ..set(
         Vector2(-circleRadius, _length / 2),
         Vector2(-circleRadius, -_length / 2),
       );
-    final righttEdgeShapeFixtureDef = FixtureDef(righttEdgeShape)
+    final rightEdgeShapeFixtureDef = FixtureDef(rightEdgeShape)
+      ..friction = 0
       ..restitution = 5;
-    fixturesDef.add(righttEdgeShapeFixtureDef);
+    fixturesDef.add(rightEdgeShapeFixtureDef);
 
     return fixturesDef;
   }
