@@ -8,7 +8,7 @@ import 'package:pinball_components/pinball_components.dart';
 class Board extends Component {
   /// {@macro board}
   // TODO(alestiago): Make Board a Blueprint and sort out priorities.
-  Board() : super(priority: 5);
+  Board() : super(priority: 1);
 
   @override
   Future<void> onLoad() async {
@@ -83,8 +83,8 @@ class _BottomGroupSide extends Component {
     final kicker = Kicker(
       side: _side,
     )..initialPosition = Vector2(
-        (22.0 * direction) + centerXAdjustment,
-        -26,
+        (22.4 * direction) + centerXAdjustment,
+        -25,
       );
 
     await addAll([flipper, baseboard, kicker]);

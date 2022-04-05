@@ -4,9 +4,11 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/effects.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -88,6 +90,21 @@ void main() {
               equals(1),
             );
           }
+        },
+      );
+
+      flameTester.test(
+        'plays the google bonus sound',
+        (game) async {
+          when(() => state.bonusHistory).thenReturn([GameBonus.word]);
+
+          final bonusWord = BonusWord(position: Vector2.zero());
+          await game.ensureAdd(bonusWord);
+          await game.ready();
+
+          bonusWord.onNewState(state);
+
+          verify(bonusWord.gameRef.audio.googleBonus).called(1);
         },
       );
 
@@ -197,10 +214,14 @@ void main() {
 
     group('bonus letter activation', () {
       late GameBloc gameBloc;
+      late PinballAudio pinballAudio;
 
       final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
         gameBuilder: EmptyPinballGameTest.new,
         blocBuilder: () => gameBloc,
+        repositories: () => [
+          RepositoryProvider<PinballAudio>.value(value: pinballAudio),
+        ],
       );
 
       setUp(() {
@@ -210,6 +231,9 @@ void main() {
           const Stream<GameState>.empty(),
           initialState: const GameState.initial(),
         );
+
+        pinballAudio = MockPinballAudio();
+        when(pinballAudio.googleBonus).thenAnswer((_) {});
       });
 
       flameBlocTester.testGameWidget(

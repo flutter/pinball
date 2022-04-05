@@ -26,6 +26,7 @@ class $AssetsImagesGen {
   AssetGenImage get flutterSignPost =>
       const AssetGenImage('assets/images/flutter_sign_post.png');
 
+  $AssetsImagesKickerGen get kicker => const $AssetsImagesKickerGen();
   $AssetsImagesLaunchRampGen get launchRamp =>
       const $AssetsImagesLaunchRampGen();
   $AssetsImagesSpaceshipGen get spaceship => const $AssetsImagesSpaceshipGen();
@@ -98,6 +99,18 @@ class $AssetsImagesFlipperGen {
   /// File path: assets/images/flipper/right.png
   AssetGenImage get right =>
       const AssetGenImage('assets/images/flipper/right.png');
+}
+
+class $AssetsImagesKickerGen {
+  const $AssetsImagesKickerGen();
+
+  /// File path: assets/images/kicker/left.png
+  AssetGenImage get left =>
+      const AssetGenImage('assets/images/kicker/left.png');
+
+  /// File path: assets/images/kicker/right.png
+  AssetGenImage get right =>
+      const AssetGenImage('assets/images/kicker/right.png');
 }
 
 class $AssetsImagesLaunchRampGen {

@@ -5,10 +5,34 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
 
+import '../../helpers/helpers.dart';
+
 void main() {
   group('Kicker', () {
-    // TODO(alestiago): Include golden tests for left and right.
-    final flameTester = FlameTester(Forge2DGame.new);
+    final flameTester = FlameTester(TestGame.new);
+
+    flameTester.testGameWidget(
+      'renders correctly',
+      setUp: (game, tester) async {
+        final leftKicker = Kicker(
+          side: BoardSide.left,
+        )..initialPosition = Vector2(-20, 0);
+        final rightKicker = Kicker(
+          side: BoardSide.right,
+        )..initialPosition = Vector2(20, 0);
+
+        await game.addAll([leftKicker, rightKicker]);
+        await game.ready();
+        game.camera.followVector2(Vector2.zero());
+      },
+      // TODO(ruimiguel): enable test when workflows are fixed.
+      //verify: (game, tester) async {
+      //  await expectLater(
+      //    find.byGame<Forge2DGame>(),
+      //    matchesGoldenFile('golden/kickers.png'),
+      //  );
+      //},
+    );
 
     flameTester.test(
       'loads correctly',

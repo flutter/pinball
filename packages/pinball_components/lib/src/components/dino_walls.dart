@@ -12,16 +12,13 @@ import 'package:pinball_components/pinball_components.dart' hide Assets;
 /// {@endtemplate}
 class DinoWalls extends Forge2DBlueprint {
   /// {@macro dinowalls}
-  DinoWalls({required this.position});
-
-  /// The [position] where the elements will be created
-  final Vector2 position;
+  DinoWalls();
 
   @override
   void build(_) {
     addAll([
-      _DinoTopWall()..initialPosition = position,
-      _DinoBottomWall()..initialPosition = position,
+      _DinoTopWall(),
+      _DinoBottomWall(),
     ]);
   }
 }
@@ -31,7 +28,7 @@ class DinoWalls extends Forge2DBlueprint {
 /// {@endtemplate}
 class _DinoTopWall extends BodyComponent with InitialPosition {
   ///{@macro dino_top_wall}
-  _DinoTopWall() : super(priority: 2);
+  _DinoTopWall() : super(priority: 1);
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
@@ -129,7 +126,7 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
 /// {@endtemplate}
 class _DinoBottomWall extends BodyComponent with InitialPosition {
   ///{@macro dino_top_wall}
-  _DinoBottomWall() : super(priority: 2);
+  _DinoBottomWall() : super(priority: 1);
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
