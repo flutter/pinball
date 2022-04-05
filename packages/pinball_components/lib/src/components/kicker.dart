@@ -121,11 +121,8 @@ class Kicker extends BodyComponent with InitialPosition {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadSprite();
     renderBody = false;
-  }
 
-  Future<void> _loadSprite() async {
     final sprite = await gameRef.loadSprite(
       (_side.isLeft)
           ? Assets.images.kicker.left.keyName
