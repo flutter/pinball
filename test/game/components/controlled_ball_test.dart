@@ -13,7 +13,7 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(PinballGameTest.create);
+  final flameTester = FlameTester(EmptyPinballGameTest.new);
 
   group('BonusBallController', () {
     late Ball ball;
@@ -67,7 +67,7 @@ void main() {
       });
 
       final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
-        gameBuilder: PinballGameTest.create,
+        gameBuilder: EmptyPinballGameTest.new,
         blocBuilder: () => gameBloc,
       );
 
@@ -155,13 +155,13 @@ void main() {
             await game.ensureAdd(ball);
 
             final state = MockGameState();
-            when(() => state.balls).thenReturn(2);
+            when(() => state.balls).thenReturn(1);
 
             final previousBalls = game.descendants().whereType<Ball>().toList();
             controller.onNewState(state);
             await game.ready();
 
-            final currentBalls = game.descendants().whereType<Ball>();
+            final currentBalls = game.descendants().whereType<Ball>().toList();
 
             expect(currentBalls.contains(ball), isFalse);
             expect(currentBalls.length, equals(previousBalls.length));
