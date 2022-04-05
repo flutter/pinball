@@ -2,7 +2,8 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball/gen/assets.gen.dart';
+import 'package:pinball_components/pinball_components.dart' hide Assets;
 
 /// {@template plunger}
 /// [Plunger] serves as a spring, that shoots the ball on the right side of the
@@ -96,6 +97,22 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
   Future<void> onLoad() async {
     await super.onLoad();
     await _anchorToJoint();
+    await _loadSprite();
+  }
+
+  Future<void> _loadSprite() async {
+    final sprite = await gameRef.loadSprite(
+      Assets.images.components.plunger.path,
+    );
+
+    await add(
+      SpriteComponent(
+        sprite: sprite,
+        size: sprite.originalSize / 10,
+        anchor: Anchor.center,
+        position: Vector2(25.65, 0),
+      ),
+    );
   }
 }
 
