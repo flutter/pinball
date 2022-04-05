@@ -25,7 +25,7 @@ void beginContact(Forge2DGame game, BodyComponent bodyA, BodyComponent bodyB) {
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(EmptyPinballGame.create);
+  final flameTester = FlameTester(EmptyPinballGameTest.new);
 
   group('FlutterForest', () {
     flameTester.test(
@@ -146,7 +146,7 @@ void main() {
       });
 
       final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
-        gameBuilder: EmptyPinballGame.create,
+        gameBuilder: EmptyPinballGameTest.new,
         blocBuilder: () => gameBloc,
       );
 

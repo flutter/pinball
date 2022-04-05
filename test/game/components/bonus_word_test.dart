@@ -12,7 +12,7 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(PinballGameTest.create);
+  final flameTester = FlameTester(PinballGameTest.new);
 
   group('BonusWord', () {
     flameTester.test(
@@ -118,7 +118,7 @@ void main() {
   });
 
   group('BonusLetter', () {
-    final flameTester = FlameTester(PinballGameTest.create);
+    final flameTester = FlameTester(PinballGameTest.new);
 
     flameTester.test(
       'loads correctly',
@@ -198,7 +198,7 @@ void main() {
 
       final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
         // TODO(alestiago): Use TestGame once BonusLetter has controller.
-        gameBuilder: PinballGameTest.create,
+        gameBuilder: PinballGameTest.new,
         blocBuilder: () => gameBloc,
       );
 
