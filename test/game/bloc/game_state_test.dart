@@ -225,6 +225,7 @@ void main() {
             gameState.copyWith(
               score: otherGameState.score,
               balls: otherGameState.balls,
+              bonusBalls: otherGameState.bonusBalls,
               activatedBonusLetters: otherGameState.activatedBonusLetters,
               activatedDashNests: otherGameState.activatedDashNests,
               bonusHistory: otherGameState.bonusHistory,
