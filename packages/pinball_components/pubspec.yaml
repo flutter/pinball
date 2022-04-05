@@ -38,6 +38,7 @@ flutter:
     - assets/images/spaceship/rail/
     - assets/images/spaceship/ramp/
     - assets/images/chrome_dino/
+    - assets/images/kicker/
 
 flutter_gen:
   line_length: 80

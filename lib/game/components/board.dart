@@ -83,8 +83,8 @@ class _BottomGroupSide extends Component {
     final kicker = Kicker(
       side: _side,
     )..initialPosition = Vector2(
-        (22.0 * direction) + centerXAdjustment,
-        -26,
+        (22.4 * direction) + centerXAdjustment,
+        -25,
       );
 
     await addAll([flipper, baseboard, kicker]);
