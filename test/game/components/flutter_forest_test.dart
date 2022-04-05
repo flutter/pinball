@@ -25,7 +25,7 @@ void beginContact(Forge2DGame game, BodyComponent bodyA, BodyComponent bodyB) {
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(PinballGameTest.create);
+  final flameTester = FlameTester(EmptyPinballGameTest.new);
 
   group('FlutterForest', () {
     flameTester.test(
@@ -146,16 +146,15 @@ void main() {
       });
 
       final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
-        gameBuilder: PinballGameTest.create,
+        gameBuilder: EmptyPinballGameTest.new,
         blocBuilder: () => gameBloc,
       );
 
       flameBlocTester.testGameWidget(
         'add DashNestActivated event',
         setUp: (game, tester) async {
-          await game.ready();
-          final flutterForest =
-              game.descendants().whereType<FlutterForest>().first;
+          final flutterForest = FlutterForest();
+          await game.ensureAdd(flutterForest);
           await game.ensureAdd(ball);
 
           final bumpers =
@@ -177,15 +176,16 @@ void main() {
           final flutterForest = FlutterForest();
           await game.ensureAdd(flutterForest);
           await game.ensureAdd(ball);
+          game.addContactCallback(BallScorePointsCallback(game));
 
-          final bumpers =
-              flutterForest.descendants().whereType<DashNestBumper>();
+          final bumpers = flutterForest.descendants().whereType<ScorePoints>();
 
           for (final bumper in bumpers) {
             beginContact(game, bumper, ball);
-            final points = (bumper as ScorePoints).points;
             verify(
-              () => gameBloc.add(Scored(points: points)),
+              () => gameBloc.add(
+                Scored(points: bumper.points),
+              ),
             ).called(1);
           }
         },

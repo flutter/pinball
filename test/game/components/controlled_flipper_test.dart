@@ -10,7 +10,7 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(PinballGameTest.create);
+  final flameTester = FlameTester(EmptyPinballGameTest.new);
 
   group('FlipperController', () {
     group('onKeyEvent', () {
