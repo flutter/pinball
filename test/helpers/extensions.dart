@@ -6,9 +6,9 @@ import 'helpers.dart';
 class PinballGameTest extends PinballGame {
   PinballGameTest()
       : super(
+          audio: MockPinballAudio(),
           theme: const PinballTheme(
             characterTheme: DashTheme(),
-            audio: MockPinballAudio(),
           ),
         );
 }
@@ -16,9 +16,9 @@ class PinballGameTest extends PinballGame {
 class DebugPinballGameTest extends DebugPinballGame {
   DebugPinballGameTest()
       : super(
+          audio: MockPinballAudio(),
           theme: const PinballTheme(
             characterTheme: DashTheme(),
-            audio: MockPinballAudio(),
           ),
         );
 }

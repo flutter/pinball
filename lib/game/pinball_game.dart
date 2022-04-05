@@ -88,11 +88,6 @@ class PinballGame extends Forge2DGame
     );
   }
 
-  Future<void> _addRamps() async {
-    unawaited(addFromBlueprint(SpaceshipRamp()));
-    unawaited(addFromBlueprint(LaunchRamp()));
-  }
-
   Future<void> spawnBall() async {
     // TODO(alestiago): Remove once this logic is moved to controller.
     var plunger = firstChild<Plunger>();
