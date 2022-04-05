@@ -1,6 +1,5 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
@@ -15,11 +14,7 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
   /// {@macro plunger}
   Plunger({
     required this.compressionDistance,
-  }) : super(
-          priority: 5,
-          // TODO(allisonryan0002): remove paint after asset is added.
-          paint: Paint()..color = const Color.fromARGB(255, 241, 8, 8),
-        );
+  }) : super(priority: 5);
 
   /// Distance the plunger can lower.
   final double compressionDistance;
@@ -90,6 +85,7 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
       plunger: this,
       anchor: anchor,
     );
+
     world.createJoint(PrismaticJoint(jointDef));
   }
 
@@ -97,6 +93,9 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
   Future<void> onLoad() async {
     await super.onLoad();
     await _anchorToJoint();
+
+    renderBody = false;
+
     await _loadSprite();
   }
 
@@ -108,9 +107,10 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
     await add(
       SpriteComponent(
         sprite: sprite,
-        size: sprite.originalSize / 10,
+        size: Vector2(5.5, 40),
         anchor: Anchor.center,
-        position: Vector2(25.65, 0),
+        position: Vector2(2, 19),
+        angle: -0.035,
       ),
     );
   }
@@ -128,6 +128,16 @@ class PlungerAnchor extends JointAnchor {
       plunger.body.position.x,
       plunger.body.position.y - plunger.compressionDistance,
     );
+  }
+
+  @override
+  Body createBody() {
+    final shape = CircleShape()..radius = 0.5;
+    final fixtureDef = FixtureDef(shape);
+    final bodyDef = BodyDef()
+      ..position = initialPosition
+      ..type = BodyType.static;
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
 
