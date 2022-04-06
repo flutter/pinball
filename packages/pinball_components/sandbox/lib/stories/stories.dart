@@ -6,3 +6,4 @@ export 'effects/stories.dart';
 export 'flipper/stories.dart';
 export 'layer/stories.dart';
 export 'spaceship/stories.dart';
+export 'zoom/stories.dart';
