@@ -4,10 +4,26 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-/// {@template big_dash_nest_bumper}
-/// Bumper with a Dash above it.
+/// {@template dash_nest_bumper}
+/// Bumpers for Dash forest.
 /// {@endtemplate}
-class BigDashNestBumper extends Bumper {
+abstract class DashNestBumper extends Bumper {
+  /// {@macro dash_nest_bumper}
+  DashNestBumper({
+    required String activeAssetPath,
+    required String inactiveAssetPath,
+    required SpriteComponent spriteComponent,
+  }) : super(
+          activeAssetPath: activeAssetPath,
+          inactiveAssetPath: inactiveAssetPath,
+          spriteComponent: spriteComponent,
+        );
+}
+
+/// {@template big_dash_nest_bumper}
+/// Bumpers with a Dash over it.
+/// {@endtemplate}
+class BigDashNestBumper extends DashNestBumper {
   /// {@macro big_dash_nest_bumper}
   BigDashNestBumper()
       : super(
@@ -37,9 +53,9 @@ class BigDashNestBumper extends Bumper {
 }
 
 /// {@template small_dash_nest_bumper}
-/// Bumper with a nest appearance.
+/// Bumpers with a nest appearance.
 /// {@endtemplate}
-class SmallDashNestBumper extends Bumper {
+class SmallDashNestBumper extends DashNestBumper {
   /// {@macro small_dash_nest_bumper}
   SmallDashNestBumper._({
     required String activeAssetPath,
