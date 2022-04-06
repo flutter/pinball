@@ -17,10 +17,22 @@ void main() {
 
   group('BonusBallController', () {
     late Ball ball;
+    late GameBloc gameBloc;
 
     setUp(() {
       ball = Ball(baseColor: const Color(0xFF00FFFF));
+      gameBloc = MockGameBloc();
+      whenListen(
+        gameBloc,
+        const Stream<GameState>.empty(),
+        initialState: const GameState.initial(),
+      );
     });
+
+    final flameBlocTester = FlameBlocTester(
+      gameBuilder: EmptyPinballGameTest.new,
+      blocBuilder: () => gameBloc,
+    );
 
     test('can be instantiated', () {
       expect(
@@ -29,9 +41,9 @@ void main() {
       );
     });
 
-    flameTester.test(
+    flameBlocTester.testGameWidget(
       'lost removes ball',
-      (game) async {
+      setUp: (game, tester) async {
         await game.add(ball);
         final controller = BonusBallController(ball);
         await ball.ensureAdd(controller);

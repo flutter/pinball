@@ -20,11 +20,8 @@ void main() {
           final wall = MockBottomWall();
           final ballController = MockBallController();
           final ball = MockControlledBall();
-          final componentSet = MockComponentSet();
 
-          when(() => componentSet.whereType<BallController>())
-              .thenReturn([ballController]);
-          when(() => ball.children).thenReturn(componentSet);
+          when(() => ball.controller).thenReturn(ballController);
 
           BottomWallBallContactCallback().begin(ball, wall, MockContact());
 
