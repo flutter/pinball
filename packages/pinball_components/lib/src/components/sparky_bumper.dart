@@ -25,7 +25,7 @@ class SparkyBumper extends BodyComponent with InitialPosition {
           inactiveAssetPath: Assets.images.sparkyBumper.a.inactive.keyName,
           spriteComponent: SpriteComponent(
             anchor: Anchor.center,
-            position: Vector2(0, -0.1),
+            position: Vector2(0, -0.2),
           ),
         );
 
@@ -36,7 +36,7 @@ class SparkyBumper extends BodyComponent with InitialPosition {
           inactiveAssetPath: Assets.images.sparkyBumper.b.inactive.keyName,
           spriteComponent: SpriteComponent(
             anchor: Anchor.center,
-            position: Vector2(0.1, -0.1),
+            position: Vector2(0.1, -0.2),
           ),
         );
 
@@ -47,7 +47,7 @@ class SparkyBumper extends BodyComponent with InitialPosition {
           inactiveAssetPath: Assets.images.sparkyBumper.c.inactive.keyName,
           spriteComponent: SpriteComponent(
             anchor: Anchor.center,
-            position: Vector2(0.1, -0.3),
+            position: Vector2(0.2, -0.5),
           ),
         );
 
@@ -75,8 +75,8 @@ class SparkyBumper extends BodyComponent with InitialPosition {
 
     final shape = EllipseShape(
       center: Vector2.zero(),
-      majorRadius: 3,
-      minorRadius: 2.25,
+      majorRadius: 2.85,
+      minorRadius: 2.15,
     )..rotate(math.pi / 2);
     final fixtureDef = FixtureDef(shape)
       ..friction = 0
