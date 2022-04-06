@@ -18,16 +18,6 @@ class BallLost extends GameEvent {
   List<Object?> get props => [];
 }
 
-/// {@template bonus_ball_lost_game_event}
-/// Event added when a user drops a bonus ball of the screen.
-/// {@endtemplate}
-class BonusBallLost extends GameEvent {
-  const BonusBallLost();
-
-  @override
-  List<Object?> get props => [];
-}
-
 /// {@template scored_game_event}
 /// Event added when a user increases their score.
 /// {@endtemplate}
