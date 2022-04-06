@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flame/extensions.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
@@ -23,44 +21,11 @@ class SlingshotGame extends BasicBallGame {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    final center = screenToWorld(camera.viewport.canvasSize! / 2);
+    await addFromBlueprint(Slingshots());
+    await ready();
 
-    final leftUpperSlingshot = Slingshot(
-      length: 5.66,
-      angle: -1.5 * (math.pi / 180),
-      spritePath: Assets.images.slingshot.leftUpper.keyName,
-    )..initialPosition = center + Vector2(-29, 1.5);
+    camera.followVector2(Vector2.zero());
 
-    final leftLowerSlingshot = Slingshot(
-      length: 3.54,
-      angle: -29.1 * (math.pi / 180),
-      spritePath: Assets.images.slingshot.leftLower.keyName,
-    )..initialPosition = center + Vector2(-31, -6.2);
-
-    final rightUpperSlingshot = Slingshot(
-      length: 5.64,
-      angle: 1 * (math.pi / 180),
-      spritePath: Assets.images.slingshot.rightUpper.keyName,
-    )..initialPosition = center + Vector2(22.3, 1.58);
-
-    final rightLowerSlingshot = Slingshot(
-      length: 3.46,
-      angle: 26.8 * (math.pi / 180),
-      spritePath: Assets.images.slingshot.rightLower.keyName,
-    )..initialPosition = center + Vector2(24.7, -6.2);
-
-    await addAll([
-      leftUpperSlingshot,
-      leftLowerSlingshot,
-      rightUpperSlingshot,
-      rightLowerSlingshot,
-    ]);
-
-    if (trace) {
-      leftUpperSlingshot.trace();
-      leftLowerSlingshot.trace();
-      rightUpperSlingshot.trace();
-      rightLowerSlingshot.trace();
-    }
+    if (trace) traceAllBodies();
   }
 }

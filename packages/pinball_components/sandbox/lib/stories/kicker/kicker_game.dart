@@ -30,10 +30,8 @@ class KickerGame extends BasicBallGame {
     final rightKicker = Kicker(side: BoardSide.right)
       ..initialPosition = Vector2(center.x + (Kicker.size.x * 2), center.y);
     await add(rightKicker);
+    await ready();
 
-    if (trace) {
-      leftKicker.trace();
-      rightKicker.trace();
-    }
+    if (trace) traceAllBodies();
   }
 }

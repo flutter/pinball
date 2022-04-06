@@ -2,13 +2,22 @@ import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball_components/pinball_components.dart';
-
+import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class BasicFlipperGame extends BasicBallGame with KeyboardEvents {
-  BasicFlipperGame() : super(color: Colors.blue);
+class FlipperGame extends BasicBallGame with KeyboardEvents {
+  FlipperGame({
+    required this.trace,
+  }) : super(color: const Color(0xFFFF0000));
 
-  static const info = 'Shows how a Flipper works.';
+  static const info = '''
+    Shows how a Flipper works.
+
+    - Activate the "trace" parameter to overlay the body.
+    - Tap anywhere on the screen to spawn a ball into the game.
+''';
+
+  final bool trace;
 
   static const _leftFlipperKeys = [
     LogicalKeyboardKey.arrowLeft,
@@ -38,6 +47,9 @@ class BasicFlipperGame extends BasicBallGame with KeyboardEvents {
       leftFlipper,
       rightFlipper,
     ]);
+    await ready();
+
+    if (trace) traceAllBodies();
   }
 
   @override

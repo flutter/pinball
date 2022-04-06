@@ -37,11 +37,8 @@ class SparkyBumperGame extends BasicBallGame {
       sparkyBumperB,
       sparkyBumperC,
     ]);
+    await ready();
 
-    if (trace) {
-      sparkyBumperA.trace();
-      sparkyBumperB.trace();
-      sparkyBumperC.trace();
-    }
+    if (trace) traceAllBodies();
   }
 }
