@@ -1,5 +1,6 @@
 export 'ball/stories.dart';
 export 'baseboard/stories.dart';
+export 'boundaries/stories.dart';
 export 'chrome_dino/stories.dart';
 export 'dash_nest_bumper/stories.dart';
 export 'effects/stories.dart';

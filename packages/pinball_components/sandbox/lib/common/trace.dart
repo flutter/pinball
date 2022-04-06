@@ -11,8 +11,7 @@ extension BodyTrace on BodyComponent {
 
     unawaited(
       mounted.whenComplete(() {
-        final sprite = children.whereType<SpriteComponent>().first;
-        sprite.paint.color = sprite.paint.color.withOpacity(0.5);
+        children.whereType<SpriteComponent>().first.setOpacity(0.5);
       }),
     );
   }
