@@ -42,8 +42,7 @@ class PinballGame extends Forge2DGame
     unawaited(addFromBlueprint(LaunchRamp()));
 
     final plunger = Plunger(compressionDistance: 29)
-      ..initialPosition =
-          BoardDimensions.bounds.center.toVector2() + Vector2(41.5, -49);
+      ..initialPosition = Vector2(38, -19);
     await add(plunger);
 
     unawaited(add(Board()));
