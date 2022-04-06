@@ -13,7 +13,6 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(EmptyPinballGameTest.new);
 
   group('BonusBallController', () {
     late Ball ball;
