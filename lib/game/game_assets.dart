@@ -42,6 +42,7 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.spaceship.rail.foreground.keyName),
       images.load(components.Assets.images.chromeDino.mouth.keyName),
       images.load(components.Assets.images.chromeDino.head.keyName),
+      images.load(components.Assets.images.plunger.plunger.keyName),
       images.load(Assets.images.components.background.path),
     ]);
   }

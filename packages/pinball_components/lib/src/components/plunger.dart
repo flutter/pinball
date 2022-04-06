@@ -1,8 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/services.dart';
-import 'package:pinball_components/gen/assets.gen.dart';
-import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_components/pinball_components.dart';
 
 /// {@template plunger}
 /// [Plunger] serves as a spring, that shoots the ball on the right side of the
