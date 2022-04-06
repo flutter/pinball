@@ -5,4 +5,5 @@ export 'dash_nest_bumper/stories.dart';
 export 'effects/stories.dart';
 export 'flipper/stories.dart';
 export 'layer/stories.dart';
+export 'plunger/stories.dart';
 export 'spaceship/stories.dart';
