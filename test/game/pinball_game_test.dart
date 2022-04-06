@@ -65,8 +65,70 @@ void main() {
       group('controller', () {
         // TODO(alestiago): Write test to be controller agnostic.
         group('listenWhen', () {
-          flameTester.test('when a ball is lost', (game) async {});
+          flameTester.test(
+            'listens when a ball is lost and no bonus balls',
+            (game) async {
+              const previousState = GameState(
+                score: 0,
+                balls: 3,
+                bonusBalls: 0,
+                activatedBonusLetters: [],
+                bonusHistory: [],
+                activatedDashNests: {},
+              );
+              final newState =
+                  previousState.copyWith(balls: previousState.balls - 1);
+
+              expect(
+                  game.controller.listenWhen(previousState, newState), isTrue);
+            },
+          );
+
+          flameTester.test(
+            "doesn't listen when a ball is lost and has bonus balls",
+            (game) async {
+              const previousState = GameState(
+                score: 0,
+                balls: 3,
+                bonusBalls: 1,
+                activatedBonusLetters: [],
+                bonusHistory: [],
+                activatedDashNests: {},
+              );
+              final newState =
+                  previousState.copyWith(balls: previousState.balls - 1);
+
+              expect(
+                game.controller.listenWhen(previousState, newState),
+                isFalse,
+              );
+            },
+          );
         });
+
+        group(
+          'onNewState',
+          () {
+            flameTester.test(
+              'spawns a ball',
+              (game) async {
+                await game.ready();
+                final previousBalls =
+                    game.descendants().whereType<Ball>().toList();
+
+                game.controller.onNewState(MockGameState());
+                await game.ready();
+                final currentBalls =
+                    game.descendants().whereType<Ball>().toList();
+
+                expect(
+                  currentBalls.length,
+                  equals(previousBalls.length + 1),
+                );
+              },
+            );
+          },
+        );
       });
     });
 
