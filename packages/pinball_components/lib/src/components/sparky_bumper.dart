@@ -36,7 +36,7 @@ class SparkyBumper extends BodyComponent with InitialPosition {
           inactiveAssetPath: Assets.images.sparkyBumper.b.inactive.keyName,
           spriteComponent: SpriteComponent(
             anchor: Anchor.center,
-            position: Vector2(0.1, -0.2),
+            position: Vector2(0.1, -0.1),
           ),
         );
 
@@ -47,7 +47,7 @@ class SparkyBumper extends BodyComponent with InitialPosition {
           inactiveAssetPath: Assets.images.sparkyBumper.c.inactive.keyName,
           spriteComponent: SpriteComponent(
             anchor: Anchor.center,
-            position: Vector2(0.21, -0.3),
+            position: Vector2(0.1, -0.3),
           ),
         );
 
