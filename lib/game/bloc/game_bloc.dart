@@ -19,9 +19,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   static const bonusWordScore = 10000;
 
   void _onBallLost(BallLost event, Emitter emit) {
-    if (state.balls > 0) {
-      emit(state.copyWith(balls: state.balls - 1));
-    }
+    emit(state.copyWith(balls: state.balls - 1));
   }
 
   void _onScored(Scored event, Emitter emit) {
@@ -36,7 +34,8 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       event.letterIndex,
     ];
 
-    if (newBonusLetters.length == bonusWord.length) {
+    final achievedBonus = newBonusLetters.length == bonusWord.length;
+    if (achievedBonus) {
       emit(
         state.copyWith(
           activatedBonusLetters: [],
@@ -55,15 +54,16 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   void _onDashNestActivated(DashNestActivated event, Emitter emit) {
-    const nestsRequiredForBonus = 3;
-
     final newNests = {
       ...state.activatedDashNests,
       event.nestId,
     };
-    if (newNests.length == nestsRequiredForBonus) {
+
+    final achievedBonus = newNests.length == 3;
+    if (achievedBonus) {
       emit(
         state.copyWith(
+          balls: state.balls + 1,
           activatedDashNests: {},
           bonusHistory: [
             ...state.bonusHistory,

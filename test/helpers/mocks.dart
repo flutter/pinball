@@ -21,6 +21,8 @@ class MockBody extends Mock implements Body {}
 
 class MockBall extends Mock implements Ball {}
 
+class MockControlledBall extends Mock implements ControlledBall {}
+
 class MockBallController extends Mock implements BallController {}
 
 class MockContact extends Mock implements Contact {}
