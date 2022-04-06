@@ -1,5 +1,4 @@
 import 'package:flame/components.dart';
-import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/flame/flame.dart';
@@ -34,7 +33,7 @@ class ControlledBall extends Ball with Controls<BallController> {
 
   /// [Ball] used in [DebugPinballGame].
   ControlledBall.debug() : super(baseColor: const Color(0xFFFF0000)) {
-    controller = BonusBallController(this);
+    controller = _DebugBallController(this);
   }
 }
 
@@ -51,7 +50,10 @@ abstract class BallController extends ComponentController<Ball> {
   /// Triggered by [BottomWallBallContactCallback] when the [Ball] falls into
   /// a [BottomWall].
   /// {@endtemplate}
-  void lost();
+  @mustCallSuper
+  void lost() {
+    component.shouldRemove = true;
+  }
 }
 
 /// {@template bonus_ball_controller}
@@ -59,24 +61,13 @@ abstract class BallController extends ComponentController<Ball> {
 ///
 /// A [BonusBallController] doesn't change the [GameState.balls] count.
 /// {@endtemplate}
-class BonusBallController extends BallController
-    with HasGameRef<PinballGame>, BlocComponent<GameBloc, GameState> {
+class BonusBallController extends BallController with HasGameRef<PinballGame> {
   /// {@macro bonus_ball_controller}
   BonusBallController(Ball<Forge2DGame> component) : super(component);
 
   @override
-  bool listenWhen(GameState? previousState, GameState newState) {
-    return (previousState?.balls ?? 0) > newState.balls;
-  }
-
-  @override
-  void onNewState(GameState state) {
-    super.onNewState(state);
-    component.shouldRemove = true;
-  }
-
-  @override
   void lost() {
+    super.lost();
     gameRef.read<GameBloc>().add(const BonusBallLost());
   }
 }
@@ -87,21 +78,9 @@ class BonusBallController extends BallController
 /// A [LaunchedBallController] changes the [GameState.balls] count.
 /// {@endtemplate}
 class LaunchedBallController extends BallController
-    with HasGameRef<PinballGame>, BlocComponent<GameBloc, GameState> {
+    with HasGameRef<PinballGame> {
   /// {@macro launched_ball_controller}
   LaunchedBallController(Ball<Forge2DGame> ball) : super(ball);
-
-  @override
-  bool listenWhen(GameState? previousState, GameState newState) {
-    return (previousState?.balls ?? 0) > newState.balls;
-  }
-
-  @override
-  void onNewState(GameState state) {
-    super.onNewState(state);
-    component.shouldRemove = true;
-    if (state.balls > 0) gameRef.spawnBall();
-  }
 
   /// Removes the [Ball] from a [PinballGame]; spawning a new [Ball] if
   /// any are left.
@@ -109,6 +88,11 @@ class LaunchedBallController extends BallController
   /// {@macro ball_controller_lost}
   @override
   void lost() {
+    super.lost();
     gameRef.read<GameBloc>().add(const BallLost());
   }
+}
+
+class _DebugBallController extends BallController {
+  _DebugBallController(Ball<Forge2DGame> ball) : super(ball);
 }

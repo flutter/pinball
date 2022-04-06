@@ -6,6 +6,7 @@ import 'package:flame/extensions.dart';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:pinball/flame/flame.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/gen/assets.gen.dart';
 import 'package:pinball_audio/pinball_audio.dart';
@@ -13,9 +14,16 @@ import 'package:pinball_components/pinball_components.dart' hide Assets;
 import 'package:pinball_theme/pinball_theme.dart' hide Assets;
 
 class PinballGame extends Forge2DGame
-    with FlameBloc, HasKeyboardHandlerComponents {
-  PinballGame({required this.theme, required this.audio}) {
+    with
+        FlameBloc,
+        HasKeyboardHandlerComponents,
+        Controls<_GameBallsController> {
+  PinballGame({
+    required this.theme,
+    required this.audio,
+  }) {
     images.prefix = '';
+    controller = _GameBallsController(this);
   }
 
   final PinballTheme theme;
@@ -25,11 +33,12 @@ class PinballGame extends Forge2DGame
   @override
   void onAttach() {
     super.onAttach();
-    spawnBall();
+    controller.spawnBall();
   }
 
   @override
   Future<void> onLoad() async {
+    await super.onLoad();
     _addContactCallbacks();
 
     await _addGameBoundaries();
@@ -87,6 +96,28 @@ class PinballGame extends Forge2DGame
       ),
     );
   }
+}
+
+class _GameBallsController extends ComponentController<PinballGame>
+    with BlocComponent<GameBloc, GameState>, HasGameRef<PinballGame> {
+  _GameBallsController(PinballGame game) : super(game);
+
+  @override
+  bool listenWhen(GameState? previousState, GameState newState) {
+    // TODO(alestiago): Fix how the logic works.
+    final previousBalls =
+        (previousState?.balls ?? 0) + (previousState?.bonusBalls ?? 0);
+    final currentBalls = newState.balls + newState.bonusBalls;
+    final canBallRespawn = newState.balls > 0 && newState.bonusBalls == 0;
+
+    return previousBalls != currentBalls && canBallRespawn;
+  }
+
+  @override
+  void onNewState(GameState state) {
+    super.onNewState(state);
+    spawnBall();
+  }
 
   Future<void> spawnBall() async {
     // TODO(alestiago): Remove once this logic is moved to controller.
@@ -96,7 +127,7 @@ class PinballGame extends Forge2DGame
     }
 
     final ball = ControlledBall.launch(
-      theme: theme,
+      theme: gameRef.theme,
     )..initialPosition = Vector2(
         plunger.body.position.x,
         plunger.body.position.y + Ball.size.y,
