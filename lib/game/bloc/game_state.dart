@@ -5,11 +5,10 @@ part of 'game_bloc.dart';
 /// Defines bonuses that a player can gain during a PinballGame.
 enum GameBonus {
   /// Bonus achieved when the user activate all of the bonus
-  /// letters on the board, forming the bonus word
+  /// letters on the board, forming the bonus word.
   word,
 
-  /// Bonus achieved when the user activates all of the Dash
-  /// nests on the board, adding a new ball to the board.
+  /// Bonus achieved when the user activates all dash nest bumpers.
   dashNest,
 }
 

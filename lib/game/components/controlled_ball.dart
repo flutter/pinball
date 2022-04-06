@@ -1,5 +1,4 @@
 import 'package:flame/components.dart';
-import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/flame/flame.dart';
@@ -18,7 +17,7 @@ class ControlledBall extends Ball with Controls<BallController> {
   ControlledBall.launch({
     required PinballTheme theme,
   }) : super(baseColor: theme.characterTheme.ballColor) {
-    controller = LaunchedBallController(this);
+    controller = BallController(this);
   }
 
   /// {@template bonus_ball}
@@ -29,74 +28,43 @@ class ControlledBall extends Ball with Controls<BallController> {
   ControlledBall.bonus({
     required PinballTheme theme,
   }) : super(baseColor: theme.characterTheme.ballColor) {
-    controller = BonusBallController(this);
+    controller = BallController(this);
   }
 
   /// [Ball] used in [DebugPinballGame].
   ControlledBall.debug() : super(baseColor: const Color(0xFFFF0000)) {
-    controller = BonusBallController(this);
+    controller = DebugBallController(this);
   }
 }
 
 /// {@template ball_controller}
 /// Controller attached to a [Ball] that handles its game related logic.
 /// {@endtemplate}
-abstract class BallController extends ComponentController<Ball> {
+class BallController extends ComponentController<Ball>
+    with HasGameRef<PinballGame> {
   /// {@macro ball_controller}
   BallController(Ball ball) : super(ball);
 
   /// Removes the [Ball] from a [PinballGame].
   ///
-  /// {@template ball_controller_lost}
   /// Triggered by [BottomWallBallContactCallback] when the [Ball] falls into
   /// a [BottomWall].
-  /// {@endtemplate}
-  void lost();
-}
-
-/// {@template bonus_ball_controller}
-/// {@macro ball_controller}
-///
-/// A [BonusBallController] doesn't change the [GameState.balls] count.
-/// {@endtemplate}
-class BonusBallController extends BallController {
-  /// {@macro bonus_ball_controller}
-  BonusBallController(Ball<Forge2DGame> component) : super(component);
-
-  @override
   void lost() {
     component.shouldRemove = true;
   }
-}
-
-/// {@template launched_ball_controller}
-/// {@macro ball_controller}
-///
-/// A [LaunchedBallController] changes the [GameState.balls] count.
-/// {@endtemplate}
-class LaunchedBallController extends BallController
-    with HasGameRef<PinballGame>, BlocComponent<GameBloc, GameState> {
-  /// {@macro launched_ball_controller}
-  LaunchedBallController(Ball<Forge2DGame> ball) : super(ball);
 
   @override
-  bool listenWhen(GameState? previousState, GameState newState) {
-    return (previousState?.balls ?? 0) > newState.balls;
-  }
-
-  @override
-  void onNewState(GameState state) {
-    super.onNewState(state);
-    component.shouldRemove = true;
-    if (state.balls > 0) gameRef.spawnBall();
-  }
-
-  /// Removes the [Ball] from a [PinballGame]; spawning a new [Ball] if
-  /// any are left.
-  ///
-  /// {@macro ball_controller_lost}
-  @override
-  void lost() {
+  void onRemove() {
+    super.onRemove();
     gameRef.read<GameBloc>().add(const BallLost());
   }
+}
+
+/// {@macro ball_controller}
+class DebugBallController extends BallController {
+  /// {@macro ball_controller}
+  DebugBallController(Ball<Forge2DGame> component) : super(component);
+
+  @override
+  void onRemove() {}
 }
