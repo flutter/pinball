@@ -2,7 +2,6 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
-import 'package:flame/extensions.dart';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
@@ -72,8 +71,7 @@ class PinballGame extends Forge2DGame
 
   Future<void> _addPlunger() async {
     final plunger = Plunger(compressionDistance: 29)
-      ..initialPosition =
-          BoardDimensions.bounds.center.toVector2() + Vector2(41.5, -49);
+      ..initialPosition = Vector2(38, -19);
     await add(plunger);
   }
 
@@ -90,17 +88,9 @@ class PinballGame extends Forge2DGame
 
   Future<void> spawnBall() async {
     // TODO(alestiago): Remove once this logic is moved to controller.
-    var plunger = firstChild<Plunger>();
-    if (plunger == null) {
-      await add(plunger = Plunger(compressionDistance: 1));
-    }
-
     final ball = ControlledBall.launch(
       theme: theme,
-    )..initialPosition = Vector2(
-        plunger.body.position.x,
-        plunger.body.position.y + Ball.size.y,
-      );
+    )..initialPosition = Vector2(38, -19 + Ball.size.y);
     await add(ball);
   }
 }
