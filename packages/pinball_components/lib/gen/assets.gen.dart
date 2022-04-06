@@ -30,6 +30,8 @@ class $AssetsImagesGen {
   $AssetsImagesLaunchRampGen get launchRamp =>
       const $AssetsImagesLaunchRampGen();
   $AssetsImagesSpaceshipGen get spaceship => const $AssetsImagesSpaceshipGen();
+  $AssetsImagesSparkyBumperGen get sparkyBumper =>
+      const $AssetsImagesSparkyBumperGen();
 }
 
 class $AssetsImagesBaseboardGen {
@@ -142,6 +144,14 @@ class $AssetsImagesSpaceshipGen {
       const AssetGenImage('assets/images/spaceship/saucer.png');
 }
 
+class $AssetsImagesSparkyBumperGen {
+  const $AssetsImagesSparkyBumperGen();
+
+  $AssetsImagesSparkyBumperAGen get a => const $AssetsImagesSparkyBumperAGen();
+  $AssetsImagesSparkyBumperBGen get b => const $AssetsImagesSparkyBumperBGen();
+  $AssetsImagesSparkyBumperCGen get c => const $AssetsImagesSparkyBumperCGen();
+}
+
 class $AssetsImagesDashBumperAGen {
   const $AssetsImagesDashBumperAGen();
 
@@ -204,6 +214,42 @@ class $AssetsImagesSpaceshipRampGen {
   /// File path: assets/images/spaceship/ramp/railing-foreground.png
   AssetGenImage get railingForeground => const AssetGenImage(
       'assets/images/spaceship/ramp/railing-foreground.png');
+}
+
+class $AssetsImagesSparkyBumperAGen {
+  const $AssetsImagesSparkyBumperAGen();
+
+  /// File path: assets/images/sparky_bumper/a/active.png
+  AssetGenImage get active =>
+      const AssetGenImage('assets/images/sparky_bumper/a/active.png');
+
+  /// File path: assets/images/sparky_bumper/a/inactive.png
+  AssetGenImage get inactive =>
+      const AssetGenImage('assets/images/sparky_bumper/a/inactive.png');
+}
+
+class $AssetsImagesSparkyBumperBGen {
+  const $AssetsImagesSparkyBumperBGen();
+
+  /// File path: assets/images/sparky_bumper/b/active.png
+  AssetGenImage get active =>
+      const AssetGenImage('assets/images/sparky_bumper/b/active.png');
+
+  /// File path: assets/images/sparky_bumper/b/inactive.png
+  AssetGenImage get inactive =>
+      const AssetGenImage('assets/images/sparky_bumper/b/inactive.png');
+}
+
+class $AssetsImagesSparkyBumperCGen {
+  const $AssetsImagesSparkyBumperCGen();
+
+  /// File path: assets/images/sparky_bumper/c/active.png
+  AssetGenImage get active =>
+      const AssetGenImage('assets/images/sparky_bumper/c/active.png');
+
+  /// File path: assets/images/sparky_bumper/c/inactive.png
+  AssetGenImage get inactive =>
+      const AssetGenImage('assets/images/sparky_bumper/c/inactive.png');
 }
 
 class Assets {
