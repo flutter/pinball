@@ -4,9 +4,10 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 
 class BasicCameraZoomGame extends BasicGame with TapDetector {
-  static const info =
-      'Simple game to demonstrate how the CameraZoom can be used. '
-      'Tap to zoom in/out';
+  static const info = '''
+      Simple game to demonstrate how the CameraZoom can be used.
+      Tap to zoom in/out
+  ''';
 
   bool zoomApplied = false;
 
