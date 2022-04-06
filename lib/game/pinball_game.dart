@@ -99,12 +99,10 @@ class _GameBallsController extends ComponentController<PinballGame>
 
   @override
   bool listenWhen(GameState? previousState, GameState newState) {
-    final previousBalls =
-        (previousState?.balls ?? 0) + (previousState?.bonusBalls ?? 0);
-    final currentBalls = newState.balls + newState.bonusBalls;
-    final canBallRespawn = newState.balls > 0 && newState.bonusBalls == 0;
+    final noBallsLeft = component.descendants().whereType<Ball>().isEmpty;
+    final canBallRespawn = newState.balls > 0;
 
-    return previousBalls != currentBalls && canBallRespawn;
+    return noBallsLeft && canBallRespawn;
   }
 
   @override

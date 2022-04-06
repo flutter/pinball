@@ -1,5 +1,7 @@
 // ignore_for_file: cascade_invocations
 
+import 'dart:math';
+
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_test/flame_test.dart';
@@ -66,42 +68,48 @@ void main() {
         // TODO(alestiago): Write test to be controller agnostic.
         group('listenWhen', () {
           flameTester.test(
-            'listens when a ball is lost and no bonus balls',
+            'listens when all balls are gone and there are more than 0 balls',
             (game) async {
-              const previousState = GameState(
-                score: 0,
-                balls: 3,
-                bonusBalls: 0,
-                activatedBonusLetters: [],
-                bonusHistory: [],
-                activatedDashNests: {},
-              );
-              final newState =
-                  previousState.copyWith(balls: previousState.balls - 1);
+              final newState = MockGameState();
+              when(() => newState.balls).thenReturn(2);
+              game.descendants().whereType<Ball>().forEach(game.remove);
+              await game.ready();
 
               expect(
-                game.controller.listenWhen(previousState, newState),
+                game.controller.listenWhen(MockGameState(), newState),
                 isTrue,
               );
             },
           );
 
           flameTester.test(
-            "doesn't listen when a ball is lost and has bonus balls",
+            "doesn't listen when some balls are left",
             (game) async {
-              const previousState = GameState(
-                score: 0,
-                balls: 3,
-                bonusBalls: 1,
-                activatedBonusLetters: [],
-                bonusHistory: [],
-                activatedDashNests: {},
-              );
-              final newState =
-                  previousState.copyWith(balls: previousState.balls - 1);
+              final newState = MockGameState();
+              when(() => newState.balls).thenReturn(2);
 
               expect(
-                game.controller.listenWhen(previousState, newState),
+                game.descendants().whereType<Ball>().length,
+                greaterThan(0),
+              );
+              expect(
+                game.controller.listenWhen(MockGameState(), newState),
+                isFalse,
+              );
+            },
+          );
+
+          flameTester.test(
+            "doesn't listen when no balls left",
+            (game) async {
+              final newState = MockGameState();
+              when(() => newState.balls).thenReturn(0);
+
+              game.descendants().whereType<Ball>().forEach(game.remove);
+              await game.ready();
+
+              expect(
+                game.controller.listenWhen(MockGameState(), newState),
                 isFalse,
               );
             },
