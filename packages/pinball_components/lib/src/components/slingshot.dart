@@ -12,6 +12,7 @@ import 'package:pinball_components/pinball_components.dart';
 class Slingshots extends Forge2DBlueprint {
   @override
   void build(_) {
+    // TODO(allisonryan0002): use radians values instead of converting degrees.
     final leftUpperSlingshot = Slingshot(
       length: 5.66,
       angle: -1.5 * (math.pi / 180),
