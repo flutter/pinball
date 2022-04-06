@@ -47,12 +47,15 @@ class BallController extends ComponentController<Ball>
 
   /// Removes the [Ball] from a [PinballGame].
   ///
-  /// {@template ball_controller_lost}
   /// Triggered by [BottomWallBallContactCallback] when the [Ball] falls into
   /// a [BottomWall].
-  /// {@endtemplate}
   void lost() {
     component.shouldRemove = true;
+  }
+
+  @override
+  void onRemove() {
+    super.onRemove();
     gameRef.read<GameBloc>().add(const BallLost());
   }
 }
@@ -63,7 +66,5 @@ class DebugBallController extends BallController {
   DebugBallController(Ball<Forge2DGame> component) : super(component);
 
   @override
-  void lost() {
-    component.shouldRemove = true;
-  }
+  void onRemove() {}
 }
