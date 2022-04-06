@@ -21,6 +21,8 @@ class PinballGame extends Forge2DGame
 
   final PinballAudio audio;
 
+  late Plunger plunger;
+
   @override
   void onAttach() {
     super.onAttach();
@@ -70,8 +72,8 @@ class PinballGame extends Forge2DGame
   }
 
   Future<void> _addPlunger() async {
-    final plunger = Plunger(compressionDistance: 29)
-      ..initialPosition = Vector2(38, -19);
+    plunger = Plunger(compressionDistance: 29)
+      ..initialPosition = Vector2(38.2, -19);
     await add(plunger);
   }
 
@@ -87,12 +89,6 @@ class PinballGame extends Forge2DGame
   }
 
   Future<void> spawnBall() async {
-    // TODO(alestiago): Remove once this logic is moved to controller.
-    var plunger = firstChild<Plunger>();
-    if (plunger == null) {
-      await add(plunger = Plunger(compressionDistance: 1));
-    }
-
     final ball = ControlledBall.launch(
       theme: theme,
     )..initialPosition = Vector2(

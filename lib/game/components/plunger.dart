@@ -14,7 +14,9 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
   /// {@macro plunger}
   Plunger({
     required this.compressionDistance,
-  }) : super(priority: 5);
+    // TODO(ruimiguel): set to priority +1 over LaunchRamp once all priorities
+    // are fixed.
+  }) : super(priority: 0);
 
   /// Distance the plunger can lower.
   final double compressionDistance;
@@ -112,7 +114,7 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
         size: Vector2(5.5, 40),
         anchor: Anchor.center,
         position: Vector2(2, 19),
-        angle: -0.035,
+        angle: -0.033,
       ),
     );
   }
