@@ -12,10 +12,31 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(Forge2DGame.new);
+  final flameTester = FlameTester(TestGame.new);
 
   group('Plunger', () {
     const compressionDistance = 0.0;
+
+    flameTester.testGameWidget(
+      'renders correctly',
+      setUp: (game, tester) async {
+        await game.add(
+          Plunger(
+            compressionDistance: compressionDistance,
+          ),
+        );
+        await game.ready();
+        game.camera.followVector2(Vector2.zero());
+        game.camera.zoom = 4.1;
+      },
+      // TODO(ruimiguel): enable test when workflows are fixed.
+      // verify: (game, tester) async {
+      //   await expectLater(
+      //     find.byGame<Forge2DGame>(),
+      //     matchesGoldenFile('golden/plunger.png'),
+      //   );
+      // },
+    );
 
     flameTester.test(
       'loads correctly',
