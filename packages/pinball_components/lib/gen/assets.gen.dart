@@ -10,6 +10,9 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  $AssetsImagesAlienBumperGen get alienBumper =>
+      const $AssetsImagesAlienBumperGen();
+
   /// File path: assets/images/ball.png
   AssetGenImage get ball => const AssetGenImage('assets/images/ball.png');
 
@@ -33,6 +36,13 @@ class $AssetsImagesGen {
   $AssetsImagesSpaceshipGen get spaceship => const $AssetsImagesSpaceshipGen();
   $AssetsImagesSparkyBumperGen get sparkyBumper =>
       const $AssetsImagesSparkyBumperGen();
+}
+
+class $AssetsImagesAlienBumperGen {
+  const $AssetsImagesAlienBumperGen();
+
+  $AssetsImagesAlienBumperAGen get a => const $AssetsImagesAlienBumperAGen();
+  $AssetsImagesAlienBumperBGen get b => const $AssetsImagesAlienBumperBGen();
 }
 
 class $AssetsImagesBaseboardGen {
@@ -171,6 +181,30 @@ class $AssetsImagesSparkyBumperGen {
   $AssetsImagesSparkyBumperAGen get a => const $AssetsImagesSparkyBumperAGen();
   $AssetsImagesSparkyBumperBGen get b => const $AssetsImagesSparkyBumperBGen();
   $AssetsImagesSparkyBumperCGen get c => const $AssetsImagesSparkyBumperCGen();
+}
+
+class $AssetsImagesAlienBumperAGen {
+  const $AssetsImagesAlienBumperAGen();
+
+  /// File path: assets/images/alien_bumper/a/active.png
+  AssetGenImage get active =>
+      const AssetGenImage('assets/images/alien_bumper/a/active.png');
+
+  /// File path: assets/images/alien_bumper/a/inactive.png
+  AssetGenImage get inactive =>
+      const AssetGenImage('assets/images/alien_bumper/a/inactive.png');
+}
+
+class $AssetsImagesAlienBumperBGen {
+  const $AssetsImagesAlienBumperBGen();
+
+  /// File path: assets/images/alien_bumper/b/active.png
+  AssetGenImage get active =>
+      const AssetGenImage('assets/images/alien_bumper/b/active.png');
+
+  /// File path: assets/images/alien_bumper/b/inactive.png
+  AssetGenImage get inactive =>
+      const AssetGenImage('assets/images/alien_bumper/b/inactive.png');
 }
 
 class $AssetsImagesDashBumperAGen {
