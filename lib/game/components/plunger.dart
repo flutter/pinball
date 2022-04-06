@@ -1,8 +1,8 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball/gen/assets.gen.dart';
+import 'package:pinball_components/pinball_components.dart' hide Assets;
 
 /// {@template plunger}
 /// [Plunger] serves as a spring, that shoots the ball on the right side of the
@@ -14,10 +14,9 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
   /// {@macro plunger}
   Plunger({
     required this.compressionDistance,
-  }) : super(
-          // TODO(allisonryan0002): remove paint after asset is added.
-          paint: Paint()..color = const Color.fromARGB(255, 241, 8, 8),
-        );
+    // TODO(ruimiguel): set to priority +1 over LaunchRamp once all priorities
+    // are fixed.
+  }) : super(priority: 0);
 
   /// Distance the plunger can lower.
   final double compressionDistance;
@@ -88,13 +87,36 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
       plunger: this,
       anchor: anchor,
     );
-    world.createJoint(PrismaticJoint(jointDef));
+
+    world.createJoint(
+      PrismaticJoint(jointDef)..setLimits(-compressionDistance, 0),
+    );
   }
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
     await _anchorToJoint();
+
+    renderBody = false;
+
+    await _loadSprite();
+  }
+
+  Future<void> _loadSprite() async {
+    final sprite = await gameRef.loadSprite(
+      Assets.images.components.plunger.path,
+    );
+
+    await add(
+      SpriteComponent(
+        sprite: sprite,
+        size: Vector2(5.5, 40),
+        anchor: Anchor.center,
+        position: Vector2(2, 19),
+        angle: -0.033,
+      ),
+    );
   }
 }
 
@@ -110,6 +132,16 @@ class PlungerAnchor extends JointAnchor {
       plunger.body.position.x,
       plunger.body.position.y - plunger.compressionDistance,
     );
+  }
+
+  @override
+  Body createBody() {
+    final shape = CircleShape()..radius = 0.5;
+    final fixtureDef = FixtureDef(shape);
+    final bodyDef = BodyDef()
+      ..position = initialPosition
+      ..type = BodyType.static;
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
 
