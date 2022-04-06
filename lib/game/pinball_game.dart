@@ -183,9 +183,7 @@ class _DebugGameBallsController extends _GameBallsController {
     final noBallsLeft = component
         .descendants()
         .whereType<ControlledBall>()
-        .where(
-          (ball) => ball.controller is! DebugBallController,
-        )
+        .where((ball) => ball.controller is! DebugBallController)
         .isEmpty;
     final canBallRespawn = newState.balls > 0;
 

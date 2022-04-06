@@ -65,12 +65,25 @@ void main() {
       group('controller', () {
         // TODO(alestiago): Write test to be controller agnostic.
         group('listenWhen', () {
-          flameTester.test(
-            'listens when all balls are gone and there are more than 0 balls',
-            (game) async {
+          late GameBloc gameBloc;
+
+          setUp(() {
+            gameBloc = GameBloc();
+          });
+
+          final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
+            gameBuilder: EmptyPinballGameTest.new,
+            blocBuilder: () => gameBloc,
+          );
+
+          flameBlocTester.testGameWidget(
+            'listens when all balls are lost and there are more than 0 balls',
+            setUp: (game, tester) async {
               final newState = MockGameState();
               when(() => newState.balls).thenReturn(2);
-              game.descendants().whereType<Ball>().forEach(game.remove);
+              game.descendants().whereType<ControlledBall>().forEach(
+                    (ball) => ball.controller.lost(),
+                  );
               await game.ready();
 
               expect(
@@ -84,7 +97,7 @@ void main() {
             "doesn't listen when some balls are left",
             (game) async {
               final newState = MockGameState();
-              when(() => newState.balls).thenReturn(2);
+              when(() => newState.balls).thenReturn(1);
 
               expect(
                 game.descendants().whereType<Ball>().length,
@@ -97,15 +110,21 @@ void main() {
             },
           );
 
-          flameTester.test(
+          flameBlocTester.test(
             "doesn't listen when no balls left",
             (game) async {
               final newState = MockGameState();
               when(() => newState.balls).thenReturn(0);
 
-              game.descendants().whereType<Ball>().forEach(game.remove);
+              game.descendants().whereType<ControlledBall>().forEach(
+                    (ball) => ball.controller.lost(),
+                  );
               await game.ready();
 
+              expect(
+                game.descendants().whereType<Ball>().isEmpty,
+                isTrue,
+              );
               expect(
                 game.controller.listenWhen(MockGameState(), newState),
                 isFalse,
@@ -163,12 +182,26 @@ void main() {
     });
 
     group('controller', () {
-      debugModeFlameTester.test(
+      late GameBloc gameBloc;
+
+      setUp(() {
+        gameBloc = GameBloc();
+      });
+
+      final debugModeFlameBlocTester =
+          FlameBlocTester<DebugPinballGame, GameBloc>(
+        gameBuilder: DebugPinballGameTest.new,
+        blocBuilder: () => gameBloc,
+      );
+
+      debugModeFlameBlocTester.testGameWidget(
         'ignores debug balls',
-        (game) async {
+        setUp: (game, tester) async {
           final newState = MockGameState();
-          when(() => newState.balls).thenReturn(2);
-          game.descendants().whereType<Ball>().forEach(game.remove);
+          when(() => newState.balls).thenReturn(1);
+
+          await game.ready();
+          game.children.removeWhere((component) => component is Ball);
           await game.ready();
           await game.ensureAdd(ControlledBall.debug());
 
