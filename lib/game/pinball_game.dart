@@ -95,7 +95,7 @@ class _GameBallsController extends ComponentController<PinballGame>
     with BlocComponent<GameBloc, GameState>, HasGameRef<PinballGame> {
   _GameBallsController(PinballGame game) : super(game);
 
-  Plunger? _plunger;
+  late final Plunger _plunger;
 
   @override
   bool listenWhen(GameState? previousState, GameState newState) {
@@ -120,13 +120,11 @@ class _GameBallsController extends ComponentController<PinballGame>
   }
 
   void _spawnBall() {
-    if (_plunger == null) return;
-
     final ball = ControlledBall.launch(
       theme: gameRef.theme,
     )..initialPosition = Vector2(
-        _plunger!.body.position.x,
-        _plunger!.body.position.y + Ball.size.y,
+        _plunger.body.position.x,
+        _plunger.body.position.y + Ball.size.y,
       );
     component.add(ball);
   }
