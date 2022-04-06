@@ -4,24 +4,28 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/effects.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 
 import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(PinballGameTest.create);
+  final flameTester = FlameTester(EmptyPinballGameTest.new);
 
   group('BonusWord', () {
     flameTester.test(
       'loads the letters correctly',
       (game) async {
-        await game.ready();
+        final bonusWord = BonusWord(
+          position: Vector2.zero(),
+        );
+        await game.ensureAdd(bonusWord);
 
-        final bonusWord = game.children.whereType<BonusWord>().first;
-        final letters = bonusWord.children.whereType<BonusLetter>();
+        final letters = bonusWord.descendants().whereType<BonusLetter>();
         expect(letters.length, equals(GameBloc.bonusWord.length));
       },
     );
@@ -90,6 +94,21 @@ void main() {
       );
 
       flameTester.test(
+        'plays the google bonus sound',
+        (game) async {
+          when(() => state.bonusHistory).thenReturn([GameBonus.word]);
+
+          final bonusWord = BonusWord(position: Vector2.zero());
+          await game.ensureAdd(bonusWord);
+          await game.ready();
+
+          bonusWord.onNewState(state);
+
+          verify(bonusWord.gameRef.audio.googleBonus).called(1);
+        },
+      );
+
+      flameTester.test(
         'adds a color effect to reset the color when the sequence is finished',
         (game) async {
           when(() => state.bonusHistory).thenReturn([GameBonus.word]);
@@ -118,7 +137,7 @@ void main() {
   });
 
   group('BonusLetter', () {
-    final flameTester = FlameTester(PinballGameTest.create);
+    final flameTester = FlameTester(EmptyPinballGameTest.new);
 
     flameTester.test(
       'loads correctly',
@@ -195,11 +214,14 @@ void main() {
 
     group('bonus letter activation', () {
       late GameBloc gameBloc;
+      late PinballAudio pinballAudio;
 
       final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
-        // TODO(alestiago): Use TestGame once BonusLetter has controller.
-        gameBuilder: PinballGameTest.create,
+        gameBuilder: EmptyPinballGameTest.new,
         blocBuilder: () => gameBloc,
+        repositories: () => [
+          RepositoryProvider<PinballAudio>.value(value: pinballAudio),
+        ],
       );
 
       setUp(() {
@@ -209,19 +231,28 @@ void main() {
           const Stream<GameState>.empty(),
           initialState: const GameState.initial(),
         );
+
+        pinballAudio = MockPinballAudio();
+        when(pinballAudio.googleBonus).thenAnswer((_) {});
       });
 
       flameBlocTester.testGameWidget(
         'adds BonusLetterActivated to GameBloc when not activated',
         setUp: (game, tester) async {
-          await game.ready();
-          final bonusLetter = game.descendants().whereType<BonusLetter>().first;
+          final bonusWord = BonusWord(
+            position: Vector2.zero(),
+          );
+          await game.ensureAdd(bonusWord);
 
-          bonusLetter.activate();
-          await game.ready();
-        },
-        verify: (game, tester) async {
-          verify(() => gameBloc.add(const BonusLetterActivated(0))).called(1);
+          final bonusLetters =
+              game.descendants().whereType<BonusLetter>().toList();
+          for (var index = 0; index < bonusLetters.length; index++) {
+            final bonusLetter = bonusLetters[index];
+            bonusLetter.activate();
+            await game.ready();
+
+            verify(() => gameBloc.add(BonusLetterActivated(index))).called(1);
+          }
         },
       );
 
@@ -285,25 +316,33 @@ void main() {
       );
 
       flameBlocTester.testGameWidget(
-        'only listens when there is a change on the letter status',
+        'listens when there is a change on the letter status',
         setUp: (game, tester) async {
-          await game.ready();
-          final bonusLetter = game.descendants().whereType<BonusLetter>().first;
-          bonusLetter.activate();
-        },
-        verify: (game, tester) async {
-          const state = GameState(
-            score: 0,
-            balls: 2,
-            activatedBonusLetters: [0],
-            activatedDashNests: {},
-            bonusHistory: [],
+          final bonusWord = BonusWord(
+            position: Vector2.zero(),
           );
-          final bonusLetter = game.descendants().whereType<BonusLetter>().first;
-          expect(
-            bonusLetter.listenWhen(const GameState.initial(), state),
-            isTrue,
-          );
+          await game.ensureAdd(bonusWord);
+
+          final bonusLetters =
+              game.descendants().whereType<BonusLetter>().toList();
+          for (var index = 0; index < bonusLetters.length; index++) {
+            final bonusLetter = bonusLetters[index];
+            bonusLetter.activate();
+            await game.ready();
+
+            final state = GameState(
+              score: 0,
+              balls: 2,
+              activatedBonusLetters: [index],
+              activatedDashNests: const {},
+              bonusHistory: const [],
+            );
+
+            expect(
+              bonusLetter.listenWhen(const GameState.initial(), state),
+              isTrue,
+            );
+          }
         },
       );
     });

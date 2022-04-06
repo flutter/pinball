@@ -9,7 +9,7 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(PinballGameTest.create);
+  final flameTester = FlameTester(EmptyPinballGameTest.new);
 
   group('Board', () {
     flameTester.test(
@@ -78,7 +78,6 @@ void main() {
       flameTester.test(
         'one FlutterForest',
         (game) async {
-          // TODO(alestiago): change to [NestBumpers] once provided.
           final board = Board();
           await game.ready();
           await game.ensureAdd(board);

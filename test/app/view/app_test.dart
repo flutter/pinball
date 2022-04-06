@@ -9,20 +9,26 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/app/app.dart';
 import 'package:pinball/landing/landing.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 
 import '../../helpers/mocks.dart';
 
 void main() {
   group('App', () {
     late LeaderboardRepository leaderboardRepository;
+    late PinballAudio pinballAudio;
 
     setUp(() {
       leaderboardRepository = MockLeaderboardRepository();
+      pinballAudio = MockPinballAudio();
     });
 
     testWidgets('renders LandingPage', (tester) async {
       await tester.pumpWidget(
-        App(leaderboardRepository: leaderboardRepository),
+        App(
+          leaderboardRepository: leaderboardRepository,
+          pinballAudio: pinballAudio,
+        ),
       );
       expect(find.byType(LandingPage), findsOneWidget);
     });

@@ -1,10 +1,10 @@
 import 'dart:math' as math;
 
-import 'package:flame/extensions.dart';
+import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/material.dart';
 import 'package:geometry/geometry.dart' as geometry show centroid;
-import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/gen/assets.gen.dart';
+import 'package:pinball_components/pinball_components.dart' hide Assets;
 
 /// {@template kicker}
 /// Triangular [BodyType.static] body that propels the [Ball] towards the
@@ -16,12 +16,7 @@ class Kicker extends BodyComponent with InitialPosition {
   /// {@macro kicker}
   Kicker({
     required BoardSide side,
-  }) : _side = side {
-    // TODO(alestiago): Use sprite instead of color when provided.
-    paint = Paint()
-      ..color = const Color(0xFF00FF00)
-      ..style = PaintingStyle.fill;
-  }
+  }) : _side = side;
 
   /// Whether the [Kicker] is on the left or right side of the board.
   ///
@@ -31,24 +26,22 @@ class Kicker extends BodyComponent with InitialPosition {
   final BoardSide _side;
 
   /// The size of the [Kicker] body.
-  // TODO(alestiago): Use size from PositionedBodyComponent instead,
-  // once a sprite is given.
-  static final Vector2 size = Vector2(4, 10);
+  static final Vector2 size = Vector2(4.4, 15);
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDefs = <FixtureDef>[];
     final direction = _side.direction;
     const quarterPi = math.pi / 4;
 
-    final upperCircle = CircleShape()..radius = 1.45;
+    final upperCircle = CircleShape()..radius = 1.6;
     upperCircle.position.setValues(0, -upperCircle.radius / 2);
     final upperCircleFixtureDef = FixtureDef(upperCircle)..friction = 0;
     fixturesDefs.add(upperCircleFixtureDef);
 
-    final lowerCircle = CircleShape()..radius = 1.45;
+    final lowerCircle = CircleShape()..radius = 1.6;
     lowerCircle.position.setValues(
       size.x * -direction,
-      -size.y,
+      -size.y - 0.8,
     );
     final lowerCircleFixtureDef = FixtureDef(lowerCircle)..friction = 0;
     fixturesDefs.add(lowerCircleFixtureDef);
@@ -60,8 +53,7 @@ class Kicker extends BodyComponent with InitialPosition {
               upperCircle.radius * direction,
               0,
             ),
-        // TODO(alestiago): Use values from design.
-        Vector2(2.0 * direction, -size.y + 2),
+        Vector2(2.5 * direction, -size.y + 2),
       );
     final wallFacingLineFixtureDef = FixtureDef(wallFacingEdge)..friction = 0;
     fixturesDefs.add(wallFacingLineFixtureDef);
@@ -124,6 +116,27 @@ class Kicker extends BodyComponent with InitialPosition {
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    renderBody = false;
+
+    final sprite = await gameRef.loadSprite(
+      (_side.isLeft)
+          ? Assets.images.kicker.left.keyName
+          : Assets.images.kicker.right.keyName,
+    );
+
+    await add(
+      SpriteComponent(
+        sprite: sprite,
+        size: Vector2(8.7, 19),
+        anchor: Anchor.center,
+        position: Vector2(0.7 * -_side.direction, -2.2),
+      ),
+    );
   }
 }
 

@@ -1,0 +1,19 @@
+name: pinball_audio
+
+on:
+  push:
+    paths:
+      - "packages/pinball_audio/**"
+      - ".github/workflows/pinball_audio.yaml"
+
+  pull_request:
+    paths:
+      - "packages/pinball_audio/**"
+      - ".github/workflows/pinball_audio.yaml"
+
+jobs:
+  build:
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
+    with:
+      working_directory: packages/pinball_audio
+      coverage_excludes: "lib/gen/*.dart"

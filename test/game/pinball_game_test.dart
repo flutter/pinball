@@ -12,8 +12,8 @@ import '../helpers/helpers.dart';
 void main() {
   group('PinballGame', () {
     TestWidgetsFlutterBinding.ensureInitialized();
-    final flameTester = FlameTester(PinballGameTest.create);
-    final debugModeFlameTester = FlameTester(DebugPinballGameTest.create);
+    final flameTester = FlameTester(PinballGameTest.new);
+    final debugModeFlameTester = FlameTester(DebugPinballGameTest.new);
 
     // TODO(alestiago): test if [PinballGame] registers
     // [BallScorePointsCallback] once the following issue is resolved:
