@@ -23,5 +23,6 @@ void main() {
   addKickerStories(dashbook);
   addSlingshotStories(dashbook);
   addSparkyBumperStories(dashbook);
+  addZoomStories(dashbook);
   runApp(dashbook);
 }
