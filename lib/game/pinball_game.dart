@@ -110,16 +110,16 @@ class _GameBallsController extends ComponentController<PinballGame>
   @override
   void onNewState(GameState state) {
     super.onNewState(state);
-    spawnBall();
+    _spawnBall();
   }
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    spawnBall();
+    _spawnBall();
   }
 
-  void spawnBall() {
+  void _spawnBall() {
     if (_plunger == null) return;
 
     final ball = ControlledBall.launch(
