@@ -80,7 +80,9 @@ void main() {
                   previousState.copyWith(balls: previousState.balls - 1);
 
               expect(
-                  game.controller.listenWhen(previousState, newState), isTrue);
+                game.controller.listenWhen(previousState, newState),
+                isTrue,
+              );
             },
           );
 
