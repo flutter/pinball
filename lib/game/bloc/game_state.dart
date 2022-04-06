@@ -48,8 +48,8 @@ class GameState extends Equatable {
 
   /// The number of bonus balls in the game.
   ///
-  /// [bonusBalls] are gained during the game. Usually triggered by activating
-  /// a [GameBonus].
+  /// [bonusBalls] are gained during the game. For example, when a
+  /// [GameBonus.dashNest] is achieved.
   final int bonusBalls;
 
   /// Active bonus letters.
