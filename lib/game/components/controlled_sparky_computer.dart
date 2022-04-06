@@ -18,7 +18,7 @@ class ControlledSparkyComputer extends SparkyComputer
   void build(Forge2DGame _) {
     addContactCallback(_SparkyTurboChargeSensorBallContactCallback());
     final sparkyTurboChargeSensor = _SparkyTurboChargeSensor()
-      ..initialPosition = Vector2(-13.4, 49.8);
+      ..initialPosition = Vector2(-13, 49.8);
     add(sparkyTurboChargeSensor);
     super.build(_);
   }
@@ -47,7 +47,7 @@ class _SparkyTurboChargeSensor extends BodyComponent with InitialPosition {
 /// Controller attached to a [SparkyComputer] that handles its game related
 /// logic.
 /// {@endtemplate}
-//TODO(allisonryan0002): listen for turbo charge game bonus and animate Sparky.
+// TODO(allisonryan0002): listen for turbo charge game bonus and animate Sparky.
 class SparkyComputerController
     extends ComponentController<ControlledSparkyComputer> {
   /// {@macro sparky_computer_controller}

@@ -28,24 +28,24 @@ class _ComputerBase extends BodyComponent with InitialPosition {
 
     final leftEdge = EdgeShape()
       ..set(
-        Vector2(-15.3, 46),
-        Vector2(-15.7, 49.6),
+        Vector2(-14.9, 46),
+        Vector2(-15.3, 49.6),
       );
     final leftEdgeFixtureDef = FixtureDef(leftEdge);
     fixturesDef.add(leftEdgeFixtureDef);
 
     final topEdge = EdgeShape()
       ..set(
-        Vector2(-15.7, 49.6),
-        Vector2(-11.1, 50.6),
+        Vector2(-15.3, 49.6),
+        Vector2(-10.7, 50.6),
       );
     final topEdgeFixtureDef = FixtureDef(topEdge);
     fixturesDef.add(topEdgeFixtureDef);
 
     final rightEdge = EdgeShape()
       ..set(
-        Vector2(-11.1, 50.6),
-        Vector2(-9.4, 47.2),
+        Vector2(-10.7, 50.6),
+        Vector2(-9, 47.2),
       );
     final rightEdgeFixtureDef = FixtureDef(rightEdge);
     fixturesDef.add(rightEdgeFixtureDef);
@@ -82,7 +82,7 @@ class _ComputerBase extends BodyComponent with InitialPosition {
         sprite: sprite,
         size: sprite.originalSize / 10,
         anchor: Anchor.center,
-        position: Vector2(-12.35, -48.35),
+        position: Vector2(-11.95, -48.35),
       ),
     );
   }
@@ -92,7 +92,7 @@ class _ComputerTop extends SpriteComponent with HasGameRef {
   _ComputerTop()
       : super(
           anchor: Anchor.center,
-          position: Vector2(-12.85, -49.75),
+          position: Vector2(-12.45, -49.75),
           priority: 1,
         );
 

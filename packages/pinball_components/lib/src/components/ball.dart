@@ -66,7 +66,7 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   ///
   /// The [Ball] will no longer be affected by any forces, including it's
   /// weight and those emitted from collisions.
-  //TODO(allisonryan0002): prevent motion from contact with other balls.
+  // TODO(allisonryan0002): prevent motion from contact with other balls.
   void stop() {
     body
       ..gravityScale = 0
