@@ -71,12 +71,14 @@ void main() {
       final tapUpEvent = MockTapUpInfo();
       when(() => tapUpEvent.eventPosition).thenReturn(eventPosition);
 
+      final previousBalls = game.descendants().whereType<Ball>().toList();
+
       game.onTapUp(tapUpEvent);
       await game.ready();
 
       expect(
         game.children.whereType<Ball>().length,
-        equals(1),
+        equals(previousBalls.length + 1),
       );
     });
   });

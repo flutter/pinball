@@ -19,18 +19,14 @@ void main() {
         () {
           final wall = MockBottomWall();
           final ballController = MockBallController();
-          final ball = MockBall();
+          final ball = MockControlledBall();
           final componentSet = MockComponentSet();
 
           when(() => componentSet.whereType<BallController>())
               .thenReturn([ballController]);
           when(() => ball.children).thenReturn(componentSet);
 
-          BottomWallBallContactCallback()
-            // Remove once https://github.com/flame-engine/flame/pull/1415
-            // is merged
-            ..end(MockBall(), MockBottomWall(), MockContact())
-            ..begin(ball, wall, MockContact());
+          BottomWallBallContactCallback().begin(ball, wall, MockContact());
 
           verify(ballController.lost).called(1);
         },

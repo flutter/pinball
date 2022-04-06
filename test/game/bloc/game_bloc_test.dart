@@ -12,11 +12,10 @@ void main() {
 
     group('LostBall', () {
       blocTest<GameBloc, GameState>(
-        "doesn't decrease ball "
-        'when no balls left',
+        'decreases number of balls',
         build: GameBloc.new,
         act: (bloc) {
-          for (var i = 0; i <= bloc.state.balls; i++) {
+          for (var i = 0; i < bloc.state.balls; i++) {
             bloc.add(const BallLost());
           }
         },
