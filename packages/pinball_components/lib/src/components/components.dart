@@ -14,6 +14,7 @@ export 'joint_anchor.dart';
 export 'kicker.dart';
 export 'launch_ramp.dart';
 export 'layer.dart';
+export 'plunger.dart';
 export 'ramp_opening.dart';
 export 'shapes/shapes.dart';
 export 'spaceship.dart';

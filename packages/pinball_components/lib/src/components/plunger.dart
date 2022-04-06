@@ -1,7 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/services.dart';
-import 'package:pinball/gen/assets.gen.dart';
+import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 
 /// {@template plunger}
@@ -105,7 +105,7 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
 
   Future<void> _loadSprite() async {
     final sprite = await gameRef.loadSprite(
-      Assets.images.components.plunger.path,
+      Assets.images.plunger.plunger.keyName,
     );
 
     await add(
