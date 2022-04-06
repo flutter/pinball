@@ -14,52 +14,11 @@ import '../../helpers/helpers.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  group('BonusBallController', () {
-    late Ball ball;
-    late GameBloc gameBloc;
-
-    setUp(() {
-      ball = Ball(baseColor: const Color(0xFF00FFFF));
-      gameBloc = MockGameBloc();
-      whenListen(
-        gameBloc,
-        const Stream<GameState>.empty(),
-        initialState: const GameState.initial(),
-      );
-    });
-
-    final flameBlocTester = FlameBlocTester(
-      gameBuilder: EmptyPinballGameTest.new,
-      blocBuilder: () => gameBloc,
-    );
-
+  group('BallController', () {
     test('can be instantiated', () {
       expect(
-        BonusBallController(ball),
-        isA<BonusBallController>(),
-      );
-    });
-
-    flameBlocTester.testGameWidget(
-      'lost removes ball',
-      setUp: (game, tester) async {
-        await game.add(ball);
-        final controller = BonusBallController(ball);
-        await ball.ensureAdd(controller);
-
-        controller.lost();
-        await game.ready();
-
-        expect(game.contains(ball), isFalse);
-      },
-    );
-  });
-
-  group('LaunchedBallController', () {
-    test('can be instantiated', () {
-      expect(
-        LaunchedBallController(MockBall()),
-        isA<LaunchedBallController>(),
+        BallController(MockBall()),
+        isA<BallController>(),
       );
     });
 
@@ -85,7 +44,7 @@ void main() {
       flameBlocTester.testGameWidget(
         'lost adds BallLost to GameBloc',
         setUp: (game, tester) async {
-          final controller = LaunchedBallController(ball);
+          final controller = BallController(ball);
           await ball.add(controller);
           await game.ensureAdd(ball);
 

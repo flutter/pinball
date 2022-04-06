@@ -63,6 +63,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     if (achievedBonus) {
       emit(
         state.copyWith(
+          balls: state.balls + 1,
           activatedDashNests: {},
           bonusHistory: [
             ...state.bonusHistory,

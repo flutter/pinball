@@ -213,7 +213,7 @@ void main() {
           ),
           GameState(
             score: 0,
-            balls: 3,
+            balls: 4,
             activatedBonusLetters: [],
             activatedDashNests: {},
             bonusHistory: [GameBonus.dashNest],

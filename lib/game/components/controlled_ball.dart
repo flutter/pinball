@@ -17,7 +17,7 @@ class ControlledBall extends Ball with Controls<BallController> {
   ControlledBall.launch({
     required PinballTheme theme,
   }) : super(baseColor: theme.characterTheme.ballColor) {
-    controller = LaunchedBallController(this);
+    controller = BallController(this);
   }
 
   /// {@template bonus_ball}
@@ -28,19 +28,20 @@ class ControlledBall extends Ball with Controls<BallController> {
   ControlledBall.bonus({
     required PinballTheme theme,
   }) : super(baseColor: theme.characterTheme.ballColor) {
-    controller = BonusBallController(this);
+    controller = BallController(this);
   }
 
   /// [Ball] used in [DebugPinballGame].
   ControlledBall.debug() : super(baseColor: const Color(0xFFFF0000)) {
-    controller = BonusBallController(this);
+    controller = _DebugBallController(this);
   }
 }
 
 /// {@template ball_controller}
 /// Controller attached to a [Ball] that handles its game related logic.
 /// {@endtemplate}
-abstract class BallController extends ComponentController<Ball> {
+class BallController extends ComponentController<Ball>
+    with HasGameRef<PinballGame> {
   /// {@macro ball_controller}
   BallController(Ball ball) : super(ball);
 
@@ -50,39 +51,17 @@ abstract class BallController extends ComponentController<Ball> {
   /// Triggered by [BottomWallBallContactCallback] when the [Ball] falls into
   /// a [BottomWall].
   /// {@endtemplate}
-  @mustCallSuper
   void lost() {
     component.shouldRemove = true;
+    gameRef.read<GameBloc>().add(const BallLost());
   }
 }
 
-/// {@template bonus_ball_controller}
-/// {@macro ball_controller}
-///
-/// A [BonusBallController] doesn't change the [GameState.balls] count.
-/// {@endtemplate}
-class BonusBallController extends BallController with HasGameRef<PinballGame> {
-  /// {@macro bonus_ball_controller}
-  BonusBallController(Ball<Forge2DGame> component) : super(component);
-}
+class _DebugBallController extends BallController {
+  _DebugBallController(Ball<Forge2DGame> component) : super(component);
 
-/// {@template launched_ball_controller}
-/// {@macro ball_controller}
-///
-/// A [LaunchedBallController] changes the [GameState.balls] count.
-/// {@endtemplate}
-class LaunchedBallController extends BallController
-    with HasGameRef<PinballGame> {
-  /// {@macro launched_ball_controller}
-  LaunchedBallController(Ball<Forge2DGame> ball) : super(ball);
-
-  /// Removes the [Ball] from a [PinballGame]; spawning a new [Ball] if
-  /// any are left.
-  ///
-  /// {@macro ball_controller_lost}
   @override
   void lost() {
-    super.lost();
-    gameRef.read<GameBloc>().add(const BallLost());
+    component.shouldRemove = true;
   }
 }
