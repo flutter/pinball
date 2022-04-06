@@ -5,7 +5,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template sparky_bumper}
-/// Bumper for Sparky fire.
+/// Bumper for Sparky area.
 /// {@endtemplate}
 // TODO(ruimiguel): refactor later to unify with DashBumpers.
 class SparkyBumper extends BodyComponent with InitialPosition {
