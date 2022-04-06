@@ -40,6 +40,7 @@ class PinballGame extends Forge2DGame
     await _addGameBoundaries();
     unawaited(addFromBlueprint(Boundaries()));
     unawaited(addFromBlueprint(LaunchRamp()));
+    unawaited(addFromBlueprint(ControlledSparkyComputer()));
 
     final plunger = Plunger(compressionDistance: 29)
       ..initialPosition = Vector2(38, -19);
@@ -147,7 +148,7 @@ class DebugPinballGame extends PinballGame with TapDetector {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadBackground();
+    // await _loadBackground();
   }
 
   // TODO(alestiago): Move to PinballGame once we have the real background
