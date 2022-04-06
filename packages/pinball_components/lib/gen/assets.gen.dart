@@ -29,6 +29,7 @@ class $AssetsImagesGen {
   $AssetsImagesKickerGen get kicker => const $AssetsImagesKickerGen();
   $AssetsImagesLaunchRampGen get launchRamp =>
       const $AssetsImagesLaunchRampGen();
+  $AssetsImagesSlingshotGen get slingshot => const $AssetsImagesSlingshotGen();
   $AssetsImagesSpaceshipGen get spaceship => const $AssetsImagesSpaceshipGen();
   $AssetsImagesSparkyBumperGen get sparkyBumper =>
       const $AssetsImagesSparkyBumperGen();
@@ -125,6 +126,26 @@ class $AssetsImagesLaunchRampGen {
   /// File path: assets/images/launch_ramp/ramp.png
   AssetGenImage get ramp =>
       const AssetGenImage('assets/images/launch_ramp/ramp.png');
+}
+
+class $AssetsImagesSlingshotGen {
+  const $AssetsImagesSlingshotGen();
+
+  /// File path: assets/images/slingshot/left_lower.png
+  AssetGenImage get leftLower =>
+      const AssetGenImage('assets/images/slingshot/left_lower.png');
+
+  /// File path: assets/images/slingshot/left_upper.png
+  AssetGenImage get leftUpper =>
+      const AssetGenImage('assets/images/slingshot/left_upper.png');
+
+  /// File path: assets/images/slingshot/right_lower.png
+  AssetGenImage get rightLower =>
+      const AssetGenImage('assets/images/slingshot/right_lower.png');
+
+  /// File path: assets/images/slingshot/right_upper.png
+  AssetGenImage get rightUpper =>
+      const AssetGenImage('assets/images/slingshot/right_upper.png');
 }
 
 class $AssetsImagesSpaceshipGen {
