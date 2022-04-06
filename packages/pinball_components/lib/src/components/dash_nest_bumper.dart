@@ -5,7 +5,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template dash_nest_bumper}
-/// Bumpers for Dash forest.
+/// Bumper with a nest appearance.
 /// {@endtemplate}
 abstract class DashNestBumper extends Bumper {
   /// {@macro dash_nest_bumper}
@@ -20,11 +20,9 @@ abstract class DashNestBumper extends Bumper {
         );
 }
 
-/// {@template big_dash_nest_bumper}
-/// Bumpers with a Dash over it.
-/// {@endtemplate}
+/// {@macro dash_nest_bumper}
 class BigDashNestBumper extends DashNestBumper {
-  /// {@macro big_dash_nest_bumper}
+  /// {@macro dash_nest_bumper}
   BigDashNestBumper()
       : super(
           activeAssetPath: Assets.images.dashBumper.main.active.keyName,
@@ -52,11 +50,9 @@ class BigDashNestBumper extends DashNestBumper {
   }
 }
 
-/// {@template small_dash_nest_bumper}
-/// Bumpers with a nest appearance.
-/// {@endtemplate}
+/// {@macro dash_nest_bumper}
 class SmallDashNestBumper extends DashNestBumper {
-  /// {@macro small_dash_nest_bumper}
+  /// {@macro dash_nest_bumper}
   SmallDashNestBumper._({
     required String activeAssetPath,
     required String inactiveAssetPath,
@@ -67,7 +63,7 @@ class SmallDashNestBumper extends DashNestBumper {
           spriteComponent: spriteComponent,
         );
 
-  /// {@macro small_dash_nest_bumper}
+  /// {@macro dash_nest_bumper}
   SmallDashNestBumper.a()
       : this._(
           activeAssetPath: Assets.images.dashBumper.a.active.keyName,
@@ -78,7 +74,7 @@ class SmallDashNestBumper extends DashNestBumper {
           ),
         );
 
-  /// {@macro small_dash_nest_bumper}
+  /// {@macro dash_nest_bumper}
   SmallDashNestBumper.b()
       : this._(
           activeAssetPath: Assets.images.dashBumper.b.active.keyName,
