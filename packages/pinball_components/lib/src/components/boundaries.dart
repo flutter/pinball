@@ -63,23 +63,22 @@ class _BottomBoundary extends BodyComponent with InitialPosition {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadSprite();
     renderBody = false;
+    await add(_BottomBoundarySprite());
   }
+}
 
-  Future<void> _loadSprite() async {
+class _BottomBoundarySprite extends SpriteComponent with HasGameRef {
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
     final sprite = await gameRef.loadSprite(
       Assets.images.boundary.bottom.keyName,
     );
-
-    await add(
-      SpriteComponent(
-        sprite: sprite,
-        size: sprite.originalSize / 10,
-        anchor: Anchor.center,
-        position: Vector2(-5.4, 57.4),
-      ),
-    );
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
+    anchor = Anchor.center;
+    position = Vector2(-5.4, 57.4);
   }
 }
 
@@ -135,22 +134,21 @@ class _OuterBoundary extends BodyComponent with InitialPosition {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadSprite();
     renderBody = false;
+    await add(_OuterBoundarySprite());
   }
+}
 
-  Future<void> _loadSprite() async {
+class _OuterBoundarySprite extends SpriteComponent with HasGameRef {
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
     final sprite = await gameRef.loadSprite(
       Assets.images.boundary.outer.keyName,
     );
-
-    await add(
-      SpriteComponent(
-        sprite: sprite,
-        size: sprite.originalSize / 10,
-        anchor: Anchor.center,
-        position: Vector2(-0.2, -1.4),
-      ),
-    );
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
+    anchor = Anchor.center;
+    position = Vector2(-0.2, -1.4);
   }
 }
