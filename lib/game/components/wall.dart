@@ -71,12 +71,12 @@ class BottomWall extends Wall {
 }
 
 /// {@template bottom_wall_ball_contact_callback}
-/// Listens when a [Ball] falls into a [BottomWall].
+/// Listens when a [ControlledBall] falls into a [BottomWall].
 /// {@endtemplate}
-class BottomWallBallContactCallback extends ContactCallback<Ball, BottomWall> {
+class BottomWallBallContactCallback
+    extends ContactCallback<ControlledBall, BottomWall> {
   @override
-  void begin(Ball ball, BottomWall wall, Contact contact) {
-    // TODO(alestiago): replace with .firstChild when available.
-    ball.children.whereType<BallController>().first.lost();
+  void begin(ControlledBall ball, BottomWall wall, Contact contact) {
+    ball.controller.lost();
   }
 }

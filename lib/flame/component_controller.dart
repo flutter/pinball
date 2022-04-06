@@ -33,7 +33,7 @@ abstract class ComponentController<T extends Component> extends Component {
 /// Mixin that attaches a single [ComponentController] to a [Component].
 mixin Controls<T extends ComponentController> on Component {
   /// The [ComponentController] attached to this [Component].
-  late final T controller;
+  late T controller;
 
   @override
   @mustCallSuper

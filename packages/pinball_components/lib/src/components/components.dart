@@ -17,6 +17,8 @@ export 'layer.dart';
 export 'plunger.dart';
 export 'ramp_opening.dart';
 export 'shapes/shapes.dart';
+export 'slingshot.dart';
 export 'spaceship.dart';
 export 'spaceship_rail.dart';
 export 'spaceship_ramp.dart';
+export 'sparky_bumper.dart';

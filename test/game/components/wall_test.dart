@@ -3,40 +3,15 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 
 import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(Forge2DGame.new);
+  final flameTester = FlameTester(EmptyPinballGameTest.new);
 
   group('Wall', () {
-    group('BottomWallBallContactCallback', () {
-      test(
-        'removes the ball on begin contact when the wall is a bottom one',
-        () {
-          final wall = MockBottomWall();
-          final ballController = MockBallController();
-          final ball = MockBall();
-          final componentSet = MockComponentSet();
-
-          when(() => componentSet.whereType<BallController>())
-              .thenReturn([ballController]);
-          when(() => ball.children).thenReturn(componentSet);
-
-          BottomWallBallContactCallback()
-            // Remove once https://github.com/flame-engine/flame/pull/1415
-            // is merged
-            ..end(MockBall(), MockBottomWall(), MockContact())
-            ..begin(ball, wall, MockContact());
-
-          verify(ballController.lost).called(1);
-        },
-      );
-    });
-
     flameTester.test(
       'loads correctly',
       (game) async {
@@ -123,4 +98,67 @@ void main() {
       );
     });
   });
+
+  group(
+    'BottomWall',
+    () {
+      group('removes ball on contact', () {
+        late GameBloc gameBloc;
+
+        setUp(() {
+          gameBloc = GameBloc();
+        });
+
+        final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
+          gameBuilder: EmptyPinballGameTest.new,
+          blocBuilder: () => gameBloc,
+        );
+
+        flameBlocTester.testGameWidget(
+          'when ball is launch',
+          setUp: (game, tester) async {
+            final ball = ControlledBall.launch(theme: game.theme);
+            final wall = BottomWall();
+            await game.ensureAddAll([ball, wall]);
+            game.addContactCallback(BottomWallBallContactCallback());
+
+            beginContact(game, ball, wall);
+            await game.ready();
+
+            expect(game.contains(ball), isFalse);
+          },
+        );
+
+        flameBlocTester.testGameWidget(
+          'when ball is bonus',
+          setUp: (game, tester) async {
+            final ball = ControlledBall.bonus(theme: game.theme);
+            final wall = BottomWall();
+            await game.ensureAddAll([ball, wall]);
+            game.addContactCallback(BottomWallBallContactCallback());
+
+            beginContact(game, ball, wall);
+            await game.ready();
+
+            expect(game.contains(ball), isFalse);
+          },
+        );
+
+        flameTester.test(
+          'when ball is debug',
+          (game) async {
+            final ball = ControlledBall.debug();
+            final wall = BottomWall();
+            await game.ensureAddAll([ball, wall]);
+            game.addContactCallback(BottomWallBallContactCallback());
+
+            beginContact(game, ball, wall);
+            await game.ready();
+
+            expect(game.contains(ball), isFalse);
+          },
+        );
+      });
+    },
+  );
 }
