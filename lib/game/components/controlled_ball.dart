@@ -33,7 +33,7 @@ class ControlledBall extends Ball with Controls<BallController> {
 
   /// [Ball] used in [DebugPinballGame].
   ControlledBall.debug() : super(baseColor: const Color(0xFFFF0000)) {
-    controller = _DebugBallController(this);
+    controller = BonusBallController(this);
   }
 }
 
@@ -64,12 +64,6 @@ abstract class BallController extends ComponentController<Ball> {
 class BonusBallController extends BallController with HasGameRef<PinballGame> {
   /// {@macro bonus_ball_controller}
   BonusBallController(Ball<Forge2DGame> component) : super(component);
-
-  @override
-  void lost() {
-    super.lost();
-    gameRef.read<GameBloc>().add(const BonusBallLost());
-  }
 }
 
 /// {@template launched_ball_controller}
@@ -91,8 +85,4 @@ class LaunchedBallController extends BallController
     super.lost();
     gameRef.read<GameBloc>().add(const BallLost());
   }
-}
-
-class _DebugBallController extends BallController {
-  _DebugBallController(Ball<Forge2DGame> ball) : super(ball);
 }

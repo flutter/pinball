@@ -59,13 +59,9 @@ class _FlutterForestController extends ComponentController<FlutterForest>
 
   @override
   bool listenWhen(GameState? previousState, GameState newState) {
-    final gainedBonus = (previousState?.bonusHistory.length ?? 0) <
+    return (previousState?.bonusHistory.length ?? 0) <
             newState.bonusHistory.length &&
         newState.bonusHistory.last == GameBonus.dashNest;
-    final gainedBonusBall =
-        (previousState?.bonusBalls ?? 0) < newState.bonusBalls;
-
-    return gainedBonus && gainedBonusBall;
   }
 
   @override

@@ -262,7 +262,6 @@ void main() {
           const state = GameState(
             score: 0,
             balls: 2,
-            bonusBalls: 0,
             activatedBonusLetters: [0],
             activatedDashNests: {},
             bonusHistory: [],
@@ -291,7 +290,6 @@ void main() {
           const state = GameState(
             score: 0,
             balls: 2,
-            bonusBalls: 0,
             activatedBonusLetters: [0],
             activatedDashNests: {},
             bonusHistory: [],
@@ -335,7 +333,6 @@ void main() {
             final state = GameState(
               score: 0,
               balls: 2,
-              bonusBalls: 0,
               activatedBonusLetters: [index],
               activatedDashNests: const {},
               bonusHistory: const [],

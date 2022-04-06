@@ -86,7 +86,6 @@ void main() {
             const state = GameState(
               score: 0,
               balls: 3,
-              bonusBalls: 1,
               activatedBonusLetters: [],
               activatedDashNests: {},
               bonusHistory: [GameBonus.dashNest],

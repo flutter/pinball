@@ -9,8 +9,6 @@ enum GameBonus {
   word,
 
   /// Bonus achieved when the user activates all dash nest bumpers.
-  ///
-  /// Adds a [GameState.bonusBalls] to the game.
   dashNest,
 }
 
@@ -22,18 +20,15 @@ class GameState extends Equatable {
   const GameState({
     required this.score,
     required this.balls,
-    required this.bonusBalls,
     required this.activatedBonusLetters,
     required this.bonusHistory,
     required this.activatedDashNests,
   })  : assert(score >= 0, "Score can't be negative"),
-        assert(balls >= 0, "Number of balls can't be negative"),
-        assert(bonusBalls >= 0, "Number of bonus balls can't be negative");
+        assert(balls >= 0, "Number of balls can't be negative");
 
   const GameState.initial()
       : score = 0,
         balls = 3,
-        bonusBalls = 0,
         activatedBonusLetters = const [],
         activatedDashNests = const {},
         bonusHistory = const [];
@@ -45,12 +40,6 @@ class GameState extends Equatable {
   ///
   /// When the number of balls is 0, the game is over.
   final int balls;
-
-  /// The number of bonus balls in the game.
-  ///
-  /// [bonusBalls] are gained during the game. For example, when a
-  /// [GameBonus.dashNest] is achieved.
-  final int bonusBalls;
 
   /// Active bonus letters.
   final List<int> activatedBonusLetters;
@@ -72,7 +61,6 @@ class GameState extends Equatable {
   GameState copyWith({
     int? score,
     int? balls,
-    int? bonusBalls,
     List<int>? activatedBonusLetters,
     Set<String>? activatedDashNests,
     List<GameBonus>? bonusHistory,
@@ -85,7 +73,6 @@ class GameState extends Equatable {
     return GameState(
       score: score ?? this.score,
       balls: balls ?? this.balls,
-      bonusBalls: bonusBalls ?? this.bonusBalls,
       activatedBonusLetters:
           activatedBonusLetters ?? this.activatedBonusLetters,
       activatedDashNests: activatedDashNests ?? this.activatedDashNests,
@@ -97,7 +84,6 @@ class GameState extends Equatable {
   List<Object?> get props => [
         score,
         balls,
-        bonusBalls,
         activatedBonusLetters,
         activatedDashNests,
         bonusHistory,

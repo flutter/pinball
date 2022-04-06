@@ -10,7 +10,6 @@ part 'game_state.dart';
 class GameBloc extends Bloc<GameEvent, GameState> {
   GameBloc() : super(const GameState.initial()) {
     on<BallLost>(_onBallLost);
-    on<BonusBallLost>(_onBonusBallLost);
     on<Scored>(_onScored);
     on<BonusLetterActivated>(_onBonusLetterActivated);
     on<DashNestActivated>(_onDashNestActivated);
@@ -21,10 +20,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
   void _onBallLost(BallLost event, Emitter emit) {
     emit(state.copyWith(balls: state.balls - 1));
-  }
-
-  void _onBonusBallLost(BonusBallLost event, Emitter emit) {
-    emit(state.copyWith(bonusBalls: state.bonusBalls - 1));
   }
 
   void _onScored(Scored event, Emitter emit) {
@@ -68,10 +63,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     if (achievedBonus) {
       emit(
         state.copyWith(
-          // TODO(alestiago): Question if we should have a private event
-          // _onBonusBallActivated() to avoid the duplication of code and
-          // split the logic.
-          bonusBalls: state.bonusBalls + 1,
           activatedDashNests: {},
           bonusHistory: [
             ...state.bonusHistory,
