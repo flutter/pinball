@@ -15,9 +15,7 @@ void main() {
         'decreases number of balls',
         build: GameBloc.new,
         act: (bloc) {
-          for (var i = 0; i < bloc.state.balls; i++) {
-            bloc.add(const BallLost());
-          }
+          bloc.add(const BallLost());
         },
         expect: () => [
           const GameState(
@@ -28,21 +26,37 @@ void main() {
             activatedDashNests: {},
             bonusHistory: [],
           ),
+        ],
+      );
+    });
+
+    group('BonusLostBall', () {
+      blocTest<GameBloc, GameState>(
+        'decreases number of balls',
+        build: GameBloc.new,
+        act: (bloc) {
+          for (var i = 0; i < 3; i++) {
+            bloc.add(DashNestActivated('$i'));
+          }
+          bloc.add(const BonusBallLost());
+        },
+        skip: 2,
+        expect: () => [
           const GameState(
             score: 0,
-            balls: 1,
-            bonusBalls: 0,
+            balls: 3,
+            bonusBalls: 1,
             activatedBonusLetters: [],
             activatedDashNests: {},
-            bonusHistory: [],
+            bonusHistory: [GameBonus.dashNest],
           ),
           const GameState(
             score: 0,
-            balls: 0,
+            balls: 3,
             bonusBalls: 0,
             activatedBonusLetters: [],
             activatedDashNests: {},
-            bonusHistory: [],
+            bonusHistory: [GameBonus.dashNest],
           ),
         ],
       );

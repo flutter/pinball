@@ -18,6 +18,19 @@ void main() {
       });
     });
 
+    group('BonusBallLost', () {
+      test('can be instantiated', () {
+        expect(const BonusBallLost(), isNotNull);
+      });
+
+      test('supports value equality', () {
+        expect(
+          BonusBallLost(),
+          equals(const BonusBallLost()),
+        );
+      });
+    });
+
     group('Scored', () {
       test('can be instantiated', () {
         expect(const Scored(points: 1), isNotNull);
