@@ -31,20 +31,22 @@ class PinballGame extends Forge2DGame
   final PinballAudio audio;
 
   @override
-  void onAttach() {
-    super.onAttach();
-    controller.spawnBall();
-  }
-
-  @override
   Future<void> onLoad() async {
-    await super.onLoad();
     _addContactCallbacks();
+    // Fix camera on the center of the board.
+    camera
+      ..followVector2(Vector2(0, -7.8))
+      ..zoom = size.y / 16;
 
     await _addGameBoundaries();
     unawaited(addFromBlueprint(Boundaries()));
     unawaited(addFromBlueprint(LaunchRamp()));
-    unawaited(_addPlunger());
+
+    final plunger = Plunger(compressionDistance: 29)
+      ..initialPosition =
+          BoardDimensions.bounds.center.toVector2() + Vector2(41.5, -49);
+    await add(plunger);
+
     unawaited(add(Board()));
     unawaited(addFromBlueprint(DinoWalls()));
     unawaited(_addBonusWord());
@@ -62,10 +64,8 @@ class PinballGame extends Forge2DGame
       ),
     );
 
-    // Fix camera on the center of the board.
-    camera
-      ..followVector2(Vector2(0, -7.8))
-      ..zoom = size.y / 16;
+    controller.attachTo(plunger);
+    await super.onLoad();
   }
 
   void _addContactCallbacks() {
@@ -77,13 +77,6 @@ class PinballGame extends Forge2DGame
   Future<void> _addGameBoundaries() async {
     await add(BottomWall());
     createBoundaries(this).forEach(add);
-  }
-
-  Future<void> _addPlunger() async {
-    final plunger = Plunger(compressionDistance: 29)
-      ..initialPosition =
-          BoardDimensions.bounds.center.toVector2() + Vector2(41.5, -49);
-    await add(plunger);
   }
 
   Future<void> _addBonusWord() async {
@@ -102,9 +95,10 @@ class _GameBallsController extends ComponentController<PinballGame>
     with BlocComponent<GameBloc, GameState>, HasGameRef<PinballGame> {
   _GameBallsController(PinballGame game) : super(game);
 
+  Plunger? _plunger;
+
   @override
   bool listenWhen(GameState? previousState, GameState newState) {
-    // TODO(alestiago): Fix how the logic works.
     final previousBalls =
         (previousState?.balls ?? 0) + (previousState?.bonusBalls ?? 0);
     final currentBalls = newState.balls + newState.bonusBalls;
@@ -119,20 +113,29 @@ class _GameBallsController extends ComponentController<PinballGame>
     spawnBall();
   }
 
-  Future<void> spawnBall() async {
-    // TODO(alestiago): Remove once this logic is moved to controller.
-    var plunger = firstChild<Plunger>();
-    if (plunger == null) {
-      await add(plunger = Plunger(compressionDistance: 1));
-    }
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    spawnBall();
+  }
+
+  void spawnBall() {
+    if (_plunger == null) return;
 
     final ball = ControlledBall.launch(
       theme: gameRef.theme,
     )..initialPosition = Vector2(
-        plunger.body.position.x,
-        plunger.body.position.y + Ball.size.y,
+        _plunger!.body.position.x,
+        _plunger!.body.position.y + Ball.size.y,
       );
-    await add(ball);
+    component.add(ball);
+  }
+
+  /// Attaches the controller to the plunger.
+  // TODO(alestiago): Remove this method and use onLoad instead.
+  // ignore: use_setters_to_change_properties
+  void attachTo(Plunger plunger) {
+    _plunger = plunger;
   }
 }
 
