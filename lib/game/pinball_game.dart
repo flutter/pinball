@@ -142,7 +142,9 @@ class DebugPinballGame extends PinballGame with TapDetector {
   }) : super(
           theme: theme,
           audio: audio,
-        );
+        ) {
+    controller = _DebugGameBallsController(this);
+  }
 
   @override
   Future<void> onLoad() async {
@@ -172,5 +174,23 @@ class DebugPinballGame extends PinballGame with TapDetector {
     add(
       ControlledBall.debug()..initialPosition = info.eventPosition.game,
     );
+  }
+}
+
+class _DebugGameBallsController extends _GameBallsController {
+  _DebugGameBallsController(PinballGame game) : super(game);
+
+  @override
+  bool listenWhen(GameState? previousState, GameState newState) {
+    final noBallsLeft = component
+        .descendants()
+        .whereType<ControlledBall>()
+        .where(
+          (ball) => ball.controller is! DebugBallController,
+        )
+        .isEmpty;
+    final canBallRespawn = newState.balls > 0;
+
+    return noBallsLeft && canBallRespawn;
   }
 }

@@ -11,11 +11,11 @@ import 'package:pinball_components/pinball_components.dart';
 import '../helpers/helpers.dart';
 
 void main() {
-  group('PinballGame', () {
-    TestWidgetsFlutterBinding.ensureInitialized();
-    final flameTester = FlameTester(PinballGameTest.new);
-    final debugModeFlameTester = FlameTester(DebugPinballGameTest.new);
+  TestWidgetsFlutterBinding.ensureInitialized();
+  final flameTester = FlameTester(PinballGameTest.new);
+  final debugModeFlameTester = FlameTester(DebugPinballGameTest.new);
 
+  group('PinballGame', () {
     // TODO(alestiago): test if [PinballGame] registers
     // [BallScorePointsCallback] once the following issue is resolved:
     // https://github.com/flame-engine/flame/issues/1416
@@ -139,7 +139,9 @@ void main() {
         );
       });
     });
+  });
 
+  group('DebugPinballGame', () {
     debugModeFlameTester.test('adds a ball on tap up', (game) async {
       await game.ready();
 
@@ -157,6 +159,24 @@ void main() {
       expect(
         game.children.whereType<Ball>().length,
         equals(previousBalls.length + 1),
+      );
+    });
+
+    group('controller', () {
+      debugModeFlameTester.test(
+        'ignores debug balls',
+        (game) async {
+          final newState = MockGameState();
+          when(() => newState.balls).thenReturn(2);
+          game.descendants().whereType<Ball>().forEach(game.remove);
+          await game.ready();
+          await game.ensureAdd(ControlledBall.debug());
+
+          expect(
+            game.controller.listenWhen(MockGameState(), newState),
+            isTrue,
+          );
+        },
       );
     });
   });
