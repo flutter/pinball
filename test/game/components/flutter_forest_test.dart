@@ -92,17 +92,19 @@ void main() {
         );
 
         flameBlocTester.testGameWidget(
-          'listens when a Bonus.dashNest is added',
+          'listens when a Bonus.dashNest and a bonusBall is added',
           verify: (game, tester) async {
             final flutterForest = FlutterForest();
 
             const state = GameState(
               score: 0,
               balls: 3,
+              bonusBalls: 1,
               activatedBonusLetters: [],
               activatedDashNests: {},
               bonusHistory: [GameBonus.dashNest],
             );
+
             expect(
               flutterForest.controller
                   .listenWhen(const GameState.initial(), state),
