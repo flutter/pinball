@@ -21,6 +21,8 @@ void main() {
   addChromeDinoStories(dashbook);
   addDashNestBumperStories(dashbook);
   addKickerStories(dashbook);
+  addSlingshotStories(dashbook);
   addSparkyBumperStories(dashbook);
+  addZoomStories(dashbook);
   runApp(dashbook);
 }
