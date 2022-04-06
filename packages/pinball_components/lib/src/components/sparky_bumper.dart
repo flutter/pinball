@@ -11,46 +11,58 @@ import 'package:pinball_components/pinball_components.dart';
 class SparkyBumper extends BodyComponent with InitialPosition {
   /// {@macro sparky_bumper}
   SparkyBumper._({
+    required double majorRadius,
+    required double minorRadius,
     required String activeAssetPath,
     required String inactiveAssetPath,
     required SpriteComponent spriteComponent,
-  })  : _activeAssetPath = activeAssetPath,
+  })  : _majorRadius = majorRadius,
+        _minorRadius = minorRadius,
+        _activeAssetPath = activeAssetPath,
         _inactiveAssetPath = inactiveAssetPath,
         _spriteComponent = spriteComponent;
 
   /// {@macro sparky_bumper}
   SparkyBumper.a()
       : this._(
+          majorRadius: 2.9,
+          minorRadius: 2.1,
           activeAssetPath: Assets.images.sparkyBumper.a.active.keyName,
           inactiveAssetPath: Assets.images.sparkyBumper.a.inactive.keyName,
           spriteComponent: SpriteComponent(
             anchor: Anchor.center,
-            position: Vector2(0, -0.2),
+            position: Vector2(0, -0.25),
           ),
         );
 
   /// {@macro sparky_bumper}
   SparkyBumper.b()
       : this._(
+          majorRadius: 2.85,
+          minorRadius: 2,
           activeAssetPath: Assets.images.sparkyBumper.b.active.keyName,
           inactiveAssetPath: Assets.images.sparkyBumper.b.inactive.keyName,
           spriteComponent: SpriteComponent(
             anchor: Anchor.center,
-            position: Vector2(0.1, -0.2),
+            position: Vector2(0, -0.35),
           ),
         );
 
   /// {@macro sparky_bumper}
   SparkyBumper.c()
       : this._(
+          majorRadius: 3,
+          minorRadius: 2.2,
           activeAssetPath: Assets.images.sparkyBumper.c.active.keyName,
           inactiveAssetPath: Assets.images.sparkyBumper.c.inactive.keyName,
           spriteComponent: SpriteComponent(
             anchor: Anchor.center,
-            position: Vector2(0.2, -0.5),
+            position: Vector2(0, -0.4),
           ),
         );
 
+  final double _majorRadius;
+  final double _minorRadius;
   final String _activeAssetPath;
   late final Sprite _activeSprite;
   final String _inactiveAssetPath;
@@ -75,9 +87,9 @@ class SparkyBumper extends BodyComponent with InitialPosition {
 
     final shape = EllipseShape(
       center: Vector2.zero(),
-      majorRadius: 2.85,
-      minorRadius: 2.15,
-    )..rotate(math.pi / 2);
+      majorRadius: _majorRadius,
+      minorRadius: _minorRadius,
+    )..rotate(math.pi / 1.9);
     final fixtureDef = FixtureDef(shape)
       ..friction = 0
       ..restitution = 4;
