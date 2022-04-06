@@ -22,8 +22,8 @@ extension Forge2DGameTrace on Forge2DGame {
   void traceAllBodies({
     Color color = const Color(0xFFFF0000),
   }) {
-    for (final bodyComponent in children.whereType<BodyComponent>()) {
-      bodyComponent.trace(color: color);
-    }
+    children
+        .whereType<BodyComponent>()
+        .forEach((bodyComponent) => bodyComponent.trace());
   }
 }
