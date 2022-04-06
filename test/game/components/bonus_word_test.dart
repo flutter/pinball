@@ -264,6 +264,7 @@ void main() {
             balls: 2,
             activatedBonusLetters: [0],
             activatedDashNests: {},
+            activatedSparkyFires: {},
             bonusHistory: [],
           );
           whenListen(
@@ -292,6 +293,7 @@ void main() {
             balls: 2,
             activatedBonusLetters: [0],
             activatedDashNests: {},
+            activatedSparkyFires: {},
             bonusHistory: [],
           );
 
@@ -335,6 +337,7 @@ void main() {
               balls: 2,
               activatedBonusLetters: [index],
               activatedDashNests: const {},
+              activatedSparkyFires: const {},
               bonusHistory: const [],
             );
 

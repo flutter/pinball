@@ -89,6 +89,7 @@ void main() {
           balls: 0,
           activatedBonusLetters: [],
           activatedDashNests: {},
+          activatedSparkyFires: {},
           bonusHistory: [],
         );
 
