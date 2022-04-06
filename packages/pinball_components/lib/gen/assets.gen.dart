@@ -29,6 +29,7 @@ class $AssetsImagesGen {
   $AssetsImagesKickerGen get kicker => const $AssetsImagesKickerGen();
   $AssetsImagesLaunchRampGen get launchRamp =>
       const $AssetsImagesLaunchRampGen();
+  $AssetsImagesPlungerGen get plunger => const $AssetsImagesPlungerGen();
   $AssetsImagesSlingshotGen get slingshot => const $AssetsImagesSlingshotGen();
   $AssetsImagesSpaceshipGen get spaceship => const $AssetsImagesSpaceshipGen();
   $AssetsImagesSparkyBumperGen get sparkyBumper =>
@@ -126,6 +127,14 @@ class $AssetsImagesLaunchRampGen {
   /// File path: assets/images/launch_ramp/ramp.png
   AssetGenImage get ramp =>
       const AssetGenImage('assets/images/launch_ramp/ramp.png');
+}
+
+class $AssetsImagesPlungerGen {
+  const $AssetsImagesPlungerGen();
+
+  /// File path: assets/images/plunger/plunger.png
+  AssetGenImage get plunger =>
+      const AssetGenImage('assets/images/plunger/plunger.png');
 }
 
 class $AssetsImagesSlingshotGen {
