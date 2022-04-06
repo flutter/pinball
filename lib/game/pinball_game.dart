@@ -5,6 +5,7 @@ import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:pinball/flame/flame.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/gen/assets.gen.dart';
 import 'package:pinball_audio/pinball_audio.dart';
@@ -12,9 +13,16 @@ import 'package:pinball_components/pinball_components.dart' hide Assets;
 import 'package:pinball_theme/pinball_theme.dart' hide Assets;
 
 class PinballGame extends Forge2DGame
-    with FlameBloc, HasKeyboardHandlerComponents {
-  PinballGame({required this.theme, required this.audio}) {
+    with
+        FlameBloc,
+        HasKeyboardHandlerComponents,
+        Controls<_GameBallsController> {
+  PinballGame({
+    required this.theme,
+    required this.audio,
+  }) {
     images.prefix = '';
+    controller = _GameBallsController(this);
   }
 
   final PinballTheme theme;
@@ -22,19 +30,21 @@ class PinballGame extends Forge2DGame
   final PinballAudio audio;
 
   @override
-  void onAttach() {
-    super.onAttach();
-    spawnBall();
-  }
-
-  @override
   Future<void> onLoad() async {
     _addContactCallbacks();
+    // Fix camera on the center of the board.
+    camera
+      ..followVector2(Vector2(0, -7.8))
+      ..zoom = size.y / 16;
 
     await _addGameBoundaries();
     unawaited(addFromBlueprint(Boundaries()));
     unawaited(addFromBlueprint(LaunchRamp()));
-    unawaited(_addPlunger());
+
+    final plunger = Plunger(compressionDistance: 29)
+      ..initialPosition = Vector2(38, -19);
+    await add(plunger);
+
     unawaited(add(Board()));
     unawaited(addFromBlueprint(DinoWalls()));
     unawaited(_addBonusWord());
@@ -52,10 +62,8 @@ class PinballGame extends Forge2DGame
       ),
     );
 
-    // Fix camera on the center of the board.
-    camera
-      ..followVector2(Vector2(0, -7.8))
-      ..zoom = size.y / 16;
+    controller.attachTo(plunger);
+    await super.onLoad();
   }
 
   void _addContactCallbacks() {
@@ -69,12 +77,6 @@ class PinballGame extends Forge2DGame
     createBoundaries(this).forEach(add);
   }
 
-  Future<void> _addPlunger() async {
-    final plunger = Plunger(compressionDistance: 29)
-      ..initialPosition = Vector2(38, -19);
-    await add(plunger);
-  }
-
   Future<void> _addBonusWord() async {
     await add(
       BonusWord(
@@ -85,13 +87,49 @@ class PinballGame extends Forge2DGame
       ),
     );
   }
+}
 
-  Future<void> spawnBall() async {
-    // TODO(alestiago): Remove once this logic is moved to controller.
+class _GameBallsController extends ComponentController<PinballGame>
+    with BlocComponent<GameBloc, GameState>, HasGameRef<PinballGame> {
+  _GameBallsController(PinballGame game) : super(game);
+
+  late final Plunger _plunger;
+
+  @override
+  bool listenWhen(GameState? previousState, GameState newState) {
+    final noBallsLeft = component.descendants().whereType<Ball>().isEmpty;
+    final canBallRespawn = newState.balls > 0;
+
+    return noBallsLeft && canBallRespawn;
+  }
+
+  @override
+  void onNewState(GameState state) {
+    super.onNewState(state);
+    _spawnBall();
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    _spawnBall();
+  }
+
+  void _spawnBall() {
     final ball = ControlledBall.launch(
-      theme: theme,
-    )..initialPosition = Vector2(38, -19 + Ball.size.y);
-    await add(ball);
+      theme: gameRef.theme,
+    )..initialPosition = Vector2(
+        _plunger.body.position.x,
+        _plunger.body.position.y + Ball.size.y,
+      );
+    component.add(ball);
+  }
+
+  /// Attaches the controller to the plunger.
+  // TODO(alestiago): Remove this method and use onLoad instead.
+  // ignore: use_setters_to_change_properties
+  void attachTo(Plunger plunger) {
+    _plunger = plunger;
   }
 }
 
@@ -102,7 +140,9 @@ class DebugPinballGame extends PinballGame with TapDetector {
   }) : super(
           theme: theme,
           audio: audio,
-        );
+        ) {
+    controller = _DebugGameBallsController(this);
+  }
 
   @override
   Future<void> onLoad() async {
@@ -132,5 +172,21 @@ class DebugPinballGame extends PinballGame with TapDetector {
     add(
       ControlledBall.debug()..initialPosition = info.eventPosition.game,
     );
+  }
+}
+
+class _DebugGameBallsController extends _GameBallsController {
+  _DebugGameBallsController(PinballGame game) : super(game);
+
+  @override
+  bool listenWhen(GameState? previousState, GameState newState) {
+    final noBallsLeft = component
+        .descendants()
+        .whereType<ControlledBall>()
+        .where((ball) => ball.controller is! DebugBallController)
+        .isEmpty;
+    final canBallRespawn = newState.balls > 0;
+
+    return noBallsLeft && canBallRespawn;
   }
 }
