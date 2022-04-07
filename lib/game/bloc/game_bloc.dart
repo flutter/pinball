@@ -13,7 +13,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     on<Scored>(_onScored);
     on<BonusLetterActivated>(_onBonusLetterActivated);
     on<DashNestActivated>(_onDashNestActivated);
-    on<SparkyFireActivated>(_onSparkyFireActivated);
   }
 
   static const bonusWord = 'GOOGLE';
@@ -77,24 +76,5 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         state.copyWith(activatedDashNests: newNests),
       );
     }
-  }
-
-  void _onSparkyFireActivated(SparkyFireActivated event, Emitter emit) {
-    var newFires = <String>{};
-
-    if (state.activatedSparkyFires.contains(event.fireId)) {
-      newFires = state.activatedSparkyFires.difference({event.fireId});
-    } else {
-      newFires = {
-        ...state.activatedSparkyFires,
-        event.fireId,
-      };
-    }
-
-    emit(
-      state.copyWith(
-        activatedSparkyFires: newFires,
-      ),
-    );
   }
 }

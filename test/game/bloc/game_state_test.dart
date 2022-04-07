@@ -12,7 +12,6 @@ void main() {
           balls: 0,
           activatedBonusLetters: const [],
           activatedDashNests: const {},
-          activatedSparkyFires: const {},
           bonusHistory: const [],
         ),
         equals(
@@ -21,7 +20,6 @@ void main() {
             balls: 0,
             activatedBonusLetters: [],
             activatedDashNests: {},
-            activatedSparkyFires: {},
             bonusHistory: [],
           ),
         ),
@@ -36,7 +34,6 @@ void main() {
             balls: 0,
             activatedBonusLetters: [],
             activatedDashNests: {},
-            activatedSparkyFires: {},
             bonusHistory: [],
           ),
           isNotNull,
@@ -54,7 +51,6 @@ void main() {
             score: 0,
             activatedBonusLetters: const [],
             activatedDashNests: const {},
-            activatedSparkyFires: const {},
             bonusHistory: const [],
           ),
           throwsAssertionError,
@@ -72,7 +68,6 @@ void main() {
             score: -1,
             activatedBonusLetters: const [],
             activatedDashNests: const {},
-            activatedSparkyFires: const {},
             bonusHistory: const [],
           ),
           throwsAssertionError,
@@ -89,7 +84,6 @@ void main() {
           score: 0,
           activatedBonusLetters: [],
           activatedDashNests: {},
-          activatedSparkyFires: {},
           bonusHistory: [],
         );
         expect(gameState.isGameOver, isTrue);
@@ -103,7 +97,6 @@ void main() {
           score: 0,
           activatedBonusLetters: [],
           activatedDashNests: {},
-          activatedSparkyFires: {},
           bonusHistory: [],
         );
         expect(gameState.isGameOver, isFalse);
@@ -119,7 +112,6 @@ void main() {
             score: 0,
             activatedBonusLetters: [1],
             activatedDashNests: {},
-            activatedSparkyFires: {},
             bonusHistory: [],
           );
           expect(gameState.isLetterActivated(1), isTrue);
@@ -134,7 +126,6 @@ void main() {
             score: 0,
             activatedBonusLetters: [1],
             activatedDashNests: {},
-            activatedSparkyFires: {},
             bonusHistory: [],
           );
           expect(gameState.isLetterActivated(0), isFalse);
@@ -152,7 +143,6 @@ void main() {
             score: 2,
             activatedBonusLetters: [],
             activatedDashNests: {},
-            activatedSparkyFires: {},
             bonusHistory: [],
           );
           expect(
@@ -171,7 +161,6 @@ void main() {
             score: 2,
             activatedBonusLetters: [],
             activatedDashNests: {},
-            activatedSparkyFires: {},
             bonusHistory: [],
           );
           expect(
@@ -190,7 +179,6 @@ void main() {
             balls: 0,
             activatedBonusLetters: [],
             activatedDashNests: {},
-            activatedSparkyFires: {},
             bonusHistory: [],
           );
           final otherGameState = GameState(
@@ -198,7 +186,6 @@ void main() {
             balls: gameState.balls + 1,
             activatedBonusLetters: const [0],
             activatedDashNests: const {'1'},
-            activatedSparkyFires: const {'1'},
             bonusHistory: const [GameBonus.word],
           );
           expect(gameState, isNot(equals(otherGameState)));
@@ -209,7 +196,6 @@ void main() {
               balls: otherGameState.balls,
               activatedBonusLetters: otherGameState.activatedBonusLetters,
               activatedDashNests: otherGameState.activatedDashNests,
-              activatedSparkyFires: otherGameState.activatedSparkyFires,
               bonusHistory: otherGameState.bonusHistory,
             ),
             equals(otherGameState),

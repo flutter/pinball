@@ -84,22 +84,5 @@ void main() {
         );
       });
     });
-
-    group('SparkyFireActivated', () {
-      test('can be instantiated', () {
-        expect(const SparkyFireActivated('0'), isNotNull);
-      });
-
-      test('supports value equality', () {
-        expect(
-          SparkyFireActivated('0'),
-          equals(SparkyFireActivated('0')),
-        );
-        expect(
-          SparkyFireActivated('0'),
-          isNot(equals(SparkyFireActivated('1'))),
-        );
-      });
-    });
   });
 }

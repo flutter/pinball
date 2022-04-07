@@ -25,7 +25,6 @@ void main() {
             balls: 2,
             activatedBonusLetters: [],
             activatedDashNests: {},
-            activatedSparkyFires: {},
             bonusHistory: [],
           ),
         ],
@@ -46,7 +45,6 @@ void main() {
             balls: 3,
             activatedBonusLetters: [],
             activatedDashNests: {},
-            activatedSparkyFires: {},
             bonusHistory: [],
           ),
           const GameState(
@@ -54,7 +52,6 @@ void main() {
             balls: 3,
             activatedBonusLetters: [],
             activatedDashNests: {},
-            activatedSparkyFires: {},
             bonusHistory: [],
           ),
         ],
@@ -76,7 +73,6 @@ void main() {
             balls: 2,
             activatedBonusLetters: [],
             activatedDashNests: {},
-            activatedSparkyFires: {},
             bonusHistory: [],
           ),
           const GameState(
@@ -84,7 +80,6 @@ void main() {
             balls: 1,
             activatedBonusLetters: [],
             activatedDashNests: {},
-            activatedSparkyFires: {},
             bonusHistory: [],
           ),
           const GameState(
@@ -92,7 +87,6 @@ void main() {
             balls: 0,
             activatedBonusLetters: [],
             activatedDashNests: {},
-            activatedSparkyFires: {},
             bonusHistory: [],
           ),
         ],
@@ -113,7 +107,6 @@ void main() {
             balls: 3,
             activatedBonusLetters: [0],
             activatedDashNests: {},
-            activatedSparkyFires: {},
             bonusHistory: [],
           ),
           GameState(
@@ -121,7 +114,6 @@ void main() {
             balls: 3,
             activatedBonusLetters: [0, 1],
             activatedDashNests: {},
-            activatedSparkyFires: {},
             bonusHistory: [],
           ),
           GameState(
@@ -129,7 +121,6 @@ void main() {
             balls: 3,
             activatedBonusLetters: [0, 1, 2],
             activatedDashNests: {},
-            activatedSparkyFires: {},
             bonusHistory: [],
           ),
         ],
@@ -151,7 +142,6 @@ void main() {
             balls: 3,
             activatedBonusLetters: [0],
             activatedDashNests: {},
-            activatedSparkyFires: {},
             bonusHistory: [],
           ),
           GameState(
@@ -159,7 +149,6 @@ void main() {
             balls: 3,
             activatedBonusLetters: [0, 1],
             activatedDashNests: {},
-            activatedSparkyFires: {},
             bonusHistory: [],
           ),
           GameState(
@@ -167,7 +156,6 @@ void main() {
             balls: 3,
             activatedBonusLetters: [0, 1, 2],
             activatedDashNests: {},
-            activatedSparkyFires: {},
             bonusHistory: [],
           ),
           GameState(
@@ -175,7 +163,6 @@ void main() {
             balls: 3,
             activatedBonusLetters: [0, 1, 2, 3],
             activatedDashNests: {},
-            activatedSparkyFires: {},
             bonusHistory: [],
           ),
           GameState(
@@ -183,7 +170,6 @@ void main() {
             balls: 3,
             activatedBonusLetters: [0, 1, 2, 3, 4],
             activatedDashNests: {},
-            activatedSparkyFires: {},
             bonusHistory: [],
           ),
           GameState(
@@ -191,7 +177,6 @@ void main() {
             balls: 3,
             activatedBonusLetters: [],
             activatedDashNests: {},
-            activatedSparkyFires: {},
             bonusHistory: [GameBonus.word],
           ),
           GameState(
@@ -199,7 +184,6 @@ void main() {
             balls: 3,
             activatedBonusLetters: [],
             activatedDashNests: {},
-            activatedSparkyFires: {},
             bonusHistory: [GameBonus.word],
           ),
         ],
@@ -220,7 +204,6 @@ void main() {
             balls: 3,
             activatedBonusLetters: [],
             activatedDashNests: {'0'},
-            activatedSparkyFires: {},
             bonusHistory: [],
           ),
           GameState(
@@ -228,7 +211,6 @@ void main() {
             balls: 3,
             activatedBonusLetters: [],
             activatedDashNests: {'0', '1'},
-            activatedSparkyFires: {},
             bonusHistory: [],
           ),
           GameState(
@@ -236,43 +218,8 @@ void main() {
             balls: 4,
             activatedBonusLetters: [],
             activatedDashNests: {},
-            activatedSparkyFires: {},
             bonusHistory: [GameBonus.dashNest],
           ),
-        ],
-      );
-    });
-
-    group('SparkyFireActivated', () {
-      const fireId = '0';
-
-      blocTest<GameBloc, GameState>(
-        'adds fireId to collection when activate',
-        build: GameBloc.new,
-        act: (bloc) => bloc..add(const SparkyFireActivated(fireId)),
-        expect: () => [
-          isA<GameState>()
-            ..having(
-              (state) => state.activatedSparkyFires,
-              'activatedSparkyFires',
-              contains(fireId),
-            ),
-        ],
-      );
-
-      blocTest<GameBloc, GameState>(
-        'removes fireId from collection when deactivate',
-        build: GameBloc.new,
-        seed: () =>
-            GameState.initial().copyWith(activatedSparkyFires: {fireId}),
-        act: (bloc) => bloc..add(const SparkyFireActivated(fireId)),
-        expect: () => [
-          isA<GameState>()
-            ..having(
-              (state) => state.activatedSparkyFires,
-              'activatedSparkyFires',
-              isNot(contains(fireId)),
-            ),
         ],
       );
     });

@@ -23,7 +23,6 @@ class GameState extends Equatable {
     required this.activatedBonusLetters,
     required this.bonusHistory,
     required this.activatedDashNests,
-    required this.activatedSparkyFires,
   })  : assert(score >= 0, "Score can't be negative"),
         assert(balls >= 0, "Number of balls can't be negative");
 
@@ -32,7 +31,6 @@ class GameState extends Equatable {
         balls = 3,
         activatedBonusLetters = const [],
         activatedDashNests = const {},
-        activatedSparkyFires = const {},
         bonusHistory = const [];
 
   /// The current score of the game.
@@ -48,9 +46,6 @@ class GameState extends Equatable {
 
   /// Active dash nests.
   final Set<String> activatedDashNests;
-
-  /// Active sparky fires.
-  final Set<String> activatedSparkyFires;
 
   /// Holds the history of all the [GameBonus]es earned by the player during a
   /// PinballGame.
@@ -68,7 +63,6 @@ class GameState extends Equatable {
     int? balls,
     List<int>? activatedBonusLetters,
     Set<String>? activatedDashNests,
-    Set<String>? activatedSparkyFires,
     List<GameBonus>? bonusHistory,
   }) {
     assert(
@@ -82,7 +76,6 @@ class GameState extends Equatable {
       activatedBonusLetters:
           activatedBonusLetters ?? this.activatedBonusLetters,
       activatedDashNests: activatedDashNests ?? this.activatedDashNests,
-      activatedSparkyFires: activatedSparkyFires ?? this.activatedSparkyFires,
       bonusHistory: bonusHistory ?? this.bonusHistory,
     );
   }
@@ -93,7 +86,6 @@ class GameState extends Equatable {
         balls,
         activatedBonusLetters,
         activatedDashNests,
-        activatedSparkyFires,
         bonusHistory,
       ];
 }

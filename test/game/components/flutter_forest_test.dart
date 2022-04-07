@@ -88,7 +88,6 @@ void main() {
               balls: 3,
               activatedBonusLetters: [],
               activatedDashNests: {},
-              activatedSparkyFires: {},
               bonusHistory: [GameBonus.dashNest],
             );
 

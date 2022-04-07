@@ -14,7 +14,6 @@ void main() {
       balls: 2,
       activatedBonusLetters: [],
       activatedDashNests: {},
-      activatedSparkyFires: {},
       bonusHistory: [],
     );
 
