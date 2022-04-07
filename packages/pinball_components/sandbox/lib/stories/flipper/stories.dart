@@ -7,9 +7,7 @@ void addFlipperStories(Dashbook dashbook) {
   dashbook.storiesOf('Flipper').add(
         'Basic',
         (context) => GameWidget(
-          game: FlipperGame(
-            trace: context.boolProperty('Trace', true),
-          ),
+          game: FlipperGame()..trace = context.boolProperty('Trace', true),
         ),
         codeLink: buildSourceLink('flipper/basic.dart'),
         info: FlipperGame.info,
