@@ -233,8 +233,11 @@ class _SpaceshipWallShape extends ChainShape {
 
 /// {@template spaceship_wall}
 /// A [BodyComponent] that provides the collision for the wall
-/// surrounding the spaceship, with a small opening to allow the
-/// [Ball] to get inside the spaceship saucer.
+/// surrounding the spaceship.
+///
+/// It has a small opening to allow the [Ball] to get inside the spaceship
+/// saucer.
+///
 /// It also contains the [SpriteComponent] for the lower wall
 /// {@endtemplate}
 class SpaceshipWall extends BodyComponent with InitialPosition, Layered {
