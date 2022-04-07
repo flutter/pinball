@@ -1,3 +1,8 @@
+// ignore_for_file: cascade_invocations
+
+import 'package:bloc_test/bloc_test.dart';
+import 'package:flame_test/flame_test.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
@@ -6,27 +11,57 @@ import 'package:pinball_components/pinball_components.dart';
 import '../../helpers/helpers.dart';
 
 void main() {
-  group('SparkyBumperController', () {
-    late SparkyBumper sparkyBumper;
+  TestWidgetsFlutterBinding.ensureInitialized();
+  final flameTester = FlameTester(EmptyPinballGameTest.new);
 
-    setUp(() {
-      sparkyBumper = MockSparkyBumper();
-    });
+  group('SparkyFireZone', () {
+    group('bumpers', () {
+      late ControlledSparkyBumper controlledSparkyBumper;
 
-    test('toggle activated state when bumper is hit', () {
-      final controller = SparkyBumperController(sparkyBumper);
+      flameTester.testGameWidget(
+        'activate when deactivated bumper is hit',
+        setUp: (game, tester) async {
+          controlledSparkyBumper = ControlledSparkyBumper();
+          await game.ensureAdd(controlledSparkyBumper);
 
-      when(() => sparkyBumper.activate()).thenReturn(null);
-      when(() => sparkyBumper.deactivate()).thenReturn(null);
+          final callback = ControlledSparkyBumperBallContactCallback();
+          game.addContactCallback(callback);
 
-      controller
-        ..hit()
-        ..hit();
+          callback.begin(
+            controlledSparkyBumper,
+            MockBall(),
+            MockContact(),
+          );
+        },
+        verify: (game, tester) async {
+          expect(controlledSparkyBumper.controller.isActivated, isTrue);
+        },
+      );
 
-      verifyInOrder([
-        () => sparkyBumper.activate(),
-        () => sparkyBumper.deactivate(),
-      ]);
+      flameTester.testGameWidget(
+        'deactivate when activated bumper is hit',
+        setUp: (game, tester) async {
+          controlledSparkyBumper = ControlledSparkyBumper();
+          await game.ensureAdd(controlledSparkyBumper);
+
+          final callback = ControlledSparkyBumperBallContactCallback();
+          game.addContactCallback(callback);
+
+          callback.begin(
+            controlledSparkyBumper,
+            MockBall(),
+            MockContact(),
+          );
+          callback.begin(
+            controlledSparkyBumper,
+            MockBall(),
+            MockContact(),
+          );
+        },
+        verify: (game, tester) async {
+          expect(controlledSparkyBumper.controller.isActivated, isFalse);
+        },
+      );
     });
   });
 }
