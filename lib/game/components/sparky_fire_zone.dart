@@ -24,7 +24,7 @@ class ControlledSparkyBumper extends SparkyBumper
 class _SparkyBumperController extends ComponentController<SparkyBumper>
     with HasGameRef<PinballGame> {
   /// {@macro sparky_bumper_controller}
-  _SparkyBumperController(SparkyBumper sparkyBumper) : super(sparkyBumper);
+  _SparkyBumperController(ControlledSparkyBumper controlledSparkyBumper) : super(controlledSparkyBumper);
 
   /// Flag for activated state of the [SparkyBumper].
   ///
