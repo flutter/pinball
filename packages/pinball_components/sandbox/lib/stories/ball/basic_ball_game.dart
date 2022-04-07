@@ -4,7 +4,11 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 
 class BasicBallGame extends BasicGame with TapDetector {
-  BasicBallGame({required this.color});
+  BasicBallGame({
+    required this.color,
+    this.ballPriority = 0,
+    this.ballLayer = Layer.all,
+  });
 
   static const info = '''
     Shows how a Ball works.
@@ -13,11 +17,16 @@ class BasicBallGame extends BasicGame with TapDetector {
 ''';
 
   final Color color;
+  final int ballPriority;
+  final Layer ballLayer;
 
   @override
   void onTapUp(TapUpInfo info) {
     add(
-      Ball(baseColor: color)..initialPosition = info.eventPosition.game,
+      Ball(baseColor: color)
+        ..initialPosition = info.eventPosition.game
+        ..layer = ballLayer
+        ..priority = ballPriority,
     );
   }
 }
