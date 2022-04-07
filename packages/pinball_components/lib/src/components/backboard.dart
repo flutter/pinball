@@ -2,13 +2,15 @@ import 'package:flame/components.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template backboard}
-/// The [Backboard] of the pinball machine
+/// The [Backboard] of the pinball machine.
 /// {@endtemplate}
 class Backboard extends SpriteComponent with HasGameRef {
   /// {@macro backboard}
   Backboard({
     required Vector2 position,
   }) : super(
+          // TODO(erickzanardo): remove multiply after
+          // https://github.com/flame-engine/flame/pull/1506 is merged
           position: position..clone().multiply(Vector2(1, -1)),
           anchor: Anchor.bottomCenter,
         );
@@ -18,7 +20,7 @@ class Backboard extends SpriteComponent with HasGameRef {
     await waitingMode();
   }
 
-  /// Sets the Backboard on the waiting mode, where the scoreboard is show
+  /// Puts the Backboard in waiting mode, where the scoreboard is shown.
   Future<void> waitingMode() async {
     size = Vector2(120, 100);
     sprite = await gameRef.loadSprite(
@@ -26,7 +28,7 @@ class Backboard extends SpriteComponent with HasGameRef {
     );
   }
 
-  /// Sets the Backboard on the game over mode, where the score input is show
+  /// Puts the Backboard in game over mode, where the score input is shown.
   Future<void> gameOverMode() async {
     size = Vector2(100, 100);
     sprite = await gameRef.loadSprite(
