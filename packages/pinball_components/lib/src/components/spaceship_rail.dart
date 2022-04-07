@@ -139,21 +139,22 @@ class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadSprite();
+    await add(_SpaceshipRailRampSprite());
   }
+}
 
-  Future<void> _loadSprite() async {
+class _SpaceshipRailRampSprite extends SpriteComponent with HasGameRef {
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+
     final sprite = await gameRef.loadSprite(
       Assets.images.spaceship.rail.main.keyName,
     );
-    final spriteComponent = SpriteComponent(
-      sprite: sprite,
-      size: Vector2(17.5, 55.7),
-      anchor: Anchor.center,
-      position: Vector2(-29.4, -5.7),
-    );
-
-    await add(spriteComponent);
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
+    anchor = Anchor.center;
+    position = Vector2(-29.4, -5.7);
   }
 }
 
