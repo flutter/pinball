@@ -1,10 +1,11 @@
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class PlungerGame extends BasicBallGame with HasKeyboardHandlerComponents {
+class PlungerGame extends BasicBallGame with KeyboardEvents {
   PlungerGame({
     required this.trace,
   }) : super(color: const Color(0xFFFF0000));
@@ -16,7 +17,14 @@ class PlungerGame extends BasicBallGame with HasKeyboardHandlerComponents {
     - Tap anywhere on the screen to spawn a ball into the game.
 ''';
 
+  static const _downKeys = [
+    LogicalKeyboardKey.arrowDown,
+    LogicalKeyboardKey.space,
+  ];
+
   final bool trace;
+
+  late Plunger plunger;
 
   @override
   Future<void> onLoad() async {
@@ -24,10 +32,27 @@ class PlungerGame extends BasicBallGame with HasKeyboardHandlerComponents {
 
     final center = screenToWorld(camera.viewport.canvasSize! / 2);
 
-    final plunger = Plunger(compressionDistance: 29)
+    plunger = Plunger(compressionDistance: 29)
       ..initialPosition = Vector2(center.x - (Kicker.size.x * 2), center.y);
     await add(plunger);
 
     if (trace) plunger.trace();
+  }
+
+  @override
+  KeyEventResult onKeyEvent(
+    RawKeyEvent event,
+    Set<LogicalKeyboardKey> keysPressed,
+  ) {
+    final movedDownPlunger = _downKeys.contains(event.logicalKey);
+    if (movedDownPlunger) {
+      if (event is RawKeyDownEvent) {
+        plunger.pull();
+      } else if (event is RawKeyUpEvent) {
+        plunger.release();
+      }
+    }
+
+    return movedDownPlunger ? KeyEventResult.handled : KeyEventResult.ignored;
   }
 }
