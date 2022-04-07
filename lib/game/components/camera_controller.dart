@@ -1,20 +1,25 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// A [Component] that controls its game camera focus
 class CameraController extends Component with HasGameRef, KeyboardHandler {
   /// The camera position for the board
+  @visibleForTesting
   static final gamePosition = Vector2(0, -7.8);
 
   /// The camera position for the pinball panel
+  @visibleForTesting
   static final backboardPosition = Vector2(0, -100.8);
 
   /// The zoom value for the game mode
+  @visibleForTesting
   late final double gameZoom;
 
   /// The zoom value for the panel mode
+  @visibleForTesting
   late final double backboardZoom;
 
   @override
