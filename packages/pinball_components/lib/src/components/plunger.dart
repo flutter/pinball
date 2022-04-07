@@ -7,7 +7,7 @@ import 'package:pinball_components/pinball_components.dart';
 /// [Plunger] serves as a spring, that shoots the ball on the right side of the
 /// playfield.
 ///
-/// [Plunger] ignores gravity so the player controls its downward [_pull].
+/// [Plunger] ignores gravity so the player controls its downward [pull].
 /// {@endtemplate}
 class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
   /// {@macro plunger}
@@ -42,7 +42,7 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
   }
 
   /// Set a constant downward velocity on the [Plunger].
-  void _pull() {
+  void pull() {
     body.linearVelocity = Vector2(0, -7);
   }
 
@@ -50,7 +50,7 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
   ///
   /// The velocity's magnitude depends on how far the [Plunger] has been pulled
   /// from its original [initialPosition].
-  void _release() {
+  void release() {
     final velocity = (initialPosition.y - body.position.y) * 5;
     body.linearVelocity = Vector2(0, velocity);
   }
@@ -68,9 +68,9 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
     if (!keys.contains(event.logicalKey)) return true;
 
     if (event is RawKeyDownEvent) {
-      _pull();
+      pull();
     } else if (event is RawKeyUpEvent) {
-      _release();
+      release();
     }
 
     return false;
