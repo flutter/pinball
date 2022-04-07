@@ -7,9 +7,7 @@ void addPlungerStories(Dashbook dashbook) {
   dashbook.storiesOf('Plunger').add(
         'Basic',
         (context) => GameWidget(
-          game: PlungerGame(
-            trace: context.boolProperty('Trace', true),
-          ),
+          game: PlungerGame()..trace = context.boolProperty('Trace', true),
         ),
         codeLink: buildSourceLink('plunger_game/basic.dart'),
         info: PlungerGame.info,

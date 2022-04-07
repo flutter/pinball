@@ -5,10 +5,8 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class PlungerGame extends BasicBallGame with KeyboardEvents {
-  PlungerGame({
-    required this.trace,
-  }) : super(color: const Color(0xFFFF0000));
+class PlungerGame extends BasicBallGame with KeyboardEvents, Traceable {
+  PlungerGame() : super(color: const Color(0xFFFF0000));
 
   static const info = '''
     Shows how Plunger is rendered.
@@ -22,8 +20,6 @@ class PlungerGame extends BasicBallGame with KeyboardEvents {
     LogicalKeyboardKey.space,
   ];
 
-  final bool trace;
-
   late Plunger plunger;
 
   @override
@@ -36,7 +32,7 @@ class PlungerGame extends BasicBallGame with KeyboardEvents {
       ..initialPosition = Vector2(center.x - (Kicker.size.x * 2), center.y);
     await add(plunger);
 
-    if (trace) plunger.trace();
+    await traceAllBodies();
   }
 
   @override
