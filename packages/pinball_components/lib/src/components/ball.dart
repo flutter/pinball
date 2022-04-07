@@ -35,23 +35,18 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final sprite = await gameRef.loadSprite(Assets.images.ball.keyName);
-    final tint = baseColor.withOpacity(0.5);
     await add(
-      _spriteComponent = SpriteComponent(
-        sprite: sprite,
-        size: size * 1.15,
-        anchor: Anchor.center,
-      )..tint(tint),
+      _BallSprite()
+        ..tint(
+          baseColor.withOpacity(0.5),
+        ),
     );
   }
 
   @override
   Body createBody() {
     final shape = CircleShape()..radius = size.x / 2;
-
     final fixtureDef = FixtureDef(shape)..density = 1;
-
     final bodyDef = BodyDef()
       ..position = initialPosition
       ..userData = this
@@ -112,5 +107,19 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
 
     body.fixtures.first.shape.radius = (size.x / 2) * scaleFactor;
     _spriteComponent.scale = Vector2.all(scaleFactor);
+  }
+}
+
+class _BallSprite extends SpriteComponent with HasGameRef {
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+
+    final sprite = await gameRef.loadSprite(
+      Assets.images.ball.keyName,
+    );
+    this.sprite = sprite;
+    size = Ball.size * 1.15;
+    anchor = Anchor.center;
   }
 }
