@@ -144,7 +144,7 @@ class _FlipperSpriteComponent extends SpriteComponent with HasGameRef {
           : Assets.images.flipper.right.keyName,
     );
     this.sprite = sprite;
-    size = Flipper.size;
+    size = sprite.originalSize / 10;
     anchor = Anchor.center;
   }
 }
