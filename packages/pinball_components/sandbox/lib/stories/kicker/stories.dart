@@ -7,9 +7,7 @@ void addKickerStories(Dashbook dashbook) {
   dashbook.storiesOf('Kickers').add(
         'Basic',
         (context) => GameWidget(
-          game: KickerGame(
-            trace: context.boolProperty('Trace', true),
-          ),
+          game: KickerGame()..trace = context.boolProperty('Trace', true),
         ),
         codeLink: buildSourceLink('kicker_game/basic.dart'),
         info: KickerGame.info,

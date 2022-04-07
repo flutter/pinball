@@ -26,7 +26,7 @@ extension BodyTrace on BodyComponent {
 }
 
 mixin Traceable on Forge2DGame {
-  bool get trace;
+  late final bool trace;
 
   Future<void> traceAllBodies({
     Color color = const Color(0xFFFF0000),

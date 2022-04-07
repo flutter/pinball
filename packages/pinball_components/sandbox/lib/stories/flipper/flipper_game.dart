@@ -7,10 +7,7 @@ import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class FlipperGame extends BasicBallGame with KeyboardEvents, Traceable {
-  FlipperGame({
-    required bool trace,
-  })  : _trace = trace,
-        super(color: Colors.blue);
+  FlipperGame() : super(color: Colors.blue);
 
   static const info = '''
     Shows how Flippers are rendered.
@@ -30,11 +27,6 @@ class FlipperGame extends BasicBallGame with KeyboardEvents, Traceable {
     LogicalKeyboardKey.arrowRight,
     LogicalKeyboardKey.keyD,
   ];
-
-  final bool _trace;
-
-  @override
-  bool get trace => _trace;
 
   late Flipper leftFlipper;
   late Flipper rightFlipper;

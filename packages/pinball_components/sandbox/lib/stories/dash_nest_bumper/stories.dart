@@ -8,9 +8,8 @@ void addDashNestBumperStories(Dashbook dashbook) {
   dashbook.storiesOf('Dash Nest Bumpers').add(
         'Big',
         (context) => GameWidget(
-          game: BigDashNestBumperGame(
-            trace: context.boolProperty('Trace', true),
-          ),
+          game: BigDashNestBumperGame()
+            ..trace = context.boolProperty('Trace', true),
         ),
         codeLink: buildSourceLink('dash_nest_bumper/big.dart'),
         info: BasicBallGame.info,

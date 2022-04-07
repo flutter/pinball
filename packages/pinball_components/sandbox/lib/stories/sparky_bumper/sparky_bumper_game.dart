@@ -6,21 +6,13 @@ import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class SparkyBumperGame extends BasicBallGame with Traceable {
-  SparkyBumperGame({
-    required bool trace,
-  })  : _trace = trace,
-        super(color: const Color(0xFF0000FF));
+  SparkyBumperGame() : super(color: const Color(0xFF0000FF));
 
   static const info = '''
     Shows how a SparkyBumper is rendered.
 
     Activate the "trace" parameter to overlay the body.
 ''';
-
-  final bool _trace;
-
-  @override
-  bool get trace => _trace;
 
   @override
   Future<void> onLoad() async {
