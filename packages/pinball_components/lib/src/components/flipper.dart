@@ -43,20 +43,7 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   }
 
   /// Loads the sprite that renders with the [Flipper].
-  Future<void> _loadSprite() async {
-    final sprite = await gameRef.loadSprite(
-      (side.isLeft)
-          ? Assets.images.flipper.left.keyName
-          : Assets.images.flipper.right.keyName,
-    );
-    final spriteComponent = SpriteComponent(
-      sprite: sprite,
-      size: size,
-      anchor: Anchor.center,
-    );
-
-    await add(spriteComponent);
-  }
+  Future<void> _loadSprite() async {}
 
   /// Anchors the [Flipper] to the [RevoluteJoint] that controls its arc motion.
   Future<void> _anchorToJoint() async {
@@ -129,10 +116,8 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
     await super.onLoad();
     renderBody = false;
 
-    await Future.wait<void>([
-      _loadSprite(),
-      _anchorToJoint(),
-    ]);
+    await _anchorToJoint();
+    await add(_FlipperSprite(side: side));
   }
 
   @override
@@ -145,6 +130,25 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;
+  }
+}
+
+class _FlipperSprite extends SpriteComponent with HasGameRef {
+  _FlipperSprite({required BoardSide side}) : _side = side;
+
+  final BoardSide _side;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    final sprite = await gameRef.loadSprite(
+      (_side.isLeft)
+          ? Assets.images.flipper.left.keyName
+          : Assets.images.flipper.right.keyName,
+    );
+    this.sprite = sprite;
+    size = Flipper.size;
+    anchor = Anchor.center;
   }
 }
 
