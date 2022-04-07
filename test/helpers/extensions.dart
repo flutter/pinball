@@ -1,3 +1,5 @@
+// ignore_for_file: must_call_super
+
 import 'package:pinball/game/game.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
