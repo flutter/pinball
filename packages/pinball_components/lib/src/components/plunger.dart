@@ -131,12 +131,6 @@ class PlungerAnchor extends JointAnchor {
       -plunger.compressionDistance,
     );
   }
-
-  @override
-  Body createBody() {
-    final bodyDef = BodyDef()..position = initialPosition;
-    return world.createBody(bodyDef);
-  }
 }
 
 /// {@template plunger_anchor_prismatic_joint_def}
