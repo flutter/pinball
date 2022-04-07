@@ -22,17 +22,19 @@ class Backboard extends SpriteComponent with HasGameRef {
 
   /// Puts the Backboard in waiting mode, where the scoreboard is shown.
   Future<void> waitingMode() async {
-    size = Vector2(120, 100);
-    sprite = await gameRef.loadSprite(
+    final sprite = await gameRef.loadSprite(
       Assets.images.backboard.backboardScores.keyName,
     );
+    size = sprite.originalSize / 10;
+    this.sprite = sprite;
   }
 
   /// Puts the Backboard in game over mode, where the score input is shown.
   Future<void> gameOverMode() async {
-    size = Vector2(100, 100);
-    sprite = await gameRef.loadSprite(
+    final sprite = await gameRef.loadSprite(
       Assets.images.backboard.backboardGameOver.keyName,
     );
+    size = sprite.originalSize / 10;
+    this.sprite = sprite;
   }
 }
