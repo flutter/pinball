@@ -6,12 +6,19 @@ import 'package:sandbox/common/common.dart';
 
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class BasicFlipperGame extends BasicBallGame with KeyboardEvents {
-  BasicFlipperGame({
+class FlipperGame extends BasicBallGame with KeyboardEvents {
+  FlipperGame({
     required this.trace,
   }) : super(color: Colors.blue);
 
-  static const info = 'Shows how a Flipper works.';
+  static const info = '''
+    Shows how Flippers are rendered.
+
+    - Activate the "trace" parameter to overlay the body.
+    - Tap anywhere on the screen to spawn a ball into the game.
+    - Press left arrow key or "A" to move the left flipper.
+    - Press right arrow key or "D" to move the right flipper.
+  ''';
 
   static const _leftFlipperKeys = [
     LogicalKeyboardKey.arrowLeft,
