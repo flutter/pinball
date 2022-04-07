@@ -102,9 +102,7 @@ class Baseboard extends BodyComponent with InitialPosition {
 }
 
 class _BaseboardSprite extends SpriteComponent with HasGameRef {
-  _BaseboardSprite({
-    required BoardSide side,
-  }) : _side = side;
+  _BaseboardSprite({required BoardSide side}) : _side = side;
 
   final BoardSide _side;
 
