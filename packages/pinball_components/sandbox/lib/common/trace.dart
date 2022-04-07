@@ -24,3 +24,18 @@ extension BodyTrace on BodyComponent {
     );
   }
 }
+
+mixin Traceable on Forge2DGame {
+  late final bool trace;
+
+  Future<void> traceAllBodies({
+    Color color = const Color(0xFFFF0000),
+  }) async {
+    if (trace) {
+      await ready();
+      children
+          .whereType<BodyComponent>()
+          .forEach((bodyComponent) => bodyComponent.trace());
+    }
+  }
+}

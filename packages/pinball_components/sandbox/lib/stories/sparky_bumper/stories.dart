@@ -7,9 +7,7 @@ void addSparkyBumperStories(Dashbook dashbook) {
   dashbook.storiesOf('Sparky Bumpers').add(
         'Basic',
         (context) => GameWidget(
-          game: SparkyBumperGame(
-            trace: context.boolProperty('Trace', true),
-          ),
+          game: SparkyBumperGame()..trace = context.boolProperty('Trace', true),
         ),
         codeLink: buildSourceLink('sparky_bumper/basic.dart'),
         info: SparkyBumperGame.info,
