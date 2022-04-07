@@ -15,7 +15,7 @@ class SpaceshipRail extends Forge2DBlueprint {
   SpaceshipRail();
 
   /// Base priority for ball while be in [_SpaceshipRailRamp].
-  static const ballPriorityWhenOnSpaceshipRail = 2;
+  static const ballPriorityInsideRail = 2;
 
   @override
   void build(_) {
@@ -45,7 +45,7 @@ class SpaceshipRail extends Forge2DBlueprint {
 class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
   _SpaceshipRailRamp()
       : super(
-          priority: SpaceshipRail.ballPriorityWhenOnSpaceshipRail - 1,
+          priority: SpaceshipRail.ballPriorityInsideRail - 1,
         ) {
     renderBody = false;
     layer = Layer.spaceshipExitRail;
@@ -162,7 +162,7 @@ class _SpaceshipRailForeground extends SpriteComponent with HasGameRef {
       : super(
           anchor: Anchor.center,
           position: Vector2(-28.5, 19.7),
-          priority: SpaceshipRail.ballPriorityWhenOnSpaceshipRail + 1,
+          priority: SpaceshipRail.ballPriorityInsideRail + 1,
         );
 
   @override
@@ -181,7 +181,7 @@ class _SpaceshipRailForeground extends SpriteComponent with HasGameRef {
 class _SpaceshipRailBase extends BodyComponent with InitialPosition, Layered {
   _SpaceshipRailBase({required this.radius})
       : super(
-          priority: SpaceshipRail.ballPriorityWhenOnSpaceshipRail + 1,
+          priority: SpaceshipRail.ballPriorityInsideRail + 1,
         ) {
     renderBody = false;
     layer = Layer.board;

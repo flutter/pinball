@@ -60,6 +60,7 @@ class _SpaceshipRampBackground extends BodyComponent
     with InitialPosition, Layered {
   _SpaceshipRampBackground()
       : super(priority: SpaceshipRamp.ballPriorityInsideRamp - 1) {
+    renderBody = false;
     layer = Layer.spaceshipEntranceRamp;
   }
 
@@ -96,8 +97,6 @@ class _SpaceshipRampBackground extends BodyComponent
 
   @override
   Body createBody() {
-    renderBody = false;
-
     final bodyDef = BodyDef()
       ..userData = this
       ..position = initialPosition;
@@ -121,7 +120,7 @@ class _SpaceshipRampBackground extends BodyComponent
 
     final spriteRampComponent = SpriteComponent(
       sprite: spriteRamp,
-      size: Vector2(38.1, 33.8),
+      size: spriteRamp.originalSize / 10,
       anchor: Anchor.center,
       position: Vector2(-12.2, -53.5),
     );
@@ -131,9 +130,9 @@ class _SpaceshipRampBackground extends BodyComponent
     );
     final spriteRailingBgComponent = SpriteComponent(
       sprite: spriteRailingBg,
-      size: Vector2(38.3, 35.1),
+      size: spriteRailingBg.originalSize / 10,
       anchor: Anchor.center,
-      position: spriteRampComponent.position + Vector2(0, -1),
+      position: Vector2(-12.2, -54.5),
     );
 
     await addAll([
@@ -148,6 +147,7 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
     with InitialPosition, Layered {
   _SpaceshipRampForegroundRailing()
       : super(priority: SpaceshipRamp.ballPriorityInsideRamp + 1) {
+    renderBody = false;
     layer = Layer.spaceshipEntranceRamp;
   }
 
@@ -181,8 +181,6 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
 
   @override
   Body createBody() {
-    renderBody = false;
-
     final bodyDef = BodyDef()
       ..userData = this
       ..position = initialPosition;
@@ -205,7 +203,7 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
     );
     final spriteRailingFgComponent = SpriteComponent(
       sprite: spriteRailingFg,
-      size: Vector2(26.1, 28.3),
+      size: spriteRailingFg.originalSize / 10,
       anchor: Anchor.center,
       position: Vector2(-12.2, -52.5),
     );
@@ -222,8 +220,6 @@ class _SpaceshipRampBase extends BodyComponent with InitialPosition, Layered {
 
   @override
   Body createBody() {
-    renderBody = false;
-
     const baseWidth = 6;
     final baseShape = BezierCurveShape(
       controlPoints: [
@@ -262,7 +258,9 @@ class _SpaceshipRampOpening extends RampOpening {
           orientation: RampOrientation.down,
           insidePriority: SpaceshipRamp.ballPriorityInsideRamp,
           outsidePriority: outsidePriority,
-        );
+        ) {
+    renderBody = false;
+  }
 
   final double _rotation;
 
@@ -270,7 +268,6 @@ class _SpaceshipRampOpening extends RampOpening {
 
   @override
   Shape get shape {
-    renderBody = false;
     return PolygonShape()
       ..setAsBox(
         _size.x,

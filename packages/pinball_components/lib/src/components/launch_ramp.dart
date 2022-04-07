@@ -11,6 +11,9 @@ import 'package:pinball_components/pinball_components.dart';
 /// [_LaunchRampForegroundRailing].
 /// {@endtemplate}
 class LaunchRamp extends Forge2DBlueprint {
+  /// Base priority for ball while be in [_LaunchRampBase].
+  static const ballPriorityInsideRamp = 0;
+
   @override
   void build(_) {
     addAllContactCallback([
@@ -40,7 +43,11 @@ class LaunchRamp extends Forge2DBlueprint {
 /// {@endtemplate}
 class _LaunchRampBase extends BodyComponent with InitialPosition, Layered {
   /// {@macro launch_ramp_base}
-  _LaunchRampBase() : super(priority: -1) {
+  _LaunchRampBase()
+      : super(
+          priority: LaunchRamp.ballPriorityInsideRamp - 1,
+        ) {
+    renderBody = false;
     layer = Layer.launcher;
   }
 
@@ -116,7 +123,6 @@ class _LaunchRampBase extends BodyComponent with InitialPosition, Layered {
   Future<void> onLoad() async {
     await super.onLoad();
     await _loadSprite();
-    renderBody = false;
   }
 
   Future<void> _loadSprite() async {
@@ -142,7 +148,11 @@ class _LaunchRampBase extends BodyComponent with InitialPosition, Layered {
 class _LaunchRampForegroundRailing extends BodyComponent
     with InitialPosition, Layered {
   /// {@macro launch_ramp_foreground_railing}
-  _LaunchRampForegroundRailing() : super(priority: 1) {
+  _LaunchRampForegroundRailing()
+      : super(
+          priority: LaunchRamp.ballPriorityInsideRamp + 1,
+        ) {
+    renderBody = false;
     layer = Layer.launcher;
   }
 
@@ -193,7 +203,6 @@ class _LaunchRampForegroundRailing extends BodyComponent
   Future<void> onLoad() async {
     await super.onLoad();
     await _loadSprite();
-    renderBody = false;
   }
 
   Future<void> _loadSprite() async {
@@ -224,7 +233,7 @@ class _LaunchRampExit extends RampOpening {
         super(
           insideLayer: Layer.launcher,
           orientation: RampOrientation.down,
-          insidePriority: 3,
+          insidePriority: LaunchRamp.ballPriorityInsideRamp,
         );
 
   final double _rotation;

@@ -37,7 +37,7 @@ class Spaceship extends Forge2DBlueprint {
       AndroidHead()..initialPosition = position,
       SpaceshipHole(
         outsideLayer: Layer.spaceshipExitRail,
-        outsidePriority: SpaceshipRail.ballPriorityWhenOnSpaceshipRail,
+        outsidePriority: SpaceshipRail.ballPriorityInsideRail,
       )..initialPosition = position - Vector2(5.2, 4.8),
       SpaceshipHole()..initialPosition = position - Vector2(-7.2, 0.8),
       SpaceshipWall()..initialPosition = position,
