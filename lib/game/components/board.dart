@@ -13,7 +13,7 @@ class Board extends Component {
   @override
   Future<void> onLoad() async {
     // TODO(allisonryan0002): add bottom group and flutter forest to pinball
-    //game directly. Then remove board.
+    // game directly. Then remove board.
     final bottomGroup = _BottomGroup();
 
     final flutterForest = FlutterForest();
