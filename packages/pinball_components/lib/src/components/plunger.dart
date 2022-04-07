@@ -128,8 +128,8 @@ class PlungerAnchor extends JointAnchor {
     required Plunger plunger,
   }) {
     initialPosition = Vector2(
-      plunger.body.position.x,
-      plunger.body.position.y - plunger.compressionDistance,
+      0,
+      -plunger.compressionDistance,
     );
   }
 
@@ -160,7 +160,7 @@ class PlungerAnchorPrismaticJointDef extends PrismaticJointDef {
     initialize(
       plunger.body,
       anchor.body,
-      anchor.body.position,
+      plunger.body.position + anchor.body.position,
       Vector2(18.6, BoardDimensions.bounds.height),
     );
     enableLimit = true;

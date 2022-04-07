@@ -159,8 +159,9 @@ class _FlipperAnchor extends JointAnchor {
     required Flipper flipper,
   }) {
     initialPosition = Vector2(
-      flipper.body.position.x + ((Flipper.size.x * flipper.side.direction) / 2),
-      flipper.body.position.y,
+      (Flipper.size.x * flipper.side.direction) / 2 -
+          (1.65 * flipper.side.direction),
+      0.15,
     );
   }
 }
@@ -178,7 +179,7 @@ class _FlipperAnchorRevoluteJointDef extends RevoluteJointDef {
     initialize(
       flipper.body,
       anchor.body,
-      anchor.body.position,
+      flipper.body.position + anchor.body.position,
     );
   }
 
