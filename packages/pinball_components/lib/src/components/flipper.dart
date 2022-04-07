@@ -198,7 +198,7 @@ class _FlipperJoint extends RevoluteJoint {
   }
 
   /// The total angle of the arc motion.
-  static const _sweepingAngle = math.pi / 3.5;
+  static const _sweepingAngle = 1.222;
 
   final BoardSide side;
 
