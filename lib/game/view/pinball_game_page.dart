@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 

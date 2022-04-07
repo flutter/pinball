@@ -8,7 +8,7 @@ import 'package:pinball_components/pinball_components.dart';
 
 import '../../helpers/helpers.dart';
 
-// TODO(erickzanardo: This will not be needed anymore when
+// TODO(erickzanardo): This will not be needed anymore when
 // this issue is merged: https://github.com/flame-engine/flame/issues/1513
 class WrappedGameController extends GameController {
   WrappedGameController(this._gameRef);
