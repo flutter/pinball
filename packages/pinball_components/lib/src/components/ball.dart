@@ -30,16 +30,14 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
 
   double _boostTimer = 0;
   static const _boostDuration = 2.0;
-  late SpriteComponent _spriteComponent;
+
+  final SpriteComponent _spriteComponent = _BallSprite();
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
     await add(
-      _BallSprite()
-        ..tint(
-          baseColor.withOpacity(0.5),
-        ),
+      _spriteComponent..tint(baseColor.withOpacity(0.5)),
     );
   }
 
@@ -114,7 +112,6 @@ class _BallSprite extends SpriteComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-
     final sprite = await gameRef.loadSprite(
       Assets.images.ball.keyName,
     );
