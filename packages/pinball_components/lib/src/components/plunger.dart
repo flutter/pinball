@@ -15,7 +15,9 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
     required this.compressionDistance,
     // TODO(ruimiguel): set to priority +1 over LaunchRamp once all priorities
     // are fixed.
-  }) : super(priority: 0);
+  }) : super(priority: 0) {
+    renderBody = false;
+  }
 
   /// Distance the plunger can lower.
   final double compressionDistance;
@@ -96,9 +98,6 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
   Future<void> onLoad() async {
     await super.onLoad();
     await _anchorToJoint();
-
-    renderBody = false;
-
     await _loadSprite();
   }
 
@@ -135,12 +134,8 @@ class PlungerAnchor extends JointAnchor {
 
   @override
   Body createBody() {
-    final shape = CircleShape()..radius = 0.5;
-    final fixtureDef = FixtureDef(shape);
-    final bodyDef = BodyDef()
-      ..position = initialPosition
-      ..type = BodyType.static;
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
+    final bodyDef = BodyDef()..position = initialPosition;
+    return world.createBody(bodyDef);
   }
 }
 
