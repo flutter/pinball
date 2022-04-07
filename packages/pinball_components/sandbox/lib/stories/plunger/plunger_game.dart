@@ -52,7 +52,6 @@ class PlungerGame extends BasicBallGame with KeyboardEvents {
         plunger.release();
       }
     }
-
     return movedDownPlunger ? KeyEventResult.handled : KeyEventResult.ignored;
   }
 }
