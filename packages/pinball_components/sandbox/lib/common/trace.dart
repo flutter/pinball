@@ -18,12 +18,17 @@ extension BodyTrace on BodyComponent {
   }
 }
 
-extension Forge2DGameTrace on Forge2DGame {
-  void traceAllBodies({
+mixin Traceable on Forge2DGame {
+  bool get trace;
+
+  Future<void> traceAllBodies({
     Color color = const Color(0xFFFF0000),
-  }) {
-    children
-        .whereType<BodyComponent>()
-        .forEach((bodyComponent) => bodyComponent.trace());
+  }) async {
+    if (trace) {
+      await ready();
+      children
+          .whereType<BodyComponent>()
+          .forEach((bodyComponent) => bodyComponent.trace());
+    }
   }
 }

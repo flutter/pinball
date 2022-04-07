@@ -5,10 +5,11 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class FlipperGame extends BasicBallGame with KeyboardEvents {
+class FlipperGame extends BasicBallGame with KeyboardEvents, Traceable {
   FlipperGame({
-    required this.trace,
-  }) : super(color: const Color(0xFFFF0000));
+    required bool trace,
+  })  : _trace = trace,
+        super(color: const Color(0xFFFF0000));
 
   static const info = '''
     Shows how a Flipper works.
@@ -17,7 +18,10 @@ class FlipperGame extends BasicBallGame with KeyboardEvents {
     - Tap anywhere on the screen to spawn a ball into the game.
 ''';
 
-  final bool trace;
+  final bool _trace;
+
+  @override
+  bool get trace => _trace;
 
   static const _leftFlipperKeys = [
     LogicalKeyboardKey.arrowLeft,
@@ -47,9 +51,8 @@ class FlipperGame extends BasicBallGame with KeyboardEvents {
       leftFlipper,
       rightFlipper,
     ]);
-    await ready();
 
-    if (trace) traceAllBodies();
+    await traceAllBodies();
   }
 
   @override

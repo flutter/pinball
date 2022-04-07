@@ -3,10 +3,11 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class KickerGame extends BasicBallGame {
+class KickerGame extends BasicBallGame with Traceable {
   KickerGame({
-    required this.trace,
-  }) : super(color: const Color(0xFFFF0000));
+    required bool trace,
+  })  : _trace = trace,
+        super(color: const Color(0xFFFF0000));
 
   static const info = '''
     Shows how Kickers are rendered.
@@ -15,7 +16,10 @@ class KickerGame extends BasicBallGame {
     - Tap anywhere on the screen to spawn a ball into the game.
 ''';
 
-  final bool trace;
+  final bool _trace;
+
+  @override
+  bool get trace => _trace;
 
   @override
   Future<void> onLoad() async {
@@ -30,8 +34,7 @@ class KickerGame extends BasicBallGame {
     final rightKicker = Kicker(side: BoardSide.right)
       ..initialPosition = Vector2(center.x + (Kicker.size.x * 2), center.y);
     await add(rightKicker);
-    await ready();
 
-    if (trace) traceAllBodies();
+    await traceAllBodies();
   }
 }
