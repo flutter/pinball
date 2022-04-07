@@ -49,7 +49,7 @@ void main() {
         await game.ready();
 
         game.update(10);
-        game.update(0);
+        game.update(0); // Ensure that the component was removed
 
         await future;
 
@@ -72,7 +72,7 @@ void main() {
         await game.ready();
 
         game.update(10);
-        game.update(0);
+        game.update(0); // Ensure that the component was removed
 
         await future;
 
