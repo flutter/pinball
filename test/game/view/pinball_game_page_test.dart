@@ -137,7 +137,7 @@ void main() {
       );
 
       await tester.pumpApp(
-        PinballGameView(theme: theme, game: game),
+        PinballGameView(game: game),
         gameBloc: gameBloc,
       );
 
@@ -151,32 +151,5 @@ void main() {
       );
     });
 
-    testWidgets(
-      'renders a game over dialog when the user has lost',
-      (tester) async {
-        final gameBloc = MockGameBloc();
-        const state = GameState(
-          score: 0,
-          balls: 0,
-          activatedBonusLetters: [],
-          activatedDashNests: {},
-          bonusHistory: [],
-        );
-
-        whenListen(
-          gameBloc,
-          Stream.value(state),
-          initialState: GameState.initial(),
-        );
-
-        await tester.pumpApp(
-          PinballGameView(theme: theme, game: game),
-          gameBloc: gameBloc,
-        );
-        await tester.pump();
-
-        expect(find.byType(GameOverDialog), findsOneWidget);
-      },
-    );
   });
 }

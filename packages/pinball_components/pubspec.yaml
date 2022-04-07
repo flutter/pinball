@@ -43,6 +43,7 @@ flutter:
     - assets/images/sparky_bumper/a/
     - assets/images/sparky_bumper/b/
     - assets/images/sparky_bumper/c/
+    - assets/images/backboard/
 
 flutter_gen:
   line_length: 80
