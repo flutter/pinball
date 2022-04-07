@@ -25,26 +25,28 @@ class AlienBumper extends BodyComponent with InitialPosition {
   /// {@macro alien_bumper}
   AlienBumper.a()
       : this._(
-          majorRadius: 3.3,
-          minorRadius: 2.8,
+          majorRadius: 3.52,
+          minorRadius: 2.97,
           activeAssetPath: Assets.images.alienBumper.a.active.keyName,
           inactiveAssetPath: Assets.images.alienBumper.a.inactive.keyName,
           spriteComponent: SpriteComponent(
             anchor: Anchor.center,
-            position: Vector2(0, -0.25),
+            position: Vector2(0, -0.1),
+            angle: 15.9 * math.pi / 180,
           ),
         );
 
   /// {@macro alien_bumper}
   AlienBumper.b()
       : this._(
-          majorRadius: 3.3,
-          minorRadius: 2.8,
+          majorRadius: 3.19,
+          minorRadius: 2.79,
           activeAssetPath: Assets.images.alienBumper.b.active.keyName,
           inactiveAssetPath: Assets.images.alienBumper.b.inactive.keyName,
           spriteComponent: SpriteComponent(
             anchor: Anchor.center,
-            position: Vector2(0, -0.25),
+            position: Vector2(0, -0.1),
+            angle: 15.9 * math.pi / 180,
           ),
         );
 
