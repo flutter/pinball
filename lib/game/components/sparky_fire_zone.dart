@@ -7,8 +7,12 @@ import 'package:pinball_components/pinball_components.dart';
 
 // TODO(ruimiguel): create and add SparkyFireZone component here in other PR.
 
+// TODO(ruimiguel): make private and remove ignore once SparkyFireZone is done
+// ignore: public_member_api_docs
 class ControlledSparkyBumper extends SparkyBumper
     with Controls<_SparkyBumperController> {
+  // TODO(ruimiguel): make private and remove ignore once SparkyFireZone is done
+  // ignore: public_member_api_docs
   ControlledSparkyBumper() : super.a() {
     controller = _SparkyBumperController(this);
   }
