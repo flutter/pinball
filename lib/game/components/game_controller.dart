@@ -22,14 +22,14 @@ class GameController extends Component
 
   /// Puts the game on a game over state
   void gameOver() {
-      gameRef.firstChild<Backboard>()?.gameOverMode();
-      gameRef.firstChild<CameraController>()?.focusOnBackboard();
+    gameRef.firstChild<Backboard>()?.gameOverMode();
+    gameRef.firstChild<CameraController>()?.focusOnBackboard();
   }
 
   /// Puts the game on a playing state
   void start() {
-      gameRef.firstChild<Backboard>()?.waitingMode();
-      gameRef.firstChild<CameraController>()?.focusOnGame();
-      gameRef.overlays.remove(PinballGame.playButtonOverlay);
+    gameRef.firstChild<Backboard>()?.waitingMode();
+    gameRef.firstChild<CameraController>()?.focusOnGame();
+    gameRef.overlays.remove(PinballGame.playButtonOverlay);
   }
 }
