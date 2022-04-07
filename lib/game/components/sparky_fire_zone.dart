@@ -32,8 +32,6 @@ class _SparkyBumperController extends ComponentController<SparkyBumper>
   bool isActivated = false;
 
   /// Registers when a [SparkyBumper] is hit by a [Ball].
-  ///
-  /// Triggered by [ControlledSparkyBumperBallContactCallback].
   void hit() {
     if (isActivated) {
       component.deactivate();
