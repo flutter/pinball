@@ -24,14 +24,7 @@ void main() {
           controlledSparkyBumper = ControlledSparkyBumper();
           await game.ensureAdd(controlledSparkyBumper);
 
-          final callback = ControlledSparkyBumperBallContactCallback();
-          game.addContactCallback(callback);
-
-          callback.begin(
-            controlledSparkyBumper,
-            MockBall(),
-            MockContact(),
-          );
+          controlledSparkyBumper.controller.hit();
         },
         verify: (game, tester) async {
           expect(controlledSparkyBumper.controller.isActivated, isTrue);
@@ -44,19 +37,8 @@ void main() {
           controlledSparkyBumper = ControlledSparkyBumper();
           await game.ensureAdd(controlledSparkyBumper);
 
-          final callback = ControlledSparkyBumperBallContactCallback();
-          game.addContactCallback(callback);
-
-          callback.begin(
-            controlledSparkyBumper,
-            MockBall(),
-            MockContact(),
-          );
-          callback.begin(
-            controlledSparkyBumper,
-            MockBall(),
-            MockContact(),
-          );
+          controlledSparkyBumper.controller.hit();
+          controlledSparkyBumper.controller.hit();
         },
         verify: (game, tester) async {
           expect(controlledSparkyBumper.controller.isActivated, isFalse);
