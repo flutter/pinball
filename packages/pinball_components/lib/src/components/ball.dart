@@ -22,10 +22,10 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
     layer = Layer.board;
   }
 
-  /// The size of the [Ball]
-  static final Vector2 size = Vector2.all(4.5);
+  /// The size of the [Ball].
+  static final Vector2 size = Vector2.all(4.7);
 
-  /// The base [Color] used to tint this [Ball]
+  /// The base [Color] used to tint this [Ball].
   final Color baseColor;
 
   double _boostTimer = 0;
@@ -36,6 +36,8 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    renderBody = false;
+
     await add(
       _spriteComponent..tint(baseColor.withOpacity(0.5)),
     );
@@ -63,7 +65,7 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
 
   /// Allows the [Ball] to be affected by forces.
   ///
-  /// If previously [stop]ed, the previous ball's velocity is not kept.
+  /// If previously [stop]ped, the previous ball's velocity is not kept.
   void resume() {
     body.setType(BodyType.dynamic);
   }
@@ -116,7 +118,7 @@ class _BallSpriteComponent extends SpriteComponent with HasGameRef {
       Assets.images.ball.keyName,
     );
     this.sprite = sprite;
-    size = Ball.size * 1.15;
+    size = sprite.originalSize / 10;
     anchor = Anchor.center;
   }
 }
