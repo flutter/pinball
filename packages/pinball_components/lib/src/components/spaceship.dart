@@ -102,27 +102,9 @@ class AndroidHead extends BodyComponent with InitialPosition, Layered {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-
     renderBody = false;
 
-    final sprite = await gameRef.images.load(
-      Assets.images.spaceship.bridge.keyName,
-    );
-
-    await add(
-      SpriteAnimationComponent.fromFrameData(
-        sprite,
-        SpriteAnimationData.sequenced(
-          amount: 72,
-          amountPerRow: 24,
-          stepTime: 0.05,
-          textureSize: Vector2(82, 100),
-        ),
-        size: Vector2(8.2, 10),
-        position: Vector2(0, -2),
-        anchor: Anchor.center,
-      ),
-    );
+    await add(_AndroidHeadSpriteAnimation());
   }
 
   @override
@@ -138,6 +120,29 @@ class AndroidHead extends BodyComponent with InitialPosition, Layered {
       ..createFixture(
         FixtureDef(circleShape)..restitution = 0.4,
       );
+  }
+}
+
+class _AndroidHeadSpriteAnimation extends SpriteAnimationComponent
+    with HasGameRef {
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+
+    final image = await gameRef.images.load(
+      Assets.images.spaceship.bridge.keyName,
+    );
+    size = Vector2(8.2, 10);
+    position = Vector2(0, -2);
+    anchor = Anchor.center;
+
+    final data = SpriteAnimationData.sequenced(
+      amount: 72,
+      amountPerRow: 24,
+      stepTime: 0.05,
+      textureSize: size * 10,
+    );
+    animation = SpriteAnimation.fromFrameData(image, data);
   }
 }
 
