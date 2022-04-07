@@ -37,12 +37,14 @@ class FlutterForest extends Component with Controls<_FlutterForestController> {
     final smallRightNest = _ControlledSmallDashNestBumper.b(
       id: 'small_nest_bumper_b',
     )..initialPosition = Vector2(23.3, 46.75);
+    final dashAnimatronic = _DashAnimatronic();
 
     await addAll([
       signPost,
       smallLeftNest,
       smallRightNest,
       bigNest,
+      dashAnimatronic,
     ]);
   }
 }
@@ -68,10 +70,62 @@ class _FlutterForestController extends ComponentController<FlutterForest>
   void onNewState(GameState state) {
     super.onNewState(state);
 
-    gameRef.add(
+    _startDashAnimatronic();
+    _addBonusBall();
+  }
+
+  void _startDashAnimatronic() {
+    component.descendants().whereType<_DashAnimatronic>().single.playing = true;
+  }
+
+  Future<void> _addBonusBall() async {
+    await Future<void>.delayed(const Duration(milliseconds: 700));
+    await gameRef.add(
       ControlledBall.bonus(theme: gameRef.theme)
         ..initialPosition = Vector2(17.2, 52.7),
     );
+  }
+}
+
+class _DashAnimatronic extends SpriteAnimationComponent with HasGameRef {
+  _DashAnimatronic()
+      : super(
+          size: Vector2(15, 15),
+          anchor: Anchor.center,
+          position: Vector2(20, -66),
+          playing: false,
+        );
+
+  late final SpriteAnimation _animation;
+
+  @override
+  Future<void>? onLoad() async {
+    await super.onLoad();
+
+    final spriteSheet = await gameRef.images.load(
+      Assets.images.dash.animatronic.keyName,
+    );
+
+    _animation = SpriteAnimation.fromFrameData(
+      spriteSheet,
+      SpriteAnimationData.sequenced(
+        amount: 96,
+        amountPerRow: 12,
+        stepTime: 1 / 24,
+        textureSize: Vector2(150, 150),
+        loop: false,
+      ),
+    );
+    animation = _animation;
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    if (_animation.isLastFrame) {
+      _animation.reset();
+      playing = false;
+    }
   }
 }
 

@@ -1,6 +1,7 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -102,7 +103,7 @@ void main() {
     });
 
     flameTester.test(
-      'onNewState adds a new ball',
+      'onNewState adds a new ball after a duration',
       (game) async {
         final flutterForest = FlutterForest();
         await game.ready();
@@ -111,11 +112,49 @@ void main() {
         final previousBalls = game.descendants().whereType<Ball>().length;
         flutterForest.controller.onNewState(MockGameState());
         await game.ready();
+        await Future<void>.delayed(const Duration(milliseconds: 700));
+        await game.ready();
 
         expect(
           game.descendants().whereType<Ball>().length,
           greaterThan(previousBalls),
         );
+      },
+    );
+
+    flameTester.test(
+      'onNewState starts Dash animatronic',
+      (game) async {
+        final flutterForest = FlutterForest();
+        await game.ready();
+        await game.ensureAdd(flutterForest);
+
+        flutterForest.controller.onNewState(MockGameState());
+        await game.ready();
+
+        final dashAnimatronic =
+            game.descendants().whereType<SpriteAnimationComponent>().single;
+        expect(dashAnimatronic.playing, isTrue);
+      },
+    );
+
+    flameTester.test(
+      'Dash animatronic stops animating after animation completes',
+      (game) async {
+        final flutterForest = FlutterForest();
+        await game.ready();
+        await game.ensureAdd(flutterForest);
+
+        flutterForest.controller.onNewState(MockGameState());
+        await game.ready();
+
+        final dashAnimatronic =
+            game.descendants().whereType<SpriteAnimationComponent>().single;
+        expect(dashAnimatronic.playing, isTrue);
+
+        dashAnimatronic.animation?.setToLast();
+        game.update(1);
+        expect(dashAnimatronic.playing, isFalse);
       },
     );
 

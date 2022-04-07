@@ -63,8 +63,8 @@ class BigDashNestBumper extends DashNestBumper {
   /// {@macro dash_nest_bumper}
   BigDashNestBumper()
       : super._(
-          activeAssetPath: Assets.images.dashBumper.main.active.keyName,
-          inactiveAssetPath: Assets.images.dashBumper.main.inactive.keyName,
+          activeAssetPath: Assets.images.dash.bumper.main.active.keyName,
+          inactiveAssetPath: Assets.images.dash.bumper.main.inactive.keyName,
           spriteComponent: SpriteComponent(
             anchor: Anchor.center,
             position: Vector2(0, -0.3),
@@ -104,8 +104,8 @@ class SmallDashNestBumper extends DashNestBumper {
   /// {@macro dash_nest_bumper}
   SmallDashNestBumper.a()
       : this._(
-          activeAssetPath: Assets.images.dashBumper.a.active.keyName,
-          inactiveAssetPath: Assets.images.dashBumper.a.inactive.keyName,
+          activeAssetPath: Assets.images.dash.bumper.a.active.keyName,
+          inactiveAssetPath: Assets.images.dash.bumper.a.inactive.keyName,
           spriteComponent: SpriteComponent(
             anchor: Anchor.center,
             position: Vector2(0.35, -1.2),
@@ -115,8 +115,8 @@ class SmallDashNestBumper extends DashNestBumper {
   /// {@macro dash_nest_bumper}
   SmallDashNestBumper.b()
       : this._(
-          activeAssetPath: Assets.images.dashBumper.b.active.keyName,
-          inactiveAssetPath: Assets.images.dashBumper.b.inactive.keyName,
+          activeAssetPath: Assets.images.dash.bumper.b.active.keyName,
+          inactiveAssetPath: Assets.images.dash.bumper.b.inactive.keyName,
           spriteComponent: SpriteComponent(
             anchor: Anchor.center,
             position: Vector2(0.35, -1.2),

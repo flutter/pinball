@@ -17,8 +17,7 @@ class $AssetsImagesGen {
   $AssetsImagesBoundaryGen get boundary => const $AssetsImagesBoundaryGen();
   $AssetsImagesChromeDinoGen get chromeDino =>
       const $AssetsImagesChromeDinoGen();
-  $AssetsImagesDashBumperGen get dashBumper =>
-      const $AssetsImagesDashBumperGen();
+  $AssetsImagesDashGen get dash => const $AssetsImagesDashGen();
   $AssetsImagesDinoGen get dino => const $AssetsImagesDinoGen();
   $AssetsImagesFlipperGen get flipper => const $AssetsImagesFlipperGen();
 
@@ -71,13 +70,14 @@ class $AssetsImagesChromeDinoGen {
       const AssetGenImage('assets/images/chrome_dino/mouth.png');
 }
 
-class $AssetsImagesDashBumperGen {
-  const $AssetsImagesDashBumperGen();
+class $AssetsImagesDashGen {
+  const $AssetsImagesDashGen();
 
-  $AssetsImagesDashBumperAGen get a => const $AssetsImagesDashBumperAGen();
-  $AssetsImagesDashBumperBGen get b => const $AssetsImagesDashBumperBGen();
-  $AssetsImagesDashBumperMainGen get main =>
-      const $AssetsImagesDashBumperMainGen();
+  /// File path: assets/images/dash/animatronic.png
+  AssetGenImage get animatronic =>
+      const AssetGenImage('assets/images/dash/animatronic.png');
+
+  $AssetsImagesDashBumperGen get bumper => const $AssetsImagesDashBumperGen();
 }
 
 class $AssetsImagesDinoGen {
@@ -173,40 +173,13 @@ class $AssetsImagesSparkyBumperGen {
   $AssetsImagesSparkyBumperCGen get c => const $AssetsImagesSparkyBumperCGen();
 }
 
-class $AssetsImagesDashBumperAGen {
-  const $AssetsImagesDashBumperAGen();
+class $AssetsImagesDashBumperGen {
+  const $AssetsImagesDashBumperGen();
 
-  /// File path: assets/images/dash_bumper/a/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/dash_bumper/a/active.png');
-
-  /// File path: assets/images/dash_bumper/a/inactive.png
-  AssetGenImage get inactive =>
-      const AssetGenImage('assets/images/dash_bumper/a/inactive.png');
-}
-
-class $AssetsImagesDashBumperBGen {
-  const $AssetsImagesDashBumperBGen();
-
-  /// File path: assets/images/dash_bumper/b/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/dash_bumper/b/active.png');
-
-  /// File path: assets/images/dash_bumper/b/inactive.png
-  AssetGenImage get inactive =>
-      const AssetGenImage('assets/images/dash_bumper/b/inactive.png');
-}
-
-class $AssetsImagesDashBumperMainGen {
-  const $AssetsImagesDashBumperMainGen();
-
-  /// File path: assets/images/dash_bumper/main/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/dash_bumper/main/active.png');
-
-  /// File path: assets/images/dash_bumper/main/inactive.png
-  AssetGenImage get inactive =>
-      const AssetGenImage('assets/images/dash_bumper/main/inactive.png');
+  $AssetsImagesDashBumperAGen get a => const $AssetsImagesDashBumperAGen();
+  $AssetsImagesDashBumperBGen get b => const $AssetsImagesDashBumperBGen();
+  $AssetsImagesDashBumperMainGen get main =>
+      const $AssetsImagesDashBumperMainGen();
 }
 
 class $AssetsImagesSpaceshipRailGen {
@@ -271,6 +244,42 @@ class $AssetsImagesSparkyBumperCGen {
   /// File path: assets/images/sparky_bumper/c/inactive.png
   AssetGenImage get inactive =>
       const AssetGenImage('assets/images/sparky_bumper/c/inactive.png');
+}
+
+class $AssetsImagesDashBumperAGen {
+  const $AssetsImagesDashBumperAGen();
+
+  /// File path: assets/images/dash/bumper/a/active.png
+  AssetGenImage get active =>
+      const AssetGenImage('assets/images/dash/bumper/a/active.png');
+
+  /// File path: assets/images/dash/bumper/a/inactive.png
+  AssetGenImage get inactive =>
+      const AssetGenImage('assets/images/dash/bumper/a/inactive.png');
+}
+
+class $AssetsImagesDashBumperBGen {
+  const $AssetsImagesDashBumperBGen();
+
+  /// File path: assets/images/dash/bumper/b/active.png
+  AssetGenImage get active =>
+      const AssetGenImage('assets/images/dash/bumper/b/active.png');
+
+  /// File path: assets/images/dash/bumper/b/inactive.png
+  AssetGenImage get inactive =>
+      const AssetGenImage('assets/images/dash/bumper/b/inactive.png');
+}
+
+class $AssetsImagesDashBumperMainGen {
+  const $AssetsImagesDashBumperMainGen();
+
+  /// File path: assets/images/dash/bumper/main/active.png
+  AssetGenImage get active =>
+      const AssetGenImage('assets/images/dash/bumper/main/active.png');
+
+  /// File path: assets/images/dash/bumper/main/inactive.png
+  AssetGenImage get inactive =>
+      const AssetGenImage('assets/images/dash/bumper/main/inactive.png');
 }
 
 class Assets {
