@@ -2,11 +2,14 @@ import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:sandbox/common/common.dart';
 
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class BasicFlipperGame extends BasicBallGame with KeyboardEvents {
-  BasicFlipperGame() : super(color: Colors.blue);
+  BasicFlipperGame({
+    required this.trace,
+  }) : super(color: Colors.blue);
 
   static const info = 'Shows how a Flipper works.';
 
@@ -19,6 +22,8 @@ class BasicFlipperGame extends BasicBallGame with KeyboardEvents {
     LogicalKeyboardKey.arrowRight,
     LogicalKeyboardKey.keyD,
   ];
+
+  final bool trace;
 
   late Flipper leftFlipper;
   late Flipper rightFlipper;
@@ -38,6 +43,11 @@ class BasicFlipperGame extends BasicBallGame with KeyboardEvents {
       leftFlipper,
       rightFlipper,
     ]);
+
+    if (trace) {
+      leftFlipper.trace();
+      rightFlipper.trace();
+    }
   }
 
   @override
