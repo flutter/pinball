@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_renaming_method_parameters, comment_references
+// ignore_for_file: avoid_renaming_method_parameters
 
 import 'dart:math' as math;
 
@@ -8,13 +8,13 @@ import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 
 /// {@template spaceship_ramp}
-/// A [Blueprint] which creates the [_SpaceshipRampBackground].
+/// A [Blueprint] which creates the ramp leading into the [Spaceship].
 /// {@endtemplate}
 class SpaceshipRamp extends Forge2DBlueprint {
   /// {@macro spaceship_ramp}
   SpaceshipRamp();
 
-  /// Base priority for wall while be in the ramp.
+  /// Base priority for the [Ball] while inside the ramp.
   static const int ballPriorityInsideRamp = 4;
 
   @override
@@ -28,14 +28,14 @@ class SpaceshipRamp extends Forge2DBlueprint {
       outsidePriority: 1,
       rotation: math.pi,
     )
-      ..initialPosition = Vector2(1.7, 19)
+      ..initialPosition = Vector2(1.7, 19.8)
       ..layer = Layer.opening;
     final leftOpening = _SpaceshipRampOpening(
       outsideLayer: Layer.spaceship,
       outsidePriority: Spaceship.ballPriorityWhenOnSpaceship,
       rotation: math.pi,
     )
-      ..initialPosition = Vector2(-13.7, 19)
+      ..initialPosition = Vector2(-13.7, 18.6)
       ..layer = Layer.spaceshipEntranceRamp;
 
     final spaceshipRamp = _SpaceshipRampBackground();
@@ -54,8 +54,6 @@ class SpaceshipRamp extends Forge2DBlueprint {
   }
 }
 
-/// Represents the upper left blue ramp of the [Board] with its background
-/// railing.
 class _SpaceshipRampBackground extends BodyComponent
     with InitialPosition, Layered {
   _SpaceshipRampBackground()
@@ -71,7 +69,7 @@ class _SpaceshipRampBackground extends BodyComponent
 
     final outerLeftCurveShape = BezierCurveShape(
       controlPoints: [
-        Vector2(-30.95, 38),
+        Vector2(-30.75, 37.3),
         Vector2(-32.5, 71.25),
         Vector2(-14.2, 71.25),
       ],
@@ -83,13 +81,21 @@ class _SpaceshipRampBackground extends BodyComponent
     final outerRightCurveShape = BezierCurveShape(
       controlPoints: [
         outerLeftCurveShape.vertices.last,
-        Vector2(4.7, 71.25),
-        Vector2(6.3, 40),
+        Vector2(2.5, 71.9),
+        Vector2(6.1, 44.9),
       ],
     );
 
     final outerRightCurveFixtureDef = FixtureDef(outerRightCurveShape);
     fixturesDef.add(outerRightCurveFixtureDef);
+
+    final boardOpeningEdgeShape = EdgeShape()
+      ..set(
+        outerRightCurveShape.vertices.last,
+        Vector2(7.3, 41.1),
+      );
+    final boardOpeningEdgeShapeFixtureDef = FixtureDef(boardOpeningEdgeShape);
+    fixturesDef.add(boardOpeningEdgeShapeFixtureDef);
 
     return fixturesDef;
   }
@@ -121,9 +127,9 @@ class _SpaceshipRampBackground extends BodyComponent
 
     final spriteRampComponent = SpriteComponent(
       sprite: spriteRamp,
-      size: Vector2(38.1, 33.8),
+      size: spriteRamp.originalSize / 10,
       anchor: Anchor.center,
-      position: Vector2(-12.2, -53.5),
+      position: Vector2(-10.6, -53.6),
     );
 
     final spriteRailingBg = await gameRef.loadSprite(
@@ -131,19 +137,18 @@ class _SpaceshipRampBackground extends BodyComponent
     );
     final spriteRailingBgComponent = SpriteComponent(
       sprite: spriteRailingBg,
-      size: Vector2(38.3, 35.1),
+      size: spriteRailingBg.originalSize / 10,
       anchor: Anchor.center,
-      position: spriteRampComponent.position + Vector2(0, -1),
+      position: spriteRampComponent.position + Vector2(-1.1, -0.7),
     );
 
     await addAll([
-      spriteRailingBgComponent,
       spriteRampComponent,
+      spriteRailingBgComponent,
     ]);
   }
 }
 
-/// Represents the foreground of the railing upper left blue ramp.
 class _SpaceshipRampForegroundRailing extends BodyComponent
     with InitialPosition, Layered {
   _SpaceshipRampForegroundRailing()
@@ -168,13 +173,21 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
     final innerRightCurveShape = BezierCurveShape(
       controlPoints: [
         innerLeftCurveShape.vertices.last,
-        Vector2(-1, 64.5),
-        Vector2(0.1, 39.5),
+        Vector2(-2.5, 66.2),
+        Vector2(0, 44.5),
       ],
     );
 
     final innerRightCurveFixtureDef = FixtureDef(innerRightCurveShape);
     fixturesDef.add(innerRightCurveFixtureDef);
+
+    final boardOpeningEdgeShape = EdgeShape()
+      ..set(
+        innerRightCurveShape.vertices.last,
+        Vector2(-0.85, 40.8),
+      );
+    final boardOpeningEdgeShapeFixtureDef = FixtureDef(boardOpeningEdgeShape);
+    fixturesDef.add(boardOpeningEdgeShapeFixtureDef);
 
     return fixturesDef;
   }
@@ -205,16 +218,15 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
     );
     final spriteRailingFgComponent = SpriteComponent(
       sprite: spriteRailingFg,
-      size: Vector2(26.1, 28.3),
+      size: spriteRailingFg.originalSize / 10,
       anchor: Anchor.center,
-      position: Vector2(-12.2, -52.5),
+      position: Vector2(-12.3, -52.5),
     );
 
     await add(spriteRailingFgComponent);
   }
 }
 
-/// Represents the ground right base of the [SpaceshipRamp].
 class _SpaceshipRampBase extends BodyComponent with InitialPosition, Layered {
   _SpaceshipRampBase() {
     layer = Layer.board;
@@ -224,14 +236,14 @@ class _SpaceshipRampBase extends BodyComponent with InitialPosition, Layered {
   Body createBody() {
     renderBody = false;
 
-    const baseWidth = 6;
+    const baseWidth = 9;
     final baseShape = BezierCurveShape(
       controlPoints: [
         Vector2(initialPosition.x - baseWidth / 2, initialPosition.y),
         Vector2(initialPosition.x - baseWidth / 2, initialPosition.y) +
-            Vector2(2, 2),
+            Vector2(2, 5),
         Vector2(initialPosition.x + baseWidth / 2, initialPosition.y) +
-            Vector2(-2, 2),
+            Vector2(-2, 5),
         Vector2(initialPosition.x + baseWidth / 2, initialPosition.y)
       ],
     );
@@ -266,7 +278,7 @@ class _SpaceshipRampOpening extends RampOpening {
 
   final double _rotation;
 
-  static final Vector2 _size = Vector2(_SpaceshipRampBackground.width / 4, .1);
+  static final Vector2 _size = Vector2(_SpaceshipRampBackground.width / 3, .1);
 
   @override
   Shape get shape {

@@ -17,6 +17,7 @@ void main() {
   addEffectsStories(dashbook);
   addFlipperStories(dashbook);
   addSpaceshipStories(dashbook);
+  addSpaceshipRampStories(dashbook);
   addBaseboardStories(dashbook);
   addChromeDinoStories(dashbook);
   addDashNestBumperStories(dashbook);
