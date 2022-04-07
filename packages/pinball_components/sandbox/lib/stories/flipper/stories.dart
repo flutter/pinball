@@ -11,7 +11,7 @@ void addFlipperStories(Dashbook dashbook) {
             trace: context.boolProperty('Trace', true),
           ),
         ),
-        codeLink: buildSourceLink('flipper_game/basic.dart'),
+        codeLink: buildSourceLink('flipper/basic.dart'),
         info: FlipperGame.info,
       );
 }

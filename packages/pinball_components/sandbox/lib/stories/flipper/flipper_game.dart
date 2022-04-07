@@ -3,25 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
+
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class FlipperGame extends BasicBallGame with KeyboardEvents, Traceable {
   FlipperGame({
     required bool trace,
   })  : _trace = trace,
-        super(color: const Color(0xFFFF0000));
+        super(color: Colors.blue);
 
   static const info = '''
-    Shows how a Flipper works.
+    Shows how Flippers are rendered.
 
     - Activate the "trace" parameter to overlay the body.
     - Tap anywhere on the screen to spawn a ball into the game.
-''';
-
-  final bool _trace;
-
-  @override
-  bool get trace => _trace;
+    - Press left arrow key or "A" to move the left flipper.
+    - Press right arrow key or "D" to move the right flipper.
+  ''';
 
   static const _leftFlipperKeys = [
     LogicalKeyboardKey.arrowLeft,
@@ -32,6 +30,11 @@ class FlipperGame extends BasicBallGame with KeyboardEvents, Traceable {
     LogicalKeyboardKey.arrowRight,
     LogicalKeyboardKey.keyD,
   ];
+
+  final bool _trace;
+
+  @override
+  bool get trace => _trace;
 
   late Flipper leftFlipper;
   late Flipper rightFlipper;

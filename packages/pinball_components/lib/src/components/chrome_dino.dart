@@ -23,7 +23,7 @@ class ChromeDino extends BodyComponent with InitialPosition {
   /// Anchors the [ChromeDino] to the [RevoluteJoint] that controls its arc
   /// motion.
   Future<_ChromeDinoJoint> _anchorToJoint() async {
-    final anchor = _ChromeDinoAnchor(chromeDino: this);
+    final anchor = _ChromeDinoAnchor();
     await add(anchor);
 
     final jointDef = _ChromeDinoAnchorRevoluteJointDef(
@@ -110,12 +110,10 @@ class ChromeDino extends BodyComponent with InitialPosition {
 /// {@endtemplate}
 class _ChromeDinoAnchor extends JointAnchor {
   /// {@macro flipper_anchor}
-  _ChromeDinoAnchor({
-    required ChromeDino chromeDino,
-  }) {
+  _ChromeDinoAnchor() {
     initialPosition = Vector2(
-      chromeDino.body.position.x + ChromeDino.size.x / 2,
-      chromeDino.body.position.y,
+      ChromeDino.size.x / 2,
+      0,
     );
   }
 }
@@ -132,7 +130,7 @@ class _ChromeDinoAnchorRevoluteJointDef extends RevoluteJointDef {
     initialize(
       chromeDino.body,
       anchor.body,
-      anchor.body.position,
+      chromeDino.body.position + anchor.body.position,
     );
     enableLimit = true;
     // TODO(alestiago): Apply design angle value.

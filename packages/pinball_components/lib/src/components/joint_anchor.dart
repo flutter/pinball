@@ -12,7 +12,7 @@ import 'package:pinball_components/pinball_components.dart';
 /// initialize(
 ///   dynamicBody.body,
 ///   anchor.body,
-///   anchor.body.position,
+///   dynabmicBody.body + anchor.body.position,
 /// );
 /// ```
 /// {@endtemplate}
