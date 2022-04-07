@@ -111,12 +111,12 @@ class _SpaceshipRampBackground extends BodyComponent
     await super.onLoad();
     renderBody = false;
 
-    await add(_SpaceshipRampBackgroundRailingSprite());
-    await add(_SpaceshipRampBackgroundRampSprite());
+    await add(_SpaceshipRampBackgroundRailingSpriteComponent());
+    await add(_SpaceshipRampBackgroundRampSpriteComponent());
   }
 }
 
-class _SpaceshipRampBackgroundRailingSprite extends SpriteComponent
+class _SpaceshipRampBackgroundRailingSpriteComponent extends SpriteComponent
     with HasGameRef {
   @override
   Future<void> onLoad() async {
@@ -131,7 +131,7 @@ class _SpaceshipRampBackgroundRailingSprite extends SpriteComponent
   }
 }
 
-class _SpaceshipRampBackgroundRampSprite extends SpriteComponent
+class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
     with HasGameRef {
   @override
   Future<void> onLoad() async {
@@ -199,11 +199,11 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await add(_SpaceshipRampForegroundRalingSprite());
+    await add(_SpaceshipRampForegroundRalingSpriteComponent());
   }
 }
 
-class _SpaceshipRampForegroundRalingSprite extends SpriteComponent
+class _SpaceshipRampForegroundRalingSpriteComponent extends SpriteComponent
     with HasGameRef {
   @override
   Future<void> onLoad() async {

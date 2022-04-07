@@ -31,7 +31,7 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   double _boostTimer = 0;
   static const _boostDuration = 2.0;
 
-  final SpriteComponent _spriteComponent = _BallSprite();
+  final _BallSpriteComponent _spriteComponent = _BallSpriteComponent();
 
   @override
   Future<void> onLoad() async {
@@ -108,7 +108,7 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   }
 }
 
-class _BallSprite extends SpriteComponent with HasGameRef {
+class _BallSpriteComponent extends SpriteComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();

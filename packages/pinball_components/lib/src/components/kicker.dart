@@ -122,12 +122,12 @@ class Kicker extends BodyComponent with InitialPosition {
   Future<void> onLoad() async {
     await super.onLoad();
     renderBody = false;
-    await add(_KickerSprite(side: _side));
+    await add(_KickerSpriteComponent(side: _side));
   }
 }
 
-class _KickerSprite extends SpriteComponent with HasGameRef {
-  _KickerSprite({required BoardSide side}) : _side = side;
+class _KickerSpriteComponent extends SpriteComponent with HasGameRef {
+  _KickerSpriteComponent({required BoardSide side}) : _side = side;
 
   final BoardSide _side;
 

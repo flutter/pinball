@@ -42,9 +42,6 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
     body.linearVelocity = Vector2(0, _speed);
   }
 
-  /// Loads the sprite that renders with the [Flipper].
-  Future<void> _loadSprite() async {}
-
   /// Anchors the [Flipper] to the [RevoluteJoint] that controls its arc motion.
   Future<void> _anchorToJoint() async {
     final anchor = _FlipperAnchor(flipper: this);
@@ -117,7 +114,7 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
     renderBody = false;
 
     await _anchorToJoint();
-    await add(_FlipperSprite(side: side));
+    await add(_FlipperSpriteComponent(side: side));
   }
 
   @override
@@ -133,8 +130,8 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   }
 }
 
-class _FlipperSprite extends SpriteComponent with HasGameRef {
-  _FlipperSprite({required BoardSide side}) : _side = side;
+class _FlipperSpriteComponent extends SpriteComponent with HasGameRef {
+  _FlipperSpriteComponent({required BoardSide side}) : _side = side;
 
   final BoardSide _side;
 

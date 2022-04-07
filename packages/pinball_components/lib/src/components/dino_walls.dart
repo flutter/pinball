@@ -102,11 +102,11 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
     await super.onLoad();
     renderBody = false;
 
-    await add(_DinoTopWallSprite());
+    await add(_DinoTopWallSpriteComponent());
   }
 }
 
-class _DinoTopWallSprite extends SpriteComponent with HasGameRef {
+class _DinoTopWallSpriteComponent extends SpriteComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -202,11 +202,11 @@ class _DinoBottomWall extends BodyComponent with InitialPosition {
     await super.onLoad();
     renderBody = false;
 
-    await add(_DinoBottomWallSprite());
+    await add(_DinoBottomWallSpriteComponent());
   }
 }
 
-class _DinoBottomWallSprite extends SpriteComponent with HasGameRef {
+class _DinoBottomWallSpriteComponent extends SpriteComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();

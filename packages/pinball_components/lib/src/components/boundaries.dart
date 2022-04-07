@@ -64,11 +64,11 @@ class _BottomBoundary extends BodyComponent with InitialPosition {
   Future<void> onLoad() async {
     await super.onLoad();
     renderBody = false;
-    await add(_BottomBoundarySprite());
+    await add(_BottomBoundarySpriteComponent());
   }
 }
 
-class _BottomBoundarySprite extends SpriteComponent with HasGameRef {
+class _BottomBoundarySpriteComponent extends SpriteComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -135,11 +135,11 @@ class _OuterBoundary extends BodyComponent with InitialPosition {
   Future<void> onLoad() async {
     await super.onLoad();
     renderBody = false;
-    await add(_OuterBoundarySprite());
+    await add(_OuterBoundarySpriteComponent());
   }
 }
 
-class _OuterBoundarySprite extends SpriteComponent with HasGameRef {
+class _OuterBoundarySpriteComponent extends SpriteComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();

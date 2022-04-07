@@ -117,11 +117,11 @@ class _LaunchRampBase extends BodyComponent with InitialPosition, Layered {
     await super.onLoad();
     renderBody = false;
 
-    await add(_LaunchRampBaseSprite());
+    await add(_LaunchRampBaseSpriteComponent());
   }
 }
 
-class _LaunchRampBaseSprite extends SpriteComponent with HasGameRef {
+class _LaunchRampBaseSpriteComponent extends SpriteComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -195,11 +195,11 @@ class _LaunchRampForegroundRailing extends BodyComponent
     await super.onLoad();
     renderBody = false;
 
-    await add(_LaunchRampForegroundRailingSprite());
+    await add(_LaunchRampForegroundRailingSpriteComponent());
   }
 }
 
-class _LaunchRampForegroundRailingSprite extends SpriteComponent
+class _LaunchRampForegroundRailingSpriteComponent extends SpriteComponent
     with HasGameRef {
   @override
   Future<void> onLoad() async {

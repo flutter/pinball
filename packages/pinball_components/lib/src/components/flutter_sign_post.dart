@@ -11,7 +11,7 @@ class FlutterSignPost extends BodyComponent with InitialPosition {
     await super.onLoad();
     renderBody = false;
 
-    await add(_FlutterSignPostSprite());
+    await add(_FlutterSignPostSpriteComponent());
   }
 
   @override
@@ -24,7 +24,7 @@ class FlutterSignPost extends BodyComponent with InitialPosition {
   }
 }
 
-class _FlutterSignPostSprite extends SpriteComponent with HasGameRef {
+class _FlutterSignPostSpriteComponent extends SpriteComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();

@@ -139,11 +139,12 @@ class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await add(_SpaceshipRailRampSprite());
+    await add(_SpaceshipRailRampSpriteComponent());
   }
 }
 
-class _SpaceshipRailRampSprite extends SpriteComponent with HasGameRef {
+class _SpaceshipRailRampSpriteComponent extends SpriteComponent
+    with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
