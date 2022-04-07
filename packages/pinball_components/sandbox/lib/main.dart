@@ -24,5 +24,8 @@ void main() {
   addSlingshotStories(dashbook);
   addSparkyBumperStories(dashbook);
   addZoomStories(dashbook);
+  addSpaceshipRampStories(dashbook);
+  addSpaceshipRailStories(dashbook);
+  addLaunchRampStories(dashbook);
   runApp(dashbook);
 }
