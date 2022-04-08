@@ -25,5 +25,6 @@ void main() {
   addSparkyBumperStories(dashbook);
   addAlienBumperStories(dashbook);
   addZoomStories(dashbook);
+  addBoundariesStories(dashbook);
   runApp(dashbook);
 }
