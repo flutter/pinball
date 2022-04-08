@@ -129,19 +129,17 @@ class PlungerAnchor extends JointAnchor {
     required Plunger plunger,
   }) {
     initialPosition = Vector2(
-      plunger.body.position.x,
-      plunger.body.position.y - plunger.compressionDistance,
+      0,
+      -plunger.compressionDistance,
     );
   }
 
   @override
   Body createBody() {
-    final shape = CircleShape()..radius = 0.5;
-    final fixtureDef = FixtureDef(shape);
     final bodyDef = BodyDef()
       ..position = initialPosition
       ..type = BodyType.static;
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
+    return world.createBody(bodyDef);
   }
 }
 
@@ -161,7 +159,7 @@ class PlungerAnchorPrismaticJointDef extends PrismaticJointDef {
     initialize(
       plunger.body,
       anchor.body,
-      anchor.body.position,
+      plunger.body.position + anchor.body.position,
       Vector2(18.6, BoardDimensions.bounds.height),
     );
     enableLimit = true;

@@ -12,7 +12,7 @@ void addBallStories(Dashbook dashbook) {
       (context) => GameWidget(
         game: BasicBallGame(
           color: context.colorProperty('color', Colors.blue),
-        ),
+        )..trace = context.boolProperty('Trace', true),
       ),
       codeLink: buildSourceLink('ball/basic.dart'),
       info: BasicBallGame.info,

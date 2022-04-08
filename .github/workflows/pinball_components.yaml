@@ -13,7 +13,8 @@ on:
 
 jobs:
   build:
-    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@b075749771679a5baa4c90d36ad2e8580bbf273b
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
     with:
       working_directory: packages/pinball_components
       coverage_excludes: "lib/gen/*.dart"
+      test_optimization: false

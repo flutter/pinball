@@ -1,3 +1,4 @@
+export 'backboard.dart';
 export 'ball.dart';
 export 'baseboard.dart';
 export 'board_dimensions.dart';
