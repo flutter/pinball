@@ -11,6 +11,7 @@ import '../../helpers/helpers.dart';
 
 void main() {
   const theme = PinballTheme(characterTheme: DashTheme());
+  final game = PinballGameTest();
 
   group('PinballGamePage', () {
     testWidgets('renders PinballGameView', (tester) async {
@@ -22,37 +23,107 @@ void main() {
       );
 
       await tester.pumpApp(
-        PinballGamePage(theme: theme),
+        PinballGamePage(theme: theme, game: game),
         gameBloc: gameBloc,
       );
       expect(find.byType(PinballGameView), findsOneWidget);
     });
 
-    testWidgets('route returns a valid navigation route', (tester) async {
-      await tester.pumpApp(
-        Scaffold(
-          body: Builder(
-            builder: (context) {
-              return ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context)
-                      .push<void>(PinballGamePage.route(theme: theme));
-                },
-                child: const Text('Tap me'),
-              );
-            },
+    testWidgets(
+      'renders the loading indicator while the assets load',
+      (tester) async {
+        final gameBloc = MockGameBloc();
+        whenListen(
+          gameBloc,
+          Stream.value(const GameState.initial()),
+          initialState: const GameState.initial(),
+        );
+
+        final assetsManagerCubit = MockAssetsManagerCubit();
+        final initialAssetsState = AssetsManagerState(
+          loadables: [Future<void>.value()],
+          loaded: const [],
+        );
+        whenListen(
+          assetsManagerCubit,
+          Stream.value(initialAssetsState),
+          initialState: initialAssetsState,
+        );
+
+        await tester.pumpApp(
+          PinballGamePage(theme: theme, game: game),
+          gameBloc: gameBloc,
+          assetsManagerCubit: assetsManagerCubit,
+        );
+        expect(find.text('0.0'), findsOneWidget);
+
+        final loadedAssetsState = AssetsManagerState(
+          loadables: [Future<void>.value()],
+          loaded: [Future<void>.value()],
+        );
+        whenListen(
+          assetsManagerCubit,
+          Stream.value(loadedAssetsState),
+          initialState: loadedAssetsState,
+        );
+
+        await tester.pump();
+        expect(find.byType(PinballGameView), findsOneWidget);
+      },
+    );
+
+    group('route', () {
+      Future<void> pumpRoute({
+        required WidgetTester tester,
+        required bool isDebugMode,
+      }) async {
+        await tester.pumpApp(
+          Scaffold(
+            body: Builder(
+              builder: (context) {
+                return ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push<void>(
+                      PinballGamePage.route(
+                        theme: theme,
+                        isDebugMode: isDebugMode,
+                      ),
+                    );
+                  },
+                  child: const Text('Tap me'),
+                );
+              },
+            ),
           ),
-        ),
-      );
+        );
 
-      await tester.tap(find.text('Tap me'));
+        await tester.tap(find.text('Tap me'));
 
-      // We can't use pumpAndSettle here because the page renders a Flame game
-      // which is an infinity animation, so it will timeout
-      await tester.pump(); // Runs the button action
-      await tester.pump(); // Runs the navigation
+        // We can't use pumpAndSettle here because the page renders a Flame game
+        // which is an infinity animation, so it will timeout
+        await tester.pump(); // Runs the button action
+        await tester.pump(); // Runs the navigation
+      }
 
-      expect(find.byType(PinballGamePage), findsOneWidget);
+      testWidgets('route creates the correct non debug game', (tester) async {
+        await pumpRoute(tester: tester, isDebugMode: false);
+        expect(
+          find.byWidgetPredicate(
+            (w) => w is PinballGameView && w.game is! DebugPinballGame,
+          ),
+          findsOneWidget,
+        );
+      });
+
+      testWidgets('route creates the correct debug game', (tester) async {
+        await pumpRoute(tester: tester, isDebugMode: true);
+        expect(
+          find.byWidgetPredicate(
+            (w) => w is PinballGameView && w.game is DebugPinballGame,
+          ),
+          findsOneWidget,
+        );
+      });
     });
   });
 
@@ -66,7 +137,7 @@ void main() {
       );
 
       await tester.pumpApp(
-        PinballGameView(theme: theme),
+        PinballGameView(theme: theme, game: game),
         gameBloc: gameBloc,
       );
 
@@ -99,7 +170,7 @@ void main() {
         );
 
         await tester.pumpApp(
-          const PinballGameView(theme: theme),
+          PinballGameView(theme: theme, game: game),
           gameBloc: gameBloc,
         );
         await tester.pump();
@@ -107,45 +178,5 @@ void main() {
         expect(find.byType(GameOverDialog), findsOneWidget);
       },
     );
-
-    testWidgets('renders the real game when not in debug mode', (tester) async {
-      final gameBloc = MockGameBloc();
-      whenListen(
-        gameBloc,
-        Stream.value(const GameState.initial()),
-        initialState: const GameState.initial(),
-      );
-
-      await tester.pumpApp(
-        const PinballGameView(theme: theme, isDebugMode: false),
-        gameBloc: gameBloc,
-      );
-      expect(
-        find.byWidgetPredicate(
-          (w) => w is GameWidget<PinballGame> && w.game is! DebugPinballGame,
-        ),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets('renders the debug game when on debug mode', (tester) async {
-      final gameBloc = MockGameBloc();
-      whenListen(
-        gameBloc,
-        Stream.value(const GameState.initial()),
-        initialState: const GameState.initial(),
-      );
-
-      await tester.pumpApp(
-        const PinballGameView(theme: theme),
-        gameBloc: gameBloc,
-      );
-      expect(
-        find.byWidgetPredicate(
-          (w) => w is GameWidget<PinballGame> && w.game is DebugPinballGame,
-        ),
-        findsOneWidget,
-      );
-    });
   });
 }
