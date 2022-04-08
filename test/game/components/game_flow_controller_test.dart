@@ -8,17 +8,6 @@ import 'package:pinball_components/pinball_components.dart';
 
 import '../../helpers/helpers.dart';
 
-// TODO(erickzanardo): This will not be needed anymore when
-// this issue is merged: https://github.com/flame-engine/flame/issues/1513
-class WrappedGameFlowController extends GameFlowController {
-  WrappedGameFlowController(this._gameRef);
-
-  final PinballGame _gameRef;
-
-  @override
-  PinballGame get gameRef => _gameRef;
-}
-
 void main() {
   group('GameFlowController', () {
     group('listenWhen', () {
@@ -33,7 +22,7 @@ void main() {
 
         final previous = GameState.initial();
         expect(
-          GameFlowController().listenWhen(previous, state),
+          GameFlowController(MockPinballGame()).listenWhen(previous, state),
           isTrue,
         );
       });
@@ -50,7 +39,7 @@ void main() {
         game = MockPinballGame();
         backboard = MockBackboard();
         cameraController = MockCameraController();
-        gameFlowController = WrappedGameFlowController(game);
+        gameFlowController = GameFlowController(game);
         overlays = MockActiveOverlaysNotifier();
 
         when(backboard.gameOverMode).thenAnswer((_) async {});

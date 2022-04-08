@@ -1,7 +1,6 @@
-import 'dart:async';
-
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
+import 'package:pinball/flame/flame.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// Adds helpers methods to Flame's [Camera]
@@ -39,20 +38,14 @@ class FocusData {
   final Vector2 position;
 }
 
+/// {@template camera_controller}
 /// A [Component] that controls its game camera focus
-class CameraController extends Component with HasGameRef, KeyboardHandler {
-  /// Holds the data for the game focus point
-  late final FocusData gameFocus;
-
-  /// Holds the data for the backboard focus point
-  late final FocusData backboardFocus;
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-
-    final gameZoom = gameRef.size.y / 16;
-    final backboardZoom = gameRef.size.y / 18;
+/// {@endtemplate}
+class CameraController extends ComponentController<FlameGame> {
+  /// {@macro camera_controller}
+  CameraController(FlameGame component) : super(component) {
+    final gameZoom = component.size.y / 16;
+    final backboardZoom = component.size.y / 18;
 
     gameFocus = FocusData(
       zoom: gameZoom,
@@ -64,18 +57,24 @@ class CameraController extends Component with HasGameRef, KeyboardHandler {
     );
 
     // Game starts with the camera focused on the panel
-    gameRef.camera
+    component.camera
       ..speed = 100
       ..snapToFocus(backboardFocus);
   }
 
+  /// Holds the data for the game focus point
+  late final FocusData gameFocus;
+
+  /// Holds the data for the backboard focus point
+  late final FocusData backboardFocus;
+
   /// Move the camera focus to the game board
   void focusOnGame() {
-    gameRef.add(gameRef.camera.focusToCameraZoom(gameFocus));
+    component.add(component.camera.focusToCameraZoom(gameFocus));
   }
 
   /// Move the camera focus to the backboard
   void focusOnBackboard() {
-    gameRef.add(gameRef.camera.focusToCameraZoom(backboardFocus));
+    component.add(component.camera.focusToCameraZoom(backboardFocus));
   }
 }

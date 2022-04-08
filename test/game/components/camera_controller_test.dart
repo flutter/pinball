@@ -14,7 +14,7 @@ void main() {
     setUp(() async {
       game = FlameGame()..onGameResize(Vector2(100, 200));
 
-      controller = CameraController();
+      controller = CameraController(game);
       await game.ensureAdd(controller);
     });
 
