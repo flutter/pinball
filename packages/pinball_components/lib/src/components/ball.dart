@@ -22,36 +22,31 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
     layer = Layer.board;
   }
 
-  /// The size of the [Ball]
-  static final Vector2 size = Vector2.all(4.5);
+  /// The size of the [Ball].
+  static final Vector2 size = Vector2.all(4.13);
 
-  /// The base [Color] used to tint this [Ball]
+  /// The base [Color] used to tint this [Ball].
   final Color baseColor;
 
   double _boostTimer = 0;
   static const _boostDuration = 2.0;
-  late SpriteComponent _spriteComponent;
+
+  final _BallSpriteComponent _spriteComponent = _BallSpriteComponent();
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final sprite = await gameRef.loadSprite(Assets.images.ball.keyName);
-    final tint = baseColor.withOpacity(0.5);
+    renderBody = false;
+
     await add(
-      _spriteComponent = SpriteComponent(
-        sprite: sprite,
-        size: size * 1.15,
-        anchor: Anchor.center,
-      )..tint(tint),
+      _spriteComponent..tint(baseColor.withOpacity(0.5)),
     );
   }
 
   @override
   Body createBody() {
     final shape = CircleShape()..radius = size.x / 2;
-
     final fixtureDef = FixtureDef(shape)..density = 1;
-
     final bodyDef = BodyDef()
       ..position = initialPosition
       ..userData = this
@@ -70,7 +65,7 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
 
   /// Allows the [Ball] to be affected by forces.
   ///
-  /// If previously [stop]ed, the previous ball's velocity is not kept.
+  /// If previously [stop]ped, the previous ball's velocity is not kept.
   void resume() {
     body.setType(BodyType.dynamic);
   }
@@ -112,5 +107,18 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
 
     body.fixtures.first.shape.radius = (size.x / 2) * scaleFactor;
     _spriteComponent.scale = Vector2.all(scaleFactor);
+  }
+}
+
+class _BallSpriteComponent extends SpriteComponent with HasGameRef {
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    final sprite = await gameRef.loadSprite(
+      Assets.images.ball.keyName,
+    );
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
+    anchor = Anchor.center;
   }
 }

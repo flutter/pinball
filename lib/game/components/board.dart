@@ -12,11 +12,14 @@ class Board extends Component {
 
   @override
   Future<void> onLoad() async {
+    // TODO(allisonryan0002): add bottom group and flutter forest to pinball
+    // game directly. Then remove board.
     final bottomGroup = _BottomGroup();
 
     final flutterForest = FlutterForest();
 
     // TODO(alestiago): adjust positioning to real design.
+    // TODO(alestiago): add dino in pinball game.
     final dino = ChromeDino()
       ..initialPosition = Vector2(
         BoardDimensions.bounds.center.dx + 25,
@@ -74,7 +77,7 @@ class _BottomGroupSide extends Component {
 
     final flipper = ControlledFlipper(
       side: _side,
-    )..initialPosition = Vector2((11.0 * direction) + centerXAdjustment, -42.4);
+    )..initialPosition = Vector2((11.8 * direction) + centerXAdjustment, -43.6);
     final baseboard = Baseboard(side: _side)
       ..initialPosition = Vector2(
         (25.58 * direction) + centerXAdjustment,
