@@ -200,7 +200,7 @@ class _DinoBottomWall extends BodyComponent with InitialPosition {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    //renderBody = false;
+    renderBody = false;
 
     await add(_DinoBottomWallSpriteComponent());
   }
