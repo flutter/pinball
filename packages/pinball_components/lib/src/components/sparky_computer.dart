@@ -5,7 +5,8 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template sparky_computer}
-/// A [Blueprint] which creates the [_ComputerBase] and [_ComputerTopSpriteComponent].
+/// A [Blueprint] which creates the [_ComputerBase] and
+/// [_ComputerTopSpriteComponent].
 /// {@endtemplate}
 class SparkyComputer extends Forge2DBlueprint {
   @override
