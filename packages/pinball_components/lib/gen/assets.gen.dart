@@ -10,6 +10,8 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  $AssetsImagesBackboardGen get backboard => const $AssetsImagesBackboardGen();
+
   /// File path: assets/images/ball.png
   AssetGenImage get ball => const AssetGenImage('assets/images/ball.png');
 
@@ -34,6 +36,18 @@ class $AssetsImagesGen {
   $AssetsImagesSpaceshipGen get spaceship => const $AssetsImagesSpaceshipGen();
   $AssetsImagesSparkyBumperGen get sparkyBumper =>
       const $AssetsImagesSparkyBumperGen();
+}
+
+class $AssetsImagesBackboardGen {
+  const $AssetsImagesBackboardGen();
+
+  /// File path: assets/images/backboard/backboard_game_over.png
+  AssetGenImage get backboardGameOver =>
+      const AssetGenImage('assets/images/backboard/backboard_game_over.png');
+
+  /// File path: assets/images/backboard/backboard_scores.png
+  AssetGenImage get backboardScores =>
+      const AssetGenImage('assets/images/backboard/backboard_scores.png');
 }
 
 class $AssetsImagesBaseboardGen {
