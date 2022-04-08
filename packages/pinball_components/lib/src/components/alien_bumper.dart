@@ -32,7 +32,6 @@ class AlienBumper extends BodyComponent with InitialPosition {
           spriteComponent: SpriteComponent(
             anchor: Anchor.center,
             position: Vector2(0, -0.1),
-            angle: 15.9 * math.pi / 180,
           ),
         );
 
@@ -46,7 +45,6 @@ class AlienBumper extends BodyComponent with InitialPosition {
           spriteComponent: SpriteComponent(
             anchor: Anchor.center,
             position: Vector2(0, -0.1),
-            angle: 15.9 * math.pi / 180,
           ),
         );
 
@@ -78,7 +76,7 @@ class AlienBumper extends BodyComponent with InitialPosition {
       center: Vector2.zero(),
       majorRadius: _majorRadius,
       minorRadius: _minorRadius,
-    )..rotate(math.pi / 1.9);
+    )..rotate(15.9 * math.pi / 180);
     final fixtureDef = FixtureDef(shape)
       ..friction = 0
       ..restitution = 4;

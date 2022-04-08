@@ -62,6 +62,18 @@ void main() {
         );
       });
 
+      flameTester.test(
+        'one AlienZone',
+        (game) async {
+          final alienZone = AlienZone();
+          await game.ready();
+          await game.ensureAdd(alienZone);
+
+          final flutterForest = alienZone.descendants().whereType<AlienZone>();
+          expect(flutterForest.length, equals(1));
+        },
+      );
+
       group('controller', () {
         // TODO(alestiago): Write test to be controller agnostic.
         group('listenWhen', () {

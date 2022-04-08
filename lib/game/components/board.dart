@@ -15,7 +15,6 @@ class Board extends Component {
     final bottomGroup = _BottomGroup();
 
     final flutterForest = FlutterForest();
-    final alienZone = AlienZone();
 
     // TODO(alestiago): adjust positioning to real design.
     final dino = ChromeDino()
@@ -28,7 +27,6 @@ class Board extends Component {
       bottomGroup,
       dino,
       flutterForest,
-      alienZone,
     ]);
   }
 }
