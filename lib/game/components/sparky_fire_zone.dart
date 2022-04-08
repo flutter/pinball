@@ -2,6 +2,7 @@
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball/flame/flame.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -41,6 +42,7 @@ class SparkyFireZone extends Component with HasGameRef<PinballGame> {
 /// {@template controlled_sparky_bumper}
 /// [SparkyBumper] with [_SparkyBumperController] attached.
 /// {@endtemplate}
+@visibleForTesting
 class ControlledSparkyBumper extends SparkyBumper
     with Controls<_SparkyBumperController>, ScorePoints {
   ///{@macro controlled_sparky_bumper}
