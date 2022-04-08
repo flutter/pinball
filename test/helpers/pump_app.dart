@@ -5,6 +5,7 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -26,11 +27,31 @@ PinballAudio _buildDefaultPinballAudio() {
   return audio;
 }
 
+MockAssetsManagerCubit _buildDefaultAssetsManagerCubit() {
+  final cubit = MockAssetsManagerCubit();
+
+  final state = AssetsManagerState(
+    loadables: [Future<void>.value()],
+    loaded: [
+      Future<void>.value(),
+    ],
+  );
+
+  whenListen(
+    cubit,
+    Stream.value(state),
+    initialState: state,
+  );
+
+  return cubit;
+}
+
 extension PumpApp on WidgetTester {
   Future<void> pumpApp(
     Widget widget, {
     MockNavigator? navigator,
     GameBloc? gameBloc,
+    AssetsManagerCubit? assetsManagerCubit,
     ThemeCubit? themeCubit,
     LeaderboardRepository? leaderboardRepository,
     PinballAudio? pinballAudio,
@@ -53,6 +74,9 @@ extension PumpApp on WidgetTester {
               ),
               BlocProvider.value(
                 value: gameBloc ?? MockGameBloc(),
+              ),
+              BlocProvider.value(
+                value: assetsManagerCubit ?? _buildDefaultAssetsManagerCubit(),
               ),
             ],
             child: MaterialApp(
