@@ -69,7 +69,7 @@ void main() {
           await game.ready();
           await game.ensureAdd(sparkyFireZone);
 
-          expect(game.children.whereType<FlutterForest>().length, equals(1));
+          expect(game.children.whereType<SparkyFireZone>().length, equals(1));
         },
       );
 
