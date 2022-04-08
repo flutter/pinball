@@ -1,11 +1,9 @@
 // ignore_for_file: avoid_renaming_method_parameters
 
 import 'dart:math' as math;
-import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/material.dart';
 import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 
@@ -216,10 +214,8 @@ class SpaceshipRailExit extends RampOpening {
           insideLayer: Layer.spaceshipExitRail,
           insidePriority: SpaceshipRail.ballPriorityInsideRail,
         ) {
+    renderBody = false;
     layer = Layer.spaceshipExitRail;
-    paint = Paint()
-      ..color = Colors.red
-      ..style = PaintingStyle.fill;
   }
 
   @override
@@ -227,7 +223,7 @@ class SpaceshipRailExit extends RampOpening {
     return ArcShape(
       center: Vector2(-29, -19),
       arcRadius: 2.5,
-      angle: math.pi * 0.6,
+      angle: math.pi * 0.4,
       rotation: 0.26,
     );
   }
