@@ -18,6 +18,7 @@ class ControlledBall extends Ball with Controls<BallController> {
     required PinballTheme theme,
   }) : super(baseColor: theme.characterTheme.ballColor) {
     controller = BallController(this);
+    priority = LaunchRamp.ballPriorityInsideRamp;
   }
 
   /// {@template bonus_ball}
