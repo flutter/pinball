@@ -45,6 +45,7 @@ flutter:
     - assets/images/sparky_bumper/c/
     - assets/images/alien_bumper/a/
     - assets/images/alien_bumper/b/
+    - assets/images/backboard/
 
 flutter_gen:
   line_length: 80

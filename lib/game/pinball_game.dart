@@ -25,17 +25,22 @@ class PinballGame extends Forge2DGame
     controller = _GameBallsController(this);
   }
 
+  /// Identifier of the play button overlay
+  static const playButtonOverlay = 'play_button';
+
   final PinballTheme theme;
 
   final PinballAudio audio;
 
+  late final GameFlowController gameFlowController;
+
   @override
   Future<void> onLoad() async {
     _addContactCallbacks();
-    // Fix camera on the center of the board.
-    camera
-      ..followVector2(Vector2(0, -7.8))
-      ..zoom = size.y / 16;
+
+    unawaited(add(gameFlowController = GameFlowController(this)));
+    unawaited(add(CameraController(this)));
+    unawaited(add(Backboard(position: Vector2(0, -88))));
 
     await _addGameBoundaries();
     unawaited(addFromBlueprint(Boundaries()));
