@@ -18,15 +18,15 @@ class Kicker extends BodyComponent with InitialPosition {
     required BoardSide side,
   }) : _side = side;
 
+  /// The size of the [Kicker] body.
+  static final Vector2 size = Vector2(4.4, 15);
+
   /// Whether the [Kicker] is on the left or right side of the board.
   ///
   /// A [Kicker] with [BoardSide.left] propels the [Ball] to the right,
   /// whereas a [Kicker] with [BoardSide.right] propels the [Ball] to the
   /// left.
   final BoardSide _side;
-
-  /// The size of the [Kicker] body.
-  static final Vector2 size = Vector2(4.4, 15);
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDefs = <FixtureDef>[];
@@ -122,21 +122,28 @@ class Kicker extends BodyComponent with InitialPosition {
   Future<void> onLoad() async {
     await super.onLoad();
     renderBody = false;
+    await add(_KickerSpriteComponent(side: _side));
+  }
+}
+
+class _KickerSpriteComponent extends SpriteComponent with HasGameRef {
+  _KickerSpriteComponent({required BoardSide side}) : _side = side;
+
+  final BoardSide _side;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
 
     final sprite = await gameRef.loadSprite(
       (_side.isLeft)
           ? Assets.images.kicker.left.keyName
           : Assets.images.kicker.right.keyName,
     );
-
-    await add(
-      SpriteComponent(
-        sprite: sprite,
-        size: Vector2(8.7, 19),
-        anchor: Anchor.center,
-        position: Vector2(0.7 * -_side.direction, -2.2),
-      ),
-    );
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
+    anchor = Anchor.center;
+    position = Vector2(0.7 * -_side.direction, -2.2);
   }
 }
 
