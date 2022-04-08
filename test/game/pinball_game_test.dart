@@ -69,8 +69,7 @@ void main() {
           await game.ready();
           await game.ensureAdd(alienZone);
 
-          final flutterForest = alienZone.descendants().whereType<AlienZone>();
-          expect(flutterForest.length, equals(1));
+          expect(game.children.whereType<AlienZone>().length, equals(1));
         },
       );
 
