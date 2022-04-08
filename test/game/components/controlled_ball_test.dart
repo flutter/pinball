@@ -2,6 +2,7 @@
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/extensions.dart';
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -10,6 +11,17 @@ import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 import '../../helpers/helpers.dart';
+
+// TODO(allisonryan0002): remove once
+// https://github.com/flame-engine/flame/pull/1520 is merged
+class WrappedBallController extends BallController {
+  WrappedBallController(Ball<Forge2DGame> ball, this._gameRef) : super(ball);
+
+  final PinballGame _gameRef;
+
+  @override
+  PinballGame get gameRef => _gameRef;
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -55,6 +67,10 @@ void main() {
     );
 
     group('turboCharge', () {
+      setUpAll(() {
+        registerFallbackValue(Vector2.zero());
+      });
+
       flameBlocTester.testGameWidget(
         'adds TurboChargeActivated',
         setUp: (game, tester) async {
@@ -70,48 +86,48 @@ void main() {
         },
       );
 
-      flameBlocTester.testGameWidget(
-        "initially stops the ball's motion",
-        setUp: (game, tester) async {
-          final controller = BallController(ball);
-          await ball.add(controller);
-          await game.ensureAdd(ball);
+      flameBlocTester.test(
+        'initially stops the ball',
+        (game) async {
+          final gameRef = MockPinballGame();
+          final ball = MockControlledBall();
+          final controller = WrappedBallController(ball, gameRef);
+          when(() => gameRef.read<GameBloc>()).thenReturn(gameBloc);
+          when(() => ball.controller).thenReturn(controller);
 
-          ball.body.linearVelocity = Vector2.all(10);
+          await controller.turboCharge();
 
-          // ignore: unawaited_futures
-          controller.turboCharge();
-
-          expect(ball.body.gravityScale, equals(0));
-          expect(ball.body.linearVelocity, equals(Vector2.zero()));
-          expect(ball.body.angularVelocity, equals(0));
+          verify(ball.stop).called(1);
         },
       );
 
-      flameBlocTester.testGameWidget(
+      flameBlocTester.test(
         'resumes the ball',
-        setUp: (game, tester) async {
-          final controller = BallController(ball);
-          await ball.add(controller);
-          await game.ensureAdd(ball);
+        (game) async {
+          final gameRef = MockPinballGame();
+          final ball = MockControlledBall();
+          final controller = WrappedBallController(ball, gameRef);
+          when(() => gameRef.read<GameBloc>()).thenReturn(gameBloc);
+          when(() => ball.controller).thenReturn(controller);
 
           await controller.turboCharge();
 
-          expect(ball.body.gravityScale, equals(1));
-          expect(ball.body.linearVelocity, isNot(equals(Vector2.zero())));
+          verify(ball.resume).called(1);
         },
       );
 
-      flameBlocTester.testGameWidget(
+      flameBlocTester.test(
         'boosts the ball',
-        setUp: (game, tester) async {
-          final controller = BallController(ball);
-          await ball.add(controller);
-          await game.ensureAdd(ball);
+        (game) async {
+          final gameRef = MockPinballGame();
+          final ball = MockControlledBall();
+          final controller = WrappedBallController(ball, gameRef);
+          when(() => gameRef.read<GameBloc>()).thenReturn(gameBloc);
+          when(() => ball.controller).thenReturn(controller);
 
           await controller.turboCharge();
 
-          expect(ball.body.linearVelocity, equals(Vector2(200, -500)));
+          verify(() => ball.boost(any())).called(1);
         },
       );
     });
