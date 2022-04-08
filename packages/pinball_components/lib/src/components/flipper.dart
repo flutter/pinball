@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math' as math;
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
@@ -40,22 +39,6 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   /// position.
   void moveUp() {
     body.linearVelocity = Vector2(0, _speed);
-  }
-
-  /// Loads the sprite that renders with the [Flipper].
-  Future<void> _loadSprite() async {
-    final sprite = await gameRef.loadSprite(
-      (side.isLeft)
-          ? Assets.images.flipper.left.keyName
-          : Assets.images.flipper.right.keyName,
-    );
-    final spriteComponent = SpriteComponent(
-      sprite: sprite,
-      size: size,
-      anchor: Anchor.center,
-    );
-
-    await add(spriteComponent);
   }
 
   /// Anchors the [Flipper] to the [RevoluteJoint] that controls its arc motion.
@@ -129,10 +112,8 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
     await super.onLoad();
     renderBody = false;
 
-    await Future.wait<void>([
-      _loadSprite(),
-      _anchorToJoint(),
-    ]);
+    await _anchorToJoint();
+    await add(_FlipperSpriteComponent(side: side));
   }
 
   @override
@@ -145,6 +126,25 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;
+  }
+}
+
+class _FlipperSpriteComponent extends SpriteComponent with HasGameRef {
+  _FlipperSpriteComponent({required BoardSide side}) : _side = side;
+
+  final BoardSide _side;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    final sprite = await gameRef.loadSprite(
+      (_side.isLeft)
+          ? Assets.images.flipper.left.keyName
+          : Assets.images.flipper.right.keyName,
+    );
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
+    anchor = Anchor.center;
   }
 }
 
@@ -197,8 +197,8 @@ class _FlipperJoint extends RevoluteJoint {
     lock();
   }
 
-  /// The total angle of the arc motion.
-  static const _sweepingAngle = math.pi / 3.5;
+  /// Half the angle of the arc motion.
+  static const _halfSweepingAngle = 0.611;
 
   final BoardSide side;
 
@@ -207,7 +207,7 @@ class _FlipperJoint extends RevoluteJoint {
   /// The joint is locked when initialized in order to force the [Flipper]
   /// at its resting position.
   void lock() {
-    const angle = _sweepingAngle / 2;
+    const angle = _halfSweepingAngle;
     setLimits(
       -angle * side.direction,
       -angle * side.direction,
@@ -216,7 +216,7 @@ class _FlipperJoint extends RevoluteJoint {
 
   /// Unlocks the [Flipper] from its resting position.
   void unlock() {
-    const angle = _sweepingAngle / 2;
+    const angle = _halfSweepingAngle;
     setLimits(-angle, angle);
   }
 }
