@@ -225,10 +225,10 @@ class SpaceshipRailExit extends RampOpening {
   @override
   Shape get shape {
     return ArcShape(
-      center: Vector2(-28, -19),
+      center: Vector2(-29, -19),
       arcRadius: 2.5,
-      angle: math.pi * 0.4,
-      rotation: -0.16,
+      angle: math.pi * 0.6,
+      rotation: 0.26,
     );
   }
 }
