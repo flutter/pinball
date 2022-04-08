@@ -54,3 +54,10 @@ class DashNestActivated extends GameEvent {
   @override
   List<Object?> get props => [nestId];
 }
+
+class SparkyTurboChargeActivated extends GameEvent {
+  const SparkyTurboChargeActivated();
+
+  @override
+  List<Object?> get props => [];
+}

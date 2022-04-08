@@ -10,6 +10,9 @@ enum GameBonus {
 
   /// Bonus achieved when the user activates all dash nest bumpers.
   dashNest,
+
+  /// Bonus achieved when a ball enters Sparky's computer.
+  sparkyTurboCharge,
 }
 
 /// {@template game_state}

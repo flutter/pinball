@@ -27,8 +27,8 @@ class SparkyBumper extends BodyComponent with InitialPosition {
       : this._(
           majorRadius: 2.9,
           minorRadius: 2.1,
-          activeAssetPath: Assets.images.sparkyBumper.a.active.keyName,
-          inactiveAssetPath: Assets.images.sparkyBumper.a.inactive.keyName,
+          activeAssetPath: Assets.images.sparky.bumper.a.active.keyName,
+          inactiveAssetPath: Assets.images.sparky.bumper.a.inactive.keyName,
           spriteComponent: SpriteComponent(
             anchor: Anchor.center,
             position: Vector2(0, -0.25),
@@ -40,8 +40,8 @@ class SparkyBumper extends BodyComponent with InitialPosition {
       : this._(
           majorRadius: 2.85,
           minorRadius: 2,
-          activeAssetPath: Assets.images.sparkyBumper.b.active.keyName,
-          inactiveAssetPath: Assets.images.sparkyBumper.b.inactive.keyName,
+          activeAssetPath: Assets.images.sparky.bumper.b.active.keyName,
+          inactiveAssetPath: Assets.images.sparky.bumper.b.inactive.keyName,
           spriteComponent: SpriteComponent(
             anchor: Anchor.center,
             position: Vector2(0, -0.35),
@@ -53,8 +53,8 @@ class SparkyBumper extends BodyComponent with InitialPosition {
       : this._(
           majorRadius: 3,
           minorRadius: 2.2,
-          activeAssetPath: Assets.images.sparkyBumper.c.active.keyName,
-          inactiveAssetPath: Assets.images.sparkyBumper.c.inactive.keyName,
+          activeAssetPath: Assets.images.sparky.bumper.c.active.keyName,
+          inactiveAssetPath: Assets.images.sparky.bumper.c.inactive.keyName,
           spriteComponent: SpriteComponent(
             anchor: Anchor.center,
             position: Vector2(0, -0.4),
