@@ -9,7 +9,10 @@ import 'package:pinball_components/pinball_components.dart';
 /// {@template sparky_fire_zone}
 /// Area positioned at the top left of the [Board] where the [Ball]
 /// can bounce off [SparkyBumper]s.
-// [Component].
+///
+/// When a [Ball] hits [SparkyBumper]s, they toggle between activated and
+/// deactivated states.
+/// {@endtemplate}
 class SparkyFireZone extends Component with HasGameRef<PinballGame> {
   /// {@macro sparky_fire_zone}
   SparkyFireZone();
