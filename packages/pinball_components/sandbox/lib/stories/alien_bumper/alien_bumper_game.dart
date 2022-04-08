@@ -11,7 +11,7 @@ class AlienBumperGame extends BasicBallGame with Traceable {
   static const info = '''
     Shows how a AlienBumper is rendered.
 
-    Activate the "trace" parameter to overlay the body.
+    - Activate the "trace" parameter to overlay the body.
 ''';
 
   @override
