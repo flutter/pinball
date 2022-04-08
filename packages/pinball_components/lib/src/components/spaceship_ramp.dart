@@ -140,9 +140,9 @@ class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
       Assets.images.spaceship.ramp.main.keyName,
     );
     this.sprite = sprite;
-    size = Vector2(38.3, 35.1);
+    size = sprite.originalSize / 10;
     anchor = Anchor.center;
-    position = Vector2(-12.2, -543.5);
+    position = Vector2(-12.2, -53.5);
   }
 }
 
