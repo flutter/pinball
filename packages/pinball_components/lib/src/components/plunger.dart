@@ -14,9 +14,7 @@ class Plunger extends BodyComponent with InitialPosition {
     required this.compressionDistance,
     // TODO(ruimiguel): set to priority +1 over LaunchRamp once all priorities
     // are fixed.
-  }) : super(priority: 0) {
-    renderBody = false;
-  }
+  }) : super(priority: 0);
 
   /// Distance the plunger can lower.
   final double compressionDistance;
@@ -76,23 +74,23 @@ class Plunger extends BodyComponent with InitialPosition {
   Future<void> onLoad() async {
     await super.onLoad();
     await _anchorToJoint();
-    await _loadSprite();
+    await add(_PlungerSpriteComponent());
   }
+}
 
-  Future<void> _loadSprite() async {
+class _PlungerSpriteComponent extends SpriteComponent with HasGameRef {
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
     final sprite = await gameRef.loadSprite(
       Assets.images.plunger.plunger.keyName,
     );
 
-    await add(
-      SpriteComponent(
-        sprite: sprite,
-        size: Vector2(5.5, 40),
-        anchor: Anchor.center,
-        position: Vector2(2, 19),
-        angle: -0.033,
-      ),
-    );
+    this.sprite = sprite;
+    size = Vector2(5.5, 40);
+    anchor = Anchor.center;
+    position = Vector2(2, 19);
+    angle = -0.033;
   }
 }
 
