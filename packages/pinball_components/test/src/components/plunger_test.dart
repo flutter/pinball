@@ -1,7 +1,5 @@
 // ignore_for_file: cascade_invocations
 
-import 'dart:collection';
-
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/services.dart';
@@ -117,13 +115,23 @@ void main() {
       );
     });
 
-    group('onKeyEvent', () {
-      final keys = UnmodifiableListView([
-        LogicalKeyboardKey.space,
-        LogicalKeyboardKey.arrowDown,
-        LogicalKeyboardKey.keyS,
-      ]);
+    group('pull', () {
+      flameTester.test(
+        'moves downwards when pull is called',
+        (game) async {
+          final plunger = Plunger(
+            compressionDistance: compressionDistance,
+          );
+          await game.ensureAdd(plunger);
+          plunger.pull();
 
+          expect(plunger.body.linearVelocity.y, isNegative);
+          expect(plunger.body.linearVelocity.x, isZero);
+        },
+      );
+    });
+
+    group('release', () {
       late Plunger plunger;
 
       setUp(() {
@@ -132,56 +140,28 @@ void main() {
         );
       });
 
-      testRawKeyUpEvents(keys, (event) {
-        final keyLabel = (event.logicalKey != LogicalKeyboardKey.space)
-            ? event.logicalKey.keyLabel
-            : 'Space';
-        flameTester.test(
-          'moves upwards when $keyLabel is released '
-          'and plunger is below its starting position',
-          (game) async {
-            await game.ensureAdd(plunger);
-            plunger.body.setTransform(Vector2(0, -1), 0);
-            plunger.onKeyEvent(event, {});
+      flameTester.test(
+          'moves upwards when release is called '
+          'and plunger is below its starting position', (game) async {
+        await game.ensureAdd(plunger);
+        plunger.body.setTransform(Vector2(0, -1), 0);
+        plunger.release();
 
-            expect(plunger.body.linearVelocity.y, isPositive);
-            expect(plunger.body.linearVelocity.x, isZero);
-          },
-        );
+        expect(plunger.body.linearVelocity.y, isPositive);
+        expect(plunger.body.linearVelocity.x, isZero);
       });
 
-      testRawKeyUpEvents(keys, (event) {
-        final keyLabel = (event.logicalKey != LogicalKeyboardKey.space)
-            ? event.logicalKey.keyLabel
-            : 'Space';
-        flameTester.test(
-          'does not move when $keyLabel is released '
-          'and plunger is in its starting position',
-          (game) async {
-            await game.ensureAdd(plunger);
-            plunger.onKeyEvent(event, {});
+      flameTester.test(
+        'does not move when release is called '
+        'and plunger is in its starting position',
+        (game) async {
+          await game.ensureAdd(plunger);
+          plunger.release();
 
-            expect(plunger.body.linearVelocity.y, isZero);
-            expect(plunger.body.linearVelocity.x, isZero);
-          },
-        );
-      });
-
-      testRawKeyDownEvents(keys, (event) {
-        final keyLabel = (event.logicalKey != LogicalKeyboardKey.space)
-            ? event.logicalKey.keyLabel
-            : 'Space';
-        flameTester.test(
-          'moves downwards when $keyLabel is pressed',
-          (game) async {
-            await game.ensureAdd(plunger);
-            plunger.onKeyEvent(event, {});
-
-            expect(plunger.body.linearVelocity.y, isNegative);
-            expect(plunger.body.linearVelocity.x, isZero);
-          },
-        );
-      });
+          expect(plunger.body.linearVelocity.y, isZero);
+          expect(plunger.body.linearVelocity.x, isZero);
+        },
+      );
     });
   });
 
@@ -210,6 +190,7 @@ void main() {
   group('PlungerAnchorPrismaticJointDef', () {
     const compressionDistance = 10.0;
     late Plunger plunger;
+    late PlungerAnchor anchor;
 
     setUp(() {
       plunger = Plunger(
@@ -222,7 +203,7 @@ void main() {
         'plunger body as bodyA',
         (game) async {
           await game.ensureAdd(plunger);
-          final anchor = PlungerAnchor(plunger: plunger);
+          anchor = PlungerAnchor(plunger: plunger);
           await game.ensureAdd(anchor);
 
           final jointDef = PlungerAnchorPrismaticJointDef(
@@ -238,7 +219,7 @@ void main() {
         'anchor body as bodyB',
         (game) async {
           await game.ensureAdd(plunger);
-          final anchor = PlungerAnchor(plunger: plunger);
+          anchor = PlungerAnchor(plunger: plunger);
           await game.ensureAdd(anchor);
 
           final jointDef = PlungerAnchorPrismaticJointDef(
@@ -255,7 +236,7 @@ void main() {
         'limits enabled',
         (game) async {
           await game.ensureAdd(plunger);
-          final anchor = PlungerAnchor(plunger: plunger);
+          anchor = PlungerAnchor(plunger: plunger);
           await game.ensureAdd(anchor);
 
           final jointDef = PlungerAnchorPrismaticJointDef(
@@ -272,7 +253,7 @@ void main() {
         'lower translation limit as negative infinity',
         (game) async {
           await game.ensureAdd(plunger);
-          final anchor = PlungerAnchor(plunger: plunger);
+          anchor = PlungerAnchor(plunger: plunger);
           await game.ensureAdd(anchor);
 
           final jointDef = PlungerAnchorPrismaticJointDef(
@@ -289,7 +270,7 @@ void main() {
         'connected body collison enabled',
         (game) async {
           await game.ensureAdd(plunger);
-          final anchor = PlungerAnchor(plunger: plunger);
+          anchor = PlungerAnchor(plunger: plunger);
           await game.ensureAdd(anchor);
 
           final jointDef = PlungerAnchorPrismaticJointDef(
@@ -303,53 +284,49 @@ void main() {
       );
     });
 
-    testRawKeyUpEvents([LogicalKeyboardKey.space], (event) {
-      late final anchor = PlungerAnchor(plunger: plunger);
-      flameTester.testGameWidget(
-        'plunger cannot go below anchor',
-        setUp: (game, tester) async {
-          await game.ensureAdd(plunger);
-          await game.ensureAdd(anchor);
+    flameTester.testGameWidget(
+      'plunger cannot go below anchor',
+      setUp: (game, tester) async {
+        await game.ensureAdd(plunger);
+        anchor = PlungerAnchor(plunger: plunger);
+        await game.ensureAdd(anchor);
 
-          // Giving anchor a shape for the plunger to collide with.
-          anchor.body.createFixtureFromShape(PolygonShape()..setAsBoxXY(2, 1));
+        // Giving anchor a shape for the plunger to collide with.
+        anchor.body.createFixtureFromShape(PolygonShape()..setAsBoxXY(2, 1));
 
-          final jointDef = PlungerAnchorPrismaticJointDef(
-            plunger: plunger,
-            anchor: anchor,
-          );
-          game.world.createJoint(PrismaticJoint(jointDef));
+        final jointDef = PlungerAnchorPrismaticJointDef(
+          plunger: plunger,
+          anchor: anchor,
+        );
+        game.world.createJoint(PrismaticJoint(jointDef));
 
-          await tester.pump(const Duration(seconds: 1));
-        },
-        verify: (game, tester) async {
-          expect(plunger.body.position.y > anchor.body.position.y, isTrue);
-        },
-      );
-    });
+        await tester.pump(const Duration(seconds: 1));
+      },
+      verify: (game, tester) async {
+        expect(plunger.body.position.y > anchor.body.position.y, isTrue);
+      },
+    );
 
-    testRawKeyUpEvents([LogicalKeyboardKey.space], (event) {
-      flameTester.testGameWidget(
-        'plunger cannot excessively exceed starting position',
-        setUp: (game, tester) async {
-          await game.ensureAdd(plunger);
-          final anchor = PlungerAnchor(plunger: plunger);
-          await game.ensureAdd(anchor);
+    flameTester.testGameWidget(
+      'plunger cannot excessively exceed starting position',
+      setUp: (game, tester) async {
+        await game.ensureAdd(plunger);
+        anchor = PlungerAnchor(plunger: plunger);
+        await game.ensureAdd(anchor);
 
-          final jointDef = PlungerAnchorPrismaticJointDef(
-            plunger: plunger,
-            anchor: anchor,
-          );
-          game.world.createJoint(PrismaticJoint(jointDef));
+        final jointDef = PlungerAnchorPrismaticJointDef(
+          plunger: plunger,
+          anchor: anchor,
+        );
+        game.world.createJoint(PrismaticJoint(jointDef));
 
-          plunger.body.setTransform(Vector2(0, -1), 0);
+        plunger.body.setTransform(Vector2(0, -1), 0);
 
-          await tester.pump(const Duration(seconds: 1));
-        },
-        verify: (game, tester) async {
-          expect(plunger.body.position.y < 1, isTrue);
-        },
-      );
-    });
+        await tester.pump(const Duration(seconds: 1));
+      },
+      verify: (game, tester) async {
+        expect(plunger.body.position.y < 1, isTrue);
+      },
+    );
   });
 }

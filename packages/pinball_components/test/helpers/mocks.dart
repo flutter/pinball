@@ -1,23 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
-
-class MockRawKeyDownEvent extends Mock implements RawKeyDownEvent {
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return super.toString();
-  }
-}
-
-class MockRawKeyUpEvent extends Mock implements RawKeyUpEvent {
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return super.toString();
-  }
-}
 
 class MockFilter extends Mock implements Filter {}
 
