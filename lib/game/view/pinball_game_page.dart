@@ -51,51 +51,17 @@ class PinballGamePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PinballGameView(theme: theme, game: game);
+    return PinballGameView(game: game);
   }
 }
 
 class PinballGameView extends StatelessWidget {
   const PinballGameView({
     Key? key,
-    required this.theme,
     required this.game,
   }) : super(key: key);
 
-  final PinballTheme theme;
   final PinballGame game;
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocListener<GameBloc, GameState>(
-      listenWhen: (previous, current) =>
-          previous.isGameOver != current.isGameOver,
-      listener: (context, state) {
-        if (state.isGameOver) {
-          showDialog<void>(
-            context: context,
-            builder: (_) {
-              return GameOverDialog(
-                score: state.score,
-                theme: theme.characterTheme,
-              );
-            },
-          );
-        }
-      },
-      child: _GameView(game: game),
-    );
-  }
-}
-
-class _GameView extends StatelessWidget {
-  const _GameView({
-    Key? key,
-    required PinballGame game,
-  })  : _game = game,
-        super(key: key);
-
-  final PinballGame _game;
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +80,20 @@ class _GameView extends StatelessWidget {
     return Stack(
       children: [
         Positioned.fill(
-          child: GameWidget<PinballGame>(game: _game),
+          child: GameWidget<PinballGame>(
+            game: game,
+            initialActiveOverlays: const [PinballGame.playButtonOverlay],
+            overlayBuilderMap: {
+              PinballGame.playButtonOverlay: (context, game) {
+                return Positioned(
+                  bottom: 20,
+                  right: 0,
+                  left: 0,
+                  child: PlayButtonOverlay(game: game),
+                );
+              },
+            },
+          ),
         ),
         const Positioned(
           top: 8,

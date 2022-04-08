@@ -377,14 +377,14 @@ packages:
       name: mockingjay
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.0"
+    version: "0.3.0"
   mocktail:
     dependency: "direct dev"
     description:
       name: mocktail
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.0"
+    version: "0.3.0"
   nested:
     dependency: transitive
     description:

@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/foundation.dart';
@@ -76,3 +77,12 @@ class MockDashNestBumper extends Mock implements DashNestBumper {}
 class MockPinballAudio extends Mock implements PinballAudio {}
 
 class MockAssetsManagerCubit extends Mock implements AssetsManagerCubit {}
+
+class MockBackboard extends Mock implements Backboard {}
+
+class MockCameraController extends Mock implements CameraController {}
+
+class MockActiveOverlaysNotifier extends Mock
+    implements ActiveOverlaysNotifier {}
+
+class MockGameFlowController extends Mock implements GameFlowController {}
