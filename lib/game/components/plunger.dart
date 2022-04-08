@@ -136,12 +136,10 @@ class PlungerAnchor extends JointAnchor {
 
   @override
   Body createBody() {
-    final shape = CircleShape()..radius = 0.5;
-    final fixtureDef = FixtureDef(shape);
     final bodyDef = BodyDef()
       ..position = initialPosition
       ..type = BodyType.static;
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
+    return world.createBody(bodyDef);
   }
 }
 
