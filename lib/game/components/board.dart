@@ -15,6 +15,7 @@ class Board extends Component {
     final bottomGroup = _BottomGroup();
 
     final flutterForest = FlutterForest();
+    final sparkyFireZone = SparkyFireZone();
 
     // TODO(alestiago): adjust positioning to real design.
     final dino = ChromeDino()
@@ -27,6 +28,7 @@ class Board extends Component {
       bottomGroup,
       dino,
       flutterForest,
+      sparkyFireZone,
     ]);
   }
 }
