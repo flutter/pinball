@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 
-class BasicBallGame extends BasicGame with TapDetector {
+class BasicBallGame extends BasicGame with TapDetector, Traceable {
   BasicBallGame({required this.color});
 
   static const info = '''
@@ -19,5 +19,6 @@ class BasicBallGame extends BasicGame with TapDetector {
     add(
       Ball(baseColor: color)..initialPosition = info.eventPosition.game,
     );
+    traceAllBodies();
   }
 }
