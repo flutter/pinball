@@ -115,23 +115,24 @@ class _LaunchRampBase extends BodyComponent with InitialPosition, Layered {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadSprite();
     renderBody = false;
-  }
 
-  Future<void> _loadSprite() async {
+    await add(_LaunchRampBaseSpriteComponent());
+  }
+}
+
+class _LaunchRampBaseSpriteComponent extends SpriteComponent with HasGameRef {
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+
     final sprite = await gameRef.loadSprite(
       Assets.images.launchRamp.ramp.keyName,
     );
-
-    await add(
-      SpriteComponent(
-        sprite: sprite,
-        size: sprite.originalSize / 10,
-        anchor: Anchor.center,
-        position: Vector2(25.65, 0),
-      ),
-    );
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
+    anchor = Anchor.center;
+    position = Vector2(25.65, 0);
   }
 }
 
@@ -192,23 +193,25 @@ class _LaunchRampForegroundRailing extends BodyComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadSprite();
     renderBody = false;
-  }
 
-  Future<void> _loadSprite() async {
+    await add(_LaunchRampForegroundRailingSpriteComponent());
+  }
+}
+
+class _LaunchRampForegroundRailingSpriteComponent extends SpriteComponent
+    with HasGameRef {
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+
     final sprite = await gameRef.loadSprite(
       Assets.images.launchRamp.foregroundRailing.keyName,
     );
-
-    await add(
-      SpriteComponent(
-        sprite: sprite,
-        size: sprite.originalSize / 10,
-        anchor: Anchor.center,
-        position: Vector2(22.8, 0),
-      ),
-    );
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
+    anchor = Anchor.center;
+    position = Vector2(22.8, 0);
   }
 }
 
