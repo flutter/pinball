@@ -6,10 +6,8 @@ import 'package:sandbox/common/common.dart';
 
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class FlipperGame extends BasicBallGame with KeyboardEvents {
-  FlipperGame({
-    required this.trace,
-  }) : super(color: Colors.blue);
+class FlipperGame extends BasicBallGame with KeyboardEvents, Traceable {
+  FlipperGame() : super(color: Colors.blue);
 
   static const info = '''
     Shows how Flippers are rendered.
@@ -30,8 +28,6 @@ class FlipperGame extends BasicBallGame with KeyboardEvents {
     LogicalKeyboardKey.keyD,
   ];
 
-  final bool trace;
-
   late Flipper leftFlipper;
   late Flipper rightFlipper;
 
@@ -51,10 +47,7 @@ class FlipperGame extends BasicBallGame with KeyboardEvents {
       rightFlipper,
     ]);
 
-    if (trace) {
-      leftFlipper.trace();
-      rightFlipper.trace();
-    }
+    await traceAllBodies();
   }
 
   @override
