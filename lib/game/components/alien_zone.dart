@@ -2,6 +2,7 @@
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball/flame/flame.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -38,6 +39,7 @@ class AlienZone extends Component with HasGameRef<PinballGame> {
 /// {@template controlled_alien_bumper}
 /// [AlienBumper] with [_AlienBumperController] attached.
 /// {@endtemplate}
+@visibleForTesting
 class ControlledAlienBumper extends AlienBumper
     with Controls<_AlienBumperController>, ScorePoints {
   /// {@macro controlled_alien_bumper}
