@@ -40,10 +40,12 @@ class AlienZone extends Component with HasGameRef<PinballGame> {
 /// {@endtemplate}
 class ControlledAlienBumper extends AlienBumper
     with Controls<_AlienBumperController>, ScorePoints {
+  /// {@macro controlled_alien_bumper}
   ControlledAlienBumper.a() : super.a() {
     controller = _AlienBumperController(this);
   }
 
+  /// {@macro controlled_alien_bumper}
   ControlledAlienBumper.b() : super.b() {
     controller = _AlienBumperController(this);
   }
