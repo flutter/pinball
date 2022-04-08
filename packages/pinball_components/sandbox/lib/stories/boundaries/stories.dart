@@ -7,9 +7,7 @@ void addBoundariesStories(Dashbook dashbook) {
   dashbook.storiesOf('Boundaries').add(
         'Basic',
         (context) => GameWidget(
-          game: BoundariesGame(
-            trace: context.boolProperty('Trace', true),
-          ),
+          game: BoundariesGame()..trace = context.boolProperty('Trace', true),
         ),
         codeLink: buildSourceLink('boundaries_game/basic.dart'),
         info: BoundariesGame.info,
