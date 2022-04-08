@@ -62,6 +62,17 @@ void main() {
         );
       });
 
+      flameTester.test(
+        'one SparkyFireZone',
+        (game) async {
+          final sparkyFireZone = SparkyFireZone();
+          await game.ready();
+          await game.ensureAdd(sparkyFireZone);
+
+          expect(game.children.whereType<FlutterForest>().length, equals(1));
+        },
+      );
+
       group('controller', () {
         // TODO(alestiago): Write test to be controller agnostic.
         group('listenWhen', () {
