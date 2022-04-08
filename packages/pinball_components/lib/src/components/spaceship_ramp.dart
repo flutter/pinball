@@ -40,11 +40,15 @@ class SpaceshipRamp extends Forge2DBlueprint {
 
     final spaceshipRamp = _SpaceshipRampBackground();
 
+    final spaceshipRampBoardOpeningSprite =
+        _SpaceshipRampBoardOpeningSpriteComponent();
+
     final spaceshipRampForegroundRailing = _SpaceshipRampForegroundRailing();
 
     final baseRight = _SpaceshipRampBase()..initialPosition = Vector2(1.7, 20);
 
     addAll([
+      spaceshipRampBoardOpeningSprite,
       rightOpening,
       leftOpening,
       baseRight,
@@ -117,8 +121,8 @@ class _SpaceshipRampBackground extends BodyComponent
     await super.onLoad();
     renderBody = false;
 
-    await add(_SpaceshipRampBackgroundRailingSpriteComponent());
     await add(_SpaceshipRampBackgroundRampSpriteComponent());
+    await add(_SpaceshipRampBackgroundRailingSpriteComponent());
   }
 }
 
@@ -131,7 +135,7 @@ class _SpaceshipRampBackgroundRailingSpriteComponent extends SpriteComponent
       Assets.images.spaceship.ramp.railingBackground.keyName,
     );
     this.sprite = sprite;
-    size = Vector2(38.3, 35.1);
+    size = sprite.originalSize / 10;
     anchor = Anchor.center;
     position = Vector2(-11.7, -54.3);
   }
@@ -148,7 +152,22 @@ class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
     this.sprite = sprite;
     size = sprite.originalSize / 10;
     anchor = Anchor.center;
-    position = Vector2(-10.6, -53.6);
+    position = Vector2(-11.7, -53.6);
+  }
+}
+
+class _SpaceshipRampBoardOpeningSpriteComponent extends SpriteComponent
+    with HasGameRef {
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    final sprite = await gameRef.loadSprite(
+      Assets.images.spaceship.ramp.boardOpening.keyName,
+    );
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
+    anchor = Anchor.center;
+    position = Vector2(3.4, -39.5);
   }
 }
 

@@ -183,6 +183,8 @@ class $AssetsImagesSpaceshipRailGen {
 class $AssetsImagesSpaceshipRampGen {
   const $AssetsImagesSpaceshipRampGen();
 
+  AssetGenImage get boardOpening =>
+      const AssetGenImage('assets/images/spaceship/ramp/board-opening.png');
   AssetGenImage get main =>
       const AssetGenImage('assets/images/spaceship/ramp/main.png');
   AssetGenImage get railingBackground => const AssetGenImage(
