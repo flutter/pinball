@@ -85,4 +85,4 @@ class MockCameraController extends Mock implements CameraController {}
 class MockActiveOverlaysNotifier extends Mock
     implements ActiveOverlaysNotifier {}
 
-class MockGameController extends Mock implements GameController {}
+class MockGameFlowController extends Mock implements GameFlowController {}

@@ -1,54 +1,81 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
-import 'package:flutter/material.dart';
+import 'package:flame/game.dart';
 import 'package:pinball_components/pinball_components.dart';
+
+/// Adds helpers methods to Flame's [Camera]
+extension CameraX on Camera {
+  /// Instantly apply the point of focus to the [Camera]
+  void snapToFocus(FocusData data) {
+    followVector2(data.position);
+    zoom = data.zoom;
+  }
+
+  /// Returns a [CameraZoom] that can be added to a [FlameGame]
+  CameraZoom focusToCameraZoom(FocusData data) {
+    final zoom = CameraZoom(value: data.zoom);
+    zoom.completed.then((_) {
+      moveTo(data.position);
+    });
+    return zoom;
+  }
+}
+
+/// {@template focus_data}
+/// Model class that defines a focus point of the camera
+/// {@endtemplate}
+class FocusData {
+  /// {@template focus_data}
+  FocusData({
+    required this.zoom,
+    required this.position,
+  });
+
+  /// The amount of zoom
+  final double zoom;
+
+  /// The position of the camera
+  final Vector2 position;
+}
 
 /// A [Component] that controls its game camera focus
 class CameraController extends Component with HasGameRef, KeyboardHandler {
-  /// The camera position for the board
-  @visibleForTesting
-  static final gamePosition = Vector2(0, -7.8);
+  /// Holds the data for the game focus point
+  late final FocusData gameFocus;
 
-  /// The camera position for the pinball panel
-  @visibleForTesting
-  static final backboardPosition = Vector2(0, -100.8);
-
-  /// The zoom value for the game mode
-  @visibleForTesting
-  late final double gameZoom;
-
-  /// The zoom value for the panel mode
-  @visibleForTesting
-  late final double backboardZoom;
+  /// Holds the data for the backboard focus point
+  late final FocusData backboardFocus;
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
 
-    gameZoom = gameRef.size.y / 16;
-    backboardZoom = gameRef.size.y / 18;
+    final gameZoom = gameRef.size.y / 16;
+    final backboardZoom = gameRef.size.y / 18;
+
+    gameFocus = FocusData(
+      zoom: gameZoom,
+      position: Vector2(0, -7.8),
+    );
+    backboardFocus = FocusData(
+      zoom: backboardZoom,
+      position: Vector2(0, -100.8),
+    );
 
     // Game starts with the camera focused on the panel
     gameRef.camera
       ..speed = 100
-      ..followVector2(backboardPosition)
-      ..zoom = backboardZoom;
+      ..snapToFocus(backboardFocus);
   }
 
   /// Move the camera focus to the game board
-  Future<void> focusOnGame() async {
-    final zoom = CameraZoom(value: gameZoom);
-    unawaited(gameRef.add(zoom));
-    await zoom.completed;
-    gameRef.camera.moveTo(gamePosition);
+  void focusOnGame() {
+    gameRef.add(gameRef.camera.focusToCameraZoom(gameFocus));
   }
 
   /// Move the camera focus to the backboard
-  Future<void> focusOnBackboard() async {
-    final zoom = CameraZoom(value: backboardZoom);
-    unawaited(gameRef.add(zoom));
-    await zoom.completed;
-    gameRef.camera.moveTo(backboardPosition);
+  void focusOnBackboard() {
+    gameRef.add(gameRef.camera.focusToCameraZoom(backboardFocus));
   }
 }

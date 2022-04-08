@@ -4,7 +4,7 @@ import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// A [Component] that controls the game over and game restart logic
-class GameController extends Component
+class GameFlowController extends Component
     with BlocComponent<GameBloc, GameState>, HasGameRef {
   @override
   bool listenWhen(GameState? previousState, GameState newState) {

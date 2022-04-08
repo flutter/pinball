@@ -10,8 +10,8 @@ import '../../helpers/helpers.dart';
 
 // TODO(erickzanardo): This will not be needed anymore when
 // this issue is merged: https://github.com/flame-engine/flame/issues/1513
-class WrappedGameController extends GameController {
-  WrappedGameController(this._gameRef);
+class WrappedGameFlowController extends GameFlowController {
+  WrappedGameFlowController(this._gameRef);
 
   final PinballGame _gameRef;
 
@@ -20,7 +20,7 @@ class WrappedGameController extends GameController {
 }
 
 void main() {
-  group('GameController', () {
+  group('GameFlowController', () {
     group('listenWhen', () {
       test('is true when the game over state has changed', () {
         final state = GameState(
@@ -33,7 +33,7 @@ void main() {
 
         final previous = GameState.initial();
         expect(
-          GameController().listenWhen(previous, state),
+          GameFlowController().listenWhen(previous, state),
           isTrue,
         );
       });
@@ -43,14 +43,14 @@ void main() {
       late PinballGame game;
       late Backboard backboard;
       late CameraController cameraController;
-      late GameController gameController;
+      late GameFlowController gameFlowController;
       late ActiveOverlaysNotifier overlays;
 
       setUp(() {
         game = MockPinballGame();
         backboard = MockBackboard();
         cameraController = MockCameraController();
-        gameController = WrappedGameController(game);
+        gameFlowController = WrappedGameFlowController(game);
         overlays = MockActiveOverlaysNotifier();
 
         when(backboard.gameOverMode).thenAnswer((_) async {});
@@ -68,7 +68,7 @@ void main() {
       test(
         'changes the backboard and camera correctly when it is a game over',
         () {
-          gameController.onNewState(
+          gameFlowController.onNewState(
             GameState(
               score: 10,
               balls: 0,
@@ -86,7 +86,7 @@ void main() {
       test(
         'changes the backboard and camera correctly when it is not a game over',
         () {
-          gameController.onNewState(GameState.initial());
+          gameFlowController.onNewState(GameState.initial());
 
           verify(backboard.waitingMode).called(1);
           verify(cameraController.focusOnGame).called(1);

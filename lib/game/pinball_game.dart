@@ -32,13 +32,13 @@ class PinballGame extends Forge2DGame
 
   final PinballAudio audio;
 
-  late final GameController gameController;
+  late final GameFlowController gameFlowController;
 
   @override
   Future<void> onLoad() async {
     _addContactCallbacks();
 
-    unawaited(add(gameController = GameController()));
+    unawaited(add(gameFlowController = GameFlowController()));
     unawaited(add(CameraController()));
     unawaited(add(Backboard(position: Vector2(0, -88))));
 

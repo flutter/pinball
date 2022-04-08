@@ -1,7 +1,5 @@
 // ignore_for_file: cascade_invocations
 
-import 'dart:async';
-
 import 'package:flame/game.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -25,28 +23,30 @@ void main() {
     });
 
     test('correctly calculates the zooms', () async {
-      expect(controller.gameZoom.toInt(), equals(12));
-      expect(controller.backboardZoom.toInt(), equals(11));
+      expect(controller.gameFocus.zoom.toInt(), equals(12));
+      expect(controller.backboardFocus.zoom.toInt(), equals(11));
     });
 
     test('correctly sets the initial zoom and position', () async {
-      expect(game.camera.zoom, equals(controller.backboardZoom));
-      expect(game.camera.follow, equals(CameraController.backboardPosition));
+      expect(game.camera.zoom, equals(controller.backboardFocus.zoom));
+      expect(game.camera.follow, equals(controller.backboardFocus.position));
     });
 
     group('focusOnBoard', () {
       test('changes the zoom', () async {
-        unawaited(controller.focusOnGame());
+        controller.focusOnGame();
 
         await game.ready();
         final zoom = game.firstChild<CameraZoom>();
         expect(zoom, isNotNull);
-        expect(zoom?.value, equals(controller.gameZoom));
+        expect(zoom?.value, equals(controller.gameFocus.zoom));
       });
 
       test('moves the camera after the zoom is completed', () async {
-        final future = controller.focusOnGame();
+        controller.focusOnGame();
         await game.ready();
+        final cameraZoom = game.firstChild<CameraZoom>()!;
+        final future = cameraZoom.completed;
 
         game.update(10);
         game.update(0); // Ensure that the component was removed
@@ -59,17 +59,19 @@ void main() {
 
     group('focusOnBackboard', () {
       test('changes the zoom', () async {
-        unawaited(controller.focusOnBackboard());
+        controller.focusOnBackboard();
 
         await game.ready();
         final zoom = game.firstChild<CameraZoom>();
         expect(zoom, isNotNull);
-        expect(zoom?.value, equals(controller.backboardZoom));
+        expect(zoom?.value, equals(controller.backboardFocus.zoom));
       });
 
       test('moves the camera after the zoom is completed', () async {
-        final future = controller.focusOnBackboard();
+        controller.focusOnBackboard();
         await game.ready();
+        final cameraZoom = game.firstChild<CameraZoom>()!;
+        final future = cameraZoom.completed;
 
         game.update(10);
         game.update(0); // Ensure that the component was removed

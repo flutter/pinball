@@ -20,7 +20,7 @@ class PlayButtonOverlay extends StatelessWidget {
     final l10n = context.l10n;
     return Center(
       child: ElevatedButton(
-        onPressed: _game.gameController.start,
+        onPressed: _game.gameFlowController.start,
         child: Text(l10n.play),
       ),
     );
