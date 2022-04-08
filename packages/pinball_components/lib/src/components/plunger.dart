@@ -1,6 +1,5 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/services.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template plunger}
@@ -9,7 +8,7 @@ import 'package:pinball_components/pinball_components.dart';
 ///
 /// [Plunger] ignores gravity so the player controls its downward [pull].
 /// {@endtemplate}
-class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
+class Plunger extends BodyComponent with InitialPosition {
   /// {@macro plunger}
   Plunger({
     required this.compressionDistance,
@@ -55,27 +54,6 @@ class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
   void release() {
     final velocity = (initialPosition.y - body.position.y) * 5;
     body.linearVelocity = Vector2(0, velocity);
-  }
-
-  @override
-  bool onKeyEvent(
-    RawKeyEvent event,
-    Set<LogicalKeyboardKey> keysPressed,
-  ) {
-    final keys = [
-      LogicalKeyboardKey.space,
-      LogicalKeyboardKey.arrowDown,
-      LogicalKeyboardKey.keyS,
-    ];
-    if (!keys.contains(event.logicalKey)) return true;
-
-    if (event is RawKeyDownEvent) {
-      pull();
-    } else if (event is RawKeyUpEvent) {
-      release();
-    }
-
-    return false;
   }
 
   /// Anchors the [Plunger] to the [PrismaticJoint] that controls its vertical

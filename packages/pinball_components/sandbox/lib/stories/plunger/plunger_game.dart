@@ -40,14 +40,15 @@ class PlungerGame extends BasicBallGame with KeyboardEvents, Traceable {
     RawKeyEvent event,
     Set<LogicalKeyboardKey> keysPressed,
   ) {
-    final movedDownPlunger = _downKeys.contains(event.logicalKey);
-    if (movedDownPlunger) {
+    final movedPlungerDown = _downKeys.contains(event.logicalKey);
+    if (movedPlungerDown) {
       if (event is RawKeyDownEvent) {
         plunger.pull();
       } else if (event is RawKeyUpEvent) {
         plunger.release();
       }
+      return KeyEventResult.handled;
     }
-    return movedDownPlunger ? KeyEventResult.handled : KeyEventResult.ignored;
+    return KeyEventResult.ignored;
   }
 }
