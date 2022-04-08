@@ -110,35 +110,40 @@ class _SpaceshipRampBackground extends BodyComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadSprites();
+    renderBody = false;
+
+    await add(_SpaceshipRampBackgroundRailingSpriteComponent());
+    await add(_SpaceshipRampBackgroundRampSpriteComponent());
   }
+}
 
-  Future<void> _loadSprites() async {
-    final spriteRamp = await gameRef.loadSprite(
-      Assets.images.spaceship.ramp.main.keyName,
-    );
-
-    final spriteRampComponent = SpriteComponent(
-      sprite: spriteRamp,
-      size: spriteRamp.originalSize / 10,
-      anchor: Anchor.center,
-      position: Vector2(-12.2, -53.5),
-    );
-
-    final spriteRailingBg = await gameRef.loadSprite(
+class _SpaceshipRampBackgroundRailingSpriteComponent extends SpriteComponent
+    with HasGameRef {
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    final sprite = await gameRef.loadSprite(
       Assets.images.spaceship.ramp.railingBackground.keyName,
     );
-    final spriteRailingBgComponent = SpriteComponent(
-      sprite: spriteRailingBg,
-      size: spriteRailingBg.originalSize / 10,
-      anchor: Anchor.center,
-      position: Vector2(-12.2, -54.5),
-    );
+    this.sprite = sprite;
+    size = Vector2(38.3, 35.1);
+    anchor = Anchor.center;
+    position = Vector2(-12.2, -54.5);
+  }
+}
 
-    await addAll([
-      spriteRailingBgComponent,
-      spriteRampComponent,
-    ]);
+class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
+    with HasGameRef {
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    final sprite = await gameRef.loadSprite(
+      Assets.images.spaceship.ramp.main.keyName,
+    );
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
+    anchor = Anchor.center;
+    position = Vector2(-12.2, -53.5);
   }
 }
 
@@ -194,21 +199,22 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadSprites();
+    await add(_SpaceshipRampForegroundRalingSpriteComponent());
   }
+}
 
-  Future<void> _loadSprites() async {
-    final spriteRailingFg = await gameRef.loadSprite(
+class _SpaceshipRampForegroundRalingSpriteComponent extends SpriteComponent
+    with HasGameRef {
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    final sprite = await gameRef.loadSprite(
       Assets.images.spaceship.ramp.railingForeground.keyName,
     );
-    final spriteRailingFgComponent = SpriteComponent(
-      sprite: spriteRailingFg,
-      size: spriteRailingFg.originalSize / 10,
-      anchor: Anchor.center,
-      position: Vector2(-12.2, -52.5),
-    );
-
-    await add(spriteRailingFgComponent);
+    this.sprite = sprite;
+    size = Vector2(26.1, 28.3);
+    anchor = Anchor.center;
+    position = Vector2(-12.2, -52.5);
   }
 }
 
