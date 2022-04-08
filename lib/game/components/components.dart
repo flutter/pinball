@@ -3,6 +3,7 @@ export 'bonus_word.dart';
 export 'camera_controller.dart';
 export 'controlled_ball.dart';
 export 'controlled_flipper.dart';
+export 'controlled_plunger.dart';
 export 'flutter_forest.dart';
 export 'game_flow_controller.dart';
 export 'score_points.dart';

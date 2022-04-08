@@ -5,7 +5,6 @@ import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/services.dart';
 import 'package:pinball/flame/flame.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/gen/assets.gen.dart';
@@ -47,7 +46,7 @@ class PinballGame extends Forge2DGame
     unawaited(addFromBlueprint(Boundaries()));
     unawaited(addFromBlueprint(LaunchRamp()));
 
-    final plunger = Plunger(compressionDistance: 29)
+    final plunger = ControlledPlunger(compressionDistance: 29)
       ..initialPosition = Vector2(38, -19);
     await add(plunger);
 
@@ -140,27 +139,6 @@ class _GameBallsController extends ComponentController<PinballGame>
   // ignore: use_setters_to_change_properties
   void attachTo(Plunger plunger) {
     _plunger = plunger;
-  }
-
-  @override
-  bool onKeyEvent(
-    RawKeyEvent event,
-    Set<LogicalKeyboardKey> keysPressed,
-  ) {
-    final keys = [
-      LogicalKeyboardKey.space,
-      LogicalKeyboardKey.arrowDown,
-      LogicalKeyboardKey.keyS,
-    ];
-    if (!keys.contains(event.logicalKey)) return true;
-
-    if (event is RawKeyDownEvent) {
-      _plunger.pull();
-    } else if (event is RawKeyUpEvent) {
-      _plunger.release();
-    }
-
-    return false;
   }
 }
 
