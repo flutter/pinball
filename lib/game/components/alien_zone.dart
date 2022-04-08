@@ -36,7 +36,7 @@ class AlienZone extends Component with HasGameRef<PinballGame> {
 }
 
 /// {@template controlled_alien_bumper}
-/// [SparkyBumper] with [_AlienBumperController] attached.
+/// [AlienBumper] with [_AlienBumperController] attached.
 /// {@endtemplate}
 class ControlledAlienBumper extends AlienBumper
     with Controls<_AlienBumperController>, ScorePoints {
