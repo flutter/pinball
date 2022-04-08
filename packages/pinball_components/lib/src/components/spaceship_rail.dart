@@ -1,9 +1,11 @@
 // ignore_for_file: avoid_renaming_method_parameters
 
 import 'dart:math' as math;
+import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 
@@ -14,7 +16,7 @@ class SpaceshipRail extends Forge2DBlueprint {
   /// {@macro spaceship_rail}
   SpaceshipRail();
 
-  /// Base priority for ball while be in [_SpaceshipRailRamp].
+  /// Base priority for [Ball] while be in [SpaceshipRail].
   static const ballPriorityInsideRail = 2;
 
   @override
@@ -47,7 +49,6 @@ class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
       : super(
           priority: SpaceshipRail.ballPriorityInsideRail - 1,
         ) {
-    renderBody = false;
     layer = Layer.spaceshipExitRail;
   }
 
@@ -139,6 +140,8 @@ class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    renderBody = false;
+
     await add(_SpaceshipRailRampSpriteComponent());
   }
 }
@@ -160,13 +163,6 @@ class _SpaceshipRailRampSpriteComponent extends SpriteComponent
 }
 
 class _SpaceshipRailForeground extends SpriteComponent with HasGameRef {
-  _SpaceshipRailForeground()
-      : super(
-          anchor: Anchor.center,
-          position: Vector2(-28.5, 19.7),
-          priority: SpaceshipRail.ballPriorityInsideRail + 1,
-        );
-
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -176,6 +172,9 @@ class _SpaceshipRailForeground extends SpriteComponent with HasGameRef {
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
+    anchor = Anchor.center;
+    position = Vector2(-28.5, 19.7);
+    priority = SpaceshipRail.ballPriorityInsideRail + 1;
   }
 }
 
@@ -213,12 +212,14 @@ class SpaceshipRailExit extends RampOpening {
   /// {@macro spaceship_rail_exit}
   SpaceshipRailExit()
       : super(
-          insideLayer: Layer.spaceshipExitRail,
           orientation: RampOrientation.down,
-          insidePriority: 3,
+          insideLayer: Layer.spaceshipExitRail,
+          insidePriority: SpaceshipRail.ballPriorityInsideRail,
         ) {
-    renderBody = false;
     layer = Layer.spaceshipExitRail;
+    paint = Paint()
+      ..color = Colors.red
+      ..style = PaintingStyle.fill;
   }
 
   @override

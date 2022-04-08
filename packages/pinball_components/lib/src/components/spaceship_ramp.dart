@@ -60,7 +60,6 @@ class _SpaceshipRampBackground extends BodyComponent
     with InitialPosition, Layered {
   _SpaceshipRampBackground()
       : super(priority: SpaceshipRamp.ballPriorityInsideRamp - 1) {
-    renderBody = false;
     layer = Layer.spaceshipEntranceRamp;
   }
 
@@ -152,7 +151,6 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
     with InitialPosition, Layered {
   _SpaceshipRampForegroundRailing()
       : super(priority: SpaceshipRamp.ballPriorityInsideRamp + 1) {
-    renderBody = false;
     layer = Layer.spaceshipEntranceRamp;
   }
 
@@ -199,11 +197,13 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await add(_SpaceshipRampForegroundRalingSpriteComponent());
+    renderBody = false;
+
+    await add(_SpaceshipRampForegroundRailingSpriteComponent());
   }
 }
 
-class _SpaceshipRampForegroundRalingSpriteComponent extends SpriteComponent
+class _SpaceshipRampForegroundRailingSpriteComponent extends SpriteComponent
     with HasGameRef {
   @override
   Future<void> onLoad() async {
@@ -221,6 +221,7 @@ class _SpaceshipRampForegroundRalingSpriteComponent extends SpriteComponent
 /// Represents the ground right base of the [SpaceshipRamp].
 class _SpaceshipRampBase extends BodyComponent with InitialPosition, Layered {
   _SpaceshipRampBase() {
+    renderBody = false;
     layer = Layer.board;
   }
 

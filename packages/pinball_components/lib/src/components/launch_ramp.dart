@@ -11,7 +11,7 @@ import 'package:pinball_components/pinball_components.dart';
 /// [_LaunchRampForegroundRailing].
 /// {@endtemplate}
 class LaunchRamp extends Forge2DBlueprint {
-  /// Base priority for ball while be in [_LaunchRampBase].
+  /// Base priority for [Ball] while be in [LaunchRamp].
   static const ballPriorityInsideRamp = 0;
 
   @override
@@ -47,7 +47,6 @@ class _LaunchRampBase extends BodyComponent with InitialPosition, Layered {
       : super(
           priority: LaunchRamp.ballPriorityInsideRamp - 1,
         ) {
-    renderBody = false;
     layer = Layer.launcher;
   }
 
@@ -154,7 +153,6 @@ class _LaunchRampForegroundRailing extends BodyComponent
       : super(
           priority: LaunchRamp.ballPriorityInsideRamp + 1,
         ) {
-    renderBody = false;
     layer = Layer.launcher;
   }
 
