@@ -1,8 +1,9 @@
 // ignore_for_file: cascade_invocations
 
+import 'dart:ui';
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flame_test/flame_test.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
@@ -43,6 +44,7 @@ void main() {
     });
 
     group('bumpers', () {
+      late ControlledAlienBumper controlledAlienBumper;
       late Ball ball;
       late GameBloc gameBloc;
 
@@ -64,31 +66,27 @@ void main() {
       flameTester.testGameWidget(
         'activate when deactivated bumper is hit',
         setUp: (game, tester) async {
-          final alienZone = AlienZone();
-          await game.ensureAdd(ball);
+          controlledAlienBumper = ControlledAlienBumper.a();
+          await game.ensureAdd(controlledAlienBumper);
 
-          final bumpers = alienZone.descendants().whereType<AlienBumper>();
-
-          for (final bumper in bumpers) {
-            beginContact(game, bumper, ball);
-            final controller = bumper.firstChild<AlienBumperController>()!;
-            expect(controller.isActivated, isTrue);
-          }
+          controlledAlienBumper.controller.hit();
+        },
+        verify: (game, tester) async {
+          expect(controlledAlienBumper.controller.isActivated, isTrue);
         },
       );
 
       flameTester.testGameWidget(
         'deactivate when activated bumper is hit',
         setUp: (game, tester) async {
-          final alienZone = AlienZone();
-          await game.ensureAdd(ball);
+          controlledAlienBumper = ControlledAlienBumper.a();
+          await game.ensureAdd(controlledAlienBumper);
 
-          final bumpers = alienZone.descendants().whereType<AlienBumper>();
-
-          for (final bumper in bumpers) {
-            final controller = bumper.firstChild<AlienBumperController>()!;
-            expect(controller.isActivated, isFalse);
-          }
+          controlledAlienBumper.controller.hit();
+          controlledAlienBumper.controller.hit();
+        },
+        verify: (game, tester) async {
+          expect(controlledAlienBumper.controller.isActivated, isFalse);
         },
       );
 
