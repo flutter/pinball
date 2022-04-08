@@ -81,13 +81,10 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
 
   @override
   Body createBody() {
-    renderBody = false;
-
     final bodyDef = BodyDef()
       ..userData = this
       ..position = initialPosition
       ..type = BodyType.static;
-
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(
       (fixture) => body.createFixture(
@@ -103,21 +100,22 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadSprite();
-  }
+    renderBody = false;
 
-  Future<void> _loadSprite() async {
+    await add(_DinoTopWallSpriteComponent());
+  }
+}
+
+class _DinoTopWallSpriteComponent extends SpriteComponent with HasGameRef {
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
     final sprite = await gameRef.loadSprite(
       Assets.images.dino.dinoLandTop.keyName,
     );
-    final spriteComponent = SpriteComponent(
-      sprite: sprite,
-      size: Vector2(10.6, 27.7),
-      anchor: Anchor.center,
-      position: Vector2(27, -28.2),
-    );
-
-    await add(spriteComponent);
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
+    position = Vector2(27, -28.2);
   }
 }
 
@@ -182,8 +180,6 @@ class _DinoBottomWall extends BodyComponent with InitialPosition {
 
   @override
   Body createBody() {
-    renderBody = false;
-
     final bodyDef = BodyDef()
       ..userData = this
       ..position = initialPosition
@@ -204,19 +200,21 @@ class _DinoBottomWall extends BodyComponent with InitialPosition {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadSprite();
-  }
+    renderBody = false;
 
-  Future<void> _loadSprite() async {
+    await add(_DinoBottomWallSpriteComponent());
+  }
+}
+
+class _DinoBottomWallSpriteComponent extends SpriteComponent with HasGameRef {
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
     final sprite = await gameRef.loadSprite(
       Assets.images.dino.dinoLandBottom.keyName,
     );
-    final spriteComponent = SpriteComponent(
-      sprite: sprite,
-      size: Vector2(15.6, 54.8),
-      anchor: Anchor.center,
-    )..position = Vector2(31.7, 18);
-
-    await add(spriteComponent);
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
+    position = Vector2(31.7, 18);
   }
 }

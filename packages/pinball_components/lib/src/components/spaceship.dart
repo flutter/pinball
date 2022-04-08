@@ -102,27 +102,9 @@ class AndroidHead extends BodyComponent with InitialPosition, Layered {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-
     renderBody = false;
 
-    final sprite = await gameRef.images.load(
-      Assets.images.spaceship.bridge.keyName,
-    );
-
-    await add(
-      SpriteAnimationComponent.fromFrameData(
-        sprite,
-        SpriteAnimationData.sequenced(
-          amount: 72,
-          amountPerRow: 24,
-          stepTime: 0.05,
-          textureSize: Vector2(82, 100),
-        ),
-        size: Vector2(8.2, 10),
-        position: Vector2(0, -2),
-        anchor: Anchor.center,
-      ),
-    );
+    await add(_AndroidHeadSpriteAnimation());
   }
 
   @override
@@ -138,6 +120,29 @@ class AndroidHead extends BodyComponent with InitialPosition, Layered {
       ..createFixture(
         FixtureDef(circleShape)..restitution = 0.4,
       );
+  }
+}
+
+class _AndroidHeadSpriteAnimation extends SpriteAnimationComponent
+    with HasGameRef {
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+
+    final image = await gameRef.images.load(
+      Assets.images.spaceship.bridge.keyName,
+    );
+    size = Vector2(8.2, 10);
+    position = Vector2(0, -2);
+    anchor = Anchor.center;
+
+    final data = SpriteAnimationData.sequenced(
+      amount: 72,
+      amountPerRow: 24,
+      stepTime: 0.05,
+      textureSize: size * 10,
+    );
+    animation = SpriteAnimation.fromFrameData(image, data);
   }
 }
 
@@ -228,8 +233,11 @@ class _SpaceshipWallShape extends ChainShape {
 
 /// {@template spaceship_wall}
 /// A [BodyComponent] that provides the collision for the wall
-/// surrounding the spaceship, with a small opening to allow the
-/// [Ball] to get inside the spaceship saucer.
+/// surrounding the spaceship.
+///
+/// It has a small opening to allow the [Ball] to get inside the spaceship
+/// saucer.
+///
 /// It also contains the [SpriteComponent] for the lower wall
 /// {@endtemplate}
 class SpaceshipWall extends BodyComponent with InitialPosition, Layered {

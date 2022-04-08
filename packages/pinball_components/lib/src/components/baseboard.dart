@@ -82,23 +82,8 @@ class Baseboard extends BodyComponent with InitialPosition {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-
-    final sprite = await gameRef.loadSprite(
-      (_side.isLeft)
-          ? Assets.images.baseboard.left.keyName
-          : Assets.images.baseboard.right.keyName,
-    );
-
-    await add(
-      SpriteComponent(
-        sprite: sprite,
-        size: Vector2(27.5, 17.9),
-        anchor: Anchor.center,
-        position: Vector2(_side.isLeft ? 0.4 : -0.4, 0),
-      ),
-    );
-
     renderBody = false;
+    await add(_BaseboardSpriteComponent(side: _side));
   }
 
   @override
@@ -113,5 +98,25 @@ class Baseboard extends BodyComponent with InitialPosition {
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;
+  }
+}
+
+class _BaseboardSpriteComponent extends SpriteComponent with HasGameRef {
+  _BaseboardSpriteComponent({required BoardSide side}) : _side = side;
+
+  final BoardSide _side;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    final sprite = await gameRef.loadSprite(
+      (_side.isLeft)
+          ? Assets.images.baseboard.left.keyName
+          : Assets.images.baseboard.right.keyName,
+    );
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
+    position = Vector2(0.4 * -_side.direction, 0);
+    anchor = Anchor.center;
   }
 }
