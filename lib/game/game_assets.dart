@@ -4,9 +4,9 @@ import 'package:pinball_components/pinball_components.dart' as components;
 
 /// Add methods to help loading and caching game assets.
 extension PinballGameAssetsX on PinballGame {
-  /// Pre load the initial assets of the game.
-  Future<void> preLoadAssets() async {
-    await Future.wait([
+  /// Returns a list of assets to be loaded
+  List<Future> preLoadAssets() {
+    return [
       images.load(components.Assets.images.ball.keyName),
       images.load(components.Assets.images.flutterSignPost.keyName),
       images.load(components.Assets.images.flipper.left.keyName),
@@ -47,6 +47,6 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.chromeDino.mouth.keyName),
       images.load(components.Assets.images.chromeDino.head.keyName),
       images.load(Assets.images.components.background.path),
-    ]);
+    ];
   }
 }
