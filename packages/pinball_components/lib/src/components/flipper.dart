@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math' as math;
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
@@ -198,8 +197,8 @@ class _FlipperJoint extends RevoluteJoint {
     lock();
   }
 
-  /// The total angle of the arc motion.
-  static const _sweepingAngle = math.pi / 3.5;
+  /// Half the angle of the arc motion.
+  static const _halfSweepingAngle = 0.611;
 
   final BoardSide side;
 
@@ -208,7 +207,7 @@ class _FlipperJoint extends RevoluteJoint {
   /// The joint is locked when initialized in order to force the [Flipper]
   /// at its resting position.
   void lock() {
-    const angle = _sweepingAngle / 2;
+    const angle = _halfSweepingAngle;
     setLimits(
       -angle * side.direction,
       -angle * side.direction,
@@ -217,7 +216,7 @@ class _FlipperJoint extends RevoluteJoint {
 
   /// Unlocks the [Flipper] from its resting position.
   void unlock() {
-    const angle = _sweepingAngle / 2;
+    const angle = _halfSweepingAngle;
     setLimits(-angle, angle);
   }
 }
