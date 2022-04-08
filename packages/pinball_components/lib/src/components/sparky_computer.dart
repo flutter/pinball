@@ -5,13 +5,13 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template sparky_computer}
-/// A [Blueprint] which creates the [_ComputerBase] and [_ComputerTop].
+/// A [Blueprint] which creates the [_ComputerBase] and [_ComputerTopSpriteComponent].
 /// {@endtemplate}
 class SparkyComputer extends Forge2DBlueprint {
   @override
   void build(_) {
     final computerBase = _ComputerBase();
-    final computerTop = _ComputerTop();
+    final computerTop = _ComputerTopSpriteComponent();
 
     addAll([
       computerBase,
@@ -68,28 +68,33 @@ class _ComputerBase extends BodyComponent with InitialPosition {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadSprite();
     renderBody = false;
-  }
 
-  Future<void> _loadSprite() async {
-    final sprite = await gameRef.loadSprite(
-      Assets.images.sparky.computer.base.keyName,
-    );
-
-    await add(
-      SpriteComponent(
-        sprite: sprite,
-        size: sprite.originalSize / 10,
-        anchor: Anchor.center,
-        position: Vector2(-11.95, -48.35),
-      ),
-    );
+    await add(_ComputerBaseSpriteComponent());
   }
 }
 
-class _ComputerTop extends SpriteComponent with HasGameRef {
-  _ComputerTop()
+class _ComputerBaseSpriteComponent extends SpriteComponent with HasGameRef {
+  _ComputerBaseSpriteComponent()
+      : super(
+          anchor: Anchor.center,
+          position: Vector2(-11.95, -48.35),
+        );
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+
+    final sprite = await gameRef.loadSprite(
+      Assets.images.sparky.computer.base.keyName,
+    );
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
+  }
+}
+
+class _ComputerTopSpriteComponent extends SpriteComponent with HasGameRef {
+  _ComputerTopSpriteComponent()
       : super(
           anchor: Anchor.center,
           position: Vector2(-12.45, -49.75),
