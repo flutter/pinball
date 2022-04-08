@@ -30,31 +30,30 @@ void main() {
 
         await game.add(CameraZoom(value: 40));
       },
-      // TODO(allisonryan0002): enable test when workflows are fixed.
-      // verify: (game, tester) async {
-      //   await expectLater(
-      //     find.byGame<TestGame>(),
-      //     matchesGoldenFile('golden/camera_zoom/no_zoom.png'),
-      //   );
+      verify: (game, tester) async {
+        await expectLater(
+          find.byGame<TestGame>(),
+          matchesGoldenFile('golden/camera_zoom/no_zoom.png'),
+        );
 
-      //   game.update(0.2);
-      //   await tester.pump();
-      //   await expectLater(
-      //     find.byGame<TestGame>(),
-      //     matchesGoldenFile('golden/camera_zoom/in_between.png'),
-      //   );
+        game.update(0.2);
+        await tester.pump();
+        await expectLater(
+          find.byGame<TestGame>(),
+          matchesGoldenFile('golden/camera_zoom/in_between.png'),
+        );
 
-      //   game.update(0.4);
-      //   await tester.pump();
-      //   await expectLater(
-      //     find.byGame<TestGame>(),
-      //     matchesGoldenFile('golden/camera_zoom/finished.png'),
-      //   );
-      //   game.update(0.1);
-      //   await tester.pump();
+        game.update(0.4);
+        await tester.pump();
+        await expectLater(
+          find.byGame<TestGame>(),
+          matchesGoldenFile('golden/camera_zoom/finished.png'),
+        );
+        game.update(0.1);
+        await tester.pump();
 
-      //   expect(game.firstChild<CameraZoom>(), isNull);
-      // },
+        expect(game.firstChild<CameraZoom>(), isNull);
+      },
     );
 
     tester.test(
