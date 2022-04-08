@@ -51,7 +51,7 @@ class ChromeDino extends BodyComponent with InitialPosition {
           repeat: true,
         ),
         _ChromeDinoMouthSprite(),
-        _ChromeDinoHeadSprite(),
+        //  _ChromeDinoHeadSprite(),
       ],
     );
   }
@@ -168,7 +168,7 @@ class _ChromeDinoMouthSprite extends SpriteAnimationComponent with HasGameRef {
       Assets.images.chromeDino.mouth.keyName,
     );
 
-    size = Vector2(17.5, 17);
+    size = Vector2(25, 20);
     position = Vector2(0, -2);
     anchor = Anchor.center;
 
@@ -177,7 +177,7 @@ class _ChromeDinoMouthSprite extends SpriteAnimationComponent with HasGameRef {
     final data = SpriteAnimationData.sequenced(
       amount: amountPerColumn * amountPerRow,
       amountPerRow: amountPerRow,
-      stepTime: 0.05,
+      stepTime: 0.10,
       textureSize: size * _kImageToFlameRatio,
     );
     animation = SpriteAnimation.fromFrameData(image, data);
@@ -192,7 +192,7 @@ class _ChromeDinoHeadSprite extends SpriteAnimationComponent with HasGameRef {
       Assets.images.chromeDino.head.keyName,
     );
 
-    size = Vector2(17.5, 17);
+    size = Vector2(25, 20);
     position = Vector2(0, -2);
     anchor = Anchor.center;
 
@@ -201,7 +201,7 @@ class _ChromeDinoHeadSprite extends SpriteAnimationComponent with HasGameRef {
     final data = SpriteAnimationData.sequenced(
       amount: amountPerColumn * amountPerRow,
       amountPerRow: amountPerRow,
-      stepTime: 0.05,
+      stepTime: 1,
       textureSize: size * _kImageToFlameRatio,
     );
     animation = SpriteAnimation.fromFrameData(image, data);
