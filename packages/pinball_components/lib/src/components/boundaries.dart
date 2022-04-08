@@ -30,9 +30,9 @@ class _BottomBoundary extends BodyComponent with InitialPosition {
 
     final bottomLeftCurve = BezierCurveShape(
       controlPoints: [
-        Vector2(-43.6, -44.4),
-        Vector2(-31, -43.4),
-        Vector2(-18.7, -52.1),
+        Vector2(-43.9, -41.8),
+        Vector2(-35.7, -43),
+        Vector2(-19.9, -51),
       ],
     );
     final bottomLeftCurveFixtureDef = FixtureDef(bottomLeftCurve);
@@ -40,9 +40,9 @@ class _BottomBoundary extends BodyComponent with InitialPosition {
 
     final bottomRightCurve = BezierCurveShape(
       controlPoints: [
-        Vector2(31.8, -44.1),
-        Vector2(21.95, -47),
-        Vector2(12.3, -51.4),
+        Vector2(31.8, -44.8),
+        Vector2(21.95, -47.7),
+        Vector2(12.3, -52.1),
       ],
     );
     final bottomRightCurveFixtureDef = FixtureDef(bottomRightCurve);
@@ -78,7 +78,7 @@ class _BottomBoundarySpriteComponent extends SpriteComponent with HasGameRef {
     this.sprite = sprite;
     size = sprite.originalSize / 10;
     anchor = Anchor.center;
-    position = Vector2(-5.4, 57.4);
+    position = Vector2(-5.4, 55.8);
   }
 }
 
@@ -114,7 +114,7 @@ class _OuterBoundary extends BodyComponent with InitialPosition {
     final leftWall = EdgeShape()
       ..set(
         Vector2(-32.3, 57.2),
-        Vector2(-44.1, -44.4),
+        Vector2(-43.9, -41.8),
       );
     final leftWallFixtureDef = FixtureDef(leftWall);
     fixturesDefs.add(leftWallFixtureDef);
