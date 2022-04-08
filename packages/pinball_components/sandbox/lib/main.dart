@@ -25,5 +25,6 @@ void main() {
   addSparkyBumperStories(dashbook);
   addZoomStories(dashbook);
   addBoundariesStories(dashbook);
+  addScoreTextEffectStories(dashbook);
   runApp(dashbook);
 }
