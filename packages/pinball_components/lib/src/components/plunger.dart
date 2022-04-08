@@ -74,6 +74,7 @@ class Plunger extends BodyComponent with InitialPosition {
   Future<void> onLoad() async {
     await super.onLoad();
     await _anchorToJoint();
+    renderBody = false;
     await add(_PlungerSpriteComponent());
   }
 }
