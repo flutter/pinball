@@ -45,17 +45,10 @@ void main() {
 
     group('bumpers', () {
       late ControlledAlienBumper controlledAlienBumper;
-      late Ball ball;
       late GameBloc gameBloc;
 
       setUp(() {
-        ball = Ball(baseColor: const Color(0xFF00FFFF));
         gameBloc = MockGameBloc();
-        whenListen(
-          gameBloc,
-          const Stream<GameState>.empty(),
-          initialState: const GameState.initial(),
-        );
       });
 
       final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
@@ -93,7 +86,14 @@ void main() {
       flameBlocTester.testGameWidget(
         'add Scored event',
         setUp: (game, tester) async {
+          final ball = Ball(baseColor: const Color(0xFF00FFFF));
           final alienZone = AlienZone();
+          whenListen(
+            gameBloc,
+            const Stream<GameState>.empty(),
+            initialState: const GameState.initial(),
+          );
+
           await game.ensureAdd(alienZone);
           await game.ensureAdd(ball);
           game.addContactCallback(BallScorePointsCallback(game));
