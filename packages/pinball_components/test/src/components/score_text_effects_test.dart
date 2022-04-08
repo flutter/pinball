@@ -26,8 +26,8 @@ void main() {
       },
       verify: (game, tester) async {
         await expectLater(
-            find.byGame<TestGame>(),
-            matchesGoldenFile('golden/score_text_effect/render.png'),
+          find.byGame<TestGame>(),
+          matchesGoldenFile('golden/score_text_effect/render.png'),
         );
       },
     );
@@ -49,8 +49,8 @@ void main() {
       },
       verify: (game, tester) async {
         await expectLater(
-            find.byGame<TestGame>(),
-            matchesGoldenFile('golden/score_text_effect/movement.png'),
+          find.byGame<TestGame>(),
+          matchesGoldenFile('golden/score_text_effect/movement.png'),
         );
       },
     );

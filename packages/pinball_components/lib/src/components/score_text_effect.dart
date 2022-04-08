@@ -11,7 +11,6 @@ import 'package:pinball_components/gen/fonts.gen.dart';
 /// once its animation is completed
 /// {@endtemplate}
 class ScoreTextEffect extends TextComponent {
-
   /// {@macro score_text_effect}
   ScoreTextEffect({
     required String text,
@@ -24,6 +23,7 @@ class ScoreTextEffect extends TextComponent {
           priority: 100,
         );
   late final Effect _effect;
+
   /// The [text] [Color]
   final Color color;
 
@@ -31,9 +31,9 @@ class ScoreTextEffect extends TextComponent {
   Future<void> onLoad() async {
     textRenderer = TextPaint(
       style: TextStyle(
-          fontFamily: 'packages/pinball_components/${FontFamily.pixeloidMono}',
-          color: color,
-          fontSize: 4,
+        fontFamily: 'packages/pinball_components/${FontFamily.pixeloidMono}',
+        color: color,
+        fontSize: 4,
       ),
     );
 
