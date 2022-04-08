@@ -9,16 +9,41 @@ import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
 class PinballGamePage extends StatelessWidget {
-  const PinballGamePage({Key? key, required this.theme}) : super(key: key);
+  const PinballGamePage({
+    Key? key,
+    required this.theme,
+    required this.game,
+  }) : super(key: key);
 
   final PinballTheme theme;
+  final PinballGame game;
 
-  static Route route({required PinballTheme theme}) {
+  static Route route({
+    required PinballTheme theme,
+    bool isDebugMode = kDebugMode,
+  }) {
     return MaterialPageRoute<void>(
-      builder: (_) {
-        return BlocProvider(
-          create: (_) => GameBloc(),
-          child: PinballGamePage(theme: theme),
+      builder: (context) {
+        final audio = context.read<PinballAudio>();
+
+        final game = isDebugMode
+            ? DebugPinballGame(theme: theme, audio: audio)
+            : PinballGame(theme: theme, audio: audio);
+
+        final pinballAudio = context.read<PinballAudio>();
+        final loadables = [
+          ...game.preLoadAssets(),
+          pinballAudio.load(),
+        ];
+
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (_) => GameBloc()),
+            BlocProvider(
+              create: (_) => AssetsManagerCubit(loadables)..load(),
+            ),
+          ],
+          child: PinballGamePage(theme: theme, game: game),
         );
       },
     );
@@ -26,51 +51,19 @@ class PinballGamePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PinballGameView(theme: theme);
+    return PinballGameView(theme: theme, game: game);
   }
 }
 
-class PinballGameView extends StatefulWidget {
+class PinballGameView extends StatelessWidget {
   const PinballGameView({
     Key? key,
     required this.theme,
-    bool isDebugMode = kDebugMode,
-  })  : _isDebugMode = isDebugMode,
-        super(key: key);
+    required this.game,
+  }) : super(key: key);
 
   final PinballTheme theme;
-  final bool _isDebugMode;
-
-  @override
-  State<PinballGameView> createState() => _PinballGameViewState();
-}
-
-class _PinballGameViewState extends State<PinballGameView> {
-  late PinballGame _game;
-
-  @override
-  void initState() {
-    super.initState();
-
-    final audio = context.read<PinballAudio>();
-
-    _game = widget._isDebugMode
-        ? DebugPinballGame(theme: widget.theme, audio: audio)
-        : PinballGame(theme: widget.theme, audio: audio);
-
-    // TODO(erickzanardo): Revisit this when we start to have more assets
-    // this could expose a Stream (maybe even a cubit?) so we could show the
-    // the loading progress with some fancy widgets.
-    _fetchAssets();
-  }
-
-  Future<void> _fetchAssets() async {
-    final pinballAudio = context.read<PinballAudio>();
-    await Future.wait([
-      _game.preLoadAssets(),
-      pinballAudio.load(),
-    ]);
-  }
+  final PinballGame game;
 
   @override
   Widget build(BuildContext context) {
@@ -84,24 +77,51 @@ class _PinballGameViewState extends State<PinballGameView> {
             builder: (_) {
               return GameOverDialog(
                 score: state.score,
-                theme: widget.theme.characterTheme,
+                theme: theme.characterTheme,
               );
             },
           );
         }
       },
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: GameWidget<PinballGame>(game: _game),
+      child: _GameView(game: game),
+    );
+  }
+}
+
+class _GameView extends StatelessWidget {
+  const _GameView({
+    Key? key,
+    required PinballGame game,
+  })  : _game = game,
+        super(key: key);
+
+  final PinballGame _game;
+
+  @override
+  Widget build(BuildContext context) {
+    final loadingProgress = context.watch<AssetsManagerCubit>().state.progress;
+
+    if (loadingProgress != 1) {
+      return Scaffold(
+        body: Center(
+          child: Text(
+            loadingProgress.toString(),
           ),
-          const Positioned(
-            top: 8,
-            left: 8,
-            child: GameHud(),
-          ),
-        ],
-      ),
+        ),
+      );
+    }
+
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: GameWidget<PinballGame>(game: _game),
+        ),
+        const Positioned(
+          top: 8,
+          left: 8,
+          child: GameHud(),
+        ),
+      ],
     );
   }
 }
