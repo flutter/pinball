@@ -26,5 +26,8 @@ void main() {
   addAlienZoneStories(dashbook);
   addZoomStories(dashbook);
   addBoundariesStories(dashbook);
+  addSpaceshipRampStories(dashbook);
+  addSpaceshipRailStories(dashbook);
+  addLaunchRampStories(dashbook);
   runApp(dashbook);
 }
