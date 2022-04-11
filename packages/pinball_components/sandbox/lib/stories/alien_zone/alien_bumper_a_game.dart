@@ -2,14 +2,13 @@ import 'dart:async';
 
 import 'package:flame/extensions.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class AlienBumperGame extends BasicBallGame with Traceable {
-  AlienBumperGame() : super(color: const Color(0xFF0000FF));
+class AlienBumperAGame extends BasicBallGame {
+  AlienBumperAGame() : super(color: const Color(0xFF0000FF));
 
   static const info = '''
-    Shows how a AlienBumper is rendered.
+    Shows how a AlienBumperA is rendered.
 
     - Activate the "trace" parameter to overlay the body.
 ''';
@@ -22,13 +21,7 @@ class AlienBumperGame extends BasicBallGame with Traceable {
     final alienBumperA = AlienBumper.a()
       ..initialPosition = Vector2(center.x - 20, center.y - 20)
       ..priority = 1;
-    final alienBumperB = AlienBumper.b()
-      ..initialPosition = Vector2(center.x - 10, center.y + 10)
-      ..priority = 1;
-    await addAll([
-      alienBumperA,
-      alienBumperB,
-    ]);
+    await add(alienBumperA);
 
     await traceAllBodies();
   }

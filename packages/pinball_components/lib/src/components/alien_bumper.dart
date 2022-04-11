@@ -59,19 +59,16 @@ class AlienBumper extends BodyComponent with InitialPosition {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    renderBody = false;
+
     await _loadSprites();
 
-    // TODO(erickzanardo): Look into using onNewState instead.
-    // Currently doing: onNewState(gameRef.read<GameState>()) will throw an
-    // `Exception: build context is not available yet`
     deactivate();
     await add(_spriteComponent);
   }
 
   @override
   Body createBody() {
-    renderBody = false;
-
     final shape = EllipseShape(
       center: Vector2.zero(),
       majorRadius: _majorRadius,

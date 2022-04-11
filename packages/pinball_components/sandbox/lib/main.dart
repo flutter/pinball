@@ -23,7 +23,7 @@ void main() {
   addKickerStories(dashbook);
   addSlingshotStories(dashbook);
   addSparkyBumperStories(dashbook);
-  addAlienBumperStories(dashbook);
+  addAlienZoneStories(dashbook);
   addZoomStories(dashbook);
   addBoundariesStories(dashbook);
   runApp(dashbook);
