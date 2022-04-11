@@ -24,3 +24,4 @@ export 'spaceship.dart';
 export 'spaceship_rail.dart';
 export 'spaceship_ramp.dart';
 export 'sparky_bumper.dart';
+export 'sparky_computer.dart';

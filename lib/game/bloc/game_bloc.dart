@@ -13,6 +13,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     on<Scored>(_onScored);
     on<BonusLetterActivated>(_onBonusLetterActivated);
     on<DashNestActivated>(_onDashNestActivated);
+    on<SparkyTurboChargeActivated>(_onSparkyTurboChargeActivated);
   }
 
   static const bonusWord = 'GOOGLE';
@@ -76,5 +77,19 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         state.copyWith(activatedDashNests: newNests),
       );
     }
+  }
+
+  Future<void> _onSparkyTurboChargeActivated(
+    SparkyTurboChargeActivated event,
+    Emitter emit,
+  ) async {
+    emit(
+      state.copyWith(
+        bonusHistory: [
+          ...state.bonusHistory,
+          GameBonus.sparkyTurboCharge,
+        ],
+      ),
+    );
   }
 }
