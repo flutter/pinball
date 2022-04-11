@@ -65,10 +65,7 @@ void main() {
       flameTester.test(
         'one SparkyFireZone',
         (game) async {
-          final sparkyFireZone = SparkyFireZone();
           await game.ready();
-          await game.ensureAdd(sparkyFireZone);
-
           expect(game.children.whereType<SparkyFireZone>().length, equals(1));
         },
       );
