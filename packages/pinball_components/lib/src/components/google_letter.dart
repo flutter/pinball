@@ -19,7 +19,7 @@ class GoogleLetter extends BodyComponent with InitialPosition {
   /// Activates this [GoogleLetter].
   // TODO(alestiago): Improve doc comment once activate and deactivate
   // are implemented with the actual assets.
-  Future<void> activate() async => _sprite.activate();
+  Future<void> activate() => _sprite.activate();
 
   /// Deactivates this [GoogleLetter].
   Future<void> deactivate() => _sprite.deactivate();
