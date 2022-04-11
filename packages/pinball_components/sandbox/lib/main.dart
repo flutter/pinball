@@ -29,5 +29,7 @@ void main() {
   addSpaceshipRampStories(dashbook);
   addSpaceshipRailStories(dashbook);
   addLaunchRampStories(dashbook);
+  addScoreTextStories(dashbook);
+
   runApp(dashbook);
 }
