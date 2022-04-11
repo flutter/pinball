@@ -37,7 +37,8 @@ class FlutterForest extends Component with Controls<_FlutterForestController> {
     final smallRightNest = _ControlledSmallDashNestBumper.b(
       id: 'small_nest_bumper_b',
     )..initialPosition = Vector2(23.3, 46.75);
-    final dashAnimatronic = _DashAnimatronic();
+    final dashAnimatronic = _ControlledDashAnimatronic()
+      ..position = Vector2(20, -66);
 
     await addAll([
       signPost,
@@ -75,7 +76,7 @@ class _FlutterForestController extends ComponentController<FlutterForest>
   }
 
   void _startDashAnimatronic() {
-    component.descendants().whereType<_DashAnimatronic>().single.playing = true;
+    component.firstChild<_ControlledDashAnimatronic>()?.controller.start();
   }
 
   Future<void> _addBonusBall() async {
@@ -87,45 +88,20 @@ class _FlutterForestController extends ComponentController<FlutterForest>
   }
 }
 
-class _DashAnimatronic extends SpriteAnimationComponent with HasGameRef {
-  _DashAnimatronic()
-      : super(
-          size: Vector2(15, 15),
-          anchor: Anchor.center,
-          position: Vector2(20, -66),
-          playing: false,
-        );
-
-  late final SpriteAnimation _animation;
-
-  @override
-  Future<void>? onLoad() async {
-    await super.onLoad();
-
-    final spriteSheet = await gameRef.images.load(
-      Assets.images.dash.animatronic.keyName,
-    );
-
-    _animation = SpriteAnimation.fromFrameData(
-      spriteSheet,
-      SpriteAnimationData.sequenced(
-        amount: 96,
-        amountPerRow: 12,
-        stepTime: 1 / 24,
-        textureSize: Vector2(150, 150),
-        loop: false,
-      ),
-    );
-    animation = _animation;
+class _ControlledDashAnimatronic extends DashAnimatronic
+    with Controls<_DashAnimatronicController> {
+  _ControlledDashAnimatronic() {
+    controller = _DashAnimatronicController(this);
   }
+}
 
-  @override
-  void update(double dt) {
-    super.update(dt);
-    if (_animation.isLastFrame) {
-      _animation.reset();
-      playing = false;
-    }
+class _DashAnimatronicController extends ComponentController<DashAnimatronic>
+    with HasGameRef<PinballGame> {
+  _DashAnimatronicController(DashAnimatronic dashAnimatronic)
+      : super(dashAnimatronic);
+
+  void start() {
+    component.playing = true;
   }
 }
 

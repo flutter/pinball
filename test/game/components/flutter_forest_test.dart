@@ -19,7 +19,6 @@ void main() {
     flameTester.test(
       'loads correctly',
       (game) async {
-        await game.ready();
         final flutterForest = FlutterForest();
         await game.ensureAdd(flutterForest);
 
@@ -31,7 +30,6 @@ void main() {
       flameTester.test(
         'a FlutterSignPost',
         (game) async {
-          await game.ready();
           final flutterForest = FlutterForest();
           await game.ensureAdd(flutterForest);
 
@@ -45,7 +43,6 @@ void main() {
       flameTester.test(
         'a BigDashNestBumper',
         (game) async {
-          await game.ready();
           final flutterForest = FlutterForest();
           await game.ensureAdd(flutterForest);
 
@@ -59,7 +56,6 @@ void main() {
       flameTester.test(
         'two SmallDashNestBumper',
         (game) async {
-          await game.ready();
           final flutterForest = FlutterForest();
           await game.ensureAdd(flutterForest);
 
@@ -106,12 +102,11 @@ void main() {
       'onNewState adds a new ball after a duration',
       (game) async {
         final flutterForest = FlutterForest();
-        await game.ready();
         await game.ensureAdd(flutterForest);
 
         final previousBalls = game.descendants().whereType<Ball>().length;
         flutterForest.controller.onNewState(MockGameState());
-        await game.ready();
+
         await Future<void>.delayed(const Duration(milliseconds: 700));
         await game.ready();
 
@@ -126,35 +121,13 @@ void main() {
       'onNewState starts Dash animatronic',
       (game) async {
         final flutterForest = FlutterForest();
-        await game.ready();
         await game.ensureAdd(flutterForest);
 
         flutterForest.controller.onNewState(MockGameState());
-        await game.ready();
-
         final dashAnimatronic =
-            game.descendants().whereType<SpriteAnimationComponent>().single;
+            game.descendants().whereType<DashAnimatronic>().single;
+
         expect(dashAnimatronic.playing, isTrue);
-      },
-    );
-
-    flameTester.test(
-      'Dash animatronic stops animating after animation completes',
-      (game) async {
-        final flutterForest = FlutterForest();
-        await game.ready();
-        await game.ensureAdd(flutterForest);
-
-        flutterForest.controller.onNewState(MockGameState());
-        await game.ready();
-
-        final dashAnimatronic =
-            game.descendants().whereType<SpriteAnimationComponent>().single;
-        expect(dashAnimatronic.playing, isTrue);
-
-        dashAnimatronic.animation?.setToLast();
-        game.update(1);
-        expect(dashAnimatronic.playing, isFalse);
       },
     );
 
