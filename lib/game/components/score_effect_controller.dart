@@ -8,7 +8,7 @@ import 'package:pinball_components/pinball_components.dart';
 
 /// {@template score_effect_controller}
 /// A [ComponentController] responsible for adding [ScoreTextEffect]s
-/// on the game screen when the user has earned more points.
+/// on the game screen when the user earns points.
 /// {@endtemplate}
 class ScoreEffectController extends ComponentController<PinballGame>
     with BlocComponent<GameBloc, GameState> {
