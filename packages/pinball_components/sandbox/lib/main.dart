@@ -18,6 +18,7 @@ void main() {
   addFlipperStories(dashbook);
   addSpaceshipStories(dashbook);
   addSpaceshipRampStories(dashbook);
+  addSpaceshipRailStories(dashbook);
   addBaseboardStories(dashbook);
   addChromeDinoStories(dashbook);
   addDashNestBumperStories(dashbook);
@@ -26,8 +27,6 @@ void main() {
   addSparkyBumperStories(dashbook);
   addZoomStories(dashbook);
   addBoundariesStories(dashbook);
-  addSpaceshipRampStories(dashbook);
-  addSpaceshipRailStories(dashbook);
   addLaunchRampStories(dashbook);
   runApp(dashbook);
 }
