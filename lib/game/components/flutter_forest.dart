@@ -37,8 +37,7 @@ class FlutterForest extends Component with Controls<_FlutterForestController> {
     final smallRightNest = _ControlledSmallDashNestBumper.b(
       id: 'small_nest_bumper_b',
     )..initialPosition = Vector2(23.3, 46.75);
-    final dashAnimatronic = _ControlledDashAnimatronic()
-      ..position = Vector2(20, -66);
+    final dashAnimatronic = DashAnimatronic()..position = Vector2(20, -66);
 
     await addAll([
       signPost,
@@ -71,12 +70,8 @@ class _FlutterForestController extends ComponentController<FlutterForest>
   void onNewState(GameState state) {
     super.onNewState(state);
 
-    _startDashAnimatronic();
+    component.firstChild<DashAnimatronic>()?.playing = true;
     _addBonusBall();
-  }
-
-  void _startDashAnimatronic() {
-    component.firstChild<_ControlledDashAnimatronic>()?.controller.start();
   }
 
   Future<void> _addBonusBall() async {
@@ -85,23 +80,6 @@ class _FlutterForestController extends ComponentController<FlutterForest>
       ControlledBall.bonus(theme: gameRef.theme)
         ..initialPosition = Vector2(17.2, 52.7),
     );
-  }
-}
-
-class _ControlledDashAnimatronic extends DashAnimatronic
-    with Controls<_DashAnimatronicController> {
-  _ControlledDashAnimatronic() {
-    controller = _DashAnimatronicController(this);
-  }
-}
-
-class _DashAnimatronicController extends ComponentController<DashAnimatronic>
-    with HasGameRef<PinballGame> {
-  _DashAnimatronicController(DashAnimatronic dashAnimatronic)
-      : super(dashAnimatronic);
-
-  void start() {
-    component.playing = true;
   }
 }
 
