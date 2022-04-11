@@ -4,12 +4,12 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 
 class BasicBallGame extends BasicGame with TapDetector, Traceable {
-  BasicBallGame({required this.color});
+  BasicBallGame({this.color = Colors.blue});
 
   static const info = '''
     Shows how a Ball works.
       
-    Tap anywhere on the screen to spawn a ball into the game.
+    - Tap anywhere on the screen to spawn a ball into the game.
 ''';
 
   final Color color;
