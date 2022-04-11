@@ -4,22 +4,38 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 
+enum GoogleLetterOrder {
+  first,
+  second,
+  third,
+  fourth,
+  fifth,
+}
+
+extension on GoogleLetterOrder {
+  String get path {
+    switch (this) {
+      case GoogleLetterOrder.first:
+        return Assets.images.googleWord.letter1.keyName;
+      case GoogleLetterOrder.second:
+        return Assets.images.googleWord.letter2.keyName;
+      case GoogleLetterOrder.third:
+        return Assets.images.googleWord.letter3.keyName;
+      case GoogleLetterOrder.fourth:
+        return Assets.images.googleWord.letter4.keyName;
+      case GoogleLetterOrder.fifth:
+        return Assets.images.googleWord.letter5.keyName;
+    }
+  }
+}
+
+/// {@template google_letter}
 /// Circular sensor that represents "Google" letter.
+/// {@endtemplate}
 class GoogleLetter extends BodyComponent with InitialPosition {
-  /// Circular sensor that represents the first letter "G" in "Google".
-  GoogleLetter.letter1() : _sprite = _GoogleLetterSprite.letter1();
-
-  /// Circular sensor that represents the first letter "O" in "Google".
-  GoogleLetter.letter2() : _sprite = _GoogleLetterSprite.letter2();
-
-  /// Circular sensor that represents the second letter "O" in "Google".
-  GoogleLetter.letter3() : _sprite = _GoogleLetterSprite.letter3();
-
-  /// Circular sensor that represents the letter "L" in "Google".
-  GoogleLetter.letter4() : _sprite = _GoogleLetterSprite.letter4();
-
-  /// Circular sensor that represents the  letter "E" in "Google".
-  GoogleLetter.letter5() : _sprite = _GoogleLetterSprite.letter5();
+  /// {@macro google_letter}
+  GoogleLetter(GoogleLetterOrder order)
+      : _sprite = _GoogleLetterSprite(order.path);
 
   final _GoogleLetterSprite _sprite;
 
@@ -52,22 +68,9 @@ class GoogleLetter extends BodyComponent with InitialPosition {
 }
 
 class _GoogleLetterSprite extends SpriteComponent with HasGameRef {
-  _GoogleLetterSprite.letter1()
-      : _spritePath = Assets.images.googleWord.letter1.keyName;
+  _GoogleLetterSprite(String path) : _path = path;
 
-  _GoogleLetterSprite.letter2()
-      : _spritePath = Assets.images.googleWord.letter2.keyName;
-
-  _GoogleLetterSprite.letter3()
-      : _spritePath = Assets.images.googleWord.letter3.keyName;
-
-  _GoogleLetterSprite.letter4()
-      : _spritePath = Assets.images.googleWord.letter4.keyName;
-
-  _GoogleLetterSprite.letter5()
-      : _spritePath = Assets.images.googleWord.letter5.keyName;
-
-  final String _spritePath;
+  final String _path;
 
   // TODO(alestiago): Correctly implement activate and deactivate once the
   // assets are provided.
@@ -87,7 +90,7 @@ class _GoogleLetterSprite extends SpriteComponent with HasGameRef {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    final sprite = await gameRef.loadSprite(_spritePath);
+    final sprite = await gameRef.loadSprite(_path);
     this.sprite = sprite;
     // TODO(alestiago): Size correctly once the assets are provided.
     size = sprite.originalSize / 5;
