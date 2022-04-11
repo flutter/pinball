@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template score_text}
-/// A [TextComponent] that spawns at a given [position]
-/// bundles a simples translate effect and is removed
-/// once its animation is completed
+/// A [TextComponent] that spawns at a given [position] with a moving animation.
 /// {@endtemplate}
 class ScoreText extends TextComponent {
   /// {@macro score_text}
@@ -25,7 +23,7 @@ class ScoreText extends TextComponent {
 
   late final Effect _effect;
 
-  /// The [text] [Color]
+  /// The [text]'s [Color].
   final Color color;
 
   @override
