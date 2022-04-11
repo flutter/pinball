@@ -41,7 +41,8 @@ class SpaceshipRamp extends Forge2DBlueprint {
     final spaceshipRamp = _SpaceshipRampBackground();
 
     final spaceshipRampBoardOpeningSprite =
-        _SpaceshipRampBoardOpeningSpriteComponent();
+        _SpaceshipRampBoardOpeningSpriteComponent()
+          ..position = Vector2(3.4, -39.5);
 
     final spaceshipRampForegroundRailing = _SpaceshipRampForegroundRailing();
 
@@ -167,7 +168,6 @@ class _SpaceshipRampBoardOpeningSpriteComponent extends SpriteComponent
     this.sprite = sprite;
     size = sprite.originalSize / 10;
     anchor = Anchor.center;
-    position = Vector2(3.4, -39.5);
   }
 }
 
