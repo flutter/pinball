@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template google_letter}
-/// Circular sensor that represents "Google" letter.
+/// Circular sensor that represents a letter in "GOOGLE" for a given index.
 /// {@endtemplate}
 class GoogleLetter extends BodyComponent with InitialPosition {
   /// {@macro google_letter}
