@@ -7,9 +7,10 @@ import 'package:sandbox/common/common.dart';
 
 class ScoreTextEffectBasicGame extends BasicGame with TapDetector {
   static const info = '''
-      Simple game to show how score text effects works,
-      simply tap on the screen to spawn an effect on the given location.
-  ''';
+    Simple game to show how score text effects works,
+
+    Tap anywhere on the screen to spawn an effect on the given location.
+''';
 
   final random = Random();
 
