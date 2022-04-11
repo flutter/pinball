@@ -12,10 +12,6 @@ extension BodyTrace on BodyComponent {
 
     unawaited(
       mounted.whenComplete(() {
-        descendants()
-            .whereType<SpriteComponent>()
-            .forEach((sprite) => sprite.setOpacity(0.5));
-
         descendants().whereType<JointAnchor>().forEach((anchor) {
           final fixtureDef = FixtureDef(CircleShape()..radius = 0.5);
           anchor.body.createFixture(fixtureDef);
@@ -37,6 +33,10 @@ mixin Traceable on Forge2DGame {
       descendants()
           .whereType<BodyComponent>()
           .forEach((bodyComponent) => bodyComponent.trace());
+
+      descendants()
+          .whereType<SpriteComponent>()
+          .forEach((sprite) => sprite.setOpacity(0.5));
     }
   }
 }
