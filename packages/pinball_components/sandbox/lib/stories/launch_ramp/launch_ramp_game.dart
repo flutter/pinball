@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class SpaceshipRampGame extends BasicBallGame {
-  SpaceshipRampGame()
+class LaunchRampGame extends BasicBallGame {
+  LaunchRampGame()
       : super(
           color: Colors.blue,
-          ballPriority: SpaceshipRamp.ballPriorityInsideRamp,
-          ballLayer: Layer.spaceshipEntranceRamp,
+          ballPriority: LaunchRamp.ballPriorityInsideRamp,
+          ballLayer: Layer.launcher,
         );
 
   static const info = '''
-    Shows how SpaceshipRamp is rendered.
+    Shows how LaunchRamp are rendered.
 
     - Activate the "trace" parameter to overlay the body.
     - Tap anywhere on the screen to spawn a ball into the game.
@@ -23,8 +23,14 @@ class SpaceshipRampGame extends BasicBallGame {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await addFromBlueprint(SpaceshipRamp());
-    camera.followVector2(Vector2(-12, -50));
+
+    camera
+      ..followVector2(Vector2(0, 0))
+      ..zoom = 7.5;
+
+    final launchRamp = LaunchRamp();
+    unawaited(addFromBlueprint(launchRamp));
+
     await traceAllBodies();
   }
 }

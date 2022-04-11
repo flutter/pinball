@@ -84,5 +84,18 @@ void main() {
         );
       });
     });
+
+    group('SparkyTurboChargeActivated', () {
+      test('can be instantiated', () {
+        expect(const SparkyTurboChargeActivated(), isNotNull);
+      });
+
+      test('supports value equality', () {
+        expect(
+          SparkyTurboChargeActivated(),
+          equals(SparkyTurboChargeActivated()),
+        );
+      });
+    });
   });
 }

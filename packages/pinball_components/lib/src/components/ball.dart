@@ -41,6 +41,8 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
     await add(
       _spriteComponent..tint(baseColor.withOpacity(0.5)),
     );
+
+    renderBody = false;
   }
 
   @override
@@ -59,15 +61,19 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   ///
   /// The [Ball] will no longer be affected by any forces, including it's
   /// weight and those emitted from collisions.
+  // TODO(allisonryan0002): prevent motion from contact with other balls.
   void stop() {
-    body.setType(BodyType.static);
+    body
+      ..gravityScale = 0
+      ..linearVelocity = Vector2.zero()
+      ..angularVelocity = 0;
   }
 
   /// Allows the [Ball] to be affected by forces.
   ///
   /// If previously [stop]ped, the previous ball's velocity is not kept.
   void resume() {
-    body.setType(BodyType.dynamic);
+    body.gravityScale = 1;
   }
 
   @override
@@ -91,7 +97,7 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
 
   /// Applies a boost on this [Ball].
   void boost(Vector2 impulse) {
-    body.applyLinearImpulse(impulse);
+    body.linearVelocity = impulse;
     _boostTimer = _boostDuration;
   }
 

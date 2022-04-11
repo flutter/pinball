@@ -12,7 +12,8 @@ const _attachedErrorMessage = "Can't add to attached Blueprints";
 /// A [Blueprint] is a virtual way of grouping [Component]s
 /// that are related, but they need to be added directly on
 /// the [FlameGame] level.
-abstract class Blueprint<T extends FlameGame> {
+// TODO(alestiago): refactor with feat/make-blueprint-extend-component.
+abstract class Blueprint<T extends FlameGame> extends Component {
   final List<Component> _components = [];
   final List<Blueprint> _blueprints = [];
 
@@ -34,14 +35,9 @@ abstract class Blueprint<T extends FlameGame> {
     _isAttached = true;
   }
 
-  /// Adds a list of [Component]s to this blueprint.
-  void addAll(List<Component> components) {
-    assert(!_isAttached, _attachedErrorMessage);
-    _components.addAll(components);
-  }
-
   /// Adds a single [Component] to this blueprint.
-  void add(Component component) {
+  @override
+  Future<void> add(Component component) async {
     assert(!_isAttached, _attachedErrorMessage);
     _components.add(component);
   }

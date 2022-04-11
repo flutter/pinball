@@ -10,7 +10,7 @@ void addSpaceshipRampStories(Dashbook dashbook) {
           game: SpaceshipRampGame()
             ..trace = context.boolProperty('Trace', true),
         ),
-        codeLink: buildSourceLink('spaceship_ramp_game/basic.dart'),
+        codeLink: buildSourceLink('spaceship_ramp/basic.dart'),
         info: SpaceshipRampGame.info,
       );
 }
