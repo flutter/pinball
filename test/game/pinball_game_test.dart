@@ -62,6 +62,14 @@ void main() {
         );
       });
 
+      flameTester.test(
+        'one SparkyFireZone',
+        (game) async {
+          await game.ready();
+          expect(game.children.whereType<SparkyFireZone>().length, equals(1));
+        },
+      );
+
       group('controller', () {
         // TODO(alestiago): Write test to be controller agnostic.
         group('listenWhen', () {
