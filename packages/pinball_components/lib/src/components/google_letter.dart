@@ -22,7 +22,7 @@ class GoogleLetter extends BodyComponent with InitialPosition {
   Future<void> activate() async => _sprite.activate();
 
   /// Deactivates this [GoogleLetter].
-  Future<void> deactivate() async => _sprite.deactivate();
+  Future<void> deactivate() => _sprite.deactivate();
 
   @override
   Future<void> onLoad() async {
