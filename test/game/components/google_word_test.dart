@@ -24,7 +24,7 @@ void main() {
         await game.ensureAdd(bonusWord);
 
         final letters = bonusWord.children.whereType<GoogleLetter>();
-        expect(letters, equals(googleWord.length));
+        expect(letters.length, equals(googleWord.length));
 
         for (var index = 0; index < googleWord.length; index++) {
           expect(letters.elementAt(index).index, equals(index));
