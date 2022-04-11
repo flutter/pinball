@@ -16,10 +16,10 @@ class ScoreEffectController extends ComponentController<PinballGame>
   ScoreEffectController(PinballGame component) : super(component);
 
   int _lastScore = 0;
-  final _rng = Random();
+  final _random = Random();
 
   double _noise() {
-    return _rng.nextDouble() * 5 * (_rng.nextBool() ? -1 : 1);
+    return _random.nextDouble() * 5 * (_random.nextBool() ? -1 : 1);
   }
 
   @override

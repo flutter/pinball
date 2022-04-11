@@ -11,7 +11,7 @@ class ScoreTextEffectBasicGame extends BasicGame with TapDetector {
       simply tap on the screen to spawn an effect on the given location.
   ''';
 
-  final rng = Random();
+  final random = Random();
 
   @override
   Future<void> onLoad() async {
@@ -22,7 +22,7 @@ class ScoreTextEffectBasicGame extends BasicGame with TapDetector {
   void onTapUp(TapUpInfo info) {
     add(
       ScoreTextEffect(
-        text: rng.nextInt(100000).toString(),
+        text: random.nextInt(100000).toString(),
         color: Colors.white,
         position: info.eventPosition.game..multiply(Vector2(1, -1)),
       ),
