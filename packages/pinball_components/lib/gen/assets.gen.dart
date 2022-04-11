@@ -283,11 +283,6 @@ class $AssetsImagesSparkyComputerGen {
 class $AssetsImagesSparkyBumperAGen {
   const $AssetsImagesSparkyBumperAGen();
 
-  /// File path: assets/images/sparky_bumper/a/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/sparky_bumper/a/active.png');
-
-  /// File path: assets/images/sparky_bumper/a/inactive.png
   /// File path: assets/images/sparky/bumper/a/active.png
   AssetGenImage get active =>
       const AssetGenImage('assets/images/sparky/bumper/a/active.png');
@@ -300,11 +295,6 @@ class $AssetsImagesSparkyBumperAGen {
 class $AssetsImagesSparkyBumperBGen {
   const $AssetsImagesSparkyBumperBGen();
 
-  /// File path: assets/images/sparky_bumper/b/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/sparky_bumper/b/active.png');
-
-  /// File path: assets/images/sparky_bumper/b/inactive.png
   /// File path: assets/images/sparky/bumper/b/active.png
   AssetGenImage get active =>
       const AssetGenImage('assets/images/sparky/bumper/b/active.png');
@@ -317,11 +307,6 @@ class $AssetsImagesSparkyBumperBGen {
 class $AssetsImagesSparkyBumperCGen {
   const $AssetsImagesSparkyBumperCGen();
 
-  /// File path: assets/images/sparky_bumper/c/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/sparky_bumper/c/active.png');
-
-  /// File path: assets/images/sparky_bumper/c/inactive.png
   /// File path: assets/images/sparky/bumper/c/active.png
   AssetGenImage get active =>
       const AssetGenImage('assets/images/sparky/bumper/c/active.png');
