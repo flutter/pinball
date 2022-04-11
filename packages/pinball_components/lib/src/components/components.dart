@@ -11,6 +11,7 @@ export 'dino_walls.dart';
 export 'fire_effect.dart';
 export 'flipper.dart';
 export 'flutter_sign_post.dart';
+export 'google_letter.dart';
 export 'initial_position.dart';
 export 'joint_anchor.dart';
 export 'kicker.dart';
