@@ -10,13 +10,16 @@ import 'package:pinball_components/pinball_components.dart' hide Assets;
 ///
 /// [Plunger] ignores gravity so the player controls its downward [_pull].
 /// {@endtemplate}
-class Plunger extends BodyComponent with KeyboardHandler, InitialPosition {
+class Plunger extends BodyComponent
+    with KeyboardHandler, InitialPosition, Layered {
   /// {@macro plunger}
   Plunger({
     required this.compressionDistance,
     // TODO(ruimiguel): set to priority +1 over LaunchRamp once all priorities
     // are fixed.
-  }) : super(priority: 0);
+  }) : super(priority: 0) {
+    layer = Layer.launcher;
+  }
 
   /// Distance the plunger can lower.
   final double compressionDistance;
