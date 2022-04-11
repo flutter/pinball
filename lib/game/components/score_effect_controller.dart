@@ -30,6 +30,7 @@ class ScoreEffectController extends ComponentController<PinballGame>
   @override
   void onNewState(GameState state) {
     final newScore = state.score - _lastScore;
+    _lastScore = state.score;
 
     component.add(
       ScoreText(
@@ -40,7 +41,5 @@ class ScoreEffectController extends ComponentController<PinballGame>
         ),
       ),
     );
-
-    _lastScore = state.score;
   }
 }
