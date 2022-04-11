@@ -13,9 +13,9 @@ void main() {
 
   group('Google Letter', () {
     flameTester.test(
-      'letter1 loads correctly',
+      'first loads correctly',
       (game) async {
-        final googleLetter = GoogleLetter.letter1();
+        final googleLetter = GoogleLetter(GoogleLetterOrder.first);
         await game.ready();
         await game.ensureAdd(googleLetter);
 
@@ -24,9 +24,9 @@ void main() {
     );
 
     flameTester.test(
-      'letter2 loads correctly',
+      'second loads correctly',
       (game) async {
-        final googleLetter = GoogleLetter.letter2();
+        final googleLetter = GoogleLetter(GoogleLetterOrder.second);
         await game.ready();
         await game.ensureAdd(googleLetter);
 
@@ -35,9 +35,9 @@ void main() {
     );
 
     flameTester.test(
-      'letter3 loads correctly',
+      'third loads correctly',
       (game) async {
-        final googleLetter = GoogleLetter.letter3();
+        final googleLetter = GoogleLetter(GoogleLetterOrder.third);
         await game.ready();
         await game.ensureAdd(googleLetter);
 
@@ -46,9 +46,9 @@ void main() {
     );
 
     flameTester.test(
-      'letter4 loads correctly',
+      'fourth loads correctly',
       (game) async {
-        final googleLetter = GoogleLetter.letter4();
+        final googleLetter = GoogleLetter(GoogleLetterOrder.fourth);
         await game.ready();
         await game.ensureAdd(googleLetter);
 
@@ -57,9 +57,9 @@ void main() {
     );
 
     flameTester.test(
-      'letter5 loads correctly',
+      'fifth loads correctly',
       (game) async {
-        final googleLetter = GoogleLetter.letter5();
+        final googleLetter = GoogleLetter(GoogleLetterOrder.fifth);
         await game.ready();
         await game.ensureAdd(googleLetter);
 
@@ -69,13 +69,13 @@ void main() {
 
     group('activate', () {
       flameTester.test('returns normally', (game) async {
-        final googleLetter = GoogleLetter.letter1();
+        final googleLetter = GoogleLetter(GoogleLetterOrder.first);
         await game.ensureAdd(googleLetter);
         await expectLater(googleLetter.activate, returnsNormally);
       });
 
       flameTester.test('adds an Effect', (game) async {
-        final googleLetter = GoogleLetter.letter1();
+        final googleLetter = GoogleLetter(GoogleLetterOrder.first);
         await game.ensureAdd(googleLetter);
         await googleLetter.activate();
         await game.ready();
@@ -89,13 +89,13 @@ void main() {
 
     group('deactivate', () {
       flameTester.test('returns normally', (game) async {
-        final googleLetter = GoogleLetter.letter1();
+        final googleLetter = GoogleLetter(GoogleLetterOrder.first);
         await game.ensureAdd(googleLetter);
         await expectLater(googleLetter.deactivate, returnsNormally);
       });
 
       flameTester.test('adds an Effect', (game) async {
-        final googleLetter = GoogleLetter.letter1();
+        final googleLetter = GoogleLetter(GoogleLetterOrder.first);
         await game.ensureAdd(googleLetter);
         await googleLetter.activate();
         await game.ready();

@@ -20,7 +20,7 @@ class GoogleLetterGame extends BasicBallGame {
     addContactCallback(_BallGoogleLetterContactCallback());
 
     camera.followVector2(Vector2.zero());
-    await add(GoogleLetter.letter1());
+    await add(GoogleLetter(GoogleLetterOrder.first));
 
     await traceAllBodies();
   }
