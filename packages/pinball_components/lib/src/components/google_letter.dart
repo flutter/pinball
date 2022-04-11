@@ -4,17 +4,37 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 
+/// Circular sensor that represents "Google" letter.
 class GoogleLetter extends BodyComponent with InitialPosition {
-  late final _GoogleLetterSprite _sprite;
+  /// Circular sensor that represents the first letter "G" in "Google".
+  GoogleLetter.letter1() : _sprite = _GoogleLetterSprite.letter1();
 
-  void activate() => _sprite.activate();
+  /// Circular sensor that represents the first letter "O" in "Google".
+  GoogleLetter.letter2() : _sprite = _GoogleLetterSprite.letter2();
 
-  void deactivate() => _sprite.deactivate();
+  /// Circular sensor that represents the second letter "O" in "Google".
+  GoogleLetter.letter3() : _sprite = _GoogleLetterSprite.letter3();
+
+  /// Circular sensor that represents the letter "L" in "Google".
+  GoogleLetter.letter4() : _sprite = _GoogleLetterSprite.letter4();
+
+  /// Circular sensor that represents the  letter "E" in "Google".
+  GoogleLetter.letter5() : _sprite = _GoogleLetterSprite.letter5();
+
+  final _GoogleLetterSprite _sprite;
+
+  /// Activates this [GoogleLetter].
+  // TODO(alestiago): Improve doc comment once activate and deactivate
+  // are implemented with the actual assets.
+  Future<void> activate() async => _sprite.activate();
+
+  /// Deactivates this [GoogleLetter].
+  Future<void> deactivate() async => _sprite.deactivate();
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await add(_sprite = _GoogleLetterSprite.letter1());
+    await add(_sprite);
   }
 
   @override
@@ -52,18 +72,14 @@ class _GoogleLetterSprite extends SpriteComponent with HasGameRef {
   // TODO(alestiago): Correctly implement activate and deactivate once the
   // assets are provided.
   Future<void> activate() async {
-    const color = Colors.green;
-    tint(color);
     await add(
-      _GoogleLetterActivationEffect(color: color),
+      _GoogleLetterColorEffect(color: Colors.green),
     );
   }
 
   Future<void> deactivate() async {
-    const color = Colors.red;
-    tint(color);
     await add(
-      _GoogleLetterActivationEffect(color: color),
+      _GoogleLetterColorEffect(color: Colors.red),
     );
   }
 
@@ -73,13 +89,14 @@ class _GoogleLetterSprite extends SpriteComponent with HasGameRef {
 
     final sprite = await gameRef.loadSprite(_spritePath);
     this.sprite = sprite;
+    // TODO(alestiago): Size correctly once the assets are provided.
     size = sprite.originalSize / 5;
     anchor = Anchor.center;
   }
 }
 
-class _GoogleLetterActivationEffect extends ColorEffect {
-  _GoogleLetterActivationEffect({
+class _GoogleLetterColorEffect extends ColorEffect {
+  _GoogleLetterColorEffect({
     required Color color,
   }) : super(
           color,
