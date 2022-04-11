@@ -13,7 +13,7 @@ class DashAnimatronic extends SpriteAnimationComponent with HasGameRef {
         );
 
   @override
-  Future<void>? onLoad() async {
+  Future<void> onLoad() async {
     await super.onLoad();
 
     final spriteSheet = await gameRef.images.load(
