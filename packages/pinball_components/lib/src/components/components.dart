@@ -18,6 +18,7 @@ export 'kicker.dart';
 export 'launch_ramp.dart';
 export 'layer.dart';
 export 'ramp_opening.dart';
+export 'score_text.dart';
 export 'shapes/shapes.dart';
 export 'slingshot.dart';
 export 'spaceship.dart';

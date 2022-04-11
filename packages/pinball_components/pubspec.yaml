@@ -11,7 +11,7 @@ dependencies:
   flame_forge2d: ^0.10.0
   flutter:
     sdk: flutter
-  geometry: 
+  geometry:
     path: ../geometry
 
 
@@ -24,6 +24,16 @@ dev_dependencies:
 
 flutter:
   generate: true
+  fonts:
+    - family: PixeloidSans
+      fonts:
+        - asset: fonts/PixeloidSans-nR3g1.ttf
+        - asset: fonts/PixeloidSansBold-RpeJo.ttf
+          weight: 700
+    - family: PixeloidMono
+      fonts:
+        - asset: fonts/PixeloidMono-1G8ae.ttf
+
   assets:
     - assets/images/
     - assets/images/baseboard/
