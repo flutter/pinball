@@ -26,5 +26,8 @@ void main() {
   addZoomStories(dashbook);
   addBoundariesStories(dashbook);
   addGoogleWordStories(dashbook);
+  addSpaceshipRampStories(dashbook);
+  addSpaceshipRailStories(dashbook);
+  addLaunchRampStories(dashbook);
   runApp(dashbook);
 }
