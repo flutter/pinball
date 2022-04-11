@@ -22,6 +22,7 @@ class ScoreTextEffect extends TextComponent {
           anchor: Anchor.center,
           priority: 100,
         );
+  
   late final Effect _effect;
 
   /// The [text] [Color]
