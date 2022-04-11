@@ -14,8 +14,8 @@ class SpaceshipRail extends Forge2DBlueprint {
   /// {@macro spaceship_rail}
   SpaceshipRail();
 
-  /// Base priority for ball while be in [_SpaceshipRailRamp].
-  static const ballPriorityWhenOnSpaceshipRail = 2;
+  /// Base priority for [Ball] while inside [SpaceshipRail].
+  static const ballPriorityInsideRail = 2;
 
   @override
   void build(_) {
@@ -45,9 +45,8 @@ class SpaceshipRail extends Forge2DBlueprint {
 class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
   _SpaceshipRailRamp()
       : super(
-          priority: SpaceshipRail.ballPriorityWhenOnSpaceshipRail - 1,
+          priority: SpaceshipRail.ballPriorityInsideRail - 1,
         ) {
-    renderBody = false;
     layer = Layer.spaceshipExitRail;
   }
 
@@ -139,6 +138,8 @@ class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    renderBody = false;
+
     await add(_SpaceshipRailRampSpriteComponent());
   }
 }
@@ -161,11 +162,7 @@ class _SpaceshipRailRampSpriteComponent extends SpriteComponent
 
 class _SpaceshipRailForeground extends SpriteComponent with HasGameRef {
   _SpaceshipRailForeground()
-      : super(
-          anchor: Anchor.center,
-          position: Vector2(-28.5, 19.7),
-          priority: SpaceshipRail.ballPriorityWhenOnSpaceshipRail + 1,
-        );
+      : super(priority: SpaceshipRail.ballPriorityInsideRail + 1);
 
   @override
   Future<void> onLoad() async {
@@ -176,6 +173,8 @@ class _SpaceshipRailForeground extends SpriteComponent with HasGameRef {
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
+    anchor = Anchor.center;
+    position = Vector2(-28.5, 19.7);
   }
 }
 
@@ -183,7 +182,7 @@ class _SpaceshipRailForeground extends SpriteComponent with HasGameRef {
 class _SpaceshipRailBase extends BodyComponent with InitialPosition, Layered {
   _SpaceshipRailBase({required this.radius})
       : super(
-          priority: SpaceshipRail.ballPriorityWhenOnSpaceshipRail + 1,
+          priority: SpaceshipRail.ballPriorityInsideRail + 1,
         ) {
     renderBody = false;
     layer = Layer.board;
@@ -213,9 +212,9 @@ class SpaceshipRailExit extends RampOpening {
   /// {@macro spaceship_rail_exit}
   SpaceshipRailExit()
       : super(
-          insideLayer: Layer.spaceshipExitRail,
           orientation: RampOrientation.down,
-          insidePriority: 3,
+          insideLayer: Layer.spaceshipExitRail,
+          insidePriority: SpaceshipRail.ballPriorityInsideRail,
         ) {
     renderBody = false;
     layer = Layer.spaceshipExitRail;
@@ -224,10 +223,10 @@ class SpaceshipRailExit extends RampOpening {
   @override
   Shape get shape {
     return ArcShape(
-      center: Vector2(-28, -19),
+      center: Vector2(-29, -19),
       arcRadius: 2.5,
       angle: math.pi * 0.4,
-      rotation: -0.16,
+      rotation: 0.26,
     );
   }
 }
