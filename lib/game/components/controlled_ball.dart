@@ -53,6 +53,20 @@ class BallController extends ComponentController<Ball>
     component.shouldRemove = true;
   }
 
+  /// Stops the [Ball] inside of the [SparkyComputer] while the turbo charge
+  /// sequence runs, then boosts the ball out of the computer.
+  Future<void> turboCharge() async {
+    gameRef.read<GameBloc>().add(const SparkyTurboChargeActivated());
+
+    // TODO(allisonryan0002): adjust delay to match animation duration once
+    // given animations.
+    component.stop();
+    await Future<void>.delayed(const Duration(seconds: 1));
+    component
+      ..resume()
+      ..boost(Vector2(200, -500));
+  }
+
   @override
   void onRemove() {
     super.onRemove();
