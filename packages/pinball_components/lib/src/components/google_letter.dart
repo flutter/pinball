@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -50,12 +51,20 @@ class _GoogleLetterSprite extends SpriteComponent with HasGameRef {
 
   // TODO(alestiago): Correctly implement activate and deactivate once the
   // assets are provided.
-  void activate() {
-    tint(Colors.green);
+  Future<void> activate() async {
+    const color = Colors.green;
+    tint(color);
+    await add(
+      _GoogleLetterActivationEffect(color: color),
+    );
   }
 
-  void deactivate() {
-    tint(Colors.red);
+  Future<void> deactivate() async {
+    const color = Colors.red;
+    tint(color);
+    await add(
+      _GoogleLetterActivationEffect(color: color),
+    );
   }
 
   @override
@@ -67,4 +76,14 @@ class _GoogleLetterSprite extends SpriteComponent with HasGameRef {
     size = sprite.originalSize / 5;
     anchor = Anchor.center;
   }
+}
+
+class _GoogleLetterActivationEffect extends ColorEffect {
+  _GoogleLetterActivationEffect({
+    required Color color,
+  }) : super(
+          color,
+          const Offset(0, 1),
+          EffectController(duration: 0.25),
+        );
 }
