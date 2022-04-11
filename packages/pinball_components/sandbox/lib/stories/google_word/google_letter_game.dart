@@ -22,7 +22,7 @@ class GoogleLetterGame extends BasicBallGame {
     camera.followVector2(Vector2.zero());
     await add(GoogleLetter.letter1());
 
-    if (trace) await traceAllBodies();
+    await traceAllBodies();
   }
 }
 
