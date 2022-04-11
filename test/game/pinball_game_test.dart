@@ -65,10 +65,7 @@ void main() {
       flameTester.test(
         'one AlienZone',
         (game) async {
-          final alienZone = AlienZone();
           await game.ready();
-          await game.ensureAdd(alienZone);
-
           expect(game.children.whereType<AlienZone>().length, equals(1));
         },
       );
