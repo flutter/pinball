@@ -45,12 +45,14 @@ class PinballGame extends Forge2DGame
     await _addGameBoundaries();
     unawaited(addFromBlueprint(Boundaries()));
     unawaited(addFromBlueprint(LaunchRamp()));
+    unawaited(addFromBlueprint(ControlledSparkyComputer()));
 
     final plunger = Plunger(compressionDistance: 29)
       ..initialPosition = Vector2(38, -19);
     await add(plunger);
 
     unawaited(add(Board()));
+    unawaited(add(SparkyFireZone()));
     unawaited(addFromBlueprint(Slingshots()));
     unawaited(addFromBlueprint(DinoWalls()));
     unawaited(_addBonusWord());
