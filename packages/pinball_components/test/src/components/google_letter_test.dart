@@ -113,7 +113,7 @@ void main() {
       flameTester.test('adds an Effect', (game) async {
         final googleLetter = GoogleLetter(0);
         await game.ensureAdd(googleLetter);
-        await googleLetter.activate();
+        await googleLetter.deactivate();
         await game.ready();
 
         expect(
