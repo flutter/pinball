@@ -76,6 +76,9 @@ class MockDashNestBumper extends Mock implements DashNestBumper {}
 
 class MockPinballAudio extends Mock implements PinballAudio {}
 
+class MockSparkyTurboChargeSensor extends Mock
+    implements SparkyTurboChargeSensor {}
+
 class MockAssetsManagerCubit extends Mock implements AssetsManagerCubit {}
 
 class MockBackboard extends Mock implements Backboard {}
