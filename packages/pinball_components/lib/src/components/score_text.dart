@@ -3,16 +3,16 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
-import 'package:pinball_components/gen/fonts.gen.dart';
+import 'package:pinball_components/pinball_components.dart';
 
-/// {@template score_text_effect}
+/// {@template score_text}
 /// A [TextComponent] that spawns at a given [position]
 /// bundles a simples translate effect and is removed
 /// once its animation is completed
 /// {@endtemplate}
-class ScoreTextEffect extends TextComponent {
-  /// {@macro score_text_effect}
-  ScoreTextEffect({
+class ScoreText extends TextComponent {
+  /// {@macro score_text}
+  ScoreText({
     required String text,
     required Vector2 position,
     this.color = Colors.black,
@@ -32,7 +32,7 @@ class ScoreTextEffect extends TextComponent {
   Future<void> onLoad() async {
     textRenderer = TextPaint(
       style: TextStyle(
-        fontFamily: 'packages/pinball_components/${FontFamily.pixeloidMono}',
+        fontFamily: PinballFonts.pixeloidMono,
         color: color,
         fontSize: 4,
       ),

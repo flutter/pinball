@@ -64,7 +64,7 @@ void main() {
 
     group('onNewState', () {
       test(
-        'adds a ScoreTextEffect with the correct score for the '
+        'adds a ScoreText with the correct score for the '
         'first time',
         () {
           const state = GameState(
@@ -77,8 +77,8 @@ void main() {
 
           controller.onNewState(state);
 
-          final effect = verify(() => game.add(captureAny())).captured.first
-              as ScoreTextEffect;
+          final effect =
+              verify(() => game.add(captureAny())).captured.first as ScoreText;
 
           expect(effect.text, equals('10'));
         },
@@ -105,8 +105,8 @@ void main() {
           ),
         );
 
-        final effect = verify(() => game.add(captureAny())).captured.last
-            as ScoreTextEffect;
+        final effect =
+            verify(() => game.add(captureAny())).captured.last as ScoreText;
 
         expect(effect.text, equals('4'));
       });

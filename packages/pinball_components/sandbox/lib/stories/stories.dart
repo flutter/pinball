@@ -6,7 +6,7 @@ export 'effects/stories.dart';
 export 'flipper/stories.dart';
 export 'flutter_forest/stories.dart';
 export 'layer/stories.dart';
-export 'score_text_effect/stories.dart';
+export 'score_text/stories.dart';
 export 'slingshot/stories.dart';
 export 'spaceship/stories.dart';
 export 'sparky_bumper/stories.dart';

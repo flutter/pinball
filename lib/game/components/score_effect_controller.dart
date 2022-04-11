@@ -7,7 +7,7 @@ import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template score_effect_controller}
-/// A [ComponentController] responsible for adding [ScoreTextEffect]s
+/// A [ComponentController] responsible for adding [ScoreText]s
 /// on the game screen when the user earns points.
 /// {@endtemplate}
 class ScoreEffectController extends ComponentController<PinballGame>
@@ -32,7 +32,7 @@ class ScoreEffectController extends ComponentController<PinballGame>
     final newScore = state.score - _lastScore;
 
     component.add(
-      ScoreTextEffect(
+      ScoreText(
         text: newScore.toString(),
         position: Vector2(
           _noise(),

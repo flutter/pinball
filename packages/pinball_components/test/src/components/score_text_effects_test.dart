@@ -10,7 +10,7 @@ import 'package:pinball_components/pinball_components.dart';
 import '../../helpers/helpers.dart';
 
 void main() {
-  group('ScoreTextEffect', () {
+  group('ScoreText', () {
     final flameTester = FlameTester(TestGame.new);
 
     flameTester.testGameWidget(
@@ -18,7 +18,7 @@ void main() {
       setUp: (game, tester) async {
         game.camera.followVector2(Vector2.zero());
         await game.ensureAdd(
-          ScoreTextEffect(
+          ScoreText(
             text: '123',
             position: Vector2.zero(),
             color: Colors.white,
@@ -36,7 +36,7 @@ void main() {
       setUp: (game, tester) async {
         game.camera.followVector2(Vector2.zero());
         await game.ensureAdd(
-          ScoreTextEffect(
+          ScoreText(
             text: '123',
             position: Vector2.zero(),
             color: Colors.white,
@@ -57,7 +57,7 @@ void main() {
       setUp: (game, tester) async {
         game.camera.followVector2(Vector2.zero());
         await game.ensureAdd(
-          ScoreTextEffect(
+          ScoreText(
             text: '123',
             position: Vector2.zero(),
             color: Colors.white,
