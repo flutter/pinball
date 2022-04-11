@@ -5,6 +5,7 @@ export 'chrome_dino/stories.dart';
 export 'effects/stories.dart';
 export 'flipper/stories.dart';
 export 'flutter_forest/stories.dart';
+export 'google_word/stories.dart';
 export 'launch_ramp/stories.dart';
 export 'layer/stories.dart';
 export 'score_text/stories.dart';
