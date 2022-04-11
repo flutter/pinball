@@ -13,9 +13,9 @@ void main() {
 
   group('Google Letter', () {
     flameTester.test(
-      'first loads correctly',
+      '0th loads correctly',
       (game) async {
-        final googleLetter = GoogleLetter(GoogleLetterOrder.first);
+        final googleLetter = GoogleLetter(0);
         await game.ready();
         await game.ensureAdd(googleLetter);
 
@@ -24,9 +24,9 @@ void main() {
     );
 
     flameTester.test(
-      'second loads correctly',
+      '1st loads correctly',
       (game) async {
-        final googleLetter = GoogleLetter(GoogleLetterOrder.second);
+        final googleLetter = GoogleLetter(1);
         await game.ready();
         await game.ensureAdd(googleLetter);
 
@@ -35,9 +35,9 @@ void main() {
     );
 
     flameTester.test(
-      'third loads correctly',
+      '2nd loads correctly',
       (game) async {
-        final googleLetter = GoogleLetter(GoogleLetterOrder.third);
+        final googleLetter = GoogleLetter(2);
         await game.ready();
         await game.ensureAdd(googleLetter);
 
@@ -46,9 +46,9 @@ void main() {
     );
 
     flameTester.test(
-      'fourth loads correctly',
+      '3d loads correctly',
       (game) async {
-        final googleLetter = GoogleLetter(GoogleLetterOrder.fourth);
+        final googleLetter = GoogleLetter(3);
         await game.ready();
         await game.ensureAdd(googleLetter);
 
@@ -57,25 +57,41 @@ void main() {
     );
 
     flameTester.test(
-      'fifth loads correctly',
+      '4th loads correctly',
       (game) async {
-        final googleLetter = GoogleLetter(GoogleLetterOrder.fifth);
+        final googleLetter = GoogleLetter(4);
         await game.ready();
         await game.ensureAdd(googleLetter);
 
         expect(game.contains(googleLetter), isTrue);
       },
     );
+
+    flameTester.test(
+      '5th loads correctly',
+      (game) async {
+        final googleLetter = GoogleLetter(5);
+        await game.ready();
+        await game.ensureAdd(googleLetter);
+
+        expect(game.contains(googleLetter), isTrue);
+      },
+    );
+
+    test('throws error when index out of range', () {
+      expect(() => GoogleLetter(-1), throwsA(isA<RangeError>()));
+      expect(() => GoogleLetter(6), throwsA(isA<RangeError>()));
+    });
 
     group('activate', () {
       flameTester.test('returns normally', (game) async {
-        final googleLetter = GoogleLetter(GoogleLetterOrder.first);
+        final googleLetter = GoogleLetter(0);
         await game.ensureAdd(googleLetter);
         await expectLater(googleLetter.activate, returnsNormally);
       });
 
       flameTester.test('adds an Effect', (game) async {
-        final googleLetter = GoogleLetter(GoogleLetterOrder.first);
+        final googleLetter = GoogleLetter(0);
         await game.ensureAdd(googleLetter);
         await googleLetter.activate();
         await game.ready();
@@ -89,13 +105,13 @@ void main() {
 
     group('deactivate', () {
       flameTester.test('returns normally', (game) async {
-        final googleLetter = GoogleLetter(GoogleLetterOrder.first);
+        final googleLetter = GoogleLetter(0);
         await game.ensureAdd(googleLetter);
         await expectLater(googleLetter.deactivate, returnsNormally);
       });
 
       flameTester.test('adds an Effect', (game) async {
-        final googleLetter = GoogleLetter(GoogleLetterOrder.first);
+        final googleLetter = GoogleLetter(0);
         await game.ensureAdd(googleLetter);
         await googleLetter.activate();
         await game.ready();

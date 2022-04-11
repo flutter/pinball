@@ -4,38 +4,15 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-enum GoogleLetterOrder {
-  first,
-  second,
-  third,
-  fourth,
-  fifth,
-}
-
-extension on GoogleLetterOrder {
-  String get path {
-    switch (this) {
-      case GoogleLetterOrder.first:
-        return Assets.images.googleWord.letter1.keyName;
-      case GoogleLetterOrder.second:
-        return Assets.images.googleWord.letter2.keyName;
-      case GoogleLetterOrder.third:
-        return Assets.images.googleWord.letter3.keyName;
-      case GoogleLetterOrder.fourth:
-        return Assets.images.googleWord.letter4.keyName;
-      case GoogleLetterOrder.fifth:
-        return Assets.images.googleWord.letter5.keyName;
-    }
-  }
-}
-
 /// {@template google_letter}
 /// Circular sensor that represents "Google" letter.
 /// {@endtemplate}
 class GoogleLetter extends BodyComponent with InitialPosition {
   /// {@macro google_letter}
-  GoogleLetter(GoogleLetterOrder order)
-      : _sprite = _GoogleLetterSprite(order.path);
+  GoogleLetter(int index)
+      : _sprite = _GoogleLetterSprite(
+          _GoogleLetterSprite.spritePaths[index],
+        );
 
   final _GoogleLetterSprite _sprite;
 
@@ -69,6 +46,15 @@ class GoogleLetter extends BodyComponent with InitialPosition {
 
 class _GoogleLetterSprite extends SpriteComponent with HasGameRef {
   _GoogleLetterSprite(String path) : _path = path;
+
+  static final spritePaths = [
+    Assets.images.googleWord.letter1.keyName,
+    Assets.images.googleWord.letter2.keyName,
+    Assets.images.googleWord.letter3.keyName,
+    Assets.images.googleWord.letter4.keyName,
+    Assets.images.googleWord.letter5.keyName,
+    Assets.images.googleWord.letter6.keyName,
+  ];
 
   final String _path;
 
