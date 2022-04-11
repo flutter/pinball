@@ -221,5 +221,22 @@ void main() {
         ],
       );
     });
+
+    group('SparkyTurboChargeActivated', () {
+      blocTest<GameBloc, GameState>(
+        'adds game bonus',
+        build: GameBloc.new,
+        act: (bloc) => bloc..add(const SparkyTurboChargeActivated()),
+        expect: () => const [
+          GameState(
+            score: 0,
+            balls: 3,
+            activatedBonusLetters: [],
+            activatedDashNests: {},
+            bonusHistory: [GameBonus.sparkyTurboCharge],
+          ),
+        ],
+      );
+    });
   });
 }
