@@ -22,7 +22,7 @@ class ScoreTextEffect extends TextComponent {
           anchor: Anchor.center,
           priority: 100,
         );
-  
+
   late final Effect _effect;
 
   /// The [text] [Color]
@@ -38,12 +38,10 @@ class ScoreTextEffect extends TextComponent {
       ),
     );
 
-    unawaited(
-      add(
-        _effect = MoveEffect.by(
-          Vector2(0, -5),
-          EffectController(duration: 1),
-        ),
+    await add(
+      _effect = MoveEffect.by(
+        Vector2(0, -5),
+        EffectController(duration: 1),
       ),
     );
   }
