@@ -38,6 +38,7 @@ class PinballGame extends Forge2DGame
   Future<void> onLoad() async {
     _addContactCallbacks();
 
+    unawaited(add(ScoreEffectController(this)));
     unawaited(add(gameFlowController = GameFlowController(this)));
     unawaited(add(CameraController(this)));
     unawaited(add(Backboard(position: Vector2(0, -88))));
@@ -52,6 +53,7 @@ class PinballGame extends Forge2DGame
     await add(plunger);
 
     unawaited(add(Board()));
+    unawaited(add(SparkyFireZone()));
     unawaited(addFromBlueprint(Slingshots()));
     unawaited(addFromBlueprint(DinoWalls()));
     unawaited(_addBonusWord());

@@ -184,8 +184,6 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
 
   @override
   Body createBody() {
-    renderBody = false;
-
     final bodyDef = BodyDef()
       ..userData = this
       ..position = initialPosition;
@@ -199,11 +197,13 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await add(_SpaceshipRampForegroundRalingSpriteComponent());
+    renderBody = false;
+
+    await add(_SpaceshipRampForegroundRailingSpriteComponent());
   }
 }
 
-class _SpaceshipRampForegroundRalingSpriteComponent extends SpriteComponent
+class _SpaceshipRampForegroundRailingSpriteComponent extends SpriteComponent
     with HasGameRef {
   @override
   Future<void> onLoad() async {
@@ -221,13 +221,12 @@ class _SpaceshipRampForegroundRalingSpriteComponent extends SpriteComponent
 /// Represents the ground right base of the [SpaceshipRamp].
 class _SpaceshipRampBase extends BodyComponent with InitialPosition, Layered {
   _SpaceshipRampBase() {
+    renderBody = false;
     layer = Layer.board;
   }
 
   @override
   Body createBody() {
-    renderBody = false;
-
     const baseWidth = 6;
     final baseShape = BezierCurveShape(
       controlPoints: [
@@ -266,7 +265,9 @@ class _SpaceshipRampOpening extends RampOpening {
           orientation: RampOrientation.down,
           insidePriority: SpaceshipRamp.ballPriorityInsideRamp,
           outsidePriority: outsidePriority,
-        );
+        ) {
+    renderBody = false;
+  }
 
   final double _rotation;
 
@@ -274,7 +275,6 @@ class _SpaceshipRampOpening extends RampOpening {
 
   @override
   Shape get shape {
-    renderBody = false;
     return PolygonShape()
       ..setAsBox(
         _size.x,
