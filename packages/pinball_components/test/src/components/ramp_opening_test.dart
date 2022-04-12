@@ -10,9 +10,11 @@ import '../../helpers/helpers.dart';
 class TestRampOpening extends RampOpening {
   TestRampOpening({
     required RampOrientation orientation,
+    required int insidePriority,
     required Layer pathwayLayer,
   }) : super(
           insideLayer: pathwayLayer,
+          insidePriority: insidePriority,
           orientation: orientation,
         );
 
@@ -34,16 +36,15 @@ class TestRampOpeningBallContactCallback
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final flameTester = FlameTester(TestGame.new);
+  const insidePriority = 1;
 
   group('RampOpening', () {
-    TestWidgetsFlutterBinding.ensureInitialized();
-    final flameTester = FlameTester(TestGame.new);
-
     flameTester.test(
       'loads correctly',
       (game) async {
         final ramp = TestRampOpening(
           orientation: RampOrientation.down,
+          insidePriority: insidePriority,
           pathwayLayer: Layer.spaceshipEntranceRamp,
         );
         await game.ready();
@@ -59,6 +60,7 @@ void main() {
         (game) async {
           final ramp = TestRampOpening(
             orientation: RampOrientation.down,
+            insidePriority: insidePriority,
             pathwayLayer: Layer.spaceshipEntranceRamp,
           );
           await game.ensureAdd(ramp);
@@ -76,6 +78,7 @@ void main() {
           (game) async {
             final ramp = TestRampOpening(
               orientation: RampOrientation.down,
+              insidePriority: insidePriority,
               pathwayLayer: pathwayLayer,
             )..layer = openingLayer;
             await game.ensureAdd(ramp);
@@ -89,6 +92,7 @@ void main() {
           (game) async {
             final ramp = TestRampOpening(
               orientation: RampOrientation.down,
+              insidePriority: insidePriority,
               pathwayLayer: pathwayLayer,
             )..layer = openingLayer;
             await game.ensureAdd(ramp);
@@ -103,6 +107,7 @@ void main() {
           (game) async {
             final ramp = TestRampOpening(
               orientation: RampOrientation.down,
+              insidePriority: insidePriority,
               pathwayLayer: pathwayLayer,
             )..layer = openingLayer;
             await game.ensureAdd(ramp);
@@ -124,6 +129,7 @@ void main() {
       final body = MockBody();
       final area = TestRampOpening(
         orientation: RampOrientation.down,
+        insidePriority: insidePriority,
         pathwayLayer: Layer.spaceshipEntranceRamp,
       );
       final callback = TestRampOpeningBallContactCallback();
@@ -145,6 +151,7 @@ void main() {
       final body = MockBody();
       final area = TestRampOpening(
         orientation: RampOrientation.up,
+        insidePriority: insidePriority,
         pathwayLayer: Layer.spaceshipEntranceRamp,
       );
       final callback = TestRampOpeningBallContactCallback();
@@ -165,6 +172,7 @@ void main() {
       final body = MockBody();
       final area = TestRampOpening(
         orientation: RampOrientation.down,
+        insidePriority: insidePriority,
         pathwayLayer: Layer.spaceshipEntranceRamp,
       )..initialPosition = Vector2(0, 10);
       final callback = TestRampOpeningBallContactCallback();
@@ -189,6 +197,7 @@ void main() {
       final body = MockBody();
       final area = TestRampOpening(
         orientation: RampOrientation.up,
+        insidePriority: insidePriority,
         pathwayLayer: Layer.spaceshipEntranceRamp,
       )..initialPosition = Vector2(0, 10);
       final callback = TestRampOpeningBallContactCallback();
@@ -213,6 +222,7 @@ void main() {
       final body = MockBody();
       final area = TestRampOpening(
         orientation: RampOrientation.down,
+        insidePriority: insidePriority,
         pathwayLayer: Layer.spaceshipEntranceRamp,
       )..initialPosition = Vector2(0, 10);
       final callback = TestRampOpeningBallContactCallback();
