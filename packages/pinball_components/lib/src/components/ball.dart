@@ -79,7 +79,7 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   // TODO(allisonryan0002): prevent motion from contact with other balls.
   void stop() {
     body
-      ..gravityScale = 0
+      ..gravityScale = Vector2.zero()
       ..linearVelocity = Vector2.zero()
       ..angularVelocity = 0;
   }
@@ -88,7 +88,7 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   ///
   /// If previously [stop]ped, the previous ball's velocity is not kept.
   void resume() {
-    body.gravityScale = 1;
+    body.gravityScale = Vector2(0, 1);
   }
 
   @override

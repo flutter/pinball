@@ -120,7 +120,7 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   Body createBody() {
     final bodyDef = BodyDef()
       ..position = initialPosition
-      ..gravityScale = 0
+      ..gravityScale = Vector2.zero()
       ..type = BodyType.dynamic;
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);

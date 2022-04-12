@@ -35,7 +35,7 @@ class Plunger extends BodyComponent with InitialPosition {
       ..position = initialPosition
       ..userData = this
       ..type = BodyType.dynamic
-      ..gravityScale = 0;
+      ..gravityScale = Vector2.zero();
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
