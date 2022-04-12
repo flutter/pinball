@@ -57,8 +57,6 @@ void main() {
         const expectedLayer = Layer.spaceshipEntranceRamp;
         final component = TestLayeredBodyComponent()..layer = expectedLayer;
         await game.ensureAdd(component);
-        // TODO(alestiago): modify once component.loaded is available.
-        await component.mounted;
 
         _expectLayerOnFixtures(
           fixtures: component.body.fixtures,
@@ -79,8 +77,6 @@ void main() {
         component.layer = expectedLayer;
 
         await game.ensureAdd(component);
-        // TODO(alestiago): modify once component.loaded is available.
-        await component.mounted;
 
         _expectLayerOnFixtures(
           fixtures: component.body.fixtures,
