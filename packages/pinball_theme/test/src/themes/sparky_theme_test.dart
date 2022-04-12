@@ -19,7 +19,10 @@ void main() {
     });
 
     test('characterAsset is correct', () {
-      expect(SparkyTheme().characterAsset, equals(Assets.images.sparky));
+      expect(
+        SparkyTheme().characterAsset,
+        equals(Assets.images.sparky.character),
+      );
     });
   });
 }

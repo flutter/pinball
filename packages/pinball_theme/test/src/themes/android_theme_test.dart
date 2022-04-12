@@ -19,7 +19,10 @@ void main() {
     });
 
     test('characterAsset is correct', () {
-      expect(AndroidTheme().characterAsset, equals(Assets.images.android));
+      expect(
+        AndroidTheme().characterAsset,
+        equals(Assets.images.android.character),
+      );
     });
   });
 }

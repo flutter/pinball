@@ -21,9 +21,15 @@ flutter:
   generate: true
   assets:
     - assets/images/
+    - assets/images/android/
+    - assets/images/dash/
+    - assets/images/dino/
+    - assets/images/sparky/
 
 flutter_gen:
   assets:
     package_parameter_enabled: true
   output: lib/src/generated/
   line_length: 80
+  integrations:
+    flutter_svg: true

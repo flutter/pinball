@@ -19,7 +19,10 @@ void main() {
     });
 
     test('characterAsset is correct', () {
-      expect(DashTheme().characterAsset, equals(Assets.images.dash));
+      expect(
+        DashTheme().characterAsset,
+        equals(Assets.images.dash.character),
+      );
     });
   });
 }

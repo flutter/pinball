@@ -19,7 +19,10 @@ void main() {
     });
 
     test('characterAsset is correct', () {
-      expect(DinoTheme().characterAsset, equals(Assets.images.dino));
+      expect(
+        DinoTheme().characterAsset,
+        equals(Assets.images.dino.character),
+      );
     });
   });
 }
