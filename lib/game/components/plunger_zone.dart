@@ -11,6 +11,7 @@ class PlungerZone extends Forge2DBlueprint {
   /// {@macro plunger_zone}
   PlungerZone();
 
+  /// [Plunger] to launch the [Ball] into the board.
   late final Plunger plunger;
 
   @override
@@ -25,6 +26,8 @@ class PlungerZone extends Forge2DBlueprint {
 }
 
 class _PlungerRocketSpriteComponent extends SpriteComponent with HasGameRef {
+  // TODO(ruimiguel): change this priority to be over launcher ramp and bottom
+  // wall.
   _PlungerRocketSpriteComponent() : super(priority: 5);
 
   @override
