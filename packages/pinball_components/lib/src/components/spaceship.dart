@@ -21,9 +21,6 @@ class Spaceship extends Forge2DBlueprint {
   /// The [position] where the elements will be created
   final Vector2 position;
 
-  /// Base priority for wall while be on spaceship.
-  static const ballPriorityWhenOnSpaceship = 4;
-
   @override
   void build(_) {
     addAllContactCallback([
@@ -37,7 +34,7 @@ class Spaceship extends Forge2DBlueprint {
       AndroidHead()..initialPosition = position,
       SpaceshipHole(
         outsideLayer: Layer.spaceshipExitRail,
-        outsidePriority: SpaceshipRail.ballPriorityInsideRail,
+        outsidePriority: Ball.spaceshipRailPriority,
       )..initialPosition = position - Vector2(5.2, 4.8),
       SpaceshipHole()..initialPosition = position - Vector2(-7.2, 0.8),
       SpaceshipWall()..initialPosition = position,
@@ -50,8 +47,7 @@ class Spaceship extends Forge2DBlueprint {
 /// {@endtemplate}
 class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_saucer}
-  SpaceshipSaucer()
-      : super(priority: Spaceship.ballPriorityWhenOnSpaceship - 1) {
+  SpaceshipSaucer() : super(priority: Ball.spaceshipPriority - 1) {
     layer = Layer.spaceship;
   }
 
@@ -95,7 +91,7 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
 /// {@endtemplate}
 class AndroidHead extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_bridge}
-  AndroidHead() : super(priority: Spaceship.ballPriorityWhenOnSpaceship + 1) {
+  AndroidHead() : super(priority: Ball.spaceshipPriority + 1) {
     layer = Layer.spaceship;
   }
 
@@ -157,7 +153,7 @@ class SpaceshipEntrance extends RampOpening {
       : super(
           insideLayer: Layer.spaceship,
           orientation: RampOrientation.up,
-          insidePriority: Spaceship.ballPriorityWhenOnSpaceship,
+          insidePriority: Ball.spaceshipPriority,
         ) {
     layer = Layer.spaceship;
   }
@@ -242,7 +238,7 @@ class _SpaceshipWallShape extends ChainShape {
 /// {@endtemplate}
 class SpaceshipWall extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_wall}
-  SpaceshipWall() : super(priority: Spaceship.ballPriorityWhenOnSpaceship + 1) {
+  SpaceshipWall() : super(priority: Ball.spaceshipPriority + 1) {
     layer = Layer.spaceship;
   }
 

@@ -18,7 +18,7 @@ class ScoreText extends TextComponent {
           text: text,
           position: position,
           anchor: Anchor.center,
-          priority: 100,
+          priority: 5,
         );
 
   late final Effect _effect;

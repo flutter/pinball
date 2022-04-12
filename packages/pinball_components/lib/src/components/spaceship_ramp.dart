@@ -14,9 +14,6 @@ class SpaceshipRamp extends Forge2DBlueprint {
   /// {@macro spaceship_ramp}
   SpaceshipRamp();
 
-  /// Base priority for wall while be in the ramp.
-  static const int ballPriorityInsideRamp = 4;
-
   @override
   void build(_) {
     addAllContactCallback([
@@ -32,7 +29,7 @@ class SpaceshipRamp extends Forge2DBlueprint {
       ..layer = Layer.opening;
     final leftOpening = _SpaceshipRampOpening(
       outsideLayer: Layer.spaceship,
-      outsidePriority: Spaceship.ballPriorityWhenOnSpaceship,
+      outsidePriority: Ball.spaceshipPriority,
       rotation: math.pi,
     )
       ..initialPosition = Vector2(-13.7, 19)
@@ -58,8 +55,7 @@ class SpaceshipRamp extends Forge2DBlueprint {
 /// railing.
 class _SpaceshipRampBackground extends BodyComponent
     with InitialPosition, Layered {
-  _SpaceshipRampBackground()
-      : super(priority: SpaceshipRamp.ballPriorityInsideRamp - 1) {
+  _SpaceshipRampBackground() : super(priority: Ball.spaceshipRampPriority - 1) {
     layer = Layer.spaceshipEntranceRamp;
   }
 
@@ -150,7 +146,7 @@ class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
 class _SpaceshipRampForegroundRailing extends BodyComponent
     with InitialPosition, Layered {
   _SpaceshipRampForegroundRailing()
-      : super(priority: SpaceshipRamp.ballPriorityInsideRamp + 1) {
+      : super(priority: Ball.spaceshipRampPriority + 1) {
     layer = Layer.spaceshipEntranceRamp;
   }
 
@@ -263,7 +259,7 @@ class _SpaceshipRampOpening extends RampOpening {
           insideLayer: Layer.spaceshipEntranceRamp,
           outsideLayer: outsideLayer,
           orientation: RampOrientation.down,
-          insidePriority: SpaceshipRamp.ballPriorityInsideRamp,
+          insidePriority: Ball.spaceshipRampPriority,
           outsidePriority: outsidePriority,
         ) {
     renderBody = false;

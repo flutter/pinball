@@ -9,7 +9,7 @@ class SpaceshipRailGame extends BasicBallGame {
   SpaceshipRailGame()
       : super(
           color: Colors.blue,
-          ballPriority: SpaceshipRail.ballPriorityInsideRail,
+          ballPriority: Ball.spaceshipRailPriority,
           ballLayer: Layer.spaceshipExitRail,
         );
 
