@@ -4,8 +4,6 @@ import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class SlingshotGame extends BasicBallGame with Traceable {
-  SlingshotGame() : super(color: const Color(0xFFFF0000));
-
   static const info = '''
     Shows how Slingshots are rendered.
 
