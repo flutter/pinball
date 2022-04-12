@@ -14,7 +14,7 @@ class SpaceshipRampGame extends BasicBallGame {
         );
 
   static const info = '''
-    Shows how SpaceshipRamp are rendered.
+    Shows how SpaceshipRamp is rendered.
 
     - Activate the "trace" parameter to overlay the body.
     - Tap anywhere on the screen to spawn a ball into the game.
@@ -23,12 +23,8 @@ class SpaceshipRampGame extends BasicBallGame {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-
-    camera.followVector2(Vector2(-10, -20));
-
-    final spaceshipRamp = SpaceshipRamp();
-    unawaited(addFromBlueprint(spaceshipRamp));
-
+    await addFromBlueprint(SpaceshipRamp());
+    camera.followVector2(Vector2(-12, -50));
     await traceAllBodies();
   }
 }
