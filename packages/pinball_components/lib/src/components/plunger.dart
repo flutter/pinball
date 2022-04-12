@@ -88,7 +88,7 @@ class _PlungerSpriteComponent extends SpriteComponent with HasGameRef {
     );
 
     this.sprite = sprite;
-    size = Vector2(5.5, 40);
+    size = sprite.originalSize / 10;
     anchor = Anchor.center;
     position = Vector2(2, 19);
     angle = -0.033;
