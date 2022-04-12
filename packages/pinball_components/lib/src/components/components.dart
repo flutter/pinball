@@ -1,3 +1,4 @@
+export 'alien_bumper.dart';
 export 'backboard.dart';
 export 'ball.dart';
 export 'baseboard.dart';

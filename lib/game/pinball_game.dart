@@ -53,6 +53,7 @@ class PinballGame extends Forge2DGame
     await add(plunger);
 
     unawaited(add(Board()));
+    unawaited(add(AlienZone()));
     unawaited(add(SparkyFireZone()));
     unawaited(addFromBlueprint(Slingshots()));
     unawaited(addFromBlueprint(DinoWalls()));
