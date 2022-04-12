@@ -21,18 +21,16 @@ class ControlledPlunger extends Plunger with Controls<PlungerController> {
 class PlungerController extends ComponentController<Plunger>
     with KeyboardHandler {
   /// {@macro plunger_controller}
-  PlungerController(Plunger plunger)
-      : _keys = [
-          LogicalKeyboardKey.arrowDown,
-          LogicalKeyboardKey.space,
-          LogicalKeyboardKey.keyS,
-        ],
-        super(plunger);
+  PlungerController(Plunger plunger) : super(plunger);
 
   /// The [LogicalKeyboardKey]s that will control the [Flipper].
   ///
   /// [onKeyEvent] method listens to when one of these keys is pressed.
-  final List<LogicalKeyboardKey> _keys;
+  static const List<LogicalKeyboardKey> _keys = [
+    LogicalKeyboardKey.arrowDown,
+    LogicalKeyboardKey.space,
+    LogicalKeyboardKey.keyS,
+  ];
 
   @override
   bool onKeyEvent(
