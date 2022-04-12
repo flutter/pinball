@@ -10,6 +10,8 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  $AssetsImagesAlienBumperGen get alienBumper =>
+      const $AssetsImagesAlienBumperGen();
   $AssetsImagesBackboardGen get backboard => const $AssetsImagesBackboardGen();
 
   /// File path: assets/images/ball.png
@@ -36,6 +38,13 @@ class $AssetsImagesGen {
   $AssetsImagesSlingshotGen get slingshot => const $AssetsImagesSlingshotGen();
   $AssetsImagesSpaceshipGen get spaceship => const $AssetsImagesSpaceshipGen();
   $AssetsImagesSparkyGen get sparky => const $AssetsImagesSparkyGen();
+}
+
+class $AssetsImagesAlienBumperGen {
+  const $AssetsImagesAlienBumperGen();
+
+  $AssetsImagesAlienBumperAGen get a => const $AssetsImagesAlienBumperAGen();
+  $AssetsImagesAlienBumperBGen get b => const $AssetsImagesAlienBumperBGen();
 }
 
 class $AssetsImagesBackboardGen {
@@ -226,6 +235,30 @@ class $AssetsImagesSparkyGen {
       const $AssetsImagesSparkyComputerGen();
 }
 
+class $AssetsImagesAlienBumperAGen {
+  const $AssetsImagesAlienBumperAGen();
+
+  /// File path: assets/images/alien_bumper/a/active.png
+  AssetGenImage get active =>
+      const AssetGenImage('assets/images/alien_bumper/a/active.png');
+
+  /// File path: assets/images/alien_bumper/a/inactive.png
+  AssetGenImage get inactive =>
+      const AssetGenImage('assets/images/alien_bumper/a/inactive.png');
+}
+
+class $AssetsImagesAlienBumperBGen {
+  const $AssetsImagesAlienBumperBGen();
+
+  /// File path: assets/images/alien_bumper/b/active.png
+  AssetGenImage get active =>
+      const AssetGenImage('assets/images/alien_bumper/b/active.png');
+
+  /// File path: assets/images/alien_bumper/b/inactive.png
+  AssetGenImage get inactive =>
+      const AssetGenImage('assets/images/alien_bumper/b/inactive.png');
+}
+
 class $AssetsImagesDashBumperGen {
   const $AssetsImagesDashBumperGen();
 
@@ -283,42 +316,6 @@ class $AssetsImagesSparkyComputerGen {
       const AssetGenImage('assets/images/sparky/computer/top.png');
 }
 
-class $AssetsImagesSparkyBumperAGen {
-  const $AssetsImagesSparkyBumperAGen();
-
-  /// File path: assets/images/sparky/bumper/a/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/sparky/bumper/a/active.png');
-
-  /// File path: assets/images/sparky/bumper/a/inactive.png
-  AssetGenImage get inactive =>
-      const AssetGenImage('assets/images/sparky/bumper/a/inactive.png');
-}
-
-class $AssetsImagesSparkyBumperBGen {
-  const $AssetsImagesSparkyBumperBGen();
-
-  /// File path: assets/images/sparky/bumper/b/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/sparky/bumper/b/active.png');
-
-  /// File path: assets/images/sparky/bumper/b/inactive.png
-  AssetGenImage get inactive =>
-      const AssetGenImage('assets/images/sparky/bumper/b/inactive.png');
-}
-
-class $AssetsImagesSparkyBumperCGen {
-  const $AssetsImagesSparkyBumperCGen();
-
-  /// File path: assets/images/sparky/bumper/c/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/sparky/bumper/c/active.png');
-
-  /// File path: assets/images/sparky/bumper/c/inactive.png
-  AssetGenImage get inactive =>
-      const AssetGenImage('assets/images/sparky/bumper/c/inactive.png');
-}
-
 class $AssetsImagesDashBumperAGen {
   const $AssetsImagesDashBumperAGen();
 
@@ -353,6 +350,42 @@ class $AssetsImagesDashBumperMainGen {
   /// File path: assets/images/dash/bumper/main/inactive.png
   AssetGenImage get inactive =>
       const AssetGenImage('assets/images/dash/bumper/main/inactive.png');
+}
+
+class $AssetsImagesSparkyBumperAGen {
+  const $AssetsImagesSparkyBumperAGen();
+
+  /// File path: assets/images/sparky/bumper/a/active.png
+  AssetGenImage get active =>
+      const AssetGenImage('assets/images/sparky/bumper/a/active.png');
+
+  /// File path: assets/images/sparky/bumper/a/inactive.png
+  AssetGenImage get inactive =>
+      const AssetGenImage('assets/images/sparky/bumper/a/inactive.png');
+}
+
+class $AssetsImagesSparkyBumperBGen {
+  const $AssetsImagesSparkyBumperBGen();
+
+  /// File path: assets/images/sparky/bumper/b/active.png
+  AssetGenImage get active =>
+      const AssetGenImage('assets/images/sparky/bumper/b/active.png');
+
+  /// File path: assets/images/sparky/bumper/b/inactive.png
+  AssetGenImage get inactive =>
+      const AssetGenImage('assets/images/sparky/bumper/b/inactive.png');
+}
+
+class $AssetsImagesSparkyBumperCGen {
+  const $AssetsImagesSparkyBumperCGen();
+
+  /// File path: assets/images/sparky/bumper/c/active.png
+  AssetGenImage get active =>
+      const AssetGenImage('assets/images/sparky/bumper/c/active.png');
+
+  /// File path: assets/images/sparky/bumper/c/inactive.png
+  AssetGenImage get inactive =>
+      const AssetGenImage('assets/images/sparky/bumper/c/inactive.png');
 }
 
 class Assets {

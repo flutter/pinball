@@ -24,6 +24,7 @@ void main() {
   addPlungerStories(dashbook);
   addSlingshotStories(dashbook);
   addSparkyBumperStories(dashbook);
+  addAlienZoneStories(dashbook);
   addZoomStories(dashbook);
   addBoundariesStories(dashbook);
   addGoogleWordStories(dashbook);
