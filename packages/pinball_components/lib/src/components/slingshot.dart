@@ -58,7 +58,7 @@ class Slingshot extends BodyComponent with InitialPosition {
   })  : _length = length,
         _angle = angle,
         _spritePath = spritePath,
-        super(priority: 1);
+        super(priority: PinballPriority.slingshot);
 
   final double _length;
 

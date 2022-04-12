@@ -14,7 +14,7 @@ class Plunger extends BodyComponent with InitialPosition {
     required this.compressionDistance,
     // TODO(ruimiguel): set to priority +1 over LaunchRamp once all priorities
     // are fixed.
-  }) : super(priority: 0);
+  }) : super(priority: PinballPriority.plunger);
 
   /// Distance the plunger can lower.
   final double compressionDistance;

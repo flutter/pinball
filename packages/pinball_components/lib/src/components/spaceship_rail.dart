@@ -40,10 +40,7 @@ class SpaceshipRail extends Forge2DBlueprint {
 
 /// Represents the spaceship drop rail from the [Spaceship].
 class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
-  _SpaceshipRailRamp()
-      : super(
-          priority: Ball.spaceshipRailPriority - 1,
-        ) {
+  _SpaceshipRailRamp() : super(priority: PinballPriority.spaceshipRail) {
     layer = Layer.spaceshipExitRail;
   }
 
@@ -158,7 +155,8 @@ class _SpaceshipRailRampSpriteComponent extends SpriteComponent
 }
 
 class _SpaceshipRailForeground extends SpriteComponent with HasGameRef {
-  _SpaceshipRailForeground() : super(priority: Ball.spaceshipRailPriority + 1);
+  _SpaceshipRailForeground()
+      : super(priority: PinballPriority.spaceshipRailForeground);
 
   @override
   Future<void> onLoad() async {
@@ -175,13 +173,9 @@ class _SpaceshipRailForeground extends SpriteComponent with HasGameRef {
 }
 
 /// Represents the ground bases of the [_SpaceshipRailRamp].
-class _SpaceshipRailBase extends BodyComponent with InitialPosition, Layered {
-  _SpaceshipRailBase({required this.radius})
-      : super(
-          priority: Ball.spaceshipRailPriority + 1,
-        ) {
+class _SpaceshipRailBase extends BodyComponent with InitialPosition {
+  _SpaceshipRailBase({required this.radius}) {
     renderBody = false;
-    layer = Layer.board;
   }
 
   final double radius;
@@ -210,7 +204,7 @@ class SpaceshipRailExit extends RampOpening {
       : super(
           orientation: RampOrientation.down,
           insideLayer: Layer.spaceshipExitRail,
-          insidePriority: Ball.spaceshipRailPriority,
+          insidePriority: PinballPriority.ballOnSpaceshipRail,
         ) {
     renderBody = false;
     layer = Layer.spaceshipExitRail;

@@ -34,7 +34,7 @@ class Spaceship extends Forge2DBlueprint {
       AndroidHead()..initialPosition = position,
       SpaceshipHole(
         outsideLayer: Layer.spaceshipExitRail,
-        outsidePriority: Ball.spaceshipRailPriority,
+        outsidePriority: PinballPriority.ballOnSpaceshipRail,
       )..initialPosition = position - Vector2(5.2, 4.8),
       SpaceshipHole()..initialPosition = position - Vector2(-7.2, 0.8),
       SpaceshipWall()..initialPosition = position,
@@ -47,7 +47,7 @@ class Spaceship extends Forge2DBlueprint {
 /// {@endtemplate}
 class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_saucer}
-  SpaceshipSaucer() : super(priority: Ball.spaceshipPriority - 1) {
+  SpaceshipSaucer() : super(priority: PinballPriority.spaceshipSaucer) {
     layer = Layer.spaceship;
   }
 
@@ -91,7 +91,7 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
 /// {@endtemplate}
 class AndroidHead extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_bridge}
-  AndroidHead() : super(priority: Ball.spaceshipPriority + 1) {
+  AndroidHead() : super(priority: PinballPriority.androidHead) {
     layer = Layer.spaceship;
   }
 
@@ -153,7 +153,7 @@ class SpaceshipEntrance extends RampOpening {
       : super(
           insideLayer: Layer.spaceship,
           orientation: RampOrientation.up,
-          insidePriority: Ball.spaceshipPriority,
+          insidePriority: PinballPriority.ballOnSpaceship,
         ) {
     layer = Layer.spaceship;
   }
@@ -187,7 +187,7 @@ class SpaceshipHole extends RampOpening {
           insideLayer: Layer.spaceship,
           outsideLayer: outsideLayer,
           orientation: RampOrientation.up,
-          insidePriority: 4,
+          insidePriority: PinballPriority.ballOnSpaceship,
           outsidePriority: outsidePriority,
         ) {
     renderBody = false;
@@ -238,7 +238,7 @@ class _SpaceshipWallShape extends ChainShape {
 /// {@endtemplate}
 class SpaceshipWall extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_wall}
-  SpaceshipWall() : super(priority: Ball.spaceshipPriority + 1) {
+  SpaceshipWall() : super(priority: PinballPriority.spaceshipSaucerWall) {
     layer = Layer.spaceship;
   }
 

@@ -42,7 +42,7 @@ class _LaunchRampBase extends BodyComponent with InitialPosition, Layered {
   /// {@macro launch_ramp_base}
   _LaunchRampBase()
       : super(
-          priority: Ball.launchRampPriority - 1,
+          priority: PinballPriority.launchRamp,
         ) {
     layer = Layer.launcher;
   }
@@ -148,7 +148,7 @@ class _LaunchRampForegroundRailing extends BodyComponent
   /// {@macro launch_ramp_foreground_railing}
   _LaunchRampForegroundRailing()
       : super(
-          priority: Ball.launchRampPriority + 1,
+          priority: PinballPriority.launchRampForegroundRailing,
         ) {
     layer = Layer.launcher;
   }
@@ -233,7 +233,7 @@ class _LaunchRampExit extends RampOpening {
         super(
           insideLayer: Layer.launcher,
           orientation: RampOrientation.down,
-          insidePriority: Ball.launchRampPriority,
+          insidePriority: PinballPriority.ballOnLaunchRamp,
         );
 
   final double _rotation;

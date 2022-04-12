@@ -6,6 +6,9 @@ import 'package:pinball_components/pinball_components.dart';
 /// A sign, found in the Flutter Forest.
 /// {@endtemplate}
 class FlutterSignPost extends BodyComponent with InitialPosition {
+  /// {@macro flutter_sign_post}
+  FlutterSignPost() : super(priority: PinballPriority.flutterSignPost);
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
