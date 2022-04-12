@@ -21,6 +21,10 @@ flutter:
   generate: true
   assets:
     - assets/images/
+    - assets/images/android/
+    - assets/images/dash/
+    - assets/images/dino/
+    - assets/images/sparky/
 
 flutter_gen:
   assets:

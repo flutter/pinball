@@ -10,50 +10,9 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
-  /// File path: assets/images/android.png
-  AssetGenImage get android => const AssetGenImage('assets/images/android.png');
-
-  /// File path: assets/images/android_background.png
-  AssetGenImage get androidBackground =>
-      const AssetGenImage('assets/images/android_background.png');
-
-  /// File path: assets/images/android_icon.png
-  AssetGenImage get androidIcon =>
-      const AssetGenImage('assets/images/android_icon.png');
-
-  /// File path: assets/images/android_placeholder.png
-  AssetGenImage get androidPlaceholder =>
-      const AssetGenImage('assets/images/android_placeholder.png');
-
-  /// File path: assets/images/dash.png
-  AssetGenImage get dash => const AssetGenImage('assets/images/dash.png');
-
-  /// File path: assets/images/dash_background.png
-  AssetGenImage get dashBackground =>
-      const AssetGenImage('assets/images/dash_background.png');
-
-  /// File path: assets/images/dash_icon.png
-  AssetGenImage get dashIcon =>
-      const AssetGenImage('assets/images/dash_icon.png');
-
-  /// File path: assets/images/dash_placeholder.png
-  AssetGenImage get dashPlaceholder =>
-      const AssetGenImage('assets/images/dash_placeholder.png');
-
-  /// File path: assets/images/dino.png
-  AssetGenImage get dino => const AssetGenImage('assets/images/dino.png');
-
-  /// File path: assets/images/dino_background.png
-  AssetGenImage get dinoBackground =>
-      const AssetGenImage('assets/images/dino_background.png');
-
-  /// File path: assets/images/dino_icon.png
-  AssetGenImage get dinoIcon =>
-      const AssetGenImage('assets/images/dino_icon.png');
-
-  /// File path: assets/images/dino_placeholder.png
-  AssetGenImage get dinoPlaceholder =>
-      const AssetGenImage('assets/images/dino_placeholder.png');
+  $AssetsImagesAndroidGen get android => const $AssetsImagesAndroidGen();
+  $AssetsImagesDashGen get dash => const $AssetsImagesDashGen();
+  $AssetsImagesDinoGen get dino => const $AssetsImagesDinoGen();
 
   /// File path: assets/images/pinball_button.png
   AssetGenImage get pinballButton =>
@@ -63,20 +22,69 @@ class $AssetsImagesGen {
   AssetGenImage get selectCharacterBackground =>
       const AssetGenImage('assets/images/select_character_background.png');
 
-  /// File path: assets/images/sparky.png
-  AssetGenImage get sparky => const AssetGenImage('assets/images/sparky.png');
+  $AssetsImagesSparkyGen get sparky => const $AssetsImagesSparkyGen();
+}
 
-  /// File path: assets/images/sparky_background.png
-  AssetGenImage get sparkyBackground =>
-      const AssetGenImage('assets/images/sparky_background.png');
+class $AssetsImagesAndroidGen {
+  const $AssetsImagesAndroidGen();
 
-  /// File path: assets/images/sparky_icon.png
-  AssetGenImage get sparkyIcon =>
-      const AssetGenImage('assets/images/sparky_icon.png');
+  /// File path: assets/images/android/background.png
+  AssetGenImage get background =>
+      const AssetGenImage('assets/images/android/background.png');
 
-  /// File path: assets/images/sparky_placeholder.png
-  AssetGenImage get sparkyPlaceholder =>
-      const AssetGenImage('assets/images/sparky_placeholder.png');
+  /// File path: assets/images/android/character.png
+  AssetGenImage get character =>
+      const AssetGenImage('assets/images/android/character.png');
+
+  /// File path: assets/images/android/icon.png
+  AssetGenImage get icon =>
+      const AssetGenImage('assets/images/android/icon.png');
+}
+
+class $AssetsImagesDashGen {
+  const $AssetsImagesDashGen();
+
+  /// File path: assets/images/dash/background.png
+  AssetGenImage get background =>
+      const AssetGenImage('assets/images/dash/background.png');
+
+  /// File path: assets/images/dash/character.png
+  AssetGenImage get character =>
+      const AssetGenImage('assets/images/dash/character.png');
+
+  /// File path: assets/images/dash/icon.png
+  AssetGenImage get icon => const AssetGenImage('assets/images/dash/icon.png');
+}
+
+class $AssetsImagesDinoGen {
+  const $AssetsImagesDinoGen();
+
+  /// File path: assets/images/dino/background.png
+  AssetGenImage get background =>
+      const AssetGenImage('assets/images/dino/background.png');
+
+  /// File path: assets/images/dino/character.png
+  AssetGenImage get character =>
+      const AssetGenImage('assets/images/dino/character.png');
+
+  /// File path: assets/images/dino/icon.png
+  AssetGenImage get icon => const AssetGenImage('assets/images/dino/icon.png');
+}
+
+class $AssetsImagesSparkyGen {
+  const $AssetsImagesSparkyGen();
+
+  /// File path: assets/images/sparky/background.png
+  AssetGenImage get background =>
+      const AssetGenImage('assets/images/sparky/background.png');
+
+  /// File path: assets/images/sparky/character.png
+  AssetGenImage get character =>
+      const AssetGenImage('assets/images/sparky/character.png');
+
+  /// File path: assets/images/sparky/icon.png
+  AssetGenImage get icon =>
+      const AssetGenImage('assets/images/sparky/icon.png');
 }
 
 class Assets {
