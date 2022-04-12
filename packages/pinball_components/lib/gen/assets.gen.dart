@@ -28,6 +28,8 @@ class $AssetsImagesGen {
   AssetGenImage get flutterSignPost =>
       const AssetGenImage('assets/images/flutter_sign_post.png');
 
+  $AssetsImagesGoogleWordGen get googleWord =>
+      const $AssetsImagesGoogleWordGen();
   $AssetsImagesKickerGen get kicker => const $AssetsImagesKickerGen();
   $AssetsImagesLaunchRampGen get launchRamp =>
       const $AssetsImagesLaunchRampGen();
@@ -116,6 +118,34 @@ class $AssetsImagesFlipperGen {
   /// File path: assets/images/flipper/right.png
   AssetGenImage get right =>
       const AssetGenImage('assets/images/flipper/right.png');
+}
+
+class $AssetsImagesGoogleWordGen {
+  const $AssetsImagesGoogleWordGen();
+
+  /// File path: assets/images/google_word/letter1.png
+  AssetGenImage get letter1 =>
+      const AssetGenImage('assets/images/google_word/letter1.png');
+
+  /// File path: assets/images/google_word/letter2.png
+  AssetGenImage get letter2 =>
+      const AssetGenImage('assets/images/google_word/letter2.png');
+
+  /// File path: assets/images/google_word/letter3.png
+  AssetGenImage get letter3 =>
+      const AssetGenImage('assets/images/google_word/letter3.png');
+
+  /// File path: assets/images/google_word/letter4.png
+  AssetGenImage get letter4 =>
+      const AssetGenImage('assets/images/google_word/letter4.png');
+
+  /// File path: assets/images/google_word/letter5.png
+  AssetGenImage get letter5 =>
+      const AssetGenImage('assets/images/google_word/letter5.png');
+
+  /// File path: assets/images/google_word/letter6.png
+  AssetGenImage get letter6 =>
+      const AssetGenImage('assets/images/google_word/letter6.png');
 }
 
 class $AssetsImagesKickerGen {

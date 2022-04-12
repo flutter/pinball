@@ -13,7 +13,7 @@ class BasicBallGame extends BasicGame with TapDetector, Traceable {
   static const info = '''
     Shows how a Ball works.
       
-    Tap anywhere on the screen to spawn a ball into the game.
+    - Tap anywhere on the screen to spawn a ball into the game.
 ''';
 
   final Color color;
