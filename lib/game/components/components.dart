@@ -1,3 +1,4 @@
+export 'alien_zone.dart';
 export 'board.dart';
 export 'bonus_word.dart';
 export 'camera_controller.dart';
