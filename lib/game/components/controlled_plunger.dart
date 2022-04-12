@@ -17,7 +17,6 @@ class ControlledPlunger extends Plunger with Controls<PlungerController> {
 /// {@template plunger_controller}
 /// A [ComponentController] that controls a [Plunger]s movement.
 /// {@endtemplate}
-
 class PlungerController extends ComponentController<Plunger>
     with KeyboardHandler {
   /// {@macro plunger_controller}
