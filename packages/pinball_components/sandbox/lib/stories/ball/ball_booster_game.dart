@@ -7,7 +7,7 @@ class BallBoosterGame extends LineGame {
   static const info = '''
     Shows how a Ball with a boost works.
 
-    Drag to launch a boosted Ball.
+    - Drag to launch a boosted Ball.
 ''';
 
   @override

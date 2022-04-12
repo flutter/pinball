@@ -1,12 +1,8 @@
-// ignore_for_file: comment_references
-// TODO(alestiago): Revisit ignore lint rule once Kicker is moved to this
-// package.
-
 import 'package:pinball_components/pinball_components.dart';
 
 /// Indicates a side of the board.
 ///
-/// Usually used to position or mirror elements of a [PinballGame]; such as a
+/// Usually used to position or mirror elements of a pinball game; such as a
 /// [Flipper] or [Kicker].
 enum BoardSide {
   /// The left side of the board.
