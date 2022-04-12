@@ -9,8 +9,17 @@ class DashTheme extends CharacterTheme {
   const DashTheme();
 
   @override
+  String get name => 'Dash';
+
+  @override
   Color get ballColor => Colors.blue;
 
   @override
-  AssetGenImage get characterAsset => Assets.images.dash.character;
+  AssetGenImage get character => Assets.images.dash.character;
+
+  @override
+  AssetGenImage get background => Assets.images.dash.background;
+
+  @override
+  AssetGenImage get icon => Assets.images.dash.icon;
 }

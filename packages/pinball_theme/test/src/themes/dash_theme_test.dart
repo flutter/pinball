@@ -18,11 +18,22 @@ void main() {
       expect(DashTheme().ballColor, equals(Colors.blue));
     });
 
-    test('characterAsset is correct', () {
+    test('character asset is correct', () {
       expect(
-        DashTheme().characterAsset,
+        DashTheme().character,
         equals(Assets.images.dash.character),
       );
+    });
+
+    test('background asset is correct', () {
+      expect(
+        DashTheme().background,
+        equals(Assets.images.dash.background),
+      );
+    });
+
+    test('icon asset is correct', () {
+      expect(DashTheme().icon, equals(Assets.images.dash.icon));
     });
   });
 }
