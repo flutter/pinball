@@ -8,6 +8,7 @@ export 'flutter_forest/stories.dart';
 export 'google_word/stories.dart';
 export 'launch_ramp/stories.dart';
 export 'layer/stories.dart';
+export 'plunger/stories.dart';
 export 'score_text/stories.dart';
 export 'slingshot/stories.dart';
 export 'spaceship/stories.dart';
