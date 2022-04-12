@@ -10,7 +10,7 @@ class Launcher extends Forge2DBlueprint {
   /// {@macro plunger_zone}
   Launcher();
 
-  /// [Plunger] to launch the [Ball] into the board.
+  /// [Plunger] to launch the [Ball] onto the board.
   late final Plunger plunger;
 
   @override
