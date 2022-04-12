@@ -99,10 +99,7 @@ class PinballGame extends Forge2DGame
 }
 
 class _GameBallsController extends ComponentController<PinballGame>
-    with
-        BlocComponent<GameBloc, GameState>,
-        HasGameRef<PinballGame>,
-        KeyboardHandler {
+    with BlocComponent<GameBloc, GameState>, HasGameRef<PinballGame> {
   _GameBallsController(PinballGame game) : super(game);
 
   late final Plunger _plunger;
