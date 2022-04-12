@@ -10,7 +10,7 @@ class BasicLayerGame extends BasicGame with TapDetector {
   static const info = '''
     Shows how Layers work when a Ball hits other components.
       
-    Tap anywhere on the screen to spawn a Ball into the game.
+    - Tap anywhere on the screen to spawn a Ball into the game.
 ''';
 
   final Color color;
