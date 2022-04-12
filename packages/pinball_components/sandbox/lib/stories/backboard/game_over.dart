@@ -2,10 +2,14 @@ import 'package:flame/components.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 
-class BackboardGameOverGame extends BasicGame {
+class BackboardGameOverGame extends BasicKeyboardGame {
+  BackboardGameOverGame(this.score);
+
   static const info = '''
       Simple example showing the waiting mode of the backboard.
   ''';
+
+  final int score;
 
   @override
   Future<void> onLoad() async {
@@ -14,9 +18,9 @@ class BackboardGameOverGame extends BasicGame {
       ..zoom = 5;
 
     await add(
-      Backboard(
+      Backboard.gameOver(
         position: Vector2(0, 20),
-        startsAtWaiting: false,
+        score: score,
       ),
     );
   }

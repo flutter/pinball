@@ -17,7 +17,9 @@ void addBackboardStories(Dashbook dashbook) {
     ..add(
       'Game over',
       (context) => GameWidget(
-        game: BackboardGameOverGame(),
+        game: BackboardGameOverGame(
+            context.numberProperty('score', 9000000000).toInt(),
+        ),
       ),
       codeLink: buildSourceLink('backboard/game_over.dart'),
       info: BackboardGameOverGame.info,

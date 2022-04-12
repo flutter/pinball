@@ -13,7 +13,7 @@ class BackboardWaitingGame extends BasicGame {
       ..followVector2(Vector2.zero())
       ..zoom = 5;
 
-    final backboard = Backboard(position: Vector2(0, 20));
+    final backboard = Backboard.waiting(position: Vector2(0, 20));
     await add(backboard);
   }
 }
