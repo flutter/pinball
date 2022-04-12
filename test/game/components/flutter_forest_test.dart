@@ -18,7 +18,6 @@ void main() {
     flameTester.test(
       'loads correctly',
       (game) async {
-        await game.ready();
         final flutterForest = FlutterForest();
         await game.ensureAdd(flutterForest);
 
@@ -30,7 +29,6 @@ void main() {
       flameTester.test(
         'a FlutterSignPost',
         (game) async {
-          await game.ready();
           final flutterForest = FlutterForest();
           await game.ensureAdd(flutterForest);
 
@@ -42,9 +40,21 @@ void main() {
       );
 
       flameTester.test(
+        'a DashAnimatronic',
+        (game) async {
+          final flutterForest = FlutterForest();
+          await game.ensureAdd(flutterForest);
+
+          expect(
+            flutterForest.firstChild<DashAnimatronic>(),
+            isNotNull,
+          );
+        },
+      );
+
+      flameTester.test(
         'a BigDashNestBumper',
         (game) async {
-          await game.ready();
           final flutterForest = FlutterForest();
           await game.ensureAdd(flutterForest);
 
@@ -58,7 +68,6 @@ void main() {
       flameTester.test(
         'two SmallDashNestBumper',
         (game) async {
-          await game.ready();
           final flutterForest = FlutterForest();
           await game.ensureAdd(flutterForest);
 
@@ -102,20 +111,35 @@ void main() {
     });
 
     flameTester.test(
-      'onNewState adds a new ball',
+      'onNewState adds a new ball after a duration',
       (game) async {
         final flutterForest = FlutterForest();
-        await game.ready();
         await game.ensureAdd(flutterForest);
 
         final previousBalls = game.descendants().whereType<Ball>().length;
         flutterForest.controller.onNewState(MockGameState());
+
+        await Future<void>.delayed(const Duration(milliseconds: 700));
         await game.ready();
 
         expect(
           game.descendants().whereType<Ball>().length,
           greaterThan(previousBalls),
         );
+      },
+    );
+
+    flameTester.test(
+      'onNewState starts Dash animatronic',
+      (game) async {
+        final flutterForest = FlutterForest();
+        await game.ensureAdd(flutterForest);
+
+        flutterForest.controller.onNewState(MockGameState());
+        final dashAnimatronic =
+            game.descendants().whereType<DashAnimatronic>().single;
+
+        expect(dashAnimatronic.playing, isTrue);
       },
     );
 

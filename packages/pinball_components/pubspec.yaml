@@ -41,9 +41,10 @@ flutter:
     - assets/images/dino/
     - assets/images/flipper/
     - assets/images/launch_ramp/
-    - assets/images/dash_bumper/a/
-    - assets/images/dash_bumper/b/
-    - assets/images/dash_bumper/main/
+    - assets/images/dash/
+    - assets/images/dash/bumper/a/
+    - assets/images/dash/bumper/b/
+    - assets/images/dash/bumper/main/
     - assets/images/spaceship/
     - assets/images/spaceship/rail/
     - assets/images/spaceship/ramp/
