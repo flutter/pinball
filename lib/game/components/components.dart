@@ -8,6 +8,7 @@ export 'controlled_sparky_computer.dart';
 export 'flutter_forest.dart';
 export 'game_flow_controller.dart';
 export 'plunger.dart';
+export 'score_effect_controller.dart';
 export 'score_points.dart';
 export 'sparky_fire_zone.dart';
 export 'wall.dart';
