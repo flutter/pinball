@@ -1,8 +1,9 @@
 import 'dart:async';
-import 'dart:ui';
+import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template backboard_letter_prompt}
@@ -20,10 +21,10 @@ class BackboardLetterPrompt extends PositionComponent {
         );
 
   static const _alphabetCode = 65;
-  static const _alphabetLength = 26;
+  static const _alphabetLength = 25;
+  var _charIndex = 0;
 
   bool _hasFocus;
-  String _char = '';
 
   late RectangleComponent _underscore;
   late TextComponent _input;
@@ -43,9 +44,9 @@ class BackboardLetterPrompt extends PositionComponent {
     unawaited(add(_underscore));
 
     _input = TextComponent(
-        text: _hasFocus ? 'A' : '',
-        textRenderer: Backboard.textPaint,
-        anchor: Anchor.center,
+      text: 'A',
+      textRenderer: Backboard.textPaint,
+      anchor: Anchor.center,
     );
     unawaited(add(_input));
 
@@ -61,14 +62,42 @@ class BackboardLetterPrompt extends PositionComponent {
     );
 
     unawaited(add(_underscoreBlinker));
+
+    unawaited(
+      add(
+        KeyboardInputController(
+          keyUp: {
+            LogicalKeyboardKey.arrowUp: () => _cycle(true),
+            LogicalKeyboardKey.arrowDown: () => _cycle(false),
+          },
+        ),
+      ),
+    );
   }
 
-  void up() {
+  bool _cycle(bool up) {
+    if (_hasFocus) {
+      final newCharCode =
+          min(max(_charIndex + (up ? 1 : -1), 0), _alphabetLength);
+      _input.text = String.fromCharCode(_alphabetCode + newCharCode);
+      _charIndex = newCharCode;
+
+      return false;
+    }
+    return true;
   }
 
-  void down() {
-  }
+  /// Returns if this prompt has focus on it
+  bool get hasFocus => _hasFocus;
 
-  void nextPrompt() {
+  /// Updates this prompt focus
+  set hasFocus(bool hasFocus) {
+    if (hasFocus) {
+      _underscoreBlinker.timer.resume();
+    } else {
+      _underscoreBlinker.timer.pause();
+    }
+    _underscore.paint.color = Colors.white;
+    _hasFocus = hasFocus;
   }
 }

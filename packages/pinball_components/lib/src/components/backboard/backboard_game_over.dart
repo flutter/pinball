@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +11,7 @@ import 'package:pinball_components/pinball_components.dart';
 /// [PositionComponent] that handles the user input on the
 /// game over display view.
 /// {@endtemplate}
-class BackboardGameOver extends PositionComponent
-    with HasGameRef, KeyboardHandler {
+class BackboardGameOver extends PositionComponent with HasGameRef {
   /// {@macro backboard_game_over}
   BackboardGameOver({
     required int score,
@@ -76,12 +76,29 @@ class BackboardGameOver extends PositionComponent
         ),
       );
     }
+
+    unawaited(
+      add(
+        KeyboardInputController(
+          keyUp: {
+            LogicalKeyboardKey.arrowLeft: () => _movePrompt(true),
+            LogicalKeyboardKey.arrowRight: () => _movePrompt(false),
+          },
+        ),
+      ),
+    );
   }
 
-  @override
-  bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
-    final isUp = event is RawKeyUpEvent;
+  bool _movePrompt(bool left) {
+    final prompts = children.whereType<BackboardLetterPrompt>().toList();
 
-    return true;
+    final current = prompts.firstWhere((prompt) => prompt.hasFocus)
+      ..hasFocus = false;
+    var index = prompts.indexOf(current) + (left ? -1 : 1);
+    index = min(max(0, index), prompts.length - 1);
+
+    prompts[index].hasFocus = true;
+
+    return false;
   }
 }
