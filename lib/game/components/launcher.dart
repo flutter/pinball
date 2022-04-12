@@ -2,12 +2,12 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/components/components.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 
-/// {@template plunger_zone}
-/// A [Blueprint] which groups the [Plunger], [RocketSpriteComponent] and
+/// {@template launcher}
+/// A [Blueprint] which creates the [Plunger], [RocketSpriteComponent] and
 /// [LaunchRamp].
 /// {@endtemplate}
 class Launcher extends Forge2DBlueprint {
-  /// {@macro plunger_zone}
+  /// {@macro launcher}
   Launcher();
 
   /// [Plunger] to launch the [Ball] onto the board.
