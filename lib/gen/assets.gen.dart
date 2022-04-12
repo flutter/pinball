@@ -21,9 +21,9 @@ class $AssetsImagesComponentsGen {
   AssetGenImage get background =>
       const AssetGenImage('assets/images/components/background.png');
 
-  /// File path: assets/images/components/plunger.png
-  AssetGenImage get plunger =>
-      const AssetGenImage('assets/images/components/plunger.png');
+  /// File path: assets/images/components/rocket.png
+  AssetGenImage get rocket =>
+      const AssetGenImage('assets/images/components/rocket.png');
 }
 
 class Assets {
