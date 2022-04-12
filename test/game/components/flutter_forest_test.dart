@@ -40,6 +40,19 @@ void main() {
       );
 
       flameTester.test(
+        'a DashAnimatronic',
+        (game) async {
+          final flutterForest = FlutterForest();
+          await game.ensureAdd(flutterForest);
+
+          expect(
+            flutterForest.firstChild<DashAnimatronic>(),
+            isNotNull,
+          );
+        },
+      );
+
+      flameTester.test(
         'a BigDashNestBumper',
         (game) async {
           final flutterForest = FlutterForest();
