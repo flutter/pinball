@@ -37,12 +37,14 @@ class FlutterForest extends Component with Controls<_FlutterForestController> {
     final smallRightNest = _ControlledSmallDashNestBumper.b(
       id: 'small_nest_bumper_b',
     )..initialPosition = Vector2(23.3, 46.75);
+    final dashAnimatronic = DashAnimatronic()..position = Vector2(20, -66);
 
     await addAll([
       signPost,
       smallLeftNest,
       smallRightNest,
       bigNest,
+      dashAnimatronic,
     ]);
   }
 }
@@ -68,7 +70,13 @@ class _FlutterForestController extends ComponentController<FlutterForest>
   void onNewState(GameState state) {
     super.onNewState(state);
 
-    gameRef.add(
+    component.firstChild<DashAnimatronic>()?.playing = true;
+    _addBonusBall();
+  }
+
+  Future<void> _addBonusBall() async {
+    await Future<void>.delayed(const Duration(milliseconds: 700));
+    await gameRef.add(
       ControlledBall.bonus(theme: gameRef.theme)
         ..initialPosition = Vector2(17.2, 52.7),
     );

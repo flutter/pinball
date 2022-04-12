@@ -10,7 +10,7 @@ import 'package:pinball_components/pinball_components.dart';
 /// {@endtemplate}
 class Ball<T extends Forge2DGame> extends BodyComponent<T>
     with Layered, InitialPosition {
-  /// {@macro ball_body}
+  /// {@macro ball}
   Ball({
     required this.baseColor,
   }) {

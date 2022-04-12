@@ -23,10 +23,15 @@ void main() {
   addChromeDinoStories(dashbook);
   addDashNestBumperStories(dashbook);
   addKickerStories(dashbook);
+  addPlungerStories(dashbook);
   addSlingshotStories(dashbook);
   addSparkyBumperStories(dashbook);
+  addAlienZoneStories(dashbook);
   addZoomStories(dashbook);
   addBoundariesStories(dashbook);
+  addGoogleWordStories(dashbook);
   addLaunchRampStories(dashbook);
+  addScoreTextStories(dashbook);
+
   runApp(dashbook);
 }

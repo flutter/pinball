@@ -70,6 +70,14 @@ void main() {
         },
       );
 
+      flameTester.test(
+        'one AlienZone',
+        (game) async {
+          await game.ready();
+          expect(game.children.whereType<AlienZone>().length, equals(1));
+        },
+      );
+
       group('controller', () {
         // TODO(alestiago): Write test to be controller agnostic.
         group('listenWhen', () {

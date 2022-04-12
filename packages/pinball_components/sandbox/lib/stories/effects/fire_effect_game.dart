@@ -6,7 +6,7 @@ class FireEffectGame extends LineGame {
   static const info = '''
   Shows how the FireEffect renders.
 
-  Drag a line to define the trail direction.
+  - Drag a line to define the trail direction.
 ''';
 
   @override
