@@ -195,6 +195,7 @@ void main() {
       plunger = Plunger(
         compressionDistance: compressionDistance,
       );
+      anchor = PlungerAnchor(plunger: plunger);
     });
 
     group('initializes with', () {
@@ -202,7 +203,6 @@ void main() {
         'plunger body as bodyA',
         (game) async {
           await game.ensureAdd(plunger);
-          anchor = PlungerAnchor(plunger: plunger);
           await game.ensureAdd(anchor);
 
           final jointDef = PlungerAnchorPrismaticJointDef(
@@ -218,7 +218,6 @@ void main() {
         'anchor body as bodyB',
         (game) async {
           await game.ensureAdd(plunger);
-          anchor = PlungerAnchor(plunger: plunger);
           await game.ensureAdd(anchor);
 
           final jointDef = PlungerAnchorPrismaticJointDef(
@@ -235,7 +234,6 @@ void main() {
         'limits enabled',
         (game) async {
           await game.ensureAdd(plunger);
-          anchor = PlungerAnchor(plunger: plunger);
           await game.ensureAdd(anchor);
 
           final jointDef = PlungerAnchorPrismaticJointDef(
@@ -252,7 +250,6 @@ void main() {
         'lower translation limit as negative infinity',
         (game) async {
           await game.ensureAdd(plunger);
-          anchor = PlungerAnchor(plunger: plunger);
           await game.ensureAdd(anchor);
 
           final jointDef = PlungerAnchorPrismaticJointDef(
@@ -269,7 +266,6 @@ void main() {
         'connected body collison enabled',
         (game) async {
           await game.ensureAdd(plunger);
-          anchor = PlungerAnchor(plunger: plunger);
           await game.ensureAdd(anchor);
 
           final jointDef = PlungerAnchorPrismaticJointDef(
@@ -287,7 +283,6 @@ void main() {
       'plunger cannot go below anchor',
       setUp: (game, tester) async {
         await game.ensureAdd(plunger);
-        anchor = PlungerAnchor(plunger: plunger);
         await game.ensureAdd(anchor);
 
         // Giving anchor a shape for the plunger to collide with.
@@ -310,7 +305,6 @@ void main() {
       'plunger cannot excessively exceed starting position',
       setUp: (game, tester) async {
         await game.ensureAdd(plunger);
-        anchor = PlungerAnchor(plunger: plunger);
         await game.ensureAdd(anchor);
 
         final jointDef = PlungerAnchorPrismaticJointDef(
