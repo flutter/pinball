@@ -21,5 +21,23 @@ void main() {
     test('characterAsset is correct', () {
       expect(SparkyTheme().characterAsset, equals(Assets.images.sparky));
     });
+
+    test('backgroundAsset is correct', () {
+      expect(
+        SparkyTheme().backgroundAsset,
+        equals(Assets.images.sparkyBackground),
+      );
+    });
+
+    test('iconAsset is correct', () {
+      expect(SparkyTheme().iconAsset, equals(Assets.images.sparkyIcon));
+    });
+
+    test('placeholderAsset is correct', () {
+      expect(
+        SparkyTheme().placeholderAsset,
+        equals(Assets.images.sparkyPlaceholder),
+      );
+    });
   });
 }

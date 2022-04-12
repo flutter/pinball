@@ -21,5 +21,23 @@ void main() {
     test('characterAsset is correct', () {
       expect(DashTheme().characterAsset, equals(Assets.images.dash));
     });
+
+    test('backgroundAsset is correct', () {
+      expect(
+        DashTheme().backgroundAsset,
+        equals(Assets.images.dashBackground),
+      );
+    });
+
+    test('iconAsset is correct', () {
+      expect(DashTheme().iconAsset, equals(Assets.images.dashIcon));
+    });
+
+    test('placeholderAsset is correct', () {
+      expect(
+        DashTheme().placeholderAsset,
+        equals(Assets.images.dashPlaceholder),
+      );
+    });
   });
 }

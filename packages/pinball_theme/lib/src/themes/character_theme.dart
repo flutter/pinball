@@ -12,12 +12,31 @@ abstract class CharacterTheme extends Equatable {
   /// {@macro character_theme}
   const CharacterTheme();
 
+  /// Name of character.
+  String get name;
+
   /// Ball color for this theme.
   Color get ballColor;
 
   /// Asset for the theme character.
   AssetGenImage get characterAsset;
 
+  /// Asset for the background.
+  AssetGenImage get backgroundAsset;
+
+  /// Asset for the placeholder.
+  AssetGenImage get placeholderAsset;
+
+  /// Icon asset.
+  AssetGenImage get iconAsset;
+
   @override
-  List<Object?> get props => [ballColor];
+  List<Object?> get props => [
+        name,
+        ballColor,
+        characterAsset,
+        backgroundAsset,
+        placeholderAsset,
+        iconAsset,
+      ];
 }

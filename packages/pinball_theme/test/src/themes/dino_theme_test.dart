@@ -21,5 +21,23 @@ void main() {
     test('characterAsset is correct', () {
       expect(DinoTheme().characterAsset, equals(Assets.images.dino));
     });
+
+    test('backgroundAsset is correct', () {
+      expect(
+        DinoTheme().backgroundAsset,
+        equals(Assets.images.dinoBackground),
+      );
+    });
+
+    test('iconAsset is correct', () {
+      expect(DinoTheme().iconAsset, equals(Assets.images.dinoIcon));
+    });
+
+    test('placeholderAsset is correct', () {
+      expect(
+        DinoTheme().placeholderAsset,
+        equals(Assets.images.dinoPlaceholder),
+      );
+    });
   });
 }

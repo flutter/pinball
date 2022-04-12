@@ -21,5 +21,23 @@ void main() {
     test('characterAsset is correct', () {
       expect(AndroidTheme().characterAsset, equals(Assets.images.android));
     });
+
+    test('backgroundAsset is correct', () {
+      expect(
+        AndroidTheme().backgroundAsset,
+        equals(Assets.images.androidBackground),
+      );
+    });
+
+    test('iconAsset is correct', () {
+      expect(AndroidTheme().iconAsset, equals(Assets.images.androidIcon));
+    });
+
+    test('placeholderAsset is correct', () {
+      expect(
+        AndroidTheme().placeholderAsset,
+        equals(Assets.images.androidPlaceholder),
+      );
+    });
   });
 }

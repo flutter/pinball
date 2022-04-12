@@ -9,8 +9,20 @@ class DinoTheme extends CharacterTheme {
   const DinoTheme();
 
   @override
+  String get name => 'Dino';
+
+  @override
   Color get ballColor => Colors.grey;
 
   @override
   AssetGenImage get characterAsset => Assets.images.dino;
+
+  @override
+  AssetGenImage get backgroundAsset => Assets.images.dinoBackground;
+
+  @override
+  AssetGenImage get placeholderAsset => Assets.images.dinoPlaceholder;
+
+  @override
+  AssetGenImage get iconAsset => Assets.images.dinoIcon;
 }

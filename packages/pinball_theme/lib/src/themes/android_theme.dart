@@ -9,8 +9,20 @@ class AndroidTheme extends CharacterTheme {
   const AndroidTheme();
 
   @override
+  String get name => 'Android';
+
+  @override
   Color get ballColor => Colors.green;
 
   @override
   AssetGenImage get characterAsset => Assets.images.android;
+
+  @override
+  AssetGenImage get backgroundAsset => Assets.images.androidBackground;
+
+  @override
+  AssetGenImage get placeholderAsset => Assets.images.androidPlaceholder;
+
+  @override
+  AssetGenImage get iconAsset => Assets.images.androidIcon;
 }
