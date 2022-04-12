@@ -5,7 +5,7 @@ import 'package:sandbox/common/common.dart';
 
 class BasicBallGame extends BasicGame with TapDetector, Traceable {
   BasicBallGame({
-    this.color = = Colors.blue,
+    this.color = Colors.blue,
     this.ballPriority = 0,
     this.ballLayer = Layer.all,
   });
