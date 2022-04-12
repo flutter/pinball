@@ -18,26 +18,22 @@ void main() {
       expect(AndroidTheme().ballColor, equals(Colors.green));
     });
 
-    test('characterAsset is correct', () {
-      expect(AndroidTheme().characterAsset, equals(Assets.images.android));
-    });
-
-    test('backgroundAsset is correct', () {
+    test('character asset is correct', () {
       expect(
-        AndroidTheme().backgroundAsset,
-        equals(Assets.images.androidBackground),
+        AndroidTheme().character,
+        equals(Assets.images.android.character),
       );
     });
 
-    test('iconAsset is correct', () {
-      expect(AndroidTheme().iconAsset, equals(Assets.images.androidIcon));
+    test('background asset is correct', () {
+      expect(
+        AndroidTheme().background,
+        equals(Assets.images.android.background),
+      );
     });
 
-    test('placeholderAsset is correct', () {
-      expect(
-        AndroidTheme().placeholderAsset,
-        equals(Assets.images.androidPlaceholder),
-      );
+    test('icon asset is correct', () {
+      expect(AndroidTheme().icon, equals(Assets.images.android.icon));
     });
   });
 }

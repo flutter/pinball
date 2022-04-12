@@ -18,26 +18,22 @@ void main() {
       expect(DinoTheme().ballColor, equals(Colors.grey));
     });
 
-    test('characterAsset is correct', () {
-      expect(DinoTheme().characterAsset, equals(Assets.images.dino));
-    });
-
-    test('backgroundAsset is correct', () {
+    test('character asset is correct', () {
       expect(
-        DinoTheme().backgroundAsset,
-        equals(Assets.images.dinoBackground),
+        DinoTheme().character,
+        equals(Assets.images.dino.character),
       );
     });
 
-    test('iconAsset is correct', () {
-      expect(DinoTheme().iconAsset, equals(Assets.images.dinoIcon));
+    test('background asset is correct', () {
+      expect(
+        DinoTheme().background,
+        equals(Assets.images.dino.background),
+      );
     });
 
-    test('placeholderAsset is correct', () {
-      expect(
-        DinoTheme().placeholderAsset,
-        equals(Assets.images.dinoPlaceholder),
-      );
+    test('icon asset is correct', () {
+      expect(DinoTheme().icon, equals(Assets.images.dino.icon));
     });
   });
 }

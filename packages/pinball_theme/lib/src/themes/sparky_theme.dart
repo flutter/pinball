@@ -15,14 +15,11 @@ class SparkyTheme extends CharacterTheme {
   String get name => 'Sparky';
 
   @override
-  AssetGenImage get characterAsset => Assets.images.sparky;
+  AssetGenImage get character => Assets.images.sparky.character;
 
   @override
-  AssetGenImage get backgroundAsset => Assets.images.sparkyBackground;
+  AssetGenImage get background => Assets.images.sparky.background;
 
   @override
-  AssetGenImage get placeholderAsset => Assets.images.sparkyPlaceholder;
-
-  @override
-  AssetGenImage get iconAsset => Assets.images.sparkyIcon;
+  AssetGenImage get icon => Assets.images.sparky.icon;
 }

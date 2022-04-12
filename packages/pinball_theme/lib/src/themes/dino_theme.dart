@@ -15,14 +15,11 @@ class DinoTheme extends CharacterTheme {
   Color get ballColor => Colors.grey;
 
   @override
-  AssetGenImage get characterAsset => Assets.images.dino;
+  AssetGenImage get character => Assets.images.dino.character;
 
   @override
-  AssetGenImage get backgroundAsset => Assets.images.dinoBackground;
+  AssetGenImage get background => Assets.images.dino.background;
 
   @override
-  AssetGenImage get placeholderAsset => Assets.images.dinoPlaceholder;
-
-  @override
-  AssetGenImage get iconAsset => Assets.images.dinoIcon;
+  AssetGenImage get icon => Assets.images.dino.icon;
 }

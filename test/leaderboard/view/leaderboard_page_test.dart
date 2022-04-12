@@ -121,7 +121,7 @@ void main() {
               rank: '1',
               playerInitials: 'ABC',
               score: 10000,
-              character: DashTheme().characterAsset,
+              character: DashTheme().character,
             ),
           ],
         ),

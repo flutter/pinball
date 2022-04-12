@@ -18,26 +18,22 @@ void main() {
       expect(SparkyTheme().ballColor, equals(Colors.orange));
     });
 
-    test('characterAsset is correct', () {
-      expect(SparkyTheme().characterAsset, equals(Assets.images.sparky));
-    });
-
-    test('backgroundAsset is correct', () {
+    test('character asset is correct', () {
       expect(
-        SparkyTheme().backgroundAsset,
-        equals(Assets.images.sparkyBackground),
+        SparkyTheme().character,
+        equals(Assets.images.sparky.character),
       );
     });
 
-    test('iconAsset is correct', () {
-      expect(SparkyTheme().iconAsset, equals(Assets.images.sparkyIcon));
+    test('background asset is correct', () {
+      expect(
+        SparkyTheme().background,
+        equals(Assets.images.sparky.background),
+      );
     });
 
-    test('placeholderAsset is correct', () {
-      expect(
-        SparkyTheme().placeholderAsset,
-        equals(Assets.images.sparkyPlaceholder),
-      );
+    test('icon asset is correct', () {
+      expect(SparkyTheme().icon, equals(Assets.images.sparky.icon));
     });
   });
 }
