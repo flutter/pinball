@@ -47,6 +47,7 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.chromeDino.mouth.keyName),
       images.load(components.Assets.images.chromeDino.head.keyName),
       images.load(components.Assets.images.plunger.plunger.keyName),
+      images.load(components.Assets.images.plunger.rocket.keyName),
       images.load(components.Assets.images.sparky.computer.base.keyName),
       images.load(components.Assets.images.sparky.computer.top.keyName),
       images.load(components.Assets.images.sparky.bumper.a.active.keyName),
@@ -57,7 +58,6 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.sparky.bumper.c.inactive.keyName),
       images.load(components.Assets.images.backboard.backboardScores.keyName),
       images.load(components.Assets.images.backboard.backboardGameOver.keyName),
-      images.load(Assets.images.components.rocket.path),
       images.load(Assets.images.components.background.path),
     ];
   }

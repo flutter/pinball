@@ -45,11 +45,10 @@ class PinballGame extends Forge2DGame
 
     await _addGameBoundaries();
     unawaited(addFromBlueprint(Boundaries()));
-    unawaited(addFromBlueprint(LaunchRamp()));
     unawaited(addFromBlueprint(ControlledSparkyComputer()));
 
-    final plungerZone = PlungerZone();
-    unawaited(addFromBlueprint(plungerZone));
+    final launcher = Launcher();
+    unawaited(addFromBlueprint(launcher));
     unawaited(add(Board()));
     unawaited(add(SparkyFireZone()));
     unawaited(addFromBlueprint(Slingshots()));
@@ -69,7 +68,7 @@ class PinballGame extends Forge2DGame
       ),
     );
 
-    controller.attachTo(plungerZone.plunger);
+    controller.attachTo(launcher.plunger);
     await super.onLoad();
   }
 
