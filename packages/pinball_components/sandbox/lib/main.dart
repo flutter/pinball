@@ -25,5 +25,11 @@ void main() {
   addSparkyBumperStories(dashbook);
   addZoomStories(dashbook);
   addBoundariesStories(dashbook);
+  addGoogleWordStories(dashbook);
+  addSpaceshipRampStories(dashbook);
+  addSpaceshipRailStories(dashbook);
+  addLaunchRampStories(dashbook);
+  addScoreTextStories(dashbook);
+
   runApp(dashbook);
 }
