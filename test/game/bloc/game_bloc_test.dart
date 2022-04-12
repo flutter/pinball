@@ -116,6 +116,33 @@ void main() {
       );
     });
 
+    group(
+      'BonusActivated',
+      () {
+        blocTest<GameBloc, GameState>(
+          'adds bonus to history',
+          build: GameBloc.new,
+          act: (bloc) => bloc
+            ..add(const BonusActivated(GameBonus.word))
+            ..add(const BonusActivated(GameBonus.dashNest)),
+          expect: () => const [
+            GameState(
+              score: 0,
+              balls: 3,
+              activatedDashNests: {},
+              bonusHistory: [GameBonus.word],
+            ),
+            GameState(
+              score: 0,
+              balls: 3,
+              activatedDashNests: {},
+              bonusHistory: [GameBonus.word, GameBonus.dashNest],
+            ),
+          ],
+        );
+      },
+    );
+
     group('SparkyTurboChargeActivated', () {
       blocTest<GameBloc, GameState>(
         'adds game bonus',
