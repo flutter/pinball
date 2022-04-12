@@ -4,7 +4,6 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/material.dart';
 import 'package:pinball/flame/flame.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -26,6 +25,7 @@ class GoogleWord extends Component
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    gameRef.addContactCallback(_GoogleLetterBallContactCallback());
 
     final offsets = [
       Vector2(-12.92, -1.82),
@@ -73,11 +73,10 @@ class _GoogleWordController extends ComponentController<GoogleWord>
 }
 
 /// Activates a [GoogleLetter] when it contacts with a [Ball].
-@visibleForTesting
-class BonusLetterBallContactCallback
-    extends ContactCallback<Ball, GoogleLetter> {
+class _GoogleLetterBallContactCallback
+    extends ContactCallback<GoogleLetter, Ball> {
   @override
-  void begin(Ball ball, GoogleLetter googleLetter, Contact contact) {
+  void begin(GoogleLetter googleLetter, _, __) {
     (googleLetter.parent! as GoogleWord)
         .controller
         .activate(googleLetter.index);

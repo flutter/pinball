@@ -72,7 +72,6 @@ class PinballGame extends Forge2DGame
   void _addContactCallbacks() {
     addContactCallback(BallScorePointsCallback(this));
     addContactCallback(BottomWallBallContactCallback());
-    addContactCallback(BonusLetterBallContactCallback());
   }
 
   Future<void> _addGameBoundaries() async {
