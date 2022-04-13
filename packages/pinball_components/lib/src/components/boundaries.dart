@@ -23,7 +23,13 @@ class Boundaries extends Forge2DBlueprint {
 /// {@endtemplate bottom_boundary}
 class _BottomBoundary extends BodyComponent with InitialPosition {
   /// {@macro bottom_boundary}
-  _BottomBoundary() : super(priority: 1);
+  _BottomBoundary()
+      : super(
+          priority: 1,
+          children: [_BottomBoundarySpriteComponent()],
+        ) {
+    renderBody = false;
+  }
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDefs = <FixtureDef>[];
@@ -59,13 +65,6 @@ class _BottomBoundary extends BodyComponent with InitialPosition {
 
     return body;
   }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    renderBody = false;
-    await add(_BottomBoundarySpriteComponent());
-  }
 }
 
 class _BottomBoundarySpriteComponent extends SpriteComponent with HasGameRef {
@@ -88,7 +87,13 @@ class _BottomBoundarySpriteComponent extends SpriteComponent with HasGameRef {
 /// {@endtemplate outer_boundary}
 class _OuterBoundary extends BodyComponent with InitialPosition {
   /// {@macro outer_boundary}
-  _OuterBoundary() : super(priority: Ball.launchRampPriority - 1);
+  _OuterBoundary()
+      : super(
+          priority: Ball.launchRampPriority - 1,
+          children: [_OuterBoundarySpriteComponent()],
+        ) {
+    renderBody = false;
+  }
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDefs = <FixtureDef>[];
@@ -129,13 +134,6 @@ class _OuterBoundary extends BodyComponent with InitialPosition {
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    renderBody = false;
-    await add(_OuterBoundarySpriteComponent());
   }
 }
 

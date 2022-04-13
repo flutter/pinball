@@ -170,8 +170,12 @@ class _SpaceshipRampBoardOpeningSpriteComponent extends SpriteComponent
 class _SpaceshipRampForegroundRailing extends BodyComponent
     with InitialPosition, Layered {
   _SpaceshipRampForegroundRailing()
-      : super(priority: Ball.spaceshipRampPriority + 1) {
+      : super(
+          priority: Ball.spaceshipRampPriority + 1,
+          children: [_SpaceshipRampForegroundRailingSpriteComponent()],
+        ) {
     layer = Layer.spaceshipEntranceRamp;
+    renderBody = false;
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -220,14 +224,6 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    renderBody = false;
-
-    await add(_SpaceshipRampForegroundRailingSpriteComponent());
   }
 }
 

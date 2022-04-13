@@ -52,12 +52,6 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   Future<void> onLoad() async {
     await super.onLoad();
     renderBody = false;
-
-    await add(
-      _spriteComponent..tint(baseColor.withOpacity(0.5)),
-    );
-
-    renderBody = false;
   }
 
   @override
