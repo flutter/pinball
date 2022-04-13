@@ -8,34 +8,34 @@ abstract class StartGameEvent extends Equatable {
   const StartGameEvent();
 }
 
-/// {@template select_character}
-/// Select character event.
+/// {@template play_tapped}
+/// Play tapped event.
 /// {@endtemplate}
-class StartGame extends StartGameEvent {
-  /// {@macro select_character}
-  const StartGame();
+class PlayTapped extends StartGameEvent {
+  /// {@macro play_tapped}
+  const PlayTapped();
 
   @override
   List<Object> get props => [];
 }
 
-/// {@template how_to_play}
-/// How to play event.
+/// {@template character_selected}
+/// Character selected event.
 /// {@endtemplate}
-class HowToPlay extends StartGameEvent {
-  /// {@macro how_to_play}
-  const HowToPlay();
+class CharacterSelected extends StartGameEvent {
+  /// {@macro character_selected}
+  const CharacterSelected();
 
   @override
   List<Object> get props => [];
 }
 
-/// {@template play}
-/// Play event.
+/// {@template how_to_play_finished}
+/// How to play finished event.
 /// {@endtemplate}
-class Play extends StartGameEvent {
-  /// {@macro play}
-  const Play();
+class HowToPlayFinished extends StartGameEvent {
+  /// {@macro how_to_play_finished}
+  const HowToPlayFinished();
 
   @override
   List<Object> get props => [];

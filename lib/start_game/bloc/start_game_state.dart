@@ -2,11 +2,11 @@ part of 'start_game_bloc.dart';
 
 /// Defines status of start game flow.
 enum StartGameStatus {
-  /// Starting status.
+  /// Initial status.
   initial,
 
   /// Selection characters status.
-  startGame,
+  selectCharacter,
 
   /// How to play status.
   howToPlay,

@@ -5,24 +5,24 @@ import 'package:pinball/start_game/bloc/start_game_bloc.dart';
 
 void main() {
   group('StartGameEvent', () {
-    test('StartGame supports value equality', () {
+    test('PlayTapped supports value equality', () {
       expect(
-        StartGame(),
-        equals(StartGame()),
+        PlayTapped(),
+        equals(PlayTapped()),
       );
     });
 
-    test('HowToPlay supports value equality', () {
+    test('CharacterSelected supports value equality', () {
       expect(
-        HowToPlay(),
-        equals(HowToPlay()),
+        CharacterSelected(),
+        equals(CharacterSelected()),
       );
     });
 
-    test('Play supports value equality', () {
+    test('HowToPlayFinished supports value equality', () {
       expect(
-        Play(),
-        equals(Play()),
+        HowToPlayFinished(),
+        equals(HowToPlayFinished()),
       );
     });
   });

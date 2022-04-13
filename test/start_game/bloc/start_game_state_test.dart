@@ -6,7 +6,7 @@ import 'package:pinball/start_game/bloc/start_game_bloc.dart';
 void main() {
   group('StartGameState', () {
     final testState = StartGameState(
-      status: StartGameStatus.startGame,
+      status: StartGameStatus.selectCharacter,
     );
 
     test('initial state has correct values', () {
@@ -19,7 +19,7 @@ void main() {
 
     test('supports value equality', () {
       final secondState = StartGameState(
-        status: StartGameStatus.startGame,
+        status: StartGameStatus.selectCharacter,
       );
 
       expect(testState, secondState);
@@ -35,7 +35,7 @@ void main() {
       expect(
         testState.props,
         equals([
-          StartGameStatus.startGame,
+          StartGameStatus.selectCharacter,
         ]),
       );
     });

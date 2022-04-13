@@ -14,28 +14,28 @@ class StartGameBloc extends Bloc<StartGameEvent, StartGameState> {
     required PinballGame game,
   })  : _game = game,
         super(const StartGameState.initial()) {
-    on<StartGame>(_onStartGame);
-    on<HowToPlay>(_onHowToPlay);
-    on<Play>(_onPlay);
+    on<PlayTapped>(_onStartGame);
+    on<CharacterSelected>(_onCharacterSelected);
+    on<HowToPlayFinished>(_onHowToPlayFinished);
   }
 
   final PinballGame _game;
 
   void _onStartGame(
-    StartGame event,
+    PlayTapped event,
     Emitter<StartGameState> emit,
   ) {
     _game.gameFlowController.start();
 
     emit(
       state.copyWith(
-        status: StartGameStatus.startGame,
+        status: StartGameStatus.selectCharacter,
       ),
     );
   }
 
-  void _onHowToPlay(
-    HowToPlay event,
+  void _onCharacterSelected(
+    CharacterSelected event,
     Emitter<StartGameState> emit,
   ) {
     emit(
@@ -45,8 +45,8 @@ class StartGameBloc extends Bloc<StartGameEvent, StartGameState> {
     );
   }
 
-  void _onPlay(
-    Play event,
+  void _onHowToPlayFinished(
+    HowToPlayFinished event,
     Emitter<StartGameState> emit,
   ) {
     emit(
