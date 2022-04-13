@@ -12,22 +12,20 @@ void main() {
     final flameTester = FlameTester(TestGame.new);
     const length = 2.0;
     const angle = 0.0;
-    final spritePath = Assets.images.slingshot.leftUpper.keyName;
+    final spritePath = Assets.images.slingshot.upper.keyName;
 
     flameTester.testGameWidget(
       'renders correctly',
       setUp: (game, tester) async {
         await game.addFromBlueprint(Slingshots());
-        await game.ready();
         game.camera.followVector2(Vector2.zero());
       },
-      // TODO(allisonryan0002): enable test when workflows are fixed.
-      // verify: (game, tester) async {
-      //   await expectLater(
-      //     find.byGame<Forge2DGame>(),
-      //     matchesGoldenFile('golden/slingshots.png'),
-      //   );
-      // },
+      verify: (game, tester) async {
+        await expectLater(
+          find.byGame<TestGame>(),
+          matchesGoldenFile('golden/slingshots.png'),
+        );
+      },
     );
 
     flameTester.test(

@@ -21,7 +21,7 @@ class ControlledSparkyComputer extends SparkyComputer
   void build(Forge2DGame _) {
     addContactCallback(SparkyTurboChargeSensorBallContactCallback());
     final sparkyTurboChargeSensor = SparkyTurboChargeSensor()
-      ..initialPosition = Vector2(-13, 49.8);
+      ..initialPosition = Vector2(-13, -49.8);
     add(sparkyTurboChargeSensor);
     super.build(_);
   }

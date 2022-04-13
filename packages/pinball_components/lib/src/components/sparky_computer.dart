@@ -29,24 +29,24 @@ class _ComputerBase extends BodyComponent with InitialPosition {
 
     final leftEdge = EdgeShape()
       ..set(
-        Vector2(-14.9, 46),
-        Vector2(-15.3, 49.6),
+        Vector2(-14.9, -46),
+        Vector2(-15.3, -49.6),
       );
     final leftEdgeFixtureDef = FixtureDef(leftEdge);
     fixturesDef.add(leftEdgeFixtureDef);
 
     final topEdge = EdgeShape()
       ..set(
-        Vector2(-15.3, 49.6),
-        Vector2(-10.7, 50.6),
+        Vector2(-15.3, -49.6),
+        Vector2(-10.7, -50.6),
       );
     final topEdgeFixtureDef = FixtureDef(topEdge);
     fixturesDef.add(topEdgeFixtureDef);
 
     final rightEdge = EdgeShape()
       ..set(
-        Vector2(-10.7, 50.6),
-        Vector2(-9, 47.2),
+        Vector2(-10.7, -50.6),
+        Vector2(-9, -47.2),
       );
     final rightEdgeFixtureDef = FixtureDef(rightEdge);
     fixturesDef.add(rightEdgeFixtureDef);

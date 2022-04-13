@@ -78,9 +78,9 @@ class BonusWord extends Component
     await super.onLoad();
 
     final offsets = [
-      Vector2(-12.92, -1.82),
-      Vector2(-8.33, 0.65),
-      Vector2(-2.88, 1.75),
+      Vector2(-12.92, 1.82),
+      Vector2(-8.33, -0.65),
+      Vector2(-2.88, -1.75),
     ];
     offsets.addAll(
       offsets.reversed

@@ -196,21 +196,13 @@ class $AssetsImagesPlungerGen {
 class $AssetsImagesSlingshotGen {
   const $AssetsImagesSlingshotGen();
 
-  /// File path: assets/images/slingshot/left_lower.png
-  AssetGenImage get leftLower =>
-      const AssetGenImage('assets/images/slingshot/left_lower.png');
+  /// File path: assets/images/slingshot/lower.png
+  AssetGenImage get lower =>
+      const AssetGenImage('assets/images/slingshot/lower.png');
 
-  /// File path: assets/images/slingshot/left_upper.png
-  AssetGenImage get leftUpper =>
-      const AssetGenImage('assets/images/slingshot/left_upper.png');
-
-  /// File path: assets/images/slingshot/right_lower.png
-  AssetGenImage get rightLower =>
-      const AssetGenImage('assets/images/slingshot/right_lower.png');
-
-  /// File path: assets/images/slingshot/right_upper.png
-  AssetGenImage get rightUpper =>
-      const AssetGenImage('assets/images/slingshot/right_upper.png');
+  /// File path: assets/images/slingshot/upper.png
+  AssetGenImage get upper =>
+      const AssetGenImage('assets/images/slingshot/upper.png');
 }
 
 class $AssetsImagesSpaceshipGen {

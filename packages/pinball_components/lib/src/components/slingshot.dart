@@ -1,47 +1,31 @@
 // ignore_for_file: avoid_renaming_method_parameters
 
-import 'dart:math' as math;
-
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template slingshots}
-/// A [Blueprint] which creates the left and right pairs of [Slingshot]s.
+/// A [Blueprint] which creates the pair of [Slingshot]s on the right side of
+/// the board.
 /// {@endtemplate}
 class Slingshots extends Forge2DBlueprint {
   @override
   void build(_) {
-    // TODO(allisonryan0002): use radians values instead of converting degrees.
-    final leftUpperSlingshot = Slingshot(
-      length: 5.66,
-      angle: -1.5 * (math.pi / 180),
-      spritePath: Assets.images.slingshot.leftUpper.keyName,
-    )..initialPosition = Vector2(-29, 1.5);
-
-    final leftLowerSlingshot = Slingshot(
-      length: 3.54,
-      angle: -29.1 * (math.pi / 180),
-      spritePath: Assets.images.slingshot.leftLower.keyName,
-    )..initialPosition = Vector2(-31, -6.2);
-
-    final rightUpperSlingshot = Slingshot(
+    final upperSlingshot = Slingshot(
       length: 5.64,
-      angle: 1 * (math.pi / 180),
-      spritePath: Assets.images.slingshot.rightUpper.keyName,
-    )..initialPosition = Vector2(22.3, 1.58);
+      angle: -0.017,
+      spritePath: Assets.images.slingshot.upper.keyName,
+    )..initialPosition = Vector2(22.3, -1.58);
 
-    final rightLowerSlingshot = Slingshot(
+    final lowerSlingshot = Slingshot(
       length: 3.46,
-      angle: 26.8 * (math.pi / 180),
-      spritePath: Assets.images.slingshot.rightLower.keyName,
-    )..initialPosition = Vector2(24.7, -6.2);
+      angle: -0.468,
+      spritePath: Assets.images.slingshot.lower.keyName,
+    )..initialPosition = Vector2(24.7, 6.2);
 
     addAll([
-      leftUpperSlingshot,
-      leftLowerSlingshot,
-      rightUpperSlingshot,
-      rightLowerSlingshot,
+      upperSlingshot,
+      lowerSlingshot,
     ]);
   }
 }
@@ -71,12 +55,12 @@ class Slingshot extends BodyComponent with InitialPosition {
     const circleRadius = 1.55;
 
     final topCircleShape = CircleShape()..radius = circleRadius;
-    topCircleShape.position.setValues(0, _length / 2);
+    topCircleShape.position.setValues(0, -_length / 2);
     final topCircleFixtureDef = FixtureDef(topCircleShape)..friction = 0;
     fixturesDef.add(topCircleFixtureDef);
 
     final bottomCircleShape = CircleShape()..radius = circleRadius;
-    bottomCircleShape.position.setValues(0, -_length / 2);
+    bottomCircleShape.position.setValues(0, _length / 2);
     final bottomCircleFixtureDef = FixtureDef(bottomCircleShape)..friction = 0;
     fixturesDef.add(bottomCircleFixtureDef);
 
@@ -131,7 +115,7 @@ class Slingshot extends BodyComponent with InitialPosition {
         sprite: sprite,
         size: sprite.originalSize / 10,
         anchor: Anchor.center,
-        angle: _angle,
+        angle: -_angle,
       ),
     );
   }

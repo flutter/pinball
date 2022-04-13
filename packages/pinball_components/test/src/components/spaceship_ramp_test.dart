@@ -15,16 +15,14 @@ void main() {
       'renders correctly',
       setUp: (game, tester) async {
         await game.addFromBlueprint(SpaceshipRamp());
-        await game.ready();
         game.camera.followVector2(Vector2(-13, -50));
       },
-      // TODO(allisonryan0002): enable test when workflows are fixed.
-      // verify: (game, tester) async {
-      //   await expectLater(
-      //     find.byGame<Forge2DGame>(),
-      //     matchesGoldenFile('golden/spaceship-ramp.png'),
-      //   );
-      // },
+      verify: (game, tester) async {
+        await expectLater(
+          find.byGame<TestGame>(),
+          matchesGoldenFile('golden/spaceship-ramp.png'),
+        );
+      },
     );
   });
 }

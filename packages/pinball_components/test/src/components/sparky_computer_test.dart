@@ -15,16 +15,14 @@ void main() {
       'renders correctly',
       setUp: (game, tester) async {
         await game.addFromBlueprint(SparkyComputer());
-        await game.ready();
         game.camera.followVector2(Vector2(-15, -50));
       },
-      // TODO(allisonryan0002): enable test when workflows are fixed.
-      // verify: (game, tester) async {
-      //   await expectLater(
-      //     find.byGame<Forge2DGame>(),
-      //     matchesGoldenFile('golden/sparky-computer.png'),
-      //   );
-      // },
+      verify: (game, tester) async {
+        await expectLater(
+          find.byGame<TestGame>(),
+          matchesGoldenFile('golden/sparky-computer.png'),
+        );
+      },
     );
   });
 }

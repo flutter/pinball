@@ -35,8 +35,8 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
 
     final topStraightShape = EdgeShape()
       ..set(
-        Vector2(29.5, 35.1),
-        Vector2(28.4, 35.1),
+        Vector2(28.4, -35.1),
+        Vector2(29.5, -35.1),
       );
     final topStraightFixtureDef = FixtureDef(topStraightShape);
     fixturesDef.add(topStraightFixtureDef);
@@ -44,8 +44,8 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
     final topCurveShape = BezierCurveShape(
       controlPoints: [
         topStraightShape.vertex1,
-        Vector2(17.4, 26.38),
-        Vector2(25.5, 20.7),
+        Vector2(17.4, -26.38),
+        Vector2(25.5, -20.7),
       ],
     );
     fixturesDef.add(FixtureDef(topCurveShape));
@@ -53,8 +53,8 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
     final middleCurveShape = BezierCurveShape(
       controlPoints: [
         topCurveShape.vertices.last,
-        Vector2(27.8, 20.1),
-        Vector2(26.8, 19.5),
+        Vector2(27.8, -20.1),
+        Vector2(26.8, -19.5),
       ],
     );
     fixturesDef.add(FixtureDef(middleCurveShape));
@@ -62,8 +62,8 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
     final bottomCurveShape = BezierCurveShape(
       controlPoints: [
         middleCurveShape.vertices.last,
-        Vector2(21.15, 16),
-        Vector2(25.6, 15.2),
+        Vector2(21.15, -16),
+        Vector2(25.6, -15.2),
       ],
     );
     fixturesDef.add(FixtureDef(bottomCurveShape));
@@ -71,7 +71,7 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
     final bottomStraightShape = EdgeShape()
       ..set(
         bottomCurveShape.vertices.last,
-        Vector2(31, 14.5),
+        Vector2(31, -14.5),
       );
     final bottomStraightFixtureDef = FixtureDef(bottomStraightShape);
     fixturesDef.add(bottomStraightFixtureDef);
@@ -130,8 +130,8 @@ class _DinoBottomWall extends BodyComponent with InitialPosition {
     final fixturesDef = <FixtureDef>[];
 
     final topStraightControlPoints = [
-      Vector2(32.4, 8.3),
-      Vector2(25, 7.7),
+      Vector2(32.4, -8.3),
+      Vector2(25, -7.7),
     ];
     final topStraightShape = EdgeShape()
       ..set(
@@ -143,8 +143,8 @@ class _DinoBottomWall extends BodyComponent with InitialPosition {
 
     final topLeftCurveControlPoints = [
       topStraightControlPoints.last,
-      Vector2(21.8, 7),
-      Vector2(29.5, -13.8),
+      Vector2(21.8, -7),
+      Vector2(29.5, 13.8),
     ];
     final topLeftCurveShape = BezierCurveShape(
       controlPoints: topLeftCurveControlPoints,
@@ -153,7 +153,7 @@ class _DinoBottomWall extends BodyComponent with InitialPosition {
 
     final bottomLeftStraightControlPoints = [
       topLeftCurveControlPoints.last,
-      Vector2(31.8, -44.1),
+      Vector2(31.8, 44.1),
     ];
     final bottomLeftStraightShape = EdgeShape()
       ..set(
@@ -165,7 +165,7 @@ class _DinoBottomWall extends BodyComponent with InitialPosition {
 
     final bottomStraightControlPoints = [
       bottomLeftStraightControlPoints.last,
-      Vector2(37.8, -44.1),
+      Vector2(37.8, 44.1),
     ];
     final bottomStraightShape = EdgeShape()
       ..set(

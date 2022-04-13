@@ -48,7 +48,7 @@ void main() {
           final ball = Ball(baseColor: Colors.blue);
           await game.ensureAdd(ball);
 
-          ball.body.gravityScale = 0;
+          ball.body.gravityScale = Vector2.zero();
           ball.body.linearVelocity.setValues(10, 10);
           game.update(1);
           expect(ball.body.position, isNot(equals(ball.initialPosition)));
@@ -153,7 +153,7 @@ void main() {
             ball.stop();
             ball.resume();
 
-            ball.body.gravityScale = 0;
+            ball.body.gravityScale = Vector2.zero();
             ball.body.linearVelocity.setValues(10, 10);
             game.update(1);
             expect(ball.body.position, isNot(equals(ball.initialPosition)));

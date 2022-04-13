@@ -13,6 +13,21 @@ void main() {
     TestWidgetsFlutterBinding.ensureInitialized();
     final flameTester = FlameTester(TestGame.new);
 
+    flameTester.testGameWidget(
+      'renders correctly',
+      setUp: (game, tester) async {
+        await game.addFromBlueprint(SpaceshipRail());
+        game.camera.followVector2(Vector2.zero());
+        game.camera.zoom = 8;
+      },
+      verify: (game, tester) async {
+        await expectLater(
+          find.byGame<TestGame>(),
+          matchesGoldenFile('golden/spaceship-rail.png'),
+        );
+      },
+    );
+
     flameTester.test(
       'loads correctly',
       (game) async {

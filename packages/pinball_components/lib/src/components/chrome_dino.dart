@@ -96,7 +96,7 @@ class ChromeDino extends BodyComponent with InitialPosition {
   @override
   Body createBody() {
     final bodyDef = BodyDef()
-      ..gravityScale = 0
+      ..gravityScale = Vector2.zero()
       ..position = initialPosition
       ..type = BodyType.dynamic;
 
