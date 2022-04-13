@@ -10,7 +10,7 @@ import 'package:pinball_components/pinball_components.dart';
 /// {@endtemplate}
 class Ball<T extends Forge2DGame> extends BodyComponent<T>
     with Layered, InitialPosition {
-  /// {@macro ball_body}
+  /// {@macro ball}
   Ball({
     required this.baseColor,
   }) {
@@ -21,6 +21,21 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
     // bumper, it will need to explicit change layer to Layer.board then.
     layer = Layer.board;
   }
+
+  /// Render priority for the [Ball] while it's on the board.
+  static const int boardPriority = 0;
+
+  /// Render priority for the [Ball] while it's on the [SpaceshipRamp].
+  static const int spaceshipRampPriority = 4;
+
+  /// Render priority for the [Ball] while it's on the [Spaceship].
+  static const int spaceshipPriority = 4;
+
+  /// Render priority for the [Ball] while it's on the [SpaceshipRail].
+  static const int spaceshipRailPriority = 2;
+
+  /// Render priority for the [Ball] while it's on the [LaunchRamp].
+  static const int launchRampPriority = 0;
 
   /// The size of the [Ball].
   static final Vector2 size = Vector2.all(4.13);

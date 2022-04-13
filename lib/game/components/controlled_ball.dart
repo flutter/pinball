@@ -18,7 +18,7 @@ class ControlledBall extends Ball with Controls<BallController> {
     required PinballTheme theme,
   }) : super(baseColor: theme.characterTheme.ballColor) {
     controller = BallController(this);
-    priority = LaunchRamp.ballPriorityInsideRamp;
+    priority = Ball.launchRampPriority;
     layer = Layer.launcher;
   }
 
@@ -31,11 +31,13 @@ class ControlledBall extends Ball with Controls<BallController> {
     required PinballTheme theme,
   }) : super(baseColor: theme.characterTheme.ballColor) {
     controller = BallController(this);
+    priority = Ball.boardPriority;
   }
 
   /// [Ball] used in [DebugPinballGame].
   ControlledBall.debug() : super(baseColor: const Color(0xFFFF0000)) {
     controller = DebugBallController(this);
+    priority = Ball.boardPriority;
   }
 }
 

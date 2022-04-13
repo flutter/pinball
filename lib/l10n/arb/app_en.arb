@@ -1,71 +1,79 @@
 {
-    "@@locale": "en",
-    "play": "Play",
-    "@play": {
-        "description": "Text displayed on the landing page play button"
-    },
-    "howToPlay": "How to Play",
-    "@howToPlay": {
-        "description": "Text displayed on the landing page how to play button"
-    },
-    "launchControls": "Launch Controls",
-    "@launchControls": {
-        "description": "Text displayed on the how to play dialog with the launch controls"
-    },
-    "flipperControls": "Flipper Controls",
-    "@flipperControls": {
-        "description": "Text displayed on the how to play dialog with the flipper controls"
-    },
-    "start": "Start",
-    "@start": {
-        "description": "Text displayed on the character selection page start button"
-    },
-    "characterSelectionTitle": "Choose your character!",
-    "@characterSelectionTitle": {
-        "description": "Title text displayed on the character selection page"
-    },
-    "gameOver": "Game Over",
-    "@gameOver": {
-        "description": "Text displayed on the ending dialog when game finishes"
-    },
-    "leaderboard": "Leaderboard",
-    "@leaderboard": {
-        "description": "Text displayed on the ending dialog leaderboard button"
-    },
-    "rank": "Rank",
-    "@rank": {
-        "description": "Text displayed on the leaderboard page header rank column"
-    },
-    "character": "Character",
-    "@character": {
-        "description": "Text displayed on the leaderboard page header character column"
-    },
-    "username": "Username",
-    "@username": {
-        "description": "Text displayed on the leaderboard page header userName column"
-    },
-    "score": "Score",
-    "@score": {
-        "description": "Text displayed on the leaderboard page header score column"
-    },
-    "retry": "Retry",
-    "@retry": {
-        "description": "Text displayed on the retry button leaders board page"
-    },
-    "addUser": "Add User",
-    "@addUser": {
-        "description": "Text displayed on the add user button at ending dialog"
-    },
-    "error": "Error",
-    "@error": {
-        "description": "Text displayed on the ending dialog when there is any error on sending user"
-    },
-    "yourScore": "Your score is",
-    "@yourScore": {
-        "description":  "Text displayed on the ending dialog when game finishes to show the final score"
-    },
-    "enterInitials": "Enter your initials",
-    "@enterInitials": {
-        "description":  "Text displayed on the ending dialog when game finishes to ask the user for his initials"
-    }
+  "@@locale": "en",
+  "play": "Play",
+  "@play": {
+    "description": "Text displayed on the landing page play button"
+  },
+  "howToPlay": "How to Play",
+  "@howToPlay": {
+    "description": "Text displayed on the landing page how to play button"
+  },
+  "launchControls": "Launch Controls",
+  "@launchControls": {
+    "description": "Text displayed on the how to play dialog with the launch controls"
+  },
+  "flipperControls": "Flipper Controls",
+  "@flipperControls": {
+    "description": "Text displayed on the how to play dialog with the flipper controls"
+  },
+  "start": "Start",
+  "@start": {
+    "description": "Text displayed on the character selection page start button"
+  },
+  "select": "Select",
+  "@select": {
+    "description": "Text displayed on the character selection page select button"
+  },
+  "characterSelectionTitle": "Choose your character!",
+  "@characterSelectionTitle": {
+    "description": "Title text displayed on the character selection page"
+  },
+  "characterSelectionSubtitle": "There’s no wrong answer",
+  "@characterSelectionSubtitle": {
+    "description": "Text displayed on the selecting character dialog at game beginning"
+  },
+  "gameOver": "Game Over",
+  "@gameOver": {
+    "description": "Text displayed on the ending dialog when game finishes"
+  },
+  "leaderboard": "Leaderboard",
+  "@leaderboard": {
+    "description": "Text displayed on the ending dialog leaderboard button"
+  },
+  "rank": "Rank",
+  "@rank": {
+    "description": "Text displayed on the leaderboard page header rank column"
+  },
+  "character": "Character",
+  "@character": {
+    "description": "Text displayed on the leaderboard page header character column"
+  },
+  "username": "Username",
+  "@username": {
+    "description": "Text displayed on the leaderboard page header userName column"
+  },
+  "score": "Score",
+  "@score": {
+    "description": "Text displayed on the leaderboard page header score column"
+  },
+  "retry": "Retry",
+  "@retry": {
+    "description": "Text displayed on the retry button leaders board page"
+  },
+  "addUser": "Add User",
+  "@addUser": {
+    "description": "Text displayed on the add user button at ending dialog"
+  },
+  "error": "Error",
+  "@error": {
+    "description": "Text displayed on the ending dialog when there is any error on sending user"
+  },
+  "yourScore": "Your score is",
+  "@yourScore": {
+    "description": "Text displayed on the ending dialog when game finishes to show the final score"
+  },
+  "enterInitials": "Enter your initials",
+  "@enterInitials": {
+    "description": "Text displayed on the ending dialog when game finishes to ask the user for his initials"
+  }
 }

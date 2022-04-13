@@ -11,9 +11,6 @@ import 'package:pinball_components/pinball_components.dart';
 /// [_LaunchRampForegroundRailing].
 /// {@endtemplate}
 class LaunchRamp extends Forge2DBlueprint {
-  /// Base priority for [Ball] while inside [LaunchRamp].
-  static const ballPriorityInsideRamp = -2;
-
   @override
   void build(_) {
     addAllContactCallback([
@@ -44,7 +41,7 @@ class LaunchRamp extends Forge2DBlueprint {
 /// {@endtemplate}
 class _LaunchRampBase extends BodyComponent with InitialPosition, Layered {
   /// {@macro launch_ramp_base}
-  _LaunchRampBase() : super(priority: LaunchRamp.ballPriorityInsideRamp - 1) {
+  _LaunchRampBase() : super(priority: Ball.launchRampPriority - 1) {
     layer = Layer.launcher;
   }
 
@@ -146,8 +143,7 @@ class _LaunchRampBaseSpriteComponent extends SpriteComponent with HasGameRef {
 /// {@endtemplate}
 class _LaunchRampForegroundRailing extends BodyComponent with InitialPosition {
   /// {@macro launch_ramp_foreground_railing}
-  _LaunchRampForegroundRailing()
-      : super(priority: LaunchRamp.ballPriorityInsideRamp + 1);
+  _LaunchRampForegroundRailing() : super(priority: Ball.launchRampPriority + 1);
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
@@ -250,7 +246,7 @@ class _LaunchRampExit extends RampOpening {
           insideLayer: Layer.launcher,
           outsideLayer: Layer.board,
           orientation: RampOrientation.down,
-          insidePriority: LaunchRamp.ballPriorityInsideRamp,
+          insidePriority: Ball.launchRampPriority,
           outsidePriority: 0,
         ) {
     layer = Layer.launcher;
