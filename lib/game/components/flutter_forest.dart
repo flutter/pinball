@@ -96,9 +96,9 @@ class _DashNestBumperBallContactCallback
     extends ContactCallback<DashNestBumper, Ball> {
   @override
   void begin(DashNestBumper dashNestBumper, _, __) {
-    if (dashNestBumper.parent is FlutterForest) return;
-
-    final parent = dashNestBumper.parent! as FlutterForest;
-    parent.controller.activateBumper(dashNestBumper);
+    final parent = dashNestBumper.parent;
+    if (parent is FlutterForest) {
+      parent.controller.activateBumper(dashNestBumper);
+    }
   }
 }
