@@ -25,7 +25,7 @@ class LaunchRamp extends Forge2DBlueprint {
       ..initialPosition = Vector2(0.6, -34);
 
     final launchRampCloseWall = _LaunchRampCloseWall()
-      ..initialPosition = Vector2(4, -66.5);
+      ..initialPosition = Vector2(4, -69.5);
 
     addAll([
       launchRampBase,
@@ -216,12 +216,12 @@ class _LaunchRampForegroundRailingSpriteComponent extends SpriteComponent
 class _LaunchRampCloseWall extends BodyComponent with InitialPosition, Layered {
   _LaunchRampCloseWall() {
     layer = Layer.board;
-    // renderBody = false;
+    renderBody = false;
   }
 
   @override
   Body createBody() {
-    final shape = EdgeShape()..set(Vector2.zero(), Vector2(0, 4));
+    final shape = EdgeShape()..set(Vector2.zero(), Vector2(0, 3));
 
     final fixtureDef = FixtureDef(shape);
 
