@@ -22,15 +22,6 @@ class Backboard extends PositionComponent with HasGameRef {
           anchor: Anchor.bottomCenter,
         );
 
-  /// [TextPaint] used on the [Backboard]
-  static final textPaint = TextPaint(
-    style: TextStyle(
-      fontSize: 6,
-      color: Colors.white,
-      fontFamily: PinballFonts.pixeloidSans,
-    ),
-  );
-
   /// {@macro backboard}
   ///
   /// Returns a [Backboard] initialized in the waiting mode
@@ -55,6 +46,15 @@ class Backboard extends PositionComponent with HasGameRef {
       );
   }
 
+  /// [TextPaint] used on the [Backboard]
+  static final textPaint = TextPaint(
+    style: TextStyle(
+      fontSize: 6,
+      color: Colors.white,
+      fontFamily: PinballFonts.pixeloidSans,
+    ),
+  );
+
   /// Puts the Backboard in waiting mode, where the scoreboard is shown.
   Future<void> waitingMode() async {
     children.removeWhere((element) => true);
@@ -64,12 +64,14 @@ class Backboard extends PositionComponent with HasGameRef {
   /// Puts the Backboard in game over mode, where the score input is shown.
   Future<void> gameOverMode({
     required int score,
-    required BackboardOnSubmit onSubmit,
+    BackboardOnSubmit? onSubmit,
   }) async {
     children.removeWhere((element) => true);
-    await add(BackboardGameOver(
-      score: score,
-      onSubmit: onSubmit,
-    ));
+    await add(
+      BackboardGameOver(
+        score: score,
+        onSubmit: onSubmit,
+      ),
+    );
   }
 }

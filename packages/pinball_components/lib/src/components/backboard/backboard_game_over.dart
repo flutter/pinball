@@ -18,12 +18,12 @@ class BackboardGameOver extends PositionComponent with HasGameRef {
   /// {@macro backboard_game_over}
   BackboardGameOver({
     required int score,
-    required BackboardOnSubmit onSubmit,
+    BackboardOnSubmit? onSubmit,
   })  : _score = score,
         _onSubmit = onSubmit;
 
   final int _score;
-  final BackboardOnSubmit _onSubmit;
+  final BackboardOnSubmit? _onSubmit;
 
   final _numberFormat = NumberFormat('#,###,###');
 
@@ -103,7 +103,7 @@ class BackboardGameOver extends PositionComponent with HasGameRef {
       .join();
 
   bool _submit() {
-    _onSubmit(initials);
+    _onSubmit?.call(initials);
     return true;
   }
 
