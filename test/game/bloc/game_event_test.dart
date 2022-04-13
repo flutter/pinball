@@ -48,11 +48,11 @@ void main() {
 
       test('supports value equality', () {
         expect(
-          BonusActivated(GameBonus.word),
-          equals(const BonusActivated(GameBonus.word)),
+          BonusActivated(GameBonus.googleWord),
+          equals(const BonusActivated(GameBonus.googleWord)),
         );
         expect(
-          const BonusActivated(GameBonus.word),
+          const BonusActivated(GameBonus.googleWord),
           isNot(equals(const BonusActivated(GameBonus.dashNest))),
         );
       });

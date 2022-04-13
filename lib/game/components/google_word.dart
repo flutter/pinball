@@ -61,7 +61,7 @@ class _GoogleWordController extends ComponentController<GoogleWord>
     final activatedBonus = _activatedLetters.length == 6;
     if (activatedBonus) {
       gameRef.audio.googleBonus();
-      gameRef.read<GameBloc>().add(const BonusActivated(GameBonus.word));
+      gameRef.read<GameBloc>().add(const BonusActivated(GameBonus.googleWord));
       component.children.whereType<GoogleLetter>().forEach(
             (letter) => letter.deactivate(),
           );

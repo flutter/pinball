@@ -59,11 +59,11 @@ void main() {
 
           if (letter == letters.last) {
             verify(
-              () => gameBloc.add(const BonusActivated(GameBonus.word)),
+              () => gameBloc.add(const BonusActivated(GameBonus.googleWord)),
             ).called(1);
           } else {
             verifyNever(
-              () => gameBloc.add(const BonusActivated(GameBonus.word)),
+              () => gameBloc.add(const BonusActivated(GameBonus.googleWord)),
             );
           }
         }

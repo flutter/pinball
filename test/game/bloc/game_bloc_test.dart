@@ -123,20 +123,20 @@ void main() {
           'adds bonus to history',
           build: GameBloc.new,
           act: (bloc) => bloc
-            ..add(const BonusActivated(GameBonus.word))
+            ..add(const BonusActivated(GameBonus.googleWord))
             ..add(const BonusActivated(GameBonus.dashNest)),
           expect: () => const [
             GameState(
               score: 0,
               balls: 3,
               activatedDashNests: {},
-              bonusHistory: [GameBonus.word],
+              bonusHistory: [GameBonus.googleWord],
             ),
             GameState(
               score: 0,
               balls: 3,
               activatedDashNests: {},
-              bonusHistory: [GameBonus.word, GameBonus.dashNest],
+              bonusHistory: [GameBonus.googleWord, GameBonus.dashNest],
             ),
           ],
         );

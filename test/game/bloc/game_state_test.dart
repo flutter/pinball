@@ -145,7 +145,7 @@ void main() {
             score: gameState.score + 1,
             balls: gameState.balls + 1,
             activatedDashNests: const {'1'},
-            bonusHistory: const [GameBonus.word],
+            bonusHistory: const [GameBonus.googleWord],
           );
           expect(gameState, isNot(equals(otherGameState)));
 
