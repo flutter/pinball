@@ -41,10 +41,6 @@ void main() {
 
         final letters = googleWord.children.whereType<GoogleLetter>();
         expect(letters.length, equals(word.length));
-
-        for (var index = 0; index < word.length; index++) {
-          expect(letters.elementAt(index).index, equals(index));
-        }
       },
     );
 

@@ -9,13 +9,10 @@ import 'package:pinball_components/pinball_components.dart';
 /// {@endtemplate}
 class GoogleLetter extends BodyComponent with InitialPosition {
   /// {@macro google_letter}
-  GoogleLetter(this.index)
+  GoogleLetter(int index)
       : _sprite = _GoogleLetterSprite(
           _GoogleLetterSprite.spritePaths[index],
         );
-
-  /// Index of the letter in the "GOOGLE" word.
-  final int index;
 
   final _GoogleLetterSprite _sprite;
 

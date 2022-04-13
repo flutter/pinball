@@ -53,21 +53,21 @@ class _GoogleWordController extends ComponentController<GoogleWord>
 
   static const _googleWord = 'Google';
 
-  final Set<int> _activatedIndexes = <int>{};
+  final _activatedLetters = <GoogleLetter>{};
 
-  void activate(int index) {
-    if (!_activatedIndexes.add(index)) return;
+  void activate(GoogleLetter googleLetter) {
+    if (!_activatedLetters.add(googleLetter)) return;
 
-    component.children.whereType<GoogleLetter>().elementAt(index).activate();
+    googleLetter.activate();
 
-    final activatedBonus = _activatedIndexes.length == _googleWord.length;
+    final activatedBonus = _activatedLetters.length == _googleWord.length;
     if (activatedBonus) {
       gameRef.audio.googleBonus();
       gameRef.read<GameBloc>().add(const BonusActivated(GameBonus.word));
       component.children.whereType<GoogleLetter>().forEach(
             (letter) => letter.deactivate(),
           );
-      _activatedIndexes.clear();
+      _activatedLetters.clear();
     }
   }
 }
@@ -77,8 +77,9 @@ class _GoogleLetterBallContactCallback
     extends ContactCallback<GoogleLetter, Ball> {
   @override
   void begin(GoogleLetter googleLetter, _, __) {
-    (googleLetter.parent! as GoogleWord)
-        .controller
-        .activate(googleLetter.index);
+    final parent = googleLetter.parent;
+    if (parent is GoogleWord) {
+      parent.controller.activate(googleLetter);
+    }
   }
 }
