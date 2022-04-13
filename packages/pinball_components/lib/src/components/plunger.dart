@@ -42,7 +42,7 @@ class Plunger extends BodyComponent with InitialPosition {
 
   /// Set a constant downward velocity on the [Plunger].
   void pull() {
-    body.linearVelocity = Vector2(0, -7);
+    body.linearVelocity = Vector2(0, 7);
   }
 
   /// Set an upward velocity on the [Plunger].
@@ -105,7 +105,7 @@ class PlungerAnchor extends JointAnchor {
   }) {
     initialPosition = Vector2(
       0,
-      -plunger.compressionDistance,
+      plunger.compressionDistance,
     );
   }
 }

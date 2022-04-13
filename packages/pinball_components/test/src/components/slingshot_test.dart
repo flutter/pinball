@@ -12,7 +12,7 @@ void main() {
     final flameTester = FlameTester(TestGame.new);
     const length = 2.0;
     const angle = 0.0;
-    final spritePath = Assets.images.slingshot.leftUpper.keyName;
+    final spritePath = Assets.images.slingshot.upper.keyName;
 
     flameTester.testGameWidget(
       'renders correctly',

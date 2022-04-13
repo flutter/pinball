@@ -112,9 +112,9 @@ class RampOpeningBallContactCallback<Opening extends RampOpening>
       // now doesn't work position.y comparison
       final isBallOutsideOpening =
           (opening.orientation == RampOrientation.down &&
-                  ball.body.linearVelocity.y < 0) ||
+                  ball.body.linearVelocity.y > 0) ||
               (opening.orientation == RampOrientation.up &&
-                  ball.body.linearVelocity.y > 0);
+                  ball.body.linearVelocity.y < 0);
 
       if (isBallOutsideOpening) {
         ball

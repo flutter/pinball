@@ -25,11 +25,11 @@ class SparkyFireZone extends Component with HasGameRef<PinballGame> {
     gameRef.addContactCallback(_ControlledSparkyBumperBallContactCallback());
 
     final lowerLeftBumper = ControlledSparkyBumper.a()
-      ..initialPosition = Vector2(-23.15, 41.65);
+      ..initialPosition = Vector2(-23.15, -41.65);
     final upperLeftBumper = ControlledSparkyBumper.b()
-      ..initialPosition = Vector2(-21.25, 58.15);
+      ..initialPosition = Vector2(-21.25, -58.15);
     final rightBumper = ControlledSparkyBumper.c()
-      ..initialPosition = Vector2(-3.56, 53.051);
+      ..initialPosition = Vector2(-3.56, -53.051);
 
     await addAll([
       lowerLeftBumper,

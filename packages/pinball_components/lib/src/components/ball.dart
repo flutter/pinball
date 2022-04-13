@@ -99,8 +99,8 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
       final direction = body.linearVelocity.normalized();
       final effect = FireEffect(
         burstPower: _boostTimer,
-        direction: -direction,
-        position: Vector2(body.position.x, -body.position.y),
+        direction: direction,
+        position: Vector2(body.position.x, body.position.y),
         priority: priority - 1,
       );
 
@@ -117,10 +117,10 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   }
 
   void _rescale() {
-    final boardHeight = BoardDimensions.size.y;
+    final boardHeight = BoardDimensions.bounds.height;
     const maxShrinkAmount = BoardDimensions.perspectiveShrinkFactor;
 
-    final adjustedYPosition = body.position.y + (boardHeight / 2);
+    final adjustedYPosition = -body.position.y + (boardHeight / 2);
 
     final scaleFactor = ((boardHeight - adjustedYPosition) /
             BoardDimensions.shrinkAdjustedHeight) +

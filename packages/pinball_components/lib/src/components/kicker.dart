@@ -34,14 +34,14 @@ class Kicker extends BodyComponent with InitialPosition {
     const quarterPi = math.pi / 4;
 
     final upperCircle = CircleShape()..radius = 1.6;
-    upperCircle.position.setValues(0, -upperCircle.radius / 2);
+    upperCircle.position.setValues(0, upperCircle.radius / 2);
     final upperCircleFixtureDef = FixtureDef(upperCircle)..friction = 0;
     fixturesDefs.add(upperCircleFixtureDef);
 
     final lowerCircle = CircleShape()..radius = 1.6;
     lowerCircle.position.setValues(
       size.x * -direction,
-      -size.y - 0.8,
+      size.y + 0.8,
     );
     final lowerCircleFixtureDef = FixtureDef(lowerCircle)..friction = 0;
     fixturesDefs.add(lowerCircleFixtureDef);
@@ -53,7 +53,7 @@ class Kicker extends BodyComponent with InitialPosition {
               upperCircle.radius * direction,
               0,
             ),
-        Vector2(2.5 * direction, -size.y + 2),
+        Vector2(2.5 * direction, size.y - 2),
       );
     final wallFacingLineFixtureDef = FixtureDef(wallFacingEdge)..friction = 0;
     fixturesDefs.add(wallFacingLineFixtureDef);
@@ -64,7 +64,7 @@ class Kicker extends BodyComponent with InitialPosition {
         lowerCircle.position +
             Vector2(
               lowerCircle.radius * math.cos(quarterPi) * direction,
-              -lowerCircle.radius * math.sin(quarterPi),
+              lowerCircle.radius * math.sin(quarterPi),
             ),
       );
     final bottomLineFixtureDef = FixtureDef(bottomEdge)..friction = 0;
@@ -75,12 +75,12 @@ class Kicker extends BodyComponent with InitialPosition {
         upperCircle.position +
             Vector2(
               upperCircle.radius * math.cos(quarterPi) * -direction,
-              upperCircle.radius * math.sin(quarterPi),
+              -upperCircle.radius * math.sin(quarterPi),
             ),
         lowerCircle.position +
             Vector2(
               lowerCircle.radius * math.cos(quarterPi) * -direction,
-              lowerCircle.radius * math.sin(quarterPi),
+              -lowerCircle.radius * math.sin(quarterPi),
             ),
       );
 
@@ -97,7 +97,7 @@ class Kicker extends BodyComponent with InitialPosition {
         lowerCircle.position +
             Vector2(
               lowerCircle.radius * math.cos(quarterPi) * -direction,
-              -lowerCircle.radius * math.sin(quarterPi),
+              lowerCircle.radius * math.sin(quarterPi),
             ),
         wallFacingEdge.vertex2,
       ],

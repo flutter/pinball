@@ -35,8 +35,8 @@ class Spaceship extends Forge2DBlueprint {
       SpaceshipHole(
         outsideLayer: Layer.spaceshipExitRail,
         outsidePriority: Ball.spaceshipRailPriority,
-      )..initialPosition = position - Vector2(5.2, 4.8),
-      SpaceshipHole()..initialPosition = position - Vector2(-7.2, 0.8),
+      )..initialPosition = position - Vector2(5.2, -4.8),
+      SpaceshipHole()..initialPosition = position - Vector2(-7.2, -0.8),
       SpaceshipWall()..initialPosition = position,
     ]);
   }
@@ -197,10 +197,10 @@ class SpaceshipHole extends RampOpening {
   @override
   Shape get shape {
     return ArcShape(
-      center: Vector2(0, 3.2),
+      center: Vector2(0, -3.2),
       arcRadius: 5,
       angle: 1,
-      rotation: 60 * pi / 180,
+      rotation: -2,
     );
   }
 }
@@ -251,7 +251,7 @@ class SpaceshipWall extends BodyComponent with InitialPosition, Layered {
     final bodyDef = BodyDef()
       ..userData = this
       ..position = initialPosition
-      ..angle = 90 * pi / 172
+      ..angle = -1.7
       ..type = BodyType.static;
 
     return world.createBody(bodyDef)

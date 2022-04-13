@@ -77,7 +77,7 @@ class BigDashNestBumper extends DashNestBumper {
       center: Vector2.zero(),
       majorRadius: 5.1,
       minorRadius: 3.75,
-    )..rotate(math.pi / 2.1);
+    )..rotate(math.pi / 1.9);
     final fixtureDef = FixtureDef(shape);
 
     final bodyDef = BodyDef()

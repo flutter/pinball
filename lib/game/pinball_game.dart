@@ -49,7 +49,7 @@ class PinballGame extends Forge2DGame
     unawaited(addFromBlueprint(ControlledSparkyComputer()));
 
     final plunger = ControlledPlunger(compressionDistance: 29)
-      ..initialPosition = Vector2(38, -19);
+      ..initialPosition = Vector2(38, 19);
     await add(plunger);
 
     unawaited(add(Board()));
@@ -62,15 +62,11 @@ class PinballGame extends Forge2DGame
     unawaited(
       addFromBlueprint(
         Spaceship(
-          position: Vector2(-26.5, 28.5),
+          position: Vector2(-26.5, -28.5),
         ),
       ),
     );
-    unawaited(
-      addFromBlueprint(
-        SpaceshipRail(),
-      ),
-    );
+    unawaited(addFromBlueprint(SpaceshipRail()));
 
     controller.attachTo(plunger);
     await super.onLoad();
@@ -91,8 +87,8 @@ class PinballGame extends Forge2DGame
     await add(
       BonusWord(
         position: Vector2(
-          BoardDimensions.bounds.center.dx - 3.07,
-          BoardDimensions.bounds.center.dy - 2.4,
+          BoardDimensions.bounds.center.dx - 4.1,
+          BoardDimensions.bounds.center.dy + 1.8,
         ),
       ),
     );
@@ -130,7 +126,7 @@ class _GameBallsController extends ComponentController<PinballGame>
       theme: gameRef.theme,
     )..initialPosition = Vector2(
         _plunger.body.position.x,
-        _plunger.body.position.y + Ball.size.y,
+        _plunger.body.position.y - Ball.size.y,
       );
     component.add(ball);
   }

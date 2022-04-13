@@ -14,7 +14,7 @@ class BoardDimensions {
   static final bounds = Rect.fromCenter(
     center: Offset.zero,
     width: size.x,
-    height: -size.y,
+    height: size.y,
   );
 
   /// 3D perspective angle of the board in radians.
