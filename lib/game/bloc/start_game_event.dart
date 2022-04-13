@@ -6,16 +6,37 @@ part of 'start_game_bloc.dart';
 abstract class StartGameEvent extends Equatable {
   /// {@macro start_game_event}
   const StartGameEvent();
+}
+
+/// {@template select_character}
+/// Select character event.
+/// {@endtemplate}
+class SelectCharacter extends StartGameEvent {
+  /// {@macro select_character}
+  const SelectCharacter();
 
   @override
   List<Object> get props => [];
 }
 
-/// Select character event.
-class SelectCharacter extends StartGameEvent {}
-
+/// {@template how_to_play}
 /// How to play event.
-class HowToPlay extends StartGameEvent {}
+/// {@endtemplate}
+class HowToPlay extends StartGameEvent {
+  /// {@macro how_to_play}
+  const HowToPlay();
 
+  @override
+  List<Object> get props => [];
+}
+
+/// {@template play}
 /// Play event.
-class Play extends StartGameEvent {}
+/// {@endtemplate}
+class Play extends StartGameEvent {
+  /// {@macro play}
+  const Play();
+
+  @override
+  List<Object> get props => [];
+}

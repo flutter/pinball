@@ -21,10 +21,10 @@ class StartGameBloc extends Bloc<StartGameEvent, StartGameState> {
 
   final PinballGame _game;
 
-  Future<void> _onSelectCharacter(
+  void _onSelectCharacter(
     SelectCharacter event,
-    Emitter emit,
-  ) async {
+    Emitter<StartGameState> emit,
+  ) {
     _game.gameFlowController.start();
 
     emit(
@@ -34,10 +34,10 @@ class StartGameBloc extends Bloc<StartGameEvent, StartGameState> {
     );
   }
 
-  Future<void> _onHowToPlay(
+  void _onHowToPlay(
     HowToPlay event,
-    Emitter emit,
-  ) async {
+    Emitter<StartGameState> emit,
+  ) {
     emit(
       state.copyWith(
         status: StartGameStatus.howToPlay,
@@ -45,10 +45,10 @@ class StartGameBloc extends Bloc<StartGameEvent, StartGameState> {
     );
   }
 
-  Future<void> _onPlay(
+  void _onPlay(
     Play event,
-    Emitter emit,
-  ) async {
+    Emitter<StartGameState> emit,
+  ) {
     emit(
       state.copyWith(
         status: StartGameStatus.play,
