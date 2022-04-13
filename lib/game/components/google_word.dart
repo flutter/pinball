@@ -8,12 +8,12 @@ import 'package:pinball/flame/flame.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-/// {@template bonus_word}
+/// {@template google_word}
 /// Loads all [GoogleLetter]s to compose a [GoogleWord].
 /// {@endtemplate}
 class GoogleWord extends Component
     with HasGameRef<PinballGame>, Controls<_GoogleWordController> {
-  /// {@macro bonus_word}
+  /// {@macro google_word}
   GoogleWord({
     required Vector2 position,
   }) : _position = position {
@@ -51,8 +51,6 @@ class _GoogleWordController extends ComponentController<GoogleWord>
     with HasGameRef<PinballGame> {
   _GoogleWordController(GoogleWord googleWord) : super(googleWord);
 
-  static const _googleWord = 'Google';
-
   final _activatedLetters = <GoogleLetter>{};
 
   void activate(GoogleLetter googleLetter) {
@@ -60,7 +58,7 @@ class _GoogleWordController extends ComponentController<GoogleWord>
 
     googleLetter.activate();
 
-    final activatedBonus = _activatedLetters.length == _googleWord.length;
+    final activatedBonus = _activatedLetters.length == 6;
     if (activatedBonus) {
       gameRef.audio.googleBonus();
       gameRef.read<GameBloc>().add(const BonusActivated(GameBonus.word));
