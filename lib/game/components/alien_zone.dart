@@ -25,9 +25,9 @@ class AlienZone extends Component with HasGameRef<PinballGame> {
     gameRef.addContactCallback(_ControlledAlienBumperBallContactCallback());
 
     final lowerBumper = ControlledAlienBumper.a()
-      ..initialPosition = Vector2(-32.52, 9.34);
+      ..initialPosition = Vector2(-32.52, -9.34);
     final upperBumper = ControlledAlienBumper.b()
-      ..initialPosition = Vector2(-22.89, 17.43);
+      ..initialPosition = Vector2(-22.89, -17.43);
 
     await addAll([
       lowerBumper,

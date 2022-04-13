@@ -38,7 +38,7 @@ void main() {
             await game.ensureAdd(plunger);
             controller.onKeyEvent(event, {});
 
-            expect(plunger.body.linearVelocity.y, isNegative);
+            expect(plunger.body.linearVelocity.y, isPositive);
             expect(plunger.body.linearVelocity.x, isZero);
           },
         );
@@ -51,10 +51,10 @@ void main() {
           'and plunger is below its starting position',
           (game) async {
             await game.ensureAdd(plunger);
-            plunger.body.setTransform(Vector2(0, -1), 0);
+            plunger.body.setTransform(Vector2(0, 1), 0);
             controller.onKeyEvent(event, {});
 
-            expect(plunger.body.linearVelocity.y, isPositive);
+            expect(plunger.body.linearVelocity.y, isNegative);
             expect(plunger.body.linearVelocity.x, isZero);
           },
         );

@@ -79,7 +79,7 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   // TODO(allisonryan0002): prevent motion from contact with other balls.
   void stop() {
     body
-      ..gravityScale = 0
+      ..gravityScale = Vector2.zero()
       ..linearVelocity = Vector2.zero()
       ..angularVelocity = 0;
   }
@@ -88,7 +88,7 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   ///
   /// If previously [stop]ped, the previous ball's velocity is not kept.
   void resume() {
-    body.gravityScale = 1;
+    body.gravityScale = Vector2(0, 1);
   }
 
   @override
@@ -99,8 +99,8 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
       final direction = body.linearVelocity.normalized();
       final effect = FireEffect(
         burstPower: _boostTimer,
-        direction: -direction,
-        position: Vector2(body.position.x, -body.position.y),
+        direction: direction,
+        position: Vector2(body.position.x, body.position.y),
         priority: priority - 1,
       );
 
@@ -117,10 +117,10 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   }
 
   void _rescale() {
-    final boardHeight = BoardDimensions.size.y;
+    final boardHeight = BoardDimensions.bounds.height;
     const maxShrinkAmount = BoardDimensions.perspectiveShrinkFactor;
 
-    final adjustedYPosition = body.position.y + (boardHeight / 2);
+    final adjustedYPosition = -body.position.y + (boardHeight / 2);
 
     final scaleFactor = ((boardHeight - adjustedYPosition) /
             BoardDimensions.shrinkAdjustedHeight) +

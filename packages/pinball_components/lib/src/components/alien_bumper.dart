@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -73,7 +71,7 @@ class AlienBumper extends BodyComponent with InitialPosition {
       center: Vector2.zero(),
       majorRadius: _majorRadius,
       minorRadius: _minorRadius,
-    )..rotate(15.9 * math.pi / 180);
+    )..rotate(1.29);
     final fixtureDef = FixtureDef(shape)
       ..friction = 0
       ..restitution = 4;

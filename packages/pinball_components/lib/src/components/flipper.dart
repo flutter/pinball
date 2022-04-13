@@ -32,13 +32,13 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   /// Applies downward linear velocity to the [Flipper], moving it to its
   /// resting position.
   void moveDown() {
-    body.linearVelocity = Vector2(0, -_speed);
+    body.linearVelocity = Vector2(0, _speed);
   }
 
   /// Applies upward linear velocity to the [Flipper], moving it to its highest
   /// position.
   void moveUp() {
-    body.linearVelocity = Vector2(0, _speed);
+    body.linearVelocity = Vector2(0, -_speed);
   }
 
   /// Anchors the [Flipper] to the [RevoluteJoint] that controls its arc motion.
@@ -120,7 +120,7 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   Body createBody() {
     final bodyDef = BodyDef()
       ..position = initialPosition
-      ..gravityScale = 0
+      ..gravityScale = Vector2.zero()
       ..type = BodyType.dynamic;
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
@@ -161,7 +161,7 @@ class _FlipperAnchor extends JointAnchor {
     initialPosition = Vector2(
       (Flipper.size.x * flipper.side.direction) / 2 -
           (1.65 * flipper.side.direction),
-      0.15,
+      -0.15,
     );
   }
 }
@@ -209,8 +209,8 @@ class _FlipperJoint extends RevoluteJoint {
   void lock() {
     const angle = _halfSweepingAngle;
     setLimits(
-      -angle * side.direction,
-      -angle * side.direction,
+      angle * side.direction,
+      angle * side.direction,
     );
   }
 

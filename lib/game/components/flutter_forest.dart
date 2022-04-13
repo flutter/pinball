@@ -26,17 +26,17 @@ class FlutterForest extends Component with Controls<_FlutterForestController> {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final signPost = FlutterSignPost()..initialPosition = Vector2(8.35, 58.3);
+    final signPost = FlutterSignPost()..initialPosition = Vector2(8.35, -58.3);
 
     final bigNest = _ControlledBigDashNestBumper(
       id: 'big_nest_bumper',
-    )..initialPosition = Vector2(18.55, 59.35);
+    )..initialPosition = Vector2(18.55, -59.35);
     final smallLeftNest = _ControlledSmallDashNestBumper.a(
       id: 'small_nest_bumper_a',
-    )..initialPosition = Vector2(8.95, 51.95);
+    )..initialPosition = Vector2(8.95, -51.95);
     final smallRightNest = _ControlledSmallDashNestBumper.b(
       id: 'small_nest_bumper_b',
-    )..initialPosition = Vector2(23.3, 46.75);
+    )..initialPosition = Vector2(23.3, -46.75);
     final dashAnimatronic = DashAnimatronic()..position = Vector2(20, -66);
 
     await addAll([
@@ -78,7 +78,7 @@ class _FlutterForestController extends ComponentController<FlutterForest>
     await Future<void>.delayed(const Duration(milliseconds: 700));
     await gameRef.add(
       ControlledBall.bonus(theme: gameRef.theme)
-        ..initialPosition = Vector2(17.2, 52.7),
+        ..initialPosition = Vector2(17.2, -52.7),
     );
   }
 }

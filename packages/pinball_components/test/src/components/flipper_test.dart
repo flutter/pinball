@@ -75,7 +75,7 @@ void main() {
           final flipper = Flipper(side: BoardSide.left);
           await game.ensureAdd(flipper);
 
-          expect(flipper.body.gravityScale, isZero);
+          expect(flipper.body.gravityScale, equals(Vector2.zero()));
         },
       );
 
@@ -133,7 +133,7 @@ void main() {
         expect(flipper.body.linearVelocity, equals(Vector2.zero()));
         flipper.moveDown();
 
-        expect(flipper.body.linearVelocity.y, lessThan(0));
+        expect(flipper.body.linearVelocity.y, isPositive);
       },
     );
 
@@ -146,7 +146,7 @@ void main() {
         expect(flipper.body.linearVelocity, equals(Vector2.zero()));
         flipper.moveUp();
 
-        expect(flipper.body.linearVelocity.y, greaterThan(0));
+        expect(flipper.body.linearVelocity.y, isNegative);
       },
     );
   });

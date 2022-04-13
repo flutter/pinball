@@ -68,7 +68,7 @@ class BallController extends ComponentController<Ball>
     await Future<void>.delayed(const Duration(seconds: 1));
     component
       ..resume()
-      ..boost(Vector2(200, -500));
+      ..boost(Vector2(200, 500));
   }
 
   @override

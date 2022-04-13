@@ -23,9 +23,9 @@ class SpaceshipRail extends Forge2DBlueprint {
     final railRamp = _SpaceshipRailRamp();
     final railEnd = SpaceshipRailExit();
     final topBase = _SpaceshipRailBase(radius: 0.55)
-      ..initialPosition = Vector2(-26.15, 18.65);
+      ..initialPosition = Vector2(-26.15, -18.65);
     final bottomBase = _SpaceshipRailBase(radius: 0.8)
-      ..initialPosition = Vector2(-25.5, -12.9);
+      ..initialPosition = Vector2(-25.5, 12.9);
     final railForeground = _SpaceshipRailForeground();
 
     addAll([
@@ -51,19 +51,19 @@ class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
     final fixturesDefs = <FixtureDef>[];
 
     final topArcShape = ArcShape(
-      center: Vector2(-35.5, 30.9),
+      center: Vector2(-35.5, -30.9),
       arcRadius: 2.5,
       angle: math.pi,
-      rotation: 2.9,
+      rotation: 0.2,
     );
     final topArcFixtureDef = FixtureDef(topArcShape);
     fixturesDefs.add(topArcFixtureDef);
 
     final topLeftCurveShape = BezierCurveShape(
       controlPoints: [
-        Vector2(-37.9, 30.4),
-        Vector2(-38, 23.9),
-        Vector2(-30.93, 18.2),
+        Vector2(-37.9, -30.4),
+        Vector2(-38, -23.9),
+        Vector2(-30.93, -18.2),
       ],
     );
     final topLeftCurveFixtureDef = FixtureDef(topLeftCurveShape);
@@ -72,8 +72,8 @@ class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
     final middleLeftCurveShape = BezierCurveShape(
       controlPoints: [
         topLeftCurveShape.vertices.last,
-        Vector2(-22.6, 10.3),
-        Vector2(-30, 0.2),
+        Vector2(-22.6, -10.3),
+        Vector2(-30, -0.2),
       ],
     );
     final middleLeftCurveFixtureDef = FixtureDef(middleLeftCurveShape);
@@ -82,8 +82,8 @@ class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
     final bottomLeftCurveShape = BezierCurveShape(
       controlPoints: [
         middleLeftCurveShape.vertices.last,
-        Vector2(-36, -8.6),
-        Vector2(-32.04, -18.3),
+        Vector2(-36, 8.6),
+        Vector2(-32.04, 18.3),
       ],
     );
     final bottomLeftCurveFixtureDef = FixtureDef(bottomLeftCurveShape);
@@ -91,8 +91,8 @@ class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
 
     final topRightStraightShape = EdgeShape()
       ..set(
-        Vector2(-33, 31.3),
-        Vector2(-27.2, 21.3),
+        Vector2(-33, -31.3),
+        Vector2(-27.2, -21.3),
       );
     final topRightStraightFixtureDef = FixtureDef(topRightStraightShape);
     fixturesDefs.add(topRightStraightFixtureDef);
@@ -100,8 +100,8 @@ class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
     final middleRightCurveShape = BezierCurveShape(
       controlPoints: [
         topRightStraightShape.vertex1,
-        Vector2(-16.5, 11.4),
-        Vector2(-25.29, -1.7),
+        Vector2(-16.5, -11.4),
+        Vector2(-25.29, 1.7),
       ],
     );
     final middleRightCurveFixtureDef = FixtureDef(middleRightCurveShape);
@@ -110,8 +110,8 @@ class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
     final bottomRightCurveShape = BezierCurveShape(
       controlPoints: [
         middleRightCurveShape.vertices.last,
-        Vector2(-29.91, -8.5),
-        Vector2(-26.8, -15.7),
+        Vector2(-29.91, 8.5),
+        Vector2(-26.8, 15.7),
       ],
     );
     final bottomRightCurveFixtureDef = FixtureDef(bottomRightCurveShape);
@@ -219,10 +219,10 @@ class SpaceshipRailExit extends RampOpening {
   @override
   Shape get shape {
     return ArcShape(
-      center: Vector2(-29, -19),
+      center: Vector2(-29, 19),
       arcRadius: 2.5,
       angle: math.pi * 0.4,
-      rotation: 0.26,
+      rotation: -1.4,
     );
   }
 }

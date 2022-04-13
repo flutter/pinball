@@ -23,7 +23,7 @@ class Board extends Component {
     final dino = ChromeDino()
       ..initialPosition = Vector2(
         BoardDimensions.bounds.center.dx + 25,
-        BoardDimensions.bounds.center.dy + 10,
+        BoardDimensions.bounds.center.dy - 10,
       );
 
     await addAll([
@@ -77,17 +77,17 @@ class _BottomGroupSide extends Component {
 
     final flipper = ControlledFlipper(
       side: _side,
-    )..initialPosition = Vector2((11.8 * direction) + centerXAdjustment, -43.6);
+    )..initialPosition = Vector2((11.8 * direction) + centerXAdjustment, 43.6);
     final baseboard = Baseboard(side: _side)
       ..initialPosition = Vector2(
         (25.58 * direction) + centerXAdjustment,
-        -28.69,
+        28.69,
       );
     final kicker = Kicker(
       side: _side,
     )..initialPosition = Vector2(
         (22.4 * direction) + centerXAdjustment,
-        -25,
+        25,
       );
 
     await addAll([flipper, baseboard, kicker]);

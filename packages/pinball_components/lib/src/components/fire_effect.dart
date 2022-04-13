@@ -73,7 +73,7 @@ class FireEffect extends ParticleSystemComponent {
           spreadTween.transform(random.nextDouble()),
           spreadTween.transform(random.nextDouble()),
         );
-        final finalDirection = Vector2(direction.x, -direction.y) + spread;
+        final finalDirection = Vector2(direction.x, direction.y) + spread;
         final speed = finalDirection * (burstPower * 20);
 
         return AcceleratedParticle(

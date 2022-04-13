@@ -180,7 +180,7 @@ void main() {
       when(() => ball.body).thenReturn(body);
       when(() => ball.priority).thenReturn(1);
       when(() => body.position).thenReturn(Vector2.zero());
-      when(() => body.linearVelocity).thenReturn(Vector2(0, -1));
+      when(() => body.linearVelocity).thenReturn(Vector2(0, 1));
       when(() => ball.layer).thenReturn(Layer.board);
 
       callback.begin(ball, area, MockContact());
@@ -205,7 +205,7 @@ void main() {
       when(() => ball.body).thenReturn(body);
       when(() => ball.priority).thenReturn(1);
       when(() => body.position).thenReturn(Vector2.zero());
-      when(() => body.linearVelocity).thenReturn(Vector2(0, 1));
+      when(() => body.linearVelocity).thenReturn(Vector2(0, -1));
       when(() => ball.layer).thenReturn(Layer.board);
 
       callback.begin(ball, area, MockContact());
@@ -230,7 +230,7 @@ void main() {
       when(() => ball.body).thenReturn(body);
       when(() => ball.priority).thenReturn(1);
       when(() => body.position).thenReturn(Vector2.zero());
-      when(() => body.linearVelocity).thenReturn(Vector2(0, 1));
+      when(() => body.linearVelocity).thenReturn(Vector2(0, -1));
       when(() => ball.layer).thenReturn(Layer.board);
 
       callback.begin(ball, area, MockContact());
