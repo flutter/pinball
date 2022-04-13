@@ -27,7 +27,7 @@ void main() {
       build: () => StartGameBloc(
         game: pinballGame,
       ),
-      act: (bloc) => bloc.add(SelectCharacter()),
+      act: (bloc) => bloc.add(const SelectCharacter()),
       expect: () => [
         const StartGameState(
           status: StartGameStatus.selectCharacter,
@@ -40,7 +40,7 @@ void main() {
       build: () => StartGameBloc(
         game: pinballGame,
       ),
-      act: (bloc) => bloc.add(HowToPlay()),
+      act: (bloc) => bloc.add(const HowToPlay()),
       expect: () => [
         const StartGameState(
           status: StartGameStatus.howToPlay,
@@ -53,7 +53,7 @@ void main() {
       build: () => StartGameBloc(
         game: pinballGame,
       ),
-      act: (bloc) => bloc.add(Play()),
+      act: (bloc) => bloc.add(const Play()),
       expect: () => [
         const StartGameState(
           status: StartGameStatus.play,

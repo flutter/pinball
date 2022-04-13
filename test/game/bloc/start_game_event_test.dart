@@ -5,22 +5,22 @@ void main() {
   group('StartGameEvent', () {
     test('SelectCharacter supports value equality', () {
       expect(
-        SelectCharacter(),
-        equals(SelectCharacter()),
+        const SelectCharacter(),
+        equals(const SelectCharacter()),
       );
     });
 
     test('HowToPlay supports value equality', () {
       expect(
-        HowToPlay(),
-        equals(HowToPlay()),
+        const HowToPlay(),
+        equals(const HowToPlay()),
       );
     });
 
     test('Play supports value equality', () {
       expect(
-        Play(),
-        equals(Play()),
+        const Play(),
+        equals(const Play()),
       );
     });
   });
