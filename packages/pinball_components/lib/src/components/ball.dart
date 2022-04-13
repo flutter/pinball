@@ -35,7 +35,7 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   static const int spaceshipRailPriority = 2;
 
   /// Render priority for the [Ball] while it's on the [LaunchRamp].
-  static const int launchRampPriority = 0;
+  static const int launchRampPriority = -2;
 
   /// The size of the [Ball].
   static final Vector2 size = Vector2.all(4.13);

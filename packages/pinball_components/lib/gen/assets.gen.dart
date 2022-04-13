@@ -187,6 +187,10 @@ class $AssetsImagesPlungerGen {
   /// File path: assets/images/plunger/plunger.png
   AssetGenImage get plunger =>
       const AssetGenImage('assets/images/plunger/plunger.png');
+
+  /// File path: assets/images/plunger/rocket.png
+  AssetGenImage get rocket =>
+      const AssetGenImage('assets/images/plunger/rocket.png');
 }
 
 class $AssetsImagesSlingshotGen {

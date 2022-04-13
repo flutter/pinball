@@ -26,13 +26,12 @@ void main() {
         game.camera.followVector2(Vector2.zero());
         game.camera.zoom = 4.1;
       },
-      // TODO(ruimiguel): enable test when workflows are fixed.
-      // verify: (game, tester) async {
-      //   await expectLater(
-      //     find.byGame<Forge2DGame>(),
-      //     matchesGoldenFile('golden/plunger.png'),
-      //   );
-      // },
+      verify: (game, tester) async {
+        await expectLater(
+          find.byGame<Forge2DGame>(),
+          matchesGoldenFile('golden/plunger/plunger.png'),
+        );
+      },
     );
 
     flameTester.test(

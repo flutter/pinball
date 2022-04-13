@@ -8,13 +8,15 @@ import 'package:pinball_components/pinball_components.dart';
 ///
 /// [Plunger] ignores gravity so the player controls its downward [pull].
 /// {@endtemplate}
-class Plunger extends BodyComponent with InitialPosition {
+class Plunger extends BodyComponent with InitialPosition, Layered {
   /// {@macro plunger}
   Plunger({
     required this.compressionDistance,
     // TODO(ruimiguel): set to priority +1 over LaunchRamp once all priorities
     // are fixed.
-  }) : super(priority: 0);
+  }) : super(priority: 0) {
+    layer = Layer.launcher;
+  }
 
   /// Distance the plunger can lower.
   final double compressionDistance;
@@ -90,8 +92,8 @@ class _PlungerSpriteComponent extends SpriteComponent with HasGameRef {
     this.sprite = sprite;
     size = sprite.originalSize / 10;
     anchor = Anchor.center;
-    position = Vector2(2, 19);
-    angle = -0.033;
+    position = Vector2(1.5, 13.4);
+    angle = -0.008;
   }
 }
 

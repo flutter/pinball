@@ -124,7 +124,7 @@ class _DinoTopWallSpriteComponent extends SpriteComponent with HasGameRef {
 /// {@endtemplate}
 class _DinoBottomWall extends BodyComponent with InitialPosition {
   ///{@macro dino_top_wall}
-  _DinoBottomWall() : super(priority: 1);
+  _DinoBottomWall();
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];

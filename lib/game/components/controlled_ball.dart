@@ -19,6 +19,7 @@ class ControlledBall extends Ball with Controls<BallController> {
   }) : super(baseColor: theme.characterTheme.ballColor) {
     controller = BallController(this);
     priority = Ball.launchRampPriority;
+    layer = Layer.launcher;
   }
 
   /// {@template bonus_ball}
