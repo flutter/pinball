@@ -48,7 +48,7 @@ abstract class PinballPriority {
 
   static const int launchRampForegroundRailing = above + ballOnLaunchRamp;
 
-  static const int plunger = launchRamp;
+  static const int plunger = above + launchRamp;
 
   static const int rocket = above + bottomBoundary;
 
