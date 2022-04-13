@@ -43,7 +43,9 @@ void main() {
       tester.testGameWidget(
         'renders correctly',
         setUp: (game, tester) async {
-          await game.addFromBlueprint(Spaceship(position: Vector2(30, -30)));
+          final position = Vector2(30, -30);
+          await game.addFromBlueprint(Spaceship(position: position));
+          game.camera.followVector2(position);
         },
         verify: (game, tester) async {
           await expectLater(
