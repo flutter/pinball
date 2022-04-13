@@ -88,7 +88,7 @@ class _BottomBoundarySpriteComponent extends SpriteComponent with HasGameRef {
 /// {@endtemplate outer_boundary}
 class _OuterBoundary extends BodyComponent with InitialPosition {
   /// {@macro outer_boundary}
-  _OuterBoundary() : super(priority: LaunchRamp.ballPriorityInsideRamp - 1);
+  _OuterBoundary() : super(priority: Ball.launchRampPriority - 1);
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDefs = <FixtureDef>[];
