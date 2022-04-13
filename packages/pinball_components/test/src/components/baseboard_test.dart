@@ -9,10 +9,29 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('Baseboard', () {
-    // TODO(allisonryan0002): Add golden tests.
-
     TestWidgetsFlutterBinding.ensureInitialized();
     final flameTester = FlameTester(TestGame.new);
+
+    flameTester.testGameWidget(
+      'renders correctly',
+      setUp: (game, tester) async {
+        final leftBaseboard = Baseboard(
+          side: BoardSide.left,
+        )..initialPosition = Vector2(-20, 0);
+        final rightBaseboard = Baseboard(
+          side: BoardSide.right,
+        )..initialPosition = Vector2(20, 0);
+
+        await game.ensureAddAll([leftBaseboard, rightBaseboard]);
+        game.camera.followVector2(Vector2.zero());
+      },
+      verify: (game, tester) async {
+        await expectLater(
+          find.byGame<TestGame>(),
+          matchesGoldenFile('golden/baseboard.png'),
+        );
+      },
+    );
 
     flameTester.test(
       'loads correctly',

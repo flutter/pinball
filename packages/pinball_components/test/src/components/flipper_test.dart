@@ -13,8 +13,28 @@ void main() {
   final flameTester = FlameTester(TestGame.new);
 
   group('Flipper', () {
-    // TODO(alestiago): Add golden tests.
     // TODO(alestiago): Consider testing always both left and right Flipper.
+
+    flameTester.testGameWidget(
+      'renders correctly',
+      setUp: (game, tester) async {
+        final leftFlipper = Flipper(
+          side: BoardSide.left,
+        )..initialPosition = Vector2(-10, 0);
+        final rightFlipper = Flipper(
+          side: BoardSide.right,
+        )..initialPosition = Vector2(10, 0);
+
+        await game.ensureAddAll([leftFlipper, rightFlipper]);
+        game.camera.followVector2(Vector2.zero());
+      },
+      verify: (game, tester) async {
+        await expectLater(
+          find.byGame<TestGame>(),
+          matchesGoldenFile('golden/flipper.png'),
+        );
+      },
+    );
 
     flameTester.test(
       'loads correctly',
