@@ -20,7 +20,7 @@ class Launcher extends Forge2DBlueprint {
 
     final _rocket = RocketSpriteComponent()..position = Vector2(43, 62);
 
-    gameRef.addFromBlueprint(LaunchRamp());
     addAll([_rocket, plunger]);
+    addBlueprint(LaunchRamp());
   }
 }
