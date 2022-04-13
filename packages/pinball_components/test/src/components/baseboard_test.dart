@@ -27,7 +27,7 @@ void main() {
       },
       verify: (game, tester) async {
         await expectLater(
-          find.byGame<Forge2DGame>(),
+          find.byGame<TestGame>(),
           matchesGoldenFile('golden/baseboard.png'),
         );
       },
