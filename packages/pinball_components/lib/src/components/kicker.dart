@@ -35,7 +35,7 @@ class Kicker extends BodyComponent with InitialPosition {
 
     final upperCircle = CircleShape()..radius = 1.6;
     upperCircle.position.setValues(0, upperCircle.radius / 2);
-    final upperCircleFixtureDef = FixtureDef(upperCircle)..friction = 0;
+    final upperCircleFixtureDef = FixtureDef(upperCircle);
     fixturesDefs.add(upperCircleFixtureDef);
 
     final lowerCircle = CircleShape()..radius = 1.6;
@@ -43,7 +43,7 @@ class Kicker extends BodyComponent with InitialPosition {
       size.x * -direction,
       size.y + 0.8,
     );
-    final lowerCircleFixtureDef = FixtureDef(lowerCircle)..friction = 0;
+    final lowerCircleFixtureDef = FixtureDef(lowerCircle);
     fixturesDefs.add(lowerCircleFixtureDef);
 
     final wallFacingEdge = EdgeShape()
@@ -55,7 +55,7 @@ class Kicker extends BodyComponent with InitialPosition {
             ),
         Vector2(2.5 * direction, size.y - 2),
       );
-    final wallFacingLineFixtureDef = FixtureDef(wallFacingEdge)..friction = 0;
+    final wallFacingLineFixtureDef = FixtureDef(wallFacingEdge);
     fixturesDefs.add(wallFacingLineFixtureDef);
 
     final bottomEdge = EdgeShape()
@@ -67,7 +67,7 @@ class Kicker extends BodyComponent with InitialPosition {
               lowerCircle.radius * math.sin(quarterPi),
             ),
       );
-    final bottomLineFixtureDef = FixtureDef(bottomEdge)..friction = 0;
+    final bottomLineFixtureDef = FixtureDef(bottomEdge);
     fixturesDefs.add(bottomLineFixtureDef);
 
     final bouncyEdge = EdgeShape()
@@ -84,10 +84,11 @@ class Kicker extends BodyComponent with InitialPosition {
             ),
       );
 
-    final bouncyFixtureDef = FixtureDef(bouncyEdge)
+    final bouncyFixtureDef = FixtureDef(
+      bouncyEdge,
       // TODO(alestiago): Play with restitution value once game is bundled.
-      ..restitution = 10.0
-      ..friction = 0;
+      restitution: 10,
+    );
     fixturesDefs.add(bouncyFixtureDef);
 
     // TODO(alestiago): Evaluate if there is value on centering the fixtures.
@@ -111,7 +112,9 @@ class Kicker extends BodyComponent with InitialPosition {
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()..position = initialPosition;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+    );
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
 

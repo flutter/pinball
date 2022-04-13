@@ -81,10 +81,11 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition
-      ..type = BodyType.static;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
+
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(
       (fixture) => body.createFixture(
@@ -128,6 +129,7 @@ class _DinoBottomWall extends BodyComponent with InitialPosition {
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
+    const restitution = 1.0;
 
     final topStraightControlPoints = [
       Vector2(32.4, -8.3),
@@ -138,7 +140,10 @@ class _DinoBottomWall extends BodyComponent with InitialPosition {
         topStraightControlPoints.first,
         topStraightControlPoints.last,
       );
-    final topStraightFixtureDef = FixtureDef(topStraightShape);
+    final topStraightFixtureDef = FixtureDef(
+      topStraightShape,
+      restitution: restitution,
+    );
     fixturesDef.add(topStraightFixtureDef);
 
     final topLeftCurveControlPoints = [
@@ -149,7 +154,11 @@ class _DinoBottomWall extends BodyComponent with InitialPosition {
     final topLeftCurveShape = BezierCurveShape(
       controlPoints: topLeftCurveControlPoints,
     );
-    fixturesDef.add(FixtureDef(topLeftCurveShape));
+    final topLeftCurveFixtureDef = FixtureDef(
+      topLeftCurveShape,
+      restitution: restitution,
+    );
+    fixturesDef.add(topLeftCurveFixtureDef);
 
     final bottomLeftStraightControlPoints = [
       topLeftCurveControlPoints.last,
@@ -160,7 +169,10 @@ class _DinoBottomWall extends BodyComponent with InitialPosition {
         bottomLeftStraightControlPoints.first,
         bottomLeftStraightControlPoints.last,
       );
-    final bottomLeftStraightFixtureDef = FixtureDef(bottomLeftStraightShape);
+    final bottomLeftStraightFixtureDef = FixtureDef(
+      bottomLeftStraightShape,
+      restitution: restitution,
+    );
     fixturesDef.add(bottomLeftStraightFixtureDef);
 
     final bottomStraightControlPoints = [
@@ -172,7 +184,10 @@ class _DinoBottomWall extends BodyComponent with InitialPosition {
         bottomStraightControlPoints.first,
         bottomStraightControlPoints.last,
       );
-    final bottomStraightFixtureDef = FixtureDef(bottomStraightShape);
+    final bottomStraightFixtureDef = FixtureDef(
+      bottomStraightShape,
+      restitution: restitution,
+    );
     fixturesDef.add(bottomStraightFixtureDef);
 
     return fixturesDef;
@@ -180,19 +195,13 @@ class _DinoBottomWall extends BodyComponent with InitialPosition {
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition
-      ..type = BodyType.static;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
 
     final body = world.createBody(bodyDef);
-    _createFixtureDefs().forEach(
-      (fixture) => body.createFixture(
-        fixture
-          ..restitution = 0.1
-          ..friction = 0,
-      ),
-    );
+    _createFixtureDefs().forEach(body.createFixture);
 
     return body;
   }

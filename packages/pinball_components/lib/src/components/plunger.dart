@@ -33,11 +33,12 @@ class Plunger extends BodyComponent with InitialPosition, Layered {
 
     final fixtureDef = FixtureDef(shape)..density = 80;
 
-    final bodyDef = BodyDef()
-      ..position = initialPosition
-      ..userData = this
-      ..type = BodyType.dynamic
-      ..gravityScale = Vector2.zero();
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+      type: BodyType.dynamic,
+      gravityScale: Vector2.zero(),
+    );
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }

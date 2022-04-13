@@ -90,10 +90,10 @@ class SparkyBumper extends BodyComponent with InitialPosition {
       majorRadius: _majorRadius,
       minorRadius: _minorRadius,
     )..rotate(math.pi / 2.1);
-    final fixtureDef = FixtureDef(shape)
-      ..friction = 0
-      ..restitution = 4;
-
+    final fixtureDef = FixtureDef(
+      shape,
+      restitution: 4,
+    );
     final bodyDef = BodyDef()
       ..position = initialPosition
       ..userData = this;
