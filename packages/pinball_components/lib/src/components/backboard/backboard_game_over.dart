@@ -2,10 +2,13 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flame/components.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:pinball_components/pinball_components.dart';
+
+/// Signature for the callback called when the used has
+/// submettied their initials on the [BackboardGameOver]
+typedef BackboardOnSubmit = void Function(String);
 
 /// {@template backboard_game_over}
 /// [PositionComponent] that handles the user input on the
@@ -15,9 +18,12 @@ class BackboardGameOver extends PositionComponent with HasGameRef {
   /// {@macro backboard_game_over}
   BackboardGameOver({
     required int score,
-  }) : _score = score;
+    required BackboardOnSubmit onSubmit,
+  })  : _score = score,
+        _onSubmit = onSubmit;
 
   final int _score;
+  final BackboardOnSubmit _onSubmit;
 
   final _numberFormat = NumberFormat('#,###,###');
 
@@ -83,10 +89,22 @@ class BackboardGameOver extends PositionComponent with HasGameRef {
           keyUp: {
             LogicalKeyboardKey.arrowLeft: () => _movePrompt(true),
             LogicalKeyboardKey.arrowRight: () => _movePrompt(false),
+            LogicalKeyboardKey.enter: _submit,
           },
         ),
       ),
     );
+  }
+
+  /// Returns the current inputed initials
+  String get initials => children
+      .whereType<BackboardLetterPrompt>()
+      .map((prompt) => prompt.char)
+      .join();
+
+  bool _submit() {
+    _onSubmit(initials);
+    return true;
   }
 
   bool _movePrompt(bool left) {

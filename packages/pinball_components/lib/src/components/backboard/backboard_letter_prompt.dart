@@ -75,6 +75,9 @@ class BackboardLetterPrompt extends PositionComponent {
     );
   }
 
+  /// Returns the current selected character
+  String get char => String.fromCharCode(_alphabetCode + _charIndex);
+
   bool _cycle(bool up) {
     if (_hasFocus) {
       final newCharCode =

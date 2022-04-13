@@ -37,8 +37,7 @@ class Backboard extends PositionComponent with HasGameRef {
   factory Backboard.waiting({
     required Vector2 position,
   }) {
-    return Backboard(position: position)
-        ..waitingMode();
+    return Backboard(position: position)..waitingMode();
   }
 
   /// {@macro backboard}
@@ -47,9 +46,13 @@ class Backboard extends PositionComponent with HasGameRef {
   factory Backboard.gameOver({
     required Vector2 position,
     required int score,
+    required BackboardOnSubmit onSubmit,
   }) {
     return Backboard(position: position)
-        ..gameOverMode(score: score);
+      ..gameOverMode(
+        score: score,
+        onSubmit: onSubmit,
+      );
   }
 
   /// Puts the Backboard in waiting mode, where the scoreboard is shown.
@@ -59,8 +62,14 @@ class Backboard extends PositionComponent with HasGameRef {
   }
 
   /// Puts the Backboard in game over mode, where the score input is shown.
-  Future<void> gameOverMode({ required int score}) async {
+  Future<void> gameOverMode({
+    required int score,
+    required BackboardOnSubmit onSubmit,
+  }) async {
     children.removeWhere((element) => true);
-    await add(BackboardGameOver(score: score));
+    await add(BackboardGameOver(
+      score: score,
+      onSubmit: onSubmit,
+    ));
   }
 }

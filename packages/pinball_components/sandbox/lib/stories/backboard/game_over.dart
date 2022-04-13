@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 
@@ -21,6 +22,15 @@ class BackboardGameOverGame extends BasicKeyboardGame {
       Backboard.gameOver(
         position: Vector2(0, 20),
         score: score,
+        onSubmit: (initials) {
+          add(
+            ScoreText(
+              text: 'User $initials made $score',
+              position: Vector2(0, 50),
+              color: Colors.pink,
+            ),
+          );
+        },
       ),
     );
   }

@@ -1,5 +1,4 @@
 import 'package:flame/components.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 /// The signature for a key handle function
@@ -9,13 +8,12 @@ typedef KeyHandlerCallback = bool Function();
 /// A that receives keyboard input and execute registered methods
 /// {@endtemplate}
 class KeyboardInputController extends Component with KeyboardHandler {
-
   /// {@macro keyboard_input_controller}
   KeyboardInputController({
     Map<LogicalKeyboardKey, KeyHandlerCallback> keyUp = const {},
     Map<LogicalKeyboardKey, KeyHandlerCallback> keyDown = const {},
-  }) : _keyUp = keyUp,
-     _keyDown = keyDown;
+  })  : _keyUp = keyUp,
+        _keyDown = keyDown;
 
   final Map<LogicalKeyboardKey, KeyHandlerCallback> _keyUp;
   final Map<LogicalKeyboardKey, KeyHandlerCallback> _keyDown;
