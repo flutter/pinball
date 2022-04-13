@@ -13,7 +13,7 @@ class Boundaries extends Forge2DBlueprint {
     final bottomBoundary = _BottomBoundary();
     final outerBoundary = _OuterBoundary();
 
-    addAll([bottomBoundary, outerBoundary]);
+    addAll([outerBoundary, bottomBoundary]);
   }
 }
 

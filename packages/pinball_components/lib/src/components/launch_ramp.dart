@@ -17,20 +17,21 @@ class LaunchRamp extends Forge2DBlueprint {
       RampOpeningBallContactCallback<_LaunchRampExit>(),
     ]);
 
-    final launchRampBase = _LaunchRampBase()..layer = Layer.launcher;
+    final launchRampBase = _LaunchRampBase();
 
-    final launchRampForegroundRailing = _LaunchRampForegroundRailing()
-      ..layer = Layer.launcher;
+    final launchRampForegroundRailing = _LaunchRampForegroundRailing();
 
     final launchRampExit = _LaunchRampExit(rotation: math.pi / 2)
-      ..initialPosition = Vector2(1.8, 34.2)
-      ..layer = Layer.opening
-      ..renderBody = false;
+      ..initialPosition = Vector2(0.6, 34);
+
+    final launchRampCloseWall = _LaunchRampCloseWall()
+      ..initialPosition = Vector2(4, 66.5);
 
     addAll([
       launchRampBase,
       launchRampForegroundRailing,
       launchRampExit,
+      launchRampCloseWall,
     ]);
   }
 }
@@ -40,10 +41,7 @@ class LaunchRamp extends Forge2DBlueprint {
 /// {@endtemplate}
 class _LaunchRampBase extends BodyComponent with InitialPosition, Layered {
   /// {@macro launch_ramp_base}
-  _LaunchRampBase()
-      : super(
-          priority: PinballPriority.launchRamp,
-        ) {
+  _LaunchRampBase() : super(priority: PinballPriority.launchRamp) {
     layer = Layer.launcher;
   }
 
@@ -143,15 +141,10 @@ class _LaunchRampBaseSpriteComponent extends SpriteComponent with HasGameRef {
 /// Foreground railing for the [_LaunchRampBase] to render in front of the
 /// [Ball].
 /// {@endtemplate}
-class _LaunchRampForegroundRailing extends BodyComponent
-    with InitialPosition, Layered {
+class _LaunchRampForegroundRailing extends BodyComponent with InitialPosition {
   /// {@macro launch_ramp_foreground_railing}
   _LaunchRampForegroundRailing()
-      : super(
-          priority: PinballPriority.launchRampForegroundRailing,
-        ) {
-    layer = Layer.launcher;
-  }
+      : super(priority: PinballPriority.launchRampForegroundRailing);
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
@@ -221,6 +214,26 @@ class _LaunchRampForegroundRailingSpriteComponent extends SpriteComponent
   }
 }
 
+class _LaunchRampCloseWall extends BodyComponent with InitialPosition, Layered {
+  _LaunchRampCloseWall() {
+    layer = Layer.board;
+    renderBody = false;
+  }
+
+  @override
+  Body createBody() {
+    final shape = EdgeShape()..set(Vector2.zero(), Vector2(0, 4));
+
+    final fixtureDef = FixtureDef(shape);
+
+    final bodyDef = BodyDef()
+      ..userData = this
+      ..position = initialPosition;
+
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
+  }
+}
+
 /// {@template launch_ramp_exit}
 /// [RampOpening] with [Layer.launcher] to filter [Ball]s exiting the
 /// [LaunchRamp].
@@ -232,9 +245,14 @@ class _LaunchRampExit extends RampOpening {
   })  : _rotation = rotation,
         super(
           insideLayer: Layer.launcher,
+          outsideLayer: Layer.board,
           orientation: RampOrientation.down,
           insidePriority: PinballPriority.ballOnLaunchRamp,
-        );
+          outsidePriority: PinballPriority.ballOnBoard,
+        ) {
+    layer = Layer.launcher;
+    renderBody = false;
+  }
 
   final double _rotation;
 
