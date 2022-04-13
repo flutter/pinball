@@ -57,8 +57,8 @@ void main() {
           );
           await game.ensureAddAll([leftBaseboard, rightBaseboard]);
 
-          expect(leftBaseboard.body.angle, isNegative);
-          expect(rightBaseboard.body.angle, isPositive);
+          expect(leftBaseboard.body.angle, isPositive);
+          expect(rightBaseboard.body.angle, isNegative);
         },
       );
     });

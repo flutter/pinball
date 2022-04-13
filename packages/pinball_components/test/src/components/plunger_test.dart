@@ -69,7 +69,7 @@ void main() {
           );
           await game.ensureAdd(plunger);
 
-          expect(plunger.body.gravityScale, isZero);
+          expect(plunger.body.gravityScale, equals(Vector2.zero()));
         },
       );
     });
@@ -124,7 +124,7 @@ void main() {
           await game.ensureAdd(plunger);
           plunger.pull();
 
-          expect(plunger.body.linearVelocity.y, isNegative);
+          expect(plunger.body.linearVelocity.y, isPositive);
           expect(plunger.body.linearVelocity.x, isZero);
         },
       );
@@ -143,10 +143,10 @@ void main() {
           'moves upwards when release is called '
           'and plunger is below its starting position', (game) async {
         await game.ensureAdd(plunger);
-        plunger.body.setTransform(Vector2(0, -1), 0);
+        plunger.body.setTransform(Vector2(0, 1), 0);
         plunger.release();
 
-        expect(plunger.body.linearVelocity.y, isPositive);
+        expect(plunger.body.linearVelocity.y, isNegative);
         expect(plunger.body.linearVelocity.x, isZero);
       });
 
@@ -180,7 +180,7 @@ void main() {
 
         expect(
           plungerAnchor.body.position.y,
-          equals(plunger.body.position.y - compressionDistance),
+          equals(plunger.body.position.y + compressionDistance),
         );
       },
     );
@@ -297,7 +297,7 @@ void main() {
         await tester.pump(const Duration(seconds: 1));
       },
       verify: (game, tester) async {
-        expect(plunger.body.position.y > anchor.body.position.y, isTrue);
+        expect(plunger.body.position.y < anchor.body.position.y, isTrue);
       },
     );
 

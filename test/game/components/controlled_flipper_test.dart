@@ -42,7 +42,7 @@ void main() {
               await game.add(flipper);
               controller.onKeyEvent(event, {});
 
-              expect(flipper.body.linearVelocity.y, isPositive);
+              expect(flipper.body.linearVelocity.y, isNegative);
               expect(flipper.body.linearVelocity.x, isZero);
             },
           );
@@ -57,7 +57,7 @@ void main() {
               await game.add(flipper);
               controller.onKeyEvent(event, {});
 
-              expect(flipper.body.linearVelocity.y, isNegative);
+              expect(flipper.body.linearVelocity.y, isPositive);
               expect(flipper.body.linearVelocity.x, isZero);
             },
           );
@@ -67,21 +67,6 @@ void main() {
           flameTester.test(
             'does nothing '
             'when ${event.logicalKey.keyLabel} is released',
-            (game) async {
-              await game.ready();
-              await game.add(flipper);
-              controller.onKeyEvent(event, {});
-
-              expect(flipper.body.linearVelocity.y, isZero);
-              expect(flipper.body.linearVelocity.x, isZero);
-            },
-          );
-        });
-
-        testRawKeyDownEvents(rightKeys, (event) {
-          flameTester.test(
-            'does nothing '
-            'when ${event.logicalKey.keyLabel} is pressed',
             (game) async {
               await game.ready();
               await game.add(flipper);
@@ -113,7 +98,7 @@ void main() {
               await game.add(flipper);
               controller.onKeyEvent(event, {});
 
-              expect(flipper.body.linearVelocity.y, isPositive);
+              expect(flipper.body.linearVelocity.y, isNegative);
               expect(flipper.body.linearVelocity.x, isZero);
             },
           );
@@ -128,7 +113,7 @@ void main() {
               await game.add(flipper);
               controller.onKeyEvent(event, {});
 
-              expect(flipper.body.linearVelocity.y, isNegative);
+              expect(flipper.body.linearVelocity.y, isPositive);
               expect(flipper.body.linearVelocity.x, isZero);
             },
           );
@@ -138,21 +123,6 @@ void main() {
           flameTester.test(
             'does nothing '
             'when ${event.logicalKey.keyLabel} is released',
-            (game) async {
-              await game.ready();
-              await game.add(flipper);
-              controller.onKeyEvent(event, {});
-
-              expect(flipper.body.linearVelocity.y, isZero);
-              expect(flipper.body.linearVelocity.x, isZero);
-            },
-          );
-        });
-
-        testRawKeyDownEvents(leftKeys, (event) {
-          flameTester.test(
-            'does nothing '
-            'when ${event.logicalKey.keyLabel} is pressed',
             (game) async {
               await game.ready();
               await game.add(flipper);
