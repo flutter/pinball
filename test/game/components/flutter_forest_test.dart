@@ -96,14 +96,13 @@ void main() {
         'add Scored event',
         setUp: (game, tester) async {
           final flutterForest = FlutterForest();
-          await game.ensureAdd(flutterForest);
-          await game.ensureAdd(ball);
+          await game.ensureAddAll([
+            flutterForest,
+            ball,
+          ]);
           game.addContactCallback(BallScorePointsCallback(game));
 
-          final bumpers = flutterForest
-              .descendants()
-              .whereType<DashNestBumper>()
-              .whereType<ScorePoints>();
+          final bumpers = flutterForest.descendants().whereType<ScorePoints>();
 
           for (final bumper in bumpers) {
             beginContact(game, bumper, ball);
