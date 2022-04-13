@@ -29,13 +29,13 @@ abstract class RampOpening extends BodyComponent with InitialPosition, Layered {
   RampOpening({
     required Layer insideLayer,
     Layer? outsideLayer,
-    int? insidePriority,
+    required int insidePriority,
     int? outsidePriority,
     required this.orientation,
   })  : _insideLayer = insideLayer,
         _outsideLayer = outsideLayer ?? Layer.board,
-        _insidePriority = insidePriority ?? 0,
-        _outsidePriority = outsidePriority ?? 0 {
+        _insidePriority = insidePriority,
+        _outsidePriority = outsidePriority ?? Ball.boardPriority {
     layer = Layer.opening;
   }
   final Layer _insideLayer;
