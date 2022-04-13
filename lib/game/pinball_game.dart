@@ -82,7 +82,7 @@ class PinballGame extends Forge2DGame
 
   Future<void> _addBonusWord() async {
     await add(
-      BonusWord(
+      GoogleWord(
         position: Vector2(
           BoardDimensions.bounds.center.dx - 4.1,
           BoardDimensions.bounds.center.dy + 1.8,

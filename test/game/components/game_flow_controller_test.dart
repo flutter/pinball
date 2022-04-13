@@ -15,7 +15,6 @@ void main() {
         final state = GameState(
           score: 10,
           balls: 0,
-          activatedBonusLetters: const [],
           bonusHistory: const [],
           activatedDashNests: const {},
         );
@@ -61,7 +60,6 @@ void main() {
             GameState(
               score: 10,
               balls: 0,
-              activatedBonusLetters: const [],
               bonusHistory: const [],
               activatedDashNests: const {},
             ),

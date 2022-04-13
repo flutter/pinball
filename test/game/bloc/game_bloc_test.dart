@@ -21,7 +21,6 @@ void main() {
           const GameState(
             score: 0,
             balls: 2,
-            activatedBonusLetters: [],
             activatedDashNests: {},
             bonusHistory: [],
           ),
@@ -41,14 +40,12 @@ void main() {
           const GameState(
             score: 2,
             balls: 3,
-            activatedBonusLetters: [],
             activatedDashNests: {},
             bonusHistory: [],
           ),
           const GameState(
             score: 5,
             balls: 3,
-            activatedBonusLetters: [],
             activatedDashNests: {},
             bonusHistory: [],
           ),
@@ -69,120 +66,20 @@ void main() {
           const GameState(
             score: 0,
             balls: 2,
-            activatedBonusLetters: [],
             activatedDashNests: {},
             bonusHistory: [],
           ),
           const GameState(
             score: 0,
             balls: 1,
-            activatedBonusLetters: [],
             activatedDashNests: {},
             bonusHistory: [],
           ),
           const GameState(
             score: 0,
             balls: 0,
-            activatedBonusLetters: [],
             activatedDashNests: {},
             bonusHistory: [],
-          ),
-        ],
-      );
-    });
-
-    group('BonusLetterActivated', () {
-      blocTest<GameBloc, GameState>(
-        'adds the letter to the state',
-        build: GameBloc.new,
-        act: (bloc) => bloc
-          ..add(const BonusLetterActivated(0))
-          ..add(const BonusLetterActivated(1))
-          ..add(const BonusLetterActivated(2)),
-        expect: () => const [
-          GameState(
-            score: 0,
-            balls: 3,
-            activatedBonusLetters: [0],
-            activatedDashNests: {},
-            bonusHistory: [],
-          ),
-          GameState(
-            score: 0,
-            balls: 3,
-            activatedBonusLetters: [0, 1],
-            activatedDashNests: {},
-            bonusHistory: [],
-          ),
-          GameState(
-            score: 0,
-            balls: 3,
-            activatedBonusLetters: [0, 1, 2],
-            activatedDashNests: {},
-            bonusHistory: [],
-          ),
-        ],
-      );
-
-      blocTest<GameBloc, GameState>(
-        'adds the bonus when the bonusWord is completed',
-        build: GameBloc.new,
-        act: (bloc) => bloc
-          ..add(const BonusLetterActivated(0))
-          ..add(const BonusLetterActivated(1))
-          ..add(const BonusLetterActivated(2))
-          ..add(const BonusLetterActivated(3))
-          ..add(const BonusLetterActivated(4))
-          ..add(const BonusLetterActivated(5)),
-        expect: () => const [
-          GameState(
-            score: 0,
-            balls: 3,
-            activatedBonusLetters: [0],
-            activatedDashNests: {},
-            bonusHistory: [],
-          ),
-          GameState(
-            score: 0,
-            balls: 3,
-            activatedBonusLetters: [0, 1],
-            activatedDashNests: {},
-            bonusHistory: [],
-          ),
-          GameState(
-            score: 0,
-            balls: 3,
-            activatedBonusLetters: [0, 1, 2],
-            activatedDashNests: {},
-            bonusHistory: [],
-          ),
-          GameState(
-            score: 0,
-            balls: 3,
-            activatedBonusLetters: [0, 1, 2, 3],
-            activatedDashNests: {},
-            bonusHistory: [],
-          ),
-          GameState(
-            score: 0,
-            balls: 3,
-            activatedBonusLetters: [0, 1, 2, 3, 4],
-            activatedDashNests: {},
-            bonusHistory: [],
-          ),
-          GameState(
-            score: 0,
-            balls: 3,
-            activatedBonusLetters: [],
-            activatedDashNests: {},
-            bonusHistory: [GameBonus.word],
-          ),
-          GameState(
-            score: GameBloc.bonusWordScore,
-            balls: 3,
-            activatedBonusLetters: [],
-            activatedDashNests: {},
-            bonusHistory: [GameBonus.word],
           ),
         ],
       );
@@ -200,21 +97,18 @@ void main() {
           GameState(
             score: 0,
             balls: 3,
-            activatedBonusLetters: [],
             activatedDashNests: {'0'},
             bonusHistory: [],
           ),
           GameState(
             score: 0,
             balls: 3,
-            activatedBonusLetters: [],
             activatedDashNests: {'0', '1'},
             bonusHistory: [],
           ),
           GameState(
             score: 0,
             balls: 4,
-            activatedBonusLetters: [],
             activatedDashNests: {},
             bonusHistory: [GameBonus.dashNest],
           ),
@@ -231,7 +125,6 @@ void main() {
           GameState(
             score: 0,
             balls: 3,
-            activatedBonusLetters: [],
             activatedDashNests: {},
             bonusHistory: [GameBonus.sparkyTurboCharge],
           ),
