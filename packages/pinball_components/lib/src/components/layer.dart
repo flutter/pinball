@@ -88,7 +88,7 @@ extension LayerMaskBits on Layer {
       case Layer.spaceshipEntranceRamp:
         return 0x0002;
       case Layer.launcher:
-        return 0x0005;
+        return 0x0008;
       case Layer.spaceship:
         return 0x000A;
       case Layer.spaceshipExitRail:
