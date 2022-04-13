@@ -15,17 +15,15 @@ void main() {
       'renders correctly',
       setUp: (game, tester) async {
         await game.addFromBlueprint(LaunchRamp());
-        await game.ready();
         game.camera.followVector2(Vector2.zero());
         game.camera.zoom = 4.1;
       },
-      // TODO(allisonryan0002): enable test when workflows are fixed.
-      // verify: (game, tester) async {
-      //   await expectLater(
-      //     find.byGame<Forge2DGame>(),
-      //     matchesGoldenFile('golden/launch-ramp.png'),
-      //   );
-      // },
+      verify: (game, tester) async {
+        await expectLater(
+          find.byGame<TestGame>(),
+          matchesGoldenFile('golden/launch-ramp.png'),
+        );
+      },
     );
   });
 }

@@ -17,19 +17,15 @@ void main() {
     flameTester.testGameWidget(
       'renders correctly',
       setUp: (game, tester) async {
-        await game.add(
-          Plunger(
-            compressionDistance: compressionDistance,
-          ),
-        );
-        await game.ready();
+        await game.ensureAdd(Plunger(compressionDistance: compressionDistance));
+
         game.camera.followVector2(Vector2.zero());
         game.camera.zoom = 4.1;
       },
       verify: (game, tester) async {
         await expectLater(
-          find.byGame<Forge2DGame>(),
-          matchesGoldenFile('golden/plunger/plunger.png'),
+          find.byGame<TestGame>(),
+          matchesGoldenFile('golden/plunger.png'),
         );
       },
     );

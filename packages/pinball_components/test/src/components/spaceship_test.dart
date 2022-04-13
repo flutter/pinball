@@ -44,15 +44,12 @@ void main() {
         'renders correctly',
         setUp: (game, tester) async {
           await game.addFromBlueprint(Spaceship(position: Vector2(30, -30)));
-          await game.ready();
-          await tester.pump();
         },
         verify: (game, tester) async {
-          // FIXME(erickzanardo): Failing pipeline.
-          // await expectLater(
-          //   find.byGame<Forge2DGame>(),
-          //   matchesGoldenFile('golden/spaceship.png'),
-          // );
+          await expectLater(
+            find.byGame<TestGame>(),
+            matchesGoldenFile('golden/spaceship.png'),
+          );
         },
       );
     });

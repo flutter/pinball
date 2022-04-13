@@ -21,17 +21,15 @@ void main() {
           side: BoardSide.right,
         )..initialPosition = Vector2(20, 0);
 
-        await game.addAll([leftKicker, rightKicker]);
-        await game.ready();
+        await game.ensureAddAll([leftKicker, rightKicker]);
         game.camera.followVector2(Vector2.zero());
       },
-      // TODO(ruimiguel): enable test when workflows are fixed.
-      //verify: (game, tester) async {
-      //  await expectLater(
-      //    find.byGame<Forge2DGame>(),
-      //    matchesGoldenFile('golden/kickers.png'),
-      //  );
-      //},
+      verify: (game, tester) async {
+        await expectLater(
+          find.byGame<TestGame>(),
+          matchesGoldenFile('golden/kickers.png'),
+        );
+      },
     );
 
     flameTester.test(
