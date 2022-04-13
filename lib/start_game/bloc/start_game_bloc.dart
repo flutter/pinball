@@ -14,14 +14,14 @@ class StartGameBloc extends Bloc<StartGameEvent, StartGameState> {
     required PinballGame game,
   })  : _game = game,
         super(const StartGameState.initial()) {
-    on<PlayTapped>(_onStartGame);
+    on<PlayTapped>(_onPlayTapped);
     on<CharacterSelected>(_onCharacterSelected);
     on<HowToPlayFinished>(_onHowToPlayFinished);
   }
 
   final PinballGame _game;
 
-  void _onStartGame(
+  void _onPlayTapped(
     PlayTapped event,
     Emitter<StartGameState> emit,
   ) {
