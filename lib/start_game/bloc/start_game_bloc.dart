@@ -6,7 +6,7 @@ part 'start_game_event.dart';
 part 'start_game_state.dart';
 
 /// {@template start_game_bloc}
-/// Bloc which allows to control user state before launch the game.
+/// Bloc that manages the app flow before the game starts.
 /// {@endtemplate}
 class StartGameBloc extends Bloc<StartGameEvent, StartGameState> {
   /// {@macro start_game_bloc}
@@ -14,22 +14,22 @@ class StartGameBloc extends Bloc<StartGameEvent, StartGameState> {
     required PinballGame game,
   })  : _game = game,
         super(const StartGameState.initial()) {
-    on<SelectCharacter>(_onSelectCharacter);
+    on<StartGame>(_onStartGame);
     on<HowToPlay>(_onHowToPlay);
     on<Play>(_onPlay);
   }
 
   final PinballGame _game;
 
-  void _onSelectCharacter(
-    SelectCharacter event,
+  void _onStartGame(
+    StartGame event,
     Emitter<StartGameState> emit,
   ) {
     _game.gameFlowController.start();
 
     emit(
       state.copyWith(
-        status: StartGameStatus.selectCharacter,
+        status: StartGameStatus.startGame,
       ),
     );
   }

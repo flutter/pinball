@@ -1,14 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pinball/game/bloc/start_game_bloc.dart';
+import 'package:pinball/start_game/bloc/start_game_bloc.dart';
 
 void main() {
   group('StartGameEvent', () {
-    test('SelectCharacter supports value equality', () {
+    test('StartGame supports value equality', () {
       expect(
-        SelectCharacter(),
-        equals(SelectCharacter()),
+        StartGame(),
+        equals(StartGame()),
       );
     });
 

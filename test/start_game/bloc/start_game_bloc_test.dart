@@ -1,12 +1,10 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pinball/game/bloc/start_game_bloc.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/start_game/bloc/start_game_bloc.dart';
 
-class MockPinballGame extends Mock implements PinballGame {}
-
-class MockGameFlowController extends Mock implements GameFlowController {}
+import '../../helpers/helpers.dart';
 
 void main() {
   late PinballGame pinballGame;
@@ -23,14 +21,14 @@ void main() {
 
   group('StartGameBloc', () {
     blocTest<StartGameBloc, StartGameState>(
-      'on SelectCharacter changes status to selectCharacter',
+      'on StartGame changes status to StartGame',
       build: () => StartGameBloc(
         game: pinballGame,
       ),
-      act: (bloc) => bloc.add(const SelectCharacter()),
+      act: (bloc) => bloc.add(const StartGame()),
       expect: () => [
         const StartGameState(
-          status: StartGameStatus.selectCharacter,
+          status: StartGameStatus.startGame,
         )
       ],
     );

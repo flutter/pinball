@@ -1,7 +1,7 @@
 part of 'start_game_bloc.dart';
 
 /// {@template start_game_event}
-/// Event added when user is staring the game.
+/// Event added during the start game flow.
 /// {@endtemplate}
 abstract class StartGameEvent extends Equatable {
   /// {@macro start_game_event}
@@ -11,9 +11,9 @@ abstract class StartGameEvent extends Equatable {
 /// {@template select_character}
 /// Select character event.
 /// {@endtemplate}
-class SelectCharacter extends StartGameEvent {
+class StartGame extends StartGameEvent {
   /// {@macro select_character}
-  const SelectCharacter();
+  const StartGame();
 
   @override
   List<Object> get props => [];

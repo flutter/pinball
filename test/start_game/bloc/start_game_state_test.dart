@@ -1,12 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pinball/game/bloc/start_game_bloc.dart';
+import 'package:pinball/start_game/bloc/start_game_bloc.dart';
 
 void main() {
   group('StartGameState', () {
     final testState = StartGameState(
-      status: StartGameStatus.selectCharacter,
+      status: StartGameStatus.startGame,
     );
 
     test('initial state has correct values', () {
@@ -19,7 +19,7 @@ void main() {
 
     test('supports value equality', () {
       final secondState = StartGameState(
-        status: StartGameStatus.selectCharacter,
+        status: StartGameStatus.startGame,
       );
 
       expect(testState, secondState);
@@ -35,7 +35,7 @@ void main() {
       expect(
         testState.props,
         equals([
-          StartGameStatus.selectCharacter,
+          StartGameStatus.startGame,
         ]),
       );
     });

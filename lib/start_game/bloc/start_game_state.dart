@@ -6,7 +6,7 @@ enum StartGameStatus {
   initial,
 
   /// Selection characters status.
-  selectCharacter,
+  startGame,
 
   /// How to play status.
   howToPlay,
@@ -16,7 +16,7 @@ enum StartGameStatus {
 }
 
 /// {@template start_game_state}
-/// Represents the state of flow before launch the game.
+/// Represents the state of flow before the game starts.
 /// {@endtemplate}
 class StartGameState extends Equatable {
   /// {@macro start_game_state}
