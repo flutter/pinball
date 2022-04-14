@@ -95,14 +95,6 @@ void main() {
       });
 
       flameTester.test(
-        'one SparkyFireZone',
-        (game) async {
-          await game.ready();
-          expect(game.children.whereType<SparkyFireZone>().length, equals(1));
-        },
-      );
-
-      flameTester.test(
         'one AlienZone',
         (game) async {
           await game.ready();
