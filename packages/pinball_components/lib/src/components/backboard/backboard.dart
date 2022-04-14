@@ -16,9 +16,7 @@ class Backboard extends PositionComponent with HasGameRef {
   Backboard({
     required Vector2 position,
   }) : super(
-          // TODO(erickzanardo): remove multiply after
-          // https://github.com/flame-engine/flame/pull/1506 is merged
-          position: position..clone().multiply(Vector2(1, -1)),
+          position: position,
           anchor: Anchor.bottomCenter,
         );
 
