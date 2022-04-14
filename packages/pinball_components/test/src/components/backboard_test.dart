@@ -101,7 +101,7 @@ void main() {
 
       String? submitedInitials;
       tester.testGameWidget(
-        'submits the initial',
+        'submits the initials',
         setUp: (game, tester) async {
           final backboard = Backboard.gameOver(
             position: Vector2(0, 15),
@@ -147,7 +147,7 @@ void main() {
     );
 
     tester.testGameWidget(
-      "does nothing when don't have focus",
+      "does nothing when it doesn't have focus",
       setUp: (game, tester) async {
         await game.ensureAdd(
           BackboardLetterPrompt(position: Vector2.zero()),
@@ -162,7 +162,7 @@ void main() {
     );
 
     tester.testGameWidget(
-      'blinks the promp when have focus',
+      'blinks the prompt when it has the focus',
       setUp: (game, tester) async {
         await game.ensureAdd(
           BackboardLetterPrompt(position: Vector2.zero(), hasFocus: true),

@@ -55,7 +55,7 @@ class Backboard extends PositionComponent with HasGameRef {
 
   /// Puts the Backboard in waiting mode, where the scoreboard is shown.
   Future<void> waitingMode() async {
-    children.removeWhere((element) => true);
+    children.removeWhere((_) => true);
     await add(BackboardWaiting());
   }
 
@@ -64,7 +64,7 @@ class Backboard extends PositionComponent with HasGameRef {
     required int score,
     BackboardOnSubmit? onSubmit,
   }) async {
-    children.removeWhere((element) => true);
+    children.removeWhere((_) => true);
     await add(
       BackboardGameOver(
         score: score,
