@@ -1,4 +1,4 @@
-  import 'package:intl/intl.dart';
+import 'package:intl/intl.dart';
 
 final _numberFormat = NumberFormat('#,###,###');
 
