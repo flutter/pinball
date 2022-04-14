@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// Signature for the callback called when the used has
@@ -24,8 +23,6 @@ class BackboardGameOver extends PositionComponent with HasGameRef {
 
   final int _score;
   final BackboardOnSubmit? _onSubmit;
-
-  final _numberFormat = NumberFormat('#,###,###');
 
   @override
   Future<void> onLoad() async {
@@ -61,7 +58,7 @@ class BackboardGameOver extends PositionComponent with HasGameRef {
     unawaited(
       add(
         TextComponent(
-          text: _numberFormat.format(_score),
+          text: _score.formatScore(),
           position: Vector2(-22, -46.5),
           anchor: Anchor.center,
           textRenderer: Backboard.textPaint,
