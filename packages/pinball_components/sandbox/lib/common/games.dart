@@ -11,6 +11,9 @@ abstract class BasicGame extends Forge2DGame {
   }
 }
 
+abstract class BasicKeyboardGame extends BasicGame
+    with HasKeyboardHandlerComponents {}
+
 abstract class LineGame extends BasicGame with PanDetector {
   Vector2? _lineEnd;
 
