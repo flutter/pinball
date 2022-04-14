@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/services.dart';
@@ -12,6 +13,22 @@ import '../../helpers/helpers.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final flameTester = FlameTester(EmptyPinballGameTest.new);
+
+  final gameOverBlocTester = FlameBlocTester<EmptyPinballGameTest, GameBloc>(
+    gameBuilder: EmptyPinballGameTest.new,
+    blocBuilder: () {
+      final bloc = MockGameBloc();
+      const state = GameState(
+        score: 0,
+        balls: 0,
+        bonusHistory: [],
+        activatedBonusLetters: [],
+        activatedDashNests: {},
+      );
+      whenListen(bloc, Stream.value(state), initialState: state);
+      return bloc;
+    },
+  );
 
   group('PlungerController', () {
     group('onKeyEvent', () {
@@ -68,6 +85,20 @@ void main() {
             await game.ensureAdd(plunger);
             controller.onKeyEvent(event, {});
 
+            expect(plunger.body.linearVelocity.y, isZero);
+            expect(plunger.body.linearVelocity.x, isZero);
+          },
+        );
+      });
+
+      testRawKeyDownEvents(downKeys, (event) {
+        gameOverBlocTester.testGameWidget(
+          'does nothing when is game over',
+          setUp: (game, tester) async {
+            await game.ensureAdd(plunger);
+            controller.onKeyEvent(event, {});
+          },
+          verify: (game, tester) async {
             expect(plunger.body.linearVelocity.y, isZero);
             expect(plunger.body.linearVelocity.x, isZero);
           },
