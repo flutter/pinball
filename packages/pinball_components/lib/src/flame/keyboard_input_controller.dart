@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 typedef KeyHandlerCallback = bool Function();
 
 /// {@template keyboard_input_controller}
-/// A that receives keyboard input and execute registered methods
+/// A [Component] that receives keyboard input and executes registered methods.
 /// {@endtemplate}
 class KeyboardInputController extends Component with KeyboardHandler {
   /// {@macro keyboard_input_controller}
