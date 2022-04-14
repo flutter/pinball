@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-final _numberFormat = NumberFormat('#,###,###');
+final _numberFormat = NumberFormat('#,###');
 
 /// Adds score related extensions to int
 extension ScoreX on int {
