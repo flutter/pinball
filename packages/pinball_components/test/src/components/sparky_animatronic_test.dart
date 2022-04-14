@@ -56,8 +56,7 @@ void main() {
         await game.ensureAdd(sparkyAnimatronic);
 
         sparkyAnimatronic.playing = true;
-        sparkyAnimatronic.animation?.setToLast();
-        game.update(1);
+        game.update(3);
 
         expect(sparkyAnimatronic.playing, isFalse);
       },

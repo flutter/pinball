@@ -56,8 +56,7 @@ void main() {
         await game.ensureAdd(dashAnimatronic);
 
         dashAnimatronic.playing = true;
-        dashAnimatronic.animation?.setToLast();
-        game.update(1);
+        game.update(4);
 
         expect(dashAnimatronic.playing, isFalse);
       },
