@@ -9,7 +9,7 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(EmptyPinballGameTest.new);
+  final flameTester = FlameTester(EmptyPinballTestGame.new);
 
   group('Wall', () {
     flameTester.test(
@@ -110,7 +110,7 @@ void main() {
         });
 
         final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
-          gameBuilder: EmptyPinballGameTest.new,
+          gameBuilder: EmptyPinballTestGame.new,
           blocBuilder: () => gameBloc,
         );
 

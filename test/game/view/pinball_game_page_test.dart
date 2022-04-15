@@ -11,7 +11,7 @@ import '../../helpers/helpers.dart';
 
 void main() {
   const theme = PinballTheme(characterTheme: DashTheme());
-  final game = PinballGameTest();
+  final game = PinballTestGame();
 
   group('PinballGamePage', () {
     testWidgets('renders PinballGameView', (tester) async {
