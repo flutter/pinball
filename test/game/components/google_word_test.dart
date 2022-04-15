@@ -26,9 +26,9 @@ void main() {
       );
     });
 
-    final flameTester = FlameTester(EmptyPinballGameTest.new);
+    final flameTester = FlameTester(EmptyPinballTestGame.new);
     final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
-      gameBuilder: EmptyPinballGameTest.new,
+      gameBuilder: EmptyPinballTestGame.new,
       blocBuilder: () => gameBloc,
     );
 
