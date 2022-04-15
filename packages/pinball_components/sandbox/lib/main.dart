@@ -32,6 +32,7 @@ void main() {
   addGoogleWordStories(dashbook);
   addLaunchRampStories(dashbook);
   addScoreTextStories(dashbook);
+  addBackboardStories(dashbook);
 
   runApp(dashbook);
 }

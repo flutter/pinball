@@ -1,6 +1,8 @@
 import 'package:flame/components.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball/flame/flame.dart';
+import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template controlled_plunger}
@@ -18,7 +20,7 @@ class ControlledPlunger extends Plunger with Controls<PlungerController> {
 /// A [ComponentController] that controls a [Plunger]s movement.
 /// {@endtemplate}
 class PlungerController extends ComponentController<Plunger>
-    with KeyboardHandler {
+    with KeyboardHandler, BlocComponent<GameBloc, GameState> {
   /// {@macro plunger_controller}
   PlungerController(Plunger plunger) : super(plunger);
 
@@ -36,6 +38,7 @@ class PlungerController extends ComponentController<Plunger>
     RawKeyEvent event,
     Set<LogicalKeyboardKey> keysPressed,
   ) {
+    if (state?.isGameOver ?? false) return true;
     if (!_keys.contains(event.logicalKey)) return true;
 
     if (event is RawKeyDownEvent) {

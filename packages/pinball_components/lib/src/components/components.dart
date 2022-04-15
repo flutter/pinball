@@ -1,5 +1,5 @@
 export 'alien_bumper.dart';
-export 'backboard.dart';
+export 'backboard/backboard.dart';
 export 'ball.dart';
 export 'baseboard.dart';
 export 'board_dimensions.dart';
