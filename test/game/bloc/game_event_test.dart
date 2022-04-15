@@ -41,61 +41,51 @@ void main() {
       });
     });
 
-    group('BonusLetterActivated', () {
+    group('BonusActivated', () {
       test('can be instantiated', () {
-        expect(const BonusLetterActivated(0), isNotNull);
+        expect(const BonusActivated(GameBonus.dashNest), isNotNull);
       });
 
       test('supports value equality', () {
         expect(
-          BonusLetterActivated(0),
-          equals(BonusLetterActivated(0)),
+          BonusActivated(GameBonus.googleWord),
+          equals(const BonusActivated(GameBonus.googleWord)),
         );
         expect(
-          BonusLetterActivated(0),
-          isNot(equals(BonusLetterActivated(1))),
+          const BonusActivated(GameBonus.googleWord),
+          isNot(equals(const BonusActivated(GameBonus.dashNest))),
         );
       });
+    });
+  });
 
-      test(
-        'throws assertion error if index is bigger than the word length',
-        () {
-          expect(
-            () => BonusLetterActivated(8),
-            throwsAssertionError,
-          );
-        },
+  group('DashNestActivated', () {
+    test('can be instantiated', () {
+      expect(const DashNestActivated('0'), isNotNull);
+    });
+
+    test('supports value equality', () {
+      expect(
+        DashNestActivated('0'),
+        equals(DashNestActivated('0')),
+      );
+      expect(
+        DashNestActivated('0'),
+        isNot(equals(DashNestActivated('1'))),
       );
     });
+  });
 
-    group('DashNestActivated', () {
-      test('can be instantiated', () {
-        expect(const DashNestActivated('0'), isNotNull);
-      });
-
-      test('supports value equality', () {
-        expect(
-          DashNestActivated('0'),
-          equals(DashNestActivated('0')),
-        );
-        expect(
-          DashNestActivated('0'),
-          isNot(equals(DashNestActivated('1'))),
-        );
-      });
+  group('SparkyTurboChargeActivated', () {
+    test('can be instantiated', () {
+      expect(const SparkyTurboChargeActivated(), isNotNull);
     });
 
-    group('SparkyTurboChargeActivated', () {
-      test('can be instantiated', () {
-        expect(const SparkyTurboChargeActivated(), isNotNull);
-      });
-
-      test('supports value equality', () {
-        expect(
-          SparkyTurboChargeActivated(),
-          equals(SparkyTurboChargeActivated()),
-        );
-      });
+    test('supports value equality', () {
+      expect(
+        SparkyTurboChargeActivated(),
+        equals(SparkyTurboChargeActivated()),
+      );
     });
   });
 }

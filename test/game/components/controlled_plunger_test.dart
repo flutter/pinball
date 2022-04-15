@@ -22,7 +22,6 @@ void main() {
         score: 0,
         balls: 0,
         bonusHistory: [],
-        activatedBonusLetters: [],
         activatedDashNests: {},
       );
       whenListen(bloc, Stream.value(state), initialState: state);
