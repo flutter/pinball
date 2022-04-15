@@ -31,11 +31,6 @@ class MockContact extends Mock implements Contact {}
 class MockContactCallback extends Mock
     implements ContactCallback<Object, Object> {}
 
-class MockRampOpening extends Mock implements RampOpening {}
-
-class MockRampOpeningBallContactCallback extends Mock
-    implements RampOpeningBallContactCallback {}
-
 class MockGameBloc extends Mock implements GameBloc {}
 
 class MockGameState extends Mock implements GameState {}

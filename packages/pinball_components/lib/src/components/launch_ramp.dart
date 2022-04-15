@@ -14,7 +14,7 @@ class LaunchRamp extends Forge2DBlueprint {
   @override
   void build(_) {
     addAllContactCallback([
-      RampOpeningBallContactCallback<_LaunchRampExit>(),
+      LayerSensorBallContactCallback<_LaunchRampExit>(),
     ]);
 
     final launchRampBase = _LaunchRampBase();
@@ -235,10 +235,10 @@ class _LaunchRampCloseWall extends BodyComponent with InitialPosition, Layered {
 }
 
 /// {@template launch_ramp_exit}
-/// [RampOpening] with [Layer.launcher] to filter [Ball]s exiting the
+/// [LayerSensor] with [Layer.launcher] to filter [Ball]s exiting the
 /// [LaunchRamp].
 /// {@endtemplate}
-class _LaunchRampExit extends RampOpening {
+class _LaunchRampExit extends LayerSensor {
   /// {@macro launch_ramp_exit}
   _LaunchRampExit({
     required double rotation,
@@ -246,7 +246,7 @@ class _LaunchRampExit extends RampOpening {
         super(
           insideLayer: Layer.launcher,
           outsideLayer: Layer.board,
-          orientation: RampOrientation.down,
+          orientation: LayerEntranceOrientation.down,
           insidePriority: Ball.launchRampPriority,
           outsidePriority: 0,
         ) {
