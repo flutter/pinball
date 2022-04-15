@@ -14,7 +14,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final flameTester = FlameTester(EmptyPinballTestGame.new);
 
-  final gameOverBlocTester = FlameBlocTester<EmptyPinballTestGame, GameBloc>(
+  final flameBlocTester = FlameBlocTester<EmptyPinballTestGame, GameBloc>(
     gameBuilder: EmptyPinballTestGame.new,
     blocBuilder: () {
       final bloc = MockGameBloc();
@@ -91,7 +91,7 @@ void main() {
       });
 
       testRawKeyDownEvents(downKeys, (event) {
-        gameOverBlocTester.testGameWidget(
+        flameBlocTester.testGameWidget(
           'does nothing when is game over',
           setUp: (game, tester) async {
             await game.ensureAdd(plunger);
