@@ -28,7 +28,11 @@ class GameFlowController extends ComponentController<PinballGame>
 
   /// Puts the game on a game over state
   void gameOver() {
-    component.firstChild<Backboard>()?.gameOverMode();
+    // TODO(erickzanardo): implement score submission and "navigate" to the
+    // next page
+    component.firstChild<Backboard>()?.gameOverMode(
+          score: state?.score ?? 0,
+        );
     component.firstChild<CameraController>()?.focusOnBackboard();
   }
 

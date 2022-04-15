@@ -37,7 +37,7 @@ class ScoreEffectController extends ComponentController<PinballGame>
         text: newScore.toString(),
         position: Vector2(
           _noise(),
-          _noise() + (-BoardDimensions.bounds.topCenter.dy + 10),
+          _noise() + (BoardDimensions.bounds.topCenter.dy + 10),
         ),
       ),
     );

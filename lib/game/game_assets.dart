@@ -64,6 +64,7 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.googleWord.letter4.keyName),
       images.load(components.Assets.images.googleWord.letter5.keyName),
       images.load(components.Assets.images.googleWord.letter6.keyName),
+      images.load(components.Assets.images.backboard.display.keyName),
       images.load(Assets.images.components.background.path),
     ];
   }
