@@ -45,7 +45,7 @@ void main() {
     );
 
     flameBlocTester.testGameWidget(
-      'adds GameBonus.word to the game when all letters are activated',
+      'adds GameBonus.googleWord to the game when all letters are activated',
       setUp: (game, _) async {
         final ball = Ball(baseColor: const Color(0xFFFF0000));
         final googleWord = GoogleWord(position: Vector2.zero());
