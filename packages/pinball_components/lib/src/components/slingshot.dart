@@ -56,12 +56,12 @@ class Slingshot extends BodyComponent with InitialPosition {
 
     final topCircleShape = CircleShape()..radius = circleRadius;
     topCircleShape.position.setValues(0, -_length / 2);
-    final topCircleFixtureDef = FixtureDef(topCircleShape)..friction = 0;
+    final topCircleFixtureDef = FixtureDef(topCircleShape);
     fixturesDef.add(topCircleFixtureDef);
 
     final bottomCircleShape = CircleShape()..radius = circleRadius;
     bottomCircleShape.position.setValues(0, _length / 2);
-    final bottomCircleFixtureDef = FixtureDef(bottomCircleShape)..friction = 0;
+    final bottomCircleFixtureDef = FixtureDef(bottomCircleShape);
     fixturesDef.add(bottomCircleFixtureDef);
 
     final leftEdgeShape = EdgeShape()
@@ -69,9 +69,11 @@ class Slingshot extends BodyComponent with InitialPosition {
         Vector2(circleRadius, _length / 2),
         Vector2(circleRadius, -_length / 2),
       );
-    final leftEdgeShapeFixtureDef = FixtureDef(leftEdgeShape)
-      ..friction = 0
-      ..restitution = 5;
+    final leftEdgeShapeFixtureDef = FixtureDef(
+      leftEdgeShape,
+      restitution: 5,
+    );
+
     fixturesDef.add(leftEdgeShapeFixtureDef);
 
     final rightEdgeShape = EdgeShape()
@@ -79,9 +81,10 @@ class Slingshot extends BodyComponent with InitialPosition {
         Vector2(-circleRadius, _length / 2),
         Vector2(-circleRadius, -_length / 2),
       );
-    final rightEdgeShapeFixtureDef = FixtureDef(rightEdgeShape)
-      ..friction = 0
-      ..restitution = 5;
+    final rightEdgeShapeFixtureDef = FixtureDef(
+      rightEdgeShape,
+      restitution: 5,
+    );
     fixturesDef.add(rightEdgeShapeFixtureDef);
 
     return fixturesDef;
@@ -89,10 +92,11 @@ class Slingshot extends BodyComponent with InitialPosition {
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition
-      ..angle = _angle;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+      angle: _angle,
+    );
 
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);

@@ -64,11 +64,15 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   @override
   Body createBody() {
     final shape = CircleShape()..radius = size.x / 2;
-    final fixtureDef = FixtureDef(shape)..density = 1;
-    final bodyDef = BodyDef()
-      ..position = initialPosition
-      ..userData = this
-      ..type = BodyType.dynamic;
+    final fixtureDef = FixtureDef(
+      shape,
+      density: 1,
+    );
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+      type: BodyType.dynamic,
+    );
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }

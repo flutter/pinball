@@ -72,13 +72,14 @@ class AlienBumper extends BodyComponent with InitialPosition {
       majorRadius: _majorRadius,
       minorRadius: _minorRadius,
     )..rotate(1.29);
-    final fixtureDef = FixtureDef(shape)
-      ..friction = 0
-      ..restitution = 4;
-
-    final bodyDef = BodyDef()
-      ..position = initialPosition
-      ..userData = this;
+    final fixtureDef = FixtureDef(
+      shape,
+      restitution: 4,
+    );
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }

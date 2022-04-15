@@ -75,7 +75,6 @@ class _SpaceshipRampBackground extends BodyComponent
         Vector2(-14.2, -71.25),
       ],
     );
-
     final outerLeftCurveFixtureDef = FixtureDef(outerLeftCurveShape);
     fixturesDef.add(outerLeftCurveFixtureDef);
 
@@ -86,7 +85,6 @@ class _SpaceshipRampBackground extends BodyComponent
         Vector2(6.1, -44.9),
       ],
     );
-
     final outerRightCurveFixtureDef = FixtureDef(outerRightCurveShape);
     fixturesDef.add(outerRightCurveFixtureDef);
 
@@ -103,9 +101,10 @@ class _SpaceshipRampBackground extends BodyComponent
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
 
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
@@ -212,9 +211,10 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
 
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
@@ -266,10 +266,10 @@ class _SpaceshipRampBase extends BodyComponent with InitialPosition, Layered {
       ],
     );
     final fixtureDef = FixtureDef(baseShape);
-
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
