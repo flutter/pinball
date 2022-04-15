@@ -76,7 +76,7 @@ class PinballGameView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.blue,
       body: isLoading
-          ? _PinballGameLoadingView()
+          ? const PinballGameLoadedView()
           : PinballGameBody(
               game: game,
             ),
@@ -84,7 +84,10 @@ class PinballGameView extends StatelessWidget {
   }
 }
 
-class _PinballGameLoadingView extends StatelessWidget {
+@visibleForTesting
+class PinballGameLoadedView extends StatelessWidget {
+  const PinballGameLoadedView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final loadingProgress = context.select(
