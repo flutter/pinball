@@ -112,7 +112,6 @@ abstract class RenderPriority {
 }
 
 /// Helper methods to change the [priority] of a [Component].
-// TODO(allisonryan0002): we only use sendTo, can the other methods be removed?
 extension ComponentPriorityX on Component {
   static const _lowestPriority = 0;
 
