@@ -91,7 +91,7 @@ class Baseboard extends BodyComponent with InitialPosition {
     const angle = 37.1 * (math.pi / 180);
     final bodyDef = BodyDef(
       position: initialPosition,
-      angle: angle * _side.direction,
+      angle: -angle * _side.direction,
     );
 
     final body = world.createBody(bodyDef);
