@@ -11,13 +11,10 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   GameBloc() : super(const GameState.initial()) {
     on<BallLost>(_onBallLost);
     on<Scored>(_onScored);
-    on<BonusLetterActivated>(_onBonusLetterActivated);
+    on<BonusActivated>(_onBonusActivated);
     on<DashNestActivated>(_onDashNestActivated);
     on<SparkyTurboChargeActivated>(_onSparkyTurboChargeActivated);
   }
-
-  static const bonusWord = 'GOOGLE';
-  static const bonusWordScore = 10000;
 
   void _onBallLost(BallLost event, Emitter emit) {
     emit(state.copyWith(balls: state.balls - 1));
@@ -29,29 +26,12 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     }
   }
 
-  void _onBonusLetterActivated(BonusLetterActivated event, Emitter emit) {
-    final newBonusLetters = [
-      ...state.activatedBonusLetters,
-      event.letterIndex,
-    ];
-
-    final achievedBonus = newBonusLetters.length == bonusWord.length;
-    if (achievedBonus) {
-      emit(
-        state.copyWith(
-          activatedBonusLetters: [],
-          bonusHistory: [
-            ...state.bonusHistory,
-            GameBonus.word,
-          ],
-        ),
-      );
-      add(const Scored(points: bonusWordScore));
-    } else {
-      emit(
-        state.copyWith(activatedBonusLetters: newBonusLetters),
-      );
-    }
+  void _onBonusActivated(BonusActivated event, Emitter emit) {
+    emit(
+      state.copyWith(
+        bonusHistory: [...state.bonusHistory, event.bonus],
+      ),
+    );
   }
 
   void _onDashNestActivated(DashNestActivated event, Emitter emit) {

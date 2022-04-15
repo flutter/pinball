@@ -18,7 +18,9 @@ class FlutterSignPost extends BodyComponent with InitialPosition {
   Body createBody() {
     final shape = CircleShape()..radius = 0.25;
     final fixtureDef = FixtureDef(shape);
-    final bodyDef = BodyDef()..position = initialPosition;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+    );
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }

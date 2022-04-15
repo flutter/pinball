@@ -56,9 +56,10 @@ class _ComputerBase extends BodyComponent with InitialPosition {
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
 
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
