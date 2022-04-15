@@ -99,9 +99,11 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
             Vector2(smallCircleShape.position.x, -smallCircleShape.radius),
           ];
     final trapezium = PolygonShape()..set(trapeziumVertices);
-    final trapeziumFixtureDef = FixtureDef(trapezium)
-      ..density = 50.0 // TODO(alestiago): Use a proper density.
-      ..friction = .1; // TODO(alestiago): Use a proper friction.
+    final trapeziumFixtureDef = FixtureDef(
+      trapezium,
+      density: 50, // TODO(alestiago): Use a proper density.
+      friction: .1, // TODO(alestiago): Use a proper friction.
+    );
     fixturesDef.add(trapeziumFixtureDef);
 
     return fixturesDef;
@@ -118,10 +120,12 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()
-      ..position = initialPosition
-      ..gravityScale = Vector2.zero()
-      ..type = BodyType.dynamic;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      gravityScale: Vector2.zero(),
+      type: BodyType.dynamic,
+    );
+
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
 

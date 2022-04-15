@@ -89,10 +89,10 @@ class Baseboard extends BodyComponent with InitialPosition {
   @override
   Body createBody() {
     const angle = 37.1 * (math.pi / 180);
-
-    final bodyDef = BodyDef()
-      ..position = initialPosition
-      ..angle = _side.isLeft ? angle : -angle;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      angle: -angle * _side.direction,
+    );
 
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
