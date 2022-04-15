@@ -21,6 +21,7 @@ export 'launch_ramp.dart';
 export 'layer.dart';
 export 'plunger.dart';
 export 'ramp_opening.dart';
+export 'render_priority.dart';
 export 'rocket.dart';
 export 'score_text.dart';
 export 'shapes/shapes.dart';
