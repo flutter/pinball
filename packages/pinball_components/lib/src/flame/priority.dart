@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-
 import 'package:flame/components.dart';
 
 /// Helper methods to change the [priority] of a [Component].
