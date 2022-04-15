@@ -10,7 +10,7 @@ import '../../helpers/helpers.dart';
 void main() {
   group('SparkyComputerController', () {
     TestWidgetsFlutterBinding.ensureInitialized();
-    final flameTester = FlameTester(EmptyPinballGameTest.new);
+    final flameTester = FlameTester(EmptyPinballTestGame.new);
 
     late ControlledSparkyComputer controlledSparkyComputer;
 
