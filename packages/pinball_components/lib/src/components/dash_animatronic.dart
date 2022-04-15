@@ -10,7 +10,7 @@ class DashAnimatronic extends SpriteAnimationComponent with HasGameRef {
       : super(
           anchor: Anchor.center,
           playing: false,
-          priority: PinballPriority.dashAnimatronic,
+          priority: RenderPriority.dashAnimatronic,
         );
 
   @override

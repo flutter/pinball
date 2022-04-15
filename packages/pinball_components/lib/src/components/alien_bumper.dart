@@ -19,7 +19,7 @@ class AlienBumper extends BodyComponent with InitialPosition {
         _activeAssetPath = activeAssetPath,
         _inactiveAssetPath = inactiveAssetPath,
         _spriteComponent = spriteComponent,
-        super(priority: PinballPriority.alienBumper);
+        super(priority: RenderPriority.alienBumper);
 
   /// {@macro alien_bumper}
   AlienBumper.a()

@@ -16,7 +16,7 @@ class ChromeDino extends BodyComponent with InitialPosition {
       : super(
           // TODO(alestiago): Remove once sprites are defined.
           paint: Paint()..color = Colors.blue,
-          priority: PinballPriority.dino,
+          priority: RenderPriority.dino,
         );
 
   /// The size of the dinosaur mouth.

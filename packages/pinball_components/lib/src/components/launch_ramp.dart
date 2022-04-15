@@ -41,7 +41,7 @@ class LaunchRamp extends Forge2DBlueprint {
 /// {@endtemplate}
 class _LaunchRampBase extends BodyComponent with InitialPosition, Layered {
   /// {@macro launch_ramp_base}
-  _LaunchRampBase() : super(priority: PinballPriority.launchRamp) {
+  _LaunchRampBase() : super(priority: RenderPriority.launchRamp) {
     layer = Layer.launcher;
   }
 
@@ -144,7 +144,7 @@ class _LaunchRampBaseSpriteComponent extends SpriteComponent with HasGameRef {
 class _LaunchRampForegroundRailing extends BodyComponent with InitialPosition {
   /// {@macro launch_ramp_foreground_railing}
   _LaunchRampForegroundRailing()
-      : super(priority: PinballPriority.launchRampForegroundRailing);
+      : super(priority: RenderPriority.launchRampForegroundRailing);
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
@@ -247,8 +247,8 @@ class _LaunchRampExit extends RampOpening {
           insideLayer: Layer.launcher,
           outsideLayer: Layer.board,
           orientation: RampOrientation.down,
-          insidePriority: PinballPriority.ballOnLaunchRamp,
-          outsidePriority: PinballPriority.ballOnBoard,
+          insidePriority: RenderPriority.ballOnLaunchRamp,
+          outsidePriority: RenderPriority.ballOnBoard,
         ) {
     layer = Layer.launcher;
     renderBody = false;

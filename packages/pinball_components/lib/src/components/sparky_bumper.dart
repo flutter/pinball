@@ -21,7 +21,7 @@ class SparkyBumper extends BodyComponent with InitialPosition {
         _activeAssetPath = activeAssetPath,
         _inactiveAssetPath = inactiveAssetPath,
         _spriteComponent = spriteComponent,
-        super(priority: PinballPriority.sparkyBumper);
+        super(priority: RenderPriority.sparkyBumper);
 
   /// {@macro sparky_bumper}
   SparkyBumper.a()

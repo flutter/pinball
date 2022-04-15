@@ -22,7 +22,7 @@ class SparkyComputer extends Forge2DBlueprint {
 }
 
 class _ComputerBase extends BodyComponent with InitialPosition {
-  _ComputerBase() : super(priority: PinballPriority.computerBase);
+  _ComputerBase() : super(priority: RenderPriority.computerBase);
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
@@ -99,7 +99,7 @@ class _ComputerTopSpriteComponent extends SpriteComponent with HasGameRef {
       : super(
           anchor: Anchor.center,
           position: Vector2(-12.45, -49.75),
-          priority: PinballPriority.computerTop,
+          priority: RenderPriority.computerTop,
         );
 
   @override

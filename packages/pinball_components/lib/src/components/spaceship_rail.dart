@@ -40,7 +40,7 @@ class SpaceshipRail extends Forge2DBlueprint {
 
 /// Represents the spaceship drop rail from the [Spaceship].
 class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
-  _SpaceshipRailRamp() : super(priority: PinballPriority.spaceshipRail) {
+  _SpaceshipRailRamp() : super(priority: RenderPriority.spaceshipRail) {
     layer = Layer.spaceshipExitRail;
   }
 
@@ -156,7 +156,7 @@ class _SpaceshipRailRampSpriteComponent extends SpriteComponent
 
 class _SpaceshipRailForeground extends SpriteComponent with HasGameRef {
   _SpaceshipRailForeground()
-      : super(priority: PinballPriority.spaceshipRailForeground);
+      : super(priority: RenderPriority.spaceshipRailForeground);
 
   @override
   Future<void> onLoad() async {
@@ -204,7 +204,7 @@ class SpaceshipRailExit extends RampOpening {
       : super(
           orientation: RampOrientation.down,
           insideLayer: Layer.spaceshipExitRail,
-          insidePriority: PinballPriority.ballOnSpaceshipRail,
+          insidePriority: RenderPriority.ballOnSpaceshipRail,
         ) {
     renderBody = false;
     layer = Layer.spaceshipExitRail;

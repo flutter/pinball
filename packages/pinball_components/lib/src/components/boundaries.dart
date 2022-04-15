@@ -23,7 +23,7 @@ class Boundaries extends Forge2DBlueprint {
 /// {@endtemplate bottom_boundary}
 class _BottomBoundary extends BodyComponent with InitialPosition {
   /// {@macro bottom_boundary}
-  _BottomBoundary() : super(priority: PinballPriority.bottomBoundary);
+  _BottomBoundary() : super(priority: RenderPriority.bottomBoundary);
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDefs = <FixtureDef>[];
@@ -88,7 +88,7 @@ class _BottomBoundarySpriteComponent extends SpriteComponent with HasGameRef {
 /// {@endtemplate outer_boundary}
 class _OuterBoundary extends BodyComponent with InitialPosition {
   /// {@macro outer_boundary}
-  _OuterBoundary() : super(priority: PinballPriority.outerBoudary);
+  _OuterBoundary() : super(priority: RenderPriority.outerBoudary);
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDefs = <FixtureDef>[];

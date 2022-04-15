@@ -21,14 +21,14 @@ class SpaceshipRamp extends Forge2DBlueprint {
     ]);
 
     final rightOpening = _SpaceshipRampOpening(
-      outsidePriority: PinballPriority.ballOnBoard,
+      outsidePriority: RenderPriority.ballOnBoard,
       rotation: math.pi,
     )
       ..initialPosition = Vector2(1.7, -19.8)
       ..layer = Layer.opening;
     final leftOpening = _SpaceshipRampOpening(
       outsideLayer: Layer.spaceship,
-      outsidePriority: PinballPriority.ballOnSpaceship,
+      outsidePriority: RenderPriority.ballOnSpaceship,
       rotation: math.pi,
     )
       ..initialPosition = Vector2(-13.7, -18.6)
@@ -58,7 +58,7 @@ class SpaceshipRamp extends Forge2DBlueprint {
 
 class _SpaceshipRampBackground extends BodyComponent
     with InitialPosition, Layered {
-  _SpaceshipRampBackground() : super(priority: PinballPriority.spaceshipRamp) {
+  _SpaceshipRampBackground() : super(priority: RenderPriority.spaceshipRamp) {
     layer = Layer.spaceshipEntranceRamp;
   }
 
@@ -125,7 +125,7 @@ class _SpaceshipRampBackground extends BodyComponent
 class _SpaceshipRampBackgroundRailingSpriteComponent extends SpriteComponent
     with HasGameRef {
   _SpaceshipRampBackgroundRailingSpriteComponent()
-      : super(priority: PinballPriority.spaceshipRampBackgroundRailing);
+      : super(priority: RenderPriority.spaceshipRampBackgroundRailing);
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -171,7 +171,7 @@ class _SpaceshipRampBoardOpeningSpriteComponent extends SpriteComponent
 class _SpaceshipRampForegroundRailing extends BodyComponent
     with InitialPosition, Layered {
   _SpaceshipRampForegroundRailing()
-      : super(priority: PinballPriority.spaceshipRampForegroundRailing) {
+      : super(priority: RenderPriority.spaceshipRampForegroundRailing) {
     layer = Layer.spaceshipEntranceRamp;
   }
 
@@ -291,7 +291,7 @@ class _SpaceshipRampOpening extends RampOpening {
           insideLayer: Layer.spaceshipEntranceRamp,
           outsideLayer: outsideLayer,
           orientation: RampOrientation.down,
-          insidePriority: PinballPriority.ballOnSpaceshipRamp,
+          insidePriority: RenderPriority.ballOnSpaceshipRamp,
           outsidePriority: outsidePriority,
         ) {
     renderBody = false;

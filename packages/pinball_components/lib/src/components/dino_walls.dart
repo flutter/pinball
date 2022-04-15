@@ -28,7 +28,7 @@ class DinoWalls extends Forge2DBlueprint {
 /// {@endtemplate}
 class _DinoTopWall extends BodyComponent with InitialPosition {
   ///{@macro dino_top_wall}
-  _DinoTopWall() : super(priority: PinballPriority.dinoTopWall);
+  _DinoTopWall() : super(priority: RenderPriority.dinoTopWall);
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
@@ -124,7 +124,7 @@ class _DinoTopWallSpriteComponent extends SpriteComponent with HasGameRef {
 /// {@endtemplate}
 class _DinoBottomWall extends BodyComponent with InitialPosition {
   ///{@macro dino_top_wall}
-  _DinoBottomWall() : super(priority: PinballPriority.dinoBottomWall);
+  _DinoBottomWall() : super(priority: RenderPriority.dinoBottomWall);
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
