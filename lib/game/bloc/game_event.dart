@@ -33,17 +33,13 @@ class Scored extends GameEvent {
   List<Object?> get props => [points];
 }
 
-class BonusLetterActivated extends GameEvent {
-  const BonusLetterActivated(this.letterIndex)
-      : assert(
-          letterIndex < GameBloc.bonusWord.length,
-          'Index must be smaller than the length of the word',
-        );
+class BonusActivated extends GameEvent {
+  const BonusActivated(this.bonus);
 
-  final int letterIndex;
+  final GameBonus bonus;
 
   @override
-  List<Object?> get props => [letterIndex];
+  List<Object?> get props => [bonus];
 }
 
 class DashNestActivated extends GameEvent {

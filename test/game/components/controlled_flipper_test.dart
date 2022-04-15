@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -10,7 +11,22 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(EmptyPinballGameTest.new);
+  final flameTester = FlameTester(EmptyPinballTestGame.new);
+
+  final flameBlocTester = FlameBlocTester<EmptyPinballTestGame, GameBloc>(
+    gameBuilder: EmptyPinballTestGame.new,
+    blocBuilder: () {
+      final bloc = MockGameBloc();
+      const state = GameState(
+        score: 0,
+        balls: 0,
+        bonusHistory: [],
+        activatedDashNests: {},
+      );
+      whenListen(bloc, Stream.value(state), initialState: state);
+      return bloc;
+    },
+  );
 
   group('FlipperController', () {
     group('onKeyEvent', () {
@@ -43,6 +59,20 @@ void main() {
               controller.onKeyEvent(event, {});
 
               expect(flipper.body.linearVelocity.y, isNegative);
+              expect(flipper.body.linearVelocity.x, isZero);
+            },
+          );
+        });
+
+        testRawKeyDownEvents(leftKeys, (event) {
+          flameBlocTester.testGameWidget(
+            'does nothing when is game over',
+            setUp: (game, tester) async {
+              await game.ensureAdd(flipper);
+              controller.onKeyEvent(event, {});
+            },
+            verify: (game, tester) async {
+              expect(flipper.body.linearVelocity.y, isZero);
               expect(flipper.body.linearVelocity.x, isZero);
             },
           );
@@ -114,6 +144,20 @@ void main() {
               controller.onKeyEvent(event, {});
 
               expect(flipper.body.linearVelocity.y, isPositive);
+              expect(flipper.body.linearVelocity.x, isZero);
+            },
+          );
+        });
+
+        testRawKeyDownEvents(rightKeys, (event) {
+          flameBlocTester.testGameWidget(
+            'does nothing when is game over',
+            setUp: (game, tester) async {
+              await game.ensureAdd(flipper);
+              controller.onKeyEvent(event, {});
+            },
+            verify: (game, tester) async {
+              expect(flipper.body.linearVelocity.y, isZero);
               expect(flipper.body.linearVelocity.x, isZero);
             },
           );

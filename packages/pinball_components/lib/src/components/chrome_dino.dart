@@ -56,12 +56,14 @@ class ChromeDino extends BodyComponent with InitialPosition {
 
     // TODO(alestiago): Subject to change when sprites are added.
     final box = PolygonShape()..setAsBoxXY(size.x / 2, size.y / 2);
-    final fixtureDef = FixtureDef(box)
-      ..shape = box
-      ..density = 999
-      ..friction = 0.3
-      ..restitution = 0.1
-      ..isSensor = true;
+    final fixtureDef = FixtureDef(
+      box,
+      density: 999,
+      friction: 0.3,
+      restitution: 0.1,
+      isSensor: true,
+    );
+
     fixtureDefs.add(fixtureDef);
 
     // FIXME(alestiago): Investigate why adding these fixtures is considered as
@@ -95,10 +97,11 @@ class ChromeDino extends BodyComponent with InitialPosition {
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()
-      ..gravityScale = Vector2.zero()
-      ..position = initialPosition
-      ..type = BodyType.dynamic;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      type: BodyType.dynamic,
+      gravityScale: Vector2.zero(),
+    );
 
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
@@ -113,10 +116,7 @@ class ChromeDino extends BodyComponent with InitialPosition {
 class _ChromeDinoAnchor extends JointAnchor {
   /// {@macro flipper_anchor}
   _ChromeDinoAnchor() {
-    initialPosition = Vector2(
-      ChromeDino.size.x / 2,
-      0,
-    );
+    initialPosition = Vector2(ChromeDino.size.x / 2, 0);
   }
 }
 

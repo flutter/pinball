@@ -10,7 +10,6 @@ void main() {
         GameState(
           score: 0,
           balls: 0,
-          activatedBonusLetters: const [],
           activatedDashNests: const {},
           bonusHistory: const [],
         ),
@@ -18,7 +17,6 @@ void main() {
           const GameState(
             score: 0,
             balls: 0,
-            activatedBonusLetters: [],
             activatedDashNests: {},
             bonusHistory: [],
           ),
@@ -32,7 +30,6 @@ void main() {
           const GameState(
             score: 0,
             balls: 0,
-            activatedBonusLetters: [],
             activatedDashNests: {},
             bonusHistory: [],
           ),
@@ -49,7 +46,6 @@ void main() {
           () => GameState(
             balls: -1,
             score: 0,
-            activatedBonusLetters: const [],
             activatedDashNests: const {},
             bonusHistory: const [],
           ),
@@ -66,7 +62,6 @@ void main() {
           () => GameState(
             balls: 0,
             score: -1,
-            activatedBonusLetters: const [],
             activatedDashNests: const {},
             bonusHistory: const [],
           ),
@@ -82,7 +77,6 @@ void main() {
         const gameState = GameState(
           balls: 0,
           score: 0,
-          activatedBonusLetters: [],
           activatedDashNests: {},
           bonusHistory: [],
         );
@@ -95,42 +89,11 @@ void main() {
         const gameState = GameState(
           balls: 1,
           score: 0,
-          activatedBonusLetters: [],
           activatedDashNests: {},
           bonusHistory: [],
         );
         expect(gameState.isGameOver, isFalse);
       });
-    });
-
-    group('isLetterActivated', () {
-      test(
-        'is true when the letter is activated',
-        () {
-          const gameState = GameState(
-            balls: 3,
-            score: 0,
-            activatedBonusLetters: [1],
-            activatedDashNests: {},
-            bonusHistory: [],
-          );
-          expect(gameState.isLetterActivated(1), isTrue);
-        },
-      );
-
-      test(
-        'is false when the letter is not activated',
-        () {
-          const gameState = GameState(
-            balls: 3,
-            score: 0,
-            activatedBonusLetters: [1],
-            activatedDashNests: {},
-            bonusHistory: [],
-          );
-          expect(gameState.isLetterActivated(0), isFalse);
-        },
-      );
     });
 
     group('copyWith', () {
@@ -141,7 +104,6 @@ void main() {
           const gameState = GameState(
             balls: 0,
             score: 2,
-            activatedBonusLetters: [],
             activatedDashNests: {},
             bonusHistory: [],
           );
@@ -159,7 +121,6 @@ void main() {
           const gameState = GameState(
             balls: 0,
             score: 2,
-            activatedBonusLetters: [],
             activatedDashNests: {},
             bonusHistory: [],
           );
@@ -177,16 +138,14 @@ void main() {
           const gameState = GameState(
             score: 2,
             balls: 0,
-            activatedBonusLetters: [],
             activatedDashNests: {},
             bonusHistory: [],
           );
           final otherGameState = GameState(
             score: gameState.score + 1,
             balls: gameState.balls + 1,
-            activatedBonusLetters: const [0],
             activatedDashNests: const {'1'},
-            bonusHistory: const [GameBonus.word],
+            bonusHistory: const [GameBonus.googleWord],
           );
           expect(gameState, isNot(equals(otherGameState)));
 
@@ -194,7 +153,6 @@ void main() {
             gameState.copyWith(
               score: otherGameState.score,
               balls: otherGameState.balls,
-              activatedBonusLetters: otherGameState.activatedBonusLetters,
               activatedDashNests: otherGameState.activatedDashNests,
               bonusHistory: otherGameState.bonusHistory,
             ),

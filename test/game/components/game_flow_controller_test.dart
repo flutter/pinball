@@ -15,7 +15,6 @@ void main() {
         final state = GameState(
           score: 10,
           balls: 0,
-          activatedBonusLetters: const [],
           bonusHistory: const [],
           activatedDashNests: const {},
         );
@@ -42,7 +41,12 @@ void main() {
         gameFlowController = GameFlowController(game);
         overlays = MockActiveOverlaysNotifier();
 
-        when(backboard.gameOverMode).thenAnswer((_) async {});
+        when(
+          () => backboard.gameOverMode(
+            score: any(named: 'score'),
+            onSubmit: any(named: 'onSubmit'),
+          ),
+        ).thenAnswer((_) async {});
         when(backboard.waitingMode).thenAnswer((_) async {});
         when(cameraController.focusOnBackboard).thenAnswer((_) async {});
         when(cameraController.focusOnGame).thenAnswer((_) async {});
@@ -61,13 +65,17 @@ void main() {
             GameState(
               score: 10,
               balls: 0,
-              activatedBonusLetters: const [],
               bonusHistory: const [],
               activatedDashNests: const {},
             ),
           );
 
-          verify(backboard.gameOverMode).called(1);
+          verify(
+            () => backboard.gameOverMode(
+              score: 0,
+              onSubmit: any(named: 'onSubmit'),
+            ),
+          ).called(1);
           verify(cameraController.focusOnBackboard).called(1);
         },
       );

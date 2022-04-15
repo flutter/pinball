@@ -71,17 +71,17 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
 
   @override
   Body createBody() {
-    final circleShape = CircleShape()..radius = 3;
+    final shape = CircleShape()..radius = 3;
+    final fixtureDef = FixtureDef(
+      shape,
+      isSensor: true,
+    );
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
 
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition
-      ..type = BodyType.static;
-
-    return world.createBody(bodyDef)
-      ..createFixture(
-        FixtureDef(circleShape)..isSensor = true,
-      );
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
 
@@ -107,10 +107,10 @@ class AndroidHead extends BodyComponent with InitialPosition, Layered {
   Body createBody() {
     final circleShape = CircleShape()..radius = 2;
 
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition
-      ..type = BodyType.static;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
 
     return world.createBody(bodyDef)
       ..createFixture(
@@ -246,18 +246,16 @@ class SpaceshipWall extends BodyComponent with InitialPosition, Layered {
   Body createBody() {
     renderBody = false;
 
-    final wallShape = _SpaceshipWallShape();
+    final shape = _SpaceshipWallShape();
+    final fixtureDef = FixtureDef(shape);
 
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition
-      ..angle = -1.7
-      ..type = BodyType.static;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+      angle: -1.7,
+    );
 
-    return world.createBody(bodyDef)
-      ..createFixture(
-        FixtureDef(wallShape)..restitution = 1,
-      );
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
 

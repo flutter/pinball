@@ -13,6 +13,7 @@ dependencies:
     sdk: flutter
   geometry:
     path: ../geometry
+  intl: ^0.17.0
 
 
 dev_dependencies:
