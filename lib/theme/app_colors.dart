@@ -1,6 +1,3 @@
-// Copyright (c) 2021, Very Good Ventures
-// https://verygood.ventures
-
 import 'package:flutter/material.dart';
 
 /// Defines the color palette for the App UI Kit.
