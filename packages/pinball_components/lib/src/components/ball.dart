@@ -44,9 +44,6 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   /// The base [Color] used to tint this [Ball].
   final Color baseColor;
 
-  double _boostTimer = 0;
-  static const _boostDuration = 2.0;
-
   final _BallSpriteComponent _spriteComponent = _BallSpriteComponent();
 
   @override
@@ -96,30 +93,18 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
     body.gravityScale = Vector2(0, 1);
   }
 
+  /// Applies a boost and [_FlameEffect] on this [Ball].
+  Future<void> boost(Vector2 impulse) async {
+    body.linearVelocity = impulse;
+    await add(_FlameEffect());
+  }
+
   @override
   void update(double dt) {
     super.update(dt);
-    if (_boostTimer > 0) {
-      _boostTimer -= dt;
-      final direction = body.linearVelocity.normalized();
-      final effect = FireEffect(
-        burstPower: _boostTimer,
-        direction: direction,
-        position: Vector2(body.position.x, body.position.y),
-        priority: priority - 1,
-      );
-
-      unawaited(gameRef.add(effect));
-    }
 
     _rescaleSize();
     _setPositionalGravity();
-  }
-
-  /// Applies a boost on this [Ball].
-  void boost(Vector2 impulse) {
-    body.linearVelocity = impulse;
-    _boostTimer = _boostDuration;
   }
 
   void _rescaleSize() {
@@ -159,10 +144,65 @@ class _BallSpriteComponent extends SpriteComponent with HasGameRef {
   Future<void> onLoad() async {
     await super.onLoad();
     final sprite = await gameRef.loadSprite(
-      Assets.images.ball.keyName,
+      Assets.images.ball.ball.keyName,
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
     anchor = Anchor.center;
+  }
+}
+
+class _FlameEffect extends SpriteAnimationComponent with HasGameRef {
+  _FlameEffect()
+      : super(
+          anchor: const Anchor(0.53, 0.72),
+          priority: Ball.boardPriority + 1,
+        );
+
+  var _duration = 2.0;
+  late final Vector2 _textureSize;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+
+    final spriteSheet = await gameRef.images.load(
+      Assets.images.ball.flameEffect.keyName,
+    );
+
+    const amountPerRow = 8;
+    const amountPerColumn = 4;
+    _textureSize = Vector2(
+      spriteSheet.width / amountPerRow,
+      spriteSheet.height / amountPerColumn,
+    );
+
+    animation = SpriteAnimation.fromFrameData(
+      spriteSheet,
+      SpriteAnimationData.sequenced(
+        amount: amountPerRow * amountPerColumn,
+        amountPerRow: amountPerRow,
+        stepTime: 1 / 24,
+        textureSize: _textureSize,
+      ),
+    );
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+
+    if (parent != null) {
+      final body = (parent! as BodyComponent).body;
+      final direction = -body.linearVelocity.normalized();
+      angle = math.atan2(direction.x, -direction.y);
+      size = (_textureSize / 45) * body.fixtures.first.shape.radius;
+    }
+
+    _duration -= dt;
+
+    if (_duration < 0) {
+      removeFromParent();
+    }
   }
 }

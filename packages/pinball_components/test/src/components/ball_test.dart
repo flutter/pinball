@@ -1,5 +1,6 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/material.dart';
@@ -169,20 +170,40 @@ void main() {
 
         expect(ball.body.linearVelocity, equals(Vector2.zero()));
 
-        ball.boost(Vector2.all(10));
+        await ball.boost(Vector2.all(10));
         expect(ball.body.linearVelocity.x, greaterThan(0));
         expect(ball.body.linearVelocity.y, greaterThan(0));
       });
 
-      flameTester.test('adds fire effect components to the game', (game) async {
+      flameTester.test('adds FlameEffect', (game) async {
         final ball = Ball(baseColor: Colors.blue);
         await game.ensureAdd(ball);
 
-        ball.boost(Vector2.all(10));
+        await ball.boost(Vector2.all(10));
         game.update(0);
+
+        expect(
+          ball.children.whereType<SpriteAnimationComponent>().single,
+          isNotNull,
+        );
+      });
+
+      flameTester.test('removes FlameEffect after a duration', (game) async {
+        final ball = Ball(baseColor: Colors.blue);
+        await game.ensureAdd(ball);
+
+        await ball.boost(Vector2.all(10));
+        game.update(0);
+
+        final flameEffect =
+            ball.children.whereType<SpriteAnimationComponent>().single;
+
+        expect(ball.contains(flameEffect), isTrue);
+
+        game.update(3);
         await game.ready();
 
-        expect(game.children.whereType<FireEffect>().length, greaterThan(0));
+        expect(ball.contains(flameEffect), isFalse);
       });
     });
   });

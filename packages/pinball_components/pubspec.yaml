@@ -37,6 +37,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/ball/
     - assets/images/baseboard/
     - assets/images/boundary/
     - assets/images/dino/

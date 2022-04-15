@@ -7,7 +7,8 @@ extension PinballGameAssetsX on PinballGame {
   /// Returns a list of assets to be loaded
   List<Future> preLoadAssets() {
     return [
-      images.load(components.Assets.images.ball.keyName),
+      images.load(components.Assets.images.ball.ball.keyName),
+      images.load(components.Assets.images.ball.flameEffect.keyName),
       images.load(components.Assets.images.flutterSignPost.keyName),
       images.load(components.Assets.images.flipper.left.keyName),
       images.load(components.Assets.images.flipper.right.keyName),
