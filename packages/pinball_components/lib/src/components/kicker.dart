@@ -34,16 +34,16 @@ class Kicker extends BodyComponent with InitialPosition {
     const quarterPi = math.pi / 4;
 
     final upperCircle = CircleShape()..radius = 1.6;
-    upperCircle.position.setValues(0, -upperCircle.radius / 2);
-    final upperCircleFixtureDef = FixtureDef(upperCircle)..friction = 0;
+    upperCircle.position.setValues(0, upperCircle.radius / 2);
+    final upperCircleFixtureDef = FixtureDef(upperCircle);
     fixturesDefs.add(upperCircleFixtureDef);
 
     final lowerCircle = CircleShape()..radius = 1.6;
     lowerCircle.position.setValues(
       size.x * -direction,
-      -size.y - 0.8,
+      size.y + 0.8,
     );
-    final lowerCircleFixtureDef = FixtureDef(lowerCircle)..friction = 0;
+    final lowerCircleFixtureDef = FixtureDef(lowerCircle);
     fixturesDefs.add(lowerCircleFixtureDef);
 
     final wallFacingEdge = EdgeShape()
@@ -53,9 +53,9 @@ class Kicker extends BodyComponent with InitialPosition {
               upperCircle.radius * direction,
               0,
             ),
-        Vector2(2.5 * direction, -size.y + 2),
+        Vector2(2.5 * direction, size.y - 2),
       );
-    final wallFacingLineFixtureDef = FixtureDef(wallFacingEdge)..friction = 0;
+    final wallFacingLineFixtureDef = FixtureDef(wallFacingEdge);
     fixturesDefs.add(wallFacingLineFixtureDef);
 
     final bottomEdge = EdgeShape()
@@ -64,10 +64,10 @@ class Kicker extends BodyComponent with InitialPosition {
         lowerCircle.position +
             Vector2(
               lowerCircle.radius * math.cos(quarterPi) * direction,
-              -lowerCircle.radius * math.sin(quarterPi),
+              lowerCircle.radius * math.sin(quarterPi),
             ),
       );
-    final bottomLineFixtureDef = FixtureDef(bottomEdge)..friction = 0;
+    final bottomLineFixtureDef = FixtureDef(bottomEdge);
     fixturesDefs.add(bottomLineFixtureDef);
 
     final bouncyEdge = EdgeShape()
@@ -75,19 +75,20 @@ class Kicker extends BodyComponent with InitialPosition {
         upperCircle.position +
             Vector2(
               upperCircle.radius * math.cos(quarterPi) * -direction,
-              upperCircle.radius * math.sin(quarterPi),
+              -upperCircle.radius * math.sin(quarterPi),
             ),
         lowerCircle.position +
             Vector2(
               lowerCircle.radius * math.cos(quarterPi) * -direction,
-              lowerCircle.radius * math.sin(quarterPi),
+              -lowerCircle.radius * math.sin(quarterPi),
             ),
       );
 
-    final bouncyFixtureDef = FixtureDef(bouncyEdge)
+    final bouncyFixtureDef = FixtureDef(
+      bouncyEdge,
       // TODO(alestiago): Play with restitution value once game is bundled.
-      ..restitution = 10.0
-      ..friction = 0;
+      restitution: 10,
+    );
     fixturesDefs.add(bouncyFixtureDef);
 
     // TODO(alestiago): Evaluate if there is value on centering the fixtures.
@@ -97,7 +98,7 @@ class Kicker extends BodyComponent with InitialPosition {
         lowerCircle.position +
             Vector2(
               lowerCircle.radius * math.cos(quarterPi) * -direction,
-              -lowerCircle.radius * math.sin(quarterPi),
+              lowerCircle.radius * math.sin(quarterPi),
             ),
         wallFacingEdge.vertex2,
       ],
@@ -111,7 +112,9 @@ class Kicker extends BodyComponent with InitialPosition {
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()..position = initialPosition;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+    );
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
 

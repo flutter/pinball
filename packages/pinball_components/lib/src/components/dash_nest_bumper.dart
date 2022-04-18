@@ -77,12 +77,12 @@ class BigDashNestBumper extends DashNestBumper {
       center: Vector2.zero(),
       majorRadius: 5.1,
       minorRadius: 3.75,
-    )..rotate(math.pi / 2.1);
+    )..rotate(math.pi / 1.9);
     final fixtureDef = FixtureDef(shape);
-
-    final bodyDef = BodyDef()
-      ..position = initialPosition
-      ..userData = this;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
@@ -130,13 +130,14 @@ class SmallDashNestBumper extends DashNestBumper {
       majorRadius: 3,
       minorRadius: 2.25,
     )..rotate(math.pi / 2);
-    final fixtureDef = FixtureDef(shape)
-      ..friction = 0
-      ..restitution = 4;
-
-    final bodyDef = BodyDef()
-      ..position = initialPosition
-      ..userData = this;
+    final fixtureDef = FixtureDef(
+      shape,
+      restitution: 4,
+    );
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }

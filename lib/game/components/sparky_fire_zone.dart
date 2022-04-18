@@ -3,9 +3,9 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
-import 'package:pinball/flame/flame.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template sparky_fire_zone}
 /// Area positioned at the top left of the [Board] where the [Ball]
@@ -25,11 +25,11 @@ class SparkyFireZone extends Component with HasGameRef<PinballGame> {
     gameRef.addContactCallback(_ControlledSparkyBumperBallContactCallback());
 
     final lowerLeftBumper = ControlledSparkyBumper.a()
-      ..initialPosition = Vector2(-23.15, 41.65);
+      ..initialPosition = Vector2(-23.15, -41.65);
     final upperLeftBumper = ControlledSparkyBumper.b()
-      ..initialPosition = Vector2(-21.25, 58.15);
+      ..initialPosition = Vector2(-21.25, -58.15);
     final rightBumper = ControlledSparkyBumper.c()
-      ..initialPosition = Vector2(-3.56, 53.051);
+      ..initialPosition = Vector2(-3.56, -53.051);
 
     await addAll([
       lowerLeftBumper,

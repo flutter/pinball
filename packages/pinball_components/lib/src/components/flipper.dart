@@ -32,13 +32,13 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   /// Applies downward linear velocity to the [Flipper], moving it to its
   /// resting position.
   void moveDown() {
-    body.linearVelocity = Vector2(0, -_speed);
+    body.linearVelocity = Vector2(0, _speed);
   }
 
   /// Applies upward linear velocity to the [Flipper], moving it to its highest
   /// position.
   void moveUp() {
-    body.linearVelocity = Vector2(0, _speed);
+    body.linearVelocity = Vector2(0, -_speed);
   }
 
   /// Anchors the [Flipper] to the [RevoluteJoint] that controls its arc motion.
@@ -99,9 +99,11 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
             Vector2(smallCircleShape.position.x, -smallCircleShape.radius),
           ];
     final trapezium = PolygonShape()..set(trapeziumVertices);
-    final trapeziumFixtureDef = FixtureDef(trapezium)
-      ..density = 50.0 // TODO(alestiago): Use a proper density.
-      ..friction = .1; // TODO(alestiago): Use a proper friction.
+    final trapeziumFixtureDef = FixtureDef(
+      trapezium,
+      density: 50, // TODO(alestiago): Use a proper density.
+      friction: .1, // TODO(alestiago): Use a proper friction.
+    );
     fixturesDef.add(trapeziumFixtureDef);
 
     return fixturesDef;
@@ -118,10 +120,12 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()
-      ..position = initialPosition
-      ..gravityScale = 0
-      ..type = BodyType.dynamic;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      gravityScale: Vector2.zero(),
+      type: BodyType.dynamic,
+    );
+
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
 
@@ -161,7 +165,7 @@ class _FlipperAnchor extends JointAnchor {
     initialPosition = Vector2(
       (Flipper.size.x * flipper.side.direction) / 2 -
           (1.65 * flipper.side.direction),
-      0.15,
+      -0.15,
     );
   }
 }
@@ -209,8 +213,8 @@ class _FlipperJoint extends RevoluteJoint {
   void lock() {
     const angle = _halfSweepingAngle;
     setLimits(
-      -angle * side.direction,
-      -angle * side.direction,
+      angle * side.direction,
+      angle * side.direction,
     );
   }
 

@@ -2,6 +2,7 @@
 
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template ramp_orientation}
 /// Determines if a ramp is facing [up] or [down] on the Board.
@@ -65,12 +66,14 @@ abstract class RampOpening extends BodyComponent with InitialPosition, Layered {
 
   @override
   Body createBody() {
-    final fixtureDef = FixtureDef(shape)..isSensor = true;
-
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition
-      ..type = BodyType.static;
+    final fixtureDef = FixtureDef(
+      shape,
+      isSensor: true,
+    );
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
@@ -112,9 +115,9 @@ class RampOpeningBallContactCallback<Opening extends RampOpening>
       // now doesn't work position.y comparison
       final isBallOutsideOpening =
           (opening.orientation == RampOrientation.down &&
-                  ball.body.linearVelocity.y < 0) ||
+                  ball.body.linearVelocity.y > 0) ||
               (opening.orientation == RampOrientation.up &&
-                  ball.body.linearVelocity.y > 0);
+                  ball.body.linearVelocity.y < 0);
 
       if (isBallOutsideOpening) {
         ball

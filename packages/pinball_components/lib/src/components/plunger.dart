@@ -33,18 +33,19 @@ class Plunger extends BodyComponent with InitialPosition, Layered {
 
     final fixtureDef = FixtureDef(shape)..density = 80;
 
-    final bodyDef = BodyDef()
-      ..position = initialPosition
-      ..userData = this
-      ..type = BodyType.dynamic
-      ..gravityScale = 0;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+      type: BodyType.dynamic,
+      gravityScale: Vector2.zero(),
+    );
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 
   /// Set a constant downward velocity on the [Plunger].
   void pull() {
-    body.linearVelocity = Vector2(0, -7);
+    body.linearVelocity = Vector2(0, 7);
   }
 
   /// Set an upward velocity on the [Plunger].
@@ -107,7 +108,7 @@ class PlungerAnchor extends JointAnchor {
   }) {
     initialPosition = Vector2(
       0,
-      -plunger.compressionDistance,
+      plunger.compressionDistance,
     );
   }
 }

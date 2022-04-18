@@ -14,7 +14,7 @@ class BoardDimensions {
   static final bounds = Rect.fromCenter(
     center: Offset.zero,
     width: size.x,
-    height: -size.y,
+    height: size.y,
   );
 
   /// 3D perspective angle of the board in radians.
@@ -22,8 +22,4 @@ class BoardDimensions {
 
   /// Factor the board shrinks by from the closest point to the farthest.
   static const perspectiveShrinkFactor = 0.63;
-
-  /// Board height based on the [perspectiveShrinkFactor].
-  static final shrinkAdjustedHeight =
-      (1 / (1 - perspectiveShrinkFactor)) * size.y;
 }

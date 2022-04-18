@@ -5,6 +5,7 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -43,16 +44,15 @@ void main() {
       tester.testGameWidget(
         'renders correctly',
         setUp: (game, tester) async {
-          await game.addFromBlueprint(Spaceship(position: Vector2(30, -30)));
-          await game.ready();
-          await tester.pump();
+          final position = Vector2(30, -30);
+          await game.addFromBlueprint(Spaceship(position: position));
+          game.camera.followVector2(position);
         },
         verify: (game, tester) async {
-          // FIXME(erickzanardo): Failing pipeline.
-          // await expectLater(
-          //   find.byGame<Forge2DGame>(),
-          //   matchesGoldenFile('golden/spaceship.png'),
-          // );
+          await expectLater(
+            find.byGame<TestGame>(),
+            matchesGoldenFile('golden/spaceship.png'),
+          );
         },
       );
     });

@@ -12,8 +12,8 @@ import '../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(PinballGameTest.new);
-  final debugModeFlameTester = FlameTester(DebugPinballGameTest.new);
+  final flameTester = FlameTester(PinballTestGame.new);
+  final debugModeFlameTester = FlameTester(DebugPinballTestGame.new);
 
   group('PinballGame', () {
     // TODO(alestiago): test if [PinballGame] registers
@@ -88,7 +88,7 @@ void main() {
           });
 
           final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
-            gameBuilder: EmptyPinballGameTest.new,
+            gameBuilder: EmptyPinballTestGame.new,
             blocBuilder: () => gameBloc,
           );
 
@@ -206,7 +206,7 @@ void main() {
 
       final debugModeFlameBlocTester =
           FlameBlocTester<DebugPinballGame, GameBloc>(
-        gameBuilder: DebugPinballGameTest.new,
+        gameBuilder: DebugPinballTestGame.new,
         blocBuilder: () => gameBloc,
       );
 

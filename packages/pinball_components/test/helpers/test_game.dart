@@ -1,3 +1,4 @@
+import 'package:flame/input.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 
 class TestGame extends Forge2DGame {
@@ -5,3 +6,5 @@ class TestGame extends Forge2DGame {
     images.prefix = '';
   }
 }
+
+class KeyboardTestGame extends TestGame with HasKeyboardHandlerComponents {}

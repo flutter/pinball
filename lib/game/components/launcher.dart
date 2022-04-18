@@ -1,6 +1,7 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/components/components.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template launcher}
 /// A [Blueprint] which creates the [Plunger], [RocketSpriteComponent] and
@@ -15,8 +16,13 @@ class Launcher extends Forge2DBlueprint {
 
   @override
   void build(Forge2DGame gameRef) {
+<<<<<<< HEAD
     plunger = ControlledPlunger(compressionDistance: 20) //12.3
       ..initialPosition = Vector2(38.5, -20);
+=======
+    plunger = ControlledPlunger(compressionDistance: 12.3)
+      ..initialPosition = Vector2(40.1, 38);
+>>>>>>> main
 
     final _rocket = RocketSpriteComponent()..position = Vector2(43, 62);
 

@@ -6,6 +6,7 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template spaceship_ramp}
 /// A [Blueprint] which creates the ramp leading into the [Spaceship].
@@ -25,14 +26,14 @@ class SpaceshipRamp extends Forge2DBlueprint {
       outsidePriority: 1,
       rotation: math.pi,
     )
-      ..initialPosition = Vector2(1.7, 19.8)
+      ..initialPosition = Vector2(1.7, -19.8)
       ..layer = Layer.opening;
     final leftOpening = _SpaceshipRampOpening(
       outsideLayer: Layer.spaceship,
       outsidePriority: Ball.spaceshipPriority,
       rotation: math.pi,
     )
-      ..initialPosition = Vector2(-13.7, 18.6)
+      ..initialPosition = Vector2(-13.7, -18.6)
       ..layer = Layer.spaceshipEntranceRamp;
 
     final spaceshipRamp = _SpaceshipRampBackground();
@@ -43,7 +44,7 @@ class SpaceshipRamp extends Forge2DBlueprint {
 
     final spaceshipRampForegroundRailing = _SpaceshipRampForegroundRailing();
 
-    final baseRight = _SpaceshipRampBase()..initialPosition = Vector2(1.7, 20);
+    final baseRight = _SpaceshipRampBase()..initialPosition = Vector2(1.7, -20);
 
     addAll([
       spaceshipRampBoardOpeningSprite,
@@ -70,30 +71,28 @@ class _SpaceshipRampBackground extends BodyComponent
 
     final outerLeftCurveShape = BezierCurveShape(
       controlPoints: [
-        Vector2(-30.75, 37.3),
-        Vector2(-32.5, 71.25),
-        Vector2(-14.2, 71.25),
+        Vector2(-30.75, -37.3),
+        Vector2(-32.5, -71.25),
+        Vector2(-14.2, -71.25),
       ],
     );
-
     final outerLeftCurveFixtureDef = FixtureDef(outerLeftCurveShape);
     fixturesDef.add(outerLeftCurveFixtureDef);
 
     final outerRightCurveShape = BezierCurveShape(
       controlPoints: [
         outerLeftCurveShape.vertices.last,
-        Vector2(2.5, 71.9),
-        Vector2(6.1, 44.9),
+        Vector2(2.5, -71.9),
+        Vector2(6.1, -44.9),
       ],
     );
-
     final outerRightCurveFixtureDef = FixtureDef(outerRightCurveShape);
     fixturesDef.add(outerRightCurveFixtureDef);
 
     final boardOpeningEdgeShape = EdgeShape()
       ..set(
         outerRightCurveShape.vertices.last,
-        Vector2(7.3, 41.1),
+        Vector2(7.3, -41.1),
       );
     final boardOpeningEdgeShapeFixtureDef = FixtureDef(boardOpeningEdgeShape);
     fixturesDef.add(boardOpeningEdgeShapeFixtureDef);
@@ -103,9 +102,10 @@ class _SpaceshipRampBackground extends BodyComponent
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
 
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
@@ -179,9 +179,9 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
 
     final innerLeftCurveShape = BezierCurveShape(
       controlPoints: [
-        Vector2(-24.5, 38),
-        Vector2(-26.3, 64),
-        Vector2(-13.8, 64.5),
+        Vector2(-24.5, -38),
+        Vector2(-26.3, -64),
+        Vector2(-13.8, -64.5),
       ],
     );
 
@@ -191,8 +191,8 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
     final innerRightCurveShape = BezierCurveShape(
       controlPoints: [
         innerLeftCurveShape.vertices.last,
-        Vector2(-2.5, 66.2),
-        Vector2(0, 44.5),
+        Vector2(-2.5, -66.2),
+        Vector2(0, -44.5),
       ],
     );
 
@@ -202,7 +202,7 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
     final boardOpeningEdgeShape = EdgeShape()
       ..set(
         innerRightCurveShape.vertices.last,
-        Vector2(-0.85, 40.8),
+        Vector2(-0.85, -40.8),
       );
     final boardOpeningEdgeShapeFixtureDef = FixtureDef(boardOpeningEdgeShape);
     fixturesDef.add(boardOpeningEdgeShapeFixtureDef);
@@ -212,9 +212,10 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
 
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
@@ -259,17 +260,17 @@ class _SpaceshipRampBase extends BodyComponent with InitialPosition, Layered {
       controlPoints: [
         Vector2(initialPosition.x - baseWidth / 2, initialPosition.y),
         Vector2(initialPosition.x - baseWidth / 2, initialPosition.y) +
-            Vector2(2, 5),
+            Vector2(2, -5),
         Vector2(initialPosition.x + baseWidth / 2, initialPosition.y) +
-            Vector2(-2, 5),
+            Vector2(-2, -5),
         Vector2(initialPosition.x + baseWidth / 2, initialPosition.y)
       ],
     );
     final fixtureDef = FixtureDef(baseShape);
-
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }

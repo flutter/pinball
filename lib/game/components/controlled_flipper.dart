@@ -1,7 +1,9 @@
 import 'package:flame/components.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/services.dart';
-import 'package:pinball/flame/flame.dart';
+import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template controlled_flipper}
 /// A [Flipper] with a [FlipperController] attached.
@@ -19,7 +21,7 @@ class ControlledFlipper extends Flipper with Controls<FlipperController> {
 /// A [ComponentController] that controls a [Flipper]s movement.
 /// {@endtemplate}
 class FlipperController extends ComponentController<Flipper>
-    with KeyboardHandler {
+    with KeyboardHandler, BlocComponent<GameBloc, GameState> {
   /// {@macro flipper_controller}
   FlipperController(Flipper flipper)
       : _keys = flipper.side.flipperKeys,
@@ -35,6 +37,7 @@ class FlipperController extends ComponentController<Flipper>
     RawKeyEvent event,
     Set<LogicalKeyboardKey> keysPressed,
   ) {
+    if (state?.isGameOver ?? false) return true;
     if (!_keys.contains(event.logicalKey)) return true;
 
     if (event is RawKeyDownEvent) {

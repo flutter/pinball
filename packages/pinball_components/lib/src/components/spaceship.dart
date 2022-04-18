@@ -7,6 +7,7 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template spaceship}
 /// A [Blueprint] which creates the spaceship feature.
@@ -35,8 +36,8 @@ class Spaceship extends Forge2DBlueprint {
       SpaceshipHole(
         outsideLayer: Layer.spaceshipExitRail,
         outsidePriority: Ball.spaceshipRailPriority,
-      )..initialPosition = position - Vector2(5.2, 4.8),
-      SpaceshipHole()..initialPosition = position - Vector2(-7.2, 0.8),
+      )..initialPosition = position - Vector2(5.2, -4.8),
+      SpaceshipHole()..initialPosition = position - Vector2(-7.2, -0.8),
       SpaceshipWall()..initialPosition = position,
     ]);
   }
@@ -71,17 +72,17 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
 
   @override
   Body createBody() {
-    final circleShape = CircleShape()..radius = 3;
+    final shape = CircleShape()..radius = 3;
+    final fixtureDef = FixtureDef(
+      shape,
+      isSensor: true,
+    );
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
 
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition
-      ..type = BodyType.static;
-
-    return world.createBody(bodyDef)
-      ..createFixture(
-        FixtureDef(circleShape)..isSensor = true,
-      );
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
 
@@ -107,10 +108,10 @@ class AndroidHead extends BodyComponent with InitialPosition, Layered {
   Body createBody() {
     final circleShape = CircleShape()..radius = 2;
 
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition
-      ..type = BodyType.static;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
 
     return world.createBody(bodyDef)
       ..createFixture(
@@ -197,10 +198,10 @@ class SpaceshipHole extends RampOpening {
   @override
   Shape get shape {
     return ArcShape(
-      center: Vector2(0, 3.2),
+      center: Vector2(0, -3.2),
       arcRadius: 5,
       angle: 1,
-      rotation: 60 * pi / 180,
+      rotation: -2,
     );
   }
 }
@@ -246,18 +247,16 @@ class SpaceshipWall extends BodyComponent with InitialPosition, Layered {
   Body createBody() {
     renderBody = false;
 
-    final wallShape = _SpaceshipWallShape();
+    final shape = _SpaceshipWallShape();
+    final fixtureDef = FixtureDef(shape);
 
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition
-      ..angle = 90 * pi / 172
-      ..type = BodyType.static;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+      angle: -1.7,
+    );
 
-    return world.createBody(bodyDef)
-      ..createFixture(
-        FixtureDef(wallShape)..restitution = 1,
-      );
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
 

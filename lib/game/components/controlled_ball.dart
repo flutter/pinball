@@ -1,9 +1,9 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flutter/material.dart';
-import 'package:pinball/flame/flame.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
 /// {@template controlled_ball}
@@ -68,7 +68,7 @@ class BallController extends ComponentController<Ball>
     await Future<void>.delayed(const Duration(seconds: 1));
     component
       ..resume()
-      ..boost(Vector2(200, -500));
+      ..boost(Vector2(200, 500));
   }
 
   @override

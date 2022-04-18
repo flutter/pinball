@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:flame/components.dart';
@@ -63,11 +64,15 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   @override
   Body createBody() {
     final shape = CircleShape()..radius = size.x / 2;
-    final fixtureDef = FixtureDef(shape)..density = 1;
-    final bodyDef = BodyDef()
-      ..position = initialPosition
-      ..userData = this
-      ..type = BodyType.dynamic;
+    final fixtureDef = FixtureDef(
+      shape,
+      density: 1,
+    );
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+      type: BodyType.dynamic,
+    );
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
@@ -79,7 +84,7 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   // TODO(allisonryan0002): prevent motion from contact with other balls.
   void stop() {
     body
-      ..gravityScale = 0
+      ..gravityScale = Vector2.zero()
       ..linearVelocity = Vector2.zero()
       ..angularVelocity = 0;
   }
@@ -88,7 +93,7 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   ///
   /// If previously [stop]ped, the previous ball's velocity is not kept.
   void resume() {
-    body.gravityScale = 1;
+    body.gravityScale = Vector2(0, 1);
   }
 
   @override
@@ -99,15 +104,16 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
       final direction = body.linearVelocity.normalized();
       final effect = FireEffect(
         burstPower: _boostTimer,
-        direction: -direction,
-        position: Vector2(body.position.x, -body.position.y),
+        direction: direction,
+        position: Vector2(body.position.x, body.position.y),
         priority: priority - 1,
       );
 
       unawaited(gameRef.add(effect));
     }
 
-    _rescale();
+    _rescaleSize();
+    _setPositionalGravity();
   }
 
   /// Applies a boost on this [Ball].
@@ -116,18 +122,35 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
     _boostTimer = _boostDuration;
   }
 
-  void _rescale() {
-    final boardHeight = BoardDimensions.size.y;
-    const maxShrinkAmount = BoardDimensions.perspectiveShrinkFactor;
+  void _rescaleSize() {
+    final boardHeight = BoardDimensions.bounds.height;
+    const maxShrinkValue = BoardDimensions.perspectiveShrinkFactor;
 
-    final adjustedYPosition = body.position.y + (boardHeight / 2);
+    final standardizedYPosition = body.position.y + (boardHeight / 2);
 
-    final scaleFactor = ((boardHeight - adjustedYPosition) /
-            BoardDimensions.shrinkAdjustedHeight) +
-        maxShrinkAmount;
+    final scaleFactor = maxShrinkValue +
+        ((standardizedYPosition / boardHeight) * (1 - maxShrinkValue));
 
     body.fixtures.first.shape.radius = (size.x / 2) * scaleFactor;
     _spriteComponent.scale = Vector2.all(scaleFactor);
+  }
+
+  void _setPositionalGravity() {
+    final defaultGravity = gameRef.world.gravity.y;
+    final maxXDeviationFromCenter = BoardDimensions.bounds.width / 2;
+    const maxXGravityPercentage =
+        (1 - BoardDimensions.perspectiveShrinkFactor) / 2;
+    final xDeviationFromCenter = body.position.x;
+
+    final positionalXForce = ((xDeviationFromCenter / maxXDeviationFromCenter) *
+            maxXGravityPercentage) *
+        defaultGravity;
+
+    final positionalYForce = math.sqrt(
+      math.pow(defaultGravity, 2) - math.pow(positionalXForce, 2),
+    );
+
+    body.gravityOverride = Vector2(positionalXForce, positionalYForce);
   }
 }
 
