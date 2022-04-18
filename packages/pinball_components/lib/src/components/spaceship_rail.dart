@@ -6,6 +6,7 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template spaceship_rail}
 /// A [Blueprint] for the spaceship drop tube.
@@ -17,11 +18,11 @@ class SpaceshipRail extends Forge2DBlueprint {
   @override
   void build(_) {
     addAllContactCallback([
-      SpaceshipRailExitBallContactCallback(),
+      LayerSensorBallContactCallback<_SpaceshipRailExit>(),
     ]);
 
     final railRamp = _SpaceshipRailRamp();
-    final railEnd = SpaceshipRailExit();
+    final railEnd = _SpaceshipRailExit();
     final topBase = _SpaceshipRailBase(radius: 0.55)
       ..initialPosition = Vector2(-26.15, -18.65);
     final bottomBase = _SpaceshipRailBase(radius: 0.8)
@@ -194,15 +195,10 @@ class _SpaceshipRailBase extends BodyComponent with InitialPosition {
   }
 }
 
-/// {@template spaceship_rail_exit}
-/// A sensor [BodyComponent] responsible for sending the [Ball]
-/// back to the board.
-/// {@endtemplate}
-class SpaceshipRailExit extends RampOpening {
-  /// {@macro spaceship_rail_exit}
-  SpaceshipRailExit()
+class _SpaceshipRailExit extends LayerSensor {
+  _SpaceshipRailExit()
       : super(
-          orientation: RampOrientation.down,
+          orientation: LayerEntranceOrientation.down,
           insideLayer: Layer.spaceshipExitRail,
           insidePriority: RenderPriority.ballOnSpaceshipRail,
         ) {
@@ -218,20 +214,5 @@ class SpaceshipRailExit extends RampOpening {
       angle: math.pi * 0.4,
       rotation: -1.4,
     );
-  }
-}
-
-/// [ContactCallback] that handles the contact between the [Ball]
-/// and a [SpaceshipRailExit].
-///
-/// It resets the [Ball] priority and filter data so it will "be back" on the
-/// board.
-class SpaceshipRailExitBallContactCallback
-    extends ContactCallback<SpaceshipRailExit, Ball> {
-  @override
-  void begin(SpaceshipRailExit exitRail, Ball ball, _) {
-    ball
-      ..sendTo(exitRail.outsidePriority)
-      ..layer = exitRail.outsideLayer;
   }
 }

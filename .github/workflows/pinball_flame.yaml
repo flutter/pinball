@@ -1,0 +1,20 @@
+name: pinball_flame
+
+on:
+  push:
+    paths:
+      - "packages/pinball_flame/**"
+      - ".github/workflows/pinball_flame.yaml"
+
+  pull_request:
+    paths:
+      - "packages/pinball_flame/**"
+      - ".github/workflows/pinball_flame.yaml"
+
+jobs:
+  build:
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
+    with:
+      working_directory: packages/pinball_flame
+      coverage_excludes: "lib/gen/*.dart"
+      test_optimization: false

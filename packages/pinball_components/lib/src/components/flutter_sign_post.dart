@@ -7,14 +7,12 @@ import 'package:pinball_components/pinball_components.dart';
 /// {@endtemplate}
 class FlutterSignPost extends BodyComponent with InitialPosition {
   /// {@macro flutter_sign_post}
-  FlutterSignPost() : super(priority: RenderPriority.flutterSignPost);
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
+  FlutterSignPost()
+      : super(
+          priority: RenderPriority.flutterSignPost,
+          children: [_FlutterSignPostSpriteComponent()],
+        ) {
     renderBody = false;
-
-    await add(_FlutterSignPostSpriteComponent());
   }
 
   @override

@@ -3,6 +3,7 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template slingshots}
 /// A [Blueprint] which creates the pair of [Slingshot]s on the right side of
@@ -41,14 +42,16 @@ class Slingshot extends BodyComponent with InitialPosition {
     required String spritePath,
   })  : _length = length,
         _angle = angle,
-        _spritePath = spritePath,
-        super(priority: RenderPriority.slingshot);
+        super(
+          priority: RenderPriority.slingshot,
+          children: [_SlinghsotSpriteComponent(spritePath, angle: angle)],
+        ) {
+    renderBody = false;
+  }
 
   final double _length;
 
   final double _angle;
-
-  final String _spritePath;
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
@@ -103,24 +106,25 @@ class Slingshot extends BodyComponent with InitialPosition {
 
     return body;
   }
+}
+
+class _SlinghsotSpriteComponent extends SpriteComponent with HasGameRef {
+  _SlinghsotSpriteComponent(
+    String path, {
+    required double angle,
+  })  : _path = path,
+        super(
+          angle: -angle,
+          anchor: Anchor.center,
+        );
+
+  final String _path;
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadSprite();
-    renderBody = false;
-  }
-
-  Future<void> _loadSprite() async {
-    final sprite = await gameRef.loadSprite(_spritePath);
-
-    await add(
-      SpriteComponent(
-        sprite: sprite,
-        size: sprite.originalSize / 10,
-        anchor: Anchor.center,
-        angle: -_angle,
-      ),
-    );
+    final sprite = await gameRef.loadSprite(_path);
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
   }
 }

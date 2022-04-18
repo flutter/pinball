@@ -12,7 +12,6 @@ void main() {
     const initialState = GameState(
       score: 10,
       balls: 2,
-      activatedDashNests: {},
       bonusHistory: [],
     );
 

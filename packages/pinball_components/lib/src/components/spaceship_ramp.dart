@@ -6,6 +6,7 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template spaceship_ramp}
 /// A [Blueprint] which creates the ramp leading into the [Spaceship].
@@ -17,7 +18,7 @@ class SpaceshipRamp extends Forge2DBlueprint {
   @override
   void build(_) {
     addAllContactCallback([
-      RampOpeningBallContactCallback<_SpaceshipRampOpening>(),
+      LayerSensorBallContactCallback<_SpaceshipRampOpening>(),
     ]);
 
     final rightOpening = _SpaceshipRampOpening(
@@ -170,8 +171,12 @@ class _SpaceshipRampBoardOpeningSpriteComponent extends SpriteComponent
 class _SpaceshipRampForegroundRailing extends BodyComponent
     with InitialPosition, Layered {
   _SpaceshipRampForegroundRailing()
-      : super(priority: RenderPriority.spaceshipRampForegroundRailing) {
+      : super(
+          priority: RenderPriority.spaceshipRampForegroundRailing,
+          children: [_SpaceshipRampForegroundRailingSpriteComponent()],
+        ) {
     layer = Layer.spaceshipEntranceRamp;
+    renderBody = false;
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -222,14 +227,6 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
 
     return body;
   }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    renderBody = false;
-
-    await add(_SpaceshipRampForegroundRailingSpriteComponent());
-  }
 }
 
 class _SpaceshipRampForegroundRailingSpriteComponent extends SpriteComponent
@@ -277,10 +274,10 @@ class _SpaceshipRampBase extends BodyComponent with InitialPosition, Layered {
 }
 
 /// {@template spaceship_ramp_opening}
-/// [RampOpening] with [Layer.spaceshipEntranceRamp] to filter [Ball] collisions
+/// [LayerSensor] with [Layer.spaceshipEntranceRamp] to filter [Ball] collisions
 /// inside [_SpaceshipRampBackground].
 /// {@endtemplate}
-class _SpaceshipRampOpening extends RampOpening {
+class _SpaceshipRampOpening extends LayerSensor {
   /// {@macro spaceship_ramp_opening}
   _SpaceshipRampOpening({
     Layer? outsideLayer,
@@ -290,7 +287,7 @@ class _SpaceshipRampOpening extends RampOpening {
         super(
           insideLayer: Layer.spaceshipEntranceRamp,
           outsideLayer: outsideLayer,
-          orientation: RampOrientation.down,
+          orientation: LayerEntranceOrientation.down,
           insidePriority: RenderPriority.ballOnSpaceshipRamp,
           outsidePriority: outsidePriority,
         ) {

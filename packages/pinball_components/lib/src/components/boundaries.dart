@@ -3,6 +3,7 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template boundaries}
 /// A [Blueprint] which creates the [_BottomBoundary] and [_OuterBoundary].
@@ -23,7 +24,13 @@ class Boundaries extends Forge2DBlueprint {
 /// {@endtemplate bottom_boundary}
 class _BottomBoundary extends BodyComponent with InitialPosition {
   /// {@macro bottom_boundary}
-  _BottomBoundary() : super(priority: RenderPriority.bottomBoundary);
+  _BottomBoundary()
+      : super(
+          priority: RenderPriority.bottomBoundary,
+          children: [_BottomBoundarySpriteComponent()],
+        ) {
+    renderBody = false;
+  }
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDefs = <FixtureDef>[];
@@ -59,13 +66,6 @@ class _BottomBoundary extends BodyComponent with InitialPosition {
 
     return body;
   }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    renderBody = false;
-    await add(_BottomBoundarySpriteComponent());
-  }
 }
 
 class _BottomBoundarySpriteComponent extends SpriteComponent with HasGameRef {
@@ -88,7 +88,13 @@ class _BottomBoundarySpriteComponent extends SpriteComponent with HasGameRef {
 /// {@endtemplate outer_boundary}
 class _OuterBoundary extends BodyComponent with InitialPosition {
   /// {@macro outer_boundary}
-  _OuterBoundary() : super(priority: RenderPriority.outerBoudary);
+  _OuterBoundary()
+      : super(
+          priority: RenderPriority.outerBoudary,
+          children: [_OuterBoundarySpriteComponent()],
+        ) {
+    renderBody = false;
+  }
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDefs = <FixtureDef>[];
@@ -129,13 +135,6 @@ class _OuterBoundary extends BodyComponent with InitialPosition {
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    renderBody = false;
-    await add(_OuterBoundarySpriteComponent());
   }
 }
 
