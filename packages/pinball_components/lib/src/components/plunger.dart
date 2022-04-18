@@ -21,18 +21,39 @@ class Plunger extends BodyComponent with InitialPosition, Layered {
   /// Distance the plunger can lower.
   final double compressionDistance;
 
+  List<FixtureDef> _createFixtureDefs() {
+    final fixturesDef = <FixtureDef>[];
+
+    final leftShapeVertices = [
+      Vector2(0, 0),
+      Vector2(-1.4, 0),
+      Vector2(-1.4, -1.2),
+      Vector2(0, -0.3),
+    ]..map((vector) => vector.rotate(BoardDimensions.perspectiveAngle))
+        .toList();
+    final leftTriangleShape = PolygonShape()..set(leftShapeVertices);
+
+    final leftTriangleFixtureDef = FixtureDef(leftTriangleShape)..density = 80;
+    fixturesDef.add(leftTriangleFixtureDef);
+
+    final rightShapeVertices = [
+      Vector2(0, 0),
+      Vector2(1.4, 0),
+      Vector2(1.4, -1.2),
+      Vector2(0, -0.3),
+    ]..map((vector) => vector.rotate(BoardDimensions.perspectiveAngle))
+        .toList();
+    final rightTriangleShape = PolygonShape()..set(rightShapeVertices);
+
+    final rightTriangleFixtureDef = FixtureDef(rightTriangleShape)
+      ..density = 80;
+    fixturesDef.add(rightTriangleFixtureDef);
+
+    return fixturesDef;
+  }
+
   @override
   Body createBody() {
-    final shape = PolygonShape()
-      ..setAsBox(
-        1.35,
-        0.5,
-        Vector2.zero(),
-        BoardDimensions.perspectiveAngle,
-      );
-
-    final fixtureDef = FixtureDef(shape)..density = 80;
-
     final bodyDef = BodyDef(
       position: initialPosition,
       userData: this,
@@ -40,7 +61,9 @@ class Plunger extends BodyComponent with InitialPosition, Layered {
       gravityScale: Vector2.zero(),
     );
 
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
+    final body = world.createBody(bodyDef);
+    _createFixtureDefs().forEach(body.createFixture);
+    return body;
   }
 
   /// Set a constant downward velocity on the [Plunger].
@@ -77,12 +100,35 @@ class Plunger extends BodyComponent with InitialPosition, Layered {
   Future<void> onLoad() async {
     await super.onLoad();
     await _anchorToJoint();
-    renderBody = false;
+    renderBody = true;
     await add(_PlungerSpriteComponent());
   }
 }
 
 class _PlungerSpriteComponent extends SpriteComponent with HasGameRef {
+  /*
+  late final SpriteAnimation _pullAnimation;
+
+  late final SpriteAnimation _releaseAnimation;
+
+  void pull() {
+    print('PLAYING pullAnimation');
+    if (animation != _pullAnimation) {
+      print('set animation to _pullAnimation');
+      animation = _pullAnimation;
+    }
+    //playing = true;
+  }
+
+  void release() {
+    print('PLAYING releaseAnimation');
+    if (animation != _releaseAnimation) {
+      print('set animation to _releaseAnimation');
+      animation = _releaseAnimation;
+      //playing = true;
+    }
+  }
+  */
   @override
   Future<void> onLoad() async {
     await super.onLoad();
