@@ -161,11 +161,17 @@ class _PlungerSpriteComponent extends SpriteAnimationComponent with HasGameRef {
         amountPerRow: amountPerRow ~/ 2,
         stepTime: 1 / 24,
         textureSize: textureSize,
-        texturePosition: Vector2(0, 0),
+        texturePosition: Vector2.zero(),
         loop: false,
       ),
-    );
-    _releaseAnimation = _pullAnimation.reversed();
+    )..onComplete = () {
+        playing = false;
+      };
+
+    _releaseAnimation = _pullAnimation.reversed()
+      ..onComplete = () {
+        playing = false;
+      };
 
     animation = _pullAnimation;
     position = Vector2(1.87, 15.5);
