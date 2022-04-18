@@ -1,6 +1,7 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -121,14 +122,14 @@ void main() {
       );
 
       flameBlocTester.testGameWidget(
-        'adds GameBonus.dashNest to the game when all bumpers are activated',
+        'adds GameBonus.dashNest to the game when 3 bumpers are activated',
         setUp: (game, _) async {
           final ball = Ball(baseColor: const Color(0xFFFF0000));
           final flutterForest = FlutterForest();
           await game.ensureAddAll([flutterForest, ball]);
 
           final bumpers = flutterForest.children.whereType<DashNestBumper>();
-          expect(bumpers, isNotEmpty);
+          expect(bumpers.length, equals(3));
           for (final bumper in bumpers) {
             beginContact(game, bumper, ball);
             await game.ready();
@@ -141,6 +142,32 @@ void main() {
               verifyNever(
                 () => gameBloc.add(const BonusActivated(GameBonus.dashNest)),
               );
+            }
+          }
+        },
+      );
+
+      flameBlocTester.testGameWidget(
+        'deactivates bumpers when 3 are active',
+        setUp: (game, _) async {
+          final ball = Ball(baseColor: const Color(0xFFFF0000));
+          final flutterForest = FlutterForest();
+          await game.ensureAddAll([flutterForest, ball]);
+
+          final bumpers = [
+            MockDashNestBumper(),
+            MockDashNestBumper(),
+            MockDashNestBumper(),
+          ];
+
+          for (final bumper in bumpers) {
+            flutterForest.controller.activateBumper(bumper);
+            await game.ready();
+
+            if (bumper == bumpers.last) {
+              for (final bumper in bumpers) {
+                verify(bumper.deactivate).called(1);
+              }
             }
           }
         },

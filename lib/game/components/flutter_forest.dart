@@ -28,11 +28,11 @@ class FlutterForest extends Component
     final signPost = FlutterSignPost()..initialPosition = Vector2(8.35, 58.3);
 
     final bigNest = _BigDashNestBumper()
-      ..initialPosition = Vector2(18.55, 59.35);
+      ..initialPosition = Vector2(18.55, -59.35);
     final smallLeftNest = _SmallDashNestBumper.a()
-      ..initialPosition = Vector2(8.95, 51.95);
+      ..initialPosition = Vector2(8.95, -51.95);
     final smallRightNest = _SmallDashNestBumper.b()
-      ..initialPosition = Vector2(23.3, 46.75);
+      ..initialPosition = Vector2(23.3, -46.75);
     final dashAnimatronic = DashAnimatronic()..position = Vector2(20, -66);
 
     await addAll([
@@ -58,12 +58,11 @@ class _FlutterForestController extends ComponentController<FlutterForest>
 
     final activatedBonus = _activatedBumpers.length == 3;
     if (activatedBonus) {
-      children.whereType<DashNestBumper>().forEach(
-            (dashNestBumper) => dashNestBumper.deactivate(),
-          );
       gameRef.read<GameBloc>().add(const BonusActivated(GameBonus.dashNest));
       _addBonusBall();
-      _activatedBumpers.clear();
+      _activatedBumpers
+        ..forEach((bumper) => bumper.deactivate())
+        ..clear();
     }
   }
 
