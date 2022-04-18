@@ -25,19 +25,19 @@ class Spaceship extends Forge2DBlueprint {
   @override
   void build(_) {
     addAllContactCallback([
-      SpaceshipHoleBallContactCallback(),
-      SpaceshipEntranceBallContactCallback(),
+      LayerSensorBallContactCallback<_SpaceshipEntrance>(),
+      LayerSensorBallContactCallback<_SpaceshipHole>(),
     ]);
 
     addAll([
       SpaceshipSaucer()..initialPosition = position,
-      SpaceshipEntrance()..initialPosition = position,
+      _SpaceshipEntrance()..initialPosition = position,
       AndroidHead()..initialPosition = position,
-      SpaceshipHole(
+      _SpaceshipHole(
         outsideLayer: Layer.spaceshipExitRail,
         outsidePriority: Ball.spaceshipRailPriority,
       )..initialPosition = position - Vector2(5.2, -4.8),
-      SpaceshipHole()..initialPosition = position - Vector2(-7.2, -0.8),
+      _SpaceshipHole()..initialPosition = position - Vector2(-7.2, -0.8),
       SpaceshipWall()..initialPosition = position,
     ]);
   }
@@ -140,17 +140,11 @@ class _AndroidHeadSpriteAnimation extends SpriteAnimationComponent
   }
 }
 
-/// {@template spaceship_entrance}
-/// A sensor [BodyComponent] used to detect when the ball enters the
-/// the spaceship area in order to modify its filter data so the ball
-/// can correctly collide only with the Spaceship
-/// {@endtemplate}
-class SpaceshipEntrance extends RampOpening {
-  /// {@macro spaceship_entrance}
-  SpaceshipEntrance()
+class _SpaceshipEntrance extends LayerSensor {
+  _SpaceshipEntrance()
       : super(
           insideLayer: Layer.spaceship,
-          orientation: RampOrientation.up,
+          orientation: LayerEntranceOrientation.up,
           insidePriority: Ball.spaceshipPriority,
         ) {
     layer = Layer.spaceship;
@@ -174,17 +168,12 @@ class SpaceshipEntrance extends RampOpening {
   }
 }
 
-/// {@template spaceship_hole}
-/// A sensor [BodyComponent] responsible for sending the [Ball]
-/// out from the [Spaceship].
-/// {@endtemplate}
-class SpaceshipHole extends RampOpening {
-  /// {@macro spaceship_hole}
-  SpaceshipHole({Layer? outsideLayer, int? outsidePriority = 1})
+class _SpaceshipHole extends LayerSensor {
+  _SpaceshipHole({Layer? outsideLayer, int? outsidePriority = 1})
       : super(
           insideLayer: Layer.spaceship,
           outsideLayer: outsideLayer,
-          orientation: RampOrientation.up,
+          orientation: LayerEntranceOrientation.down,
           insidePriority: 4,
           outsidePriority: outsidePriority,
         ) {
@@ -254,35 +243,5 @@ class SpaceshipWall extends BodyComponent with InitialPosition, Layered {
     );
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
-  }
-}
-
-/// [ContactCallback] that handles the contact between the [Ball]
-/// and the [SpaceshipEntrance].
-///
-/// It modifies the [Ball] priority and filter data so it can appear on top of
-/// the spaceship and also only collide with the spaceship.
-class SpaceshipEntranceBallContactCallback
-    extends ContactCallback<SpaceshipEntrance, Ball> {
-  @override
-  void begin(SpaceshipEntrance entrance, Ball ball, _) {
-    ball
-      ..sendTo(entrance.insidePriority)
-      ..layer = Layer.spaceship;
-  }
-}
-
-/// [ContactCallback] that handles the contact between the [Ball]
-/// and a [SpaceshipHole].
-///
-/// It sets the [Ball] priority and filter data so it will outside of the
-/// [Spaceship].
-class SpaceshipHoleBallContactCallback
-    extends ContactCallback<SpaceshipHole, Ball> {
-  @override
-  void begin(SpaceshipHole hole, Ball ball, _) {
-    ball
-      ..sendTo(hole.outsidePriority)
-      ..layer = hole.outsideLayer;
   }
 }
