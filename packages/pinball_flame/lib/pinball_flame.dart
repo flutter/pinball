@@ -1,3 +1,3 @@
 library pinball_flame;
 
-export 'src/pinball_flame.dart';
+export 'src/component_controller.dart';

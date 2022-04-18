@@ -1,12 +1,9 @@
 import 'package:flame/components.dart';
-import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/foundation.dart';
 
 /// {@template component_controller}
 /// A [ComponentController] is a [Component] in charge of handling the logic
 /// associated with another [Component].
-///
-/// [ComponentController]s usually implement [BlocComponent].
 /// {@endtemplate}
 abstract class ComponentController<T extends Component> extends Component {
   /// {@macro component_controller}
