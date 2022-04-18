@@ -29,7 +29,13 @@ class DinoWalls extends Forge2DBlueprint {
 /// {@endtemplate}
 class _DinoTopWall extends BodyComponent with InitialPosition {
   ///{@macro dino_top_wall}
-  _DinoTopWall() : super(priority: 1);
+  _DinoTopWall()
+      : super(
+          priority: 1,
+          children: [_DinoTopWallSpriteComponent()],
+        ) {
+    renderBody = false;
+  }
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
@@ -98,14 +104,6 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
 
     return body;
   }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    renderBody = false;
-
-    await add(_DinoTopWallSpriteComponent());
-  }
 }
 
 class _DinoTopWallSpriteComponent extends SpriteComponent with HasGameRef {
@@ -126,7 +124,12 @@ class _DinoTopWallSpriteComponent extends SpriteComponent with HasGameRef {
 /// {@endtemplate}
 class _DinoBottomWall extends BodyComponent with InitialPosition {
   ///{@macro dino_top_wall}
-  _DinoBottomWall();
+  _DinoBottomWall()
+      : super(
+          children: [_DinoBottomWallSpriteComponent()],
+        ) {
+    renderBody = false;
+  }
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
@@ -205,14 +208,6 @@ class _DinoBottomWall extends BodyComponent with InitialPosition {
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    renderBody = false;
-
-    await add(_DinoBottomWallSpriteComponent());
   }
 }
 

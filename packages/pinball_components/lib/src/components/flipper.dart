@@ -13,7 +13,11 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   /// {@macro flipper}
   Flipper({
     required this.side,
-  });
+  }) : super(
+          children: [_FlipperSpriteComponent(side: side)],
+        ) {
+    renderBody = false;
+  }
 
   /// The size of the [Flipper].
   static final size = Vector2(13.5, 4.3);
@@ -112,10 +116,8 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    renderBody = false;
 
     await _anchorToJoint();
-    await add(_FlipperSpriteComponent(side: side));
   }
 
   @override
