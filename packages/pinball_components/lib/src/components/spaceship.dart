@@ -92,16 +92,13 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
 /// {@endtemplate}
 class AndroidHead extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_bridge}
-  AndroidHead() : super(priority: Ball.spaceshipPriority + 1) {
-    layer = Layer.spaceship;
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
+  AndroidHead()
+      : super(
+          priority: Ball.spaceshipPriority + 1,
+          children: [_AndroidHeadSpriteAnimation()],
+        ) {
     renderBody = false;
-
-    await add(_AndroidHeadSpriteAnimation());
+    layer = Layer.spaceship;
   }
 
   @override
