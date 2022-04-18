@@ -42,8 +42,16 @@ class LaunchRamp extends Forge2DBlueprint {
 /// {@endtemplate}
 class _LaunchRampBase extends BodyComponent with InitialPosition, Layered {
   /// {@macro launch_ramp_base}
-  _LaunchRampBase() : super(priority: Ball.launchRampPriority - 1) {
+  _LaunchRampBase()
+      : super(
+          priority: Ball.launchRampPriority - 1,
+          children: [
+            _LaunchRampBackgroundRailingSpriteComponent(),
+            _LaunchRampBaseSpriteComponent(),
+          ],
+        ) {
     layer = Layer.launcher;
+    renderBody = false;
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -114,15 +122,6 @@ class _LaunchRampBase extends BodyComponent with InitialPosition, Layered {
 
     return body;
   }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    renderBody = false;
-
-    await add(_LaunchRampBaseSpriteComponent());
-    await add(_LaunchRampBackgroundRailingSpriteComponent());
-  }
 }
 
 class _LaunchRampBaseSpriteComponent extends SpriteComponent with HasGameRef {
@@ -136,7 +135,7 @@ class _LaunchRampBaseSpriteComponent extends SpriteComponent with HasGameRef {
     this.sprite = sprite;
     size = sprite.originalSize / 10;
     anchor = Anchor.center;
-    position = Vector2(25.65, 0);
+    position = Vector2(25.65, 0.7);
   }
 }
 
@@ -152,7 +151,7 @@ class _LaunchRampBackgroundRailingSpriteComponent extends SpriteComponent
     this.sprite = sprite;
     size = sprite.originalSize / 10;
     anchor = Anchor.center;
-    position = Vector2(25.65, -2);
+    position = Vector2(25.6, -1.3);
   }
 }
 
@@ -228,7 +227,7 @@ class _LaunchRampForegroundRailingSpriteComponent extends SpriteComponent
     this.sprite = sprite;
     size = sprite.originalSize / 10;
     anchor = Anchor.center;
-    position = Vector2(22.8, -1);
+    position = Vector2(22.8, 0.5);
   }
 }
 
