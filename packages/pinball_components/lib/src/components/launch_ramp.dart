@@ -121,6 +121,7 @@ class _LaunchRampBase extends BodyComponent with InitialPosition, Layered {
     renderBody = false;
 
     await add(_LaunchRampBaseSpriteComponent());
+    await add(_LaunchRampBackgroundRailingSpriteComponent());
   }
 }
 
@@ -136,6 +137,22 @@ class _LaunchRampBaseSpriteComponent extends SpriteComponent with HasGameRef {
     size = sprite.originalSize / 10;
     anchor = Anchor.center;
     position = Vector2(25.65, 0);
+  }
+}
+
+class _LaunchRampBackgroundRailingSpriteComponent extends SpriteComponent
+    with HasGameRef {
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+
+    final sprite = await gameRef.loadSprite(
+      Assets.images.launchRamp.backgroundRailing.keyName,
+    );
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
+    anchor = Anchor.center;
+    position = Vector2(25.65, -2);
   }
 }
 
@@ -211,7 +228,7 @@ class _LaunchRampForegroundRailingSpriteComponent extends SpriteComponent
     this.sprite = sprite;
     size = sprite.originalSize / 10;
     anchor = Anchor.center;
-    position = Vector2(22.8, 0);
+    position = Vector2(22.8, -1);
   }
 }
 
