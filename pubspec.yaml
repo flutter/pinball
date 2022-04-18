@@ -27,6 +27,8 @@ dependencies:
     path: packages/pinball_audio
   pinball_components:
     path: packages/pinball_components
+  pinball_flame:
+    path: packages/pinball_flame
   pinball_theme:
     path: packages/pinball_theme
 

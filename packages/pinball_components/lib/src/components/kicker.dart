@@ -16,7 +16,12 @@ class Kicker extends BodyComponent with InitialPosition {
   /// {@macro kicker}
   Kicker({
     required BoardSide side,
-  }) : _side = side;
+  })  : _side = side,
+        super(
+          children: [_KickerSpriteComponent(side: side)],
+        ) {
+    renderBody = false;
+  }
 
   /// The size of the [Kicker] body.
   static final Vector2 size = Vector2(4.4, 15);
@@ -119,13 +124,6 @@ class Kicker extends BodyComponent with InitialPosition {
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    renderBody = false;
-    await add(_KickerSpriteComponent(side: _side));
   }
 }
 

@@ -7,6 +7,7 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template spaceship}
 /// A [Blueprint] which creates the spaceship feature.
@@ -91,16 +92,13 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
 /// {@endtemplate}
 class AndroidHead extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_bridge}
-  AndroidHead() : super(priority: Ball.spaceshipPriority + 1) {
-    layer = Layer.spaceship;
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
+  AndroidHead()
+      : super(
+          priority: Ball.spaceshipPriority + 1,
+          children: [_AndroidHeadSpriteAnimation()],
+        ) {
     renderBody = false;
-
-    await add(_AndroidHeadSpriteAnimation());
+    layer = Layer.spaceship;
   }
 
   @override

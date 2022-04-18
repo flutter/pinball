@@ -79,105 +79,21 @@ void main() {
       );
     });
 
-    group('controller', () {
-      group('listenWhen', () {
-        final gameBloc = MockGameBloc();
-        final flameBlocTester = FlameBlocTester<TestGame, GameBloc>(
-          gameBuilder: TestGame.new,
-          blocBuilder: () => gameBloc,
-        );
-
-        flameBlocTester.testGameWidget(
-          'listens when a Bonus.dashNest and a bonusBall is added',
-          verify: (game, tester) async {
-            final flutterForest = FlutterForest();
-
-            const state = GameState(
-              score: 0,
-              balls: 3,
-              activatedDashNests: {},
-              bonusHistory: [GameBonus.dashNest],
-            );
-
-            expect(
-              flutterForest.controller
-                  .listenWhen(const GameState.initial(), state),
-              isTrue,
-            );
-          },
-        );
-      });
-    });
-
-    flameTester.test(
-      'onNewState adds a new ball after a duration',
-      (game) async {
-        final flutterForest = FlutterForest();
-        await game.ensureAdd(flutterForest);
-
-        final previousBalls = game.descendants().whereType<Ball>().length;
-        flutterForest.controller.onNewState(MockGameState());
-
-        await Future<void>.delayed(const Duration(milliseconds: 700));
-        await game.ready();
-
-        expect(
-          game.descendants().whereType<Ball>().length,
-          greaterThan(previousBalls),
-        );
-      },
-    );
-
-    flameTester.test(
-      'onNewState starts Dash animatronic',
-      (game) async {
-        final flutterForest = FlutterForest();
-        await game.ensureAdd(flutterForest);
-
-        flutterForest.controller.onNewState(MockGameState());
-        final dashAnimatronic =
-            game.descendants().whereType<DashAnimatronic>().single;
-
-        expect(dashAnimatronic.playing, isTrue);
-      },
-    );
-
     group('bumpers', () {
       late Ball ball;
       late GameBloc gameBloc;
 
       setUp(() {
         ball = Ball(baseColor: const Color(0xFF00FFFF));
-        gameBloc = MockGameBloc();
-        whenListen(
-          gameBloc,
-          const Stream<GameState>.empty(),
-          initialState: const GameState.initial(),
-        );
       });
 
       final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
         gameBuilder: EmptyPinballTestGame.new,
-        blocBuilder: () => gameBloc,
-      );
-
-      flameBlocTester.testGameWidget(
-        'add DashNestActivated event',
-        setUp: (game, tester) async {
-          final flutterForest = FlutterForest();
-          await game.ensureAdd(flutterForest);
-          await game.ensureAdd(ball);
-
-          final bumpers =
-              flutterForest.descendants().whereType<DashNestBumper>();
-
-          for (final bumper in bumpers) {
-            beginContact(game, bumper, ball);
-            final controller = bumper.firstChild<DashNestBumperController>()!;
-            verify(
-              () => gameBloc.add(DashNestActivated(controller.id)),
-            ).called(1);
-          }
+        blocBuilder: () {
+          gameBloc = MockGameBloc();
+          const state = GameState.initial();
+          whenListen(gameBloc, Stream.value(state), initialState: state);
+          return gameBloc;
         },
       );
 
@@ -185,8 +101,10 @@ void main() {
         'add Scored event',
         setUp: (game, tester) async {
           final flutterForest = FlutterForest();
-          await game.ensureAdd(flutterForest);
-          await game.ensureAdd(ball);
+          await game.ensureAddAll([
+            flutterForest,
+            ball,
+          ]);
           game.addContactCallback(BallScorePointsCallback(game));
 
           final bumpers = flutterForest.descendants().whereType<ScorePoints>();
@@ -201,122 +119,58 @@ void main() {
           }
         },
       );
+
+      flameBlocTester.testGameWidget(
+        'adds GameBonus.dashNest to the game when 3 bumpers are activated',
+        setUp: (game, _) async {
+          final ball = Ball(baseColor: const Color(0xFFFF0000));
+          final flutterForest = FlutterForest();
+          await game.ensureAddAll([flutterForest, ball]);
+
+          final bumpers = flutterForest.children.whereType<DashNestBumper>();
+          expect(bumpers.length, equals(3));
+          for (final bumper in bumpers) {
+            beginContact(game, bumper, ball);
+            await game.ready();
+
+            if (bumper == bumpers.last) {
+              verify(
+                () => gameBloc.add(const BonusActivated(GameBonus.dashNest)),
+              ).called(1);
+            } else {
+              verifyNever(
+                () => gameBloc.add(const BonusActivated(GameBonus.dashNest)),
+              );
+            }
+          }
+        },
+      );
+
+      flameBlocTester.testGameWidget(
+        'deactivates bumpers when 3 are active',
+        setUp: (game, _) async {
+          final ball = Ball(baseColor: const Color(0xFFFF0000));
+          final flutterForest = FlutterForest();
+          await game.ensureAddAll([flutterForest, ball]);
+
+          final bumpers = [
+            MockDashNestBumper(),
+            MockDashNestBumper(),
+            MockDashNestBumper(),
+          ];
+
+          for (final bumper in bumpers) {
+            flutterForest.controller.activateBumper(bumper);
+            await game.ready();
+
+            if (bumper == bumpers.last) {
+              for (final bumper in bumpers) {
+                verify(bumper.deactivate).called(1);
+              }
+            }
+          }
+        },
+      );
     });
-  });
-
-  group('DashNestBumperController', () {
-    late DashNestBumper dashNestBumper;
-
-    setUp(() {
-      dashNestBumper = MockDashNestBumper();
-    });
-
-    group(
-      'listensWhen',
-      () {
-        late GameState previousState;
-        late GameState newState;
-
-        setUp(
-          () {
-            previousState = MockGameState();
-            newState = MockGameState();
-          },
-        );
-
-        test('listens when the id is added to activatedDashNests', () {
-          const id = '';
-          final controller = DashNestBumperController(
-            dashNestBumper,
-            id: id,
-          );
-
-          when(() => previousState.activatedDashNests).thenReturn({});
-          when(() => newState.activatedDashNests).thenReturn({id});
-
-          expect(controller.listenWhen(previousState, newState), isTrue);
-        });
-
-        test('listens when the id is removed from activatedDashNests', () {
-          const id = '';
-          final controller = DashNestBumperController(
-            dashNestBumper,
-            id: id,
-          );
-
-          when(() => previousState.activatedDashNests).thenReturn({id});
-          when(() => newState.activatedDashNests).thenReturn({});
-
-          expect(controller.listenWhen(previousState, newState), isTrue);
-        });
-
-        test("doesn't listen when the id is never in activatedDashNests", () {
-          final controller = DashNestBumperController(
-            dashNestBumper,
-            id: '',
-          );
-
-          when(() => previousState.activatedDashNests).thenReturn({});
-          when(() => newState.activatedDashNests).thenReturn({});
-
-          expect(controller.listenWhen(previousState, newState), isFalse);
-        });
-
-        test("doesn't listen when the id still in activatedDashNests", () {
-          const id = '';
-          final controller = DashNestBumperController(
-            dashNestBumper,
-            id: id,
-          );
-
-          when(() => previousState.activatedDashNests).thenReturn({id});
-          when(() => newState.activatedDashNests).thenReturn({id});
-
-          expect(controller.listenWhen(previousState, newState), isFalse);
-        });
-      },
-    );
-
-    group(
-      'onNewState',
-      () {
-        late GameState state;
-
-        setUp(() {
-          state = MockGameState();
-        });
-
-        test(
-          'activates the bumper when id in activatedDashNests',
-          () {
-            const id = '';
-            final controller = DashNestBumperController(
-              dashNestBumper,
-              id: id,
-            );
-
-            when(() => state.activatedDashNests).thenReturn({id});
-            controller.onNewState(state);
-
-            verify(() => dashNestBumper.activate()).called(1);
-          },
-        );
-
-        test(
-          'deactivates the bumper when id not in activatedDashNests',
-          () {
-            final controller = DashNestBumperController(
-              dashNestBumper,
-              id: '',
-            );
-
-            when(() => state.activatedDashNests).thenReturn({});
-            controller.onNewState(state);
-
-            verify(() => dashNestBumper.deactivate()).called(1);
-          },
-        );
-      },
-    );
   });
 }
