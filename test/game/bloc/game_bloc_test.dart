@@ -21,7 +21,6 @@ void main() {
           const GameState(
             score: 0,
             balls: 2,
-            activatedDashNests: {},
             bonusHistory: [],
           ),
         ],
@@ -40,13 +39,11 @@ void main() {
           const GameState(
             score: 2,
             balls: 3,
-            activatedDashNests: {},
             bonusHistory: [],
           ),
           const GameState(
             score: 5,
             balls: 3,
-            activatedDashNests: {},
             bonusHistory: [],
           ),
         ],
@@ -66,51 +63,17 @@ void main() {
           const GameState(
             score: 0,
             balls: 2,
-            activatedDashNests: {},
             bonusHistory: [],
           ),
           const GameState(
             score: 0,
             balls: 1,
-            activatedDashNests: {},
             bonusHistory: [],
           ),
           const GameState(
             score: 0,
             balls: 0,
-            activatedDashNests: {},
             bonusHistory: [],
-          ),
-        ],
-      );
-    });
-
-    group('DashNestActivated', () {
-      blocTest<GameBloc, GameState>(
-        'adds the bonus when all nests are activated',
-        build: GameBloc.new,
-        act: (bloc) => bloc
-          ..add(const DashNestActivated('0'))
-          ..add(const DashNestActivated('1'))
-          ..add(const DashNestActivated('2')),
-        expect: () => const [
-          GameState(
-            score: 0,
-            balls: 3,
-            activatedDashNests: {'0'},
-            bonusHistory: [],
-          ),
-          GameState(
-            score: 0,
-            balls: 3,
-            activatedDashNests: {'0', '1'},
-            bonusHistory: [],
-          ),
-          GameState(
-            score: 0,
-            balls: 4,
-            activatedDashNests: {},
-            bonusHistory: [GameBonus.dashNest],
           ),
         ],
       );
@@ -129,13 +92,11 @@ void main() {
             GameState(
               score: 0,
               balls: 3,
-              activatedDashNests: {},
               bonusHistory: [GameBonus.googleWord],
             ),
             GameState(
               score: 0,
               balls: 3,
-              activatedDashNests: {},
               bonusHistory: [GameBonus.googleWord, GameBonus.dashNest],
             ),
           ],
@@ -152,7 +113,6 @@ void main() {
           GameState(
             score: 0,
             balls: 3,
-            activatedDashNests: {},
             bonusHistory: [GameBonus.sparkyTurboCharge],
           ),
         ],
