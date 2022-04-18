@@ -41,7 +41,6 @@ void main() {
           insidePriority: insidePriority,
           insideLayer: Layer.spaceshipEntranceRamp,
         );
-        await game.ready();
         await game.ensureAdd(layerSensor);
 
         expect(game.contains(layerSensor), isTrue);

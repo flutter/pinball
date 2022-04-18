@@ -14,6 +14,8 @@ dependencies:
   geometry:
     path: ../geometry
   intl: ^0.17.0
+  pinball_flame:
+    path: ../pinball_flame
 
 
 dev_dependencies:

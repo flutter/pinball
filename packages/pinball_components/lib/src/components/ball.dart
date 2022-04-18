@@ -14,13 +14,18 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   /// {@macro ball}
   Ball({
     required this.baseColor,
-  }) {
+  }) : super(
+          children: [
+            _BallSpriteComponent()..tint(baseColor.withOpacity(0.5)),
+          ],
+        ) {
     // TODO(ruimiguel): while developing Ball can be launched by clicking mouse,
     // and default  layer is Layer.all. But on final game Ball will be always be
     // be launched from Plunger and LauncherRamp will modify it to Layer.board.
     // We need to see what happens if Ball appears from other place like nest
     // bumper, it will need to explicit change layer to Layer.board then.
     layer = Layer.board;
+    renderBody = false;
   }
 
   /// Render priority for the [Ball] while it's on the board.
@@ -46,20 +51,6 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
 
   double _boostTimer = 0;
   static const _boostDuration = 2.0;
-
-  final _BallSpriteComponent _spriteComponent = _BallSpriteComponent();
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    renderBody = false;
-
-    await add(
-      _spriteComponent..tint(baseColor.withOpacity(0.5)),
-    );
-
-    renderBody = false;
-  }
 
   @override
   Body createBody() {
@@ -132,7 +123,10 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
         ((standardizedYPosition / boardHeight) * (1 - maxShrinkValue));
 
     body.fixtures.first.shape.radius = (size.x / 2) * scaleFactor;
-    _spriteComponent.scale = Vector2.all(scaleFactor);
+
+    // TODO(alestiago): Revisit and see if there's a better way to do this.
+    final spriteComponent = firstChild<_BallSpriteComponent>();
+    spriteComponent?.scale = Vector2.all(scaleFactor);
   }
 
   void _setPositionalGravity() {

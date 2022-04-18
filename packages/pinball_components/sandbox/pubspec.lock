@@ -240,6 +240,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0+1"
+  pinball_flame:
+    dependency: "direct main"
+    description:
+      path: "../../pinball_flame"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   platform:
     dependency: transitive
     description:

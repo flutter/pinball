@@ -42,15 +42,6 @@ class BonusActivated extends GameEvent {
   List<Object?> get props => [bonus];
 }
 
-class DashNestActivated extends GameEvent {
-  const DashNestActivated(this.nestId);
-
-  final String nestId;
-
-  @override
-  List<Object?> get props => [nestId];
-}
-
 class SparkyTurboChargeActivated extends GameEvent {
   const SparkyTurboChargeActivated();
 
