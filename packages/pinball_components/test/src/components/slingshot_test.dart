@@ -20,6 +20,7 @@ void main() {
       setUp: (game, tester) async {
         await game.addFromBlueprint(Slingshots());
         game.camera.followVector2(Vector2.zero());
+        await game.ready();
       },
       verify: (game, tester) async {
         await expectLater(

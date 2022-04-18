@@ -47,6 +47,7 @@ void main() {
           final position = Vector2(30, -30);
           await game.addFromBlueprint(Spaceship(position: position));
           game.camera.followVector2(position);
+          await game.ready();
         },
         verify: (game, tester) async {
           await expectLater(

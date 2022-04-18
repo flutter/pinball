@@ -45,7 +45,9 @@ class Slingshot extends BodyComponent with InitialPosition {
         super(
           priority: 1,
           children: [_SlinghsotSpriteComponent(spritePath, angle: angle)],
-        );
+        ) {
+    renderBody = false;
+  }
 
   final double _length;
 
@@ -111,7 +113,10 @@ class _SlinghsotSpriteComponent extends SpriteComponent with HasGameRef {
     String path, {
     required double angle,
   })  : _path = path,
-        super(angle: -angle);
+        super(
+          angle: -angle,
+          anchor: Anchor.center,
+        );
 
   final String _path;
 
