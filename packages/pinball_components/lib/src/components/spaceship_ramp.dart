@@ -18,7 +18,7 @@ class SpaceshipRamp extends Forge2DBlueprint {
   @override
   void build(_) {
     addAllContactCallback([
-      RampOpeningBallContactCallback<_SpaceshipRampOpening>(),
+      LayerSensorBallContactCallback<_SpaceshipRampOpening>(),
     ]);
 
     final rightOpening = _SpaceshipRampOpening(
@@ -273,10 +273,10 @@ class _SpaceshipRampBase extends BodyComponent with InitialPosition, Layered {
 }
 
 /// {@template spaceship_ramp_opening}
-/// [RampOpening] with [Layer.spaceshipEntranceRamp] to filter [Ball] collisions
+/// [LayerSensor] with [Layer.spaceshipEntranceRamp] to filter [Ball] collisions
 /// inside [_SpaceshipRampBackground].
 /// {@endtemplate}
-class _SpaceshipRampOpening extends RampOpening {
+class _SpaceshipRampOpening extends LayerSensor {
   /// {@macro spaceship_ramp_opening}
   _SpaceshipRampOpening({
     Layer? outsideLayer,
@@ -286,7 +286,7 @@ class _SpaceshipRampOpening extends RampOpening {
         super(
           insideLayer: Layer.spaceshipEntranceRamp,
           outsideLayer: outsideLayer,
-          orientation: RampOrientation.down,
+          orientation: LayerEntranceOrientation.down,
           insidePriority: Ball.spaceshipRampPriority,
           outsidePriority: outsidePriority,
         ) {

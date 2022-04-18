@@ -15,8 +15,6 @@ void main() {
     late Fixture fixture;
     late Body body;
     late Ball ball;
-    late SpaceshipEntrance entrance;
-    late SpaceshipHole hole;
     late Forge2DGame game;
 
     setUp(() {
@@ -33,9 +31,6 @@ void main() {
       ball = MockBall();
       when(() => ball.gameRef).thenReturn(game);
       when(() => ball.body).thenReturn(body);
-
-      entrance = MockSpaceshipEntrance();
-      hole = MockSpaceshipHole();
     });
 
     group('Spaceship', () {
@@ -56,37 +51,6 @@ void main() {
           );
         },
       );
-    });
-
-    group('SpaceshipEntranceBallContactCallback', () {
-      test('changes the ball priority on contact', () {
-        when(() => ball.priority).thenReturn(2);
-        when(() => entrance.insidePriority).thenReturn(3);
-
-        SpaceshipEntranceBallContactCallback().begin(
-          entrance,
-          ball,
-          MockContact(),
-        );
-
-        verify(() => ball.sendTo(entrance.insidePriority)).called(1);
-      });
-    });
-
-    group('SpaceshipHoleBallContactCallback', () {
-      test('changes the ball priority on contact', () {
-        when(() => ball.priority).thenReturn(2);
-        when(() => hole.outsideLayer).thenReturn(Layer.board);
-        when(() => hole.outsidePriority).thenReturn(1);
-
-        SpaceshipHoleBallContactCallback().begin(
-          hole,
-          ball,
-          MockContact(),
-        );
-
-        verify(() => ball.sendTo(hole.outsidePriority)).called(1);
-      });
     });
   });
 }
