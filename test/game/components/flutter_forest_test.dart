@@ -1,5 +1,6 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -84,12 +85,16 @@ void main() {
 
       setUp(() {
         ball = Ball(baseColor: const Color(0xFF00FFFF));
-        gameBloc = MockGameBloc();
       });
 
       final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
         gameBuilder: EmptyPinballTestGame.new,
-        blocBuilder: () => gameBloc,
+        blocBuilder: () {
+          gameBloc = MockGameBloc();
+          const state = GameState.initial();
+          whenListen(gameBloc, Stream.value(state), initialState: state);
+          return gameBloc;
+        },
       );
 
       flameBlocTester.testGameWidget(
@@ -111,6 +116,32 @@ void main() {
                 Scored(points: bumper.points),
               ),
             ).called(1);
+          }
+        },
+      );
+
+      flameBlocTester.testGameWidget(
+        'adds GameBonus.dashNest to the game when all bumpers are activated',
+        setUp: (game, _) async {
+          final ball = Ball(baseColor: const Color(0xFFFF0000));
+          final flutterForest = FlutterForest();
+          await game.ensureAddAll([flutterForest, ball]);
+
+          final bumpers = flutterForest.children.whereType<DashNestBumper>();
+          expect(bumpers, isNotEmpty);
+          for (final bumper in bumpers) {
+            beginContact(game, bumper, ball);
+            await game.ready();
+
+            if (bumper == bumpers.last) {
+              verify(
+                () => gameBloc.add(const BonusActivated(GameBonus.dashNest)),
+              ).called(1);
+            } else {
+              verifyNever(
+                () => gameBloc.add(const BonusActivated(GameBonus.dashNest)),
+              );
+            }
           }
         },
       );

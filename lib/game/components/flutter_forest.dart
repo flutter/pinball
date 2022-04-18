@@ -61,7 +61,7 @@ class _FlutterForestController extends ComponentController<FlutterForest>
       children.whereType<DashNestBumper>().forEach(
             (dashNestBumper) => dashNestBumper.deactivate(),
           );
-      // gameRef.read<GameBloc>().add(const BonusActivated(GameBonus.dashNest));
+      gameRef.read<GameBloc>().add(const BonusActivated(GameBonus.dashNest));
       _addBonusBall();
       _activatedBumpers.clear();
     }
