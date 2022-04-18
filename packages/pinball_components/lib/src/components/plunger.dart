@@ -21,6 +21,8 @@ class Plunger extends BodyComponent with InitialPosition, Layered {
   /// Distance the plunger can lower.
   final double compressionDistance;
 
+  final _PlungerSpriteComponent _spriteComponent = _PlungerSpriteComponent();
+
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
 
@@ -69,6 +71,7 @@ class Plunger extends BodyComponent with InitialPosition, Layered {
   /// Set a constant downward velocity on the [Plunger].
   void pull() {
     body.linearVelocity = Vector2(0, 7);
+    _spriteComponent.pull();
   }
 
   /// Set an upward velocity on the [Plunger].
@@ -78,6 +81,7 @@ class Plunger extends BodyComponent with InitialPosition, Layered {
   void release() {
     final velocity = (initialPosition.y - body.position.y) * 5;
     body.linearVelocity = Vector2(0, velocity);
+    _spriteComponent.release();
   }
 
   /// Anchors the [Plunger] to the [PrismaticJoint] that controls its vertical
@@ -100,47 +104,81 @@ class Plunger extends BodyComponent with InitialPosition, Layered {
   Future<void> onLoad() async {
     await super.onLoad();
     await _anchorToJoint();
-    renderBody = true;
-    await add(_PlungerSpriteComponent());
+    renderBody = false;
+    await add(_spriteComponent);
   }
 }
 
-class _PlungerSpriteComponent extends SpriteComponent with HasGameRef {
-  /*
+class _PlungerSpriteComponent extends SpriteAnimationComponent with HasGameRef {
+  _PlungerSpriteComponent()
+      : super(
+          anchor: Anchor.center,
+          playing: false,
+        );
+
   late final SpriteAnimation _pullAnimation;
 
   late final SpriteAnimation _releaseAnimation;
 
   void pull() {
-    print('PLAYING pullAnimation');
     if (animation != _pullAnimation) {
-      print('set animation to _pullAnimation');
       animation = _pullAnimation;
     }
-    //playing = true;
+    playing = true;
   }
 
   void release() {
-    print('PLAYING releaseAnimation');
     if (animation != _releaseAnimation) {
-      print('set animation to _releaseAnimation');
       animation = _releaseAnimation;
-      //playing = true;
+      playing = true;
     }
   }
-  */
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final sprite = await gameRef.loadSprite(
+    final spriteSheet = await gameRef.images.load(
       Assets.images.plunger.plunger.keyName,
     );
 
-    this.sprite = sprite;
-    size = sprite.originalSize / 10;
-    anchor = Anchor.center;
-    position = Vector2(1.5, 13.4);
-    angle = -0.008;
+    const amountPerRow = 20;
+    const amountPerColumn = 1;
+
+    final textureSize = Vector2(
+      spriteSheet.width / amountPerRow,
+      spriteSheet.height / amountPerColumn,
+    );
+    size = textureSize / 10;
+
+    // TODO(ruimiguel): we only need plunger pull animation, and release is just
+    // to reverse it, so we need to divide by 2 while we don't have only half of
+    // the animation (but amountPerRow and amountPerColumn needs to be correct
+    // in order of calculate textureSize correctly).
+    _pullAnimation = SpriteAnimation.fromFrameData(
+      spriteSheet,
+      SpriteAnimationData.sequenced(
+        amount: amountPerRow * amountPerColumn ~/ 2,
+        amountPerRow: amountPerRow ~/ 2,
+        stepTime: 1 / 24,
+        textureSize: textureSize,
+        texturePosition: Vector2(0, 0),
+        loop: false,
+      ),
+    );
+    _releaseAnimation = _pullAnimation.reversed();
+
+    animation = _pullAnimation;
+    position = Vector2(1.87, 15.5);
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    if (animation != null) {
+      if (animation!.isLastFrame) {
+        playing = false;
+      }
+    }
   }
 }
 
