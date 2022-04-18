@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/widgets.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template ball}
@@ -84,10 +85,10 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
     body.gravityScale = Vector2(0, 1);
   }
 
-  /// Applies a boost and [_FlameEffect] on this [Ball].
+  /// Applies a boost and [_TurboChargeSpriteAnimation] on this [Ball].
   Future<void> boost(Vector2 impulse) async {
     body.linearVelocity = impulse;
-    await add(_FlameEffect());
+    await add(_TurboChargeSpriteAnimation());
   }
 
   @override
@@ -146,14 +147,15 @@ class _BallSpriteComponent extends SpriteComponent with HasGameRef {
   }
 }
 
-class _FlameEffect extends SpriteAnimationComponent with HasGameRef {
-  _FlameEffect()
+class _TurboChargeSpriteAnimation extends SpriteAnimationComponent
+    with HasGameRef {
+  _TurboChargeSpriteAnimation()
       : super(
           anchor: const Anchor(0.53, 0.72),
           priority: Ball.boardPriority + 1,
+          removeOnFinish: true,
         );
 
-  var _duration = 2.0;
   late final Vector2 _textureSize;
 
   @override
@@ -178,6 +180,7 @@ class _FlameEffect extends SpriteAnimationComponent with HasGameRef {
         amountPerRow: amountPerRow,
         stepTime: 1 / 24,
         textureSize: _textureSize,
+        loop: false,
       ),
     );
   }
@@ -191,12 +194,6 @@ class _FlameEffect extends SpriteAnimationComponent with HasGameRef {
       final direction = -body.linearVelocity.normalized();
       angle = math.atan2(direction.x, -direction.y);
       size = (_textureSize / 45) * body.fixtures.first.shape.radius;
-    }
-
-    _duration -= dt;
-
-    if (_duration < 0) {
-      removeFromParent();
     }
   }
 }

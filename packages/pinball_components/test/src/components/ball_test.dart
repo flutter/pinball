@@ -175,7 +175,7 @@ void main() {
         expect(ball.body.linearVelocity.y, greaterThan(0));
       });
 
-      flameTester.test('adds FlameEffect', (game) async {
+      flameTester.test('adds TurboChargeSpriteAnimation', (game) async {
         final ball = Ball(baseColor: Colors.blue);
         await game.ensureAdd(ball);
 
@@ -188,22 +188,23 @@ void main() {
         );
       });
 
-      flameTester.test('removes FlameEffect after a duration', (game) async {
+      flameTester.test('removes TurboChargeSpriteAnimation after it finishes',
+          (game) async {
         final ball = Ball(baseColor: Colors.blue);
         await game.ensureAdd(ball);
 
         await ball.boost(Vector2.all(10));
         game.update(0);
 
-        final flameEffect =
+        final turboChargeSpriteAnimation =
             ball.children.whereType<SpriteAnimationComponent>().single;
 
-        expect(ball.contains(flameEffect), isTrue);
+        expect(ball.contains(turboChargeSpriteAnimation), isTrue);
 
-        game.update(3);
-        await game.ready();
+        game.update(turboChargeSpriteAnimation.animation!.totalDuration());
+        game.update(0.1);
 
-        expect(ball.contains(flameEffect), isFalse);
+        expect(ball.contains(turboChargeSpriteAnimation), isFalse);
       });
     });
   });
