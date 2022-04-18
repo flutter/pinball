@@ -5,6 +5,7 @@ import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:pinball/flame/flame.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/gen/assets.gen.dart';
 import 'package:pinball_audio/pinball_audio.dart';
@@ -168,12 +169,21 @@ class DebugPinballGame extends PinballGame with TapDetector {
 
     await add(spriteComponent);
   }
+}
+
+// FIXME(alestiago): This doesn't work. Is an issue with Flame.
+// https://github.com/flame-engine/flame/issues/1132
+// https://github.com/flame-engine/flame/pull/1506
+class DebugGameController extends ComponentController<DebugPinballGame>
+    with Tappable {
+  DebugGameController(DebugPinballGame game) : super(game);
 
   @override
-  void onTapUp(TapUpInfo info) {
+  bool onTapUp(TapUpInfo info) {
     add(
       ControlledBall.debug()..initialPosition = info.eventPosition.game,
     );
+    return false;
   }
 }
 
