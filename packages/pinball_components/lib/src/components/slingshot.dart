@@ -42,14 +42,16 @@ class Slingshot extends BodyComponent with InitialPosition {
     required String spritePath,
   })  : _length = length,
         _angle = angle,
-        _spritePath = spritePath,
-        super(priority: 1);
+        super(
+          priority: 1,
+          children: [_SlinghsotSpriteComponent(spritePath, angle: angle)],
+        ) {
+    renderBody = false;
+  }
 
   final double _length;
 
   final double _angle;
-
-  final String _spritePath;
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
@@ -104,24 +106,25 @@ class Slingshot extends BodyComponent with InitialPosition {
 
     return body;
   }
+}
+
+class _SlinghsotSpriteComponent extends SpriteComponent with HasGameRef {
+  _SlinghsotSpriteComponent(
+    String path, {
+    required double angle,
+  })  : _path = path,
+        super(
+          angle: -angle,
+          anchor: Anchor.center,
+        );
+
+  final String _path;
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadSprite();
-    renderBody = false;
-  }
-
-  Future<void> _loadSprite() async {
-    final sprite = await gameRef.loadSprite(_spritePath);
-
-    await add(
-      SpriteComponent(
-        sprite: sprite,
-        size: sprite.originalSize / 10,
-        anchor: Anchor.center,
-        angle: -_angle,
-      ),
-    );
+    final sprite = await gameRef.loadSprite(_path);
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
   }
 }

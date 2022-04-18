@@ -17,6 +17,7 @@ void main() {
       setUp: (game, tester) async {
         await game.addFromBlueprint(SpaceshipRamp());
         game.camera.followVector2(Vector2(-13, -50));
+        await game.ready();
       },
       verify: (game, tester) async {
         await expectLater(

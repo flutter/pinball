@@ -11,7 +11,12 @@ class Baseboard extends BodyComponent with InitialPosition {
   /// {@macro baseboard}
   Baseboard({
     required BoardSide side,
-  }) : _side = side;
+  })  : _side = side,
+        super(
+          children: [_BaseboardSpriteComponent(side: side)],
+        ) {
+    renderBody = false;
+  }
 
   /// Whether the [Baseboard] is on the left or right side of the board.
   final BoardSide _side;
@@ -77,13 +82,6 @@ class Baseboard extends BodyComponent with InitialPosition {
     fixturesDef.add(bottomRectangleFixtureDef);
 
     return fixturesDef;
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    renderBody = false;
-    await add(_BaseboardSpriteComponent(side: _side));
   }
 
   @override

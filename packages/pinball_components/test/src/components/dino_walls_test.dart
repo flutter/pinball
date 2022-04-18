@@ -19,6 +19,7 @@ void main() {
         await game.addFromBlueprint(DinoWalls());
         game.camera.followVector2(Vector2.zero());
         game.camera.zoom = 6.5;
+        await game.ready();
       },
       verify: (game, tester) async {
         await expectLater(

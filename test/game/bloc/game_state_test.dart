@@ -10,14 +10,12 @@ void main() {
         GameState(
           score: 0,
           balls: 0,
-          activatedDashNests: const {},
           bonusHistory: const [],
         ),
         equals(
           const GameState(
             score: 0,
             balls: 0,
-            activatedDashNests: {},
             bonusHistory: [],
           ),
         ),
@@ -30,7 +28,6 @@ void main() {
           const GameState(
             score: 0,
             balls: 0,
-            activatedDashNests: {},
             bonusHistory: [],
           ),
           isNotNull,
@@ -46,7 +43,6 @@ void main() {
           () => GameState(
             balls: -1,
             score: 0,
-            activatedDashNests: const {},
             bonusHistory: const [],
           ),
           throwsAssertionError,
@@ -62,7 +58,6 @@ void main() {
           () => GameState(
             balls: 0,
             score: -1,
-            activatedDashNests: const {},
             bonusHistory: const [],
           ),
           throwsAssertionError,
@@ -77,7 +72,6 @@ void main() {
         const gameState = GameState(
           balls: 0,
           score: 0,
-          activatedDashNests: {},
           bonusHistory: [],
         );
         expect(gameState.isGameOver, isTrue);
@@ -89,7 +83,6 @@ void main() {
         const gameState = GameState(
           balls: 1,
           score: 0,
-          activatedDashNests: {},
           bonusHistory: [],
         );
         expect(gameState.isGameOver, isFalse);
@@ -104,7 +97,6 @@ void main() {
           const gameState = GameState(
             balls: 0,
             score: 2,
-            activatedDashNests: {},
             bonusHistory: [],
           );
           expect(
@@ -121,7 +113,6 @@ void main() {
           const gameState = GameState(
             balls: 0,
             score: 2,
-            activatedDashNests: {},
             bonusHistory: [],
           );
           expect(
@@ -138,13 +129,11 @@ void main() {
           const gameState = GameState(
             score: 2,
             balls: 0,
-            activatedDashNests: {},
             bonusHistory: [],
           );
           final otherGameState = GameState(
             score: gameState.score + 1,
             balls: gameState.balls + 1,
-            activatedDashNests: const {'1'},
             bonusHistory: const [GameBonus.googleWord],
           );
           expect(gameState, isNot(equals(otherGameState)));
@@ -153,7 +142,6 @@ void main() {
             gameState.copyWith(
               score: otherGameState.score,
               balls: otherGameState.balls,
-              activatedDashNests: otherGameState.activatedDashNests,
               bonusHistory: otherGameState.bonusHistory,
             ),
             equals(otherGameState),

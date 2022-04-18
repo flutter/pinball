@@ -12,7 +12,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     on<BallLost>(_onBallLost);
     on<Scored>(_onScored);
     on<BonusActivated>(_onBonusActivated);
-    on<DashNestActivated>(_onDashNestActivated);
     on<SparkyTurboChargeActivated>(_onSparkyTurboChargeActivated);
   }
 
@@ -32,31 +31,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         bonusHistory: [...state.bonusHistory, event.bonus],
       ),
     );
-  }
-
-  void _onDashNestActivated(DashNestActivated event, Emitter emit) {
-    final newNests = {
-      ...state.activatedDashNests,
-      event.nestId,
-    };
-
-    final achievedBonus = newNests.length == 3;
-    if (achievedBonus) {
-      emit(
-        state.copyWith(
-          balls: state.balls + 1,
-          activatedDashNests: {},
-          bonusHistory: [
-            ...state.bonusHistory,
-            GameBonus.dashNest,
-          ],
-        ),
-      );
-    } else {
-      emit(
-        state.copyWith(activatedDashNests: newNests),
-      );
-    }
   }
 
   Future<void> _onSparkyTurboChargeActivated(
