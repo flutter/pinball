@@ -23,14 +23,12 @@ class GameState extends Equatable {
     required this.score,
     required this.balls,
     required this.bonusHistory,
-    required this.activatedDashNests,
   })  : assert(score >= 0, "Score can't be negative"),
         assert(balls >= 0, "Number of balls can't be negative");
 
   const GameState.initial()
       : score = 0,
         balls = 3,
-        activatedDashNests = const {},
         bonusHistory = const [];
 
   /// The current score of the game.
@@ -40,9 +38,6 @@ class GameState extends Equatable {
   ///
   /// When the number of balls is 0, the game is over.
   final int balls;
-
-  /// Active dash nests.
-  final Set<String> activatedDashNests;
 
   /// Holds the history of all the [GameBonus]es earned by the player during a
   /// PinballGame.
@@ -54,7 +49,6 @@ class GameState extends Equatable {
   GameState copyWith({
     int? score,
     int? balls,
-    Set<String>? activatedDashNests,
     List<GameBonus>? bonusHistory,
   }) {
     assert(
@@ -65,7 +59,6 @@ class GameState extends Equatable {
     return GameState(
       score: score ?? this.score,
       balls: balls ?? this.balls,
-      activatedDashNests: activatedDashNests ?? this.activatedDashNests,
       bonusHistory: bonusHistory ?? this.bonusHistory,
     );
   }
@@ -74,7 +67,6 @@ class GameState extends Equatable {
   List<Object?> get props => [
         score,
         balls,
-        activatedDashNests,
         bonusHistory,
       ];
 }

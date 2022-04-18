@@ -16,7 +16,6 @@ void main() {
           score: 10,
           balls: 0,
           bonusHistory: const [],
-          activatedDashNests: const {},
         );
 
         final previous = GameState.initial();
@@ -66,7 +65,6 @@ void main() {
               score: 10,
               balls: 0,
               bonusHistory: const [],
-              activatedDashNests: const {},
             ),
           );
 
