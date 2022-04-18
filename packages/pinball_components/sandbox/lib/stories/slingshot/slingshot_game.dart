@@ -1,5 +1,6 @@
 import 'package:flame/extensions.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
