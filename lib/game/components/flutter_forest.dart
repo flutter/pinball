@@ -25,7 +25,7 @@ class FlutterForest extends Component
     await super.onLoad();
     gameRef.addContactCallback(_DashNestBumperBallContactCallback());
 
-    final signPost = FlutterSignPost()..initialPosition = Vector2(8.35, 58.3);
+    final signPost = FlutterSignPost()..initialPosition = Vector2(8.35, -58.3);
 
     final bigNest = _BigDashNestBumper()
       ..initialPosition = Vector2(18.55, -59.35);
@@ -58,15 +58,19 @@ class _FlutterForestController extends ComponentController<FlutterForest>
 
     final activatedBonus = _activatedBumpers.length == 3;
     if (activatedBonus) {
-      gameRef.read<GameBloc>().add(const BonusActivated(GameBonus.dashNest));
       _addBonusBall();
+
+      gameRef.read<GameBloc>().add(const BonusActivated(GameBonus.dashNest));
       _activatedBumpers
         ..forEach((bumper) => bumper.deactivate())
         ..clear();
+
+      component.firstChild<DashAnimatronic>()?.playing = true;
     }
   }
 
   Future<void> _addBonusBall() async {
+    // TODO(alestiago): Remove hardcoded duration.
     await Future<void>.delayed(const Duration(milliseconds: 700));
     await gameRef.add(
       ControlledBall.bonus(theme: gameRef.theme)
