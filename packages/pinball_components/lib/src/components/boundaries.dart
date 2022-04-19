@@ -79,7 +79,7 @@ class _BottomBoundarySpriteComponent extends SpriteComponent with HasGameRef {
     this.sprite = sprite;
     size = sprite.originalSize / 10;
     anchor = Anchor.center;
-    position = Vector2(-5.4, 55.8);
+    position = Vector2(-5.4, 55.6);
   }
 }
 
