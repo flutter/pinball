@@ -85,10 +85,10 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
     body.gravityScale = Vector2(0, 1);
   }
 
-  /// Applies a boost and [_TurboChargeSpriteAnimation] on this [Ball].
+  /// Applies a boost and [_TurboChargeSpriteAnimationComponent] on this [Ball].
   Future<void> boost(Vector2 impulse) async {
     body.linearVelocity = impulse;
-    await add(_TurboChargeSpriteAnimation());
+    await add(_TurboChargeSpriteAnimationComponent());
   }
 
   @override
@@ -147,9 +147,9 @@ class _BallSpriteComponent extends SpriteComponent with HasGameRef {
   }
 }
 
-class _TurboChargeSpriteAnimation extends SpriteAnimationComponent
+class _TurboChargeSpriteAnimationComponent extends SpriteAnimationComponent
     with HasGameRef {
-  _TurboChargeSpriteAnimation()
+  _TurboChargeSpriteAnimationComponent()
       : super(
           anchor: const Anchor(0.53, 0.72),
           priority: Ball.boardPriority + 1,
