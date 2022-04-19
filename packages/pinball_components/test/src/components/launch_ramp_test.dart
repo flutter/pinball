@@ -16,6 +16,7 @@ void main() {
       'renders correctly',
       setUp: (game, tester) async {
         await game.addFromBlueprint(LaunchRamp());
+        await game.ready();
         game.camera.followVector2(Vector2.zero());
         game.camera.zoom = 4.1;
       },
