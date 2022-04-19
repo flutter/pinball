@@ -42,10 +42,21 @@ class LaunchRamp extends Forge2DBlueprint {
 /// {@endtemplate}
 class _LaunchRampBase extends BodyComponent with InitialPosition, Layered {
   /// {@macro launch_ramp_base}
-  _LaunchRampBase() : super(priority: Ball.launchRampPriority - 1) {
+  _LaunchRampBase()
+      : super(
+          priority: Ball.launchRampPriority - 1,
+          children: [
+            _LaunchRampBackgroundRailingSpriteComponent(),
+            _LaunchRampBaseSpriteComponent(),
+          ],
+        ) {
     layer = Layer.launcher;
+    renderBody = false;
   }
 
+  // TODO(ruimiguel): final asset differs slightly from the current shape. We
+  // need to fix shape with correct vertices, but right now merge them to have
+  // final assets at game and not be blocked.
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
 
@@ -114,14 +125,6 @@ class _LaunchRampBase extends BodyComponent with InitialPosition, Layered {
 
     return body;
   }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    renderBody = false;
-
-    await add(_LaunchRampBaseSpriteComponent());
-  }
 }
 
 class _LaunchRampBaseSpriteComponent extends SpriteComponent with HasGameRef {
@@ -135,7 +138,23 @@ class _LaunchRampBaseSpriteComponent extends SpriteComponent with HasGameRef {
     this.sprite = sprite;
     size = sprite.originalSize / 10;
     anchor = Anchor.center;
-    position = Vector2(25.65, 0);
+    position = Vector2(25.65, 0.7);
+  }
+}
+
+class _LaunchRampBackgroundRailingSpriteComponent extends SpriteComponent
+    with HasGameRef {
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+
+    final sprite = await gameRef.loadSprite(
+      Assets.images.launchRamp.backgroundRailing.keyName,
+    );
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
+    anchor = Anchor.center;
+    position = Vector2(25.6, -1.3);
   }
 }
 
@@ -145,7 +164,13 @@ class _LaunchRampBaseSpriteComponent extends SpriteComponent with HasGameRef {
 /// {@endtemplate}
 class _LaunchRampForegroundRailing extends BodyComponent with InitialPosition {
   /// {@macro launch_ramp_foreground_railing}
-  _LaunchRampForegroundRailing() : super(priority: Ball.launchRampPriority + 1);
+  _LaunchRampForegroundRailing()
+      : super(
+          priority: Ball.launchRampPriority + 1,
+          children: [_LaunchRampForegroundRailingSpriteComponent()],
+        ) {
+    renderBody = false;
+  }
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
@@ -153,7 +178,7 @@ class _LaunchRampForegroundRailing extends BodyComponent with InitialPosition {
     final rightStraightShape = EdgeShape()
       ..set(
         Vector2(27.6, -57.9),
-        Vector2(30, -35.1),
+        Vector2(38.1, 42.6),
       );
     final rightStraightFixtureDef = FixtureDef(rightStraightShape);
     fixturesDef.add(rightStraightFixtureDef);
@@ -189,14 +214,6 @@ class _LaunchRampForegroundRailing extends BodyComponent with InitialPosition {
 
     return body;
   }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    renderBody = false;
-
-    await add(_LaunchRampForegroundRailingSpriteComponent());
-  }
 }
 
 class _LaunchRampForegroundRailingSpriteComponent extends SpriteComponent
@@ -211,7 +228,7 @@ class _LaunchRampForegroundRailingSpriteComponent extends SpriteComponent
     this.sprite = sprite;
     size = sprite.originalSize / 10;
     anchor = Anchor.center;
-    position = Vector2(22.8, 0);
+    position = Vector2(22.8, 0.5);
   }
 }
 
