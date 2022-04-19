@@ -30,7 +30,7 @@ class _BottomBoundary extends BodyComponent with InitialPosition {
           priority: Ball.boardPriority + 2,
           children: [_BottomBoundarySpriteComponent()],
         ) {
-    renderBody = true;
+    renderBody = false;
   }
 
   List<FixtureDef> _createFixtureDefs() {
