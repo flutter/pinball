@@ -6,9 +6,6 @@ import 'package:flame_forge2d/flame_forge2d.dart' hide Timer;
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-// TODO(alestiago): Make this global.
-const _kImageToFlameRatio = 10.0;
-
 /// {@template chrome_dino}
 /// Dinosaur that gobbles up a [Ball], swivel his head around, and shoots it
 /// back out.
@@ -51,7 +48,7 @@ class ChromeDino extends BodyComponent with InitialPosition {
           repeat: true,
         ),
         _ChromeDinoMouthSprite(),
-        //  _ChromeDinoHeadSprite(),
+        _ChromeDinoHeadSprite(),
       ],
     );
   }
@@ -121,7 +118,7 @@ class ChromeDino extends BodyComponent with InitialPosition {
 class _ChromeDinoAnchor extends JointAnchor {
   /// {@macro flipper_anchor}
   _ChromeDinoAnchor() {
-    initialPosition = Vector2(ChromeDino.size.x / 2, 0);
+    initialPosition = Vector2(9, 0);
   }
 }
 
@@ -168,17 +165,22 @@ class _ChromeDinoMouthSprite extends SpriteAnimationComponent with HasGameRef {
       Assets.images.chromeDino.mouth.keyName,
     );
 
-    size = Vector2(25, 20);
     position = Vector2(0, -2);
     anchor = Anchor.center;
 
-    const amountPerRow = 10;
-    const amountPerColumn = 10;
+    const amountPerRow = 11;
+    const amountPerColumn = 9;
+    final textureSize = Vector2(
+      image.width / amountPerRow,
+      image.height / amountPerColumn,
+    );
+    size = textureSize / 10;
+
     final data = SpriteAnimationData.sequenced(
-      amount: amountPerColumn * amountPerRow,
+      amount: (amountPerColumn * amountPerRow) - 1,
       amountPerRow: amountPerRow,
-      stepTime: 0.10,
-      textureSize: size * _kImageToFlameRatio,
+      stepTime: 0.1,
+      textureSize: textureSize,
     );
     animation = SpriteAnimation.fromFrameData(image, data);
   }
@@ -192,17 +194,22 @@ class _ChromeDinoHeadSprite extends SpriteAnimationComponent with HasGameRef {
       Assets.images.chromeDino.head.keyName,
     );
 
-    size = Vector2(25, 20);
     position = Vector2(0, -2);
     anchor = Anchor.center;
 
-    const amountPerRow = 10;
-    const amountPerColumn = 10;
+    const amountPerRow = 11;
+    const amountPerColumn = 9;
+    final textureSize = Vector2(
+      image.width / amountPerRow,
+      image.height / amountPerColumn,
+    );
+    size = textureSize / 10;
+
     final data = SpriteAnimationData.sequenced(
-      amount: amountPerColumn * amountPerRow,
+      amount: (amountPerColumn * amountPerRow) - 1,
       amountPerRow: amountPerRow,
-      stepTime: 1,
-      textureSize: size * _kImageToFlameRatio,
+      stepTime: 0.1,
+      textureSize: textureSize,
     );
     animation = SpriteAnimation.fromFrameData(image, data);
   }
