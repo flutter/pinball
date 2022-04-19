@@ -2,7 +2,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 
-class ChromeDinoGame extends BasicGame {
+class ChromeDinoGame extends BasicGame with Traceable {
   static const info = 'Shows how a ChromeDino is rendered.';
 
   @override
@@ -11,5 +11,7 @@ class ChromeDinoGame extends BasicGame {
 
     camera.followVector2(Vector2.zero());
     await add(ChromeDino());
+
+    await traceAllBodies();
   }
 }

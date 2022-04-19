@@ -7,7 +7,7 @@ void addChromeDinoStories(Dashbook dashbook) {
   dashbook.storiesOf('Chrome Dino').add(
         'Basic',
         (context) => GameWidget(
-          game: ChromeDinoGame(),
+          game: ChromeDinoGame()..trace = context.boolProperty('Trace', true),
         ),
         codeLink: buildSourceLink('chrome_dino/basic.dart'),
         info: ChromeDinoGame.info,
