@@ -62,7 +62,6 @@ void main() {
           ),
           assetsManagerCubit: assetsManagerCubit,
           themeCubit: themeCubit,
-          gameBloc: gameBloc,
         );
 
         expect(
