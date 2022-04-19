@@ -6,19 +6,21 @@ import 'package:pinball_components/pinball_components.dart';
 /// A sign, found in the Flutter Forest.
 /// {@endtemplate}
 class FlutterSignPost extends BodyComponent with InitialPosition {
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
+  /// {@macro flutter_sign_post}
+  FlutterSignPost()
+      : super(
+          children: [_FlutterSignPostSpriteComponent()],
+        ) {
     renderBody = false;
-
-    await add(_FlutterSignPostSpriteComponent());
   }
 
   @override
   Body createBody() {
     final shape = CircleShape()..radius = 0.25;
     final fixtureDef = FixtureDef(shape);
-    final bodyDef = BodyDef()..position = initialPosition;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+    );
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }

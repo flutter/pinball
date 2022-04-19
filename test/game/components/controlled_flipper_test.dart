@@ -11,18 +11,16 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(EmptyPinballGameTest.new);
+  final flameTester = FlameTester(EmptyPinballTestGame.new);
 
-  final gameOverBlocTester = FlameBlocTester<EmptyPinballGameTest, GameBloc>(
-    gameBuilder: EmptyPinballGameTest.new,
+  final flameBlocTester = FlameBlocTester<EmptyPinballTestGame, GameBloc>(
+    gameBuilder: EmptyPinballTestGame.new,
     blocBuilder: () {
       final bloc = MockGameBloc();
       const state = GameState(
         score: 0,
         balls: 0,
         bonusHistory: [],
-        activatedBonusLetters: [],
-        activatedDashNests: {},
       );
       whenListen(bloc, Stream.value(state), initialState: state);
       return bloc;
@@ -66,7 +64,7 @@ void main() {
         });
 
         testRawKeyDownEvents(leftKeys, (event) {
-          gameOverBlocTester.testGameWidget(
+          flameBlocTester.testGameWidget(
             'does nothing when is game over',
             setUp: (game, tester) async {
               await game.ensureAdd(flipper);
@@ -151,7 +149,7 @@ void main() {
         });
 
         testRawKeyDownEvents(rightKeys, (event) {
-          gameOverBlocTester.testGameWidget(
+          flameBlocTester.testGameWidget(
             'does nothing when is game over',
             setUp: (game, tester) async {
               await game.ensureAdd(flipper);

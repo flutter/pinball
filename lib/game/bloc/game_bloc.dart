@@ -11,13 +11,9 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   GameBloc() : super(const GameState.initial()) {
     on<BallLost>(_onBallLost);
     on<Scored>(_onScored);
-    on<BonusLetterActivated>(_onBonusLetterActivated);
-    on<DashNestActivated>(_onDashNestActivated);
+    on<BonusActivated>(_onBonusActivated);
     on<SparkyTurboChargeActivated>(_onSparkyTurboChargeActivated);
   }
-
-  static const bonusWord = 'GOOGLE';
-  static const bonusWordScore = 10000;
 
   void _onBallLost(BallLost event, Emitter emit) {
     emit(state.copyWith(balls: state.balls - 1));
@@ -29,54 +25,12 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     }
   }
 
-  void _onBonusLetterActivated(BonusLetterActivated event, Emitter emit) {
-    final newBonusLetters = [
-      ...state.activatedBonusLetters,
-      event.letterIndex,
-    ];
-
-    final achievedBonus = newBonusLetters.length == bonusWord.length;
-    if (achievedBonus) {
-      emit(
-        state.copyWith(
-          activatedBonusLetters: [],
-          bonusHistory: [
-            ...state.bonusHistory,
-            GameBonus.word,
-          ],
-        ),
-      );
-      add(const Scored(points: bonusWordScore));
-    } else {
-      emit(
-        state.copyWith(activatedBonusLetters: newBonusLetters),
-      );
-    }
-  }
-
-  void _onDashNestActivated(DashNestActivated event, Emitter emit) {
-    final newNests = {
-      ...state.activatedDashNests,
-      event.nestId,
-    };
-
-    final achievedBonus = newNests.length == 3;
-    if (achievedBonus) {
-      emit(
-        state.copyWith(
-          balls: state.balls + 1,
-          activatedDashNests: {},
-          bonusHistory: [
-            ...state.bonusHistory,
-            GameBonus.dashNest,
-          ],
-        ),
-      );
-    } else {
-      emit(
-        state.copyWith(activatedDashNests: newNests),
-      );
-    }
+  void _onBonusActivated(BonusActivated event, Emitter emit) {
+    emit(
+      state.copyWith(
+        bonusHistory: [...state.bonusHistory, event.bonus],
+      ),
+    );
   }
 
   Future<void> _onSparkyTurboChargeActivated(

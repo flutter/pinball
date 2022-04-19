@@ -11,7 +11,12 @@ class Baseboard extends BodyComponent with InitialPosition {
   /// {@macro baseboard}
   Baseboard({
     required BoardSide side,
-  }) : _side = side;
+  })  : _side = side,
+        super(
+          children: [_BaseboardSpriteComponent(side: side)],
+        ) {
+    renderBody = false;
+  }
 
   /// Whether the [Baseboard] is on the left or right side of the board.
   final BoardSide _side;
@@ -80,19 +85,12 @@ class Baseboard extends BodyComponent with InitialPosition {
   }
 
   @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    renderBody = false;
-    await add(_BaseboardSpriteComponent(side: _side));
-  }
-
-  @override
   Body createBody() {
     const angle = 37.1 * (math.pi / 180);
-
-    final bodyDef = BodyDef()
-      ..position = initialPosition
-      ..angle = _side.isLeft ? angle : -angle;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      angle: -angle * _side.direction,
+    );
 
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);

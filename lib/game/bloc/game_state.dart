@@ -4,9 +4,8 @@ part of 'game_bloc.dart';
 
 /// Defines bonuses that a player can gain during a PinballGame.
 enum GameBonus {
-  /// Bonus achieved when the user activate all of the bonus
-  /// letters on the board, forming the bonus word.
-  word,
+  /// Bonus achieved when the ball activates all Google letters.
+  googleWord,
 
   /// Bonus achieved when the user activates all dash nest bumpers.
   dashNest,
@@ -23,17 +22,13 @@ class GameState extends Equatable {
   const GameState({
     required this.score,
     required this.balls,
-    required this.activatedBonusLetters,
     required this.bonusHistory,
-    required this.activatedDashNests,
   })  : assert(score >= 0, "Score can't be negative"),
         assert(balls >= 0, "Number of balls can't be negative");
 
   const GameState.initial()
       : score = 0,
         balls = 3,
-        activatedBonusLetters = const [],
-        activatedDashNests = const {},
         bonusHistory = const [];
 
   /// The current score of the game.
@@ -44,12 +39,6 @@ class GameState extends Equatable {
   /// When the number of balls is 0, the game is over.
   final int balls;
 
-  /// Active bonus letters.
-  final List<int> activatedBonusLetters;
-
-  /// Active dash nests.
-  final Set<String> activatedDashNests;
-
   /// Holds the history of all the [GameBonus]es earned by the player during a
   /// PinballGame.
   final List<GameBonus> bonusHistory;
@@ -57,15 +46,9 @@ class GameState extends Equatable {
   /// Determines when the game is over.
   bool get isGameOver => balls == 0;
 
-  /// Shortcut method to check if the given [i]
-  /// is activated.
-  bool isLetterActivated(int i) => activatedBonusLetters.contains(i);
-
   GameState copyWith({
     int? score,
     int? balls,
-    List<int>? activatedBonusLetters,
-    Set<String>? activatedDashNests,
     List<GameBonus>? bonusHistory,
   }) {
     assert(
@@ -76,9 +59,6 @@ class GameState extends Equatable {
     return GameState(
       score: score ?? this.score,
       balls: balls ?? this.balls,
-      activatedBonusLetters:
-          activatedBonusLetters ?? this.activatedBonusLetters,
-      activatedDashNests: activatedDashNests ?? this.activatedDashNests,
       bonusHistory: bonusHistory ?? this.bonusHistory,
     );
   }
@@ -87,8 +67,6 @@ class GameState extends Equatable {
   List<Object?> get props => [
         score,
         balls,
-        activatedBonusLetters,
-        activatedDashNests,
         bonusHistory,
       ];
 }

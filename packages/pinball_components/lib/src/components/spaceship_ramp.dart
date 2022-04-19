@@ -6,6 +6,7 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template spaceship_ramp}
 /// A [Blueprint] which creates the ramp leading into the [Spaceship].
@@ -17,7 +18,7 @@ class SpaceshipRamp extends Forge2DBlueprint {
   @override
   void build(_) {
     addAllContactCallback([
-      RampOpeningBallContactCallback<_SpaceshipRampOpening>(),
+      LayerSensorBallContactCallback<_SpaceshipRampOpening>(),
     ]);
 
     final rightOpening = _SpaceshipRampOpening(
@@ -75,7 +76,6 @@ class _SpaceshipRampBackground extends BodyComponent
         Vector2(-14.2, -71.25),
       ],
     );
-
     final outerLeftCurveFixtureDef = FixtureDef(outerLeftCurveShape);
     fixturesDef.add(outerLeftCurveFixtureDef);
 
@@ -86,7 +86,6 @@ class _SpaceshipRampBackground extends BodyComponent
         Vector2(6.1, -44.9),
       ],
     );
-
     final outerRightCurveFixtureDef = FixtureDef(outerRightCurveShape);
     fixturesDef.add(outerRightCurveFixtureDef);
 
@@ -103,9 +102,10 @@ class _SpaceshipRampBackground extends BodyComponent
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
 
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
@@ -170,8 +170,12 @@ class _SpaceshipRampBoardOpeningSpriteComponent extends SpriteComponent
 class _SpaceshipRampForegroundRailing extends BodyComponent
     with InitialPosition, Layered {
   _SpaceshipRampForegroundRailing()
-      : super(priority: Ball.spaceshipRampPriority + 1) {
+      : super(
+          priority: Ball.spaceshipRampPriority + 1,
+          children: [_SpaceshipRampForegroundRailingSpriteComponent()],
+        ) {
     layer = Layer.spaceshipEntranceRamp;
+    renderBody = false;
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -212,22 +216,15 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
 
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    renderBody = false;
-
-    await add(_SpaceshipRampForegroundRailingSpriteComponent());
   }
 }
 
@@ -266,20 +263,20 @@ class _SpaceshipRampBase extends BodyComponent with InitialPosition, Layered {
       ],
     );
     final fixtureDef = FixtureDef(baseShape);
-
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
 
 /// {@template spaceship_ramp_opening}
-/// [RampOpening] with [Layer.spaceshipEntranceRamp] to filter [Ball] collisions
+/// [LayerSensor] with [Layer.spaceshipEntranceRamp] to filter [Ball] collisions
 /// inside [_SpaceshipRampBackground].
 /// {@endtemplate}
-class _SpaceshipRampOpening extends RampOpening {
+class _SpaceshipRampOpening extends LayerSensor {
   /// {@macro spaceship_ramp_opening}
   _SpaceshipRampOpening({
     Layer? outsideLayer,
@@ -289,7 +286,7 @@ class _SpaceshipRampOpening extends RampOpening {
         super(
           insideLayer: Layer.spaceshipEntranceRamp,
           outsideLayer: outsideLayer,
-          orientation: RampOrientation.down,
+          orientation: LayerEntranceOrientation.down,
           insidePriority: Ball.spaceshipRampPriority,
           outsidePriority: outsidePriority,
         ) {

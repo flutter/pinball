@@ -30,9 +30,7 @@ void main() {
         const current = GameState(
           score: 10,
           balls: 3,
-          activatedBonusLetters: [],
           bonusHistory: [],
-          activatedDashNests: {},
         );
         expect(controller.listenWhen(previous, current), isTrue);
       });
@@ -44,9 +42,7 @@ void main() {
           const current = GameState(
             score: 10,
             balls: 3,
-            activatedBonusLetters: [],
             bonusHistory: [],
-            activatedDashNests: {},
           );
           expect(controller.listenWhen(null, current), isTrue);
         },
@@ -70,9 +66,7 @@ void main() {
           const state = GameState(
             score: 10,
             balls: 3,
-            activatedBonusLetters: [],
             bonusHistory: [],
-            activatedDashNests: {},
           );
 
           controller.onNewState(state);
@@ -89,9 +83,7 @@ void main() {
           const GameState(
             score: 10,
             balls: 3,
-            activatedBonusLetters: [],
             bonusHistory: [],
-            activatedDashNests: {},
           ),
         );
 
@@ -99,9 +91,7 @@ void main() {
           const GameState(
             score: 14,
             balls: 3,
-            activatedBonusLetters: [],
             bonusHistory: [],
-            activatedDashNests: {},
           ),
         );
 

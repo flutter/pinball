@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class SpaceshipRampGame extends BasicBallGame {

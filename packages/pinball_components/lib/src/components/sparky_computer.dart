@@ -3,6 +3,7 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template sparky_computer}
 /// A [Blueprint] which creates the [_ComputerBase] and
@@ -56,9 +57,10 @@ class _ComputerBase extends BodyComponent with InitialPosition {
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
 
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);

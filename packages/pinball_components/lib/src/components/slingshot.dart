@@ -3,6 +3,7 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template slingshots}
 /// A [Blueprint] which creates the pair of [Slingshot]s on the right side of
@@ -41,14 +42,16 @@ class Slingshot extends BodyComponent with InitialPosition {
     required String spritePath,
   })  : _length = length,
         _angle = angle,
-        _spritePath = spritePath,
-        super(priority: 1);
+        super(
+          priority: 1,
+          children: [_SlinghsotSpriteComponent(spritePath, angle: angle)],
+        ) {
+    renderBody = false;
+  }
 
   final double _length;
 
   final double _angle;
-
-  final String _spritePath;
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
@@ -56,12 +59,12 @@ class Slingshot extends BodyComponent with InitialPosition {
 
     final topCircleShape = CircleShape()..radius = circleRadius;
     topCircleShape.position.setValues(0, -_length / 2);
-    final topCircleFixtureDef = FixtureDef(topCircleShape)..friction = 0;
+    final topCircleFixtureDef = FixtureDef(topCircleShape);
     fixturesDef.add(topCircleFixtureDef);
 
     final bottomCircleShape = CircleShape()..radius = circleRadius;
     bottomCircleShape.position.setValues(0, _length / 2);
-    final bottomCircleFixtureDef = FixtureDef(bottomCircleShape)..friction = 0;
+    final bottomCircleFixtureDef = FixtureDef(bottomCircleShape);
     fixturesDef.add(bottomCircleFixtureDef);
 
     final leftEdgeShape = EdgeShape()
@@ -69,9 +72,11 @@ class Slingshot extends BodyComponent with InitialPosition {
         Vector2(circleRadius, _length / 2),
         Vector2(circleRadius, -_length / 2),
       );
-    final leftEdgeShapeFixtureDef = FixtureDef(leftEdgeShape)
-      ..friction = 0
-      ..restitution = 5;
+    final leftEdgeShapeFixtureDef = FixtureDef(
+      leftEdgeShape,
+      restitution: 5,
+    );
+
     fixturesDef.add(leftEdgeShapeFixtureDef);
 
     final rightEdgeShape = EdgeShape()
@@ -79,9 +84,10 @@ class Slingshot extends BodyComponent with InitialPosition {
         Vector2(-circleRadius, _length / 2),
         Vector2(-circleRadius, -_length / 2),
       );
-    final rightEdgeShapeFixtureDef = FixtureDef(rightEdgeShape)
-      ..friction = 0
-      ..restitution = 5;
+    final rightEdgeShapeFixtureDef = FixtureDef(
+      rightEdgeShape,
+      restitution: 5,
+    );
     fixturesDef.add(rightEdgeShapeFixtureDef);
 
     return fixturesDef;
@@ -89,34 +95,36 @@ class Slingshot extends BodyComponent with InitialPosition {
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition
-      ..angle = _angle;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+      angle: _angle,
+    );
 
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;
   }
+}
+
+class _SlinghsotSpriteComponent extends SpriteComponent with HasGameRef {
+  _SlinghsotSpriteComponent(
+    String path, {
+    required double angle,
+  })  : _path = path,
+        super(
+          angle: -angle,
+          anchor: Anchor.center,
+        );
+
+  final String _path;
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadSprite();
-    renderBody = false;
-  }
-
-  Future<void> _loadSprite() async {
-    final sprite = await gameRef.loadSprite(_spritePath);
-
-    await add(
-      SpriteComponent(
-        sprite: sprite,
-        size: sprite.originalSize / 10,
-        anchor: Anchor.center,
-        angle: -_angle,
-      ),
-    );
+    final sprite = await gameRef.loadSprite(_path);
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
   }
 }

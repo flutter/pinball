@@ -5,11 +5,11 @@ import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:pinball/flame/flame.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/gen/assets.gen.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart' hide Assets;
 
 class PinballGame extends Forge2DGame
@@ -72,7 +72,6 @@ class PinballGame extends Forge2DGame
   void _addContactCallbacks() {
     addContactCallback(BallScorePointsCallback(this));
     addContactCallback(BottomWallBallContactCallback());
-    addContactCallback(BonusLetterBallContactCallback());
   }
 
   Future<void> _addGameBoundaries() async {
@@ -82,7 +81,7 @@ class PinballGame extends Forge2DGame
 
   Future<void> _addBonusWord() async {
     await add(
-      BonusWord(
+      GoogleWord(
         position: Vector2(
           BoardDimensions.bounds.center.dx - 4.1,
           BoardDimensions.bounds.center.dy + 1.8,

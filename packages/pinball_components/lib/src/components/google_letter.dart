@@ -33,12 +33,14 @@ class GoogleLetter extends BodyComponent with InitialPosition {
   @override
   Body createBody() {
     final shape = CircleShape()..radius = 1.85;
-    final fixtureDef = FixtureDef(shape)..isSensor = true;
-
-    final bodyDef = BodyDef()
-      ..position = initialPosition
-      ..userData = this
-      ..type = BodyType.static;
+    final fixtureDef = FixtureDef(
+      shape,
+      isSensor: true,
+    );
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }

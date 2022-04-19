@@ -13,7 +13,11 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   /// {@macro flipper}
   Flipper({
     required this.side,
-  });
+  }) : super(
+          children: [_FlipperSpriteComponent(side: side)],
+        ) {
+    renderBody = false;
+  }
 
   /// The size of the [Flipper].
   static final size = Vector2(13.5, 4.3);
@@ -99,9 +103,11 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
             Vector2(smallCircleShape.position.x, -smallCircleShape.radius),
           ];
     final trapezium = PolygonShape()..set(trapeziumVertices);
-    final trapeziumFixtureDef = FixtureDef(trapezium)
-      ..density = 50.0 // TODO(alestiago): Use a proper density.
-      ..friction = .1; // TODO(alestiago): Use a proper friction.
+    final trapeziumFixtureDef = FixtureDef(
+      trapezium,
+      density: 50, // TODO(alestiago): Use a proper density.
+      friction: .1, // TODO(alestiago): Use a proper friction.
+    );
     fixturesDef.add(trapeziumFixtureDef);
 
     return fixturesDef;
@@ -110,18 +116,18 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    renderBody = false;
 
     await _anchorToJoint();
-    await add(_FlipperSpriteComponent(side: side));
   }
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()
-      ..position = initialPosition
-      ..gravityScale = Vector2.zero()
-      ..type = BodyType.dynamic;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      gravityScale: Vector2.zero(),
+      type: BodyType.dynamic,
+    );
+
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
 
