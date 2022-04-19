@@ -137,7 +137,7 @@ class _TurboChargeSpriteAnimationComponent extends SpriteAnimationComponent
   _TurboChargeSpriteAnimationComponent()
       : super(
           anchor: const Anchor(0.53, 0.72),
-          priority: Ball.boardPriority + 1,
+          priority: RenderPriority.turboChargeFlame,
           removeOnFinish: true,
         );
 

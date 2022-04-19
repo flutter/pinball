@@ -83,6 +83,8 @@ abstract class RenderPriority {
 
   static const int sparkyBumper = _above + ballOnBoard;
 
+  static const int turboChargeFlame = _above + ballOnBoard;
+
   // Android Spaceship
 
   static const int spaceshipRail = _above + bottomGroup;
