@@ -1,6 +1,5 @@
 // ignore_for_file: cascade_invocations
 
-import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -24,18 +23,21 @@ void main() {
         game.camera.zoom = 4.1;
       },
       verify: (game, tester) async {
-        await expectLater(
-          find.byGame<TestGame>(),
-          matchesGoldenFile('golden/plunger/start.png'),
-        );
-
         final plunger = game.descendants().whereType<Plunger>().first;
         plunger.pull();
         game.update(1);
         await tester.pump();
         await expectLater(
           find.byGame<TestGame>(),
-          matchesGoldenFile('golden/plunger/end.png'),
+          matchesGoldenFile('golden/plunger/pull.png'),
+        );
+
+        plunger.release();
+        game.update(1);
+        await tester.pump();
+        await expectLater(
+          find.byGame<TestGame>(),
+          matchesGoldenFile('golden/plunger/release.png'),
         );
       },
     );
@@ -150,33 +152,6 @@ void main() {
         expect(plunger.body.linearVelocity.y, isPositive);
         expect(plunger.body.linearVelocity.x, isZero);
       });
-
-      flameTester.test(
-        'animates when called',
-        (game) async {
-          await game.ensureAdd(plunger);
-
-          plunger.pull();
-
-          final animation =
-              plunger.descendants().whereType<SpriteAnimationComponent>().first;
-          expect(animation.playing, isTrue);
-        },
-      );
-
-      flameTester.test(
-        'stops animating after animation completes',
-        (game) async {
-          await game.ensureAdd(plunger);
-
-          plunger.pull();
-          game.update(1);
-
-          final animation =
-              plunger.descendants().whereType<SpriteAnimationComponent>().first;
-          expect(animation.playing, isFalse);
-        },
-      );
     });
 
     group('release', () {
@@ -208,35 +183,6 @@ void main() {
 
           expect(plunger.body.linearVelocity.y, isZero);
           expect(plunger.body.linearVelocity.x, isZero);
-        },
-      );
-
-      flameTester.test(
-        'animates when called',
-        (game) async {
-          await game.ensureAdd(plunger);
-
-          plunger.pull();
-          plunger.release();
-
-          final animation =
-              plunger.descendants().whereType<SpriteAnimationComponent>().first;
-          expect(animation.playing, isTrue);
-        },
-      );
-
-      flameTester.test(
-        'stops animating after animation completes',
-        (game) async {
-          await game.ensureAdd(plunger);
-
-          plunger.pull();
-          plunger.release();
-          game.update(1);
-
-          final animation =
-              plunger.descendants().whereType<SpriteAnimationComponent>().first;
-          expect(animation.playing, isFalse);
         },
       );
     });
