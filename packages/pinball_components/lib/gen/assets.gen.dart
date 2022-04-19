@@ -54,6 +54,8 @@ class $AssetsImagesBackboardGen {
   /// File path: assets/images/backboard/backboard_scores.png
   AssetGenImage get backboardScores =>
       const AssetGenImage('assets/images/backboard/backboard_scores.png');
+
+  /// File path: assets/images/backboard/display.png
   AssetGenImage get display =>
       const AssetGenImage('assets/images/backboard/display.png');
 }
@@ -317,8 +319,11 @@ class $AssetsImagesSparkyBumperGen {
 class $AssetsImagesSparkyComputerGen {
   const $AssetsImagesSparkyComputerGen();
 
+  /// File path: assets/images/sparky/computer/base.png
   AssetGenImage get base =>
       const AssetGenImage('assets/images/sparky/computer/base.png');
+
+  /// File path: assets/images/sparky/computer/top.png
   AssetGenImage get top =>
       const AssetGenImage('assets/images/sparky/computer/top.png');
 }

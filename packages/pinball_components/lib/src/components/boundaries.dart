@@ -26,7 +26,8 @@ class _BottomBoundary extends BodyComponent with InitialPosition {
   /// {@macro bottom_boundary}
   _BottomBoundary()
       : super(
-          priority: 1,
+          // TODO(ruimiguel): set final priority when RenderPriority PR merged.
+          priority: Ball.boardPriority + 2,
           children: [_BottomBoundarySpriteComponent()],
         ) {
     renderBody = false;
@@ -78,7 +79,7 @@ class _BottomBoundarySpriteComponent extends SpriteComponent with HasGameRef {
     this.sprite = sprite;
     size = sprite.originalSize / 10;
     anchor = Anchor.center;
-    position = Vector2(-5.4, 55.8);
+    position = Vector2(-5.4, 55.6);
   }
 }
 
