@@ -128,6 +128,7 @@ enum _PlungerAnimationState {
   release,
 }
 
+/// Animations for pull and release [Plunger].
 class _PlungerSpriteAnimationGroupComponent
     extends SpriteAnimationGroupComponent<_PlungerAnimationState>
     with HasGameRef {
@@ -168,13 +169,9 @@ class _PlungerSpriteAnimationGroupComponent
     current = _PlungerAnimationState.release;
   }
 
-  void pull() {
-    current = _PlungerAnimationState.pull;
-  }
+  void pull() => current = _PlungerAnimationState.pull;
 
-  void release() {
-    current = _PlungerAnimationState.release;
-  }
+  void release() => current = _PlungerAnimationState.release;
 }
 
 /// {@template plunger_anchor}
