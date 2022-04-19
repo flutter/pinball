@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -16,12 +18,13 @@ class Plunger extends BodyComponent with InitialPosition, Layered {
     // are fixed.
   }) : super(priority: 0) {
     layer = Layer.launcher;
+    renderBody = false;
   }
 
   /// Distance the plunger can lower.
   final double compressionDistance;
 
-  final _PlungerSpriteComponent _spriteComponent = _PlungerSpriteComponent();
+  late final _PlungerSpriteAnimationGroupComponent _spriteComponent;
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
@@ -104,43 +107,32 @@ class Plunger extends BodyComponent with InitialPosition, Layered {
   Future<void> onLoad() async {
     await super.onLoad();
     await _anchorToJoint();
-    renderBody = false;
+    await _loadSprite();
+  }
+
+  Future<void> _loadSprite() async {
+    final spriteSheet = await gameRef.images.load(
+      Assets.images.plunger.plunger.keyName,
+    );
+    _spriteComponent = _PlungerSpriteAnimationGroupComponent(spriteSheet);
     await add(_spriteComponent);
   }
 }
 
-class _PlungerSpriteComponent extends SpriteAnimationComponent with HasGameRef {
-  _PlungerSpriteComponent()
-      : super(
-          anchor: Anchor.center,
-          playing: false,
-        );
+/// Animation states associated with a [Plunger].
+enum _PlungerAnimationState {
+  /// Pull state.
+  pull,
 
-  late final SpriteAnimation _pullAnimation;
+  /// Release state.
+  release,
+}
 
-  late final SpriteAnimation _releaseAnimation;
-
-  void pull() {
-    if (animation != _pullAnimation) {
-      animation = _pullAnimation;
-    }
-    playing = true;
-  }
-
-  void release() {
-    if (animation != _releaseAnimation) {
-      animation = _releaseAnimation;
-      playing = true;
-    }
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    final spriteSheet = await gameRef.images.load(
-      Assets.images.plunger.plunger.keyName,
-    );
-
+class _PlungerSpriteAnimationGroupComponent
+    extends SpriteAnimationGroupComponent<_PlungerAnimationState>
+    with HasGameRef {
+  _PlungerSpriteAnimationGroupComponent(Image spriteSheet)
+      : super(anchor: Anchor.center) {
     const amountPerRow = 20;
     const amountPerColumn = 1;
 
@@ -150,11 +142,14 @@ class _PlungerSpriteComponent extends SpriteAnimationComponent with HasGameRef {
     );
     size = textureSize / 10;
 
+    position = Vector2(1.87, 15.5);
+
     // TODO(ruimiguel): we only need plunger pull animation, and release is just
     // to reverse it, so we need to divide by 2 while we don't have only half of
     // the animation (but amountPerRow and amountPerColumn needs to be correct
     // in order of calculate textureSize correctly).
-    _pullAnimation = SpriteAnimation.fromFrameData(
+
+    final pullAnimation = SpriteAnimation.fromFrameData(
       spriteSheet,
       SpriteAnimationData.sequenced(
         amount: amountPerRow * amountPerColumn ~/ 2,
@@ -164,27 +159,21 @@ class _PlungerSpriteComponent extends SpriteAnimationComponent with HasGameRef {
         texturePosition: Vector2.zero(),
         loop: false,
       ),
-    )..onComplete = () {
-        playing = false;
-      };
+    );
 
-    _releaseAnimation = _pullAnimation.reversed()
-      ..onComplete = () {
-        playing = false;
-      };
-
-    animation = _pullAnimation;
-    position = Vector2(1.87, 15.5);
+    animations = {
+      _PlungerAnimationState.release: pullAnimation.reversed(),
+      _PlungerAnimationState.pull: pullAnimation,
+    };
+    current = _PlungerAnimationState.release;
   }
 
-  @override
-  void update(double dt) {
-    super.update(dt);
-    if (animation != null) {
-      if (animation!.isLastFrame) {
-        playing = false;
-      }
-    }
+  void pull() {
+    current = _PlungerAnimationState.pull;
+  }
+
+  void release() {
+    current = _PlungerAnimationState.release;
   }
 }
 
