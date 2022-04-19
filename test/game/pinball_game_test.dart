@@ -12,8 +12,26 @@ import '../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(PinballTestGame.new);
-  final debugModeFlameTester = FlameTester(DebugPinballTestGame.new);
+  final assets = [
+    Assets.images.dash.bumper.main.active.keyName,
+    Assets.images.dash.bumper.main.inactive.keyName,
+    Assets.images.dash.bumper.a.active.keyName,
+    Assets.images.dash.bumper.a.inactive.keyName,
+    Assets.images.dash.bumper.b.active.keyName,
+    Assets.images.dash.bumper.b.inactive.keyName,
+    Assets.images.alienBumper.a.on.keyName,
+    Assets.images.alienBumper.a.off.keyName,
+    Assets.images.alienBumper.b.on.keyName,
+    Assets.images.alienBumper.b.off.keyName,
+    Assets.images.sparky.bumper.a.on.keyName,
+    Assets.images.sparky.bumper.a.off.keyName,
+    Assets.images.sparky.bumper.b.on.keyName,
+    Assets.images.sparky.bumper.b.off.keyName,
+    Assets.images.sparky.bumper.c.on.keyName,
+    Assets.images.sparky.bumper.c.off.keyName,
+  ];
+  final flameTester = FlameTester(() => PinballTestGame(assets));
+  final debugModeFlameTester = FlameTester(() => DebugPinballTestGame(assets));
 
   group('PinballGame', () {
     // TODO(alestiago): test if [PinballGame] registers
@@ -90,6 +108,7 @@ void main() {
           final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
             gameBuilder: EmptyPinballTestGame.new,
             blocBuilder: () => gameBloc,
+            // assets: assets,
           );
 
           flameBlocTester.testGameWidget(
@@ -208,6 +227,7 @@ void main() {
           FlameBlocTester<DebugPinballGame, GameBloc>(
         gameBuilder: DebugPinballTestGame.new,
         blocBuilder: () => gameBloc,
+        assets: assets,
       );
 
       debugModeFlameBlocTester.testGameWidget(
