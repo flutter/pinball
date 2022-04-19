@@ -13,10 +13,7 @@ class $AssetsImagesGen {
   $AssetsImagesAlienBumperGen get alienBumper =>
       const $AssetsImagesAlienBumperGen();
   $AssetsImagesBackboardGen get backboard => const $AssetsImagesBackboardGen();
-
-  /// File path: assets/images/ball.png
-  AssetGenImage get ball => const AssetGenImage('assets/images/ball.png');
-
+  $AssetsImagesBallGen get ball => const $AssetsImagesBallGen();
   $AssetsImagesBaseboardGen get baseboard => const $AssetsImagesBaseboardGen();
   $AssetsImagesBoundaryGen get boundary => const $AssetsImagesBoundaryGen();
   $AssetsImagesChromeDinoGen get chromeDino =>
@@ -57,8 +54,21 @@ class $AssetsImagesBackboardGen {
   /// File path: assets/images/backboard/backboard_scores.png
   AssetGenImage get backboardScores =>
       const AssetGenImage('assets/images/backboard/backboard_scores.png');
+
+  /// File path: assets/images/backboard/display.png
   AssetGenImage get display =>
       const AssetGenImage('assets/images/backboard/display.png');
+}
+
+class $AssetsImagesBallGen {
+  const $AssetsImagesBallGen();
+
+  /// File path: assets/images/ball/ball.png
+  AssetGenImage get ball => const AssetGenImage('assets/images/ball/ball.png');
+
+  /// File path: assets/images/ball/flame_effect.png
+  AssetGenImage get flameEffect =>
+      const AssetGenImage('assets/images/ball/flame_effect.png');
 }
 
 class $AssetsImagesBaseboardGen {
@@ -173,6 +183,10 @@ class $AssetsImagesKickerGen {
 
 class $AssetsImagesLaunchRampGen {
   const $AssetsImagesLaunchRampGen();
+
+  /// File path: assets/images/launch_ramp/background-railing.png
+  AssetGenImage get backgroundRailing =>
+      const AssetGenImage('assets/images/launch_ramp/background-railing.png');
 
   /// File path: assets/images/launch_ramp/foreground-railing.png
   AssetGenImage get foregroundRailing =>
@@ -309,8 +323,11 @@ class $AssetsImagesSparkyBumperGen {
 class $AssetsImagesSparkyComputerGen {
   const $AssetsImagesSparkyComputerGen();
 
+  /// File path: assets/images/sparky/computer/base.png
   AssetGenImage get base =>
       const AssetGenImage('assets/images/sparky/computer/base.png');
+
+  /// File path: assets/images/sparky/computer/top.png
   AssetGenImage get top =>
       const AssetGenImage('assets/images/sparky/computer/top.png');
 }
@@ -354,8 +371,11 @@ class $AssetsImagesDashBumperMainGen {
 class $AssetsImagesSparkyBumperAGen {
   const $AssetsImagesSparkyBumperAGen();
 
+  /// File path: assets/images/sparky/bumper/a/active.png
   AssetGenImage get active =>
       const AssetGenImage('assets/images/sparky/bumper/a/active.png');
+
+  /// File path: assets/images/sparky/bumper/a/inactive.png
   AssetGenImage get inactive =>
       const AssetGenImage('assets/images/sparky/bumper/a/inactive.png');
 }
@@ -363,8 +383,11 @@ class $AssetsImagesSparkyBumperAGen {
 class $AssetsImagesSparkyBumperBGen {
   const $AssetsImagesSparkyBumperBGen();
 
+  /// File path: assets/images/sparky/bumper/b/active.png
   AssetGenImage get active =>
       const AssetGenImage('assets/images/sparky/bumper/b/active.png');
+
+  /// File path: assets/images/sparky/bumper/b/inactive.png
   AssetGenImage get inactive =>
       const AssetGenImage('assets/images/sparky/bumper/b/inactive.png');
 }
@@ -372,8 +395,11 @@ class $AssetsImagesSparkyBumperBGen {
 class $AssetsImagesSparkyBumperCGen {
   const $AssetsImagesSparkyBumperCGen();
 
+  /// File path: assets/images/sparky/bumper/c/active.png
   AssetGenImage get active =>
       const AssetGenImage('assets/images/sparky/bumper/c/active.png');
+
+  /// File path: assets/images/sparky/bumper/c/inactive.png
   AssetGenImage get inactive =>
       const AssetGenImage('assets/images/sparky/bumper/c/inactive.png');
 }
