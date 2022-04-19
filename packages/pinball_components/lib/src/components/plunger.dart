@@ -107,14 +107,8 @@ class Plunger extends BodyComponent with InitialPosition, Layered {
   Future<void> onLoad() async {
     await super.onLoad();
     await _anchorToJoint();
-    await _loadSprite();
-  }
 
-  Future<void> _loadSprite() async {
-    final spriteSheet = await gameRef.images.load(
-      Assets.images.plunger.plunger.keyName,
-    );
-    _spriteComponent = _PlungerSpriteAnimationGroupComponent(spriteSheet);
+    _spriteComponent = _PlungerSpriteAnimationGroupComponent();
     await add(_spriteComponent);
   }
 }
@@ -132,11 +126,24 @@ enum _PlungerAnimationState {
 class _PlungerSpriteAnimationGroupComponent
     extends SpriteAnimationGroupComponent<_PlungerAnimationState>
     with HasGameRef {
-  _PlungerSpriteAnimationGroupComponent(Image spriteSheet)
+  _PlungerSpriteAnimationGroupComponent()
       : super(
-          anchor: Anchor.center, 
+          anchor: Anchor.center,
           position: Vector2(1.87, 14.9),
-       ) {
+        );
+
+  void pull() => current = _PlungerAnimationState.pull;
+
+  void release() => current = _PlungerAnimationState.release;
+
+  @override
+  Future<void>? onLoad() async {
+    await super.onLoad();
+
+    final spriteSheet = await gameRef.images.load(
+      Assets.images.plunger.plunger.keyName,
+    );
+
     const amountPerRow = 20;
     const amountPerColumn = 1;
 
@@ -169,10 +176,6 @@ class _PlungerSpriteAnimationGroupComponent
     };
     current = _PlungerAnimationState.release;
   }
-
-  void pull() => current = _PlungerAnimationState.pull;
-
-  void release() => current = _PlungerAnimationState.release;
 }
 
 /// {@template plunger_anchor}
