@@ -4,7 +4,7 @@ import 'package:flame/game.dart';
 import 'package:flame/src/components/component.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pinball/flame/flame.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 class TestComponentController extends ComponentController {
   TestComponentController(Component component) : super(component);

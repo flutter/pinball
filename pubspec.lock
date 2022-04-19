@@ -483,6 +483,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0+1"
+  pinball_flame:
+    dependency: "direct main"
+    description:
+      path: "packages/pinball_flame"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   pinball_theme:
     dependency: "direct main"
     description:

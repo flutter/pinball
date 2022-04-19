@@ -31,7 +31,6 @@ void main() {
           score: 10,
           balls: 3,
           bonusHistory: [],
-          activatedDashNests: {},
         );
         expect(controller.listenWhen(previous, current), isTrue);
       });
@@ -44,7 +43,6 @@ void main() {
             score: 10,
             balls: 3,
             bonusHistory: [],
-            activatedDashNests: {},
           );
           expect(controller.listenWhen(null, current), isTrue);
         },
@@ -69,7 +67,6 @@ void main() {
             score: 10,
             balls: 3,
             bonusHistory: [],
-            activatedDashNests: {},
           );
 
           controller.onNewState(state);
@@ -87,7 +84,6 @@ void main() {
             score: 10,
             balls: 3,
             bonusHistory: [],
-            activatedDashNests: {},
           ),
         );
 
@@ -96,7 +92,6 @@ void main() {
             score: 14,
             balls: 3,
             bonusHistory: [],
-            activatedDashNests: {},
           ),
         );
 

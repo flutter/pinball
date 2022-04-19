@@ -1,7 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
-import 'package:pinball/flame/flame.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// Adds helpers methods to Flame's [Camera]
 extension CameraX on Camera {

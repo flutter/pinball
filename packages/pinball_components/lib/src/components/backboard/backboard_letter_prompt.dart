@@ -5,6 +5,7 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template backboard_letter_prompt}
 /// A [PositionComponent] that renders a letter prompt used
