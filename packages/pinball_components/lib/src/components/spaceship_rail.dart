@@ -11,16 +11,12 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template spaceship_rail}
 /// A [Blueprint] for the spaceship drop tube.
 /// {@endtemplate}
-class SpaceshipRail extends Forge2DBlueprint {
+class SpaceshipRail extends Blueprint {
   /// {@macro spaceship_rail}
   SpaceshipRail();
 
   @override
   void build(_) {
-    addAllContactCallback([
-      LayerSensorBallContactCallback<_SpaceshipRailExit>(),
-    ]);
-
     final railRamp = _SpaceshipRailRamp();
     final railEnd = _SpaceshipRailExit();
     final topBase = _SpaceshipRailBase(radius: 0.55)

@@ -1,5 +1,5 @@
 import 'package:flame/components.dart';
-import 'package:flame_forge2d/forge2d_game.dart';
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -9,7 +9,8 @@ import 'package:pinball_theme/pinball_theme.dart';
 /// {@template controlled_ball}
 /// A [Ball] with a [BallController] attached.
 /// {@endtemplate}
-class ControlledBall extends Ball with Controls<BallController> {
+class ControlledBall extends Ball<PinballGame>
+    with Controls<BallController>, ContactCallbacks2 {
   /// A [Ball] that launches from the [Plunger].
   ///
   /// When a launched [Ball] is lost, it will decrease the [GameState.balls]
@@ -39,6 +40,14 @@ class ControlledBall extends Ball with Controls<BallController> {
     controller = DebugBallController(this);
     priority = Ball.boardPriority;
   }
+
+  @override
+  void beginContact(Object other, Contact contact) {
+    if (other is ScorePoints) {
+      gameRef.read<GameBloc>().add(Scored(points: other.points));
+      gameRef.audio.score();
+    }
+  }
 }
 
 /// {@template ball_controller}
@@ -51,11 +60,8 @@ class BallController extends ComponentController<Ball>
 
   /// Removes the [Ball] from a [PinballGame].
   ///
-  /// Triggered by [BottomWallBallContactCallback] when the [Ball] falls into
-  /// a [BottomWall].
-  void lost() {
-    component.shouldRemove = true;
-  }
+  /// Triggered when the [Ball] falls into a [BottomWall].
+  void lost() => component.shouldRemove = true;
 
   /// Stops the [Ball] inside of the [SparkyComputer] while the turbo charge
   /// sequence runs, then boosts the ball out of the computer.

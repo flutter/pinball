@@ -11,16 +11,12 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template spaceship_ramp}
 /// A [Blueprint] which creates the ramp leading into the [Spaceship].
 /// {@endtemplate}
-class SpaceshipRamp extends Forge2DBlueprint {
+class SpaceshipRamp extends Blueprint {
   /// {@macro spaceship_ramp}
   SpaceshipRamp();
 
   @override
   void build(_) {
-    addAllContactCallback([
-      LayerSensorBallContactCallback<_SpaceshipRampOpening>(),
-    ]);
-
     final rightOpening = _SpaceshipRampOpening(
       // TODO(ruimiguel): set Board priority when defined.
       outsidePriority: 1,

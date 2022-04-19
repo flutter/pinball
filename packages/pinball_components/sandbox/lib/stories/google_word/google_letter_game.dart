@@ -17,7 +17,7 @@ class GoogleLetterGame extends BasicBallGame {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    addContactCallback(_BallGoogleLetterContactCallback());
+    world.setContactListener(_WorldContactListener());
 
     camera.followVector2(Vector2.zero());
     await add(GoogleLetter(0));
@@ -26,11 +26,21 @@ class GoogleLetterGame extends BasicBallGame {
   }
 }
 
-class _BallGoogleLetterContactCallback
-    extends ContactCallback<Ball, GoogleLetter> {
+class _WorldContactListener extends ContactListener {
   @override
-  void begin(Ball<Forge2DGame> a, GoogleLetter b, Contact contact) {
-    super.begin(a, b, contact);
-    b.activate();
+  void beginContact(Contact contact) {
+    [
+      contact.bodyA.userData,
+      contact.bodyB.userData,
+    ].whereType<GoogleLetter>().first.activate();
   }
+
+  @override
+  void endContact(Contact contact) {}
+
+  @override
+  void postSolve(Contact contact, ContactImpulse impulse) {}
+
+  @override
+  void preSolve(Contact contact, Manifold oldManifold) {}
 }

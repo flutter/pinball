@@ -2,6 +2,7 @@
 
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template layer_entrance_orientation}
 /// Determines if a layer entrance is oriented [up] or [down] on the board.
@@ -23,7 +24,8 @@ enum LayerEntranceOrientation {
 /// By default the base [layer] is set to [Layer.board] and the
 /// [outsidePriority] is set to the lowest possible [Layer].
 /// {@endtemplate}
-abstract class LayerSensor extends BodyComponent with InitialPosition, Layered {
+abstract class LayerSensor extends BodyComponent
+    with InitialPosition, Layered, ContactCallbacks2 {
   /// {@macro layer_sensor}
   LayerSensor({
     required Layer insideLayer,
@@ -75,35 +77,30 @@ abstract class LayerSensor extends BodyComponent with InitialPosition, Layered {
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
-}
 
-/// {@template layer_sensor_ball_contact_callback}
-/// Detects when a [Ball] enters or exits a [Layer] through a [LayerSensor].
-///
-/// Modifies [Ball]'s [Layer] and render priority depending on whether the
-/// [Ball] is on or outside of a [Layer].
-/// {@endtemplate}
-class LayerSensorBallContactCallback<LayerEntrance extends LayerSensor>
-    extends ContactCallback<Ball, LayerEntrance> {
   @override
-  void begin(Ball ball, LayerEntrance layerEntrance, Contact _) {
-    if (ball.layer != layerEntrance.insideLayer) {
+  void beginContact(Object other, Contact contact) {
+    super.beginContact(other, contact);
+    if (other is! Ball) return;
+    final ball = other;
+
+    if (ball.layer != insideLayer) {
       final isBallEnteringOpening =
-          (layerEntrance.orientation == LayerEntranceOrientation.down &&
+          (orientation == LayerEntranceOrientation.down &&
                   ball.body.linearVelocity.y < 0) ||
-              (layerEntrance.orientation == LayerEntranceOrientation.up &&
+              (orientation == LayerEntranceOrientation.up &&
                   ball.body.linearVelocity.y > 0);
 
       if (isBallEnteringOpening) {
         ball
-          ..layer = layerEntrance.insideLayer
-          ..priority = layerEntrance.insidePriority
+          ..layer = insideLayer
+          ..priority = insidePriority
           ..reorderChildren();
       }
     } else {
       ball
-        ..layer = layerEntrance.outsideLayer
-        ..priority = layerEntrance.outsidePriority
+        ..layer = outsideLayer
+        ..priority = outsidePriority
         ..reorderChildren();
     }
   }

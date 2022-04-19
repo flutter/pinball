@@ -11,7 +11,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template dinowalls}
 /// A [Blueprint] which creates walls for the [ChromeDino].
 /// {@endtemplate}
-class DinoWalls extends Forge2DBlueprint {
+class DinoWalls extends Blueprint {
   /// {@macro dinowalls}
   DinoWalls();
 

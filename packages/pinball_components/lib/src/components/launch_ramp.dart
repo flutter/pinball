@@ -11,13 +11,9 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// A [Blueprint] which creates the [_LaunchRampBase] and
 /// [_LaunchRampForegroundRailing].
 /// {@endtemplate}
-class LaunchRamp extends Forge2DBlueprint {
+class LaunchRamp extends Blueprint {
   @override
   void build(_) {
-    addAllContactCallback([
-      LayerSensorBallContactCallback<_LaunchRampExit>(),
-    ]);
-
     final launchRampBase = _LaunchRampBase();
 
     final launchRampForegroundRailing = _LaunchRampForegroundRailing();

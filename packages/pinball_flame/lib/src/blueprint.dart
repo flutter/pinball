@@ -61,36 +61,6 @@ abstract class Blueprint<T extends FlameGame> extends Component {
   List<Blueprint> get blueprints => List.unmodifiable(_blueprints);
 }
 
-/// A [Blueprint] that provides additional
-/// structures specific to flame_forge2d
-abstract class Forge2DBlueprint extends Blueprint<Forge2DGame> {
-  final List<ContactCallback> _callbacks = [];
-
-  /// Adds a single [ContactCallback] to this blueprint
-  void addContactCallback(ContactCallback callback) {
-    assert(!_isAttached, _attachedErrorMessage);
-    _callbacks.add(callback);
-  }
-
-  /// Adds a collection of [ContactCallback]s to this blueprint
-  void addAllContactCallback(List<ContactCallback> callbacks) {
-    assert(!_isAttached, _attachedErrorMessage);
-    _callbacks.addAll(callbacks);
-  }
-
-  @override
-  Future<void> attach(Forge2DGame game) async {
-    await super.attach(game);
-
-    for (final callback in _callbacks) {
-      game.addContactCallback(callback);
-    }
-  }
-
-  /// Returns a copy of the callbacks built by this blueprint
-  List<ContactCallback> get callbacks => List.unmodifiable(_callbacks);
-}
-
 /// Adds helper methods regardin [Blueprint]s to [FlameGame]
 extension FlameGameBlueprint on FlameGame {
   /// Shortcut to attach a [Blueprint] instance to this game

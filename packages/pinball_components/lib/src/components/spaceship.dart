@@ -12,7 +12,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template spaceship}
 /// A [Blueprint] which creates the spaceship feature.
 /// {@endtemplate}
-class Spaceship extends Forge2DBlueprint {
+class Spaceship extends Blueprint {
   /// {@macro spaceship}
   Spaceship({required this.position});
 
@@ -24,11 +24,6 @@ class Spaceship extends Forge2DBlueprint {
 
   @override
   void build(_) {
-    addAllContactCallback([
-      LayerSensorBallContactCallback<_SpaceshipEntrance>(),
-      LayerSensorBallContactCallback<_SpaceshipHole>(),
-    ]);
-
     addAll([
       SpaceshipSaucer()..initialPosition = position,
       _SpaceshipEntrance()..initialPosition = position,

@@ -8,7 +8,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template boundaries}
 /// A [Blueprint] which creates the [_BottomBoundary] and [_OuterBoundary].
 ///{@endtemplate boundaries}
-class Boundaries extends Forge2DBlueprint {
+class Boundaries extends Blueprint {
   @override
   void build(_) {
     final bottomBoundary = _BottomBoundary();

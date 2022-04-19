@@ -9,7 +9,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// A [Blueprint] which creates the [_ComputerBase] and
 /// [_ComputerTopSpriteComponent].
 /// {@endtemplate}
-class SparkyComputer extends Forge2DBlueprint {
+class SparkyComputer extends Blueprint {
   @override
   void build(_) {
     final computerBase = _ComputerBase();

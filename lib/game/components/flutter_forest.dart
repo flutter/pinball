@@ -23,8 +23,6 @@ class FlutterForest extends Component
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    gameRef.addContactCallback(_DashNestBumperBallContactCallback());
-
     final signPost = FlutterSignPost()..initialPosition = Vector2(8.35, -58.3);
 
     final bigNest = _BigDashNestBumper()
@@ -81,27 +79,40 @@ class _FlutterForestController extends ComponentController<FlutterForest>
 
 // TODO(alestiago): Revisit ScorePoints logic once the FlameForge2D
 // ContactCallback process is enhanced.
-class _BigDashNestBumper extends BigDashNestBumper with ScorePoints {
+class _BigDashNestBumper extends BigDashNestBumper
+    with ScorePoints, ContactCallbacks2 {
   @override
   int get points => 20;
+
+  @override
+  void beginContact(Object other, Contact contact) {
+    super.beginContact(other, contact);
+    if (other is! Ball) return;
+
+    final parent = this.parent;
+    if (parent is FlutterForest) {
+      parent.controller.activateBumper(this);
+    }
+  }
 }
 
-class _SmallDashNestBumper extends SmallDashNestBumper with ScorePoints {
+class _SmallDashNestBumper extends SmallDashNestBumper
+    with ScorePoints, ContactCallbacks2 {
   _SmallDashNestBumper.a() : super.a();
 
   _SmallDashNestBumper.b() : super.b();
 
   @override
   int get points => 20;
-}
 
-class _DashNestBumperBallContactCallback
-    extends ContactCallback<DashNestBumper, Ball> {
   @override
-  void begin(DashNestBumper dashNestBumper, _, __) {
-    final parent = dashNestBumper.parent;
+  void beginContact(Object other, Contact contact) {
+    super.beginContact(other, contact);
+    if (other is! Ball) return;
+
+    final parent = this.parent;
     if (parent is FlutterForest) {
-      parent.controller.activateBumper(dashNestBumper);
+      parent.controller.activateBumper(this);
     }
   }
 }

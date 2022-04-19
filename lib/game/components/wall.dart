@@ -4,6 +4,7 @@ import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template wall}
 /// A continuous generic and [BodyType.static] barrier that divides a game area.
@@ -57,26 +58,18 @@ List<Wall> createBoundaries(Forge2DGame game) {
 
 /// {@template bottom_wall}
 /// [Wall] located at the bottom of the board.
-///
-/// Collisions with [BottomWall] are listened by
-/// [BottomWallBallContactCallback].
 /// {@endtemplate}
-class BottomWall extends Wall {
+class BottomWall extends Wall with ContactCallbacks2 {
   /// {@macro bottom_wall}
   BottomWall()
       : super(
           start: BoardDimensions.bounds.bottomLeft.toVector2(),
           end: BoardDimensions.bounds.bottomRight.toVector2(),
         );
-}
 
-/// {@template bottom_wall_ball_contact_callback}
-/// Listens when a [ControlledBall] falls into a [BottomWall].
-/// {@endtemplate}
-class BottomWallBallContactCallback
-    extends ContactCallback<ControlledBall, BottomWall> {
   @override
-  void begin(ControlledBall ball, BottomWall wall, Contact contact) {
-    ball.controller.lost();
+  void beginContact(Object other, Contact contact) {
+    super.beginContact(other, contact);
+    if (other is ControlledBall) other.controller.lost();
   }
 }

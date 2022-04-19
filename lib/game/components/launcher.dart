@@ -7,7 +7,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// A [Blueprint] which creates the [Plunger], [RocketSpriteComponent] and
 /// [LaunchRamp].
 /// {@endtemplate}
-class Launcher extends Forge2DBlueprint {
+class Launcher extends Blueprint {
   /// {@macro launcher}
   Launcher();
 
@@ -15,7 +15,8 @@ class Launcher extends Forge2DBlueprint {
   late final Plunger plunger;
 
   @override
-  void build(Forge2DGame gameRef) {
+  // ignore: avoid_renaming_method_parameters
+  void build(_) {
     plunger = ControlledPlunger(compressionDistance: 12.3)
       ..initialPosition = Vector2(40.1, 38);
 

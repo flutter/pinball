@@ -22,8 +22,6 @@ class SparkyFireZone extends Component with HasGameRef<PinballGame> {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    gameRef.addContactCallback(_ControlledSparkyBumperBallContactCallback());
-
     final lowerLeftBumper = ControlledSparkyBumper.a()
       ..initialPosition = Vector2(-23.15, -41.65);
     final upperLeftBumper = ControlledSparkyBumper.b()
@@ -44,7 +42,7 @@ class SparkyFireZone extends Component with HasGameRef<PinballGame> {
 /// {@endtemplate}
 @visibleForTesting
 class ControlledSparkyBumper extends SparkyBumper
-    with Controls<_SparkyBumperController>, ScorePoints {
+    with Controls<_SparkyBumperController>, ScorePoints, ContactCallbacks2 {
   ///{@macro controlled_sparky_bumper}
   ControlledSparkyBumper.a() : super.a() {
     controller = _SparkyBumperController(this);
@@ -62,6 +60,12 @@ class ControlledSparkyBumper extends SparkyBumper
 
   @override
   int get points => 20;
+
+  @override
+  void beginContact(Object other, Contact contact) {
+    super.beginContact(other, contact);
+    if (other is Ball) controller.hit();
+  }
 }
 
 /// {@template sparky_bumper_controller}
@@ -86,18 +90,5 @@ class _SparkyBumperController extends ComponentController<SparkyBumper>
       component.activate();
     }
     isActivated = !isActivated;
-  }
-}
-
-/// Listens when a [Ball] bounces bounces against a [SparkyBumper].
-class _ControlledSparkyBumperBallContactCallback
-    extends ContactCallback<Controls<_SparkyBumperController>, Ball> {
-  @override
-  void begin(
-    Controls<_SparkyBumperController> controlledSparkyBumper,
-    Ball _,
-    Contact __,
-  ) {
-    controlledSparkyBumper.controller.hit();
   }
 }

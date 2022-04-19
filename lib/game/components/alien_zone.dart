@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_renaming_method_parameters
 
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
@@ -22,8 +23,6 @@ class AlienZone extends Component with HasGameRef<PinballGame> {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    gameRef.addContactCallback(_ControlledAlienBumperBallContactCallback());
-
     final lowerBumper = ControlledAlienBumper.a()
       ..initialPosition = Vector2(-32.52, -9.34);
     final upperBumper = ControlledAlienBumper.b()
@@ -41,7 +40,7 @@ class AlienZone extends Component with HasGameRef<PinballGame> {
 /// {@endtemplate}
 @visibleForTesting
 class ControlledAlienBumper extends AlienBumper
-    with Controls<_AlienBumperController>, ScorePoints {
+    with Controls<_AlienBumperController>, ScorePoints, ContactCallbacks2 {
   /// {@macro controlled_alien_bumper}
   ControlledAlienBumper.a() : super.a() {
     controller = _AlienBumperController(this);
@@ -55,6 +54,12 @@ class ControlledAlienBumper extends AlienBumper
   @override
   // TODO(ruimiguel): change points when get final points map.
   int get points => 20;
+
+  @override
+  void beginContact(Object other, Contact contact) {
+    super.beginContact(other, contact);
+    if (other is Ball) controller.hit();
+  }
 }
 
 /// {@template alien_bumper_controller}
@@ -78,18 +83,5 @@ class _AlienBumperController extends ComponentController<AlienBumper>
       component.activate();
     }
     isActivated = !isActivated;
-  }
-}
-
-/// Listens when a [Ball] bounces bounces against a [AlienBumper].
-class _ControlledAlienBumperBallContactCallback
-    extends ContactCallback<Controls<_AlienBumperController>, Ball> {
-  @override
-  void begin(
-    Controls<_AlienBumperController> controlledAlienBumper,
-    Ball _,
-    Contact __,
-  ) {
-    controlledAlienBumper.controller.hit();
   }
 }

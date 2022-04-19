@@ -16,34 +16,33 @@ class GoogleWord extends Component
   /// {@macro google_word}
   GoogleWord({
     required Vector2 position,
-  }) : _position = position {
+  }) : super(
+          children: [
+            _GoogleLetter(0)
+              ..initialPosition = position + Vector2(-12.92, 1.82),
+            _GoogleLetter(1)
+              ..initialPosition = position + Vector2(-8.33, -0.65),
+            _GoogleLetter(2)
+              ..initialPosition = position + Vector2(-2.88, -1.75),
+            _GoogleLetter(3)..initialPosition = position + Vector2(2.88, -1.75),
+            _GoogleLetter(4)..initialPosition = position + Vector2(8.33, -0.65),
+            _GoogleLetter(5)..initialPosition = position + Vector2(12.92, 1.82),
+          ],
+        ) {
     controller = _GoogleWordController(this);
   }
+}
 
-  final Vector2 _position;
+/// Activates a [GoogleLetter] when it contacts with a [Ball].
+class _GoogleLetter extends GoogleLetter with ContactCallbacks2 {
+  _GoogleLetter(int index) : super(index);
 
   @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    gameRef.addContactCallback(_GoogleLetterBallContactCallback());
+  void beginContact(Object other, Contact contact) {
+    super.beginContact(other, contact);
 
-    final offsets = [
-      Vector2(-12.92, 1.82),
-      Vector2(-8.33, -0.65),
-      Vector2(-2.88, -1.75),
-      Vector2(2.88, -1.75),
-      Vector2(8.33, -0.65),
-      Vector2(12.92, 1.82),
-    ];
-
-    final letters = <GoogleLetter>[];
-    for (var index = 0; index < offsets.length; index++) {
-      letters.add(
-        GoogleLetter(index)..initialPosition = _position + offsets[index],
-      );
-    }
-
-    await addAll(letters);
+    final parent = this.parent;
+    if (parent is GoogleWord) parent.controller.activate(this);
   }
 }
 
@@ -66,18 +65,6 @@ class _GoogleWordController extends ComponentController<GoogleWord>
             (letter) => letter.deactivate(),
           );
       _activatedLetters.clear();
-    }
-  }
-}
-
-/// Activates a [GoogleLetter] when it contacts with a [Ball].
-class _GoogleLetterBallContactCallback
-    extends ContactCallback<GoogleLetter, Ball> {
-  @override
-  void begin(GoogleLetter googleLetter, _, __) {
-    final parent = googleLetter.parent;
-    if (parent is GoogleWord) {
-      parent.controller.activate(googleLetter);
     }
   }
 }

@@ -9,7 +9,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// A [Blueprint] which creates the pair of [Slingshot]s on the right side of
 /// the board.
 /// {@endtemplate}
-class Slingshots extends Forge2DBlueprint {
+class Slingshots extends Blueprint {
   @override
   void build(_) {
     final upperSlingshot = Slingshot(
