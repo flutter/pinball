@@ -36,6 +36,8 @@ class PinballGame extends Forge2DGame
 
   @override
   Future<void> onLoad() async {
+    world.setContactListener(WorldContactListener());
+
     unawaited(add(ScoreEffectController(this)));
     unawaited(add(gameFlowController = GameFlowController(this)));
     unawaited(add(CameraController(this)));
