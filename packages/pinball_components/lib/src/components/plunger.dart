@@ -143,7 +143,7 @@ class _PlungerSpriteAnimationGroupComponent
     );
     size = textureSize / 10;
 
-    position = Vector2(1.87, 15);
+    position = Vector2(1.87, 14.9);
 
     // TODO(ruimiguel): we only need plunger pull animation, and release is just
     // to reverse it, so we need to divide by 2 while we don't have only half of
