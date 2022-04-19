@@ -133,7 +133,10 @@ class _PlungerSpriteAnimationGroupComponent
     extends SpriteAnimationGroupComponent<_PlungerAnimationState>
     with HasGameRef {
   _PlungerSpriteAnimationGroupComponent(Image spriteSheet)
-      : super(anchor: Anchor.center) {
+      : super(
+          anchor: Anchor.center, 
+          position: Vector2(1.87, 14.9),
+       ) {
     const amountPerRow = 20;
     const amountPerColumn = 1;
 
@@ -142,8 +145,6 @@ class _PlungerSpriteAnimationGroupComponent
       spriteSheet.height / amountPerColumn,
     );
     size = textureSize / 10;
-
-    position = Vector2(1.87, 14.9);
 
     // TODO(ruimiguel): we only need plunger pull animation, and release is just
     // to reverse it, so we need to divide by 2 while we don't have only half of
