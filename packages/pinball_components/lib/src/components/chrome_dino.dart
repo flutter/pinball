@@ -6,6 +6,9 @@ import 'package:flame_forge2d/flame_forge2d.dart' hide Timer;
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 
+// TODO(alestiago): Make this global.
+const _kImageToFlameRatio = 10.0;
+
 /// {@template chrome_dino}
 /// Dinosaur that gobbles up a [Ball], swivel his head around, and shoots it
 /// back out.
@@ -40,12 +43,16 @@ class ChromeDino extends BodyComponent with InitialPosition {
   Future<void> onLoad() async {
     await super.onLoad();
     final joint = await _anchorToJoint();
-    await add(
-      TimerComponent(
-        period: 1,
-        onTick: joint._swivel,
-        repeat: true,
-      ),
+    await addAll(
+      [
+        TimerComponent(
+          period: 1,
+          onTick: joint._swivel,
+          repeat: true,
+        ),
+        _ChromeDinoMouthSprite(),
+        _ChromeDinoHeadSprite(),
+      ],
     );
   }
 
@@ -150,5 +157,53 @@ class _ChromeDinoJoint extends RevoluteJoint {
   /// Sweeps the [ChromeDino] up and down repeatedly.
   void _swivel() {
     setMotorSpeed(-motorSpeed);
+  }
+}
+
+class _ChromeDinoMouthSprite extends SpriteAnimationComponent with HasGameRef {
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    final image = await gameRef.images.load(
+      Assets.images.chromeDino.mouth.keyName,
+    );
+
+    size = Vector2(17.5, 17);
+    position = Vector2(0, -2);
+    anchor = Anchor.center;
+
+    const amountPerRow = 10;
+    const amountPerColumn = 10;
+    final data = SpriteAnimationData.sequenced(
+      amount: amountPerColumn * amountPerRow,
+      amountPerRow: amountPerRow,
+      stepTime: 0.05,
+      textureSize: size * _kImageToFlameRatio,
+    );
+    animation = SpriteAnimation.fromFrameData(image, data);
+  }
+}
+
+class _ChromeDinoHeadSprite extends SpriteAnimationComponent with HasGameRef {
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    final image = await gameRef.images.load(
+      Assets.images.chromeDino.head.keyName,
+    );
+
+    size = Vector2(17.5, 17);
+    position = Vector2(0, -2);
+    anchor = Anchor.center;
+
+    const amountPerRow = 10;
+    const amountPerColumn = 10;
+    final data = SpriteAnimationData.sequenced(
+      amount: amountPerColumn * amountPerRow,
+      amountPerRow: amountPerRow,
+      stepTime: 0.05,
+      textureSize: size * _kImageToFlameRatio,
+    );
+    animation = SpriteAnimation.fromFrameData(image, data);
   }
 }

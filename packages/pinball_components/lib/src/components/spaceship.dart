@@ -97,6 +97,12 @@ class AndroidHead extends BodyComponent with InitialPosition, Layered {
           priority: Ball.spaceshipPriority + 1,
           children: [_AndroidHeadSpriteAnimation()],
         ) {
+    layer = Layer.spaceship;
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
     renderBody = false;
     layer = Layer.spaceship;
   }

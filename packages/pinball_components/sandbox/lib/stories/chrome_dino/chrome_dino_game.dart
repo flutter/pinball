@@ -1,7 +1,8 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:sandbox/common/common.dart';
 
-class ChromeDinoGame extends Forge2DGame {
+class ChromeDinoGame extends BasicGame {
   static const info = 'Shows how a ChromeDino is rendered.';
 
   @override
