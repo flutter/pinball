@@ -34,7 +34,7 @@ class PlayButtonOverlay extends StatelessWidget {
                 child: SizedBox(
                   height: height,
                   width: width,
-                  child: const CharacterSelectionPage(),
+                  child: const CharacterSelectionDialog(),
                 ),
               );
             },

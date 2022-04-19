@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball/start_game/bloc/start_game_bloc.dart';
+import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball/theme/theme.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 
@@ -76,17 +76,16 @@ class PinballGameView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.blue,
       body: isLoading
-          ? const PinballGameLoadedView()
-          : PinballGameBody(
+          ? const _PinballGameLoadingView()
+          : PinballGameLoadedView(
               game: game,
             ),
     );
   }
 }
 
-@visibleForTesting
-class PinballGameLoadedView extends StatelessWidget {
-  const PinballGameLoadedView({Key? key}) : super(key: key);
+class _PinballGameLoadingView extends StatelessWidget {
+  const _PinballGameLoadingView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -107,8 +106,8 @@ class PinballGameLoadedView extends StatelessWidget {
 }
 
 @visibleForTesting
-class PinballGameBody extends StatelessWidget {
-  const PinballGameBody({
+class PinballGameLoadedView extends StatelessWidget {
+  const PinballGameLoadedView({
     Key? key,
     required this.game,
   }) : super(key: key);

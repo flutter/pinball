@@ -25,7 +25,7 @@ void main() {
   group('CharacterSelectionPage', () {
     testWidgets('renders CharacterSelectionView', (tester) async {
       await tester.pumpApp(
-        CharacterSelectionPage(),
+        CharacterSelectionDialog(),
         themeCubit: themeCubit,
       );
       expect(find.byType(CharacterSelectionView), findsOneWidget);
@@ -39,7 +39,7 @@ void main() {
               return ElevatedButton(
                 onPressed: () {
                   Navigator.of(context)
-                      .push<void>(CharacterSelectionPage.route());
+                      .push<void>(CharacterSelectionDialog.route());
                 },
                 child: Text('Tap me'),
               );
@@ -52,7 +52,7 @@ void main() {
       await tester.tap(find.text('Tap me'));
       await tester.pumpAndSettle();
 
-      expect(find.byType(CharacterSelectionPage), findsOneWidget);
+      expect(find.byType(CharacterSelectionDialog), findsOneWidget);
     });
   });
 

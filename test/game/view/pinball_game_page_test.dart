@@ -72,22 +72,37 @@ void main() {
           ),
           findsOneWidget,
         );
-
-        final loadedAssetsState = AssetsManagerState(
-          loadables: [Future<void>.value()],
-          loaded: [Future<void>.value()],
-        );
-        whenListen(
-          assetsManagerCubit,
-          Stream.value(loadedAssetsState),
-          initialState: loadedAssetsState,
-        );
-
-        await tester.pump();
-
-        expect(find.byType(PinballGameBody), findsOneWidget);
       },
     );
+
+    testWidgets(
+        'renders PinballGameLoadedView after resources have been loaded',
+        (tester) async {
+      final assetsManagerCubit = MockAssetsManagerCubit();
+
+      final loadedAssetsState = AssetsManagerState(
+        loadables: [Future<void>.value()],
+        loaded: [Future<void>.value()],
+      );
+      whenListen(
+        assetsManagerCubit,
+        Stream.value(loadedAssetsState),
+        initialState: loadedAssetsState,
+      );
+
+      await tester.pumpApp(
+        PinballGameView(
+          game: game,
+        ),
+        assetsManagerCubit: assetsManagerCubit,
+        themeCubit: themeCubit,
+        gameBloc: gameBloc,
+      );
+
+      await tester.pump();
+
+      expect(find.byType(PinballGameLoadedView), findsOneWidget);
+    });
 
     group('route', () {
       Future<void> pumpRoute({

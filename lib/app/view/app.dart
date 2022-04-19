@@ -37,20 +37,14 @@ class App extends StatelessWidget {
       ],
       child: BlocProvider(
         create: (context) => ThemeCubit(),
-        child: MaterialApp(
+        child: const MaterialApp(
           title: 'I/O Pinball',
-          theme: ThemeData(
-            appBarTheme: const AppBarTheme(color: Color(0xFF13B9FF)),
-            colorScheme: ColorScheme.fromSwatch(
-              accentColor: const Color(0xFF13B9FF),
-            ),
-          ),
-          localizationsDelegates: const [
+          localizationsDelegates: [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
           ],
           supportedLocales: AppLocalizations.supportedLocales,
-          home: const PinballGamePage(),
+          home: PinballGamePage(),
         ),
       ),
     );

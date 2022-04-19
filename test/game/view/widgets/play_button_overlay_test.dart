@@ -33,14 +33,14 @@ void main() {
       verify(gameFlowController.start).called(1);
     });
 
-    testWidgets('is showing CharacterSelectionPage dialog when taped',
+    testWidgets('is showing CharacterSelectionPage dialog when tapped',
         (tester) async {
       await tester.pumpApp(PlayButtonOverlay(game: game));
 
       await tester.tap(find.text('Play'));
       await tester.pump();
 
-      expect(find.byType(CharacterSelectionPage), findsOneWidget);
+      expect(find.byType(CharacterSelectionDialog), findsOneWidget);
     });
   });
 }

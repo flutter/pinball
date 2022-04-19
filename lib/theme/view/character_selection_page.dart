@@ -7,12 +7,12 @@ import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball/theme/theme.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
-class CharacterSelectionPage extends StatelessWidget {
-  const CharacterSelectionPage({Key? key}) : super(key: key);
+class CharacterSelectionDialog extends StatelessWidget {
+  const CharacterSelectionDialog({Key? key}) : super(key: key);
 
   static Route route() {
     return MaterialPageRoute<void>(
-      builder: (_) => const CharacterSelectionPage(),
+      builder: (_) => const CharacterSelectionDialog(),
     );
   }
 
