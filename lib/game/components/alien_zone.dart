@@ -5,14 +5,12 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template alien_zone}
 /// Area positioned below [Spaceship] where the [Ball]
 /// can bounce off [AlienBumper]s.
 ///
-/// When a [Ball] hits [AlienBumper]s, they toggle between activated and
-/// deactivated states.
+/// When a [Ball] hits an [AlienBumper], the bumper animates.
 /// {@endtemplate}
 class AlienZone extends Component with HasGameRef<PinballGame> {
   /// {@macro alien_zone}
@@ -22,12 +20,12 @@ class AlienZone extends Component with HasGameRef<PinballGame> {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    gameRef.addContactCallback(_ControlledAlienBumperBallContactCallback());
+    gameRef.addContactCallback(AlienBumperBallContactCallback());
 
-    final lowerBumper = ControlledAlienBumper.a()
-      ..initialPosition = Vector2(-32.52, -9.34);
-    final upperBumper = ControlledAlienBumper.b()
-      ..initialPosition = Vector2(-22.89, -17.43);
+    final lowerBumper = _AlienBumper.a()
+      ..initialPosition = Vector2(-32.52, -9.1);
+    final upperBumper = _AlienBumper.b()
+      ..initialPosition = Vector2(-22.89, -17.35);
 
     await addAll([
       lowerBumper,
@@ -36,60 +34,27 @@ class AlienZone extends Component with HasGameRef<PinballGame> {
   }
 }
 
-/// {@template controlled_alien_bumper}
-/// [AlienBumper] with [_AlienBumperController] attached.
-/// {@endtemplate}
-@visibleForTesting
-class ControlledAlienBumper extends AlienBumper
-    with Controls<_AlienBumperController>, ScorePoints {
-  /// {@macro controlled_alien_bumper}
-  ControlledAlienBumper.a() : super.a() {
-    controller = _AlienBumperController(this);
-  }
+// TODO(alestiago): Revisit ScorePoints logic once the FlameForge2D
+// ContactCallback process is enhanced.
+class _AlienBumper extends AlienBumper with ScorePoints {
+  _AlienBumper.a() : super.a();
 
-  /// {@macro controlled_alien_bumper}
-  ControlledAlienBumper.b() : super.b() {
-    controller = _AlienBumperController(this);
-  }
+  _AlienBumper.b() : super.b();
 
   @override
-  // TODO(ruimiguel): change points when get final points map.
   int get points => 20;
 }
 
-/// {@template alien_bumper_controller}
-/// Controls a [AlienBumper].
-/// {@endtemplate}
-class _AlienBumperController extends ComponentController<AlienBumper>
-    with HasGameRef<PinballGame> {
-  /// {@macro alien_bumper_controller}
-  _AlienBumperController(AlienBumper alienBumper) : super(alienBumper);
-
-  /// Flag for activated state of the [AlienBumper].
-  ///
-  /// Used to toggle [AlienBumper]s' state between activated and deactivated.
-  bool isActivated = false;
-
-  /// Registers when a [AlienBumper] is hit by a [Ball].
-  void hit() {
-    if (isActivated) {
-      component.deactivate();
-    } else {
-      component.activate();
-    }
-    isActivated = !isActivated;
-  }
-}
-
-/// Listens when a [Ball] bounces bounces against a [AlienBumper].
-class _ControlledAlienBumperBallContactCallback
-    extends ContactCallback<Controls<_AlienBumperController>, Ball> {
+/// Listens when a [Ball] bounces against an [AlienBumper].
+@visibleForTesting
+class AlienBumperBallContactCallback
+    extends ContactCallback<AlienBumper, Ball> {
   @override
   void begin(
-    Controls<_AlienBumperController> controlledAlienBumper,
+    AlienBumper alienBumper,
     Ball _,
     Contact __,
   ) {
-    controlledAlienBumper.controller.hit();
+    alienBumper.animate();
   }
 }
