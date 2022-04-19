@@ -26,6 +26,7 @@ class _BottomBoundary extends BodyComponent with InitialPosition {
   /// {@macro bottom_boundary}
   _BottomBoundary()
       : super(
+          // TODO(ruimiguel): set final priority when RenderPriority PR merged.
           priority: Ball.boardPriority + 2,
           children: [_BottomBoundarySpriteComponent()],
         ) {

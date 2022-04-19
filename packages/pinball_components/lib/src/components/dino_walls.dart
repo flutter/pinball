@@ -31,6 +31,7 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
   ///{@macro dino_top_wall}
   _DinoTopWall()
       : super(
+          // TODO(ruimiguel): set final priority when RenderPriority PR merged.
           priority: Ball.boardPriority + 1,
           children: [_DinoTopWallSpriteComponent()],
         ) {
@@ -126,6 +127,7 @@ class _DinoBottomWall extends BodyComponent with InitialPosition {
   ///{@macro dino_top_wall}
   _DinoBottomWall()
       : super(
+          // TODO(ruimiguel): set final priority when RenderPriority PR merged.
           priority: Ball.boardPriority + 1,
           children: [_DinoBottomWallSpriteComponent()],
         ) {
