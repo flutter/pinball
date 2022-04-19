@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:pinball/theme/theme.dart';
-import 'package:pinball_components/gen/fonts.gen.dart';
+import 'package:pinball_components/pinball_components.dart';
 
 const _fontPackage = 'pinball_components';
 const _primaryFontFamily = FontFamily.pixeloidSans;
