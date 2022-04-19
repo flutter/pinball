@@ -22,6 +22,9 @@ extension PinballGameAssetsX on PinballGame {
       images.load(
         components.Assets.images.launchRamp.foregroundRailing.keyName,
       ),
+      images.load(
+        components.Assets.images.launchRamp.backgroundRailing.keyName,
+      ),
       images.load(components.Assets.images.dino.dinoLandTop.keyName),
       images.load(components.Assets.images.dino.dinoLandBottom.keyName),
       images.load(components.Assets.images.dash.animatronic.keyName),

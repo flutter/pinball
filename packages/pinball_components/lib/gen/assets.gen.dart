@@ -184,6 +184,10 @@ class $AssetsImagesKickerGen {
 class $AssetsImagesLaunchRampGen {
   const $AssetsImagesLaunchRampGen();
 
+  /// File path: assets/images/launch_ramp/background-railing.png
+  AssetGenImage get backgroundRailing =>
+      const AssetGenImage('assets/images/launch_ramp/background-railing.png');
+
   /// File path: assets/images/launch_ramp/foreground-railing.png
   AssetGenImage get foregroundRailing =>
       const AssetGenImage('assets/images/launch_ramp/foreground-railing.png');
