@@ -10,8 +10,18 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  $AssetsImagesBonusAnimationGen get bonusAnimation =>
+      const $AssetsImagesBonusAnimationGen();
   $AssetsImagesComponentsGen get components =>
       const $AssetsImagesComponentsGen();
+}
+
+class $AssetsImagesBonusAnimationGen {
+  const $AssetsImagesBonusAnimationGen();
+
+  /// File path: assets/images/bonus_animation/dash_nest.png
+  AssetGenImage get dashNest =>
+      const AssetGenImage('assets/images/bonus_animation/dash_nest.png');
 }
 
 class $AssetsImagesComponentsGen {
