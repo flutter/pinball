@@ -26,10 +26,10 @@ class _BottomBoundary extends BodyComponent with InitialPosition {
   /// {@macro bottom_boundary}
   _BottomBoundary()
       : super(
-          priority: 1,
+          priority: Ball.boardPriority + 2,
           children: [_BottomBoundarySpriteComponent()],
         ) {
-    renderBody = false;
+    renderBody = true;
   }
 
   List<FixtureDef> _createFixtureDefs() {

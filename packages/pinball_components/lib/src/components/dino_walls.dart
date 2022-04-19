@@ -221,6 +221,6 @@ class _DinoBottomWallSpriteComponent extends SpriteComponent with HasGameRef {
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
-    position = Vector2(23.8, -9.5);
+    position = Vector2(23.6, -9.5);
   }
 }
