@@ -5,12 +5,13 @@ import 'package:pinball_components/pinball_components.dart';
 /// {@template render_priority}
 /// Priorities for the component rendering order in the pinball game.
 /// {@endtemplate}
+// TODO(allisonryan0002): find alternative to section comments.
 abstract class RenderPriority {
   static const _base = 0;
   static const _above = 1;
   static const _below = -1;
 
-  // BALL
+  // Ball
 
   /// Render priority for the [Ball] while it's on the board.
   static const int ballOnBoard = _base;
@@ -28,21 +29,23 @@ abstract class RenderPriority {
   /// Render priority for the [Ball] while it's on the [LaunchRamp].
   static const int ballOnLaunchRamp = _above + launchRamp;
 
-  // BACKGROUND
+  // Background
 
+  // TODO(allisonryan0002): fix this magic priority. Could bump all priorities
+  // so there are no negatives.
   static const int background = 3 * _below + _base;
 
-  // BOUNDARIES
+  // Boundaries
 
   static const int bottomBoundary = _above + dinoBottomWall;
 
   static const int outerBoudary = _above + background;
 
-  // BOTTOM GROUP
+  // Bottom Group
 
   static const int bottomGroup = _above + ballOnBoard;
 
-  // LAUNCHER
+  // Launcher
 
   static const int launchRamp = _above + outerBoudary;
 
@@ -52,7 +55,7 @@ abstract class RenderPriority {
 
   static const int rocket = _above + bottomBoundary;
 
-  // DINO LAND
+  // Dino Land
 
   static const int dinoTopWall = _above + ballOnBoard;
 
@@ -62,7 +65,7 @@ abstract class RenderPriority {
 
   static const int slingshot = _above + ballOnBoard;
 
-  // FLUTTER FOREST
+  // Flutter Forest
 
   static const int flutterSignPost = _above + launchRampForegroundRailing;
 
@@ -70,7 +73,7 @@ abstract class RenderPriority {
 
   static const int dashAnimatronic = _above + launchRampForegroundRailing;
 
-  // SPARKY FIRE ZONE
+  // Sparky Fire Zone
 
   static const int computerBase = _below + ballOnBoard;
 
@@ -80,7 +83,7 @@ abstract class RenderPriority {
 
   static const int sparkyBumper = _above + ballOnBoard;
 
-  // ANDROID SPACESHIP
+  // Android Spaceship
 
   static const int spaceshipRail = _above + bottomGroup;
 
@@ -103,7 +106,7 @@ abstract class RenderPriority {
 
   static const int alienBumper = _above + ballOnBoard;
 
-  // SCORE TEXT
+  // Score Text
 
   static const int scoreText = _above + spaceshipRampForegroundRailing;
 }
