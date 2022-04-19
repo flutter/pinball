@@ -31,7 +31,7 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
   ///{@macro dino_top_wall}
   _DinoTopWall()
       : super(
-          priority: 1,
+          priority: Ball.boardPriority + 1,
           children: [_DinoTopWallSpriteComponent()],
         ) {
     renderBody = false;
