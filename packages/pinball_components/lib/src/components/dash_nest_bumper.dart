@@ -15,7 +15,8 @@ abstract class DashNestBumper extends BodyComponent with InitialPosition {
     required SpriteComponent spriteComponent,
   })  : _activeAssetPath = activeAssetPath,
         _inactiveAssetPath = inactiveAssetPath,
-        _spriteComponent = spriteComponent;
+        _spriteComponent = spriteComponent,
+        super(priority: RenderPriority.dashBumper);
 
   final String _activeAssetPath;
   late final Sprite _activeSprite;

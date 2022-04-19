@@ -10,7 +10,7 @@ class LaunchRampGame extends BasicBallGame {
   LaunchRampGame()
       : super(
           color: Colors.blue,
-          ballPriority: Ball.launchRampPriority,
+          ballPriority: RenderPriority.ballOnLaunchRamp,
           ballLayer: Layer.launcher,
         );
 

@@ -29,21 +29,6 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
     renderBody = false;
   }
 
-  /// Render priority for the [Ball] while it's on the board.
-  static const int boardPriority = 0;
-
-  /// Render priority for the [Ball] while it's on the [SpaceshipRamp].
-  static const int spaceshipRampPriority = 4;
-
-  /// Render priority for the [Ball] while it's on the [Spaceship].
-  static const int spaceshipPriority = 4;
-
-  /// Render priority for the [Ball] while it's on the [SpaceshipRail].
-  static const int spaceshipRailPriority = 2;
-
-  /// Render priority for the [Ball] while it's on the [LaunchRamp].
-  static const int launchRampPriority = -2;
-
   /// The size of the [Ball].
   static final Vector2 size = Vector2.all(4.13);
 
@@ -152,7 +137,7 @@ class _TurboChargeSpriteAnimationComponent extends SpriteAnimationComponent
   _TurboChargeSpriteAnimationComponent()
       : super(
           anchor: const Anchor(0.53, 0.72),
-          priority: Ball.boardPriority + 1,
+          priority: RenderPriority.turboChargeFlame,
           removeOnFinish: true,
         );
 

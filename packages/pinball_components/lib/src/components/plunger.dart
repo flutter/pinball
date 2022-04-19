@@ -14,7 +14,7 @@ class Plunger extends BodyComponent with InitialPosition, Layered {
     required this.compressionDistance,
     // TODO(ruimiguel): set to priority +1 over LaunchRamp once all priorities
     // are fixed.
-  }) : super(priority: 0) {
+  }) : super(priority: RenderPriority.plunger) {
     layer = Layer.launcher;
   }
 
