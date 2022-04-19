@@ -164,7 +164,13 @@ class _LaunchRampBackgroundRailingSpriteComponent extends SpriteComponent
 /// {@endtemplate}
 class _LaunchRampForegroundRailing extends BodyComponent with InitialPosition {
   /// {@macro launch_ramp_foreground_railing}
-  _LaunchRampForegroundRailing() : super(priority: Ball.launchRampPriority + 1);
+  _LaunchRampForegroundRailing()
+      : super(
+          priority: Ball.launchRampPriority + 1,
+          children: [_LaunchRampForegroundRailingSpriteComponent()],
+        ) {
+    renderBody = false;
+  }
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
@@ -172,7 +178,7 @@ class _LaunchRampForegroundRailing extends BodyComponent with InitialPosition {
     final rightStraightShape = EdgeShape()
       ..set(
         Vector2(27.6, -57.9),
-        Vector2(30, -35.1),
+        Vector2(38.1, 42.6),
       );
     final rightStraightFixtureDef = FixtureDef(rightStraightShape);
     fixturesDef.add(rightStraightFixtureDef);
@@ -207,14 +213,6 @@ class _LaunchRampForegroundRailing extends BodyComponent with InitialPosition {
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    renderBody = false;
-
-    await add(_LaunchRampForegroundRailingSpriteComponent());
   }
 }
 
