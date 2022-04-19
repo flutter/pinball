@@ -42,7 +42,7 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
 
     final topStraightShape = EdgeShape()
       ..set(
-        Vector2(28.4, -35.1),
+        Vector2(28.65, -35.1),
         Vector2(29.5, -35.1),
       );
     final topStraightFixtureDef = FixtureDef(topStraightShape);
@@ -69,8 +69,8 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
     final bottomCurveShape = BezierCurveShape(
       controlPoints: [
         middleCurveShape.vertices.last,
-        Vector2(21.15, -16),
-        Vector2(25.6, -15.2),
+        Vector2(21.5, -15.8),
+        Vector2(25.8, -14.8),
       ],
     );
     fixturesDef.add(FixtureDef(bottomCurveShape));
@@ -126,6 +126,7 @@ class _DinoBottomWall extends BodyComponent with InitialPosition {
   ///{@macro dino_top_wall}
   _DinoBottomWall()
       : super(
+          priority: Ball.boardPriority + 1,
           children: [_DinoBottomWallSpriteComponent()],
         ) {
     renderBody = false;
@@ -136,7 +137,7 @@ class _DinoBottomWall extends BodyComponent with InitialPosition {
     const restitution = 1.0;
 
     final topStraightControlPoints = [
-      Vector2(32.4, -8.3),
+      Vector2(32.4, -8.8),
       Vector2(25, -7.7),
     ];
     final topStraightShape = EdgeShape()
