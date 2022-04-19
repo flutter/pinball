@@ -31,8 +31,8 @@ class Plunger extends BodyComponent with InitialPosition, Layered {
 
     final leftShapeVertices = [
       Vector2(0, 0),
-      Vector2(-1.4, 0),
-      Vector2(-1.4, -1.2),
+      Vector2(-1.8, 0),
+      Vector2(-1.8, -2.2),
       Vector2(0, -0.3),
     ]..map((vector) => vector.rotate(BoardDimensions.perspectiveAngle))
         .toList();
@@ -43,8 +43,8 @@ class Plunger extends BodyComponent with InitialPosition, Layered {
 
     final rightShapeVertices = [
       Vector2(0, 0),
-      Vector2(1.4, 0),
-      Vector2(1.4, -1.2),
+      Vector2(1.8, 0),
+      Vector2(1.8, -2.2),
       Vector2(0, -0.3),
     ]..map((vector) => vector.rotate(BoardDimensions.perspectiveAngle))
         .toList();
@@ -143,7 +143,7 @@ class _PlungerSpriteAnimationGroupComponent
     );
     size = textureSize / 10;
 
-    position = Vector2(1.87, 15.5);
+    position = Vector2(1.87, 15);
 
     // TODO(ruimiguel): we only need plunger pull animation, and release is just
     // to reverse it, so we need to divide by 2 while we don't have only half of

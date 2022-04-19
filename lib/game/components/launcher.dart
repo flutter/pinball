@@ -17,7 +17,7 @@ class Launcher extends Forge2DBlueprint {
   @override
   void build(Forge2DGame gameRef) {
     plunger = ControlledPlunger(compressionDistance: 14)
-      ..initialPosition = Vector2(40.5, 38);
+      ..initialPosition = Vector2(40.7, 38);
 
     final _rocket = RocketSpriteComponent()..position = Vector2(43, 62);
 
