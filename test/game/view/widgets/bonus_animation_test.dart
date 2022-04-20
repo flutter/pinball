@@ -74,6 +74,9 @@ void main() {
     });
   });
 
+  // TODO(arturplaczek): refactor this test when there is
+  // a new version of the flame with
+  // an onComplete callback in SpriteAnimationWidget
   testWidgets('called onCompleted callback at the end of animation ',
       (tester) async {
     final completer = Completer<void>();
