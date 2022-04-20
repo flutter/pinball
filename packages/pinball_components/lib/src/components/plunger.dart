@@ -131,13 +131,17 @@ class _PlungerSpriteAnimationGroupComponent
         );
 
   void pull() {
+    if (current != _PlungerAnimationState.pull) {
+      animation?.reset();
+    }
     current = _PlungerAnimationState.pull;
-    animation?.reset();
   }
 
   void release() {
+    if (current != _PlungerAnimationState.release) {
+      animation?.reset();
+    }
     current = _PlungerAnimationState.release;
-    animation?.reset();
   }
 
   @override
