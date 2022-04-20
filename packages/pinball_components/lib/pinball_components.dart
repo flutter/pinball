@@ -1,6 +1,4 @@
 library pinball_components;
 
-export 'gen/assets.gen.dart';
-export 'gen/fonts.gen.dart';
-export 'gen/pinball_fonts.dart';
+export 'gen/gen.dart';
 export 'src/pinball_components.dart';
