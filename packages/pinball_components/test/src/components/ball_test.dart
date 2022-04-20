@@ -1,5 +1,6 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/material.dart';
@@ -169,20 +170,41 @@ void main() {
 
         expect(ball.body.linearVelocity, equals(Vector2.zero()));
 
-        ball.boost(Vector2.all(10));
+        await ball.boost(Vector2.all(10));
         expect(ball.body.linearVelocity.x, greaterThan(0));
         expect(ball.body.linearVelocity.y, greaterThan(0));
       });
 
-      flameTester.test('adds fire effect components to the game', (game) async {
+      flameTester.test('adds TurboChargeSpriteAnimation', (game) async {
         final ball = Ball(baseColor: Colors.blue);
         await game.ensureAdd(ball);
 
-        ball.boost(Vector2.all(10));
+        await ball.boost(Vector2.all(10));
         game.update(0);
-        await game.ready();
 
-        expect(game.children.whereType<FireEffect>().length, greaterThan(0));
+        expect(
+          ball.children.whereType<SpriteAnimationComponent>().single,
+          isNotNull,
+        );
+      });
+
+      flameTester.test('removes TurboChargeSpriteAnimation after it finishes',
+          (game) async {
+        final ball = Ball(baseColor: Colors.blue);
+        await game.ensureAdd(ball);
+
+        await ball.boost(Vector2.all(10));
+        game.update(0);
+
+        final turboChargeSpriteAnimation =
+            ball.children.whereType<SpriteAnimationComponent>().single;
+
+        expect(ball.contains(turboChargeSpriteAnimation), isTrue);
+
+        game.update(turboChargeSpriteAnimation.animation!.totalDuration());
+        game.update(0.1);
+
+        expect(ball.contains(turboChargeSpriteAnimation), isFalse);
       });
     });
   });

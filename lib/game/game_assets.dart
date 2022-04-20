@@ -7,8 +7,12 @@ extension PinballGameAssetsX on PinballGame {
   /// Returns a list of assets to be loaded
   List<Future> preLoadAssets() {
     return [
-      images.load(components.Assets.images.ball.keyName),
-      images.load(components.Assets.images.flutterSignPost.keyName),
+      images.load(components.Assets.images.ball.ball.keyName),
+      images.load(components.Assets.images.ball.flameEffect.keyName),
+      images.load(components.Assets.images.signpost.inactive.keyName),
+      images.load(components.Assets.images.signpost.active1.keyName),
+      images.load(components.Assets.images.signpost.active2.keyName),
+      images.load(components.Assets.images.signpost.active3.keyName),
       images.load(components.Assets.images.flipper.left.keyName),
       images.load(components.Assets.images.flipper.right.keyName),
       images.load(components.Assets.images.baseboard.left.keyName),
@@ -20,6 +24,9 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.launchRamp.ramp.keyName),
       images.load(
         components.Assets.images.launchRamp.foregroundRailing.keyName,
+      ),
+      images.load(
+        components.Assets.images.launchRamp.backgroundRailing.keyName,
       ),
       images.load(components.Assets.images.dino.dinoLandTop.keyName),
       images.load(components.Assets.images.dino.dinoLandBottom.keyName),

@@ -148,7 +148,7 @@ void main() {
 
       callback.begin(ball, sensor, MockContact());
       verify(() => ball.layer = Layer.board);
-      verify(() => ball.priority = Ball.boardPriority).called(1);
+      verify(() => ball.priority = RenderPriority.ballOnBoard).called(1);
       verify(ball.reorderChildren).called(1);
     });
 
@@ -174,7 +174,7 @@ void main() {
 
       callback.begin(ball, sensor, MockContact());
       verify(() => ball.layer = Layer.board);
-      verify(() => ball.priority = Ball.boardPriority).called(1);
+      verify(() => ball.priority = RenderPriority.ballOnBoard).called(1);
       verify(ball.reorderChildren).called(1);
     });
   });

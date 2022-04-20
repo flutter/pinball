@@ -18,7 +18,8 @@ class AlienBumper extends BodyComponent with InitialPosition {
         _minorRadius = minorRadius,
         _activeAssetPath = activeAssetPath,
         _inactiveAssetPath = inactiveAssetPath,
-        _spriteComponent = spriteComponent;
+        _spriteComponent = spriteComponent,
+        super(priority: RenderPriority.alienBumper);
 
   /// {@macro alien_bumper}
   AlienBumper.a()

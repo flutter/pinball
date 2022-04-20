@@ -41,6 +41,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/ball/
     - assets/images/baseboard/
     - assets/images/boundary/
     - assets/images/dino/
@@ -65,6 +66,7 @@ flutter:
     - assets/images/sparky/bumper/c/
     - assets/images/backboard/
     - assets/images/google_word/
+    - assets/images/signpost/
 
 flutter_gen:
   line_length: 80

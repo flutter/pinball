@@ -26,7 +26,7 @@ class _BottomBoundary extends BodyComponent with InitialPosition {
   /// {@macro bottom_boundary}
   _BottomBoundary()
       : super(
-          priority: 1,
+          priority: RenderPriority.bottomBoundary,
           children: [_BottomBoundarySpriteComponent()],
         ) {
     renderBody = false;
@@ -78,7 +78,7 @@ class _BottomBoundarySpriteComponent extends SpriteComponent with HasGameRef {
     this.sprite = sprite;
     size = sprite.originalSize / 10;
     anchor = Anchor.center;
-    position = Vector2(-5.4, 55.8);
+    position = Vector2(-5.4, 55.6);
   }
 }
 
@@ -90,7 +90,7 @@ class _OuterBoundary extends BodyComponent with InitialPosition {
   /// {@macro outer_boundary}
   _OuterBoundary()
       : super(
-          priority: Ball.launchRampPriority - 1,
+          priority: RenderPriority.outerBoudary,
           children: [_OuterBoundarySpriteComponent()],
         ) {
     renderBody = false;
