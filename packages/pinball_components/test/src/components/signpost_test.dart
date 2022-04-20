@@ -126,16 +126,15 @@ void main() {
 
         final spriteComponent = signpost.firstChild<SpriteGroupComponent>()!;
 
-        for (var i = 0; i < 4; i++) {
-          expect(spriteComponent.current, SignpostSpriteState.inactive);
-          signpost.progress();
-          expect(spriteComponent.current, SignpostSpriteState.active1);
-          signpost.progress();
-          expect(spriteComponent.current, SignpostSpriteState.active2);
-          signpost.progress();
-          expect(spriteComponent.current, SignpostSpriteState.active3);
-          signpost.progress();
-        }
+        expect(spriteComponent.current, SignpostSpriteState.inactive);
+        signpost.progress();
+        expect(spriteComponent.current, SignpostSpriteState.active1);
+        signpost.progress();
+        expect(spriteComponent.current, SignpostSpriteState.active2);
+        signpost.progress();
+        expect(spriteComponent.current, SignpostSpriteState.active3);
+        signpost.progress();
+        expect(spriteComponent.current, SignpostSpriteState.inactive);
       },
     );
   });
