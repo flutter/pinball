@@ -2,17 +2,17 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
+import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball/theme/theme.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
-class CharacterSelectionPage extends StatelessWidget {
-  const CharacterSelectionPage({Key? key}) : super(key: key);
+class CharacterSelectionDialog extends StatelessWidget {
+  const CharacterSelectionDialog({Key? key}) : super(key: key);
 
   static Route route() {
     return MaterialPageRoute<void>(
-      builder: (_) => const CharacterSelectionPage(),
+      builder: (_) => const CharacterSelectionDialog(),
     );
   }
 
@@ -46,11 +46,13 @@ class CharacterSelectionView extends StatelessWidget {
             const _CharacterSelectionGridView(),
             const SizedBox(height: 20),
             TextButton(
-              onPressed: () => Navigator.of(context).push<void>(
-                PinballGamePage.route(
-                  theme: context.read<ThemeCubit>().state.theme,
-                ),
-              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+                showDialog<void>(
+                  context: context,
+                  builder: (_) => const HowToPlayDialog(),
+                );
+              },
               child: Text(l10n.start),
             ),
           ],

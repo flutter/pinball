@@ -5,40 +5,46 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball_theme/pinball_theme.dart';
+import 'package:pinball/theme/theme.dart';
 
 import '../../helpers/helpers.dart';
 
 void main() {
-  const theme = PinballTheme(characterTheme: DashTheme());
   final game = PinballTestGame();
 
   group('PinballGamePage', () {
-    testWidgets('renders PinballGameView', (tester) async {
-      final gameBloc = MockGameBloc();
+    late ThemeCubit themeCubit;
+    late GameBloc gameBloc;
+
+    setUp(() {
+      themeCubit = MockThemeCubit();
+      gameBloc = MockGameBloc();
+
+      whenListen(
+        themeCubit,
+        const Stream<ThemeState>.empty(),
+        initialState: const ThemeState.initial(),
+      );
+
       whenListen(
         gameBloc,
         Stream.value(const GameState.initial()),
         initialState: const GameState.initial(),
       );
+    });
 
+    testWidgets('renders PinballGameView', (tester) async {
       await tester.pumpApp(
-        PinballGamePage(theme: theme, game: game),
-        gameBloc: gameBloc,
+        PinballGamePage(),
+        themeCubit: themeCubit,
       );
+
       expect(find.byType(PinballGameView), findsOneWidget);
     });
 
     testWidgets(
       'renders the loading indicator while the assets load',
       (tester) async {
-        final gameBloc = MockGameBloc();
-        whenListen(
-          gameBloc,
-          Stream.value(const GameState.initial()),
-          initialState: const GameState.initial(),
-        );
-
         final assetsManagerCubit = MockAssetsManagerCubit();
         final initialAssetsState = AssetsManagerState(
           loadables: [Future<void>.value()],
@@ -51,26 +57,51 @@ void main() {
         );
 
         await tester.pumpApp(
-          PinballGamePage(theme: theme, game: game),
-          gameBloc: gameBloc,
+          PinballGameView(
+            game: game,
+          ),
           assetsManagerCubit: assetsManagerCubit,
-        );
-        expect(find.text('0.0'), findsOneWidget);
-
-        final loadedAssetsState = AssetsManagerState(
-          loadables: [Future<void>.value()],
-          loaded: [Future<void>.value()],
-        );
-        whenListen(
-          assetsManagerCubit,
-          Stream.value(loadedAssetsState),
-          initialState: loadedAssetsState,
+          themeCubit: themeCubit,
         );
 
-        await tester.pump();
-        expect(find.byType(PinballGameView), findsOneWidget);
+        expect(
+          find.byWidgetPredicate(
+            (widget) =>
+                widget is LinearProgressIndicator && widget.value == 0.0,
+          ),
+          findsOneWidget,
+        );
       },
     );
+
+    testWidgets(
+        'renders PinballGameLoadedView after resources have been loaded',
+        (tester) async {
+      final assetsManagerCubit = MockAssetsManagerCubit();
+
+      final loadedAssetsState = AssetsManagerState(
+        loadables: [Future<void>.value()],
+        loaded: [Future<void>.value()],
+      );
+      whenListen(
+        assetsManagerCubit,
+        Stream.value(loadedAssetsState),
+        initialState: loadedAssetsState,
+      );
+
+      await tester.pumpApp(
+        PinballGameView(
+          game: game,
+        ),
+        assetsManagerCubit: assetsManagerCubit,
+        themeCubit: themeCubit,
+        gameBloc: gameBloc,
+      );
+
+      await tester.pump();
+
+      expect(find.byType(PinballGameLoadedView), findsOneWidget);
+    });
 
     group('route', () {
       Future<void> pumpRoute({
@@ -85,7 +116,6 @@ void main() {
                   onPressed: () {
                     Navigator.of(context).push<void>(
                       PinballGamePage.route(
-                        theme: theme,
                         isDebugMode: isDebugMode,
                       ),
                     );
@@ -95,6 +125,7 @@ void main() {
               },
             ),
           ),
+          themeCubit: themeCubit,
         );
 
         await tester.tap(find.text('Tap me'));
