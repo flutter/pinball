@@ -9,7 +9,7 @@ import 'package:sandbox/stories/flutter_forest/small_dash_nest_bumper_b_game.dar
 void addDashNestBumperStories(Dashbook dashbook) {
   dashbook.storiesOf('Flutter Forest')
     ..add(
-      'Flutter Sign Post',
+      'Sign Post',
       (context) => GameWidget(
         game: SignPostGame()..trace = context.boolProperty('Trace', true),
       ),
