@@ -35,8 +35,8 @@ class SparkyBumper extends BodyComponent with InitialPosition {
       : this._(
           majorRadius: 2.9,
           minorRadius: 2.1,
-          onAssetPath: Assets.images.sparky.bumper.a.on.keyName,
-          offAssetPath: Assets.images.sparky.bumper.a.off.keyName,
+          onAssetPath: Assets.images.sparky.bumper.a.active.keyName,
+          offAssetPath: Assets.images.sparky.bumper.a.inactive.keyName,
           spritePosition: Vector2(0, -0.25),
         );
 
@@ -45,8 +45,8 @@ class SparkyBumper extends BodyComponent with InitialPosition {
       : this._(
           majorRadius: 2.85,
           minorRadius: 2,
-          onAssetPath: Assets.images.sparky.bumper.b.on.keyName,
-          offAssetPath: Assets.images.sparky.bumper.b.off.keyName,
+          onAssetPath: Assets.images.sparky.bumper.b.active.keyName,
+          offAssetPath: Assets.images.sparky.bumper.b.inactive.keyName,
           spritePosition: Vector2(0, -0.35),
         );
 
@@ -55,8 +55,8 @@ class SparkyBumper extends BodyComponent with InitialPosition {
       : this._(
           majorRadius: 3,
           minorRadius: 2.2,
-          onAssetPath: Assets.images.sparky.bumper.c.on.keyName,
-          offAssetPath: Assets.images.sparky.bumper.c.off.keyName,
+          onAssetPath: Assets.images.sparky.bumper.c.active.keyName,
+          offAssetPath: Assets.images.sparky.bumper.c.inactive.keyName,
           spritePosition: Vector2(0, -0.4),
         );
 
@@ -86,9 +86,9 @@ class SparkyBumper extends BodyComponent with InitialPosition {
   /// Animates the [DashNestBumper].
   Future<void> animate() async {
     final spriteGroupComponent = firstChild<_SparkyBumperSpriteGroupComponent>()
-      ?..current = SparkyBumperSpriteState.off;
+      ?..current = SparkyBumperSpriteState.inactive;
     await Future<void>.delayed(const Duration(milliseconds: 50));
-    spriteGroupComponent?.current = SparkyBumperSpriteState.on;
+    spriteGroupComponent?.current = SparkyBumperSpriteState.active;
   }
 }
 
@@ -96,11 +96,11 @@ class SparkyBumper extends BodyComponent with InitialPosition {
 
 /// Indicates the [SparkyBumper]'s current sprite state.
 enum SparkyBumperSpriteState {
-  /// The on sprite is being displayed.
-  on,
+  /// The active sprite is being displayed.
+  active,
 
-  /// The off sprite is being displayed.
-  off,
+  /// The inactive sprite is being displayed.
+  inactive,
 }
 
 class _SparkyBumperSpriteGroupComponent
@@ -123,14 +123,14 @@ class _SparkyBumperSpriteGroupComponent
   Future<void> onLoad() async {
     await super.onLoad();
     final sprites = {
-      SparkyBumperSpriteState.on:
+      SparkyBumperSpriteState.active:
           Sprite(gameRef.images.fromCache(_onAssetPath)),
-      SparkyBumperSpriteState.off:
+      SparkyBumperSpriteState.inactive:
           Sprite(gameRef.images.fromCache(_offAssetPath)),
     };
     this.sprites = sprites;
-    size = sprites[SparkyBumperSpriteState.on]!.originalSize / 10;
+    size = sprites[SparkyBumperSpriteState.active]!.originalSize / 10;
 
-    current = SparkyBumperSpriteState.on;
+    current = SparkyBumperSpriteState.active;
   }
 }

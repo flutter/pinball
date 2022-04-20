@@ -18,8 +18,8 @@ class AlienBumperAGame extends BasicBallGame {
     await super.onLoad();
 
     await Future.wait([
-      images.load(Assets.images.alienBumper.a.on.keyName),
-      images.load(Assets.images.alienBumper.a.off.keyName),
+      images.load(Assets.images.alienBumper.a.active.keyName),
+      images.load(Assets.images.alienBumper.a.inactive.keyName),
     ]);
 
     final center = screenToWorld(camera.viewport.canvasSize! / 2);

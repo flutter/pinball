@@ -17,12 +17,12 @@ class SparkyBumperGame extends BasicBallGame with Traceable {
     await super.onLoad();
 
     await Future.wait([
-      images.load(Assets.images.sparky.bumper.a.on.keyName),
-      images.load(Assets.images.sparky.bumper.a.off.keyName),
-      images.load(Assets.images.sparky.bumper.b.on.keyName),
-      images.load(Assets.images.sparky.bumper.b.off.keyName),
-      images.load(Assets.images.sparky.bumper.c.on.keyName),
-      images.load(Assets.images.sparky.bumper.c.off.keyName),
+      images.load(Assets.images.sparky.bumper.a.active.keyName),
+      images.load(Assets.images.sparky.bumper.a.inactive.keyName),
+      images.load(Assets.images.sparky.bumper.b.active.keyName),
+      images.load(Assets.images.sparky.bumper.b.inactive.keyName),
+      images.load(Assets.images.sparky.bumper.c.active.keyName),
+      images.load(Assets.images.sparky.bumper.c.inactive.keyName),
     ]);
 
     final center = screenToWorld(camera.viewport.canvasSize! / 2);

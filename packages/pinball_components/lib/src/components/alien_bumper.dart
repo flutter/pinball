@@ -33,8 +33,8 @@ class AlienBumper extends BodyComponent with InitialPosition {
       : this._(
           majorRadius: 3.52,
           minorRadius: 2.97,
-          onAssetPath: Assets.images.alienBumper.a.on.keyName,
-          offAssetPath: Assets.images.alienBumper.a.off.keyName,
+          onAssetPath: Assets.images.alienBumper.a.active.keyName,
+          offAssetPath: Assets.images.alienBumper.a.inactive.keyName,
         );
 
   /// {@macro alien_bumper}
@@ -42,8 +42,8 @@ class AlienBumper extends BodyComponent with InitialPosition {
       : this._(
           majorRadius: 3.19,
           minorRadius: 2.79,
-          onAssetPath: Assets.images.alienBumper.b.on.keyName,
-          offAssetPath: Assets.images.alienBumper.b.off.keyName,
+          onAssetPath: Assets.images.alienBumper.b.active.keyName,
+          offAssetPath: Assets.images.alienBumper.b.inactive.keyName,
         );
 
   final double _majorRadius;
@@ -71,9 +71,9 @@ class AlienBumper extends BodyComponent with InitialPosition {
   /// Animates the [AlienBumper].
   Future<void> animate() async {
     final spriteGroupComponent = firstChild<_AlienBumperSpriteGroupComponent>()
-      ?..current = AlienBumperSpriteState.off;
+      ?..current = AlienBumperSpriteState.inactive;
     await Future<void>.delayed(const Duration(milliseconds: 50));
-    spriteGroupComponent?.current = AlienBumperSpriteState.on;
+    spriteGroupComponent?.current = AlienBumperSpriteState.active;
   }
 }
 
@@ -81,11 +81,11 @@ class AlienBumper extends BodyComponent with InitialPosition {
 
 /// Indicates the [AlienBumper]'s current sprite state.
 enum AlienBumperSpriteState {
-  /// The on sprite is being displayed.
-  on,
+  /// The active sprite is being displayed.
+  active,
 
-  /// The off sprite is being displayed.
-  off,
+  /// The inactive sprite is being displayed.
+  inactive,
 }
 
 class _AlienBumperSpriteGroupComponent
@@ -108,14 +108,15 @@ class _AlienBumperSpriteGroupComponent
     await super.onLoad();
 
     final sprites = {
-      AlienBumperSpriteState.on: Sprite(gameRef.images.fromCache(_onAssetPath)),
-      AlienBumperSpriteState.off:
+      AlienBumperSpriteState.active:
+          Sprite(gameRef.images.fromCache(_onAssetPath)),
+      AlienBumperSpriteState.inactive:
           Sprite(gameRef.images.fromCache(_offAssetPath)),
     };
 
     this.sprites = sprites;
-    size = sprites[AlienBumperSpriteState.on]!.originalSize / 10;
+    size = sprites[AlienBumperSpriteState.active]!.originalSize / 10;
 
-    current = AlienBumperSpriteState.on;
+    current = AlienBumperSpriteState.active;
   }
 }

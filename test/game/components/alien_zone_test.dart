@@ -14,10 +14,10 @@ import '../../helpers/helpers.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
-    Assets.images.alienBumper.a.on.keyName,
-    Assets.images.alienBumper.a.off.keyName,
-    Assets.images.alienBumper.b.on.keyName,
-    Assets.images.alienBumper.b.off.keyName,
+    Assets.images.alienBumper.a.active.keyName,
+    Assets.images.alienBumper.a.inactive.keyName,
+    Assets.images.alienBumper.b.active.keyName,
+    Assets.images.alienBumper.b.inactive.keyName,
   ];
   final flameTester = FlameTester(() => EmptyPinballTestGame(assets));
 

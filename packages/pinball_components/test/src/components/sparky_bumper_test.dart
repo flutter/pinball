@@ -10,12 +10,12 @@ import '../../helpers/helpers.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
-    Assets.images.sparky.bumper.a.on.keyName,
-    Assets.images.sparky.bumper.a.off.keyName,
-    Assets.images.sparky.bumper.b.on.keyName,
-    Assets.images.sparky.bumper.b.off.keyName,
-    Assets.images.sparky.bumper.c.on.keyName,
-    Assets.images.sparky.bumper.c.off.keyName,
+    Assets.images.sparky.bumper.a.active.keyName,
+    Assets.images.sparky.bumper.a.inactive.keyName,
+    Assets.images.sparky.bumper.b.active.keyName,
+    Assets.images.sparky.bumper.b.inactive.keyName,
+    Assets.images.sparky.bumper.c.active.keyName,
+    Assets.images.sparky.bumper.c.inactive.keyName,
   ];
   final flameTester = FlameTester(() => TestGame(assets));
 
@@ -48,21 +48,21 @@ void main() {
 
       expect(
         spriteGroupComponent.current,
-        equals(SparkyBumperSpriteState.on),
+        equals(SparkyBumperSpriteState.active),
       );
 
       final future = bumper.animate();
 
       expect(
         spriteGroupComponent.current,
-        equals(SparkyBumperSpriteState.off),
+        equals(SparkyBumperSpriteState.inactive),
       );
 
       await future;
 
       expect(
         spriteGroupComponent.current,
-        equals(SparkyBumperSpriteState.on),
+        equals(SparkyBumperSpriteState.active),
       );
     });
   });
