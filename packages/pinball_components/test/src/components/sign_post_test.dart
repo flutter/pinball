@@ -7,25 +7,14 @@ import 'package:pinball_components/pinball_components.dart';
 
 import '../../helpers/helpers.dart';
 
-// TODO(allisonryan0002): Refactor loading assets in test with
-// https://github.com/VGVentures/pinball/pull/204
-
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final flameTester = FlameTester(TestGame.new);
 
   group('SignPost', () {
-    final assets = [
-      Assets.images.signPost.inactive.keyName,
-      Assets.images.signPost.active1.keyName,
-      Assets.images.signPost.active2.keyName,
-      Assets.images.signPost.active3.keyName,
-    ];
-
     flameTester.test(
       'loads correctly',
       (game) async {
-        await game.images.loadAll(assets);
         final signPost = SignPost();
         await game.ready();
         await game.ensureAdd(signPost);
@@ -38,7 +27,6 @@ void main() {
       flameTester.testGameWidget(
         'inactive sprite',
         setUp: (game, tester) async {
-          await game.images.loadAll(assets);
           await game.ensureAdd(SignPost());
           game.camera.followVector2(Vector2.zero());
         },
@@ -53,8 +41,6 @@ void main() {
       flameTester.testGameWidget(
         'active1 sprite',
         setUp: (game, tester) async {
-          await game.images.loadAll(assets);
-
           final signPost = SignPost();
           await game.ensureAdd(signPost);
           signPost.progress();
@@ -72,8 +58,6 @@ void main() {
       flameTester.testGameWidget(
         'active2 sprite',
         setUp: (game, tester) async {
-          await game.images.loadAll(assets);
-
           final signPost = SignPost();
           await game.ensureAdd(signPost);
           signPost
@@ -93,8 +77,6 @@ void main() {
       flameTester.testGameWidget(
         'active3 sprite',
         setUp: (game, tester) async {
-          await game.images.loadAll(assets);
-
           final signPost = SignPost();
           await game.ensureAdd(signPost);
           signPost
@@ -116,7 +98,6 @@ void main() {
     flameTester.test(
       'progress changes correctly between four sprites',
       (game) async {
-        await game.images.loadAll(assets);
         final signPost = SignPost();
         await game.ready();
         await game.ensureAdd(signPost);

@@ -81,8 +81,7 @@ class _SignPostSpriteComponent
       // sprites[spriteState] = Sprite(
       //   gameRef.images.fromCache(spriteState.path),
       // );
-      sprites[spriteState] =
-          Sprite(await gameRef.images.load(spriteState.path));
+      sprites[spriteState] = await gameRef.loadSprite(spriteState.path);
     }
 
     current = _SignPostSpriteState.inactive;

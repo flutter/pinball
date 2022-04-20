@@ -17,13 +17,6 @@ class SignPostGame extends BasicBallGame with Traceable, TapDetector {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    await Future.wait([
-      loadSprite(Assets.images.signPost.inactive.keyName),
-      loadSprite(Assets.images.signPost.active1.keyName),
-      loadSprite(Assets.images.signPost.active2.keyName),
-      loadSprite(Assets.images.signPost.active3.keyName),
-    ]);
-
     camera.followVector2(Vector2.zero());
     await add(SignPost()..priority = 1);
     await traceAllBodies();
