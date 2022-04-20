@@ -34,7 +34,7 @@ abstract class LayerSensor extends BodyComponent with InitialPosition, Layered {
   })  : _insideLayer = insideLayer,
         _outsideLayer = outsideLayer ?? Layer.board,
         _insidePriority = insidePriority,
-        _outsidePriority = outsidePriority ?? Ball.boardPriority {
+        _outsidePriority = outsidePriority ?? RenderPriority.ballOnBoard {
     layer = Layer.opening;
   }
   final Layer _insideLayer;

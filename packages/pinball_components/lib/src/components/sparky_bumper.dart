@@ -20,7 +20,8 @@ class SparkyBumper extends BodyComponent with InitialPosition {
         _minorRadius = minorRadius,
         _activeAssetPath = activeAssetPath,
         _inactiveAssetPath = inactiveAssetPath,
-        _spriteComponent = spriteComponent;
+        _spriteComponent = spriteComponent,
+        super(priority: RenderPriority.sparkyBumper);
 
   /// {@macro sparky_bumper}
   SparkyBumper.a()

@@ -35,9 +35,12 @@ class Spaceship extends Forge2DBlueprint {
       AndroidHead()..initialPosition = position,
       _SpaceshipHole(
         outsideLayer: Layer.spaceshipExitRail,
-        outsidePriority: Ball.spaceshipRailPriority,
+        outsidePriority: RenderPriority.ballOnSpaceshipRail,
       )..initialPosition = position - Vector2(5.2, -4.8),
-      _SpaceshipHole()..initialPosition = position - Vector2(-7.2, -0.8),
+      _SpaceshipHole(
+        outsideLayer: Layer.board,
+        outsidePriority: RenderPriority.ballOnBoard,
+      )..initialPosition = position - Vector2(-7.2, -0.8),
       SpaceshipWall()..initialPosition = position,
     ]);
   }
@@ -48,7 +51,7 @@ class Spaceship extends Forge2DBlueprint {
 /// {@endtemplate}
 class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_saucer}
-  SpaceshipSaucer() : super(priority: Ball.spaceshipPriority - 1) {
+  SpaceshipSaucer() : super(priority: RenderPriority.spaceshipSaucer) {
     layer = Layer.spaceship;
   }
 
@@ -94,7 +97,7 @@ class AndroidHead extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_bridge}
   AndroidHead()
       : super(
-          priority: Ball.spaceshipPriority + 1,
+          priority: RenderPriority.androidHead,
           children: [_AndroidHeadSpriteAnimation()],
         ) {
     renderBody = false;
@@ -145,7 +148,7 @@ class _SpaceshipEntrance extends LayerSensor {
       : super(
           insideLayer: Layer.spaceship,
           orientation: LayerEntranceOrientation.up,
-          insidePriority: Ball.spaceshipPriority,
+          insidePriority: RenderPriority.ballOnSpaceship,
         ) {
     layer = Layer.spaceship;
   }
@@ -169,12 +172,12 @@ class _SpaceshipEntrance extends LayerSensor {
 }
 
 class _SpaceshipHole extends LayerSensor {
-  _SpaceshipHole({Layer? outsideLayer, int? outsidePriority = 1})
+  _SpaceshipHole({required Layer outsideLayer, required int outsidePriority})
       : super(
           insideLayer: Layer.spaceship,
           outsideLayer: outsideLayer,
           orientation: LayerEntranceOrientation.down,
-          insidePriority: 4,
+          insidePriority: RenderPriority.ballOnSpaceship,
           outsidePriority: outsidePriority,
         ) {
     renderBody = false;
@@ -225,7 +228,7 @@ class _SpaceshipWallShape extends ChainShape {
 /// {@endtemplate}
 class SpaceshipWall extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_wall}
-  SpaceshipWall() : super(priority: Ball.spaceshipPriority + 1) {
+  SpaceshipWall() : super(priority: RenderPriority.spaceshipSaucerWall) {
     layer = Layer.spaceship;
   }
 
