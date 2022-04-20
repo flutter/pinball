@@ -16,7 +16,8 @@ void main() {
     late ThemeCubit themeCubit;
     late GameBloc gameBloc;
 
-    setUp(() {
+    setUp(() async {
+      await Future.wait<void>(game.preLoadAssets());
       themeCubit = MockThemeCubit();
       gameBloc = MockGameBloc();
 
