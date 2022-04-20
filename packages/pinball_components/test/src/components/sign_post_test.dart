@@ -27,7 +27,14 @@ void main() {
       flameTester.testGameWidget(
         'inactive sprite',
         setUp: (game, tester) async {
-          await game.ensureAdd(SignPost());
+          final signPost = SignPost();
+          await game.ensureAdd(signPost);
+
+          expect(
+            signPost.firstChild<SpriteGroupComponent>()!.current,
+            SignPostSpriteState.inactive,
+          );
+
           game.camera.followVector2(Vector2.zero());
         },
         verify: (game, tester) async {
@@ -44,6 +51,11 @@ void main() {
           final signPost = SignPost();
           await game.ensureAdd(signPost);
           signPost.progress();
+
+          expect(
+            signPost.firstChild<SpriteGroupComponent>()!.current,
+            SignPostSpriteState.active1,
+          );
 
           game.camera.followVector2(Vector2.zero());
         },
@@ -63,6 +75,11 @@ void main() {
           signPost
             ..progress()
             ..progress();
+
+          expect(
+            signPost.firstChild<SpriteGroupComponent>()!.current,
+            SignPostSpriteState.active2,
+          );
 
           game.camera.followVector2(Vector2.zero());
         },
@@ -84,6 +101,11 @@ void main() {
             ..progress()
             ..progress();
 
+          expect(
+            signPost.firstChild<SpriteGroupComponent>()!.current,
+            SignPostSpriteState.active3,
+          );
+
           game.camera.followVector2(Vector2.zero());
         },
         verify: (game, tester) async {
@@ -103,14 +125,17 @@ void main() {
         await game.ensureAdd(signPost);
 
         final spriteComponent = signPost.firstChild<SpriteGroupComponent>()!;
-        final sprites = <Sprite>{};
 
         for (var i = 0; i < 4; i++) {
-          sprites.add(spriteComponent.sprite!);
+          expect(spriteComponent.current, SignPostSpriteState.inactive);
+          signPost.progress();
+          expect(spriteComponent.current, SignPostSpriteState.active1);
+          signPost.progress();
+          expect(spriteComponent.current, SignPostSpriteState.active2);
+          signPost.progress();
+          expect(spriteComponent.current, SignPostSpriteState.active3);
           signPost.progress();
         }
-
-        expect(sprites.length, equals(4));
       },
     );
   });

@@ -1,31 +1,41 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-enum _SignPostSpriteState {
+/// Represents the [SignPost]'s current [Sprite] state.
+@visibleForTesting
+enum SignPostSpriteState {
+  /// Signpost with no active dashes.
   inactive,
+
+  /// Signpost with a single sign of active dashes.
   active1,
+
+  /// Signpost with two signs of active dashes.
   active2,
+
+  /// Signpost with all signs of active dashes.
   active3,
 }
 
-extension on _SignPostSpriteState {
+extension on SignPostSpriteState {
   String get path {
     switch (this) {
-      case _SignPostSpriteState.inactive:
+      case SignPostSpriteState.inactive:
         return Assets.images.signPost.inactive.keyName;
-      case _SignPostSpriteState.active1:
+      case SignPostSpriteState.active1:
         return Assets.images.signPost.active1.keyName;
-      case _SignPostSpriteState.active2:
+      case SignPostSpriteState.active2:
         return Assets.images.signPost.active2.keyName;
-      case _SignPostSpriteState.active3:
+      case SignPostSpriteState.active3:
         return Assets.images.signPost.active3.keyName;
     }
   }
 
-  _SignPostSpriteState get next {
-    return _SignPostSpriteState
-        .values[(index + 1) % _SignPostSpriteState.values.length];
+  SignPostSpriteState get next {
+    return SignPostSpriteState
+        .values[(index + 1) % SignPostSpriteState.values.length];
   }
 }
 
@@ -42,7 +52,7 @@ class SignPost extends BodyComponent with InitialPosition {
     renderBody = false;
   }
 
-  /// Forwards the sprite to the next [_SignPostSpriteState].
+  /// Forwards the sprite to the next [SignPostSpriteState].
   ///
   /// If the current state is the last one it goes back to the initial state.
   void progress() => firstChild<_SignPostSpriteComponent>()!.progress();
@@ -59,8 +69,8 @@ class SignPost extends BodyComponent with InitialPosition {
   }
 }
 
-class _SignPostSpriteComponent
-    extends SpriteGroupComponent<_SignPostSpriteState> with HasGameRef {
+class _SignPostSpriteComponent extends SpriteGroupComponent<SignPostSpriteState>
+    with HasGameRef {
   _SignPostSpriteComponent()
       : super(
           anchor: Anchor.bottomCenter,
@@ -73,9 +83,9 @@ class _SignPostSpriteComponent
   Future<void> onLoad() async {
     await super.onLoad();
 
-    final sprites = <_SignPostSpriteState, Sprite>{};
+    final sprites = <SignPostSpriteState, Sprite>{};
     this.sprites = sprites;
-    for (final spriteState in _SignPostSpriteState.values) {
+    for (final spriteState in SignPostSpriteState.values) {
       // TODO(allisonryan0002): Support caching
       // https://github.com/VGVentures/pinball/pull/204
       // sprites[spriteState] = Sprite(
@@ -84,7 +94,7 @@ class _SignPostSpriteComponent
       sprites[spriteState] = await gameRef.loadSprite(spriteState.path);
     }
 
-    current = _SignPostSpriteState.inactive;
+    current = SignPostSpriteState.inactive;
     size = sprites[current]!.originalSize / 10;
   }
 }
