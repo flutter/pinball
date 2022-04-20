@@ -54,7 +54,11 @@ void main() {
         'active1 sprite',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          await game.ensureAdd(FlutterSignPost()..progress());
+
+          final signPost = FlutterSignPost();
+          await game.ensureAdd(signPost);
+          signPost.progress();
+
           game.camera.followVector2(Vector2.zero());
         },
         verify: (game, tester) async {
@@ -69,11 +73,13 @@ void main() {
         'active2 sprite',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          await game.ensureAdd(
-            FlutterSignPost()
-              ..progress()
-              ..progress(),
-          );
+
+          final signPost = FlutterSignPost();
+          await game.ensureAdd(signPost);
+          signPost
+            ..progress()
+            ..progress();
+
           game.camera.followVector2(Vector2.zero());
         },
         verify: (game, tester) async {
@@ -88,12 +94,14 @@ void main() {
         'active3 sprite',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          await game.ensureAdd(
-            FlutterSignPost()
-              ..progress()
-              ..progress()
-              ..progress(),
-          );
+
+          final signPost = FlutterSignPost();
+          await game.ensureAdd(signPost);
+          signPost
+            ..progress()
+            ..progress()
+            ..progress();
+
           game.camera.followVector2(Vector2.zero());
         },
         verify: (game, tester) async {
