@@ -46,7 +46,7 @@ class Backboard extends PositionComponent with HasGameRef {
 
   /// [TextPaint] used on the [Backboard]
   static final textPaint = TextPaint(
-    style: TextStyle(
+    style: const TextStyle(
       fontSize: 6,
       color: Colors.white,
       fontFamily: PinballFonts.pixeloidSans,
