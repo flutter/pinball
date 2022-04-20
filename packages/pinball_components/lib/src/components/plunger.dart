@@ -135,7 +135,7 @@ class _PlungerSpriteAnimationGroupComponent
   void release() => current = _PlungerAnimationState.release;
 
   @override
-  Future<void>? onLoad() async {
+  Future<void> onLoad() async {
     await super.onLoad();
 
     final spriteSheet = await gameRef.images.load(
