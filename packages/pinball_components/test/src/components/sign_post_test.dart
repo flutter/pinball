@@ -45,7 +45,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/sign-post__inactive.png'),
+            matchesGoldenFile('golden/sign_post/inactive.png'),
           );
         },
       );
@@ -64,7 +64,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/sign-post__active1.png'),
+            matchesGoldenFile('golden/sign_post/active1.png'),
           );
         },
       );
@@ -85,7 +85,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/sign-post__active2.png'),
+            matchesGoldenFile('golden/sign_post/active2.png'),
           );
         },
       );
@@ -107,7 +107,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/sign-post__active3.png'),
+            matchesGoldenFile('golden/sign_post/active3.png'),
           );
         },
       );
