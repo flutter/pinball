@@ -33,7 +33,7 @@ void main() {
       flameTester.testGameWidget(
         'inactive sprite',
         setUp: (game, tester) async {
-          await game.images.load(Assets.images.signpost.inactive.keyName);
+          await game.images.loadAll(assets);
           final signpost = Signpost();
           await game.ensureAdd(signpost);
           await tester.pump();
@@ -56,7 +56,7 @@ void main() {
       flameTester.testGameWidget(
         'active1 sprite',
         setUp: (game, tester) async {
-          await game.images.load(Assets.images.signpost.active1.keyName);
+          await game.images.loadAll(assets);
           final signpost = Signpost();
           await game.ensureAdd(signpost);
           signpost.progress();
@@ -80,7 +80,7 @@ void main() {
       flameTester.testGameWidget(
         'active2 sprite',
         setUp: (game, tester) async {
-          await game.images.load(Assets.images.signpost.active2.keyName);
+          await game.images.loadAll(assets);
           final signpost = Signpost();
           await game.ensureAdd(signpost);
           signpost
@@ -106,7 +106,7 @@ void main() {
       flameTester.testGameWidget(
         'active3 sprite',
         setUp: (game, tester) async {
-          await game.images.load(Assets.images.signpost.active3.keyName);
+          await game.images.loadAll(assets);
           final signpost = Signpost();
           await game.ensureAdd(signpost);
           signpost
