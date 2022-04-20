@@ -23,6 +23,24 @@ class BonusAnimation extends StatelessWidget {
           key: key,
         );
 
+  BonusAnimation.sparkyTurboCharge({
+    Key? key,
+    VoidCallback? onCompleted,
+  }) : this._(
+          Assets.images.bonusAnimation.sparkyTurboCharge.keyName,
+          onCompleted: onCompleted,
+          key: key,
+        );
+
+  BonusAnimation.dino({
+    Key? key,
+    VoidCallback? onCompleted,
+  }) : this._(
+          Assets.images.bonusAnimation.dino.keyName,
+          onCompleted: onCompleted,
+          key: key,
+        );
+
   final String image;
 
   final VoidCallback? onCompleted;
@@ -34,7 +52,7 @@ class BonusAnimation extends StatelessWidget {
     // TODO(arturplaczek): Load assets in parent widget, remove future builder
     // and user image from cache.
     return FutureBuilder<Image>(
-      future: Flame.images.load(Assets.images.bonusAnimation.dashNest.keyName),
+      future: Flame.images.load(image),
       builder: (BuildContext context, AsyncSnapshot<Image> snapshot) {
         if (snapshot.hasData) {
           final spriteSheet = SpriteSheet.fromColumnsAndRows(

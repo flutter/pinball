@@ -27,18 +27,50 @@ void main() {
     Flame.images = images;
   });
 
-  testWidgets('renders SpriteAnimationWidget', (tester) async {
-    await tester.runAsync(() async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: BonusAnimation.dashNest(),
+  group('renders SpriteAnimationWidget for', () {
+    testWidgets('dashNest', (tester) async {
+      await tester.runAsync(() async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: BonusAnimation.dashNest(),
+            ),
           ),
-        ),
-      );
-      await tester.pump();
+        );
+        await tester.pump();
 
-      expect(find.byType(SpriteAnimationWidget), findsOneWidget);
+        expect(find.byType(SpriteAnimationWidget), findsOneWidget);
+      });
+    });
+
+    testWidgets('dino', (tester) async {
+      await tester.runAsync(() async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: BonusAnimation.dino(),
+            ),
+          ),
+        );
+        await tester.pump();
+
+        expect(find.byType(SpriteAnimationWidget), findsOneWidget);
+      });
+    });
+
+    testWidgets('sparkyTurboCharge', (tester) async {
+      await tester.runAsync(() async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: BonusAnimation.sparkyTurboCharge(),
+            ),
+          ),
+        );
+        await tester.pump();
+
+        expect(find.byType(SpriteAnimationWidget), findsOneWidget);
+      });
     });
   });
 
