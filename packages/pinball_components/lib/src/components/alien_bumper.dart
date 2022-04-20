@@ -43,7 +43,7 @@ class AlienBumper extends BodyComponent with InitialPosition {
           majorRadius: 3.19,
           minorRadius: 2.79,
           onAssetPath: Assets.images.alienBumper.b.on.keyName,
-          offAssetPath: Assets.images.alienBumper.a.off.keyName,
+          offAssetPath: Assets.images.alienBumper.b.off.keyName,
         );
 
   final double _majorRadius;

@@ -17,6 +17,11 @@ class AlienBumperAGame extends BasicBallGame {
   Future<void> onLoad() async {
     await super.onLoad();
 
+    await Future.wait([
+      images.load(Assets.images.alienBumper.a.on.keyName),
+      images.load(Assets.images.alienBumper.a.off.keyName),
+    ]);
+
     final center = screenToWorld(camera.viewport.canvasSize! / 2);
     final alienBumperA = AlienBumper.a()
       ..initialPosition = Vector2(center.x - 20, center.y - 20)
