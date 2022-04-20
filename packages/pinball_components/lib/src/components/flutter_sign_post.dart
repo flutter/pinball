@@ -9,6 +9,7 @@ class FlutterSignPost extends BodyComponent with InitialPosition {
   /// {@macro flutter_sign_post}
   FlutterSignPost()
       : super(
+          priority: RenderPriority.flutterSignPost,
           children: [_FlutterSignPostSpriteComponent()],
         ) {
     renderBody = false;
