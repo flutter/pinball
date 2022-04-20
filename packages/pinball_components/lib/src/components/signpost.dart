@@ -56,7 +56,7 @@ class Signpost extends BodyComponent with InitialPosition {
 
   /// Forwards the sprite to the next [SignpostSpriteState].
   ///
-  /// If the current state is the last one it goes back to the initial state.
+  /// If the current state is the last one it cycles back to the initial state.
   void progress() => firstChild<_SignpostSpriteComponent>()!.progress();
 
   @override
