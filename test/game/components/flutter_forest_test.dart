@@ -27,13 +27,13 @@ void main() {
 
     group('loads', () {
       flameTester.test(
-        'a SignPost',
+        'a Signpost',
         (game) async {
           final flutterForest = FlutterForest();
           await game.ensureAdd(flutterForest);
 
           expect(
-            flutterForest.descendants().whereType<SignPost>().length,
+            flutterForest.descendants().whereType<Signpost>().length,
             equals(1),
           );
         },

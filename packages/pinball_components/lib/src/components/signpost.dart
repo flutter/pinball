@@ -3,9 +3,9 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-/// Represents the [SignPost]'s current [Sprite] state.
+/// Represents the [Signpost]'s current [Sprite] state.
 @visibleForTesting
-enum SignPostSpriteState {
+enum SignpostSpriteState {
   /// Signpost with no active dashes.
   inactive,
 
@@ -19,43 +19,43 @@ enum SignPostSpriteState {
   active3,
 }
 
-extension on SignPostSpriteState {
+extension on SignpostSpriteState {
   String get path {
     switch (this) {
-      case SignPostSpriteState.inactive:
-        return Assets.images.signPost.inactive.keyName;
-      case SignPostSpriteState.active1:
-        return Assets.images.signPost.active1.keyName;
-      case SignPostSpriteState.active2:
-        return Assets.images.signPost.active2.keyName;
-      case SignPostSpriteState.active3:
-        return Assets.images.signPost.active3.keyName;
+      case SignpostSpriteState.inactive:
+        return Assets.images.signpost.inactive.keyName;
+      case SignpostSpriteState.active1:
+        return Assets.images.signpost.active1.keyName;
+      case SignpostSpriteState.active2:
+        return Assets.images.signpost.active2.keyName;
+      case SignpostSpriteState.active3:
+        return Assets.images.signpost.active3.keyName;
     }
   }
 
-  SignPostSpriteState get next {
-    return SignPostSpriteState
-        .values[(index + 1) % SignPostSpriteState.values.length];
+  SignpostSpriteState get next {
+    return SignpostSpriteState
+        .values[(index + 1) % SignpostSpriteState.values.length];
   }
 }
 
-/// {@template sign_post}
+/// {@template signpost}
 /// A sign, found in the Flutter Forest.
 /// {@endtemplate}
-class SignPost extends BodyComponent with InitialPosition {
-  /// {@macro sign_post}
-  SignPost()
+class Signpost extends BodyComponent with InitialPosition {
+  /// {@macro signpost}
+  Signpost()
       : super(
-          priority: RenderPriority.signPost,
-          children: [_SignPostSpriteComponent()],
+          priority: RenderPriority.signpost,
+          children: [_SignpostSpriteComponent()],
         ) {
     renderBody = false;
   }
 
-  /// Forwards the sprite to the next [SignPostSpriteState].
+  /// Forwards the sprite to the next [SignpostSpriteState].
   ///
   /// If the current state is the last one it goes back to the initial state.
-  void progress() => firstChild<_SignPostSpriteComponent>()!.progress();
+  void progress() => firstChild<_SignpostSpriteComponent>()!.progress();
 
   @override
   Body createBody() {
@@ -69,9 +69,9 @@ class SignPost extends BodyComponent with InitialPosition {
   }
 }
 
-class _SignPostSpriteComponent extends SpriteGroupComponent<SignPostSpriteState>
+class _SignpostSpriteComponent extends SpriteGroupComponent<SignpostSpriteState>
     with HasGameRef {
-  _SignPostSpriteComponent()
+  _SignpostSpriteComponent()
       : super(
           anchor: Anchor.bottomCenter,
           position: Vector2(0.65, 0.45),
@@ -83,9 +83,9 @@ class _SignPostSpriteComponent extends SpriteGroupComponent<SignPostSpriteState>
   Future<void> onLoad() async {
     await super.onLoad();
 
-    final sprites = <SignPostSpriteState, Sprite>{};
+    final sprites = <SignpostSpriteState, Sprite>{};
     this.sprites = sprites;
-    for (final spriteState in SignPostSpriteState.values) {
+    for (final spriteState in SignpostSpriteState.values) {
       // TODO(allisonryan0002): Support caching
       // https://github.com/VGVentures/pinball/pull/204
       // sprites[spriteState] = Sprite(
@@ -94,7 +94,7 @@ class _SignPostSpriteComponent extends SpriteGroupComponent<SignPostSpriteState>
       sprites[spriteState] = await gameRef.loadSprite(spriteState.path);
     }
 
-    current = SignPostSpriteState.inactive;
+    current = SignpostSpriteState.inactive;
     size = sprites[current]!.originalSize / 10;
   }
 }

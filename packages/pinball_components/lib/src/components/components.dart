@@ -24,7 +24,7 @@ export 'render_priority.dart';
 export 'rocket.dart';
 export 'score_text.dart';
 export 'shapes/shapes.dart';
-export 'sign_post.dart';
+export 'signpost.dart';
 export 'slingshot.dart';
 export 'spaceship.dart';
 export 'spaceship_rail.dart';
