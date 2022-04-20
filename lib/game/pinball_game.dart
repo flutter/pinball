@@ -164,7 +164,7 @@ class DebugPinballGame extends PinballGame with TapDetector {
       anchor: Anchor.center,
     )
       ..position = Vector2(0, -7.8)
-      ..priority = -4;
+      ..priority = RenderPriority.background;
 
     await add(spriteComponent);
   }

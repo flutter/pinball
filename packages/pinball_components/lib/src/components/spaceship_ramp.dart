@@ -22,15 +22,14 @@ class SpaceshipRamp extends Forge2DBlueprint {
     ]);
 
     final rightOpening = _SpaceshipRampOpening(
-      // TODO(ruimiguel): set Board priority when defined.
-      outsidePriority: 1,
+      outsidePriority: RenderPriority.ballOnBoard,
       rotation: math.pi,
     )
       ..initialPosition = Vector2(1.7, -19.8)
       ..layer = Layer.opening;
     final leftOpening = _SpaceshipRampOpening(
       outsideLayer: Layer.spaceship,
-      outsidePriority: Ball.spaceshipPriority,
+      outsidePriority: RenderPriority.ballOnSpaceship,
       rotation: math.pi,
     )
       ..initialPosition = Vector2(-13.7, -18.6)
@@ -51,6 +50,7 @@ class SpaceshipRamp extends Forge2DBlueprint {
       rightOpening,
       leftOpening,
       baseRight,
+      _SpaceshipRampBackgroundRailingSpriteComponent(),
       spaceshipRamp,
       spaceshipRampForegroundRailing,
     ]);
@@ -59,7 +59,7 @@ class SpaceshipRamp extends Forge2DBlueprint {
 
 class _SpaceshipRampBackground extends BodyComponent
     with InitialPosition, Layered {
-  _SpaceshipRampBackground() : super(priority: Ball.spaceshipRampPriority - 1) {
+  _SpaceshipRampBackground() : super(priority: RenderPriority.spaceshipRamp) {
     layer = Layer.spaceshipEntranceRamp;
   }
 
@@ -119,12 +119,13 @@ class _SpaceshipRampBackground extends BodyComponent
     renderBody = false;
 
     await add(_SpaceshipRampBackgroundRampSpriteComponent());
-    await add(_SpaceshipRampBackgroundRailingSpriteComponent());
   }
 }
 
 class _SpaceshipRampBackgroundRailingSpriteComponent extends SpriteComponent
     with HasGameRef {
+  _SpaceshipRampBackgroundRailingSpriteComponent()
+      : super(priority: RenderPriority.spaceshipRampBackgroundRailing);
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -171,7 +172,7 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
     with InitialPosition, Layered {
   _SpaceshipRampForegroundRailing()
       : super(
-          priority: Ball.spaceshipRampPriority + 1,
+          priority: RenderPriority.spaceshipRampForegroundRailing,
           children: [_SpaceshipRampForegroundRailingSpriteComponent()],
         ) {
     layer = Layer.spaceshipEntranceRamp;
@@ -287,7 +288,7 @@ class _SpaceshipRampOpening extends LayerSensor {
           insideLayer: Layer.spaceshipEntranceRamp,
           outsideLayer: outsideLayer,
           orientation: LayerEntranceOrientation.down,
-          insidePriority: Ball.spaceshipRampPriority,
+          insidePriority: RenderPriority.ballOnSpaceshipRamp,
           outsidePriority: outsidePriority,
         ) {
     renderBody = false;

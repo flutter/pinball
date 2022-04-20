@@ -44,7 +44,7 @@ class _LaunchRampBase extends BodyComponent with InitialPosition, Layered {
   /// {@macro launch_ramp_base}
   _LaunchRampBase()
       : super(
-          priority: Ball.launchRampPriority - 1,
+          priority: RenderPriority.launchRamp,
           children: [
             _LaunchRampBackgroundRailingSpriteComponent(),
             _LaunchRampBaseSpriteComponent(),
@@ -166,7 +166,7 @@ class _LaunchRampForegroundRailing extends BodyComponent with InitialPosition {
   /// {@macro launch_ramp_foreground_railing}
   _LaunchRampForegroundRailing()
       : super(
-          priority: Ball.launchRampPriority + 1,
+          priority: RenderPriority.launchRampForegroundRailing,
           children: [_LaunchRampForegroundRailingSpriteComponent()],
         ) {
     renderBody = false;
@@ -265,8 +265,8 @@ class _LaunchRampExit extends LayerSensor {
           insideLayer: Layer.launcher,
           outsideLayer: Layer.board,
           orientation: LayerEntranceOrientation.down,
-          insidePriority: Ball.launchRampPriority,
-          outsidePriority: 0,
+          insidePriority: RenderPriority.ballOnLaunchRamp,
+          outsidePriority: RenderPriority.ballOnBoard,
         ) {
     layer = Layer.launcher;
     renderBody = false;

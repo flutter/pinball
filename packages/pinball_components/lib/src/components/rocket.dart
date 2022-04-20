@@ -9,7 +9,7 @@ class RocketSpriteComponent extends SpriteComponent with HasGameRef {
   // TODO(ruimiguel): change this priority to be over launcher ramp and bottom
   // wall.
   /// {@macro rocket_sprite_component}
-  RocketSpriteComponent() : super(priority: 5);
+  RocketSpriteComponent() : super(priority: RenderPriority.rocket);
 
   @override
   Future<void> onLoad() async {

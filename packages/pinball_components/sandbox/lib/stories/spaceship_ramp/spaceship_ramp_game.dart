@@ -10,7 +10,7 @@ class SpaceshipRampGame extends BasicBallGame {
   SpaceshipRampGame()
       : super(
           color: Colors.blue,
-          ballPriority: Ball.spaceshipRampPriority,
+          ballPriority: RenderPriority.ballOnSpaceshipRamp,
           ballLayer: Layer.spaceshipEntranceRamp,
         );
 
