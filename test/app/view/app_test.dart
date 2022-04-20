@@ -5,7 +5,6 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:mocktail/mocktail.dart';
@@ -29,12 +28,9 @@ void main() {
 
     testWidgets('renders PinballGamePage', (tester) async {
       await tester.pumpWidget(
-        RepositoryProvider<PinballAudio>(
-          create: (_) => pinballAudio,
-          child: App(
-            leaderboardRepository: leaderboardRepository,
-            pinballAudio: pinballAudio,
-          ),
+        App(
+          leaderboardRepository: leaderboardRepository,
+          pinballAudio: pinballAudio,
         ),
       );
       expect(find.byType(PinballGamePage), findsOneWidget);

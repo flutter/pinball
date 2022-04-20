@@ -27,13 +27,12 @@ class PlayButtonOverlay extends StatelessWidget {
           showDialog<void>(
             context: context,
             builder: (_) {
-              final width = MediaQuery.of(context).size.width * 0.9;
-              final height = MediaQuery.of(context).size.height * 0.9;
+              final height = MediaQuery.of(context).size.height * 0.5;
 
               return Center(
                 child: SizedBox(
                   height: height,
-                  width: width,
+                  width: height * 1.4,
                   child: const CharacterSelectionDialog(),
                 ),
               );

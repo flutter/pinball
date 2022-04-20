@@ -83,7 +83,7 @@ void main() {
       verify(() => themeCubit.characterSelected(SparkyTheme())).called(1);
     });
 
-    testWidgets('is showing how to play dialog when start is tapped',
+    testWidgets('displays how to play dialog when start is tapped',
         (tester) async {
       await tester.pumpApp(
         CharacterSelectionView(),

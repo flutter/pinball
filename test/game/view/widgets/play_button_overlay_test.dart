@@ -33,7 +33,7 @@ void main() {
       verify(gameFlowController.start).called(1);
     });
 
-    testWidgets('is showing CharacterSelectionDialog when tapped',
+    testWidgets('displays CharacterSelectionDialog when tapped',
         (tester) async {
       await tester.pumpApp(PlayButtonOverlay(game: game));
 
