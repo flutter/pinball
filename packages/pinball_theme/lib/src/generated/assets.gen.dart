@@ -39,6 +39,10 @@ class $AssetsImagesAndroidGen {
   /// File path: assets/images/android/icon.png
   AssetGenImage get icon =>
       const AssetGenImage('assets/images/android/icon.png');
+
+  /// File path: assets/images/android/leaderboard_icon.png
+  AssetGenImage get leaderboardIcon =>
+      const AssetGenImage('assets/images/android/leaderboard_icon.png');
 }
 
 class $AssetsImagesDashGen {
@@ -54,6 +58,10 @@ class $AssetsImagesDashGen {
 
   /// File path: assets/images/dash/icon.png
   AssetGenImage get icon => const AssetGenImage('assets/images/dash/icon.png');
+
+  /// File path: assets/images/dash/leaderboard_icon.png
+  AssetGenImage get leaderboardIcon =>
+      const AssetGenImage('assets/images/dash/leaderboard_icon.png');
 }
 
 class $AssetsImagesDinoGen {
@@ -69,6 +77,10 @@ class $AssetsImagesDinoGen {
 
   /// File path: assets/images/dino/icon.png
   AssetGenImage get icon => const AssetGenImage('assets/images/dino/icon.png');
+
+  /// File path: assets/images/dino/leaderboard_icon.png
+  AssetGenImage get leaderboardIcon =>
+      const AssetGenImage('assets/images/dino/leaderboard_icon.png');
 }
 
 class $AssetsImagesSparkyGen {
@@ -85,6 +97,10 @@ class $AssetsImagesSparkyGen {
   /// File path: assets/images/sparky/icon.png
   AssetGenImage get icon =>
       const AssetGenImage('assets/images/sparky/icon.png');
+
+  /// File path: assets/images/sparky/leaderboard_icon.png
+  AssetGenImage get leaderboardIcon =>
+      const AssetGenImage('assets/images/sparky/leaderboard_icon.png');
 }
 
 class Assets {

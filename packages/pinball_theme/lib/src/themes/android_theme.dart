@@ -22,4 +22,7 @@ class AndroidTheme extends CharacterTheme {
 
   @override
   AssetGenImage get icon => Assets.images.android.icon;
+
+  @override
+  AssetGenImage get leaderboardIcon => Assets.images.android.leaderboardIcon;
 }
