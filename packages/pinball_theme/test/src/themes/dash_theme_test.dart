@@ -35,5 +35,12 @@ void main() {
     test('icon asset is correct', () {
       expect(DashTheme().icon, equals(Assets.images.dash.icon));
     });
+
+    test('leaderboard icon asset is correct', () {
+      expect(
+        DashTheme().leaderboardIcon,
+        equals(Assets.images.dash.leaderboardIcon),
+      );
+    });
   });
 }

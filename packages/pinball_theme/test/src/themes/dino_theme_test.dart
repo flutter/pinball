@@ -35,5 +35,12 @@ void main() {
     test('icon asset is correct', () {
       expect(DinoTheme().icon, equals(Assets.images.dino.icon));
     });
+
+    test('leaderboard icon asset is correct', () {
+      expect(
+        DinoTheme().leaderboardIcon,
+        equals(Assets.images.dino.leaderboardIcon),
+      );
+    });
   });
 }

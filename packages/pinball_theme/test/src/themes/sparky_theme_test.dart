@@ -35,5 +35,12 @@ void main() {
     test('icon asset is correct', () {
       expect(SparkyTheme().icon, equals(Assets.images.sparky.icon));
     });
+
+    test('leaderboard icon asset is correct', () {
+      expect(
+        SparkyTheme().leaderboardIcon,
+        equals(Assets.images.sparky.leaderboardIcon),
+      );
+    });
   });
 }

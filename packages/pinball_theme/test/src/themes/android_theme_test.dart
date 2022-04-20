@@ -35,5 +35,12 @@ void main() {
     test('icon asset is correct', () {
       expect(AndroidTheme().icon, equals(Assets.images.android.icon));
     });
+
+    test('leaderboard icon asset is correct', () {
+      expect(
+        AndroidTheme().leaderboardIcon,
+        equals(Assets.images.android.leaderboardIcon),
+      );
+    });
   });
 }
