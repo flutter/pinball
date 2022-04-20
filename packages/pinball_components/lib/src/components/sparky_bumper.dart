@@ -129,7 +129,7 @@ class _SparkyBumperSpriteGroupComponent
           Sprite(gameRef.images.fromCache(_offAssetPath)),
     };
     this.sprites = sprites;
-    size = sprites[SparkyBumperSpriteState.active]!.originalSize / 10;
+    size = sprites.entries.first.value.originalSize / 10;
 
     current = SparkyBumperSpriteState.active;
   }

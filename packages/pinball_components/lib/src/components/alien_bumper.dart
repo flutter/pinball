@@ -113,9 +113,8 @@ class _AlienBumperSpriteGroupComponent
       AlienBumperSpriteState.inactive:
           Sprite(gameRef.images.fromCache(_offAssetPath)),
     };
-
     this.sprites = sprites;
-    size = sprites[AlienBumperSpriteState.active]!.originalSize / 10;
+    size = sprites.entries.first.value.originalSize / 10;
 
     current = AlienBumperSpriteState.active;
   }
