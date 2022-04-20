@@ -31,6 +31,8 @@ class BonusAnimation extends StatelessWidget {
   Widget build(BuildContext context) {
     Flame.images.prefix = '';
 
+    // TODO(arturplaczek): Load assets in parent widget, remove future builder
+    // and user image from cache.
     return FutureBuilder<Image>(
       future: Flame.images.load(Assets.images.bonusAnimation.dashNest.keyName),
       builder: (BuildContext context, AsyncSnapshot<Image> snapshot) {
