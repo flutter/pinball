@@ -118,7 +118,7 @@ void main() {
     });
 
     flameTester.test(
-      'progress changes correctly between four sprites',
+      'progress correctly cycles through all sprites',
       (game) async {
         final signpost = Signpost();
         await game.ready();
