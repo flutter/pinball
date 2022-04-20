@@ -25,7 +25,7 @@ class FlutterForest extends Component
     await super.onLoad();
     gameRef.addContactCallback(_DashNestBumperBallContactCallback());
 
-    final signPost = FlutterSignPost()..initialPosition = Vector2(8.35, -58.3);
+    final signPost = SignPost()..initialPosition = Vector2(8.35, -58.3);
 
     final bigNest = _BigDashNestBumper()
       ..initialPosition = Vector2(18.55, -59.35);

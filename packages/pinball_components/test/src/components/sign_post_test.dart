@@ -14,7 +14,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final flameTester = FlameTester(TestGame.new);
 
-  group('FlutterSignPost', () {
+  group('SignPost', () {
     final assets = [
       Assets.images.signPost.inactive.keyName,
       Assets.images.signPost.active1.keyName,
@@ -26,11 +26,11 @@ void main() {
       'loads correctly',
       (game) async {
         await game.images.loadAll(assets);
-        final flutterSignPost = FlutterSignPost();
+        final signPost = SignPost();
         await game.ready();
-        await game.ensureAdd(flutterSignPost);
+        await game.ensureAdd(signPost);
 
-        expect(game.contains(flutterSignPost), isTrue);
+        expect(game.contains(signPost), isTrue);
       },
     );
 
@@ -39,13 +39,13 @@ void main() {
         'inactive sprite',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          await game.ensureAdd(FlutterSignPost());
+          await game.ensureAdd(SignPost());
           game.camera.followVector2(Vector2.zero());
         },
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/flutter-sign-post__inactive.png'),
+            matchesGoldenFile('golden/sign-post__inactive.png'),
           );
         },
       );
@@ -55,7 +55,7 @@ void main() {
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
 
-          final signPost = FlutterSignPost();
+          final signPost = SignPost();
           await game.ensureAdd(signPost);
           signPost.progress();
 
@@ -64,7 +64,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/flutter-sign-post__active1.png'),
+            matchesGoldenFile('golden/sign-post__active1.png'),
           );
         },
       );
@@ -74,7 +74,7 @@ void main() {
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
 
-          final signPost = FlutterSignPost();
+          final signPost = SignPost();
           await game.ensureAdd(signPost);
           signPost
             ..progress()
@@ -85,7 +85,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/flutter-sign-post__active2.png'),
+            matchesGoldenFile('golden/sign-post__active2.png'),
           );
         },
       );
@@ -95,7 +95,7 @@ void main() {
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
 
-          final signPost = FlutterSignPost();
+          final signPost = SignPost();
           await game.ensureAdd(signPost);
           signPost
             ..progress()
@@ -107,7 +107,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/flutter-sign-post__active3.png'),
+            matchesGoldenFile('golden/sign-post__active3.png'),
           );
         },
       );
@@ -117,17 +117,16 @@ void main() {
       'progress changes correctly between four sprites',
       (game) async {
         await game.images.loadAll(assets);
-        final flutterSignPost = FlutterSignPost();
+        final signPost = SignPost();
         await game.ready();
-        await game.ensureAdd(flutterSignPost);
+        await game.ensureAdd(signPost);
 
-        final spriteComponent =
-            flutterSignPost.firstChild<SpriteGroupComponent>()!;
+        final spriteComponent = signPost.firstChild<SpriteGroupComponent>()!;
         final sprites = <Sprite>{};
 
         for (var i = 0; i < 4; i++) {
           sprites.add(spriteComponent.sprite!);
-          flutterSignPost.progress();
+          signPost.progress();
         }
 
         expect(sprites.length, equals(4));

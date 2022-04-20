@@ -29,15 +29,15 @@ extension on _SignPostSpriteState {
   }
 }
 
-/// {@template flutter_sign_post}
+/// {@template sign_post}
 /// A sign, found in the Flutter Forest.
 /// {@endtemplate}
-class FlutterSignPost extends BodyComponent with InitialPosition {
-  /// {@macro flutter_sign_post}
-  FlutterSignPost()
+class SignPost extends BodyComponent with InitialPosition {
+  /// {@macro sign_post}
+  SignPost()
       : super(
-          priority: RenderPriority.flutterSignPost,
-          children: [_FlutterSignPostSpriteComponent()],
+          priority: RenderPriority.signPost,
+          children: [_SignPostSpriteComponent()],
         ) {
     renderBody = false;
   }
@@ -45,7 +45,7 @@ class FlutterSignPost extends BodyComponent with InitialPosition {
   /// Forwards the sprite to the next [_SignPostSpriteState].
   ///
   /// If the current state is the last one it goes back to the initial state.
-  void progress() => firstChild<_FlutterSignPostSpriteComponent>()!.progress();
+  void progress() => firstChild<_SignPostSpriteComponent>()!.progress();
 
   @override
   Body createBody() {
@@ -59,9 +59,9 @@ class FlutterSignPost extends BodyComponent with InitialPosition {
   }
 }
 
-class _FlutterSignPostSpriteComponent
+class _SignPostSpriteComponent
     extends SpriteGroupComponent<_SignPostSpriteState> with HasGameRef {
-  _FlutterSignPostSpriteComponent()
+  _SignPostSpriteComponent()
       : super(
           anchor: Anchor.bottomCenter,
           position: Vector2(0.65, 0.45),

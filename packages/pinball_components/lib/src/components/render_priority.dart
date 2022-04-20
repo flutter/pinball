@@ -67,7 +67,7 @@ abstract class RenderPriority {
 
   // Flutter Forest
 
-  static const int flutterSignPost = _above + launchRampForegroundRailing;
+  static const int signPost = _above + launchRampForegroundRailing;
 
   static const int dashBumper = _above + ballOnBoard;
 

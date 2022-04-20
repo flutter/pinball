@@ -1,14 +1,13 @@
 import 'dart:async';
 
 import 'package:flame/input.dart';
-import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class FlutterSignPostGame extends BasicBallGame with Traceable, TapDetector {
+class SignPostGame extends BasicBallGame with Traceable, TapDetector {
   static const info = '''
-    Shows how a FlutterSignPost is rendered.
+    Shows how a SignPost is rendered.
 
     - Activate the "trace" parameter to overlay the body.
     - Tap to progress the sprite.
@@ -26,13 +25,13 @@ class FlutterSignPostGame extends BasicBallGame with Traceable, TapDetector {
     ]);
 
     camera.followVector2(Vector2.zero());
-    await add(FlutterSignPost()..priority = 1);
+    await add(SignPost()..priority = 1);
     await traceAllBodies();
   }
 
   @override
   void onTap() {
     super.onTap();
-    firstChild<FlutterSignPost>()!.progress();
+    firstChild<SignPost>()!.progress();
   }
 }

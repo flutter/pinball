@@ -2,7 +2,7 @@ import 'package:dashbook/dashbook.dart';
 import 'package:flame/game.dart';
 import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/flutter_forest/big_dash_nest_bumper_game.dart';
-import 'package:sandbox/stories/flutter_forest/flutter_sign_post_game.dart';
+import 'package:sandbox/stories/flutter_forest/sign_post_game.dart';
 import 'package:sandbox/stories/flutter_forest/small_dash_nest_bumper_a_game.dart';
 import 'package:sandbox/stories/flutter_forest/small_dash_nest_bumper_b_game.dart';
 
@@ -11,11 +11,10 @@ void addDashNestBumperStories(Dashbook dashbook) {
     ..add(
       'Flutter Sign Post',
       (context) => GameWidget(
-        game: FlutterSignPostGame()
-          ..trace = context.boolProperty('Trace', true),
+        game: SignPostGame()..trace = context.boolProperty('Trace', true),
       ),
-      codeLink: buildSourceLink('flutter_forest/flutter_sign_post.dart'),
-      info: FlutterSignPostGame.info,
+      codeLink: buildSourceLink('flutter_forest/sign_post.dart'),
+      info: SignPostGame.info,
     )
     ..add(
       'Big Dash Nest Bumper',
