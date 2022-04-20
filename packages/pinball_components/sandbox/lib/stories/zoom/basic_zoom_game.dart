@@ -14,7 +14,7 @@ class BasicCameraZoomGame extends BasicGame with TapDetector {
 
   @override
   Future<void> onLoad() async {
-    final sprite = await loadSprite(Assets.images.flutterSignPost.keyName);
+    final sprite = await loadSprite(Assets.images.signpost.inactive.keyName);
 
     await add(
       SpriteComponent(

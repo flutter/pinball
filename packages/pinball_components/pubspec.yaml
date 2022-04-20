@@ -64,6 +64,7 @@ flutter:
     - assets/images/sparky/bumper/c/
     - assets/images/backboard/
     - assets/images/google_word/
+    - assets/images/signpost/
 
 flutter_gen:
   line_length: 80
