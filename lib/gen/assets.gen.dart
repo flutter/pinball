@@ -22,6 +22,14 @@ class $AssetsImagesBonusAnimationGen {
   /// File path: assets/images/bonus_animation/dash_nest.png
   AssetGenImage get dashNest =>
       const AssetGenImage('assets/images/bonus_animation/dash_nest.png');
+
+  /// File path: assets/images/bonus_animation/dino.png
+  AssetGenImage get dino =>
+      const AssetGenImage('assets/images/bonus_animation/dino.png');
+
+  /// File path: assets/images/bonus_animation/sparky_turbo_charge.png
+  AssetGenImage get sparkyTurboCharge => const AssetGenImage(
+      'assets/images/bonus_animation/sparky_turbo_charge.png');
 }
 
 class $AssetsImagesComponentsGen {
