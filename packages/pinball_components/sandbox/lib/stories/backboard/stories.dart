@@ -5,6 +5,7 @@ import 'package:sandbox/stories/backboard/game_over.dart';
 import 'package:sandbox/stories/backboard/waiting.dart';
 
 void addBackboardStories(Dashbook dashbook) {
+  final characters = ['Dash', 'Sparky', 'Android', 'Dino'];
   dashbook.storiesOf('Backboard')
     ..add(
       'Waiting mode',
@@ -18,7 +19,12 @@ void addBackboardStories(Dashbook dashbook) {
       'Game over',
       (context) => GameWidget(
         game: BackboardGameOverGame(
-          context.numberProperty('score', 9000000000).toInt(),
+          context.numberProperty('Score', 9000000000).toInt(),
+          context.listProperty(
+            'Character',
+            characters.first,
+            characters,
+          ),
         ),
       ),
       codeLink: buildSourceLink('backboard/game_over.dart'),

@@ -12,6 +12,8 @@ import '../../helpers/helpers.dart';
 void main() {
   group('Backboard', () {
     final tester = FlameTester(KeyboardTestGame.new);
+    const characterIconPath =
+        'packages/pinball_theme/assets/images/dash/leaderboard_icon.png';
 
     group('on waitingMode', () {
       tester.testGameWidget(
@@ -39,6 +41,7 @@ void main() {
           final backboard = Backboard.gameOver(
             position: Vector2(0, 15),
             score: 1000,
+            characterIconPath: characterIconPath,
             onSubmit: (_) {},
           );
           await game.ensureAdd(backboard);
@@ -52,7 +55,6 @@ void main() {
                 (component) =>
                     component is TextComponent && component.text == '1,000',
               );
-
           expect(score, isNotNull);
         },
       );
@@ -63,6 +65,7 @@ void main() {
           final backboard = Backboard.gameOver(
             position: Vector2(0, 15),
             score: 1000,
+            characterIconPath: characterIconPath,
             onSubmit: (_) {},
           );
           await game.ensureAdd(backboard);
@@ -106,6 +109,7 @@ void main() {
           final backboard = Backboard.gameOver(
             position: Vector2(0, 15),
             score: 1000,
+            characterIconPath: characterIconPath,
             onSubmit: (value) {
               submitedInitials = value;
             },

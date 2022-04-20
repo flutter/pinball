@@ -35,11 +35,11 @@ class BackboardLetterPrompt extends PositionComponent {
   Future<void> onLoad() async {
     _underscore = RectangleComponent(
       size: Vector2(
-        4,
-        1.2,
+        3.8,
+        0.8,
       ),
       anchor: Anchor.center,
-      position: Vector2(0, 4),
+      position: Vector2(-0.3, 4),
     );
 
     unawaited(add(_underscore));

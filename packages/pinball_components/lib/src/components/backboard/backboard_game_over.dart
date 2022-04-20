@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:flame/assets.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -18,11 +19,14 @@ class BackboardGameOver extends PositionComponent with HasGameRef {
   /// {@macro backboard_game_over}
   BackboardGameOver({
     required int score,
+    required String characterIconPath,
     BackboardOnSubmit? onSubmit,
   })  : _score = score,
+        _characterIconPath = characterIconPath,
         _onSubmit = onSubmit;
 
   final int _score;
+  final String _characterIconPath;
   final BackboardOnSubmit? _onSubmit;
 
   @override
@@ -30,7 +34,6 @@ class BackboardGameOver extends PositionComponent with HasGameRef {
     final backgroundSprite = await gameRef.loadSprite(
       Assets.images.backboard.backboardGameOver.keyName,
     );
-
     unawaited(
       add(
         SpriteComponent(
@@ -44,7 +47,6 @@ class BackboardGameOver extends PositionComponent with HasGameRef {
     final displaySprite = await gameRef.loadSprite(
       Assets.images.backboard.display.keyName,
     );
-
     unawaited(
       add(
         SpriteComponent(
@@ -60,9 +62,24 @@ class BackboardGameOver extends PositionComponent with HasGameRef {
       add(
         TextComponent(
           text: _score.formatScore(),
-          position: Vector2(-22, -46.5),
-          anchor: Anchor.center,
+          position: Vector2(-34, -45),
+          anchor: Anchor.centerLeft,
           textRenderer: Backboard.textPaint,
+        ),
+      ),
+    );
+
+    final characterIconSprite = await Sprite.load(
+      _characterIconPath,
+      images: Images(prefix: ''),
+    );
+    unawaited(
+      add(
+        SpriteComponent(
+          sprite: characterIconSprite,
+          size: characterIconSprite.originalSize / 10,
+          anchor: Anchor.center,
+          position: Vector2(18.4, -45),
         ),
       ),
     );
@@ -72,8 +89,8 @@ class BackboardGameOver extends PositionComponent with HasGameRef {
         add(
           BackboardLetterPrompt(
             position: Vector2(
-              20 + (6 * i).toDouble(),
-              -46.5,
+              24.3 + (4.5 * i),
+              -45,
             ),
             hasFocus: i == 0,
           ),

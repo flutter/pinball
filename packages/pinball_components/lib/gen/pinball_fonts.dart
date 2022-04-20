@@ -12,5 +12,5 @@ class PinballFonts {
   static final String pixeloidMono = _prefixFont(FontFamily.pixeloidMono);
 
   /// Sans variation of the Pixeloid font
-  static final String pixeloidSans = _prefixFont(FontFamily.pixeloidMono);
+  static final String pixeloidSans = _prefixFont(FontFamily.pixeloidSans);
 }
