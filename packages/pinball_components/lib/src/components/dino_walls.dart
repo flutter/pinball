@@ -34,9 +34,10 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
           priority: RenderPriority.dinoTopWall,
           children: [_DinoTopWallSpriteComponent()],
         ) {
-    renderBody = false;
+    renderBody = true;
   }
 
+  // TODO(ruimiguel): fix shapes for top wall.
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
 
@@ -115,7 +116,7 @@ class _DinoTopWallSpriteComponent extends SpriteComponent with HasGameRef {
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
-    position = Vector2(22, -41.8);
+    position = Vector2(22.8, -38.9);
   }
 }
 
