@@ -9,7 +9,13 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(TestGame.new);
+  final assets = [
+    Assets.images.alienBumper.a.active.keyName,
+    Assets.images.alienBumper.a.inactive.keyName,
+    Assets.images.alienBumper.b.active.keyName,
+    Assets.images.alienBumper.b.inactive.keyName,
+  ];
+  final flameTester = FlameTester(() => TestGame(assets));
 
   group('AlienBumper', () {
     flameTester.test('"a" loads correctly', (game) async {
@@ -25,43 +31,30 @@ void main() {
       expect(game.contains(bumper), isTrue);
     });
 
-    flameTester.test('activate returns normally', (game) async {
+    flameTester.test('animate switches between on and off sprites',
+        (game) async {
       final bumper = AlienBumper.a();
       await game.ensureAdd(bumper);
 
-      expect(bumper.activate, returnsNormally);
-    });
+      final spriteGroupComponent = bumper.firstChild<SpriteGroupComponent>()!;
 
-    flameTester.test('deactivate returns normally', (game) async {
-      final bumper = AlienBumper.a();
-      await game.ensureAdd(bumper);
-
-      expect(bumper.deactivate, returnsNormally);
-    });
-
-    flameTester.test('changes sprite', (game) async {
-      final bumper = AlienBumper.a();
-      await game.ensureAdd(bumper);
-
-      final spriteComponent = bumper.firstChild<SpriteComponent>()!;
-
-      final deactivatedSprite = spriteComponent.sprite;
-      bumper.activate();
       expect(
-        spriteComponent.sprite,
-        isNot(equals(deactivatedSprite)),
+        spriteGroupComponent.current,
+        equals(AlienBumperSpriteState.active),
       );
 
-      final activatedSprite = spriteComponent.sprite;
-      bumper.deactivate();
-      expect(
-        spriteComponent.sprite,
-        isNot(equals(activatedSprite)),
-      );
+      final future = bumper.animate();
 
       expect(
-        activatedSprite,
-        isNot(equals(deactivatedSprite)),
+        spriteGroupComponent.current,
+        equals(AlienBumperSpriteState.inactive),
+      );
+
+      await future;
+
+      expect(
+        spriteGroupComponent.current,
+        equals(AlienBumperSpriteState.active),
       );
     });
   });
