@@ -120,7 +120,7 @@ enum _PlungerAnimationState {
   release,
 }
 
-/// Animations for pull and release [Plunger].
+/// Animations for pulling and releasing [Plunger].
 class _PlungerSpriteAnimationGroupComponent
     extends SpriteAnimationGroupComponent<_PlungerAnimationState>
     with HasGameRef {
@@ -141,7 +141,7 @@ class _PlungerSpriteAnimationGroupComponent
   }
 
   @override
-  Future<void>? onLoad() async {
+  Future<void> onLoad() async {
     await super.onLoad();
 
     final spriteSheet = await gameRef.images.load(
