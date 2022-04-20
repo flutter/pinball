@@ -18,7 +18,7 @@ class ScoreText extends TextComponent {
           text: text,
           position: position,
           anchor: Anchor.center,
-          priority: Ball.spaceshipRampPriority + 1,
+          priority: RenderPriority.scoreText,
         );
 
   late final Effect _effect;

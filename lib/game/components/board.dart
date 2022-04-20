@@ -42,7 +42,7 @@ class Board extends Component {
 // TODO(alestiago): Consider renaming once entire Board is defined.
 class _BottomGroup extends Component {
   /// {@macro bottom_group}
-  _BottomGroup();
+  _BottomGroup() : super(priority: RenderPriority.bottomGroup);
 
   @override
   Future<void> onLoad() async {
