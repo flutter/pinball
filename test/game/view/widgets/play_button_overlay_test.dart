@@ -1,8 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/theme/theme.dart';
 
-import '../../helpers/helpers.dart';
+import '../../../helpers/helpers.dart';
 
 void main() {
   group('PlayButtonOverlay', () {
@@ -30,6 +31,16 @@ void main() {
       await tester.pump();
 
       verify(gameFlowController.start).called(1);
+    });
+
+    testWidgets('displays CharacterSelectionDialog when tapped',
+        (tester) async {
+      await tester.pumpApp(PlayButtonOverlay(game: game));
+
+      await tester.tap(find.text('Play'));
+      await tester.pump();
+
+      expect(find.byType(CharacterSelectionDialog), findsOneWidget);
     });
   });
 }

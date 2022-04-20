@@ -2,42 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:pinball/l10n/l10n.dart';
-import 'package:pinball/theme/theme.dart';
 
-class LandingPage extends StatelessWidget {
-  const LandingPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextButton(
-              onPressed: () => Navigator.of(context).push<void>(
-                CharacterSelectionPage.route(),
-              ),
-              child: Text(l10n.play),
-            ),
-            TextButton(
-              onPressed: () => showDialog<void>(
-                context: context,
-                builder: (_) => const _HowToPlayDialog(),
-              ),
-              child: Text(l10n.howToPlay),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _HowToPlayDialog extends StatelessWidget {
-  const _HowToPlayDialog({Key? key}) : super(key: key);
+class HowToPlayDialog extends StatelessWidget {
+  const HowToPlayDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
