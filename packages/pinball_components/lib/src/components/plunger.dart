@@ -130,9 +130,15 @@ class _PlungerSpriteAnimationGroupComponent
           position: Vector2(1.87, 14.9),
         );
 
-  void pull() => current = _PlungerAnimationState.pull;
+  void pull() {
+    current = _PlungerAnimationState.pull;
+    animation?.reset();
+  }
 
-  void release() => current = _PlungerAnimationState.release;
+  void release() {
+    current = _PlungerAnimationState.release;
+    animation?.reset();
+  }
 
   @override
   Future<void>? onLoad() async {
