@@ -69,7 +69,7 @@ class LeaderboardView extends StatelessWidget {
               const SizedBox(height: 20),
               TextButton(
                 onPressed: () => Navigator.of(context).push<void>(
-                  CharacterSelectionPage.route(),
+                  CharacterSelectionDialog.route(),
                 ),
                 child: Text(l10n.retry),
               ),
