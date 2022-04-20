@@ -9,7 +9,13 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(TestGame.new);
+  final assets = [
+    Assets.images.signpost.inactive.keyName,
+    Assets.images.signpost.active1.keyName,
+    Assets.images.signpost.active2.keyName,
+    Assets.images.signpost.active3.keyName,
+  ];
+  final flameTester = FlameTester(() => TestGame(assets));
 
   group('Signpost', () {
     flameTester.test(
@@ -27,8 +33,10 @@ void main() {
       flameTester.testGameWidget(
         'inactive sprite',
         setUp: (game, tester) async {
+          await game.images.loadAll(assets);
           final signpost = Signpost();
           await game.ensureAdd(signpost);
+          await tester.pump();
 
           expect(
             signpost.firstChild<SpriteGroupComponent>()!.current,
@@ -48,9 +56,11 @@ void main() {
       flameTester.testGameWidget(
         'active1 sprite',
         setUp: (game, tester) async {
+          await game.images.loadAll(assets);
           final signpost = Signpost();
           await game.ensureAdd(signpost);
           signpost.progress();
+          await tester.pump();
 
           expect(
             signpost.firstChild<SpriteGroupComponent>()!.current,
@@ -70,11 +80,13 @@ void main() {
       flameTester.testGameWidget(
         'active2 sprite',
         setUp: (game, tester) async {
+          await game.images.loadAll(assets);
           final signpost = Signpost();
           await game.ensureAdd(signpost);
           signpost
             ..progress()
             ..progress();
+          await tester.pump();
 
           expect(
             signpost.firstChild<SpriteGroupComponent>()!.current,
@@ -94,12 +106,14 @@ void main() {
       flameTester.testGameWidget(
         'active3 sprite',
         setUp: (game, tester) async {
+          await game.images.loadAll(assets);
           final signpost = Signpost();
           await game.ensureAdd(signpost);
           signpost
             ..progress()
             ..progress()
             ..progress();
+          await tester.pump();
 
           expect(
             signpost.firstChild<SpriteGroupComponent>()!.current,

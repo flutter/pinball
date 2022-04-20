@@ -11,7 +11,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// can bounce off [DashNestBumper]s.
 ///
 /// When all [DashNestBumper]s are hit at least once, the [GameBonus.dashNest]
-/// is awarded, and the [BigDashNestBumper] releases a new [Ball].
+/// is awarded, and the [DashNestBumper.main] releases a new [Ball].
 /// {@endtemplate}
 class FlutterForest extends Component
     with Controls<_FlutterForestController>, HasGameRef<PinballGame> {
@@ -27,11 +27,11 @@ class FlutterForest extends Component
 
     final signpost = Signpost()..initialPosition = Vector2(8.35, -58.3);
 
-    final bigNest = _BigDashNestBumper()
+    final bigNest = _DashNestBumper.main()
       ..initialPosition = Vector2(18.55, -59.35);
-    final smallLeftNest = _SmallDashNestBumper.a()
+    final smallLeftNest = _DashNestBumper.a()
       ..initialPosition = Vector2(8.95, -51.95);
-    final smallRightNest = _SmallDashNestBumper.b()
+    final smallRightNest = _DashNestBumper.b()
       ..initialPosition = Vector2(23.3, -46.75);
     final dashAnimatronic = DashAnimatronic()..position = Vector2(20, -66);
 
@@ -81,15 +81,12 @@ class _FlutterForestController extends ComponentController<FlutterForest>
 
 // TODO(alestiago): Revisit ScorePoints logic once the FlameForge2D
 // ContactCallback process is enhanced.
-class _BigDashNestBumper extends BigDashNestBumper with ScorePoints {
-  @override
-  int get points => 20;
-}
+class _DashNestBumper extends DashNestBumper with ScorePoints {
+  _DashNestBumper.main() : super.main();
 
-class _SmallDashNestBumper extends SmallDashNestBumper with ScorePoints {
-  _SmallDashNestBumper.a() : super.a();
+  _DashNestBumper.a() : super.a();
 
-  _SmallDashNestBumper.b() : super.b();
+  _DashNestBumper.b() : super.b();
 
   @override
   int get points => 20;
