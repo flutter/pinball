@@ -29,7 +29,7 @@ class PinballTestGame extends PinballGame {
   @override
   Future<void> onLoad() async {
     if (_assets != null) {
-      await Future.wait(_assets!.map(images.load));
+      await images.loadAll(_assets!);
     }
     await super.onLoad();
   }
@@ -50,7 +50,7 @@ class DebugPinballTestGame extends DebugPinballGame {
   @override
   Future<void> onLoad() async {
     if (_assets != null) {
-      await Future.wait(_assets!.map(images.load));
+      await images.loadAll(_assets!);
     }
     await super.onLoad();
   }
@@ -62,7 +62,7 @@ class EmptyPinballTestGame extends PinballTestGame {
   @override
   Future<void> onLoad() async {
     if (_assets != null) {
-      await Future.wait(_assets!.map(images.load));
+      await images.loadAll(_assets!);
     }
   }
 }
