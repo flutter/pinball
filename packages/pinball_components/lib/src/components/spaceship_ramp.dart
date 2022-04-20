@@ -15,12 +15,6 @@ class SpaceshipRamp extends Forge2DBlueprint {
   /// {@macro spaceship_ramp}
   SpaceshipRamp();
 
-  /// Forwards the sprite to the next [SpaceshipRampArrowSpriteState].
-  ///
-  /// If the current state is the last one it goes back to the initial state.
-  void progress() =>
-      firstChild<_SpaceshipRampArrowSpriteComponent>()?.progress();
-
   @override
   void build(_) {
     addAllContactCallback([
@@ -150,6 +144,7 @@ class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    // TODO(ruimiguel): update asset correctly cut from the ramp opening.
     final sprite = await gameRef.loadSprite(
       Assets.images.spaceship.ramp.main.keyName,
     );
@@ -201,12 +196,6 @@ extension SpaceshipRampArrowSpriteStateX on SpaceshipRampArrowSpriteState {
         return Assets.images.spaceship.ramp.arrow.fiveActive.keyName;
     }
   }
-
-  /// Gives next sprite state
-  SpaceshipRampArrowSpriteState get next {
-    return SpaceshipRampArrowSpriteState
-        .values[(index + 1) % SpaceshipRampArrowSpriteState.values.length];
-  }
 }
 
 class _SpaceshipRampArrowSpriteComponent
@@ -214,8 +203,6 @@ class _SpaceshipRampArrowSpriteComponent
     with HasGameRef {
   _SpaceshipRampArrowSpriteComponent()
       : super(priority: RenderPriority.spaceshipRampBackgroundRailing);
-
-  void progress() => current = current?.next;
 
   @override
   Future<void> onLoad() async {
@@ -238,6 +225,7 @@ class _SpaceshipRampBoardOpeningSpriteComponent extends SpriteComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    // TODO(ruimiguel): update asset correctly cut from the ramp background.
     final sprite = await gameRef.loadSprite(
       Assets.images.spaceship.ramp.boardOpening.keyName,
     );

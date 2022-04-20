@@ -1,8 +1,10 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -22,29 +24,20 @@ void main() {
     );
 
     group('renders correctly', () {
-      /*
       flameTester.testGameWidget(
-        'inactive sprite',
+        'renders correctly',
         setUp: (game, tester) async {
-          final spaceshipRamp = SpaceshipRamp();
-          await game.addFromBlueprint(spaceshipRamp);
-          await game.ready();
-
-          expect(
-            spaceshipRamp.firstChild<SpriteGroupComponent>()?.current,
-            SpaceshipRampArrowSpriteState.inactive,
-          );
-
+          await game.addFromBlueprint(SpaceshipRamp());
           game.camera.followVector2(Vector2(-13, -50));
+          await game.ready();
         },
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/spaceship_ramp/inactive.png'),
+            matchesGoldenFile('golden/spaceship_ramp/ramp.png'),
           );
         },
       );
-      */
     });
   });
 }
