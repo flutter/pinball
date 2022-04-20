@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
-import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_theme/pinball_theme.dart';
 import 'package:sandbox/common/common.dart';
 
 class BackboardGameOverGame extends BasicKeyboardGame {
@@ -16,12 +17,10 @@ class BackboardGameOverGame extends BasicKeyboardGame {
   final String character;
 
   final characterIconPaths = <String, String>{
-    'Dash': 'packages/pinball_theme/assets/images/dash/leaderboard_icon.png',
-    'Sparky':
-        'packages/pinball_theme/assets/images/sparky/leaderboard_icon.png',
-    'Android':
-        'packages/pinball_theme/assets/images/android/leaderboard_icon.png',
-    'Dino': 'packages/pinball_theme/assets/images/dino/leaderboard_icon.png',
+    'Dash': Assets.images.dash.leaderboardIcon.keyName,
+    'Sparky': Assets.images.sparky.leaderboardIcon.keyName,
+    'Android': Assets.images.android.leaderboardIcon.keyName,
+    'Dino': Assets.images.dino.leaderboardIcon.keyName,
   };
 
   @override

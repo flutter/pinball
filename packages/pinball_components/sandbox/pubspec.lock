@@ -255,7 +255,7 @@ packages:
     source: path
     version: "1.0.0+1"
   pinball_theme:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "../../pinball_theme"
       relative: true
