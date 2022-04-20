@@ -19,7 +19,7 @@ class ControlledBall extends Ball<PinballGame>
     required PinballTheme theme,
   }) : super(baseColor: theme.characterTheme.ballColor) {
     controller = BallController(this);
-    priority = Ball.launchRampPriority;
+    priority = RenderPriority.ballOnLaunchRamp;
     layer = Layer.launcher;
   }
 
@@ -32,13 +32,13 @@ class ControlledBall extends Ball<PinballGame>
     required PinballTheme theme,
   }) : super(baseColor: theme.characterTheme.ballColor) {
     controller = BallController(this);
-    priority = Ball.boardPriority;
+    priority = RenderPriority.ballOnBoard;
   }
 
   /// [Ball] used in [DebugPinballGame].
   ControlledBall.debug() : super(baseColor: const Color(0xFFFF0000)) {
     controller = DebugBallController(this);
-    priority = Ball.boardPriority;
+    priority = RenderPriority.ballOnBoard;
   }
 
   @override
@@ -72,9 +72,8 @@ class BallController extends ComponentController<Ball>
     // given animations.
     component.stop();
     await Future<void>.delayed(const Duration(seconds: 1));
-    component
-      ..resume()
-      ..boost(Vector2(200, 500));
+    component.resume();
+    await component.boost(Vector2(40, 110));
   }
 
   @override
