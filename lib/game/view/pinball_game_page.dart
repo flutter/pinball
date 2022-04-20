@@ -52,9 +52,7 @@ class PinballGamePage extends StatelessWidget {
           create: (_) => AssetsManagerCubit(loadables)..load(),
         ),
       ],
-      child: PinballGameView(
-        game: game,
-      ),
+      child: PinballGameView(game: game),
     );
   }
 }
@@ -77,9 +75,7 @@ class PinballGameView extends StatelessWidget {
       backgroundColor: Colors.blue,
       body: isLoading
           ? const _PinballGameLoadingView()
-          : PinballGameLoadedView(
-              game: game,
-            ),
+          : PinballGameLoadedView(game: game),
     );
   }
 }
