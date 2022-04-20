@@ -26,6 +26,7 @@ class PlayButtonOverlay extends StatelessWidget {
           _game.gameFlowController.start();
           showDialog<void>(
             context: context,
+            barrierDismissible: false,
             builder: (_) {
               final height = MediaQuery.of(context).size.height * 0.5;
 
@@ -37,7 +38,6 @@ class PlayButtonOverlay extends StatelessWidget {
                 ),
               );
             },
-            barrierDismissible: false,
           );
         },
         child: Text(l10n.play),
