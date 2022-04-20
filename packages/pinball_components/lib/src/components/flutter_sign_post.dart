@@ -33,7 +33,7 @@ class _FlutterSignPostSpriteComponent extends SpriteComponent with HasGameRef {
     await super.onLoad();
 
     final sprite = await gameRef.loadSprite(
-      Assets.images.flutterSignPost.keyName,
+      Assets.images.signPost.inactive.keyName,
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
