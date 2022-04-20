@@ -76,9 +76,13 @@ class _SignPostSpriteComponent
     final sprites = <_SignPostSpriteState, Sprite>{};
     this.sprites = sprites;
     for (final spriteState in _SignPostSpriteState.values) {
-      sprites[spriteState] = Sprite(
-        gameRef.images.fromCache(spriteState.path),
-      );
+      // TODO(allisonryan0002): Support caching
+      // https://github.com/VGVentures/pinball/pull/204
+      // sprites[spriteState] = Sprite(
+      //   gameRef.images.fromCache(spriteState.path),
+      // );
+      sprites[spriteState] =
+          Sprite(await gameRef.images.load(spriteState.path));
     }
 
     current = _SignPostSpriteState.inactive;

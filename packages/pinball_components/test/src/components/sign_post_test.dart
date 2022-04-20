@@ -7,7 +7,7 @@ import 'package:pinball_components/pinball_components.dart';
 
 import '../../helpers/helpers.dart';
 
-// TODO(alisonryan): Refactor loading assets in test with
+// TODO(allisonryan0002): Refactor loading assets in test with
 // https://github.com/VGVentures/pinball/pull/204
 
 void main() {
