@@ -17,7 +17,7 @@ void main() {
         game.camera.followVector2(Vector2.zero());
         game.camera.zoom = 10;
         final sprite = await game.loadSprite(
-          Assets.images.flutterSignPost.keyName,
+          Assets.images.signpost.inactive.keyName,
         );
 
         await game.add(
