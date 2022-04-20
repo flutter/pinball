@@ -12,10 +12,12 @@ import 'package:pinball_components/pinball_components.dart';
 /// {@endtemplate}
 class ChromeDino extends BodyComponent with InitialPosition {
   /// {@macro chrome_dino}
-  ChromeDino() {
-    // TODO(alestiago): Remove once sprites are defined.
-    paint = Paint()..color = Colors.blue;
-  }
+  ChromeDino()
+      : super(
+          // TODO(alestiago): Remove once sprites are defined.
+          paint: Paint()..color = Colors.blue,
+          priority: RenderPriority.dino,
+        );
 
   /// The size of the dinosaur mouth.
   static final size = Vector2(5, 2.5);

@@ -19,6 +19,7 @@ class DashNestBumper extends BodyComponent with InitialPosition {
   })  : _majorRadius = majorRadius,
         _minorRadius = minorRadius,
         super(
+          priority: RenderPriority.dashBumper,
           children: [
             _DashNestBumperSpriteGroupComponent(
               activeAssetPath: activeAssetPath,

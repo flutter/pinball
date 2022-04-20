@@ -18,6 +18,7 @@ class AlienBumper extends BodyComponent with InitialPosition {
   })  : _majorRadius = majorRadius,
         _minorRadius = minorRadius,
         super(
+          priority: RenderPriority.alienBumper,
           children: [
             _AlienBumperSpriteGroupComponent(
               onAssetPath: onAssetPath,

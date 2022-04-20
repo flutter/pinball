@@ -19,6 +19,7 @@ class SparkyBumper extends BodyComponent with InitialPosition {
   })  : _majorRadius = majorRadius,
         _minorRadius = minorRadius,
         super(
+          priority: RenderPriority.sparkyBumper,
           children: [
             _SparkyBumperSpriteGroupComponent(
               onAssetPath: onAssetPath,
