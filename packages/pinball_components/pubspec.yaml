@@ -52,6 +52,7 @@ flutter:
     - assets/images/spaceship/
     - assets/images/spaceship/rail/
     - assets/images/spaceship/ramp/
+    - assets/images/spaceship/ramp/arrow/
     - assets/images/chrome_dino/
     - assets/images/kicker/
     - assets/images/plunger/
