@@ -93,14 +93,13 @@ class SparkyBumper extends BodyComponent with InitialPosition {
   }
 }
 
-@visibleForTesting
-
 /// Indicates the [SparkyBumper]'s current sprite state.
+@visibleForTesting
 enum SparkyBumperSpriteState {
-  /// The active sprite is being displayed.
+  /// A lit up bumper.
   active,
 
-  /// The inactive sprite is being displayed.
+  /// A dimmed bumper.
   inactive,
 }
 
@@ -130,8 +129,8 @@ class _SparkyBumperSpriteGroupComponent
           Sprite(gameRef.images.fromCache(_offAssetPath)),
     };
     this.sprites = sprites;
-    size = sprites.entries.first.value.originalSize / 10;
 
     current = SparkyBumperSpriteState.active;
+    size = sprites[current]!.originalSize / 10;
   }
 }

@@ -78,14 +78,13 @@ class AlienBumper extends BodyComponent with InitialPosition {
   }
 }
 
-@visibleForTesting
-
 /// Indicates the [AlienBumper]'s current sprite state.
+@visibleForTesting
 enum AlienBumperSpriteState {
-  /// The active sprite is being displayed.
+  /// A lit up bumper.
   active,
 
-  /// The inactive sprite is being displayed.
+  /// A dimmed bumper.
   inactive,
 }
 
@@ -115,8 +114,8 @@ class _AlienBumperSpriteGroupComponent
           Sprite(gameRef.images.fromCache(_offAssetPath)),
     };
     this.sprites = sprites;
-    size = sprites.entries.first.value.originalSize / 10;
 
     current = AlienBumperSpriteState.active;
+    size = sprites[current]!.originalSize / 10;
   }
 }

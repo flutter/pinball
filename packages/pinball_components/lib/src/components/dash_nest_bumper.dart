@@ -93,14 +93,13 @@ class DashNestBumper extends BodyComponent with InitialPosition {
   }
 }
 
-@visibleForTesting
-
 /// Indicates the [DashNestBumper]'s current sprite state.
+@visibleForTesting
 enum DashNestBumperSpriteState {
-  /// The active sprite is being displayed.
+  /// A lit up bumper.
   active,
 
-  /// The inactive sprite is being displayed.
+  /// A dimmed bumper.
   inactive,
 }
 
@@ -130,8 +129,8 @@ class _DashNestBumperSpriteGroupComponent
           Sprite(gameRef.images.fromCache(_inactiveAssetPath)),
     };
     this.sprites = sprites;
-    size = sprites[DashNestBumperSpriteState.inactive]!.originalSize / 10;
 
     current = DashNestBumperSpriteState.inactive;
+    size = sprites[current]!.originalSize / 10;
   }
 }
