@@ -37,7 +37,7 @@ class SparkyComputerController
 }
 
 /// {@template sparky_turbo_charge_sensor_ball_contact_callback}
-/// Turbo charges the [Ball] when it enters the [SparkyComputer].
+/// Turbo charges the [Ball] when it enters the [SparkyComputer]
 /// {@endtemplate}
 @visibleForTesting
 class SparkyTurboChargeSensorBallContactCallback

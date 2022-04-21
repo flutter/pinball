@@ -8,21 +8,14 @@ import 'package:pinball/game/game.dart';
 import '../../helpers/helpers.dart';
 
 void main() {
-  group('SparkyComputerController', () {
+  group('ControlledSparkyComputer', () {
     TestWidgetsFlutterBinding.ensureInitialized();
     final flameTester = FlameTester(EmptyPinballTestGame.new);
 
-    late ControlledSparkyComputer controlledSparkyComputer;
-
-    setUp(() {
-      controlledSparkyComputer = ControlledSparkyComputer();
-    });
-
-    test('can be instantiated', () {
-      expect(
-        SparkyComputerController(controlledSparkyComputer),
-        isA<SparkyComputerController>(),
-      );
+    flameTester.test('loads correctly', (game) async {
+      final sparkyComputer = ControlledSparkyComputer();
+      await game.ensureAdd(sparkyComputer);
+      expect(game.children, contains(sparkyComputer));
     });
 
     flameTester.testGameWidget(
