@@ -101,6 +101,8 @@ abstract class RenderPriority {
 
   static const int spaceshipRampBackgroundRailing = _above + spaceshipRamp;
 
+  static const int spaceshipRampArrow = _above + spaceshipRamp;
+
   static const int spaceshipRampForegroundRailing =
       _above + ballOnSpaceshipRamp;
 
