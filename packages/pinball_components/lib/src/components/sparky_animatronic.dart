@@ -10,7 +10,7 @@ class SparkyAnimatronic extends SpriteAnimationComponent with HasGameRef {
       : super(
           anchor: Anchor.center,
           playing: false,
-          priority: Ball.spaceshipRampPriority + 2,
+          priority: RenderPriority.sparkyAnimatronic,
         );
 
   @override
