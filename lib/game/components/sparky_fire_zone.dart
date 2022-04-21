@@ -18,6 +18,11 @@ class SparkyFireZone extends Forge2DBlueprint {
     addBlueprint(SparkyComputer());
 
     gameRef.addContactCallback(SparkyBumperBallContactCallback());
+    final sparkyTurboChargeSensor = SparkyTurboChargeSensor()
+      ..initialPosition = Vector2(-13, 49.8);
+
+    final sparkyAnimatronic = SparkyAnimatronic()
+      ..position = Vector2(-13.8, -58.2);
 
     final lowerLeftBumper = _SparkyBumper.a()
       ..initialPosition = Vector2(-22.9, -41.65);
@@ -30,7 +35,8 @@ class SparkyFireZone extends Forge2DBlueprint {
       lowerLeftBumper,
       upperLeftBumper,
       rightBumper,
-      SparkyAnimatronic(),
+      sparkyAnimatronic,
+      sparkyTurboChargeSensor,
     ]);
   }
 }
@@ -59,5 +65,54 @@ class SparkyBumperBallContactCallback
     Contact __,
   ) {
     sparkyBumper.animate();
+  }
+}
+
+/// {@template sparky_turbo_charge_sensor}
+/// Small sensor body used to detect when a ball has entered the
+/// [SparkyComputer] with the [SparkyTurboChargeSensorBallContactCallback].
+/// {@endtemplate}
+@visibleForTesting
+class SparkyTurboChargeSensor extends BodyComponent with InitialPosition {
+  /// {@macro sparky_turbo_charge_sensor}
+  SparkyTurboChargeSensor() {
+    renderBody = false;
+  }
+
+  @override
+  Body createBody() {
+    final shape = CircleShape()..radius = 0.1;
+    final fixtureDef = FixtureDef(
+      shape,
+      isSensor: true,
+    );
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
+
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
+  }
+}
+
+/// {@template sparky_turbo_charge_sensor_ball_contact_callback}
+/// Turbo charges the [Ball] on contact with [SparkyTurboChargeSensor].
+/// {@endtemplate}
+@visibleForTesting
+class SparkyTurboChargeSensorBallContactCallback
+    extends ContactCallback<SparkyTurboChargeSensor, ControlledBall> {
+  /// {@macro sparky_turbo_charge_sensor_ball_contact_callback}
+  SparkyTurboChargeSensorBallContactCallback();
+
+  @override
+  void begin(
+    SparkyTurboChargeSensor sparkyTurboChargeSensor,
+    ControlledBall ball,
+    _,
+  ) {
+    final parent = sparkyTurboChargeSensor.parent;
+    if (parent is SparkyFireZone) {
+      ball.controller.turboCharge();
+    }
   }
 }
