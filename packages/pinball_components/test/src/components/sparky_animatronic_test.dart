@@ -11,55 +11,55 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final flameTester = FlameTester(TestGame.new);
 
-  group('DashAnimatronic', () {
+  group('SparkyAnimatronic', () {
     flameTester.testGameWidget(
       'renders correctly',
       setUp: (game, tester) async {
-        await game.ensureAdd(DashAnimatronic()..playing = true);
+        await game.ensureAdd(SparkyAnimatronic()..playing = true);
         game.camera.followVector2(Vector2.zero());
       },
       verify: (game, tester) async {
         await expectLater(
           find.byGame<TestGame>(),
-          matchesGoldenFile('golden/dash_animatronic/start.png'),
+          matchesGoldenFile('golden/sparky_animatronic/start.png'),
         );
 
         game.update(1);
         await tester.pump();
         await expectLater(
           find.byGame<TestGame>(),
-          matchesGoldenFile('golden/dash_animatronic/middle.png'),
+          matchesGoldenFile('golden/sparky_animatronic/middle.png'),
         );
 
-        game.update(3);
+        game.update(1);
         await tester.pump();
         await expectLater(
           find.byGame<TestGame>(),
-          matchesGoldenFile('golden/dash_animatronic/end.png'),
+          matchesGoldenFile('golden/sparky_animatronic/end.png'),
         );
       },
     );
     flameTester.test(
       'loads correctly',
       (game) async {
-        final dashAnimatronic = DashAnimatronic();
-        await game.ensureAdd(dashAnimatronic);
+        final sparkyAnimatronic = SparkyAnimatronic();
+        await game.ensureAdd(sparkyAnimatronic);
 
-        expect(game.contains(dashAnimatronic), isTrue);
+        expect(game.contains(sparkyAnimatronic), isTrue);
       },
     );
 
     flameTester.test(
       'stops animating after animation completes',
       (game) async {
-        final dashAnimatronic = DashAnimatronic();
-        await game.ensureAdd(dashAnimatronic);
+        final sparkyAnimatronic = SparkyAnimatronic();
+        await game.ensureAdd(sparkyAnimatronic);
 
-        dashAnimatronic.playing = true;
-        dashAnimatronic.animation?.setToLast();
+        sparkyAnimatronic.playing = true;
+        sparkyAnimatronic.animation?.setToLast();
         game.update(1);
 
-        expect(dashAnimatronic.playing, isFalse);
+        expect(sparkyAnimatronic.playing, isFalse);
       },
     );
   });

@@ -8,6 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -24,25 +25,49 @@ void main() {
   final flameTester = FlameTester(() => EmptyPinballTestGame(assets));
 
   group('SparkyFireZone', () {
-    flameTester.test(
-      'loads correctly',
-      (game) async {
-        final sparkyFireZone = SparkyFireZone();
-        await game.ensureAdd(sparkyFireZone);
-
-        expect(game.contains(sparkyFireZone), isTrue);
-      },
-    );
+    flameTester.test('loads correctly', (game) async {
+      final sparkyFireZone = SparkyFireZone();
+      await game.ensureAdd(sparkyFireZone);
+    });
 
     group('loads', () {
+      flameTester.test(
+        'a SparkyComputer',
+        (game) async {
+          final sparkyFireZone = SparkyFireZone();
+          await game.addFromBlueprint(sparkyFireZone);
+          await game.ready();
+
+          expect(
+            sparkyFireZone.blueprints.whereType<SparkyComputer>().single,
+            isNotNull,
+          );
+        },
+      );
+
+      flameTester.test(
+        'a SparkyAnimatronic',
+        (game) async {
+          final sparkyFireZone = SparkyFireZone();
+          await game.addFromBlueprint(sparkyFireZone);
+          await game.ready();
+
+          expect(
+            game.descendants().whereType<SparkyAnimatronic>().single,
+            isNotNull,
+          );
+        },
+      );
+
       flameTester.test(
         'three SparkyBumper',
         (game) async {
           final sparkyFireZone = SparkyFireZone();
-          await game.ensureAdd(sparkyFireZone);
+          await game.addFromBlueprint(sparkyFireZone);
+          await game.ready();
 
           expect(
-            sparkyFireZone.descendants().whereType<SparkyBumper>().length,
+            game.descendants().whereType<SparkyBumper>().length,
             equals(3),
           );
         },
