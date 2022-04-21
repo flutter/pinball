@@ -125,7 +125,10 @@ class _SpaceshipRampBackground extends BodyComponent
 class _SpaceshipRampBackgroundRailingSpriteComponent extends SpriteComponent
     with HasGameRef {
   _SpaceshipRampBackgroundRailingSpriteComponent()
-      : super(priority: RenderPriority.spaceshipRampBackgroundRailing);
+      : super(
+          position: Vector2(-11.7, -54.3),
+          priority: RenderPriority.spaceshipRampBackgroundRailing,
+        );
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -135,7 +138,6 @@ class _SpaceshipRampBackgroundRailingSpriteComponent extends SpriteComponent
     this.sprite = sprite;
     size = sprite.originalSize / 10;
     anchor = Anchor.center;
-    position = Vector2(-11.7, -54.3);
   }
 }
 
@@ -144,7 +146,6 @@ class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    // TODO(ruimiguel): update asset correctly cut from the ramp opening.
     final sprite = await gameRef.loadSprite(
       Assets.images.spaceship.ramp.main.keyName,
     );
@@ -176,10 +177,7 @@ enum SpaceshipRampArrowSpriteState {
   active5,
 }
 
-/// Helps obtaining the arrow asset corresponding to each enum
-/// [SpaceshipRampArrowSpriteState].
-extension SpaceshipRampArrowSpriteStateX on SpaceshipRampArrowSpriteState {
-  /// Gives path to the arrow asset, depending on its enum.
+extension on SpaceshipRampArrowSpriteState {
   String get path {
     switch (this) {
       case SpaceshipRampArrowSpriteState.inactive:
@@ -202,7 +200,10 @@ class _SpaceshipRampArrowSpriteComponent
     extends SpriteGroupComponent<SpaceshipRampArrowSpriteState>
     with HasGameRef {
   _SpaceshipRampArrowSpriteComponent()
-      : super(priority: RenderPriority.spaceshipRampBackgroundRailing);
+      : super(
+          position: Vector2(-3.9, -56.5),
+          priority: RenderPriority.spaceshipRampBackgroundRailing,
+        );
 
   @override
   Future<void> onLoad() async {
@@ -216,7 +217,6 @@ class _SpaceshipRampArrowSpriteComponent
     current = SpaceshipRampArrowSpriteState.inactive;
     size = sprites[current]!.originalSize / 10;
     anchor = Anchor.center;
-    position = Vector2(-3.9, -56.5);
   }
 }
 
@@ -225,7 +225,6 @@ class _SpaceshipRampBoardOpeningSpriteComponent extends SpriteComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    // TODO(ruimiguel): update asset correctly cut from the ramp background.
     final sprite = await gameRef.loadSprite(
       Assets.images.spaceship.ramp.boardOpening.keyName,
     );
