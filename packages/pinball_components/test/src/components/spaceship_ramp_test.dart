@@ -11,7 +11,19 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(TestGame.new);
+  final assets = [
+    Assets.images.spaceship.ramp.railingBackground.keyName,
+    Assets.images.spaceship.ramp.main.keyName,
+    Assets.images.spaceship.ramp.boardOpening.keyName,
+    Assets.images.spaceship.ramp.railingForeground.keyName,
+    Assets.images.spaceship.ramp.arrow.inactive.keyName,
+    Assets.images.spaceship.ramp.arrow.active1.keyName,
+    Assets.images.spaceship.ramp.arrow.active2.keyName,
+    Assets.images.spaceship.ramp.arrow.active3.keyName,
+    Assets.images.spaceship.ramp.arrow.active4.keyName,
+    Assets.images.spaceship.ramp.arrow.active5.keyName,
+  ];
+  final flameTester = FlameTester(() => TestGame(assets));
 
   group('SpaceshipRamp', () {
     flameTester.test(
@@ -30,9 +42,11 @@ void main() {
       flameTester.testGameWidget(
         'inactive sprite',
         setUp: (game, tester) async {
+          await game.images.loadAll(assets);
           final spaceshipRamp = SpaceshipRamp();
           await game.addFromBlueprint(spaceshipRamp);
           await game.ready();
+          await tester.pump();
 
           expect(
             spaceshipRamp.spaceshipRampArrow.current,
@@ -52,10 +66,12 @@ void main() {
       flameTester.testGameWidget(
         'active1 sprite',
         setUp: (game, tester) async {
+          await game.images.loadAll(assets);
           final spaceshipRamp = SpaceshipRamp();
           await game.addFromBlueprint(spaceshipRamp);
           await game.ready();
           spaceshipRamp.progress();
+          await tester.pump();
 
           expect(
             spaceshipRamp.spaceshipRampArrow.current,
@@ -75,12 +91,14 @@ void main() {
       flameTester.testGameWidget(
         'active2 sprite',
         setUp: (game, tester) async {
+          await game.images.loadAll(assets);
           final spaceshipRamp = SpaceshipRamp();
           await game.addFromBlueprint(spaceshipRamp);
           await game.ready();
           spaceshipRamp
             ..progress()
             ..progress();
+          await tester.pump();
 
           expect(
             spaceshipRamp.spaceshipRampArrow.current,
@@ -100,6 +118,7 @@ void main() {
       flameTester.testGameWidget(
         'active3 sprite',
         setUp: (game, tester) async {
+          await game.images.loadAll(assets);
           final spaceshipRamp = SpaceshipRamp();
           await game.addFromBlueprint(spaceshipRamp);
           await game.ready();
@@ -107,6 +126,7 @@ void main() {
             ..progress()
             ..progress()
             ..progress();
+          await tester.pump();
 
           expect(
             spaceshipRamp.spaceshipRampArrow.current,
@@ -126,6 +146,7 @@ void main() {
       flameTester.testGameWidget(
         'active4 sprite',
         setUp: (game, tester) async {
+          await game.images.loadAll(assets);
           final spaceshipRamp = SpaceshipRamp();
           await game.addFromBlueprint(spaceshipRamp);
           await game.ready();
@@ -134,6 +155,7 @@ void main() {
             ..progress()
             ..progress()
             ..progress();
+          await tester.pump();
 
           expect(
             spaceshipRamp.spaceshipRampArrow.current,
@@ -153,6 +175,7 @@ void main() {
       flameTester.testGameWidget(
         'active5 sprite',
         setUp: (game, tester) async {
+          await game.images.loadAll(assets);
           final spaceshipRamp = SpaceshipRamp();
           await game.addFromBlueprint(spaceshipRamp);
           await game.ready();
@@ -162,6 +185,7 @@ void main() {
             ..progress()
             ..progress()
             ..progress();
+          await tester.pump();
 
           expect(
             spaceshipRamp.spaceshipRampArrow.current,
