@@ -29,6 +29,7 @@ void main() {
         const previous = GameState.initial();
         const current = GameState(
           score: 10,
+          multiplier: 1,
           balls: 3,
           bonusHistory: [],
         );
@@ -41,6 +42,7 @@ void main() {
         () {
           const current = GameState(
             score: 10,
+            multiplier: 1,
             balls: 3,
             bonusHistory: [],
           );
@@ -65,6 +67,7 @@ void main() {
         () {
           const state = GameState(
             score: 10,
+            multiplier: 1,
             balls: 3,
             bonusHistory: [],
           );
@@ -82,6 +85,7 @@ void main() {
         controller.onNewState(
           const GameState(
             score: 10,
+            multiplier: 1,
             balls: 3,
             bonusHistory: [],
           ),
@@ -90,6 +94,7 @@ void main() {
         controller.onNewState(
           const GameState(
             score: 14,
+            multiplier: 1,
             balls: 3,
             bonusHistory: [],
           ),

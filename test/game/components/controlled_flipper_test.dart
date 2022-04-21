@@ -19,6 +19,7 @@ void main() {
       final bloc = MockGameBloc();
       const state = GameState(
         score: 0,
+        multiplier: 1,
         balls: 0,
         bonusHistory: [],
       );

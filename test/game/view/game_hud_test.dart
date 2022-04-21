@@ -11,6 +11,7 @@ void main() {
     late GameBloc gameBloc;
     const initialState = GameState(
       score: 10,
+      multiplier: 1,
       balls: 2,
       bonusHistory: [],
     );
