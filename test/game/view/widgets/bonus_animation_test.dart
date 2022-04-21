@@ -25,11 +25,7 @@ void main() {
   group('loads SpriteAnimationWidget correctly for', () {
     testWidgets('dashNest', (tester) async {
       await tester.pumpApp(
-        MaterialApp(
-          home: Scaffold(
-            body: BonusAnimation.dashNest(),
-          ),
-        ),
+        BonusAnimation.dashNest(),
       );
       await tester.pump();
 
@@ -38,11 +34,7 @@ void main() {
 
     testWidgets('dino', (tester) async {
       await tester.pumpApp(
-        MaterialApp(
-          home: Scaffold(
-            body: BonusAnimation.dino(),
-          ),
-        ),
+        BonusAnimation.dino(),
       );
       await tester.pump();
 
@@ -51,11 +43,7 @@ void main() {
 
     testWidgets('sparkyTurboCharge', (tester) async {
       await tester.pumpApp(
-        MaterialApp(
-          home: Scaffold(
-            body: BonusAnimation.sparkyTurboCharge(),
-          ),
-        ),
+        BonusAnimation.sparkyTurboCharge(),
       );
       await tester.pump();
 
