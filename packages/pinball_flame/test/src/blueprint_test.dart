@@ -12,6 +12,21 @@ void main() {
   group('Blueprint', () {
     final flameTester = FlameTester(FlameGame.new);
 
+    test('correctly sets and gets components', () {
+      final component1 = Component();
+      final component2 = Component();
+      final blueprint = Blueprint(
+        components: [
+          component1,
+          component2,
+        ],
+      );
+
+      expect(blueprint.components.length, 2);
+      expect(blueprint.components, contains(component1));
+      expect(blueprint.components, contains(component2));
+    });
+
     flameTester.test('adds the components to parent on attach', (game) async {
       final blueprint = Blueprint(
         components: [
@@ -20,11 +35,8 @@ void main() {
         ],
       );
       await game.addFromBlueprint(blueprint);
+      await game.ready();
 
-      expect(
-        game.children.length,
-        equals(blueprint.components.length),
-      );
       for (final component in blueprint.components) {
         expect(game.children.contains(component), isTrue);
       }
