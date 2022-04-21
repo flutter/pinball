@@ -9,6 +9,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/view/widgets/bonus_animation.dart';
 
+import '../../../helpers/helpers.dart';
+
 class MockImages extends Mock implements Images {}
 
 class MockImage extends Mock implements ui.Image {}
@@ -20,56 +22,50 @@ void main() {
     await BonusAnimation.loadAssets();
   });
 
-  group('loads correctly SpriteAnimationWidget for', () {
+  group('loads SpriteAnimationWidget correctly for', () {
     testWidgets('dashNest', (tester) async {
-      await tester.runAsync(() async {
-        await tester.pumpWidget(
-          MaterialApp(
-            home: Scaffold(
-              body: BonusAnimation.dashNest(),
-            ),
+      await tester.pumpApp(
+        MaterialApp(
+          home: Scaffold(
+            body: BonusAnimation.dashNest(),
           ),
-        );
-        await tester.pump();
+        ),
+      );
+      await tester.pump();
 
-        expect(find.byType(SpriteAnimationWidget), findsOneWidget);
-      });
+      expect(find.byType(SpriteAnimationWidget), findsOneWidget);
     });
 
     testWidgets('dino', (tester) async {
-      await tester.runAsync(() async {
-        await tester.pumpWidget(
-          MaterialApp(
-            home: Scaffold(
-              body: BonusAnimation.dino(),
-            ),
+      await tester.pumpApp(
+        MaterialApp(
+          home: Scaffold(
+            body: BonusAnimation.dino(),
           ),
-        );
-        await tester.pump();
+        ),
+      );
+      await tester.pump();
 
-        expect(find.byType(SpriteAnimationWidget), findsOneWidget);
-      });
+      expect(find.byType(SpriteAnimationWidget), findsOneWidget);
     });
 
     testWidgets('sparkyTurboCharge', (tester) async {
-      await tester.runAsync(() async {
-        await tester.pumpWidget(
-          MaterialApp(
-            home: Scaffold(
-              body: BonusAnimation.sparkyTurboCharge(),
-            ),
+      await tester.pumpApp(
+        MaterialApp(
+          home: Scaffold(
+            body: BonusAnimation.sparkyTurboCharge(),
           ),
-        );
-        await tester.pump();
+        ),
+      );
+      await tester.pump();
 
-        expect(find.byType(SpriteAnimationWidget), findsOneWidget);
-      });
+      expect(find.byType(SpriteAnimationWidget), findsOneWidget);
     });
   });
 
-  // TODO(arturplaczek): refactor this test when there is
-  // a new version of the flame with
-  // an onComplete callback in SpriteAnimationWidget
+  // TODO(arturplaczek): refactor this test when there is a new version of the
+  // flame with an onComplete callback in SpriteAnimationWidget
+  // https://github.com/flame-engine/flame/issues/1543
   testWidgets('called onCompleted callback at the end of animation ',
       (tester) async {
     final completer = Completer<void>();
@@ -95,70 +91,3 @@ void main() {
     });
   });
 }
-
-const transparentImage = <int>[
-  0x89,
-  0x50,
-  0x4E,
-  0x47,
-  0x0D,
-  0x0A,
-  0x1A,
-  0x0A,
-  0x00,
-  0x00,
-  0x00,
-  0x0D,
-  0x49,
-  0x48,
-  0x44,
-  0x52,
-  0x00,
-  0x00,
-  0x00,
-  0x01,
-  0x00,
-  0x00,
-  0x00,
-  0x01,
-  0x08,
-  0x06,
-  0x00,
-  0x00,
-  0x00,
-  0x1F,
-  0x15,
-  0xC4,
-  0x89,
-  0x00,
-  0x00,
-  0x00,
-  0x0A,
-  0x49,
-  0x44,
-  0x41,
-  0x54,
-  0x78,
-  0x9C,
-  0x63,
-  0x00,
-  0x01,
-  0x00,
-  0x00,
-  0x05,
-  0x00,
-  0x01,
-  0x0D,
-  0x0A,
-  0x2D,
-  0xB4,
-  0x00,
-  0x00,
-  0x00,
-  0x00,
-  0x49,
-  0x45,
-  0x4E,
-  0x44,
-  0xAE,
-];

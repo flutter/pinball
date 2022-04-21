@@ -9,9 +9,10 @@ import 'package:pinball/gen/assets.gen.dart';
 class BonusAnimation extends StatelessWidget {
   const BonusAnimation._(
     this.imagePath, {
-    this.onCompleted,
+    VoidCallback? onCompleted,
     Key? key,
-  }) : super(key: key);
+  })  : _onCompleted = onCompleted,
+        super(key: key);
 
   BonusAnimation.dashNest({
     Key? key,
@@ -42,7 +43,7 @@ class BonusAnimation extends StatelessWidget {
 
   final String imagePath;
 
-  final VoidCallback? onCompleted;
+  final VoidCallback? _onCompleted;
 
   static Future<void> loadAssets() {
     Flame.images.prefix = '';
@@ -50,7 +51,7 @@ class BonusAnimation extends StatelessWidget {
       Assets.images.bonusAnimation.dashNest.keyName,
       Assets.images.bonusAnimation.sparkyTurboCharge.keyName,
       Assets.images.bonusAnimation.dino.keyName,
-      // TODO: add google word animation asset here
+      // TODO(arturplaczek): add google word animation asset here
     ]);
   }
 
@@ -71,7 +72,7 @@ class BonusAnimation extends StatelessWidget {
     Future<void>.delayed(
       Duration(seconds: animation.totalDuration().ceil()),
       () {
-        onCompleted?.call();
+        _onCompleted?.call();
       },
     );
 
