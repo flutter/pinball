@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_renaming_method_parameters
 
-import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
@@ -11,19 +10,15 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// [SparkyComputer] with a [SparkyComputerController] attached.
 /// {@endtemplate}
 class ControlledSparkyComputer extends SparkyComputer
-    with Controls<SparkyComputerController>, HasGameRef<PinballGame> {
+    with Controls<SparkyComputerController> {
   /// {@macro controlled_sparky_computer}
-  ControlledSparkyComputer() {
+  ControlledSparkyComputer()
+      : super(
+          components: [
+            SparkyTurboChargeSensor()..initialPosition = Vector2(-13, -49.8)
+          ],
+        ) {
     controller = SparkyComputerController(this);
-  }
-
-  @override
-  void build(Forge2DGame _) {
-    addContactCallback(SparkyTurboChargeSensorBallContactCallback());
-    final sparkyTurboChargeSensor = SparkyTurboChargeSensor()
-      ..initialPosition = Vector2(-13, -49.8);
-    add(sparkyTurboChargeSensor);
-    super.build(_);
   }
 }
 
@@ -61,6 +56,12 @@ class SparkyTurboChargeSensor extends BodyComponent with InitialPosition {
       ..userData = this;
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    gameRef.addContactCallback(SparkyTurboChargeSensorBallContactCallback());
   }
 }
 

@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_renaming_method_parameters
-
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -9,26 +7,23 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// A [Blueprint] which creates the pair of [Slingshot]s on the right side of
 /// the board.
 /// {@endtemplate}
-class Slingshots extends Forge2DBlueprint {
-  @override
-  void build(_) {
-    final upperSlingshot = Slingshot(
-      length: 5.64,
-      angle: -0.017,
-      spritePath: Assets.images.slingshot.upper.keyName,
-    )..initialPosition = Vector2(22.3, -1.58);
-
-    final lowerSlingshot = Slingshot(
-      length: 3.46,
-      angle: -0.468,
-      spritePath: Assets.images.slingshot.lower.keyName,
-    )..initialPosition = Vector2(24.7, 6.2);
-
-    addAll([
-      upperSlingshot,
-      lowerSlingshot,
-    ]);
-  }
+class Slingshots extends Blueprint {
+  /// {@macro slingshots}
+  Slingshots()
+      : super(
+          components: [
+            Slingshot(
+              length: 5.64,
+              angle: -0.017,
+              spritePath: Assets.images.slingshot.upper.keyName,
+            )..initialPosition = Vector2(22.3, -1.58),
+            Slingshot(
+              length: 3.46,
+              angle: -0.468,
+              spritePath: Assets.images.slingshot.lower.keyName,
+            )..initialPosition = Vector2(24.7, 6.2),
+          ],
+        );
 }
 
 /// {@template slingshot}

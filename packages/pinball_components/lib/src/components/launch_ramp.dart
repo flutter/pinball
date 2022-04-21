@@ -11,30 +11,18 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// A [Blueprint] which creates the [_LaunchRampBase] and
 /// [_LaunchRampForegroundRailing].
 /// {@endtemplate}
-class LaunchRamp extends Forge2DBlueprint {
-  @override
-  void build(_) {
-    addAllContactCallback([
-      LayerSensorBallContactCallback<_LaunchRampExit>(),
-    ]);
-
-    final launchRampBase = _LaunchRampBase();
-
-    final launchRampForegroundRailing = _LaunchRampForegroundRailing();
-
-    final launchRampExit = _LaunchRampExit(rotation: math.pi / 2)
-      ..initialPosition = Vector2(0.6, -34);
-
-    final launchRampCloseWall = _LaunchRampCloseWall()
-      ..initialPosition = Vector2(4, -69.5);
-
-    addAll([
-      launchRampBase,
-      launchRampForegroundRailing,
-      launchRampExit,
-      launchRampCloseWall,
-    ]);
-  }
+class LaunchRamp extends Blueprint {
+  /// {@macro launch_ramp}
+  LaunchRamp()
+      : super(
+          components: [
+            // TODO(alestiago): Is it using initialPosition?
+            _LaunchRampBase(),
+            _LaunchRampForegroundRailing(),
+            _LaunchRampExit()..initialPosition = Vector2(0.6, -34),
+            _LaunchRampCloseWall()..initialPosition = Vector2(4, -69.5),
+          ],
+        );
 }
 
 /// {@template launch_ramp_base}
@@ -124,6 +112,13 @@ class _LaunchRampBase extends BodyComponent with InitialPosition, Layered {
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    gameRef
+        .addContactCallback(LayerSensorBallContactCallback<_LaunchRampExit>());
   }
 }
 
@@ -258,10 +253,8 @@ class _LaunchRampCloseWall extends BodyComponent with InitialPosition, Layered {
 /// {@endtemplate}
 class _LaunchRampExit extends LayerSensor {
   /// {@macro launch_ramp_exit}
-  _LaunchRampExit({
-    required double rotation,
-  })  : _rotation = rotation,
-        super(
+  _LaunchRampExit()
+      : super(
           insideLayer: Layer.launcher,
           outsideLayer: Layer.board,
           orientation: LayerEntranceOrientation.down,
@@ -272,8 +265,6 @@ class _LaunchRampExit extends LayerSensor {
     renderBody = false;
   }
 
-  final double _rotation;
-
   static final Vector2 _size = Vector2(1.6, 0.1);
 
   @override
@@ -282,6 +273,6 @@ class _LaunchRampExit extends LayerSensor {
       _size.x,
       _size.y,
       initialPosition,
-      _rotation,
+      math.pi / 2,
     );
 }

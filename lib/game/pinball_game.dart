@@ -55,6 +55,7 @@ class PinballGame extends Forge2DGame
     unawaited(addFromBlueprint(launcher));
     unawaited(add(Board()));
     unawaited(add(AlienZone()));
+
     unawaited(add(SparkyFireZone()));
     unawaited(addFromBlueprint(Slingshots()));
     unawaited(addFromBlueprint(DinoWalls()));
@@ -69,7 +70,7 @@ class PinballGame extends Forge2DGame
     );
     unawaited(addFromBlueprint(SpaceshipRail()));
 
-    controller.attachTo(launcher.plunger);
+    controller.attachTo(launcher.components.whereType<Plunger>().first);
     await super.onLoad();
   }
 

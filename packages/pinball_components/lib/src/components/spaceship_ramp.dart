@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_renaming_method_parameters
-
 import 'dart:math' as math;
 
 import 'package:flame/components.dart';
@@ -11,56 +9,45 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template spaceship_ramp}
 /// A [Blueprint] which creates the ramp leading into the [Spaceship].
 /// {@endtemplate}
-class SpaceshipRamp extends Forge2DBlueprint {
+class SpaceshipRamp extends Blueprint {
   /// {@macro spaceship_ramp}
-  SpaceshipRamp();
-
-  @override
-  void build(_) {
-    addAllContactCallback([
-      LayerSensorBallContactCallback<_SpaceshipRampOpening>(),
-    ]);
-
-    final rightOpening = _SpaceshipRampOpening(
-      outsidePriority: RenderPriority.ballOnBoard,
-      rotation: math.pi,
-    )
-      ..initialPosition = Vector2(1.7, -19.8)
-      ..layer = Layer.opening;
-    final leftOpening = _SpaceshipRampOpening(
-      outsideLayer: Layer.spaceship,
-      outsidePriority: RenderPriority.ballOnSpaceship,
-      rotation: math.pi,
-    )
-      ..initialPosition = Vector2(-13.7, -18.6)
-      ..layer = Layer.spaceshipEntranceRamp;
-
-    final spaceshipRamp = _SpaceshipRampBackground();
-
-    final spaceshipRampBoardOpeningSprite =
-        _SpaceshipRampBoardOpeningSpriteComponent()
-          ..position = Vector2(3.4, -39.5);
-
-    final spaceshipRampForegroundRailing = _SpaceshipRampForegroundRailing();
-
-    final baseRight = _SpaceshipRampBase()..initialPosition = Vector2(1.7, -20);
-
-    addAll([
-      spaceshipRampBoardOpeningSprite,
-      rightOpening,
-      leftOpening,
-      baseRight,
-      _SpaceshipRampBackgroundRailingSpriteComponent(),
-      spaceshipRamp,
-      spaceshipRampForegroundRailing,
-    ]);
-  }
+  SpaceshipRamp()
+      : super(
+          components: [
+            _SpaceshipRampOpening(
+              outsidePriority: RenderPriority.ballOnBoard,
+              rotation: math.pi,
+            )
+              ..initialPosition = Vector2(1.7, -19.8)
+              ..layer = Layer.opening,
+            _SpaceshipRampOpening(
+              outsideLayer: Layer.spaceship,
+              outsidePriority: RenderPriority.ballOnSpaceship,
+              rotation: math.pi,
+            )
+              ..initialPosition = Vector2(-13.7, -18.6)
+              ..layer = Layer.spaceshipEntranceRamp,
+            _SpaceshipRampBackground(),
+            _SpaceshipRampBoardOpeningSpriteComponent()
+              ..position = Vector2(3.4, -39.5),
+            _SpaceshipRampForegroundRailing(),
+            _SpaceshipRampBase()..initialPosition = Vector2(1.7, -20),
+            _SpaceshipRampBackgroundRailingSpriteComponent(),
+          ],
+        );
 }
 
 class _SpaceshipRampBackground extends BodyComponent
     with InitialPosition, Layered {
-  _SpaceshipRampBackground() : super(priority: RenderPriority.spaceshipRamp) {
+  _SpaceshipRampBackground()
+      : super(
+          priority: RenderPriority.spaceshipRamp,
+          children: [
+            _SpaceshipRampBackgroundRampSpriteComponent(),
+          ],
+        ) {
     layer = Layer.spaceshipEntranceRamp;
+    renderBody = false;
   }
 
   /// Width between walls of the ramp.
@@ -116,16 +103,19 @@ class _SpaceshipRampBackground extends BodyComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    renderBody = false;
-
-    await add(_SpaceshipRampBackgroundRampSpriteComponent());
+    gameRef.addContactCallback(
+      LayerSensorBallContactCallback<_SpaceshipRampOpening>(),
+    );
   }
 }
 
 class _SpaceshipRampBackgroundRailingSpriteComponent extends SpriteComponent
     with HasGameRef {
   _SpaceshipRampBackgroundRailingSpriteComponent()
-      : super(priority: RenderPriority.spaceshipRampBackgroundRailing);
+      : super(
+          priority: RenderPriority.spaceshipRampBackgroundRailing,
+        );
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
