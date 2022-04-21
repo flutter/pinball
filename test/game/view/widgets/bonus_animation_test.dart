@@ -49,6 +49,24 @@ void main() {
 
       expect(find.byType(SpriteAnimationWidget), findsOneWidget);
     });
+
+    testWidgets('google', (tester) async {
+      await tester.pumpApp(
+        BonusAnimation.google(),
+      );
+      await tester.pump();
+
+      expect(find.byType(SpriteAnimationWidget), findsOneWidget);
+    });
+
+    testWidgets('android', (tester) async {
+      await tester.pumpApp(
+        BonusAnimation.android(),
+      );
+      await tester.pump();
+
+      expect(find.byType(SpriteAnimationWidget), findsOneWidget);
+    });
   });
 
   // TODO(arturplaczek): refactor this test when there is a new version of the

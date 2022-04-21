@@ -41,6 +41,24 @@ class BonusAnimation extends StatelessWidget {
           key: key,
         );
 
+  BonusAnimation.android({
+    Key? key,
+    VoidCallback? onCompleted,
+  }) : this._(
+          Assets.images.bonusAnimation.android.keyName,
+          onCompleted: onCompleted,
+          key: key,
+        );
+
+  BonusAnimation.google({
+    Key? key,
+    VoidCallback? onCompleted,
+  }) : this._(
+          Assets.images.bonusAnimation.google.keyName,
+          onCompleted: onCompleted,
+          key: key,
+        );
+
   final String imagePath;
 
   final VoidCallback? _onCompleted;
@@ -51,7 +69,8 @@ class BonusAnimation extends StatelessWidget {
       Assets.images.bonusAnimation.dashNest.keyName,
       Assets.images.bonusAnimation.sparkyTurboCharge.keyName,
       Assets.images.bonusAnimation.dino.keyName,
-      // TODO(arturplaczek): add google word animation asset here
+      Assets.images.bonusAnimation.android.keyName,
+      Assets.images.bonusAnimation.google.keyName,
     ]);
   }
 
