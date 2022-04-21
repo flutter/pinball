@@ -8,12 +8,65 @@ import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 import 'package:pinball_flame/pinball_flame.dart';
 
+/// Indicates the state of the arrow on the [SpaceshipRamp].
+enum SpaceshipRampArrowSpriteState {
+  /// Arrow with no dashes lit up.
+  inactive,
+
+  /// Arrow with 1 dash lit up.
+  active1,
+
+  /// Arrow with 2 dashes lit up.
+  active2,
+
+  /// Arrow with 3 dashes lit up.
+  active3,
+
+  /// Arrow with 4 dashes lit up.
+  active4,
+
+  /// Arrow with all 5 dashes lit up.
+  active5,
+}
+
+extension on SpaceshipRampArrowSpriteState {
+  String get path {
+    switch (this) {
+      case SpaceshipRampArrowSpriteState.inactive:
+        return Assets.images.spaceship.ramp.arrow.inactive.keyName;
+      case SpaceshipRampArrowSpriteState.active1:
+        return Assets.images.spaceship.ramp.arrow.oneActive.keyName;
+      case SpaceshipRampArrowSpriteState.active2:
+        return Assets.images.spaceship.ramp.arrow.twoActive.keyName;
+      case SpaceshipRampArrowSpriteState.active3:
+        return Assets.images.spaceship.ramp.arrow.threeActive.keyName;
+      case SpaceshipRampArrowSpriteState.active4:
+        return Assets.images.spaceship.ramp.arrow.fourActive.keyName;
+      case SpaceshipRampArrowSpriteState.active5:
+        return Assets.images.spaceship.ramp.arrow.fiveActive.keyName;
+    }
+  }
+
+  SpaceshipRampArrowSpriteState get next {
+    return SpaceshipRampArrowSpriteState
+        .values[(index + 1) % SpaceshipRampArrowSpriteState.values.length];
+  }
+}
+
 /// {@template spaceship_ramp}
 /// A [Blueprint] which creates the ramp leading into the [Spaceship].
 /// {@endtemplate}
 class SpaceshipRamp extends Forge2DBlueprint {
   /// {@macro spaceship_ramp}
   SpaceshipRamp();
+
+  /// [SpriteGroupComponent] representing the arrow that lights up.
+  late final SpaceshipRampArrowSpriteComponent spaceshipRampArrow;
+
+  /// Forwards the sprite to the next [SpaceshipRampArrowSpriteState].
+  ///
+  /// If the current state is the last one it cycles back to the initial state.
+  void progress() => spaceshipRampArrow.progress();
 
   @override
   void build(_) {
@@ -37,6 +90,8 @@ class SpaceshipRamp extends Forge2DBlueprint {
 
     final spaceshipRamp = _SpaceshipRampBackground();
 
+    spaceshipRampArrow = SpaceshipRampArrowSpriteComponent();
+
     final spaceshipRampBoardOpeningSprite =
         _SpaceshipRampBoardOpeningSpriteComponent()
           ..position = Vector2(3.4, -39.5);
@@ -52,6 +107,7 @@ class SpaceshipRamp extends Forge2DBlueprint {
       baseRight,
       _SpaceshipRampBackgroundRailingSpriteComponent(),
       spaceshipRamp,
+      spaceshipRampArrow,
       spaceshipRampForegroundRailing,
     ]);
   }
@@ -64,7 +120,6 @@ class _SpaceshipRampBackground extends BodyComponent
           priority: RenderPriority.spaceshipRamp,
           children: [
             _SpaceshipRampBackgroundRampSpriteComponent(),
-            _SpaceshipRampArrowSpriteComponent(),
           ],
         ) {
     layer = Layer.spaceshipEntranceRamp;
@@ -156,54 +211,23 @@ class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
   }
 }
 
-/// Indicates the state of the arrow on the [SpaceshipRamp].
-enum SpaceshipRampArrowSpriteState {
-  /// Arrow with no dashes lit up.
-  inactive,
-
-  /// Arrow with 1 dash lit up.
-  active1,
-
-  /// Arrow with 2 dashes lit up.
-  active2,
-
-  /// Arrow with 3 dashes lit up.
-  active3,
-
-  /// Arrow with 4 dashes lit up.
-  active4,
-
-  /// Arrow with all 5 dashes lit up.
-  active5,
-}
-
-extension on SpaceshipRampArrowSpriteState {
-  String get path {
-    switch (this) {
-      case SpaceshipRampArrowSpriteState.inactive:
-        return Assets.images.spaceship.ramp.arrow.inactive.keyName;
-      case SpaceshipRampArrowSpriteState.active1:
-        return Assets.images.spaceship.ramp.arrow.oneActive.keyName;
-      case SpaceshipRampArrowSpriteState.active2:
-        return Assets.images.spaceship.ramp.arrow.twoActive.keyName;
-      case SpaceshipRampArrowSpriteState.active3:
-        return Assets.images.spaceship.ramp.arrow.threeActive.keyName;
-      case SpaceshipRampArrowSpriteState.active4:
-        return Assets.images.spaceship.ramp.arrow.fourActive.keyName;
-      case SpaceshipRampArrowSpriteState.active5:
-        return Assets.images.spaceship.ramp.arrow.fiveActive.keyName;
-    }
-  }
-}
-
-class _SpaceshipRampArrowSpriteComponent
+/// {@template spaceship_ramp_arrow_sprite_component}
+/// An arrow inside [SpaceshipRamp].
+///
+/// Lights up a each dash whenever a [Ball] gets into [SpaceshipRamp].
+/// {@endtemplate}
+class SpaceshipRampArrowSpriteComponent
     extends SpriteGroupComponent<SpaceshipRampArrowSpriteState>
     with HasGameRef {
-  _SpaceshipRampArrowSpriteComponent()
+  /// {@macro spaceship_ramp_arrow_sprite_component}
+  SpaceshipRampArrowSpriteComponent()
       : super(
           position: Vector2(-3.9, -56.5),
           priority: RenderPriority.spaceshipRampBackgroundRailing,
         );
+
+  /// Changes arrow image to the next [Sprite].
+  void progress() => current = current?.next;
 
   @override
   Future<void> onLoad() async {
@@ -297,6 +321,11 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
 
 class _SpaceshipRampForegroundRailingSpriteComponent extends SpriteComponent
     with HasGameRef {
+  _SpaceshipRampForegroundRailingSpriteComponent()
+      : super(
+          position: Vector2(-12.3, -52.5),
+        );
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -306,7 +335,6 @@ class _SpaceshipRampForegroundRailingSpriteComponent extends SpriteComponent
     this.sprite = sprite;
     size = sprite.originalSize / 10;
     anchor = Anchor.center;
-    position = Vector2(-12.3, -52.5);
   }
 }
 
