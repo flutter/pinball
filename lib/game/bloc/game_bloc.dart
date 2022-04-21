@@ -12,6 +12,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     on<BallLost>(_onBallLost);
     on<Scored>(_onScored);
     on<IncreasedMultiplier>(_onIncreasedMultiplier);
+    on<AppliedMultiplier>(_onAppliedMultiplier);
     on<ResetMultiplier>(_onResetMultiplier);
     on<BonusActivated>(_onBonusActivated);
     on<SparkyTurboChargeActivated>(_onSparkyTurboChargeActivated);
@@ -24,7 +25,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   void _onScored(Scored event, Emitter emit) {
     if (!state.isGameOver) {
       emit(
-        state.copyWith(score: state.score + state.multiplier * event.points),
+        state.copyWith(score: state.score + event.points),
       );
     }
   }
@@ -32,6 +33,12 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   void _onIncreasedMultiplier(IncreasedMultiplier event, Emitter emit) {
     if (!state.isGameOver) {
       emit(state.copyWith(multiplier: state.multiplier + event.increase));
+    }
+  }
+
+  void _onAppliedMultiplier(AppliedMultiplier event, Emitter emit) {
+    if (!state.isGameOver) {
+      emit(state.copyWith(score: state.score * state.multiplier));
     }
   }
 

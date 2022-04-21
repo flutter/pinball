@@ -64,6 +64,17 @@ class IncreasedMultiplier extends GameEvent {
   List<Object?> get props => [increase];
 }
 
+/// {@template applied_multiplier_game_event}
+/// Event added when multiplier is applied to score.
+/// {@endtemplate}
+class AppliedMultiplier extends GameEvent {
+  /// {@macro applied_multiplier_game_event}
+  const AppliedMultiplier();
+
+  @override
+  List<Object?> get props => [];
+}
+
 /// {@template reset_multiplier_game_event}
 /// Event added when multiplier is reset.
 /// {@endtemplate}
