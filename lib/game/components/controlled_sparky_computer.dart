@@ -36,13 +36,13 @@ class SparkyComputerController
       : super(controlledComputer);
 }
 
-/// {@template sparky_turbo_charge_sensor_ball_contact_callback}
+/// {@template sparky_computer_sensor_ball_contact_callback}
 /// Turbo charges the [Ball] when it enters the [SparkyComputer]
 /// {@endtemplate}
 @visibleForTesting
 class SparkyComputerSensorBallContactCallback
     extends ContactCallback<SparkyComputerSensor, ControlledBall> {
-  /// {@macro sparky_turbo_charge_sensor_ball_contact_callback}
+  /// {@macro sparky_computer_sensor_ball_contact_callback}
   SparkyComputerSensorBallContactCallback();
 
   @override
