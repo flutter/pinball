@@ -5,15 +5,15 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_theme/pinball_theme.dart';
 
 import '../../helpers/helpers.dart';
 
 void main() {
   group('Backboard', () {
-    final tester = FlameTester(KeyboardTestGame.new);
-    const characterIconPath =
-        'packages/pinball_theme/assets/images/dash/leaderboard_icon.png';
+    final characterIconPath = Assets.images.dash.leaderboardIcon.keyName;
+    final tester = FlameTester(() => KeyboardTestGame([characterIconPath]));
 
     group('on waitingMode', () {
       tester.testGameWidget(
@@ -22,6 +22,7 @@ void main() {
           game.camera.zoom = 2;
           game.camera.followVector2(Vector2.zero());
           await game.ensureAdd(Backboard.waiting(position: Vector2(0, 15)));
+          await tester.pump();
         },
         verify: (game, tester) async {
           await expectLater(
