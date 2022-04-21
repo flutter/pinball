@@ -110,8 +110,6 @@ class _SpaceshipRampBackground extends BodyComponent
   static const width = 5.0;
 
   List<FixtureDef> _createFixtureDefs() {
-    final fixturesDef = <FixtureDef>[];
-
     final outerLeftCurveShape = BezierCurveShape(
       controlPoints: [
         Vector2(-30.75, -37.3),
@@ -119,9 +117,6 @@ class _SpaceshipRampBackground extends BodyComponent
         Vector2(-14.2, -71.25),
       ],
     );
-    final outerLeftCurveFixtureDef = FixtureDef(outerLeftCurveShape);
-    fixturesDef.add(outerLeftCurveFixtureDef);
-
     final outerRightCurveShape = BezierCurveShape(
       controlPoints: [
         outerLeftCurveShape.vertices.last,
@@ -129,27 +124,22 @@ class _SpaceshipRampBackground extends BodyComponent
         Vector2(6.1, -44.9),
       ],
     );
-    final outerRightCurveFixtureDef = FixtureDef(outerRightCurveShape);
-    fixturesDef.add(outerRightCurveFixtureDef);
-
     final boardOpeningEdgeShape = EdgeShape()
       ..set(
         outerRightCurveShape.vertices.last,
         Vector2(7.3, -41.1),
       );
-    final boardOpeningEdgeShapeFixtureDef = FixtureDef(boardOpeningEdgeShape);
-    fixturesDef.add(boardOpeningEdgeShapeFixtureDef);
 
-    return fixturesDef;
+    return [
+      FixtureDef(outerRightCurveShape),
+      FixtureDef(outerLeftCurveShape),
+      FixtureDef(boardOpeningEdgeShape),
+    ];
   }
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef(
-      position: initialPosition,
-      userData: this,
-    );
-
+    final bodyDef = BodyDef(position: initialPosition);
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
 
@@ -189,6 +179,12 @@ class _SpaceshipRampBackgroundRailingSpriteComponent extends SpriteComponent
 
 class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
     with HasGameRef {
+  _SpaceshipRampBackgroundRampSpriteComponent()
+      : super(
+          anchor: Anchor.center,
+          position: Vector2(-10.7, -53.6),
+        );
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -199,8 +195,6 @@ class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
-    anchor = Anchor.center;
-    position = Vector2(-10.7, -53.6);
   }
 }
 
