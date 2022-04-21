@@ -16,7 +16,6 @@ class LaunchRamp extends Blueprint {
   LaunchRamp()
       : super(
           components: [
-            // TODO(alestiago): Is it using initialPosition?
             _LaunchRampBase(),
             _LaunchRampForegroundRailing(),
             _LaunchRampExit()..initialPosition = Vector2(0.6, -34),
@@ -28,7 +27,7 @@ class LaunchRamp extends Blueprint {
 /// {@template launch_ramp_base}
 /// Ramp the [Ball] is launched from at the beginning of each ball life.
 /// {@endtemplate}
-class _LaunchRampBase extends BodyComponent with InitialPosition, Layered {
+class _LaunchRampBase extends BodyComponent with Layered {
   /// {@macro launch_ramp_base}
   _LaunchRampBase()
       : super(
@@ -103,12 +102,7 @@ class _LaunchRampBase extends BodyComponent with InitialPosition, Layered {
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef(
-      position: initialPosition,
-      userData: this,
-    );
-
-    final body = world.createBody(bodyDef);
+    final body = world.createBody(BodyDef());
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;
@@ -157,7 +151,7 @@ class _LaunchRampBackgroundRailingSpriteComponent extends SpriteComponent
 /// Foreground railing for the [_LaunchRampBase] to render in front of the
 /// [Ball].
 /// {@endtemplate}
-class _LaunchRampForegroundRailing extends BodyComponent with InitialPosition {
+class _LaunchRampForegroundRailing extends BodyComponent {
   /// {@macro launch_ramp_foreground_railing}
   _LaunchRampForegroundRailing()
       : super(
@@ -200,11 +194,7 @@ class _LaunchRampForegroundRailing extends BodyComponent with InitialPosition {
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition;
-
-    final body = world.createBody(bodyDef);
+    final body = world.createBody(BodyDef());
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;

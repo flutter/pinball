@@ -14,7 +14,6 @@ class SpaceshipRail extends Blueprint {
   SpaceshipRail()
       : super(
           components: [
-            // TODO(alestiago): Investigate if it's using initial position.
             _SpaceshipRailRamp(),
             _SpaceshipRailExit(),
             _SpaceshipRailBase(radius: 0.55)
@@ -26,8 +25,7 @@ class SpaceshipRail extends Blueprint {
         );
 }
 
-/// Represents the spaceship drop rail from the [Spaceship].
-class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
+class _SpaceshipRailRamp extends BodyComponent with Layered {
   _SpaceshipRailRamp()
       : super(
           priority: RenderPriority.spaceshipRail,
@@ -112,14 +110,8 @@ class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef(
-      position: initialPosition,
-      userData: this,
-    );
-
-    final body = world.createBody(bodyDef);
+    final body = world.createBody(BodyDef());
     _createFixtureDefs().forEach(body.createFixture);
-
     return body;
   }
 
@@ -180,7 +172,6 @@ class _SpaceshipRailBase extends BodyComponent with InitialPosition {
     final fixtureDef = FixtureDef(shape);
     final bodyDef = BodyDef(
       position: initialPosition,
-      userData: this,
     );
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
