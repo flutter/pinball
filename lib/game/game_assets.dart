@@ -9,7 +9,10 @@ extension PinballGameAssetsX on PinballGame {
     return [
       images.load(components.Assets.images.ball.ball.keyName),
       images.load(components.Assets.images.ball.flameEffect.keyName),
-      images.load(components.Assets.images.flutterSignPost.keyName),
+      images.load(components.Assets.images.signpost.inactive.keyName),
+      images.load(components.Assets.images.signpost.active1.keyName),
+      images.load(components.Assets.images.signpost.active2.keyName),
+      images.load(components.Assets.images.signpost.active3.keyName),
       images.load(components.Assets.images.flipper.left.keyName),
       images.load(components.Assets.images.flipper.right.keyName),
       images.load(components.Assets.images.baseboard.left.keyName),
@@ -38,16 +41,37 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.boundary.outer.keyName),
       images.load(components.Assets.images.spaceship.saucer.keyName),
       images.load(components.Assets.images.spaceship.bridge.keyName),
-      images.load(components.Assets.images.spaceship.ramp.main.keyName),
       images.load(components.Assets.images.spaceship.ramp.boardOpening.keyName),
-      images.load(
-        components.Assets.images.spaceship.ramp.railingBackground.keyName,
-      ),
       images.load(
         components.Assets.images.spaceship.ramp.railingForeground.keyName,
       ),
+      images.load(
+        components.Assets.images.spaceship.ramp.railingBackground.keyName,
+      ),
+      images.load(components.Assets.images.spaceship.ramp.main.keyName),
+      images
+          .load(components.Assets.images.spaceship.ramp.arrow.inactive.keyName),
+      images.load(
+        components.Assets.images.spaceship.ramp.arrow.active1.keyName,
+      ),
+      images.load(
+        components.Assets.images.spaceship.ramp.arrow.active2.keyName,
+      ),
+      images.load(
+        components.Assets.images.spaceship.ramp.arrow.active3.keyName,
+      ),
+      images.load(
+        components.Assets.images.spaceship.ramp.arrow.active4.keyName,
+      ),
+      images.load(
+        components.Assets.images.spaceship.ramp.arrow.active5.keyName,
+      ),
       images.load(components.Assets.images.spaceship.rail.main.keyName),
       images.load(components.Assets.images.spaceship.rail.foreground.keyName),
+      images.load(components.Assets.images.alienBumper.a.active.keyName),
+      images.load(components.Assets.images.alienBumper.a.inactive.keyName),
+      images.load(components.Assets.images.alienBumper.b.active.keyName),
+      images.load(components.Assets.images.alienBumper.b.inactive.keyName),
       images.load(components.Assets.images.chromeDino.mouth.keyName),
       images.load(components.Assets.images.chromeDino.head.keyName),
       images.load(components.Assets.images.plunger.plunger.keyName),

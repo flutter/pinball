@@ -13,13 +13,20 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(EmptyPinballTestGame.new);
+  final assets = [
+    Assets.images.sparky.bumper.a.active.keyName,
+    Assets.images.sparky.bumper.a.inactive.keyName,
+    Assets.images.sparky.bumper.b.active.keyName,
+    Assets.images.sparky.bumper.b.inactive.keyName,
+    Assets.images.sparky.bumper.c.active.keyName,
+    Assets.images.sparky.bumper.c.inactive.keyName,
+  ];
+  final flameTester = FlameTester(() => EmptyPinballTestGame(assets));
 
   group('SparkyFireZone', () {
     flameTester.test(
       'loads correctly',
       (game) async {
-        await game.ready();
         final sparkyFireZone = SparkyFireZone();
         await game.ensureAdd(sparkyFireZone);
 
@@ -31,7 +38,6 @@ void main() {
       flameTester.test(
         'three SparkyBumper',
         (game) async {
-          await game.ready();
           final sparkyFireZone = SparkyFireZone();
           await game.ensureAdd(sparkyFireZone);
 
@@ -44,12 +50,9 @@ void main() {
     });
 
     group('bumpers', () {
-      late ControlledSparkyBumper controlledSparkyBumper;
-      late Ball ball;
       late GameBloc gameBloc;
 
       setUp(() {
-        ball = Ball(baseColor: const Color(0xFF00FFFF));
         gameBloc = MockGameBloc();
         whenListen(
           gameBloc,
@@ -58,41 +61,28 @@ void main() {
         );
       });
 
-      final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
+      final flameBlocTester = FlameBlocTester<EmptyPinballTestGame, GameBloc>(
         gameBuilder: EmptyPinballTestGame.new,
         blocBuilder: () => gameBloc,
+        assets: assets,
       );
 
-      flameTester.testGameWidget(
-        'activate when deactivated bumper is hit',
-        setUp: (game, tester) async {
-          controlledSparkyBumper = ControlledSparkyBumper.a();
-          await game.ensureAdd(controlledSparkyBumper);
+      flameTester.test('call animate on contact', (game) async {
+        final contactCallback = SparkyBumperBallContactCallback();
+        final bumper = MockSparkyBumper();
+        final ball = MockBall();
 
-          controlledSparkyBumper.controller.hit();
-        },
-        verify: (game, tester) async {
-          expect(controlledSparkyBumper.controller.isActivated, isTrue);
-        },
-      );
+        when(bumper.animate).thenAnswer((_) async {});
 
-      flameTester.testGameWidget(
-        'deactivate when activated bumper is hit',
-        setUp: (game, tester) async {
-          controlledSparkyBumper = ControlledSparkyBumper.a();
-          await game.ensureAdd(controlledSparkyBumper);
+        contactCallback.begin(bumper, ball, MockContact());
 
-          controlledSparkyBumper.controller.hit();
-          controlledSparkyBumper.controller.hit();
-        },
-        verify: (game, tester) async {
-          expect(controlledSparkyBumper.controller.isActivated, isFalse);
-        },
-      );
+        verify(bumper.animate).called(1);
+      });
 
       flameBlocTester.testGameWidget(
         'add Scored event',
         setUp: (game, tester) async {
+          final ball = Ball(baseColor: const Color(0xFF00FFFF));
           final sparkyFireZone = SparkyFireZone();
           await game.ensureAdd(sparkyFireZone);
           await game.ensureAdd(ball);

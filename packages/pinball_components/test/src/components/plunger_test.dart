@@ -23,9 +23,21 @@ void main() {
         game.camera.zoom = 4.1;
       },
       verify: (game, tester) async {
+        final plunger = game.descendants().whereType<Plunger>().first;
+        plunger.pull();
+        game.update(1);
+        await tester.pump();
         await expectLater(
           find.byGame<TestGame>(),
-          matchesGoldenFile('golden/plunger.png'),
+          matchesGoldenFile('golden/plunger/pull.png'),
+        );
+
+        plunger.release();
+        game.update(1);
+        await tester.pump();
+        await expectLater(
+          find.byGame<TestGame>(),
+          matchesGoldenFile('golden/plunger/release.png'),
         );
       },
     );
@@ -110,12 +122,17 @@ void main() {
     });
 
     group('pull', () {
+      late Plunger plunger;
+
+      setUp(() {
+        plunger = Plunger(
+          compressionDistance: compressionDistance,
+        );
+      });
+
       flameTester.test(
         'moves downwards when pull is called',
         (game) async {
-          final plunger = Plunger(
-            compressionDistance: compressionDistance,
-          );
           await game.ensureAdd(plunger);
           plunger.pull();
 
@@ -123,6 +140,18 @@ void main() {
           expect(plunger.body.linearVelocity.x, isZero);
         },
       );
+
+      flameTester.test(
+          'moves downwards when pull is called '
+          'and plunger is below its starting position', (game) async {
+        await game.ensureAdd(plunger);
+        plunger.pull();
+        plunger.release();
+        plunger.pull();
+
+        expect(plunger.body.linearVelocity.y, isPositive);
+        expect(plunger.body.linearVelocity.x, isZero);
+      });
     });
 
     group('release', () {

@@ -5,6 +5,7 @@ import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/gen/assets.gen.dart';
 import 'package:pinball_audio/pinball_audio.dart';
@@ -28,6 +29,9 @@ class PinballGame extends Forge2DGame
   /// Identifier of the play button overlay
   static const playButtonOverlay = 'play_button';
 
+  @override
+  Color backgroundColor() => Colors.transparent;
+
   final PinballTheme theme;
 
   final PinballAudio audio;
@@ -38,7 +42,6 @@ class PinballGame extends Forge2DGame
   Future<void> onLoad() async {
     _addContactCallbacks();
 
-    unawaited(add(ScoreEffectController(this)));
     unawaited(add(gameFlowController = GameFlowController(this)));
     unawaited(add(CameraController(this)));
     unawaited(add(Backboard.waiting(position: Vector2(0, -88))));
@@ -164,7 +167,7 @@ class DebugPinballGame extends PinballGame with TapDetector {
       anchor: Anchor.center,
     )
       ..position = Vector2(0, -7.8)
-      ..priority = -4;
+      ..priority = RenderPriority.background;
 
     await add(spriteComponent);
   }

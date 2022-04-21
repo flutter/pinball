@@ -4,6 +4,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockingjay/mockingjay.dart';
+import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball/theme/theme.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
@@ -24,7 +25,7 @@ void main() {
   group('CharacterSelectionPage', () {
     testWidgets('renders CharacterSelectionView', (tester) async {
       await tester.pumpApp(
-        CharacterSelectionPage(),
+        CharacterSelectionDialog(),
         themeCubit: themeCubit,
       );
       expect(find.byType(CharacterSelectionView), findsOneWidget);
@@ -38,7 +39,7 @@ void main() {
               return ElevatedButton(
                 onPressed: () {
                   Navigator.of(context)
-                      .push<void>(CharacterSelectionPage.route());
+                      .push<void>(CharacterSelectionDialog.route());
                 },
                 child: Text('Tap me'),
               );
@@ -51,7 +52,7 @@ void main() {
       await tester.tap(find.text('Tap me'));
       await tester.pumpAndSettle();
 
-      expect(find.byType(CharacterSelectionPage), findsOneWidget);
+      expect(find.byType(CharacterSelectionDialog), findsOneWidget);
     });
   });
 
@@ -82,20 +83,17 @@ void main() {
       verify(() => themeCubit.characterSelected(SparkyTheme())).called(1);
     });
 
-    testWidgets('navigates to PinballGamePage when start is tapped',
+    testWidgets('displays how to play dialog when start is tapped',
         (tester) async {
-      final navigator = MockNavigator();
-      when(() => navigator.push<void>(any())).thenAnswer((_) async {});
-
       await tester.pumpApp(
         CharacterSelectionView(),
         themeCubit: themeCubit,
-        navigator: navigator,
       );
       await tester.ensureVisible(find.byType(TextButton));
       await tester.tap(find.byType(TextButton));
+      await tester.pumpAndSettle();
 
-      verify(() => navigator.push<void>(any())).called(1);
+      expect(find.byType(HowToPlayDialog), findsOneWidget);
     });
   });
 
