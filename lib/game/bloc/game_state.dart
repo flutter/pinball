@@ -21,6 +21,7 @@ class GameState extends Equatable {
   /// {@macro game_state}
   const GameState({
     required this.score,
+    required this.multiplier,
     required this.balls,
     required this.bonusHistory,
   })  : assert(score >= 0, "Score can't be negative"),
@@ -28,11 +29,15 @@ class GameState extends Equatable {
 
   const GameState.initial()
       : score = 0,
+        multiplier = 1,
         balls = 3,
         bonusHistory = const [];
 
   /// The current score of the game.
   final int score;
+
+  /// The current multiplier for the score.
+  final int multiplier;
 
   /// The number of balls left in the game.
   ///
@@ -48,6 +53,7 @@ class GameState extends Equatable {
 
   GameState copyWith({
     int? score,
+    int? multiplier,
     int? balls,
     List<GameBonus>? bonusHistory,
   }) {
@@ -58,6 +64,7 @@ class GameState extends Equatable {
 
     return GameState(
       score: score ?? this.score,
+      multiplier: multiplier ?? this.multiplier,
       balls: balls ?? this.balls,
       bonusHistory: bonusHistory ?? this.bonusHistory,
     );
@@ -66,6 +73,7 @@ class GameState extends Equatable {
   @override
   List<Object?> get props => [
         score,
+        multiplier,
         balls,
         bonusHistory,
       ];

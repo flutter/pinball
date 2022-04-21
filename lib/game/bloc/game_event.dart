@@ -48,3 +48,29 @@ class SparkyTurboChargeActivated extends GameEvent {
   @override
   List<Object?> get props => [];
 }
+
+/// {@template increased_multiplier_game_event}
+/// Event added when multiplier is being increased.
+/// {@endtemplate}
+class IncreasedMultiplier extends GameEvent {
+  /// {@macro increased_multiplier_game_event}
+  const IncreasedMultiplier({
+    required this.increase,
+  }) : assert(increase > 0, 'Increase must be greater than 0');
+
+  final int increase;
+
+  @override
+  List<Object?> get props => [increase];
+}
+
+/// {@template reset_multiplier_game_event}
+/// Event added when multiplier is reset.
+/// {@endtemplate}
+class ResetMultiplier extends GameEvent {
+  /// {@macro reset_multiplier_game_event}
+  const ResetMultiplier();
+
+  @override
+  List<Object?> get props => [];
+}
