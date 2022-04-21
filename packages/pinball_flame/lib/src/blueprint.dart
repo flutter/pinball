@@ -1,6 +1,5 @@
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
-import 'package:flutter/foundation.dart';
 
 // TODO(erickzanardo): Keeping this inside our code base
 // so we can experiment with the idea, but this is a
@@ -27,9 +26,7 @@ class Blueprint extends Component {
 
   final List<Component> _components = [];
 
-  /// Attaches children.
-  @mustCallSuper
-  Future<void> _attach(Component parent) async {
+  Future<void> _addToParent(Component parent) async {
     await parent.addAll(_components);
   }
 
@@ -39,9 +36,8 @@ class Blueprint extends Component {
 
 /// Adds helper methods regarding [Blueprint]s to [FlameGame].
 extension FlameGameBlueprint on Component {
-  /// Shortcut to attach a [Blueprint] instance to this game
-  /// equivalent to `MyBluepinrt().attach(game)`
+  /// Shortcut to add a [Blueprint]s components to its parent.
   Future<void> addFromBlueprint(Blueprint blueprint) async {
-    await blueprint._attach(this);
+    await blueprint._addToParent(this);
   }
 }
