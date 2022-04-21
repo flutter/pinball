@@ -71,7 +71,7 @@ void main() {
           await game.addFromBlueprint(spaceshipRamp);
           await game.ready();
           spaceshipRamp.progress();
-          await game.ready();
+          await tester.pump();
 
           expect(
             spaceshipRamp.components
@@ -101,7 +101,7 @@ void main() {
           spaceshipRamp
             ..progress()
             ..progress();
-          await game.ready();
+          await tester.pump();
 
           expect(
             spaceshipRamp.components
@@ -132,7 +132,7 @@ void main() {
             ..progress()
             ..progress()
             ..progress();
-          await game.ready();
+          await tester.pump();
 
           expect(
             spaceshipRamp.components
@@ -163,7 +163,7 @@ void main() {
             ..progress()
             ..progress()
             ..progress();
-          await game.ready();
+          await tester.pump();
 
           expect(
             spaceshipRamp.components
@@ -195,7 +195,7 @@ void main() {
             ..progress()
             ..progress()
             ..progress();
-          await game.ready();
+          await tester.pump();
 
           expect(
             spaceshipRamp.components
