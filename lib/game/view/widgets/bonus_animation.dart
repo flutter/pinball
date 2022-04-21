@@ -9,7 +9,7 @@ import 'package:pinball/gen/assets.gen.dart';
 
 class BonusAnimation extends StatelessWidget {
   const BonusAnimation._(
-    this.image, {
+    this.imagePath, {
     this.onCompleted,
     Key? key,
   }) : super(key: key);
@@ -41,7 +41,7 @@ class BonusAnimation extends StatelessWidget {
           key: key,
         );
 
-  final String image;
+  final String imagePath;
 
   final VoidCallback? onCompleted;
 
@@ -52,7 +52,7 @@ class BonusAnimation extends StatelessWidget {
     // TODO(arturplaczek): Load assets in parent widget, remove future builder
     // and user image from cache.
     return FutureBuilder<Image>(
-      future: Flame.images.load(image),
+      future: Flame.images.load(imagePath),
       builder: (BuildContext context, AsyncSnapshot<Image> snapshot) {
         if (snapshot.hasData) {
           final spriteSheet = SpriteSheet.fromColumnsAndRows(
