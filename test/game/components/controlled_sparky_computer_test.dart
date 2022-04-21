@@ -21,8 +21,8 @@ void main() {
     flameTester.testGameWidget(
       'SparkyTurboChargeSensorBallContactCallback turbo charges the ball',
       setUp: (game, tester) async {
-        final contackCallback = SparkyTurboChargeSensorBallContactCallback();
-        final sparkyTurboChargeSensor = MockSparkyTurboChargeSensor();
+        final contackCallback = SparkyComputerSensorBallContactCallback();
+        final sparkyTurboChargeSensor = MockSparkyComputerSensor();
         final ball = MockControlledBall();
         final controller = MockBallController();
 
