@@ -85,14 +85,14 @@ void main() {
       );
     });
 
-    group('IncreasedMultiplier', () {
+    group('MultiplierIncreased', () {
       blocTest<GameBloc, GameState>(
         'increases multiplier '
         'when game is not over',
         build: GameBloc.new,
         act: (bloc) => bloc
-          ..add(const IncreasedMultiplier(increase: 1))
-          ..add(const IncreasedMultiplier(increase: 1)),
+          ..add(const MultiplierIncreased(increase: 1))
+          ..add(const MultiplierIncreased(increase: 1)),
         expect: () => [
           const GameState(
             score: 0,
@@ -117,7 +117,7 @@ void main() {
           for (var i = 0; i < bloc.state.balls; i++) {
             bloc.add(const BallLost());
           }
-          bloc.add(const IncreasedMultiplier(increase: 1));
+          bloc.add(const MultiplierIncreased(increase: 1));
         },
         expect: () => [
           const GameState(
@@ -142,7 +142,7 @@ void main() {
       );
     });
 
-    group('AppliedMultiplier', () {
+    group('MultiplierApplied', () {
       blocTest<GameBloc, GameState>(
         'apply multiplier to score',
         build: GameBloc.new,
@@ -153,7 +153,7 @@ void main() {
           bonusHistory: [],
         ),
         act: (bloc) {
-          bloc.add(const AppliedMultiplier());
+          bloc.add(const MultiplierApplied());
         },
         expect: () => [
           const GameState(
@@ -166,7 +166,7 @@ void main() {
       );
     });
 
-    group('ResetMultiplier', () {
+    group('MultiplierReset', () {
       blocTest<GameBloc, GameState>(
         'resets multiplier',
         build: GameBloc.new,
@@ -177,7 +177,7 @@ void main() {
           bonusHistory: [],
         ),
         act: (bloc) {
-          bloc.add(const ResetMultiplier());
+          bloc.add(const MultiplierReset());
         },
         expect: () => [
           const GameState(

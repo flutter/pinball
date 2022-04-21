@@ -41,51 +41,51 @@ void main() {
       });
     });
 
-    group('IncreasedMultiplier', () {
+    group('MultiplierIncreased', () {
       test('can be instantiated', () {
-        expect(const IncreasedMultiplier(increase: 1), isNotNull);
+        expect(const MultiplierIncreased(increase: 1), isNotNull);
       });
 
       test('supports value equality', () {
         expect(
-          IncreasedMultiplier(increase: 1),
-          equals(const IncreasedMultiplier(increase: 1)),
+          MultiplierIncreased(increase: 1),
+          equals(const MultiplierIncreased(increase: 1)),
         );
         expect(
-          const IncreasedMultiplier(increase: 1),
-          isNot(equals(const IncreasedMultiplier(increase: 2))),
+          const MultiplierIncreased(increase: 1),
+          isNot(equals(const MultiplierIncreased(increase: 2))),
         );
       });
 
       test(
           'throws AssertionError '
           'when increase is smaller than 1', () {
-        expect(() => IncreasedMultiplier(increase: 0), throwsAssertionError);
+        expect(() => MultiplierIncreased(increase: 0), throwsAssertionError);
       });
     });
 
-    group('AppliedMultiplier', () {
+    group('MultiplierApplied', () {
       test('can be instantiated', () {
-        expect(const AppliedMultiplier(), isNotNull);
+        expect(const MultiplierApplied(), isNotNull);
       });
 
       test('supports value equality', () {
         expect(
-          AppliedMultiplier(),
-          equals(const AppliedMultiplier()),
+          MultiplierApplied(),
+          equals(const MultiplierApplied()),
         );
       });
     });
 
-    group('ResetMultiplier', () {
+    group('MultiplierReset', () {
       test('can be instantiated', () {
-        expect(const ResetMultiplier(), isNotNull);
+        expect(const MultiplierReset(), isNotNull);
       });
 
       test('supports value equality', () {
         expect(
-          ResetMultiplier(),
-          equals(const ResetMultiplier()),
+          MultiplierReset(),
+          equals(const MultiplierReset()),
         );
       });
     });
