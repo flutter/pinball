@@ -30,11 +30,18 @@ class BallScorePointsCallback extends ContactCallback<Ball, ScorePoints> {
 
   @override
   void begin(
-    Ball _,
+    Ball ball,
     ScorePoints scorePoints,
-    Contact __,
+    Contact _,
   ) {
     _gameRef.read<GameBloc>().add(Scored(points: scorePoints.points));
     _gameRef.audio.score();
+
+    _gameRef.add(
+      ScoreText(
+        text: scorePoints.points.toString(),
+        position: ball.body.position,
+      ),
+    );
   }
 }
