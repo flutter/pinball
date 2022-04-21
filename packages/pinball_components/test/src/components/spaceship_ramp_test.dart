@@ -33,7 +33,6 @@ void main() {
           final spaceshipRamp = SpaceshipRamp();
           await game.addFromBlueprint(spaceshipRamp);
           await game.ready();
-          await tester.pump();
 
           expect(
             spaceshipRamp.spaceshipRampArrow.current,
@@ -57,7 +56,6 @@ void main() {
           await game.addFromBlueprint(spaceshipRamp);
           await game.ready();
           spaceshipRamp.progress();
-          await tester.pump();
 
           expect(
             spaceshipRamp.spaceshipRampArrow.current,
@@ -83,7 +81,6 @@ void main() {
           spaceshipRamp
             ..progress()
             ..progress();
-          await tester.pump();
 
           expect(
             spaceshipRamp.spaceshipRampArrow.current,
@@ -110,7 +107,6 @@ void main() {
             ..progress()
             ..progress()
             ..progress();
-          await tester.pump();
 
           expect(
             spaceshipRamp.spaceshipRampArrow.current,
@@ -138,7 +134,6 @@ void main() {
             ..progress()
             ..progress()
             ..progress();
-          await tester.pump();
 
           expect(
             spaceshipRamp.spaceshipRampArrow.current,
@@ -167,7 +162,6 @@ void main() {
             ..progress()
             ..progress()
             ..progress();
-          await tester.pump();
 
           expect(
             spaceshipRamp.spaceshipRampArrow.current,
