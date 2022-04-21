@@ -34,14 +34,17 @@ class SpaceshipRamp extends Blueprint {
             _SpaceshipRampForegroundRailing(),
             _SpaceshipRampBase()..initialPosition = Vector2(1.7, -20),
             _SpaceshipRampBackgroundRailingSpriteComponent(),
-             SpaceshipRampArrowSpriteComponent(),
+            _SpaceshipRampArrowSpriteComponent(),
           ],
         );
 
   /// Forwards the sprite to the next [SpaceshipRampArrowSpriteState].
   ///
   /// If the current state is the last one it cycles back to the initial state.
-  void progress() => children.firstChild<SpaceshipRampArrowSpriteComponent>()?.progress();
+  void progress() => components
+      .whereType<_SpaceshipRampArrowSpriteComponent>()
+      .first
+      .progress();
 }
 
 /// Indicates the state of the arrow on the [SpaceshipRamp].
@@ -170,7 +173,7 @@ class _SpaceshipRampBackgroundRailingSpriteComponent extends SpriteComponent
           position: Vector2(-11.7, -54.3),
           priority: RenderPriority.spaceshipRampBackgroundRailing,
         );
-  
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -204,13 +207,13 @@ class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
 /// {@template spaceship_ramp_arrow_sprite_component}
 /// An arrow inside [SpaceshipRamp].
 ///
-/// Lights up a each dash whenever a [Ball] gets into [SpaceshipRamp].
+/// Lights progressively whenever a [Ball] gets into [SpaceshipRamp].
 /// {@endtemplate}
-class SpaceshipRampArrowSpriteComponent
+class _SpaceshipRampArrowSpriteComponent
     extends SpriteGroupComponent<SpaceshipRampArrowSpriteState>
     with HasGameRef {
   /// {@macro spaceship_ramp_arrow_sprite_component}
-  SpaceshipRampArrowSpriteComponent()
+  _SpaceshipRampArrowSpriteComponent()
       : super(
           anchor: Anchor.center,
           position: Vector2(-3.9, -56.5),
@@ -238,6 +241,8 @@ class SpaceshipRampArrowSpriteComponent
 
 class _SpaceshipRampBoardOpeningSpriteComponent extends SpriteComponent
     with HasGameRef {
+  _SpaceshipRampBoardOpeningSpriteComponent() : super(anchor: Anchor.center);
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -248,7 +253,6 @@ class _SpaceshipRampBoardOpeningSpriteComponent extends SpriteComponent
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
-    anchor = Anchor.center;
   }
 }
 
@@ -264,8 +268,6 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
   }
 
   List<FixtureDef> _createFixtureDefs() {
-    final fixturesDef = <FixtureDef>[];
-
     final innerLeftCurveShape = BezierCurveShape(
       controlPoints: [
         Vector2(-24.5, -38),
@@ -273,10 +275,6 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
         Vector2(-13.8, -64.5),
       ],
     );
-
-    final innerLeftCurveFixtureDef = FixtureDef(innerLeftCurveShape);
-    fixturesDef.add(innerLeftCurveFixtureDef);
-
     final innerRightCurveShape = BezierCurveShape(
       controlPoints: [
         innerLeftCurveShape.vertices.last,
@@ -284,28 +282,22 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
         Vector2(0, -44.5),
       ],
     );
-
-    final innerRightCurveFixtureDef = FixtureDef(innerRightCurveShape);
-    fixturesDef.add(innerRightCurveFixtureDef);
-
     final boardOpeningEdgeShape = EdgeShape()
       ..set(
         innerRightCurveShape.vertices.last,
         Vector2(-0.85, -40.8),
       );
-    final boardOpeningEdgeShapeFixtureDef = FixtureDef(boardOpeningEdgeShape);
-    fixturesDef.add(boardOpeningEdgeShapeFixtureDef);
 
-    return fixturesDef;
+    return [
+      FixtureDef(innerLeftCurveShape),
+      FixtureDef(innerRightCurveShape),
+      FixtureDef(boardOpeningEdgeShape),
+    ];
   }
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef(
-      position: initialPosition,
-      userData: this,
-    );
-
+    final bodyDef = BodyDef(position: initialPosition);
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
 
@@ -354,10 +346,7 @@ class _SpaceshipRampBase extends BodyComponent with InitialPosition, Layered {
       ],
     );
     final fixtureDef = FixtureDef(baseShape);
-    final bodyDef = BodyDef(
-      position: initialPosition,
-      userData: this,
-    );
+    final bodyDef = BodyDef(position: initialPosition);
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }

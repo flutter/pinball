@@ -1,7 +1,6 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:flame/components.dart';
-import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -46,10 +45,9 @@ void main() {
           final spaceshipRamp = SpaceshipRamp();
           await game.addFromBlueprint(spaceshipRamp);
           await game.ready();
-          await tester.pump();
 
           expect(
-            spaceshipRamp.spaceshipRampArrow.current,
+            spaceshipRamp.firstChild<SpriteGroupComponent>()!.current,
             SpaceshipRampArrowSpriteState.inactive,
           );
 
@@ -70,11 +68,9 @@ void main() {
           final spaceshipRamp = SpaceshipRamp();
           await game.addFromBlueprint(spaceshipRamp);
           await game.ready();
-          spaceshipRamp.progress();
-          await tester.pump();
 
           expect(
-            spaceshipRamp.spaceshipRampArrow.current,
+            spaceshipRamp.firstChild<SpriteGroupComponent>()!.current,
             SpaceshipRampArrowSpriteState.active1,
           );
 
@@ -94,14 +90,13 @@ void main() {
           await game.images.loadAll(assets);
           final spaceshipRamp = SpaceshipRamp();
           await game.addFromBlueprint(spaceshipRamp);
-          await game.ready();
           spaceshipRamp
             ..progress()
             ..progress();
-          await tester.pump();
+          await game.ready();
 
           expect(
-            spaceshipRamp.spaceshipRampArrow.current,
+            spaceshipRamp.firstChild<SpriteGroupComponent>()!.current,
             SpaceshipRampArrowSpriteState.active2,
           );
 
@@ -126,10 +121,10 @@ void main() {
             ..progress()
             ..progress()
             ..progress();
-          await tester.pump();
+          await game.ready();
 
           expect(
-            spaceshipRamp.spaceshipRampArrow.current,
+            spaceshipRamp.firstChild<SpriteGroupComponent>()!.current,
             SpaceshipRampArrowSpriteState.active3,
           );
 
@@ -149,16 +144,15 @@ void main() {
           await game.images.loadAll(assets);
           final spaceshipRamp = SpaceshipRamp();
           await game.addFromBlueprint(spaceshipRamp);
-          await game.ready();
           spaceshipRamp
             ..progress()
             ..progress()
             ..progress()
             ..progress();
-          await tester.pump();
+          await game.ready();
 
           expect(
-            spaceshipRamp.spaceshipRampArrow.current,
+            spaceshipRamp.firstChild<SpriteGroupComponent>()!.current,
             SpaceshipRampArrowSpriteState.active4,
           );
 
@@ -178,17 +172,16 @@ void main() {
           await game.images.loadAll(assets);
           final spaceshipRamp = SpaceshipRamp();
           await game.addFromBlueprint(spaceshipRamp);
-          await game.ready();
           spaceshipRamp
             ..progress()
             ..progress()
             ..progress()
             ..progress()
             ..progress();
-          await tester.pump();
+          await game.ready();
 
           expect(
-            spaceshipRamp.spaceshipRampArrow.current,
+            spaceshipRamp.firstChild<SpriteGroupComponent>()!.current,
             SpaceshipRampArrowSpriteState.active5,
           );
 
