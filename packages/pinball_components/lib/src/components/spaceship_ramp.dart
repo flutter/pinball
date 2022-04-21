@@ -13,19 +13,19 @@ enum SpaceshipRampArrowSpriteState {
   /// Arrow with no dashes lit up.
   inactive,
 
-  /// Arrow with 1 dash lit up.
+  /// Arrow with 1 light lit up.
   active1,
 
-  /// Arrow with 2 dashes lit up.
+  /// Arrow with 2 lights lit up.
   active2,
 
-  /// Arrow with 3 dashes lit up.
+  /// Arrow with 3 lights lit up.
   active3,
 
-  /// Arrow with 4 dashes lit up.
+  /// Arrow with 4 lights lit up.
   active4,
 
-  /// Arrow with all 5 dashes lit up.
+  /// Arrow with all 5 lights lit up.
   active5,
 }
 
