@@ -62,8 +62,6 @@ class BallController extends ComponentController<Ball>
   Future<void> turboCharge() async {
     gameRef.read<GameBloc>().add(const SparkyTurboChargeActivated());
 
-    // TODO(allisonryan0002): adjust delay to match animation duration once
-    // given animations.
     component.stop();
     await Future<void>.delayed(const Duration(seconds: 1));
     component.resume();
