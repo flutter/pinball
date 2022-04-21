@@ -12,10 +12,10 @@ import '../../helpers/helpers.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
-    Assets.images.spaceship.ramp.railingBackground.keyName,
-    Assets.images.spaceship.ramp.main.keyName,
     Assets.images.spaceship.ramp.boardOpening.keyName,
     Assets.images.spaceship.ramp.railingForeground.keyName,
+    Assets.images.spaceship.ramp.railingBackground.keyName,
+    Assets.images.spaceship.ramp.main.keyName,
     Assets.images.spaceship.ramp.arrow.inactive.keyName,
     Assets.images.spaceship.ramp.arrow.active1.keyName,
     Assets.images.spaceship.ramp.arrow.active2.keyName,
