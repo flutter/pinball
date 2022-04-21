@@ -390,29 +390,29 @@ class $AssetsImagesDashBumperMainGen {
 class $AssetsImagesSpaceshipRampArrowGen {
   const $AssetsImagesSpaceshipRampArrowGen();
 
-  /// File path: assets/images/spaceship/ramp/arrow/five-active.png
-  AssetGenImage get fiveActive =>
-      const AssetGenImage('assets/images/spaceship/ramp/arrow/five-active.png');
+  /// File path: assets/images/spaceship/ramp/arrow/active1.png
+  AssetGenImage get active1 =>
+      const AssetGenImage('assets/images/spaceship/ramp/arrow/active1.png');
 
-  /// File path: assets/images/spaceship/ramp/arrow/four-active.png
-  AssetGenImage get fourActive =>
-      const AssetGenImage('assets/images/spaceship/ramp/arrow/four-active.png');
+  /// File path: assets/images/spaceship/ramp/arrow/active2.png
+  AssetGenImage get active2 =>
+      const AssetGenImage('assets/images/spaceship/ramp/arrow/active2.png');
+
+  /// File path: assets/images/spaceship/ramp/arrow/active3.png
+  AssetGenImage get active3 =>
+      const AssetGenImage('assets/images/spaceship/ramp/arrow/active3.png');
+
+  /// File path: assets/images/spaceship/ramp/arrow/active4.png
+  AssetGenImage get active4 =>
+      const AssetGenImage('assets/images/spaceship/ramp/arrow/active4.png');
+
+  /// File path: assets/images/spaceship/ramp/arrow/active5.png
+  AssetGenImage get active5 =>
+      const AssetGenImage('assets/images/spaceship/ramp/arrow/active5.png');
 
   /// File path: assets/images/spaceship/ramp/arrow/inactive.png
   AssetGenImage get inactive =>
       const AssetGenImage('assets/images/spaceship/ramp/arrow/inactive.png');
-
-  /// File path: assets/images/spaceship/ramp/arrow/one-active.png
-  AssetGenImage get oneActive =>
-      const AssetGenImage('assets/images/spaceship/ramp/arrow/one-active.png');
-
-  /// File path: assets/images/spaceship/ramp/arrow/three-active.png
-  AssetGenImage get threeActive => const AssetGenImage(
-      'assets/images/spaceship/ramp/arrow/three-active.png');
-
-  /// File path: assets/images/spaceship/ramp/arrow/two-active.png
-  AssetGenImage get twoActive =>
-      const AssetGenImage('assets/images/spaceship/ramp/arrow/two-active.png');
 }
 
 class $AssetsImagesSparkyBumperAGen {

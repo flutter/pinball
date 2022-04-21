@@ -35,15 +35,15 @@ extension on SpaceshipRampArrowSpriteState {
       case SpaceshipRampArrowSpriteState.inactive:
         return Assets.images.spaceship.ramp.arrow.inactive.keyName;
       case SpaceshipRampArrowSpriteState.active1:
-        return Assets.images.spaceship.ramp.arrow.oneActive.keyName;
+        return Assets.images.spaceship.ramp.arrow.active1.keyName;
       case SpaceshipRampArrowSpriteState.active2:
-        return Assets.images.spaceship.ramp.arrow.twoActive.keyName;
+        return Assets.images.spaceship.ramp.arrow.active2.keyName;
       case SpaceshipRampArrowSpriteState.active3:
-        return Assets.images.spaceship.ramp.arrow.threeActive.keyName;
+        return Assets.images.spaceship.ramp.arrow.active3.keyName;
       case SpaceshipRampArrowSpriteState.active4:
-        return Assets.images.spaceship.ramp.arrow.fourActive.keyName;
+        return Assets.images.spaceship.ramp.arrow.active4.keyName;
       case SpaceshipRampArrowSpriteState.active5:
-        return Assets.images.spaceship.ramp.arrow.fiveActive.keyName;
+        return Assets.images.spaceship.ramp.arrow.active5.keyName;
     }
   }
 
