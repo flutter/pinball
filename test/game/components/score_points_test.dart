@@ -73,6 +73,32 @@ void main() {
           verify(audio.score).called(1);
         },
       );
+
+      test(
+        "adds a ScoreText component at Ball's position",
+        () {
+          when(game.read<GameBloc>).thenReturn(bloc);
+          when(() => game.audio).thenReturn(audio);
+          final ballBody = MockBody();
+          when(() => ball.body).thenReturn(ballBody);
+          when(() => ballBody.position).thenReturn(Vector2.all(4));
+
+          BallScorePointsCallback(game).begin(
+            ball,
+            fakeScorePoints,
+            FakeContact(),
+          );
+
+          verify(
+            () => game.add(
+              ScoreText(
+                text: fakeScorePoints.points.toString(),
+                position: ball.body.position,
+              ),
+            ),
+          ).called(1);
+        },
+      );
     });
   });
 }
