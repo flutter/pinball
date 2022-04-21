@@ -158,6 +158,7 @@ void main() {
           await game.images.loadAll(assets);
           final spaceshipRamp = SpaceshipRamp();
           await game.addFromBlueprint(spaceshipRamp);
+          await game.ready();
           spaceshipRamp
             ..progress()
             ..progress()
@@ -189,6 +190,7 @@ void main() {
           await game.images.loadAll(assets);
           final spaceshipRamp = SpaceshipRamp();
           await game.addFromBlueprint(spaceshipRamp);
+          await game.ready();
           spaceshipRamp
             ..progress()
             ..progress()
