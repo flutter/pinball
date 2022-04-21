@@ -45,13 +45,15 @@ void main() {
           final spaceshipRamp = SpaceshipRamp();
           await game.addFromBlueprint(spaceshipRamp);
           await game.ready();
+          await tester.pump();
 
           expect(
-            spaceshipRamp.firstChild<SpriteGroupComponent>()!.current,
+            spaceshipRamp.components
+                .whereType<SpriteGroupComponent>()
+                .first
+                .current,
             SpaceshipRampArrowSpriteState.inactive,
           );
-
-          game.camera.followVector2(centerForSpaceshipRamp);
         },
         verify: (game, tester) async {
           await expectLater(
@@ -68,9 +70,14 @@ void main() {
           final spaceshipRamp = SpaceshipRamp();
           await game.addFromBlueprint(spaceshipRamp);
           await game.ready();
+          spaceshipRamp.progress();
+          await game.ready();
 
           expect(
-            spaceshipRamp.firstChild<SpriteGroupComponent>()!.current,
+            spaceshipRamp.components
+                .whereType<SpriteGroupComponent>()
+                .first
+                .current,
             SpaceshipRampArrowSpriteState.active1,
           );
 
@@ -90,13 +97,17 @@ void main() {
           await game.images.loadAll(assets);
           final spaceshipRamp = SpaceshipRamp();
           await game.addFromBlueprint(spaceshipRamp);
+          await game.ready();
           spaceshipRamp
             ..progress()
             ..progress();
           await game.ready();
 
           expect(
-            spaceshipRamp.firstChild<SpriteGroupComponent>()!.current,
+            spaceshipRamp.components
+                .whereType<SpriteGroupComponent>()
+                .first
+                .current,
             SpaceshipRampArrowSpriteState.active2,
           );
 
@@ -124,7 +135,10 @@ void main() {
           await game.ready();
 
           expect(
-            spaceshipRamp.firstChild<SpriteGroupComponent>()!.current,
+            spaceshipRamp.components
+                .whereType<SpriteGroupComponent>()
+                .first
+                .current,
             SpaceshipRampArrowSpriteState.active3,
           );
 
@@ -152,7 +166,10 @@ void main() {
           await game.ready();
 
           expect(
-            spaceshipRamp.firstChild<SpriteGroupComponent>()!.current,
+            spaceshipRamp.components
+                .whereType<SpriteGroupComponent>()
+                .first
+                .current,
             SpaceshipRampArrowSpriteState.active4,
           );
 
@@ -181,7 +198,10 @@ void main() {
           await game.ready();
 
           expect(
-            spaceshipRamp.firstChild<SpriteGroupComponent>()!.current,
+            spaceshipRamp.components
+                .whereType<SpriteGroupComponent>()
+                .first
+                .current,
             SpaceshipRampArrowSpriteState.active5,
           );
 
