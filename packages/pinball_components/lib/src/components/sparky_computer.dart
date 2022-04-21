@@ -105,12 +105,12 @@ class _ComputerTopSpriteComponent extends SpriteComponent with HasGameRef {
   }
 }
 
-/// {@template sparky_turbo_charge_sensor}
+/// {@template sparky_computer_sensor}
 /// Small sensor body used to detect when a ball has entered the
 /// [SparkyComputer].
 /// {@endtemplate}
 class SparkyComputerSensor extends BodyComponent with InitialPosition {
-  /// {@macro sparky_turbo_charge_sensor}
+  /// {@macro sparky_computer_sensor}
   SparkyComputerSensor() {
     renderBody = false;
   }
