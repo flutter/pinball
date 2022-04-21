@@ -156,7 +156,7 @@ class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
   }
 }
 
-/// Indicates the [SpaceshipRamp]'s arrow dashes current sprite state.
+/// Indicates the state of the arrow on the [SpaceshipRamp].
 enum SpaceshipRampArrowSpriteState {
   /// Arrow with no dashes lit up.
   inactive,
