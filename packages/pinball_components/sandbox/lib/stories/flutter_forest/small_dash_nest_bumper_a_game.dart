@@ -15,9 +15,14 @@ class SmallDashNestBumperAGame extends BasicBallGame with Traceable {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+
+    await images.loadAll([
+      Assets.images.dash.bumper.a.active.keyName,
+      Assets.images.dash.bumper.a.inactive.keyName,
+    ]);
+
     camera.followVector2(Vector2.zero());
-    await add(SmallDashNestBumper.a()..priority = 1);
-    await traceAllBodies();
+    await add(DashNestBumper.a()..priority = 1);
     await traceAllBodies();
   }
 }

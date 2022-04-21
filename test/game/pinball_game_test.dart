@@ -12,8 +12,40 @@ import '../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(PinballTestGame.new);
-  final debugModeFlameTester = FlameTester(DebugPinballTestGame.new);
+  final assets = [
+    Assets.images.dash.bumper.main.active.keyName,
+    Assets.images.dash.bumper.main.inactive.keyName,
+    Assets.images.dash.bumper.a.active.keyName,
+    Assets.images.dash.bumper.a.inactive.keyName,
+    Assets.images.dash.bumper.b.active.keyName,
+    Assets.images.dash.bumper.b.inactive.keyName,
+    Assets.images.signpost.inactive.keyName,
+    Assets.images.signpost.active1.keyName,
+    Assets.images.signpost.active2.keyName,
+    Assets.images.signpost.active3.keyName,
+    Assets.images.alienBumper.a.active.keyName,
+    Assets.images.alienBumper.a.inactive.keyName,
+    Assets.images.alienBumper.b.active.keyName,
+    Assets.images.alienBumper.b.inactive.keyName,
+    Assets.images.sparky.bumper.a.active.keyName,
+    Assets.images.sparky.bumper.a.inactive.keyName,
+    Assets.images.sparky.bumper.b.active.keyName,
+    Assets.images.sparky.bumper.b.inactive.keyName,
+    Assets.images.sparky.bumper.c.active.keyName,
+    Assets.images.sparky.bumper.c.inactive.keyName,
+    Assets.images.spaceship.ramp.boardOpening.keyName,
+    Assets.images.spaceship.ramp.railingForeground.keyName,
+    Assets.images.spaceship.ramp.railingBackground.keyName,
+    Assets.images.spaceship.ramp.main.keyName,
+    Assets.images.spaceship.ramp.arrow.inactive.keyName,
+    Assets.images.spaceship.ramp.arrow.active1.keyName,
+    Assets.images.spaceship.ramp.arrow.active2.keyName,
+    Assets.images.spaceship.ramp.arrow.active3.keyName,
+    Assets.images.spaceship.ramp.arrow.active4.keyName,
+    Assets.images.spaceship.ramp.arrow.active5.keyName,
+  ];
+  final flameTester = FlameTester(() => PinballTestGame(assets));
+  final debugModeFlameTester = FlameTester(() => DebugPinballTestGame(assets));
 
   group('PinballGame', () {
     // TODO(alestiago): test if [PinballGame] registers
@@ -90,6 +122,7 @@ void main() {
           final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
             gameBuilder: EmptyPinballTestGame.new,
             blocBuilder: () => gameBloc,
+            // assets: assets,
           );
 
           flameBlocTester.testGameWidget(
@@ -208,6 +241,7 @@ void main() {
           FlameBlocTester<DebugPinballGame, GameBloc>(
         gameBuilder: DebugPinballTestGame.new,
         blocBuilder: () => gameBloc,
+        assets: assets,
       );
 
       debugModeFlameBlocTester.testGameWidget(
