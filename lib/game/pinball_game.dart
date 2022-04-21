@@ -58,7 +58,7 @@ class PinballGame extends Forge2DGame
     unawaited(addFromBlueprint(Slingshots()));
     unawaited(addFromBlueprint(DinoWalls()));
     unawaited(_addBonusWord());
-    unawaited(addFromBlueprint(SpaceshipRamp()));
+    unawaited(add(ControlledSpaceshipRamp()));
     unawaited(
       addFromBlueprint(
         Spaceship(
