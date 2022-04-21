@@ -20,6 +20,7 @@ void main() {
         expect: () => [
           const GameState(
             score: 0,
+            multiplier: 1,
             balls: 2,
             bonusHistory: [],
           ),
@@ -38,11 +39,13 @@ void main() {
         expect: () => [
           const GameState(
             score: 2,
+            multiplier: 1,
             balls: 3,
             bonusHistory: [],
           ),
           const GameState(
             score: 5,
+            multiplier: 1,
             balls: 3,
             bonusHistory: [],
           ),
@@ -62,16 +65,19 @@ void main() {
         expect: () => [
           const GameState(
             score: 0,
+            multiplier: 1,
             balls: 2,
             bonusHistory: [],
           ),
           const GameState(
             score: 0,
+            multiplier: 1,
             balls: 1,
             bonusHistory: [],
           ),
           const GameState(
             score: 0,
+            multiplier: 1,
             balls: 0,
             bonusHistory: [],
           ),
@@ -79,6 +85,110 @@ void main() {
       );
     });
 
+    group('IncreasedMultiplier', () {
+      blocTest<GameBloc, GameState>(
+        'increases multiplier '
+        'when game is not over',
+        build: GameBloc.new,
+        act: (bloc) => bloc
+          ..add(const IncreasedMultiplier(increase: 1))
+          ..add(const IncreasedMultiplier(increase: 1)),
+        expect: () => [
+          const GameState(
+            score: 0,
+            multiplier: 2,
+            balls: 3,
+            bonusHistory: [],
+          ),
+          const GameState(
+            score: 0,
+            multiplier: 3,
+            balls: 3,
+            bonusHistory: [],
+          ),
+        ],
+      );
+
+      blocTest<GameBloc, GameState>(
+        "doesn't increase multiplier "
+        'when game is over',
+        build: GameBloc.new,
+        act: (bloc) {
+          for (var i = 0; i < bloc.state.balls; i++) {
+            bloc.add(const BallLost());
+          }
+          bloc.add(const IncreasedMultiplier(increase: 1));
+        },
+        expect: () => [
+          const GameState(
+            score: 0,
+            multiplier: 1,
+            balls: 2,
+            bonusHistory: [],
+          ),
+          const GameState(
+            score: 0,
+            multiplier: 1,
+            balls: 1,
+            bonusHistory: [],
+          ),
+          const GameState(
+            score: 0,
+            multiplier: 1,
+            balls: 0,
+            bonusHistory: [],
+          ),
+        ],
+      );
+    });
+
+    group('AppliedMultiplier', () {
+      blocTest<GameBloc, GameState>(
+        'apply multiplier to score',
+        build: GameBloc.new,
+        seed: () => const GameState(
+          score: 5,
+          multiplier: 3,
+          balls: 2,
+          bonusHistory: [],
+        ),
+        act: (bloc) {
+          bloc.add(const AppliedMultiplier());
+        },
+        expect: () => [
+          const GameState(
+            score: 15,
+            multiplier: 3,
+            balls: 2,
+            bonusHistory: [],
+          ),
+        ],
+      );
+    });
+
+    group('ResetMultiplier', () {
+      blocTest<GameBloc, GameState>(
+        'resets multiplier',
+        build: GameBloc.new,
+        seed: () => const GameState(
+          score: 0,
+          multiplier: 3,
+          balls: 2,
+          bonusHistory: [],
+        ),
+        act: (bloc) {
+          bloc.add(const ResetMultiplier());
+        },
+        expect: () => [
+          const GameState(
+            score: 0,
+            multiplier: 1,
+            balls: 2,
+            bonusHistory: [],
+          ),
+        ],
+      );
+    });
     group(
       'BonusActivated',
       () {
@@ -91,11 +201,13 @@ void main() {
           expect: () => const [
             GameState(
               score: 0,
+              multiplier: 1,
               balls: 3,
               bonusHistory: [GameBonus.googleWord],
             ),
             GameState(
               score: 0,
+              multiplier: 1,
               balls: 3,
               bonusHistory: [GameBonus.googleWord, GameBonus.dashNest],
             ),
@@ -112,6 +224,7 @@ void main() {
         expect: () => const [
           GameState(
             score: 0,
+            multiplier: 1,
             balls: 3,
             bonusHistory: [GameBonus.sparkyTurboCharge],
           ),

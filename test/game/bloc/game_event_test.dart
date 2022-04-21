@@ -41,6 +41,55 @@ void main() {
       });
     });
 
+    group('IncreasedMultiplier', () {
+      test('can be instantiated', () {
+        expect(const IncreasedMultiplier(increase: 1), isNotNull);
+      });
+
+      test('supports value equality', () {
+        expect(
+          IncreasedMultiplier(increase: 1),
+          equals(const IncreasedMultiplier(increase: 1)),
+        );
+        expect(
+          const IncreasedMultiplier(increase: 1),
+          isNot(equals(const IncreasedMultiplier(increase: 2))),
+        );
+      });
+
+      test(
+          'throws AssertionError '
+          'when increase is smaller than 1', () {
+        expect(() => IncreasedMultiplier(increase: 0), throwsAssertionError);
+      });
+    });
+
+    group('AppliedMultiplier', () {
+      test('can be instantiated', () {
+        expect(const AppliedMultiplier(), isNotNull);
+      });
+
+      test('supports value equality', () {
+        expect(
+          AppliedMultiplier(),
+          equals(const AppliedMultiplier()),
+        );
+      });
+    });
+
+    group('ResetMultiplier', () {
+      test('can be instantiated', () {
+        expect(const ResetMultiplier(), isNotNull);
+      });
+
+      test('supports value equality', () {
+        expect(
+          ResetMultiplier(),
+          equals(const ResetMultiplier()),
+        );
+      });
+    });
+
     group('BonusActivated', () {
       test('can be instantiated', () {
         expect(const BonusActivated(GameBonus.dashNest), isNotNull);

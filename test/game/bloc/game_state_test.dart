@@ -9,12 +9,14 @@ void main() {
       expect(
         GameState(
           score: 0,
+          multiplier: 1,
           balls: 0,
           bonusHistory: const [],
         ),
         equals(
           const GameState(
             score: 0,
+            multiplier: 1,
             balls: 0,
             bonusHistory: [],
           ),
@@ -27,6 +29,7 @@ void main() {
         expect(
           const GameState(
             score: 0,
+            multiplier: 1,
             balls: 0,
             bonusHistory: [],
           ),
@@ -43,6 +46,7 @@ void main() {
           () => GameState(
             balls: -1,
             score: 0,
+            multiplier: 1,
             bonusHistory: const [],
           ),
           throwsAssertionError,
@@ -58,6 +62,23 @@ void main() {
           () => GameState(
             balls: 0,
             score: -1,
+            multiplier: 1,
+            bonusHistory: const [],
+          ),
+          throwsAssertionError,
+        );
+      },
+    );
+
+    test(
+      'throws AssertionError '
+      'when multiplier is less than 1',
+      () {
+        expect(
+          () => GameState(
+            balls: 0,
+            score: 1,
+            multiplier: 0,
             bonusHistory: const [],
           ),
           throwsAssertionError,
@@ -72,6 +93,7 @@ void main() {
         const gameState = GameState(
           balls: 0,
           score: 0,
+          multiplier: 1,
           bonusHistory: [],
         );
         expect(gameState.isGameOver, isTrue);
@@ -83,6 +105,7 @@ void main() {
         const gameState = GameState(
           balls: 1,
           score: 0,
+          multiplier: 1,
           bonusHistory: [],
         );
         expect(gameState.isGameOver, isFalse);
@@ -97,6 +120,7 @@ void main() {
           const gameState = GameState(
             balls: 0,
             score: 2,
+            multiplier: 1,
             bonusHistory: [],
           );
           expect(
@@ -113,6 +137,7 @@ void main() {
           const gameState = GameState(
             balls: 0,
             score: 2,
+            multiplier: 1,
             bonusHistory: [],
           );
           expect(
@@ -128,11 +153,13 @@ void main() {
         () {
           const gameState = GameState(
             score: 2,
+            multiplier: 1,
             balls: 0,
             bonusHistory: [],
           );
           final otherGameState = GameState(
             score: gameState.score + 1,
+            multiplier: gameState.multiplier + 1,
             balls: gameState.balls + 1,
             bonusHistory: const [GameBonus.googleWord],
           );
@@ -141,6 +168,7 @@ void main() {
           expect(
             gameState.copyWith(
               score: otherGameState.score,
+              multiplier: otherGameState.multiplier,
               balls: otherGameState.balls,
               bonusHistory: otherGameState.bonusHistory,
             ),
