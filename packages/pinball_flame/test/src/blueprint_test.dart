@@ -20,12 +20,17 @@ void main() {
         ],
       );
       await game.addFromBlueprint(blueprint);
-      expect(game.children, equals(blueprint.components));
+
+      expect(
+        game.children.length,
+        equals(blueprint.components.length),
+      );
+      for (final component in blueprint.components) {
+        expect(game.children.contains(component), isTrue);
+      }
     });
 
-    flameTester
-        .test('adds components from a child Blueprint the to a game on attach',
-            (game) async {
+    flameTester.test('adds components from a child Blueprint', (game) async {
       final childBlueprint = Blueprint(
         components: [
           Component(),
@@ -45,13 +50,13 @@ void main() {
       await game.addFromBlueprint(parentBlueprint);
       await game.ready();
 
-      expect(
-        game.children,
-        equals([
-          ...parentBlueprint.components,
-          ...childBlueprint.components,
-        ]),
-      );
+      for (final component in childBlueprint.components) {
+        expect(game.children, contains(component));
+        expect(parentBlueprint.components, contains(component));
+      }
+      for (final component in parentBlueprint.components) {
+        expect(game.children, contains(component));
+      }
     });
   });
 }
