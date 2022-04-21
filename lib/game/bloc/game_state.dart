@@ -25,6 +25,7 @@ class GameState extends Equatable {
     required this.balls,
     required this.bonusHistory,
   })  : assert(score >= 0, "Score can't be negative"),
+        assert(multiplier > 0, 'Multiplier must be greater than zero'),
         assert(balls >= 0, "Number of balls can't be negative");
 
   const GameState.initial()
