@@ -13,13 +13,18 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(EmptyPinballTestGame.new);
+  final assets = [
+    Assets.images.alienBumper.a.active.keyName,
+    Assets.images.alienBumper.a.inactive.keyName,
+    Assets.images.alienBumper.b.active.keyName,
+    Assets.images.alienBumper.b.inactive.keyName,
+  ];
+  final flameTester = FlameTester(() => EmptyPinballTestGame(assets));
 
   group('AlienZone', () {
     flameTester.test(
       'loads correctly',
       (game) async {
-        await game.ready();
         final alienZone = AlienZone();
         await game.ensureAdd(alienZone);
 
@@ -31,7 +36,6 @@ void main() {
       flameTester.test(
         'two AlienBumper',
         (game) async {
-          await game.ready();
           final alienZone = AlienZone();
           await game.ensureAdd(alienZone);
 
@@ -44,55 +48,40 @@ void main() {
     });
 
     group('bumpers', () {
-      late ControlledAlienBumper controlledAlienBumper;
       late GameBloc gameBloc;
 
       setUp(() {
         gameBloc = MockGameBloc();
+        whenListen(
+          gameBloc,
+          const Stream<GameState>.empty(),
+          initialState: const GameState.initial(),
+        );
       });
 
-      final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
+      final flameBlocTester = FlameBlocTester<EmptyPinballTestGame, GameBloc>(
         gameBuilder: EmptyPinballTestGame.new,
         blocBuilder: () => gameBloc,
+        assets: assets,
       );
 
-      flameTester.testGameWidget(
-        'activate when deactivated bumper is hit',
-        setUp: (game, tester) async {
-          controlledAlienBumper = ControlledAlienBumper.a();
-          await game.ensureAdd(controlledAlienBumper);
+      flameTester.test('call animate on contact', (game) async {
+        final contactCallback = AlienBumperBallContactCallback();
+        final bumper = MockAlienBumper();
+        final ball = MockBall();
 
-          controlledAlienBumper.controller.hit();
-        },
-        verify: (game, tester) async {
-          expect(controlledAlienBumper.controller.isActivated, isTrue);
-        },
-      );
+        when(bumper.animate).thenAnswer((_) async {});
 
-      flameTester.testGameWidget(
-        'deactivate when activated bumper is hit',
-        setUp: (game, tester) async {
-          controlledAlienBumper = ControlledAlienBumper.a();
-          await game.ensureAdd(controlledAlienBumper);
+        contactCallback.begin(bumper, ball, MockContact());
 
-          controlledAlienBumper.controller.hit();
-          controlledAlienBumper.controller.hit();
-        },
-        verify: (game, tester) async {
-          expect(controlledAlienBumper.controller.isActivated, isFalse);
-        },
-      );
+        verify(bumper.animate).called(1);
+      });
 
       flameBlocTester.testGameWidget(
         'add Scored event',
         setUp: (game, tester) async {
           final ball = Ball(baseColor: const Color(0xFF00FFFF));
           final alienZone = AlienZone();
-          whenListen(
-            gameBloc,
-            const Stream<GameState>.empty(),
-            initialState: const GameState.initial(),
-          );
 
           await game.ensureAdd(alienZone);
           await game.ensureAdd(ball);
