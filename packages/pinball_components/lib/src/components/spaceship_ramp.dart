@@ -223,6 +223,7 @@ class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
 ///
 /// Lights up a each dash whenever a [Ball] gets into [SpaceshipRamp].
 /// {@endtemplate}
+@visibleForTesting
 class SpaceshipRampArrowSpriteComponent
     extends SpriteGroupComponent<SpaceshipRampArrowSpriteState>
     with HasGameRef {
