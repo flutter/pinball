@@ -78,7 +78,7 @@ class SpaceshipRamp extends Forge2DBlueprint {
       outsidePriority: RenderPriority.ballOnBoard,
       rotation: -5 * math.pi / 180,
     )
-      ..initialPosition = Vector2(1.7, -20.2)
+      ..initialPosition = Vector2(1.7, -19.12)
       ..layer = Layer.opening;
     final leftOpening = _SpaceshipRampOpening(
       outsideLayer: Layer.spaceship,
