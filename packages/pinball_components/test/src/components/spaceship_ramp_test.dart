@@ -11,19 +11,7 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final assets = [
-    Assets.images.spaceship.ramp.main.keyName,
-    Assets.images.spaceship.ramp.boardOpening.keyName,
-    Assets.images.spaceship.ramp.railingBackground.keyName,
-    Assets.images.spaceship.ramp.railingForeground.keyName,
-    Assets.images.spaceship.ramp.arrow.inactive.keyName,
-    Assets.images.spaceship.ramp.arrow.oneActive.keyName,
-    Assets.images.spaceship.ramp.arrow.twoActive.keyName,
-    Assets.images.spaceship.ramp.arrow.threeActive.keyName,
-    Assets.images.spaceship.ramp.arrow.fourActive.keyName,
-    Assets.images.spaceship.ramp.arrow.fiveActive.keyName,
-  ];
-  final flameTester = FlameTester(() => TestGame(assets));
+  final flameTester = FlameTester(TestGame.new);
 
   group('SpaceshipRamp', () {
     flameTester.test(
@@ -37,21 +25,22 @@ void main() {
     );
 
     group('renders correctly', () {
+      final centerForSpaceshipRamp = Vector2(-13, -55);
+
       flameTester.testGameWidget(
         'inactive sprite',
         setUp: (game, tester) async {
-          await game.images.loadAll(assets);
           final spaceshipRamp = SpaceshipRamp();
           await game.addFromBlueprint(spaceshipRamp);
           await game.ready();
           await tester.pump();
 
           expect(
-            spaceshipRamp.firstChild<SpriteGroupComponent>()!.current,
+            spaceshipRamp.spaceshipRampArrow.current,
             SpaceshipRampArrowSpriteState.inactive,
           );
 
-          game.camera.followVector2(Vector2(-13, -55));
+          game.camera.followVector2(centerForSpaceshipRamp);
         },
         verify: (game, tester) async {
           await expectLater(
@@ -64,20 +53,18 @@ void main() {
       flameTester.testGameWidget(
         'active1 sprite',
         setUp: (game, tester) async {
-          await game.images.loadAll(assets);
           final spaceshipRamp = SpaceshipRamp();
           await game.addFromBlueprint(spaceshipRamp);
           await game.ready();
+          spaceshipRamp.progress();
           await tester.pump();
 
-          spaceshipRamp.progress();
-
           expect(
-            spaceshipRamp.firstChild<SpriteGroupComponent>()!.current,
+            spaceshipRamp.spaceshipRampArrow.current,
             SpaceshipRampArrowSpriteState.active1,
           );
 
-          game.camera.followVector2(Vector2(-13, -55));
+          game.camera.followVector2(centerForSpaceshipRamp);
         },
         verify: (game, tester) async {
           await expectLater(
@@ -90,22 +77,20 @@ void main() {
       flameTester.testGameWidget(
         'active2 sprite',
         setUp: (game, tester) async {
-          await game.images.loadAll(assets);
           final spaceshipRamp = SpaceshipRamp();
           await game.addFromBlueprint(spaceshipRamp);
           await game.ready();
-          await tester.pump();
-
           spaceshipRamp
             ..progress()
             ..progress();
+          await tester.pump();
 
           expect(
-            spaceshipRamp.firstChild<SpriteGroupComponent>()!.current,
+            spaceshipRamp.spaceshipRampArrow.current,
             SpaceshipRampArrowSpriteState.active2,
           );
 
-          game.camera.followVector2(Vector2(-13, -55));
+          game.camera.followVector2(centerForSpaceshipRamp);
         },
         verify: (game, tester) async {
           await expectLater(
@@ -118,23 +103,21 @@ void main() {
       flameTester.testGameWidget(
         'active3 sprite',
         setUp: (game, tester) async {
-          await game.images.loadAll(assets);
           final spaceshipRamp = SpaceshipRamp();
           await game.addFromBlueprint(spaceshipRamp);
           await game.ready();
-          await tester.pump();
-
           spaceshipRamp
             ..progress()
             ..progress()
             ..progress();
+          await tester.pump();
 
           expect(
-            spaceshipRamp.firstChild<SpriteGroupComponent>()!.current,
+            spaceshipRamp.spaceshipRampArrow.current,
             SpaceshipRampArrowSpriteState.active3,
           );
 
-          game.camera.followVector2(Vector2(-13, -55));
+          game.camera.followVector2(centerForSpaceshipRamp);
         },
         verify: (game, tester) async {
           await expectLater(
@@ -147,24 +130,22 @@ void main() {
       flameTester.testGameWidget(
         'active4 sprite',
         setUp: (game, tester) async {
-          await game.images.loadAll(assets);
           final spaceshipRamp = SpaceshipRamp();
           await game.addFromBlueprint(spaceshipRamp);
           await game.ready();
-          await tester.pump();
-
           spaceshipRamp
             ..progress()
             ..progress()
             ..progress()
             ..progress();
+          await tester.pump();
 
           expect(
-            spaceshipRamp.firstChild<SpriteGroupComponent>()!.current,
+            spaceshipRamp.spaceshipRampArrow.current,
             SpaceshipRampArrowSpriteState.active4,
           );
 
-          game.camera.followVector2(Vector2(-13, -55));
+          game.camera.followVector2(centerForSpaceshipRamp);
         },
         verify: (game, tester) async {
           await expectLater(
@@ -177,25 +158,23 @@ void main() {
       flameTester.testGameWidget(
         'active5 sprite',
         setUp: (game, tester) async {
-          await game.images.loadAll(assets);
           final spaceshipRamp = SpaceshipRamp();
           await game.addFromBlueprint(spaceshipRamp);
           await game.ready();
-          await tester.pump();
-
           spaceshipRamp
             ..progress()
             ..progress()
             ..progress()
             ..progress()
             ..progress();
+          await tester.pump();
 
           expect(
-            spaceshipRamp.firstChild<SpriteGroupComponent>()!.current,
+            spaceshipRamp.spaceshipRampArrow.current,
             SpaceshipRampArrowSpriteState.active5,
           );
 
-          game.camera.followVector2(Vector2(-13, -55));
+          game.camera.followVector2(centerForSpaceshipRamp);
         },
         verify: (game, tester) async {
           await expectLater(
