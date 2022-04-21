@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'dart:ui' as ui;
 
 import 'package:flame/assets.dart';
-import 'package:flame/flame.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -17,17 +15,12 @@ class MockImage extends Mock implements ui.Image {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final image = decodeImageFromList(Uint8List.fromList(transparentImage));
-  late Images images;
 
-  setUp(() {
-    images = MockImages();
-    when(() => images.load(any())).thenAnswer((_) => image);
-
-    Flame.images = images;
+  setUp(() async {
+    await BonusAnimation.loadAssets();
   });
 
-  group('renders SpriteAnimationWidget for', () {
+  group('loads correctly SpriteAnimationWidget for', () {
     testWidgets('dashNest', (tester) async {
       await tester.runAsync(() async {
         await tester.pumpWidget(
