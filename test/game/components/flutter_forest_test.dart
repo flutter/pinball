@@ -12,7 +12,19 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(EmptyPinballTestGame.new);
+  final assets = [
+    Assets.images.dash.bumper.main.active.keyName,
+    Assets.images.dash.bumper.main.inactive.keyName,
+    Assets.images.dash.bumper.a.active.keyName,
+    Assets.images.dash.bumper.a.inactive.keyName,
+    Assets.images.dash.bumper.b.active.keyName,
+    Assets.images.dash.bumper.b.inactive.keyName,
+    Assets.images.signpost.inactive.keyName,
+    Assets.images.signpost.active1.keyName,
+    Assets.images.signpost.active2.keyName,
+    Assets.images.signpost.active3.keyName,
+  ];
+  final flameTester = FlameTester(() => EmptyPinballTestGame(assets));
 
   group('FlutterForest', () {
     flameTester.test(
@@ -53,27 +65,14 @@ void main() {
       );
 
       flameTester.test(
-        'a BigDashNestBumper',
+        'three DashNestBumper',
         (game) async {
           final flutterForest = FlutterForest();
           await game.ensureAdd(flutterForest);
 
           expect(
-            flutterForest.descendants().whereType<BigDashNestBumper>().length,
-            equals(1),
-          );
-        },
-      );
-
-      flameTester.test(
-        'two SmallDashNestBumper',
-        (game) async {
-          final flutterForest = FlutterForest();
-          await game.ensureAdd(flutterForest);
-
-          expect(
-            flutterForest.descendants().whereType<SmallDashNestBumper>().length,
-            equals(2),
+            flutterForest.descendants().whereType<DashNestBumper>().length,
+            equals(3),
           );
         },
       );
@@ -88,13 +87,14 @@ void main() {
       });
 
       final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
-        gameBuilder: EmptyPinballTestGame.new,
+        gameBuilder: () => EmptyPinballTestGame(assets),
         blocBuilder: () {
           gameBloc = MockGameBloc();
           const state = GameState.initial();
           whenListen(gameBloc, Stream.value(state), initialState: state);
           return gameBloc;
         },
+        assets: assets,
       );
 
       flameBlocTester.testGameWidget(

@@ -88,12 +88,9 @@ class _SignpostSpriteComponent extends SpriteGroupComponent<SignpostSpriteState>
     final sprites = <SignpostSpriteState, Sprite>{};
     this.sprites = sprites;
     for (final spriteState in SignpostSpriteState.values) {
-      // TODO(allisonryan0002): Support caching
-      // https://github.com/VGVentures/pinball/pull/204
-      // sprites[spriteState] = Sprite(
-      //   gameRef.images.fromCache(spriteState.path),
-      // );
-      sprites[spriteState] = await gameRef.loadSprite(spriteState.path);
+      sprites[spriteState] = Sprite(
+        gameRef.images.fromCache(spriteState.path),
+      );
     }
 
     current = SignpostSpriteState.inactive;
