@@ -1,11 +1,17 @@
 import 'package:pinball/game/game.dart';
 import 'package:pinball/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' as components;
+import 'package:pinball_theme/pinball_theme.dart' hide Assets;
 
 /// Add methods to help loading and caching game assets.
 extension PinballGameAssetsX on PinballGame {
   /// Returns a list of assets to be loaded
   List<Future> preLoadAssets() {
+    const dashTheme = DashTheme();
+    const sparkyTheme = SparkyTheme();
+    const androidTheme = AndroidTheme();
+    const dinoTheme = DinoTheme();
+
     return [
       images.load(components.Assets.images.ball.ball.keyName),
       images.load(components.Assets.images.ball.flameEffect.keyName),
@@ -93,6 +99,10 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.googleWord.letter5.keyName),
       images.load(components.Assets.images.googleWord.letter6.keyName),
       images.load(components.Assets.images.backboard.display.keyName),
+      images.load(dashTheme.leaderboardIcon.keyName),
+      images.load(sparkyTheme.leaderboardIcon.keyName),
+      images.load(androidTheme.leaderboardIcon.keyName),
+      images.load(dinoTheme.leaderboardIcon.keyName),
       images.load(Assets.images.components.background.path),
     ];
   }

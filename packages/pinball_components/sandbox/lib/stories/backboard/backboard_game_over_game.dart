@@ -16,7 +16,7 @@ class BackboardGameOverGame extends BasicKeyboardGame {
   final int score;
   final String character;
 
-  final characterIconPaths = <String, String>{
+  static final characterIconPaths = <String, String>{
     'Dash': Assets.images.dash.leaderboardIcon.keyName,
     'Sparky': Assets.images.sparky.leaderboardIcon.keyName,
     'Android': Assets.images.android.leaderboardIcon.keyName,
@@ -28,6 +28,8 @@ class BackboardGameOverGame extends BasicKeyboardGame {
     camera
       ..followVector2(Vector2.zero())
       ..zoom = 5;
+
+    await images.loadAll(characterIconPaths.values.toList());
 
     await add(
       Backboard.gameOver(

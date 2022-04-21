@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flame/assets.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -125,7 +124,7 @@ class _ScoreTextComponent extends TextComponent {
         );
 }
 
-class _CharacterIconSpriteComponent extends SpriteComponent {
+class _CharacterIconSpriteComponent extends SpriteComponent with HasGameRef {
   _CharacterIconSpriteComponent(String characterIconPath)
       : _characterIconPath = characterIconPath,
         super(
@@ -138,10 +137,7 @@ class _CharacterIconSpriteComponent extends SpriteComponent {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final sprite = await Sprite.load(
-      _characterIconPath,
-      images: Images(prefix: ''),
-    );
+    final sprite = Sprite(gameRef.images.fromCache(_characterIconPath));
     this.sprite = sprite;
     size = sprite.originalSize / 10;
   }
