@@ -15,12 +15,11 @@ import 'package:pinball_flame/pinball_flame.dart';
 class SparkyFireZone extends Forge2DBlueprint {
   @override
   void build(Forge2DGame gameRef) {
-    addBlueprint(SparkyComputer());
-
     gameRef.addContactCallback(SparkyBumperBallContactCallback());
+
+    addBlueprint(SparkyComputer());
     final sparkyTurboChargeSensor = SparkyTurboChargeSensor()
       ..initialPosition = Vector2(-13, 49.8);
-
     final sparkyAnimatronic = SparkyAnimatronic()
       ..position = Vector2(-13.8, -58.2);
 
