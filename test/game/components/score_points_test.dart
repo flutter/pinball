@@ -28,9 +28,13 @@ void main() {
     setUp(() {
       game = MockPinballGame();
       bloc = MockGameBloc();
-      ball = MockBall();
       audio = MockPinballAudio();
       fakeScorePoints = FakeScorePoints();
+
+      ball = MockBall();
+      final ballBody = MockBody();
+      when(() => ball.body).thenReturn(ballBody);
+      when(() => ballBody.position).thenReturn(Vector2.all(4));
     });
 
     setUpAll(() {
@@ -79,9 +83,6 @@ void main() {
         () {
           when(game.read<GameBloc>).thenReturn(bloc);
           when(() => game.audio).thenReturn(audio);
-          final ballBody = MockBody();
-          when(() => ball.body).thenReturn(ballBody);
-          when(() => ballBody.position).thenReturn(Vector2.all(4));
 
           BallScorePointsCallback(game).begin(
             ball,
