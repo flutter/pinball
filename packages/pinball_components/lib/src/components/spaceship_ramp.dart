@@ -4,6 +4,7 @@ import 'dart:math' as math;
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 import 'package:pinball_flame/pinball_flame.dart';
@@ -15,6 +16,15 @@ class SpaceshipRamp extends Forge2DBlueprint {
   /// {@macro spaceship_ramp}
   SpaceshipRamp();
 
+  /// [SpriteGroupComponent] representing the arrow that lights up.
+  @visibleForTesting
+  late final SpaceshipRampArrowSpriteComponent spaceshipRampArrow;
+
+  /// Forwards the sprite to the next [SpaceshipRampArrowSpriteState].
+  ///
+  /// If the current state is the last one it cycles back to the initial state.
+  void progress() => spaceshipRampArrow.progress();
+
   @override
   void build(_) {
     addAllContactCallback([
@@ -23,19 +33,21 @@ class SpaceshipRamp extends Forge2DBlueprint {
 
     final rightOpening = _SpaceshipRampOpening(
       outsidePriority: RenderPriority.ballOnBoard,
-      rotation: math.pi,
+      rotation: -5 * math.pi / 180,
     )
-      ..initialPosition = Vector2(1.7, -19.8)
+      ..initialPosition = Vector2(1.7, -19.12)
       ..layer = Layer.opening;
     final leftOpening = _SpaceshipRampOpening(
       outsideLayer: Layer.spaceship,
       outsidePriority: RenderPriority.ballOnSpaceship,
-      rotation: math.pi,
+      rotation: -5 * math.pi / 180,
     )
-      ..initialPosition = Vector2(-13.7, -18.6)
+      ..initialPosition = Vector2(-13.7, -19)
       ..layer = Layer.spaceshipEntranceRamp;
 
     final spaceshipRamp = _SpaceshipRampBackground();
+
+    spaceshipRampArrow = SpaceshipRampArrowSpriteComponent();
 
     final spaceshipRampBoardOpeningSprite =
         _SpaceshipRampBoardOpeningSpriteComponent()
@@ -52,15 +64,69 @@ class SpaceshipRamp extends Forge2DBlueprint {
       baseRight,
       _SpaceshipRampBackgroundRailingSpriteComponent(),
       spaceshipRamp,
+      spaceshipRampArrow,
       spaceshipRampForegroundRailing,
     ]);
   }
 }
 
+/// Indicates the state of the arrow on the [SpaceshipRamp].
+@visibleForTesting
+enum SpaceshipRampArrowSpriteState {
+  /// Arrow with no dashes lit up.
+  inactive,
+
+  /// Arrow with 1 light lit up.
+  active1,
+
+  /// Arrow with 2 lights lit up.
+  active2,
+
+  /// Arrow with 3 lights lit up.
+  active3,
+
+  /// Arrow with 4 lights lit up.
+  active4,
+
+  /// Arrow with all 5 lights lit up.
+  active5,
+}
+
+extension on SpaceshipRampArrowSpriteState {
+  String get path {
+    switch (this) {
+      case SpaceshipRampArrowSpriteState.inactive:
+        return Assets.images.spaceship.ramp.arrow.inactive.keyName;
+      case SpaceshipRampArrowSpriteState.active1:
+        return Assets.images.spaceship.ramp.arrow.active1.keyName;
+      case SpaceshipRampArrowSpriteState.active2:
+        return Assets.images.spaceship.ramp.arrow.active2.keyName;
+      case SpaceshipRampArrowSpriteState.active3:
+        return Assets.images.spaceship.ramp.arrow.active3.keyName;
+      case SpaceshipRampArrowSpriteState.active4:
+        return Assets.images.spaceship.ramp.arrow.active4.keyName;
+      case SpaceshipRampArrowSpriteState.active5:
+        return Assets.images.spaceship.ramp.arrow.active5.keyName;
+    }
+  }
+
+  SpaceshipRampArrowSpriteState get next {
+    return SpaceshipRampArrowSpriteState
+        .values[(index + 1) % SpaceshipRampArrowSpriteState.values.length];
+  }
+}
+
 class _SpaceshipRampBackground extends BodyComponent
     with InitialPosition, Layered {
-  _SpaceshipRampBackground() : super(priority: RenderPriority.spaceshipRamp) {
+  _SpaceshipRampBackground()
+      : super(
+          priority: RenderPriority.spaceshipRamp,
+          children: [
+            _SpaceshipRampBackgroundRampSpriteComponent(),
+          ],
+        ) {
     layer = Layer.spaceshipEntranceRamp;
+    renderBody = false;
   }
 
   /// Width between walls of the ramp.
@@ -112,30 +178,26 @@ class _SpaceshipRampBackground extends BodyComponent
 
     return body;
   }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    renderBody = false;
-
-    await add(_SpaceshipRampBackgroundRampSpriteComponent());
-  }
 }
 
 class _SpaceshipRampBackgroundRailingSpriteComponent extends SpriteComponent
     with HasGameRef {
   _SpaceshipRampBackgroundRailingSpriteComponent()
-      : super(priority: RenderPriority.spaceshipRampBackgroundRailing);
+      : super(
+          anchor: Anchor.center,
+          position: Vector2(-11.7, -54.3),
+          priority: RenderPriority.spaceshipRampBackgroundRailing,
+        );
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final sprite = await gameRef.loadSprite(
-      Assets.images.spaceship.ramp.railingBackground.keyName,
+    final sprite = Sprite(
+      gameRef.images.fromCache(
+        Assets.images.spaceship.ramp.railingBackground.keyName,
+      ),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
-    anchor = Anchor.center;
-    position = Vector2(-11.7, -54.3);
   }
 }
 
@@ -144,13 +206,50 @@ class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final sprite = await gameRef.loadSprite(
-      Assets.images.spaceship.ramp.main.keyName,
+    final sprite = Sprite(
+      gameRef.images.fromCache(
+        Assets.images.spaceship.ramp.main.keyName,
+      ),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
     anchor = Anchor.center;
-    position = Vector2(-11.7, -53.6);
+    position = Vector2(-10.7, -53.6);
+  }
+}
+
+/// {@template spaceship_ramp_arrow_sprite_component}
+/// An arrow inside [SpaceshipRamp].
+///
+/// Lights up a each dash whenever a [Ball] gets into [SpaceshipRamp].
+/// {@endtemplate}
+class SpaceshipRampArrowSpriteComponent
+    extends SpriteGroupComponent<SpaceshipRampArrowSpriteState>
+    with HasGameRef {
+  /// {@macro spaceship_ramp_arrow_sprite_component}
+  SpaceshipRampArrowSpriteComponent()
+      : super(
+          anchor: Anchor.center,
+          position: Vector2(-3.9, -56.5),
+          priority: RenderPriority.spaceshipRampArrow,
+        );
+
+  /// Changes arrow image to the next [Sprite].
+  void progress() => current = current?.next;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    final sprites = <SpaceshipRampArrowSpriteState, Sprite>{};
+    this.sprites = sprites;
+    for (final spriteState in SpaceshipRampArrowSpriteState.values) {
+      sprites[spriteState] = Sprite(
+        gameRef.images.fromCache(spriteState.path),
+      );
+    }
+
+    current = SpaceshipRampArrowSpriteState.inactive;
+    size = sprites[current]!.originalSize / 10;
   }
 }
 
@@ -159,8 +258,10 @@ class _SpaceshipRampBoardOpeningSpriteComponent extends SpriteComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final sprite = await gameRef.loadSprite(
-      Assets.images.spaceship.ramp.boardOpening.keyName,
+    final sprite = Sprite(
+      gameRef.images.fromCache(
+        Assets.images.spaceship.ramp.boardOpening.keyName,
+      ),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
@@ -231,16 +332,22 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
 
 class _SpaceshipRampForegroundRailingSpriteComponent extends SpriteComponent
     with HasGameRef {
+  _SpaceshipRampForegroundRailingSpriteComponent()
+      : super(
+          anchor: Anchor.center,
+          position: Vector2(-12.3, -52.5),
+        );
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final sprite = await gameRef.loadSprite(
-      Assets.images.spaceship.ramp.railingForeground.keyName,
+    final sprite = Sprite(
+      gameRef.images.fromCache(
+        Assets.images.spaceship.ramp.railingForeground.keyName,
+      ),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
-    anchor = Anchor.center;
-    position = Vector2(-12.3, -52.5);
   }
 }
 

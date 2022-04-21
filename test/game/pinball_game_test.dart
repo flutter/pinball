@@ -33,6 +33,16 @@ void main() {
     Assets.images.sparky.bumper.b.inactive.keyName,
     Assets.images.sparky.bumper.c.active.keyName,
     Assets.images.sparky.bumper.c.inactive.keyName,
+    Assets.images.spaceship.ramp.boardOpening.keyName,
+    Assets.images.spaceship.ramp.railingForeground.keyName,
+    Assets.images.spaceship.ramp.railingBackground.keyName,
+    Assets.images.spaceship.ramp.main.keyName,
+    Assets.images.spaceship.ramp.arrow.inactive.keyName,
+    Assets.images.spaceship.ramp.arrow.active1.keyName,
+    Assets.images.spaceship.ramp.arrow.active2.keyName,
+    Assets.images.spaceship.ramp.arrow.active3.keyName,
+    Assets.images.spaceship.ramp.arrow.active4.keyName,
+    Assets.images.spaceship.ramp.arrow.active5.keyName,
   ];
   final flameTester = FlameTester(() => PinballTestGame(assets));
   final debugModeFlameTester = FlameTester(() => DebugPinballTestGame(assets));
