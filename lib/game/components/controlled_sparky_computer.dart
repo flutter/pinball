@@ -20,7 +20,7 @@ class ControlledSparkyComputer extends SparkyComputer
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    gameRef.addContactCallback(SparkyTurboChargeSensorBallContactCallback());
+    gameRef.addContactCallback(SparkyComputerSensorBallContactCallback());
   }
 }
 
@@ -40,17 +40,13 @@ class SparkyComputerController
 /// Turbo charges the [Ball] when it enters the [SparkyComputer]
 /// {@endtemplate}
 @visibleForTesting
-class SparkyTurboChargeSensorBallContactCallback
+class SparkyComputerSensorBallContactCallback
     extends ContactCallback<SparkyComputerSensor, ControlledBall> {
   /// {@macro sparky_turbo_charge_sensor_ball_contact_callback}
-  SparkyTurboChargeSensorBallContactCallback();
+  SparkyComputerSensorBallContactCallback();
 
   @override
-  void begin(
-    SparkyComputerSensor sparkyTurboChargeSensor,
-    ControlledBall ball,
-    _,
-  ) {
+  void begin(_, ControlledBall ball, __) {
     ball.controller.turboCharge();
   }
 }
