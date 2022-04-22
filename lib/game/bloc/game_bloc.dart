@@ -19,7 +19,13 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   void _onBallLost(BallLost event, Emitter emit) {
-    emit(state.copyWith(balls: state.balls - 1));
+    emit(
+      state.copyWith(
+        balls: state.balls - 1,
+        score: state.score * state.multiplier,
+        multiplier: 1,
+      ),
+    );
   }
 
   void _onScored(Scored event, Emitter emit) {
@@ -32,8 +38,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
   void _onIncreasedMultiplier(MultiplierIncreased event, Emitter emit) {
     if (!state.isGameOver) {
-      // TODO(ruimiguel): confirm that x6 is going to be the max value, to add
-      // assertion here or at MultiplierIncreased event const.
       emit(state.copyWith(multiplier: state.multiplier + 1));
     }
   }

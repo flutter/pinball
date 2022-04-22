@@ -55,6 +55,8 @@ class SparkyTurboChargeActivated extends GameEvent {
 class MultiplierIncreased extends GameEvent {
   /// {@macro multiplier_increased_game_event}
   const MultiplierIncreased();
+  // TODO(ruimiguel): confirm that x6 is going to be the max value, to add
+  // assertion here
 
   @override
   List<Object?> get props => [];
