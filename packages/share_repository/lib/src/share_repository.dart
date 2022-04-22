@@ -1,5 +1,5 @@
 /// {@template share_repository}
-/// Repository to access share data
+/// Repository to facilitate sharing scores.
 /// {@endtemplate}
 class ShareRepository {
   /// {@macro share_repository}

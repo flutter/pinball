@@ -1,5 +1,5 @@
 name: share_repository
-description: Repository to access share data
+description: Repository to facilitate sharing scores.
 version: 1.0.0+1
 publish_to: none
 
