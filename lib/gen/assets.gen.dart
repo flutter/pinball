@@ -14,6 +14,7 @@ class $AssetsImagesGen {
       const $AssetsImagesBonusAnimationGen();
   $AssetsImagesComponentsGen get components =>
       const $AssetsImagesComponentsGen();
+  $AssetsImagesScoreGen get score => const $AssetsImagesScoreGen();
 }
 
 class $AssetsImagesBonusAnimationGen {
@@ -46,6 +47,14 @@ class $AssetsImagesComponentsGen {
   /// File path: assets/images/components/background.png
   AssetGenImage get background =>
       const AssetGenImage('assets/images/components/background.png');
+}
+
+class $AssetsImagesScoreGen {
+  const $AssetsImagesScoreGen();
+
+  /// File path: assets/images/score/mini_score_background.png
+  AssetGenImage get miniScoreBackground =>
+      const AssetGenImage('assets/images/score/mini_score_background.png');
 }
 
 class Assets {
