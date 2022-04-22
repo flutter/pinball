@@ -21,7 +21,7 @@ class SparkyFireZone extends Blueprint with HasGameRef<Forge2DGame> {
             _SparkyBumper.a()..initialPosition = Vector2(-22.9, -41.65),
             _SparkyBumper.b()..initialPosition = Vector2(-21.25, -57.9),
             _SparkyBumper.c()..initialPosition = Vector2(-3.3, -52.55),
-            SparkyTurboChargeSensor()..initialPosition = Vector2(-13, -49.8),
+            SparkyComputerSensor()..initialPosition = Vector2(-13, -49.8),
             SparkyAnimatronic()..position = Vector2(-13.8, -58.2),
           ],
           blueprints: [
@@ -47,9 +47,7 @@ class _SparkyBumper extends SparkyBumper with ScorePoints {
     await super.onLoad();
     // TODO(alestiago): Revisit once this has been merged:
     // https://github.com/flame-engine/flame/pull/1547
-    gameRef
-      ..removeContactCallback(SparkyBumperBallContactCallback())
-      ..addContactCallback(SparkyBumperBallContactCallback());
+    gameRef.addContactCallback(SparkyBumperBallContactCallback());
   }
 }
 
@@ -67,59 +65,47 @@ class SparkyBumperBallContactCallback
   }
 }
 
-/// {@template sparky_turbo_charge_sensor}
+/// {@template sparky_computer_sensor}
 /// Small sensor body used to detect when a ball has entered the
-/// [SparkyComputer] with the [SparkyTurboChargeSensorBallContactCallback].
+/// [SparkyComputer].
 /// {@endtemplate}
-@visibleForTesting
 // TODO(alestiago): Revisit once this has been merged:
 // https://github.com/flame-engine/flame/pull/1547
-class SparkyTurboChargeSensor extends BodyComponent with InitialPosition {
-  /// {@macro sparky_turbo_charge_sensor}
-  SparkyTurboChargeSensor() {
+class SparkyComputerSensor extends BodyComponent with InitialPosition {
+  /// {@macro sparky_computer_sensor}
+  SparkyComputerSensor() {
     renderBody = false;
   }
 
   @override
   Body createBody() {
     final shape = CircleShape()..radius = 0.1;
-    final fixtureDef = FixtureDef(
-      shape,
-      isSensor: true,
-    );
+    final fixtureDef = FixtureDef(shape, isSensor: true);
     final bodyDef = BodyDef(
       position: initialPosition,
       userData: this,
     );
-
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    gameRef.addContactCallback(SparkyTurboChargeSensorBallContactCallback());
+    // TODO(alestiago): Revisit once this has been merged:
+    // https://github.com/flame-engine/flame/pull/1547
+    gameRef.addContactCallback(SparkyComputerSensorBallContactCallback());
   }
 }
 
-/// {@template sparky_turbo_charge_sensor_ball_contact_callback}
-/// Turbo charges the [Ball] on contact with [SparkyTurboChargeSensor].
-/// {@endtemplate}
 @visibleForTesting
-class SparkyTurboChargeSensorBallContactCallback
-    extends ContactCallback<SparkyTurboChargeSensor, ControlledBall> {
-  /// {@macro sparky_turbo_charge_sensor_ball_contact_callback}
-  SparkyTurboChargeSensorBallContactCallback();
-
+// TODO(alestiago): Revisit once this has been merged:
+// https://github.com/flame-engine/flame/pull/1547
+// ignore: public_member_api_docs
+class SparkyComputerSensorBallContactCallback
+    extends ContactCallback<SparkyComputerSensor, ControlledBall> {
   @override
-  void begin(
-    SparkyTurboChargeSensor sparkyTurboChargeSensor,
-    ControlledBall ball,
-    _,
-  ) {
-    // TODO(alestiago): Revisit once this has been merged:
-    // https://github.com/flame-engine/flame/pull/1547
-    ball.controller.turboCharge();
-    ball.gameRef.firstChild<SparkyAnimatronic>()?.playing = true;
+  void begin(_, ControlledBall controlledBall, __) {
+    controlledBall.controller.turboCharge();
+    // ball.gameRef.firstChild<SparkyAnimatronic>()?.playing = true;
   }
 }

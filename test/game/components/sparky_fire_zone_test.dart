@@ -127,4 +127,37 @@ void main() {
       );
     });
   });
+
+  group(
+    'SparkyTurboChargeSensorBallContactCallback',
+    () {
+      // TODO(alestiago): Make tests pass.
+      flameTester.test('calls turboCharge', (game) async {
+        final callback = SparkyComputerSensorBallContactCallback();
+        final ball = MockControlledBall();
+        when(() => ball.controller).thenReturn(MockBallController());
+        when(() => ball.gameRef).thenReturn(game);
+
+        await game.ready();
+        callback.begin(MockSparkyComputerSensor(), ball, MockContact());
+
+        verify(() => ball.controller.turboCharge()).called(1);
+      });
+
+      flameTester.test('plays DashAnimatronic', (game) async {
+        final callback = SparkyComputerSensorBallContactCallback();
+        final ball = MockControlledBall();
+        when(() => ball.gameRef).thenReturn(game);
+        when(() => ball.controller).thenReturn(MockBallController());
+        final dashAnimatronic = DashAnimatronic();
+        await game.ensureAdd(dashAnimatronic);
+
+        expect(dashAnimatronic.playing, isFalse);
+        callback.begin(MockSparkyComputerSensor(), ball, MockContact());
+        await game.ready();
+
+        expect(dashAnimatronic.playing, isTrue);
+      });
+    },
+  );
 }
