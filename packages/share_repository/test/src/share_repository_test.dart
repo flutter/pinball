@@ -4,14 +4,15 @@ import 'package:test/test.dart';
 
 void main() {
   group('ShareRepository', () {
+    const appUrl = 'https://ashehwkdkdjruejdnensjsjdne.web.app/#/';
     late ShareRepository shareRepository;
 
     setUp(() {
-      shareRepository = ShareRepository();
+      shareRepository = ShareRepository(appUrl: appUrl);
     });
 
     test('can be instantiated', () {
-      expect(ShareRepository(), isNotNull);
+      expect(ShareRepository(appUrl: appUrl), isNotNull);
     });
 
     group('shareScore', () {

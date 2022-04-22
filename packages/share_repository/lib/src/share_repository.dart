@@ -5,10 +5,11 @@ import 'package:share_repository/share_repository.dart';
 /// {@endtemplate}
 class ShareRepository {
   /// {@macro share_repository}
-  const ShareRepository();
+  const ShareRepository({
+    required String appUrl,
+  }) : _appUrl = appUrl;
 
-  // TODO(jonathandaniels-vgv): Change to prod url.
-  static const _shareUrl = 'https://ashehwkdkdjruejdnensjsjdne.web.app/#/';
+  final String _appUrl;
 
   /// Returns a url to share the [shareText] on the given [platform].
   ///
@@ -19,7 +20,7 @@ class ShareRepository {
     required String shareText,
     required SharePlatform platform,
   }) {
-    final encodedUrl = Uri.encodeComponent(_shareUrl);
+    final encodedUrl = Uri.encodeComponent(_appUrl);
     final encodedShareText = Uri.encodeComponent(shareText);
     switch (platform) {
       case SharePlatform.twitter:
