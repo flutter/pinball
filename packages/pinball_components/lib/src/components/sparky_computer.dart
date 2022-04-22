@@ -6,74 +6,63 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template sparky_computer}
-/// A [Blueprint] which creates the [_ComputerBase] and
-/// [_ComputerTopSpriteComponent].
+/// A computer owned by Sparky.
+///
+/// Register a [ContactCallback] for [SparkyComputerSensor] to listen when
+/// something enters the [SparkyComputer].
 /// {@endtemplate}
-class SparkyComputer extends Forge2DBlueprint {
-  @override
-  void build(_) {
-    final computerBase = _ComputerBase();
-    final computerTop = _ComputerTopSpriteComponent();
-
-    addAll([
-      computerBase,
-      computerTop,
-    ]);
-  }
+class SparkyComputer extends Blueprint {
+  /// {@macro sparky_computer}
+  SparkyComputer()
+      : super(
+          components: [
+            _ComputerBase(),
+            _ComputerTopSpriteComponent(),
+            SparkyComputerSensor(),
+          ],
+        );
 }
 
 class _ComputerBase extends BodyComponent with InitialPosition {
-  _ComputerBase() : super(priority: RenderPriority.computerBase);
+  _ComputerBase()
+      : super(
+          priority: RenderPriority.computerBase,
+          children: [_ComputerBaseSpriteComponent()],
+        ) {
+    renderBody = false;
+  }
 
   List<FixtureDef> _createFixtureDefs() {
-    final fixturesDef = <FixtureDef>[];
-
     final leftEdge = EdgeShape()
       ..set(
         Vector2(-14.9, -46),
         Vector2(-15.3, -49.6),
       );
-    final leftEdgeFixtureDef = FixtureDef(leftEdge);
-    fixturesDef.add(leftEdgeFixtureDef);
-
     final topEdge = EdgeShape()
       ..set(
         Vector2(-15.3, -49.6),
         Vector2(-10.7, -50.6),
       );
-    final topEdgeFixtureDef = FixtureDef(topEdge);
-    fixturesDef.add(topEdgeFixtureDef);
-
     final rightEdge = EdgeShape()
       ..set(
         Vector2(-10.7, -50.6),
         Vector2(-9, -47.2),
       );
-    final rightEdgeFixtureDef = FixtureDef(rightEdge);
-    fixturesDef.add(rightEdgeFixtureDef);
 
-    return fixturesDef;
+    return [
+      FixtureDef(leftEdge),
+      FixtureDef(topEdge),
+      FixtureDef(rightEdge),
+    ];
   }
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef(
-      position: initialPosition,
-      userData: this,
-    );
-
+    final bodyDef = BodyDef(position: initialPosition);
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    renderBody = false;
-
-    await add(_ComputerBaseSpriteComponent());
   }
 }
 
@@ -113,5 +102,26 @@ class _ComputerTopSpriteComponent extends SpriteComponent with HasGameRef {
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
+  }
+}
+
+/// {@template sparky_computer_sensor}
+/// Small sensor body used to detect when a ball has entered the
+/// [SparkyComputer].
+/// {@endtemplate}
+class SparkyComputerSensor extends BodyComponent with InitialPosition {
+  /// {@macro sparky_computer_sensor}
+  SparkyComputerSensor() {
+    renderBody = false;
+  }
+
+  @override
+  Body createBody() {
+    final shape = CircleShape()..radius = 0.1;
+    final fixtureDef = FixtureDef(shape, isSensor: true);
+    final bodyDef = BodyDef()
+      ..position = initialPosition
+      ..userData = this;
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }

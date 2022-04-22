@@ -1,6 +1,6 @@
 import 'package:pinball_components/gen/fonts.gen.dart';
 
-const String _fontPath = 'packages/pinball_components/';
+const String _fontPath = 'packages/pinball_components';
 
 /// Class with the fonts available on the pinball game
 class PinballFonts {

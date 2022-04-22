@@ -1,138 +1,74 @@
+// ignore_for_file: cascade_invocations
+
 import 'package:flame/components.dart';
-import 'package:flame_forge2d/contact_callbacks.dart';
+import 'package:flame/game.dart';
+import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
-import '../helpers/helpers.dart';
-
-class TestContactCallback extends ContactCallback<dynamic, dynamic> {}
-
-class MyBlueprint extends Blueprint {
-  @override
-  void build(_) {
-    add(Component());
-    addAll([Component(), Component()]);
-  }
-}
-
-class MyOtherBlueprint extends Blueprint {
-  @override
-  void build(_) {
-    add(Component());
-  }
-}
-
-class YetMyOtherBlueprint extends Blueprint {
-  @override
-  void build(_) {
-    add(Component());
-  }
-}
-
-class MyComposedBlueprint extends Blueprint {
-  @override
-  void build(_) {
-    addBlueprint(MyBlueprint());
-    addAllBlueprints([MyOtherBlueprint(), YetMyOtherBlueprint()]);
-  }
-}
-
-class MyForge2dBlueprint extends Forge2DBlueprint {
-  @override
-  void build(_) {
-    addContactCallback(MockContactCallback());
-    addAllContactCallback([MockContactCallback(), MockContactCallback()]);
-  }
-}
-
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   group('Blueprint', () {
-    setUpAll(() {
-      registerFallbackValue(MyBlueprint());
-      registerFallbackValue(Component());
+    final flameTester = FlameTester(FlameGame.new);
+
+    test('correctly sets and gets components', () {
+      final component1 = Component();
+      final component2 = Component();
+      final blueprint = Blueprint(
+        components: [
+          component1,
+          component2,
+        ],
+      );
+
+      expect(blueprint.components.length, 2);
+      expect(blueprint.components, contains(component1));
+      expect(blueprint.components, contains(component2));
     });
 
-    test('components can be added to it', () {
-      final blueprint = MyBlueprint()..build(MockForge2DGame());
+    flameTester.test('adds the components to parent on attach', (game) async {
+      final blueprint = Blueprint(
+        components: [
+          Component(),
+          Component(),
+        ],
+      );
+      await game.addFromBlueprint(blueprint);
+      await game.ready();
 
-      expect(blueprint.components.length, equals(3));
+      for (final component in blueprint.components) {
+        expect(game.children.contains(component), isTrue);
+      }
     });
 
-    test('blueprints can be added to it', () {
-      final blueprint = MyComposedBlueprint()..build(MockForge2DGame());
+    flameTester.test('adds components from a child Blueprint', (game) async {
+      final childBlueprint = Blueprint(
+        components: [
+          Component(),
+          Component(),
+        ],
+      );
+      final parentBlueprint = Blueprint(
+        components: [
+          Component(),
+          Component(),
+        ],
+        blueprints: [
+          childBlueprint,
+        ],
+      );
 
-      expect(blueprint.blueprints.length, equals(3));
+      await game.addFromBlueprint(parentBlueprint);
+      await game.ready();
+
+      for (final component in childBlueprint.components) {
+        expect(game.children, contains(component));
+        expect(parentBlueprint.components, contains(component));
+      }
+      for (final component in parentBlueprint.components) {
+        expect(game.children, contains(component));
+      }
     });
-
-    test('adds the components to a game on attach', () {
-      final mockGame = MockForge2DGame();
-      when(() => mockGame.addAll(any())).thenAnswer((_) async {});
-      MyBlueprint().attach(mockGame);
-
-      verify(() => mockGame.addAll(any())).called(1);
-    });
-
-    test('adds components from a child Blueprint the to a game on attach', () {
-      final mockGame = MockForge2DGame();
-      when(() => mockGame.addAll(any())).thenAnswer((_) async {});
-      MyComposedBlueprint().attach(mockGame);
-
-      verify(() => mockGame.addAll(any())).called(4);
-    });
-
-    test(
-      'throws assertion error when adding to an already attached blueprint',
-      () async {
-        final mockGame = MockForge2DGame();
-        when(() => mockGame.addAll(any())).thenAnswer((_) async {});
-        final blueprint = MyBlueprint();
-        await blueprint.attach(mockGame);
-
-        expect(() => blueprint.add(Component()), throwsAssertionError);
-        expect(() => blueprint.addAll([Component()]), throwsAssertionError);
-      },
-    );
-  });
-
-  group('Forge2DBlueprint', () {
-    setUpAll(() {
-      registerFallbackValue(TestContactCallback());
-    });
-
-    test('callbacks can be added to it', () {
-      final blueprint = MyForge2dBlueprint()..build(MockForge2DGame());
-
-      expect(blueprint.callbacks.length, equals(3));
-    });
-
-    test('adds the callbacks to a game on attach', () async {
-      final mockGame = MockForge2DGame();
-      when(() => mockGame.addAll(any())).thenAnswer((_) async {});
-      when(() => mockGame.addContactCallback(any())).thenAnswer((_) async {});
-      await MyForge2dBlueprint().attach(mockGame);
-
-      verify(() => mockGame.addContactCallback(any())).called(3);
-    });
-
-    test(
-      'throws assertion error when adding to an already attached blueprint',
-      () async {
-        final mockGame = MockForge2DGame();
-        when(() => mockGame.addAll(any())).thenAnswer((_) async {});
-        when(() => mockGame.addContactCallback(any())).thenAnswer((_) async {});
-        final blueprint = MyForge2dBlueprint();
-        await blueprint.attach(mockGame);
-
-        expect(
-          () => blueprint.addContactCallback(MockContactCallback()),
-          throwsAssertionError,
-        );
-        expect(
-          () => blueprint.addAllContactCallback([MockContactCallback()]),
-          throwsAssertionError,
-        );
-      },
-    );
   });
 }

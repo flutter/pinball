@@ -32,6 +32,8 @@ class GameFlowController extends ComponentController<PinballGame>
     // next page
     component.firstChild<Backboard>()?.gameOverMode(
           score: state?.score ?? 0,
+          characterIconPath:
+              component.theme.characterTheme.leaderboardIcon.keyName,
         );
     component.firstChild<CameraController>()?.focusOnBackboard();
   }
