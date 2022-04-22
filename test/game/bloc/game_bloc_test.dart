@@ -162,6 +162,31 @@ void main() {
 
       blocTest<GameBloc, GameState>(
         "doesn't increase multiplier "
+        'when multiplier is 6 and game is not over',
+        build: GameBloc.new,
+        seed: () => const GameState(
+          score: 0,
+          multiplier: 5,
+          balls: 3,
+          rounds: 3,
+          bonusHistory: [],
+        ),
+        act: (bloc) => bloc
+          ..add(const MultiplierIncreased())
+          ..add(const MultiplierIncreased()),
+        expect: () => [
+          const GameState(
+            score: 0,
+            multiplier: 6,
+            balls: 3,
+            rounds: 3,
+            bonusHistory: [],
+          ),
+        ],
+      );
+
+      blocTest<GameBloc, GameState>(
+        "doesn't increase multiplier "
         'when game is over',
         build: GameBloc.new,
         act: (bloc) {

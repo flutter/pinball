@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs
-
+import 'dart:math' as math;
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
@@ -49,7 +49,11 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
   void _onIncreasedMultiplier(MultiplierIncreased event, Emitter emit) {
     if (!state.isGameOver) {
-      emit(state.copyWith(multiplier: state.multiplier + 1));
+      emit(
+        state.copyWith(
+          multiplier: math.min(state.multiplier + 1, 6),
+        ),
+      );
     }
   }
 
