@@ -211,17 +211,17 @@ class _DebugInformation extends Component with HasGameRef<DebugPinballGame> {
 
   @override
   void render(Canvas canvas) {
-    final fpsText = [
+    final debugText = [
       'FPS: ${gameRef.fps().toStringAsFixed(1)}',
       'BALLS: ${gameRef.descendants().whereType<ControlledBall>().length}',
     ].join(' | ');
 
-    final height = _debugText.measureTextHeight(fpsText);
+    final height = _debugText.measureTextHeight(debugText);
     final position = Vector2(0, gameRef.camera.canvasSize.y - height);
     canvas.drawRect(
       position & Vector2(gameRef.camera.canvasSize.x, height),
       _debugBackground,
     );
-    _debugText.render(canvas, fpsText, position);
+    _debugText.render(canvas, debugText, position);
   }
 }
