@@ -1,6 +1,5 @@
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
-import 'package:flutter/material.dart';
 
 // TODO(erickzanardo): Keeping this inside our code base
 // so we can experiment with the idea, but this is a
