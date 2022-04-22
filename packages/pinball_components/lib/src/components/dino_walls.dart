@@ -106,8 +106,10 @@ class _DinoTopWallSpriteComponent extends SpriteComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final sprite = await gameRef.loadSprite(
-      Assets.images.dino.dinoLandTop.keyName,
+    final sprite = Sprite(
+      gameRef.images.fromCache(
+        Assets.images.dino.dinoLandTop.keyName,
+      ),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
@@ -212,8 +214,10 @@ class _DinoBottomWallSpriteComponent extends SpriteComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final sprite = await gameRef.loadSprite(
-      Assets.images.dino.dinoLandBottom.keyName,
+    final sprite = Sprite(
+      gameRef.images.fromCache(
+        Assets.images.dino.dinoLandBottom.keyName,
+      ),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
