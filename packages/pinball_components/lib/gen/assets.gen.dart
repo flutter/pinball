@@ -311,6 +311,9 @@ class $AssetsImagesSpaceshipRailGen {
 class $AssetsImagesSpaceshipRampGen {
   const $AssetsImagesSpaceshipRampGen();
 
+  $AssetsImagesSpaceshipRampArrowGen get arrow =>
+      const $AssetsImagesSpaceshipRampArrowGen();
+
   /// File path: assets/images/spaceship/ramp/board-opening.png
   AssetGenImage get boardOpening =>
       const AssetGenImage('assets/images/spaceship/ramp/board-opening.png');
@@ -382,6 +385,34 @@ class $AssetsImagesDashBumperMainGen {
   /// File path: assets/images/dash/bumper/main/inactive.png
   AssetGenImage get inactive =>
       const AssetGenImage('assets/images/dash/bumper/main/inactive.png');
+}
+
+class $AssetsImagesSpaceshipRampArrowGen {
+  const $AssetsImagesSpaceshipRampArrowGen();
+
+  /// File path: assets/images/spaceship/ramp/arrow/active1.png
+  AssetGenImage get active1 =>
+      const AssetGenImage('assets/images/spaceship/ramp/arrow/active1.png');
+
+  /// File path: assets/images/spaceship/ramp/arrow/active2.png
+  AssetGenImage get active2 =>
+      const AssetGenImage('assets/images/spaceship/ramp/arrow/active2.png');
+
+  /// File path: assets/images/spaceship/ramp/arrow/active3.png
+  AssetGenImage get active3 =>
+      const AssetGenImage('assets/images/spaceship/ramp/arrow/active3.png');
+
+  /// File path: assets/images/spaceship/ramp/arrow/active4.png
+  AssetGenImage get active4 =>
+      const AssetGenImage('assets/images/spaceship/ramp/arrow/active4.png');
+
+  /// File path: assets/images/spaceship/ramp/arrow/active5.png
+  AssetGenImage get active5 =>
+      const AssetGenImage('assets/images/spaceship/ramp/arrow/active5.png');
+
+  /// File path: assets/images/spaceship/ramp/arrow/inactive.png
+  AssetGenImage get inactive =>
+      const AssetGenImage('assets/images/spaceship/ramp/arrow/inactive.png');
 }
 
 class $AssetsImagesSparkyBumperAGen {

@@ -34,12 +34,14 @@ class Backboard extends PositionComponent with HasGameRef {
   /// Returns a [Backboard] initialized in the game over mode
   factory Backboard.gameOver({
     required Vector2 position,
+    required String characterIconPath,
     required int score,
     required BackboardOnSubmit onSubmit,
   }) {
     return Backboard(position: position)
       ..gameOverMode(
         score: score,
+        characterIconPath: characterIconPath,
         onSubmit: onSubmit,
       );
   }
@@ -62,12 +64,14 @@ class Backboard extends PositionComponent with HasGameRef {
   /// Puts the Backboard in game over mode, where the score input is shown.
   Future<void> gameOverMode({
     required int score,
+    required String characterIconPath,
     BackboardOnSubmit? onSubmit,
   }) async {
     children.removeWhere((_) => true);
     await add(
       BackboardGameOver(
         score: score,
+        characterIconPath: characterIconPath,
         onSubmit: onSubmit,
       ),
     );

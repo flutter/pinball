@@ -70,8 +70,6 @@ class _FlutterForestController extends ComponentController<FlutterForest>
   }
 
   Future<void> _addBonusBall() async {
-    // TODO(alestiago): Remove hardcoded duration.
-    await Future<void>.delayed(const Duration(milliseconds: 700));
     await gameRef.add(
       ControlledBall.bonus(theme: gameRef.theme)
         ..initialPosition = Vector2(17.2, -52.7),

@@ -17,12 +17,12 @@ class DashAnimatronic extends SpriteAnimationComponent with HasGameRef {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    final spriteSheet = await gameRef.images.load(
+    final spriteSheet = gameRef.images.fromCache(
       Assets.images.dash.animatronic.keyName,
     );
 
-    const amountPerRow = 12;
-    const amountPerColumn = 8;
+    const amountPerRow = 13;
+    const amountPerColumn = 6;
     final textureSize = Vector2(
       spriteSheet.width / amountPerRow,
       spriteSheet.height / amountPerColumn,

@@ -16,6 +16,8 @@ dependencies:
     path: ../
   pinball_flame:
     path: ../../pinball_flame
+  pinball_theme:
+    path: ../../pinball_theme
 
 dev_dependencies:
   flutter_test:
