@@ -20,6 +20,8 @@ class ControlledSpaceshipRamp extends Component
     controller = SpaceshipRampController(this);
   }
 
+  // TODO(ruimiguel): check Blueprint contact callbacks bug and then change
+  // this class to extends from SpaceshipRamp.
   late final SpaceshipRamp _spaceshipRamp;
 
   @override

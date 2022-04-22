@@ -15,6 +15,14 @@ class SpaceshipRamp extends Blueprint {
   SpaceshipRamp()
       : super(
           components: [
+            // TODO(ruimiguel): once blueprint contactcallback works well, add
+            // this sensors here.
+            /*
+            SpaceshipRampSensor(type: SpaceshipRampSensorType.door)
+              ..initialPosition = Vector2(1.7, -20),
+            SpaceshipRampSensor(type: SpaceshipRampSensorType.inside)
+              ..initialPosition = Vector2(1.7, -21.5),
+            */
             _SpaceshipRampOpening(
               outsidePriority: RenderPriority.ballOnBoard,
               rotation: math.pi,
