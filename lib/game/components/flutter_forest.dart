@@ -7,7 +7,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template flutter_forest}
-/// Area positioned at the top right of the [Board] where the [Ball]
+/// Area positioned at the top right of the board where the [Ball]
 /// can bounce off [DashNestBumper]s.
 ///
 /// When all [DashNestBumper]s are hit at least once, the [GameBonus.dashNest]
