@@ -9,62 +9,67 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final asset = Assets.images.dash.animatronic.keyName;
-  final flameTester = FlameTester(() => TestGame([asset]));
 
-  group('DashAnimatronic', () {
+  group('SparkyAnimatronic', () {
+    final asset = Assets.images.sparky.animatronic.keyName;
+    final flameTester = FlameTester(() => TestGame([asset]));
+
     flameTester.testGameWidget(
       'renders correctly',
       setUp: (game, tester) async {
         await game.images.load(asset);
-        await game.ensureAdd(DashAnimatronic()..playing = true);
-        game.camera.followVector2(Vector2.zero());
+        await game.ensureAdd(SparkyAnimatronic()..playing = true);
         await tester.pump();
+
+        game.camera.followVector2(Vector2.zero());
       },
       verify: (game, tester) async {
         final animationDuration =
-            game.firstChild<DashAnimatronic>()!.animation!.totalDuration();
+            game.firstChild<SparkyAnimatronic>()!.animation!.totalDuration();
 
         await expectLater(
           find.byGame<TestGame>(),
-          matchesGoldenFile('golden/dash_animatronic/start.png'),
+          matchesGoldenFile('golden/sparky_animatronic/start.png'),
         );
 
         game.update(animationDuration * 0.25);
         await tester.pump();
         await expectLater(
           find.byGame<TestGame>(),
-          matchesGoldenFile('golden/dash_animatronic/middle.png'),
+          matchesGoldenFile('golden/sparky_animatronic/middle.png'),
         );
 
         game.update(animationDuration * 0.75);
         await tester.pump();
         await expectLater(
           find.byGame<TestGame>(),
-          matchesGoldenFile('golden/dash_animatronic/end.png'),
+          matchesGoldenFile('golden/sparky_animatronic/end.png'),
         );
       },
     );
+
     flameTester.test(
       'loads correctly',
       (game) async {
-        final dashAnimatronic = DashAnimatronic();
-        await game.ensureAdd(dashAnimatronic);
+        final sparkyAnimatronic = SparkyAnimatronic();
+        await game.ensureAdd(sparkyAnimatronic);
 
-        expect(game.contains(dashAnimatronic), isTrue);
+        expect(game.contains(sparkyAnimatronic), isTrue);
       },
     );
 
     flameTester.test(
       'stops animating after animation completes',
       (game) async {
-        final dashAnimatronic = DashAnimatronic();
-        await game.ensureAdd(dashAnimatronic);
+        final sparkyAnimatronic = SparkyAnimatronic();
+        await game.ensureAdd(sparkyAnimatronic);
 
-        dashAnimatronic.playing = true;
-        game.update(4);
+        sparkyAnimatronic.playing = true;
+        final animationDuration =
+            game.firstChild<SparkyAnimatronic>()!.animation!.totalDuration();
+        game.update(animationDuration);
 
-        expect(dashAnimatronic.playing, isFalse);
+        expect(sparkyAnimatronic.playing, isFalse);
       },
     );
   });
