@@ -22,7 +22,7 @@ void main() {
         score: 0,
         multiplier: 1,
         balls: 0,
-        rounds: 3,
+        rounds: 0,
         bonusHistory: [],
       );
       whenListen(bloc, Stream.value(state), initialState: state);
