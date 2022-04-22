@@ -15,6 +15,7 @@ class Blueprint {
   }) {
     if (components != null) _components.addAll(components);
     if (blueprints != null) {
+      _blueprints.addAll(blueprints);
       for (final blueprint in blueprints) {
         _components.addAll(blueprint.components);
       }
@@ -23,12 +24,17 @@ class Blueprint {
 
   final List<Component> _components = [];
 
+  final List<Component> _blueprints = [];
+
   Future<void> _addToParent(Component parent) async {
     await parent.addAll(_components);
   }
 
   /// Returns a copy of the components built by this blueprint.
   List<Component> get components => List.unmodifiable(_components);
+
+  /// Returns a copy of the blueprints built by this blueprint.
+  List<Component> get blueprints => List.unmodifiable(_blueprints);
 }
 
 /// Adds helper methods regarding [Blueprint]s to [FlameGame].
