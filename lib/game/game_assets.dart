@@ -84,6 +84,7 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.sparky.computer.base.keyName),
       images.load(components.Assets.images.sparky.animatronic.keyName),
       images.load(components.Assets.images.sparky.bumper.a.inactive.keyName),
+      images.load(components.Assets.images.sparky.bumper.a.active.keyName),
       images.load(components.Assets.images.sparky.bumper.b.active.keyName),
       images.load(components.Assets.images.sparky.bumper.b.inactive.keyName),
       images.load(components.Assets.images.sparky.bumper.c.active.keyName),
