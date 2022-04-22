@@ -17,7 +17,7 @@ void main() {
       Assets.images.boundary.outerBottom.keyName,
       Assets.images.boundary.bottom.keyName,
     ];
-    final flameTester = FlameTester(() => TestGame(assets));
+    final flameTester = FlameTester(TestGame.new);
 
     flameTester.testGameWidget(
       'render correctly',
