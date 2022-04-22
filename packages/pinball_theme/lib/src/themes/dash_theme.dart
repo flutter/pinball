@@ -22,4 +22,7 @@ class DashTheme extends CharacterTheme {
 
   @override
   AssetGenImage get icon => Assets.images.dash.icon;
+
+  @override
+  AssetGenImage get leaderboardIcon => Assets.images.dash.leaderboardIcon;
 }
