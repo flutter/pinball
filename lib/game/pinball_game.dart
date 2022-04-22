@@ -200,14 +200,14 @@ class _DebugInformation extends Component with HasGameRef<DebugPinballGame> {
   @override
   PositionType get positionType => PositionType.widget;
 
-  final _debugText = TextPaint(
+  final _debugTextPaint = TextPaint(
     style: const TextStyle(
       color: Colors.green,
       fontSize: 10,
     ),
   );
 
-  final _debugBackground = Paint()..color = Colors.white;
+  final _debugBackgroundPaint = Paint()..color = Colors.white;
 
   @override
   void render(Canvas canvas) {
@@ -216,12 +216,12 @@ class _DebugInformation extends Component with HasGameRef<DebugPinballGame> {
       'BALLS: ${gameRef.descendants().whereType<ControlledBall>().length}',
     ].join(' | ');
 
-    final height = _debugText.measureTextHeight(debugText);
+    final height = _debugTextPaint.measureTextHeight(debugText);
     final position = Vector2(0, gameRef.camera.canvasSize.y - height);
     canvas.drawRect(
       position & Vector2(gameRef.camera.canvasSize.x, height),
-      _debugBackground,
+      _debugBackgroundPaint,
     );
-    _debugText.render(canvas, debugText, position);
+    _debugTextPaint.render(canvas, debugText, position);
   }
 }
