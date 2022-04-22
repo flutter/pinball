@@ -30,10 +30,9 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
           priority: RenderPriority.dinoTopWall,
           children: [_DinoTopWallSpriteComponent()],
         ) {
-    renderBody = true;
+    renderBody = false;
   }
 
-  // TODO(ruimiguel): fix shapes for top wall.
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
 
@@ -48,8 +47,8 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
     final topCurveShape = BezierCurveShape(
       controlPoints: [
         topStraightShape.vertex1,
-        Vector2(17.4, -26.38),
-        Vector2(25.5, -20.7),
+        Vector2(18.8, -27),
+        Vector2(26.6, -21),
       ],
     );
     fixturesDef.add(FixtureDef(topCurveShape));
@@ -66,8 +65,8 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
     final bottomCurveShape = BezierCurveShape(
       controlPoints: [
         middleCurveShape.vertices.last,
-        Vector2(21.5, -15.8),
-        Vector2(25.8, -14.8),
+        Vector2(23, -15),
+        Vector2(27, -15),
       ],
     );
     fixturesDef.add(FixtureDef(bottomCurveShape));
