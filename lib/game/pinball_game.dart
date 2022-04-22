@@ -49,13 +49,13 @@ class PinballGame extends Forge2DGame
     // TODO(allisonryan0002): banish Wall and Board classes in later PR.
     await add(BottomWall());
     unawaited(addFromBlueprint(Boundaries()));
-    unawaited(addFromBlueprint(ControlledSparkyComputer()));
+    unawaited(addFromBlueprint(LaunchRamp()));
 
     final launcher = Launcher();
     unawaited(addFromBlueprint(launcher));
     unawaited(add(Board()));
     unawaited(add(AlienZone()));
-    unawaited(add(SparkyFireZone()));
+    await addFromBlueprint(SparkyFireZone());
     unawaited(addFromBlueprint(Slingshots()));
     unawaited(addFromBlueprint(DinoWalls()));
     unawaited(_addBonusWord());
