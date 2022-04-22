@@ -45,6 +45,8 @@ class PinballGamePage extends StatelessWidget {
       pinballAudio.load(),
     ];
 
+    BonusAnimation.loadAssets();
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => StartGameBloc(game: game)),
