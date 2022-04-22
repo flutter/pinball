@@ -382,3 +382,41 @@ class _SpaceshipRampOpening extends LayerSensor {
       );
   }
 }
+
+enum SpaceshipRampSensorType {
+  door,
+  inside,
+}
+
+/// {@template spaceship_ramp_sensor}
+/// Small sensor body used to detect when a ball has entered the
+/// [SpaceshipRamp].
+/// {@endtemplate}
+class SpaceshipRampSensor extends BodyComponent with InitialPosition, Layered {
+  /// {@macro spaceship_ramp_sensor}
+  SpaceshipRampSensor({required this.type}) {
+    layer = Layer.spaceshipEntranceRamp;
+    renderBody = false;
+  }
+
+  final SpaceshipRampSensorType type;
+
+  @override
+  Body createBody() {
+    final shape = PolygonShape()
+      ..setAsBox(
+        2,
+        .1,
+        initialPosition,
+        -5 * math.pi / 180,
+      );
+
+    final fixtureDef = FixtureDef(shape)..isSensor = true;
+
+    final bodyDef = BodyDef()
+      ..position = initialPosition
+      ..userData = this;
+
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
+  }
+}

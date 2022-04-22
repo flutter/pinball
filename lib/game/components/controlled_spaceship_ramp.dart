@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_renaming_method_parameters
 
+import 'dart:collection';
 import 'dart:math' as math;
 
 import 'package:flame/components.dart';
@@ -10,13 +11,13 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template controlled_spaceship_ramp}
-/// [SpaceshipRamp] with a [_SpaceshipRampController] attached.
+/// [SpaceshipRamp] with a [SpaceshipRampController] attached.
 /// {@endtemplate}
 class ControlledSpaceshipRamp extends Component
-    with Controls<_SpaceshipRampController>, HasGameRef<PinballGame> {
+    with Controls<SpaceshipRampController>, HasGameRef<PinballGame> {
   /// {@macro controlled_spaceship_ramp}
   ControlledSpaceshipRamp() {
-    controller = _SpaceshipRampController(this);
+    controller = SpaceshipRampController(this);
   }
 
   late final SpaceshipRamp _spaceshipRamp;
@@ -27,11 +28,13 @@ class ControlledSpaceshipRamp extends Component
     gameRef.addContactCallback(SpaceshipRampSensorBallContactCallback());
 
     _spaceshipRamp = SpaceshipRamp();
-    final spaceshipRampSensor = SpaceshipRampSensor()
-      ..initialPosition = Vector2(1.7, -20);
-
-    await gameRef.addFromBlueprint(_spaceshipRamp);
-    await add(spaceshipRampSensor);
+    await addFromBlueprint(_spaceshipRamp);
+    await addAll([
+      SpaceshipRampSensor(type: SpaceshipRampSensorType.door)
+        ..initialPosition = Vector2(1.7, -20),
+      SpaceshipRampSensor(type: SpaceshipRampSensorType.inside)
+        ..initialPosition = Vector2(1.7, -21.5),
+    ]);
   }
 }
 
@@ -40,11 +43,11 @@ class ControlledSpaceshipRamp extends Component
 /// logic.
 /// {@endtemplate}
 
-class _SpaceshipRampController
+class SpaceshipRampController
     extends ComponentController<ControlledSpaceshipRamp>
     with HasGameRef<PinballGame> {
   /// {@macro spaceship_ramp_controller}
-  _SpaceshipRampController(ControlledSpaceshipRamp controlledSpaceshipRamp)
+  SpaceshipRampController(ControlledSpaceshipRamp controlledSpaceshipRamp)
       : super(controlledSpaceshipRamp);
 
   final int _oneMillionPointsTarget = 10;
@@ -59,50 +62,27 @@ class _SpaceshipRampController
 
     // TODO(ruimiguel): increase score multiplier x1 .
     print('Multiplier x1');
+    gameRef.read<GameBloc>().add(const Scored(points: 100));
 
     if (_hitsCounter % _scoreMultiplierTarget == 0) {
       // TODO(ruimiguel): reset score multiplier and multiply score x6 .
       print('Reset multiplier and multiply score x6');
     }
     if (_hitsCounter % _oneMillionPointsTarget == 0) {
-      gameRef.read<GameBloc>().add(const Scored(points: 1000000));
+      const oneMillion = 1000000;
+      gameRef.read<GameBloc>().add(const Scored(points: oneMillion));
+      gameRef.add(
+        ScoreText(
+          text: oneMillion.toString(),
+          position: Vector2(1.7, -20),
+        ),
+      );
     }
   }
 }
 
-/// {@template spaceship_ramp_sensor}
-/// Small sensor body used to detect when a ball has entered the
-/// [SpaceshipRamp] with the [SpaceshipRampSensorBallContactCallback].
-/// {@endtemplate}
-@visibleForTesting
-class SpaceshipRampSensor extends BodyComponent with InitialPosition {
-  /// {@macro spaceship_ramp_sensor}
-  SpaceshipRampSensor() {
-    renderBody = true;
-  }
-
-  @override
-  Body createBody() {
-    final shape = PolygonShape()
-      ..setAsBox(
-        2,
-        .1,
-        initialPosition,
-        -5 * math.pi / 180,
-      );
-
-    final fixtureDef = FixtureDef(shape)..isSensor = true;
-
-    final bodyDef = BodyDef()
-      ..position = initialPosition
-      ..userData = this;
-
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
-  }
-}
-
 /// {@template spaceship_ramp_sensor_ball_contact_callback}
-/// Turbo charges the [Ball] on contact with [SparkyTurboChargeSensor].
+/// Turbo charges the [Ball] on contact with [SpaceshipRampSensor].
 /// {@endtemplate}
 @visibleForTesting
 class SpaceshipRampSensorBallContactCallback
@@ -110,15 +90,35 @@ class SpaceshipRampSensorBallContactCallback
   /// {@macro spaceship_ramp_sensor_ball_contact_callback}
   SpaceshipRampSensorBallContactCallback();
 
+  final Set<Ball> _balls = HashSet();
+
   @override
   void begin(
     SpaceshipRampSensor spaceshipRampSensor,
-    _,
+    ControlledBall ball,
     __,
   ) {
-    final parent = spaceshipRampSensor.parent;
-    if (parent is ControlledSpaceshipRamp) {
-      parent.controller.shot();
+    switch (spaceshipRampSensor.type) {
+      case SpaceshipRampSensorType.door:
+        print('door');
+        if (!_balls.contains(ball)) {
+          print('add new ball');
+          _balls.add(ball);
+        }
+        break;
+      case SpaceshipRampSensorType.inside:
+        print('inside');
+        if (_balls.contains(ball)) {
+          print('ball is in');
+          final parent = spaceshipRampSensor.parent;
+          print('parent $parent');
+          if (parent is ControlledSpaceshipRamp) {
+            parent.controller.shot();
+          }
+          print('remove ball');
+          _balls.remove(ball);
+        }
+        break;
     }
   }
 }
