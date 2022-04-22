@@ -2,47 +2,15 @@ import 'package:flame/components.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-/// {@template board}
-/// The main flat surface of the [PinballGame].
-/// {endtemplate}
-class Board extends Component {
-  /// {@macro board}
-  // TODO(alestiago): Make Board a Blueprint and sort out priorities.
-  Board() : super(priority: 1);
-
-  @override
-  Future<void> onLoad() async {
-    // TODO(allisonryan0002): add bottom group and flutter forest to pinball
-    // game directly. Then remove board.
-    final bottomGroup = _BottomGroup();
-
-    final flutterForest = FlutterForest();
-
-    // TODO(alestiago): adjust positioning to real design.
-    // TODO(alestiago): add dino in pinball game.
-    final dino = ChromeDino()
-      ..initialPosition = Vector2(
-        BoardDimensions.bounds.center.dx + 25,
-        BoardDimensions.bounds.center.dy - 10,
-      );
-
-    await addAll([
-      bottomGroup,
-      dino,
-      flutterForest,
-    ]);
-  }
-}
-
 /// {@template bottom_group}
-/// Grouping of the board's bottom [Component]s.
+/// Grouping of the board's symmetrical bottom [Component]s.
 ///
-/// The [_BottomGroup] consists of[Flipper]s, [Baseboard]s and [Kicker]s.
+/// The [BottomGroup] consists of [Flipper]s, [Baseboard]s and [Kicker]s.
 /// {@endtemplate}
-// TODO(alestiago): Consider renaming once entire Board is defined.
-class _BottomGroup extends Component {
+// TODO(allisonryan0002): Consider renaming.
+class BottomGroup extends Component {
   /// {@macro bottom_group}
-  _BottomGroup() : super(priority: RenderPriority.bottomGroup);
+  BottomGroup() : super(priority: RenderPriority.bottomGroup);
 
   @override
   Future<void> onLoad() async {
@@ -58,7 +26,7 @@ class _BottomGroup extends Component {
 }
 
 /// {@template bottom_group_side}
-/// Group with one side of [_BottomGroup]'s symmetric [Component]s.
+/// Group with one side of [BottomGroup]'s symmetric [Component]s.
 ///
 /// For example, [Flipper]s are symmetric components.
 /// {@endtemplate}

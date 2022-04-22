@@ -1,4 +1,7 @@
+// ignore_for_file: avoid_renaming_method_parameters
+
 import 'package:flame/components.dart';
+import 'package:flame_forge2d/contact_callbacks.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
@@ -51,8 +54,8 @@ class BallController extends ComponentController<Ball>
 
   /// Removes the [Ball] from a [PinballGame].
   ///
-  /// Triggered by [BottomWallBallContactCallback] when the [Ball] falls into
-  /// a [BottomWall].
+  /// Triggered by [DrainBallContactCallback] when the [Ball] falls into
+  /// a [Drain].
   void lost() {
     component.shouldRemove = true;
   }
@@ -84,4 +87,14 @@ class DebugBallController extends BallController {
 
   @override
   void onRemove() {}
+}
+
+/// {@template drain_ball_contact_callback}
+/// Listens when a [ControlledBall] falls into a [Drain].
+/// {@endtemplate}
+class DrainBallContactCallback extends ContactCallback<ControlledBall, Drain> {
+  @override
+  void begin(ControlledBall ball, _, __) {
+    ball.controller.lost();
+  }
 }

@@ -10,6 +10,7 @@ export 'chrome_dino.dart';
 export 'dash_animatronic.dart';
 export 'dash_nest_bumper.dart';
 export 'dino_walls.dart';
+export 'drain.dart';
 export 'fire_effect.dart';
 export 'flipper.dart';
 export 'google_letter.dart';

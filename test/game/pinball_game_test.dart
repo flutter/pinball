@@ -62,12 +62,12 @@ void main() {
     // https://github.com/flame-engine/flame/issues/1416
     group('components', () {
       flameTester.test(
-        'has only one BottomWall',
+        'has only one Drain',
         (game) async {
           await game.ready();
 
           expect(
-            game.children.whereType<BottomWall>().length,
+            game.children.whereType<Drain>().length,
             equals(1),
           );
         },
@@ -84,10 +84,10 @@ void main() {
         },
       );
 
-      flameTester.test('has one Board', (game) async {
+      flameTester.test('has one FlutterForest', (game) async {
         await game.ready();
         expect(
-          game.children.whereType<Board>().length,
+          game.children.whereType<FlutterForest>().length,
           equals(1),
         );
       });
@@ -120,7 +120,6 @@ void main() {
           final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
             gameBuilder: EmptyPinballTestGame.new,
             blocBuilder: () => gameBloc,
-            // assets: assets,
           );
 
           flameBlocTester.testGameWidget(

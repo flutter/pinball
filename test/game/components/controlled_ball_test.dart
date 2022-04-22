@@ -66,6 +66,21 @@ void main() {
       },
     );
 
+    flameBlocTester.testGameWidget(
+      'DrainBallContactCallback calls lost',
+      setUp: (game, tester) async {
+        final contactCallback = DrainBallContactCallback();
+        final ball = MockControlledBall();
+        final drain = MockDrain();
+        final controller = MockBallController();
+        when(() => ball.controller).thenReturn(controller);
+
+        contactCallback.begin(ball, drain, MockContact());
+
+        verify(() => ball.controller.lost()).called(1);
+      },
+    );
+
     group('turboCharge', () {
       setUpAll(() {
         registerFallbackValue(Vector2.zero());
