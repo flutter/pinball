@@ -106,6 +106,6 @@ class SparkyComputerSensorBallContactCallback
   @override
   void begin(_, ControlledBall controlledBall, __) {
     controlledBall.controller.turboCharge();
-    // ball.gameRef.firstChild<SparkyAnimatronic>()?.playing = true;
+    controlledBall.gameRef.firstChild<SparkyAnimatronic>()?.playing = true;
   }
 }

@@ -21,6 +21,7 @@ void main() {
     Assets.images.sparky.bumper.b.inactive.keyName,
     Assets.images.sparky.bumper.c.active.keyName,
     Assets.images.sparky.bumper.c.inactive.keyName,
+    Assets.images.sparky.animatronic.keyName,
   ];
   final flameTester = FlameTester(() => EmptyPinballTestGame(assets));
 
@@ -128,36 +129,39 @@ void main() {
     });
   });
 
-  group(
-    'SparkyTurboChargeSensorBallContactCallback',
-    () {
-      // TODO(alestiago): Make tests pass.
-      flameTester.test('calls turboCharge', (game) async {
-        final callback = SparkyComputerSensorBallContactCallback();
-        final ball = MockControlledBall();
-        when(() => ball.controller).thenReturn(MockBallController());
-        when(() => ball.gameRef).thenReturn(game);
+  group('SparkyTurboChargeSensorBallContactCallback', () {
+    flameTester.test('calls turboCharge', (game) async {
+      final callback = SparkyComputerSensorBallContactCallback();
+      final ball = MockControlledBall();
+      final controller = MockBallController();
+      when(() => ball.controller).thenReturn(controller);
+      when(() => ball.gameRef).thenReturn(game);
+      when(controller.turboCharge).thenAnswer((_) async {});
 
-        await game.ready();
-        callback.begin(MockSparkyComputerSensor(), ball, MockContact());
+      callback.begin(MockSparkyComputerSensor(), ball, MockContact());
 
-        verify(() => ball.controller.turboCharge()).called(1);
-      });
+      verify(() => ball.controller.turboCharge()).called(1);
+    });
 
-      flameTester.test('plays DashAnimatronic', (game) async {
-        final callback = SparkyComputerSensorBallContactCallback();
-        final ball = MockControlledBall();
-        when(() => ball.gameRef).thenReturn(game);
-        when(() => ball.controller).thenReturn(MockBallController());
-        final dashAnimatronic = DashAnimatronic();
-        await game.ensureAdd(dashAnimatronic);
+    flameTester.test('plays SparkyAnimatronic', (game) async {
+      final callback = SparkyComputerSensorBallContactCallback();
+      final ball = MockControlledBall();
+      final controller = MockBallController();
+      when(() => ball.controller).thenReturn(controller);
+      when(() => ball.gameRef).thenReturn(game);
+      when(controller.turboCharge).thenAnswer((_) async {});
 
-        expect(dashAnimatronic.playing, isFalse);
-        callback.begin(MockSparkyComputerSensor(), ball, MockContact());
-        await game.ready();
+      final sparkyFireZone = SparkyFireZone();
+      await game.addFromBlueprint(sparkyFireZone);
+      await game.ready();
 
-        expect(dashAnimatronic.playing, isTrue);
-      });
-    },
-  );
+      final sparkyAnimatronic =
+          game.descendants().whereType<SparkyAnimatronic>().single;
+
+      expect(sparkyAnimatronic.playing, isFalse);
+      callback.begin(MockSparkyComputerSensor(), ball, MockContact());
+
+      expect(sparkyAnimatronic.playing, isTrue);
+    });
+  });
 }
