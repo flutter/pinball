@@ -20,10 +20,14 @@ void main() {
     flameTester.testGameWidget(
       'renders correctly',
       setUp: (game, tester) async {
+        await game.images.loadAll(assets);
         await game.addFromBlueprint(DinoWalls());
+        await game.ready();
+
         game.camera.followVector2(Vector2.zero());
         game.camera.zoom = 6.5;
-        await game.ready();
+
+        await tester.pump();
       },
       verify: (game, tester) async {
         await expectLater(
