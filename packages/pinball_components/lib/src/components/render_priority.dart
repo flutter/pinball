@@ -49,7 +49,7 @@ abstract class RenderPriority {
 
   static const int launchRamp = _above + outerBoudary;
 
-  static const int launchRampForegroundRailing = _above + ballOnLaunchRamp;
+  static const int launchRampForegroundRailing = _below + ballOnBoard;
 
   static const int plunger = _above + launchRamp;
 
@@ -63,7 +63,7 @@ abstract class RenderPriority {
 
   static const int dinoBottomWall = _above + dino;
 
-  static const int slingshot = _above + ballOnBoard;
+  static const int slingshot = _above + dinoBottomWall;
 
   // Flutter Forest
 
@@ -71,7 +71,7 @@ abstract class RenderPriority {
 
   static const int dashBumper = _above + ballOnBoard;
 
-  static const int dashAnimatronic = _above + launchRampForegroundRailing;
+  static const int dashAnimatronic = 2 * _above + launchRamp;
 
   // Sparky Fire Zone
 
