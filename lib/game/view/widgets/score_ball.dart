@@ -17,7 +17,7 @@ class ScoreBalls extends StatelessWidget {
     return Row(
       children: [
         Text(
-          l10n.ballCt,
+          l10n.rounds,
           style: AppTextStyle.subtitle1.copyWith(
             color: AppColors.orange,
           ),
@@ -47,12 +47,14 @@ class ScoreBall extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = isActive ? AppColors.orange : AppColors.orange.withAlpha(128);
+    const size = 8.0;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Container(
         color: color,
-        height: 8,
-        width: 8,
+        height: size,
+        width: size,
       ),
     );
   }

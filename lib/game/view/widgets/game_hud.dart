@@ -1,13 +1,13 @@
-// ignore_for_file: public_member_api_docs
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/gen/gen.dart';
 
 /// {@template game_hud}
-/// Overlay of a [PinballGame] that displays the current [GameState.score],
-/// [GameState.balls] and animation when the player get the bonus.
+/// Overlay of a [PinballGame].
+///
+/// Displays the current [GameState.score], [GameState.balls] and animates when
+/// the player gets a [GameBonus].
 /// {@endtemplate}
 class GameHud extends StatefulWidget {
   /// {@macro game_hud}
@@ -33,7 +33,7 @@ class _GameHudState extends State<GameHud> {
         height: _width / _ratio,
         width: _width,
         child: BlocListener<GameBloc, GameState>(
-          listenWhen: _listenWhen,
+          listenWhen: _listenWhenBonusChanges,
           listener: (_, __) => setState(() => showAnimation = true),
           child: AnimatedSwitcher(
             duration: kThemeAnimationDuration,
@@ -52,7 +52,7 @@ class _GameHudState extends State<GameHud> {
     );
   }
 
-  bool _listenWhen(GameState previous, GameState current) {
+  bool _listenWhenBonusChanges(GameState previous, GameState current) {
     final previousCount = previous.bonusHistory.length;
     final currentCount = current.bonusHistory.length;
     return previousCount != currentCount;
@@ -74,10 +74,10 @@ class _ScoreViewDecoration extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           image: DecorationImage(
+            fit: BoxFit.cover,
             image: AssetImage(
               Assets.images.score.miniScoreBackground.path,
             ),
-            fit: BoxFit.cover,
           ),
         ),
         child: child,
@@ -86,6 +86,7 @@ class _ScoreViewDecoration extends StatelessWidget {
   }
 }
 
+// TODO(arturplaczek): implement new Sprite animation when will be merged.
 class _AnimationView extends StatelessWidget {
   const _AnimationView({
     Key? key,

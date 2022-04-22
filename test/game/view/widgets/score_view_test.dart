@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:intl/intl.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
+import 'package:pinball_components/pinball_components.dart';
 
 import '../../../helpers/helpers.dart';
 
@@ -30,11 +30,6 @@ void main() {
     );
   });
 
-  String _formatScore(int score) {
-    final numberFormatter = NumberFormat.decimalPattern('en_US');
-    return numberFormatter.format(score).replaceAll(',', '.');
-  }
-
   group('ScoreView', () {
     testWidgets('renders score', (tester) async {
       await tester.pumpApp(
@@ -43,7 +38,7 @@ void main() {
       );
       await tester.pump();
 
-      expect(find.text(_formatScore(score)), findsOneWidget);
+      expect(find.text(score.formatScore()), findsOneWidget);
     });
 
     testWidgets('renders game over', (tester) async {
@@ -70,7 +65,7 @@ void main() {
         gameBloc: gameBloc,
       );
 
-      expect(find.text(_formatScore(score)), findsOneWidget);
+      expect(find.text(score.formatScore()), findsOneWidget);
 
       final newState = initialState.copyWith(
         score: 987654321,
@@ -80,7 +75,7 @@ void main() {
 
       await tester.pump();
 
-      expect(find.text(_formatScore(newState.score)), findsOneWidget);
+      expect(find.text(newState.score.formatScore()), findsOneWidget);
     });
   });
 }

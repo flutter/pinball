@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/theme/theme.dart';
+import 'package:pinball_components/pinball_components.dart';
 
 class ScoreView extends StatelessWidget {
   const ScoreView({Key? key}) : super(key: key);
@@ -72,11 +72,9 @@ class _ScoreText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final score = context.select((GameBloc bloc) => bloc.state.score);
-    final numberFormatter = NumberFormat.decimalPattern('en_US');
-    final formattedScore = numberFormatter.format(score).replaceAll(',', '.');
 
     return Text(
-      formattedScore,
+      score.formatScore(),
       style: AppTextStyle.headline1.copyWith(
         color: AppColors.white,
       ),
