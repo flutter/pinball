@@ -1,16 +1,13 @@
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 
-// TODO(erickzanardo): Keeping this inside our code base
-// so we can experiment with the idea, but this is a
-// potential upstream change on Flame.
+// TODO(erickzanardo): Keeping this inside our code base so we can experiment
+// with the idea, but this is a potential upstream change on Flame.
 
 /// {@template blueprint}
-/// A [Blueprint] is a virtual way of grouping [Component]s that are related,
-/// but they need to be added directly on the [FlameGame] level.
+/// A [Blueprint] is a virtual way of grouping [Component]s that are related.
 /// {@endtemplate blueprint}
-// TODO(alestiago): refactor with feat/make-blueprint-extend-component.
-class Blueprint extends Component {
+class Blueprint {
   /// {@macro blueprint}
   Blueprint({
     Iterable<Component>? components,
