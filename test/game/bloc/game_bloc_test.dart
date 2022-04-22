@@ -16,7 +16,7 @@ void main() {
         'decreases number of balls',
         build: GameBloc.new,
         act: (bloc) {
-          bloc.add(const BallLost(balls: 0));
+          bloc.add(const BallLost(ballsLeft: 0));
         },
         expect: () => [
           const GameState(
@@ -41,7 +41,7 @@ void main() {
           bonusHistory: [],
         ),
         act: (bloc) {
-          bloc.add(const BallLost(balls: 0));
+          bloc.add(const BallLost(ballsLeft: 0));
         },
         expect: () => [
           isA<GameState>()
@@ -62,7 +62,7 @@ void main() {
           bonusHistory: [],
         ),
         act: (bloc) {
-          bloc.add(const BallLost(balls: 0));
+          bloc.add(const BallLost(ballsLeft: 0));
         },
         expect: () => [
           isA<GameState>()
@@ -104,7 +104,7 @@ void main() {
         build: GameBloc.new,
         act: (bloc) {
           for (var i = 0; i < bloc.state.rounds; i++) {
-            bloc.add(const BallLost(balls: 0));
+            bloc.add(const BallLost(ballsLeft: 0));
           }
           bloc.add(const Scored(points: 2));
         },
@@ -191,7 +191,7 @@ void main() {
         build: GameBloc.new,
         act: (bloc) {
           for (var i = 0; i < bloc.state.rounds; i++) {
-            bloc.add(const BallLost(balls: 0));
+            bloc.add(const BallLost(ballsLeft: 0));
           }
           bloc.add(const MultiplierIncreased());
         },

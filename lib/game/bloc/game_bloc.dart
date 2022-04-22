@@ -19,14 +19,14 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   void _onBallLost(BallLost event, Emitter emit) {
     var score = state.score;
     var multiplier = state.multiplier;
-    var ballsLeft = event.balls;
-    var rounds = state.rounds;
+    var ballsLeft = event.ballsLeft;
+    var roundsLeft = state.rounds;
 
     if (ballsLeft < 1) {
       score = score * state.multiplier;
       multiplier = 1;
       ballsLeft = 1;
-      rounds = state.rounds - 1;
+      roundsLeft = state.rounds - 1;
     }
 
     emit(
@@ -34,7 +34,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         score: score,
         multiplier: multiplier,
         balls: ballsLeft,
-        rounds: rounds,
+        rounds: roundsLeft,
       ),
     );
   }

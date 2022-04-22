@@ -181,11 +181,8 @@ class _DebugGameBallsController extends _GameBallsController {
 
   @override
   bool listenWhen(GameState? previousState, GameState newState) {
-    final noBallsLeft = component
-        .descendants()
-        .whereType<ControlledBall>()
-        .where((ball) => ball.controller is! DebugBallController)
-        .isEmpty;
+    final noBallsLeft =
+        component.descendants().whereType<ControlledBall>().isEmpty;
     final canBallRespawn = newState.balls > 0;
 
     return noBallsLeft && canBallRespawn;

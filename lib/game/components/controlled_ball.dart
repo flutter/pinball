@@ -36,7 +36,7 @@ class ControlledBall extends Ball with Controls<BallController> {
 
   /// [Ball] used in [DebugPinballGame].
   ControlledBall.debug() : super(baseColor: const Color(0xFFFF0000)) {
-    controller = DebugBallController(this);
+    controller = BallController(this);
     priority = RenderPriority.ballOnBoard;
   }
 }
@@ -77,12 +77,6 @@ class BallController extends ComponentController<Ball>
   void onRemove() {
     super.onRemove();
     final remainingBalls = gameRef.children.whereType<Ball>().length;
-    gameRef.read<GameBloc>().add(BallLost(balls: remainingBalls));
+    gameRef.read<GameBloc>().add(BallLost(ballsLeft: remainingBalls));
   }
-}
-
-/// {@macro ball_controller}
-class DebugBallController extends BallController {
-  /// {@macro ball_controller}
-  DebugBallController(Ball<Forge2DGame> component) : super(component);
 }
