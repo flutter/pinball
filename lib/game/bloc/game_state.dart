@@ -12,6 +12,12 @@ enum GameBonus {
 
   /// Bonus achieved when a ball enters Sparky's computer.
   sparkyTurboCharge,
+
+  /// Bonus achieved when the ball goes in the dino mouth.
+  dino,
+
+  /// Bonus achieved when a ball enters the android spaceship.
+  android,
 }
 
 /// {@template game_state}
