@@ -12,6 +12,7 @@ void main() {
   group('Boundaries', () {
     final assets = [
       Assets.images.boundary.outer.keyName,
+      Assets.images.boundary.outerBottom.keyName,
       Assets.images.boundary.bottom.keyName,
     ];
     final tester = FlameTester(TestGame.new);

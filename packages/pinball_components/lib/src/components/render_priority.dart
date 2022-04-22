@@ -39,7 +39,9 @@ abstract class RenderPriority {
 
   static const int bottomBoundary = _above + dinoBottomWall;
 
-  static const int outerBoudary = _above + background;
+  static const int outerBoundary = _above + background;
+
+  static const int outerBottomBoundary = _above + rocket;
 
   // Bottom Group
 
@@ -47,7 +49,7 @@ abstract class RenderPriority {
 
   // Launcher
 
-  static const int launchRamp = _above + outerBoudary;
+  static const int launchRamp = _above + outerBoundary;
 
   static const int launchRampForegroundRailing = _below + ballOnBoard;
 
