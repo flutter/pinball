@@ -22,19 +22,20 @@ void main() {
         await tester.pump();
       },
       verify: (game, tester) async {
+        const animationDuration = 3.25;
         await expectLater(
           find.byGame<TestGame>(),
           matchesGoldenFile('golden/dash_animatronic/start.png'),
         );
 
-        game.update(0.8125);
+        game.update(animationDuration * 0.25);
         await tester.pump();
         await expectLater(
           find.byGame<TestGame>(),
           matchesGoldenFile('golden/dash_animatronic/middle.png'),
         );
 
-        game.update(3.25);
+        game.update(animationDuration * 0.75);
         await tester.pump();
         await expectLater(
           find.byGame<TestGame>(),
