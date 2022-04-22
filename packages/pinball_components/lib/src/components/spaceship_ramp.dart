@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_renaming_method_parameters
-
 import 'dart:math' as math;
 
 import 'package:flame/components.dart';
@@ -12,62 +10,41 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template spaceship_ramp}
 /// A [Blueprint] which creates the ramp leading into the [Spaceship].
 /// {@endtemplate}
-class SpaceshipRamp extends Forge2DBlueprint {
+class SpaceshipRamp extends Blueprint {
   /// {@macro spaceship_ramp}
-  SpaceshipRamp();
-
-  /// [SpriteGroupComponent] representing the arrow that lights up.
-  @visibleForTesting
-  late final SpaceshipRampArrowSpriteComponent spaceshipRampArrow;
+  SpaceshipRamp()
+      : super(
+          components: [
+            _SpaceshipRampOpening(
+              outsidePriority: RenderPriority.ballOnBoard,
+              rotation: math.pi,
+            )
+              ..initialPosition = Vector2(1.7, -19.8)
+              ..layer = Layer.opening,
+            _SpaceshipRampOpening(
+              outsideLayer: Layer.spaceship,
+              outsidePriority: RenderPriority.ballOnSpaceship,
+              rotation: math.pi,
+            )
+              ..initialPosition = Vector2(-13.7, -18.6)
+              ..layer = Layer.spaceshipEntranceRamp,
+            _SpaceshipRampBackground(),
+            _SpaceshipRampBoardOpeningSpriteComponent()
+              ..position = Vector2(3.4, -39.5),
+            _SpaceshipRampForegroundRailing(),
+            _SpaceshipRampBase()..initialPosition = Vector2(1.7, -20),
+            _SpaceshipRampBackgroundRailingSpriteComponent(),
+            _SpaceshipRampArrowSpriteComponent(),
+          ],
+        );
 
   /// Forwards the sprite to the next [SpaceshipRampArrowSpriteState].
   ///
   /// If the current state is the last one it cycles back to the initial state.
-  void progress() => spaceshipRampArrow.progress();
-
-  @override
-  void build(_) {
-    addAllContactCallback([
-      LayerSensorBallContactCallback<_SpaceshipRampOpening>(),
-    ]);
-
-    final rightOpening = _SpaceshipRampOpening(
-      outsidePriority: RenderPriority.ballOnBoard,
-      rotation: -5 * math.pi / 180,
-    )
-      ..initialPosition = Vector2(1.7, -19.12)
-      ..layer = Layer.opening;
-    final leftOpening = _SpaceshipRampOpening(
-      outsideLayer: Layer.spaceship,
-      outsidePriority: RenderPriority.ballOnSpaceship,
-      rotation: -5 * math.pi / 180,
-    )
-      ..initialPosition = Vector2(-13.7, -19)
-      ..layer = Layer.spaceshipEntranceRamp;
-
-    final spaceshipRamp = _SpaceshipRampBackground();
-
-    spaceshipRampArrow = SpaceshipRampArrowSpriteComponent();
-
-    final spaceshipRampBoardOpeningSprite =
-        _SpaceshipRampBoardOpeningSpriteComponent()
-          ..position = Vector2(3.4, -39.5);
-
-    final spaceshipRampForegroundRailing = _SpaceshipRampForegroundRailing();
-
-    final baseRight = _SpaceshipRampBase()..initialPosition = Vector2(1.7, -20);
-
-    addAll([
-      spaceshipRampBoardOpeningSprite,
-      rightOpening,
-      leftOpening,
-      baseRight,
-      _SpaceshipRampBackgroundRailingSpriteComponent(),
-      spaceshipRamp,
-      spaceshipRampArrow,
-      spaceshipRampForegroundRailing,
-    ]);
-  }
+  void progress() => components
+      .whereType<_SpaceshipRampArrowSpriteComponent>()
+      .first
+      .progress();
 }
 
 /// Indicates the state of the arrow on the [SpaceshipRamp].
@@ -133,8 +110,6 @@ class _SpaceshipRampBackground extends BodyComponent
   static const width = 5.0;
 
   List<FixtureDef> _createFixtureDefs() {
-    final fixturesDef = <FixtureDef>[];
-
     final outerLeftCurveShape = BezierCurveShape(
       controlPoints: [
         Vector2(-30.75, -37.3),
@@ -142,9 +117,6 @@ class _SpaceshipRampBackground extends BodyComponent
         Vector2(-14.2, -71.25),
       ],
     );
-    final outerLeftCurveFixtureDef = FixtureDef(outerLeftCurveShape);
-    fixturesDef.add(outerLeftCurveFixtureDef);
-
     final outerRightCurveShape = BezierCurveShape(
       controlPoints: [
         outerLeftCurveShape.vertices.last,
@@ -152,31 +124,34 @@ class _SpaceshipRampBackground extends BodyComponent
         Vector2(6.1, -44.9),
       ],
     );
-    final outerRightCurveFixtureDef = FixtureDef(outerRightCurveShape);
-    fixturesDef.add(outerRightCurveFixtureDef);
-
     final boardOpeningEdgeShape = EdgeShape()
       ..set(
         outerRightCurveShape.vertices.last,
         Vector2(7.3, -41.1),
       );
-    final boardOpeningEdgeShapeFixtureDef = FixtureDef(boardOpeningEdgeShape);
-    fixturesDef.add(boardOpeningEdgeShapeFixtureDef);
 
-    return fixturesDef;
+    return [
+      FixtureDef(outerRightCurveShape),
+      FixtureDef(outerLeftCurveShape),
+      FixtureDef(boardOpeningEdgeShape),
+    ];
   }
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef(
-      position: initialPosition,
-      userData: this,
-    );
-
+    final bodyDef = BodyDef(position: initialPosition);
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    gameRef.addContactCallback(
+      LayerSensorBallContactCallback<_SpaceshipRampOpening>(),
+    );
   }
 }
 
@@ -188,6 +163,7 @@ class _SpaceshipRampBackgroundRailingSpriteComponent extends SpriteComponent
           position: Vector2(-11.7, -54.3),
           priority: RenderPriority.spaceshipRampBackgroundRailing,
         );
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -203,6 +179,12 @@ class _SpaceshipRampBackgroundRailingSpriteComponent extends SpriteComponent
 
 class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
     with HasGameRef {
+  _SpaceshipRampBackgroundRampSpriteComponent()
+      : super(
+          anchor: Anchor.center,
+          position: Vector2(-10.7, -53.6),
+        );
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -213,21 +195,19 @@ class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
-    anchor = Anchor.center;
-    position = Vector2(-10.7, -53.6);
   }
 }
 
 /// {@template spaceship_ramp_arrow_sprite_component}
 /// An arrow inside [SpaceshipRamp].
 ///
-/// Lights up a each dash whenever a [Ball] gets into [SpaceshipRamp].
+/// Lights progressively whenever a [Ball] gets into [SpaceshipRamp].
 /// {@endtemplate}
-class SpaceshipRampArrowSpriteComponent
+class _SpaceshipRampArrowSpriteComponent
     extends SpriteGroupComponent<SpaceshipRampArrowSpriteState>
     with HasGameRef {
   /// {@macro spaceship_ramp_arrow_sprite_component}
-  SpaceshipRampArrowSpriteComponent()
+  _SpaceshipRampArrowSpriteComponent()
       : super(
           anchor: Anchor.center,
           position: Vector2(-3.9, -56.5),
@@ -255,6 +235,8 @@ class SpaceshipRampArrowSpriteComponent
 
 class _SpaceshipRampBoardOpeningSpriteComponent extends SpriteComponent
     with HasGameRef {
+  _SpaceshipRampBoardOpeningSpriteComponent() : super(anchor: Anchor.center);
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -265,7 +247,6 @@ class _SpaceshipRampBoardOpeningSpriteComponent extends SpriteComponent
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
-    anchor = Anchor.center;
   }
 }
 
@@ -281,8 +262,6 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
   }
 
   List<FixtureDef> _createFixtureDefs() {
-    final fixturesDef = <FixtureDef>[];
-
     final innerLeftCurveShape = BezierCurveShape(
       controlPoints: [
         Vector2(-24.5, -38),
@@ -290,10 +269,6 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
         Vector2(-13.8, -64.5),
       ],
     );
-
-    final innerLeftCurveFixtureDef = FixtureDef(innerLeftCurveShape);
-    fixturesDef.add(innerLeftCurveFixtureDef);
-
     final innerRightCurveShape = BezierCurveShape(
       controlPoints: [
         innerLeftCurveShape.vertices.last,
@@ -301,28 +276,22 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
         Vector2(0, -44.5),
       ],
     );
-
-    final innerRightCurveFixtureDef = FixtureDef(innerRightCurveShape);
-    fixturesDef.add(innerRightCurveFixtureDef);
-
     final boardOpeningEdgeShape = EdgeShape()
       ..set(
         innerRightCurveShape.vertices.last,
         Vector2(-0.85, -40.8),
       );
-    final boardOpeningEdgeShapeFixtureDef = FixtureDef(boardOpeningEdgeShape);
-    fixturesDef.add(boardOpeningEdgeShapeFixtureDef);
 
-    return fixturesDef;
+    return [
+      FixtureDef(innerLeftCurveShape),
+      FixtureDef(innerRightCurveShape),
+      FixtureDef(boardOpeningEdgeShape),
+    ];
   }
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef(
-      position: initialPosition,
-      userData: this,
-    );
-
+    final bodyDef = BodyDef(position: initialPosition);
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
 
@@ -371,10 +340,7 @@ class _SpaceshipRampBase extends BodyComponent with InitialPosition, Layered {
       ],
     );
     final fixtureDef = FixtureDef(baseShape);
-    final bodyDef = BodyDef(
-      position: initialPosition,
-      userData: this,
-    );
+    final bodyDef = BodyDef(position: initialPosition);
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }

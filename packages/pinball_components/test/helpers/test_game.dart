@@ -17,4 +17,6 @@ class TestGame extends Forge2DGame {
   }
 }
 
-class KeyboardTestGame extends TestGame with HasKeyboardHandlerComponents {}
+class KeyboardTestGame extends TestGame with HasKeyboardHandlerComponents {
+  KeyboardTestGame([List<String>? assets]) : super(assets);
+}
