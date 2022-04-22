@@ -261,6 +261,8 @@ class $AssetsImagesSpaceshipGen {
 class $AssetsImagesSparkyGen {
   const $AssetsImagesSparkyGen();
 
+  AssetGenImage get animatronic =>
+      const AssetGenImage('assets/images/sparky/animatronic.png');
   $AssetsImagesSparkyBumperGen get bumper =>
       const $AssetsImagesSparkyBumperGen();
   $AssetsImagesSparkyComputerGen get computer =>
