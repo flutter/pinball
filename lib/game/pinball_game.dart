@@ -195,7 +195,7 @@ class _DebugGameBallsController extends _GameBallsController {
 }
 
 class _DebugInformation extends Component with HasGameRef<DebugPinballGame> {
-  _DebugInformation() : super(priority: 0x7fffffff);
+  _DebugInformation() : super(priority: RenderPriority.debugInfo);
 
   @override
   PositionType get positionType => PositionType.widget;
