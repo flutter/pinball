@@ -36,7 +36,7 @@ extension LeaderboardEntryDataX on LeaderboardEntryData {
       rank: position.toString(),
       playerInitials: playerInitials,
       score: score,
-      character: character.toTheme.character,
+      character: character.toTheme.leaderboardIcon,
     );
   }
 }

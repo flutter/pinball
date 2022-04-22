@@ -18,9 +18,6 @@ abstract class CharacterTheme extends Equatable {
   /// Ball color for this theme.
   Color get ballColor;
 
-  /// Asset for the theme character.
-  AssetGenImage get character;
-
   /// Asset for the background.
   AssetGenImage get background;
 
@@ -30,13 +27,16 @@ abstract class CharacterTheme extends Equatable {
   /// Icon asset for the leaderboard.
   AssetGenImage get leaderboardIcon;
 
+  /// Asset for the the idle character animation.
+  AssetGenImage get animation;
+
   @override
   List<Object?> get props => [
         name,
         ballColor,
-        character,
         background,
         icon,
         leaderboardIcon,
+        animation,
       ];
 }

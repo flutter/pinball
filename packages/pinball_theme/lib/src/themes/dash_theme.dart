@@ -15,9 +15,6 @@ class DashTheme extends CharacterTheme {
   Color get ballColor => Colors.blue;
 
   @override
-  AssetGenImage get character => Assets.images.dash.character;
-
-  @override
   AssetGenImage get background => Assets.images.dash.background;
 
   @override
@@ -25,4 +22,7 @@ class DashTheme extends CharacterTheme {
 
   @override
   AssetGenImage get leaderboardIcon => Assets.images.dash.leaderboardIcon;
+
+  @override
+  AssetGenImage get animation => Assets.images.dash.animation;
 }
