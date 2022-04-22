@@ -22,4 +22,7 @@ class SparkyTheme extends CharacterTheme {
 
   @override
   AssetGenImage get icon => Assets.images.sparky.icon;
+
+  @override
+  AssetGenImage get leaderboardIcon => Assets.images.sparky.leaderboardIcon;
 }

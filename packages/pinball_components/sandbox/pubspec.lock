@@ -64,6 +64,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  equatable:
+    dependency: transitive
+    description:
+      name: equatable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.3"
   fake_async:
     dependency: transitive
     description:
@@ -244,6 +251,13 @@ packages:
     dependency: "direct main"
     description:
       path: "../../pinball_flame"
+      relative: true
+    source: path
+    version: "1.0.0+1"
+  pinball_theme:
+    dependency: "direct main"
+    description:
+      path: "../../pinball_theme"
       relative: true
     source: path
     version: "1.0.0+1"
