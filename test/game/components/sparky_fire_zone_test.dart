@@ -106,11 +106,11 @@ void main() {
         setUp: (game, tester) async {
           final ball = Ball(baseColor: const Color(0xFF00FFFF));
           final sparkyFireZone = SparkyFireZone();
-          await game.ensureAdd(sparkyFireZone);
+          await game.addFromBlueprint(sparkyFireZone);
           await game.ensureAdd(ball);
           game.addContactCallback(BallScorePointsCallback(game));
 
-          final bumpers = sparkyFireZone.descendants().whereType<ScorePoints>();
+          final bumpers = sparkyFireZone.components.whereType<ScorePoints>();
 
           for (final bumper in bumpers) {
             beginContact(game, bumper, ball);
