@@ -10,36 +10,30 @@ void main() {
       shareRepository = ShareRepository();
     });
 
-    group('constructor', () {
-      test('creates new ShareRepository instance', () {
-        expect(ShareRepository(), isNotNull);
-      });
+    test('can be instantiated', () {
+      expect(ShareRepository(), isNotNull);
     });
 
     group('shareScore', () {
       const shareText = 'hello world!';
       test('returns the correct share url for twitter', () async {
-        expect(
-          shareRepository.shareScore(
-            shareText: shareText,
-            platform: SharePlatform.twitter,
-          ),
-          equals(
-            'https://twitter.com/intent/tweet?url=https%3A%2F%2Fashehwkdkdjruejdnensjsjdne.web.app%2F%23%2F&text=hello%20world!',
-          ),
+        const shareScoreUrl =
+            'https://twitter.com/intent/tweet?url=https%3A%2F%2Fashehwkdkdjruejdnensjsjdne.web.app%2F%23%2F&text=hello%20world!';
+        final shareScoreResult = shareRepository.shareScore(
+          shareText: shareText,
+          platform: SharePlatform.twitter,
         );
+        expect(shareScoreResult, equals(shareScoreUrl));
       });
 
       test('returns the correct share url for facebook', () async {
-        expect(
-          shareRepository.shareScore(
-            shareText: shareText,
-            platform: SharePlatform.facebook,
-          ),
-          equals(
-            'https://www.facebook.com/sharer.php?u=https%3A%2F%2Fashehwkdkdjruejdnensjsjdne.web.app%2F%23%2F&quote=hello%20world!',
-          ),
+        const shareScoreUrl =
+            'https://www.facebook.com/sharer.php?u=https%3A%2F%2Fashehwkdkdjruejdnensjsjdne.web.app%2F%23%2F&quote=hello%20world!';
+        final shareScoreResult = shareRepository.shareScore(
+          shareText: shareText,
+          platform: SharePlatform.facebook,
         );
+        expect(shareScoreResult, equals(shareScoreUrl));
       });
     });
   });
