@@ -15,14 +15,6 @@ class SpaceshipRamp extends Blueprint {
   SpaceshipRamp()
       : super(
           components: [
-            // TODO(ruimiguel): once blueprint contactcallback works well, add
-            // this sensors here.
-            /*
-            SpaceshipRampSensor(type: SpaceshipRampSensorType.door)
-              ..initialPosition = Vector2(1.7, -20),
-            SpaceshipRampSensor(type: SpaceshipRampSensorType.inside)
-              ..initialPosition = Vector2(1.7, -21.5),
-            */
             _SpaceshipRampOpening(
               outsidePriority: RenderPriority.ballOnBoard,
               rotation: math.pi,
@@ -396,34 +388,39 @@ enum SpaceshipRampSensorType {
   inside,
 }
 
-/// {@template spaceship_ramp_sensor}
-/// Small sensor body used to detect when a ball has entered the
-/// [SpaceshipRamp].
+/// {@template spaceship_ramp_opening}
+/// [LayerSensor] with [Layer.spaceshipEntranceRamp] to filter [Ball] collisions
+/// inside [_SpaceshipRampBackground].
 /// {@endtemplate}
 class SpaceshipRampSensor extends BodyComponent with InitialPosition, Layered {
-  /// {@macro spaceship_ramp_sensor}
-  SpaceshipRampSensor({required this.type}) {
+  /// {@macro spaceship_ramp_opening}
+  SpaceshipRampSensor({required this.type}) : super() {
     layer = Layer.spaceshipEntranceRamp;
     renderBody = false;
   }
 
   final SpaceshipRampSensorType type;
 
+  static final Vector2 _size = Vector2(_SpaceshipRampBackground.width / 3, .1);
+
   @override
   Body createBody() {
     final shape = PolygonShape()
       ..setAsBox(
-        2,
-        .1,
+        _size.x,
+        _size.y,
         initialPosition,
         -5 * math.pi / 180,
       );
 
-    final fixtureDef = FixtureDef(shape)..isSensor = true;
-
-    final bodyDef = BodyDef()
-      ..position = initialPosition
-      ..userData = this;
+    final fixtureDef = FixtureDef(
+      shape,
+      isSensor: true,
+    );
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
