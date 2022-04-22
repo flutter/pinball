@@ -11,7 +11,11 @@ import '../../helpers/helpers.dart';
 void main() {
   group('DinoWalls', () {
     TestWidgetsFlutterBinding.ensureInitialized();
-    final flameTester = FlameTester(TestGame.new);
+    final assets = [
+      Assets.images.dino.dinoLandTop.keyName,
+      Assets.images.dino.dinoLandBottom.keyName,
+    ];
+    final flameTester = FlameTester(() => TestGame(assets));
 
     flameTester.testGameWidget(
       'renders correctly',
