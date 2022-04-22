@@ -54,7 +54,7 @@ class SparkyTurboChargeActivated extends GameEvent {
 }
 
 /// {@template multiplier_increased_game_event}
-/// Event added when multiplier is being increased.
+/// Added when a multiplier is gained.
 /// {@endtemplate}
 class MultiplierIncreased extends GameEvent {
   /// {@macro multiplier_increased_game_event}
