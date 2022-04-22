@@ -28,6 +28,48 @@ void main() {
           ),
         ],
       );
+
+      blocTest<GameBloc, GameState>(
+        'apply multiplier to score '
+        'when round is lost',
+        build: GameBloc.new,
+        seed: () => const GameState(
+          score: 5,
+          multiplier: 3,
+          balls: 1,
+          rounds: 2,
+          bonusHistory: [],
+        ),
+        act: (bloc) {
+          bloc.add(const BallLost(balls: 0));
+        },
+        expect: () => [
+          isA<GameState>()
+            ..having((state) => state.score, 'score', 15)
+            ..having((state) => state.rounds, 'rounds', 1),
+        ],
+      );
+
+      blocTest<GameBloc, GameState>(
+        'resets multiplier '
+        'when round is lost',
+        build: GameBloc.new,
+        seed: () => const GameState(
+          score: 5,
+          multiplier: 3,
+          balls: 1,
+          rounds: 2,
+          bonusHistory: [],
+        ),
+        act: (bloc) {
+          bloc.add(const BallLost(balls: 0));
+        },
+        expect: () => [
+          isA<GameState>()
+            ..having((state) => state.multiplier, 'multiplier', 1)
+            ..having((state) => state.rounds, 'rounds', 1),
+        ],
+      );
     });
 
     group('Scored', () {
@@ -84,7 +126,7 @@ void main() {
           const GameState(
             score: 0,
             multiplier: 1,
-            balls: 0,
+            balls: 1,
             rounds: 0,
             bonusHistory: [],
           ),
@@ -154,57 +196,6 @@ void main() {
       );
     });
 
-    group('MultiplierApplied', () {
-      blocTest<GameBloc, GameState>(
-        'apply multiplier to score',
-        build: GameBloc.new,
-        seed: () => const GameState(
-          score: 5,
-          multiplier: 3,
-          balls: 2,
-          rounds: 2,
-          bonusHistory: [],
-        ),
-        act: (bloc) {
-          bloc.add(const MultiplierApplied());
-        },
-        expect: () => [
-          const GameState(
-            score: 15,
-            multiplier: 3,
-            balls: 2,
-            rounds: 2,
-            bonusHistory: [],
-          ),
-        ],
-      );
-    });
-
-    group('MultiplierReset', () {
-      blocTest<GameBloc, GameState>(
-        'resets multiplier',
-        build: GameBloc.new,
-        seed: () => const GameState(
-          score: 0,
-          multiplier: 3,
-          balls: 2,
-          rounds: 2,
-          bonusHistory: [],
-        ),
-        act: (bloc) {
-          bloc.add(const MultiplierReset());
-        },
-        expect: () => [
-          const GameState(
-            score: 0,
-            multiplier: 1,
-            balls: 2,
-            rounds: 2,
-            bonusHistory: [],
-          ),
-        ],
-      );
-    });
     group(
       'BonusActivated',
       () {
@@ -218,15 +209,15 @@ void main() {
             GameState(
               score: 0,
               multiplier: 1,
-              balls: 3,
-              rounds: 2,
+              balls: 1,
+              rounds: 3,
               bonusHistory: [GameBonus.googleWord],
             ),
             GameState(
               score: 0,
               multiplier: 1,
-              balls: 3,
-              rounds: 2,
+              balls: 1,
+              rounds: 3,
               bonusHistory: [GameBonus.googleWord, GameBonus.dashNest],
             ),
           ],

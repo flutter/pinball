@@ -58,32 +58,6 @@ void main() {
       });
     });
 
-    group('MultiplierApplied', () {
-      test('can be instantiated', () {
-        expect(const MultiplierApplied(), isNotNull);
-      });
-
-      test('supports value equality', () {
-        expect(
-          MultiplierApplied(),
-          equals(const MultiplierApplied()),
-        );
-      });
-    });
-
-    group('MultiplierReset', () {
-      test('can be instantiated', () {
-        expect(const MultiplierReset(), isNotNull);
-      });
-
-      test('supports value equality', () {
-        expect(
-          MultiplierReset(),
-          equals(const MultiplierReset()),
-        );
-      });
-    });
-
     group('BonusActivated', () {
       test('can be instantiated', () {
         expect(const BonusActivated(GameBonus.dashNest), isNotNull);
