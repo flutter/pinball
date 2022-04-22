@@ -91,8 +91,8 @@ void main() {
         'when game is not over',
         build: GameBloc.new,
         act: (bloc) => bloc
-          ..add(const MultiplierIncreased(increase: 1))
-          ..add(const MultiplierIncreased(increase: 1)),
+          ..add(const MultiplierIncreased())
+          ..add(const MultiplierIncreased()),
         expect: () => [
           const GameState(
             score: 0,
@@ -117,7 +117,7 @@ void main() {
           for (var i = 0; i < bloc.state.balls; i++) {
             bloc.add(const BallLost());
           }
-          bloc.add(const MultiplierIncreased(increase: 1));
+          bloc.add(const MultiplierIncreased());
         },
         expect: () => [
           const GameState(

@@ -54,14 +54,10 @@ class SparkyTurboChargeActivated extends GameEvent {
 /// {@endtemplate}
 class MultiplierIncreased extends GameEvent {
   /// {@macro multiplier_increased_game_event}
-  const MultiplierIncreased({
-    required this.increase,
-  }) : assert(increase > 0, 'Increase must be greater than 0');
-
-  final int increase;
+  const MultiplierIncreased();
 
   @override
-  List<Object?> get props => [increase];
+  List<Object?> get props => [];
 }
 
 /// {@template multiplier_applied_game_event}

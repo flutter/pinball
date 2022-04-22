@@ -43,24 +43,14 @@ void main() {
 
     group('MultiplierIncreased', () {
       test('can be instantiated', () {
-        expect(const MultiplierIncreased(increase: 1), isNotNull);
+        expect(const MultiplierIncreased(), isNotNull);
       });
 
       test('supports value equality', () {
         expect(
-          MultiplierIncreased(increase: 1),
-          equals(const MultiplierIncreased(increase: 1)),
+          MultiplierIncreased(),
+          equals(const MultiplierIncreased()),
         );
-        expect(
-          const MultiplierIncreased(increase: 1),
-          isNot(equals(const MultiplierIncreased(increase: 2))),
-        );
-      });
-
-      test(
-          'throws AssertionError '
-          'when increase is smaller than 1', () {
-        expect(() => MultiplierIncreased(increase: 0), throwsAssertionError);
       });
     });
 

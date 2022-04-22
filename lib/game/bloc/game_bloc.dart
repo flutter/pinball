@@ -32,7 +32,9 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
   void _onIncreasedMultiplier(MultiplierIncreased event, Emitter emit) {
     if (!state.isGameOver) {
-      emit(state.copyWith(multiplier: state.multiplier + event.increase));
+      // TODO(ruimiguel): confirm that x6 is going to be the max value, to add
+      // assertion here or at MultiplierIncreased event const.
+      emit(state.copyWith(multiplier: state.multiplier + 1));
     }
   }
 
