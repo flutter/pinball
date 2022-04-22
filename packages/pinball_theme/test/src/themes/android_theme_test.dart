@@ -6,7 +6,10 @@ import 'package:pinball_theme/pinball_theme.dart';
 void main() {
   group('AndroidTheme', () {
     test('can be instantiated', () {
-      expect(AndroidTheme(), isNotNull);
+      final androidTheme = AndroidTheme();
+
+      expect(androidTheme, isNotNull);
+      expect(androidTheme.animationPath, isNotNull);
     });
 
     test('supports value equality', () {

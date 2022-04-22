@@ -25,4 +25,7 @@ class DinoTheme extends CharacterTheme {
 
   @override
   AssetGenImage get leaderboardIcon => Assets.images.dino.leaderboardIcon;
+
+  @override
+  String get animationPath => Assets.images.dino.animation.keyName;
 }

@@ -25,4 +25,7 @@ class SparkyTheme extends CharacterTheme {
 
   @override
   AssetGenImage get leaderboardIcon => Assets.images.sparky.leaderboardIcon;
+
+  @override
+  String get animationPath => Assets.images.sparky.animation.keyName;
 }

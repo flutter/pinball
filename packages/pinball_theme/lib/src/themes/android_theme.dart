@@ -25,4 +25,7 @@ class AndroidTheme extends CharacterTheme {
 
   @override
   AssetGenImage get leaderboardIcon => Assets.images.android.leaderboardIcon;
+
+  @override
+  String get animationPath => Assets.images.android.animation.keyName;
 }

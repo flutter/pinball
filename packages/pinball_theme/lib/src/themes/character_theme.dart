@@ -30,6 +30,9 @@ abstract class CharacterTheme extends Equatable {
   /// Icon asset for the leaderboard.
   AssetGenImage get leaderboardIcon;
 
+  /// Path to the asset for the animation.
+  String get animationPath;
+
   @override
   List<Object?> get props => [
         name,

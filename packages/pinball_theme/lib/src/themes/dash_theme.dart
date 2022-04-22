@@ -25,4 +25,7 @@ class DashTheme extends CharacterTheme {
 
   @override
   AssetGenImage get leaderboardIcon => Assets.images.dash.leaderboardIcon;
+
+  @override
+  String get animationPath => Assets.images.dash.animation.keyName;
 }
