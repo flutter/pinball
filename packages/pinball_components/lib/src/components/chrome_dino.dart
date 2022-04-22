@@ -1,26 +1,23 @@
 import 'dart:async';
-import 'dart:math' as math;
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart' hide Timer;
-import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template chrome_dino}
-/// Dinosaur that gobbles up a [Ball], swivel his head around, and shoots it
-/// back out.
+/// Dino that swivels back and forth, opening its mouth to eat a [Ball].
+///
+/// Upon eating a [Ball], the dino rotates and spits the [Ball] out in a
+/// different direction.
 /// {@endtemplate}
 class ChromeDino extends BodyComponent with InitialPosition {
   /// {@macro chrome_dino}
-  ChromeDino()
-      : super(
-          // TODO(alestiago): Remove once sprites are defined.
-          paint: Paint()..color = Colors.blue,
-          priority: RenderPriority.dino,
-        );
+  ChromeDino() : super(priority: RenderPriority.dino) {
+    renderBody = false;
+  }
 
   /// The size of the dinosaur mouth.
-  static final size = Vector2(5, 2.5);
+  static final size = Vector2(5.5, 5);
 
   /// Anchors the [ChromeDino] to the [RevoluteJoint] that controls its arc
   /// motion.
@@ -42,59 +39,29 @@ class ChromeDino extends BodyComponent with InitialPosition {
   Future<void> onLoad() async {
     await super.onLoad();
     final joint = await _anchorToJoint();
-    await addAll(
-      [
-        TimerComponent(
-          period: 1,
-          onTick: joint._swivel,
-          repeat: true,
-        ),
-        _ChromeDinoMouthSprite(),
-        _ChromeDinoHeadSprite(),
-      ],
+    await add(
+      TimerComponent(
+        period: 98 / 48,
+        onTick: joint._swivel,
+        repeat: true,
+      ),
     );
+    joint._swivel();
   }
 
   List<FixtureDef> _createFixtureDefs() {
     final fixtureDefs = <FixtureDef>[];
 
-    // TODO(alestiago): Subject to change when sprites are added.
-    final box = PolygonShape()..setAsBoxXY(size.x / 2, size.y / 2);
-    final fixtureDef = FixtureDef(
-      box,
-      density: 999,
-      friction: 0.3,
-      restitution: 0.1,
-      isSensor: true,
-    );
-
+    // TODO(allisonryan0002): Update this to match sprite.
+    final box = PolygonShape()
+      ..setAsBox(
+        size.x / 2,
+        size.y / 2,
+        initialPosition + Vector2(-4, 2),
+        -0.1143,
+      );
+    final fixtureDef = FixtureDef(box, density: 1);
     fixtureDefs.add(fixtureDef);
-
-    // FIXME(alestiago): Investigate why adding these fixtures is considered as
-    // an invalid contact type.
-    // final upperEdge = EdgeShape()
-    //   ..set(
-    //     Vector2(-size.x / 2, -size.y / 2),
-    //     Vector2(size.x / 2, -size.y / 2),
-    //   );
-    // final upperEdgeDef = FixtureDef(upperEdge)..density = 0.5;
-    // fixtureDefs.add(upperEdgeDef);
-
-    // final lowerEdge = EdgeShape()
-    //   ..set(
-    //     Vector2(-size.x / 2, size.y / 2),
-    //     Vector2(size.x / 2, size.y / 2),
-    //   );
-    // final lowerEdgeDef = FixtureDef(lowerEdge)..density = 0.5;
-    // fixtureDefs.add(lowerEdgeDef);
-
-    // final rightEdge = EdgeShape()
-    //   ..set(
-    //     Vector2(size.x / 2, -size.y / 2),
-    //     Vector2(size.x / 2, size.y / 2),
-    //   );
-    // final rightEdgeDef = FixtureDef(rightEdge)..density = 0.5;
-    // fixtureDefs.add(rightEdgeDef);
 
     return fixtureDefs;
   }
@@ -115,12 +82,22 @@ class ChromeDino extends BodyComponent with InitialPosition {
 }
 
 /// {@template flipper_anchor}
-/// [JointAnchor] positioned at the end of a [ChromeDino].
+/// [JointAnchor] positioned at the back of the [ChromeDino].
 /// {@endtemplate}
 class _ChromeDinoAnchor extends JointAnchor {
   /// {@macro flipper_anchor}
   _ChromeDinoAnchor() {
-    initialPosition = Vector2(9, 0);
+    initialPosition = Vector2(9, -4);
+  }
+
+  @override
+  Future<void> onLoad() async {
+    const spriteAngle = 0.1143;
+    await super.onLoad();
+    await addAll([
+      _ChromeDinoMouthSprite()..angle = spriteAngle,
+      _ChromeDinoHeadSprite()..angle = spriteAngle,
+    ]);
   }
 }
 
@@ -139,19 +116,21 @@ class _ChromeDinoAnchorRevoluteJointDef extends RevoluteJointDef {
       chromeDino.body.position + anchor.body.position,
     );
     enableLimit = true;
-    // TODO(alestiago): Apply design angle value.
-    const angle = math.pi / 3.5;
-    lowerAngle = -angle / 2;
-    upperAngle = angle / 2;
+    const angle = 0.1143;
+    lowerAngle = -angle;
+    upperAngle = angle;
 
     enableMotor = true;
-    // TODO(alestiago): Tune this values.
-    maxMotorTorque = motorSpeed = chromeDino.body.mass * 30;
+    maxMotorTorque = chromeDino.body.mass * 255;
+    motorSpeed = 2;
   }
 }
 
 class _ChromeDinoJoint extends RevoluteJoint {
   _ChromeDinoJoint(_ChromeDinoAnchorRevoluteJointDef def) : super(def);
+
+  /// Half the angle of the arc motion.
+  // static const _halfSweepingAngle = 0.1143;
 
   /// Sweeps the [ChromeDino] up and down repeatedly.
   void _swivel() {
@@ -160,15 +139,17 @@ class _ChromeDinoJoint extends RevoluteJoint {
 }
 
 class _ChromeDinoMouthSprite extends SpriteAnimationComponent with HasGameRef {
+  _ChromeDinoMouthSprite()
+      : super(
+          anchor: Anchor(Anchor.center.x + 0.47, Anchor.center.y - 0.29),
+        );
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final image = await gameRef.images.load(
-      Assets.images.chromeDino.mouth.keyName,
+    final image = gameRef.images.fromCache(
+      Assets.images.dino.animatronic.mouth.keyName,
     );
-
-    position = Vector2(0, -2);
-    anchor = Anchor.center;
 
     const amountPerRow = 11;
     const amountPerColumn = 9;
@@ -181,23 +162,25 @@ class _ChromeDinoMouthSprite extends SpriteAnimationComponent with HasGameRef {
     final data = SpriteAnimationData.sequenced(
       amount: (amountPerColumn * amountPerRow) - 1,
       amountPerRow: amountPerRow,
-      stepTime: 0.1,
+      stepTime: 1 / 24,
       textureSize: textureSize,
     );
-    animation = SpriteAnimation.fromFrameData(image, data);
+    animation = SpriteAnimation.fromFrameData(image, data)..currentIndex = 95;
   }
 }
 
 class _ChromeDinoHeadSprite extends SpriteAnimationComponent with HasGameRef {
+  _ChromeDinoHeadSprite()
+      : super(
+          anchor: Anchor(Anchor.center.x + 0.47, Anchor.center.y - 0.29),
+        );
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final image = await gameRef.images.load(
-      Assets.images.chromeDino.head.keyName,
+    final image = gameRef.images.fromCache(
+      Assets.images.dino.animatronic.head.keyName,
     );
-
-    position = Vector2(0, -2);
-    anchor = Anchor.center;
 
     const amountPerRow = 11;
     const amountPerColumn = 9;
@@ -210,9 +193,9 @@ class _ChromeDinoHeadSprite extends SpriteAnimationComponent with HasGameRef {
     final data = SpriteAnimationData.sequenced(
       amount: (amountPerColumn * amountPerRow) - 1,
       amountPerRow: amountPerRow,
-      stepTime: 0.1,
+      stepTime: 1 / 24,
       textureSize: textureSize,
     );
-    animation = SpriteAnimation.fromFrameData(image, data);
+    animation = SpriteAnimation.fromFrameData(image, data)..currentIndex = 95;
   }
 }

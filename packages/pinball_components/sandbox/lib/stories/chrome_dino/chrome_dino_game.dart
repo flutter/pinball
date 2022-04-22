@@ -9,6 +9,11 @@ class ChromeDinoGame extends BasicGame with Traceable {
   Future<void> onLoad() async {
     await super.onLoad();
 
+    await images.loadAll([
+      Assets.images.dino.animatronic.mouth.keyName,
+      Assets.images.dino.animatronic.head.keyName,
+    ]);
+
     camera.followVector2(Vector2.zero());
     await add(ChromeDino());
 
