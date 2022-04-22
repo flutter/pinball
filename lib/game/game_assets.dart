@@ -43,6 +43,8 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.dash.bumper.b.inactive.keyName),
       images.load(components.Assets.images.dash.bumper.main.active.keyName),
       images.load(components.Assets.images.dash.bumper.main.inactive.keyName),
+      images.load(components.Assets.images.plunger.plunger.keyName),
+      images.load(components.Assets.images.plunger.rocket.keyName),
       images.load(components.Assets.images.boundary.bottom.keyName),
       images.load(components.Assets.images.boundary.outer.keyName),
       images.load(components.Assets.images.spaceship.saucer.keyName),
