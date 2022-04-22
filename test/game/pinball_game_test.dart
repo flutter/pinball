@@ -34,6 +34,7 @@ void main() {
     Assets.images.sparky.bumper.b.inactive.keyName,
     Assets.images.sparky.bumper.c.active.keyName,
     Assets.images.sparky.bumper.c.inactive.keyName,
+    Assets.images.sparky.animatronic.keyName,
     Assets.images.spaceship.ramp.boardOpening.keyName,
     Assets.images.spaceship.ramp.railingForeground.keyName,
     Assets.images.spaceship.ramp.railingBackground.keyName,
@@ -91,14 +92,6 @@ void main() {
           equals(1),
         );
       });
-
-      flameTester.test(
-        'one SparkyFireZone',
-        (game) async {
-          await game.ready();
-          expect(game.children.whereType<SparkyFireZone>().length, equals(1));
-        },
-      );
 
       flameTester.test(
         'one AlienZone',
