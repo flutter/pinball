@@ -63,7 +63,12 @@ class BallController extends ComponentController<Ball>
     gameRef.read<GameBloc>().add(const SparkyTurboChargeActivated());
 
     component.stop();
-    await Future<void>.delayed(const Duration(seconds: 1));
+    // TODO(alestiago): Refactor this hard coded duration once the following is
+    // merged:
+    // https://github.com/flame-engine/flame/pull/1564
+    await Future<void>.delayed(
+      const Duration(milliseconds: 2583),
+    );
     component.resume();
     await component.boost(Vector2(40, 110));
   }
