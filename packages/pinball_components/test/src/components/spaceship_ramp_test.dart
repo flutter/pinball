@@ -36,6 +36,7 @@ void main() {
     );
 
     group('renders correctly', () {
+      const goldenFilePath = 'golden/spaceship_ramp/';
       final centerForSpaceshipRamp = Vector2(-13, -55);
 
       flameTester.testGameWidget(
@@ -54,11 +55,13 @@ void main() {
                 .current,
             SpaceshipRampArrowSpriteState.inactive,
           );
+
+          game.camera.followVector2(centerForSpaceshipRamp);
         },
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/spaceship_ramp/inactive.png'),
+            matchesGoldenFile('${goldenFilePath}inactive.png'),
           );
         },
       );
@@ -86,7 +89,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/spaceship_ramp/active1.png'),
+            matchesGoldenFile('${goldenFilePath}active1.png'),
           );
         },
       );
@@ -116,7 +119,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/spaceship_ramp/active2.png'),
+            matchesGoldenFile('${goldenFilePath}active2.png'),
           );
         },
       );
@@ -147,7 +150,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/spaceship_ramp/active3.png'),
+            matchesGoldenFile('${goldenFilePath}active3.png'),
           );
         },
       );
@@ -179,7 +182,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/spaceship_ramp/active4.png'),
+            matchesGoldenFile('${goldenFilePath}active4.png'),
           );
         },
       );
@@ -212,7 +215,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/spaceship_ramp/active5.png'),
+            matchesGoldenFile('${goldenFilePath}active5.png'),
           );
         },
       );
