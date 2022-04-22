@@ -13,7 +13,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 ///
 /// When a [Ball] hits [SparkyBumper]s, the bumper animates.
 /// {@endtemplate}
-class SparkyFireZone extends Blueprint with HasGameRef<Forge2DGame> {
+class SparkyFireZone extends Blueprint {
   /// {@macro sparky_fire_zone}
   SparkyFireZone()
       : super(
