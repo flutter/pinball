@@ -22,4 +22,7 @@ class DinoTheme extends CharacterTheme {
 
   @override
   AssetGenImage get icon => Assets.images.dino.icon;
+
+  @override
+  AssetGenImage get leaderboardIcon => Assets.images.dino.leaderboardIcon;
 }
