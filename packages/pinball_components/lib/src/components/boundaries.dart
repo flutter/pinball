@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_renaming_method_parameters
-
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -8,14 +6,15 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template boundaries}
 /// A [Blueprint] which creates the [_BottomBoundary] and [_OuterBoundary].
 ///{@endtemplate boundaries}
-class Boundaries extends Forge2DBlueprint {
-  @override
-  void build(_) {
-    final bottomBoundary = _BottomBoundary();
-    final outerBoundary = _OuterBoundary();
-
-    addAll([outerBoundary, bottomBoundary]);
-  }
+class Boundaries extends Blueprint {
+  /// {@macro boundaries}
+  Boundaries()
+      : super(
+          components: [
+            _BottomBoundary(),
+            _OuterBoundary(),
+          ],
+        );
 }
 
 /// {@template bottom_boundary}

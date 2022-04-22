@@ -68,7 +68,7 @@ class PinballGame extends Forge2DGame
     );
     unawaited(addFromBlueprint(SpaceshipRail()));
 
-    controller.attachTo(launcher.plunger);
+    controller.attachTo(launcher.components.whereType<Plunger>().first);
     await super.onLoad();
   }
 

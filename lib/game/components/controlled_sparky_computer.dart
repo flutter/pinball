@@ -11,19 +11,16 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// [SparkyComputer] with a [SparkyComputerController] attached.
 /// {@endtemplate}
 class ControlledSparkyComputer extends SparkyComputer
-    with Controls<SparkyComputerController>, HasGameRef<PinballGame> {
+    with Controls<SparkyComputerController>, HasGameRef<Forge2DGame> {
   /// {@macro controlled_sparky_computer}
-  ControlledSparkyComputer() {
+  ControlledSparkyComputer() : super() {
     controller = SparkyComputerController(this);
   }
 
   @override
-  void build(Forge2DGame _) {
-    addContactCallback(SparkyTurboChargeSensorBallContactCallback());
-    final sparkyTurboChargeSensor = SparkyTurboChargeSensor()
-      ..initialPosition = Vector2(-13, -49.8);
-    add(sparkyTurboChargeSensor);
-    super.build(_);
+  Future<void> onLoad() async {
+    await super.onLoad();
+    gameRef.addContactCallback(SparkyComputerSensorBallContactCallback());
   }
 }
 
@@ -39,46 +36,17 @@ class SparkyComputerController
       : super(controlledComputer);
 }
 
-/// {@template sparky_turbo_charge_sensor}
-/// Small sensor body used to detect when a ball has entered the
-/// [SparkyComputer] with the [SparkyTurboChargeSensorBallContactCallback].
+/// {@template sparky_computer_sensor_ball_contact_callback}
+/// Turbo charges the [Ball] when it enters the [SparkyComputer]
 /// {@endtemplate}
 @visibleForTesting
-class SparkyTurboChargeSensor extends BodyComponent with InitialPosition {
-  /// {@macro sparky_turbo_charge_sensor}
-  SparkyTurboChargeSensor() {
-    renderBody = false;
-  }
+class SparkyComputerSensorBallContactCallback
+    extends ContactCallback<SparkyComputerSensor, ControlledBall> {
+  /// {@macro sparky_computer_sensor_ball_contact_callback}
+  SparkyComputerSensorBallContactCallback();
 
   @override
-  Body createBody() {
-    final shape = CircleShape()..radius = 0.1;
-
-    final fixtureDef = FixtureDef(shape)..isSensor = true;
-
-    final bodyDef = BodyDef()
-      ..position = initialPosition
-      ..userData = this;
-
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
-  }
-}
-
-/// {@template sparky_turbo_charge_sensor_ball_contact_callback}
-/// Turbo charges the [Ball] on contact with [SparkyTurboChargeSensor].
-/// {@endtemplate}
-@visibleForTesting
-class SparkyTurboChargeSensorBallContactCallback
-    extends ContactCallback<SparkyTurboChargeSensor, ControlledBall> {
-  /// {@macro sparky_turbo_charge_sensor_ball_contact_callback}
-  SparkyTurboChargeSensorBallContactCallback();
-
-  @override
-  void begin(
-    SparkyTurboChargeSensor sparkyTurboChargeSensor,
-    ControlledBall ball,
-    _,
-  ) {
+  void begin(_, ControlledBall ball, __) {
     ball.controller.turboCharge();
   }
 }
