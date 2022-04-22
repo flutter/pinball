@@ -3,7 +3,6 @@
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_test/flame_test.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
@@ -215,12 +214,8 @@ void main() {
       final eventPosition = MockEventPosition();
       when(() => eventPosition.game).thenReturn(Vector2.all(10));
 
-      final raw = MockTapUpDetails();
-      when(() => raw.kind).thenReturn(PointerDeviceKind.mouse);
-
       final tapUpEvent = MockTapUpInfo();
       when(() => tapUpEvent.eventPosition).thenReturn(eventPosition);
-      when(() => tapUpEvent.raw).thenReturn(raw);
 
       final previousBalls = game.descendants().whereType<Ball>().toList();
 

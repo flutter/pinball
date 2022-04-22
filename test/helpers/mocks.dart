@@ -55,8 +55,6 @@ class MockRawKeyUpEvent extends Mock implements RawKeyUpEvent {
   }
 }
 
-class MockTapDownInfo extends Mock implements TapDownInfo {}
-
 class MockTapUpInfo extends Mock implements TapUpInfo {}
 
 class MockTapUpDetails extends Mock implements TapUpDetails {}
