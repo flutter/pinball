@@ -35,12 +35,8 @@ void main() {
       flameTester.test(
         'a SparkyComputer',
         (game) async {
-          final sparkyFireZone = SparkyFireZone();
-          await game.addFromBlueprint(sparkyFireZone);
-          await game.ready();
-
           expect(
-            game.descendants().whereType<SparkyComputer>().single,
+            SparkyFireZone().blueprints.whereType<SparkyComputer>().single,
             isNotNull,
           );
         },
