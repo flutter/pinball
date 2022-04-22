@@ -33,6 +33,7 @@ void main() {
   addLaunchRampStories(dashbook);
   addScoreTextStories(dashbook);
   addBackboardStories(dashbook);
+  addDinoWallStories(dashbook);
 
   runApp(dashbook);
 }

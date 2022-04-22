@@ -4,6 +4,7 @@ export 'ball/stories.dart';
 export 'baseboard/stories.dart';
 export 'boundaries/stories.dart';
 export 'chrome_dino/stories.dart';
+export 'dino_wall/stories.dart';
 export 'effects/stories.dart';
 export 'flipper/stories.dart';
 export 'flutter_forest/stories.dart';
