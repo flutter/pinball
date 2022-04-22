@@ -20,8 +20,6 @@ class ControlledSpaceshipRamp extends Component
     controller = SpaceshipRampController(this);
   }
 
-  // TODO(ruimiguel): check Blueprint contact callbacks bug and then change
-  // this class to extends from SpaceshipRamp.
   late final SpaceshipRamp _spaceshipRamp;
 
   @override
@@ -53,7 +51,6 @@ class SpaceshipRampController
       : super(controlledSpaceshipRamp);
 
   final int _oneMillionPointsTarget = 10;
-  final int _scoreMultiplierTarget = 6;
 
   int _hitsCounter = 0;
 
@@ -62,15 +59,13 @@ class SpaceshipRampController
 
     component._spaceshipRamp.progress();
 
-    // TODO(ruimiguel): increase score multiplier x1 .
-    print('Multiplier x1');
-    gameRef.read<GameBloc>().add(const Scored(points: 100));
+    // TODO(ruimiguel): Ramp shot
+    gameRef.read<GameBloc>().add(const Scored(points: 5000));
 
-    if (_hitsCounter % _scoreMultiplierTarget == 0) {
-      // TODO(ruimiguel): reset score multiplier and multiply score x6 .
-      print('Reset multiplier and multiply score x6');
-    }
+    // TODO(ruimiguel): increase score multiplier at GameBloc.
+
     if (_hitsCounter % _oneMillionPointsTarget == 0) {
+      // TODO(ruimiguel): One million by bonus??
       const oneMillion = 1000000;
       gameRef.read<GameBloc>().add(const Scored(points: oneMillion));
       gameRef.add(
@@ -80,6 +75,47 @@ class SpaceshipRampController
         ),
       );
     }
+  }
+}
+
+enum SpaceshipRampSensorType {
+  door,
+  inside,
+}
+
+/// {@template spaceship_ramp_sensor}
+/// Small sensor body used to detect when a ball has entered the
+/// [SpaceshipRamp].
+/// {@endtemplate}
+class SpaceshipRampSensor extends BodyComponent with InitialPosition, Layered {
+  /// {@macro spaceship_ramp_sensor}
+  SpaceshipRampSensor({required this.type}) : super() {
+    layer = Layer.spaceshipEntranceRamp;
+    renderBody = false;
+  }
+
+  final SpaceshipRampSensorType type;
+
+  @override
+  Body createBody() {
+    final shape = PolygonShape()
+      ..setAsBox(
+        2,
+        2,
+        initialPosition,
+        -5 * math.pi / 180,
+      );
+
+    final fixtureDef = FixtureDef(
+      shape,
+      isSensor: true,
+    );
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
+
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
 
