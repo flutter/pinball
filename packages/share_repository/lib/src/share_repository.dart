@@ -10,8 +10,9 @@ class ShareRepository {
   // TODO(jonathandaniels-vgv): Change to prod url.
   static const _shareUrl = 'https://ashehwkdkdjruejdnensjsjdne.web.app/#/';
 
-  /// Returns a url to share the [shareText] on the given [platform]. The
-  /// [shareText] must have the score embedded.
+  /// Returns a url to share the [shareText] on the given [platform].
+  /// The returned url can be opened using the [url_launcher](https://pub.dev/packages/url_launcher) package.
+  /// The [shareText] must have the score embedded.
   String shareScore({
     required String shareText,
     required SharePlatform platform,
