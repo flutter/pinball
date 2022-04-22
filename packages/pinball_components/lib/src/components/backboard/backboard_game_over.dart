@@ -18,78 +18,41 @@ class BackboardGameOver extends PositionComponent with HasGameRef {
   /// {@macro backboard_game_over}
   BackboardGameOver({
     required int score,
+    required String characterIconPath,
     BackboardOnSubmit? onSubmit,
-  })  : _score = score,
-        _onSubmit = onSubmit;
+  })  : _onSubmit = onSubmit,
+        super(
+          children: [
+            _BackboardSpriteComponent(),
+            _BackboardDisplaySpriteComponent(),
+            _ScoreTextComponent(score.formatScore()),
+            _CharacterIconSpriteComponent(characterIconPath),
+          ],
+        );
 
-  final int _score;
   final BackboardOnSubmit? _onSubmit;
 
   @override
   Future<void> onLoad() async {
-    final backgroundSprite = await gameRef.loadSprite(
-      Assets.images.backboard.backboardGameOver.keyName,
-    );
-
-    unawaited(
-      add(
-        SpriteComponent(
-          sprite: backgroundSprite,
-          size: backgroundSprite.originalSize / 10,
-          anchor: Anchor.bottomCenter,
-        ),
-      ),
-    );
-
-    final displaySprite = await gameRef.loadSprite(
-      Assets.images.backboard.display.keyName,
-    );
-
-    unawaited(
-      add(
-        SpriteComponent(
-          sprite: displaySprite,
-          size: displaySprite.originalSize / 10,
-          anchor: Anchor.bottomCenter,
-          position: Vector2(0, -11.5),
-        ),
-      ),
-    );
-
-    unawaited(
-      add(
-        TextComponent(
-          text: _score.formatScore(),
-          position: Vector2(-22, -46.5),
-          anchor: Anchor.center,
-          textRenderer: Backboard.textPaint,
-        ),
-      ),
-    );
-
     for (var i = 0; i < 3; i++) {
-      unawaited(
-        add(
-          BackboardLetterPrompt(
-            position: Vector2(
-              20 + (6 * i).toDouble(),
-              -46.5,
-            ),
-            hasFocus: i == 0,
+      await add(
+        BackboardLetterPrompt(
+          position: Vector2(
+            24.3 + (4.5 * i),
+            -45,
           ),
+          hasFocus: i == 0,
         ),
       );
     }
 
-    unawaited(
-      add(
-        KeyboardInputController(
-          keyUp: {
-            LogicalKeyboardKey.arrowLeft: () => _movePrompt(true),
-            LogicalKeyboardKey.arrowRight: () => _movePrompt(false),
-            LogicalKeyboardKey.enter: _submit,
-          },
-        ),
+    await add(
+      KeyboardInputController(
+        keyUp: {
+          LogicalKeyboardKey.arrowLeft: () => _movePrompt(true),
+          LogicalKeyboardKey.arrowRight: () => _movePrompt(false),
+          LogicalKeyboardKey.enter: _submit,
+        },
       ),
     );
   }
@@ -116,5 +79,66 @@ class BackboardGameOver extends PositionComponent with HasGameRef {
     prompts[index].hasFocus = true;
 
     return false;
+  }
+}
+
+class _BackboardSpriteComponent extends SpriteComponent with HasGameRef {
+  _BackboardSpriteComponent() : super(anchor: Anchor.bottomCenter);
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    final sprite = await gameRef.loadSprite(
+      Assets.images.backboard.backboardGameOver.keyName,
+    );
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
+  }
+}
+
+class _BackboardDisplaySpriteComponent extends SpriteComponent with HasGameRef {
+  _BackboardDisplaySpriteComponent()
+      : super(
+          anchor: Anchor.bottomCenter,
+          position: Vector2(0, -11.5),
+        );
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    final sprite = await gameRef.loadSprite(
+      Assets.images.backboard.display.keyName,
+    );
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
+  }
+}
+
+class _ScoreTextComponent extends TextComponent {
+  _ScoreTextComponent(String score)
+      : super(
+          text: score,
+          anchor: Anchor.centerLeft,
+          position: Vector2(-34, -45),
+          textRenderer: Backboard.textPaint,
+        );
+}
+
+class _CharacterIconSpriteComponent extends SpriteComponent with HasGameRef {
+  _CharacterIconSpriteComponent(String characterIconPath)
+      : _characterIconPath = characterIconPath,
+        super(
+          anchor: Anchor.center,
+          position: Vector2(18.4, -45),
+        );
+
+  final String _characterIconPath;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    final sprite = Sprite(gameRef.images.fromCache(_characterIconPath));
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
   }
 }

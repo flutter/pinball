@@ -16,10 +16,15 @@ void main() {
     Assets.images.dash.bumper.a.inactive.keyName,
     Assets.images.dash.bumper.b.active.keyName,
     Assets.images.dash.bumper.b.inactive.keyName,
+    Assets.images.dash.animatronic.keyName,
     Assets.images.signpost.inactive.keyName,
     Assets.images.signpost.active1.keyName,
     Assets.images.signpost.active2.keyName,
     Assets.images.signpost.active3.keyName,
+    Assets.images.baseboard.left.keyName,
+    Assets.images.baseboard.right.keyName,
+    Assets.images.flipper.left.keyName,
+    Assets.images.flipper.right.keyName,
   ];
   final flameTester = FlameTester(() => EmptyPinballTestGame(assets));
 

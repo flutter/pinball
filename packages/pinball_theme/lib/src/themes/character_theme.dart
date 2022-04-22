@@ -27,6 +27,9 @@ abstract class CharacterTheme extends Equatable {
   /// Icon asset.
   AssetGenImage get icon;
 
+  /// Icon asset for the leaderboard.
+  AssetGenImage get leaderboardIcon;
+
   @override
   List<Object?> get props => [
         name,
@@ -34,5 +37,6 @@ abstract class CharacterTheme extends Equatable {
         character,
         background,
         icon,
+        leaderboardIcon,
       ];
 }

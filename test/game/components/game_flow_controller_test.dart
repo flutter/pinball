@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_theme/pinball_theme.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -44,6 +45,7 @@ void main() {
         when(
           () => backboard.gameOverMode(
             score: any(named: 'score'),
+            characterIconPath: any(named: 'characterIconPath'),
             onSubmit: any(named: 'onSubmit'),
           ),
         ).thenAnswer((_) async {});
@@ -56,6 +58,8 @@ void main() {
         when(game.firstChild<Backboard>).thenReturn(backboard);
         when(game.firstChild<CameraController>).thenReturn(cameraController);
         when(() => game.overlays).thenReturn(overlays);
+        when(() => game.theme)
+            .thenReturn(PinballTheme(characterTheme: DashTheme()));
       });
 
       test(
@@ -73,6 +77,7 @@ void main() {
           verify(
             () => backboard.gameOverMode(
               score: 0,
+              characterIconPath: any(named: 'characterIconPath'),
               onSubmit: any(named: 'onSubmit'),
             ),
           ).called(1);

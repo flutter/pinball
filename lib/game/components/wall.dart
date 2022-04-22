@@ -39,22 +39,6 @@ class Wall extends BodyComponent {
   }
 }
 
-/// Create top, left, and right [Wall]s for the game board.
-List<Wall> createBoundaries(Forge2DGame game) {
-  final topLeft = BoardDimensions.bounds.topLeft.toVector2() + Vector2(18.6, 0);
-  final bottomRight = BoardDimensions.bounds.bottomRight.toVector2();
-
-  final topRight =
-      BoardDimensions.bounds.topRight.toVector2() - Vector2(18.6, 0);
-  final bottomLeft = BoardDimensions.bounds.bottomLeft.toVector2();
-
-  return [
-    Wall(start: topLeft, end: topRight),
-    Wall(start: topRight, end: bottomRight),
-    Wall(start: topLeft, end: bottomLeft),
-  ];
-}
-
 /// {@template bottom_wall}
 /// [Wall] located at the bottom of the board.
 ///

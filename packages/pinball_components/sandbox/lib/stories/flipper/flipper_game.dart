@@ -33,6 +33,11 @@ class FlipperGame extends BasicBallGame with KeyboardEvents, Traceable {
   Future<void> onLoad() async {
     await super.onLoad();
 
+    await images.loadAll([
+      Assets.images.flipper.left.keyName,
+      Assets.images.flipper.right.keyName,
+    ]);
+
     final center = screenToWorld(camera.viewport.canvasSize! / 2);
 
     leftFlipper = Flipper(side: BoardSide.left)
