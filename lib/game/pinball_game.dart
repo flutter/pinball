@@ -2,6 +2,7 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
+import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
@@ -134,7 +135,7 @@ class _GameBallsController extends ComponentController<PinballGame>
   }
 }
 
-class DebugPinballGame extends PinballGame with TapDetector {
+class DebugPinballGame extends PinballGame with FPSCounter, TapDetector {
   DebugPinballGame({
     required PinballTheme theme,
     required PinballAudio audio,
@@ -149,6 +150,7 @@ class DebugPinballGame extends PinballGame with TapDetector {
   Future<void> onLoad() async {
     await super.onLoad();
     await _loadBackground();
+    await add(_DebugInformation());
   }
 
   // TODO(alestiago): Move to PinballGame once we have the real background
@@ -189,5 +191,37 @@ class _DebugGameBallsController extends _GameBallsController {
     final canBallRespawn = newState.balls > 0;
 
     return noBallsLeft && canBallRespawn;
+  }
+}
+
+class _DebugInformation extends Component with HasGameRef<DebugPinballGame> {
+  _DebugInformation() : super(priority: RenderPriority.debugInfo);
+
+  @override
+  PositionType get positionType => PositionType.widget;
+
+  final _debugTextPaint = TextPaint(
+    style: const TextStyle(
+      color: Colors.green,
+      fontSize: 10,
+    ),
+  );
+
+  final _debugBackgroundPaint = Paint()..color = Colors.white;
+
+  @override
+  void render(Canvas canvas) {
+    final debugText = [
+      'FPS: ${gameRef.fps().toStringAsFixed(1)}',
+      'BALLS: ${gameRef.descendants().whereType<ControlledBall>().length}',
+    ].join(' | ');
+
+    final height = _debugTextPaint.measureTextHeight(debugText);
+    final position = Vector2(0, gameRef.camera.canvasSize.y - height);
+    canvas.drawRect(
+      position & Vector2(gameRef.camera.canvasSize.x, height),
+      _debugBackgroundPaint,
+    );
+    _debugTextPaint.render(canvas, debugText, position);
   }
 }

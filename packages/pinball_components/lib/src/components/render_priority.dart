@@ -113,4 +113,7 @@ abstract class RenderPriority {
   // Score Text
 
   static const int scoreText = _above + spaceshipRampForegroundRailing;
+
+  // Debug information
+  static const int debugInfo = _above + scoreText;
 }
