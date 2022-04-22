@@ -122,7 +122,11 @@ class _OuterBoundary extends BodyComponent with InitialPosition {
       );
     final leftWallFixtureDef = FixtureDef(leftWall);
 
-    return [topWallFixtureDef, topLeftCurveFixtureDef, leftWallFixtureDef];
+    return [
+      topWallFixtureDef,
+      topLeftCurveFixtureDef,
+      leftWallFixtureDef,
+    ];
   }
 
   @override
