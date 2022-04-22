@@ -6,10 +6,7 @@ import 'package:pinball_theme/pinball_theme.dart';
 void main() {
   group('SparkyTheme', () {
     test('can be instantiated', () {
-      final sparkyTheme = SparkyTheme();
-
-      expect(sparkyTheme, isNotNull);
-      expect(sparkyTheme.animationPath, isNotNull);
+      expect(SparkyTheme(), isNotNull);
     });
 
     test('supports value equality', () {

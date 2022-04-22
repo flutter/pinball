@@ -6,10 +6,7 @@ import 'package:pinball_theme/pinball_theme.dart';
 void main() {
   group('DinoTheme', () {
     test('can be instantiated', () {
-      final dinoTheme = DinoTheme();
-
-      expect(dinoTheme, isNotNull);
-      expect(dinoTheme.animationPath, isNotNull);
+      expect(DinoTheme(), isNotNull);
     });
 
     test('supports value equality', () {

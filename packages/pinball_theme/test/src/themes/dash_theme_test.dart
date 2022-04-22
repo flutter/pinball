@@ -6,10 +6,7 @@ import 'package:pinball_theme/pinball_theme.dart';
 void main() {
   group('DashTheme', () {
     test('can be instantiated', () {
-      final dashTheme = DashTheme();
-
-      expect(dashTheme, isNotNull);
-      expect(dashTheme.animationPath, isNotNull);
+      expect(DashTheme(), isNotNull);
     });
 
     test('supports value equality', () {

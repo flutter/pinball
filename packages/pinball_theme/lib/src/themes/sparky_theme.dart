@@ -15,9 +15,6 @@ class SparkyTheme extends CharacterTheme {
   String get name => 'Sparky';
 
   @override
-  AssetGenImage get character => Assets.images.sparky.character;
-
-  @override
   AssetGenImage get background => Assets.images.sparky.background;
 
   @override
@@ -27,5 +24,5 @@ class SparkyTheme extends CharacterTheme {
   AssetGenImage get leaderboardIcon => Assets.images.sparky.leaderboardIcon;
 
   @override
-  String get animationPath => Assets.images.sparky.animation.keyName;
+  AssetGenImage get animation => Assets.images.sparky.animation;
 }
