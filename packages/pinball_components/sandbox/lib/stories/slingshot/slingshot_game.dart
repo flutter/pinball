@@ -15,6 +15,12 @@ class SlingshotGame extends BasicBallGame with Traceable {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+
+    await images.loadAll([
+      Assets.images.slingshot.upper.keyName,
+      Assets.images.slingshot.lower.keyName,
+    ]);
+
     await addFromBlueprint(Slingshots());
     camera.followVector2(Vector2.zero());
     await traceAllBodies();

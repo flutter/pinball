@@ -34,22 +34,19 @@ class BackboardLetterPrompt extends PositionComponent {
   @override
   Future<void> onLoad() async {
     _underscore = RectangleComponent(
-      size: Vector2(
-        4,
-        1.2,
-      ),
+      size: Vector2(3.8, 0.8),
       anchor: Anchor.center,
-      position: Vector2(0, 4),
+      position: Vector2(-0.3, 4),
     );
 
-    unawaited(add(_underscore));
+    await add(_underscore);
 
     _input = TextComponent(
       text: 'A',
       textRenderer: Backboard.textPaint,
       anchor: Anchor.center,
     );
-    unawaited(add(_input));
+    await add(_input);
 
     _underscoreBlinker = TimerComponent(
       period: 0.6,
@@ -62,16 +59,14 @@ class BackboardLetterPrompt extends PositionComponent {
       },
     );
 
-    unawaited(add(_underscoreBlinker));
+    await add(_underscoreBlinker);
 
-    unawaited(
-      add(
-        KeyboardInputController(
-          keyUp: {
-            LogicalKeyboardKey.arrowUp: () => _cycle(true),
-            LogicalKeyboardKey.arrowDown: () => _cycle(false),
-          },
-        ),
+    await add(
+      KeyboardInputController(
+        keyUp: {
+          LogicalKeyboardKey.arrowUp: () => _cycle(true),
+          LogicalKeyboardKey.arrowDown: () => _cycle(false),
+        },
       ),
     );
   }

@@ -1,7 +1,6 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:flame/components.dart';
-import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -37,6 +36,7 @@ void main() {
     );
 
     group('renders correctly', () {
+      const goldenFilePath = 'golden/spaceship_ramp/';
       final centerForSpaceshipRamp = Vector2(-13, -55);
 
       flameTester.testGameWidget(
@@ -49,7 +49,10 @@ void main() {
           await tester.pump();
 
           expect(
-            spaceshipRamp.spaceshipRampArrow.current,
+            spaceshipRamp.components
+                .whereType<SpriteGroupComponent>()
+                .first
+                .current,
             SpaceshipRampArrowSpriteState.inactive,
           );
 
@@ -58,7 +61,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/spaceship_ramp/inactive.png'),
+            matchesGoldenFile('${goldenFilePath}inactive.png'),
           );
         },
       );
@@ -74,7 +77,10 @@ void main() {
           await tester.pump();
 
           expect(
-            spaceshipRamp.spaceshipRampArrow.current,
+            spaceshipRamp.components
+                .whereType<SpriteGroupComponent>()
+                .first
+                .current,
             SpaceshipRampArrowSpriteState.active1,
           );
 
@@ -83,7 +89,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/spaceship_ramp/active1.png'),
+            matchesGoldenFile('${goldenFilePath}active1.png'),
           );
         },
       );
@@ -101,7 +107,10 @@ void main() {
           await tester.pump();
 
           expect(
-            spaceshipRamp.spaceshipRampArrow.current,
+            spaceshipRamp.components
+                .whereType<SpriteGroupComponent>()
+                .first
+                .current,
             SpaceshipRampArrowSpriteState.active2,
           );
 
@@ -110,7 +119,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/spaceship_ramp/active2.png'),
+            matchesGoldenFile('${goldenFilePath}active2.png'),
           );
         },
       );
@@ -129,7 +138,10 @@ void main() {
           await tester.pump();
 
           expect(
-            spaceshipRamp.spaceshipRampArrow.current,
+            spaceshipRamp.components
+                .whereType<SpriteGroupComponent>()
+                .first
+                .current,
             SpaceshipRampArrowSpriteState.active3,
           );
 
@@ -138,7 +150,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/spaceship_ramp/active3.png'),
+            matchesGoldenFile('${goldenFilePath}active3.png'),
           );
         },
       );
@@ -158,7 +170,10 @@ void main() {
           await tester.pump();
 
           expect(
-            spaceshipRamp.spaceshipRampArrow.current,
+            spaceshipRamp.components
+                .whereType<SpriteGroupComponent>()
+                .first
+                .current,
             SpaceshipRampArrowSpriteState.active4,
           );
 
@@ -167,7 +182,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/spaceship_ramp/active4.png'),
+            matchesGoldenFile('${goldenFilePath}active4.png'),
           );
         },
       );
@@ -188,7 +203,10 @@ void main() {
           await tester.pump();
 
           expect(
-            spaceshipRamp.spaceshipRampArrow.current,
+            spaceshipRamp.components
+                .whereType<SpriteGroupComponent>()
+                .first
+                .current,
             SpaceshipRampArrowSpriteState.active5,
           );
 
@@ -197,7 +215,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/spaceship_ramp/active5.png'),
+            matchesGoldenFile('${goldenFilePath}active5.png'),
           );
         },
       );

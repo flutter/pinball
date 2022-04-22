@@ -46,15 +46,16 @@ class PinballGame extends Forge2DGame
     unawaited(add(CameraController(this)));
     unawaited(add(Backboard.waiting(position: Vector2(0, -88))));
 
-    await _addGameBoundaries();
+    // TODO(allisonryan0002): banish Wall and Board classes in later PR.
+    await add(BottomWall());
     unawaited(addFromBlueprint(Boundaries()));
-    unawaited(addFromBlueprint(ControlledSparkyComputer()));
+    unawaited(addFromBlueprint(LaunchRamp()));
 
     final launcher = Launcher();
     unawaited(addFromBlueprint(launcher));
     unawaited(add(Board()));
     unawaited(add(AlienZone()));
-    unawaited(add(SparkyFireZone()));
+    await addFromBlueprint(SparkyFireZone());
     unawaited(addFromBlueprint(Slingshots()));
     unawaited(addFromBlueprint(DinoWalls()));
     unawaited(_addBonusWord());
@@ -68,18 +69,13 @@ class PinballGame extends Forge2DGame
     );
     unawaited(addFromBlueprint(SpaceshipRail()));
 
-    controller.attachTo(launcher.plunger);
+    controller.attachTo(launcher.components.whereType<Plunger>().first);
     await super.onLoad();
   }
 
   void _addContactCallbacks() {
     addContactCallback(BallScorePointsCallback(this));
     addContactCallback(BottomWallBallContactCallback());
-  }
-
-  Future<void> _addGameBoundaries() async {
-    await add(BottomWall());
-    createBoundaries(this).forEach(add);
   }
 
   Future<void> _addBonusWord() async {

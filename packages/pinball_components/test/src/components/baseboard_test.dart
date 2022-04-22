@@ -10,11 +10,16 @@ import '../../helpers/helpers.dart';
 void main() {
   group('Baseboard', () {
     TestWidgetsFlutterBinding.ensureInitialized();
-    final flameTester = FlameTester(TestGame.new);
+    final assets = [
+      Assets.images.baseboard.left.keyName,
+      Assets.images.baseboard.right.keyName,
+    ];
+    final flameTester = FlameTester(() => TestGame(assets));
 
     flameTester.testGameWidget(
       'renders correctly',
       setUp: (game, tester) async {
+        await game.images.loadAll(assets);
         final leftBaseboard = Baseboard(
           side: BoardSide.left,
         )..initialPosition = Vector2(-20, 0);
@@ -24,6 +29,7 @@ void main() {
 
         await game.ensureAddAll([leftBaseboard, rightBaseboard]);
         game.camera.followVector2(Vector2.zero());
+        await tester.pump();
       },
       verify: (game, tester) async {
         await expectLater(
