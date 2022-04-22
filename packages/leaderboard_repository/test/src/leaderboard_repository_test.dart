@@ -223,5 +223,46 @@ void main() {
         );
       });
     });
+
+    group('isUsernameAllowed', () {
+      late LeaderboardRepository leaderboardRepository;
+
+      setUp(() async {
+        leaderboardRepository = LeaderboardRepository(firestore);
+      });
+
+      test('returns true if username is not a bad word', () async {
+        final isUsernameAllowedResponse =
+            await leaderboardRepository.isUsernameAllowed(
+          username: 'goodword',
+        );
+        expect(
+          isUsernameAllowedResponse,
+          isTrue,
+        );
+      });
+
+      test('returns false if username is a bad word', () async {
+        final isUsernameAllowedResponse =
+            await leaderboardRepository.isUsernameAllowed(
+          username: 'badword',
+        );
+        expect(
+          isUsernameAllowedResponse,
+          isFalse,
+        );
+      });
+
+      test('bad word detection should be case insensitive', () async {
+        final isUsernameAllowedResponse =
+            await leaderboardRepository.isUsernameAllowed(
+          username: '  bAdWoRd  ',
+        );
+        expect(
+          isUsernameAllowedResponse,
+          isFalse,
+        );
+      });
+    });
   });
 }

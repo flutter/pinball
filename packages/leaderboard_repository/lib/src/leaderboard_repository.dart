@@ -152,4 +152,15 @@ class LeaderboardRepository {
       throw FetchPlayerRankingException(error, stackTrace);
     }
   }
+
+  /// Checks if the given [username] is allowed. The [username] is not allowed
+  /// if it is a bad word.
+  Future<bool> isUsernameAllowed({required String username}) async {
+    // TODO(jonathandaniels-vgv): load this list of bad words from an endpoint
+    final badWords = <String>['badword'];
+    final filteredUsername = username.trim().toLowerCase();
+    final isUsernameABadWord = badWords.contains(filteredUsername);
+    final isUsernameAllowed = !isUsernameABadWord;
+    return isUsernameAllowed;
+  }
 }
