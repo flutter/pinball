@@ -49,18 +49,15 @@ class Slingshot extends BodyComponent with InitialPosition {
   final double _angle;
 
   List<FixtureDef> _createFixtureDefs() {
-    final fixturesDef = <FixtureDef>[];
     const circleRadius = 1.55;
 
     final topCircleShape = CircleShape()..radius = circleRadius;
     topCircleShape.position.setValues(0, -_length / 2);
     final topCircleFixtureDef = FixtureDef(topCircleShape);
-    fixturesDef.add(topCircleFixtureDef);
 
     final bottomCircleShape = CircleShape()..radius = circleRadius;
     bottomCircleShape.position.setValues(0, _length / 2);
     final bottomCircleFixtureDef = FixtureDef(bottomCircleShape);
-    fixturesDef.add(bottomCircleFixtureDef);
 
     final leftEdgeShape = EdgeShape()
       ..set(
@@ -72,8 +69,6 @@ class Slingshot extends BodyComponent with InitialPosition {
       restitution: 5,
     );
 
-    fixturesDef.add(leftEdgeShapeFixtureDef);
-
     final rightEdgeShape = EdgeShape()
       ..set(
         Vector2(-circleRadius, _length / 2),
@@ -83,9 +78,13 @@ class Slingshot extends BodyComponent with InitialPosition {
       rightEdgeShape,
       restitution: 5,
     );
-    fixturesDef.add(rightEdgeShapeFixtureDef);
 
-    return fixturesDef;
+    return [
+      topCircleFixtureDef,
+      bottomCircleFixtureDef,
+      leftEdgeShapeFixtureDef,
+      rightEdgeShapeFixtureDef,
+    ];
   }
 
   @override
@@ -118,7 +117,7 @@ class _SlinghsotSpriteComponent extends SpriteComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final sprite = await gameRef.loadSprite(_path);
+    final sprite = Sprite(gameRef.images.fromCache(_path));
     this.sprite = sprite;
     size = sprite.originalSize / 10;
   }

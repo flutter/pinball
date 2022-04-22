@@ -27,6 +27,18 @@ void main() {
       expect(blueprint.components, contains(component2));
     });
 
+    test('correctly sets and gets blueprints', () {
+      final blueprint2 = Blueprint(
+        components: [Component()],
+      );
+      final blueprint1 = Blueprint(
+        components: [Component()],
+        blueprints: [blueprint2],
+      );
+
+      expect(blueprint1.blueprints, contains(blueprint2));
+    });
+
     flameTester.test('adds the components to parent on attach', (game) async {
       final blueprint = Blueprint(
         components: [

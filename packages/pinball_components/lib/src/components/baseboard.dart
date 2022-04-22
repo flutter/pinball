@@ -22,7 +22,6 @@ class Baseboard extends BodyComponent with InitialPosition {
   final BoardSide _side;
 
   List<FixtureDef> _createFixtureDefs() {
-    final fixturesDef = <FixtureDef>[];
     final direction = _side.direction;
     const arcsAngle = 1.11;
     final arcsRotation = (_side.isLeft) ? -2.7 : -1.6;
@@ -30,12 +29,10 @@ class Baseboard extends BodyComponent with InitialPosition {
     final pegBumperShape = CircleShape()..radius = 0.7;
     pegBumperShape.position.setValues(11.11 * direction, -7.15);
     final pegBumperFixtureDef = FixtureDef(pegBumperShape);
-    fixturesDef.add(pegBumperFixtureDef);
 
     final topCircleShape = CircleShape()..radius = 0.7;
     topCircleShape.position.setValues(9.71 * direction, -4.95);
     final topCircleFixtureDef = FixtureDef(topCircleShape);
-    fixturesDef.add(topCircleFixtureDef);
 
     final innerEdgeShape = EdgeShape()
       ..set(
@@ -43,7 +40,6 @@ class Baseboard extends BodyComponent with InitialPosition {
         Vector2(5.29 * direction, 0.95),
       );
     final innerEdgeShapeFixtureDef = FixtureDef(innerEdgeShape);
-    fixturesDef.add(innerEdgeShapeFixtureDef);
 
     final outerEdgeShape = EdgeShape()
       ..set(
@@ -51,7 +47,6 @@ class Baseboard extends BodyComponent with InitialPosition {
         Vector2(3.79 * direction, 5.95),
       );
     final outerEdgeShapeFixtureDef = FixtureDef(outerEdgeShape);
-    fixturesDef.add(outerEdgeShapeFixtureDef);
 
     final upperArcShape = ArcShape(
       center: Vector2(0.09 * direction, -2.15),
@@ -60,7 +55,6 @@ class Baseboard extends BodyComponent with InitialPosition {
       rotation: arcsRotation,
     );
     final upperArcFixtureDef = FixtureDef(upperArcShape);
-    fixturesDef.add(upperArcFixtureDef);
 
     final lowerArcShape = ArcShape(
       center: Vector2(0.09 * direction, 3.35),
@@ -69,7 +63,6 @@ class Baseboard extends BodyComponent with InitialPosition {
       rotation: arcsRotation,
     );
     final lowerArcFixtureDef = FixtureDef(lowerArcShape);
-    fixturesDef.add(lowerArcFixtureDef);
 
     final bottomRectangle = PolygonShape()
       ..setAsBox(
@@ -79,9 +72,16 @@ class Baseboard extends BodyComponent with InitialPosition {
         0,
       );
     final bottomRectangleFixtureDef = FixtureDef(bottomRectangle);
-    fixturesDef.add(bottomRectangleFixtureDef);
 
-    return fixturesDef;
+    return [
+      pegBumperFixtureDef,
+      topCircleFixtureDef,
+      innerEdgeShapeFixtureDef,
+      outerEdgeShapeFixtureDef,
+      upperArcFixtureDef,
+      lowerArcFixtureDef,
+      bottomRectangleFixtureDef,
+    ];
   }
 
   @override
@@ -100,21 +100,26 @@ class Baseboard extends BodyComponent with InitialPosition {
 }
 
 class _BaseboardSpriteComponent extends SpriteComponent with HasGameRef {
-  _BaseboardSpriteComponent({required BoardSide side}) : _side = side;
+  _BaseboardSpriteComponent({required BoardSide side})
+      : _side = side,
+        super(
+          anchor: Anchor.center,
+          position: Vector2(0.4 * -side.direction, 0),
+        );
 
   final BoardSide _side;
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final sprite = await gameRef.loadSprite(
-      (_side.isLeft)
-          ? Assets.images.baseboard.left.keyName
-          : Assets.images.baseboard.right.keyName,
+    final sprite = Sprite(
+      gameRef.images.fromCache(
+        (_side.isLeft)
+            ? Assets.images.baseboard.left.keyName
+            : Assets.images.baseboard.right.keyName,
+      ),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
-    position = Vector2(0.4 * -_side.direction, 0);
-    anchor = Anchor.center;
   }
 }
