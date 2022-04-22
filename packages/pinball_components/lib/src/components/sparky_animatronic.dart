@@ -21,8 +21,8 @@ class SparkyAnimatronic extends SpriteAnimationComponent with HasGameRef {
       Assets.images.sparky.animatronic.keyName,
     );
 
-    const amountPerRow = 8;
-    const amountPerColumn = 6;
+    const amountPerRow = 9;
+    const amountPerColumn = 7;
     final textureSize = Vector2(
       spriteSheet.width / amountPerRow,
       spriteSheet.height / amountPerColumn,
@@ -32,7 +32,7 @@ class SparkyAnimatronic extends SpriteAnimationComponent with HasGameRef {
     animation = SpriteAnimation.fromFrameData(
       spriteSheet,
       SpriteAnimationData.sequenced(
-        amount: amountPerRow * amountPerColumn,
+        amount: (amountPerRow * amountPerColumn) - 1,
         amountPerRow: amountPerRow,
         stepTime: 1 / 24,
         textureSize: textureSize,
