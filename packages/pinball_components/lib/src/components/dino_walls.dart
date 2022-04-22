@@ -1,5 +1,3 @@
-// ignore_for_file: comment_references, avoid_renaming_method_parameters
-
 import 'dart:async';
 
 import 'package:flame/components.dart';
@@ -11,17 +9,15 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template dinowalls}
 /// A [Blueprint] which creates walls for the [ChromeDino].
 /// {@endtemplate}
-class DinoWalls extends Forge2DBlueprint {
+class DinoWalls extends Blueprint {
   /// {@macro dinowalls}
-  DinoWalls();
-
-  @override
-  void build(_) {
-    addAll([
-      _DinoTopWall(),
-      _DinoBottomWall(),
-    ]);
-  }
+  DinoWalls()
+      : super(
+          components: [
+            _DinoTopWall(),
+            _DinoBottomWall(),
+          ],
+        );
 }
 
 /// {@template dino_top_wall}

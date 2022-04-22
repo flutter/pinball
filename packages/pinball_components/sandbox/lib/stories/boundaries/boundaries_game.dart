@@ -16,6 +16,11 @@ class BoundariesGame extends BasicBallGame with Traceable {
   Future<void> onLoad() async {
     await super.onLoad();
 
+    await images.loadAll([
+      Assets.images.boundary.outer.keyName,
+      Assets.images.boundary.bottom.keyName,
+    ]);
+
     await addFromBlueprint(Boundaries());
     await ready();
 
