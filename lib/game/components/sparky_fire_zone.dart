@@ -5,6 +5,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template sparky_fire_zone}
 /// Area positioned at the top left of the [Board] where the [Ball]
@@ -12,27 +13,21 @@ import 'package:pinball_components/pinball_components.dart';
 ///
 /// When a [Ball] hits [SparkyBumper]s, the bumper animates.
 /// {@endtemplate}
-class SparkyFireZone extends Component with HasGameRef<Forge2DGame> {
+class SparkyFireZone extends Blueprint with HasGameRef<Forge2DGame> {
   /// {@macro sparky_fire_zone}
   SparkyFireZone()
       : super(
-          children: [
+          components: [
             _SparkyBumper.a()..initialPosition = Vector2(-22.9, -41.65),
             _SparkyBumper.b()..initialPosition = Vector2(-21.25, -57.9),
             _SparkyBumper.c()..initialPosition = Vector2(-3.3, -52.55),
-            SparkyComputer(),
             SparkyTurboChargeSensor()..initialPosition = Vector2(-13, -49.8),
             SparkyAnimatronic()..position = Vector2(-13.8, -58.2),
           ],
+          blueprints: [
+            SparkyComputer(),
+          ],
         );
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    gameRef
-      ..addContactCallback(SparkyBumperBallContactCallback())
-      ..addContactCallback(SparkyTurboChargeSensorBallContactCallback());
-  }
 }
 
 // TODO(alestiago): Revisit ScorePoints logic once the FlameForge2D
@@ -46,6 +41,16 @@ class _SparkyBumper extends SparkyBumper with ScorePoints {
 
   @override
   int get points => 20;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    // TODO(alestiago): Revisit once this has been merged:
+    // https://github.com/flame-engine/flame/pull/1547
+    gameRef
+      ..removeContactCallback(SparkyBumperBallContactCallback())
+      ..addContactCallback(SparkyBumperBallContactCallback());
+  }
 }
 
 /// Listens when a [Ball] bounces bounces against a [SparkyBumper].
@@ -67,6 +72,8 @@ class SparkyBumperBallContactCallback
 /// [SparkyComputer] with the [SparkyTurboChargeSensorBallContactCallback].
 /// {@endtemplate}
 @visibleForTesting
+// TODO(alestiago): Revisit once this has been merged:
+// https://github.com/flame-engine/flame/pull/1547
 class SparkyTurboChargeSensor extends BodyComponent with InitialPosition {
   /// {@macro sparky_turbo_charge_sensor}
   SparkyTurboChargeSensor() {
@@ -87,6 +94,12 @@ class SparkyTurboChargeSensor extends BodyComponent with InitialPosition {
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    gameRef.addContactCallback(SparkyTurboChargeSensorBallContactCallback());
+  }
 }
 
 /// {@template sparky_turbo_charge_sensor_ball_contact_callback}
@@ -104,9 +117,9 @@ class SparkyTurboChargeSensorBallContactCallback
     ControlledBall ball,
     _,
   ) {
-    final parent = sparkyTurboChargeSensor.parent;
-    if (parent is SparkyFireZone) {
-      ball.controller.turboCharge();
-    }
+    // TODO(alestiago): Revisit once this has been merged:
+    // https://github.com/flame-engine/flame/pull/1547
+    ball.controller.turboCharge();
+    ball.gameRef.firstChild<SparkyAnimatronic>()?.playing = true;
   }
 }

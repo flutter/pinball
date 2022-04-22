@@ -39,7 +39,7 @@ void main() {
           await game.ready();
 
           expect(
-            sparkyFireZone.blueprints.whereType<SparkyComputer>().single,
+            game.descendants().whereType<SparkyComputer>().single,
             isNotNull,
           );
         },
