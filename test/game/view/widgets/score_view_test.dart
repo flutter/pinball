@@ -70,7 +70,7 @@ void main() {
         gameBloc: gameBloc,
       );
 
-      expect(find.text('$score'), findsOneWidget);
+      expect(find.text(_formatScore(score)), findsOneWidget);
 
       final newState = initialState.copyWith(
         score: 987654321,
