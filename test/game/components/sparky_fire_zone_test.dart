@@ -152,7 +152,7 @@ void main() {
       await game.ready();
 
       final sparkyAnimatronic =
-          game.descendants().whereType<SparkyAnimatronic>().single;
+          sparkyFireZone.components.whereType<SparkyAnimatronic>().single;
 
       expect(sparkyAnimatronic.playing, isFalse);
       callback.begin(MockSparkyComputerSensor(), ball, MockContact());
