@@ -27,7 +27,7 @@ abstract class CharacterTheme extends Equatable {
   /// Icon asset for the leaderboard.
   AssetGenImage get leaderboardIcon;
 
-  /// Icon asset for the the animation.
+  /// Asset for the the idle character animation.
   AssetGenImage get animation;
 
   @override
