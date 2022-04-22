@@ -11,36 +11,23 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// A [Blueprint] which creates the [_LaunchRampBase] and
 /// [_LaunchRampForegroundRailing].
 /// {@endtemplate}
-class LaunchRamp extends Forge2DBlueprint {
-  @override
-  void build(_) {
-    addAllContactCallback([
-      LayerSensorBallContactCallback<_LaunchRampExit>(),
-    ]);
-
-    final launchRampBase = _LaunchRampBase();
-
-    final launchRampForegroundRailing = _LaunchRampForegroundRailing();
-
-    final launchRampExit = _LaunchRampExit(rotation: math.pi / 2)
-      ..initialPosition = Vector2(0.6, -34);
-
-    final launchRampCloseWall = _LaunchRampCloseWall()
-      ..initialPosition = Vector2(4, -69.5);
-
-    addAll([
-      launchRampBase,
-      launchRampForegroundRailing,
-      launchRampExit,
-      launchRampCloseWall,
-    ]);
-  }
+class LaunchRamp extends Blueprint {
+  /// {@macro launch_ramp}
+  LaunchRamp()
+      : super(
+          components: [
+            _LaunchRampBase(),
+            _LaunchRampForegroundRailing(),
+            _LaunchRampExit()..initialPosition = Vector2(0.6, -34),
+            _LaunchRampCloseWall()..initialPosition = Vector2(4, -69.5),
+          ],
+        );
 }
 
 /// {@template launch_ramp_base}
 /// Ramp the [Ball] is launched from at the beginning of each ball life.
 /// {@endtemplate}
-class _LaunchRampBase extends BodyComponent with InitialPosition, Layered {
+class _LaunchRampBase extends BodyComponent with Layered {
   /// {@macro launch_ramp_base}
   _LaunchRampBase()
       : super(
@@ -115,15 +102,17 @@ class _LaunchRampBase extends BodyComponent with InitialPosition, Layered {
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef(
-      position: initialPosition,
-      userData: this,
-    );
-
-    final body = world.createBody(bodyDef);
+    final body = world.createBody(BodyDef());
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    gameRef
+        .addContactCallback(LayerSensorBallContactCallback<_LaunchRampExit>());
   }
 }
 
@@ -162,7 +151,7 @@ class _LaunchRampBackgroundRailingSpriteComponent extends SpriteComponent
 /// Foreground railing for the [_LaunchRampBase] to render in front of the
 /// [Ball].
 /// {@endtemplate}
-class _LaunchRampForegroundRailing extends BodyComponent with InitialPosition {
+class _LaunchRampForegroundRailing extends BodyComponent {
   /// {@macro launch_ramp_foreground_railing}
   _LaunchRampForegroundRailing()
       : super(
@@ -205,11 +194,7 @@ class _LaunchRampForegroundRailing extends BodyComponent with InitialPosition {
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition;
-
-    final body = world.createBody(bodyDef);
+    final body = world.createBody(BodyDef());
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;
@@ -258,10 +243,8 @@ class _LaunchRampCloseWall extends BodyComponent with InitialPosition, Layered {
 /// {@endtemplate}
 class _LaunchRampExit extends LayerSensor {
   /// {@macro launch_ramp_exit}
-  _LaunchRampExit({
-    required double rotation,
-  })  : _rotation = rotation,
-        super(
+  _LaunchRampExit()
+      : super(
           insideLayer: Layer.launcher,
           outsideLayer: Layer.board,
           orientation: LayerEntranceOrientation.down,
@@ -272,8 +255,6 @@ class _LaunchRampExit extends LayerSensor {
     renderBody = false;
   }
 
-  final double _rotation;
-
   static final Vector2 _size = Vector2(1.6, 0.1);
 
   @override
@@ -282,6 +263,6 @@ class _LaunchRampExit extends LayerSensor {
       _size.x,
       _size.y,
       initialPosition,
-      _rotation,
+      math.pi / 2,
     );
 }

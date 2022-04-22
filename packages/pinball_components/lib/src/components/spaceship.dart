@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_renaming_method_parameters
-
 import 'dart:async';
 import 'dart:math';
 
@@ -12,38 +10,28 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template spaceship}
 /// A [Blueprint] which creates the spaceship feature.
 /// {@endtemplate}
-class Spaceship extends Forge2DBlueprint {
+class Spaceship extends Blueprint {
   /// {@macro spaceship}
-  Spaceship({required this.position});
+  Spaceship({required Vector2 position})
+      : super(
+          components: [
+            SpaceshipSaucer()..initialPosition = position,
+            _SpaceshipEntrance()..initialPosition = position,
+            AndroidHead()..initialPosition = position,
+            _SpaceshipHole(
+              outsideLayer: Layer.spaceshipExitRail,
+              outsidePriority: RenderPriority.ballOnSpaceshipRail,
+            )..initialPosition = position - Vector2(5.2, -4.8),
+            _SpaceshipHole(
+              outsideLayer: Layer.board,
+              outsidePriority: RenderPriority.ballOnBoard,
+            )..initialPosition = position - Vector2(-7.2, -0.8),
+            SpaceshipWall()..initialPosition = position,
+          ],
+        );
 
   /// Total size of the spaceship.
   static final size = Vector2(25, 19);
-
-  /// The [position] where the elements will be created
-  final Vector2 position;
-
-  @override
-  void build(_) {
-    addAllContactCallback([
-      LayerSensorBallContactCallback<_SpaceshipEntrance>(),
-      LayerSensorBallContactCallback<_SpaceshipHole>(),
-    ]);
-
-    addAll([
-      SpaceshipSaucer()..initialPosition = position,
-      _SpaceshipEntrance()..initialPosition = position,
-      AndroidHead()..initialPosition = position,
-      _SpaceshipHole(
-        outsideLayer: Layer.spaceshipExitRail,
-        outsidePriority: RenderPriority.ballOnSpaceshipRail,
-      )..initialPosition = position - Vector2(5.2, -4.8),
-      _SpaceshipHole(
-        outsideLayer: Layer.board,
-        outsidePriority: RenderPriority.ballOnBoard,
-      )..initialPosition = position - Vector2(-7.2, -0.8),
-      SpaceshipWall()..initialPosition = position,
-    ]);
-  }
 }
 
 /// {@template spaceship_saucer}
@@ -51,26 +39,28 @@ class Spaceship extends Forge2DBlueprint {
 /// {@endtemplate}
 class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_saucer}
-  SpaceshipSaucer() : super(priority: RenderPriority.spaceshipSaucer) {
+  SpaceshipSaucer()
+      : super(
+          priority: RenderPriority.spaceshipSaucer,
+          children: [
+            _SpaceshipSaucerSpriteComponent(),
+          ],
+        ) {
     layer = Layer.spaceship;
+    renderBody = false;
   }
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final sprite = await gameRef.loadSprite(
-      Assets.images.spaceship.saucer.keyName,
-    );
 
-    await add(
-      SpriteComponent(
-        sprite: sprite,
-        size: Spaceship.size,
-        anchor: Anchor.center,
-      ),
-    );
-
-    renderBody = false;
+    gameRef
+      ..addContactCallback(
+        LayerSensorBallContactCallback<_SpaceshipEntrance>(),
+      )
+      ..addContactCallback(
+        LayerSensorBallContactCallback<_SpaceshipHole>(),
+      );
   }
 
   @override
@@ -86,6 +76,25 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
     );
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
+  }
+}
+
+class _SpaceshipSaucerSpriteComponent extends SpriteComponent with HasGameRef {
+  _SpaceshipSaucerSpriteComponent()
+      : super(
+          anchor: Anchor.center,
+          // TODO(alestiago): Refactor to use sprite orignial size instead.
+          size: Spaceship.size,
+        );
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+
+    // TODO(alestiago): Use cached sprite.
+    sprite = await gameRef.loadSprite(
+      Assets.images.spaceship.saucer.keyName,
+    );
   }
 }
 

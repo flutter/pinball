@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_renaming_method_parameters
-
 import 'dart:math' as math;
 
 import 'package:flame/components.dart';
@@ -11,38 +9,30 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template spaceship_rail}
 /// A [Blueprint] for the spaceship drop tube.
 /// {@endtemplate}
-class SpaceshipRail extends Forge2DBlueprint {
+class SpaceshipRail extends Blueprint {
   /// {@macro spaceship_rail}
-  SpaceshipRail();
-
-  @override
-  void build(_) {
-    addAllContactCallback([
-      LayerSensorBallContactCallback<_SpaceshipRailExit>(),
-    ]);
-
-    final railRamp = _SpaceshipRailRamp();
-    final railEnd = _SpaceshipRailExit();
-    final topBase = _SpaceshipRailBase(radius: 0.55)
-      ..initialPosition = Vector2(-26.15, -18.65);
-    final bottomBase = _SpaceshipRailBase(radius: 0.8)
-      ..initialPosition = Vector2(-25.5, 12.9);
-    final railForeground = _SpaceshipRailForeground();
-
-    addAll([
-      railRamp,
-      railEnd,
-      topBase,
-      bottomBase,
-      railForeground,
-    ]);
-  }
+  SpaceshipRail()
+      : super(
+          components: [
+            _SpaceshipRailRamp(),
+            _SpaceshipRailExit(),
+            _SpaceshipRailBase(radius: 0.55)
+              ..initialPosition = Vector2(-26.15, -18.65),
+            _SpaceshipRailBase(radius: 0.8)
+              ..initialPosition = Vector2(-25.5, 12.9),
+            _SpaceshipRailForeground()
+          ],
+        );
 }
 
-/// Represents the spaceship drop rail from the [Spaceship].
-class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
-  _SpaceshipRailRamp() : super(priority: RenderPriority.spaceshipRail) {
+class _SpaceshipRailRamp extends BodyComponent with Layered {
+  _SpaceshipRailRamp()
+      : super(
+          priority: RenderPriority.spaceshipRail,
+          children: [_SpaceshipRailRampSpriteComponent()],
+        ) {
     layer = Layer.spaceshipExitRail;
+    renderBody = false;
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -120,23 +110,17 @@ class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef(
-      position: initialPosition,
-      userData: this,
-    );
-
-    final body = world.createBody(bodyDef);
+    final body = world.createBody(BodyDef());
     _createFixtureDefs().forEach(body.createFixture);
-
     return body;
   }
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    renderBody = false;
-
-    await add(_SpaceshipRailRampSpriteComponent());
+    gameRef.addContactCallback(
+      LayerSensorBallContactCallback<_SpaceshipRailExit>(),
+    );
   }
 }
 
@@ -188,7 +172,6 @@ class _SpaceshipRailBase extends BodyComponent with InitialPosition {
     final fixtureDef = FixtureDef(shape);
     final bodyDef = BodyDef(
       position: initialPosition,
-      userData: this,
     );
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);

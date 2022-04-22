@@ -60,7 +60,6 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   }
 
   List<FixtureDef> _createFixtureDefs() {
-    final fixturesDef = <FixtureDef>[];
     final direction = side.direction;
 
     final assetShadow = Flipper.size.x * 0.012 * -direction;
@@ -77,7 +76,6 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
       0,
     );
     final bigCircleFixtureDef = FixtureDef(bigCircleShape);
-    fixturesDef.add(bigCircleFixtureDef);
 
     final smallCircleShape = CircleShape()..radius = size.y * 0.23;
     smallCircleShape.position.setValues(
@@ -87,7 +85,6 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
       0,
     );
     final smallCircleFixtureDef = FixtureDef(smallCircleShape);
-    fixturesDef.add(smallCircleFixtureDef);
 
     final trapeziumVertices = side.isLeft
         ? [
@@ -108,9 +105,12 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
       density: 50, // TODO(alestiago): Use a proper density.
       friction: .1, // TODO(alestiago): Use a proper friction.
     );
-    fixturesDef.add(trapeziumFixtureDef);
 
-    return fixturesDef;
+    return [
+      bigCircleFixtureDef,
+      smallCircleFixtureDef,
+      trapeziumFixtureDef,
+    ];
   }
 
   @override
@@ -136,21 +136,24 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
 }
 
 class _FlipperSpriteComponent extends SpriteComponent with HasGameRef {
-  _FlipperSpriteComponent({required BoardSide side}) : _side = side;
+  _FlipperSpriteComponent({required BoardSide side})
+      : _side = side,
+        super(anchor: Anchor.center);
 
   final BoardSide _side;
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final sprite = await gameRef.loadSprite(
-      (_side.isLeft)
-          ? Assets.images.flipper.left.keyName
-          : Assets.images.flipper.right.keyName,
+    final sprite = Sprite(
+      gameRef.images.fromCache(
+        (_side.isLeft)
+            ? Assets.images.flipper.left.keyName
+            : Assets.images.flipper.right.keyName,
+      ),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
-    anchor = Anchor.center;
   }
 }
 

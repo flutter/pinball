@@ -16,6 +16,8 @@ void main() {
       'renders correctly',
       setUp: (game, tester) async {
         await game.addFromBlueprint(SparkyComputer());
+        await game.ready();
+
         game.camera.followVector2(Vector2(-15, -50));
       },
       verify: (game, tester) async {

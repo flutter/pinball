@@ -1,11 +1,17 @@
 import 'package:pinball/game/game.dart';
 import 'package:pinball/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' as components;
+import 'package:pinball_theme/pinball_theme.dart' hide Assets;
 
 /// Add methods to help loading and caching game assets.
 extension PinballGameAssetsX on PinballGame {
   /// Returns a list of assets to be loaded
   List<Future> preLoadAssets() {
+    const dashTheme = DashTheme();
+    const sparkyTheme = SparkyTheme();
+    const androidTheme = AndroidTheme();
+    const dinoTheme = DinoTheme();
+
     return [
       images.load(components.Assets.images.ball.ball.keyName),
       images.load(components.Assets.images.ball.flameEffect.keyName),
@@ -37,6 +43,8 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.dash.bumper.b.inactive.keyName),
       images.load(components.Assets.images.dash.bumper.main.active.keyName),
       images.load(components.Assets.images.dash.bumper.main.inactive.keyName),
+      images.load(components.Assets.images.plunger.plunger.keyName),
+      images.load(components.Assets.images.plunger.rocket.keyName),
       images.load(components.Assets.images.boundary.bottom.keyName),
       images.load(components.Assets.images.boundary.outer.keyName),
       images.load(components.Assets.images.spaceship.saucer.keyName),
@@ -74,12 +82,11 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.alienBumper.b.inactive.keyName),
       images.load(components.Assets.images.chromeDino.mouth.keyName),
       images.load(components.Assets.images.chromeDino.head.keyName),
-      images.load(components.Assets.images.plunger.plunger.keyName),
-      images.load(components.Assets.images.plunger.rocket.keyName),
-      images.load(components.Assets.images.sparky.computer.base.keyName),
       images.load(components.Assets.images.sparky.computer.top.keyName),
-      images.load(components.Assets.images.sparky.bumper.a.active.keyName),
+      images.load(components.Assets.images.sparky.computer.base.keyName),
+      images.load(components.Assets.images.sparky.animatronic.keyName),
       images.load(components.Assets.images.sparky.bumper.a.inactive.keyName),
+      images.load(components.Assets.images.sparky.bumper.a.active.keyName),
       images.load(components.Assets.images.sparky.bumper.b.active.keyName),
       images.load(components.Assets.images.sparky.bumper.b.inactive.keyName),
       images.load(components.Assets.images.sparky.bumper.c.active.keyName),
@@ -93,6 +100,10 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.googleWord.letter5.keyName),
       images.load(components.Assets.images.googleWord.letter6.keyName),
       images.load(components.Assets.images.backboard.display.keyName),
+      images.load(dashTheme.leaderboardIcon.keyName),
+      images.load(sparkyTheme.leaderboardIcon.keyName),
+      images.load(androidTheme.leaderboardIcon.keyName),
+      images.load(dinoTheme.leaderboardIcon.keyName),
       images.load(Assets.images.components.background.path),
     ];
   }
