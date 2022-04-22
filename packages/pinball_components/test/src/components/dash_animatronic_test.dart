@@ -22,7 +22,9 @@ void main() {
         await tester.pump();
       },
       verify: (game, tester) async {
-        const animationDuration = 3.25;
+        final animationDuration =
+            game.firstChild<DashAnimatronic>()!.animation!.totalDuration();
+
         await expectLater(
           find.byGame<TestGame>(),
           matchesGoldenFile('golden/dash_animatronic/start.png'),

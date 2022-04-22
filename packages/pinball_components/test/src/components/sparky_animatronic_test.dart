@@ -9,29 +9,37 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(TestGame.new);
 
   group('SparkyAnimatronic', () {
+    final asset = Assets.images.sparky.animatronic.keyName;
+    final flameTester = FlameTester(() => TestGame([asset]));
+
     flameTester.testGameWidget(
       'renders correctly',
       setUp: (game, tester) async {
+        await game.images.load(asset);
         await game.ensureAdd(SparkyAnimatronic()..playing = true);
+        await tester.pump();
+
         game.camera.followVector2(Vector2.zero());
       },
       verify: (game, tester) async {
+        final animationDuration =
+            game.firstChild<SparkyAnimatronic>()!.animation!.totalDuration();
+
         await expectLater(
           find.byGame<TestGame>(),
           matchesGoldenFile('golden/sparky_animatronic/start.png'),
         );
 
-        game.update(1);
+        game.update(animationDuration * 0.25);
         await tester.pump();
         await expectLater(
           find.byGame<TestGame>(),
           matchesGoldenFile('golden/sparky_animatronic/middle.png'),
         );
 
-        game.update(1);
+        game.update(animationDuration * 0.75);
         await tester.pump();
         await expectLater(
           find.byGame<TestGame>(),
@@ -39,6 +47,7 @@ void main() {
         );
       },
     );
+
     flameTester.test(
       'loads correctly',
       (game) async {
@@ -56,7 +65,9 @@ void main() {
         await game.ensureAdd(sparkyAnimatronic);
 
         sparkyAnimatronic.playing = true;
-        game.update(3);
+        final animationDuration =
+            game.firstChild<SparkyAnimatronic>()!.animation!.totalDuration();
+        game.update(animationDuration);
 
         expect(sparkyAnimatronic.playing, isFalse);
       },
