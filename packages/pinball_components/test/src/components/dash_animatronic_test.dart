@@ -9,29 +9,33 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(TestGame.new);
+  final asset = Assets.images.dash.animatronic.keyName;
+  final flameTester = FlameTester(() => TestGame([asset]));
 
   group('DashAnimatronic', () {
     flameTester.testGameWidget(
       'renders correctly',
       setUp: (game, tester) async {
+        await game.images.load(asset);
         await game.ensureAdd(DashAnimatronic()..playing = true);
         game.camera.followVector2(Vector2.zero());
+        await tester.pump();
       },
       verify: (game, tester) async {
+        const animationDuration = 3.25;
         await expectLater(
           find.byGame<TestGame>(),
           matchesGoldenFile('golden/dash_animatronic/start.png'),
         );
 
-        game.update(1);
+        game.update(animationDuration * 0.25);
         await tester.pump();
         await expectLater(
           find.byGame<TestGame>(),
           matchesGoldenFile('golden/dash_animatronic/middle.png'),
         );
 
-        game.update(4);
+        game.update(animationDuration * 0.75);
         await tester.pump();
         await expectLater(
           find.byGame<TestGame>(),

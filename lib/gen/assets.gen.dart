@@ -10,8 +10,34 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  $AssetsImagesBonusAnimationGen get bonusAnimation =>
+      const $AssetsImagesBonusAnimationGen();
   $AssetsImagesComponentsGen get components =>
       const $AssetsImagesComponentsGen();
+}
+
+class $AssetsImagesBonusAnimationGen {
+  const $AssetsImagesBonusAnimationGen();
+
+  /// File path: assets/images/bonus_animation/android.png
+  AssetGenImage get android =>
+      const AssetGenImage('assets/images/bonus_animation/android.png');
+
+  /// File path: assets/images/bonus_animation/dash_nest.png
+  AssetGenImage get dashNest =>
+      const AssetGenImage('assets/images/bonus_animation/dash_nest.png');
+
+  /// File path: assets/images/bonus_animation/dino.png
+  AssetGenImage get dino =>
+      const AssetGenImage('assets/images/bonus_animation/dino.png');
+
+  /// File path: assets/images/bonus_animation/google.png
+  AssetGenImage get google =>
+      const AssetGenImage('assets/images/bonus_animation/google.png');
+
+  /// File path: assets/images/bonus_animation/sparky_turbo_charge.png
+  AssetGenImage get sparkyTurboCharge => const AssetGenImage(
+      'assets/images/bonus_animation/sparky_turbo_charge.png');
 }
 
 class $AssetsImagesComponentsGen {

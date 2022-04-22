@@ -160,6 +160,10 @@ void main() {
   });
 
   group('PinballGameView', () {
+    setUp(() async {
+      await Future.wait<void>(game.preLoadAssets());
+    });
+
     testWidgets('renders game and a hud', (tester) async {
       final gameBloc = MockGameBloc();
       whenListen(

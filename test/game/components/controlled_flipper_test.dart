@@ -11,7 +11,11 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(EmptyPinballTestGame.new);
+  final assets = [
+    Assets.images.flipper.left.keyName,
+    Assets.images.flipper.right.keyName,
+  ];
+  final flameTester = FlameTester(() => EmptyPinballTestGame(assets));
 
   final flameBlocTester = FlameBlocTester<EmptyPinballTestGame, GameBloc>(
     gameBuilder: EmptyPinballTestGame.new,
@@ -25,6 +29,7 @@ void main() {
       whenListen(bloc, Stream.value(state), initialState: state);
       return bloc;
     },
+    assets: assets,
   );
 
   group('FlipperController', () {

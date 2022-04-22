@@ -37,8 +37,7 @@ class ControlledBall extends Ball with Controls<BallController> {
   /// [Ball] used in [DebugPinballGame].
   ControlledBall.debug() : super(baseColor: const Color(0xFFFF0000)) {
     controller = DebugBallController(this);
-    priority = RenderPriority.ballOnSpaceshipRamp;
-    layer = Layer.spaceshipEntranceRamp;
+    priority = RenderPriority.ballOnBoard;
   }
 }
 
