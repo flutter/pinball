@@ -29,7 +29,7 @@ class GameHud extends StatelessWidget {
           Wrap(
             direction: Axis.vertical,
             children: [
-              for (var i = 0; i < state.balls; i++)
+              for (var i = 0; i < state.rounds; i++)
                 const Padding(
                   padding: EdgeInsets.only(top: 6, right: 6),
                   child: CircleAvatar(

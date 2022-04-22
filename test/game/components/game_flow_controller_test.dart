@@ -17,6 +17,7 @@ void main() {
           score: 10,
           multiplier: 1,
           balls: 0,
+          rounds: 0,
           bonusHistory: const [],
         );
 
@@ -70,6 +71,7 @@ void main() {
               score: 10,
               multiplier: 1,
               balls: 0,
+              rounds: 0,
               bonusHistory: const [],
             ),
           );

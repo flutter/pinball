@@ -12,10 +12,14 @@ abstract class GameEvent extends Equatable {
 /// {@endtemplate}
 class BallLost extends GameEvent {
   /// {@macro ball_lost_game_event}
-  const BallLost();
+  const BallLost({
+    required this.balls,
+  }) : assert(balls >= 0, "Balls left can't be negative");
+
+  final int balls;
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [balls];
 }
 
 /// {@template scored_game_event}

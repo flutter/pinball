@@ -73,7 +73,8 @@ class BallController extends ComponentController<Ball>
   @override
   void onRemove() {
     super.onRemove();
-    gameRef.read<GameBloc>().add(const BallLost());
+    final remainingBalls = gameRef.children.whereType<Ball>().length;
+    gameRef.read<GameBloc>().add(BallLost(balls: remainingBalls));
   }
 }
 
@@ -81,7 +82,4 @@ class BallController extends ComponentController<Ball>
 class DebugBallController extends BallController {
   /// {@macro ball_controller}
   DebugBallController(Ball<Forge2DGame> component) : super(component);
-
-  @override
-  void onRemove() {}
 }

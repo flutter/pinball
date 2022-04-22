@@ -13,6 +13,7 @@ void main() {
       score: 10,
       multiplier: 1,
       balls: 2,
+      rounds: 3,
       bonusHistory: [],
     );
 
@@ -45,12 +46,12 @@ void main() {
     );
 
     testWidgets(
-      'renders the current ball number',
+      'renders the current round number',
       (tester) async {
         await _pumpHud(tester);
         expect(
           find.byType(CircleAvatar),
-          findsNWidgets(initialState.balls),
+          findsNWidgets(initialState.rounds),
         );
       },
     );
@@ -65,14 +66,14 @@ void main() {
       expect(find.text('20'), findsOneWidget);
     });
 
-    testWidgets('updates the ball number', (tester) async {
+    testWidgets('updates the rounds number', (tester) async {
       await _pumpHud(tester);
       expect(
         find.byType(CircleAvatar),
-        findsNWidgets(initialState.balls),
+        findsNWidgets(initialState.rounds),
       );
 
-      _mockState(initialState.copyWith(balls: 1));
+      _mockState(initialState.copyWith(rounds: 1));
 
       await tester.pump();
       expect(

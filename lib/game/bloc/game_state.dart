@@ -23,15 +23,18 @@ class GameState extends Equatable {
     required this.score,
     required this.multiplier,
     required this.balls,
+    required this.rounds,
     required this.bonusHistory,
   })  : assert(score >= 0, "Score can't be negative"),
         assert(multiplier > 0, 'Multiplier must be greater than zero'),
-        assert(balls >= 0, "Number of balls can't be negative");
+        assert(balls >= 0, "Number of balls can't be negative"),
+        assert(rounds >= 0, "Number of rounds can't be negative");
 
   const GameState.initial()
       : score = 0,
         multiplier = 1,
-        balls = 3,
+        balls = 1,
+        rounds = 3,
         bonusHistory = const [];
 
   /// The current score of the game.
@@ -42,20 +45,29 @@ class GameState extends Equatable {
 
   /// The number of balls left in the game.
   ///
-  /// When the number of balls is 0, the game is over.
+  /// When the number of balls is 0, round is lost.
   final int balls;
+
+  /// The number of rounds left in the game.
+  ///
+  /// When the number of rounds is 0, the game is over.
+  final int rounds;
 
   /// Holds the history of all the [GameBonus]es earned by the player during a
   /// PinballGame.
   final List<GameBonus> bonusHistory;
 
+  /// Determines when the round is over.
+  bool get isRoundOver => balls == 0;
+
   /// Determines when the game is over.
-  bool get isGameOver => balls == 0;
+  bool get isGameOver => rounds == 0;
 
   GameState copyWith({
     int? score,
     int? multiplier,
     int? balls,
+    int? rounds,
     List<GameBonus>? bonusHistory,
   }) {
     assert(
@@ -67,6 +79,7 @@ class GameState extends Equatable {
       score: score ?? this.score,
       multiplier: multiplier ?? this.multiplier,
       balls: balls ?? this.balls,
+      rounds: rounds ?? this.rounds,
       bonusHistory: bonusHistory ?? this.bonusHistory,
     );
   }
@@ -76,6 +89,7 @@ class GameState extends Equatable {
         score,
         multiplier,
         balls,
+        rounds,
         bonusHistory,
       ];
 }

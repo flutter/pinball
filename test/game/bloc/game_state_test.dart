@@ -11,6 +11,7 @@ void main() {
           score: 0,
           multiplier: 1,
           balls: 0,
+          rounds: 3,
           bonusHistory: const [],
         ),
         equals(
@@ -18,6 +19,7 @@ void main() {
             score: 0,
             multiplier: 1,
             balls: 0,
+            rounds: 3,
             bonusHistory: [],
           ),
         ),
@@ -31,6 +33,7 @@ void main() {
             score: 0,
             multiplier: 1,
             balls: 0,
+            rounds: 3,
             bonusHistory: [],
           ),
           isNotNull,
@@ -44,9 +47,10 @@ void main() {
       () {
         expect(
           () => GameState(
-            balls: -1,
             score: 0,
             multiplier: 1,
+            balls: -1,
+            rounds: 3,
             bonusHistory: const [],
           ),
           throwsAssertionError,
@@ -60,9 +64,10 @@ void main() {
       () {
         expect(
           () => GameState(
-            balls: 0,
             score: -1,
             multiplier: 1,
+            balls: 0,
+            rounds: 3,
             bonusHistory: const [],
           ),
           throwsAssertionError,
@@ -76,9 +81,10 @@ void main() {
       () {
         expect(
           () => GameState(
-            balls: 0,
             score: 1,
             multiplier: 0,
+            balls: 0,
+            rounds: 3,
             bonusHistory: const [],
           ),
           throwsAssertionError,
@@ -86,14 +92,60 @@ void main() {
       },
     );
 
-    group('isGameOver', () {
+    test(
+      'throws AssertionError '
+      'when rounds is negative',
+      () {
+        expect(
+          () => GameState(
+            score: 1,
+            multiplier: 1,
+            balls: 0,
+            rounds: -1,
+            bonusHistory: const [],
+          ),
+          throwsAssertionError,
+        );
+      },
+    );
+
+    group('isRoundOver', () {
       test(
           'is true '
           'when no balls are left', () {
         const gameState = GameState(
-          balls: 0,
           score: 0,
           multiplier: 1,
+          balls: 0,
+          rounds: 1,
+          bonusHistory: [],
+        );
+        expect(gameState.isRoundOver, isTrue);
+      });
+
+      test(
+          'is false '
+          'when one 1 ball left', () {
+        const gameState = GameState(
+          score: 0,
+          multiplier: 1,
+          balls: 1,
+          rounds: 0,
+          bonusHistory: [],
+        );
+        expect(gameState.isRoundOver, isFalse);
+      });
+    });
+
+    group('isGameOver', () {
+      test(
+          'is true '
+          'when no rounds are left', () {
+        const gameState = GameState(
+          score: 0,
+          multiplier: 1,
+          balls: 0,
+          rounds: 0,
           bonusHistory: [],
         );
         expect(gameState.isGameOver, isTrue);
@@ -101,11 +153,12 @@ void main() {
 
       test(
           'is false '
-          'when one 1 ball left', () {
+          'when one 1 round left', () {
         const gameState = GameState(
-          balls: 1,
           score: 0,
           multiplier: 1,
+          balls: 0,
+          rounds: 1,
           bonusHistory: [],
         );
         expect(gameState.isGameOver, isFalse);
@@ -118,9 +171,10 @@ void main() {
         'when scored is decreased',
         () {
           const gameState = GameState(
-            balls: 0,
             score: 2,
             multiplier: 1,
+            balls: 0,
+            rounds: 3,
             bonusHistory: [],
           );
           expect(
@@ -135,9 +189,10 @@ void main() {
         'when no argument specified',
         () {
           const gameState = GameState(
-            balls: 0,
             score: 2,
             multiplier: 1,
+            balls: 0,
+            rounds: 3,
             bonusHistory: [],
           );
           expect(
@@ -155,12 +210,14 @@ void main() {
             score: 2,
             multiplier: 1,
             balls: 0,
+            rounds: 3,
             bonusHistory: [],
           );
           final otherGameState = GameState(
             score: gameState.score + 1,
             multiplier: gameState.multiplier + 1,
             balls: gameState.balls + 1,
+            rounds: gameState.rounds + 1,
             bonusHistory: const [GameBonus.googleWord],
           );
           expect(gameState, isNot(equals(otherGameState)));
@@ -170,6 +227,7 @@ void main() {
               score: otherGameState.score,
               multiplier: otherGameState.multiplier,
               balls: otherGameState.balls,
+              rounds: otherGameState.rounds,
               bonusHistory: otherGameState.bonusHistory,
             ),
             equals(otherGameState),

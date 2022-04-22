@@ -7,13 +7,17 @@ void main() {
   group('GameEvent', () {
     group('BallLost', () {
       test('can be instantiated', () {
-        expect(const BallLost(), isNotNull);
+        expect(const BallLost(balls: 1), isNotNull);
       });
 
       test('supports value equality', () {
         expect(
-          BallLost(),
-          equals(const BallLost()),
+          BallLost(balls: 1),
+          equals(const BallLost(balls: 1)),
+        );
+        expect(
+          BallLost(balls: 2),
+          isNot(equals(const BallLost(balls: 1))),
         );
       });
     });

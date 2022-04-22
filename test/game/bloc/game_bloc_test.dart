@@ -4,24 +4,26 @@ import 'package:pinball/game/game.dart';
 
 void main() {
   group('GameBloc', () {
-    test('initial state has 3 balls and empty score', () {
+    test('initial state has 3 rounds, 1 ball and empty score', () {
       final gameBloc = GameBloc();
       expect(gameBloc.state.score, equals(0));
-      expect(gameBloc.state.balls, equals(3));
+      expect(gameBloc.state.balls, equals(1));
+      expect(gameBloc.state.rounds, equals(3));
     });
 
-    group('LostBall', () {
+    group('BallLost', () {
       blocTest<GameBloc, GameState>(
         'decreases number of balls',
         build: GameBloc.new,
         act: (bloc) {
-          bloc.add(const BallLost());
+          bloc.add(const BallLost(balls: 0));
         },
         expect: () => [
           const GameState(
             score: 0,
             multiplier: 1,
-            balls: 2,
+            balls: 1,
+            rounds: 2,
             bonusHistory: [],
           ),
         ],
@@ -40,13 +42,15 @@ void main() {
           const GameState(
             score: 2,
             multiplier: 1,
-            balls: 3,
+            balls: 1,
+            rounds: 1,
             bonusHistory: [],
           ),
           const GameState(
             score: 5,
             multiplier: 1,
-            balls: 3,
+            balls: 1,
+            rounds: 1,
             bonusHistory: [],
           ),
         ],
@@ -57,8 +61,8 @@ void main() {
         'when game is over',
         build: GameBloc.new,
         act: (bloc) {
-          for (var i = 0; i < bloc.state.balls; i++) {
-            bloc.add(const BallLost());
+          for (var i = 0; i < bloc.state.rounds; i++) {
+            bloc.add(const BallLost(balls: 0));
           }
           bloc.add(const Scored(points: 2));
         },
@@ -66,19 +70,22 @@ void main() {
           const GameState(
             score: 0,
             multiplier: 1,
-            balls: 2,
+            balls: 1,
+            rounds: 2,
             bonusHistory: [],
           ),
           const GameState(
             score: 0,
             multiplier: 1,
             balls: 1,
+            rounds: 1,
             bonusHistory: [],
           ),
           const GameState(
             score: 0,
             multiplier: 1,
             balls: 0,
+            rounds: 0,
             bonusHistory: [],
           ),
         ],
@@ -98,12 +105,14 @@ void main() {
             score: 0,
             multiplier: 2,
             balls: 3,
+            rounds: 3,
             bonusHistory: [],
           ),
           const GameState(
             score: 0,
             multiplier: 3,
             balls: 3,
+            rounds: 3,
             bonusHistory: [],
           ),
         ],
@@ -114,8 +123,8 @@ void main() {
         'when game is over',
         build: GameBloc.new,
         act: (bloc) {
-          for (var i = 0; i < bloc.state.balls; i++) {
-            bloc.add(const BallLost());
+          for (var i = 0; i < bloc.state.rounds; i++) {
+            bloc.add(const BallLost(balls: 0));
           }
           bloc.add(const MultiplierIncreased());
         },
@@ -124,18 +133,21 @@ void main() {
             score: 0,
             multiplier: 1,
             balls: 2,
+            rounds: 2,
             bonusHistory: [],
           ),
           const GameState(
             score: 0,
             multiplier: 1,
             balls: 1,
+            rounds: 1,
             bonusHistory: [],
           ),
           const GameState(
             score: 0,
             multiplier: 1,
             balls: 0,
+            rounds: 0,
             bonusHistory: [],
           ),
         ],
@@ -150,6 +162,7 @@ void main() {
           score: 5,
           multiplier: 3,
           balls: 2,
+          rounds: 2,
           bonusHistory: [],
         ),
         act: (bloc) {
@@ -160,6 +173,7 @@ void main() {
             score: 15,
             multiplier: 3,
             balls: 2,
+            rounds: 2,
             bonusHistory: [],
           ),
         ],
@@ -174,6 +188,7 @@ void main() {
           score: 0,
           multiplier: 3,
           balls: 2,
+          rounds: 2,
           bonusHistory: [],
         ),
         act: (bloc) {
@@ -184,6 +199,7 @@ void main() {
             score: 0,
             multiplier: 1,
             balls: 2,
+            rounds: 2,
             bonusHistory: [],
           ),
         ],
@@ -203,12 +219,14 @@ void main() {
               score: 0,
               multiplier: 1,
               balls: 3,
+              rounds: 2,
               bonusHistory: [GameBonus.googleWord],
             ),
             GameState(
               score: 0,
               multiplier: 1,
               balls: 3,
+              rounds: 2,
               bonusHistory: [GameBonus.googleWord, GameBonus.dashNest],
             ),
           ],
@@ -226,6 +244,7 @@ void main() {
             score: 0,
             multiplier: 1,
             balls: 3,
+            rounds: 2,
             bonusHistory: [GameBonus.sparkyTurboCharge],
           ),
         ],

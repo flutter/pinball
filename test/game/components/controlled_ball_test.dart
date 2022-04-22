@@ -62,7 +62,7 @@ void main() {
         controller.lost();
       },
       verify: (game, tester) async {
-        verify(() => gameBloc.add(const BallLost())).called(1);
+        verify(() => gameBloc.add(const BallLost(balls: 0))).called(1);
       },
     );
 
