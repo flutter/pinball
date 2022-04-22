@@ -33,8 +33,6 @@ class _BottomBoundary extends BodyComponent with InitialPosition {
   }
 
   List<FixtureDef> _createFixtureDefs() {
-    final fixturesDefs = <FixtureDef>[];
-
     final bottomLeftCurve = BezierCurveShape(
       controlPoints: [
         Vector2(-43.9, 41.8),
@@ -43,7 +41,6 @@ class _BottomBoundary extends BodyComponent with InitialPosition {
       ],
     );
     final bottomLeftCurveFixtureDef = FixtureDef(bottomLeftCurve);
-    fixturesDefs.add(bottomLeftCurveFixtureDef);
 
     final bottomRightCurve = BezierCurveShape(
       controlPoints: [
@@ -53,9 +50,8 @@ class _BottomBoundary extends BodyComponent with InitialPosition {
       ],
     );
     final bottomRightCurveFixtureDef = FixtureDef(bottomRightCurve);
-    fixturesDefs.add(bottomRightCurveFixtureDef);
 
-    return fixturesDefs;
+    return [bottomLeftCurveFixtureDef, bottomRightCurveFixtureDef];
   }
 
   @override
@@ -69,16 +65,22 @@ class _BottomBoundary extends BodyComponent with InitialPosition {
 }
 
 class _BottomBoundarySpriteComponent extends SpriteComponent with HasGameRef {
+  _BottomBoundarySpriteComponent()
+      : super(
+          anchor: Anchor.center,
+          position: Vector2(-5.4, 55.6),
+        );
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final sprite = await gameRef.loadSprite(
-      Assets.images.boundary.bottom.keyName,
+    final sprite = Sprite(
+      gameRef.images.fromCache(
+        Assets.images.boundary.bottom.keyName,
+      ),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
-    anchor = Anchor.center;
-    position = Vector2(-5.4, 55.6);
   }
 }
 
@@ -97,15 +99,12 @@ class _OuterBoundary extends BodyComponent with InitialPosition {
   }
 
   List<FixtureDef> _createFixtureDefs() {
-    final fixturesDefs = <FixtureDef>[];
-
     final topWall = EdgeShape()
       ..set(
         Vector2(3.6, -70.2),
         Vector2(-14.1, -70.2),
       );
     final topWallFixtureDef = FixtureDef(topWall);
-    fixturesDefs.add(topWallFixtureDef);
 
     final topLeftCurve = BezierCurveShape(
       controlPoints: [
@@ -115,7 +114,6 @@ class _OuterBoundary extends BodyComponent with InitialPosition {
       ],
     );
     final topLeftCurveFixtureDef = FixtureDef(topLeftCurve);
-    fixturesDefs.add(topLeftCurveFixtureDef);
 
     final leftWall = EdgeShape()
       ..set(
@@ -123,9 +121,8 @@ class _OuterBoundary extends BodyComponent with InitialPosition {
         Vector2(-43.9, 41.8),
       );
     final leftWallFixtureDef = FixtureDef(leftWall);
-    fixturesDefs.add(leftWallFixtureDef);
 
-    return fixturesDefs;
+    return [topWallFixtureDef, topLeftCurveFixtureDef, leftWallFixtureDef];
   }
 
   @override
@@ -139,15 +136,21 @@ class _OuterBoundary extends BodyComponent with InitialPosition {
 }
 
 class _OuterBoundarySpriteComponent extends SpriteComponent with HasGameRef {
+  _OuterBoundarySpriteComponent()
+      : super(
+          anchor: Anchor.center,
+          position: Vector2(0, -7.8),
+        );
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final sprite = await gameRef.loadSprite(
-      Assets.images.boundary.outer.keyName,
+    final sprite = Sprite(
+      gameRef.images.fromCache(
+        Assets.images.boundary.outer.keyName,
+      ),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
-    anchor = Anchor.center;
-    position = Vector2(-0.2, -1.4);
   }
 }
