@@ -131,69 +131,56 @@ class _DinoBottomWall extends BodyComponent with InitialPosition {
   }
 
   List<FixtureDef> _createFixtureDefs() {
-    final fixturesDef = <FixtureDef>[];
     const restitution = 1.0;
 
-    final topStraightControlPoints = [
-      Vector2(32.4, -8.8),
-      Vector2(25, -7.7),
-    ];
     final topStraightShape = EdgeShape()
       ..set(
-        topStraightControlPoints.first,
-        topStraightControlPoints.last,
+        Vector2(32.4, -8.8),
+        Vector2(25, -7.7),
       );
     final topStraightFixtureDef = FixtureDef(
       topStraightShape,
       restitution: restitution,
     );
-    fixturesDef.add(topStraightFixtureDef);
 
-    final topLeftCurveControlPoints = [
-      topStraightControlPoints.last,
-      Vector2(21.8, -7),
-      Vector2(29.5, 13.8),
-    ];
     final topLeftCurveShape = BezierCurveShape(
-      controlPoints: topLeftCurveControlPoints,
+      controlPoints: [
+        topStraightShape.vertex2,
+        Vector2(21.8, -7),
+        Vector2(29.8, 13.8),
+      ],
     );
     final topLeftCurveFixtureDef = FixtureDef(
       topLeftCurveShape,
       restitution: restitution,
     );
-    fixturesDef.add(topLeftCurveFixtureDef);
 
-    final bottomLeftStraightControlPoints = [
-      topLeftCurveControlPoints.last,
-      Vector2(31.8, 44.1),
-    ];
     final bottomLeftStraightShape = EdgeShape()
       ..set(
-        bottomLeftStraightControlPoints.first,
-        bottomLeftStraightControlPoints.last,
+        topLeftCurveShape.vertices.last,
+        Vector2(31.9, 44.1),
       );
     final bottomLeftStraightFixtureDef = FixtureDef(
       bottomLeftStraightShape,
       restitution: restitution,
     );
-    fixturesDef.add(bottomLeftStraightFixtureDef);
 
-    final bottomStraightControlPoints = [
-      bottomLeftStraightControlPoints.last,
-      Vector2(37.8, 44.1),
-    ];
     final bottomStraightShape = EdgeShape()
       ..set(
-        bottomStraightControlPoints.first,
-        bottomStraightControlPoints.last,
+        bottomLeftStraightShape.vertex2,
+        Vector2(37.8, 44.1),
       );
     final bottomStraightFixtureDef = FixtureDef(
       bottomStraightShape,
       restitution: restitution,
     );
-    fixturesDef.add(bottomStraightFixtureDef);
 
-    return fixturesDef;
+    return [
+      topStraightFixtureDef,
+      topLeftCurveFixtureDef,
+      bottomLeftStraightFixtureDef,
+      bottomStraightFixtureDef,
+    ];
   }
 
   @override
