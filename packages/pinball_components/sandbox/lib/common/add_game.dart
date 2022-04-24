@@ -5,7 +5,7 @@ import 'package:sandbox/common/common.dart';
 const _path =
     'https://github.com/VGVentures/pinball/tree/main/packages/pinball_components/sandbox/lib/stories/';
 
-extension PinballStory on Story {
+extension StoryAddGame on Story {
   void addGame({
     required String title,
     required String description,
