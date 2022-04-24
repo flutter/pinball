@@ -5,7 +5,7 @@ import 'package:sandbox/stories/spaceship/basic_spaceship_game.dart';
 void addSpaceshipStories(Dashbook dashbook) {
   dashbook.storiesOf('Spaceship').addGame(
         title: 'Traced',
-        description: BasicSpaceshipGame.info,
+        description: BasicSpaceshipGame.description,
         gameBuilder: (_) => BasicSpaceshipGame(),
       );
 }

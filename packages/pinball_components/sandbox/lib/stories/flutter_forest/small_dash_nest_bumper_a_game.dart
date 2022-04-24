@@ -6,7 +6,7 @@ import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class SmallDashNestBumperAGame extends BallGame with Traceable {
-  static const info = '''
+  static const description = '''
     Shows how a SmallDashNestBumper ("a") is rendered.
 
     - Activate the "trace" parameter to overlay the body.

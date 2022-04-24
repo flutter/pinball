@@ -8,14 +8,14 @@ void addBallStories(Dashbook dashbook) {
   dashbook.storiesOf('Ball')
     ..addGame(
       title: 'Colored',
-      description: BallGame.info,
+      description: BallGame.description,
       gameBuilder: (context) => BallGame(
         color: context.colorProperty('color', Colors.blue),
       ),
     )
     ..addGame(
       title: 'Booster',
-      description: BallBoosterGame.info,
+      description: BallBoosterGame.description,
       gameBuilder: (context) => BallBoosterGame(),
     );
 }

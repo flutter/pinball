@@ -5,7 +5,7 @@ import 'package:sandbox/stories/score_text/score_text_game.dart';
 void addScoreTextStories(Dashbook dashbook) {
   dashbook.storiesOf('ScoreText').addGame(
         title: 'Basic',
-        description: ScoreTextGame.info,
+        description: ScoreTextGame.description,
         gameBuilder: (_) => ScoreTextGame(),
       );
 }

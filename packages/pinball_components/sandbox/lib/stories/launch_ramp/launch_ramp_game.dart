@@ -14,7 +14,7 @@ class LaunchRampGame extends BallGame {
           ballLayer: Layer.launcher,
         );
 
-  static const info = '''
+  static const description = '''
     Shows how LaunchRamp are rendered.
 
     - Activate the "trace" parameter to overlay the body.

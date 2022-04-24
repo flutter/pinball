@@ -6,7 +6,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 
 class ScoreTextGame extends AssetsGame with TapDetector {
-  static const info = '''
+  static const description = '''
     Simple game to show how score text works,
 
     - Tap anywhere on the screen to spawn an text on the given location.

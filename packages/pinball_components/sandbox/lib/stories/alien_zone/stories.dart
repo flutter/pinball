@@ -7,12 +7,12 @@ void addAlienZoneStories(Dashbook dashbook) {
   dashbook.storiesOf('Alien Zone')
     ..addGame(
       title: 'Alien Bumper A',
-      description: AlienBumperAGame.info,
+      description: AlienBumperAGame.description,
       gameBuilder: (_) => AlienBumperAGame(),
     )
     ..addGame(
       title: 'Alien Bumper B',
-      description: AlienBumperBGame.info,
+      description: AlienBumperBGame.description,
       gameBuilder: (_) => AlienBumperBGame(),
     );
 }

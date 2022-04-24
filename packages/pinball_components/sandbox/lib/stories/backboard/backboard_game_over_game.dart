@@ -11,7 +11,7 @@ class BackboardGameOverGame extends AssetsGame
           fileNames: characterIconPaths.values.toList(),
         );
 
-  static const info = '''
+  static const description = '''
       Shows how the Backboard in game over mode is rendered.
 
       - Select a character to update the character icon.

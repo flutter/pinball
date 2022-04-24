@@ -15,7 +15,7 @@ class SpaceshipRampGame extends BallGame with KeyboardEvents {
           ballLayer: Layer.spaceshipEntranceRamp,
         );
 
-  static const info = '''
+  static const description = '''
     Shows how SpaceshipRamp is rendered.
 
     - Activate the "trace" parameter to overlay the body.

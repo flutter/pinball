@@ -7,7 +7,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 import 'package:sandbox/common/common.dart';
 
 class BasicSpaceshipGame extends AssetsGame with TapDetector {
-  static const info = '''
+  static const description = '''
     Shows how a Spaceship works.
       
     - Tap anywhere on the screen to spawn a Ball into the game.

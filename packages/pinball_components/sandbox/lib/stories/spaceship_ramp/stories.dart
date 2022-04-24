@@ -5,7 +5,7 @@ import 'package:sandbox/stories/spaceship_ramp/spaceship_ramp_game.dart';
 void addSpaceshipRampStories(Dashbook dashbook) {
   dashbook.storiesOf('SpaceshipRamp').addGame(
         title: 'Traced',
-        description: SpaceshipRampGame.info,
+        description: SpaceshipRampGame.description,
         gameBuilder: (_) => SpaceshipRampGame(),
       );
 }

@@ -6,7 +6,7 @@ import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class SignpostGame extends BallGame with Traceable, TapDetector {
-  static const info = '''
+  static const description = '''
     Shows how a Signpost is rendered.
 
     - Activate the "trace" parameter to overlay the body.

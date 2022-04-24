@@ -5,7 +5,7 @@ import 'package:sandbox/stories/flipper/flipper_game.dart';
 void addFlipperStories(Dashbook dashbook) {
   dashbook.storiesOf('Flipper').addGame(
         title: 'Traced',
-        description: FlipperGame.info,
+        description: FlipperGame.description,
         gameBuilder: (_) => FlipperGame(),
       );
 }

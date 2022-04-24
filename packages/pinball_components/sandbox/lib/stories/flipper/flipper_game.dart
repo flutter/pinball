@@ -7,7 +7,7 @@ import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class FlipperGame extends BallGame with KeyboardEvents, Traceable {
-  static const info = '''
+  static const description = '''
     Shows how Flippers are rendered.
 
     - Activate the "trace" parameter to overlay the body.

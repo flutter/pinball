@@ -7,12 +7,12 @@ void addBackboardStories(Dashbook dashbook) {
   dashbook.storiesOf('Backboard')
     ..addGame(
       title: 'Waiting',
-      description: BackboardWaitingGame.info,
+      description: BackboardWaitingGame.description,
       gameBuilder: (_) => BackboardWaitingGame(),
     )
     ..addGame(
       title: 'Game over',
-      description: BackboardGameOverGame.info,
+      description: BackboardGameOverGame.description,
       gameBuilder: (context) => BackboardGameOverGame(
         context.numberProperty('Score', 9000000000).toInt(),
         context.listProperty(

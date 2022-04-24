@@ -5,7 +5,7 @@ import 'package:sandbox/stories/sparky_bumper/sparky_bumper_game.dart';
 void addSparkyBumperStories(Dashbook dashbook) {
   dashbook.storiesOf('Sparky Bumpers').addGame(
         title: 'Traced',
-        description: SparkyBumperGame.info,
+        description: SparkyBumperGame.description,
         gameBuilder: (_) => SparkyBumperGame(),
       );
 }

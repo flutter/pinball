@@ -7,7 +7,7 @@ import 'package:sandbox/stories/ball/basic_ball_game.dart';
 class AlienBumperBGame extends BallGame {
   AlienBumperBGame() : super(color: const Color(0xFF0000FF));
 
-  static const info = '''
+  static const description = '''
     Shows how a AlienBumperB is rendered.
 
     - Activate the "trace" parameter to overlay the body.

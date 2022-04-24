@@ -16,7 +16,7 @@ class BallGame extends AssetsGame with TapDetector, Traceable {
           ],
         );
 
-  static const info = '''
+  static const description = '''
     Shows how a Ball works.
       
     - Tap anywhere on the screen to spawn a ball into the game.

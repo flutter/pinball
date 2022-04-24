@@ -5,7 +5,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class LayerGame extends BallGame with TapDetector {
-  static const info = '''
+  static const description = '''
     Shows how Layers work when a Ball hits other components.
       
     - Tap anywhere on the screen to spawn a Ball into the game.

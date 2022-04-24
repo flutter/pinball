@@ -9,22 +9,22 @@ void addDashNestBumperStories(Dashbook dashbook) {
   dashbook.storiesOf('Flutter Forest')
     ..addGame(
       title: 'Signpost',
-      description: SignpostGame.info,
+      description: SignpostGame.description,
       gameBuilder: (_) => SignpostGame(),
     )
     ..addGame(
       title: 'Big Dash Nest Bumper',
-      description: BigDashNestBumperGame.info,
+      description: BigDashNestBumperGame.description,
       gameBuilder: (_) => BigDashNestBumperGame(),
     )
     ..addGame(
       title: 'Small Dash Nest Bumper A',
-      description: SmallDashNestBumperAGame.info,
+      description: SmallDashNestBumperAGame.description,
       gameBuilder: (_) => SmallDashNestBumperAGame(),
     )
     ..addGame(
       title: 'Small Dash Nest Bumper B',
-      description: SmallDashNestBumperBGame.info,
+      description: SmallDashNestBumperBGame.description,
       gameBuilder: (_) => SmallDashNestBumperBGame(),
     );
 }

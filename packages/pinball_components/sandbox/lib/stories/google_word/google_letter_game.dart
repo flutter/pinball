@@ -8,7 +8,7 @@ import 'package:sandbox/stories/ball/basic_ball_game.dart';
 class GoogleLetterGame extends BallGame {
   GoogleLetterGame() : super(color: const Color(0xFF009900));
 
-  static const info = '''
+  static const description = '''
     Shows how a GoogleLetter is rendered.
       
     - Tap anywhere on the screen to spawn a ball into the game.

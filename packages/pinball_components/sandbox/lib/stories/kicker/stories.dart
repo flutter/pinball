@@ -5,7 +5,7 @@ import 'package:sandbox/stories/kicker/kicker_game.dart';
 void addKickerStories(Dashbook dashbook) {
   dashbook.storiesOf('Kickers').addGame(
         title: 'Traced',
-        description: KickerGame.info,
+        description: KickerGame.description,
         gameBuilder: (_) => KickerGame(),
       );
 }

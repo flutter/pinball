@@ -14,7 +14,7 @@ class SpaceshipRailGame extends BallGame {
           ballLayer: Layer.spaceshipExitRail,
         );
 
-  static const info = '''
+  static const description = '''
     Shows how SpaceshipRail are rendered.
 
     - Activate the "trace" parameter to overlay the body.

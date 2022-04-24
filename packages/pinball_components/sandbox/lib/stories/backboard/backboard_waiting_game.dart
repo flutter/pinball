@@ -3,7 +3,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 
 class BackboardWaitingGame extends AssetsGame {
-  static const info = '''
+  static const description = '''
       Shows how the Backboard in waiting mode is rendered.
   ''';
 
