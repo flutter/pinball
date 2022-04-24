@@ -7,7 +7,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class SpaceshipRampGame extends BasicBallGame with KeyboardEvents {
+class SpaceshipRampGame extends BallGame with KeyboardEvents {
   SpaceshipRampGame()
       : super(
           color: Colors.blue,

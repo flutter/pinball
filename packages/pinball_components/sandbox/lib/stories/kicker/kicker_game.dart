@@ -3,7 +3,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class KickerGame extends BasicBallGame with Traceable {
+class KickerGame extends BallGame with Traceable {
   static const info = '''
     Shows how Kickers are rendered.
 

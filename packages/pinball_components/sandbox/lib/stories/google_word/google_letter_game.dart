@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class GoogleLetterGame extends BasicBallGame {
+class GoogleLetterGame extends BallGame {
   GoogleLetterGame() : super(color: const Color(0xFF009900));
 
   static const info = '''

@@ -6,7 +6,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class LaunchRampGame extends BasicBallGame {
+class LaunchRampGame extends BallGame {
   LaunchRampGame()
       : super(
           color: Colors.blue,

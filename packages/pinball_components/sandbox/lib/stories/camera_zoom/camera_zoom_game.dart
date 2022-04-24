@@ -3,7 +3,7 @@ import 'package:flame/input.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 
-class BasicCameraZoomGame extends BasicGame with TapDetector {
+class CameraZoomGame extends AssetsGame with TapDetector {
   static const info = '''
     Shows how CameraZoom can be used.
       

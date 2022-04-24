@@ -5,7 +5,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class SmallDashNestBumperBGame extends BasicBallGame with Traceable {
+class SmallDashNestBumperBGame extends BallGame with Traceable {
   static const info = '''
     Shows how a SmallDashNestBumper ("b") is rendered.
 

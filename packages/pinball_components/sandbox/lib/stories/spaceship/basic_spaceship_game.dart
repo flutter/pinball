@@ -6,7 +6,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:sandbox/common/common.dart';
 
-class BasicSpaceshipGame extends BasicGame with TapDetector {
+class BasicSpaceshipGame extends AssetsGame with TapDetector {
   static const info = '''
     Shows how a Spaceship works.
       

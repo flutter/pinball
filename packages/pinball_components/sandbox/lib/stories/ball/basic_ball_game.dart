@@ -3,12 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 
-class BasicBallGame extends BasicGame with TapDetector, Traceable {
-  BasicBallGame({
+class BallGame extends AssetsGame with TapDetector, Traceable {
+  BallGame({
     this.color = Colors.blue,
     this.ballPriority = 0,
     this.ballLayer = Layer.all,
-  });
+    List<String>? fileNames,
+  }) : super(
+          fileNames: [
+            Assets.images.ball.ball.keyName,
+            if (fileNames != null) ...fileNames,
+          ],
+        );
 
   static const info = '''
     Shows how a Ball works.

@@ -4,7 +4,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class BoundariesGame extends BasicBallGame with Traceable {
+class BoundariesGame extends BallGame with Traceable {
   static const info = '''
     Shows how Boundaries are rendered.
 

@@ -2,9 +2,9 @@ import 'package:flame/components.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 
-class BackboardWaitingGame extends BasicGame {
+class BackboardWaitingGame extends AssetsGame {
   static const info = '''
-      Simple example showing the waiting mode of the backboard.
+      Shows how the Backboard in waiting mode is rendered.
   ''';
 
   @override

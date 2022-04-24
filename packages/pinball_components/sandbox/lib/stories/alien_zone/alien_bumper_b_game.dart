@@ -4,7 +4,7 @@ import 'package:flame/extensions.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class AlienBumperBGame extends BasicBallGame {
+class AlienBumperBGame extends BallGame {
   AlienBumperBGame() : super(color: const Color(0xFF0000FF));
 
   static const info = '''

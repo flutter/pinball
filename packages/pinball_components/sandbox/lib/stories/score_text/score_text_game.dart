@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 
-class ScoreTextBasicGame extends BasicGame with TapDetector {
+class ScoreTextGame extends AssetsGame with TapDetector {
   static const info = '''
     Simple game to show how score text works,
 

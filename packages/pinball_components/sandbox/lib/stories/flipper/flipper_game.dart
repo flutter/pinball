@@ -6,7 +6,7 @@ import 'package:sandbox/common/common.dart';
 
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class FlipperGame extends BasicBallGame with KeyboardEvents, Traceable {
+class FlipperGame extends BallGame with KeyboardEvents, Traceable {
   static const info = '''
     Shows how Flippers are rendered.
 

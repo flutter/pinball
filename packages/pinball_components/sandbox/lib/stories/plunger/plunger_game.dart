@@ -5,7 +5,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class PlungerGame extends BasicBallGame with KeyboardEvents, Traceable {
+class PlungerGame extends BallGame with KeyboardEvents, Traceable {
   PlungerGame() : super(color: const Color(0xFFFF0000));
 
   static const info = '''
