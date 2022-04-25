@@ -2,10 +2,9 @@ import 'dart:async';
 
 import 'package:flame/input.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class SignpostGame extends BallGame with Traceable, TapDetector {
+class SignpostGame extends BallGame {
   SignpostGame()
       : super(
           imagesFileNames: [

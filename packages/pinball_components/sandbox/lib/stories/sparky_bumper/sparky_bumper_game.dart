@@ -2,10 +2,9 @@ import 'dart:async';
 
 import 'package:flame/extensions.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class SparkyBumperGame extends BallGame with Traceable {
+class SparkyBumperGame extends BallGame {
   static const description = '''
     Shows how a SparkyBumper is rendered.
 

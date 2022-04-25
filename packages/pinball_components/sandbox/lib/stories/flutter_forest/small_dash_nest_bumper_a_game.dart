@@ -2,10 +2,9 @@ import 'dart:async';
 
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class SmallDashNestBumperAGame extends BallGame with Traceable {
+class SmallDashNestBumperAGame extends BallGame {
   SmallDashNestBumperAGame()
       : super(
           imagesFileNames: [
