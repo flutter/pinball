@@ -79,8 +79,8 @@ class BallController extends ComponentController<Ball>
   }
 
   @override
-  Future<void>? onLoad() {
+  void onMount() {
+    super.onMount();
     gameRef.read<GameBloc>().add(const BallAdded());
-    return super.onLoad();
   }
 }
