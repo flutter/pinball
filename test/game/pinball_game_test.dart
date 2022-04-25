@@ -50,6 +50,7 @@ void main() {
     Assets.images.flipper.left.keyName,
     Assets.images.flipper.right.keyName,
     Assets.images.boundary.outer.keyName,
+    Assets.images.boundary.outerBottom.keyName,
     Assets.images.boundary.bottom.keyName,
     Assets.images.slingshot.upper.keyName,
     Assets.images.slingshot.lower.keyName,

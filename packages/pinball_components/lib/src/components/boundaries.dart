@@ -13,6 +13,7 @@ class Boundaries extends Blueprint {
           components: [
             _BottomBoundary(),
             _OuterBoundary(),
+            _OuterBottomBoundarySpriteComponent(),
           ],
         );
 }
@@ -91,8 +92,10 @@ class _OuterBoundary extends BodyComponent with InitialPosition {
   /// {@macro outer_boundary}
   _OuterBoundary()
       : super(
-          priority: RenderPriority.outerBoudary,
-          children: [_OuterBoundarySpriteComponent()],
+          priority: RenderPriority.outerBoundary,
+          children: [
+            _OuterBoundarySpriteComponent(),
+          ],
         ) {
     renderBody = false;
   }
@@ -151,6 +154,28 @@ class _OuterBoundarySpriteComponent extends SpriteComponent with HasGameRef {
     final sprite = Sprite(
       gameRef.images.fromCache(
         Assets.images.boundary.outer.keyName,
+      ),
+    );
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
+  }
+}
+
+class _OuterBottomBoundarySpriteComponent extends SpriteComponent
+    with HasGameRef {
+  _OuterBottomBoundarySpriteComponent()
+      : super(
+          priority: RenderPriority.outerBottomBoundary,
+          anchor: Anchor.center,
+          position: Vector2(0, 71),
+        );
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    final sprite = Sprite(
+      gameRef.images.fromCache(
+        Assets.images.boundary.outerBottom.keyName,
       ),
     );
     this.sprite = sprite;
