@@ -31,7 +31,6 @@ extension StoryAddGame on Story {
 
 extension on String {
   String toPath() {
-    // TODO(alstiago): format string to as a path name.
-    return this;
+    return replaceAll(' ', '_')..toLowerCase();
   }
 }
