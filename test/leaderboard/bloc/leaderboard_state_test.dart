@@ -30,7 +30,7 @@ void main() {
         rank: '1',
         playerInitials: 'ABC',
         score: 1500,
-        character: DashTheme().character,
+        character: DashTheme().leaderboardIcon,
       );
 
       test(

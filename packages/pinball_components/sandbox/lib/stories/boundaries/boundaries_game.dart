@@ -8,6 +8,7 @@ class BoundariesGame extends BallGame {
       : super(
           imagesFileNames: [
             Assets.images.boundary.outer.keyName,
+            Assets.images.boundary.outerBottom.keyName,
             Assets.images.boundary.bottom.keyName,
           ],
         );

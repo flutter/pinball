@@ -28,6 +28,10 @@ class $AssetsImagesGen {
 class $AssetsImagesAndroidGen {
   const $AssetsImagesAndroidGen();
 
+  /// File path: assets/images/android/animation.png
+  AssetGenImage get animation =>
+      const AssetGenImage('assets/images/android/animation.png');
+
   /// File path: assets/images/android/background.png
   AssetGenImage get background =>
       const AssetGenImage('assets/images/android/background.png');
@@ -48,6 +52,10 @@ class $AssetsImagesAndroidGen {
 class $AssetsImagesDashGen {
   const $AssetsImagesDashGen();
 
+  /// File path: assets/images/dash/animation.png
+  AssetGenImage get animation =>
+      const AssetGenImage('assets/images/dash/animation.png');
+
   /// File path: assets/images/dash/background.png
   AssetGenImage get background =>
       const AssetGenImage('assets/images/dash/background.png');
@@ -67,6 +75,10 @@ class $AssetsImagesDashGen {
 class $AssetsImagesDinoGen {
   const $AssetsImagesDinoGen();
 
+  /// File path: assets/images/dino/animation.png
+  AssetGenImage get animation =>
+      const AssetGenImage('assets/images/dino/animation.png');
+
   /// File path: assets/images/dino/background.png
   AssetGenImage get background =>
       const AssetGenImage('assets/images/dino/background.png');
@@ -85,6 +97,10 @@ class $AssetsImagesDinoGen {
 
 class $AssetsImagesSparkyGen {
   const $AssetsImagesSparkyGen();
+
+  /// File path: assets/images/sparky/animation.png
+  AssetGenImage get animation =>
+      const AssetGenImage('assets/images/sparky/animation.png');
 
   /// File path: assets/images/sparky/background.png
   AssetGenImage get background =>
