@@ -21,11 +21,10 @@ void main() {
     flameTester.test(
       'loads correctly',
       (game) async {
-        final boattomGroup = BottomGroup();
-        await game.ready();
-        await game.ensureAdd(boattomGroup);
+        final bottomGroup = BottomGroup();
+        await game.ensureAdd(bottomGroup);
 
-        expect(game.contains(boattomGroup), isTrue);
+        expect(game.contains(bottomGroup), isTrue);
       },
     );
 
@@ -33,12 +32,11 @@ void main() {
       flameTester.test(
         'one left flipper',
         (game) async {
-          final boattomGroup = BottomGroup();
-          await game.ready();
-          await game.ensureAdd(boattomGroup);
+          final bottomGroup = BottomGroup();
+          await game.ensureAdd(bottomGroup);
 
           final leftFlippers =
-              boattomGroup.descendants().whereType<Flipper>().where(
+              bottomGroup.descendants().whereType<Flipper>().where(
                     (flipper) => flipper.side.isLeft,
                   );
           expect(leftFlippers.length, equals(1));
@@ -48,11 +46,10 @@ void main() {
       flameTester.test(
         'one right flipper',
         (game) async {
-          final boattomGroup = BottomGroup();
-          await game.ready();
-          await game.ensureAdd(boattomGroup);
+          final bottomGroup = BottomGroup();
+          await game.ensureAdd(bottomGroup);
           final rightFlippers =
-              boattomGroup.descendants().whereType<Flipper>().where(
+              bottomGroup.descendants().whereType<Flipper>().where(
                     (flipper) => flipper.side.isRight,
                   );
           expect(rightFlippers.length, equals(1));
@@ -62,24 +59,22 @@ void main() {
       flameTester.test(
         'two Baseboards',
         (game) async {
-          final boattomGroup = BottomGroup();
-          await game.ready();
-          await game.ensureAdd(boattomGroup);
+          final bottomGroup = BottomGroup();
+          await game.ensureAdd(bottomGroup);
 
-          final baseboattomGroups =
-              boattomGroup.descendants().whereType<Baseboard>();
-          expect(baseboattomGroups.length, equals(2));
+          final basebottomGroups =
+              bottomGroup.descendants().whereType<Baseboard>();
+          expect(basebottomGroups.length, equals(2));
         },
       );
 
       flameTester.test(
         'two Kickers',
         (game) async {
-          final boattomGroup = BottomGroup();
-          await game.ready();
-          await game.ensureAdd(boattomGroup);
+          final bottomGroup = BottomGroup();
+          await game.ensureAdd(bottomGroup);
 
-          final kickers = boattomGroup.descendants().whereType<Kicker>();
+          final kickers = bottomGroup.descendants().whereType<Kicker>();
           expect(kickers.length, equals(2));
         },
       );
