@@ -5,6 +5,14 @@ import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class SlingshotGame extends BallGame with Traceable {
+  SlingshotGame()
+      : super(
+          imagesFileNames: [
+            Assets.images.slingshot.upper.keyName,
+            Assets.images.slingshot.lower.keyName,
+          ],
+        );
+
   static const description = '''
     Shows how Slingshots are rendered.
 
@@ -16,13 +24,9 @@ class SlingshotGame extends BallGame with Traceable {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    await images.loadAll([
-      Assets.images.slingshot.upper.keyName,
-      Assets.images.slingshot.lower.keyName,
-    ]);
-
-    await addFromBlueprint(Slingshots());
     camera.followVector2(Vector2.zero());
+    await addFromBlueprint(Slingshots());
+    await ready();
     await traceAllBodies();
   }
 }

@@ -8,11 +8,11 @@ class BallGame extends AssetsGame with TapDetector, Traceable {
     this.color = Colors.blue,
     this.ballPriority = 0,
     this.ballLayer = Layer.all,
-    List<String>? fileNames,
+    List<String>? imagesFileNames,
   }) : super(
-          fileNames: [
+          imagesFileNames: [
             Assets.images.ball.ball.keyName,
-            if (fileNames != null) ...fileNames,
+            if (imagesFileNames != null) ...imagesFileNames,
           ],
         );
 

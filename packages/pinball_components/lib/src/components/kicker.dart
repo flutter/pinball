@@ -136,6 +136,7 @@ class _KickerSpriteComponent extends SpriteComponent with HasGameRef {
   Future<void> onLoad() async {
     await super.onLoad();
 
+    // TODO(alestiago): Used cached asset.
     final sprite = await gameRef.loadSprite(
       (_side.isLeft)
           ? Assets.images.kicker.left.keyName

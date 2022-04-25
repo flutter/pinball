@@ -26,10 +26,8 @@ class SpaceshipRailGame extends BallGame {
     await super.onLoad();
 
     camera.followVector2(Vector2(-30, -10));
-
-    final spaceshipRail = SpaceshipRail();
-    unawaited(addFromBlueprint(spaceshipRail));
-
+    await addFromBlueprint(SpaceshipRail());
+    await ready();
     await traceAllBodies();
   }
 }

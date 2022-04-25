@@ -13,6 +13,18 @@ class SpaceshipRampGame extends BallGame with KeyboardEvents {
           color: Colors.blue,
           ballPriority: RenderPriority.ballOnSpaceshipRamp,
           ballLayer: Layer.spaceshipEntranceRamp,
+          imagesFileNames: [
+            Assets.images.spaceship.ramp.railingBackground.keyName,
+            Assets.images.spaceship.ramp.main.keyName,
+            Assets.images.spaceship.ramp.boardOpening.keyName,
+            Assets.images.spaceship.ramp.railingForeground.keyName,
+            Assets.images.spaceship.ramp.arrow.inactive.keyName,
+            Assets.images.spaceship.ramp.arrow.active1.keyName,
+            Assets.images.spaceship.ramp.arrow.active2.keyName,
+            Assets.images.spaceship.ramp.arrow.active3.keyName,
+            Assets.images.spaceship.ramp.arrow.active4.keyName,
+            Assets.images.spaceship.ramp.arrow.active5.keyName,
+          ],
         );
 
   static const description = '''
@@ -29,22 +41,10 @@ class SpaceshipRampGame extends BallGame with KeyboardEvents {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    await images.loadAll([
-      Assets.images.spaceship.ramp.railingBackground.keyName,
-      Assets.images.spaceship.ramp.main.keyName,
-      Assets.images.spaceship.ramp.boardOpening.keyName,
-      Assets.images.spaceship.ramp.railingForeground.keyName,
-      Assets.images.spaceship.ramp.arrow.inactive.keyName,
-      Assets.images.spaceship.ramp.arrow.active1.keyName,
-      Assets.images.spaceship.ramp.arrow.active2.keyName,
-      Assets.images.spaceship.ramp.arrow.active3.keyName,
-      Assets.images.spaceship.ramp.arrow.active4.keyName,
-      Assets.images.spaceship.ramp.arrow.active5.keyName,
-    ]);
-
-    _spaceshipRamp = SpaceshipRamp();
-    await addFromBlueprint(_spaceshipRamp);
     camera.followVector2(Vector2(-12, -50));
+    await addFromBlueprint(
+      _spaceshipRamp = SpaceshipRamp(),
+    );
     await traceAllBodies();
   }
 

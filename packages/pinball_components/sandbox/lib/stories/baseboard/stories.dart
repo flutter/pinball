@@ -4,7 +4,7 @@ import 'package:sandbox/stories/baseboard/baseboard_game.dart';
 
 void addBaseboardStories(Dashbook dashbook) {
   dashbook.storiesOf('Baseboard').addGame(
-        title: 'Basic',
+        title: 'Traced',
         description: BaseboardGame.description,
         gameBuilder: (_) => BaseboardGame(),
       );

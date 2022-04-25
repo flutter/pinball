@@ -24,7 +24,13 @@ class LayerGame extends BallGame with TapDetector {
 }
 
 class _BigSquare extends BodyComponent with InitialPosition, Layered {
-  _BigSquare() {
+  _BigSquare()
+      : super(
+          children: [
+            _UnlayeredSquare()..initialPosition = Vector2.all(4),
+            _SmallSquare()..initialPosition = Vector2.all(-4),
+          ],
+        ) {
     paint = Paint()
       ..color = const Color.fromARGB(255, 8, 218, 241)
       ..style = PaintingStyle.stroke;
@@ -37,17 +43,6 @@ class _BigSquare extends BodyComponent with InitialPosition, Layered {
     final fixtureDef = FixtureDef(shape);
     final bodyDef = BodyDef()..position = initialPosition;
     return world.createBody(bodyDef)..createFixture(fixtureDef);
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    await addAll(
-      [
-        _UnlayeredSquare()..initialPosition = Vector2.all(4),
-        _SmallSquare()..initialPosition = Vector2.all(-4),
-      ],
-    );
   }
 }
 

@@ -7,18 +7,18 @@ import 'package:flutter/material.dart';
 
 abstract class AssetsGame extends Forge2DGame {
   AssetsGame({
-    List<String>? fileNames,
-  }) : _fileNames = fileNames {
+    List<String>? imagesFileNames,
+  }) : _imagesFileNames = imagesFileNames {
     images.prefix = '';
   }
 
-  final List<String>? _fileNames;
+  final List<String>? _imagesFileNames;
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    if (_fileNames != null) {
-      await images.loadAll(_fileNames!);
+    if (_imagesFileNames != null) {
+      await images.loadAll(_imagesFileNames!);
     }
   }
 }

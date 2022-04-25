@@ -28,10 +28,8 @@ class LaunchRampGame extends BallGame {
     camera
       ..followVector2(Vector2(0, 0))
       ..zoom = 7.5;
-
-    final launchRamp = LaunchRamp();
-    unawaited(addFromBlueprint(launchRamp));
-
+    await addFromBlueprint(LaunchRamp());
+    await ready();
     await traceAllBodies();
   }
 }

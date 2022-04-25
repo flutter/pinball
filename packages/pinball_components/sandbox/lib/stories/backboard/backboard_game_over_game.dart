@@ -8,7 +8,7 @@ class BackboardGameOverGame extends AssetsGame
     with HasKeyboardHandlerComponents {
   BackboardGameOverGame(this.score, this.character)
       : super(
-          fileNames: characterIconPaths.values.toList(),
+          imagesFileNames: characterIconPaths.values.toList(),
         );
 
   static const description = '''

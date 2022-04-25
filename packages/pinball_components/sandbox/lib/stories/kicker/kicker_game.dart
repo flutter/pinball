@@ -16,14 +16,14 @@ class KickerGame extends BallGame with Traceable {
     await super.onLoad();
 
     final center = screenToWorld(camera.viewport.canvasSize! / 2);
-
-    final leftKicker = Kicker(side: BoardSide.left)
-      ..initialPosition = Vector2(center.x - (Kicker.size.x * 2), center.y);
-    await add(leftKicker);
-
-    final rightKicker = Kicker(side: BoardSide.right)
-      ..initialPosition = Vector2(center.x + (Kicker.size.x * 2), center.y);
-    await add(rightKicker);
+    await addAll(
+      [
+        Kicker(side: BoardSide.left)
+          ..initialPosition = Vector2(center.x - (Kicker.size.x * 2), center.y),
+        Kicker(side: BoardSide.right)
+          ..initialPosition = Vector2(center.x + (Kicker.size.x * 2), center.y),
+      ],
+    );
 
     await traceAllBodies();
   }
