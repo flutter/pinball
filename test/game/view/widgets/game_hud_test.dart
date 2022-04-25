@@ -9,27 +9,26 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
+import 'package:pinball_components/pinball_components.dart';
 import '../../../helpers/helpers.dart';
 
 void main() {
   group('GameHud', () {
     late GameBloc gameBloc;
-    late StreamController<GameState> stateController;
 
     const initialState = GameState(
-      score: 10,
+      score: 1000,
       balls: 2,
       bonusHistory: [],
     );
 
     setUp(() async {
       gameBloc = MockGameBloc();
-      stateController = StreamController<GameState>()..add(initialState);
       await BonusAnimation.loadAssets();
 
       whenListen(
         gameBloc,
-        stateController.stream,
+        Stream.value(initialState),
         initialState: initialState,
       );
     });
@@ -63,7 +62,7 @@ void main() {
             gameBloc: gameBloc,
           );
 
-          expect(find.text(initialState.score.toString()), findsOneWidget);
+          expect(find.text(initialState.score.formatScore()), findsOneWidget);
         },
       );
 
@@ -72,15 +71,21 @@ void main() {
         (tester) async {
           final state = initialState.copyWith(
             bonusHistory: [GameBonus.dashNest],
+            balls: 0,
           );
-          stateController.add(state);
 
+          whenListen(
+            gameBloc,
+            Stream.value(state),
+            initialState: initialState,
+          );
           await tester.pumpApp(
             GameHud(),
             gameBloc: gameBloc,
           );
 
           expect(find.byType(ScoreView), findsOneWidget);
+          expect(find.byType(BonusAnimation), findsNothing);
         },
       );
     });
@@ -106,7 +111,7 @@ void main() {
     }
 
     testWidgets(
-      'is going back to ScoreView after the animation',
+      'goes back to ScoreView after the animation',
       (tester) async {
         await tester.runAsync(() async {
           final state = initialState.copyWith(

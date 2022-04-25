@@ -34,7 +34,7 @@ void main() {
 
     testWidgets('dino', (tester) async {
       await tester.pumpApp(
-        BonusAnimation.dino(),
+        BonusAnimation.dinoChomp(),
       );
       await tester.pump();
 
@@ -52,7 +52,7 @@ void main() {
 
     testWidgets('google', (tester) async {
       await tester.pumpApp(
-        BonusAnimation.google(),
+        BonusAnimation.googleWord(),
       );
       await tester.pump();
 
@@ -61,7 +61,7 @@ void main() {
 
     testWidgets('android', (tester) async {
       await tester.pumpApp(
-        BonusAnimation.android(),
+        BonusAnimation.androidSpaceship(),
       );
       await tester.pump();
 

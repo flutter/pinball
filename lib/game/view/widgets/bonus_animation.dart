@@ -32,7 +32,7 @@ class BonusAnimation extends StatelessWidget {
           key: key,
         );
 
-  BonusAnimation.dino({
+  BonusAnimation.dinoChomp({
     Key? key,
     VoidCallback? onCompleted,
   }) : this._(
@@ -41,7 +41,7 @@ class BonusAnimation extends StatelessWidget {
           key: key,
         );
 
-  BonusAnimation.android({
+  BonusAnimation.androidSpaceship({
     Key? key,
     VoidCallback? onCompleted,
   }) : this._(
@@ -50,7 +50,7 @@ class BonusAnimation extends StatelessWidget {
           key: key,
         );
 
-  BonusAnimation.google({
+  BonusAnimation.googleWord({
     Key? key,
     VoidCallback? onCompleted,
   }) : this._(

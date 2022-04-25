@@ -21,7 +21,7 @@ class ScoreView extends StatelessWidget {
       ),
       child: AnimatedSwitcher(
         duration: kThemeAnimationDuration,
-        child: isGameOver ? const _GameOver() : const _ScoreWidget(),
+        child: isGameOver ? const _GameOver() : const _ScoreDisplay(),
       ),
     );
   }
@@ -43,8 +43,8 @@ class _GameOver extends StatelessWidget {
   }
 }
 
-class _ScoreWidget extends StatelessWidget {
-  const _ScoreWidget({Key? key}) : super(key: key);
+class _ScoreDisplay extends StatelessWidget {
+  const _ScoreDisplay({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +52,7 @@ class _ScoreWidget extends StatelessWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(
           l10n.score.toLowerCase(),
@@ -60,7 +61,7 @@ class _ScoreWidget extends StatelessWidget {
           ),
         ),
         const _ScoreText(),
-        const ScoreBalls(),
+        const BallCountDisplay(),
       ],
     );
   }

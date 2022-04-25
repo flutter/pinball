@@ -4,7 +4,7 @@ import 'package:pinball/game/game.dart';
 import 'package:pinball/gen/gen.dart';
 
 /// {@template game_hud}
-/// Overlay of a [PinballGame].
+/// Overlay on the [PinballGame].
 ///
 /// Displays the current [GameState.score], [GameState.balls] and animates when
 /// the player gets a [GameBonus].
@@ -33,7 +33,8 @@ class _GameHudState extends State<GameHud> {
         height: _width / _ratio,
         width: _width,
         child: BlocListener<GameBloc, GameState>(
-          listenWhen: _listenWhenBonusChanges,
+          listenWhen: (previous, current) =>
+              previous.bonusHistory.length != current.bonusHistory.length,
           listener: (_, __) => setState(() => showAnimation = true),
           child: AnimatedSwitcher(
             duration: kThemeAnimationDuration,
@@ -50,12 +51,6 @@ class _GameHudState extends State<GameHud> {
         ),
       ),
     );
-  }
-
-  bool _listenWhenBonusChanges(GameState previous, GameState current) {
-    final previousCount = previous.bonusHistory.length;
-    final currentCount = current.bonusHistory.length;
-    return previousCount != currentCount;
   }
 }
 
@@ -105,12 +100,12 @@ class _AnimationView extends StatelessWidget {
         return BonusAnimation.dashNest(onCompleted: onComplete);
       case GameBonus.sparkyTurboCharge:
         return BonusAnimation.sparkyTurboCharge(onCompleted: onComplete);
-      case GameBonus.dino:
-        return BonusAnimation.dino(onCompleted: onComplete);
+      case GameBonus.dinoChomp:
+        return BonusAnimation.dinoChomp(onCompleted: onComplete);
       case GameBonus.googleWord:
-        return BonusAnimation.google(onCompleted: onComplete);
-      case GameBonus.android:
-        return BonusAnimation.android(onCompleted: onComplete);
+        return BonusAnimation.googleWord(onCompleted: onComplete);
+      case GameBonus.androidSpaceship:
+        return BonusAnimation.androidSpaceship(onCompleted: onComplete);
     }
   }
 }

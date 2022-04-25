@@ -6,8 +6,8 @@ import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/theme/theme.dart';
 
-class ScoreBalls extends StatelessWidget {
-  const ScoreBalls({Key? key}) : super(key: key);
+class BallCountDisplay extends StatelessWidget {
+  const BallCountDisplay({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +25,9 @@ class ScoreBalls extends StatelessWidget {
         const SizedBox(width: 8),
         Row(
           children: [
-            ScoreBall(isActive: balls >= 1),
-            ScoreBall(isActive: balls >= 2),
-            ScoreBall(isActive: balls >= 3),
+            BallIndicator(isActive: balls >= 1),
+            BallIndicator(isActive: balls >= 2),
+            BallIndicator(isActive: balls >= 3),
           ],
         ),
       ],
@@ -36,8 +36,8 @@ class ScoreBalls extends StatelessWidget {
 }
 
 @visibleForTesting
-class ScoreBall extends StatelessWidget {
-  const ScoreBall({
+class BallIndicator extends StatelessWidget {
+  const BallIndicator({
     Key? key,
     required this.isActive,
   }) : super(key: key);

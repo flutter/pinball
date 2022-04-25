@@ -27,12 +27,12 @@ void main() {
 
     testWidgets('three active balls', (tester) async {
       await tester.pumpApp(
-        const ScoreBalls(),
+        const BallCountDisplay(),
         gameBloc: gameBloc,
       );
       await tester.pump();
 
-      expect(find.byType(ScoreBall), findsNWidgets(3));
+      expect(find.byType(BallIndicator), findsNWidgets(3));
     });
 
     testWidgets('two active balls', (tester) async {
@@ -46,23 +46,54 @@ void main() {
       );
 
       await tester.pumpApp(
-        const ScoreBalls(),
+        const BallCountDisplay(),
         gameBloc: gameBloc,
       );
       await tester.pump();
 
       expect(
         find.byWidgetPredicate(
-          (widget) => widget is ScoreBall && widget.isActive,
+          (widget) => widget is BallIndicator && widget.isActive,
         ),
         findsNWidgets(2),
       );
 
       expect(
         find.byWidgetPredicate(
-          (widget) => widget is ScoreBall && !widget.isActive,
+          (widget) => widget is BallIndicator && !widget.isActive,
         ),
         findsOneWidget,
+      );
+    });
+
+    testWidgets('one active balls', (tester) async {
+      final state = initialState.copyWith(
+        balls: 1,
+      );
+      whenListen(
+        gameBloc,
+        Stream.value(state),
+        initialState: state,
+      );
+
+      await tester.pumpApp(
+        const BallCountDisplay(),
+        gameBloc: gameBloc,
+      );
+      await tester.pump();
+
+      expect(
+        find.byWidgetPredicate(
+          (widget) => widget is BallIndicator && widget.isActive,
+        ),
+        findsOneWidget,
+      );
+
+      expect(
+        find.byWidgetPredicate(
+          (widget) => widget is BallIndicator && !widget.isActive,
+        ),
+        findsNWidgets(2),
       );
     });
   });
@@ -70,7 +101,7 @@ void main() {
   testWidgets('active score ball is displaying with proper color',
       (tester) async {
     await tester.pumpApp(
-      const ScoreBall(isActive: true),
+      const BallIndicator(isActive: true),
     );
     await tester.pump();
 
@@ -85,7 +116,7 @@ void main() {
   testWidgets('inactive score ball is displaying with proper color',
       (tester) async {
     await tester.pumpApp(
-      const ScoreBall(isActive: false),
+      const BallIndicator(isActive: false),
     );
     await tester.pump();
 
