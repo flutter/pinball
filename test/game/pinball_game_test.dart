@@ -54,6 +54,16 @@ void main() {
     Assets.images.boundary.bottom.keyName,
     Assets.images.slingshot.upper.keyName,
     Assets.images.slingshot.lower.keyName,
+    Assets.images.multiplier.x2.active.keyName,
+    Assets.images.multiplier.x2.inactive.keyName,
+    Assets.images.multiplier.x3.active.keyName,
+    Assets.images.multiplier.x3.inactive.keyName,
+    Assets.images.multiplier.x4.active.keyName,
+    Assets.images.multiplier.x4.inactive.keyName,
+    Assets.images.multiplier.x5.active.keyName,
+    Assets.images.multiplier.x5.inactive.keyName,
+    Assets.images.multiplier.x6.active.keyName,
+    Assets.images.multiplier.x6.inactive.keyName,
   ];
   final flameTester = FlameTester(() => PinballTestGame(assets));
   final debugModeFlameTester = FlameTester(() => DebugPinballTestGame(assets));

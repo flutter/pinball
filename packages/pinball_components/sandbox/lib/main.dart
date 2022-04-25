@@ -33,6 +33,7 @@ void main() {
   addLaunchRampStories(dashbook);
   addScoreTextStories(dashbook);
   addBackboardStories(dashbook);
+  addMultipliersStories(dashbook);
 
   runApp(dashbook);
 }
