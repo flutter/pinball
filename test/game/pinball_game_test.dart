@@ -103,20 +103,20 @@ void main() {
       );
 
       group('controller', () {
+        late GameBloc gameBloc;
+
+        setUp(() {
+          gameBloc = GameBloc();
+        });
+
+        final flameBlocTester = FlameBlocTester<PinballTestGame, GameBloc>(
+          gameBuilder: PinballTestGame.new,
+          blocBuilder: () => gameBloc,
+          assets: assets,
+        );
+
         // TODO(alestiago): Write test to be controller agnostic.
         group('listenWhen', () {
-          late GameBloc gameBloc;
-
-          setUp(() {
-            gameBloc = GameBloc();
-          });
-
-          final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
-            gameBuilder: EmptyPinballTestGame.new,
-            blocBuilder: () => gameBloc,
-            // assets: assets,
-          );
-
           flameBlocTester.testGameWidget(
             'listens when all balls are lost and there are more than 0 balls',
             setUp: (game, tester) async {
