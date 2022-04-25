@@ -34,7 +34,7 @@ class Blueprint {
   List<Component> get components => List.unmodifiable(_components);
 
   /// Returns a copy of the blueprints built by this blueprint.
-  List<Component> get blueprints => List.unmodifiable(_blueprints);
+  List<Blueprint> get blueprints => List.unmodifiable(_blueprints);
 }
 
 /// Adds helper methods regarding [Blueprint]s to [FlameGame].
