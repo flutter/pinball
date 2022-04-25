@@ -1,20 +1,21 @@
-import 'package:flame/components.dart';
+import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 import 'package:pinball_theme/pinball_theme.dart';
 import 'package:sandbox/common/common.dart';
 
-class BackboardGameOverGame extends BasicKeyboardGame {
-  BackboardGameOverGame(this.score, this.character);
+class BackboardGameOverGame extends AssetsGame
+    with HasKeyboardHandlerComponents {
+  BackboardGameOverGame(this.score, this.character)
+      : super(
+          imagesFileNames: characterIconPaths.values.toList(),
+        );
 
-  static const info = '''
-      Simple example showing the game over mode of the backboard.
+  static const description = '''
+      Shows how the Backboard in game over mode is rendered.
 
       - Select a character to update the character icon.
   ''';
-
-  final int score;
-  final String character;
 
   static final characterIconPaths = <String, String>{
     'Dash': Assets.images.dash.leaderboardIcon.keyName,
@@ -23,13 +24,15 @@ class BackboardGameOverGame extends BasicKeyboardGame {
     'Dino': Assets.images.dino.leaderboardIcon.keyName,
   };
 
+  final int score;
+
+  final String character;
+
   @override
   Future<void> onLoad() async {
     camera
       ..followVector2(Vector2.zero())
       ..zoom = 5;
-
-    await images.loadAll(characterIconPaths.values.toList());
 
     await add(
       Backboard.gameOver(

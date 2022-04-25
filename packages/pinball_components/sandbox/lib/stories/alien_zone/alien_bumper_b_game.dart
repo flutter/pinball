@@ -4,10 +4,17 @@ import 'package:flame/extensions.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class AlienBumperBGame extends BasicBallGame {
-  AlienBumperBGame() : super(color: const Color(0xFF0000FF));
+class AlienBumperBGame extends BallGame {
+  AlienBumperBGame()
+      : super(
+          color: const Color(0xFF0000FF),
+          imagesFileNames: [
+            Assets.images.alienBumper.b.active.keyName,
+            Assets.images.alienBumper.b.inactive.keyName,
+          ],
+        );
 
-  static const info = '''
+  static const description = '''
     Shows how a AlienBumperB is rendered.
 
     - Activate the "trace" parameter to overlay the body.
@@ -17,16 +24,10 @@ class AlienBumperBGame extends BasicBallGame {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    await images.loadAll([
-      Assets.images.alienBumper.b.active.keyName,
-      Assets.images.alienBumper.b.inactive.keyName,
-    ]);
-
-    final center = screenToWorld(camera.viewport.canvasSize! / 2);
-    final alienBumperB = AlienBumper.b()
-      ..initialPosition = Vector2(center.x - 10, center.y + 10)
-      ..priority = 1;
-    await add(alienBumperB);
+    camera.followVector2(Vector2.zero());
+    await add(
+      AlienBumper.b()..priority = 1,
+    );
 
     await traceAllBodies();
   }
