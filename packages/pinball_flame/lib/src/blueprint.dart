@@ -24,7 +24,7 @@ class Blueprint {
 
   final List<Component> _components = [];
 
-  final List<Component> _blueprints = [];
+  final List<Blueprint> _blueprints = [];
 
   Future<void> _addToParent(Component parent) async {
     await parent.addAll(_components);
