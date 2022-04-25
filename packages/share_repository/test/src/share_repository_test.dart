@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('ShareRepository', () {
-    const appUrl = 'https://ashehwkdkdjruejdnensjsjdne.web.app/#/';
+    const appUrl = 'https://fakeurl.com/';
     late ShareRepository shareRepository;
 
     setUp(() {
@@ -19,7 +19,7 @@ void main() {
       const shareText = 'hello world!';
       test('returns the correct share url for twitter', () async {
         const shareScoreUrl =
-            'https://twitter.com/intent/tweet?url=https%3A%2F%2Fashehwkdkdjruejdnensjsjdne.web.app%2F%23%2F&text=hello%20world!';
+            'https://twitter.com/intent/tweet?url=https%3A%2F%2Ffakeurl.com%2F&text=hello%20world!';
         final shareScoreResult = shareRepository.shareScore(
           shareText: shareText,
           platform: SharePlatform.twitter,
@@ -29,7 +29,7 @@ void main() {
 
       test('returns the correct share url for facebook', () async {
         const shareScoreUrl =
-            'https://www.facebook.com/sharer.php?u=https%3A%2F%2Fashehwkdkdjruejdnensjsjdne.web.app%2F%23%2F&quote=hello%20world!';
+            'https://www.facebook.com/sharer.php?u=https%3A%2F%2Ffakeurl.com%2F&quote=hello%20world!';
         final shareScoreResult = shareRepository.shareScore(
           shareText: shareText,
           platform: SharePlatform.facebook,
