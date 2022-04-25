@@ -11,9 +11,9 @@ import 'package:flutter/material.dart' hide Animation;
 /// {@endtemplate}
 // TODO(arturplaczek): Remove when this PR will be merged.
 // https://github.com/flame-engine/flame/pull/1552
-class PinballSpriteAnimationWidget extends StatelessWidget {
+class SpriteAnimationWidget extends StatelessWidget {
   /// {@macro flame.widgets.sprite_animation_widget}
-  const PinballSpriteAnimationWidget({
+  const SpriteAnimationWidget({
     required this.controller,
     this.anchor = Anchor.topLeft,
     Key? key,

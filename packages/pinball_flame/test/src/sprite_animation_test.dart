@@ -34,7 +34,7 @@ void main() {
 
     testWidgets('renders correctly', (tester) async {
       await tester.pumpWidget(
-        PinballSpriteAnimationWidget(
+        SpriteAnimationWidget(
           controller: controller,
         ),
       );
@@ -42,7 +42,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.pumpAndSettle();
 
-      expect(find.byType(PinballSpriteAnimationWidget), findsOneWidget);
+      expect(find.byType(SpriteAnimationWidget), findsOneWidget);
     });
 
     test('SpriteAnimationController is updating animations', () {
