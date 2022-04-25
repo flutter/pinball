@@ -81,7 +81,8 @@ class _ScoreViewDecoration extends StatelessWidget {
   }
 }
 
-// TODO(arturplaczek): implement new Sprite animation when will be merged.
+// TODO(arturplaczek): Waiting for new version of SpriteAnimationWidget.
+// https://github.com/flame-engine/flame/pull/1552.
 class _AnimationView extends StatelessWidget {
   const _AnimationView({
     Key? key,

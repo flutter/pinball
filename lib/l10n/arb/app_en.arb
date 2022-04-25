@@ -78,6 +78,6 @@
   },
   "rounds": "Rounds:",
   "@rounds": {
-    "description": "Text displayed on the scoreboard widget"
+    "description": "Text displayed on the scoreboard widget to indicate rounds left"
   }
 }
