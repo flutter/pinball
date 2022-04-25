@@ -12,7 +12,7 @@ extension StoryAddGame on Story {
     required Game Function(DashbookContext) gameBuilder,
   }) {
     final _chapter = Chapter(
-      name,
+      title,
       (DashbookContext context) {
         final game = gameBuilder(context);
         if (game is Traceable) {
