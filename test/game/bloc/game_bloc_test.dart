@@ -4,25 +4,70 @@ import 'package:pinball/game/game.dart';
 
 void main() {
   group('GameBloc', () {
-    test('initial state has 3 rounds, 1 ball and empty score', () {
+    test('initial state has 3 rounds, 0 ball and empty score', () {
       final gameBloc = GameBloc();
       expect(gameBloc.state.score, equals(0));
-      expect(gameBloc.state.balls, equals(1));
+      expect(gameBloc.state.balls, equals(0));
       expect(gameBloc.state.rounds, equals(3));
     });
 
-    group('BallLost', () {
+    group('BallAdded', () {
       blocTest<GameBloc, GameState>(
-        'decreases number of balls',
+        'increases number of balls',
         build: GameBloc.new,
         act: (bloc) {
-          bloc.add(const BallLost(ballsLeft: 0));
+          bloc.add(const BallAdded());
         },
         expect: () => [
           const GameState(
             score: 0,
             multiplier: 1,
             balls: 1,
+            rounds: 3,
+            bonusHistory: [],
+          ),
+        ],
+      );
+    });
+
+    group('BallLost', () {
+      blocTest<GameBloc, GameState>(
+        'decreases only number of balls '
+        'when there are more than 1',
+        build: GameBloc.new,
+        seed: () => const GameState(
+          score: 0,
+          multiplier: 1,
+          balls: 3,
+          rounds: 3,
+          bonusHistory: [],
+        ),
+        act: (bloc) {
+          bloc.add(const BallLost());
+        },
+        expect: () => [
+          const GameState(
+            score: 0,
+            multiplier: 1,
+            balls: 2,
+            rounds: 3,
+            bonusHistory: [],
+          ),
+        ],
+      );
+
+      blocTest<GameBloc, GameState>(
+        'decreases number of rounds '
+        'when there are no more balls in current round',
+        build: GameBloc.new,
+        act: (bloc) {
+          bloc.add(const BallLost());
+        },
+        expect: () => [
+          const GameState(
+            score: 0,
+            multiplier: 1,
+            balls: 0,
             rounds: 2,
             bonusHistory: [],
           ),
@@ -41,7 +86,7 @@ void main() {
           bonusHistory: [],
         ),
         act: (bloc) {
-          bloc.add(const BallLost(ballsLeft: 0));
+          bloc.add(const BallLost());
         },
         expect: () => [
           isA<GameState>()
@@ -62,7 +107,7 @@ void main() {
           bonusHistory: [],
         ),
         act: (bloc) {
-          bloc.add(const BallLost(ballsLeft: 0));
+          bloc.add(const BallLost());
         },
         expect: () => [
           isA<GameState>()
@@ -81,20 +126,12 @@ void main() {
           ..add(const Scored(points: 2))
           ..add(const Scored(points: 3)),
         expect: () => [
-          const GameState(
-            score: 2,
-            multiplier: 1,
-            balls: 1,
-            rounds: 3,
-            bonusHistory: [],
-          ),
-          const GameState(
-            score: 5,
-            multiplier: 1,
-            balls: 1,
-            rounds: 3,
-            bonusHistory: [],
-          ),
+          isA<GameState>()
+            ..having((state) => state.score, 'score', 2)
+            ..having((state) => state.isGameOver, 'isGameOver', false),
+          isA<GameState>()
+            ..having((state) => state.score, 'score', 5)
+            ..having((state) => state.isGameOver, 'isGameOver', false),
         ],
       );
 
@@ -104,32 +141,23 @@ void main() {
         build: GameBloc.new,
         act: (bloc) {
           for (var i = 0; i < bloc.state.rounds; i++) {
-            bloc.add(const BallLost(ballsLeft: 0));
+            bloc.add(const BallLost());
           }
           bloc.add(const Scored(points: 2));
         },
         expect: () => [
-          const GameState(
-            score: 0,
-            multiplier: 1,
-            balls: 1,
-            rounds: 2,
-            bonusHistory: [],
-          ),
-          const GameState(
-            score: 0,
-            multiplier: 1,
-            balls: 1,
-            rounds: 1,
-            bonusHistory: [],
-          ),
-          const GameState(
-            score: 0,
-            multiplier: 1,
-            balls: 1,
-            rounds: 0,
-            bonusHistory: [],
-          ),
+          isA<GameState>()
+            ..having((state) => state.score, 'score', 0)
+            ..having((state) => state.rounds, 'rounds', 2)
+            ..having((state) => state.isGameOver, 'isGameOver', false),
+          isA<GameState>()
+            ..having((state) => state.score, 'score', 0)
+            ..having((state) => state.rounds, 'rounds', 1)
+            ..having((state) => state.isGameOver, 'isGameOver', false),
+          isA<GameState>()
+            ..having((state) => state.score, 'score', 0)
+            ..having((state) => state.rounds, 'rounds', 0)
+            ..having((state) => state.isGameOver, 'isGameOver', true),
         ],
       );
     });
@@ -137,26 +165,20 @@ void main() {
     group('MultiplierIncreased', () {
       blocTest<GameBloc, GameState>(
         'increases multiplier '
-        'when game is not over',
+        'when multiplier is below 6 and game is not over',
         build: GameBloc.new,
         act: (bloc) => bloc
           ..add(const MultiplierIncreased())
           ..add(const MultiplierIncreased()),
         expect: () => [
-          const GameState(
-            score: 0,
-            multiplier: 2,
-            balls: 1,
-            rounds: 3,
-            bonusHistory: [],
-          ),
-          const GameState(
-            score: 0,
-            multiplier: 3,
-            balls: 1,
-            rounds: 3,
-            bonusHistory: [],
-          ),
+          isA<GameState>()
+            ..having((state) => state.score, 'score', 0)
+            ..having((state) => state.multiplier, 'multiplier', 2)
+            ..having((state) => state.isGameOver, 'isGameOver', false),
+          isA<GameState>()
+            ..having((state) => state.score, 'score', 0)
+            ..having((state) => state.multiplier, 'multiplier', 3)
+            ..having((state) => state.isGameOver, 'isGameOver', false),
         ],
       );
 
@@ -166,23 +188,13 @@ void main() {
         build: GameBloc.new,
         seed: () => const GameState(
           score: 0,
-          multiplier: 5,
+          multiplier: 6,
           balls: 1,
           rounds: 3,
           bonusHistory: [],
         ),
-        act: (bloc) => bloc
-          ..add(const MultiplierIncreased())
-          ..add(const MultiplierIncreased()),
-        expect: () => [
-          const GameState(
-            score: 0,
-            multiplier: 6,
-            balls: 1,
-            rounds: 3,
-            bonusHistory: [],
-          ),
-        ],
+        act: (bloc) => bloc..add(const MultiplierIncreased()),
+        expect: () => const <GameState>[],
       );
 
       blocTest<GameBloc, GameState>(
@@ -191,32 +203,23 @@ void main() {
         build: GameBloc.new,
         act: (bloc) {
           for (var i = 0; i < bloc.state.rounds; i++) {
-            bloc.add(const BallLost(ballsLeft: 0));
+            bloc.add(const BallLost());
           }
           bloc.add(const MultiplierIncreased());
         },
         expect: () => [
-          const GameState(
-            score: 0,
-            multiplier: 1,
-            balls: 1,
-            rounds: 2,
-            bonusHistory: [],
-          ),
-          const GameState(
-            score: 0,
-            multiplier: 1,
-            balls: 1,
-            rounds: 1,
-            bonusHistory: [],
-          ),
-          const GameState(
-            score: 0,
-            multiplier: 1,
-            balls: 1,
-            rounds: 0,
-            bonusHistory: [],
-          ),
+          isA<GameState>()
+            ..having((state) => state.score, 'score', 0)
+            ..having((state) => state.multiplier, 'multiplier', 1)
+            ..having((state) => state.isGameOver, 'isGameOver', false),
+          isA<GameState>()
+            ..having((state) => state.score, 'score', 0)
+            ..having((state) => state.multiplier, 'multiplier', 1)
+            ..having((state) => state.isGameOver, 'isGameOver', false),
+          isA<GameState>()
+            ..having((state) => state.score, 'score', 0)
+            ..having((state) => state.multiplier, 'multiplier', 1)
+            ..having((state) => state.isGameOver, 'isGameOver', true),
         ],
       );
     });
@@ -230,21 +233,19 @@ void main() {
           act: (bloc) => bloc
             ..add(const BonusActivated(GameBonus.googleWord))
             ..add(const BonusActivated(GameBonus.dashNest)),
-          expect: () => const [
-            GameState(
-              score: 0,
-              multiplier: 1,
-              balls: 1,
-              rounds: 3,
-              bonusHistory: [GameBonus.googleWord],
-            ),
-            GameState(
-              score: 0,
-              multiplier: 1,
-              balls: 1,
-              rounds: 3,
-              bonusHistory: [GameBonus.googleWord, GameBonus.dashNest],
-            ),
+          expect: () => [
+            isA<GameState>()
+              ..having(
+                (state) => state.bonusHistory,
+                'bonusHistory',
+                [GameBonus.googleWord],
+              ),
+            isA<GameState>()
+              ..having(
+                (state) => state.bonusHistory,
+                'bonusHistory',
+                [GameBonus.googleWord, GameBonus.dashNest],
+              ),
           ],
         );
       },
@@ -255,14 +256,13 @@ void main() {
         'adds game bonus',
         build: GameBloc.new,
         act: (bloc) => bloc..add(const SparkyTurboChargeActivated()),
-        expect: () => const [
-          GameState(
-            score: 0,
-            multiplier: 1,
-            balls: 1,
-            rounds: 3,
-            bonusHistory: [GameBonus.sparkyTurboCharge],
-          ),
+        expect: () => [
+          isA<GameState>()
+            ..having(
+              (state) => state.bonusHistory,
+              'bonusHistory',
+              [GameBonus.sparkyTurboCharge],
+            ),
         ],
       );
     });

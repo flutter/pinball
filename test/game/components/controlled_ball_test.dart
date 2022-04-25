@@ -53,6 +53,20 @@ void main() {
     });
 
     flameBlocTester.testGameWidget(
+      'when loaded adds BallAdded to GameBloc',
+      setUp: (game, tester) async {
+        final controller = BallController(ball);
+        await ball.add(controller);
+        await game.ensureAdd(ball);
+
+        controller.lost();
+      },
+      verify: (game, tester) async {
+        verify(() => gameBloc.add(const BallAdded())).called(1);
+      },
+    );
+
+    flameBlocTester.testGameWidget(
       'lost adds BallLost to GameBloc',
       setUp: (game, tester) async {
         final controller = BallController(ball);
@@ -62,7 +76,7 @@ void main() {
         controller.lost();
       },
       verify: (game, tester) async {
-        verify(() => gameBloc.add(const BallLost(ballsLeft: 0))).called(1);
+        verify(() => gameBloc.add(const BallLost())).called(1);
       },
     );
 
