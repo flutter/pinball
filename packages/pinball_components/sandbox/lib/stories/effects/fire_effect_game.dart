@@ -3,7 +3,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 
 class FireEffectGame extends LineGame {
-  static const info = '''
+  static const description = '''
   Shows how the FireEffect renders.
 
   - Drag a line to define the trail direction.

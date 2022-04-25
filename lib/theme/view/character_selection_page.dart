@@ -124,7 +124,7 @@ class CharacterImageButton extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.all(8),
-          child: characterTheme.character.image(),
+          child: characterTheme.icon.image(),
         ),
       ),
     );
