@@ -7,9 +7,6 @@ import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template sparky_computer}
 /// A computer owned by Sparky.
-///
-/// Register a [ContactCallback] for [SparkyComputerSensor] to listen when
-/// something enters the [SparkyComputer].
 /// {@endtemplate}
 class SparkyComputer extends Blueprint {
   /// {@macro sparky_computer}
@@ -18,7 +15,6 @@ class SparkyComputer extends Blueprint {
           components: [
             _ComputerBase(),
             _ComputerTopSpriteComponent(),
-            SparkyComputerSensor(),
           ],
         );
 }
@@ -102,26 +98,5 @@ class _ComputerTopSpriteComponent extends SpriteComponent with HasGameRef {
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
-  }
-}
-
-/// {@template sparky_computer_sensor}
-/// Small sensor body used to detect when a ball has entered the
-/// [SparkyComputer].
-/// {@endtemplate}
-class SparkyComputerSensor extends BodyComponent with InitialPosition {
-  /// {@macro sparky_computer_sensor}
-  SparkyComputerSensor() {
-    renderBody = false;
-  }
-
-  @override
-  Body createBody() {
-    final shape = CircleShape()..radius = 0.1;
-    final fixtureDef = FixtureDef(shape, isSensor: true);
-    final bodyDef = BodyDef()
-      ..position = initialPosition
-      ..userData = this;
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
