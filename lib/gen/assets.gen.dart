@@ -68,6 +68,10 @@ class $AssetsImagesHowToPlayGen {
   AssetGenImage get leftArrow =>
       const AssetGenImage('assets/images/how_to_play/left_arrow.png');
 
+  /// File path: assets/images/how_to_play/right_arrow.png
+  AssetGenImage get rightArrow =>
+      const AssetGenImage('assets/images/how_to_play/right_arrow.png');
+
   /// File path: assets/images/how_to_play/space.png
   AssetGenImage get space =>
       const AssetGenImage('assets/images/how_to_play/space.png');
