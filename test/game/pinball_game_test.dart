@@ -59,11 +59,23 @@ void main() {
   final debugModeFlameTester = FlameTester(() => DebugPinballTestGame(assets));
 
   group('PinballGame', () {
+    late GameBloc gameBloc;
+
+    setUp(() {
+      gameBloc = GameBloc();
+    });
+
+    final flameBlocTester = FlameBlocTester<PinballTestGame, GameBloc>(
+      gameBuilder: () => PinballTestGame(assets),
+      blocBuilder: () => gameBloc,
+      assets: assets,
+    );
+
     // TODO(alestiago): test if [PinballGame] registers
     // [BallScorePointsCallback] once the following issue is resolved:
     // https://github.com/flame-engine/flame/issues/1416
     group('components', () {
-      flameTester.test(
+      flameBlocTester.test(
         'has only one BottomWall',
         (game) async {
           await game.ready();
@@ -103,18 +115,6 @@ void main() {
       );
 
       group('controller', () {
-        late GameBloc gameBloc;
-
-        setUp(() {
-          gameBloc = GameBloc();
-        });
-
-        final flameBlocTester = FlameBlocTester<PinballTestGame, GameBloc>(
-          gameBuilder: PinballTestGame.new,
-          blocBuilder: () => gameBloc,
-          assets: assets,
-        );
-
         // TODO(alestiago): Write test to be controller agnostic.
         group('listenWhen', () {
           flameBlocTester.testGameWidget(
