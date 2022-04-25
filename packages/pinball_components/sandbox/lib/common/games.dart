@@ -5,16 +5,25 @@ import 'package:flame/input.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 
-abstract class BasicGame extends Forge2DGame {
-  BasicGame() {
+abstract class AssetsGame extends Forge2DGame {
+  AssetsGame({
+    List<String>? imagesFileNames,
+  }) : _imagesFileNames = imagesFileNames {
     images.prefix = '';
+  }
+
+  final List<String>? _imagesFileNames;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    if (_imagesFileNames != null) {
+      await images.loadAll(_imagesFileNames!);
+    }
   }
 }
 
-abstract class BasicKeyboardGame extends BasicGame
-    with HasKeyboardHandlerComponents {}
-
-abstract class LineGame extends BasicGame with PanDetector {
+abstract class LineGame extends AssetsGame with PanDetector {
   Vector2? _lineEnd;
 
   @override
