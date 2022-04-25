@@ -27,9 +27,8 @@ class AlienBumper extends BodyComponent with InitialPosition {
             ),
             if (children != null) ...children,
           ],
-        ) {
-    renderBody = false;
-  }
+          renderBody: false,
+        );
 
   /// {@macro alien_bumper}
   AlienBumper.a({

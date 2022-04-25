@@ -101,9 +101,9 @@ class _SpaceshipRampBackground extends BodyComponent
           children: [
             _SpaceshipRampBackgroundRampSpriteComponent(),
           ],
+          renderBody: false,
         ) {
     layer = Layer.spaceshipEntranceRamp;
-    renderBody = false;
   }
 
   /// Width between walls of the ramp.
@@ -248,9 +248,9 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
       : super(
           priority: RenderPriority.spaceshipRampForegroundRailing,
           children: [_SpaceshipRampForegroundRailingSpriteComponent()],
+          renderBody: false,
         ) {
     layer = Layer.spaceshipEntranceRamp;
-    renderBody = false;
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -313,8 +313,7 @@ class _SpaceshipRampForegroundRailingSpriteComponent extends SpriteComponent
 }
 
 class _SpaceshipRampBase extends BodyComponent with InitialPosition, Layered {
-  _SpaceshipRampBase() {
-    renderBody = false;
+  _SpaceshipRampBase() : super(renderBody: false) {
     layer = Layer.board;
   }
 
@@ -355,9 +354,7 @@ class _SpaceshipRampOpening extends LayerSensor {
           orientation: LayerEntranceOrientation.down,
           insidePriority: RenderPriority.ballOnSpaceshipRamp,
           outsidePriority: outsidePriority,
-        ) {
-    renderBody = false;
-  }
+        );
 
   final double _rotation;
 

@@ -28,9 +28,8 @@ class _BottomBoundary extends BodyComponent with InitialPosition {
       : super(
           priority: RenderPriority.bottomBoundary,
           children: [_BottomBoundarySpriteComponent()],
-        ) {
-    renderBody = false;
-  }
+          renderBody: false,
+        );
 
   List<FixtureDef> _createFixtureDefs() {
     final bottomLeftCurve = BezierCurveShape(
@@ -93,12 +92,9 @@ class _OuterBoundary extends BodyComponent with InitialPosition {
   _OuterBoundary()
       : super(
           priority: RenderPriority.outerBoundary,
-          children: [
-            _OuterBoundarySpriteComponent(),
-          ],
-        ) {
-    renderBody = false;
-  }
+          children: [_OuterBoundarySpriteComponent()],
+          renderBody: false,
+        );
 
   List<FixtureDef> _createFixtureDefs() {
     final topWall = EdgeShape()

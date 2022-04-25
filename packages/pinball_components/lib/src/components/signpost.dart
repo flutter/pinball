@@ -54,9 +54,8 @@ class Signpost extends BodyComponent with InitialPosition {
             _SignpostSpriteComponent(),
             if (children != null) ...children,
           ],
-        ) {
-    renderBody = false;
-  }
+          renderBody: false,
+        );
 
   /// Forwards the sprite to the next [SignpostSpriteState].
   ///

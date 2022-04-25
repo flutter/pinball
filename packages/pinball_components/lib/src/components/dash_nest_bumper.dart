@@ -29,9 +29,8 @@ class DashNestBumper extends BodyComponent with InitialPosition {
             ),
             if (children != null) ...children,
           ],
-        ) {
-    renderBody = false;
-  }
+          renderBody: false,
+        );
 
   /// {@macro dash_nest_bumper}
   DashNestBumper.main({

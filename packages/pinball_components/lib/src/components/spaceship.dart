@@ -45,9 +45,9 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
           children: [
             _SpaceshipSaucerSpriteComponent(),
           ],
+          renderBody: false,
         ) {
     layer = Layer.spaceship;
-    renderBody = false;
   }
 
   @override
@@ -95,8 +95,8 @@ class AndroidHead extends BodyComponent with InitialPosition, Layered {
       : super(
           priority: RenderPriority.androidHead,
           children: [_AndroidHeadSpriteAnimation()],
+          renderBody: false,
         ) {
-    renderBody = false;
     layer = Layer.spaceship;
   }
 
@@ -151,7 +151,6 @@ class _SpaceshipEntrance extends LayerSensor {
 
   @override
   Shape get shape {
-    renderBody = false;
     final radius = Spaceship.size.y / 2;
     return PolygonShape()
       ..setAsEdge(
@@ -176,7 +175,6 @@ class _SpaceshipHole extends LayerSensor {
           insidePriority: RenderPriority.ballOnSpaceship,
           outsidePriority: outsidePriority,
         ) {
-    renderBody = false;
     layer = Layer.spaceship;
   }
 
@@ -224,14 +222,16 @@ class _SpaceshipWallShape extends ChainShape {
 /// {@endtemplate}
 class SpaceshipWall extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_wall}
-  SpaceshipWall() : super(priority: RenderPriority.spaceshipSaucerWall) {
+  SpaceshipWall()
+      : super(
+          priority: RenderPriority.spaceshipSaucerWall,
+          renderBody: false,
+        ) {
     layer = Layer.spaceship;
   }
 
   @override
   Body createBody() {
-    renderBody = false;
-
     final shape = _SpaceshipWallShape();
     final fixtureDef = FixtureDef(shape);
 

@@ -24,9 +24,8 @@ class _ComputerBase extends BodyComponent with InitialPosition {
       : super(
           priority: RenderPriority.computerBase,
           children: [_ComputerBaseSpriteComponent()],
-        ) {
-    renderBody = false;
-  }
+          renderBody: false,
+        );
 
   List<FixtureDef> _createFixtureDefs() {
     final leftEdge = EdgeShape()

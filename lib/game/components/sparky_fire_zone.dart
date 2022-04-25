@@ -62,9 +62,7 @@ class SparkyFireZone extends Blueprint {
 class SparkyComputerSensor extends BodyComponent
     with InitialPosition, ContactCallbacks {
   /// {@macro sparky_computer_sensor}
-  SparkyComputerSensor() {
-    renderBody = false;
-  }
+  SparkyComputerSensor() : super(renderBody: false);
 
   @override
   Body createBody() {

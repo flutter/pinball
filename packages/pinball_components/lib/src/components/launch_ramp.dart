@@ -36,9 +36,9 @@ class _LaunchRampBase extends BodyComponent with Layered {
             _LaunchRampBackgroundRailingSpriteComponent(),
             _LaunchRampBaseSpriteComponent(),
           ],
+          renderBody: false,
         ) {
     layer = Layer.launcher;
-    renderBody = false;
   }
 
   // TODO(ruimiguel): final asset differs slightly from the current shape. We
@@ -150,9 +150,8 @@ class _LaunchRampForegroundRailing extends BodyComponent {
       : super(
           priority: RenderPriority.launchRampForegroundRailing,
           children: [_LaunchRampForegroundRailingSpriteComponent()],
-        ) {
-    renderBody = false;
-  }
+          renderBody: false,
+        );
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
@@ -211,9 +210,8 @@ class _LaunchRampForegroundRailingSpriteComponent extends SpriteComponent
 }
 
 class _LaunchRampCloseWall extends BodyComponent with InitialPosition, Layered {
-  _LaunchRampCloseWall() {
+  _LaunchRampCloseWall() : super(renderBody: false) {
     layer = Layer.board;
-    renderBody = false;
   }
 
   @override
@@ -245,7 +243,6 @@ class _LaunchRampExit extends LayerSensor {
           outsidePriority: RenderPriority.ballOnBoard,
         ) {
     layer = Layer.launcher;
-    renderBody = false;
   }
 
   static final Vector2 _size = Vector2(1.6, 0.1);

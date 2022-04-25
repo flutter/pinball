@@ -17,9 +17,6 @@ enum LayerEntranceOrientation {
 /// {@template layer_sensor}
 /// [BodyComponent] located at the entrance and exit of a [Layer].
 ///
-/// [LayerSensorBallContactCallback] detects when a [Ball] passes
-/// through this sensor.
-///
 /// By default the base [layer] is set to [Layer.board] and the
 /// [outsidePriority] is set to the lowest possible [Layer].
 /// {@endtemplate}
@@ -35,7 +32,8 @@ abstract class LayerSensor extends BodyComponent
   })  : _insideLayer = insideLayer,
         _outsideLayer = outsideLayer ?? Layer.board,
         _insidePriority = insidePriority,
-        _outsidePriority = outsidePriority ?? RenderPriority.ballOnBoard {
+        _outsidePriority = outsidePriority ?? RenderPriority.ballOnBoard,
+        super(renderBody: false) {
     layer = Layer.opening;
   }
   final Layer _insideLayer;

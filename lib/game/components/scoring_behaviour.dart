@@ -25,13 +25,13 @@ class ScoringBehaviour extends Component
     // TODO(alestiago): Refactor once the following is merged:
     // https://github.com/flame-engine/flame/pull/1566
     final parent = this.parent;
-    if (parent is BodyComponent) {
-      final userData = parent.body.userData;
-      if (userData is ContactCallbacks) {
-        userData.add(this);
-      } else {
-        parent.body.userData = this;
-      }
+    if (parent is! BodyComponent) return;
+
+    final userData = parent.body.userData;
+    if (userData is ContactCallbacks) {
+      userData.add(this);
+    } else {
+      parent.body.userData = this;
     }
   }
 

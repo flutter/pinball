@@ -29,9 +29,8 @@ class SparkyBumper extends BodyComponent with InitialPosition {
             ),
             if (children != null) ...children,
           ],
-        ) {
-    renderBody = false;
-  }
+          renderBody: false,
+        );
 
   /// {@macro sparky_bumper}
   SparkyBumper.a({
@@ -74,8 +73,6 @@ class SparkyBumper extends BodyComponent with InitialPosition {
 
   @override
   Body createBody() {
-    renderBody = false;
-
     final shape = EllipseShape(
       center: Vector2.zero(),
       majorRadius: _majorRadius,
