@@ -2,13 +2,39 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
+
+abstract class State<T> {
+  // TODO(alestiago): Investigate approaches to avoid having this as late.
+  late T _state;
+
+  T get state => _state;
+
+  set state(T value) {
+    if (value == _state) return;
+    _state = value;
+    _stream.sink.add(value);
+  }
+
+  final StreamController<T> _stream = StreamController<T>.broadcast();
+
+  Stream<T> get stream => _stream.stream;
+}
+
+/// Indicates the [AlienBumper]'s current sprite state.
+enum AlienBumperState {
+  /// A lit up bumper.
+  active,
+
+  /// A dimmed bumper.
+  inactive,
+}
 
 /// {@template alien_bumper}
 /// Bumper for area under the [Spaceship].
 /// {@endtemplate}
-class AlienBumper extends BodyComponent with InitialPosition {
+class AlienBumper extends BodyComponent
+    with InitialPosition, State<AlienBumperState> {
   /// {@macro alien_bumper}
   AlienBumper._({
     required double majorRadius,
@@ -21,14 +47,17 @@ class AlienBumper extends BodyComponent with InitialPosition {
         super(
           priority: RenderPriority.alienBumper,
           children: [
-            _AlienBumperSpriteGroupComponent(
-              onAssetPath: onAssetPath,
-              offAssetPath: offAssetPath,
-            ),
             if (children != null) ...children,
           ],
           renderBody: false,
-        );
+        ) {
+    _state = AlienBumperState.active;
+    _spriteGroupComponent = _AlienBumperSpriteGroupComponent(
+      offAssetPath: offAssetPath,
+      onAssetPath: onAssetPath,
+      state: state,
+    );
+  }
 
   /// {@macro alien_bumper}
   AlienBumper.a({
@@ -53,7 +82,16 @@ class AlienBumper extends BodyComponent with InitialPosition {
         );
 
   final double _majorRadius;
+
   final double _minorRadius;
+
+  late final _AlienBumperSpriteGroupComponent _spriteGroupComponent;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    await add(_spriteGroupComponent);
+  }
 
   @override
   Body createBody() {
@@ -68,41 +106,24 @@ class AlienBumper extends BodyComponent with InitialPosition {
     );
     final bodyDef = BodyDef(
       position: initialPosition,
-      userData: this,
     );
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
-
-  /// Animates the [AlienBumper].
-  Future<void> animate() async {
-    final spriteGroupComponent = firstChild<_AlienBumperSpriteGroupComponent>()
-      ?..current = AlienBumperSpriteState.inactive;
-    await Future<void>.delayed(const Duration(milliseconds: 50));
-    spriteGroupComponent?.current = AlienBumperSpriteState.active;
-  }
-}
-
-/// Indicates the [AlienBumper]'s current sprite state.
-@visibleForTesting
-enum AlienBumperSpriteState {
-  /// A lit up bumper.
-  active,
-
-  /// A dimmed bumper.
-  inactive,
 }
 
 class _AlienBumperSpriteGroupComponent
-    extends SpriteGroupComponent<AlienBumperSpriteState> with HasGameRef {
+    extends SpriteGroupComponent<AlienBumperState> with HasGameRef {
   _AlienBumperSpriteGroupComponent({
     required String onAssetPath,
     required String offAssetPath,
+    required AlienBumperState state,
   })  : _onAssetPath = onAssetPath,
         _offAssetPath = offAssetPath,
         super(
           anchor: Anchor.center,
           position: Vector2(0, -0.1),
+          current: state,
         );
 
   final String _onAssetPath;
@@ -113,14 +134,20 @@ class _AlienBumperSpriteGroupComponent
     await super.onLoad();
 
     final sprites = {
-      AlienBumperSpriteState.active:
-          Sprite(gameRef.images.fromCache(_onAssetPath)),
-      AlienBumperSpriteState.inactive:
+      AlienBumperState.active: Sprite(
+        gameRef.images.fromCache(_onAssetPath),
+      ),
+      AlienBumperState.inactive:
           Sprite(gameRef.images.fromCache(_offAssetPath)),
     };
     this.sprites = sprites;
-
-    current = AlienBumperSpriteState.active;
     size = sprites[current]!.originalSize / 10;
+
+    // TODO(alestiago): Refactor once the following is merged:
+    // https://github.com/flame-engine/flame/pull/1566
+    final parent = this.parent;
+    if (parent is! AlienBumper) return;
+
+    parent.stream.listen((state) => current = state);
   }
 }

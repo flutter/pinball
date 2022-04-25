@@ -40,21 +40,17 @@ void main() {
 
       expect(
         spriteGroupComponent.current,
-        equals(AlienBumperSpriteState.active),
+        equals(AlienBumperState.active),
       );
-
-      final future = bumper.animate();
 
       expect(
         spriteGroupComponent.current,
-        equals(AlienBumperSpriteState.inactive),
+        equals(AlienBumperState.inactive),
       );
-
-      await future;
 
       expect(
         spriteGroupComponent.current,
-        equals(AlienBumperSpriteState.active),
+        equals(AlienBumperState.active),
       );
     });
   });

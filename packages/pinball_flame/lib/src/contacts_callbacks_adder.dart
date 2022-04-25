@@ -1,38 +1,60 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 
-/// {@template contact_callbacks_adder}
-///
-/// {@endtemplate}
-// TODO(alestiago): Consider adding streams to [ContactCallbacks].
-extension ContactCallbacksAdder on ContactCallbacks {
-  /// {@macro contact_callbacks_adder}
-  void add(ContactCallbacks contactCallbacks) {
-    if (contactCallbacks.onBeginContact != null) {
-      onBeginContact = (other, contact) {
-        onBeginContact?.call(other, contact);
-        contactCallbacks.beginContact(other, contact);
-      };
-    }
+class ContactCallbacksNotifer implements ContactCallbacks {
+  final List<ContactCallbacks> _callbacks = [];
 
-    if (contactCallbacks.onEndContact != null) {
-      onEndContact = (other, contact) {
-        onEndContact?.call(other, contact);
-        contactCallbacks.endContact(other, contact);
-      };
-    }
-
-    if (contactCallbacks.onPreSolve != null) {
-      onPreSolve = (other, contact, oldManifold) {
-        onPreSolve?.call(other, contact, oldManifold);
-        contactCallbacks.preSolve(other, contact, oldManifold);
-      };
-    }
-
-    if (contactCallbacks.onPostSolve != null) {
-      onPostSolve = (other, contact, impulse) {
-        onPostSolve?.call(other, contact, impulse);
-        contactCallbacks.postSolve(other, contact, impulse);
-      };
+  @override
+  @mustCallSuper
+  void beginContact(Object other, Contact contact) {
+    onBeginContact?.call(other, contact);
+    for (final callback in _callbacks) {
+      callback.beginContact(other, contact);
     }
   }
+
+  @override
+  @mustCallSuper
+  void endContact(Object other, Contact contact) {
+    onEndContact?.call(other, contact);
+    for (final callback in _callbacks) {
+      callback.endContact(other, contact);
+    }
+  }
+
+  @override
+  @mustCallSuper
+  void preSolve(Object other, Contact contact, Manifold oldManifold) {
+    onPreSolve?.call(other, contact, oldManifold);
+    for (final callback in _callbacks) {
+      callback.preSolve(other, contact, oldManifold);
+    }
+  }
+
+  @override
+  @mustCallSuper
+  void postSolve(Object other, Contact contact, ContactImpulse impulse) {
+    onPostSolve?.call(other, contact, impulse);
+    for (final callback in _callbacks) {
+      callback.postSolve(other, contact, impulse);
+    }
+  }
+
+  void addCallback(ContactCallbacks callback) {
+    _callbacks.add(callback);
+  }
+
+  @override
+  void Function(Object other, Contact contact)? onBeginContact;
+
+  @override
+  void Function(Object other, Contact contact)? onEndContact;
+
+  @override
+  void Function(Object other, Contact contact, ContactImpulse impulse)?
+      onPostSolve;
+
+  @override
+  void Function(Object other, Contact contact, Manifold oldManifold)?
+      onPreSolve;
 }

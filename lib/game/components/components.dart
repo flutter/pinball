@@ -1,4 +1,4 @@
-export 'alien_zone.dart';
+export 'alien_zone/alien_zone.dart';
 export 'board.dart';
 export 'camera_controller.dart';
 export 'controlled_ball.dart';
