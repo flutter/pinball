@@ -34,15 +34,12 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
   }
 
   List<FixtureDef> _createFixtureDefs() {
-    final fixturesDef = <FixtureDef>[];
-
     final topStraightShape = EdgeShape()
       ..set(
         Vector2(28.65, -35.1),
         Vector2(29.5, -35.1),
       );
     final topStraightFixtureDef = FixtureDef(topStraightShape);
-    fixturesDef.add(topStraightFixtureDef);
 
     final topCurveShape = BezierCurveShape(
       controlPoints: [
@@ -51,7 +48,7 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
         Vector2(26.6, -21),
       ],
     );
-    fixturesDef.add(FixtureDef(topCurveShape));
+    final topCurveFixtureDef = FixtureDef(topCurveShape);
 
     final middleCurveShape = BezierCurveShape(
       controlPoints: [
@@ -60,7 +57,7 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
         Vector2(26.8, -19.5),
       ],
     );
-    fixturesDef.add(FixtureDef(middleCurveShape));
+    final middleCurveFixtureDef = FixtureDef(middleCurveShape);
 
     final bottomCurveShape = BezierCurveShape(
       controlPoints: [
@@ -69,7 +66,7 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
         Vector2(27, -15),
       ],
     );
-    fixturesDef.add(FixtureDef(bottomCurveShape));
+    final bottomCurveFixtureDef = FixtureDef(bottomCurveShape);
 
     final bottomStraightShape = EdgeShape()
       ..set(
@@ -77,9 +74,14 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
         Vector2(31, -14.5),
       );
     final bottomStraightFixtureDef = FixtureDef(bottomStraightShape);
-    fixturesDef.add(bottomStraightFixtureDef);
 
-    return fixturesDef;
+    return [
+      topStraightFixtureDef,
+      topCurveFixtureDef,
+      middleCurveFixtureDef,
+      bottomCurveFixtureDef,
+      bottomStraightFixtureDef,
+    ];
   }
 
   @override
