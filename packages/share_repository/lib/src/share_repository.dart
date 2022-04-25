@@ -11,17 +11,17 @@ class ShareRepository {
 
   final String _appUrl;
 
-  /// Returns a url to share the [shareText] on the given [platform].
+  /// Returns a url to share the [value] on the given [platform].
   ///
   /// The returned url can be opened using the [url_launcher](https://pub.dev/packages/url_launcher) package.
   ///
-  /// The [shareText] must have the score embedded.
-  String shareScore({
-    required String shareText,
+  /// The [value] must have the score embedded.
+  String shareText({
+    required String value,
     required SharePlatform platform,
   }) {
     final encodedUrl = Uri.encodeComponent(_appUrl);
-    final encodedShareText = Uri.encodeComponent(shareText);
+    final encodedShareText = Uri.encodeComponent(value);
     switch (platform) {
       case SharePlatform.twitter:
         return 'https://twitter.com/intent/tweet?url=$encodedUrl&text=$encodedShareText';

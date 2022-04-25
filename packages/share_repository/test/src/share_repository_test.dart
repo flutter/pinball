@@ -15,13 +15,13 @@ void main() {
       expect(ShareRepository(appUrl: appUrl), isNotNull);
     });
 
-    group('shareScore', () {
+    group('shareText', () {
       const shareText = 'hello world!';
       test('returns the correct share url for twitter', () async {
         const shareScoreUrl =
             'https://twitter.com/intent/tweet?url=https%3A%2F%2Ffakeurl.com%2F&text=hello%20world!';
-        final shareScoreResult = shareRepository.shareScore(
-          shareText: shareText,
+        final shareScoreResult = shareRepository.shareText(
+          value: shareText,
           platform: SharePlatform.twitter,
         );
         expect(shareScoreResult, equals(shareScoreUrl));
@@ -30,8 +30,8 @@ void main() {
       test('returns the correct share url for facebook', () async {
         const shareScoreUrl =
             'https://www.facebook.com/sharer.php?u=https%3A%2F%2Ffakeurl.com%2F&quote=hello%20world!';
-        final shareScoreResult = shareRepository.shareScore(
-          shareText: shareText,
+        final shareScoreResult = shareRepository.shareText(
+          value: shareText,
           platform: SharePlatform.facebook,
         );
         expect(shareScoreResult, equals(shareScoreUrl));
