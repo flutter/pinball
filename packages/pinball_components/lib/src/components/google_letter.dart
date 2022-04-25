@@ -78,6 +78,7 @@ class _GoogleLetterSprite extends SpriteComponent with HasGameRef {
   Future<void> onLoad() async {
     await super.onLoad();
 
+    // TODO(alestiago): Used cached assets.
     final sprite = await gameRef.loadSprite(_path);
     this.sprite = sprite;
     // TODO(alestiago): Size correctly once the assets are provided.

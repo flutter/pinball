@@ -2,36 +2,35 @@ import 'package:flame/input.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:sandbox/common/common.dart';
+import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class BasicLayerGame extends BasicGame with TapDetector {
-  BasicLayerGame({required this.color});
-
-  static const info = '''
+class LayerGame extends BallGame with TapDetector {
+  static const description = '''
     Shows how Layers work when a Ball hits other components.
       
     - Tap anywhere on the screen to spawn a Ball into the game.
 ''';
 
-  final Color color;
-
   @override
   Future<void> onLoad() async {
-    await add(BigSquare()..initialPosition = Vector2(30, -40));
-    await add(SmallSquare()..initialPosition = Vector2(50, -40));
-    await add(UnlayeredSquare()..initialPosition = Vector2(60, -40));
-  }
-
-  @override
-  void onTapUp(TapUpInfo info) {
-    add(
-      Ball(baseColor: color)..initialPosition = info.eventPosition.game,
+    await addAll(
+      [
+        _BigSquare()..initialPosition = Vector2(30, -40),
+        _SmallSquare()..initialPosition = Vector2(50, -40),
+        _UnlayeredSquare()..initialPosition = Vector2(60, -40),
+      ],
     );
   }
 }
 
-class BigSquare extends BodyComponent with InitialPosition, Layered {
-  BigSquare() {
+class _BigSquare extends BodyComponent with InitialPosition, Layered {
+  _BigSquare()
+      : super(
+          children: [
+            _UnlayeredSquare()..initialPosition = Vector2.all(4),
+            _SmallSquare()..initialPosition = Vector2.all(-4),
+          ],
+        ) {
     paint = Paint()
       ..color = const Color.fromARGB(255, 8, 218, 241)
       ..style = PaintingStyle.stroke;
@@ -42,27 +41,13 @@ class BigSquare extends BodyComponent with InitialPosition, Layered {
   Body createBody() {
     final shape = PolygonShape()..setAsBoxXY(16, 16);
     final fixtureDef = FixtureDef(shape);
-
     final bodyDef = BodyDef()..position = initialPosition;
-
     return world.createBody(bodyDef)..createFixture(fixtureDef);
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-
-    await addAll(
-      [
-        UnlayeredSquare()..initialPosition = Vector2.all(4),
-        SmallSquare()..initialPosition = Vector2.all(-4),
-      ],
-    );
   }
 }
 
-class SmallSquare extends BodyComponent with InitialPosition, Layered {
-  SmallSquare() {
+class _SmallSquare extends BodyComponent with InitialPosition, Layered {
+  _SmallSquare() {
     paint = Paint()
       ..color = const Color.fromARGB(255, 27, 241, 8)
       ..style = PaintingStyle.stroke;
@@ -73,15 +58,13 @@ class SmallSquare extends BodyComponent with InitialPosition, Layered {
   Body createBody() {
     final shape = PolygonShape()..setAsBoxXY(2, 2);
     final fixtureDef = FixtureDef(shape);
-
     final bodyDef = BodyDef()..position = initialPosition;
-
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
 
-class UnlayeredSquare extends BodyComponent with InitialPosition {
-  UnlayeredSquare() {
+class _UnlayeredSquare extends BodyComponent with InitialPosition {
+  _UnlayeredSquare() {
     paint = Paint()
       ..color = const Color.fromARGB(255, 241, 8, 8)
       ..style = PaintingStyle.stroke;
@@ -91,9 +74,7 @@ class UnlayeredSquare extends BodyComponent with InitialPosition {
   Body createBody() {
     final shape = PolygonShape()..setAsBoxXY(3, 3);
     final fixtureDef = FixtureDef(shape);
-
     final bodyDef = BodyDef()..position = initialPosition;
-
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }

@@ -6,8 +6,8 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:sandbox/common/common.dart';
 
-class BasicSpaceshipGame extends BasicGame with TapDetector {
-  static const info = '''
+class SpaceshipGame extends AssetsGame with TapDetector {
+  static const description = '''
     Shows how a Spaceship works.
       
     - Tap anywhere on the screen to spawn a Ball into the game.
@@ -18,10 +18,10 @@ class BasicSpaceshipGame extends BasicGame with TapDetector {
     await super.onLoad();
 
     camera.followVector2(Vector2.zero());
-
-    unawaited(
-      addFromBlueprint(Spaceship(position: Vector2.zero())),
+    await addFromBlueprint(
+      Spaceship(position: Vector2.zero()),
     );
+    await ready();
   }
 
   @override
