@@ -22,7 +22,8 @@ class ChromeDino extends BodyComponent with InitialPosition {
   /// Anchors the [ChromeDino] to the [RevoluteJoint] that controls its arc
   /// motion.
   Future<_ChromeDinoJoint> _anchorToJoint() async {
-    final anchor = _ChromeDinoAnchor();
+    final anchor = _ChromeDinoAnchor()
+      ..initialPosition = initialPosition + Vector2(9, -4);
     await add(anchor);
 
     final jointDef = _ChromeDinoAnchorRevoluteJointDef(
@@ -46,19 +47,18 @@ class ChromeDino extends BodyComponent with InitialPosition {
         repeat: true,
       ),
     );
-    joint._swivel();
   }
 
   List<FixtureDef> _createFixtureDefs() {
     final fixtureDefs = <FixtureDef>[];
 
-    // TODO(allisonryan0002): Update this to match sprite.
+    // TODO(allisonryan0002): Update this shape to better match sprite.
     final box = PolygonShape()
       ..setAsBox(
         size.x / 2,
         size.y / 2,
         initialPosition + Vector2(-4, 2),
-        -0.1143,
+        -_ChromeDinoJoint._halfSweepingAngle,
       );
     final fixtureDef = FixtureDef(box, density: 1);
     fixtureDefs.add(fixtureDef);
@@ -81,22 +81,19 @@ class ChromeDino extends BodyComponent with InitialPosition {
   }
 }
 
-/// {@template flipper_anchor}
+/// {@template chrome_dino_anchor}
 /// [JointAnchor] positioned at the back of the [ChromeDino].
 /// {@endtemplate}
 class _ChromeDinoAnchor extends JointAnchor {
-  /// {@macro flipper_anchor}
-  _ChromeDinoAnchor() {
-    initialPosition = Vector2(9, -4);
-  }
+  /// {@macro chrome_dino_anchor}
+  _ChromeDinoAnchor();
 
   @override
   Future<void> onLoad() async {
-    const spriteAngle = 0.1143;
     await super.onLoad();
     await addAll([
-      _ChromeDinoMouthSprite()..angle = spriteAngle,
-      _ChromeDinoHeadSprite()..angle = spriteAngle,
+      _ChromeDinoMouthSprite(),
+      _ChromeDinoHeadSprite(),
     ]);
   }
 }
@@ -116,7 +113,7 @@ class _ChromeDinoAnchorRevoluteJointDef extends RevoluteJointDef {
       chromeDino.body.position + anchor.body.position,
     );
     enableLimit = true;
-    const angle = 0.1143;
+    const angle = _ChromeDinoJoint._halfSweepingAngle;
     lowerAngle = -angle;
     upperAngle = angle;
 
@@ -130,7 +127,7 @@ class _ChromeDinoJoint extends RevoluteJoint {
   _ChromeDinoJoint(_ChromeDinoAnchorRevoluteJointDef def) : super(def);
 
   /// Half the angle of the arc motion.
-  // static const _halfSweepingAngle = 0.1143;
+  static const _halfSweepingAngle = 0.1143;
 
   /// Sweeps the [ChromeDino] up and down repeatedly.
   void _swivel() {
@@ -142,6 +139,7 @@ class _ChromeDinoMouthSprite extends SpriteAnimationComponent with HasGameRef {
   _ChromeDinoMouthSprite()
       : super(
           anchor: Anchor(Anchor.center.x + 0.47, Anchor.center.y - 0.29),
+          angle: _ChromeDinoJoint._halfSweepingAngle,
         );
 
   @override
@@ -165,7 +163,7 @@ class _ChromeDinoMouthSprite extends SpriteAnimationComponent with HasGameRef {
       stepTime: 1 / 24,
       textureSize: textureSize,
     );
-    animation = SpriteAnimation.fromFrameData(image, data)..currentIndex = 95;
+    animation = SpriteAnimation.fromFrameData(image, data)..currentIndex = 45;
   }
 }
 
@@ -173,6 +171,7 @@ class _ChromeDinoHeadSprite extends SpriteAnimationComponent with HasGameRef {
   _ChromeDinoHeadSprite()
       : super(
           anchor: Anchor(Anchor.center.x + 0.47, Anchor.center.y - 0.29),
+          angle: _ChromeDinoJoint._halfSweepingAngle,
         );
 
   @override
@@ -196,6 +195,6 @@ class _ChromeDinoHeadSprite extends SpriteAnimationComponent with HasGameRef {
       stepTime: 1 / 24,
       textureSize: textureSize,
     );
-    animation = SpriteAnimation.fromFrameData(image, data)..currentIndex = 95;
+    animation = SpriteAnimation.fromFrameData(image, data)..currentIndex = 45;
   }
 }
