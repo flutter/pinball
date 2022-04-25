@@ -29,9 +29,12 @@ void main() {
       'loads correctly',
       (game) async {
         final spaceshipRamp = SpaceshipRamp();
-        await game.ensureAdd(spaceshipRamp);
+        await game.addFromBlueprint(spaceshipRamp);
+        await game.ready();
 
-        expect(game.contains(spaceshipRamp), isTrue);
+        for (final component in spaceshipRamp.components) {
+          expect(game.contains(component), isTrue);
+        }
       },
     );
 
