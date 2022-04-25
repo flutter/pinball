@@ -10,8 +10,13 @@ class AlienBumperContactBehavior extends Component
     await super.onLoad();
 
     final userData = parent.body.userData;
-    if (userData is ContactCallbacksNotifer) {
-      userData.addCallback(this);
+    if (userData is ContactCallbacksGroup) {
+      userData.addContactCallbacks(this);
+    } else if (userData is ContactCallbacks) {
+      final notifier = ContactCallbacksGroup()
+        ..addContactCallbacks(userData)
+        ..addContactCallbacks(this);
+      parent.body.userData = notifier;
     } else {
       parent.body.userData = this;
     }

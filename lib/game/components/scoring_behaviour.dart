@@ -10,10 +10,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 ///
 /// {@endtemplate}
 class ScoringBehaviour extends Component
-    with
-        ContactCallbacksNotifer,
-        HasGameRef<PinballGame>,
-        ParentIsA<BodyComponent> {
+    with ContactCallbacks, HasGameRef<PinballGame>, ParentIsA<BodyComponent> {
   /// {@macro scoring_behaviour}
   ScoringBehaviour({
     required int points,
@@ -26,8 +23,13 @@ class ScoringBehaviour extends Component
     await super.onLoad();
 
     final userData = parent.body.userData;
-    if (userData is ContactCallbacksNotifer) {
-      userData.addCallback(this);
+    if (userData is ContactCallbacksGroup) {
+      userData.addContactCallbacks(this);
+    } else if (userData is ContactCallbacks) {
+      final notifier = ContactCallbacksGroup()
+        ..addContactCallbacks(userData)
+        ..addContactCallbacks(this);
+      parent.body.userData = notifier;
     } else {
       parent.body.userData = this;
     }
