@@ -1,9 +1,14 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:sandbox/common/common.dart';
+import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class ChromeDinoGame extends AssetsGame with Traceable {
-  static const info = 'Shows how a ChromeDino is rendered.';
+class ChromeDinoGame extends BallGame {
+  static const description = '''
+    Shows how ChromeDino is rendered.
+
+    - Activate the "trace" parameter to overlay the body.
+    - Tap anywhere on the screen to spawn a ball into the game.
+''';
 
   @override
   Future<void> onLoad() async {
