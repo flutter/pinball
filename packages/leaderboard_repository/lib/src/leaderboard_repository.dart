@@ -180,13 +180,9 @@ class LeaderboardRepository {
           .collection('prohibitedInitials')
           .doc('list')
           .get();
-      final prohibitedInitials = List<String>.from(
-        document.get('prohibitedInitials') as List,
-      );
-      final isProhibited = prohibitedInitials.contains(
-        initials.trim().toLowerCase(),
-      );
-      return !isProhibited;
+      final prohibitedInitials =
+          document.get('prohibitedInitials') as List<String>;
+      return !prohibitedInitials.contains(initials);
     } on Exception catch (error, stackTrace) {
       throw FetchProhibitedInitialsException(error, stackTrace);
     }

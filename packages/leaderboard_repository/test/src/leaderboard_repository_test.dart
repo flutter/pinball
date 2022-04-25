@@ -246,7 +246,7 @@ void main() {
         when(() => documentReference.get())
             .thenAnswer((_) async => documentSnapshot);
         when<dynamic>(() => documentSnapshot.get('prohibitedInitials'))
-            .thenReturn(['bad']);
+            .thenReturn(['BAD']);
       });
 
       test('returns true if initials are three letters and allowed', () async {
