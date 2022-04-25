@@ -13,9 +13,11 @@ class Drain extends BodyComponent {
 
   @override
   Body createBody() {
-    final start = BoardDimensions.bounds.bottomLeft.toVector2();
-    final end = BoardDimensions.bounds.bottomRight.toVector2();
-    final shape = EdgeShape()..set(start, end);
+    final shape = EdgeShape()
+      ..set(
+        BoardDimensions.bounds.bottomLeft.toVector2(),
+        BoardDimensions.bounds.bottomRight.toVector2(),
+      );
 
     final fixtureDef = FixtureDef(shape, isSensor: true);
 
