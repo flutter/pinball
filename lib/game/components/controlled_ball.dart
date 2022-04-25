@@ -75,7 +75,12 @@ class BallController extends ComponentController<Ball>
   @override
   void onRemove() {
     super.onRemove();
-    final remainingBalls = gameRef.children.whereType<Ball>().length;
-    gameRef.read<GameBloc>().add(BallLost(ballsLeft: remainingBalls));
+    gameRef.read<GameBloc>().add(const BallLost());
+  }
+
+  @override
+  Future<void>? onLoad() {
+    gameRef.read<GameBloc>().add(const BallAdded());
+    return super.onLoad();
   }
 }

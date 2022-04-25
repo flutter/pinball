@@ -9,6 +9,7 @@ part 'game_state.dart';
 
 class GameBloc extends Bloc<GameEvent, GameState> {
   GameBloc() : super(const GameState.initial()) {
+    on<BallAdded>(_onBallAdded);
     on<BallLost>(_onBallLost);
     on<Scored>(_onScored);
     on<MultiplierIncreased>(_onIncreasedMultiplier);
@@ -16,16 +17,21 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     on<SparkyTurboChargeActivated>(_onSparkyTurboChargeActivated);
   }
 
+  void _onBallAdded(BallAdded event, Emitter emit) {
+    emit(
+      state.copyWith(balls: state.balls + 1),
+    );
+  }
+
   void _onBallLost(BallLost event, Emitter emit) {
     var score = state.score;
     var multiplier = state.multiplier;
-    var ballsLeft = event.ballsLeft;
+    final ballsLeft = math.max(state.balls - 1, 0);
     var roundsLeft = state.rounds;
 
     if (ballsLeft < 1) {
       score = score * state.multiplier;
       multiplier = 1;
-      ballsLeft = 1;
       roundsLeft = state.rounds - 1;
     }
 

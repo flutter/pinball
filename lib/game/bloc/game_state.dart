@@ -33,7 +33,7 @@ class GameState extends Equatable {
   const GameState.initial()
       : score = 0,
         multiplier = 1,
-        balls = 1,
+        balls = 0,
         rounds = 3,
         bonusHistory = const [];
 
@@ -43,7 +43,7 @@ class GameState extends Equatable {
   /// The current multiplier for the score.
   final int multiplier;
 
-  /// The number of balls left in the game.
+  /// The number of balls left in each round.
   ///
   /// When the number of balls is 0, round is lost.
   final int balls;
