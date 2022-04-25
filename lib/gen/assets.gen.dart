@@ -14,6 +14,7 @@ class $AssetsImagesGen {
       const $AssetsImagesBonusAnimationGen();
   $AssetsImagesComponentsGen get components =>
       const $AssetsImagesComponentsGen();
+  $AssetsImagesHowToPlayGen get howToPlay => const $AssetsImagesHowToPlayGen();
 }
 
 class $AssetsImagesBonusAnimationGen {
@@ -46,6 +47,30 @@ class $AssetsImagesComponentsGen {
   /// File path: assets/images/components/background.png
   AssetGenImage get background =>
       const AssetGenImage('assets/images/components/background.png');
+}
+
+class $AssetsImagesHowToPlayGen {
+  const $AssetsImagesHowToPlayGen();
+
+  /// File path: assets/images/how_to_play/background.png
+  AssetGenImage get background =>
+      const AssetGenImage('assets/images/how_to_play/background.png');
+
+  /// File path: assets/images/how_to_play/down_arrow.png
+  AssetGenImage get downArrow =>
+      const AssetGenImage('assets/images/how_to_play/down_arrow.png');
+
+  /// File path: assets/images/how_to_play/key_circle.png
+  AssetGenImage get keyCircle =>
+      const AssetGenImage('assets/images/how_to_play/key_circle.png');
+
+  /// File path: assets/images/how_to_play/left_arrow.png
+  AssetGenImage get leftArrow =>
+      const AssetGenImage('assets/images/how_to_play/left_arrow.png');
+
+  /// File path: assets/images/how_to_play/space.png
+  AssetGenImage get space =>
+      const AssetGenImage('assets/images/how_to_play/space.png');
 }
 
 class Assets {

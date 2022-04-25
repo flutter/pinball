@@ -48,6 +48,7 @@ flutter:
   assets:
     - assets/images/components/
     - assets/images/bonus_animation/
+    - assets/images/how_to_play/
 
 flutter_gen:
   line_length: 80
