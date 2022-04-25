@@ -18,6 +18,7 @@ class BoundariesGame extends BasicBallGame with Traceable {
 
     await images.loadAll([
       Assets.images.boundary.outer.keyName,
+      Assets.images.boundary.outerBottom.keyName,
       Assets.images.boundary.bottom.keyName,
     ]);
 

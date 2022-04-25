@@ -15,9 +15,6 @@ class AndroidTheme extends CharacterTheme {
   Color get ballColor => Colors.green;
 
   @override
-  AssetGenImage get character => Assets.images.android.character;
-
-  @override
   AssetGenImage get background => Assets.images.android.background;
 
   @override
@@ -25,4 +22,7 @@ class AndroidTheme extends CharacterTheme {
 
   @override
   AssetGenImage get leaderboardIcon => Assets.images.android.leaderboardIcon;
+
+  @override
+  AssetGenImage get animation => Assets.images.android.animation;
 }
