@@ -14,11 +14,11 @@ class MultipliersGame extends BallGame with KeyboardEvents {
     - Press digits 2 to 6 for toggle state multipliers 2 to 6.
 ''';
 
-  late final MultiplierSpriteGroupComponent x2;
-  late final MultiplierSpriteGroupComponent x3;
-  late final MultiplierSpriteGroupComponent x4;
-  late final MultiplierSpriteGroupComponent x5;
-  late final MultiplierSpriteGroupComponent x6;
+  late final Multiplier x2;
+  late final Multiplier x3;
+  late final Multiplier x4;
+  late final Multiplier x5;
+  late final Multiplier x6;
 
   @override
   Future<void> onLoad() async {
@@ -38,34 +38,29 @@ class MultipliersGame extends BallGame with KeyboardEvents {
     ]);
 
     camera.followVector2(Vector2.zero());
-    x2 = MultiplierSpriteGroupComponent(
+    x2 = Multiplier(
+      value: 2,
       position: Vector2(-20, 0),
-      onAssetPath: Assets.images.multiplier.x2.active.keyName,
-      offAssetPath: Assets.images.multiplier.x2.inactive.keyName,
     );
 
-    x3 = MultiplierSpriteGroupComponent(
+    x3 = Multiplier(
+      value: 3,
       position: Vector2(20, -5),
-      onAssetPath: Assets.images.multiplier.x3.active.keyName,
-      offAssetPath: Assets.images.multiplier.x3.inactive.keyName,
     );
 
-    x4 = MultiplierSpriteGroupComponent(
+    x4 = Multiplier(
+      value: 4,
       position: Vector2(0, -15),
-      onAssetPath: Assets.images.multiplier.x4.active.keyName,
-      offAssetPath: Assets.images.multiplier.x4.inactive.keyName,
     );
 
-    x5 = MultiplierSpriteGroupComponent(
+    x5 = Multiplier(
+      value: 5,
       position: Vector2(-10, -25),
-      onAssetPath: Assets.images.multiplier.x5.active.keyName,
-      offAssetPath: Assets.images.multiplier.x5.inactive.keyName,
     );
 
-    x6 = MultiplierSpriteGroupComponent(
+    x6 = Multiplier(
+      value: 6,
       position: Vector2(10, -35),
-      onAssetPath: Assets.images.multiplier.x6.active.keyName,
-      offAssetPath: Assets.images.multiplier.x6.inactive.keyName,
     );
 
     await addAll([x2, x3, x4, x5, x6]);
@@ -78,34 +73,32 @@ class MultipliersGame extends BallGame with KeyboardEvents {
     Set<LogicalKeyboardKey> keysPressed,
   ) {
     if (event is RawKeyDownEvent) {
+      var currentMultiplier = 1;
+
       if (event.logicalKey == LogicalKeyboardKey.digit2) {
-        x2.toggle();
+        currentMultiplier = 2;
       }
       if (event.logicalKey == LogicalKeyboardKey.digit3) {
-        x3.toggle();
+        currentMultiplier = 3;
       }
       if (event.logicalKey == LogicalKeyboardKey.digit4) {
-        x4.toggle();
+        currentMultiplier = 4;
       }
       if (event.logicalKey == LogicalKeyboardKey.digit5) {
-        x5.toggle();
+        currentMultiplier = 5;
       }
       if (event.logicalKey == LogicalKeyboardKey.digit6) {
-        x6.toggle();
+        currentMultiplier = 6;
       }
+
+      x2.toggle(currentMultiplier);
+      x3.toggle(currentMultiplier);
+      x4.toggle(currentMultiplier);
+      x5.toggle(currentMultiplier);
+      x6.toggle(currentMultiplier);
 
       return KeyEventResult.handled;
     }
     return KeyEventResult.ignored;
-  }
-}
-
-extension on MultiplierSpriteGroupComponent {
-  void toggle() {
-    if (current == MultiplierSpriteState.active) {
-      current = MultiplierSpriteState.inactive;
-    } else {
-      current = MultiplierSpriteState.active;
-    }
   }
 }
