@@ -13,8 +13,4 @@ export 'layer/stories.dart';
 export 'plunger/stories.dart';
 export 'score_text/stories.dart';
 export 'slingshot/stories.dart';
-export 'spaceship/stories.dart';
-export 'spaceship_rail/stories.dart';
-export 'spaceship_ramp/stories.dart';
 export 'sparky_bumper/stories.dart';
-export 'zoom/stories.dart';

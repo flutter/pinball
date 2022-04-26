@@ -86,6 +86,10 @@ class $AssetsImagesBoundaryGen {
   AssetGenImage get bottom =>
       const AssetGenImage('assets/images/boundary/bottom.png');
 
+  /// File path: assets/images/boundary/outer-bottom.png
+  AssetGenImage get outerBottom =>
+      const AssetGenImage('assets/images/boundary/outer-bottom.png');
+
   /// File path: assets/images/boundary/outer.png
   AssetGenImage get outer =>
       const AssetGenImage('assets/images/boundary/outer.png');
@@ -257,6 +261,8 @@ class $AssetsImagesSpaceshipGen {
 class $AssetsImagesSparkyGen {
   const $AssetsImagesSparkyGen();
 
+  AssetGenImage get animatronic =>
+      const AssetGenImage('assets/images/sparky/animatronic.png');
   $AssetsImagesSparkyBumperGen get bumper =>
       const $AssetsImagesSparkyBumperGen();
   $AssetsImagesSparkyComputerGen get computer =>

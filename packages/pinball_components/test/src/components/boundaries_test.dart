@@ -10,20 +10,24 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('Boundaries', () {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
     final assets = [
       Assets.images.boundary.outer.keyName,
+      Assets.images.boundary.outerBottom.keyName,
       Assets.images.boundary.bottom.keyName,
     ];
-    final tester = FlameTester(TestGame.new);
+    final flameTester = FlameTester(TestGame.new);
 
-    tester.testGameWidget(
+    flameTester.testGameWidget(
       'render correctly',
       setUp: (game, tester) async {
         await game.images.loadAll(assets);
         await game.addFromBlueprint(Boundaries());
+        await game.ready();
+
         game.camera.followVector2(Vector2.zero());
         game.camera.zoom = 3.2;
-        await tester.pump();
       },
       verify: (game, tester) async {
         await expectLater(
