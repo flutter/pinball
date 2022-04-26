@@ -148,6 +148,7 @@ class _PlungerSpriteAnimationGroupComponent
   Future<void> onLoad() async {
     await super.onLoad();
 
+    // TODO(alestiago): Used cached images.
     final spriteSheet = await gameRef.images.load(
       Assets.images.plunger.plunger.keyName,
     );

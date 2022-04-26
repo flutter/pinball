@@ -5,10 +5,10 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class PlungerGame extends BasicBallGame with KeyboardEvents, Traceable {
+class PlungerGame extends BallGame with KeyboardEvents, Traceable {
   PlungerGame() : super(color: const Color(0xFFFF0000));
 
-  static const info = '''
+  static const description = '''
     Shows how Plunger is rendered.
 
     - Activate the "trace" parameter to overlay the body.
@@ -27,11 +27,10 @@ class PlungerGame extends BasicBallGame with KeyboardEvents, Traceable {
     await super.onLoad();
 
     final center = screenToWorld(camera.viewport.canvasSize! / 2);
-
-    plunger = Plunger(compressionDistance: 29)
-      ..initialPosition = Vector2(center.x - (Kicker.size.x * 2), center.y);
-    await add(plunger);
-
+    await add(
+      plunger = Plunger(compressionDistance: 29)
+        ..initialPosition = Vector2(center.x - (Kicker.size.x * 2), center.y),
+    );
     await traceAllBodies();
   }
 

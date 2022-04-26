@@ -1,16 +1,13 @@
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 
-// TODO(erickzanardo): Keeping this inside our code base
-// so we can experiment with the idea, but this is a
-// potential upstream change on Flame.
+// TODO(erickzanardo): Keeping this inside our code base so we can experiment
+// with the idea, but this is a potential upstream change on Flame.
 
 /// {@template blueprint}
-/// A [Blueprint] is a virtual way of grouping [Component]s that are related,
-/// but they need to be added directly on the [FlameGame] level.
+/// A [Blueprint] is a virtual way of grouping [Component]s that are related.
 /// {@endtemplate blueprint}
-// TODO(alestiago): refactor with feat/make-blueprint-extend-component.
-class Blueprint extends Component {
+class Blueprint {
   /// {@macro blueprint}
   Blueprint({
     Iterable<Component>? components,
@@ -27,7 +24,7 @@ class Blueprint extends Component {
 
   final List<Component> _components = [];
 
-  final List<Component> _blueprints = [];
+  final List<Blueprint> _blueprints = [];
 
   Future<void> _addToParent(Component parent) async {
     await parent.addAll(_components);
@@ -37,7 +34,7 @@ class Blueprint extends Component {
   List<Component> get components => List.unmodifiable(_components);
 
   /// Returns a copy of the blueprints built by this blueprint.
-  List<Component> get blueprints => List.unmodifiable(_blueprints);
+  List<Blueprint> get blueprints => List.unmodifiable(_blueprints);
 }
 
 /// Adds helper methods regarding [Blueprint]s to [FlameGame].

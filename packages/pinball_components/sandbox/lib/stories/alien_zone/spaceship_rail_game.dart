@@ -6,7 +6,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class SpaceshipRailGame extends BasicBallGame {
+class SpaceshipRailGame extends BallGame {
   SpaceshipRailGame()
       : super(
           color: Colors.blue,
@@ -14,7 +14,7 @@ class SpaceshipRailGame extends BasicBallGame {
           ballLayer: Layer.spaceshipExitRail,
         );
 
-  static const info = '''
+  static const description = '''
     Shows how SpaceshipRail are rendered.
 
     - Activate the "trace" parameter to overlay the body.
@@ -26,10 +26,8 @@ class SpaceshipRailGame extends BasicBallGame {
     await super.onLoad();
 
     camera.followVector2(Vector2(-30, -10));
-
-    final spaceshipRail = SpaceshipRail();
-    unawaited(addFromBlueprint(spaceshipRail));
-
+    await addFromBlueprint(SpaceshipRail());
+    await ready();
     await traceAllBodies();
   }
 }
