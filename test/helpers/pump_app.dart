@@ -52,7 +52,7 @@ extension PumpApp on WidgetTester {
     MockNavigator? navigator,
     GameBloc? gameBloc,
     AssetsManagerCubit? assetsManagerCubit,
-    SelectCharacterCubit? selectCharacterCubit,
+    CharacterThemeCubit? characterThemeCubit,
     LeaderboardRepository? leaderboardRepository,
     PinballAudio? pinballAudio,
   }) {
@@ -70,7 +70,7 @@ extension PumpApp on WidgetTester {
           child: MultiBlocProvider(
             providers: [
               BlocProvider.value(
-                value: selectCharacterCubit ?? MockSelectCharacterCubit(),
+                value: characterThemeCubit ?? MockCharacterThemeCubit(),
               ),
               BlocProvider.value(
                 value: gameBloc ?? MockGameBloc(),

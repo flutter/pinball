@@ -1,2 +1,2 @@
-export 'cubit/select_character_cubit.dart';
+export 'cubit/character_theme_cubit.dart';
 export 'view/view.dart';

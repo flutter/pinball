@@ -35,7 +35,7 @@ class MockGameBloc extends Mock implements GameBloc {}
 
 class MockGameState extends Mock implements GameState {}
 
-class MockSelectCharacterCubit extends Mock implements SelectCharacterCubit {}
+class MockCharacterThemeCubit extends Mock implements CharacterThemeCubit {}
 
 class MockLeaderboardBloc extends Mock implements LeaderboardBloc {}
 

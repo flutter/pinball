@@ -11,14 +11,14 @@ import 'package:pinball_theme/pinball_theme.dart';
 import '../../helpers/helpers.dart';
 
 void main() {
-  late SelectCharacterCubit selectCharacterCubit;
+  late CharacterThemeCubit characterThemeCubit;
 
   setUp(() {
-    selectCharacterCubit = MockSelectCharacterCubit();
+    characterThemeCubit = MockCharacterThemeCubit();
     whenListen(
-      selectCharacterCubit,
-      const Stream<SelectCharacterState>.empty(),
-      initialState: const SelectCharacterState.initial(),
+      characterThemeCubit,
+      const Stream<CharacterThemeState>.empty(),
+      initialState: const CharacterThemeState.initial(),
     );
   });
 
@@ -26,7 +26,7 @@ void main() {
     testWidgets('renders CharacterSelectionView', (tester) async {
       await tester.pumpApp(
         CharacterSelectionDialog(),
-        selectCharacterCubit: selectCharacterCubit,
+        characterThemeCubit: characterThemeCubit,
       );
       expect(find.byType(CharacterSelectionView), findsOneWidget);
     });
@@ -46,7 +46,7 @@ void main() {
             },
           ),
         ),
-        selectCharacterCubit: selectCharacterCubit,
+        characterThemeCubit: characterThemeCubit,
       );
 
       await tester.tap(find.text('Tap me'));
@@ -61,7 +61,7 @@ void main() {
       const titleText = 'Choose your character!';
       await tester.pumpApp(
         CharacterSelectionView(),
-        selectCharacterCubit: selectCharacterCubit,
+        characterThemeCubit: characterThemeCubit,
       );
 
       expect(find.text(titleText), findsOneWidget);
@@ -75,12 +75,12 @@ void main() {
 
       await tester.pumpApp(
         CharacterSelectionView(),
-        selectCharacterCubit: selectCharacterCubit,
+        characterThemeCubit: characterThemeCubit,
       );
 
       await tester.tap(find.byKey(sparkyButtonKey));
 
-      verify(() => selectCharacterCubit.characterSelected(SparkyTheme()))
+      verify(() => characterThemeCubit.characterSelected(SparkyTheme()))
           .called(1);
     });
 
@@ -88,7 +88,7 @@ void main() {
         (tester) async {
       await tester.pumpApp(
         CharacterSelectionView(),
-        selectCharacterCubit: selectCharacterCubit,
+        characterThemeCubit: characterThemeCubit,
       );
       await tester.ensureVisible(find.byType(TextButton));
       await tester.tap(find.byType(TextButton));
@@ -101,7 +101,7 @@ void main() {
   testWidgets('CharacterImageButton renders correctly', (tester) async {
     await tester.pumpApp(
       CharacterImageButton(DashTheme()),
-      selectCharacterCubit: selectCharacterCubit,
+      characterThemeCubit: characterThemeCubit,
     );
 
     expect(find.byType(Image), findsOneWidget);

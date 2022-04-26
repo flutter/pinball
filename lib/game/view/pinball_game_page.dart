@@ -32,7 +32,7 @@ class PinballGamePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final selectedCharacter =
-        context.read<SelectCharacterCubit>().state.selectedCharacter;
+        context.read<CharacterThemeCubit>().state.selectedCharacter;
     final audio = context.read<PinballAudio>();
     final pinballAudio = context.read<PinballAudio>();
 

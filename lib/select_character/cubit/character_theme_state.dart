@@ -1,12 +1,12 @@
 // ignore_for_file: public_member_api_docs
 // TODO(allisonryan0002): Document this section when the API is stable.
 
-part of 'select_character_cubit.dart';
+part of 'character_theme_cubit.dart';
 
-class SelectCharacterState extends Equatable {
-  const SelectCharacterState(this.selectedCharacter);
+class CharacterThemeState extends Equatable {
+  const CharacterThemeState(this.selectedCharacter);
 
-  const SelectCharacterState.initial() : selectedCharacter = const DashTheme();
+  const CharacterThemeState.initial() : selectedCharacter = const DashTheme();
 
   final CharacterTheme selectedCharacter;
 

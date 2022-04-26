@@ -19,7 +19,7 @@ class CharacterSelectionDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => SelectCharacterCubit(),
+      create: (_) => CharacterThemeCubit(),
       child: const CharacterSelectionView(),
     );
   }
@@ -110,14 +110,13 @@ class CharacterImageButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentCharacterTheme =
-        context.select<SelectCharacterCubit, CharacterTheme>(
+        context.select<CharacterThemeCubit, CharacterTheme>(
       (cubit) => cubit.state.selectedCharacter,
     );
 
     return GestureDetector(
-      onTap: () => context
-          .read<SelectCharacterCubit>()
-          .characterSelected(characterTheme),
+      onTap: () =>
+          context.read<CharacterThemeCubit>().characterSelected(characterTheme),
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: (currentCharacterTheme == characterTheme)

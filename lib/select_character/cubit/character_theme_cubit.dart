@@ -5,12 +5,12 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
-part 'select_character_state.dart';
+part 'character_theme_state.dart';
 
-class SelectCharacterCubit extends Cubit<SelectCharacterState> {
-  SelectCharacterCubit() : super(const SelectCharacterState.initial());
+class CharacterThemeCubit extends Cubit<CharacterThemeState> {
+  CharacterThemeCubit() : super(const CharacterThemeState.initial());
 
   void characterSelected(CharacterTheme characterTheme) {
-    emit(SelectCharacterState(characterTheme));
+    emit(CharacterThemeState(characterTheme));
   }
 }

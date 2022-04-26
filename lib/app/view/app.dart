@@ -36,7 +36,7 @@ class App extends StatelessWidget {
         RepositoryProvider.value(value: _pinballAudio),
       ],
       child: BlocProvider(
-        create: (context) => SelectCharacterCubit(),
+        create: (context) => CharacterThemeCubit(),
         child: const MaterialApp(
           title: 'I/O Pinball',
           localizationsDelegates: [

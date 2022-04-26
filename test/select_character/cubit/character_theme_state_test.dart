@@ -6,13 +6,13 @@ import 'package:pinball/select_character/select_character.dart';
 void main() {
   group('ThemeState', () {
     test('can be instantiated', () {
-      expect(const SelectCharacterState.initial(), isNotNull);
+      expect(const CharacterThemeState.initial(), isNotNull);
     });
 
     test('supports value equality', () {
       expect(
-        SelectCharacterState.initial(),
-        equals(const SelectCharacterState.initial()),
+        CharacterThemeState.initial(),
+        equals(const CharacterThemeState.initial()),
       );
     });
   });

@@ -13,18 +13,18 @@ void main() {
   final game = PinballTestGame();
 
   group('PinballGamePage', () {
-    late SelectCharacterCubit selectCharacterCubit;
+    late CharacterThemeCubit characterThemeCubit;
     late GameBloc gameBloc;
 
     setUp(() async {
       await Future.wait<void>(game.preLoadAssets());
-      selectCharacterCubit = MockSelectCharacterCubit();
+      characterThemeCubit = MockCharacterThemeCubit();
       gameBloc = MockGameBloc();
 
       whenListen(
-        selectCharacterCubit,
-        const Stream<SelectCharacterState>.empty(),
-        initialState: const SelectCharacterState.initial(),
+        characterThemeCubit,
+        const Stream<CharacterThemeState>.empty(),
+        initialState: const CharacterThemeState.initial(),
       );
 
       whenListen(
@@ -37,7 +37,7 @@ void main() {
     testWidgets('renders PinballGameView', (tester) async {
       await tester.pumpApp(
         PinballGamePage(),
-        selectCharacterCubit: selectCharacterCubit,
+        characterThemeCubit: characterThemeCubit,
       );
 
       expect(find.byType(PinballGameView), findsOneWidget);
@@ -62,7 +62,7 @@ void main() {
             game: game,
           ),
           assetsManagerCubit: assetsManagerCubit,
-          selectCharacterCubit: selectCharacterCubit,
+          characterThemeCubit: characterThemeCubit,
         );
 
         expect(
@@ -95,7 +95,7 @@ void main() {
           game: game,
         ),
         assetsManagerCubit: assetsManagerCubit,
-        selectCharacterCubit: selectCharacterCubit,
+        characterThemeCubit: characterThemeCubit,
         gameBloc: gameBloc,
       );
 
@@ -126,7 +126,7 @@ void main() {
               },
             ),
           ),
-          selectCharacterCubit: selectCharacterCubit,
+          characterThemeCubit: characterThemeCubit,
         );
 
         await tester.tap(find.text('Tap me'));
