@@ -22,30 +22,62 @@ void main() {
   final flameTester = FlameTester(() => TestGame(assets));
 
   group('Multiball', () {
-    flameTester.test('"a" loads correctly', (game) async {
-      final multiball = Multiball.a();
-      await game.ensureAdd(multiball);
+    group('loads correctly', () {
+      flameTester.test('"a"', (game) async {
+        final multiball = Multiball.a();
+        await game.ensureAdd(multiball);
 
-      expect(game.contains(multiball), isTrue);
+        expect(game.contains(multiball), isTrue);
+      });
+
+      flameTester.test('"b"', (game) async {
+        final multiball = Multiball.b();
+        await game.ensureAdd(multiball);
+        expect(game.contains(multiball), isTrue);
+      });
+
+      flameTester.test('"c"', (game) async {
+        final multiball = Multiball.c();
+        await game.ensureAdd(multiball);
+
+        expect(game.contains(multiball), isTrue);
+      });
+
+      flameTester.test('"d"', (game) async {
+        final multiball = Multiball.d();
+        await game.ensureAdd(multiball);
+        expect(game.contains(multiball), isTrue);
+      });
     });
 
-    flameTester.test('"b" loads correctly', (game) async {
-      final multiball = Multiball.b();
-      await game.ensureAdd(multiball);
-      expect(game.contains(multiball), isTrue);
-    });
+    group('renders correctly', () {
+      flameTester.testGameWidget(
+        "'a'",
+        setUp: (game, tester) async {
+          await game.images.loadAll(assets);
+          final multiball = Multiball.d();
+          await game.ensureAdd(multiball);
 
-    flameTester.test('"c" loads correctly', (game) async {
-      final multiball = Multiball.c();
-      await game.ensureAdd(multiball);
+          multiball.animate();
+          await tester.pump();
 
-      expect(game.contains(multiball), isTrue);
-    });
+          expect(
+            multiball.children
+                .whereType<MultiballSpriteGroupComponent>()
+                .first
+                .current,
+            MultiballSpriteState.active,
+          );
 
-    flameTester.test('"d" loads correctly', (game) async {
-      final multiball = Multiball.d();
-      await game.ensureAdd(multiball);
-      expect(game.contains(multiball), isTrue);
+          game.camera.followVector2(Vector2.zero());
+        },
+        verify: (game, tester) async {
+          await expectLater(
+            find.byGame<TestGame>(),
+            matchesGoldenFile('golden/multiball/a-active.png'),
+          );
+        },
+      );
     });
 
     flameTester.test('animate switches between on and off sprites',

@@ -41,9 +41,9 @@ class MultiballController extends ComponentController<MultiballGroup>
 
   @override
   void onNewState(GameState state) {
-    final isMultiball = state.bonusHistory.contains(GameBonus.dashNest);
+    final hasMultiball = state.bonusHistory.contains(GameBonus.dashNest);
 
-    if (isMultiball) {
+    if (hasMultiball) {
       component.children.whereType<Multiball>().forEach((element) {
         element.animate();
       });
