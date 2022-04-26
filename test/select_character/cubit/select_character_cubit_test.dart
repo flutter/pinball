@@ -8,7 +8,7 @@ void main() {
     test('initial state has Dash character theme', () {
       final selectCharacterCubit = SelectCharacterCubit();
       expect(
-        selectCharacterCubit.state.selectedCharacter.characterTheme,
+        selectCharacterCubit.state.selectedCharacter,
         equals(const DashTheme()),
       );
     });
@@ -18,7 +18,7 @@ void main() {
       build: SelectCharacterCubit.new,
       act: (bloc) => bloc.characterSelected(const SparkyTheme()),
       expect: () => [
-        const SelectCharacterState(PinballTheme(characterTheme: SparkyTheme())),
+        const SelectCharacterState(SparkyTheme()),
       ],
     );
   });

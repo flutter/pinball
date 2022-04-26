@@ -11,6 +11,6 @@ class SelectCharacterCubit extends Cubit<SelectCharacterState> {
   SelectCharacterCubit() : super(const SelectCharacterState.initial());
 
   void characterSelected(CharacterTheme characterTheme) {
-    emit(SelectCharacterState(PinballTheme(characterTheme: characterTheme)));
+    emit(SelectCharacterState(characterTheme));
   }
 }

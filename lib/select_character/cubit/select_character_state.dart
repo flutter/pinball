@@ -6,10 +6,9 @@ part of 'select_character_cubit.dart';
 class SelectCharacterState extends Equatable {
   const SelectCharacterState(this.selectedCharacter);
 
-  const SelectCharacterState.initial()
-      : selectedCharacter = const PinballTheme(characterTheme: DashTheme());
+  const SelectCharacterState.initial() : selectedCharacter = const DashTheme();
 
-  final PinballTheme selectedCharacter;
+  final CharacterTheme selectedCharacter;
 
   @override
   List<Object> get props => [selectedCharacter];

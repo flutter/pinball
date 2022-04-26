@@ -37,8 +37,8 @@ class PinballGamePage extends StatelessWidget {
     final pinballAudio = context.read<PinballAudio>();
 
     final game = isDebugMode
-        ? DebugPinballGame(theme: selectedCharacter, audio: audio)
-        : PinballGame(theme: selectedCharacter, audio: audio);
+        ? DebugPinballGame(characterTheme: selectedCharacter, audio: audio)
+        : PinballGame(characterTheme: selectedCharacter, audio: audio);
 
     final loadables = [
       ...game.preLoadAssets(),
