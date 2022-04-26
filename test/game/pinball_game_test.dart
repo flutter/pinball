@@ -61,18 +61,6 @@ void main() {
   final debugModeFlameTester = FlameTester(() => DebugPinballTestGame(assets));
 
   group('PinballGame', () {
-    late GameBloc gameBloc;
-
-    setUp(() {
-      gameBloc = GameBloc();
-    });
-
-    final flameBlocTester = FlameBlocTester<PinballTestGame, GameBloc>(
-      gameBuilder: () => PinballTestGame(assets),
-      blocBuilder: () => gameBloc,
-      assets: assets,
-    );
-
     // TODO(alestiago): test if [PinballGame] registers
     // [BallScorePointsCallback] once the following issue is resolved:
     // https://github.com/flame-engine/flame/issues/1416
