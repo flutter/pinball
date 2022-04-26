@@ -1,4 +1,6 @@
 import 'package:flame/components.dart';
+import 'package:flame/game.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
