@@ -77,11 +77,10 @@ void main() {
     // [BallScorePointsCallback] once the following issue is resolved:
     // https://github.com/flame-engine/flame/issues/1416
     group('components', () {
-      flameBlocTester.test(
+      flameTester.test(
         'has only one BottomWall',
         (game) async {
           await game.ready();
-
           expect(
             game.children.whereType<BottomWall>().length,
             equals(1),
@@ -119,15 +118,12 @@ void main() {
       group('controller', () {
         // TODO(alestiago): Write test to be controller agnostic.
         group('listenWhen', () {
-          flameBlocTester.testGameWidget(
-            'listens when all balls are lost and there are more than 0 balls',
-            setUp: (game, tester) async {
+          flameTester.test(
+            'listens when all balls are lost and there are more than 0 rounds',
+            (game) async {
               final newState = MockGameState();
-              when(() => newState.balls).thenReturn(2);
-              game.descendants().whereType<ControlledBall>().forEach(
-                    (ball) => ball.controller.lost(),
-                  );
-              await game.ready();
+              when(() => newState.balls).thenReturn(0);
+              when(() => newState.rounds).thenReturn(2);
 
               expect(
                 game.controller.listenWhen(MockGameState(), newState),
@@ -141,11 +137,8 @@ void main() {
             (game) async {
               final newState = MockGameState();
               when(() => newState.balls).thenReturn(1);
+              when(() => newState.rounds).thenReturn(2);
 
-              expect(
-                game.descendants().whereType<Ball>().length,
-                greaterThan(0),
-              );
               expect(
                 game.controller.listenWhen(MockGameState(), newState),
                 isFalse,
@@ -153,21 +146,13 @@ void main() {
             },
           );
 
-          flameBlocTester.test(
+          flameTester.test(
             "doesn't listen when no balls left",
             (game) async {
               final newState = MockGameState();
-              when(() => newState.balls).thenReturn(0);
+              when(() => newState.balls).thenReturn(1);
+              when(() => newState.rounds).thenReturn(0);
 
-              game.descendants().whereType<ControlledBall>().forEach(
-                    (ball) => ball.controller.lost(),
-                  );
-              await game.ready();
-
-              expect(
-                game.descendants().whereType<Ball>().isEmpty,
-                isTrue,
-              );
               expect(
                 game.controller.listenWhen(MockGameState(), newState),
                 isFalse,
@@ -221,39 +206,6 @@ void main() {
       expect(
         game.children.whereType<Ball>().length,
         equals(previousBalls.length + 1),
-      );
-    });
-
-    group('controller', () {
-      late GameBloc gameBloc;
-
-      setUp(() {
-        gameBloc = GameBloc();
-      });
-
-      final debugModeFlameBlocTester =
-          FlameBlocTester<DebugPinballGame, GameBloc>(
-        gameBuilder: DebugPinballTestGame.new,
-        blocBuilder: () => gameBloc,
-        assets: assets,
-      );
-
-      debugModeFlameBlocTester.testGameWidget(
-        'ignores debug balls',
-        setUp: (game, tester) async {
-          final newState = MockGameState();
-          when(() => newState.balls).thenReturn(1);
-
-          await game.ready();
-          game.children.removeWhere((component) => component is Ball);
-          await game.ready();
-          await game.ensureAdd(ControlledBall.debug());
-
-          expect(
-            game.controller.listenWhen(MockGameState(), newState),
-            isTrue,
-          );
-        },
       );
     });
   });
