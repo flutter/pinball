@@ -82,12 +82,7 @@ void main() {
     });
 
     group('bumpers', () {
-      late Ball ball;
       late GameBloc gameBloc;
-
-      setUp(() {
-        ball = Ball(baseColor: const Color(0xFF00FFFF));
-      });
 
       final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
         gameBuilder: () => EmptyPinballTestGame(assets: assets),

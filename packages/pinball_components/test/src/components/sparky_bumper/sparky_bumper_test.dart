@@ -1,11 +1,10 @@
 // ignore_for_file: cascade_invocations
 
-import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-import '../../helpers/helpers.dart';
+import '../../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -37,33 +36,6 @@ void main() {
       final bumper = SparkyBumper.c();
       await game.ensureAdd(bumper);
       expect(game.contains(bumper), isTrue);
-    });
-
-    flameTester.test('animate switches between on and off sprites',
-        (game) async {
-      final bumper = SparkyBumper.a();
-      await game.ensureAdd(bumper);
-
-      final spriteGroupComponent = bumper.firstChild<SpriteGroupComponent>()!;
-
-      expect(
-        spriteGroupComponent.current,
-        equals(SparkyBumperSpriteState.active),
-      );
-
-      final future = bumper.animate();
-
-      expect(
-        spriteGroupComponent.current,
-        equals(SparkyBumperSpriteState.inactive),
-      );
-
-      await future;
-
-      expect(
-        spriteGroupComponent.current,
-        equals(SparkyBumperSpriteState.active),
-      );
     });
   });
 }

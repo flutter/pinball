@@ -1,11 +1,10 @@
 // ignore_for_file: cascade_invocations
 
-import 'package:flame/effects.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-import '../../helpers/helpers.dart';
+import '../../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -81,46 +80,6 @@ void main() {
     test('throws error when index out of range', () {
       expect(() => GoogleLetter(-1), throwsA(isA<RangeError>()));
       expect(() => GoogleLetter(6), throwsA(isA<RangeError>()));
-    });
-
-    group('activate', () {
-      flameTester.test('returns normally', (game) async {
-        final googleLetter = GoogleLetter(0);
-        await game.ensureAdd(googleLetter);
-        await expectLater(googleLetter.activate, returnsNormally);
-      });
-
-      flameTester.test('adds an Effect', (game) async {
-        final googleLetter = GoogleLetter(0);
-        await game.ensureAdd(googleLetter);
-        await googleLetter.activate();
-        await game.ready();
-
-        expect(
-          googleLetter.descendants().whereType<Effect>().length,
-          equals(1),
-        );
-      });
-    });
-
-    group('deactivate', () {
-      flameTester.test('returns normally', (game) async {
-        final googleLetter = GoogleLetter(0);
-        await game.ensureAdd(googleLetter);
-        await expectLater(googleLetter.deactivate, returnsNormally);
-      });
-
-      flameTester.test('adds an Effect', (game) async {
-        final googleLetter = GoogleLetter(0);
-        await game.ensureAdd(googleLetter);
-        await googleLetter.deactivate();
-        await game.ready();
-
-        expect(
-          googleLetter.descendants().whereType<Effect>().length,
-          equals(1),
-        );
-      });
     });
   });
 }
