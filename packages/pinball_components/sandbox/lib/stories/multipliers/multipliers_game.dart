@@ -4,10 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class MultipliersGame extends BasicBallGame with KeyboardEvents {
+class MultipliersGame extends BallGame with KeyboardEvents {
   MultipliersGame() : super(color: const Color(0xFF009900));
 
-  static const info = '''
+  static const description = '''
     Shows how the Multipliers are rendered.
       
     - Tap anywhere on the screen to spawn a ball into the game.

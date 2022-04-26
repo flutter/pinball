@@ -27,8 +27,8 @@ void main() {
 
   group('SparkyFireZone', () {
     flameTester.test('loads correctly', (game) async {
-      final sparkyFireZone = SparkyFireZone();
-      await game.ensureAdd(sparkyFireZone);
+      await game.addFromBlueprint(SparkyFireZone());
+      await game.ready();
     });
 
     group('loads', () {
