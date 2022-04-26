@@ -1,1 +1,1 @@
-export 'contact_behavior.dart';
+export 'google_letter_ball_contact_behavior.dart';

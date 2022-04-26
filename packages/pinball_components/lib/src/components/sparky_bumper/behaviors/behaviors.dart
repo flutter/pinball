@@ -1,2 +1,2 @@
-export 'contact_behavior.dart';
+export 'sparky_bumper_ball_contact_behaviour.dart';
 export 'sprite_behavior.dart';

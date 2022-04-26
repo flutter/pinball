@@ -7,9 +7,6 @@ class AlienBumperCubit extends Cubit<AlienBumperState> {
 
   void onBallContacted() {
     emit(AlienBumperState.inactive);
-    // Future<void>.delayed(const Duration(milliseconds: 500)).whenComplete(
-    //   () => emit(AlienBumperState.active),
-    // );
   }
 
   void onAnimated() {

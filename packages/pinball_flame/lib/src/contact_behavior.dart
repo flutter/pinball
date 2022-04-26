@@ -1,5 +1,26 @@
+import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
+import 'package:pinball_flame/pinball_flame.dart';
+
+class ContactBehavior<T extends BodyComponent> extends Component
+    with ContactCallbacks, ParentIsA<T> {
+  @override
+  @mustCallSuper
+  Future<void> onLoad() async {
+    final userData = parent.body.userData;
+    if (userData is ContactCallbacksGroup) {
+      userData.addContactCallbacks(this);
+    } else if (userData is ContactCallbacks) {
+      final notifier = ContactCallbacksGroup()
+        ..addContactCallbacks(userData)
+        ..addContactCallbacks(this);
+      parent.body.userData = notifier;
+    } else {
+      parent.body.userData = this;
+    }
+  }
+}
 
 class ContactCallbacksGroup implements ContactCallbacks {
   final List<ContactCallbacks> _contactCallbacks = [];

@@ -3,21 +3,18 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
-class BonusBehaviour extends Component with HasGameRef<PinballGame> {
-  BonusBehaviour(
-    Iterable<GoogleLetter> googleLetters,
-  ) : _googleLetters = googleLetters;
-
-  Iterable<GoogleLetter> _googleLetters;
-
+class GoogleWordBonusBehaviour extends Component
+    with HasGameRef<PinballGame>, ParentIsA<GoogleWord> {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    final googleLetters = parent.children.whereType<GoogleLetter>();
 
-    for (final letter in _googleLetters) {
+    for (final letter in googleLetters) {
       letter.bloc.stream.listen((_) {
-        final achievedBonus = _googleLetters
+        final achievedBonus = googleLetters
             .every((letter) => letter.bloc.state == GoogleLetterState.active);
 
         if (achievedBonus) {
@@ -25,7 +22,7 @@ class BonusBehaviour extends Component with HasGameRef<PinballGame> {
           gameRef
               .read<GameBloc>()
               .add(const BonusActivated(GameBonus.googleWord));
-          for (final letter in _googleLetters) {
+          for (final letter in googleLetters) {
             letter.bloc.onReset();
           }
         }

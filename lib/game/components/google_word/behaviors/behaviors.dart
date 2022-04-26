@@ -1,1 +1,1 @@
-export 'bonus_behaviour.dart';
+export 'google_word_bonus_behaviour.dart';
