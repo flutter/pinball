@@ -25,7 +25,7 @@ void main() {
       );
     });
 
-    testWidgets('three active balls', (tester) async {
+    testWidgets('three active round indicator', (tester) async {
       await tester.pumpApp(
         const RoundCountDisplay(),
         gameBloc: gameBloc,
@@ -35,7 +35,7 @@ void main() {
       expect(find.byType(RoundIndicator), findsNWidgets(3));
     });
 
-    testWidgets('two active balls', (tester) async {
+    testWidgets('two active round indicator', (tester) async {
       final state = initialState.copyWith(
         balls: 2,
       );
@@ -66,7 +66,7 @@ void main() {
       );
     });
 
-    testWidgets('one active ball', (tester) async {
+    testWidgets('one active round indicator', (tester) async {
       final state = initialState.copyWith(
         balls: 1,
       );
@@ -98,7 +98,7 @@ void main() {
     });
   });
 
-  testWidgets('active score ball is displaying with proper color',
+  testWidgets('active round indicator is displaying with proper color',
       (tester) async {
     await tester.pumpApp(
       const RoundIndicator(isActive: true),
@@ -113,7 +113,7 @@ void main() {
     );
   });
 
-  testWidgets('inactive score ball is displaying with proper color',
+  testWidgets('inactive round indicator is displaying with proper color',
       (tester) async {
     await tester.pumpApp(
       const RoundIndicator(isActive: false),

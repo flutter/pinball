@@ -5,7 +5,7 @@ import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/theme/theme.dart';
 
 /// {@template round_count_display}
-/// [Widget] that displays the count of rounds.
+/// Colored square indicating if a round is available.
 /// {@endtemplate}
 class RoundCountDisplay extends StatelessWidget {
   /// {@macro round_count_display}
@@ -14,6 +14,8 @@ class RoundCountDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    // TODO(arturplaczek): refactor when GameState handle balls and rounds and
+    // select state.rounds property instead of state.ball
     final balls = context.select((GameBloc bloc) => bloc.state.balls);
 
     return Row(

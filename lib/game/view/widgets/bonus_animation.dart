@@ -5,7 +5,7 @@ import 'package:pinball/gen/assets.gen.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template bonus_animation}
-/// [Widget] that displays the animation.
+/// [Widget] that displays bonus animations.
 /// {@endtemplate}
 class BonusAnimation extends StatefulWidget {
   /// {@macro bonus_animation}
@@ -42,7 +42,7 @@ class BonusAnimation extends StatefulWidget {
     Key? key,
     VoidCallback? onCompleted,
   }) : this._(
-          Assets.images.bonusAnimation.dino.keyName,
+          Assets.images.bonusAnimation.dinoChomp.keyName,
           onCompleted: onCompleted,
           key: key,
         );
@@ -52,7 +52,7 @@ class BonusAnimation extends StatefulWidget {
     Key? key,
     VoidCallback? onCompleted,
   }) : this._(
-          Assets.images.bonusAnimation.android.keyName,
+          Assets.images.bonusAnimation.androidSpaceship.keyName,
           onCompleted: onCompleted,
           key: key,
         );
@@ -62,7 +62,7 @@ class BonusAnimation extends StatefulWidget {
     Key? key,
     VoidCallback? onCompleted,
   }) : this._(
-          Assets.images.bonusAnimation.google.keyName,
+          Assets.images.bonusAnimation.googleWord.keyName,
           onCompleted: onCompleted,
           key: key,
         );
@@ -77,9 +77,9 @@ class BonusAnimation extends StatefulWidget {
     return [
       Flame.images.load(Assets.images.bonusAnimation.dashNest.keyName),
       Flame.images.load(Assets.images.bonusAnimation.sparkyTurboCharge.keyName),
-      Flame.images.load(Assets.images.bonusAnimation.dino.keyName),
-      Flame.images.load(Assets.images.bonusAnimation.android.keyName),
-      Flame.images.load(Assets.images.bonusAnimation.google.keyName),
+      Flame.images.load(Assets.images.bonusAnimation.dinoChomp.keyName),
+      Flame.images.load(Assets.images.bonusAnimation.androidSpaceship.keyName),
+      Flame.images.load(Assets.images.bonusAnimation.googleWord.keyName),
     ];
   }
 

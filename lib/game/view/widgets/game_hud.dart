@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/gen/gen.dart';
+import 'package:pinball/theme/app_colors.dart';
 
 /// {@template game_hud}
 /// Overlay on the [PinballGame].
@@ -64,18 +65,29 @@ class _ScoreViewDecoration extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.all(Radius.circular(12)),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: AssetImage(
-              Assets.images.score.miniScoreBackground.path,
-            ),
+    const radius = BorderRadius.all(Radius.circular(12));
+    const boardWidth = 5.0;
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: radius,
+        border: Border.all(
+          color: AppColors.white,
+          width: boardWidth,
+        ),
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: AssetImage(
+            Assets.images.score.miniScoreBackground.path,
           ),
         ),
-        child: child,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(boardWidth - 1),
+        child: ClipRRect(
+          borderRadius: radius,
+          child: child,
+        ),
       ),
     );
   }

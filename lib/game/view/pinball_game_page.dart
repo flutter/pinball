@@ -114,10 +114,12 @@ class PinballGameLoadedView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final leftMargin = MediaQuery.of(context).size.width * 0.3;
     final isPlaying = context.select(
       (StartGameBloc bloc) => bloc.state.status == StartGameStatus.play,
     );
+    final widthInRatio = MediaQuery.of(context).size.height * 9 / 16;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final leftMargin = (screenWidth / 2) - (widthInRatio / 1.8);
 
     return Stack(
       children: [

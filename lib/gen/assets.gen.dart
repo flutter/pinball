@@ -20,21 +20,21 @@ class $AssetsImagesGen {
 class $AssetsImagesBonusAnimationGen {
   const $AssetsImagesBonusAnimationGen();
 
-  /// File path: assets/images/bonus_animation/android.png
-  AssetGenImage get android =>
-      const AssetGenImage('assets/images/bonus_animation/android.png');
+  /// File path: assets/images/bonus_animation/android_spaceship.png
+  AssetGenImage get androidSpaceship => const AssetGenImage(
+      'assets/images/bonus_animation/android_spaceship.png');
 
   /// File path: assets/images/bonus_animation/dash_nest.png
   AssetGenImage get dashNest =>
       const AssetGenImage('assets/images/bonus_animation/dash_nest.png');
 
-  /// File path: assets/images/bonus_animation/dino.png
-  AssetGenImage get dino =>
-      const AssetGenImage('assets/images/bonus_animation/dino.png');
+  /// File path: assets/images/bonus_animation/dino_chomp.png
+  AssetGenImage get dinoChomp =>
+      const AssetGenImage('assets/images/bonus_animation/dino_chomp.png');
 
-  /// File path: assets/images/bonus_animation/google.png
-  AssetGenImage get google =>
-      const AssetGenImage('assets/images/bonus_animation/google.png');
+  /// File path: assets/images/bonus_animation/google_word.png
+  AssetGenImage get googleWord =>
+      const AssetGenImage('assets/images/bonus_animation/google_word.png');
 
   /// File path: assets/images/bonus_animation/sparky_turbo_charge.png
   AssetGenImage get sparkyTurboCharge => const AssetGenImage(
