@@ -18,9 +18,7 @@ class Drain extends BodyComponent {
         BoardDimensions.bounds.bottomLeft.toVector2(),
         BoardDimensions.bounds.bottomRight.toVector2(),
       );
-
     final fixtureDef = FixtureDef(shape, isSensor: true);
-
     final bodyDef = BodyDef(userData: this);
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);

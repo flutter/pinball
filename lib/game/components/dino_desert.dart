@@ -20,6 +20,8 @@ class DinoDesert extends Blueprint {
                 BoardDimensions.bounds.center.dy - 10,
               ),
           ],
-          blueprints: [DinoWalls()],
+          blueprints: [
+            DinoWalls(),
+          ],
         );
 }
