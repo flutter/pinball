@@ -1,4 +1,4 @@
-import 'dart:async';
+// ignore_for_file: invalid_use_of_protected_member
 
 import 'dart:ui' as ui;
 
@@ -14,6 +14,10 @@ import '../../../helpers/helpers.dart';
 class MockImages extends Mock implements Images {}
 
 class MockImage extends Mock implements ui.Image {}
+
+class MockCallback extends Mock {
+  void call();
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -74,14 +78,14 @@ void main() {
   // https://github.com/flame-engine/flame/issues/1543
   testWidgets('called onCompleted callback at the end of animation ',
       (tester) async {
-    final completer = Completer<void>();
+    final callback = MockCallback();
 
     await tester.runAsync(() async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: BonusAnimation.dashNest(
-              onCompleted: completer.complete,
+              onCompleted: callback.call,
             ),
           ),
         ),
@@ -93,7 +97,63 @@ void main() {
 
       await tester.pump();
 
-      expect(completer.isCompleted, isTrue);
+      verify(callback.call).called(1);
+    });
+  });
+
+  testWidgets('called onCompleted callback at the end of animation ',
+      (tester) async {
+    final callback = MockCallback();
+
+    await tester.runAsync(() async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: BonusAnimation.dashNest(
+              onCompleted: callback.call,
+            ),
+          ),
+        ),
+      );
+
+      await tester.pump();
+
+      await Future<void>.delayed(const Duration(seconds: 4));
+
+      await tester.pump();
+
+      verify(callback.call).called(1);
+    });
+  });
+
+  testWidgets('called onCompleted once when animation changed', (tester) async {
+    final callback = MockCallback();
+    final secondAnimation = BonusAnimation.sparkyTurboCharge(
+      onCompleted: callback.call,
+    );
+
+    await tester.runAsync(() async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: BonusAnimation.dashNest(
+              onCompleted: callback.call,
+            ),
+          ),
+        ),
+      );
+
+      await tester.pump();
+
+      tester
+          .state(find.byType(BonusAnimation))
+          .didUpdateWidget(secondAnimation);
+
+      await Future<void>.delayed(const Duration(seconds: 4));
+
+      await tester.pump();
+
+      verify(callback.call).called(1);
     });
   });
 }
