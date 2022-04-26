@@ -36,16 +36,16 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
   List<FixtureDef> _createFixtureDefs() {
     final topStraightShape = EdgeShape()
       ..set(
-        Vector2(28.65, -35.1),
-        Vector2(29.5, -35.1),
+        Vector2(28.65, -34.3),
+        Vector2(29.5, -34.3),
       );
     final topStraightFixtureDef = FixtureDef(topStraightShape);
 
     final topCurveShape = BezierCurveShape(
       controlPoints: [
         topStraightShape.vertex1,
-        Vector2(18.8, -27),
-        Vector2(26.6, -21),
+        Vector2(18.8, -26.2),
+        Vector2(26.6, -20.2),
       ],
     );
     final topCurveFixtureDef = FixtureDef(topCurveShape);
@@ -53,8 +53,8 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
     final middleCurveShape = BezierCurveShape(
       controlPoints: [
         topCurveShape.vertices.last,
-        Vector2(27.8, -20.1),
-        Vector2(26.8, -19.5),
+        Vector2(27.8, -19.3),
+        Vector2(26.8, -18.7),
       ],
     );
     final middleCurveFixtureDef = FixtureDef(middleCurveShape);
@@ -62,8 +62,8 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
     final bottomCurveShape = BezierCurveShape(
       controlPoints: [
         middleCurveShape.vertices.last,
-        Vector2(23, -15),
-        Vector2(27, -15),
+        Vector2(23, -14.2),
+        Vector2(27, -14.2),
       ],
     );
     final bottomCurveFixtureDef = FixtureDef(bottomCurveShape);
@@ -71,7 +71,7 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
     final bottomStraightShape = EdgeShape()
       ..set(
         bottomCurveShape.vertices.last,
-        Vector2(31, -14.5),
+        Vector2(31, -13.7),
       );
     final bottomStraightFixtureDef = FixtureDef(bottomStraightShape);
 
@@ -115,7 +115,7 @@ class _DinoTopWallSpriteComponent extends SpriteComponent with HasGameRef {
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
-    position = Vector2(22.8, -38.9);
+    position = Vector2(22.8, -38.1);
   }
 }
 
@@ -210,6 +210,6 @@ class _DinoBottomWallSpriteComponent extends SpriteComponent with HasGameRef {
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
-    position = Vector2(23.6, -9.5);
+    position = Vector2(23.8, -9.5);
   }
 }
