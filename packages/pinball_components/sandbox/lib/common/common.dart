@@ -1,3 +1,3 @@
+export 'add_game.dart';
 export 'games.dart';
-export 'methods.dart';
 export 'trace.dart';

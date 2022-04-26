@@ -2,11 +2,18 @@ import 'dart:async';
 
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class SmallDashNestBumperBGame extends BasicBallGame with Traceable {
-  static const info = '''
+class SmallDashNestBumperBGame extends BallGame {
+  SmallDashNestBumperBGame()
+      : super(
+          imagesFileNames: [
+            Assets.images.dash.bumper.b.active.keyName,
+            Assets.images.dash.bumper.b.inactive.keyName,
+          ],
+        );
+
+  static const description = '''
     Shows how a SmallDashNestBumper ("b") is rendered.
 
     - Activate the "trace" parameter to overlay the body.
@@ -15,11 +22,6 @@ class SmallDashNestBumperBGame extends BasicBallGame with Traceable {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-
-    await images.loadAll([
-      Assets.images.dash.bumper.b.active.keyName,
-      Assets.images.dash.bumper.b.inactive.keyName,
-    ]);
 
     camera.followVector2(Vector2.zero());
     await add(DashNestBumper.b()..priority = 1);

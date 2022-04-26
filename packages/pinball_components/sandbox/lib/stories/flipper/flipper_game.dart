@@ -2,12 +2,19 @@ import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:sandbox/common/common.dart';
 
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class FlipperGame extends BasicBallGame with KeyboardEvents, Traceable {
-  static const info = '''
+class FlipperGame extends BallGame with KeyboardEvents {
+  FlipperGame()
+      : super(
+          imagesFileNames: [
+            Assets.images.flipper.left.keyName,
+            Assets.images.flipper.right.keyName,
+          ],
+        );
+
+  static const description = '''
     Shows how Flippers are rendered.
 
     - Activate the "trace" parameter to overlay the body.
@@ -33,21 +40,12 @@ class FlipperGame extends BasicBallGame with KeyboardEvents, Traceable {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    await images.loadAll([
-      Assets.images.flipper.left.keyName,
-      Assets.images.flipper.right.keyName,
-    ]);
-
     final center = screenToWorld(camera.viewport.canvasSize! / 2);
-
-    leftFlipper = Flipper(side: BoardSide.left)
-      ..initialPosition = center - Vector2(Flipper.size.x, 0);
-    rightFlipper = Flipper(side: BoardSide.right)
-      ..initialPosition = center + Vector2(Flipper.size.x, 0);
-
     await addAll([
-      leftFlipper,
-      rightFlipper,
+      leftFlipper = Flipper(side: BoardSide.left)
+        ..initialPosition = center - Vector2(Flipper.size.x, 0),
+      rightFlipper = Flipper(side: BoardSide.right)
+        ..initialPosition = center + Vector2(Flipper.size.x, 0),
     ]);
 
     await traceAllBodies();
