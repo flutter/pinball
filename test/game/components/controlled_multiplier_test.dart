@@ -84,23 +84,6 @@ void main() {
           },
         );
       });
-
-      group(
-        'onNewState',
-        () {
-          flameTester.test(
-            'spawns a ball',
-            (game) async {
-              final state = GameState.initial().copyWith(score: 100);
-
-              final multipliersGroup = MultipliersGroup();
-              await game.ensureAdd(multipliersGroup);
-
-              multipliersGroup.controller.onNewState(state);
-            },
-          );
-        },
-      );
     });
   });
 }
