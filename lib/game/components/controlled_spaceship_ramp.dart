@@ -54,15 +54,16 @@ class SpaceshipRampController
 
   int _hitsCounter = 0;
 
+  /// When a [Ball] shot the [SpaceshipRamp] it achieve improvements for the
+  /// current game, like multipliers or score.
   void shot() {
     _hitsCounter++;
 
     component._spaceshipRamp.progress();
 
-    // TODO(ruimiguel): Ramp shot
     gameRef.read<GameBloc>().add(const Scored(points: 5000));
 
-    // TODO(ruimiguel): increase score multiplier at GameBloc.
+    // TODO(ruimiguel): increase here multiplier at GameBloc.
 
     if (_hitsCounter % _oneMillionPointsTarget == 0) {
       // TODO(ruimiguel): One million by bonus??
@@ -78,8 +79,14 @@ class SpaceshipRampController
   }
 }
 
+/// Used to know when a [Ball] gets into the [SpaceshipRamp] against every ball
+/// that crosses the opening.
+@visibleForTesting
 enum SpaceshipRampSensorType {
+  /// Sensor at the entrance of the opening.
   door,
+
+  /// Sensor inside the [SpaceshipRamp].
   inside,
 }
 
@@ -87,6 +94,7 @@ enum SpaceshipRampSensorType {
 /// Small sensor body used to detect when a ball has entered the
 /// [SpaceshipRamp].
 /// {@endtemplate}
+@visibleForTesting
 class SpaceshipRampSensor extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_ramp_sensor}
   SpaceshipRampSensor({required this.type}) : super() {
@@ -94,6 +102,7 @@ class SpaceshipRampSensor extends BodyComponent with InitialPosition, Layered {
     renderBody = false;
   }
 
+  /// Type for the sensor, to know if it's the one at the door or inside ramp.
   final SpaceshipRampSensorType type;
 
   @override

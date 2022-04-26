@@ -1,6 +1,7 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -39,7 +40,7 @@ void main() {
 
     group('loads', () {
       flameTester.test(
-        'a SpaceshipRamp',
+        'four SpriteComponent (two rails, main and opening)',
         (game) async {
           final controlledSpaceshipRamp = ControlledSpaceshipRamp();
           await game.ensureAdd(controlledSpaceshipRamp);
@@ -47,7 +48,23 @@ void main() {
           expect(
             controlledSpaceshipRamp
                 .descendants()
-                .whereType<SpaceshipRamp>()
+                .whereType<SpriteComponent>()
+                .length,
+            equals(4),
+          );
+        },
+      );
+
+      flameTester.test(
+        'a SpaceshipRampArrowSpriteComponent',
+        (game) async {
+          final controlledSpaceshipRamp = ControlledSpaceshipRamp();
+          await game.ensureAdd(controlledSpaceshipRamp);
+
+          expect(
+            controlledSpaceshipRamp
+                .descendants()
+                .whereType<SpaceshipRampArrowSpriteComponent>()
                 .length,
             equals(1),
           );

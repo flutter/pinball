@@ -34,7 +34,7 @@ class SpaceshipRamp extends Blueprint {
             _SpaceshipRampForegroundRailing(),
             _SpaceshipRampBase()..initialPosition = Vector2(1.7, -20),
             _SpaceshipRampBackgroundRailingSpriteComponent(),
-            _SpaceshipRampArrowSpriteComponent(),
+            SpaceshipRampArrowSpriteComponent(),
           ],
         );
 
@@ -42,7 +42,7 @@ class SpaceshipRamp extends Blueprint {
   ///
   /// If the current state is the last one it cycles back to the initial state.
   void progress() => components
-      .whereType<_SpaceshipRampArrowSpriteComponent>()
+      .whereType<SpaceshipRampArrowSpriteComponent>()
       .first
       .progress();
 }
@@ -203,11 +203,12 @@ class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
 ///
 /// Lights progressively whenever a [Ball] gets into [SpaceshipRamp].
 /// {@endtemplate}
-class _SpaceshipRampArrowSpriteComponent
+@visibleForTesting
+class SpaceshipRampArrowSpriteComponent
     extends SpriteGroupComponent<SpaceshipRampArrowSpriteState>
     with HasGameRef {
   /// {@macro spaceship_ramp_arrow_sprite_component}
-  _SpaceshipRampArrowSpriteComponent()
+  SpaceshipRampArrowSpriteComponent()
       : super(
           anchor: Anchor.center,
           position: Vector2(-3.9, -56.5),
