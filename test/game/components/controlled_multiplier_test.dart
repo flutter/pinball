@@ -2,6 +2,7 @@
 
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
@@ -84,6 +85,45 @@ void main() {
           },
         );
       });
+
+      group(
+        'onNewState',
+        () {
+          flameTester.test(
+            'toggle multipliers when state changes',
+            (game) async {
+              final multipliersGroup = MockMultipliersGroup();
+              final x2multiplier = MockMultiplier();
+              final x3multiplier = MockMultiplier();
+              final x4multiplier = MockMultiplier();
+              final x5multiplier = MockMultiplier();
+              final x6multiplier = MockMultiplier();
+              final controller = MultipliersController(multipliersGroup);
+              when(() => multipliersGroup.x2multiplier)
+                  .thenReturn(x2multiplier);
+              when(() => multipliersGroup.x3multiplier)
+                  .thenReturn(x3multiplier);
+              when(() => multipliersGroup.x4multiplier)
+                  .thenReturn(x4multiplier);
+              when(() => multipliersGroup.x5multiplier)
+                  .thenReturn(x5multiplier);
+              when(() => multipliersGroup.x6multiplier)
+                  .thenReturn(x6multiplier);
+
+              controller.onNewState(
+                const GameState.initial().copyWith(score: 6),
+              );
+
+              // TODO(ruimiguel): verify toggle with state.multiplier value.
+              verify(() => x2multiplier.toggle(any())).called(1);
+              verify(() => x3multiplier.toggle(any())).called(1);
+              verify(() => x4multiplier.toggle(any())).called(1);
+              verify(() => x5multiplier.toggle(any())).called(1);
+              verify(() => x6multiplier.toggle(any())).called(1);
+            },
+          );
+        },
+      );
     });
   });
 }
