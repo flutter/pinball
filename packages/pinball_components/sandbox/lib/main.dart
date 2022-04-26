@@ -30,6 +30,7 @@ void main() {
   addScoreTextStories(dashbook);
   addBackboardStories(dashbook);
   addDinoWallStories(dashbook);
+  addMultiballStories(dashbook);
 
   runApp(dashbook);
 }

@@ -112,6 +112,18 @@ void main() {
         },
       );
 
+      flameTester.test(
+        'has only one Multiball',
+        (game) async {
+          await game.ready();
+
+          expect(
+            game.children.whereType<MultiballGroup>().length,
+            equals(1),
+          );
+        },
+      );
+
       group('controller', () {
         // TODO(alestiago): Write test to be controller agnostic.
         group('listenWhen', () {
