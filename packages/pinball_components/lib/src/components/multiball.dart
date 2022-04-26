@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/gen/assets.gen.dart';
@@ -25,45 +26,49 @@ class Multiball extends Component {
   /// {@macro multiball}
   Multiball.a()
       : this._(
-          position: Vector2(0, 0),
+          position: Vector2(-23, 7.5),
           onAssetPath: Assets.images.multiball.a.active.keyName,
           offAssetPath: Assets.images.multiball.a.inactive.keyName,
-          rotation: 0,
+          rotation: -24 * math.pi / 180,
         );
 
   /// {@macro multiball}
   Multiball.b()
       : this._(
-          position: Vector2(0, 0),
+          position: Vector2(-7, -6.5),
           onAssetPath: Assets.images.multiball.b.active.keyName,
           offAssetPath: Assets.images.multiball.b.inactive.keyName,
-          rotation: 0,
+          rotation: -5 * math.pi / 180,
         );
 
   /// {@macro multiball}
   Multiball.c()
       : this._(
-          position: Vector2(0, 0),
+          position: Vector2(-0.5, -9.5),
           onAssetPath: Assets.images.multiball.c.active.keyName,
           offAssetPath: Assets.images.multiball.c.inactive.keyName,
-          rotation: 0,
+          rotation: 3 * math.pi / 180,
         );
 
   /// {@macro multiball}
   Multiball.d()
       : this._(
-          position: Vector2(0, 0),
+          position: Vector2(15, 7),
           onAssetPath: Assets.images.multiball.d.active.keyName,
           offAssetPath: Assets.images.multiball.d.inactive.keyName,
-          rotation: 0,
+          rotation: 24 * math.pi / 180,
         );
 
   /// Animates the [Multiball].
   Future<void> animate() async {
-    final spriteGroupComponent = firstChild<MultiballSpriteGroupComponent>()
-      ?..current = MultiballSpriteState.active;
-    await Future<void>.delayed(const Duration(milliseconds: 50));
-    spriteGroupComponent?.current = MultiballSpriteState.inactive;
+    final spriteGroupComponent = firstChild<MultiballSpriteGroupComponent>();
+
+    for (var i = 0; i < 5; i++) {
+      spriteGroupComponent?.current = MultiballSpriteState.active;
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+      spriteGroupComponent?.current = MultiballSpriteState.inactive;
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+    }
   }
 }
 
