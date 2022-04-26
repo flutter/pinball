@@ -3,10 +3,8 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 
-class BonusBehaviour extends Component
-    with HasGameRef<PinballGame>, ParentIsA<GoogleWord> {
+class BonusBehaviour extends Component with HasGameRef<PinballGame> {
   BonusBehaviour(
     Iterable<GoogleLetter> googleLetters,
   ) : _googleLetters = googleLetters;
