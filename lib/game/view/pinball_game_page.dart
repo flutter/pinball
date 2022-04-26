@@ -43,9 +43,8 @@ class PinballGamePage extends StatelessWidget {
     final loadables = [
       ...game.preLoadAssets(),
       pinballAudio.load(),
+      ...BonusAnimation.loadAssets(),
     ];
-
-    BonusAnimation.loadAssets();
 
     return MultiBlocProvider(
       providers: [
@@ -115,6 +114,11 @@ class PinballGameLoadedView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final leftMargin = MediaQuery.of(context).size.width * 0.3;
+    final isPlaying = context.select(
+      (StartGameBloc bloc) => bloc.state.status == StartGameStatus.play,
+    );
+
     return Stack(
       children: [
         Positioned.fill(
@@ -133,10 +137,13 @@ class PinballGameLoadedView extends StatelessWidget {
             },
           ),
         ),
-        const Positioned(
-          top: 8,
-          left: 8,
-          child: GameHud(),
+        Positioned(
+          top: 16,
+          left: leftMargin,
+          child: Visibility(
+            visible: isPlaying,
+            child: const GameHud(),
+          ),
         ),
       ],
     );
