@@ -5,10 +5,10 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class DinoWallGame extends BasicBallGame {
+class DinoWallGame extends BallGame {
   DinoWallGame() : super();
 
-  static const info = '''
+  static const description = '''
     Shows how DinoWalls are rendered.
 
     - Activate the "trace" parameter to overlay the body.
