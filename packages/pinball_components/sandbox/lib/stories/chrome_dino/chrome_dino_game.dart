@@ -3,6 +3,14 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class ChromeDinoGame extends BallGame {
+  ChromeDinoGame()
+      : super(
+          imagesFileNames: [
+            Assets.images.dino.animatronic.mouth.keyName,
+            Assets.images.dino.animatronic.head.keyName,
+          ],
+        );
+
   static const description = '''
     Shows how ChromeDino is rendered.
 
@@ -13,11 +21,6 @@ class ChromeDinoGame extends BallGame {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-
-    await images.loadAll([
-      Assets.images.dino.animatronic.mouth.keyName,
-      Assets.images.dino.animatronic.head.keyName,
-    ]);
 
     camera.followVector2(Vector2.zero());
     await add(ChromeDino());
