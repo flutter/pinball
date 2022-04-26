@@ -24,7 +24,7 @@ void main() {
 
     setUp(() async {
       gameBloc = MockGameBloc();
-      await BonusAnimation.loadAssets();
+      await Future.wait<void>(BonusAnimation.loadAssets());
 
       whenListen(
         gameBloc,

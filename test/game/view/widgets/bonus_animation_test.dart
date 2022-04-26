@@ -3,11 +3,11 @@ import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:flame/assets.dart';
-import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/view/widgets/bonus_animation.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 import '../../../helpers/helpers.dart';
 
@@ -19,7 +19,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   setUp(() async {
-    await BonusAnimation.loadAssets();
+    await Future.wait<void>(BonusAnimation.loadAssets());
   });
 
   group('loads SpriteAnimationWidget correctly for', () {
@@ -32,7 +32,7 @@ void main() {
       expect(find.byType(SpriteAnimationWidget), findsOneWidget);
     });
 
-    testWidgets('dino', (tester) async {
+    testWidgets('dinoChomp', (tester) async {
       await tester.pumpApp(
         BonusAnimation.dinoChomp(),
       );
@@ -50,7 +50,7 @@ void main() {
       expect(find.byType(SpriteAnimationWidget), findsOneWidget);
     });
 
-    testWidgets('google', (tester) async {
+    testWidgets('googleWord', (tester) async {
       await tester.pumpApp(
         BonusAnimation.googleWord(),
       );
@@ -59,7 +59,7 @@ void main() {
       expect(find.byType(SpriteAnimationWidget), findsOneWidget);
     });
 
-    testWidgets('android', (tester) async {
+    testWidgets('androidSpaceship', (tester) async {
       await tester.pumpApp(
         BonusAnimation.androidSpaceship(),
       );

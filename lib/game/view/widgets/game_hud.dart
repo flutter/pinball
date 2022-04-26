@@ -65,7 +65,7 @@ class _ScoreViewDecoration extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: const BorderRadius.all(Radius.circular(8)),
+      borderRadius: const BorderRadius.all(Radius.circular(12)),
       child: DecoratedBox(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -81,8 +81,6 @@ class _ScoreViewDecoration extends StatelessWidget {
   }
 }
 
-// TODO(arturplaczek): Waiting for new version of SpriteAnimationWidget.
-// https://github.com/flame-engine/flame/pull/1552.
 class _AnimationView extends StatelessWidget {
   const _AnimationView({
     Key? key,
