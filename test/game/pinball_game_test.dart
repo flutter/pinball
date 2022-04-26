@@ -223,7 +223,6 @@ void main() {
             );
 
         game.onTapDown(tapDownEvent);
-        await game.ready();
 
         expect(flippers.first.body.linearVelocity.y, isNegative);
       });
@@ -247,7 +246,6 @@ void main() {
             );
 
         game.onTapDown(tapDownEvent);
-        await game.ready();
 
         expect(flippers.first.body.linearVelocity.y, isNegative);
       });
@@ -271,7 +269,6 @@ void main() {
             );
 
         game.onTapDown(tapDownEvent);
-        await game.ready();
 
         expect(flippers.first.body.linearVelocity.y, isNegative);
 
@@ -303,12 +300,10 @@ void main() {
             );
 
         game.onTapDown(tapDownEvent);
-        await game.ready();
 
         expect(flippers.first.body.linearVelocity.y, isNegative);
 
         game.onTapCancel();
-        await game.ready();
 
         expect(flippers.first.body.linearVelocity.y, isPositive);
       });
@@ -331,7 +326,6 @@ void main() {
         final plunger = game.descendants().whereType<Plunger>().first;
 
         game.onTapDown(tapDownEvent);
-        await game.ready();
 
         expect(plunger.body.linearVelocity.y, equals(7));
       });
@@ -349,7 +343,6 @@ void main() {
 
         final plunger = game.descendants().whereType<Plunger>().first;
         game.onTapDown(tapDownEvent);
-        await game.ready();
 
         expect(plunger.body.linearVelocity.y, equals(7));
 
@@ -357,7 +350,6 @@ void main() {
         when(() => tapUpEvent.eventPosition).thenReturn(eventPosition);
 
         game.onTapUp(tapUpEvent);
-        await game.ready();
 
         expect(plunger.body.linearVelocity.y, equals(0));
       });
@@ -377,12 +369,10 @@ void main() {
 
         final plunger = game.descendants().whereType<Plunger>().first;
         game.onTapDown(tapDownEvent);
-        await game.ready();
 
         expect(plunger.body.linearVelocity.y, equals(7));
 
         game.onTapCancel();
-        await game.ready();
 
         expect(plunger.body.linearVelocity.y, equals(0));
       });
