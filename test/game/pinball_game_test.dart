@@ -56,6 +56,8 @@ void main() {
     Assets.images.boundary.bottom.keyName,
     Assets.images.slingshot.upper.keyName,
     Assets.images.slingshot.lower.keyName,
+    Assets.images.dino.topWall.keyName,
+    Assets.images.dino.bottomWall.keyName,
   ];
   final flameTester = FlameTester(() => PinballTestGame(assets));
   final debugModeFlameTester = FlameTester(() => DebugPinballTestGame(assets));
