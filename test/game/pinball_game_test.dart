@@ -56,6 +56,14 @@ void main() {
     Assets.images.slingshot.lower.keyName,
     Assets.images.dino.dinoLandTop.keyName,
     Assets.images.dino.dinoLandBottom.keyName,
+    Assets.images.multiball.a.active.keyName,
+    Assets.images.multiball.a.inactive.keyName,
+    Assets.images.multiball.b.active.keyName,
+    Assets.images.multiball.b.inactive.keyName,
+    Assets.images.multiball.c.active.keyName,
+    Assets.images.multiball.c.inactive.keyName,
+    Assets.images.multiball.d.active.keyName,
+    Assets.images.multiball.d.inactive.keyName,
   ];
   final flameTester = FlameTester(() => PinballTestGame(assets));
   final debugModeFlameTester = FlameTester(() => DebugPinballTestGame(assets));

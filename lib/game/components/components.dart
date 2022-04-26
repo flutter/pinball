@@ -3,6 +3,7 @@ export 'board.dart';
 export 'camera_controller.dart';
 export 'controlled_ball.dart';
 export 'controlled_flipper.dart';
+export 'controlled_multiball.dart';
 export 'controlled_plunger.dart';
 export 'flutter_forest.dart';
 export 'game_flow_controller.dart';
