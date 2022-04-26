@@ -204,7 +204,7 @@ void main() {
     });
 
     group('flipper control', () {
-      flameTester.test('move left flipper up', (game) async {
+      flameTester.test('tap down moves left flipper up', (game) async {
         await game.ready();
 
         final eventPosition = MockEventPosition();
@@ -228,7 +228,7 @@ void main() {
         expect(flippers.first.body.linearVelocity.y, isNegative);
       });
 
-      flameTester.test('move right flipper up', (game) async {
+      flameTester.test('tap down moves right flipper up', (game) async {
         await game.ready();
 
         final eventPosition = MockEventPosition();
