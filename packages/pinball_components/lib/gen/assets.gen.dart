@@ -26,6 +26,7 @@ class $AssetsImagesGen {
   $AssetsImagesKickerGen get kicker => const $AssetsImagesKickerGen();
   $AssetsImagesLaunchRampGen get launchRamp =>
       const $AssetsImagesLaunchRampGen();
+  $AssetsImagesMultiballGen get multiball => const $AssetsImagesMultiballGen();
   $AssetsImagesPlungerGen get plunger => const $AssetsImagesPlungerGen();
   $AssetsImagesSignpostGen get signpost => const $AssetsImagesSignpostGen();
   $AssetsImagesSlingshotGen get slingshot => const $AssetsImagesSlingshotGen();
@@ -197,6 +198,15 @@ class $AssetsImagesLaunchRampGen {
       const AssetGenImage('assets/images/launch_ramp/ramp.png');
 }
 
+class $AssetsImagesMultiballGen {
+  const $AssetsImagesMultiballGen();
+
+  $AssetsImagesMultiballAGen get a => const $AssetsImagesMultiballAGen();
+  $AssetsImagesMultiballBGen get b => const $AssetsImagesMultiballBGen();
+  $AssetsImagesMultiballCGen get c => const $AssetsImagesMultiballCGen();
+  $AssetsImagesMultiballDGen get d => const $AssetsImagesMultiballDGen();
+}
+
 class $AssetsImagesPlungerGen {
   const $AssetsImagesPlungerGen();
 
@@ -261,8 +271,10 @@ class $AssetsImagesSpaceshipGen {
 class $AssetsImagesSparkyGen {
   const $AssetsImagesSparkyGen();
 
+  /// File path: assets/images/sparky/animatronic.png
   AssetGenImage get animatronic =>
       const AssetGenImage('assets/images/sparky/animatronic.png');
+
   $AssetsImagesSparkyBumperGen get bumper =>
       const $AssetsImagesSparkyBumperGen();
   $AssetsImagesSparkyComputerGen get computer =>
@@ -300,6 +312,54 @@ class $AssetsImagesDashBumperGen {
   $AssetsImagesDashBumperBGen get b => const $AssetsImagesDashBumperBGen();
   $AssetsImagesDashBumperMainGen get main =>
       const $AssetsImagesDashBumperMainGen();
+}
+
+class $AssetsImagesMultiballAGen {
+  const $AssetsImagesMultiballAGen();
+
+  /// File path: assets/images/multiball/a/active.png
+  AssetGenImage get active =>
+      const AssetGenImage('assets/images/multiball/a/active.png');
+
+  /// File path: assets/images/multiball/a/inactive.png
+  AssetGenImage get inactive =>
+      const AssetGenImage('assets/images/multiball/a/inactive.png');
+}
+
+class $AssetsImagesMultiballBGen {
+  const $AssetsImagesMultiballBGen();
+
+  /// File path: assets/images/multiball/b/active.png
+  AssetGenImage get active =>
+      const AssetGenImage('assets/images/multiball/b/active.png');
+
+  /// File path: assets/images/multiball/b/inactive.png
+  AssetGenImage get inactive =>
+      const AssetGenImage('assets/images/multiball/b/inactive.png');
+}
+
+class $AssetsImagesMultiballCGen {
+  const $AssetsImagesMultiballCGen();
+
+  /// File path: assets/images/multiball/c/active.png
+  AssetGenImage get active =>
+      const AssetGenImage('assets/images/multiball/c/active.png');
+
+  /// File path: assets/images/multiball/c/inactive.png
+  AssetGenImage get inactive =>
+      const AssetGenImage('assets/images/multiball/c/inactive.png');
+}
+
+class $AssetsImagesMultiballDGen {
+  const $AssetsImagesMultiballDGen();
+
+  /// File path: assets/images/multiball/d/active.png
+  AssetGenImage get active =>
+      const AssetGenImage('assets/images/multiball/d/active.png');
+
+  /// File path: assets/images/multiball/d/inactive.png
+  AssetGenImage get inactive =>
+      const AssetGenImage('assets/images/multiball/d/inactive.png');
 }
 
 class $AssetsImagesSpaceshipRailGen {
