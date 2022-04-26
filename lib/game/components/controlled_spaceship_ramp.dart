@@ -147,22 +147,16 @@ class SpaceshipRampSensorBallContactCallback
   ) {
     switch (spaceshipRampSensor.type) {
       case SpaceshipRampSensorType.door:
-        print('door');
         if (!_balls.contains(ball)) {
-          print('add new ball');
           _balls.add(ball);
         }
         break;
       case SpaceshipRampSensorType.inside:
-        print('inside');
         if (_balls.contains(ball)) {
-          print('ball is in');
           final parent = spaceshipRampSensor.parent;
-          print('parent $parent');
           if (parent is ControlledSpaceshipRamp) {
             parent.controller.shot();
           }
-          print('remove ball');
           _balls.remove(ball);
         }
         break;
