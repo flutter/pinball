@@ -3,43 +3,15 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/src/components/alien_bumper/behaviors/behaviors.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
-abstract class State<T> {
-  // TODO(alestiago): Investigate approaches to avoid having this as late.
-  late T _state;
-
-  T get state => _state;
-
-  set state(T value) {
-    if (value == _state) return;
-    _state = value;
-    _stream.sink.add(value);
-  }
-
-  final StreamController<T> _stream = StreamController<T>.broadcast();
-
-  Stream<T> get stream => _stream.stream;
-
-  void close() {
-    _stream.close();
-  }
-}
-
-/// Indicates the [AlienBumper]'s current sprite state.
-enum AlienBumperState {
-  /// A lit up bumper.
-  active,
-
-  /// A dimmed bumper.
-  inactive,
-}
+export 'cubit/alien_bumper_cubit.dart';
 
 /// {@template alien_bumper}
 /// Bumper for area under the [Spaceship].
 /// {@endtemplate}
-class AlienBumper extends BodyComponent
-    with InitialPosition, State<AlienBumperState> {
+class AlienBumper extends BodyComponent with InitialPosition {
   /// {@macro alien_bumper}
   AlienBumper._({
     required double majorRadius,
@@ -47,22 +19,23 @@ class AlienBumper extends BodyComponent
     required String onAssetPath,
     required String offAssetPath,
     Iterable<Component>? children,
+    required this.bloc,
   })  : _majorRadius = majorRadius,
         _minorRadius = minorRadius,
         super(
           priority: RenderPriority.alienBumper,
           children: [
+            ContactBehavior(),
+            SpriteBehavior(),
+            _AlienBumperSpriteGroupComponent(
+              offAssetPath: offAssetPath,
+              onAssetPath: onAssetPath,
+              state: bloc.state,
+            ),
             if (children != null) ...children,
           ],
           renderBody: false,
-        ) {
-    _state = AlienBumperState.active;
-    _spriteGroupComponent = _AlienBumperSpriteGroupComponent(
-      offAssetPath: offAssetPath,
-      onAssetPath: onAssetPath,
-      state: state,
-    );
-  }
+        );
 
   /// {@macro alien_bumper}
   AlienBumper.a({
@@ -72,6 +45,7 @@ class AlienBumper extends BodyComponent
           minorRadius: 2.97,
           onAssetPath: Assets.images.alienBumper.a.active.keyName,
           offAssetPath: Assets.images.alienBumper.a.inactive.keyName,
+          bloc: AlienBumperCubit(),
           children: children,
         );
 
@@ -83,6 +57,7 @@ class AlienBumper extends BodyComponent
           minorRadius: 2.79,
           onAssetPath: Assets.images.alienBumper.b.active.keyName,
           offAssetPath: Assets.images.alienBumper.b.inactive.keyName,
+          bloc: AlienBumperCubit(),
           children: children,
         );
 
@@ -90,17 +65,12 @@ class AlienBumper extends BodyComponent
 
   final double _minorRadius;
 
-  late final _AlienBumperSpriteGroupComponent _spriteGroupComponent;
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    await add(_spriteGroupComponent);
-  }
+  // TODO(alestiago): Evaluate testing this.
+  final AlienBumperCubit bloc;
 
   @override
   void onRemove() {
-    close();
+    bloc.close();
     super.onRemove();
   }
 
@@ -144,6 +114,7 @@ class _AlienBumperSpriteGroupComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    parent.bloc.stream.listen((state) => current = state);
 
     final sprites = {
       AlienBumperState.active: Sprite(
@@ -154,7 +125,5 @@ class _AlienBumperSpriteGroupComponent
     };
     this.sprites = sprites;
     size = sprites[current]!.originalSize / 10;
-
-    parent.stream.listen((state) => current = state);
   }
 }

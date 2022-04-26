@@ -3,6 +3,10 @@ import 'package:flame/effects.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/src/components/google_letter/behaviors/behaviors.dart';
+import 'package:pinball_flame/pinball_flame.dart';
+
+export 'cubit/google_letter_cubit.dart';
 
 /// {@template google_letter}
 /// Circular sensor that represents a letter in "GOOGLE" for a given index.
@@ -10,25 +14,15 @@ import 'package:pinball_components/pinball_components.dart';
 class GoogleLetter extends BodyComponent with InitialPosition {
   /// {@macro google_letter}
   GoogleLetter(int index)
-      : _sprite = _GoogleLetterSprite(
-          _GoogleLetterSprite.spritePaths[index],
+      : super(
+          children: [
+            ContactBehavior(),
+            _GoogleLetterSprite(_GoogleLetterSprite.spritePaths[index])
+          ],
         );
 
-  final _GoogleLetterSprite _sprite;
-
-  /// Activates this [GoogleLetter].
-  // TODO(alestiago): Improve doc comment once activate and deactivate
-  // are implemented with the actual assets.
-  Future<void> activate() => _sprite.activate();
-
-  /// Deactivates this [GoogleLetter].
-  Future<void> deactivate() => _sprite.deactivate();
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    await add(_sprite);
-  }
+  // TODO(alestiago): Evaluate testing this.
+  final GoogleLetterCubit bloc = GoogleLetterCubit();
 
   @override
   Body createBody() {
@@ -46,8 +40,11 @@ class GoogleLetter extends BodyComponent with InitialPosition {
   }
 }
 
-class _GoogleLetterSprite extends SpriteComponent with HasGameRef {
-  _GoogleLetterSprite(String path) : _path = path;
+class _GoogleLetterSprite extends SpriteComponent
+    with HasGameRef, ParentIsA<GoogleLetter> {
+  _GoogleLetterSprite(String path)
+      : _path = path,
+        super(anchor: Anchor.center);
 
   static final spritePaths = [
     Assets.images.googleWord.letter1.keyName,
@@ -60,30 +57,29 @@ class _GoogleLetterSprite extends SpriteComponent with HasGameRef {
 
   final String _path;
 
-  // TODO(alestiago): Correctly implement activate and deactivate once the
-  // assets are provided.
-  Future<void> activate() async {
-    await add(
-      _GoogleLetterColorEffect(color: Colors.green),
-    );
-  }
-
-  Future<void> deactivate() async {
-    await add(
-      _GoogleLetterColorEffect(color: Colors.red),
-    );
+  void _onNewState(GoogleLetterState state) {
+    switch (state) {
+      case GoogleLetterState.active:
+        add(_GoogleLetterColorEffect(color: Colors.green));
+        break;
+      case GoogleLetterState.inactive:
+        add(
+          _GoogleLetterColorEffect(color: Colors.red),
+        );
+        break;
+    }
   }
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    parent.bloc.stream.listen(_onNewState);
 
     // TODO(alestiago): Used cached assets.
     final sprite = await gameRef.loadSprite(_path);
     this.sprite = sprite;
     // TODO(alestiago): Size correctly once the assets are provided.
     size = sprite.originalSize / 5;
-    anchor = Anchor.center;
   }
 }
 

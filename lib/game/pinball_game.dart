@@ -58,7 +58,6 @@ class PinballGame extends Forge2DGame
     await addFromBlueprint(SparkyFireZone());
     unawaited(addFromBlueprint(Slingshots()));
     unawaited(addFromBlueprint(DinoWalls()));
-    unawaited(_addBonusWord());
     unawaited(addFromBlueprint(SpaceshipRamp()));
     unawaited(
       addFromBlueprint(
@@ -68,12 +67,6 @@ class PinballGame extends Forge2DGame
       ),
     );
     unawaited(addFromBlueprint(SpaceshipRail()));
-
-    controller.attachTo(launcher.components.whereType<Plunger>().first);
-    await super.onLoad();
-  }
-
-  Future<void> _addBonusWord() async {
     await add(
       GoogleWord(
         position: Vector2(
@@ -82,6 +75,9 @@ class PinballGame extends Forge2DGame
         ),
       ),
     );
+
+    controller.attachTo(launcher.components.whereType<Plunger>().first);
+    await super.onLoad();
   }
 }
 

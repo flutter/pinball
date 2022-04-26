@@ -40,21 +40,6 @@ class SparkyFireZone extends Blueprint {
         );
 }
 
-/// Listens when a [Ball] bounces bounces against a [SparkyBumper].
-// TODO(alestiago): Add animation behaviour.
-// @visibleForTesting
-// class SparkyBumperBallContactCallback
-//     extends ContactCallback<SparkyBumper, Ball> {
-//   @override
-//   void begin(
-//     SparkyBumper sparkyBumper,
-//     Ball _,
-//     Contact __,
-//   ) {
-//     sparkyBumper.animate();
-//   }
-// }
-
 /// {@template sparky_computer_sensor}
 /// Small sensor body used to detect when a ball has entered the
 /// [SparkyComputer].

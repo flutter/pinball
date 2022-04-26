@@ -5,10 +5,9 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template alien_bumper_sprite_behavior}
 ///
 /// {@endtemplate}
-class AlienBumperSpriteBehavior extends TimerComponent
-    with ParentIsA<AlienBumper> {
+class SpriteBehavior extends TimerComponent with ParentIsA<AlienBumper> {
   /// {@macro alien_bumper_sprite_behavior}
-  AlienBumperSpriteBehavior()
+  SpriteBehavior()
       : super(
           period: 0.05,
           removeOnFinish: false,
@@ -31,12 +30,12 @@ class AlienBumperSpriteBehavior extends TimerComponent
   Future<void> onLoad() async {
     await super.onLoad();
     timer.stop();
-    parent.stream.listen(_onNewState);
+    parent.bloc.stream.listen(_onNewState);
   }
 
   @override
   void onTick() {
     super.onTick();
-    parent.state = AlienBumperState.active;
+    parent.bloc.onAnimated();
   }
 }
