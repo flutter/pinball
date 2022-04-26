@@ -5,7 +5,7 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball/theme/theme.dart';
+import 'package:pinball/select_character/select_character.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -13,18 +13,18 @@ void main() {
   final game = PinballTestGame();
 
   group('PinballGamePage', () {
-    late ThemeCubit themeCubit;
+    late SelectCharacterCubit selectCharacterCubit;
     late GameBloc gameBloc;
 
     setUp(() async {
       await Future.wait<void>(game.preLoadAssets());
-      themeCubit = MockThemeCubit();
+      selectCharacterCubit = MockSelectCharacterCubit();
       gameBloc = MockGameBloc();
 
       whenListen(
-        themeCubit,
-        const Stream<ThemeState>.empty(),
-        initialState: const ThemeState.initial(),
+        selectCharacterCubit,
+        const Stream<SelectCharacterState>.empty(),
+        initialState: const SelectCharacterState.initial(),
       );
 
       whenListen(
@@ -37,7 +37,7 @@ void main() {
     testWidgets('renders PinballGameView', (tester) async {
       await tester.pumpApp(
         PinballGamePage(),
-        themeCubit: themeCubit,
+        selectCharacterCubit: selectCharacterCubit,
       );
 
       expect(find.byType(PinballGameView), findsOneWidget);
@@ -62,7 +62,7 @@ void main() {
             game: game,
           ),
           assetsManagerCubit: assetsManagerCubit,
-          themeCubit: themeCubit,
+          selectCharacterCubit: selectCharacterCubit,
         );
 
         expect(
@@ -95,7 +95,7 @@ void main() {
           game: game,
         ),
         assetsManagerCubit: assetsManagerCubit,
-        themeCubit: themeCubit,
+        selectCharacterCubit: selectCharacterCubit,
         gameBloc: gameBloc,
       );
 
@@ -126,7 +126,7 @@ void main() {
               },
             ),
           ),
-          themeCubit: themeCubit,
+          selectCharacterCubit: selectCharacterCubit,
         );
 
         await tester.tap(find.text('Tap me'));
