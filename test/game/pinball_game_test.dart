@@ -307,8 +307,6 @@ void main() {
 
         expect(flippers.first.body.linearVelocity.y, isNegative);
 
-        final tapUpEvent = MockTapUpInfo();
-
         game.onTapCancel();
         await game.ready();
 
