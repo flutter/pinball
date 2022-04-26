@@ -4,12 +4,12 @@
 part of 'character_theme_cubit.dart';
 
 class CharacterThemeState extends Equatable {
-  const CharacterThemeState(this.selectedCharacter);
+  const CharacterThemeState(this.characterTheme);
 
-  const CharacterThemeState.initial() : selectedCharacter = const DashTheme();
+  const CharacterThemeState.initial() : characterTheme = const DashTheme();
 
-  final CharacterTheme selectedCharacter;
+  final CharacterTheme characterTheme;
 
   @override
-  List<Object> get props => [selectedCharacter];
+  List<Object> get props => [characterTheme];
 }

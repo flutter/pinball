@@ -111,7 +111,7 @@ class CharacterImageButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final currentCharacterTheme =
         context.select<CharacterThemeCubit, CharacterTheme>(
-      (cubit) => cubit.state.selectedCharacter,
+      (cubit) => cubit.state.characterTheme,
     );
 
     return GestureDetector(

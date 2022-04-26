@@ -8,7 +8,7 @@ void main() {
     test('initial state has Dash character theme', () {
       final characterThemeCubit = CharacterThemeCubit();
       expect(
-        characterThemeCubit.state.selectedCharacter,
+        characterThemeCubit.state.characterTheme,
         equals(const DashTheme()),
       );
     });
