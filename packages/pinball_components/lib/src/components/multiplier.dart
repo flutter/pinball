@@ -11,7 +11,11 @@ class Multiplier extends Component {
     required int value,
     required Vector2 position,
     double rotation = 0,
-  })  : _value = value,
+  })  : assert(
+          2 <= value && value <= 6,
+          'multiplier value must be in range 2 <= value <= 6',
+        ),
+        _value = value,
         _position = position,
         _rotation = rotation,
         super();
@@ -35,8 +39,8 @@ class Multiplier extends Component {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    String onAssetPath;
-    String offAssetPath;
+    String? onAssetPath;
+    String? offAssetPath;
 
     switch (_value) {
       case 2:
@@ -59,16 +63,12 @@ class Multiplier extends Component {
         onAssetPath = Assets.images.multiplier.x6.active.keyName;
         offAssetPath = Assets.images.multiplier.x6.inactive.keyName;
         break;
-      default:
-        onAssetPath = Assets.images.multiplier.x2.active.keyName;
-        offAssetPath = Assets.images.multiplier.x2.inactive.keyName;
-        break;
     }
 
     _sprite = MultiplierSpriteGroupComponent(
       position: _position,
-      onAssetPath: onAssetPath,
-      offAssetPath: offAssetPath,
+      onAssetPath: onAssetPath!,
+      offAssetPath: offAssetPath!,
     )..angle = _rotation;
 
     await add(_sprite);

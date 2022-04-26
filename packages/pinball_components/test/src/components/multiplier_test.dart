@@ -24,6 +24,23 @@ void main() {
     ];
     final flameTester = FlameTester(() => TestGame(assets));
 
+    test('fails if multiplier value is not in range', () {
+      expect(
+        () => Multiplier(
+          value: 1,
+          position: Vector2.zero(),
+        ),
+        throwsA(isA<AssertionError>()),
+      );
+      expect(
+        () => Multiplier(
+          value: 7,
+          position: Vector2.zero(),
+        ),
+        throwsA(isA<AssertionError>()),
+      );
+    });
+
     group('renders correctly', () {
       flameTester.testGameWidget(
         'x2 active',
@@ -66,6 +83,37 @@ void main() {
             position: Vector2.zero(),
           );
           await game.ensureAdd(multiplier);
+          await tester.pump();
+
+          expect(
+            multiplier.children
+                .whereType<MultiplierSpriteGroupComponent>()
+                .first
+                .current,
+            MultiplierSpriteState.inactive,
+          );
+
+          game.camera.followVector2(Vector2.zero());
+        },
+        verify: (game, tester) async {
+          await expectLater(
+            find.byGame<TestGame>(),
+            matchesGoldenFile('golden/multipliers/x2-inactive.png'),
+          );
+        },
+      );
+
+      flameTester.testGameWidget(
+        'x2 deactivated when different multiply value',
+        setUp: (game, tester) async {
+          await game.images.loadAll(assets);
+
+          final multiplier = Multiplier(
+            value: 2,
+            position: Vector2.zero(),
+          );
+          await game.ensureAdd(multiplier);
+          multiplier.toggle(1);
           await tester.pump();
 
           expect(
@@ -149,6 +197,37 @@ void main() {
       );
 
       flameTester.testGameWidget(
+        'x3 deactivated when different multiply value',
+        setUp: (game, tester) async {
+          await game.images.loadAll(assets);
+
+          final multiplier = Multiplier(
+            value: 3,
+            position: Vector2.zero(),
+          );
+          await game.ensureAdd(multiplier);
+          multiplier.toggle(1);
+          await tester.pump();
+
+          expect(
+            multiplier.children
+                .whereType<MultiplierSpriteGroupComponent>()
+                .first
+                .current,
+            MultiplierSpriteState.inactive,
+          );
+
+          game.camera.followVector2(Vector2.zero());
+        },
+        verify: (game, tester) async {
+          await expectLater(
+            find.byGame<TestGame>(),
+            matchesGoldenFile('golden/multipliers/x3-inactive.png'),
+          );
+        },
+      );
+
+      flameTester.testGameWidget(
         'x4 active',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
@@ -190,6 +269,37 @@ void main() {
             position: Vector2.zero(),
           );
           await game.ensureAdd(multiplier);
+          await tester.pump();
+
+          expect(
+            multiplier.children
+                .whereType<MultiplierSpriteGroupComponent>()
+                .first
+                .current,
+            MultiplierSpriteState.inactive,
+          );
+
+          game.camera.followVector2(Vector2.zero());
+        },
+        verify: (game, tester) async {
+          await expectLater(
+            find.byGame<TestGame>(),
+            matchesGoldenFile('golden/multipliers/x4-inactive.png'),
+          );
+        },
+      );
+
+      flameTester.testGameWidget(
+        'x4 deactivated when different multiply value',
+        setUp: (game, tester) async {
+          await game.images.loadAll(assets);
+
+          final multiplier = Multiplier(
+            value: 4,
+            position: Vector2.zero(),
+          );
+          await game.ensureAdd(multiplier);
+          multiplier.toggle(1);
           await tester.pump();
 
           expect(
@@ -273,6 +383,37 @@ void main() {
       );
 
       flameTester.testGameWidget(
+        'x5 deactivated when different multiply value',
+        setUp: (game, tester) async {
+          await game.images.loadAll(assets);
+
+          final multiplier = Multiplier(
+            value: 5,
+            position: Vector2.zero(),
+          );
+          await game.ensureAdd(multiplier);
+          multiplier.toggle(1);
+          await tester.pump();
+
+          expect(
+            multiplier.children
+                .whereType<MultiplierSpriteGroupComponent>()
+                .first
+                .current,
+            MultiplierSpriteState.inactive,
+          );
+
+          game.camera.followVector2(Vector2.zero());
+        },
+        verify: (game, tester) async {
+          await expectLater(
+            find.byGame<TestGame>(),
+            matchesGoldenFile('golden/multipliers/x5-inactive.png'),
+          );
+        },
+      );
+
+      flameTester.testGameWidget(
         'x6 active',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
@@ -314,6 +455,37 @@ void main() {
             position: Vector2.zero(),
           );
           await game.ensureAdd(multiplier);
+          await tester.pump();
+
+          expect(
+            multiplier.children
+                .whereType<MultiplierSpriteGroupComponent>()
+                .first
+                .current,
+            MultiplierSpriteState.inactive,
+          );
+
+          game.camera.followVector2(Vector2.zero());
+        },
+        verify: (game, tester) async {
+          await expectLater(
+            find.byGame<TestGame>(),
+            matchesGoldenFile('golden/multipliers/x6-inactive.png'),
+          );
+        },
+      );
+
+      flameTester.testGameWidget(
+        'x6 deactivated when different multiply value',
+        setUp: (game, tester) async {
+          await game.images.loadAll(assets);
+
+          final multiplier = Multiplier(
+            value: 6,
+            position: Vector2.zero(),
+          );
+          await game.ensureAdd(multiplier);
+          multiplier.toggle(1);
           await tester.pump();
 
           expect(
