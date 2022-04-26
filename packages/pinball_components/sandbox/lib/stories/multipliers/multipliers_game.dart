@@ -5,7 +5,21 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class MultipliersGame extends BallGame with KeyboardEvents {
-  MultipliersGame() : super(color: const Color(0xFF009900));
+  MultipliersGame()
+      : super(
+          imagesFileNames: [
+            Assets.images.multiplier.x2.active.keyName,
+            Assets.images.multiplier.x2.inactive.keyName,
+            Assets.images.multiplier.x3.active.keyName,
+            Assets.images.multiplier.x3.inactive.keyName,
+            Assets.images.multiplier.x4.active.keyName,
+            Assets.images.multiplier.x4.inactive.keyName,
+            Assets.images.multiplier.x5.active.keyName,
+            Assets.images.multiplier.x5.inactive.keyName,
+            Assets.images.multiplier.x6.active.keyName,
+            Assets.images.multiplier.x6.inactive.keyName,
+          ],
+        );
 
   static const description = '''
     Shows how the Multipliers are rendered.
@@ -23,19 +37,6 @@ class MultipliersGame extends BallGame with KeyboardEvents {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-
-    await images.loadAll([
-      Assets.images.multiplier.x2.active.keyName,
-      Assets.images.multiplier.x2.inactive.keyName,
-      Assets.images.multiplier.x3.active.keyName,
-      Assets.images.multiplier.x3.inactive.keyName,
-      Assets.images.multiplier.x4.active.keyName,
-      Assets.images.multiplier.x4.inactive.keyName,
-      Assets.images.multiplier.x5.active.keyName,
-      Assets.images.multiplier.x5.inactive.keyName,
-      Assets.images.multiplier.x6.active.keyName,
-      Assets.images.multiplier.x6.inactive.keyName,
-    ]);
 
     camera.followVector2(Vector2.zero());
     x2 = Multiplier(
