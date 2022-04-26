@@ -59,7 +59,7 @@ class PinballGame extends Forge2DGame
     await addFromBlueprint(SparkyFireZone());
     unawaited(addFromBlueprint(Slingshots()));
     unawaited(addFromBlueprint(DinoWalls()));
-    await add(ChromeDino()..initialPosition = Vector2(12.3, -7.1));
+    await add(ChromeDino()..initialPosition = Vector2(12.3, -6.9));
     unawaited(_addBonusWord());
     unawaited(addFromBlueprint(SpaceshipRamp()));
     unawaited(
