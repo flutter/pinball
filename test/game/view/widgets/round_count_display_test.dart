@@ -7,7 +7,7 @@ import 'package:pinball/theme/app_colors.dart';
 import '../../../helpers/helpers.dart';
 
 void main() {
-  group('ScoreBalls renders', () {
+  group('RoundCountDisplay renders', () {
     late GameBloc gameBloc;
     const initialState = GameState(
       score: 0,
@@ -27,12 +27,12 @@ void main() {
 
     testWidgets('three active balls', (tester) async {
       await tester.pumpApp(
-        const BallCountDisplay(),
+        const RoundCountDisplay(),
         gameBloc: gameBloc,
       );
       await tester.pump();
 
-      expect(find.byType(BallIndicator), findsNWidgets(3));
+      expect(find.byType(RoundIndicator), findsNWidgets(3));
     });
 
     testWidgets('two active balls', (tester) async {
@@ -46,27 +46,27 @@ void main() {
       );
 
       await tester.pumpApp(
-        const BallCountDisplay(),
+        const RoundCountDisplay(),
         gameBloc: gameBloc,
       );
       await tester.pump();
 
       expect(
         find.byWidgetPredicate(
-          (widget) => widget is BallIndicator && widget.isActive,
+          (widget) => widget is RoundIndicator && widget.isActive,
         ),
         findsNWidgets(2),
       );
 
       expect(
         find.byWidgetPredicate(
-          (widget) => widget is BallIndicator && !widget.isActive,
+          (widget) => widget is RoundIndicator && !widget.isActive,
         ),
         findsOneWidget,
       );
     });
 
-    testWidgets('one active balls', (tester) async {
+    testWidgets('one active ball', (tester) async {
       final state = initialState.copyWith(
         balls: 1,
       );
@@ -77,21 +77,21 @@ void main() {
       );
 
       await tester.pumpApp(
-        const BallCountDisplay(),
+        const RoundCountDisplay(),
         gameBloc: gameBloc,
       );
       await tester.pump();
 
       expect(
         find.byWidgetPredicate(
-          (widget) => widget is BallIndicator && widget.isActive,
+          (widget) => widget is RoundIndicator && widget.isActive,
         ),
         findsOneWidget,
       );
 
       expect(
         find.byWidgetPredicate(
-          (widget) => widget is BallIndicator && !widget.isActive,
+          (widget) => widget is RoundIndicator && !widget.isActive,
         ),
         findsNWidgets(2),
       );
@@ -101,7 +101,7 @@ void main() {
   testWidgets('active score ball is displaying with proper color',
       (tester) async {
     await tester.pumpApp(
-      const BallIndicator(isActive: true),
+      const RoundIndicator(isActive: true),
     );
     await tester.pump();
 
@@ -116,7 +116,7 @@ void main() {
   testWidgets('inactive score ball is displaying with proper color',
       (tester) async {
     await tester.pumpApp(
-      const BallIndicator(isActive: false),
+      const RoundIndicator(isActive: false),
     );
     await tester.pump();
 

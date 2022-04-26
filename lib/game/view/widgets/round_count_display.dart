@@ -1,13 +1,15 @@
-// ignore_for_file: public_member_api_docs
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/theme/theme.dart';
 
-class BallCountDisplay extends StatelessWidget {
-  const BallCountDisplay({Key? key}) : super(key: key);
+/// {@template round_count_display}
+/// [Widget] that displays the count of rounds.
+/// {@endtemplate}
+class RoundCountDisplay extends StatelessWidget {
+  /// {@macro round_count_display}
+  const RoundCountDisplay({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +27,9 @@ class BallCountDisplay extends StatelessWidget {
         const SizedBox(width: 8),
         Row(
           children: [
-            BallIndicator(isActive: balls >= 1),
-            BallIndicator(isActive: balls >= 2),
-            BallIndicator(isActive: balls >= 3),
+            RoundIndicator(isActive: balls >= 1),
+            RoundIndicator(isActive: balls >= 2),
+            RoundIndicator(isActive: balls >= 3),
           ],
         ),
       ],
@@ -35,13 +37,18 @@ class BallCountDisplay extends StatelessWidget {
   }
 }
 
+/// {@template round_indicator}
+/// [Widget] that displays the round indicator.
+/// {@endtemplate}
 @visibleForTesting
-class BallIndicator extends StatelessWidget {
-  const BallIndicator({
+class RoundIndicator extends StatelessWidget {
+  /// {@macro round_indicator}
+  const RoundIndicator({
     Key? key,
     required this.isActive,
   }) : super(key: key);
 
+  /// A value that describes whether the indicator is active.
   final bool isActive;
 
   @override
