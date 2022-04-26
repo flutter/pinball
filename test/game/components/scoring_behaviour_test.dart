@@ -47,7 +47,7 @@ void main() {
         'emits Scored event with points',
         setUp: (game, tester) async {
           const points = 20;
-          final scoringBehaviour = ScoringBehaviour(points: points);
+          final scoringBehaviour = ScoringBehavior(points: points);
           await game.ensureAdd(scoringBehaviour);
 
           scoringBehaviour.beginContact(ball, MockContact());
@@ -64,7 +64,7 @@ void main() {
         'plays score sound',
         setUp: (game, tester) async {
           const points = 20;
-          final scoringBehaviour = ScoringBehaviour(points: points);
+          final scoringBehaviour = ScoringBehavior(points: points);
           await game.ensureAdd(scoringBehaviour);
 
           scoringBehaviour.beginContact(ball, MockContact());
@@ -77,7 +77,7 @@ void main() {
         "adds a ScoreText component at Ball's position with points",
         setUp: (game, tester) async {
           const points = 20;
-          final scoringBehaviour = ScoringBehaviour(points: points);
+          final scoringBehaviour = ScoringBehavior(points: points);
           await game.ensureAdd(scoringBehaviour);
 
           scoringBehaviour.beginContact(ball, MockContact());

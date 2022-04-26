@@ -9,7 +9,7 @@ class AlienBumperCubit extends Cubit<AlienBumperState> {
     emit(AlienBumperState.inactive);
   }
 
-  void onAnimated() {
+  void onBlinked() {
     emit(AlienBumperState.active);
   }
 }

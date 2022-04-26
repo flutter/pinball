@@ -13,16 +13,24 @@ export 'cubit/google_letter_cubit.dart';
 /// {@endtemplate}
 class GoogleLetter extends BodyComponent with InitialPosition {
   /// {@macro google_letter}
-  GoogleLetter(int index)
-      : super(
+  GoogleLetter(
+    int index, {
+    GoogleLetterCubit? bloc,
+  })  : bloc = bloc ?? GoogleLetterCubit(),
+        super(
           children: [
-            ContactBehavior(),
+            GoogleLetterBallContactBehavior(),
             _GoogleLetterSprite(_GoogleLetterSprite.spritePaths[index])
           ],
         );
 
-  // TODO(alestiago): Evaluate testing this.
-  final GoogleLetterCubit bloc = GoogleLetterCubit();
+  final GoogleLetterCubit bloc;
+
+  @override
+  void onRemove() {
+    bloc.close();
+    super.onRemove();
+  }
 
   @override
   Body createBody() {
@@ -57,23 +65,11 @@ class _GoogleLetterSprite extends SpriteComponent
 
   final String _path;
 
-  void _onNewState(GoogleLetterState state) {
-    switch (state) {
-      case GoogleLetterState.active:
-        add(_GoogleLetterColorEffect(color: Colors.green));
-        break;
-      case GoogleLetterState.inactive:
-        add(
-          _GoogleLetterColorEffect(color: Colors.red),
-        );
-        break;
-    }
-  }
-
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    parent.bloc.stream.listen(_onNewState);
+    // TODO(alisonryan2002): Make SpriteGroupComponent.
+    // parent.bloc.stream.listen();
 
     // TODO(alestiago): Used cached assets.
     final sprite = await gameRef.loadSprite(_path);
@@ -81,14 +77,4 @@ class _GoogleLetterSprite extends SpriteComponent
     // TODO(alestiago): Size correctly once the assets are provided.
     size = sprite.originalSize / 5;
   }
-}
-
-class _GoogleLetterColorEffect extends ColorEffect {
-  _GoogleLetterColorEffect({
-    required Color color,
-  }) : super(
-          color,
-          const Offset(0, 1),
-          EffectController(duration: 0.25),
-        );
 }

@@ -9,31 +9,13 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template scoring_behaviour}
 ///
 /// {@endtemplate}
-class ScoringBehaviour extends Component
-    with ContactCallbacks, HasGameRef<PinballGame>, ParentIsA<BodyComponent> {
+class ScoringBehavior extends ContactBehavior with HasGameRef<PinballGame> {
   /// {@macro scoring_behaviour}
-  ScoringBehaviour({
+  ScoringBehavior({
     required int points,
   }) : _points = points;
 
   final int _points;
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-
-    final userData = parent.body.userData;
-    if (userData is ContactCallbacksGroup) {
-      userData.addContactCallbacks(this);
-    } else if (userData is ContactCallbacks) {
-      final notifier = ContactCallbacksGroup()
-        ..addContactCallbacks(userData)
-        ..addContactCallbacks(this);
-      parent.body.userData = notifier;
-    } else {
-      parent.body.userData = this;
-    }
-  }
 
   @override
   void beginContact(Object other, Contact contact) {

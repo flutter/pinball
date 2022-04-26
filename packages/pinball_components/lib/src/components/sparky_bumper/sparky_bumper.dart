@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_components/src/components/sparky_bumper/behaviors/behaviors.dart';
 import 'package:pinball_flame/pinball_flame.dart';
@@ -26,15 +27,15 @@ class SparkyBumper extends BodyComponent with InitialPosition {
         super(
           priority: RenderPriority.sparkyBumper,
           children: [
-            ContactBehavior(),
-            SpriteBehavior(),
+            SparkyBumperBallContactBehavior(),
+            SparkyBumperBlinkingBehaviour(),
             _SparkyBumperSpriteGroupComponent(
               onAssetPath: onAssetPath,
               offAssetPath: offAssetPath,
               position: spritePosition,
               state: bloc.state,
             ),
-            if (children != null) ...children,
+            ...?children,
           ],
           renderBody: false,
         );
@@ -78,11 +79,23 @@ class SparkyBumper extends BodyComponent with InitialPosition {
           children: children,
         );
 
+  /// {@macro sparky_bumper}
+  @visibleForTesting
+  SparkyBumper.test({
+    required this.bloc,
+  })  : _majorRadius = 3,
+        _minorRadius = 2.2;
+
   final double _majorRadius;
   final double _minorRadius;
 
-  // TODO(alestiago): Evaluate testing this.
   final SparkyBumperCubit bloc;
+
+  @override
+  void onRemove() {
+    bloc.close();
+    super.onRemove();
+  }
 
   @override
   Body createBody() {

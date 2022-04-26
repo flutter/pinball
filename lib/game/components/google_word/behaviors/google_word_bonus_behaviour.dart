@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flame/components.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -8,10 +6,10 @@ import 'package:pinball_flame/pinball_flame.dart';
 class GoogleWordBonusBehaviour extends Component
     with HasGameRef<PinballGame>, ParentIsA<GoogleWord> {
   @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    final googleLetters = parent.children.whereType<GoogleLetter>();
+  void onMount() {
+    super.onMount();
 
+    final googleLetters = parent.children.whereType<GoogleLetter>();
     for (final letter in googleLetters) {
       letter.bloc.stream.listen((_) {
         final achievedBonus = googleLetters

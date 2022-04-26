@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_components/src/components/alien_bumper/behaviors/behaviors.dart';
 import 'package:pinball_flame/pinball_flame.dart';
@@ -25,14 +26,14 @@ class AlienBumper extends BodyComponent with InitialPosition {
         super(
           priority: RenderPriority.alienBumper,
           children: [
-            ContactBehavior(),
-            SpriteBehavior(),
+            AlienBumperBallContactBehavior(),
+            AlienBumperBlinkingBehavior(),
             _AlienBumperSpriteGroupComponent(
               offAssetPath: offAssetPath,
               onAssetPath: onAssetPath,
               state: bloc.state,
             ),
-            if (children != null) ...children,
+            ...?children,
           ],
           renderBody: false,
         );
@@ -61,11 +62,17 @@ class AlienBumper extends BodyComponent with InitialPosition {
           children: children,
         );
 
+  /// {@macro alien_bumper}
+  @visibleForTesting
+  AlienBumper.test({
+    required this.bloc,
+  })  : _majorRadius = 3.52,
+        _minorRadius = 2.97;
+
   final double _majorRadius;
 
   final double _minorRadius;
 
-  // TODO(alestiago): Evaluate testing this.
   final AlienBumperCubit bloc;
 
   @override

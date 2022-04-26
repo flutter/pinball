@@ -1,9 +1,12 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/src/components/alien_bumper/behaviors/behaviors.dart';
 
 import '../../../helpers/helpers.dart';
 
@@ -19,39 +22,54 @@ void main() {
 
   group('AlienBumper', () {
     flameTester.test('"a" loads correctly', (game) async {
-      final bumper = AlienBumper.a();
-      await game.ensureAdd(bumper);
-
-      expect(game.contains(bumper), isTrue);
+      final alienBumper = AlienBumper.a();
+      await game.ensureAdd(alienBumper);
+      expect(game.contains(alienBumper), isTrue);
     });
 
     flameTester.test('"b" loads correctly', (game) async {
-      final bumper = AlienBumper.b();
-      await game.ensureAdd(bumper);
-      expect(game.contains(bumper), isTrue);
+      final alienBumper = AlienBumper.b();
+      await game.ensureAdd(alienBumper);
+      expect(game.contains(alienBumper), isTrue);
     });
 
-    flameTester.test('animate switches between on and off sprites',
-        (game) async {
-      final bumper = AlienBumper.a();
-      await game.ensureAdd(bumper);
-
-      final spriteGroupComponent = bumper.firstChild<SpriteGroupComponent>()!;
-
-      expect(
-        spriteGroupComponent.current,
-        equals(AlienBumperState.active),
+    flameTester.test('closes bloc when removed', (game) async {
+      final bloc = MockAlienBumperCubit();
+      whenListen(
+        bloc,
+        const Stream<AlienBumperState>.empty(),
+        initialState: AlienBumperState.active,
       );
+      when(bloc.close).thenAnswer((_) async {});
+      final alienBumper = AlienBumper.test(bloc: bloc);
 
-      expect(
-        spriteGroupComponent.current,
-        equals(AlienBumperState.inactive),
-      );
+      await game.ensureAdd(alienBumper);
+      game.remove(alienBumper);
+      await game.ready();
 
-      expect(
-        spriteGroupComponent.current,
-        equals(AlienBumperState.active),
-      );
+      verify(bloc.close).called(1);
+    });
+
+    group('adds', () {
+      flameTester.test('new children', (game) async {
+        final component = Component();
+        final alienBumper = AlienBumper.a(
+          children: [component],
+        );
+        await game.ensureAdd(alienBumper);
+        expect(alienBumper.children, contains(component));
+      });
+
+      flameTester.test('an AlienBumperBallContactBehaviour', (game) async {
+        final alienBumper = AlienBumper.a();
+        await game.ensureAdd(alienBumper);
+        expect(
+          alienBumper.children
+              .whereType<AlienBumperBallContactBehavior>()
+              .single,
+          isNotNull,
+        );
+      });
     });
   });
 }

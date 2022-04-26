@@ -2,23 +2,21 @@ import 'package:flame/components.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
-/// {@template alien_bumper_sprite_behavior}
-///
+/// {@template sparky_bumper_blinking_behavior}
+/// Makes a [SparkyBumper] blink back to [SparkyBumperState.active] when
+/// [SparkyBumperState.inactive].
 /// {@endtemplate}
-class SpriteBehavior extends TimerComponent with ParentIsA<AlienBumper> {
-  /// {@macro alien_bumper_sprite_behavior}
-  SpriteBehavior()
-      : super(
-          period: 0.05,
-          removeOnFinish: false,
-        );
+class SparkyBumperBlinkingBehavior extends TimerComponent
+    with ParentIsA<SparkyBumper> {
+  /// {@macro sparky_bumper_sprite_behavior}
+  SparkyBumperBlinkingBehavior() : super(period: 0.05);
 
-  void _onNewState(AlienBumperState state) {
+  void _onNewState(SparkyBumperState state) {
     switch (state) {
-      case AlienBumperState.active:
+      case SparkyBumperState.active:
         timer.stop();
         break;
-      case AlienBumperState.inactive:
+      case SparkyBumperState.inactive:
         timer
           ..reset()
           ..start();
@@ -36,6 +34,6 @@ class SpriteBehavior extends TimerComponent with ParentIsA<AlienBumper> {
   @override
   void onTick() {
     super.onTick();
-    parent.bloc.onAnimated();
+    parent.bloc.onBlinked();
   }
 }

@@ -20,22 +20,22 @@ class FlutterForest extends Component
           children: [
             Signpost(
               children: [
-                ScoringBehaviour(points: 20),
+                ScoringBehavior(points: 20),
               ],
             )..initialPosition = Vector2(8.35, -58.3),
             DashNestBumper.main(
               children: [
-                ScoringBehaviour(points: 20),
+                ScoringBehavior(points: 20),
               ],
             )..initialPosition = Vector2(18.55, -59.35),
             DashNestBumper.a(
               children: [
-                ScoringBehaviour(points: 20),
+                ScoringBehavior(points: 20),
               ],
             )..initialPosition = Vector2(8.95, -51.95),
             DashNestBumper.b(
               children: [
-                ScoringBehaviour(points: 20),
+                ScoringBehavior(points: 20),
               ],
             )..initialPosition = Vector2(23.3, -46.75),
             DashAnimatronic()..position = Vector2(20, -66),

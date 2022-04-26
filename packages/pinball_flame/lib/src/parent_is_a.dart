@@ -9,8 +9,7 @@ mixin ParentIsA<T extends Component> on Component {
   T get parent => super.parent! as T;
 
   @override
-  Future<void>? addToParent(Component parent) {
-    assert(parent is T, 'Parent must be of type $T');
+  Future<void>? addToParent(covariant T parent) {
     return super.addToParent(parent);
   }
 }

@@ -18,17 +18,17 @@ class SparkyFireZone extends Blueprint {
           components: [
             SparkyBumper.a(
               children: [
-                ScoringBehaviour(points: 20),
+                ScoringBehavior(points: 20),
               ],
             )..initialPosition = Vector2(-22.9, -41.65),
             SparkyBumper.b(
               children: [
-                ScoringBehaviour(points: 20),
+                ScoringBehavior(points: 20),
               ],
             )..initialPosition = Vector2(-21.25, -57.9),
             SparkyBumper.c(
               children: [
-                ScoringBehaviour(points: 20),
+                ScoringBehavior(points: 20),
               ],
             )..initialPosition = Vector2(-3.3, -52.55),
             SparkyComputerSensor()..initialPosition = Vector2(-13, -49.8),

@@ -16,12 +16,12 @@ class AlienZone extends Blueprint {
           components: [
             AlienBumper.a(
               children: [
-                ScoringBehaviour(points: 20),
+                ScoringBehavior(points: 20),
               ],
             )..initialPosition = Vector2(-32.52, -9.1),
             AlienBumper.b(
               children: [
-                ScoringBehaviour(points: 20),
+                ScoringBehavior(points: 20),
               ],
             )..initialPosition = Vector2(-22.89, -17.35),
           ],

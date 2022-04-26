@@ -25,6 +25,7 @@ dependencies:
     path: ../pinball_theme
 
 dev_dependencies:
+  bloc_test: ^9.0.3
   flame_test: ^1.3.0
   flutter_test:
     sdk: flutter

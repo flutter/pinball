@@ -27,7 +27,7 @@ class DashNestBumper extends BodyComponent with InitialPosition {
               inactiveAssetPath: inactiveAssetPath,
               position: spritePosition,
             ),
-            if (children != null) ...children,
+            ...?children,
           ],
           renderBody: false,
         );

@@ -7,12 +7,9 @@ class SparkyBumperCubit extends Cubit<SparkyBumperState> {
 
   void onBallContacted() {
     emit(SparkyBumperState.inactive);
-    // Future<void>.delayed(const Duration(milliseconds: 500)).whenComplete(
-    //   () => emit(AlienBumperState.active),
-    // );
   }
 
-  void onAnimated() {
+  void onBlinked() {
     emit(SparkyBumperState.active);
   }
 }

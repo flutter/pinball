@@ -52,7 +52,7 @@ class Signpost extends BodyComponent with InitialPosition {
           priority: RenderPriority.signpost,
           children: [
             _SignpostSpriteComponent(),
-            if (children != null) ...children,
+            ...?children,
           ],
           renderBody: false,
         );

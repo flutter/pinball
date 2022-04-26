@@ -73,5 +73,14 @@ void main() {
         equals(DashNestBumperSpriteState.inactive),
       );
     });
+
+    flameTester.test('adds new children', (game) async {
+      final component = Component();
+      final dashNestBumper = DashNestBumper.a(
+        children: [component],
+      );
+      await game.ensureAdd(dashNestBumper);
+      expect(dashNestBumper.children, contains(component));
+    });
   });
 }

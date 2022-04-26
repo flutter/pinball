@@ -8,6 +8,6 @@ export 'flutter_forest.dart';
 export 'game_flow_controller.dart';
 export 'google_word/google_word.dart';
 export 'launcher.dart';
-export 'scoring_behaviour.dart';
+export 'scoring_behavior.dart';
 export 'sparky_fire_zone.dart';
 export 'wall.dart';

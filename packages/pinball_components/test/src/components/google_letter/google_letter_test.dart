@@ -1,8 +1,11 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/src/components/google_letter/behaviors/behaviors.dart';
 
 import '../../../helpers/helpers.dart';
 
@@ -80,6 +83,34 @@ void main() {
     test('throws error when index out of range', () {
       expect(() => GoogleLetter(-1), throwsA(isA<RangeError>()));
       expect(() => GoogleLetter(6), throwsA(isA<RangeError>()));
+    });
+
+    flameTester.test('closes bloc when removed', (game) async {
+      final bloc = MockGoogleLetterCubit();
+      whenListen(
+        bloc,
+        const Stream<GoogleLetterState>.empty(),
+        initialState: GoogleLetterState.active,
+      );
+      when(bloc.close).thenAnswer((_) async {});
+      final googleLetter = GoogleLetter(0, bloc: bloc);
+
+      await game.ensureAdd(googleLetter);
+      game.remove(googleLetter);
+      await game.ready();
+
+      verify(bloc.close).called(1);
+    });
+
+    flameTester.test('adds a GoogleLetterBallContactBehaviour', (game) async {
+      final googleLetter = GoogleLetter(0);
+      await game.ensureAdd(googleLetter);
+      expect(
+        googleLetter.children
+            .whereType<GoogleLetterBallContactBehavior>()
+            .single,
+        isNotNull,
+      );
     });
   });
 }
