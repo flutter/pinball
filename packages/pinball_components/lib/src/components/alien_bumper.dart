@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 abstract class State<T> {
   // TODO(alestiago): Investigate approaches to avoid having this as late.
@@ -19,6 +20,10 @@ abstract class State<T> {
   final StreamController<T> _stream = StreamController<T>.broadcast();
 
   Stream<T> get stream => _stream.stream;
+
+  void close() {
+    _stream.close();
+  }
 }
 
 /// Indicates the [AlienBumper]'s current sprite state.
@@ -94,6 +99,12 @@ class AlienBumper extends BodyComponent
   }
 
   @override
+  void onRemove() {
+    close();
+    super.onRemove();
+  }
+
+  @override
   Body createBody() {
     final shape = EllipseShape(
       center: Vector2.zero(),
@@ -113,7 +124,8 @@ class AlienBumper extends BodyComponent
 }
 
 class _AlienBumperSpriteGroupComponent
-    extends SpriteGroupComponent<AlienBumperState> with HasGameRef {
+    extends SpriteGroupComponent<AlienBumperState>
+    with HasGameRef, ParentIsA<AlienBumper> {
   _AlienBumperSpriteGroupComponent({
     required String onAssetPath,
     required String offAssetPath,
@@ -142,11 +154,6 @@ class _AlienBumperSpriteGroupComponent
     };
     this.sprites = sprites;
     size = sprites[current]!.originalSize / 10;
-
-    // TODO(alestiago): Refactor once the following is merged:
-    // https://github.com/flame-engine/flame/pull/1566
-    final parent = this.parent;
-    if (parent is! AlienBumper) return;
 
     parent.stream.listen((state) => current = state);
   }

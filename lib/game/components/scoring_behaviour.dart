@@ -10,7 +10,10 @@ import 'package:pinball_flame/pinball_flame.dart';
 ///
 /// {@endtemplate}
 class ScoringBehaviour extends Component
-    with ContactCallbacksNotifer, HasGameRef<PinballGame> {
+    with
+        ContactCallbacksNotifer,
+        HasGameRef<PinballGame>,
+        ParentIsA<BodyComponent> {
   /// {@macro scoring_behaviour}
   ScoringBehaviour({
     required int points,
@@ -21,11 +24,6 @@ class ScoringBehaviour extends Component
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-
-    // TODO(alestiago): Refactor once the following is merged:
-    // https://github.com/flame-engine/flame/pull/1566
-    final parent = this.parent;
-    if (parent is! BodyComponent) return;
 
     final userData = parent.body.userData;
     if (userData is ContactCallbacksNotifer) {
