@@ -29,18 +29,17 @@ void main() {
         'x2 active',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          final multiplier = MultiplierSpriteGroupComponent(
+          final multiplier = Multiplier(
+            value: 2,
             position: Vector2.zero(),
-            onAssetPath: Assets.images.multiplier.x2.active.keyName,
-            offAssetPath: Assets.images.multiplier.x2.inactive.keyName,
           );
           await game.ensureAdd(multiplier);
 
-          multiplier.current = MultiplierSpriteState.active;
+          multiplier.toggle(2);
           await tester.pump();
 
           expect(
-            game.children
+            multiplier.children
                 .whereType<MultiplierSpriteGroupComponent>()
                 .first
                 .current,
@@ -61,17 +60,16 @@ void main() {
         'x2 inactive',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          await game.ensureAdd(
-            MultiplierSpriteGroupComponent(
-              position: Vector2.zero(),
-              onAssetPath: Assets.images.multiplier.x2.active.keyName,
-              offAssetPath: Assets.images.multiplier.x2.inactive.keyName,
-            ),
+
+          final multiplier = Multiplier(
+            value: 2,
+            position: Vector2.zero(),
           );
+          await game.ensureAdd(multiplier);
           await tester.pump();
 
           expect(
-            game.children
+            multiplier.children
                 .whereType<MultiplierSpriteGroupComponent>()
                 .first
                 .current,
@@ -92,18 +90,18 @@ void main() {
         'x3 active',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          final multiplier = MultiplierSpriteGroupComponent(
+
+          final multiplier = Multiplier(
+            value: 3,
             position: Vector2.zero(),
-            onAssetPath: Assets.images.multiplier.x3.active.keyName,
-            offAssetPath: Assets.images.multiplier.x3.inactive.keyName,
           );
           await game.ensureAdd(multiplier);
 
-          multiplier.current = MultiplierSpriteState.active;
+          multiplier.toggle(3);
           await tester.pump();
 
           expect(
-            game.children
+            multiplier.children
                 .whereType<MultiplierSpriteGroupComponent>()
                 .first
                 .current,
@@ -124,17 +122,16 @@ void main() {
         'x3 inactive',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          await game.ensureAdd(
-            MultiplierSpriteGroupComponent(
-              position: Vector2.zero(),
-              onAssetPath: Assets.images.multiplier.x3.active.keyName,
-              offAssetPath: Assets.images.multiplier.x3.inactive.keyName,
-            ),
+
+          final multiplier = Multiplier(
+            value: 3,
+            position: Vector2.zero(),
           );
+          await game.ensureAdd(multiplier);
           await tester.pump();
 
           expect(
-            game.children
+            multiplier.children
                 .whereType<MultiplierSpriteGroupComponent>()
                 .first
                 .current,
@@ -155,18 +152,18 @@ void main() {
         'x4 active',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          final multiplier = MultiplierSpriteGroupComponent(
+
+          final multiplier = Multiplier(
+            value: 4,
             position: Vector2.zero(),
-            onAssetPath: Assets.images.multiplier.x4.active.keyName,
-            offAssetPath: Assets.images.multiplier.x4.inactive.keyName,
           );
           await game.ensureAdd(multiplier);
 
-          multiplier.current = MultiplierSpriteState.active;
+          multiplier.toggle(4);
           await tester.pump();
 
           expect(
-            game.children
+            multiplier.children
                 .whereType<MultiplierSpriteGroupComponent>()
                 .first
                 .current,
@@ -187,17 +184,16 @@ void main() {
         'x4 inactive',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          await game.ensureAdd(
-            MultiplierSpriteGroupComponent(
-              position: Vector2.zero(),
-              onAssetPath: Assets.images.multiplier.x4.active.keyName,
-              offAssetPath: Assets.images.multiplier.x4.inactive.keyName,
-            ),
+
+          final multiplier = Multiplier(
+            value: 4,
+            position: Vector2.zero(),
           );
+          await game.ensureAdd(multiplier);
           await tester.pump();
 
           expect(
-            game.children
+            multiplier.children
                 .whereType<MultiplierSpriteGroupComponent>()
                 .first
                 .current,
@@ -218,18 +214,18 @@ void main() {
         'x5 active',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          final multiplier = MultiplierSpriteGroupComponent(
+
+          final multiplier = Multiplier(
+            value: 5,
             position: Vector2.zero(),
-            onAssetPath: Assets.images.multiplier.x5.active.keyName,
-            offAssetPath: Assets.images.multiplier.x5.inactive.keyName,
           );
           await game.ensureAdd(multiplier);
 
-          multiplier.current = MultiplierSpriteState.active;
+          multiplier.toggle(5);
           await tester.pump();
 
           expect(
-            game.children
+            multiplier.children
                 .whereType<MultiplierSpriteGroupComponent>()
                 .first
                 .current,
@@ -250,17 +246,16 @@ void main() {
         'x5 inactive',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          await game.ensureAdd(
-            MultiplierSpriteGroupComponent(
-              position: Vector2.zero(),
-              onAssetPath: Assets.images.multiplier.x5.active.keyName,
-              offAssetPath: Assets.images.multiplier.x5.inactive.keyName,
-            ),
+
+          final multiplier = Multiplier(
+            value: 5,
+            position: Vector2.zero(),
           );
+          await game.ensureAdd(multiplier);
           await tester.pump();
 
           expect(
-            game.children
+            multiplier.children
                 .whereType<MultiplierSpriteGroupComponent>()
                 .first
                 .current,
@@ -281,18 +276,18 @@ void main() {
         'x6 active',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          final multiplier = MultiplierSpriteGroupComponent(
+
+          final multiplier = Multiplier(
+            value: 6,
             position: Vector2.zero(),
-            onAssetPath: Assets.images.multiplier.x6.active.keyName,
-            offAssetPath: Assets.images.multiplier.x6.inactive.keyName,
           );
           await game.ensureAdd(multiplier);
 
-          multiplier.current = MultiplierSpriteState.active;
+          multiplier.toggle(6);
           await tester.pump();
 
           expect(
-            game.children
+            multiplier.children
                 .whereType<MultiplierSpriteGroupComponent>()
                 .first
                 .current,
@@ -313,17 +308,16 @@ void main() {
         'x6 inactive',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          await game.ensureAdd(
-            MultiplierSpriteGroupComponent(
-              position: Vector2.zero(),
-              onAssetPath: Assets.images.multiplier.x6.active.keyName,
-              offAssetPath: Assets.images.multiplier.x6.inactive.keyName,
-            ),
+
+          final multiplier = Multiplier(
+            value: 6,
+            position: Vector2.zero(),
           );
+          await game.ensureAdd(multiplier);
           await tester.pump();
 
           expect(
-            game.children
+            multiplier.children
                 .whereType<MultiplierSpriteGroupComponent>()
                 .first
                 .current,
