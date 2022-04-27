@@ -17,11 +17,11 @@ class FlutterForestBonusBehavior extends Component
       // merged:
       // https://github.com/flame-engine/flame/pull/1538
       bumper.bloc.stream.listen((state) {
-        final hasBonus = bumpers.every(
+        final achievedBonus = bumpers.every(
           (bumper) => bumper.bloc.state == DashNestBumperState.active,
         );
 
-        if (hasBonus) {
+        if (achievedBonus) {
           gameRef
               .read<GameBloc>()
               .add(const BonusActivated(GameBonus.dashNest));
