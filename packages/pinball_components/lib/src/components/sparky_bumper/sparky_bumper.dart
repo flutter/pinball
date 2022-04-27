@@ -26,6 +26,7 @@ class SparkyBumper extends BodyComponent with InitialPosition {
         _minorRadius = minorRadius,
         super(
           priority: RenderPriority.sparkyBumper,
+          renderBody: false,
           children: [
             SparkyBumperBallContactBehavior(),
             SparkyBumperBlinkingBehavior(),
@@ -37,7 +38,6 @@ class SparkyBumper extends BodyComponent with InitialPosition {
             ),
             ...?children,
           ],
-          renderBody: false,
         );
 
   /// {@macro sparky_bumper}

@@ -98,10 +98,10 @@ class _SpaceshipRampBackground extends BodyComponent
   _SpaceshipRampBackground()
       : super(
           priority: RenderPriority.spaceshipRamp,
+          renderBody: false,
           children: [
             _SpaceshipRampBackgroundRampSpriteComponent(),
           ],
-          renderBody: false,
         ) {
     layer = Layer.spaceshipEntranceRamp;
   }
@@ -247,8 +247,8 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
   _SpaceshipRampForegroundRailing()
       : super(
           priority: RenderPriority.spaceshipRampForegroundRailing,
-          children: [_SpaceshipRampForegroundRailingSpriteComponent()],
           renderBody: false,
+          children: [_SpaceshipRampForegroundRailingSpriteComponent()],
         ) {
     layer = Layer.spaceshipEntranceRamp;
   }

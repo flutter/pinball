@@ -50,11 +50,11 @@ class Signpost extends BodyComponent with InitialPosition {
     Iterable<Component>? children,
   }) : super(
           priority: RenderPriority.signpost,
+          renderBody: false,
           children: [
             _SignpostSpriteComponent(),
             ...?children,
           ],
-          renderBody: false,
         );
 
   /// Forwards the sprite to the next [SignpostSpriteState].

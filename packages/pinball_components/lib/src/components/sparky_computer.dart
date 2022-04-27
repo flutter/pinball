@@ -23,8 +23,8 @@ class _ComputerBase extends BodyComponent with InitialPosition {
   _ComputerBase()
       : super(
           priority: RenderPriority.computerBase,
-          children: [_ComputerBaseSpriteComponent()],
           renderBody: false,
+          children: [_ComputerBaseSpriteComponent()],
         );
 
   List<FixtureDef> _createFixtureDefs() {

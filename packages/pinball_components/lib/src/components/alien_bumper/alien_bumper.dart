@@ -25,6 +25,7 @@ class AlienBumper extends BodyComponent with InitialPosition {
         _minorRadius = minorRadius,
         super(
           priority: RenderPriority.alienBumper,
+          renderBody: false,
           children: [
             AlienBumperBallContactBehavior(),
             AlienBumperBlinkingBehavior(),
@@ -35,7 +36,6 @@ class AlienBumper extends BodyComponent with InitialPosition {
             ),
             ...?children,
           ],
-          renderBody: false,
         );
 
   /// {@macro alien_bumper}

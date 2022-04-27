@@ -26,9 +26,9 @@ class _BottomBoundary extends BodyComponent with InitialPosition {
   /// {@macro bottom_boundary}
   _BottomBoundary()
       : super(
+          renderBody: false,
           priority: RenderPriority.bottomBoundary,
           children: [_BottomBoundarySpriteComponent()],
-          renderBody: false,
         );
 
   List<FixtureDef> _createFixtureDefs() {
@@ -91,9 +91,9 @@ class _OuterBoundary extends BodyComponent with InitialPosition {
   /// {@macro outer_boundary}
   _OuterBoundary()
       : super(
+          renderBody: false,
           priority: RenderPriority.outerBoundary,
           children: [_OuterBoundarySpriteComponent()],
-          renderBody: false,
         );
 
   List<FixtureDef> _createFixtureDefs() {

@@ -13,8 +13,8 @@ class Baseboard extends BodyComponent with InitialPosition {
     required BoardSide side,
   })  : _side = side,
         super(
-          children: [_BaseboardSpriteComponent(side: side)],
           renderBody: false,
+          children: [_BaseboardSpriteComponent(side: side)],
         );
 
   /// Whether the [Baseboard] is on the left or right side of the board.

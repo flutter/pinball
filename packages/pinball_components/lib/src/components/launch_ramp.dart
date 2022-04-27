@@ -32,11 +32,11 @@ class _LaunchRampBase extends BodyComponent with Layered {
   _LaunchRampBase()
       : super(
           priority: RenderPriority.launchRamp,
+          renderBody: false,
           children: [
             _LaunchRampBackgroundRailingSpriteComponent(),
             _LaunchRampBaseSpriteComponent(),
           ],
-          renderBody: false,
         ) {
     layer = Layer.launcher;
   }

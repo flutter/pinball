@@ -29,8 +29,8 @@ class _SpaceshipRailRamp extends BodyComponent with Layered {
   _SpaceshipRailRamp()
       : super(
           priority: RenderPriority.spaceshipRail,
-          children: [_SpaceshipRailRampSpriteComponent()],
           renderBody: false,
+          children: [_SpaceshipRailRampSpriteComponent()],
         ) {
     layer = Layer.spaceshipExitRail;
   }

@@ -42,10 +42,10 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
   SpaceshipSaucer()
       : super(
           priority: RenderPriority.spaceshipSaucer,
+          renderBody: false,
           children: [
             _SpaceshipSaucerSpriteComponent(),
           ],
-          renderBody: false,
         ) {
     layer = Layer.spaceship;
   }

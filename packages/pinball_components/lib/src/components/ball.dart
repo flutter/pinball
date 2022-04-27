@@ -16,10 +16,10 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   Ball({
     required this.baseColor,
   }) : super(
+          renderBody: false,
           children: [
             _BallSpriteComponent()..tint(baseColor.withOpacity(0.5)),
           ],
-          renderBody: false,
         ) {
     // TODO(ruimiguel): while developing Ball can be launched by clicking mouse,
     // and default  layer is Layer.all. But on final game Ball will be always be
