@@ -17,7 +17,7 @@ class GoogleWord extends Component {
             GoogleLetter(3)..initialPosition = position + Vector2(2.88, -1.75),
             GoogleLetter(4)..initialPosition = position + Vector2(8.33, -0.65),
             GoogleLetter(5)..initialPosition = position + Vector2(12.92, 1.82),
-            GoogleWordBonusBehaviour(),
+            GoogleWordBonusBehavior(),
           ],
         );
 }

@@ -60,7 +60,7 @@ void main() {
         expect(alienBumper.children, contains(component));
       });
 
-      flameTester.test('an AlienBumperBallContactBehaviour', (game) async {
+      flameTester.test('an AlienBumperBallContactBehavior', (game) async {
         final alienBumper = AlienBumper.a();
         await game.ensureAdd(alienBumper);
         expect(

@@ -102,7 +102,7 @@ void main() {
       verify(bloc.close).called(1);
     });
 
-    flameTester.test('adds a GoogleLetterBallContactBehaviour', (game) async {
+    flameTester.test('adds a GoogleLetterBallContactBehavior', (game) async {
       final googleLetter = GoogleLetter(0);
       await game.ensureAdd(googleLetter);
       expect(

@@ -14,7 +14,7 @@ void main() {
   final flameTester = FlameTester(TestGame.new);
 
   group(
-    'AlienBumperBlinkingBehaviour',
+    'AlienBumperBlinkingBehavior',
     () {
       flameTester.test(
         'calls onBlinked after 0.5 seconds when inactive',

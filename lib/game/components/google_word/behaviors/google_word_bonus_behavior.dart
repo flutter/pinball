@@ -3,7 +3,7 @@ import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
-class GoogleWordBonusBehaviour extends Component
+class GoogleWordBonusBehavior extends Component
     with HasGameRef<PinballGame>, ParentIsA<GoogleWord> {
   @override
   void onMount() {

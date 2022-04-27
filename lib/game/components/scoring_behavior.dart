@@ -6,11 +6,11 @@ import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
-/// {@template scoring_behaviour}
+/// {@template scoring_behavior}
 ///
 /// {@endtemplate}
 class ScoringBehavior extends ContactBehavior with HasGameRef<PinballGame> {
-  /// {@macro scoring_behaviour}
+  /// {@macro scoring_behavior}
   ScoringBehavior({
     required int points,
   }) : _points = points;

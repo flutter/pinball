@@ -28,7 +28,7 @@ class SparkyBumper extends BodyComponent with InitialPosition {
           priority: RenderPriority.sparkyBumper,
           children: [
             SparkyBumperBallContactBehavior(),
-            SparkyBumperBlinkingBehaviour(),
+            SparkyBumperBlinkingBehavior(),
             _SparkyBumperSpriteGroupComponent(
               onAssetPath: onAssetPath,
               offAssetPath: offAssetPath,
@@ -141,9 +141,12 @@ class _SparkyBumperSpriteGroupComponent
     parent.bloc.stream.listen((state) => current = state);
 
     final sprites = {
-      SparkyBumperState.active: Sprite(gameRef.images.fromCache(_onAssetPath)),
-      SparkyBumperState.inactive:
-          Sprite(gameRef.images.fromCache(_offAssetPath)),
+      SparkyBumperState.active: Sprite(
+        gameRef.images.fromCache(_onAssetPath),
+      ),
+      SparkyBumperState.inactive: Sprite(
+        gameRef.images.fromCache(_offAssetPath),
+      ),
     };
     this.sprites = sprites;
     size = sprites[current]!.originalSize / 10;

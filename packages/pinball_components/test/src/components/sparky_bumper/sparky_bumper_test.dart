@@ -68,7 +68,7 @@ void main() {
         expect(sparkyBumper.children, contains(component));
       });
 
-      flameTester.test('an SparkyBumperBallContactBehaviour', (game) async {
+      flameTester.test('an SparkyBumperBallContactBehavior', (game) async {
         final sparkyBumper = SparkyBumper.a();
         await game.ensureAdd(sparkyBumper);
         expect(

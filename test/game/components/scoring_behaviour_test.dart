@@ -12,7 +12,7 @@ import 'package:pinball_components/pinball_components.dart';
 import '../../helpers/helpers.dart';
 
 void main() {
-  group('ScoringBehaviour', () {
+  group('ScoringBehavior', () {
     group('beginContact', () {
       late GameBloc bloc;
       late PinballAudio audio;
@@ -47,10 +47,10 @@ void main() {
         'emits Scored event with points',
         setUp: (game, tester) async {
           const points = 20;
-          final scoringBehaviour = ScoringBehavior(points: points);
-          await game.ensureAdd(scoringBehaviour);
+          final scoringBehavior = ScoringBehavior(points: points);
+          await game.ensureAdd(scoringBehavior);
 
-          scoringBehaviour.beginContact(ball, MockContact());
+          scoringBehavior.beginContact(ball, MockContact());
 
           verify(
             () => bloc.add(
@@ -64,10 +64,10 @@ void main() {
         'plays score sound',
         setUp: (game, tester) async {
           const points = 20;
-          final scoringBehaviour = ScoringBehavior(points: points);
-          await game.ensureAdd(scoringBehaviour);
+          final scoringBehavior = ScoringBehavior(points: points);
+          await game.ensureAdd(scoringBehavior);
 
-          scoringBehaviour.beginContact(ball, MockContact());
+          scoringBehavior.beginContact(ball, MockContact());
 
           verify(audio.score).called(1);
         },
@@ -77,10 +77,10 @@ void main() {
         "adds a ScoreText component at Ball's position with points",
         setUp: (game, tester) async {
           const points = 20;
-          final scoringBehaviour = ScoringBehavior(points: points);
-          await game.ensureAdd(scoringBehaviour);
+          final scoringBehavior = ScoringBehavior(points: points);
+          await game.ensureAdd(scoringBehavior);
 
-          scoringBehaviour.beginContact(ball, MockContact());
+          scoringBehavior.beginContact(ball, MockContact());
           await game.ready();
 
           final scoreText = game.descendants().whereType<ScoreText>();
