@@ -1,8 +1,10 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_components/src/components/dash_nest_bumper/behaviors/behaviors.dart';
 
@@ -39,6 +41,23 @@ void main() {
       final bumper = DashNestBumper.b();
       await game.ensureAdd(bumper);
       expect(game.contains(bumper), isTrue);
+    });
+
+    flameTester.test('closes bloc when removed', (game) async {
+      final bloc = MockDashNestBumperCubit();
+      whenListen(
+        bloc,
+        const Stream<DashNestBumperState>.empty(),
+        initialState: DashNestBumperState.inactive,
+      );
+      when(bloc.close).thenAnswer((_) async {});
+      final dashNestBumper = DashNestBumper.test(bloc: bloc);
+
+      await game.ensureAdd(dashNestBumper);
+      game.remove(dashNestBumper);
+      await game.ready();
+
+      verify(bloc.close).called(1);
     });
 
     group('adds', () {
