@@ -103,10 +103,9 @@ void main() {
     // [BallScorePointsCallback] once the following issue is resolved:
     // https://github.com/flame-engine/flame/issues/1416
     group('components', () {
-      flameTester.testGameWidget(
+      flameTester.test(
         'has only one BottomWall',
-        setUp: (game, tester) async {
-          await game.ensureAdd(BottomWall());
+        (game) async {
           await game.ready();
           expect(
             game.children.whereType<BottomWall>().length,
@@ -115,9 +114,9 @@ void main() {
         },
       );
 
-      flameTester.testGameWidget(
+      flameTester.test(
         'has only one Plunger',
-        setUp: (game, tester) async {
+        (game) async {
           await game.ready();
           expect(
             game.children.whereType<Plunger>().length,
@@ -126,9 +125,9 @@ void main() {
         },
       );
 
-      flameTester.testGameWidget(
+      flameTester.test(
         'has one Board',
-        setUp: (game, tester) async {
+        (game) async {
           await game.ready();
           expect(
             game.children.whereType<Board>().length,
@@ -137,23 +136,35 @@ void main() {
         },
       );
 
-      flameTester.testGameWidget(
+      flameTester.test(
         'one AlienZone',
-        setUp: (game, tester) async {
+        (game) async {
           await game.ready();
           expect(game.children.whereType<AlienZone>().length, equals(1));
         },
       );
 
+      flameTester.test(
+        'one GoogleWord',
+        (game) async {
+          await game.ready();
+          expect(game.children.whereType<GoogleWord>().length, equals(1));
+        },
+      );
+
       group('controller', () {
-        // TODO(alestiago): Write test to be controller agnostic.
         group('listenWhen', () {
           flameTester.testGameWidget(
             'listens when all balls are lost and there are more than 0 rounds',
             setUp: (game, tester) async {
+              // TODO(ruimiguel): check why testGameWidget doesn't add any ball
+              // to the game. Test needs to have no balls, so fortunately works.
               final newState = MockGameState();
-              when(() => newState.balls).thenReturn(0);
-              when(() => newState.rounds).thenReturn(2);
+              when(() => newState.isGameOver).thenReturn(false);
+              game.descendants().whereType<ControlledBall>().forEach(
+                    (ball) => ball.controller.lost(),
+                  );
+              await game.ready();
 
               expect(
                 game.controller.listenWhen(MockGameState(), newState),
@@ -162,13 +173,16 @@ void main() {
             },
           );
 
-          flameTester.testGameWidget(
+          flameTester.test(
             "doesn't listen when some balls are left",
-            setUp: (game, tester) async {
+            (game) async {
               final newState = MockGameState();
-              when(() => newState.balls).thenReturn(1);
-              when(() => newState.rounds).thenReturn(2);
+              when(() => newState.isGameOver).thenReturn(false);
 
+              expect(
+                game.descendants().whereType<ControlledBall>().length,
+                greaterThan(0),
+              );
               expect(
                 game.controller.listenWhen(MockGameState(), newState),
                 isFalse,
@@ -177,12 +191,21 @@ void main() {
           );
 
           flameTester.testGameWidget(
-            "doesn't listen when no balls left",
+            "doesn't listen when game is over",
             setUp: (game, tester) async {
+              // TODO(ruimiguel): check why testGameWidget doesn't add any ball
+              // to the game. Test needs to have no balls, so fortunately works.
               final newState = MockGameState();
-              when(() => newState.balls).thenReturn(1);
-              when(() => newState.rounds).thenReturn(0);
+              when(() => newState.isGameOver).thenReturn(true);
+              game.descendants().whereType<ControlledBall>().forEach(
+                    (ball) => ball.controller.lost(),
+                  );
+              await game.ready();
 
+              expect(
+                game.descendants().whereType<ControlledBall>().isEmpty,
+                isTrue,
+              );
               expect(
                 game.controller.listenWhen(MockGameState(), newState),
                 isFalse,
@@ -194,18 +217,16 @@ void main() {
         group(
           'onNewState',
           () {
-            flameTester.testGameWidget(
+            flameTester.test(
               'spawns a ball',
-              setUp: (game, tester) async {
-                await game.ready();
-
+              (game) async {
                 final previousBalls =
-                    game.descendants().whereType<Ball>().toList();
+                    game.descendants().whereType<ControlledBall>().toList();
 
                 game.controller.onNewState(MockGameState());
                 await game.ready();
                 final currentBalls =
-                    game.descendants().whereType<Ball>().toList();
+                    game.descendants().whereType<ControlledBall>().toList();
 
                 expect(
                   currentBalls.length,
@@ -220,25 +241,23 @@ void main() {
   });
 
   group('DebugPinballGame', () {
-    debugModeFlameTester.testGameWidget(
+    debugModeFlameTester.test(
       'adds a ball on tap up',
-      setUp: (game, tester) async {
-        await game.ready();
-        await tester.pump();
-
+      (game) async {
         final eventPosition = MockEventPosition();
         when(() => eventPosition.game).thenReturn(Vector2.all(10));
 
         final tapUpEvent = MockTapUpInfo();
         when(() => tapUpEvent.eventPosition).thenReturn(eventPosition);
 
-        final previousBalls = game.descendants().whereType<Ball>().toList();
+        final previousBalls =
+            game.descendants().whereType<ControlledBall>().toList();
 
         game.onTapUp(tapUpEvent);
         await game.ready();
 
         expect(
-          game.children.whereType<Ball>().length,
+          game.children.whereType<ControlledBall>().length,
           equals(previousBalls.length + 1),
         );
       },
