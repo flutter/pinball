@@ -19,6 +19,10 @@ class ChromeDino extends BodyComponent with InitialPosition {
   /// The size of the dinosaur mouth.
   static final size = Vector2(5.5, 5);
 
+  static const _framesInAnimation = 98;
+
+  static const _animationFPS = 1 / 24;
+
   /// Anchors the [ChromeDino] to the [RevoluteJoint] that controls its arc
   /// motion.
   Future<_ChromeDinoJoint> _anchorToJoint() async {
@@ -40,9 +44,10 @@ class ChromeDino extends BodyComponent with InitialPosition {
   Future<void> onLoad() async {
     await super.onLoad();
     final joint = await _anchorToJoint();
+    const halfAnimationPeriod = (_framesInAnimation / 2) * _animationFPS;
     await add(
       TimerComponent(
-        period: 98 / 48,
+        period: halfAnimationPeriod,
         onTick: joint._swivel,
         repeat: true,
       ),
@@ -126,7 +131,6 @@ class _ChromeDinoAnchorRevoluteJointDef extends RevoluteJointDef {
 class _ChromeDinoJoint extends RevoluteJoint {
   _ChromeDinoJoint(_ChromeDinoAnchorRevoluteJointDef def) : super(def);
 
-  /// Half the angle of the arc motion.
   static const _halfSweepingAngle = 0.1143;
 
   /// Sweeps the [ChromeDino] up and down repeatedly.
