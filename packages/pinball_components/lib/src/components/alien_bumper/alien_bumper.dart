@@ -75,6 +75,7 @@ class AlienBumper extends BodyComponent with InitialPosition {
 
   // TODO(alestiago): Consider refactoring once the following is merged:
   // https://github.com/flame-engine/flame/pull/1538
+  // ignore: public_member_api_docs
   final AlienBumperCubit bloc;
 
   @override

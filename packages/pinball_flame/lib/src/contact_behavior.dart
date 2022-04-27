@@ -3,6 +3,15 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
+/// Adds a new [ContactCallbacks] to the parent.
+///
+/// This is a convenience class for adding a [ContactCallbacks] to the parent.
+/// In constract with just adding a [ContactCallbacks] to the parent's userData,
+/// this class respects the previous [ContactCallbacks], if any, in the parent.
+/// Hence, it avoids overriding any previous [ContactCallbacks] in the parent.
+///
+/// It does so by grouping the [ContactCallbacks] in a [_ContactCallbacksGroup],
+/// and resetting the parent's userData accordingly.
 // TODO(alestiago): Make use of generics to infer the type of the contact.
 // https://github.com/VGVentures/pinball/pull/234#discussion_r859182267
 abstract class ContactBehavior<T extends BodyComponent> extends Component

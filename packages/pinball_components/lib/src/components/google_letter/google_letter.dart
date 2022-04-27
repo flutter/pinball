@@ -1,7 +1,5 @@
 import 'package:flame/components.dart';
-import 'package:flame/effects.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_components/src/components/google_letter/behaviors/behaviors.dart';
 import 'package:pinball_flame/pinball_flame.dart';
@@ -26,6 +24,7 @@ class GoogleLetter extends BodyComponent with InitialPosition {
 
   // TODO(alestiago): Consider refactoring once the following is merged:
   // https://github.com/flame-engine/flame/pull/1538
+  // ignore: public_member_api_docs
   final GoogleLetterCubit bloc;
 
   @override

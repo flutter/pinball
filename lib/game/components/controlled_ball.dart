@@ -49,6 +49,8 @@ class BallController extends ComponentController<Ball>
   /// {@macro ball_controller}
   BallController(Ball ball) : super(ball);
 
+  /// Event triggered when the ball is lost.
+  // TODO(alestiago): Refactor using behaviors.
   void lost() {
     component.shouldRemove = true;
   }
