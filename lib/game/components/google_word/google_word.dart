@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball/game/components/google_word/behaviors/behaviors.dart';
 import 'package:pinball_components/pinball_components.dart';
 
@@ -20,4 +21,10 @@ class GoogleWord extends Component {
             GoogleWordBonusBehavior(),
           ],
         );
+
+  /// Creates a [GoogleWord] without any children.
+  ///
+  /// This can be used for testing [GoogleWord]'s behaviors in isolation.
+  @visibleForTesting
+  GoogleWord.test();
 }
