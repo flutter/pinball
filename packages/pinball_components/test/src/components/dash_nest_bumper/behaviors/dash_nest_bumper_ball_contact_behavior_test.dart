@@ -5,7 +5,7 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_components/src/components/alien_bumper/behaviors/behaviors.dart';
+import 'package:pinball_components/src/components/dash_nest_bumper/behaviors/behaviors.dart';
 
 import '../../../../helpers/helpers.dart';
 
@@ -14,12 +14,12 @@ void main() {
   final flameTester = FlameTester(TestGame.new);
 
   group(
-    'AlienBumperBallContactBehavior',
+    'DashNestBumperBallContactBehavior',
     () {
       test('can be instantiated', () {
         expect(
-          AlienBumperBallContactBehavior(),
-          isA<AlienBumperBallContactBehavior>(),
+          DashNestBumperBallContactBehavior(),
+          isA<DashNestBumperBallContactBehavior>(),
         );
       });
 
@@ -28,15 +28,15 @@ void main() {
         () {
           flameTester.test('emits onBallContacted when contacts with a ball',
               (game) async {
-            final behavior = AlienBumperBallContactBehavior();
-            final bloc = MockAlienBumperCubit();
+            final behavior = DashNestBumperBallContactBehavior();
+            final bloc = MockDashNestBumperCubit();
             whenListen(
               bloc,
-              const Stream<AlienBumperState>.empty(),
-              initialState: AlienBumperState.active,
+              const Stream<DashNestBumperState>.empty(),
+              initialState: DashNestBumperState.active,
             );
 
-            final alienBumper = AlienBumper.test(bloc: bloc);
+            final alienBumper = DashNestBumper.test(bloc: bloc);
             await alienBumper.add(behavior);
             await game.ensureAdd(alienBumper);
 

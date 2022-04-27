@@ -33,7 +33,7 @@ class DashNestBumper extends BodyComponent with InitialPosition {
               position: spritePosition,
               current: bloc.state,
             ),
-            DashBumperBallContactBehavior(),
+            DashNestBumperBallContactBehavior(),
             ...?children,
           ],
           renderBody: false,

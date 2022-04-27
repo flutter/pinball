@@ -4,8 +4,9 @@ import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/src/components/dash_nest_bumper/behaviors/behaviors.dart';
 
-import '../../helpers/helpers.dart';
+import '../../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -40,13 +41,26 @@ void main() {
       expect(game.contains(bumper), isTrue);
     });
 
-    flameTester.test('adds new children', (game) async {
-      final component = Component();
-      final dashNestBumper = DashNestBumper.a(
-        children: [component],
-      );
-      await game.ensureAdd(dashNestBumper);
-      expect(dashNestBumper.children, contains(component));
+    group('adds', () {
+      flameTester.test('adds new children', (game) async {
+        final component = Component();
+        final dashNestBumper = DashNestBumper.a(
+          children: [component],
+        );
+        await game.ensureAdd(dashNestBumper);
+        expect(dashNestBumper.children, contains(component));
+      });
+
+      flameTester.test('an DashNestBumperBallContactBehavior', (game) async {
+        final dashNestBumper = DashNestBumper.a();
+        await game.ensureAdd(dashNestBumper);
+        expect(
+          dashNestBumper.children
+              .whereType<DashNestBumperBallContactBehavior>()
+              .single,
+          isNotNull,
+        );
+      });
     });
   });
 }
