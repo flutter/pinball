@@ -14,9 +14,7 @@ class RoundCountDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    // TODO(arturplaczek): refactor when GameState handle balls and rounds and
-    // select state.rounds property instead of state.ball
-    final balls = context.select((GameBloc bloc) => bloc.state.balls);
+    final balls = context.select((GameBloc bloc) => bloc.state.rounds);
 
     return Row(
       children: [

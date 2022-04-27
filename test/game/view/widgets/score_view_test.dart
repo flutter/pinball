@@ -15,7 +15,9 @@ void main() {
   const score = 123456789;
   const initialState = GameState(
     score: score,
+    multiplier: 1,
     balls: 1,
+    rounds: 1,
     bonusHistory: [],
   );
 
@@ -46,7 +48,7 @@ void main() {
 
       stateController.add(
         initialState.copyWith(
-          balls: 0,
+          rounds: 0,
         ),
       );
 
