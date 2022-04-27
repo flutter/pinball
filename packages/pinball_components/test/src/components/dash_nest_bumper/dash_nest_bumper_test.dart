@@ -73,7 +73,7 @@ void main() {
         expect(dashNestBumper.children, contains(component));
       });
 
-      flameTester.test('an DashNestBumperBallContactBehavior', (game) async {
+      flameTester.test('a DashNestBumperBallContactBehavior', (game) async {
         final dashNestBumper = DashNestBumper.a();
         await game.ensureAdd(dashNestBumper);
         expect(

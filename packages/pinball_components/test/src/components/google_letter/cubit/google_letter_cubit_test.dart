@@ -4,7 +4,7 @@ import 'package:pinball_components/pinball_components.dart';
 
 void main() {
   group(
-    'GoogleLetterBumperCubit',
+    'GoogleLetterCubit',
     () {
       blocTest<GoogleLetterCubit, GoogleLetterState>(
         'onBallContacted emits active',

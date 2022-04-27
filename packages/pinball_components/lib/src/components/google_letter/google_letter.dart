@@ -22,7 +22,7 @@ class GoogleLetter extends BodyComponent with InitialPosition {
           ],
         );
 
-  /// Creates an [GoogleLetter] without any children.
+  /// Creates a [GoogleLetter] without any children.
   ///
   /// This can be used for testing [GoogleLetter]'s behaviors in isolation.
   // TODO(alestiago): Refactor injecting bloc once the following is merged:

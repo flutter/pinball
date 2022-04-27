@@ -34,13 +34,13 @@ void main() {
             initialState: DashNestBumperState.active,
           );
 
-          final alienBumper = DashNestBumper.test(bloc: bloc);
-          await alienBumper.add(behavior);
-          await game.ensureAdd(alienBumper);
+          final dashNestBumper = DashNestBumper.test(bloc: bloc);
+          await dashNestBumper.add(behavior);
+          await game.ensureAdd(dashNestBumper);
 
           behavior.beginContact(MockBall(), MockContact());
 
-          verify(alienBumper.bloc.onBallContacted).called(1);
+          verify(dashNestBumper.bloc.onBallContacted).called(1);
         },
       );
     },
