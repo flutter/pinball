@@ -16,14 +16,19 @@ class MultipliersGroup extends Component
     controller = MultipliersController(this);
   }
 
+  /// Multiplier x2.
   late final Multiplier x2multiplier;
 
+  /// Multiplier x3.
   late final Multiplier x3multiplier;
 
+  /// Multiplier x4.
   late final Multiplier x4multiplier;
 
+  /// Multiplier x5.
   late final Multiplier x5multiplier;
 
+  /// Multiplier x6.
   late final Multiplier x6multiplier;
 
   @override
