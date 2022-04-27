@@ -25,9 +25,9 @@ class _SpaceshipRail extends BodyComponent with Layered {
       : super(
           priority: RenderPriority.spaceshipRail,
           children: [_SpaceshipRailSpriteComponent()],
+          renderBody: false,
         ) {
     layer = Layer.spaceshipExitRail;
-    renderBody = false;
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -101,14 +101,6 @@ class _SpaceshipRail extends BodyComponent with Layered {
     _createFixtureDefs().forEach(body.createFixture);
     return body;
   }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    gameRef.addContactCallback(
-      LayerSensorBallContactCallback<_SpaceshipRailExit>(),
-    );
-  }
 }
 
 class _SpaceshipRailSpriteComponent extends SpriteComponent with HasGameRef {
@@ -162,7 +154,6 @@ class _SpaceshipRailExit extends LayerSensor {
           insideLayer: Layer.spaceshipExitRail,
           insidePriority: RenderPriority.ballOnSpaceshipRail,
         ) {
-    renderBody = false;
     layer = Layer.spaceshipExitRail;
   }
 
