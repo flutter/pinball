@@ -14,10 +14,10 @@ abstract class ContactBehavior<T extends BodyComponent> extends Component
     if (userData is _ContactCallbacksGroup) {
       userData.addContactCallbacks(this);
     } else if (userData is ContactCallbacks) {
-      final notifier = _ContactCallbacksGroup()
+      final contactCallbacksGroup = _ContactCallbacksGroup()
         ..addContactCallbacks(userData)
         ..addContactCallbacks(this);
-      parent.body.userData = notifier;
+      parent.body.userData = contactCallbacksGroup;
     } else {
       parent.body.userData = this;
     }
