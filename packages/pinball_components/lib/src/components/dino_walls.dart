@@ -34,24 +34,21 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
   }
 
   List<FixtureDef> _createFixtureDefs() {
-    final fixturesDef = <FixtureDef>[];
-
     final topStraightShape = EdgeShape()
       ..set(
         Vector2(28.65, -35.1),
         Vector2(29.5, -35.1),
       );
     final topStraightFixtureDef = FixtureDef(topStraightShape);
-    fixturesDef.add(topStraightFixtureDef);
 
     final topCurveShape = BezierCurveShape(
       controlPoints: [
         topStraightShape.vertex1,
-        Vector2(17.4, -26.38),
-        Vector2(25.5, -20.7),
+        Vector2(18.8, -27),
+        Vector2(26.6, -21),
       ],
     );
-    fixturesDef.add(FixtureDef(topCurveShape));
+    final topCurveFixtureDef = FixtureDef(topCurveShape);
 
     final middleCurveShape = BezierCurveShape(
       controlPoints: [
@@ -60,16 +57,16 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
         Vector2(26.8, -19.5),
       ],
     );
-    fixturesDef.add(FixtureDef(middleCurveShape));
+    final middleCurveFixtureDef = FixtureDef(middleCurveShape);
 
     final bottomCurveShape = BezierCurveShape(
       controlPoints: [
         middleCurveShape.vertices.last,
-        Vector2(21.5, -15.8),
-        Vector2(25.8, -14.8),
+        Vector2(23, -15),
+        Vector2(27, -15),
       ],
     );
-    fixturesDef.add(FixtureDef(bottomCurveShape));
+    final bottomCurveFixtureDef = FixtureDef(bottomCurveShape);
 
     final bottomStraightShape = EdgeShape()
       ..set(
@@ -77,9 +74,14 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
         Vector2(31, -14.5),
       );
     final bottomStraightFixtureDef = FixtureDef(bottomStraightShape);
-    fixturesDef.add(bottomStraightFixtureDef);
 
-    return fixturesDef;
+    return [
+      topStraightFixtureDef,
+      topCurveFixtureDef,
+      middleCurveFixtureDef,
+      bottomCurveFixtureDef,
+      bottomStraightFixtureDef,
+    ];
   }
 
   @override
@@ -106,12 +108,14 @@ class _DinoTopWallSpriteComponent extends SpriteComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final sprite = await gameRef.loadSprite(
-      Assets.images.dino.dinoLandTop.keyName,
+    final sprite = Sprite(
+      gameRef.images.fromCache(
+        Assets.images.dino.dinoLandTop.keyName,
+      ),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
-    position = Vector2(22, -41.8);
+    position = Vector2(22.8, -38.9);
   }
 }
 
@@ -129,69 +133,56 @@ class _DinoBottomWall extends BodyComponent with InitialPosition {
   }
 
   List<FixtureDef> _createFixtureDefs() {
-    final fixturesDef = <FixtureDef>[];
     const restitution = 1.0;
 
-    final topStraightControlPoints = [
-      Vector2(32.4, -8.8),
-      Vector2(25, -7.7),
-    ];
     final topStraightShape = EdgeShape()
       ..set(
-        topStraightControlPoints.first,
-        topStraightControlPoints.last,
+        Vector2(32.4, -8.8),
+        Vector2(25, -7.7),
       );
     final topStraightFixtureDef = FixtureDef(
       topStraightShape,
       restitution: restitution,
     );
-    fixturesDef.add(topStraightFixtureDef);
 
-    final topLeftCurveControlPoints = [
-      topStraightControlPoints.last,
-      Vector2(21.8, -7),
-      Vector2(29.5, 13.8),
-    ];
     final topLeftCurveShape = BezierCurveShape(
-      controlPoints: topLeftCurveControlPoints,
+      controlPoints: [
+        topStraightShape.vertex2,
+        Vector2(21.8, -7),
+        Vector2(29.8, 13.8),
+      ],
     );
     final topLeftCurveFixtureDef = FixtureDef(
       topLeftCurveShape,
       restitution: restitution,
     );
-    fixturesDef.add(topLeftCurveFixtureDef);
 
-    final bottomLeftStraightControlPoints = [
-      topLeftCurveControlPoints.last,
-      Vector2(31.8, 44.1),
-    ];
     final bottomLeftStraightShape = EdgeShape()
       ..set(
-        bottomLeftStraightControlPoints.first,
-        bottomLeftStraightControlPoints.last,
+        topLeftCurveShape.vertices.last,
+        Vector2(31.9, 44.1),
       );
     final bottomLeftStraightFixtureDef = FixtureDef(
       bottomLeftStraightShape,
       restitution: restitution,
     );
-    fixturesDef.add(bottomLeftStraightFixtureDef);
 
-    final bottomStraightControlPoints = [
-      bottomLeftStraightControlPoints.last,
-      Vector2(37.8, 44.1),
-    ];
     final bottomStraightShape = EdgeShape()
       ..set(
-        bottomStraightControlPoints.first,
-        bottomStraightControlPoints.last,
+        bottomLeftStraightShape.vertex2,
+        Vector2(37.8, 44.1),
       );
     final bottomStraightFixtureDef = FixtureDef(
       bottomStraightShape,
       restitution: restitution,
     );
-    fixturesDef.add(bottomStraightFixtureDef);
 
-    return fixturesDef;
+    return [
+      topStraightFixtureDef,
+      topLeftCurveFixtureDef,
+      bottomLeftStraightFixtureDef,
+      bottomStraightFixtureDef,
+    ];
   }
 
   @override
@@ -212,8 +203,10 @@ class _DinoBottomWallSpriteComponent extends SpriteComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final sprite = await gameRef.loadSprite(
-      Assets.images.dino.dinoLandBottom.keyName,
+    final sprite = Sprite(
+      gameRef.images.fromCache(
+        Assets.images.dino.dinoLandBottom.keyName,
+      ),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;

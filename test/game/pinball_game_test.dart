@@ -34,6 +34,7 @@ void main() {
     Assets.images.sparky.bumper.b.inactive.keyName,
     Assets.images.sparky.bumper.c.active.keyName,
     Assets.images.sparky.bumper.c.inactive.keyName,
+    Assets.images.sparky.animatronic.keyName,
     Assets.images.spaceship.ramp.boardOpening.keyName,
     Assets.images.spaceship.ramp.railingForeground.keyName,
     Assets.images.spaceship.ramp.railingBackground.keyName,
@@ -49,9 +50,12 @@ void main() {
     Assets.images.flipper.left.keyName,
     Assets.images.flipper.right.keyName,
     Assets.images.boundary.outer.keyName,
+    Assets.images.boundary.outerBottom.keyName,
     Assets.images.boundary.bottom.keyName,
     Assets.images.slingshot.upper.keyName,
     Assets.images.slingshot.lower.keyName,
+    Assets.images.dino.dinoLandTop.keyName,
+    Assets.images.dino.dinoLandBottom.keyName,
   ];
   final flameTester = FlameTester(() => PinballTestGame(assets));
   final debugModeFlameTester = FlameTester(() => DebugPinballTestGame(assets));
@@ -91,14 +95,6 @@ void main() {
           equals(1),
         );
       });
-
-      flameTester.test(
-        'one SparkyFireZone',
-        (game) async {
-          await game.ready();
-          expect(game.children.whereType<SparkyFireZone>().length, equals(1));
-        },
-      );
 
       flameTester.test(
         'one AlienZone',

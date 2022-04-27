@@ -38,17 +38,9 @@ class DashAnimatronic extends SpriteAnimationComponent with HasGameRef {
         textureSize: textureSize,
         loop: false,
       ),
-    );
-  }
-
-  @override
-  void update(double dt) {
-    super.update(dt);
-    if (animation != null) {
-      if (animation!.isLastFrame) {
-        animation!.reset();
+    )..onComplete = () {
+        animation?.reset();
         playing = false;
-      }
-    }
+      };
   }
 }

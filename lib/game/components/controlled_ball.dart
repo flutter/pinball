@@ -15,8 +15,8 @@ class ControlledBall extends Ball with Controls<BallController> {
   /// When a launched [Ball] is lost, it will decrease the [GameState.balls]
   /// count, and a new [Ball] is spawned.
   ControlledBall.launch({
-    required PinballTheme theme,
-  }) : super(baseColor: theme.characterTheme.ballColor) {
+    required CharacterTheme characterTheme,
+  }) : super(baseColor: characterTheme.ballColor) {
     controller = BallController(this);
     priority = RenderPriority.ballOnLaunchRamp;
     layer = Layer.launcher;
@@ -28,8 +28,8 @@ class ControlledBall extends Ball with Controls<BallController> {
   /// When a bonus [Ball] is lost, the [GameState.balls] doesn't change.
   /// {@endtemplate}
   ControlledBall.bonus({
-    required PinballTheme theme,
-  }) : super(baseColor: theme.characterTheme.ballColor) {
+    required CharacterTheme characterTheme,
+  }) : super(baseColor: characterTheme.ballColor) {
     controller = BallController(this);
     priority = RenderPriority.ballOnBoard;
   }
@@ -62,10 +62,13 @@ class BallController extends ComponentController<Ball>
   Future<void> turboCharge() async {
     gameRef.read<GameBloc>().add(const SparkyTurboChargeActivated());
 
-    // TODO(allisonryan0002): adjust delay to match animation duration once
-    // given animations.
     component.stop();
-    await Future<void>.delayed(const Duration(seconds: 1));
+    // TODO(alestiago): Refactor this hard coded duration once the following is
+    // merged:
+    // https://github.com/flame-engine/flame/pull/1564
+    await Future<void>.delayed(
+      const Duration(milliseconds: 2583),
+    );
     component.resume();
     await component.boost(Vector2(40, 110));
   }

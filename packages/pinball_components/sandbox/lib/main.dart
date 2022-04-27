@@ -16,9 +16,6 @@ void main() {
   addLayerStories(dashbook);
   addEffectsStories(dashbook);
   addFlipperStories(dashbook);
-  addSpaceshipStories(dashbook);
-  addSpaceshipRampStories(dashbook);
-  addSpaceshipRailStories(dashbook);
   addBaseboardStories(dashbook);
   addChromeDinoStories(dashbook);
   addDashNestBumperStories(dashbook);
@@ -27,12 +24,12 @@ void main() {
   addSlingshotStories(dashbook);
   addSparkyBumperStories(dashbook);
   addAlienZoneStories(dashbook);
-  addZoomStories(dashbook);
   addBoundariesStories(dashbook);
   addGoogleWordStories(dashbook);
   addLaunchRampStories(dashbook);
   addScoreTextStories(dashbook);
   addBackboardStories(dashbook);
+  addDinoWallStories(dashbook);
 
   runApp(dashbook);
 }
