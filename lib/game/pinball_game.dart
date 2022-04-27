@@ -41,6 +41,8 @@ class PinballGame extends Forge2DGame
 
   @override
   Future<void> onLoad() async {
+    print("ONLOAD");
+
     _addContactCallbacks();
 
     unawaited(add(gameFlowController = GameFlowController(this)));
@@ -92,7 +94,7 @@ class PinballGame extends Forge2DGame
 }
 
 class _GameBallsController extends ComponentController<PinballGame>
-    with BlocComponent<GameBloc, GameState>, HasGameRef<PinballGame> {
+    with BlocComponent<GameBloc, GameState> {
   _GameBallsController(PinballGame game) : super(game);
 
   late final Plunger _plunger;
@@ -119,7 +121,7 @@ class _GameBallsController extends ComponentController<PinballGame>
 
   void _spawnBall() {
     final ball = ControlledBall.launch(
-      characterTheme: gameRef.characterTheme,
+      characterTheme: component.characterTheme,
     )..initialPosition = Vector2(
         _plunger.body.position.x,
         _plunger.body.position.y - Ball.size.y,
