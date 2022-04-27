@@ -1,9 +1,7 @@
 // ignore_for_file: cascade_invocations
 
-import 'package:bloc_test/bloc_test.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
@@ -77,26 +75,6 @@ void main() {
           );
         },
       );
-    });
-
-    // TODO(alestiago): Consider refactoring once the following is merged:
-    // https://github.com/flame-engine/flame/pull/1538
-    // ignore: public_member_api_docs
-    flameTester.test('closes bloc when removed', (game) async {
-      final bloc = MockFlutterForestCubit();
-      whenListen(
-        bloc,
-        const Stream<FlutterForestState>.empty(),
-        initialState: const FlutterForestState.initial(),
-      );
-      when(bloc.close).thenAnswer((_) async {});
-      final flutterForest = FlutterForest.test(bloc: bloc);
-
-      await game.ensureAdd(flutterForest);
-      game.remove(flutterForest);
-      await game.ready();
-
-      verify(bloc.close).called(1);
     });
   });
 }

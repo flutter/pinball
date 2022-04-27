@@ -6,8 +6,6 @@ import 'package:pinball/game/components/flutter_forest/behaviors/behaviors.dart'
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-export 'cubit/flutter_forest_cubit.dart';
-
 /// {@template flutter_forest}
 /// Area positioned at the top right of the [Board] where the [Ball]
 /// can bounce off [DashNestBumper]s.
@@ -15,8 +13,7 @@ export 'cubit/flutter_forest_cubit.dart';
 class FlutterForest extends Component {
   /// {@macro flutter_forest}
   FlutterForest()
-      : bloc = FlutterForestCubit(),
-        super(
+      : super(
           children: [
             Signpost(
               children: [
@@ -43,20 +40,9 @@ class FlutterForest extends Component {
           ],
         );
 
-  /// {@macro flutter_forest}
+  /// Creates a [FlutterForest] without any children.
+  ///
+  /// This can be used for testing [FlutterForest]'s behaviors in isolation.
   @visibleForTesting
-  FlutterForest.test({
-    required this.bloc,
-  });
-
-  // TODO(alestiago): Consider refactoring once the following is merged:
-  // https://github.com/flame-engine/flame/pull/1538
-  // ignore: public_member_api_docs
-  final FlutterForestCubit bloc;
-
-  @override
-  void onRemove() {
-    bloc.close();
-    super.onRemove();
-  }
+  FlutterForest.test();
 }
