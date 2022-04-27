@@ -24,7 +24,7 @@ void main() {
     flameTester.test(
       'loads correctly',
       (game) async {
-        await game.addFromBlueprint(SparkyFireZone());
+        await game.addFromBlueprint(AlienZone());
         await game.ready();
       },
     );
