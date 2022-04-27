@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:pinball_ui/gen/gen.dart';
 
 /// {@template pinball_dialog_layout}
-/// A dialog decoration with pixel looking background.
+/// Decoration for dialogs that display pixelated background and takes
+/// two parameters:
+/// - header [Widget]
+/// - body [Widget]
 ///
-/// Requires the header [Widget] and body [Widget], which are displayed on the
-/// decoration.
+/// Creates square, centered decoration the size of a game.
+///
+/// The header takes 20% of the area and the body remaining space.
 /// {@endtemplate}
 class PinballDialogLayout extends StatelessWidget {
   /// {@macro pinball_dialog_layout}
