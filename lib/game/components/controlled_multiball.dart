@@ -11,16 +11,32 @@ import 'package:pinball_flame/pinball_flame.dart';
 class MultiballGroup extends Component
     with Controls<MultiballController>, HasGameRef<PinballGame> {
   /// {@macro multiball_group_component}
-  MultiballGroup()
-      : super(
-          children: [
-            Multiball.a(),
-            Multiball.b(),
-            Multiball.c(),
-            Multiball.d(),
-          ],
-        ) {
+  MultiballGroup() : super() {
     controller = MultiballController(this);
+  }
+
+  /// Bottom left multiball.
+  late final Multiball multiballA;
+
+  /// Center left multiball.
+  late final Multiball multiballB;
+
+  /// Center right multiball.
+  late final Multiball multiballC;
+
+  /// Bottom right multiball.
+  late final Multiball multiballD;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+
+    await addAll([
+      multiballA = Multiball.a(),
+      multiballB = Multiball.b(),
+      multiballC = Multiball.c(),
+      multiballD = Multiball.d(),
+    ]);
   }
 }
 
@@ -44,9 +60,10 @@ class MultiballController extends ComponentController<MultiballGroup>
     final hasMultiball = state.bonusHistory.contains(GameBonus.dashNest);
 
     if (hasMultiball) {
-      component.children.whereType<Multiball>().forEach((element) {
-        element.animate();
-      });
+      component.multiballA.animate();
+      component.multiballB.animate();
+      component.multiballC.animate();
+      component.multiballD.animate();
     }
   }
 }

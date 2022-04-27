@@ -2,6 +2,7 @@
 
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
@@ -82,7 +83,6 @@ void main() {
         );
       });
 
-      /*
       group(
         'onNewState',
         () {
@@ -90,21 +90,24 @@ void main() {
             'blink multiballs when state changes',
             (game) async {
               final multiballGroup = MockMultiballGroup();
-              final x2multiplier = MockMultiplier();
+              final multiball = MockMultiball();
               final controller = MultiballController(multiballGroup);
-              when(() => multiballGroup.x2multiplier).thenReturn(x2multiplier);
+              when(() => multiballGroup.multiballA).thenReturn(multiball);
+              when(() => multiballGroup.multiballB).thenReturn(multiball);
+              when(() => multiballGroup.multiballC).thenReturn(multiball);
+              when(() => multiballGroup.multiballD).thenReturn(multiball);
+              when(multiball.animate).thenAnswer((_) async => () {});
 
               controller.onNewState(
                 const GameState.initial()
                     .copyWith(bonusHistory: [GameBonus.dashNest]),
               );
 
-              verify(() => x2multiplier.toggle(any())).called(1);
+              verify(() => multiball.animate).called(4);
             },
           );
         },
       );
-      */
     });
   });
 }

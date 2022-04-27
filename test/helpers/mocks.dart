@@ -85,3 +85,7 @@ class MockGameFlowController extends Mock implements GameFlowController {}
 class MockAlienBumper extends Mock implements AlienBumper {}
 
 class MockSparkyBumper extends Mock implements SparkyBumper {}
+
+class MockMultiball extends Mock implements Multiball {}
+
+class MockMultiballGroup extends Mock implements MultiballGroup {}
