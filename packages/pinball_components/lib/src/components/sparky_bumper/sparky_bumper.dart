@@ -79,7 +79,11 @@ class SparkyBumper extends BodyComponent with InitialPosition {
           children: children,
         );
 
-  /// {@macro sparky_bumper}
+  /// Creates an [SparkyBumper] without any children.
+  ///
+  /// This can be used for testing [SparkyBumper]'s behaviors in isolation.
+  // TODO(alestiago): Refactor injecting bloc once the following is merged:
+  // https://github.com/flame-engine/flame/pull/1538
   @visibleForTesting
   SparkyBumper.test({
     required this.bloc,

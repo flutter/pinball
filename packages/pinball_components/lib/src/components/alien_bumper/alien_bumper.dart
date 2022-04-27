@@ -62,7 +62,11 @@ class AlienBumper extends BodyComponent with InitialPosition {
           children: children,
         );
 
-  /// {@macro alien_bumper}
+  /// Creates an [AlienBumper] without any children.
+  ///
+  /// This can be used for testing [AlienBumper]'s behaviors in isolation.
+  // TODO(alestiago): Refactor injecting bloc once the following is merged:
+  // https://github.com/flame-engine/flame/pull/1538
   @visibleForTesting
   AlienBumper.test({
     required this.bloc,
