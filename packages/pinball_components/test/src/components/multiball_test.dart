@@ -58,7 +58,7 @@ void main() {
           final multiball = Multiball.d();
           await game.ensureAdd(multiball);
 
-          multiball.animate();
+          await multiball.animate();
           await tester.pump();
 
           expect(

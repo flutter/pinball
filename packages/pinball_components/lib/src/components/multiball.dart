@@ -19,7 +19,8 @@ class Multiball extends Component {
               position: position,
               onAssetPath: onAssetPath,
               offAssetPath: offAssetPath,
-            )..angle = rotation,
+              rotation: rotation,
+            ),
           ],
         );
 
@@ -92,11 +93,13 @@ class MultiballSpriteGroupComponent
     required Vector2 position,
     required String onAssetPath,
     required String offAssetPath,
+    required double rotation,
   })  : _onAssetPath = onAssetPath,
         _offAssetPath = offAssetPath,
         super(
           anchor: Anchor.center,
           position: position,
+          angle: rotation,
         );
 
   final String _onAssetPath;
