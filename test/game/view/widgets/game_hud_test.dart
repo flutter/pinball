@@ -1,16 +1,26 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:async';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame/assets.dart';
+import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
-import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/pinball_components.dart' hide Assets;
+
 import '../../../helpers/helpers.dart';
+
+class MockImages extends Mock implements Images {}
+
+class MockImage extends Mock implements ui.Image {}
 
 void main() {
   group('GameHud', () {
@@ -24,7 +34,14 @@ void main() {
 
     setUp(() async {
       gameBloc = MockGameBloc();
-      await Future.wait<void>(BonusAnimation.loadAssets());
+
+      // TODO(arturplaczek): need to find for a better solution for loading
+      // image or use original images from BonusAnimation.loadAssets()
+      final image = await decodeImageFromList(Uint8List.fromList(fakeImage));
+      final images = MockImages();
+      when(() => images.fromCache(any())).thenReturn(image);
+      when(() => images.load(any())).thenAnswer((_) => Future.value(image));
+      Flame.images = images;
 
       whenListen(
         gameBloc,
