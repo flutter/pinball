@@ -48,6 +48,7 @@ flutter:
   assets:
     - assets/images/components/
     - assets/images/bonus_animation/
+    - assets/images/score/
 
 flutter_gen:
   line_length: 80
