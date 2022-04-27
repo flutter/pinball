@@ -41,8 +41,6 @@ class PinballGame extends Forge2DGame
 
   @override
   Future<void> onLoad() async {
-    print("ONLOAD");
-
     _addContactCallbacks();
 
     unawaited(add(gameFlowController = GameFlowController(this)));
@@ -101,10 +99,12 @@ class _GameBallsController extends ComponentController<PinballGame>
 
   @override
   bool listenWhen(GameState? previousState, GameState newState) {
-    final noBallsLeft = newState.balls == 0;
-    final canBallRespawn = newState.rounds > 0;
+    final noBallsLeft = component.descendants().whereType<Ball>().isEmpty;
+    final notGameOver = !newState.isGameOver;
 
-    return noBallsLeft && canBallRespawn;
+    print("noBallsLeft $noBallsLeft");
+    print("notGameOver $notGameOver");
+    return noBallsLeft && notGameOver;
   }
 
   @override

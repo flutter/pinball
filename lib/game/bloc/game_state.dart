@@ -28,18 +28,15 @@ class GameState extends Equatable {
   const GameState({
     required this.score,
     required this.multiplier,
-    required this.balls,
     required this.rounds,
     required this.bonusHistory,
   })  : assert(score >= 0, "Score can't be negative"),
         assert(multiplier > 0, 'Multiplier must be greater than zero'),
-        assert(balls >= 0, "Number of balls can't be negative"),
         assert(rounds >= 0, "Number of rounds can't be negative");
 
   const GameState.initial()
       : score = 0,
         multiplier = 1,
-        balls = 0,
         rounds = 3,
         bonusHistory = const [];
 
@@ -49,11 +46,6 @@ class GameState extends Equatable {
   /// The current multiplier for the score.
   final int multiplier;
 
-  /// The number of balls left in each round.
-  ///
-  /// When the number of balls is 0, round is lost.
-  final int balls;
-
   /// The number of rounds left in the game.
   ///
   /// When the number of rounds is 0, the game is over.
@@ -62,9 +54,6 @@ class GameState extends Equatable {
   /// Holds the history of all the [GameBonus]es earned by the player during a
   /// PinballGame.
   final List<GameBonus> bonusHistory;
-
-  /// Determines when the round is over.
-  bool get isRoundOver => balls == 0;
 
   /// Determines when the game is over.
   bool get isGameOver => rounds == 0;
@@ -84,7 +73,6 @@ class GameState extends Equatable {
     return GameState(
       score: score ?? this.score,
       multiplier: multiplier ?? this.multiplier,
-      balls: balls ?? this.balls,
       rounds: rounds ?? this.rounds,
       bonusHistory: bonusHistory ?? this.bonusHistory,
     );
@@ -94,7 +82,6 @@ class GameState extends Equatable {
   List<Object?> get props => [
         score,
         multiplier,
-        balls,
         rounds,
         bonusHistory,
       ];

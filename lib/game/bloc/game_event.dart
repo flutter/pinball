@@ -7,23 +7,12 @@ abstract class GameEvent extends Equatable {
   const GameEvent();
 }
 
-/// {@template ball_added_game_event}
-/// Event added when a ball is spawn to the board.
+/// {@template round_lost_game_event}
+/// Event added when a user drops all balls off the screen and loses a round.
 /// {@endtemplate}
-class BallAdded extends GameEvent {
-  /// {@macro ball_added_game_event}
-  const BallAdded();
-
-  @override
-  List<Object?> get props => [];
-}
-
-/// {@template ball_lost_game_event}
-/// Event added when a user drops a ball off the screen.
-/// {@endtemplate}
-class BallLost extends GameEvent {
-  /// {@macro ball_lost_game_event}
-  const BallLost();
+class RoundLost extends GameEvent {
+  /// {@macro round_lost_game_event}
+  const RoundLost();
 
   @override
   List<Object?> get props => [];
