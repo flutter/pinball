@@ -15,8 +15,8 @@ class ControlledBall extends Ball with Controls<BallController> {
   /// When a launched [Ball] is lost, it will decrease the [GameState.balls]
   /// count, and a new [Ball] is spawned.
   ControlledBall.launch({
-    required PinballTheme theme,
-  }) : super(baseColor: theme.characterTheme.ballColor) {
+    required CharacterTheme characterTheme,
+  }) : super(baseColor: characterTheme.ballColor) {
     controller = BallController(this);
     priority = RenderPriority.ballOnLaunchRamp;
     layer = Layer.launcher;
@@ -28,8 +28,8 @@ class ControlledBall extends Ball with Controls<BallController> {
   /// When a bonus [Ball] is lost, the [GameState.balls] doesn't change.
   /// {@endtemplate}
   ControlledBall.bonus({
-    required PinballTheme theme,
-  }) : super(baseColor: theme.characterTheme.ballColor) {
+    required CharacterTheme characterTheme,
+  }) : super(baseColor: characterTheme.ballColor) {
     controller = BallController(this);
     priority = RenderPriority.ballOnBoard;
   }
@@ -49,10 +49,8 @@ class BallController extends ComponentController<Ball>
   /// {@macro ball_controller}
   BallController(Ball ball) : super(ball);
 
-  /// Removes the [Ball] from a [PinballGame].
-  ///
-  /// Triggered by [BottomWallBallContactCallback] when the [Ball] falls into
-  /// a [BottomWall].
+  /// Event triggered when the ball is lost.
+  // TODO(alestiago): Refactor using behaviors.
   void lost() {
     component.shouldRemove = true;
   }

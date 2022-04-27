@@ -98,12 +98,12 @@ class _SpaceshipRampBackground extends BodyComponent
   _SpaceshipRampBackground()
       : super(
           priority: RenderPriority.spaceshipRamp,
+          renderBody: false,
           children: [
             _SpaceshipRampBackgroundRampSpriteComponent(),
           ],
         ) {
     layer = Layer.spaceshipEntranceRamp;
-    renderBody = false;
   }
 
   /// Width between walls of the ramp.
@@ -144,14 +144,6 @@ class _SpaceshipRampBackground extends BodyComponent
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    gameRef.addContactCallback(
-      LayerSensorBallContactCallback<_SpaceshipRampOpening>(),
-    );
   }
 }
 
@@ -255,10 +247,10 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
   _SpaceshipRampForegroundRailing()
       : super(
           priority: RenderPriority.spaceshipRampForegroundRailing,
+          renderBody: false,
           children: [_SpaceshipRampForegroundRailingSpriteComponent()],
         ) {
     layer = Layer.spaceshipEntranceRamp;
-    renderBody = false;
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -321,8 +313,7 @@ class _SpaceshipRampForegroundRailingSpriteComponent extends SpriteComponent
 }
 
 class _SpaceshipRampBase extends BodyComponent with InitialPosition, Layered {
-  _SpaceshipRampBase() {
-    renderBody = false;
+  _SpaceshipRampBase() : super(renderBody: false) {
     layer = Layer.board;
   }
 
@@ -363,9 +354,7 @@ class _SpaceshipRampOpening extends LayerSensor {
           orientation: LayerEntranceOrientation.down,
           insidePriority: RenderPriority.ballOnSpaceshipRamp,
           outsidePriority: outsidePriority,
-        ) {
-    renderBody = false;
-  }
+        );
 
   final double _rotation;
 

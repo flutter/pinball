@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/leaderboard/leaderboard.dart';
-import 'package:pinball/theme/theme.dart';
+import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
 class LeaderboardPage extends StatelessWidget {
