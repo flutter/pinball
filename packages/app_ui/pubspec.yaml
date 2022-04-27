@@ -16,13 +16,3 @@ dev_dependencies:
   mocktail: ^0.2.0
   test: ^1.19.2
   very_good_analysis: ^2.4.0
-
-flutter:
-  uses-material-design: true
-  generate: true
-
-  assets:
-    - assets/images/
-
-flutter_gen:
-  line_length: 80
