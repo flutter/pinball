@@ -13,6 +13,9 @@ class FlutterForestBonusBehavior extends Component
 
     final bumpers = parent.children.whereType<DashNestBumper>();
     for (final bumper in bumpers) {
+      // TODO(alestiago): Refactor subscription management once the following is
+      // merged:
+      // https://github.com/flame-engine/flame/pull/1538
       bumper.bloc.stream.listen((state) {
         final hasBonus = bumpers.every(
           (bumper) => bumper.bloc.state == DashNestBumperState.active,
