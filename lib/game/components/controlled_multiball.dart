@@ -31,11 +31,16 @@ class MultiballGroup extends Component
   Future<void> onLoad() async {
     await super.onLoad();
 
+    multiballA = Multiball.a();
+    multiballB = Multiball.b();
+    multiballC = Multiball.c();
+    multiballD = Multiball.d();
+
     await addAll([
-      multiballA = Multiball.a(),
-      multiballB = Multiball.b(),
-      multiballC = Multiball.c(),
-      multiballD = Multiball.d(),
+      multiballA,
+      multiballB,
+      multiballC,
+      multiballD,
     ]);
   }
 }
@@ -60,6 +65,9 @@ class MultiballController extends ComponentController<MultiballGroup>
     final hasMultiball = state.bonusHistory.contains(GameBonus.dashNest);
 
     if (hasMultiball) {
+      // TODO(ruimiguel): change to animate every children without different
+      // properties using component.children.whereType<Multiball>().forEach
+      // once able to mock the children ComponentSet.
       component.multiballA.animate();
       component.multiballB.animate();
       component.multiballC.animate();

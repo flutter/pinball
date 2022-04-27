@@ -1,5 +1,6 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -89,21 +90,35 @@ void main() {
           flameTester.test(
             'blink multiballs when state changes',
             (game) async {
+              // TODO(ruimiguel): search how to mock MultiballGroup children
+              // ComponentSet to improve this test.
               final multiballGroup = MockMultiballGroup();
-              final multiball = MockMultiball();
+              final multiballA = MockMultiball();
+              final multiballB = MockMultiball();
+              final multiballC = MockMultiball();
+              final multiballD = MockMultiball();
               final controller = MultiballController(multiballGroup);
-              when(() => multiballGroup.multiballA).thenReturn(multiball);
-              when(() => multiballGroup.multiballB).thenReturn(multiball);
-              when(() => multiballGroup.multiballC).thenReturn(multiball);
-              when(() => multiballGroup.multiballD).thenReturn(multiball);
-              when(multiball.animate).thenAnswer((_) async => () {});
+              when(() => multiballGroup.multiballA).thenReturn(multiballA);
+              when(() => multiballGroup.multiballB).thenReturn(multiballB);
+              when(() => multiballGroup.multiballC).thenReturn(multiballC);
+              when(() => multiballGroup.multiballD).thenReturn(multiballD);
+              when(() => multiballGroup.children).thenReturn(
+                {multiballA} as ComponentSet,
+              );
+              when(multiballA.animate).thenAnswer((_) async => () {});
+              when(multiballB.animate).thenAnswer((_) async => () {});
+              when(multiballC.animate).thenAnswer((_) async => () {});
+              when(multiballD.animate).thenAnswer((_) async => () {});
 
               controller.onNewState(
                 const GameState.initial()
                     .copyWith(bonusHistory: [GameBonus.dashNest]),
               );
 
-              verify(() => multiball.animate).called(4);
+              verify(multiballA.animate).called(1);
+              verify(multiballB.animate).called(1);
+              verify(multiballC.animate).called(1);
+              verify(multiballD.animate).called(1);
             },
           );
         },
