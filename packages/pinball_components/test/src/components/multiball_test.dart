@@ -50,35 +50,7 @@ void main() {
       });
     });
 
-    group('renders correctly', () {
-      flameTester.testGameWidget(
-        "'a'",
-        setUp: (game, tester) async {
-          await game.images.loadAll(assets);
-          final multiball = Multiball.d();
-          await game.ensureAdd(multiball);
-
-          await multiball.animate();
-          await tester.pump();
-
-          expect(
-            multiball.children
-                .whereType<MultiballSpriteGroupComponent>()
-                .first
-                .current,
-            MultiballSpriteState.active,
-          );
-
-          game.camera.followVector2(Vector2.zero());
-        },
-        verify: (game, tester) async {
-          await expectLater(
-            find.byGame<TestGame>(),
-            matchesGoldenFile('golden/multiball/a-active.png'),
-          );
-        },
-      );
-    });
+    // TODO(ruimiguel): needs to add golden tests for multiball states.
 
     flameTester.test('animate switches between on and off sprites',
         (game) async {
