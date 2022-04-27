@@ -37,6 +37,7 @@ void main() {
           streamController.sink.add(AlienBumperState.inactive);
           game.update(0.05);
 
+          await streamController.close();
           verify(bloc.onBlinked).called(1);
         },
       );
