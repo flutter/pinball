@@ -4,70 +4,24 @@ import 'package:pinball/game/game.dart';
 
 void main() {
   group('GameBloc', () {
-    test('initial state has 3 rounds, 0 ball and empty score', () {
+    test('initial state has 3 rounds and empty score', () {
       final gameBloc = GameBloc();
       expect(gameBloc.state.score, equals(0));
-      expect(gameBloc.state.balls, equals(0));
       expect(gameBloc.state.rounds, equals(3));
     });
 
-    group('BallAdded', () {
-      blocTest<GameBloc, GameState>(
-        'increases number of balls',
-        build: GameBloc.new,
-        act: (bloc) {
-          bloc.add(const BallAdded());
-        },
-        expect: () => [
-          const GameState(
-            score: 0,
-            multiplier: 1,
-            balls: 1,
-            rounds: 3,
-            bonusHistory: [],
-          ),
-        ],
-      );
-    });
-
-    group('BallLost', () {
-      blocTest<GameBloc, GameState>(
-        'decreases only number of balls '
-        'when there are more than 1',
-        build: GameBloc.new,
-        seed: () => const GameState(
-          score: 0,
-          multiplier: 1,
-          balls: 3,
-          rounds: 3,
-          bonusHistory: [],
-        ),
-        act: (bloc) {
-          bloc.add(const BallLost());
-        },
-        expect: () => [
-          const GameState(
-            score: 0,
-            multiplier: 1,
-            balls: 2,
-            rounds: 3,
-            bonusHistory: [],
-          ),
-        ],
-      );
-
+    group('RoundLost', () {
       blocTest<GameBloc, GameState>(
         'decreases number of rounds '
-        'when there are no more balls in current round',
+        'when there are already available rounds',
         build: GameBloc.new,
         act: (bloc) {
-          bloc.add(const BallLost());
+          bloc.add(const RoundLost());
         },
         expect: () => [
           const GameState(
             score: 0,
             multiplier: 1,
-            balls: 0,
             rounds: 2,
             bonusHistory: [],
           ),
@@ -81,12 +35,11 @@ void main() {
         seed: () => const GameState(
           score: 5,
           multiplier: 3,
-          balls: 1,
           rounds: 2,
           bonusHistory: [],
         ),
         act: (bloc) {
-          bloc.add(const BallLost());
+          bloc.add(const RoundLost());
         },
         expect: () => [
           isA<GameState>()
@@ -102,12 +55,11 @@ void main() {
         seed: () => const GameState(
           score: 5,
           multiplier: 3,
-          balls: 1,
           rounds: 2,
           bonusHistory: [],
         ),
         act: (bloc) {
-          bloc.add(const BallLost());
+          bloc.add(const RoundLost());
         },
         expect: () => [
           isA<GameState>()
@@ -141,7 +93,7 @@ void main() {
         build: GameBloc.new,
         act: (bloc) {
           for (var i = 0; i < bloc.state.rounds; i++) {
-            bloc.add(const BallLost());
+            bloc.add(const RoundLost());
           }
           bloc.add(const Scored(points: 2));
         },
@@ -189,7 +141,6 @@ void main() {
         seed: () => const GameState(
           score: 0,
           multiplier: 6,
-          balls: 1,
           rounds: 3,
           bonusHistory: [],
         ),
@@ -203,7 +154,7 @@ void main() {
         build: GameBloc.new,
         act: (bloc) {
           for (var i = 0; i < bloc.state.rounds; i++) {
-            bloc.add(const BallLost());
+            bloc.add(const RoundLost());
           }
           bloc.add(const MultiplierIncreased());
         },

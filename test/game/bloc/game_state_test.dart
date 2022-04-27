@@ -10,7 +10,6 @@ void main() {
         GameState(
           score: 0,
           multiplier: 1,
-          balls: 0,
           rounds: 3,
           bonusHistory: const [],
         ),
@@ -18,7 +17,6 @@ void main() {
           const GameState(
             score: 0,
             multiplier: 1,
-            balls: 0,
             rounds: 3,
             bonusHistory: [],
           ),
@@ -32,7 +30,6 @@ void main() {
           const GameState(
             score: 0,
             multiplier: 1,
-            balls: 0,
             rounds: 3,
             bonusHistory: [],
           ),
@@ -43,30 +40,12 @@ void main() {
 
     test(
       'throws AssertionError '
-      'when balls are negative',
-      () {
-        expect(
-          () => GameState(
-            score: 0,
-            multiplier: 1,
-            balls: -1,
-            rounds: 3,
-            bonusHistory: const [],
-          ),
-          throwsAssertionError,
-        );
-      },
-    );
-
-    test(
-      'throws AssertionError '
       'when score is negative',
       () {
         expect(
           () => GameState(
             score: -1,
             multiplier: 1,
-            balls: 0,
             rounds: 3,
             bonusHistory: const [],
           ),
@@ -83,7 +62,6 @@ void main() {
           () => GameState(
             score: 1,
             multiplier: 0,
-            balls: 0,
             rounds: 3,
             bonusHistory: const [],
           ),
@@ -100,7 +78,6 @@ void main() {
           () => GameState(
             score: 1,
             multiplier: 1,
-            balls: 0,
             rounds: -1,
             bonusHistory: const [],
           ),
@@ -109,34 +86,6 @@ void main() {
       },
     );
 
-    group('isRoundOver', () {
-      test(
-          'is true '
-          'when no balls are left', () {
-        const gameState = GameState(
-          score: 0,
-          multiplier: 1,
-          balls: 0,
-          rounds: 1,
-          bonusHistory: [],
-        );
-        expect(gameState.isRoundOver, isTrue);
-      });
-
-      test(
-          'is false '
-          'when one 1 ball left', () {
-        const gameState = GameState(
-          score: 0,
-          multiplier: 1,
-          balls: 1,
-          rounds: 0,
-          bonusHistory: [],
-        );
-        expect(gameState.isRoundOver, isFalse);
-      });
-    });
-
     group('isGameOver', () {
       test(
           'is true '
@@ -144,7 +93,6 @@ void main() {
         const gameState = GameState(
           score: 0,
           multiplier: 1,
-          balls: 0,
           rounds: 0,
           bonusHistory: [],
         );
@@ -157,7 +105,6 @@ void main() {
         const gameState = GameState(
           score: 0,
           multiplier: 1,
-          balls: 0,
           rounds: 1,
           bonusHistory: [],
         );
@@ -173,7 +120,6 @@ void main() {
           const gameState = GameState(
             score: 2,
             multiplier: 1,
-            balls: 0,
             rounds: 3,
             bonusHistory: [],
           );
@@ -191,7 +137,6 @@ void main() {
           const gameState = GameState(
             score: 2,
             multiplier: 1,
-            balls: 0,
             rounds: 3,
             bonusHistory: [],
           );
@@ -209,14 +154,12 @@ void main() {
           const gameState = GameState(
             score: 2,
             multiplier: 1,
-            balls: 0,
             rounds: 3,
             bonusHistory: [],
           );
           final otherGameState = GameState(
             score: gameState.score + 1,
             multiplier: gameState.multiplier + 1,
-            balls: gameState.balls + 1,
             rounds: gameState.rounds + 1,
             bonusHistory: const [GameBonus.googleWord],
           );
@@ -226,7 +169,6 @@ void main() {
             gameState.copyWith(
               score: otherGameState.score,
               multiplier: otherGameState.multiplier,
-              balls: otherGameState.balls,
               rounds: otherGameState.rounds,
               bonusHistory: otherGameState.bonusHistory,
             ),

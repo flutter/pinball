@@ -5,28 +5,15 @@ import 'package:pinball/game/game.dart';
 
 void main() {
   group('GameEvent', () {
-    group('BallAdded', () {
+    group('RoundLost', () {
       test('can be instantiated', () {
-        expect(const BallAdded(), isNotNull);
+        expect(const RoundLost(), isNotNull);
       });
 
       test('supports value equality', () {
         expect(
-          BallAdded(),
-          equals(const BallAdded()),
-        );
-      });
-    });
-
-    group('BallLost', () {
-      test('can be instantiated', () {
-        expect(const BallLost(), isNotNull);
-      });
-
-      test('supports value equality', () {
-        expect(
-          BallLost(),
-          equals(const BallLost()),
+          RoundLost(),
+          equals(const RoundLost()),
         );
       });
     });
