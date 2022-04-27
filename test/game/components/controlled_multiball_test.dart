@@ -102,9 +102,6 @@ void main() {
               when(() => multiballGroup.multiballB).thenReturn(multiballB);
               when(() => multiballGroup.multiballC).thenReturn(multiballC);
               when(() => multiballGroup.multiballD).thenReturn(multiballD);
-              when(() => multiballGroup.children).thenReturn(
-                {multiballA} as ComponentSet,
-              );
               when(multiballA.animate).thenAnswer((_) async => () {});
               when(multiballB.animate).thenAnswer((_) async => () {});
               when(multiballC.animate).thenAnswer((_) async => () {});
