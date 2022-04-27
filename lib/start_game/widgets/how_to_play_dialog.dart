@@ -1,8 +1,20 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:flutter/material.dart';
+import 'package:pinball/gen/gen.dart';
 import 'package:pinball/l10n/l10n.dart';
+import 'package:pinball/theme/theme.dart';
 import 'package:pinball_ui/pinball_ui.dart';
+
+enum Control {
+  left,
+  right,
+  down,
+  a,
+  d,
+  s,
+  space,
+}
 
 class HowToPlayDialog extends StatelessWidget {
   const HowToPlayDialog({Key? key}) : super(key: key);
@@ -11,9 +23,26 @@ class HowToPlayDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     const spacing = SizedBox(height: 16);
+    final headerTextStyle = AppTextStyle.headline3.copyWith(
+      color: AppColors.darkBlue,
+    );
 
     return PinballDialogLayout(
-      header: Text(l10n.howToPlay),
+      header: FittedBox(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              l10n.howToPlay,
+              style: headerTextStyle.copyWith(fontWeight: FontWeight.bold),
+            ),
+            Text(
+              l10n.tipsForFlips,
+              style: headerTextStyle,
+            ),
+          ],
+        ),
+      ),
       body: ListView(
         children: const [
           spacing,
@@ -36,15 +65,21 @@ class _LaunchControls extends StatelessWidget {
 
     return Column(
       children: [
-        Text(l10n.launchControls),
+        Text(
+          l10n.launchControls,
+          style: AppTextStyle.headline3.copyWith(
+            color: AppColors.white,
+            fontSize: 16,
+          ),
+        ),
         const SizedBox(height: 10),
         Wrap(
           children: const [
-            KeyIndicator.fromIcon(keyIcon: Icons.keyboard_arrow_down),
+            KeyButton(control: Control.down),
             spacing,
-            KeyIndicator.fromKeyName(keyName: 'SPACE'),
+            KeyButton(control: Control.space),
             spacing,
-            KeyIndicator.fromKeyName(keyName: 'S'),
+            KeyButton(control: Control.s),
           ],
         )
       ],
@@ -62,7 +97,13 @@ class _FlipperControls extends StatelessWidget {
 
     return Column(
       children: [
-        Text(l10n.flipperControls),
+        Text(
+          l10n.flipperControls,
+          style: AppTextStyle.headline3.copyWith(
+            color: AppColors.white,
+            fontSize: 16,
+          ),
+        ),
         const SizedBox(height: 10),
         Column(
           children: [
@@ -70,17 +111,17 @@ class _FlipperControls extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
-                KeyIndicator.fromIcon(keyIcon: Icons.keyboard_arrow_left),
+                KeyButton(control: Control.left),
                 rowSpacing,
-                KeyIndicator.fromIcon(keyIcon: Icons.keyboard_arrow_right),
+                KeyButton(control: Control.right),
               ],
             ),
             const SizedBox(height: 8),
             Wrap(
               children: const [
-                KeyIndicator.fromKeyName(keyName: 'A'),
+                KeyButton(control: Control.a),
                 rowSpacing,
-                KeyIndicator.fromKeyName(keyName: 'D'),
+                KeyButton(control: Control.d),
               ],
             )
           ],
@@ -90,65 +131,69 @@ class _FlipperControls extends StatelessWidget {
   }
 }
 
-// TODO(allisonryan0002): remove visibility when adding final UI.
 @visibleForTesting
-class KeyIndicator extends StatelessWidget {
-  const KeyIndicator._({
+class KeyButton extends StatelessWidget {
+  const KeyButton({
     Key? key,
-    required String keyName,
-    required IconData keyIcon,
-    required bool fromIcon,
-  })  : _keyName = keyName,
-        _keyIcon = keyIcon,
-        _fromIcon = fromIcon,
-        super(key: key);
+    required this.control,
+  }) : super(key: key);
 
-  const KeyIndicator.fromKeyName({Key? key, required String keyName})
-      : this._(
-          key: key,
-          keyName: keyName,
-          keyIcon: Icons.keyboard_arrow_down,
-          fromIcon: false,
-        );
-
-  const KeyIndicator.fromIcon({Key? key, required IconData keyIcon})
-      : this._(
-          key: key,
-          keyName: '',
-          keyIcon: keyIcon,
-          fromIcon: true,
-        );
-
-  final String _keyName;
-
-  final IconData _keyIcon;
-
-  final bool _fromIcon;
+  final Control control;
 
   @override
   Widget build(BuildContext context) {
-    const iconPadding = EdgeInsets.all(15);
-    const textPadding = EdgeInsets.symmetric(vertical: 20, horizontal: 22);
-    final boarderColor = Colors.blue.withOpacity(0.5);
-    final color = Colors.blue.withOpacity(0.7);
-
+    final textStyle =
+        control.isArrow ? AppTextStyle.headline1 : AppTextStyle.headline3;
+    const height = 60.0;
+    final width = control.isSpace ? height * 2.83 : height;
     return DecoratedBox(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        border: Border.all(
-          color: boarderColor,
-          width: 3,
+        image: DecorationImage(
+          fit: BoxFit.fill,
+          image: AssetImage(
+            Assets.images.components.key.keyName,
+          ),
         ),
       ),
-      child: _fromIcon
-          ? Padding(
-              padding: iconPadding,
-              child: Icon(_keyIcon, color: color),
-            )
-          : Padding(
-              padding: textPadding,
-              child: Text(_keyName, style: TextStyle(color: color)),
+      child: SizedBox(
+        width: width,
+        height: height,
+        child: Center(
+          child: RotatedBox(
+            quarterTurns: control.isDown ? 1 : 0,
+            child: Text(
+              control.getCharacter(context),
+              style: textStyle.copyWith(color: AppColors.white),
             ),
+          ),
+        ),
+      ),
     );
+  }
+}
+
+extension on Control {
+  bool get isArrow => isDown || isRight || isLeft;
+  bool get isDown => this == Control.down;
+  bool get isRight => this == Control.right;
+  bool get isLeft => this == Control.left;
+  bool get isSpace => this == Control.space;
+  String getCharacter(BuildContext context) {
+    switch (this) {
+      case Control.a:
+        return 'A';
+      case Control.d:
+        return 'D';
+      case Control.down:
+        return '>'; // Will be rotated
+      case Control.left:
+        return '<';
+      case Control.right:
+        return '>';
+      case Control.s:
+        return 'S';
+      case Control.space:
+        return context.l10n.space;
+    }
   }
 }

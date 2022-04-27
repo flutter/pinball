@@ -9,34 +9,28 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('HowToPlayDialog', () {
+    late AppLocalizations l10n;
+
+    setUp(() async {
+      l10n = await AppLocalizations.delegate.load(Locale('en'));
+    });
+
     testWidgets('displays content', (tester) async {
-      final l10n = await AppLocalizations.delegate.load(Locale('en'));
-
       await tester.pumpApp(HowToPlayDialog());
-
+      expect(find.text(l10n.howToPlay), findsOneWidget);
+      expect(find.text(l10n.tipsForFlips), findsOneWidget);
       expect(find.text(l10n.launchControls), findsOneWidget);
+      expect(find.text(l10n.flipperControls), findsOneWidget);
     });
   });
 
-  group('KeyIndicator', () {
-    testWidgets('fromKeyName renders correctly', (tester) async {
-      const keyName = 'A';
-
+  group('KeyButton', () {
+    testWidgets('renders correctly', (tester) async {
       await tester.pumpApp(
-        KeyIndicator.fromKeyName(keyName: keyName),
+        KeyButton(control: Control.a),
       );
 
-      expect(find.text(keyName), findsOneWidget);
-    });
-
-    testWidgets('fromIcon renders correctly', (tester) async {
-      const keyIcon = Icons.keyboard_arrow_down;
-
-      await tester.pumpApp(
-        KeyIndicator.fromIcon(keyIcon: keyIcon),
-      );
-
-      expect(find.byIcon(keyIcon), findsOneWidget);
+      expect(find.text('A'), findsOneWidget);
     });
   });
 }

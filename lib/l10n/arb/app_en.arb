@@ -8,6 +8,10 @@
   "@howToPlay": {
     "description": "Text displayed on the landing page how to play button"
   },
+  "tipsForFlips": "Tips for flips",
+  "@tipsForFlips": {
+    "description": "Text displayed on the landing page how to play button"
+  },
   "launchControls": "Launch Controls",
   "@launchControls": {
     "description": "Text displayed on the how to play dialog with the launch controls"
@@ -23,6 +27,10 @@
   "select": "Select",
   "@select": {
     "description": "Text displayed on the character selection page select button"
+  },
+  "space": "Space",
+  "@space": {
+    "description": "Text displayed on space control button"
   },
   "characterSelectionTitle": "Choose your character!",
   "@characterSelectionTitle": {
