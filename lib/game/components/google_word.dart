@@ -3,7 +3,6 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
-import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
@@ -25,7 +24,6 @@ class GoogleWord extends Component
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    gameRef.addContactCallback(_GoogleLetterBallContactCallback());
 
     final offsets = [
       Vector2(-12.92, 1.82),
@@ -71,13 +69,14 @@ class _GoogleWordController extends ComponentController<GoogleWord>
 }
 
 /// Activates a [GoogleLetter] when it contacts with a [Ball].
-class _GoogleLetterBallContactCallback
-    extends ContactCallback<GoogleLetter, Ball> {
-  @override
-  void begin(GoogleLetter googleLetter, _, __) {
-    final parent = googleLetter.parent;
-    if (parent is GoogleWord) {
-      parent.controller.activate(googleLetter);
-    }
-  }
-}
+// TODO(alestiago): Add animation behaviour.
+// class _GoogleLetterBallContactCallback
+//     extends ContactCallback<GoogleLetter, Ball> {
+//   @override
+//   void begin(GoogleLetter googleLetter, _, __) {
+//     final parent = googleLetter.parent;
+//     if (parent is GoogleWord) {
+//       parent.controller.activate(googleLetter);
+//     }
+//   }
+// }

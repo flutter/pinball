@@ -16,6 +16,7 @@ class DashNestBumper extends BodyComponent with InitialPosition {
     required String activeAssetPath,
     required String inactiveAssetPath,
     required Vector2 spritePosition,
+    Iterable<Component>? children,
   })  : _majorRadius = majorRadius,
         _minorRadius = minorRadius,
         super(
@@ -26,39 +27,46 @@ class DashNestBumper extends BodyComponent with InitialPosition {
               inactiveAssetPath: inactiveAssetPath,
               position: spritePosition,
             ),
+            if (children != null) ...children,
           ],
         ) {
     renderBody = false;
   }
 
   /// {@macro dash_nest_bumper}
-  DashNestBumper.main()
-      : this._(
+  DashNestBumper.main({
+    Iterable<Component>? children,
+  }) : this._(
           majorRadius: 5.1,
           minorRadius: 3.75,
           activeAssetPath: Assets.images.dash.bumper.main.active.keyName,
           inactiveAssetPath: Assets.images.dash.bumper.main.inactive.keyName,
           spritePosition: Vector2(0, -0.3),
+          children: children,
         );
 
   /// {@macro dash_nest_bumper}
-  DashNestBumper.a()
-      : this._(
+  DashNestBumper.a({
+    Iterable<Component>? children,
+  }) : this._(
           majorRadius: 3,
           minorRadius: 2.5,
           activeAssetPath: Assets.images.dash.bumper.a.active.keyName,
           inactiveAssetPath: Assets.images.dash.bumper.a.inactive.keyName,
           spritePosition: Vector2(0.35, -1.2),
+          children: children,
         );
 
   /// {@macro dash_nest_bumper}
-  DashNestBumper.b()
-      : this._(
+  DashNestBumper.b({
+    Iterable<Component>? children,
+  }) : this._(
           majorRadius: 3,
           minorRadius: 2.5,
           activeAssetPath: Assets.images.dash.bumper.b.active.keyName,
           inactiveAssetPath: Assets.images.dash.bumper.b.inactive.keyName,
           spritePosition: Vector2(0.35, -1.2),
+          children: children,
         );
 
   final double _majorRadius;

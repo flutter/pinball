@@ -51,19 +51,6 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
   }
 
   @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-
-    gameRef
-      ..addContactCallback(
-        LayerSensorBallContactCallback<_SpaceshipEntrance>(),
-      )
-      ..addContactCallback(
-        LayerSensorBallContactCallback<_SpaceshipHole>(),
-      );
-  }
-
-  @override
   Body createBody() {
     final shape = CircleShape()..radius = 3;
     final fixtureDef = FixtureDef(

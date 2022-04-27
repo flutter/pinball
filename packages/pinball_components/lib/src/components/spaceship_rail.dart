@@ -114,14 +114,6 @@ class _SpaceshipRailRamp extends BodyComponent with Layered {
     _createFixtureDefs().forEach(body.createFixture);
     return body;
   }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    gameRef.addContactCallback(
-      LayerSensorBallContactCallback<_SpaceshipRailExit>(),
-    );
-  }
 }
 
 class _SpaceshipRailRampSpriteComponent extends SpriteComponent

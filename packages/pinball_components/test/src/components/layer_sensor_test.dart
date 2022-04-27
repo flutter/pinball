@@ -22,11 +22,6 @@ class TestLayerSensor extends LayerSensor {
   Shape get shape => PolygonShape()..setAsBoxXY(1, 1);
 }
 
-class TestLayerSensorBallContactCallback
-    extends LayerSensorBallContactCallback<TestLayerSensor> {
-  TestLayerSensorBallContactCallback() : super();
-}
-
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final flameTester = FlameTester(TestGame.new);
@@ -135,18 +130,15 @@ void main() {
         insidePriority: insidePriority,
         insideLayer: Layer.spaceshipEntranceRamp,
       )..initialPosition = Vector2(0, 10);
-      final callback = TestLayerSensorBallContactCallback();
 
       when(() => body.linearVelocity).thenReturn(Vector2(0, -1));
 
-      callback.begin(ball, sensor, MockContact());
       verify(() => ball.layer = sensor.insideLayer).called(1);
       verify(() => ball.priority = sensor.insidePriority).called(1);
       verify(ball.reorderChildren).called(1);
 
       when(() => ball.layer).thenReturn(sensor.insideLayer);
 
-      callback.begin(ball, sensor, MockContact());
       verify(() => ball.layer = Layer.board);
       verify(() => ball.priority = RenderPriority.ballOnBoard).called(1);
       verify(ball.reorderChildren).called(1);
@@ -161,18 +153,15 @@ void main() {
         insidePriority: insidePriority,
         insideLayer: Layer.spaceshipEntranceRamp,
       )..initialPosition = Vector2(0, 10);
-      final callback = TestLayerSensorBallContactCallback();
 
       when(() => body.linearVelocity).thenReturn(Vector2(0, 1));
 
-      callback.begin(ball, sensor, MockContact());
       verify(() => ball.layer = sensor.insideLayer).called(1);
       verify(() => ball.priority = sensor.insidePriority).called(1);
       verify(ball.reorderChildren).called(1);
 
       when(() => ball.layer).thenReturn(sensor.insideLayer);
 
-      callback.begin(ball, sensor, MockContact());
       verify(() => ball.layer = Layer.board);
       verify(() => ball.priority = RenderPriority.ballOnBoard).called(1);
       verify(ball.reorderChildren).called(1);

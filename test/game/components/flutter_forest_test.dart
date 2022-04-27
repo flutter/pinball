@@ -25,7 +25,9 @@ void main() {
     Assets.images.signpost.active2.keyName,
     Assets.images.signpost.active3.keyName,
   ];
-  final flameTester = FlameTester(() => EmptyPinballTestGame(assets));
+  final flameTester = FlameTester(
+    () => EmptyPinballTestGame(assets: assets),
+  );
 
   group('FlutterForest', () {
     flameTester.test(
@@ -88,7 +90,7 @@ void main() {
       });
 
       final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
-        gameBuilder: () => EmptyPinballTestGame(assets),
+        gameBuilder: () => EmptyPinballTestGame(assets: assets),
         blocBuilder: () {
           gameBloc = MockGameBloc();
           const state = GameState.initial();
@@ -96,29 +98,6 @@ void main() {
           return gameBloc;
         },
         assets: assets,
-      );
-
-      flameBlocTester.testGameWidget(
-        'add Scored event',
-        setUp: (game, tester) async {
-          final flutterForest = FlutterForest();
-          await game.ensureAddAll([
-            flutterForest,
-            ball,
-          ]);
-          game.addContactCallback(BallScorePointsCallback(game));
-
-          final bumpers = flutterForest.descendants().whereType<ScorePoints>();
-
-          for (final bumper in bumpers) {
-            beginContact(game, bumper, ball);
-            verify(
-              () => gameBloc.add(
-                Scored(points: bumper.points),
-              ),
-            ).called(1);
-          }
-        },
       );
 
       flameBlocTester.testGameWidget(

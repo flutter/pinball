@@ -145,14 +145,6 @@ class _SpaceshipRampBackground extends BodyComponent
 
     return body;
   }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    gameRef.addContactCallback(
-      LayerSensorBallContactCallback<_SpaceshipRampOpening>(),
-    );
-  }
 }
 
 class _SpaceshipRampBackgroundRailingSpriteComponent extends SpriteComponent

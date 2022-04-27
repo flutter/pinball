@@ -57,13 +57,14 @@ void main() {
     Assets.images.dino.dinoLandTop.keyName,
     Assets.images.dino.dinoLandBottom.keyName,
   ];
-  final flameTester = FlameTester(() => PinballTestGame(assets));
-  final debugModeFlameTester = FlameTester(() => DebugPinballTestGame(assets));
+  final flameTester = FlameTester(
+    () => PinballTestGame(assets: assets),
+  );
+  final debugModeFlameTester = FlameTester(
+    () => DebugPinballTestGame(assets: assets),
+  );
 
   group('PinballGame', () {
-    // TODO(alestiago): test if [PinballGame] registers
-    // [BallScorePointsCallback] once the following issue is resolved:
-    // https://github.com/flame-engine/flame/issues/1416
     group('components', () {
       flameTester.test(
         'has only one BottomWall',

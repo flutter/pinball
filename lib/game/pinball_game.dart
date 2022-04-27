@@ -41,8 +41,6 @@ class PinballGame extends Forge2DGame
 
   @override
   Future<void> onLoad() async {
-    _addContactCallbacks();
-
     unawaited(add(gameFlowController = GameFlowController(this)));
     unawaited(add(CameraController(this)));
     unawaited(add(Backboard.waiting(position: Vector2(0, -88))));
@@ -72,11 +70,6 @@ class PinballGame extends Forge2DGame
 
     controller.attachTo(launcher.components.whereType<Plunger>().first);
     await super.onLoad();
-  }
-
-  void _addContactCallbacks() {
-    addContactCallback(BallScorePointsCallback(this));
-    addContactCallback(BottomWallBallContactCallback());
   }
 
   Future<void> _addBonusWord() async {

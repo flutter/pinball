@@ -46,10 +46,14 @@ extension on SignpostSpriteState {
 /// {@endtemplate}
 class Signpost extends BodyComponent with InitialPosition {
   /// {@macro signpost}
-  Signpost()
-      : super(
+  Signpost({
+    Iterable<Component>? children,
+  }) : super(
           priority: RenderPriority.signpost,
-          children: [_SignpostSpriteComponent()],
+          children: [
+            _SignpostSpriteComponent(),
+            if (children != null) ...children,
+          ],
         ) {
     renderBody = false;
   }

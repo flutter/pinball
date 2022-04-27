@@ -16,6 +16,7 @@ class SparkyBumper extends BodyComponent with InitialPosition {
     required String onAssetPath,
     required String offAssetPath,
     required Vector2 spritePosition,
+    Iterable<Component>? children,
   })  : _majorRadius = majorRadius,
         _minorRadius = minorRadius,
         super(
@@ -26,39 +27,46 @@ class SparkyBumper extends BodyComponent with InitialPosition {
               offAssetPath: offAssetPath,
               position: spritePosition,
             ),
+            if (children != null) ...children,
           ],
         ) {
     renderBody = false;
   }
 
   /// {@macro sparky_bumper}
-  SparkyBumper.a()
-      : this._(
+  SparkyBumper.a({
+    Iterable<Component>? children,
+  }) : this._(
           majorRadius: 2.9,
           minorRadius: 2.1,
           onAssetPath: Assets.images.sparky.bumper.a.active.keyName,
           offAssetPath: Assets.images.sparky.bumper.a.inactive.keyName,
           spritePosition: Vector2(0, -0.25),
+          children: children,
         );
 
   /// {@macro sparky_bumper}
-  SparkyBumper.b()
-      : this._(
+  SparkyBumper.b({
+    Iterable<Component>? children,
+  }) : this._(
           majorRadius: 2.85,
           minorRadius: 2,
           onAssetPath: Assets.images.sparky.bumper.b.active.keyName,
           offAssetPath: Assets.images.sparky.bumper.b.inactive.keyName,
           spritePosition: Vector2(0, -0.35),
+          children: children,
         );
 
   /// {@macro sparky_bumper}
-  SparkyBumper.c()
-      : this._(
+  SparkyBumper.c({
+    Iterable<Component>? children,
+  }) : this._(
           majorRadius: 3,
           minorRadius: 2.2,
           onAssetPath: Assets.images.sparky.bumper.c.active.keyName,
           offAssetPath: Assets.images.sparky.bumper.c.inactive.keyName,
           spritePosition: Vector2(0, -0.4),
+          children: children,
         );
 
   final double _majorRadius;

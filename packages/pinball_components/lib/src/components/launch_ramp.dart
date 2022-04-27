@@ -107,13 +107,6 @@ class _LaunchRampBase extends BodyComponent with Layered {
 
     return body;
   }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    gameRef
-        .addContactCallback(LayerSensorBallContactCallback<_LaunchRampExit>());
-  }
 }
 
 class _LaunchRampBaseSpriteComponent extends SpriteComponent with HasGameRef {

@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_renaming_method_parameters
 
 import 'package:flame/components.dart';
-import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
@@ -16,32 +15,33 @@ import 'package:pinball_flame/pinball_flame.dart';
 class FlutterForest extends Component
     with Controls<_FlutterForestController>, HasGameRef<PinballGame> {
   /// {@macro flutter_forest}
-  FlutterForest() {
+  FlutterForest()
+      : super(
+          children: [
+            Signpost(
+              children: [
+                ScoringBehaviour(points: 20),
+              ],
+            )..initialPosition = Vector2(8.35, -58.3),
+            DashNestBumper.main(
+              children: [
+                ScoringBehaviour(points: 20),
+              ],
+            )..initialPosition = Vector2(18.55, -59.35),
+            DashNestBumper.a(
+              children: [
+                ScoringBehaviour(points: 20),
+              ],
+            )..initialPosition = Vector2(8.95, -51.95),
+            DashNestBumper.b(
+              children: [
+                ScoringBehaviour(points: 20),
+              ],
+            )..initialPosition = Vector2(23.3, -46.75),
+            DashAnimatronic()..position = Vector2(20, -66),
+          ],
+        ) {
     controller = _FlutterForestController(this);
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    gameRef.addContactCallback(_DashNestBumperBallContactCallback());
-
-    final signpost = Signpost()..initialPosition = Vector2(8.35, -58.3);
-
-    final bigNest = _DashNestBumper.main()
-      ..initialPosition = Vector2(18.55, -59.35);
-    final smallLeftNest = _DashNestBumper.a()
-      ..initialPosition = Vector2(8.95, -51.95);
-    final smallRightNest = _DashNestBumper.b()
-      ..initialPosition = Vector2(23.3, -46.75);
-    final dashAnimatronic = DashAnimatronic()..position = Vector2(20, -66);
-
-    await addAll([
-      signpost,
-      smallLeftNest,
-      smallRightNest,
-      bigNest,
-      dashAnimatronic,
-    ]);
   }
 }
 
@@ -74,29 +74,5 @@ class _FlutterForestController extends ComponentController<FlutterForest>
       ControlledBall.bonus(characterTheme: gameRef.characterTheme)
         ..initialPosition = Vector2(17.2, -52.7),
     );
-  }
-}
-
-// TODO(alestiago): Revisit ScorePoints logic once the FlameForge2D
-// ContactCallback process is enhanced.
-class _DashNestBumper extends DashNestBumper with ScorePoints {
-  _DashNestBumper.main() : super.main();
-
-  _DashNestBumper.a() : super.a();
-
-  _DashNestBumper.b() : super.b();
-
-  @override
-  int get points => 20;
-}
-
-class _DashNestBumperBallContactCallback
-    extends ContactCallback<DashNestBumper, Ball> {
-  @override
-  void begin(DashNestBumper dashNestBumper, _, __) {
-    final parent = dashNestBumper.parent;
-    if (parent is FlutterForest) {
-      parent.controller.activateBumper(dashNestBumper);
-    }
   }
 }

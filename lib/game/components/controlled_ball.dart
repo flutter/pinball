@@ -49,10 +49,6 @@ class BallController extends ComponentController<Ball>
   /// {@macro ball_controller}
   BallController(Ball ball) : super(ball);
 
-  /// Removes the [Ball] from a [PinballGame].
-  ///
-  /// Triggered by [BottomWallBallContactCallback] when the [Ball] falls into
-  /// a [BottomWall].
   void lost() {
     component.shouldRemove = true;
   }

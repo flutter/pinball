@@ -15,7 +15,9 @@ void main() {
     Assets.images.flipper.left.keyName,
     Assets.images.flipper.right.keyName,
   ];
-  final flameTester = FlameTester(() => EmptyPinballTestGame(assets));
+  final flameTester = FlameTester(
+    () => EmptyPinballTestGame(assets: assets),
+  );
 
   final flameBlocTester = FlameBlocTester<EmptyPinballTestGame, GameBloc>(
     gameBuilder: EmptyPinballTestGame.new,

@@ -15,6 +15,7 @@ class AlienBumper extends BodyComponent with InitialPosition {
     required double minorRadius,
     required String onAssetPath,
     required String offAssetPath,
+    Iterable<Component>? children,
   })  : _majorRadius = majorRadius,
         _minorRadius = minorRadius,
         super(
@@ -24,27 +25,32 @@ class AlienBumper extends BodyComponent with InitialPosition {
               onAssetPath: onAssetPath,
               offAssetPath: offAssetPath,
             ),
+            if (children != null) ...children,
           ],
         ) {
     renderBody = false;
   }
 
   /// {@macro alien_bumper}
-  AlienBumper.a()
-      : this._(
+  AlienBumper.a({
+    Iterable<Component>? children,
+  }) : this._(
           majorRadius: 3.52,
           minorRadius: 2.97,
           onAssetPath: Assets.images.alienBumper.a.active.keyName,
           offAssetPath: Assets.images.alienBumper.a.inactive.keyName,
+          children: children,
         );
 
   /// {@macro alien_bumper}
-  AlienBumper.b()
-      : this._(
+  AlienBumper.b({
+    Iterable<Component>? children,
+  }) : this._(
           majorRadius: 3.19,
           minorRadius: 2.79,
           onAssetPath: Assets.images.alienBumper.b.active.keyName,
           offAssetPath: Assets.images.alienBumper.b.inactive.keyName,
+          children: children,
         );
 
   final double _majorRadius;
