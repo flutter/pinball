@@ -14,7 +14,7 @@ void main() {
   final flameTester = FlameTester(TestGame.new);
 
   group(
-    'AlienBumperBallContactBehavior',
+    'SparkyBumperBallContactBehavior',
     () {
       test('can be instantiated', () {
         expect(

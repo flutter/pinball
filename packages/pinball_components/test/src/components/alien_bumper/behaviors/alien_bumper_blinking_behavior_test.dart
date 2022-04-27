@@ -16,14 +16,12 @@ void main() {
   group(
     'AlienBumperBlinkingBehavior',
     () {
-      flameTester.test(
-        'calls onBlinked after 0.5 seconds when inactive',
-        (game) async {
-          // TODO(alestiago): Make this pass.
+      flameTester.testGameWidget(
+        'calls onBlinked after 0.05 seconds when inactive',
+        setUp: (game, tester) async {
           final behavior = AlienBumperBlinkingBehavior();
           final bloc = MockAlienBumperCubit();
-          final streamController =
-              StreamController<AlienBumperState>.broadcast();
+          final streamController = StreamController<AlienBumperState>();
           whenListen(
             bloc,
             streamController.stream,
@@ -34,7 +32,8 @@ void main() {
           await alienBumper.add(behavior);
           await game.ensureAdd(alienBumper);
 
-          streamController.sink.add(AlienBumperState.inactive);
+          streamController.add(AlienBumperState.inactive);
+          await tester.pump();
           game.update(0.05);
 
           await streamController.close();
