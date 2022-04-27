@@ -11,12 +11,18 @@ import 'package:pinball_components/pinball_components.dart';
 
 import '../../helpers/helpers.dart';
 
+class _TestBodyComponent extends BodyComponent {
+  @override
+  Body createBody() => world.createBody(BodyDef());
+}
+
 void main() {
   group('ScoringBehavior', () {
     group('beginContact', () {
       late GameBloc bloc;
       late PinballAudio audio;
       late Ball ball;
+      late BodyComponent parent;
 
       setUp(() {
         audio = MockPinballAudio();
@@ -25,6 +31,8 @@ void main() {
         final ballBody = MockBody();
         when(() => ball.body).thenReturn(ballBody);
         when(() => ballBody.position).thenReturn(Vector2.all(4));
+
+        parent = _TestBodyComponent();
       });
 
       final flameBlocTester = FlameBlocTester<EmptyPinballTestGame, GameBloc>(
@@ -48,7 +56,8 @@ void main() {
         setUp: (game, tester) async {
           const points = 20;
           final scoringBehavior = ScoringBehavior(points: points);
-          await game.ensureAdd(scoringBehavior);
+          await parent.add(scoringBehavior);
+          await game.ensureAdd(parent);
 
           scoringBehavior.beginContact(ball, MockContact());
 
@@ -65,7 +74,8 @@ void main() {
         setUp: (game, tester) async {
           const points = 20;
           final scoringBehavior = ScoringBehavior(points: points);
-          await game.ensureAdd(scoringBehavior);
+          await parent.add(scoringBehavior);
+          await game.ensureAdd(parent);
 
           scoringBehavior.beginContact(ball, MockContact());
 
@@ -78,7 +88,8 @@ void main() {
         setUp: (game, tester) async {
           const points = 20;
           final scoringBehavior = ScoringBehavior(points: points);
-          await game.ensureAdd(scoringBehavior);
+          await parent.add(scoringBehavior);
+          await game.ensureAdd(parent);
 
           scoringBehavior.beginContact(ball, MockContact());
           await game.ready();

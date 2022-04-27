@@ -141,6 +141,9 @@ class _SparkyBumperSpriteGroupComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    // TODO(alestiago): Consider refactoring once the following is merged:
+    // https://github.com/flame-engine/flame/pull/1538
+    // ignore: public_member_api_docs
     parent.bloc.stream.listen((state) => current = state);
 
     final sprites = {

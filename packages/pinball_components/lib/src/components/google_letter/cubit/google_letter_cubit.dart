@@ -9,12 +9,12 @@ class GoogleLetterCubit extends Cubit<GoogleLetterState> {
   // ignore: public_member_api_docs
   GoogleLetterCubit() : super(GoogleLetterState.inactive);
 
-  /// Event added when a letter contacts with a ball.
+  /// Event added when the letter contacts with a ball.
   void onBallContacted() {
     emit(GoogleLetterState.active);
   }
 
-  /// Event added when a letter should return to its initial configuration.
+  /// Event added when the letter should return to its initial configuration.
   void onReset() {
     emit(GoogleLetterState.inactive);
   }

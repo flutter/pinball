@@ -9,12 +9,12 @@ class SparkyBumperCubit extends Cubit<SparkyBumperState> {
   // ignore: public_member_api_docs
   SparkyBumperCubit() : super(SparkyBumperState.active);
 
-  /// Event added when a bumper contacts with a ball.
+  /// Event added when the bumper contacts with a ball.
   void onBallContacted() {
     emit(SparkyBumperState.inactive);
   }
 
-  /// Event added when a bumper finishes blinking.
+  /// Event added when the bumper finishes blinking.
   void onBlinked() {
     emit(SparkyBumperState.active);
   }

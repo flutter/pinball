@@ -4,6 +4,10 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/src/components/dash_nest_bumper/behaviors/behaviors.dart';
+import 'package:pinball_flame/pinball_flame.dart';
+
+export 'cubit/dash_nest_bumper_cubit.dart';
 
 /// {@template dash_nest_bumper}
 /// Bumper with a nest appearance.
@@ -17,6 +21,7 @@ class DashNestBumper extends BodyComponent with InitialPosition {
     required String inactiveAssetPath,
     required Vector2 spritePosition,
     Iterable<Component>? children,
+    required this.bloc,
   })  : _majorRadius = majorRadius,
         _minorRadius = minorRadius,
         super(
@@ -26,7 +31,9 @@ class DashNestBumper extends BodyComponent with InitialPosition {
               activeAssetPath: activeAssetPath,
               inactiveAssetPath: inactiveAssetPath,
               position: spritePosition,
+              current: bloc.state,
             ),
+            DashBumperBallContactBehavior(),
             ...?children,
           ],
           renderBody: false,
@@ -42,6 +49,7 @@ class DashNestBumper extends BodyComponent with InitialPosition {
           inactiveAssetPath: Assets.images.dash.bumper.main.inactive.keyName,
           spritePosition: Vector2(0, -0.3),
           children: children,
+          bloc: DashNestBumperCubit(),
         );
 
   /// {@macro dash_nest_bumper}
@@ -54,6 +62,7 @@ class DashNestBumper extends BodyComponent with InitialPosition {
           inactiveAssetPath: Assets.images.dash.bumper.a.inactive.keyName,
           spritePosition: Vector2(0.35, -1.2),
           children: children,
+          bloc: DashNestBumperCubit(),
         );
 
   /// {@macro dash_nest_bumper}
@@ -66,10 +75,28 @@ class DashNestBumper extends BodyComponent with InitialPosition {
           inactiveAssetPath: Assets.images.dash.bumper.b.inactive.keyName,
           spritePosition: Vector2(0.35, -1.2),
           children: children,
+          bloc: DashNestBumperCubit(),
         );
+
+  /// {@macro dash_nest_bumper}
+  @visibleForTesting
+  DashNestBumper.test({required this.bloc})
+      : _majorRadius = 3,
+        _minorRadius = 2.5;
 
   final double _majorRadius;
   final double _minorRadius;
+
+  // TODO(alestiago): Consider refactoring once the following is merged:
+  // https://github.com/flame-engine/flame/pull/1538
+  // ignore: public_member_api_docs
+  final DashNestBumperCubit bloc;
+
+  @override
+  void onRemove() {
+    bloc.close();
+    super.onRemove();
+  }
 
   @override
   Body createBody() {
@@ -86,41 +113,22 @@ class DashNestBumper extends BodyComponent with InitialPosition {
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
-
-  /// Activates the [DashNestBumper].
-  void activate() {
-    firstChild<_DashNestBumperSpriteGroupComponent>()?.current =
-        DashNestBumperSpriteState.active;
-  }
-
-  /// Deactivates the [DashNestBumper].
-  void deactivate() {
-    firstChild<_DashNestBumperSpriteGroupComponent>()?.current =
-        DashNestBumperSpriteState.inactive;
-  }
-}
-
-/// Indicates the [DashNestBumper]'s current sprite state.
-@visibleForTesting
-enum DashNestBumperSpriteState {
-  /// A lit up bumper.
-  active,
-
-  /// A dimmed bumper.
-  inactive,
 }
 
 class _DashNestBumperSpriteGroupComponent
-    extends SpriteGroupComponent<DashNestBumperSpriteState> with HasGameRef {
+    extends SpriteGroupComponent<DashNestBumperState>
+    with HasGameRef, ParentIsA<DashNestBumper> {
   _DashNestBumperSpriteGroupComponent({
     required String activeAssetPath,
     required String inactiveAssetPath,
     required Vector2 position,
+    required DashNestBumperState current,
   })  : _activeAssetPath = activeAssetPath,
         _inactiveAssetPath = inactiveAssetPath,
         super(
           anchor: Anchor.center,
           position: position,
+          current: current,
         );
 
   final String _activeAssetPath;
@@ -129,15 +137,15 @@ class _DashNestBumperSpriteGroupComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    parent.bloc.stream.listen((state) => current = state);
+
     final sprites = {
-      DashNestBumperSpriteState.active:
+      DashNestBumperState.active:
           Sprite(gameRef.images.fromCache(_activeAssetPath)),
-      DashNestBumperSpriteState.inactive:
+      DashNestBumperState.inactive:
           Sprite(gameRef.images.fromCache(_inactiveAssetPath)),
     };
     this.sprites = sprites;
-
-    current = DashNestBumperSpriteState.inactive;
     size = sprites[current]!.originalSize / 10;
   }
 }

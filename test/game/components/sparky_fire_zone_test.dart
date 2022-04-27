@@ -1,6 +1,5 @@
 // ignore_for_file: cascade_invocations
 
-import 'package:bloc_test/bloc_test.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -71,54 +70,40 @@ void main() {
         },
       );
     });
-
-    group('bumpers', () {
-      late GameBloc gameBloc;
-
-      setUp(() {
-        gameBloc = MockGameBloc();
-        whenListen(
-          gameBloc,
-          const Stream<GameState>.empty(),
-          initialState: const GameState.initial(),
-        );
-      });
-
-      final flameBlocTester = FlameBlocTester<EmptyPinballTestGame, GameBloc>(
-        gameBuilder: EmptyPinballTestGame.new,
-        blocBuilder: () => gameBloc,
-        assets: assets,
-      );
-    });
   });
 
-  group('SparkyTurboChargeSensorBallContactCallback', () {
+  group('SparkyComputerSensor', () {
     flameTester.test('calls turboCharge', (game) async {
+      final sensor = SparkyComputerSensor();
       final ball = MockControlledBall();
       final controller = MockBallController();
       when(() => ball.controller).thenReturn(controller);
-      when(() => ball.gameRef).thenReturn(game);
       when(controller.turboCharge).thenAnswer((_) async {});
+
+      await game.ensureAddAll([
+        sensor,
+        SparkyAnimatronic(),
+      ]);
+
+      sensor.beginContact(ball, MockContact());
 
       verify(() => ball.controller.turboCharge()).called(1);
     });
 
     flameTester.test('plays SparkyAnimatronic', (game) async {
+      final sensor = SparkyComputerSensor();
+      final sparkyAnimatronic = SparkyAnimatronic();
       final ball = MockControlledBall();
       final controller = MockBallController();
       when(() => ball.controller).thenReturn(controller);
-      when(() => ball.gameRef).thenReturn(game);
       when(controller.turboCharge).thenAnswer((_) async {});
-
-      final sparkyFireZone = SparkyFireZone();
-      await game.addFromBlueprint(sparkyFireZone);
-      await game.ready();
-
-      final sparkyAnimatronic =
-          sparkyFireZone.components.whereType<SparkyAnimatronic>().single;
+      await game.ensureAddAll([
+        sensor,
+        sparkyAnimatronic,
+      ]);
 
       expect(sparkyAnimatronic.playing, isFalse);
-
+      sensor.beginContact(ball, MockContact());
       expect(sparkyAnimatronic.playing, isTrue);
     });
   });

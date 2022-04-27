@@ -8,9 +8,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 
 class _TestBodyComponent extends BodyComponent {
   @override
-  Body createBody() {
-    return world.createBody(BodyDef());
-  }
+  Body createBody() => world.createBody(BodyDef());
 }
 
 class _TestContactBehavior extends ContactBehavior {

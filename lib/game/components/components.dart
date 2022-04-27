@@ -4,7 +4,7 @@ export 'camera_controller.dart';
 export 'controlled_ball.dart';
 export 'controlled_flipper.dart';
 export 'controlled_plunger.dart';
-export 'flutter_forest.dart';
+export 'flutter_forest/flutter_forest.dart';
 export 'game_flow_controller.dart';
 export 'google_word/google_word.dart';
 export 'launcher.dart';

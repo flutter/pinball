@@ -9,12 +9,12 @@ class AlienBumperCubit extends Cubit<AlienBumperState> {
   // ignore: public_member_api_docs
   AlienBumperCubit() : super(AlienBumperState.active);
 
-  /// Event added when a bumper contacts with a ball.
+  /// Event added when the bumper contacts with a ball.
   void onBallContacted() {
     emit(AlienBumperState.inactive);
   }
 
-  /// Event added when a bumper finishes blinking.
+  /// Event added when the bumper finishes blinking.
   void onBlinked() {
     emit(AlienBumperState.active);
   }

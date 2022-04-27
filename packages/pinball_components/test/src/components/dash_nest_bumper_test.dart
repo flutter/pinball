@@ -40,40 +40,6 @@ void main() {
       expect(game.contains(bumper), isTrue);
     });
 
-    flameTester.test('activate switches to active sprite', (game) async {
-      final bumper = DashNestBumper.main();
-      await game.ensureAdd(bumper);
-
-      final spriteGroupComponent = bumper.firstChild<SpriteGroupComponent>()!;
-
-      expect(
-        spriteGroupComponent.current,
-        equals(DashNestBumperSpriteState.inactive),
-      );
-
-      bumper.activate();
-
-      expect(
-        spriteGroupComponent.current,
-        equals(DashNestBumperSpriteState.active),
-      );
-    });
-
-    flameTester.test('deactivate switches to inactive sprite', (game) async {
-      final bumper = DashNestBumper.main();
-      await game.ensureAdd(bumper);
-
-      final spriteGroupComponent = bumper.firstChild<SpriteGroupComponent>()!
-        ..current = DashNestBumperSpriteState.active;
-
-      bumper.deactivate();
-
-      expect(
-        spriteGroupComponent.current,
-        equals(DashNestBumperSpriteState.inactive),
-      );
-    });
-
     flameTester.test('adds new children', (game) async {
       final component = Component();
       final dashNestBumper = DashNestBumper.a(

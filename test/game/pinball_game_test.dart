@@ -66,6 +66,8 @@ void main() {
 
   group('PinballGame', () {
     group('components', () {
+      // TODO(alestiago): tests that Blueprints get added once the Blueprint
+      // class is removed.
       flameTester.test(
         'has only one BottomWall',
         (game) async {
@@ -96,14 +98,6 @@ void main() {
           equals(1),
         );
       });
-
-      flameTester.test(
-        'one AlienZone',
-        (game) async {
-          await game.ready();
-          expect(game.children.whereType<AlienZone>().length, equals(1));
-        },
-      );
 
       group('controller', () {
         // TODO(alestiago): Write test to be controller agnostic.
