@@ -93,6 +93,8 @@ class _ChromeDinoAnchor extends JointAnchor {
   /// {@macro chrome_dino_anchor}
   _ChromeDinoAnchor();
 
+  // TODO(allisonryan0002): if these aren't moved when fixing the rendering, see
+  // if the joint can be created in onMount to resolve render syncing.
   @override
   Future<void> onLoad() async {
     await super.onLoad();
