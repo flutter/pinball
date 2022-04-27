@@ -76,7 +76,7 @@ extension PinballGameAssetsX on PinballGame {
         components.Assets.images.spaceship.ramp.arrow.active5.keyName,
       ),
       images.load(components.Assets.images.spaceship.rail.main.keyName),
-      images.load(components.Assets.images.spaceship.rail.foreground.keyName),
+      images.load(components.Assets.images.spaceship.rail.exit.keyName),
       images.load(components.Assets.images.alienBumper.a.active.keyName),
       images.load(components.Assets.images.alienBumper.a.inactive.keyName),
       images.load(components.Assets.images.alienBumper.b.active.keyName),

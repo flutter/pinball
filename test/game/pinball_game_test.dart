@@ -45,6 +45,8 @@ void main() {
     Assets.images.spaceship.ramp.arrow.active3.keyName,
     Assets.images.spaceship.ramp.arrow.active4.keyName,
     Assets.images.spaceship.ramp.arrow.active5.keyName,
+    Assets.images.spaceship.rail.main.keyName,
+    Assets.images.spaceship.rail.exit.keyName,
     Assets.images.baseboard.left.keyName,
     Assets.images.baseboard.right.keyName,
     Assets.images.flipper.left.keyName,
