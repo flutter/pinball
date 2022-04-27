@@ -1,0 +1,18 @@
+name: app_ui
+
+on:
+  push:
+    paths:
+      - "packages/app_ui/**"
+      - ".github/workflows/app_ui.yaml"
+
+  pull_request:
+    paths:
+      - "packages/app_ui/**"
+      - ".github/workflows/app_ui.yaml"
+
+jobs:
+  build:
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
+    with:
+      working_directory: packages/app_ui
