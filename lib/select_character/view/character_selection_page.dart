@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs
 
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/l10n/l10n.dart';
@@ -32,17 +33,15 @@ class CharacterSelectionView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return Scaffold(
+    return DialogDecoration(
+      header: Text(
+        l10n.characterSelectionTitle,
+        style: Theme.of(context).textTheme.headline3,
+      ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(height: 80),
-            Text(
-              l10n.characterSelectionTitle,
-              style: Theme.of(context).textTheme.headline3,
-            ),
-            const SizedBox(height: 80),
             const _CharacterSelectionGridView(),
             const SizedBox(height: 20),
             TextButton(
