@@ -49,7 +49,6 @@ class Signpost extends BodyComponent with InitialPosition {
   Signpost({
     Iterable<Component>? children,
   }) : super(
-          priority: RenderPriority.signpost,
           renderBody: false,
           children: [
             _SignpostSpriteComponent(),
