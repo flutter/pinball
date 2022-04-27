@@ -14,7 +14,6 @@ class SparkyBumperBlinkingBehavior extends TimerComponent
   void _onNewState(SparkyBumperState state) {
     switch (state) {
       case SparkyBumperState.active:
-        timer.stop();
         break;
       case SparkyBumperState.inactive:
         timer
@@ -34,6 +33,7 @@ class SparkyBumperBlinkingBehavior extends TimerComponent
   @override
   void onTick() {
     super.onTick();
+    timer.stop();
     parent.bloc.onBlinked();
   }
 }

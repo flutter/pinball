@@ -14,7 +14,6 @@ class AlienBumperBlinkingBehavior extends TimerComponent
   void _onNewState(AlienBumperState state) {
     switch (state) {
       case AlienBumperState.active:
-        timer.stop();
         break;
       case AlienBumperState.inactive:
         timer
@@ -34,6 +33,7 @@ class AlienBumperBlinkingBehavior extends TimerComponent
   @override
   void onTick() {
     super.onTick();
+    timer.stop();
     parent.bloc.onBlinked();
   }
 }
