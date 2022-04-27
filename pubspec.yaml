@@ -7,6 +7,8 @@ environment:
   sdk: ">=2.16.0 <3.0.0"
 
 dependencies:
+  app_ui:
+    path: packages/app_ui
   bloc: ^8.0.2
   cloud_firestore: ^3.1.10
   equatable: ^2.0.3
