@@ -53,7 +53,7 @@ class _GoogleWordController extends ComponentController<GoogleWord>
 
   final _activatedLetters = <GoogleLetter>{};
 
-  void activate(GoogleLetter googleLetter) {
+  Future<void> activate(GoogleLetter googleLetter) async {
     if (!_activatedLetters.add(googleLetter)) return;
 
     googleLetter.activate();
@@ -62,10 +62,28 @@ class _GoogleWordController extends ComponentController<GoogleWord>
     if (activatedBonus) {
       gameRef.audio.googleBonus();
       gameRef.read<GameBloc>().add(const BonusActivated(GameBonus.googleWord));
-      component.children.whereType<GoogleLetter>().forEach(
-            (letter) => letter.deactivate(),
-          );
+      await _bonusAnimation();
       _activatedLetters.clear();
+    }
+  }
+
+  Future<void> _bonusAnimation() async {
+    const blinkDuration = Duration(milliseconds: 300);
+    const blinkCount = 4;
+    final googleLetters = component.children.whereType<GoogleLetter>();
+    var shouldActivate = false;
+
+    await Future<void>.delayed(blinkDuration);
+    for (var i = 1; i < blinkCount * 2; i++) {
+      for (final letter in googleLetters) {
+        if (shouldActivate) {
+          letter.activate();
+        } else {
+          letter.deactivate();
+        }
+      }
+      shouldActivate = !shouldActivate;
+      await Future<void>.delayed(blinkDuration);
     }
   }
 }

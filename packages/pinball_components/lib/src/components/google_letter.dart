@@ -1,5 +1,4 @@
 import 'package:flame/components.dart';
-import 'package:flame/effects.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -10,19 +9,17 @@ import 'package:pinball_components/pinball_components.dart';
 class GoogleLetter extends BodyComponent with InitialPosition {
   /// {@macro google_letter}
   GoogleLetter(int index)
-      : _sprite = _GoogleLetterSprite(
-          _GoogleLetterSprite.spritePaths[index],
+      : _sprite = _GoogleLetterSpriteGroupComponent(
+          _GoogleLetterSpriteGroupComponent.spritePaths[index],
         );
 
-  final _GoogleLetterSprite _sprite;
+  final _GoogleLetterSpriteGroupComponent _sprite;
 
-  /// Activates this [GoogleLetter].
-  // TODO(alestiago): Improve doc comment once activate and deactivate
-  // are implemented with the actual assets.
-  Future<void> activate() => _sprite.activate();
+  /// Displays active sprite for this [GoogleLetter].
+  void activate() => _sprite.activate();
 
-  /// Deactivates this [GoogleLetter].
-  Future<void> deactivate() => _sprite.deactivate();
+  /// Displays inactive sprite for this [GoogleLetter].
+  void deactivate() => _sprite.deactivate();
 
   @override
   Future<void> onLoad() async {
@@ -46,53 +43,90 @@ class GoogleLetter extends BodyComponent with InitialPosition {
   }
 }
 
-class _GoogleLetterSprite extends SpriteComponent with HasGameRef {
-  _GoogleLetterSprite(String path) : _path = path;
+/// Indicates the [GoogleLetter]'s current sprite state.
+@visibleForTesting
+enum GoogleLetterSpriteState {
+  /// A lit up letter.
+  active,
 
-  static final spritePaths = [
-    Assets.images.googleWord.letter1.keyName,
-    Assets.images.googleWord.letter2.keyName,
-    Assets.images.googleWord.letter3.keyName,
-    Assets.images.googleWord.letter4.keyName,
-    Assets.images.googleWord.letter5.keyName,
-    Assets.images.googleWord.letter6.keyName,
+  /// A dimmed letter.
+  inactive,
+}
+
+class _GoogleLetterSpriteGroupComponent
+    extends SpriteGroupComponent<GoogleLetterSpriteState> with HasGameRef {
+  _GoogleLetterSpriteGroupComponent(
+    Map<GoogleLetterSpriteState, String> statePaths,
+  )   : _statePaths = statePaths,
+        super(anchor: Anchor.center);
+
+  static final spritePaths = <Map<GoogleLetterSpriteState, String>>[
+    {
+      GoogleLetterSpriteState.active:
+          Assets.images.googleWord.letter1.active.keyName,
+      GoogleLetterSpriteState.inactive:
+          Assets.images.googleWord.letter1.inactive.keyName,
+    },
+    {
+      GoogleLetterSpriteState.active:
+          Assets.images.googleWord.letter2.active.keyName,
+      GoogleLetterSpriteState.inactive:
+          Assets.images.googleWord.letter2.inactive.keyName,
+    },
+    {
+      GoogleLetterSpriteState.active:
+          Assets.images.googleWord.letter3.active.keyName,
+      GoogleLetterSpriteState.inactive:
+          Assets.images.googleWord.letter3.inactive.keyName,
+    },
+    {
+      GoogleLetterSpriteState.active:
+          Assets.images.googleWord.letter4.active.keyName,
+      GoogleLetterSpriteState.inactive:
+          Assets.images.googleWord.letter4.inactive.keyName,
+    },
+    {
+      GoogleLetterSpriteState.active:
+          Assets.images.googleWord.letter5.active.keyName,
+      GoogleLetterSpriteState.inactive:
+          Assets.images.googleWord.letter5.inactive.keyName,
+    },
+    {
+      GoogleLetterSpriteState.active:
+          Assets.images.googleWord.letter6.active.keyName,
+      GoogleLetterSpriteState.inactive:
+          Assets.images.googleWord.letter6.inactive.keyName,
+    },
   ];
 
-  final String _path;
+  final Map<GoogleLetterSpriteState, String> _statePaths;
 
-  // TODO(alestiago): Correctly implement activate and deactivate once the
-  // assets are provided.
-  Future<void> activate() async {
-    await add(
-      _GoogleLetterColorEffect(color: Colors.green),
-    );
+  void activate() {
+    current = GoogleLetterSpriteState.active;
   }
 
-  Future<void> deactivate() async {
-    await add(
-      _GoogleLetterColorEffect(color: Colors.red),
-    );
+  void deactivate() {
+    current = GoogleLetterSpriteState.inactive;
   }
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
 
-    // TODO(alestiago): Used cached assets.
-    final sprite = await gameRef.loadSprite(_path);
-    this.sprite = sprite;
-    // TODO(alestiago): Size correctly once the assets are provided.
-    size = sprite.originalSize / 5;
-    anchor = Anchor.center;
-  }
-}
+    paint = Paint()..isAntiAlias = false;
 
-class _GoogleLetterColorEffect extends ColorEffect {
-  _GoogleLetterColorEffect({
-    required Color color,
-  }) : super(
-          color,
-          const Offset(0, 1),
-          EffectController(duration: 0.25),
-        );
+    final sprites = {
+      GoogleLetterSpriteState.active: Sprite(
+        gameRef.images.fromCache(_statePaths[GoogleLetterSpriteState.active]!),
+      ),
+      GoogleLetterSpriteState.inactive: Sprite(
+        gameRef.images
+            .fromCache(_statePaths[GoogleLetterSpriteState.inactive]!),
+      ),
+    };
+    this.sprites = sprites;
+
+    current = GoogleLetterSpriteState.inactive;
+    size = sprites[current]!.originalSize / 10;
+  }
 }
