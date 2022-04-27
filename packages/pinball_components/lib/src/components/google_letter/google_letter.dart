@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_components/src/components/google_letter/behaviors/behaviors.dart';
 import 'package:pinball_flame/pinball_flame.dart';
@@ -12,15 +13,24 @@ export 'cubit/google_letter_cubit.dart';
 class GoogleLetter extends BodyComponent with InitialPosition {
   /// {@macro google_letter}
   GoogleLetter(
-    int index, {
-    GoogleLetterCubit? bloc,
-  })  : bloc = bloc ?? GoogleLetterCubit(),
+    int index,
+  )   : bloc = GoogleLetterCubit(),
         super(
           children: [
             GoogleLetterBallContactBehavior(),
             _GoogleLetterSprite(_GoogleLetterSprite.spritePaths[index])
           ],
         );
+
+  /// Creates an [GoogleLetter] without any children.
+  ///
+  /// This can be used for testing [GoogleLetter]'s behaviors in isolation.
+  // TODO(alestiago): Refactor injecting bloc once the following is merged:
+  // https://github.com/flame-engine/flame/pull/1538
+  @visibleForTesting
+  GoogleLetter.test({
+    required this.bloc,
+  });
 
   // TODO(alestiago): Consider refactoring once the following is merged:
   // https://github.com/flame-engine/flame/pull/1538

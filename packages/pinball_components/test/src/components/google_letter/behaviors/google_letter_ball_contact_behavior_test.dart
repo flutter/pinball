@@ -36,7 +36,7 @@ void main() {
               initialState: GoogleLetterState.active,
             );
 
-            final googleLetter = GoogleLetter(0, bloc: bloc);
+            final googleLetter = GoogleLetter.test(bloc: bloc);
             await googleLetter.add(behavior);
             await game.ensureAdd(googleLetter);
 

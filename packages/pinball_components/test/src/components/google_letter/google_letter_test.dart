@@ -96,7 +96,7 @@ void main() {
         initialState: GoogleLetterState.active,
       );
       when(bloc.close).thenAnswer((_) async {});
-      final googleLetter = GoogleLetter(0, bloc: bloc);
+      final googleLetter = GoogleLetter.test(bloc: bloc);
 
       await game.ensureAdd(googleLetter);
       game.remove(googleLetter);
