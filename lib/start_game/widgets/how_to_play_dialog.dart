@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/gen/gen.dart';
 import 'package:pinball/l10n/l10n.dart';
@@ -21,42 +22,134 @@ class HowToPlayDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = defaultTargetPlatform == TargetPlatform.iOS ||
+        defaultTargetPlatform == TargetPlatform.android;
+    return PinballDialogLayout(
+      header: const _HowToPlayHeader(),
+      body: isMobile ? const _MobileBody() : const _DesktopBody(),
+    );
+  }
+}
+
+class _MobileBody extends StatelessWidget {
+  const _MobileBody({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: const [
+        _MobileLaunchControls(),
+        _MobileFlipperControls(),
+      ],
+    );
+  }
+}
+
+class _MobileLaunchControls extends StatelessWidget {
+  const _MobileLaunchControls({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final textStyle = AppTextStyle.headline3.copyWith(
+      color: AppColors.white,
+      fontWeight: FontWeight.bold,
+    );
     final l10n = context.l10n;
+    return Column(
+      children: [
+        Text(l10n.tapAndHold, style: textStyle),
+        Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(text: '${l10n.to} ', style: textStyle),
+              TextSpan(
+                text: l10n.launch,
+                style: textStyle.copyWith(color: AppColors.blue),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _MobileFlipperControls extends StatelessWidget {
+  const _MobileFlipperControls({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final textStyle = AppTextStyle.headline3.copyWith(
+      color: AppColors.white,
+      fontWeight: FontWeight.bold,
+    );
+    final l10n = context.l10n;
+    return Column(
+      children: [
+        Text(l10n.tapLeftRightScreen, style: textStyle),
+        Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(text: '${l10n.to} ', style: textStyle),
+              TextSpan(
+                text: l10n.flip,
+                style: textStyle.copyWith(color: AppColors.orange),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _DesktopBody extends StatelessWidget {
+  const _DesktopBody({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     const spacing = SizedBox(height: 16);
+    return ListView(
+      children: const [
+        spacing,
+        _DesktopLaunchControls(),
+        spacing,
+        _DesktopFlipperControls(),
+      ],
+    );
+  }
+}
+
+class _HowToPlayHeader extends StatelessWidget {
+  const _HowToPlayHeader({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final headerTextStyle = AppTextStyle.headline3.copyWith(
       color: AppColors.darkBlue,
     );
-
-    return PinballDialogLayout(
-      header: FittedBox(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              l10n.howToPlay,
-              style: headerTextStyle.copyWith(fontWeight: FontWeight.bold),
-            ),
-            Text(
-              l10n.tipsForFlips,
-              style: headerTextStyle,
-            ),
-          ],
-        ),
-      ),
-      body: ListView(
-        children: const [
-          spacing,
-          _LaunchControls(),
-          spacing,
-          _FlipperControls(),
+    return FittedBox(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            l10n.howToPlay,
+            style: headerTextStyle.copyWith(fontWeight: FontWeight.bold),
+          ),
+          Text(
+            l10n.tipsForFlips,
+            style: headerTextStyle,
+          ),
         ],
       ),
     );
   }
 }
 
-class _LaunchControls extends StatelessWidget {
-  const _LaunchControls({Key? key}) : super(key: key);
+class _DesktopLaunchControls extends StatelessWidget {
+  const _DesktopLaunchControls({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -87,8 +180,8 @@ class _LaunchControls extends StatelessWidget {
   }
 }
 
-class _FlipperControls extends StatelessWidget {
-  const _FlipperControls({Key? key}) : super(key: key);
+class _DesktopFlipperControls extends StatelessWidget {
+  const _DesktopFlipperControls({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

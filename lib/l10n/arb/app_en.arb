@@ -20,6 +20,26 @@
   "@flipperControls": {
     "description": "Text displayed on the how to play dialog with the flipper controls"
   },
+  "tapAndHold": "Tap & Hold",
+  "@tapAndHold": {
+    "description": "Text displayed on the how to launch on mobile"
+  },
+  "to": "to",
+  "@to": {
+    "description": "Text displayed for the word to"
+  },
+  "launch": "LAUNCH",
+  "@launch": {
+    "description": "Text displayed for the word launch"
+  },
+  "tapLeftRightScreen": "Tap left/right screen",
+  "@tapLeftRightScreen": {
+    "description": "Text displayed on the how to flip on mobile"
+  },
+  "flip": "FLIP",
+  "@flip": {
+    "description": "Text displayed for the word FLIP"
+  },
   "start": "Start",
   "@start": {
     "description": "Text displayed on the character selection page start button"
