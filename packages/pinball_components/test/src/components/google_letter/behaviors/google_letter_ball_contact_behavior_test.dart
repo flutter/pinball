@@ -5,7 +5,7 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_components/src/components/google_letter/behaviors/google_letter_ball_contact_behavior.dart';
+import 'package:pinball_components/src/components/google_letter/behaviors/behaviors.dart';
 
 import '../../../../helpers/helpers.dart';
 
