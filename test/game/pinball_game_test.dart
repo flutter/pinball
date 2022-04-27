@@ -86,17 +86,6 @@ void main() {
 
   final flameTester = FlameTester(() => PinballTestGame(assets));
   final debugModeFlameTester = FlameTester(() => DebugPinballTestGame(assets));
-  late GameBloc gameBloc;
-
-  setUp(() {
-    gameBloc = GameBloc();
-  });
-
-  final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
-    gameBuilder: EmptyPinballTestGame.new,
-    blocBuilder: () => gameBloc,
-    // assets: assets,
-  );
 
   group('PinballGame', () {
     // TODO(alestiago): test if [PinballGame] registers

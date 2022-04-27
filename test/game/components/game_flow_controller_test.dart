@@ -16,7 +16,6 @@ void main() {
         final state = GameState(
           score: 10,
           multiplier: 1,
-          balls: 0,
           rounds: 0,
           bonusHistory: const [],
         );
@@ -69,7 +68,6 @@ void main() {
             GameState(
               score: 10,
               multiplier: 1,
-              balls: 0,
               rounds: 0,
               bonusHistory: const [],
             ),

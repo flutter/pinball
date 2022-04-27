@@ -21,7 +21,6 @@ void main() {
       const state = GameState(
         score: 0,
         multiplier: 1,
-        balls: 0,
         rounds: 0,
         bonusHistory: [],
       );

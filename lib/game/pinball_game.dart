@@ -102,8 +102,6 @@ class _GameBallsController extends ComponentController<PinballGame>
     final noBallsLeft = component.descendants().whereType<Ball>().isEmpty;
     final notGameOver = !newState.isGameOver;
 
-    print("noBallsLeft $noBallsLeft");
-    print("notGameOver $notGameOver");
     return noBallsLeft && notGameOver;
   }
 

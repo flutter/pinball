@@ -7,12 +7,12 @@ import 'package:pinball_theme/pinball_theme.dart';
 
 /// {@template controlled_ball}
 /// A [Ball] with a [BallController] attached.
+///
+/// When a [Ball] is lost, if there aren't more [Ball]s and game is not over,
+/// a new [Ball] will be spawned.
 /// {@endtemplate}
 class ControlledBall extends Ball with Controls<BallController> {
   /// A [Ball] that launches from the [Plunger].
-  ///
-  /// When a launched [Ball] is lost, it will decrease the [GameState.balls]
-  /// count, and a new [Ball] is spawned.
   ControlledBall.launch({
     required CharacterTheme characterTheme,
   }) : super(baseColor: characterTheme.ballColor) {
@@ -23,8 +23,6 @@ class ControlledBall extends Ball with Controls<BallController> {
 
   /// {@template bonus_ball}
   /// {@macro controlled_ball}
-  ///
-  /// When a bonus [Ball] is lost, the [GameState.balls] doesn't change.
   /// {@endtemplate}
   ControlledBall.bonus({
     required CharacterTheme characterTheme,

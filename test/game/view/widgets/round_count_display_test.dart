@@ -12,7 +12,6 @@ void main() {
     const initialState = GameState(
       score: 0,
       multiplier: 1,
-      balls: 1,
       rounds: 3,
       bonusHistory: [],
     );
