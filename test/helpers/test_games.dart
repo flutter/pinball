@@ -20,9 +20,7 @@ class PinballTestGame extends PinballGame {
       : _assets = assets,
         super(
           audio: MockPinballAudio(),
-          theme: const PinballTheme(
-            characterTheme: DashTheme(),
-          ),
+          characterTheme: const DashTheme(),
         );
   final List<String>? _assets;
 
@@ -40,9 +38,7 @@ class DebugPinballTestGame extends DebugPinballGame {
       : _assets = assets,
         super(
           audio: MockPinballAudio(),
-          theme: const PinballTheme(
-            characterTheme: DashTheme(),
-          ),
+          characterTheme: const DashTheme(),
         );
 
   final List<String>? _assets;

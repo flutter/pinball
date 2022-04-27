@@ -8,7 +8,7 @@ import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/leaderboard/leaderboard.dart';
-import 'package:pinball/theme/theme.dart';
+import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 
@@ -35,7 +35,7 @@ class MockGameBloc extends Mock implements GameBloc {}
 
 class MockGameState extends Mock implements GameState {}
 
-class MockThemeCubit extends Mock implements ThemeCubit {}
+class MockCharacterThemeCubit extends Mock implements CharacterThemeCubit {}
 
 class MockLeaderboardBloc extends Mock implements LeaderboardBloc {}
 

@@ -14,7 +14,7 @@ import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:mockingjay/mockingjay.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
-import 'package:pinball/theme/theme.dart';
+import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 
 import 'helpers.dart';
@@ -52,7 +52,7 @@ extension PumpApp on WidgetTester {
     MockNavigator? navigator,
     GameBloc? gameBloc,
     AssetsManagerCubit? assetsManagerCubit,
-    ThemeCubit? themeCubit,
+    CharacterThemeCubit? characterThemeCubit,
     LeaderboardRepository? leaderboardRepository,
     PinballAudio? pinballAudio,
   }) {
@@ -70,7 +70,7 @@ extension PumpApp on WidgetTester {
           child: MultiBlocProvider(
             providers: [
               BlocProvider.value(
-                value: themeCubit ?? MockThemeCubit(),
+                value: characterThemeCubit ?? MockCharacterThemeCubit(),
               ),
               BlocProvider.value(
                 value: gameBloc ?? MockGameBloc(),
