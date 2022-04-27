@@ -35,6 +35,8 @@ void main() {
     setUp(() async {
       gameBloc = MockGameBloc();
 
+      // TODO(arturplaczek): need to find for a better solution for loading
+      // image or use original images from BonusAnimation.loadAssets()
       final image = await decodeImageFromList(Uint8List.fromList(fakeImage));
       final images = MockImages();
       when(() => images.fromCache(any())).thenReturn(image);
