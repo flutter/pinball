@@ -1,12 +1,12 @@
 // ignore_for_file: public_member_api_docs
 
-import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_theme/pinball_theme.dart';
+import 'package:pinball_ui/pinball_ui.dart';
 
 class CharacterSelectionDialog extends StatelessWidget {
   const CharacterSelectionDialog({Key? key}) : super(key: key);
@@ -33,7 +33,7 @@ class CharacterSelectionView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return DialogDecoration(
+    return PinballDialogLayout(
       header: Text(
         l10n.characterSelectionTitle,
         style: Theme.of(context).textTheme.headline3,

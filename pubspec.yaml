@@ -7,8 +7,6 @@ environment:
   sdk: ">=2.16.0 <3.0.0"
 
 dependencies:
-  app_ui:
-    path: packages/app_ui
   bloc: ^8.0.2
   cloud_firestore: ^3.1.10
   equatable: ^2.0.3
@@ -33,6 +31,8 @@ dependencies:
     path: packages/pinball_flame
   pinball_theme:
     path: packages/pinball_theme
+  pinball_ui:
+    path: packages/pinball_ui
 
 dev_dependencies:
   bloc_test: ^9.0.2

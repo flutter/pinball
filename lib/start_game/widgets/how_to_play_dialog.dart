@@ -1,8 +1,8 @@
 // ignore_for_file: public_member_api_docs
 
-import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/l10n/l10n.dart';
+import 'package:pinball_ui/pinball_ui.dart';
 
 class HowToPlayDialog extends StatelessWidget {
   const HowToPlayDialog({Key? key}) : super(key: key);
@@ -12,7 +12,7 @@ class HowToPlayDialog extends StatelessWidget {
     final l10n = context.l10n;
     const spacing = SizedBox(height: 16);
 
-    return DialogDecoration(
+    return PinballDialogLayout(
       header: Text(l10n.howToPlay),
       body: Column(
         children: const [

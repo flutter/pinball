@@ -28,7 +28,8 @@ class Assets {
 }
 
 class AssetGenImage extends AssetImage {
-  const AssetGenImage(String assetName) : super(assetName, package: 'app_ui');
+  const AssetGenImage(String assetName)
+      : super(assetName, package: 'pinball_ui');
 
   Image image({
     Key? key,
