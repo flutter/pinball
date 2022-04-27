@@ -14,7 +14,7 @@ class HowToPlayDialog extends StatelessWidget {
 
     return PinballDialogLayout(
       header: Text(l10n.howToPlay),
-      body: Column(
+      body: ListView(
         children: const [
           spacing,
           _LaunchControls(),
@@ -38,9 +38,7 @@ class _LaunchControls extends StatelessWidget {
       children: [
         Text(l10n.launchControls),
         const SizedBox(height: 10),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
+        Wrap(
           children: const [
             KeyIndicator.fromIcon(keyIcon: Icons.keyboard_arrow_down),
             spacing,
@@ -78,9 +76,7 @@ class _FlipperControls extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
+            Wrap(
               children: const [
                 KeyIndicator.fromKeyName(keyName: 'A'),
                 rowSpacing,
