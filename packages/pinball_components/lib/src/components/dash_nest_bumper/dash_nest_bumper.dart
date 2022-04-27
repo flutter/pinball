@@ -80,9 +80,8 @@ class DashNestBumper extends BodyComponent with InitialPosition {
 
   /// {@macro dash_nest_bumper}
   @visibleForTesting
-  DashNestBumper.test({DashNestBumperCubit? bloc})
-      : bloc = bloc ?? DashNestBumperCubit(),
-        _majorRadius = 3,
+  DashNestBumper.test({required this.bloc})
+      : _majorRadius = 3,
         _minorRadius = 2.5;
 
   final double _majorRadius;

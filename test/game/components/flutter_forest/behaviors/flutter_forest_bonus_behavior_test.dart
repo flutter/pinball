@@ -36,9 +36,9 @@ void main() {
         final behavior = FlutterForestBonusBehavior();
         final parent = FlutterForest.test();
         final bumpers = [
-          DashNestBumper.test(),
-          DashNestBumper.test(),
-          DashNestBumper.test(),
+          DashNestBumper.test(bloc: DashNestBumperCubit()),
+          DashNestBumper.test(bloc: DashNestBumperCubit()),
+          DashNestBumper.test(bloc: DashNestBumperCubit()),
         ];
         await parent.addAll(bumpers);
         await game.ensureAdd(parent);
@@ -61,9 +61,9 @@ void main() {
         final behavior = FlutterForestBonusBehavior();
         final parent = FlutterForest.test();
         final bumpers = [
-          DashNestBumper.test(),
-          DashNestBumper.test(),
-          DashNestBumper.test(),
+          DashNestBumper.test(bloc: DashNestBumperCubit()),
+          DashNestBumper.test(bloc: DashNestBumperCubit()),
+          DashNestBumper.test(bloc: DashNestBumperCubit()),
         ];
         await parent.addAll(bumpers);
         await game.ensureAdd(parent);
