@@ -71,7 +71,7 @@ class _FlutterForestController extends ComponentController<FlutterForest>
 
   Future<void> _addBonusBall() async {
     await gameRef.add(
-      ControlledBall.bonus(theme: gameRef.theme)
+      ControlledBall.bonus(characterTheme: gameRef.characterTheme)
         ..initialPosition = Vector2(17.2, -52.7),
     );
   }

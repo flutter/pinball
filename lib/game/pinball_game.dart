@@ -20,7 +20,7 @@ class PinballGame extends Forge2DGame
         HasKeyboardHandlerComponents,
         Controls<_GameBallsController> {
   PinballGame({
-    required this.theme,
+    required this.characterTheme,
     required this.audio,
   }) {
     images.prefix = '';
@@ -33,7 +33,7 @@ class PinballGame extends Forge2DGame
   @override
   Color backgroundColor() => Colors.transparent;
 
-  final PinballTheme theme;
+  final CharacterTheme characterTheme;
 
   final PinballAudio audio;
 
@@ -119,7 +119,7 @@ class _GameBallsController extends ComponentController<PinballGame>
 
   void _spawnBall() {
     final ball = ControlledBall.launch(
-      theme: gameRef.theme,
+      characterTheme: gameRef.characterTheme,
     )..initialPosition = Vector2(
         _plunger.body.position.x,
         _plunger.body.position.y - Ball.size.y,
@@ -137,10 +137,10 @@ class _GameBallsController extends ComponentController<PinballGame>
 
 class DebugPinballGame extends PinballGame with FPSCounter, TapDetector {
   DebugPinballGame({
-    required PinballTheme theme,
+    required CharacterTheme characterTheme,
     required PinballAudio audio,
   }) : super(
-          theme: theme,
+          characterTheme: characterTheme,
           audio: audio,
         ) {
     controller = _DebugGameBallsController(this);

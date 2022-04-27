@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/l10n/l10n.dart';
+import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
-import 'package:pinball/theme/theme.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
 class CharacterSelectionDialog extends StatelessWidget {
@@ -19,7 +19,7 @@ class CharacterSelectionDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => ThemeCubit(),
+      create: (_) => CharacterThemeCubit(),
       child: const CharacterSelectionView(),
     );
   }
@@ -109,12 +109,14 @@ class CharacterImageButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentCharacterTheme = context.select<ThemeCubit, CharacterTheme>(
-      (cubit) => cubit.state.theme.characterTheme,
+    final currentCharacterTheme =
+        context.select<CharacterThemeCubit, CharacterTheme>(
+      (cubit) => cubit.state.characterTheme,
     );
 
     return GestureDetector(
-      onTap: () => context.read<ThemeCubit>().characterSelected(characterTheme),
+      onTap: () =>
+          context.read<CharacterThemeCubit>().characterSelected(characterTheme),
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: (currentCharacterTheme == characterTheme)
