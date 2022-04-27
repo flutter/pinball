@@ -3,6 +3,8 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
+// TODO(alestiago): Make use of generics to infer the type of the contact.
+// https://github.com/VGVentures/pinball/pull/234#discussion_r859182267
 abstract class ContactBehavior<T extends BodyComponent> extends Component
     with ContactCallbacks, ParentIsA<T> {
   @override
