@@ -2,10 +2,10 @@ import 'package:app_ui/gen/gen.dart';
 import 'package:flutter/material.dart';
 
 /// {@template dialog_background}
-/// A card with image background.
+/// A dialog decoration with pixel looking background.
 ///
 /// Requires the header [Widget] and body [Widget], which are displayed on the
-/// card.
+/// decoration.
 /// {@endtemplate}
 class DialogDecoration extends StatelessWidget {
   /// {@macro dialog_background}
