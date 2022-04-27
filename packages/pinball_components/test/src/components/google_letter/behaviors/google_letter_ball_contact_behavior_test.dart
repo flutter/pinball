@@ -23,27 +23,24 @@ void main() {
         );
       });
 
-      group(
-        'beginContact',
-        () {
-          flameTester.test('emits onBallContacted when contacts with a ball',
-              (game) async {
-            final behavior = GoogleLetterBallContactBehavior();
-            final bloc = MockGoogleLetterCubit();
-            whenListen(
-              bloc,
-              const Stream<GoogleLetterState>.empty(),
-              initialState: GoogleLetterState.active,
-            );
+      flameTester.test(
+        'beginContact emits onBallContacted when contacts with a ball',
+        (game) async {
+          final behavior = GoogleLetterBallContactBehavior();
+          final bloc = MockGoogleLetterCubit();
+          whenListen(
+            bloc,
+            const Stream<GoogleLetterState>.empty(),
+            initialState: GoogleLetterState.active,
+          );
 
-            final googleLetter = GoogleLetter.test(bloc: bloc);
-            await googleLetter.add(behavior);
-            await game.ensureAdd(googleLetter);
+          final googleLetter = GoogleLetter.test(bloc: bloc);
+          await googleLetter.add(behavior);
+          await game.ensureAdd(googleLetter);
 
-            behavior.beginContact(MockBall(), MockContact());
+          behavior.beginContact(MockBall(), MockContact());
 
-            verify(googleLetter.bloc.onBallContacted).called(1);
-          });
+          verify(googleLetter.bloc.onBallContacted).called(1);
         },
       );
     },

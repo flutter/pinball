@@ -23,27 +23,24 @@ void main() {
         );
       });
 
-      group(
-        'beginContact',
-        () {
-          flameTester.test('emits onBallContacted when contacts with a ball',
-              (game) async {
-            final behavior = AlienBumperBallContactBehavior();
-            final bloc = MockAlienBumperCubit();
-            whenListen(
-              bloc,
-              const Stream<AlienBumperState>.empty(),
-              initialState: AlienBumperState.active,
-            );
+      flameTester.test(
+        'beginContact emits onBallContacted when contacts with a ball',
+        (game) async {
+          final behavior = AlienBumperBallContactBehavior();
+          final bloc = MockAlienBumperCubit();
+          whenListen(
+            bloc,
+            const Stream<AlienBumperState>.empty(),
+            initialState: AlienBumperState.active,
+          );
 
-            final alienBumper = AlienBumper.test(bloc: bloc);
-            await alienBumper.add(behavior);
-            await game.ensureAdd(alienBumper);
+          final alienBumper = AlienBumper.test(bloc: bloc);
+          await alienBumper.add(behavior);
+          await game.ensureAdd(alienBumper);
 
-            behavior.beginContact(MockBall(), MockContact());
+          behavior.beginContact(MockBall(), MockContact());
 
-            verify(alienBumper.bloc.onBallContacted).called(1);
-          });
+          verify(alienBumper.bloc.onBallContacted).called(1);
         },
       );
     },

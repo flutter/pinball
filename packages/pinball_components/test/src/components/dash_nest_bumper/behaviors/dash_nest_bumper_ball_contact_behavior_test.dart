@@ -23,27 +23,24 @@ void main() {
         );
       });
 
-      group(
-        'beginContact',
-        () {
-          flameTester.test('emits onBallContacted when contacts with a ball',
-              (game) async {
-            final behavior = DashNestBumperBallContactBehavior();
-            final bloc = MockDashNestBumperCubit();
-            whenListen(
-              bloc,
-              const Stream<DashNestBumperState>.empty(),
-              initialState: DashNestBumperState.active,
-            );
+      flameTester.test(
+        'beginContact emits onBallContacted when contacts with a ball',
+        (game) async {
+          final behavior = DashNestBumperBallContactBehavior();
+          final bloc = MockDashNestBumperCubit();
+          whenListen(
+            bloc,
+            const Stream<DashNestBumperState>.empty(),
+            initialState: DashNestBumperState.active,
+          );
 
-            final alienBumper = DashNestBumper.test(bloc: bloc);
-            await alienBumper.add(behavior);
-            await game.ensureAdd(alienBumper);
+          final alienBumper = DashNestBumper.test(bloc: bloc);
+          await alienBumper.add(behavior);
+          await game.ensureAdd(alienBumper);
 
-            behavior.beginContact(MockBall(), MockContact());
+          behavior.beginContact(MockBall(), MockContact());
 
-            verify(alienBumper.bloc.onBallContacted).called(1);
-          });
+          verify(alienBumper.bloc.onBallContacted).called(1);
         },
       );
     },
