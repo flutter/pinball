@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/select_character/select_character.dart';
+import 'package:pinball/start_game/start_game.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -79,6 +80,7 @@ void main() {
         'renders PinballGameLoadedView after resources have been loaded',
         (tester) async {
       final assetsManagerCubit = MockAssetsManagerCubit();
+      final startGameBloc = MockStartGameBloc();
 
       final loadedAssetsState = AssetsManagerState(
         loadables: [Future<void>.value()],
@@ -89,6 +91,11 @@ void main() {
         Stream.value(loadedAssetsState),
         initialState: loadedAssetsState,
       );
+      whenListen(
+        startGameBloc,
+        Stream.value(StartGameState.initial()),
+        initialState: StartGameState.initial(),
+      );
 
       await tester.pumpApp(
         PinballGameView(
@@ -97,6 +104,7 @@ void main() {
         assetsManagerCubit: assetsManagerCubit,
         characterThemeCubit: characterThemeCubit,
         gameBloc: gameBloc,
+        startGameBloc: startGameBloc,
       );
 
       await tester.pump();
@@ -160,27 +168,59 @@ void main() {
   });
 
   group('PinballGameView', () {
+    final gameBloc = MockGameBloc();
+    final startGameBloc = MockStartGameBloc();
+
     setUp(() async {
       await Future.wait<void>(game.preLoadAssets());
-    });
 
-    testWidgets('renders game and a hud', (tester) async {
-      final gameBloc = MockGameBloc();
       whenListen(
         gameBloc,
         Stream.value(const GameState.initial()),
         initialState: const GameState.initial(),
       );
 
+      whenListen(
+        startGameBloc,
+        Stream.value(StartGameState.initial()),
+        initialState: StartGameState.initial(),
+      );
+    });
+
+    testWidgets('renders game', (tester) async {
       await tester.pumpApp(
         PinballGameView(game: game),
         gameBloc: gameBloc,
+        startGameBloc: startGameBloc,
       );
 
       expect(
         find.byWidgetPredicate((w) => w is GameWidget<PinballGame>),
         findsOneWidget,
       );
+      expect(
+        find.byType(GameHud),
+        findsNothing,
+      );
+    });
+
+    testWidgets('renders a hud on play state', (tester) async {
+      final startGameState = StartGameState.initial().copyWith(
+        status: StartGameStatus.play,
+      );
+
+      whenListen(
+        startGameBloc,
+        Stream.value(startGameState),
+        initialState: startGameState,
+      );
+
+      await tester.pumpApp(
+        PinballGameView(game: game),
+        gameBloc: gameBloc,
+        startGameBloc: startGameBloc,
+      );
+
       expect(
         find.byType(GameHud),
         findsOneWidget,
