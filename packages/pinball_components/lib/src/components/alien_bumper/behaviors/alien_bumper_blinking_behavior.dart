@@ -3,8 +3,8 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template alien_bumper_blinking_behavior}
-/// Makes a [SparkyBumper] blink back to [SparkyBumperState.active] when
-/// [SparkyBumperState.inactive].
+/// Makes a [AlienBumper] blink back to [AlienBumperState.active] when
+/// [AlienBumperState.inactive].
 /// {@endtemplate}
 class AlienBumperBlinkingBehavior extends TimerComponent
     with ParentIsA<AlienBumper> {
