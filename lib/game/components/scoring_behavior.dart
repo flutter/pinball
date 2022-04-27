@@ -7,7 +7,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template scoring_behavior}
-///
+/// Adds points to the score when the ball contacts the [parent].
 /// {@endtemplate}
 class ScoringBehavior extends ContactBehavior with HasGameRef<PinballGame> {
   /// {@macro scoring_behavior}
