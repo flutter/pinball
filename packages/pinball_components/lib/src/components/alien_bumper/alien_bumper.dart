@@ -73,6 +73,8 @@ class AlienBumper extends BodyComponent with InitialPosition {
 
   final double _minorRadius;
 
+  // TODO(alestiago): Consider refactoring once the following is merged:
+  // https://github.com/flame-engine/flame/pull/1538
   final AlienBumperCubit bloc;
 
   @override
