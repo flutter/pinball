@@ -28,11 +28,28 @@ class MultipliersGame extends BallGame with KeyboardEvents {
     - Press digits 2 to 6 for toggle state multipliers 2 to 6.
 ''';
 
-  late final Multiplier x2;
-  late final Multiplier x3;
-  late final Multiplier x4;
-  late final Multiplier x5;
-  late final Multiplier x6;
+  final List<Multiplier> multipliers = [
+    Multiplier(
+      value: MultiplierValue.x2,
+      position: Vector2(-20, 0),
+    ),
+    Multiplier(
+      value: MultiplierValue.x3,
+      position: Vector2(20, -5),
+    ),
+    Multiplier(
+      value: MultiplierValue.x4,
+      position: Vector2(0, -15),
+    ),
+    Multiplier(
+      value: MultiplierValue.x5,
+      position: Vector2(-10, -25),
+    ),
+    Multiplier(
+      value: MultiplierValue.x6,
+      position: Vector2(10, -35),
+    ),
+  ];
 
   @override
   Future<void> onLoad() async {
@@ -40,28 +57,7 @@ class MultipliersGame extends BallGame with KeyboardEvents {
 
     camera.followVector2(Vector2.zero());
 
-    x2 = Multiplier(
-      value: MultiplierValue.x2,
-      position: Vector2(-20, 0),
-    );
-    x3 = Multiplier(
-      value: MultiplierValue.x3,
-      position: Vector2(20, -5),
-    );
-    x4 = Multiplier(
-      value: MultiplierValue.x4,
-      position: Vector2(0, -15),
-    );
-    x5 = Multiplier(
-      value: MultiplierValue.x5,
-      position: Vector2(-10, -25),
-    );
-    x6 = Multiplier(
-      value: MultiplierValue.x6,
-      position: Vector2(10, -35),
-    );
-
-    await addAll([x2, x3, x4, x5, x6]);
+    await addAll(multipliers);
     await traceAllBodies();
   }
 
@@ -89,11 +85,9 @@ class MultipliersGame extends BallGame with KeyboardEvents {
         currentMultiplier = 6;
       }
 
-      x2.toggle(currentMultiplier);
-      x3.toggle(currentMultiplier);
-      x4.toggle(currentMultiplier);
-      x5.toggle(currentMultiplier);
-      x6.toggle(currentMultiplier);
+      for (final multiplier in multipliers) {
+        multiplier.bloc.toggle(currentMultiplier);
+      }
 
       return KeyEventResult.handled;
     }
