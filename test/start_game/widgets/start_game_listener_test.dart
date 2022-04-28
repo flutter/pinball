@@ -18,8 +18,10 @@ void main() {
       pinballGame = MockPinballGame();
     });
 
+    // TODO(arturplaczek): need to fix that test
     testWidgets(
-      'on selectCharacter status shows SelectCharacter dialog',
+      'on selectCharacter status calls start on the game controller and shows '
+      'SelectCharacter dialog',
       (tester) async {
         whenListen(
           startGameBloc,
@@ -28,18 +30,23 @@ void main() {
           ),
           initialState: const StartGameState.initial(),
         );
+        final gameController = MockGameFlowController();
+        when(() => pinballGame.gameFlowController)
+            .thenAnswer((_) => gameController);
 
         await tester.pumpApp(
           StartGameListener(
             game: pinballGame,
+            selectCharacterDelay: 0,
             child: const SizedBox.shrink(),
           ),
           startGameBloc: startGameBloc,
         );
+        verify(gameController.start).called(1);
 
-        await tester.pumpAndSettle();
+        await tester.pumpAndSettle(kThemeAnimationDuration);
 
-        expect(
+        await expectLater(
           find.byType(CharacterSelectionDialog),
           findsOneWidget,
         );
@@ -75,7 +82,7 @@ void main() {
     );
 
     testWidgets(
-      'on play status call start on game controller',
+      'do nothing on play status',
       (tester) async {
         whenListen(
           startGameBloc,
@@ -85,10 +92,6 @@ void main() {
           initialState: const StartGameState.initial(),
         );
 
-        final gameController = MockGameFlowController();
-        when(() => pinballGame.gameFlowController)
-            .thenAnswer((invocation) => gameController);
-
         await tester.pumpApp(
           StartGameListener(
             game: pinballGame,
@@ -97,10 +100,16 @@ void main() {
           startGameBloc: startGameBloc,
         );
 
-        await tester.pumpAndSettle(kThemeAnimationDuration);
-        await tester.pumpAndSettle(kThemeAnimationDuration);
+        await tester.pumpAndSettle();
 
-        verify(gameController.start).called(1);
+        expect(
+          find.byType(HowToPlayDialog),
+          findsNothing,
+        );
+        expect(
+          find.byType(CharacterSelectionDialog),
+          findsNothing,
+        );
       },
     );
 

@@ -12,12 +12,15 @@ class StartGameListener extends StatelessWidget {
     Key? key,
     required Widget child,
     required PinballGame game,
+    int selectCharacterDelay = 1300,
   })  : _child = child,
         _game = game,
+        _selectCharacterDelay = selectCharacterDelay,
         super(key: key);
 
   final Widget _child;
   final PinballGame _game;
+  final int _selectCharacterDelay;
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +30,13 @@ class StartGameListener extends StatelessWidget {
           case StartGameStatus.initial:
             break;
           case StartGameStatus.selectCharacter:
+            _game.gameFlowController.start();
             _onSelectCharacter(context);
             break;
           case StartGameStatus.howToPlay:
             _onHowToPlay(context);
             break;
           case StartGameStatus.play:
-            _game.gameFlowController.start();
             break;
         }
       },
@@ -41,7 +44,12 @@ class StartGameListener extends StatelessWidget {
     );
   }
 
-  void _onSelectCharacter(BuildContext context) {
+  Future<void> _onSelectCharacter(BuildContext context) async {
+    // We need to add a delay between starting the game and showing
+    // the dialog.
+    await Future<void>.delayed(
+      Duration(milliseconds: _selectCharacterDelay),
+    );
     _showPinballDialog(
       context: context,
       child: const CharacterSelectionDialog(),
@@ -50,7 +58,7 @@ class StartGameListener extends StatelessWidget {
   }
 }
 
-Future<void> _onHowToPlay(BuildContext context) async {
+void _onHowToPlay(BuildContext context) {
   _showPinballDialog(
     context: context,
     child: HowToPlayDialog(
