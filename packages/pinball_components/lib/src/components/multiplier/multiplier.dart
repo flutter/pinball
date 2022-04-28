@@ -23,11 +23,6 @@ class Multiplier extends Component {
         bloc = MultiplierCubit(value),
         super();
 
-  final MultiplierValue _value;
-  final Vector2 _position;
-  final double _rotation;
-  late final MultiplierSpriteGroupComponent _sprite;
-
   /// Creates a [Multiplier] without any children.
   ///
   /// This can be used for testing [Multiplier]'s behaviors in isolation.
@@ -43,8 +38,12 @@ class Multiplier extends Component {
 
 // TODO(ruimiguel): Consider refactoring once the following is merged:
   // https://github.com/flame-engine/flame/pull/1538
-  // ignore: public_member_api_docs
   final MultiplierCubit bloc;
+
+  final MultiplierValue _value;
+  final Vector2 _position;
+  final double _rotation;
+  late final MultiplierSpriteGroupComponent _sprite;
 
   @override
   void onRemove() {
