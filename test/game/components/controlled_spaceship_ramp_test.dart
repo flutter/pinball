@@ -23,13 +23,13 @@ void main() {
     Assets.images.spaceship.ramp.arrow.active4.keyName,
     Assets.images.spaceship.ramp.arrow.active5.keyName,
   ];
-  final flameTester = FlameTester(() => EmptyPinballTestGame(assets));
+  final flameTester = FlameTester(() => EmptyPinballTestGame(assets: assets));
 
   group('ControlledSpaceshipRamp', () {
     flameTester.test(
       'loads correctly',
       (game) async {
-        final controlledSpaceshipRamp = ControlledSpaceshipRamp();
+        final controlledSpaceshipRamp = AndroidRamp();
         await game.ensureAdd(controlledSpaceshipRamp);
 
         expect(game.contains(controlledSpaceshipRamp), isTrue);
@@ -40,7 +40,7 @@ void main() {
       flameTester.test(
         'four SpriteComponent (two rails, main and opening)',
         (game) async {
-          final controlledSpaceshipRamp = ControlledSpaceshipRamp();
+          final controlledSpaceshipRamp = AndroidRamp();
           await game.ensureAdd(controlledSpaceshipRamp);
 
           expect(
@@ -56,7 +56,7 @@ void main() {
       flameTester.test(
         'a SpaceshipRampArrowSpriteComponent',
         (game) async {
-          final controlledSpaceshipRamp = ControlledSpaceshipRamp();
+          final controlledSpaceshipRamp = AndroidRamp();
           await game.ensureAdd(controlledSpaceshipRamp);
 
           expect(
@@ -72,13 +72,13 @@ void main() {
       flameTester.test(
         'two SpaceshipRampSensor',
         (game) async {
-          final controlledSpaceshipRamp = ControlledSpaceshipRamp();
+          final controlledSpaceshipRamp = AndroidRamp();
           await game.ensureAdd(controlledSpaceshipRamp);
 
           expect(
             controlledSpaceshipRamp
                 .descendants()
-                .whereType<SpaceshipRampSensor>()
+                .whereType<AndroidRampSensor>()
                 .length,
             equals(2),
           );
@@ -91,10 +91,10 @@ void main() {
     TestWidgetsFlutterBinding.ensureInitialized();
     final flameTester = FlameTester(EmptyPinballTestGame.new);
 
-    late ControlledSpaceshipRamp controlledSpaceshipRamp;
+    late AndroidRamp controlledSpaceshipRamp;
 
     setUp(() {
-      controlledSpaceshipRamp = ControlledSpaceshipRamp();
+      controlledSpaceshipRamp = AndroidRamp();
     });
 
     test('can be instantiated', () {
@@ -116,7 +116,7 @@ void main() {
         final ball = MockControlledBall();
 
         when(() => spaceshipRampSensor.type)
-            .thenReturn(SpaceshipRampSensorType.door);
+            .thenReturn(AndroidRampSensorType.door);
         when(() => spaceshipRampSensor.parent)
             .thenReturn(controlledSpaceshipRamp);
         when(() => controlledSpaceshipRamp.controller).thenReturn(controller);

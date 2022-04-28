@@ -24,9 +24,9 @@ class AndroidAcres extends Blueprint {
                 ScoringBehavior(points: 20),
               ],
             )..initialPosition = Vector2(-22.89, -17.35),
+            AndroidRamp(),
           ],
           blueprints: [
-            SpaceshipRamp(),
             Spaceship(position: Vector2(-26.5, -28.5)),
             SpaceshipRail(),
           ],

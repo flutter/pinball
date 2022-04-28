@@ -71,13 +71,12 @@ class MockPinballAudio extends Mock implements PinballAudio {}
 
 class MockSparkyComputerSensor extends Mock implements SparkyComputerSensor {}
 
-class MockControlledSpaceshipRamp extends Mock
-    implements ControlledSpaceshipRamp {}
+class MockControlledSpaceshipRamp extends Mock implements AndroidRamp {}
 
 class MockSpaceshipRampController extends Mock
     implements SpaceshipRampController {}
 
-class MockSpaceshipRampSensor extends Mock implements SpaceshipRampSensor {}
+class MockSpaceshipRampSensor extends Mock implements AndroidRampSensor {}
 
 class MockAssetsManagerCubit extends Mock implements AssetsManagerCubit {}
 
