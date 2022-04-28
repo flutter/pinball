@@ -282,7 +282,9 @@ class KeyButton extends StatelessWidget {
         image: DecorationImage(
           fit: BoxFit.fill,
           image: AssetImage(
-            Assets.images.components.key.keyName,
+            _control.isSpace
+                ? Assets.images.components.space.keyName
+                : Assets.images.components.key.keyName,
           ),
         ),
       ),

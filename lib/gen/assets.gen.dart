@@ -51,6 +51,10 @@ class $AssetsImagesComponentsGen {
   /// File path: assets/images/components/key.png
   AssetGenImage get key =>
       const AssetGenImage('assets/images/components/key.png');
+
+  /// File path: assets/images/components/space.png
+  AssetGenImage get space =>
+      const AssetGenImage('assets/images/components/space.png');
 }
 
 class $AssetsImagesScoreGen {
