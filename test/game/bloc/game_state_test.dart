@@ -9,13 +9,15 @@ void main() {
       expect(
         GameState(
           score: 0,
-          balls: 0,
+          multiplier: 1,
+          rounds: 3,
           bonusHistory: const [],
         ),
         equals(
           const GameState(
             score: 0,
-            balls: 0,
+            multiplier: 1,
+            rounds: 3,
             bonusHistory: [],
           ),
         ),
@@ -27,7 +29,8 @@ void main() {
         expect(
           const GameState(
             score: 0,
-            balls: 0,
+            multiplier: 1,
+            rounds: 3,
             bonusHistory: [],
           ),
           isNotNull,
@@ -37,12 +40,13 @@ void main() {
 
     test(
       'throws AssertionError '
-      'when balls are negative',
+      'when score is negative',
       () {
         expect(
           () => GameState(
-            balls: -1,
-            score: 0,
+            score: -1,
+            multiplier: 1,
+            rounds: 3,
             bonusHistory: const [],
           ),
           throwsAssertionError,
@@ -52,12 +56,29 @@ void main() {
 
     test(
       'throws AssertionError '
-      'when score is negative',
+      'when multiplier is less than 1',
       () {
         expect(
           () => GameState(
-            balls: 0,
-            score: -1,
+            score: 1,
+            multiplier: 0,
+            rounds: 3,
+            bonusHistory: const [],
+          ),
+          throwsAssertionError,
+        );
+      },
+    );
+
+    test(
+      'throws AssertionError '
+      'when rounds is negative',
+      () {
+        expect(
+          () => GameState(
+            score: 1,
+            multiplier: 1,
+            rounds: -1,
             bonusHistory: const [],
           ),
           throwsAssertionError,
@@ -68,10 +89,11 @@ void main() {
     group('isGameOver', () {
       test(
           'is true '
-          'when no balls are left', () {
+          'when no rounds are left', () {
         const gameState = GameState(
-          balls: 0,
           score: 0,
+          multiplier: 1,
+          rounds: 0,
           bonusHistory: [],
         );
         expect(gameState.isGameOver, isTrue);
@@ -79,10 +101,11 @@ void main() {
 
       test(
           'is false '
-          'when one 1 ball left', () {
+          'when one 1 round left', () {
         const gameState = GameState(
-          balls: 1,
           score: 0,
+          multiplier: 1,
+          rounds: 1,
           bonusHistory: [],
         );
         expect(gameState.isGameOver, isFalse);
@@ -95,8 +118,9 @@ void main() {
         'when scored is decreased',
         () {
           const gameState = GameState(
-            balls: 0,
             score: 2,
+            multiplier: 1,
+            rounds: 3,
             bonusHistory: [],
           );
           expect(
@@ -111,8 +135,9 @@ void main() {
         'when no argument specified',
         () {
           const gameState = GameState(
-            balls: 0,
             score: 2,
+            multiplier: 1,
+            rounds: 3,
             bonusHistory: [],
           );
           expect(
@@ -128,12 +153,14 @@ void main() {
         () {
           const gameState = GameState(
             score: 2,
-            balls: 0,
+            multiplier: 1,
+            rounds: 3,
             bonusHistory: [],
           );
           final otherGameState = GameState(
             score: gameState.score + 1,
-            balls: gameState.balls + 1,
+            multiplier: gameState.multiplier + 1,
+            rounds: gameState.rounds + 1,
             bonusHistory: const [GameBonus.googleWord],
           );
           expect(gameState, isNot(equals(otherGameState)));
@@ -141,7 +168,8 @@ void main() {
           expect(
             gameState.copyWith(
               score: otherGameState.score,
-              balls: otherGameState.balls,
+              multiplier: otherGameState.multiplier,
+              rounds: otherGameState.rounds,
               bonusHistory: otherGameState.bonusHistory,
             ),
             equals(otherGameState),

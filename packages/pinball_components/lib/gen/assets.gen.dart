@@ -10,14 +10,12 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
-  $AssetsImagesAlienBumperGen get alienBumper =>
-      const $AssetsImagesAlienBumperGen();
+  $AssetsImagesAndroidBumperGen get androidBumper =>
+      const $AssetsImagesAndroidBumperGen();
   $AssetsImagesBackboardGen get backboard => const $AssetsImagesBackboardGen();
   $AssetsImagesBallGen get ball => const $AssetsImagesBallGen();
   $AssetsImagesBaseboardGen get baseboard => const $AssetsImagesBaseboardGen();
   $AssetsImagesBoundaryGen get boundary => const $AssetsImagesBoundaryGen();
-  $AssetsImagesChromeDinoGen get chromeDino =>
-      const $AssetsImagesChromeDinoGen();
   $AssetsImagesDashGen get dash => const $AssetsImagesDashGen();
   $AssetsImagesDinoGen get dino => const $AssetsImagesDinoGen();
   $AssetsImagesFlipperGen get flipper => const $AssetsImagesFlipperGen();
@@ -33,11 +31,13 @@ class $AssetsImagesGen {
   $AssetsImagesSparkyGen get sparky => const $AssetsImagesSparkyGen();
 }
 
-class $AssetsImagesAlienBumperGen {
-  const $AssetsImagesAlienBumperGen();
+class $AssetsImagesAndroidBumperGen {
+  const $AssetsImagesAndroidBumperGen();
 
-  $AssetsImagesAlienBumperAGen get a => const $AssetsImagesAlienBumperAGen();
-  $AssetsImagesAlienBumperBGen get b => const $AssetsImagesAlienBumperBGen();
+  $AssetsImagesAndroidBumperAGen get a =>
+      const $AssetsImagesAndroidBumperAGen();
+  $AssetsImagesAndroidBumperBGen get b =>
+      const $AssetsImagesAndroidBumperBGen();
 }
 
 class $AssetsImagesBackboardGen {
@@ -95,18 +95,6 @@ class $AssetsImagesBoundaryGen {
       const AssetGenImage('assets/images/boundary/outer.png');
 }
 
-class $AssetsImagesChromeDinoGen {
-  const $AssetsImagesChromeDinoGen();
-
-  /// File path: assets/images/chrome_dino/head.png
-  AssetGenImage get head =>
-      const AssetGenImage('assets/images/chrome_dino/head.png');
-
-  /// File path: assets/images/chrome_dino/mouth.png
-  AssetGenImage get mouth =>
-      const AssetGenImage('assets/images/chrome_dino/mouth.png');
-}
-
 class $AssetsImagesDashGen {
   const $AssetsImagesDashGen();
 
@@ -120,13 +108,16 @@ class $AssetsImagesDashGen {
 class $AssetsImagesDinoGen {
   const $AssetsImagesDinoGen();
 
-  /// File path: assets/images/dino/dino-land-bottom.png
-  AssetGenImage get dinoLandBottom =>
-      const AssetGenImage('assets/images/dino/dino-land-bottom.png');
+  $AssetsImagesDinoAnimatronicGen get animatronic =>
+      const $AssetsImagesDinoAnimatronicGen();
 
-  /// File path: assets/images/dino/dino-land-top.png
-  AssetGenImage get dinoLandTop =>
-      const AssetGenImage('assets/images/dino/dino-land-top.png');
+  /// File path: assets/images/dino/bottom-wall.png
+  AssetGenImage get bottomWall =>
+      const AssetGenImage('assets/images/dino/bottom-wall.png');
+
+  /// File path: assets/images/dino/top-wall.png
+  AssetGenImage get topWall =>
+      const AssetGenImage('assets/images/dino/top-wall.png');
 }
 
 class $AssetsImagesFlipperGen {
@@ -269,28 +260,28 @@ class $AssetsImagesSparkyGen {
       const $AssetsImagesSparkyComputerGen();
 }
 
-class $AssetsImagesAlienBumperAGen {
-  const $AssetsImagesAlienBumperAGen();
+class $AssetsImagesAndroidBumperAGen {
+  const $AssetsImagesAndroidBumperAGen();
 
-  /// File path: assets/images/alien_bumper/a/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/alien_bumper/a/active.png');
+  /// File path: assets/images/android_bumper/a/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/android_bumper/a/dimmed.png');
 
-  /// File path: assets/images/alien_bumper/a/inactive.png
-  AssetGenImage get inactive =>
-      const AssetGenImage('assets/images/alien_bumper/a/inactive.png');
+  /// File path: assets/images/android_bumper/a/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/android_bumper/a/lit.png');
 }
 
-class $AssetsImagesAlienBumperBGen {
-  const $AssetsImagesAlienBumperBGen();
+class $AssetsImagesAndroidBumperBGen {
+  const $AssetsImagesAndroidBumperBGen();
 
-  /// File path: assets/images/alien_bumper/b/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/alien_bumper/b/active.png');
+  /// File path: assets/images/android_bumper/b/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/android_bumper/b/dimmed.png');
 
-  /// File path: assets/images/alien_bumper/b/inactive.png
-  AssetGenImage get inactive =>
-      const AssetGenImage('assets/images/alien_bumper/b/inactive.png');
+  /// File path: assets/images/android_bumper/b/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/android_bumper/b/lit.png');
 }
 
 class $AssetsImagesDashBumperGen {
@@ -302,12 +293,24 @@ class $AssetsImagesDashBumperGen {
       const $AssetsImagesDashBumperMainGen();
 }
 
+class $AssetsImagesDinoAnimatronicGen {
+  const $AssetsImagesDinoAnimatronicGen();
+
+  /// File path: assets/images/dino/animatronic/head.png
+  AssetGenImage get head =>
+      const AssetGenImage('assets/images/dino/animatronic/head.png');
+
+  /// File path: assets/images/dino/animatronic/mouth.png
+  AssetGenImage get mouth =>
+      const AssetGenImage('assets/images/dino/animatronic/mouth.png');
+}
+
 class $AssetsImagesSpaceshipRailGen {
   const $AssetsImagesSpaceshipRailGen();
 
-  /// File path: assets/images/spaceship/rail/foreground.png
-  AssetGenImage get foreground =>
-      const AssetGenImage('assets/images/spaceship/rail/foreground.png');
+  /// File path: assets/images/spaceship/rail/exit.png
+  AssetGenImage get exit =>
+      const AssetGenImage('assets/images/spaceship/rail/exit.png');
 
   /// File path: assets/images/spaceship/rail/main.png
   AssetGenImage get main =>

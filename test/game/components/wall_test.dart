@@ -146,9 +146,9 @@ void main() {
           },
         );
 
-        flameTester.test(
+        flameBlocTester.testGameWidget(
           'when ball is debug',
-          (game) async {
+          setUp: (game, tester) async {
             final ball = ControlledBall.debug();
             final wall = BottomWall();
             await game.ensureAddAll([ball, wall]);
