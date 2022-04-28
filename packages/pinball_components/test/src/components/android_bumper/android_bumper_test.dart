@@ -6,48 +6,48 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_components/src/components/alien_bumper/behaviors/behaviors.dart';
+import 'package:pinball_components/src/components/android_bumper/behaviors/behaviors.dart';
 
 import '../../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
-    Assets.images.alienBumper.a.active.keyName,
-    Assets.images.alienBumper.a.inactive.keyName,
-    Assets.images.alienBumper.b.active.keyName,
-    Assets.images.alienBumper.b.inactive.keyName,
+    Assets.images.androidBumper.a.lit.keyName,
+    Assets.images.androidBumper.a.dimmed.keyName,
+    Assets.images.androidBumper.b.lit.keyName,
+    Assets.images.androidBumper.b.dimmed.keyName,
   ];
   final flameTester = FlameTester(() => TestGame(assets));
 
-  group('AlienBumper', () {
+  group('AndroidBumper', () {
     flameTester.test('"a" loads correctly', (game) async {
-      final alienBumper = AlienBumper.a();
-      await game.ensureAdd(alienBumper);
-      expect(game.contains(alienBumper), isTrue);
+      final androidBumper = AndroidBumper.a();
+      await game.ensureAdd(androidBumper);
+      expect(game.contains(androidBumper), isTrue);
     });
 
     flameTester.test('"b" loads correctly', (game) async {
-      final alienBumper = AlienBumper.b();
-      await game.ensureAdd(alienBumper);
-      expect(game.contains(alienBumper), isTrue);
+      final androidBumper = AndroidBumper.b();
+      await game.ensureAdd(androidBumper);
+      expect(game.contains(androidBumper), isTrue);
     });
 
     // TODO(alestiago): Consider refactoring once the following is merged:
     // https://github.com/flame-engine/flame/pull/1538
     // ignore: public_member_api_docs
     flameTester.test('closes bloc when removed', (game) async {
-      final bloc = MockAlienBumperCubit();
+      final bloc = MockAndroidBumperCubit();
       whenListen(
         bloc,
-        const Stream<AlienBumperState>.empty(),
-        initialState: AlienBumperState.active,
+        const Stream<AndroidBumperState>.empty(),
+        initialState: AndroidBumperState.lit,
       );
       when(bloc.close).thenAnswer((_) async {});
-      final alienBumper = AlienBumper.test(bloc: bloc);
+      final androidBumper = AndroidBumper.test(bloc: bloc);
 
-      await game.ensureAdd(alienBumper);
-      game.remove(alienBumper);
+      await game.ensureAdd(androidBumper);
+      game.remove(androidBumper);
       await game.ready();
 
       verify(bloc.close).called(1);
@@ -56,19 +56,19 @@ void main() {
     group('adds', () {
       flameTester.test('new children', (game) async {
         final component = Component();
-        final alienBumper = AlienBumper.a(
+        final androidBumper = AndroidBumper.a(
           children: [component],
         );
-        await game.ensureAdd(alienBumper);
-        expect(alienBumper.children, contains(component));
+        await game.ensureAdd(androidBumper);
+        expect(androidBumper.children, contains(component));
       });
 
-      flameTester.test('an AlienBumperBallContactBehavior', (game) async {
-        final alienBumper = AlienBumper.a();
-        await game.ensureAdd(alienBumper);
+      flameTester.test('an AndroidBumperBallContactBehavior', (game) async {
+        final androidBumper = AndroidBumper.a();
+        await game.ensureAdd(androidBumper);
         expect(
-          alienBumper.children
-              .whereType<AlienBumperBallContactBehavior>()
+          androidBumper.children
+              .whereType<AndroidBumperBallContactBehavior>()
               .single,
           isNotNull,
         );
