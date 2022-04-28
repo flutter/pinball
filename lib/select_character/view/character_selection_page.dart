@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/l10n/l10n.dart';
@@ -47,10 +49,20 @@ class CharacterSelectionView extends StatelessWidget {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
+                late Timer timer;
                 showDialog<void>(
                   context: context,
-                  builder: (_) => const HowToPlayDialog(),
-                );
+                  builder: (context) {
+                    timer = Timer(const Duration(seconds: 3), () {
+                      Navigator.of(context).pop();
+                    });
+                    return const HowToPlayDialog();
+                  },
+                ).then((_) {
+                  if (timer.isActive) {
+                    timer.cancel();
+                  }
+                });
               },
               child: Text(l10n.start),
             ),

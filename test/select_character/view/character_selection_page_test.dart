@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:async';
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -84,18 +86,22 @@ void main() {
           .called(1);
     });
 
-    testWidgets('displays how to play dialog when start is tapped',
-        (tester) async {
-      await tester.pumpApp(
-        CharacterSelectionView(),
-        characterThemeCubit: characterThemeCubit,
-      );
-      await tester.ensureVisible(find.byType(TextButton));
-      await tester.tap(find.byType(TextButton));
-      await tester.pumpAndSettle();
-
-      expect(find.byType(HowToPlayDialog), findsOneWidget);
-    });
+    testWidgets(
+      'displays how to play dialog for 3 seconds when start is tapped',
+      (tester) async {
+        await tester.pumpApp(
+          CharacterSelectionView(),
+          characterThemeCubit: characterThemeCubit,
+        );
+        await tester.ensureVisible(find.byType(TextButton));
+        await tester.tap(find.byType(TextButton));
+        await tester.pumpAndSettle();
+        expect(find.byType(HowToPlayDialog), findsOneWidget);
+        await tester.pump(Duration(seconds: 3));
+        await tester.pumpAndSettle();
+        expect(find.byType(HowToPlayDialog), findsNothing);
+      },
+    );
   });
 
   testWidgets('CharacterImageButton renders correctly', (tester) async {
