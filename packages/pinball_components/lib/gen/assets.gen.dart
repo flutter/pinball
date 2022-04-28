@@ -308,9 +308,9 @@ class $AssetsImagesDinoAnimatronicGen {
 class $AssetsImagesSpaceshipRailGen {
   const $AssetsImagesSpaceshipRailGen();
 
-  /// File path: assets/images/spaceship/rail/foreground.png
-  AssetGenImage get foreground =>
-      const AssetGenImage('assets/images/spaceship/rail/foreground.png');
+  /// File path: assets/images/spaceship/rail/exit.png
+  AssetGenImage get exit =>
+      const AssetGenImage('assets/images/spaceship/rail/exit.png');
 
   /// File path: assets/images/spaceship/rail/main.png
   AssetGenImage get main =>
