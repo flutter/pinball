@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs
-
 import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
 import 'package:flutter/material.dart' hide Image;
@@ -9,7 +7,14 @@ import 'package:pinball/theme/theme.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
+/// {@template selected_character}
+/// Widget to display the selected character based on the [CharacterThemeCubit]
+/// state.
+///
+/// Displays a looped [SpriteAnimationWidget].
+/// {@endtemplate}
 class SelectedCharacter extends StatefulWidget {
+  /// {@macro selected_character}
   const SelectedCharacter({
     Key? key,
   }) : super(key: key);
@@ -17,6 +22,7 @@ class SelectedCharacter extends StatefulWidget {
   @override
   State<SelectedCharacter> createState() => _SelectedCharacterState();
 
+  /// Returns a list of assets to be loaded
   static List<Future> loadAssets() {
     Flame.images.prefix = '';
 
