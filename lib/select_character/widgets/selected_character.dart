@@ -88,6 +88,7 @@ class _SelectedCharacterState extends State<SelectedCharacter>
             Text(
               currentCharacter.name,
               style: AppTextStyle.headline3,
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
             SizedBox(
