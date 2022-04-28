@@ -82,6 +82,6 @@ class MockActiveOverlaysNotifier extends Mock
 
 class MockGameFlowController extends Mock implements GameFlowController {}
 
-class MockAlienBumper extends Mock implements AlienBumper {}
+class MockAndroidBumper extends Mock implements AndroidBumper {}
 
 class MockSparkyBumper extends Mock implements SparkyBumper {}
