@@ -1,17 +1,23 @@
-// ignore_for_file: public_member_api_docs
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_theme/pinball_theme.dart' hide Assets;
 
+/// {@template character_icon}
+/// Widget for displaying character icon.
+///
+/// On tap changes selected character in [CharacterThemeCubit].
+/// {@endtemplate}
 class CharacterIcon extends StatelessWidget {
-  const CharacterIcon(
-    this.characterTheme, {
-    Key? key,
-  }) : super(key: key);
+  /// {@macro character_icon}
 
-  final CharacterTheme characterTheme;
+  const CharacterIcon(
+    CharacterTheme characterTheme, {
+    Key? key,
+  })  : _characterTheme = characterTheme,
+        super(key: key);
+
+  final CharacterTheme _characterTheme;
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +27,14 @@ class CharacterIcon extends StatelessWidget {
     );
 
     return GestureDetector(
-      onTap: () =>
-          context.read<CharacterThemeCubit>().characterSelected(characterTheme),
+      onTap: () => context
+          .read<CharacterThemeCubit>()
+          .characterSelected(_characterTheme),
       child: Opacity(
-        opacity: currentCharacterTheme == characterTheme ? 1 : 0.5,
+        opacity: currentCharacterTheme == _characterTheme ? 1 : 0.5,
         child: Padding(
           padding: const EdgeInsets.all(8),
-          child: characterTheme.icon.image(
+          child: _characterTheme.icon.image(
             fit: BoxFit.contain,
           ),
         ),
