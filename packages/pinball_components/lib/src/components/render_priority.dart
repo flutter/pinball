@@ -27,7 +27,7 @@ abstract class RenderPriority {
   static const int ballOnSpaceshipRail = _above + spaceshipRail;
 
   /// Render priority for the [Ball] while it's on the [LaunchRamp].
-  static const int ballOnLaunchRamp = _above + launchRamp;
+  static const int ballOnLaunchRamp = launchRamp;
 
   // Background
 
@@ -51,7 +51,7 @@ abstract class RenderPriority {
 
   static const int launchRamp = _above + outerBoundary;
 
-  static const int launchRampForegroundRailing = _below + ballOnBoard;
+  static const int launchRampForegroundRailing = ballOnBoard;
 
   static const int plunger = _above + launchRamp;
 

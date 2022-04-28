@@ -15,9 +15,7 @@ import 'package:pinball_components/pinball_components.dart';
 
 class MockPinballGame extends Mock implements PinballGame {}
 
-class MockWall extends Mock implements Wall {}
-
-class MockBottomWall extends Mock implements BottomWall {}
+class MockDrain extends Mock implements Drain {}
 
 class MockBody extends Mock implements Body {}
 

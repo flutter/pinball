@@ -104,11 +104,23 @@ void main() {
       // TODO(alestiago): tests that Blueprints get added once the Blueprint
       // class is removed.
       flameTester.test(
-        'has only one BottomWall',
+        'has only one Drain',
         (game) async {
           await game.ready();
           expect(
-            game.children.whereType<BottomWall>().length,
+            game.children.whereType<Drain>().length,
+            equals(1),
+          );
+        },
+      );
+
+      flameTester.test(
+        'has only one BottomGroup',
+        (game) async {
+          await game.ready();
+
+          expect(
+            game.children.whereType<BottomGroup>().length,
             equals(1),
           );
         },
@@ -125,16 +137,13 @@ void main() {
         },
       );
 
-      flameTester.test(
-        'has one Board',
-        (game) async {
-          await game.ready();
-          expect(
-            game.children.whereType<Board>().length,
-            equals(1),
-          );
-        },
-      );
+      flameTester.test('has one FlutterForest', (game) async {
+        await game.ready();
+        expect(
+          game.children.whereType<FlutterForest>().length,
+          equals(1),
+        );
+      });
 
       flameTester.test(
         'one GoogleWord',

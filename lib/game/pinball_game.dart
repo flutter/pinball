@@ -46,20 +46,18 @@ class PinballGame extends Forge2DGame
     unawaited(add(gameFlowController = GameFlowController(this)));
     unawaited(add(CameraController(this)));
     unawaited(add(Backboard.waiting(position: Vector2(0, -88))));
-
-    // TODO(allisonryan0002): banish Wall and Board classes in later PR.
-    await add(BottomWall());
+    await add(Drain());
+    await add(BottomGroup());
     unawaited(addFromBlueprint(Boundaries()));
     unawaited(addFromBlueprint(LaunchRamp()));
 
     final launcher = Launcher();
     unawaited(addFromBlueprint(launcher));
-    unawaited(add(Board()));
+    await add(FlutterForest());
     await addFromBlueprint(SparkyFireZone());
     await addFromBlueprint(AndroidAcres());
+    await addFromBlueprint(DinoDesert());
     unawaited(addFromBlueprint(Slingshots()));
-    unawaited(addFromBlueprint(DinoWalls()));
-    await add(ChromeDino()..initialPosition = Vector2(12.3, -6.9));
     await add(
       GoogleWord(
         position: Vector2(
