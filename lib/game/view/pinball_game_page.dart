@@ -114,9 +114,6 @@ class PinballGameLoadedView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isPlaying = context.select(
-      (StartGameBloc bloc) => bloc.state.status == StartGameStatus.play,
-    );
     final gameWidgetWidth = MediaQuery.of(context).size.height * 9 / 16;
     final screenWidth = MediaQuery.of(context).size.width;
     final leftMargin = (screenWidth / 2) - (gameWidgetWidth / 1.8);
@@ -139,13 +136,12 @@ class PinballGameLoadedView extends StatelessWidget {
             },
           ),
         ),
+        // TODO(arturplaczek): add Visibility to GameHud based on StartGameBloc
+        // status
         Positioned(
           top: 16,
           left: leftMargin,
-          child: Visibility(
-            visible: isPlaying,
-            child: const GameHud(),
-          ),
+          child: const GameHud(),
         ),
       ],
     );
