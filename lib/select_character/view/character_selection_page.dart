@@ -48,10 +48,7 @@ class CharacterSelectionView extends StatelessWidget {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                showDialog<void>(
-                  context: context,
-                  builder: (_) => const HowToPlayDialog(),
-                );
+                context.read<StartGameBloc>().add(const CharacterSelected());
               },
               child: Text(l10n.start),
             ),
