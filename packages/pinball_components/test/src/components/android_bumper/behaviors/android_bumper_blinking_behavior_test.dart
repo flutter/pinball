@@ -5,7 +5,7 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_components/src/components/alien_bumper/behaviors/behaviors.dart';
+import 'package:pinball_components/src/components/android_bumper/behaviors/behaviors.dart';
 
 import '../../../../helpers/helpers.dart';
 
@@ -14,25 +14,25 @@ void main() {
   final flameTester = FlameTester(TestGame.new);
 
   group(
-    'AlienBumperBlinkingBehavior',
+    'AndroidBumperBlinkingBehavior',
     () {
       flameTester.testGameWidget(
-        'calls onBlinked after 0.05 seconds when inactive',
+        'calls onBlinked after 0.05 seconds when dimmed',
         setUp: (game, tester) async {
-          final behavior = AlienBumperBlinkingBehavior();
-          final bloc = MockAlienBumperCubit();
-          final streamController = StreamController<AlienBumperState>();
+          final behavior = AndroidBumperBlinkingBehavior();
+          final bloc = MockAndroidBumperCubit();
+          final streamController = StreamController<AndroidBumperState>();
           whenListen(
             bloc,
             streamController.stream,
-            initialState: AlienBumperState.active,
+            initialState: AndroidBumperState.lit,
           );
 
-          final alienBumper = AlienBumper.test(bloc: bloc);
-          await alienBumper.add(behavior);
-          await game.ensureAdd(alienBumper);
+          final androidBumper = AndroidBumper.test(bloc: bloc);
+          await androidBumper.add(behavior);
+          await game.ensureAdd(androidBumper);
 
-          streamController.add(AlienBumperState.inactive);
+          streamController.add(AndroidBumperState.dimmed);
           await tester.pump();
           game.update(0.05);
 

@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_renaming_method_parameters
 
 import 'package:flame/components.dart';
-import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -10,12 +9,12 @@ import 'package:pinball_theme/pinball_theme.dart';
 
 /// {@template controlled_ball}
 /// A [Ball] with a [BallController] attached.
+///
+/// When a [Ball] is lost, if there aren't more [Ball]s in play and the game is
+/// not over, a new [Ball] will be spawned.
 /// {@endtemplate}
 class ControlledBall extends Ball with Controls<BallController> {
   /// A [Ball] that launches from the [Plunger].
-  ///
-  /// When a launched [Ball] is lost, it will decrease the [GameState.balls]
-  /// count, and a new [Ball] is spawned.
   ControlledBall.launch({
     required CharacterTheme characterTheme,
   }) : super(baseColor: characterTheme.ballColor) {
@@ -26,8 +25,6 @@ class ControlledBall extends Ball with Controls<BallController> {
 
   /// {@template bonus_ball}
   /// {@macro controlled_ball}
-  ///
-  /// When a bonus [Ball] is lost, the [GameState.balls] doesn't change.
   /// {@endtemplate}
   ControlledBall.bonus({
     required CharacterTheme characterTheme,
@@ -38,7 +35,7 @@ class ControlledBall extends Ball with Controls<BallController> {
 
   /// [Ball] used in [DebugPinballGame].
   ControlledBall.debug() : super(baseColor: const Color(0xFFFF0000)) {
-    controller = DebugBallController(this);
+    controller = BallController(this);
     priority = RenderPriority.ballOnBoard;
   }
 }
@@ -76,15 +73,9 @@ class BallController extends ComponentController<Ball>
   @override
   void onRemove() {
     super.onRemove();
-    gameRef.read<GameBloc>().add(const BallLost());
+    final noBallsLeft = gameRef.descendants().whereType<Ball>().isEmpty;
+    if (noBallsLeft) {
+      gameRef.read<GameBloc>().add(const RoundLost());
+    }
   }
-}
-
-/// {@macro ball_controller}
-class DebugBallController extends BallController {
-  /// {@macro ball_controller}
-  DebugBallController(Ball<Forge2DGame> component) : super(component);
-
-  @override
-  void onRemove() {}
 }

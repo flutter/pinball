@@ -15,7 +15,8 @@ void main() {
       test('is true when the game over state has changed', () {
         final state = GameState(
           score: 10,
-          balls: 0,
+          multiplier: 1,
+          rounds: 0,
           bonusHistory: const [],
         );
 
@@ -66,7 +67,8 @@ void main() {
           gameFlowController.onNewState(
             GameState(
               score: 10,
-              balls: 0,
+              multiplier: 1,
+              rounds: 0,
               bonusHistory: const [],
             ),
           );
