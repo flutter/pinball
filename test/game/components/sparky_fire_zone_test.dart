@@ -1,8 +1,5 @@
 // ignore_for_file: cascade_invocations
 
-import 'dart:ui';
-
-import 'package:bloc_test/bloc_test.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -23,7 +20,10 @@ void main() {
     Assets.images.sparky.bumper.c.inactive.keyName,
     Assets.images.sparky.animatronic.keyName,
   ];
-  final flameTester = FlameTester(() => EmptyPinballTestGame(assets));
+
+  final flameTester = FlameTester(
+    () => EmptyPinballTestGame(assets: assets),
+  );
 
   group('SparkyFireZone', () {
     flameTester.test('loads correctly', (game) async {
@@ -70,93 +70,40 @@ void main() {
         },
       );
     });
-
-    group('bumpers', () {
-      late GameBloc gameBloc;
-
-      setUp(() {
-        gameBloc = MockGameBloc();
-        whenListen(
-          gameBloc,
-          const Stream<GameState>.empty(),
-          initialState: const GameState.initial(),
-        );
-      });
-
-      final flameBlocTester = FlameBlocTester<EmptyPinballTestGame, GameBloc>(
-        gameBuilder: EmptyPinballTestGame.new,
-        blocBuilder: () => gameBloc,
-        assets: assets,
-      );
-
-      flameTester.test('call animate on contact', (game) async {
-        final contactCallback = SparkyBumperBallContactCallback();
-        final bumper = MockSparkyBumper();
-        final ball = MockBall();
-
-        when(bumper.animate).thenAnswer((_) async {});
-
-        contactCallback.begin(bumper, ball, MockContact());
-
-        verify(bumper.animate).called(1);
-      });
-
-      flameBlocTester.testGameWidget(
-        'add Scored event',
-        setUp: (game, tester) async {
-          final ball = Ball(baseColor: const Color(0xFF00FFFF));
-          final sparkyFireZone = SparkyFireZone();
-          await game.addFromBlueprint(sparkyFireZone);
-          await game.ensureAdd(ball);
-          game.addContactCallback(BallScorePointsCallback(game));
-
-          final bumpers = sparkyFireZone.components.whereType<ScorePoints>();
-
-          for (final bumper in bumpers) {
-            beginContact(game, bumper, ball);
-            verify(
-              () => gameBloc.add(
-                Scored(points: bumper.points),
-              ),
-            ).called(1);
-          }
-        },
-      );
-    });
   });
 
-  group('SparkyTurboChargeSensorBallContactCallback', () {
+  group('SparkyComputerSensor', () {
     flameTester.test('calls turboCharge', (game) async {
-      final callback = SparkyComputerSensorBallContactCallback();
+      final sensor = SparkyComputerSensor();
       final ball = MockControlledBall();
       final controller = MockBallController();
       when(() => ball.controller).thenReturn(controller);
-      when(() => ball.gameRef).thenReturn(game);
       when(controller.turboCharge).thenAnswer((_) async {});
 
-      callback.begin(MockSparkyComputerSensor(), ball, MockContact());
+      await game.ensureAddAll([
+        sensor,
+        SparkyAnimatronic(),
+      ]);
+
+      sensor.beginContact(ball, MockContact());
 
       verify(() => ball.controller.turboCharge()).called(1);
     });
 
     flameTester.test('plays SparkyAnimatronic', (game) async {
-      final callback = SparkyComputerSensorBallContactCallback();
+      final sensor = SparkyComputerSensor();
+      final sparkyAnimatronic = SparkyAnimatronic();
       final ball = MockControlledBall();
       final controller = MockBallController();
       when(() => ball.controller).thenReturn(controller);
-      when(() => ball.gameRef).thenReturn(game);
       when(controller.turboCharge).thenAnswer((_) async {});
-
-      final sparkyFireZone = SparkyFireZone();
-      await game.addFromBlueprint(sparkyFireZone);
-      await game.ready();
-
-      final sparkyAnimatronic =
-          sparkyFireZone.components.whereType<SparkyAnimatronic>().single;
+      await game.ensureAddAll([
+        sensor,
+        sparkyAnimatronic,
+      ]);
 
       expect(sparkyAnimatronic.playing, isFalse);
-      callback.begin(MockSparkyComputerSensor(), ball, MockContact());
-
+      sensor.beginContact(ball, MockContact());
       expect(sparkyAnimatronic.playing, isTrue);
     });
   });
