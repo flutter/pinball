@@ -5,14 +5,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 
 void main() {
-  group('PinballDialogLayout', () {
+  group('PixelatedDecoration', () {
     testWidgets('renders header and body', (tester) async {
       const headerText = 'header';
       const bodyText = 'body';
 
       await tester.pumpWidget(
         MaterialApp(
-          home: PinballDialogLayout(
+          home: PixelatedDecoration(
             header: Text(headerText),
             body: Text(bodyText),
           ),

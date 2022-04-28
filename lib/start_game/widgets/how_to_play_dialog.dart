@@ -12,7 +12,7 @@ class HowToPlayDialog extends StatelessWidget {
     final l10n = context.l10n;
     const spacing = SizedBox(height: 16);
 
-    return PinballDialogLayout(
+    return PixelatedDecoration(
       header: Text(l10n.howToPlay),
       body: ListView(
         children: const [

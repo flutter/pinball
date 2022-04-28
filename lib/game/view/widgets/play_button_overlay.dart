@@ -28,7 +28,16 @@ class PlayButtonOverlay extends StatelessWidget {
             context: context,
             barrierDismissible: false,
             builder: (_) {
-              return const CharacterSelectionDialog();
+              // TODO(arturplaczek): remove after merge StarBlocListener
+              final height = MediaQuery.of(context).size.height * 0.5;
+
+              return Center(
+                child: SizedBox(
+                  height: height,
+                  width: height * 1.4,
+                  child: const CharacterSelectionDialog(),
+                ),
+              );
             },
           );
         },
