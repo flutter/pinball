@@ -2,20 +2,20 @@ import 'package:flame/components.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
-/// {@template alien_bumper_blinking_behavior}
-/// Makes a [AlienBumper] blink back to [AlienBumperState.active] when
-/// [AlienBumperState.inactive].
+/// {@template android_bumper_blinking_behavior}
+/// Makes an [AndroidBumper] blink back to [AndroidBumperState.lit] when
+/// [AndroidBumperState.dimmed].
 /// {@endtemplate}
-class AlienBumperBlinkingBehavior extends TimerComponent
-    with ParentIsA<AlienBumper> {
-  /// {@macro alien_bumper_blinking_behavior}
-  AlienBumperBlinkingBehavior() : super(period: 0.05);
+class AndroidBumperBlinkingBehavior extends TimerComponent
+    with ParentIsA<AndroidBumper> {
+  /// {@macro android_bumper_blinking_behavior}
+  AndroidBumperBlinkingBehavior() : super(period: 0.05);
 
-  void _onNewState(AlienBumperState state) {
+  void _onNewState(AndroidBumperState state) {
     switch (state) {
-      case AlienBumperState.active:
+      case AndroidBumperState.lit:
         break;
-      case AlienBumperState.inactive:
+      case AndroidBumperState.dimmed:
         timer
           ..reset()
           ..start();
