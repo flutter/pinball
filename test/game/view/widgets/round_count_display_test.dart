@@ -11,7 +11,8 @@ void main() {
     late GameBloc gameBloc;
     const initialState = GameState(
       score: 0,
-      balls: 3,
+      multiplier: 1,
+      rounds: 3,
       bonusHistory: [],
     );
 
@@ -37,7 +38,7 @@ void main() {
 
     testWidgets('two active round indicator', (tester) async {
       final state = initialState.copyWith(
-        balls: 2,
+        rounds: 2,
       );
       whenListen(
         gameBloc,
@@ -68,7 +69,7 @@ void main() {
 
     testWidgets('one active round indicator', (tester) async {
       final state = initialState.copyWith(
-        balls: 1,
+        rounds: 1,
       );
       whenListen(
         gameBloc,
