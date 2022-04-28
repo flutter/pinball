@@ -18,18 +18,13 @@ class HowToPlayDialog extends StatelessWidget {
 
     return WillPopScope(
       onWillPop: () {
-        Future.delayed(
-          kThemeAnimationDuration,
-          onDismissCallback.call,
-        );
-
+        onDismissCallback.call();
         return Future.value(true);
       },
       child: Dialog(
         child: Padding(
           padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+          child: ListView(
             children: [
               Text(l10n.howToPlay),
               spacing,
@@ -56,9 +51,7 @@ class _LaunchControls extends StatelessWidget {
       children: [
         Text(l10n.launchControls),
         const SizedBox(height: 10),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
+        Wrap(
           children: const [
             KeyIndicator.fromIcon(keyIcon: Icons.keyboard_arrow_down),
             spacing,
@@ -86,9 +79,7 @@ class _FlipperControls extends StatelessWidget {
         const SizedBox(height: 10),
         Column(
           children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
+            Wrap(
               children: const [
                 KeyIndicator.fromIcon(keyIcon: Icons.keyboard_arrow_left),
                 rowSpacing,
@@ -96,9 +87,7 @@ class _FlipperControls extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
+            Wrap(
               children: const [
                 KeyIndicator.fromKeyName(keyName: 'A'),
                 rowSpacing,

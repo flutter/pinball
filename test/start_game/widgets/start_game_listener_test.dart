@@ -137,7 +137,7 @@ void main() {
     );
 
     testWidgets(
-      'calls HowToPlayFinished event after HowToPlayDialog is closed',
+      'adds HowToPlayFinished event after closing HowToPlayDialog',
       (tester) async {
         whenListen(
           startGameBloc,

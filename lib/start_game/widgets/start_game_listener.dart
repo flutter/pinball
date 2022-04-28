@@ -28,7 +28,7 @@ class StartGameListener extends StatelessWidget {
             _onSelectCharacter(context);
             break;
           case StartGameStatus.howToPlay:
-            _handleHowToPlay(context);
+            _onHowToPlay(context);
             break;
           case StartGameStatus.play:
             _game.gameFlowController.start();
@@ -41,43 +41,48 @@ class StartGameListener extends StatelessWidget {
     );
   }
 
-  void _onSelectCharacter(
-    BuildContext context,
-  ) {
-    showDialog<void>(
+  void _onSelectCharacter(BuildContext context) {
+    _showPinballDialog(
       context: context,
-      builder: (_) {
-        // TODO(arturplaczek): remove that when PR with PinballLayout will be
-        // merged
-        final height = MediaQuery.of(context).size.height * 0.5;
-
-        return Center(
-          child: SizedBox(
-            height: height,
-            width: height * 1.2,
-            child: const CharacterSelectionDialog(),
-          ),
-        );
-      },
+      child: const CharacterSelectionDialog(),
       barrierDismissible: false,
     );
   }
 }
 
-Future<void> _handleHowToPlay(
-  BuildContext context,
-) async {
-  final startGameBloc = context.read<StartGameBloc>();
+Future<void> _onHowToPlay(BuildContext context) async {
+  _showPinballDialog(
+    context: context,
+    child: HowToPlayDialog(
+      onDismissCallback: () {
+        // We need to add a delay between closing the dialog and starting the
+        // game.
+        Future.delayed(
+          kThemeAnimationDuration,
+          () => context.read<StartGameBloc>().add(const HowToPlayFinished()),
+        );
+      },
+    ),
+  );
+}
 
-  await showDialog<void>(
+void _showPinballDialog({
+  required BuildContext context,
+  required Widget child,
+  bool barrierDismissible = true,
+}) {
+  final gameWidgetWidth = MediaQuery.of(context).size.height * 9 / 16;
+
+  showDialog<void>(
     context: context,
     barrierColor: AppColors.transparent,
+    barrierDismissible: barrierDismissible,
     builder: (_) {
       return Center(
-        child: HowToPlayDialog(
-          onDismissCallback: () {
-            startGameBloc.add(const HowToPlayFinished());
-          },
+        child: SizedBox(
+          height: gameWidgetWidth,
+          width: gameWidgetWidth,
+          child: child,
         ),
       );
     },
