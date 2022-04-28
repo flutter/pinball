@@ -6,6 +6,7 @@ import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/gen/assets.gen.dart';
@@ -18,7 +19,8 @@ class PinballGame extends Forge2DGame
     with
         FlameBloc,
         HasKeyboardHandlerComponents,
-        Controls<_GameBallsController> {
+        Controls<_GameBallsController>,
+        TapDetector {
   PinballGame({
     required this.characterTheme,
     required this.audio,
@@ -70,6 +72,61 @@ class PinballGame extends Forge2DGame
     controller.attachTo(launcher.components.whereType<Plunger>().first);
     await super.onLoad();
   }
+
+  BoardSide? focusedBoardSide;
+
+  @override
+  void onTapDown(TapDownInfo info) {
+    if (info.raw.kind == PointerDeviceKind.touch) {
+      final rocket = children.whereType<RocketSpriteComponent>().first;
+      final bounds = rocket.topLeftPosition & rocket.size;
+
+      // NOTE(wolfen): As long as Flame does not have https://github.com/flame-engine/flame/issues/1586 we need to check it at the highest level manually.
+      if (bounds.contains(info.eventPosition.game.toOffset())) {
+        children.whereType<Plunger>().first.pull();
+      } else {
+        final leftSide = info.eventPosition.widget.x < canvasSize.x / 2;
+        focusedBoardSide = leftSide ? BoardSide.left : BoardSide.right;
+        final flippers = descendants().whereType<Flipper>().where((flipper) {
+          return flipper.side == focusedBoardSide;
+        });
+        flippers.first.moveUp();
+      }
+    }
+
+    super.onTapDown(info);
+  }
+
+  @override
+  void onTapUp(TapUpInfo info) {
+    final rocket = descendants().whereType<RocketSpriteComponent>().first;
+    final bounds = rocket.topLeftPosition & rocket.size;
+
+    if (bounds.contains(info.eventPosition.game.toOffset())) {
+      children.whereType<Plunger>().first.release();
+    } else {
+      _moveFlippersDown();
+    }
+    super.onTapUp(info);
+  }
+
+  @override
+  void onTapCancel() {
+    children.whereType<Plunger>().first.release();
+
+    _moveFlippersDown();
+    super.onTapCancel();
+  }
+
+  void _moveFlippersDown() {
+    if (focusedBoardSide != null) {
+      final flippers = descendants().whereType<Flipper>().where((flipper) {
+        return flipper.side == focusedBoardSide;
+      });
+      flippers.first.moveDown();
+      focusedBoardSide = null;
+    }
+  }
 }
 
 class _GameBallsController extends ComponentController<PinballGame>
@@ -116,7 +173,7 @@ class _GameBallsController extends ComponentController<PinballGame>
   }
 }
 
-class DebugPinballGame extends PinballGame with FPSCounter, TapDetector {
+class DebugPinballGame extends PinballGame with FPSCounter {
   DebugPinballGame({
     required CharacterTheme characterTheme,
     required PinballAudio audio,
@@ -153,9 +210,11 @@ class DebugPinballGame extends PinballGame with FPSCounter, TapDetector {
 
   @override
   void onTapUp(TapUpInfo info) {
-    add(
-      ControlledBall.debug()..initialPosition = info.eventPosition.game,
-    );
+    super.onTapUp(info);
+
+    if (info.raw.kind == PointerDeviceKind.mouse) {
+      add(ControlledBall.debug()..initialPosition = info.eventPosition.game);
+    }
   }
 }
 
