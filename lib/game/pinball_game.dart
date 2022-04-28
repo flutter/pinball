@@ -82,7 +82,7 @@ class PinballGame extends Forge2DGame
     await super.onLoad();
   }
 
-  BoardSide? boardSideActive;
+  BoardSide? focusedBoardSide;
 
   @override
   void onTapDown(TapDownInfo info) {
@@ -94,14 +94,11 @@ class PinballGame extends Forge2DGame
         children.whereType<Plunger>().first.pull();
       } else {
         final leftSide = info.eventPosition.widget.x < canvasSize.x / 2;
-        boardSideActive = leftSide ? BoardSide.left : BoardSide.right;
+        focusedBoardSide = leftSide ? BoardSide.left : BoardSide.right;
         final flippers = descendants().whereType<Flipper>().where((flipper) {
-          return flipper.side == boardSideActive;
+          return flipper.side == focusedBoardSide;
         });
-
-        for (final flipper in flippers) {
-          flipper.moveUp();
-        }
+        flippers.first.moveUp();
       }
     }
 
@@ -130,14 +127,12 @@ class PinballGame extends Forge2DGame
   }
 
   void _moveFlippersDown() {
-    if (boardSideActive != null) {
+    if (focusedBoardSide != null) {
       final flippers = descendants().whereType<Flipper>().where((flipper) {
-        return flipper.side == boardSideActive;
+        return flipper.side == focusedBoardSide;
       });
-      for (final flipper in flippers) {
-        flipper.moveDown();
-      }
-      boardSideActive = null;
+      flippers.first.moveDown();
+      focusedBoardSide = null;
     }
   }
 }
