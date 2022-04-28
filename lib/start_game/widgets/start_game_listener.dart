@@ -75,7 +75,7 @@ void _showPinballDialog({
     builder: (_) {
       return Center(
         child: SizedBox(
-          height: gameWidgetWidth,
+          height: gameWidgetWidth * 0.87,
           width: gameWidgetWidth,
           child: child,
         ),
