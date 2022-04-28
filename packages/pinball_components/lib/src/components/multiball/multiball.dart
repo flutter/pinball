@@ -9,7 +9,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 export 'cubit/multiball_cubit.dart';
 
 /// {@template multiball}
-/// A [Component] for the multiball over the board.
+/// A [Component] for the multiball lighting decals on the board.
 /// {@endtemplate}
 class Multiball extends Component {
   /// {@macro multiball}
@@ -117,8 +117,8 @@ class MultiballSpriteGroupComponent extends SpriteGroupComponent<MultiballState>
     required String offAssetPath,
     required double rotation,
     required MultiballState state,
-  })  : _onAssetPath = onAssetPath,
-        _offAssetPath = offAssetPath,
+  })  : _litAssetPath = onAssetPath,
+        _dimmedAssetPath = offAssetPath,
         super(
           anchor: Anchor.center,
           position: position,
@@ -126,8 +126,8 @@ class MultiballSpriteGroupComponent extends SpriteGroupComponent<MultiballState>
           current: state,
         );
 
-  final String _onAssetPath;
-  final String _offAssetPath;
+  final String _litAssetPath;
+  final String _dimmedAssetPath;
 
   @override
   Future<void> onLoad() async {
@@ -135,8 +135,8 @@ class MultiballSpriteGroupComponent extends SpriteGroupComponent<MultiballState>
     parent.bloc.stream.listen((state) => current = state);
 
     final sprites = {
-      MultiballState.lit: Sprite(gameRef.images.fromCache(_onAssetPath)),
-      MultiballState.dimmed: Sprite(gameRef.images.fromCache(_offAssetPath)),
+      MultiballState.lit: Sprite(gameRef.images.fromCache(_litAssetPath)),
+      MultiballState.dimmed: Sprite(gameRef.images.fromCache(_dimmedAssetPath)),
     };
     this.sprites = sprites;
 
