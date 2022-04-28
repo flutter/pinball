@@ -5,8 +5,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
+import 'package:pinball/theme/theme.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 
 class PinballGamePage extends StatelessWidget {
@@ -44,6 +46,8 @@ class PinballGamePage extends StatelessWidget {
       ...game.preLoadAssets(),
       pinballAudio.load(),
       ...BonusAnimation.loadAssets(),
+      ...SelectedCharacter.loadAssets(context),
+      ...StarAnimation.loadAssets(),
     ];
 
     return MultiBlocProvider(
@@ -113,17 +117,13 @@ class PinballGameLoadedView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isPlaying = context.select(
-      (StartGameBloc bloc) => bloc.state.status == StartGameStatus.play,
-    );
-    final gameWidgetWidth = MediaQuery.of(context).size.height * 9 / 16;
-    final screenWidth = MediaQuery.of(context).size.width;
-    final leftMargin = (screenWidth / 2) - (gameWidgetWidth / 1.8);
-
     return StartGameListener(
       game: game,
       child: Stack(
         children: [
+          const Positioned.fill(
+            child: _PinballBackground(),
+          ),
           Positioned.fill(
             child: GameWidget<PinballGame>(
               game: game,
@@ -134,21 +134,81 @@ class PinballGameLoadedView extends StatelessWidget {
                     bottom: 20,
                     right: 0,
                     left: 0,
-                    child: PlayButtonOverlay(),
+                    child: _StartGameButton(),
                   );
                 },
               },
             ),
           ),
-          Positioned(
-            top: 16,
-            left: leftMargin,
-            child: Visibility(
-              visible: isPlaying,
-              child: const GameHud(),
-            ),
-          ),
+          const _PinballGameHud(),
         ],
+      ),
+    );
+  }
+}
+
+class _PinballBackground extends StatelessWidget {
+  const _PinballBackground({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final characterTheme = context.select(
+      (CharacterThemeCubit bloc) => bloc.state.characterTheme,
+    );
+    final isStarted = context.select(
+      (StartGameBloc bloc) => bloc.state.status != StartGameStatus.initial,
+    );
+
+    return Visibility(
+      visible: isStarted,
+      child: characterTheme.background.image(fit: BoxFit.fill),
+    );
+  }
+}
+
+class _StartGameButton extends StatelessWidget {
+  const _StartGameButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final isStarted = context.select(
+      (StartGameBloc bloc) => bloc.state.status != StartGameStatus.initial,
+    );
+
+    return isStarted
+        ? const SizedBox.shrink()
+        : PinballButton(
+            child: Text(
+              l10n.start,
+              style: AppTextStyle.headline3,
+            ),
+            onPressed: () {
+              context.read<StartGameBloc>().add(const PlayTapped());
+            },
+          );
+  }
+}
+
+class _PinballGameHud extends StatelessWidget {
+  const _PinballGameHud({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final isPlaying = context.select(
+      (StartGameBloc bloc) => bloc.state.status == StartGameStatus.play,
+    );
+
+    final gameWidgetWidth = MediaQuery.of(context).size.height * 9 / 16;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final leftMargin = (screenWidth / 2) - (gameWidgetWidth / 1.8);
+
+    return Positioned(
+      top: 16,
+      left: leftMargin,
+      child: Visibility(
+        visible: isPlaying,
+        child: const GameHud(),
       ),
     );
   }

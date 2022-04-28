@@ -27,13 +27,19 @@ class StartGameListener extends StatelessWidget {
           case StartGameStatus.initial:
             break;
           case StartGameStatus.selectCharacter:
-            _onSelectCharacter(context);
+            _game.gameFlowController.start();
+            // We need to add a delay between starting the game and showing
+            // the dialog.
+            Future.delayed(
+              const Duration(milliseconds: 1300),
+              () => _onSelectCharacter(context),
+            );
+
             break;
           case StartGameStatus.howToPlay:
             _onHowToPlay(context);
             break;
           case StartGameStatus.play:
-            _game.gameFlowController.start();
             break;
         }
       },
@@ -55,12 +61,7 @@ Future<void> _onHowToPlay(BuildContext context) async {
     context: context,
     child: HowToPlayDialog(
       onDismissCallback: () {
-        // We need to add a delay between closing the dialog and starting the
-        // game.
-        Future.delayed(
-          kThemeAnimationDuration,
-          () => context.read<StartGameBloc>().add(const HowToPlayFinished()),
-        );
+        context.read<StartGameBloc>().add(const HowToPlayFinished());
       },
     ),
   );
