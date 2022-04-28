@@ -81,11 +81,11 @@ class PinballGame extends Forge2DGame
   @override
   void onTapDown(TapDownInfo info) {
     if (info.raw.kind == PointerDeviceKind.touch) {
-      final rocket = descendants().whereType<RocketSpriteComponent>().first;
+      final rocket = children.whereType<RocketSpriteComponent>().first;
       final bounds = rocket.topLeftPosition & rocket.size;
 
       if (bounds.contains(info.eventPosition.game.toOffset())) {
-        descendants().whereType<Plunger>().first.pull();
+        children.whereType<Plunger>().first.pull();
       } else {
         final leftSide = info.eventPosition.widget.x < canvasSize.x / 2;
         boardSideActive = leftSide ? BoardSide.left : BoardSide.right;
@@ -108,7 +108,7 @@ class PinballGame extends Forge2DGame
     final bounds = rocket.topLeftPosition & rocket.size;
 
     if (bounds.contains(info.eventPosition.game.toOffset())) {
-      descendants().whereType<Plunger>().first.release();
+      children.whereType<Plunger>().first.release();
     } else {
       _moveFlippersDown();
     }
@@ -117,7 +117,7 @@ class PinballGame extends Forge2DGame
 
   @override
   void onTapCancel() {
-    descendants().whereType<Plunger>().first.release();
+    children.whereType<Plunger>().first.release();
 
     _moveFlippersDown();
     super.onTapCancel();
