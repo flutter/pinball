@@ -8,8 +8,8 @@ import 'package:pinball_theme/pinball_theme.dart';
 /// {@template controlled_ball}
 /// A [Ball] with a [BallController] attached.
 ///
-/// When a [Ball] is lost, if there aren't more [Ball]s in play and the game is not over,
-/// a new [Ball] will be spawned.
+/// When a [Ball] is lost, if there aren't more [Ball]s in play and the game is
+/// not over, a new [Ball] will be spawned.
 /// {@endtemplate}
 class ControlledBall extends Ball with Controls<BallController> {
   /// A [Ball] that launches from the [Plunger].
