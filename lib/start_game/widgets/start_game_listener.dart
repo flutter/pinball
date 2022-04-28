@@ -24,6 +24,8 @@ class StartGameListener extends StatelessWidget {
     return BlocListener<StartGameBloc, StartGameState>(
       listener: (context, state) {
         switch (state.status) {
+          case StartGameStatus.initial:
+            break;
           case StartGameStatus.selectCharacter:
             _onSelectCharacter(context);
             break;
@@ -32,8 +34,6 @@ class StartGameListener extends StatelessWidget {
             break;
           case StartGameStatus.play:
             _game.gameFlowController.start();
-            break;
-          case StartGameStatus.initial:
             break;
         }
       },

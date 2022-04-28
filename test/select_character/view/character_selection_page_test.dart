@@ -87,7 +87,7 @@ void main() {
           .called(1);
     });
 
-    testWidgets('calls CharacterSelected event when start is tapped',
+    testWidgets('adds CharacterSelected event when start is tapped',
         (tester) async {
       whenListen(
         startGameBloc,
