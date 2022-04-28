@@ -35,7 +35,7 @@ class CharacterSelectionView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return PinballDialogLayout(
+    return PixelatedDecoration(
       header: Text(
         l10n.characterSelectionTitle,
         style: Theme.of(context).textTheme.headline3,
@@ -48,21 +48,35 @@ class CharacterSelectionView extends StatelessWidget {
             const SizedBox(height: 20),
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop();
                 late Timer timer;
+                // TODO(arturplaczek): remove after merge StarBlocListener
+                final height = MediaQuery.of(context).size.height * 0.5;
+
+                Navigator.of(context).pop();
                 showDialog<void>(
                   context: context,
                   builder: (context) {
-                    timer = Timer(const Duration(seconds: 3), () {
-                      Navigator.of(context).pop();
-                    });
-                    return const HowToPlayDialog();
+                    timer = Timer(
+                      const Duration(seconds: 3),
+                      () {
+                        Navigator.of(context).pop();
+                      },
+                    );
+                    return Center(
+                      child: SizedBox(
+                        height: height,
+                        width: height * 1.4,
+                        child: const HowToPlayDialog(),
+                      ),
+                    );
                   },
-                ).then((_) {
-                  if (timer.isActive) {
-                    timer.cancel();
-                  }
-                });
+                ).then(
+                  (_) {
+                    if (timer.isActive) {
+                      timer.cancel();
+                    }
+                  },
+                );
               },
               child: Text(l10n.start),
             ),
