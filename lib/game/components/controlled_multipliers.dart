@@ -22,12 +22,12 @@ class Multipliers extends Component
         ),
         x3multiplier = Multiplier(
           value: MultiplierValue.x3,
-          position: Vector2(13, -9.5),
+          position: Vector2(13, -9.4),
           rotation: 15 * math.pi / 180,
         ),
         x4multiplier = Multiplier(
           value: MultiplierValue.x4,
-          position: Vector2(0, -21),
+          position: Vector2(0, -21.2),
         ),
         x5multiplier = Multiplier(
           value: MultiplierValue.x5,
@@ -36,7 +36,7 @@ class Multipliers extends Component
         ),
         x6multiplier = Multiplier(
           value: MultiplierValue.x6,
-          position: Vector2(10, -31),
+          position: Vector2(10, -30.7),
           rotation: 8 * math.pi / 180,
         ),
         super() {
