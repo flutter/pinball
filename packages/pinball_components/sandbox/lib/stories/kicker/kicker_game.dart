@@ -1,12 +1,9 @@
 import 'package:flame/extensions.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class KickerGame extends BasicBallGame with Traceable {
-  KickerGame() : super(color: const Color(0xFFFF0000));
-
-  static const info = '''
+class KickerGame extends BallGame {
+  static const description = '''
     Shows how Kickers are rendered.
 
     - Activate the "trace" parameter to overlay the body.
@@ -18,14 +15,14 @@ class KickerGame extends BasicBallGame with Traceable {
     await super.onLoad();
 
     final center = screenToWorld(camera.viewport.canvasSize! / 2);
-
-    final leftKicker = Kicker(side: BoardSide.left)
-      ..initialPosition = Vector2(center.x - (Kicker.size.x * 2), center.y);
-    await add(leftKicker);
-
-    final rightKicker = Kicker(side: BoardSide.right)
-      ..initialPosition = Vector2(center.x + (Kicker.size.x * 2), center.y);
-    await add(rightKicker);
+    await addAll(
+      [
+        Kicker(side: BoardSide.left)
+          ..initialPosition = Vector2(center.x - (Kicker.size.x * 2), center.y),
+        Kicker(side: BoardSide.right)
+          ..initialPosition = Vector2(center.x + (Kicker.size.x * 2), center.y),
+      ],
+    );
 
     await traceAllBodies();
   }

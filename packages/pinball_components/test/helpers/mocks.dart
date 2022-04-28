@@ -13,15 +13,14 @@ class MockBall extends Mock implements Ball {}
 
 class MockGame extends Mock implements Forge2DGame {}
 
-class MockSpaceshipEntrance extends Mock implements SpaceshipEntrance {}
-
-class MockSpaceshipHole extends Mock implements SpaceshipHole {}
-
-class MockSpaceshipRailExit extends Mock implements SpaceshipRailExit {}
-
 class MockContact extends Mock implements Contact {}
 
-class MockContactCallback extends Mock
-    implements ContactCallback<Object, Object> {}
-
 class MockComponent extends Mock implements Component {}
+
+class MockAlienBumperCubit extends Mock implements AlienBumperCubit {}
+
+class MockGoogleLetterCubit extends Mock implements GoogleLetterCubit {}
+
+class MockSparkyBumperCubit extends Mock implements SparkyBumperCubit {}
+
+class MockDashNestBumperCubit extends Mock implements DashNestBumperCubit {}

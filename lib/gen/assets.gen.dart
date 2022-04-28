@@ -3,22 +3,58 @@
 ///  FlutterGen
 /// *****************************************************
 
+// ignore_for_file: directives_ordering,unnecessary_import
+
 import 'package:flutter/widgets.dart';
 
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  $AssetsImagesBonusAnimationGen get bonusAnimation =>
+      const $AssetsImagesBonusAnimationGen();
   $AssetsImagesComponentsGen get components =>
       const $AssetsImagesComponentsGen();
+  $AssetsImagesScoreGen get score => const $AssetsImagesScoreGen();
+}
+
+class $AssetsImagesBonusAnimationGen {
+  const $AssetsImagesBonusAnimationGen();
+
+  /// File path: assets/images/bonus_animation/android_spaceship.png
+  AssetGenImage get androidSpaceship => const AssetGenImage(
+      'assets/images/bonus_animation/android_spaceship.png');
+
+  /// File path: assets/images/bonus_animation/dash_nest.png
+  AssetGenImage get dashNest =>
+      const AssetGenImage('assets/images/bonus_animation/dash_nest.png');
+
+  /// File path: assets/images/bonus_animation/dino_chomp.png
+  AssetGenImage get dinoChomp =>
+      const AssetGenImage('assets/images/bonus_animation/dino_chomp.png');
+
+  /// File path: assets/images/bonus_animation/google_word.png
+  AssetGenImage get googleWord =>
+      const AssetGenImage('assets/images/bonus_animation/google_word.png');
+
+  /// File path: assets/images/bonus_animation/sparky_turbo_charge.png
+  AssetGenImage get sparkyTurboCharge => const AssetGenImage(
+      'assets/images/bonus_animation/sparky_turbo_charge.png');
 }
 
 class $AssetsImagesComponentsGen {
   const $AssetsImagesComponentsGen();
 
+  /// File path: assets/images/components/background.png
   AssetGenImage get background =>
       const AssetGenImage('assets/images/components/background.png');
-  AssetGenImage get plunger =>
-      const AssetGenImage('assets/images/components/plunger.png');
+}
+
+class $AssetsImagesScoreGen {
+  const $AssetsImagesScoreGen();
+
+  /// File path: assets/images/score/mini_score_background.png
+  AssetGenImage get miniScoreBackground =>
+      const AssetGenImage('assets/images/score/mini_score_background.png');
 }
 
 class Assets {

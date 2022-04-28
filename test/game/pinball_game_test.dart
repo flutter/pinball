@@ -12,25 +12,62 @@ import '../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(PinballGameTest.new);
-  final debugModeFlameTester = FlameTester(DebugPinballGameTest.new);
+  final assets = [
+    Assets.images.dash.bumper.main.active.keyName,
+    Assets.images.dash.bumper.main.inactive.keyName,
+    Assets.images.dash.bumper.a.active.keyName,
+    Assets.images.dash.bumper.a.inactive.keyName,
+    Assets.images.dash.bumper.b.active.keyName,
+    Assets.images.dash.bumper.b.inactive.keyName,
+    Assets.images.dash.animatronic.keyName,
+    Assets.images.signpost.inactive.keyName,
+    Assets.images.signpost.active1.keyName,
+    Assets.images.signpost.active2.keyName,
+    Assets.images.signpost.active3.keyName,
+    Assets.images.alienBumper.a.active.keyName,
+    Assets.images.alienBumper.a.inactive.keyName,
+    Assets.images.alienBumper.b.active.keyName,
+    Assets.images.alienBumper.b.inactive.keyName,
+    Assets.images.sparky.bumper.a.active.keyName,
+    Assets.images.sparky.bumper.a.inactive.keyName,
+    Assets.images.sparky.bumper.b.active.keyName,
+    Assets.images.sparky.bumper.b.inactive.keyName,
+    Assets.images.sparky.bumper.c.active.keyName,
+    Assets.images.sparky.bumper.c.inactive.keyName,
+    Assets.images.sparky.animatronic.keyName,
+    Assets.images.spaceship.ramp.boardOpening.keyName,
+    Assets.images.spaceship.ramp.railingForeground.keyName,
+    Assets.images.spaceship.ramp.railingBackground.keyName,
+    Assets.images.spaceship.ramp.main.keyName,
+    Assets.images.spaceship.ramp.arrow.inactive.keyName,
+    Assets.images.spaceship.ramp.arrow.active1.keyName,
+    Assets.images.spaceship.ramp.arrow.active2.keyName,
+    Assets.images.spaceship.ramp.arrow.active3.keyName,
+    Assets.images.spaceship.ramp.arrow.active4.keyName,
+    Assets.images.spaceship.ramp.arrow.active5.keyName,
+    Assets.images.baseboard.left.keyName,
+    Assets.images.baseboard.right.keyName,
+    Assets.images.flipper.left.keyName,
+    Assets.images.flipper.right.keyName,
+    Assets.images.boundary.outer.keyName,
+    Assets.images.boundary.outerBottom.keyName,
+    Assets.images.boundary.bottom.keyName,
+    Assets.images.slingshot.upper.keyName,
+    Assets.images.slingshot.lower.keyName,
+    Assets.images.dino.dinoLandTop.keyName,
+    Assets.images.dino.dinoLandBottom.keyName,
+  ];
+  final flameTester = FlameTester(
+    () => PinballTestGame(assets: assets),
+  );
+  final debugModeFlameTester = FlameTester(
+    () => DebugPinballTestGame(assets: assets),
+  );
 
   group('PinballGame', () {
-    // TODO(alestiago): test if [PinballGame] registers
-    // [BallScorePointsCallback] once the following issue is resolved:
-    // https://github.com/flame-engine/flame/issues/1416
     group('components', () {
-      flameTester.test(
-        'has three Walls',
-        (game) async {
-          await game.ready();
-          final walls = game.children.where(
-            (component) => component is Wall && component is! BottomWall,
-          );
-          expect(walls.length, 3);
-        },
-      );
-
+      // TODO(alestiago): tests that Blueprints get added once the Blueprint
+      // class is removed.
       flameTester.test(
         'has only one BottomWall',
         (game) async {
@@ -62,14 +99,6 @@ void main() {
         );
       });
 
-      flameTester.test(
-        'one SparkyFireZone',
-        (game) async {
-          await game.ready();
-          expect(game.children.whereType<SparkyFireZone>().length, equals(1));
-        },
-      );
-
       group('controller', () {
         // TODO(alestiago): Write test to be controller agnostic.
         group('listenWhen', () {
@@ -80,8 +109,9 @@ void main() {
           });
 
           final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
-            gameBuilder: EmptyPinballGameTest.new,
+            gameBuilder: EmptyPinballTestGame.new,
             blocBuilder: () => gameBloc,
+            // assets: assets,
           );
 
           flameBlocTester.testGameWidget(
@@ -198,8 +228,9 @@ void main() {
 
       final debugModeFlameBlocTester =
           FlameBlocTester<DebugPinballGame, GameBloc>(
-        gameBuilder: DebugPinballGameTest.new,
+        gameBuilder: DebugPinballTestGame.new,
         blocBuilder: () => gameBloc,
+        assets: assets,
       );
 
       debugModeFlameBlocTester.testGameWidget(

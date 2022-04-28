@@ -41,7 +41,7 @@ void main() {
     });
 
     final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
-      gameBuilder: EmptyPinballGameTest.new,
+      gameBuilder: EmptyPinballTestGame.new,
       blocBuilder: () => gameBloc,
     );
 
@@ -94,6 +94,7 @@ void main() {
           final controller = WrappedBallController(ball, gameRef);
           when(() => gameRef.read<GameBloc>()).thenReturn(gameBloc);
           when(() => ball.controller).thenReturn(controller);
+          when(() => ball.boost(any())).thenAnswer((_) async {});
 
           await controller.turboCharge();
 
@@ -109,6 +110,7 @@ void main() {
           final controller = WrappedBallController(ball, gameRef);
           when(() => gameRef.read<GameBloc>()).thenReturn(gameBloc);
           when(() => ball.controller).thenReturn(controller);
+          when(() => ball.boost(any())).thenAnswer((_) async {});
 
           await controller.turboCharge();
 
@@ -124,6 +126,7 @@ void main() {
           final controller = WrappedBallController(ball, gameRef);
           when(() => gameRef.read<GameBloc>()).thenReturn(gameBloc);
           when(() => ball.controller).thenReturn(controller);
+          when(() => ball.boost(any())).thenAnswer((_) async {});
 
           await controller.turboCharge();
 

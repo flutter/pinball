@@ -16,20 +16,20 @@ void main() {
   addLayerStories(dashbook);
   addEffectsStories(dashbook);
   addFlipperStories(dashbook);
-  addSpaceshipStories(dashbook);
   addBaseboardStories(dashbook);
   addChromeDinoStories(dashbook);
   addDashNestBumperStories(dashbook);
   addKickerStories(dashbook);
+  addPlungerStories(dashbook);
   addSlingshotStories(dashbook);
   addSparkyBumperStories(dashbook);
-  addZoomStories(dashbook);
+  addAlienZoneStories(dashbook);
   addBoundariesStories(dashbook);
   addGoogleWordStories(dashbook);
-  addSpaceshipRampStories(dashbook);
-  addSpaceshipRailStories(dashbook);
   addLaunchRampStories(dashbook);
   addScoreTextStories(dashbook);
+  addBackboardStories(dashbook);
+  addDinoWallStories(dashbook);
 
   runApp(dashbook);
 }

@@ -12,5 +12,17 @@ class SparkyTheme extends CharacterTheme {
   Color get ballColor => Colors.orange;
 
   @override
-  AssetGenImage get characterAsset => Assets.images.sparky;
+  String get name => 'Sparky';
+
+  @override
+  AssetGenImage get background => Assets.images.sparky.background;
+
+  @override
+  AssetGenImage get icon => Assets.images.sparky.icon;
+
+  @override
+  AssetGenImage get leaderboardIcon => Assets.images.sparky.leaderboardIcon;
+
+  @override
+  AssetGenImage get animation => Assets.images.sparky.animation;
 }

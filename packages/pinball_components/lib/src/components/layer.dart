@@ -21,8 +21,7 @@ mixin Layered<T extends Forge2DGame> on BodyComponent<T> {
   set layer(Layer value) {
     _layer = value;
     if (!isLoaded) {
-      // TODO(alestiago): Use loaded.whenComplete once provided.
-      mounted.whenComplete(_applyMaskBits);
+      loaded.whenComplete(_applyMaskBits);
     } else {
       _applyMaskBits();
     }
@@ -89,7 +88,7 @@ extension LayerMaskBits on Layer {
       case Layer.spaceshipEntranceRamp:
         return 0x0002;
       case Layer.launcher:
-        return 0x0005;
+        return 0x0008;
       case Layer.spaceship:
         return 0x000A;
       case Layer.spaceshipExitRail:

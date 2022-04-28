@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_theme/pinball_theme.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -15,9 +16,7 @@ void main() {
         final state = GameState(
           score: 10,
           balls: 0,
-          activatedBonusLetters: const [],
           bonusHistory: const [],
-          activatedDashNests: const {},
         );
 
         final previous = GameState.initial();
@@ -42,7 +41,13 @@ void main() {
         gameFlowController = GameFlowController(game);
         overlays = MockActiveOverlaysNotifier();
 
-        when(backboard.gameOverMode).thenAnswer((_) async {});
+        when(
+          () => backboard.gameOverMode(
+            score: any(named: 'score'),
+            characterIconPath: any(named: 'characterIconPath'),
+            onSubmit: any(named: 'onSubmit'),
+          ),
+        ).thenAnswer((_) async {});
         when(backboard.waitingMode).thenAnswer((_) async {});
         when(cameraController.focusOnBackboard).thenAnswer((_) async {});
         when(cameraController.focusOnGame).thenAnswer((_) async {});
@@ -52,6 +57,7 @@ void main() {
         when(game.firstChild<Backboard>).thenReturn(backboard);
         when(game.firstChild<CameraController>).thenReturn(cameraController);
         when(() => game.overlays).thenReturn(overlays);
+        when(() => game.characterTheme).thenReturn(DashTheme());
       });
 
       test(
@@ -61,13 +67,17 @@ void main() {
             GameState(
               score: 10,
               balls: 0,
-              activatedBonusLetters: const [],
               bonusHistory: const [],
-              activatedDashNests: const {},
             ),
           );
 
-          verify(backboard.gameOverMode).called(1);
+          verify(
+            () => backboard.gameOverMode(
+              score: 0,
+              characterIconPath: any(named: 'characterIconPath'),
+              onSubmit: any(named: 'onSubmit'),
+            ),
+          ).called(1);
           verify(cameraController.focusOnBackboard).called(1);
         },
       );

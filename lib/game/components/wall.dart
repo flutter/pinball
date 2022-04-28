@@ -39,44 +39,22 @@ class Wall extends BodyComponent {
   }
 }
 
-/// Create top, left, and right [Wall]s for the game board.
-List<Wall> createBoundaries(Forge2DGame game) {
-  final topLeft = BoardDimensions.bounds.topLeft.toVector2() + Vector2(18.6, 0);
-  final bottomRight = BoardDimensions.bounds.bottomRight.toVector2();
-
-  final topRight =
-      BoardDimensions.bounds.topRight.toVector2() - Vector2(18.6, 0);
-  final bottomLeft = BoardDimensions.bounds.bottomLeft.toVector2();
-
-  return [
-    Wall(start: topLeft, end: topRight),
-    Wall(start: topRight, end: bottomRight),
-    Wall(start: topLeft, end: bottomLeft),
-  ];
-}
-
 /// {@template bottom_wall}
 /// [Wall] located at the bottom of the board.
 ///
-/// Collisions with [BottomWall] are listened by
-/// [BottomWallBallContactCallback].
 /// {@endtemplate}
-class BottomWall extends Wall {
+class BottomWall extends Wall with ContactCallbacks {
   /// {@macro bottom_wall}
   BottomWall()
       : super(
           start: BoardDimensions.bounds.bottomLeft.toVector2(),
           end: BoardDimensions.bounds.bottomRight.toVector2(),
         );
-}
 
-/// {@template bottom_wall_ball_contact_callback}
-/// Listens when a [ControlledBall] falls into a [BottomWall].
-/// {@endtemplate}
-class BottomWallBallContactCallback
-    extends ContactCallback<ControlledBall, BottomWall> {
   @override
-  void begin(ControlledBall ball, BottomWall wall, Contact contact) {
-    ball.controller.lost();
+  void beginContact(Object other, Contact contact) {
+    super.beginContact(other, contact);
+    if (other is! ControlledBall) return;
+    other.controller.lost();
   }
 }

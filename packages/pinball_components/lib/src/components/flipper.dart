@@ -13,7 +13,10 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   /// {@macro flipper}
   Flipper({
     required this.side,
-  });
+  }) : super(
+          renderBody: false,
+          children: [_FlipperSpriteComponent(side: side)],
+        );
 
   /// The size of the [Flipper].
   static final size = Vector2(13.5, 4.3);
@@ -32,13 +35,13 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   /// Applies downward linear velocity to the [Flipper], moving it to its
   /// resting position.
   void moveDown() {
-    body.linearVelocity = Vector2(0, -_speed);
+    body.linearVelocity = Vector2(0, _speed);
   }
 
   /// Applies upward linear velocity to the [Flipper], moving it to its highest
   /// position.
   void moveUp() {
-    body.linearVelocity = Vector2(0, _speed);
+    body.linearVelocity = Vector2(0, -_speed);
   }
 
   /// Anchors the [Flipper] to the [RevoluteJoint] that controls its arc motion.
@@ -55,7 +58,6 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   }
 
   List<FixtureDef> _createFixtureDefs() {
-    final fixturesDef = <FixtureDef>[];
     final direction = side.direction;
 
     final assetShadow = Flipper.size.x * 0.012 * -direction;
@@ -72,7 +74,6 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
       0,
     );
     final bigCircleFixtureDef = FixtureDef(bigCircleShape);
-    fixturesDef.add(bigCircleFixtureDef);
 
     final smallCircleShape = CircleShape()..radius = size.y * 0.23;
     smallCircleShape.position.setValues(
@@ -82,7 +83,6 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
       0,
     );
     final smallCircleFixtureDef = FixtureDef(smallCircleShape);
-    fixturesDef.add(smallCircleFixtureDef);
 
     final trapeziumVertices = side.isLeft
         ? [
@@ -98,29 +98,34 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
             Vector2(smallCircleShape.position.x, -smallCircleShape.radius),
           ];
     final trapezium = PolygonShape()..set(trapeziumVertices);
-    final trapeziumFixtureDef = FixtureDef(trapezium)
-      ..density = 50.0 // TODO(alestiago): Use a proper density.
-      ..friction = .1; // TODO(alestiago): Use a proper friction.
-    fixturesDef.add(trapeziumFixtureDef);
+    final trapeziumFixtureDef = FixtureDef(
+      trapezium,
+      density: 50, // TODO(alestiago): Use a proper density.
+      friction: .1, // TODO(alestiago): Use a proper friction.
+    );
 
-    return fixturesDef;
+    return [
+      bigCircleFixtureDef,
+      smallCircleFixtureDef,
+      trapeziumFixtureDef,
+    ];
   }
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    renderBody = false;
 
     await _anchorToJoint();
-    await add(_FlipperSpriteComponent(side: side));
   }
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()
-      ..position = initialPosition
-      ..gravityScale = 0
-      ..type = BodyType.dynamic;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      gravityScale: Vector2.zero(),
+      type: BodyType.dynamic,
+    );
+
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
 
@@ -138,21 +143,24 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
 }
 
 class _FlipperSpriteComponent extends SpriteComponent with HasGameRef {
-  _FlipperSpriteComponent({required BoardSide side}) : _side = side;
+  _FlipperSpriteComponent({required BoardSide side})
+      : _side = side,
+        super(anchor: Anchor.center);
 
   final BoardSide _side;
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final sprite = await gameRef.loadSprite(
-      (_side.isLeft)
-          ? Assets.images.flipper.left.keyName
-          : Assets.images.flipper.right.keyName,
+    final sprite = Sprite(
+      gameRef.images.fromCache(
+        (_side.isLeft)
+            ? Assets.images.flipper.left.keyName
+            : Assets.images.flipper.right.keyName,
+      ),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
-    anchor = Anchor.center;
   }
 }
 
@@ -169,7 +177,7 @@ class _FlipperAnchor extends JointAnchor {
     initialPosition = Vector2(
       (Flipper.size.x * flipper.side.direction) / 2 -
           (1.65 * flipper.side.direction),
-      0.15,
+      -0.15,
     );
   }
 }

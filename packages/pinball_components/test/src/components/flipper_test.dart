@@ -10,11 +10,37 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(TestGame.new);
+  final assets = [
+    Assets.images.flipper.left.keyName,
+    Assets.images.flipper.right.keyName,
+  ];
+  final flameTester = FlameTester(() => TestGame(assets));
 
   group('Flipper', () {
-    // TODO(alestiago): Add golden tests.
     // TODO(alestiago): Consider testing always both left and right Flipper.
+
+    flameTester.testGameWidget(
+      'renders correctly',
+      setUp: (game, tester) async {
+        await game.images.loadAll(assets);
+        final leftFlipper = Flipper(
+          side: BoardSide.left,
+        )..initialPosition = Vector2(-10, 0);
+        final rightFlipper = Flipper(
+          side: BoardSide.right,
+        )..initialPosition = Vector2(10, 0);
+
+        await game.ensureAddAll([leftFlipper, rightFlipper]);
+        game.camera.followVector2(Vector2.zero());
+        await tester.pump();
+      },
+      verify: (game, tester) async {
+        await expectLater(
+          find.byGame<TestGame>(),
+          matchesGoldenFile('golden/flipper.png'),
+        );
+      },
+    );
 
     flameTester.test(
       'loads correctly',
@@ -55,7 +81,7 @@ void main() {
           final flipper = Flipper(side: BoardSide.left);
           await game.ensureAdd(flipper);
 
-          expect(flipper.body.gravityScale, isZero);
+          expect(flipper.body.gravityScale, equals(Vector2.zero()));
         },
       );
 
@@ -113,7 +139,7 @@ void main() {
         expect(flipper.body.linearVelocity, equals(Vector2.zero()));
         flipper.moveDown();
 
-        expect(flipper.body.linearVelocity.y, lessThan(0));
+        expect(flipper.body.linearVelocity.y, isPositive);
       },
     );
 
@@ -126,7 +152,7 @@ void main() {
         expect(flipper.body.linearVelocity, equals(Vector2.zero()));
         flipper.moveUp();
 
-        expect(flipper.body.linearVelocity.y, greaterThan(0));
+        expect(flipper.body.linearVelocity.y, isNegative);
       },
     );
   });

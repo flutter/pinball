@@ -9,10 +9,35 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('Baseboard', () {
-    // TODO(allisonryan0002): Add golden tests.
-
     TestWidgetsFlutterBinding.ensureInitialized();
-    final flameTester = FlameTester(TestGame.new);
+    final assets = [
+      Assets.images.baseboard.left.keyName,
+      Assets.images.baseboard.right.keyName,
+    ];
+    final flameTester = FlameTester(() => TestGame(assets));
+
+    flameTester.testGameWidget(
+      'renders correctly',
+      setUp: (game, tester) async {
+        await game.images.loadAll(assets);
+        final leftBaseboard = Baseboard(
+          side: BoardSide.left,
+        )..initialPosition = Vector2(-20, 0);
+        final rightBaseboard = Baseboard(
+          side: BoardSide.right,
+        )..initialPosition = Vector2(20, 0);
+
+        await game.ensureAddAll([leftBaseboard, rightBaseboard]);
+        game.camera.followVector2(Vector2.zero());
+        await tester.pump();
+      },
+      verify: (game, tester) async {
+        await expectLater(
+          find.byGame<TestGame>(),
+          matchesGoldenFile('golden/baseboard.png'),
+        );
+      },
+    );
 
     flameTester.test(
       'loads correctly',
@@ -57,8 +82,8 @@ void main() {
           );
           await game.ensureAddAll([leftBaseboard, rightBaseboard]);
 
-          expect(leftBaseboard.body.angle, isNegative);
-          expect(rightBaseboard.body.angle, isPositive);
+          expect(leftBaseboard.body.angle, isPositive);
+          expect(rightBaseboard.body.angle, isNegative);
         },
       );
     });

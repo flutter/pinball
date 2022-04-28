@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
@@ -12,14 +11,6 @@ void main() {
 
     test('supports value equality', () {
       expect(DinoTheme(), equals(DinoTheme()));
-    });
-
-    test('ballColor is correct', () {
-      expect(DinoTheme().ballColor, equals(Colors.grey));
-    });
-
-    test('characterAsset is correct', () {
-      expect(DinoTheme().characterAsset, equals(Assets.images.dino));
     });
   });
 }

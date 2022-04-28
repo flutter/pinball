@@ -4,30 +4,35 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 import '../../helpers/helpers.dart';
 
 void main() {
   group('Slingshot', () {
-    final flameTester = FlameTester(TestGame.new);
+    final assets = [
+      Assets.images.slingshot.upper.keyName,
+      Assets.images.slingshot.lower.keyName,
+    ];
+    final flameTester = FlameTester(() => TestGame(assets));
     const length = 2.0;
     const angle = 0.0;
-    final spritePath = Assets.images.slingshot.leftUpper.keyName;
 
     flameTester.testGameWidget(
       'renders correctly',
       setUp: (game, tester) async {
+        await game.images.loadAll(assets);
         await game.addFromBlueprint(Slingshots());
-        await game.ready();
         game.camera.followVector2(Vector2.zero());
+        await game.ready();
+        await tester.pump();
       },
-      // TODO(allisonryan0002): enable test when workflows are fixed.
-      // verify: (game, tester) async {
-      //   await expectLater(
-      //     find.byGame<Forge2DGame>(),
-      //     matchesGoldenFile('golden/slingshots.png'),
-      //   );
-      // },
+      verify: (game, tester) async {
+        await expectLater(
+          find.byGame<TestGame>(),
+          matchesGoldenFile('golden/slingshots.png'),
+        );
+      },
     );
 
     flameTester.test(
@@ -36,7 +41,7 @@ void main() {
         final slingshot = Slingshot(
           length: length,
           angle: angle,
-          spritePath: spritePath,
+          spritePath: assets.first,
         );
         await game.ensureAdd(slingshot);
 
@@ -50,7 +55,7 @@ void main() {
         final slingshot = Slingshot(
           length: length,
           angle: angle,
-          spritePath: spritePath,
+          spritePath: assets.first,
         );
         await game.ensureAdd(slingshot);
 
@@ -64,7 +69,7 @@ void main() {
         final slingshot = Slingshot(
           length: length,
           angle: angle,
-          spritePath: spritePath,
+          spritePath: assets.first,
         );
         await game.ensureAdd(slingshot);
 
@@ -82,7 +87,7 @@ void main() {
         final slingshot = Slingshot(
           length: length,
           angle: angle,
-          spritePath: spritePath,
+          spritePath: assets.first,
         );
         await game.ensureAdd(slingshot);
 

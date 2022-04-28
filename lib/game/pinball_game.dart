@@ -2,14 +2,16 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
+import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:pinball/flame/flame.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/gen/assets.gen.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart' hide Assets;
 
 class PinballGame extends Forge2DGame
@@ -18,7 +20,7 @@ class PinballGame extends Forge2DGame
         HasKeyboardHandlerComponents,
         Controls<_GameBallsController> {
   PinballGame({
-    required this.theme,
+    required this.characterTheme,
     required this.audio,
   }) {
     images.prefix = '';
@@ -28,7 +30,10 @@ class PinballGame extends Forge2DGame
   /// Identifier of the play button overlay
   static const playButtonOverlay = 'play_button';
 
-  final PinballTheme theme;
+  @override
+  Color backgroundColor() => Colors.transparent;
+
+  final CharacterTheme characterTheme;
 
   final PinballAudio audio;
 
@@ -36,65 +41,43 @@ class PinballGame extends Forge2DGame
 
   @override
   Future<void> onLoad() async {
-    _addContactCallbacks();
-
-    unawaited(add(ScoreEffectController(this)));
     unawaited(add(gameFlowController = GameFlowController(this)));
     unawaited(add(CameraController(this)));
-    unawaited(add(Backboard(position: Vector2(0, -88))));
+    unawaited(add(Backboard.waiting(position: Vector2(0, -88))));
 
-    await _addGameBoundaries();
+    // TODO(allisonryan0002): banish Wall and Board classes in later PR.
+    await add(BottomWall());
     unawaited(addFromBlueprint(Boundaries()));
     unawaited(addFromBlueprint(LaunchRamp()));
-    unawaited(addFromBlueprint(ControlledSparkyComputer()));
 
-    final plunger = Plunger(compressionDistance: 29)
-      ..initialPosition = Vector2(38, -19);
-    await add(plunger);
-
+    final launcher = Launcher();
+    unawaited(addFromBlueprint(launcher));
     unawaited(add(Board()));
-    unawaited(add(SparkyFireZone()));
+    await addFromBlueprint(AlienZone());
+
+    await addFromBlueprint(SparkyFireZone());
     unawaited(addFromBlueprint(Slingshots()));
     unawaited(addFromBlueprint(DinoWalls()));
-    unawaited(_addBonusWord());
     unawaited(addFromBlueprint(SpaceshipRamp()));
     unawaited(
       addFromBlueprint(
         Spaceship(
-          position: Vector2(-26.5, 28.5),
+          position: Vector2(-26.5, -28.5),
         ),
       ),
     );
-    unawaited(
-      addFromBlueprint(
-        SpaceshipRail(),
-      ),
-    );
-
-    controller.attachTo(plunger);
-    await super.onLoad();
-  }
-
-  void _addContactCallbacks() {
-    addContactCallback(BallScorePointsCallback(this));
-    addContactCallback(BottomWallBallContactCallback());
-    addContactCallback(BonusLetterBallContactCallback());
-  }
-
-  Future<void> _addGameBoundaries() async {
-    await add(BottomWall());
-    createBoundaries(this).forEach(add);
-  }
-
-  Future<void> _addBonusWord() async {
+    unawaited(addFromBlueprint(SpaceshipRail()));
     await add(
-      BonusWord(
+      GoogleWord(
         position: Vector2(
-          BoardDimensions.bounds.center.dx - 3.07,
-          BoardDimensions.bounds.center.dy - 2.4,
+          BoardDimensions.bounds.center.dx - 4.1,
+          BoardDimensions.bounds.center.dy + 1.8,
         ),
       ),
     );
+
+    controller.attachTo(launcher.components.whereType<Plunger>().first);
+    await super.onLoad();
   }
 }
 
@@ -126,10 +109,10 @@ class _GameBallsController extends ComponentController<PinballGame>
 
   void _spawnBall() {
     final ball = ControlledBall.launch(
-      theme: gameRef.theme,
+      characterTheme: gameRef.characterTheme,
     )..initialPosition = Vector2(
         _plunger.body.position.x,
-        _plunger.body.position.y + Ball.size.y,
+        _plunger.body.position.y - Ball.size.y,
       );
     component.add(ball);
   }
@@ -142,12 +125,12 @@ class _GameBallsController extends ComponentController<PinballGame>
   }
 }
 
-class DebugPinballGame extends PinballGame with TapDetector {
+class DebugPinballGame extends PinballGame with FPSCounter, TapDetector {
   DebugPinballGame({
-    required PinballTheme theme,
+    required CharacterTheme characterTheme,
     required PinballAudio audio,
   }) : super(
-          theme: theme,
+          characterTheme: characterTheme,
           audio: audio,
         ) {
     controller = _DebugGameBallsController(this);
@@ -157,6 +140,7 @@ class DebugPinballGame extends PinballGame with TapDetector {
   Future<void> onLoad() async {
     await super.onLoad();
     await _loadBackground();
+    await add(_DebugInformation());
   }
 
   // TODO(alestiago): Move to PinballGame once we have the real background
@@ -171,7 +155,7 @@ class DebugPinballGame extends PinballGame with TapDetector {
       anchor: Anchor.center,
     )
       ..position = Vector2(0, -7.8)
-      ..priority = -2;
+      ..priority = RenderPriority.background;
 
     await add(spriteComponent);
   }
@@ -197,5 +181,37 @@ class _DebugGameBallsController extends _GameBallsController {
     final canBallRespawn = newState.balls > 0;
 
     return noBallsLeft && canBallRespawn;
+  }
+}
+
+class _DebugInformation extends Component with HasGameRef<DebugPinballGame> {
+  _DebugInformation() : super(priority: RenderPriority.debugInfo);
+
+  @override
+  PositionType get positionType => PositionType.widget;
+
+  final _debugTextPaint = TextPaint(
+    style: const TextStyle(
+      color: Colors.green,
+      fontSize: 10,
+    ),
+  );
+
+  final _debugBackgroundPaint = Paint()..color = Colors.white;
+
+  @override
+  void render(Canvas canvas) {
+    final debugText = [
+      'FPS: ${gameRef.fps().toStringAsFixed(1)}',
+      'BALLS: ${gameRef.descendants().whereType<ControlledBall>().length}',
+    ].join(' | ');
+
+    final height = _debugTextPaint.measureTextHeight(debugText);
+    final position = Vector2(0, gameRef.camera.canvasSize.y - height);
+    canvas.drawRect(
+      position & Vector2(gameRef.camera.canvasSize.x, height),
+      _debugBackgroundPaint,
+    );
+    _debugTextPaint.render(canvas, debugText, position);
   }
 }

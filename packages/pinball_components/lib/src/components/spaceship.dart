@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_renaming_method_parameters
-
 import 'dart:async';
 import 'dart:math';
 
@@ -7,42 +5,33 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template spaceship}
 /// A [Blueprint] which creates the spaceship feature.
 /// {@endtemplate}
-class Spaceship extends Forge2DBlueprint {
+class Spaceship extends Blueprint {
   /// {@macro spaceship}
-  Spaceship({required this.position});
+  Spaceship({required Vector2 position})
+      : super(
+          components: [
+            SpaceshipSaucer()..initialPosition = position,
+            _SpaceshipEntrance()..initialPosition = position,
+            AndroidHead()..initialPosition = position,
+            _SpaceshipHole(
+              outsideLayer: Layer.spaceshipExitRail,
+              outsidePriority: RenderPriority.ballOnSpaceshipRail,
+            )..initialPosition = position - Vector2(5.2, -4.8),
+            _SpaceshipHole(
+              outsideLayer: Layer.board,
+              outsidePriority: RenderPriority.ballOnBoard,
+            )..initialPosition = position - Vector2(-7.2, -0.8),
+            SpaceshipWall()..initialPosition = position,
+          ],
+        );
 
   /// Total size of the spaceship.
   static final size = Vector2(25, 19);
-
-  /// The [position] where the elements will be created
-  final Vector2 position;
-
-  /// Base priority for wall while be on spaceship.
-  static const ballPriorityWhenOnSpaceship = 4;
-
-  @override
-  void build(_) {
-    addAllContactCallback([
-      SpaceshipHoleBallContactCallback(),
-      SpaceshipEntranceBallContactCallback(),
-    ]);
-
-    addAll([
-      SpaceshipSaucer()..initialPosition = position,
-      SpaceshipEntrance()..initialPosition = position,
-      AndroidHead()..initialPosition = position,
-      SpaceshipHole(
-        outsideLayer: Layer.spaceshipExitRail,
-        outsidePriority: SpaceshipRail.ballPriorityInsideRail,
-      )..initialPosition = position - Vector2(5.2, 4.8),
-      SpaceshipHole()..initialPosition = position - Vector2(-7.2, 0.8),
-      SpaceshipWall()..initialPosition = position,
-    ]);
-  }
 }
 
 /// {@template spaceship_saucer}
@@ -51,41 +40,48 @@ class Spaceship extends Forge2DBlueprint {
 class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_saucer}
   SpaceshipSaucer()
-      : super(priority: Spaceship.ballPriorityWhenOnSpaceship - 1) {
+      : super(
+          priority: RenderPriority.spaceshipSaucer,
+          renderBody: false,
+          children: [
+            _SpaceshipSaucerSpriteComponent(),
+          ],
+        ) {
     layer = Layer.spaceship;
   }
 
   @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    final sprite = await gameRef.loadSprite(
-      Assets.images.spaceship.saucer.keyName,
+  Body createBody() {
+    final shape = CircleShape()..radius = 3;
+    final fixtureDef = FixtureDef(
+      shape,
+      isSensor: true,
+    );
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
     );
 
-    await add(
-      SpriteComponent(
-        sprite: sprite,
-        size: Spaceship.size,
-        anchor: Anchor.center,
-      ),
-    );
-
-    renderBody = false;
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
+}
+
+class _SpaceshipSaucerSpriteComponent extends SpriteComponent with HasGameRef {
+  _SpaceshipSaucerSpriteComponent()
+      : super(
+          anchor: Anchor.center,
+          // TODO(alestiago): Refactor to use sprite orignial size instead.
+          size: Spaceship.size,
+        );
 
   @override
-  Body createBody() {
-    final circleShape = CircleShape()..radius = 3;
+  Future<void> onLoad() async {
+    await super.onLoad();
 
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition
-      ..type = BodyType.static;
-
-    return world.createBody(bodyDef)
-      ..createFixture(
-        FixtureDef(circleShape)..isSensor = true,
-      );
+    // TODO(alestiago): Use cached sprite.
+    sprite = await gameRef.loadSprite(
+      Assets.images.spaceship.saucer.keyName,
+    );
   }
 }
 
@@ -95,26 +91,23 @@ class SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
 /// {@endtemplate}
 class AndroidHead extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_bridge}
-  AndroidHead() : super(priority: Spaceship.ballPriorityWhenOnSpaceship + 1) {
+  AndroidHead()
+      : super(
+          priority: RenderPriority.androidHead,
+          children: [_AndroidHeadSpriteAnimation()],
+          renderBody: false,
+        ) {
     layer = Layer.spaceship;
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    renderBody = false;
-
-    await add(_AndroidHeadSpriteAnimation());
   }
 
   @override
   Body createBody() {
     final circleShape = CircleShape()..radius = 2;
 
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition
-      ..type = BodyType.static;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
 
     return world.createBody(bodyDef)
       ..createFixture(
@@ -146,25 +139,18 @@ class _AndroidHeadSpriteAnimation extends SpriteAnimationComponent
   }
 }
 
-/// {@template spaceship_entrance}
-/// A sensor [BodyComponent] used to detect when the ball enters the
-/// the spaceship area in order to modify its filter data so the ball
-/// can correctly collide only with the Spaceship
-/// {@endtemplate}
-class SpaceshipEntrance extends RampOpening {
-  /// {@macro spaceship_entrance}
-  SpaceshipEntrance()
+class _SpaceshipEntrance extends LayerSensor {
+  _SpaceshipEntrance()
       : super(
           insideLayer: Layer.spaceship,
-          orientation: RampOrientation.up,
-          insidePriority: Spaceship.ballPriorityWhenOnSpaceship,
+          orientation: LayerEntranceOrientation.up,
+          insidePriority: RenderPriority.ballOnSpaceship,
         ) {
     layer = Layer.spaceship;
   }
 
   @override
   Shape get shape {
-    renderBody = false;
     final radius = Spaceship.size.y / 2;
     return PolygonShape()
       ..setAsEdge(
@@ -180,31 +166,25 @@ class SpaceshipEntrance extends RampOpening {
   }
 }
 
-/// {@template spaceship_hole}
-/// A sensor [BodyComponent] responsible for sending the [Ball]
-/// out from the [Spaceship].
-/// {@endtemplate}
-class SpaceshipHole extends RampOpening {
-  /// {@macro spaceship_hole}
-  SpaceshipHole({Layer? outsideLayer, int? outsidePriority = 1})
+class _SpaceshipHole extends LayerSensor {
+  _SpaceshipHole({required Layer outsideLayer, required int outsidePriority})
       : super(
           insideLayer: Layer.spaceship,
           outsideLayer: outsideLayer,
-          orientation: RampOrientation.up,
-          insidePriority: 4,
+          orientation: LayerEntranceOrientation.down,
+          insidePriority: RenderPriority.ballOnSpaceship,
           outsidePriority: outsidePriority,
         ) {
-    renderBody = false;
     layer = Layer.spaceship;
   }
 
   @override
   Shape get shape {
     return ArcShape(
-      center: Vector2(0, 3.2),
+      center: Vector2(0, -3.2),
       arcRadius: 5,
       angle: 1,
-      rotation: 60 * pi / 180,
+      rotation: -2,
     );
   }
 }
@@ -242,55 +222,25 @@ class _SpaceshipWallShape extends ChainShape {
 /// {@endtemplate}
 class SpaceshipWall extends BodyComponent with InitialPosition, Layered {
   /// {@macro spaceship_wall}
-  SpaceshipWall() : super(priority: Spaceship.ballPriorityWhenOnSpaceship + 1) {
+  SpaceshipWall()
+      : super(
+          priority: RenderPriority.spaceshipSaucerWall,
+          renderBody: false,
+        ) {
     layer = Layer.spaceship;
   }
 
   @override
   Body createBody() {
-    renderBody = false;
+    final shape = _SpaceshipWallShape();
+    final fixtureDef = FixtureDef(shape);
 
-    final wallShape = _SpaceshipWallShape();
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+      angle: -1.7,
+    );
 
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition
-      ..angle = 90 * pi / 172
-      ..type = BodyType.static;
-
-    return world.createBody(bodyDef)
-      ..createFixture(
-        FixtureDef(wallShape)..restitution = 1,
-      );
-  }
-}
-
-/// [ContactCallback] that handles the contact between the [Ball]
-/// and the [SpaceshipEntrance].
-///
-/// It modifies the [Ball] priority and filter data so it can appear on top of
-/// the spaceship and also only collide with the spaceship.
-class SpaceshipEntranceBallContactCallback
-    extends ContactCallback<SpaceshipEntrance, Ball> {
-  @override
-  void begin(SpaceshipEntrance entrance, Ball ball, _) {
-    ball
-      ..sendTo(entrance.insidePriority)
-      ..layer = Layer.spaceship;
-  }
-}
-
-/// [ContactCallback] that handles the contact between the [Ball]
-/// and a [SpaceshipHole].
-///
-/// It sets the [Ball] priority and filter data so it will outside of the
-/// [Spaceship].
-class SpaceshipHoleBallContactCallback
-    extends ContactCallback<SpaceshipHole, Ball> {
-  @override
-  void begin(SpaceshipHole hole, Ball ball, _) {
-    ball
-      ..sendTo(hole.outsidePriority)
-      ..layer = hole.outsideLayer;
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }

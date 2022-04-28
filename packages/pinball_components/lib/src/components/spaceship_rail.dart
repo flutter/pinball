@@ -1,51 +1,36 @@
-// ignore_for_file: avoid_renaming_method_parameters
-
 import 'dart:math' as math;
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template spaceship_rail}
 /// A [Blueprint] for the spaceship drop tube.
 /// {@endtemplate}
-class SpaceshipRail extends Forge2DBlueprint {
+class SpaceshipRail extends Blueprint {
   /// {@macro spaceship_rail}
-  SpaceshipRail();
-
-  /// Base priority for [Ball] while inside [SpaceshipRail].
-  static const ballPriorityInsideRail = 2;
-
-  @override
-  void build(_) {
-    addAllContactCallback([
-      SpaceshipRailExitBallContactCallback(),
-    ]);
-
-    final railRamp = _SpaceshipRailRamp();
-    final railEnd = SpaceshipRailExit();
-    final topBase = _SpaceshipRailBase(radius: 0.55)
-      ..initialPosition = Vector2(-26.15, 18.65);
-    final bottomBase = _SpaceshipRailBase(radius: 0.8)
-      ..initialPosition = Vector2(-25.5, -12.9);
-    final railForeground = _SpaceshipRailForeground();
-
-    addAll([
-      railRamp,
-      railEnd,
-      topBase,
-      bottomBase,
-      railForeground,
-    ]);
-  }
+  SpaceshipRail()
+      : super(
+          components: [
+            _SpaceshipRailRamp(),
+            _SpaceshipRailExit(),
+            _SpaceshipRailBase(radius: 0.55)
+              ..initialPosition = Vector2(-26.15, -18.65),
+            _SpaceshipRailBase(radius: 0.8)
+              ..initialPosition = Vector2(-25.5, 12.9),
+            _SpaceshipRailForeground()
+          ],
+        );
 }
 
-/// Represents the spaceship drop rail from the [Spaceship].
-class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
+class _SpaceshipRailRamp extends BodyComponent with Layered {
   _SpaceshipRailRamp()
       : super(
-          priority: SpaceshipRail.ballPriorityInsideRail - 1,
+          priority: RenderPriority.spaceshipRail,
+          renderBody: false,
+          children: [_SpaceshipRailRampSpriteComponent()],
         ) {
     layer = Layer.spaceshipExitRail;
   }
@@ -54,19 +39,19 @@ class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
     final fixturesDefs = <FixtureDef>[];
 
     final topArcShape = ArcShape(
-      center: Vector2(-35.5, 30.9),
+      center: Vector2(-35.5, -30.9),
       arcRadius: 2.5,
       angle: math.pi,
-      rotation: 2.9,
+      rotation: 0.2,
     );
     final topArcFixtureDef = FixtureDef(topArcShape);
     fixturesDefs.add(topArcFixtureDef);
 
     final topLeftCurveShape = BezierCurveShape(
       controlPoints: [
-        Vector2(-37.9, 30.4),
-        Vector2(-38, 23.9),
-        Vector2(-30.93, 18.2),
+        Vector2(-37.9, -30.4),
+        Vector2(-38, -23.9),
+        Vector2(-30.93, -18.2),
       ],
     );
     final topLeftCurveFixtureDef = FixtureDef(topLeftCurveShape);
@@ -75,8 +60,8 @@ class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
     final middleLeftCurveShape = BezierCurveShape(
       controlPoints: [
         topLeftCurveShape.vertices.last,
-        Vector2(-22.6, 10.3),
-        Vector2(-30, 0.2),
+        Vector2(-22.6, -10.3),
+        Vector2(-30, -0.2),
       ],
     );
     final middleLeftCurveFixtureDef = FixtureDef(middleLeftCurveShape);
@@ -85,8 +70,8 @@ class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
     final bottomLeftCurveShape = BezierCurveShape(
       controlPoints: [
         middleLeftCurveShape.vertices.last,
-        Vector2(-36, -8.6),
-        Vector2(-32.04, -18.3),
+        Vector2(-36, 8.6),
+        Vector2(-32.04, 18.3),
       ],
     );
     final bottomLeftCurveFixtureDef = FixtureDef(bottomLeftCurveShape);
@@ -94,8 +79,8 @@ class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
 
     final topRightStraightShape = EdgeShape()
       ..set(
-        Vector2(-33, 31.3),
-        Vector2(-27.2, 21.3),
+        Vector2(-33, -31.3),
+        Vector2(-27.2, -21.3),
       );
     final topRightStraightFixtureDef = FixtureDef(topRightStraightShape);
     fixturesDefs.add(topRightStraightFixtureDef);
@@ -103,8 +88,8 @@ class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
     final middleRightCurveShape = BezierCurveShape(
       controlPoints: [
         topRightStraightShape.vertex1,
-        Vector2(-16.5, 11.4),
-        Vector2(-25.29, -1.7),
+        Vector2(-16.5, -11.4),
+        Vector2(-25.29, 1.7),
       ],
     );
     final middleRightCurveFixtureDef = FixtureDef(middleRightCurveShape);
@@ -113,8 +98,8 @@ class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
     final bottomRightCurveShape = BezierCurveShape(
       controlPoints: [
         middleRightCurveShape.vertices.last,
-        Vector2(-29.91, -8.5),
-        Vector2(-26.8, -15.7),
+        Vector2(-29.91, 8.5),
+        Vector2(-26.8, 15.7),
       ],
     );
     final bottomRightCurveFixtureDef = FixtureDef(bottomRightCurveShape);
@@ -125,22 +110,9 @@ class _SpaceshipRailRamp extends BodyComponent with InitialPosition, Layered {
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition;
-
-    final body = world.createBody(bodyDef);
+    final body = world.createBody(BodyDef());
     _createFixtureDefs().forEach(body.createFixture);
-
     return body;
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    renderBody = false;
-
-    await add(_SpaceshipRailRampSpriteComponent());
   }
 }
 
@@ -162,7 +134,7 @@ class _SpaceshipRailRampSpriteComponent extends SpriteComponent
 
 class _SpaceshipRailForeground extends SpriteComponent with HasGameRef {
   _SpaceshipRailForeground()
-      : super(priority: SpaceshipRail.ballPriorityInsideRail + 1);
+      : super(priority: RenderPriority.spaceshipRailForeground);
 
   @override
   Future<void> onLoad() async {
@@ -179,69 +151,40 @@ class _SpaceshipRailForeground extends SpriteComponent with HasGameRef {
 }
 
 /// Represents the ground bases of the [_SpaceshipRailRamp].
-class _SpaceshipRailBase extends BodyComponent with InitialPosition, Layered {
-  _SpaceshipRailBase({required this.radius})
-      : super(
-          priority: SpaceshipRail.ballPriorityInsideRail + 1,
-        ) {
-    renderBody = false;
-    layer = Layer.board;
-  }
+class _SpaceshipRailBase extends BodyComponent with InitialPosition {
+  _SpaceshipRailBase({required this.radius}) : super(renderBody: false);
 
   final double radius;
 
   @override
   Body createBody() {
     final shape = CircleShape()..radius = radius;
-
     final fixtureDef = FixtureDef(shape);
-
-    final bodyDef = BodyDef()
-      ..position = initialPosition
-      ..userData = this;
+    final bodyDef = BodyDef(
+      position: initialPosition,
+    );
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
 
-/// {@template spaceship_rail_exit}
-/// A sensor [BodyComponent] responsible for sending the [Ball]
-/// back to the board.
-/// {@endtemplate}
-class SpaceshipRailExit extends RampOpening {
-  /// {@macro spaceship_rail_exit}
-  SpaceshipRailExit()
+class _SpaceshipRailExit extends LayerSensor {
+  _SpaceshipRailExit()
       : super(
-          orientation: RampOrientation.down,
+          orientation: LayerEntranceOrientation.down,
           insideLayer: Layer.spaceshipExitRail,
-          insidePriority: SpaceshipRail.ballPriorityInsideRail,
+          insidePriority: RenderPriority.ballOnSpaceshipRail,
         ) {
-    renderBody = false;
     layer = Layer.spaceshipExitRail;
   }
 
   @override
   Shape get shape {
     return ArcShape(
-      center: Vector2(-29, -19),
+      center: Vector2(-29, 19),
       arcRadius: 2.5,
       angle: math.pi * 0.4,
-      rotation: 0.26,
+      rotation: -1.4,
     );
-  }
-}
-
-/// [ContactCallback] that handles the contact between the [Ball]
-/// and a [SpaceshipRailExit].
-///
-/// It resets the [Ball] priority and filter data so it will "be back" on the
-/// board.
-class SpaceshipRailExitBallContactCallback
-    extends ContactCallback<SpaceshipRailExit, Ball> {
-  @override
-  void begin(SpaceshipRailExit exitRail, Ball ball, _) {
-    ball
-      ..sendTo(exitRail.outsidePriority)
-      ..layer = exitRail.outsideLayer;
   }
 }

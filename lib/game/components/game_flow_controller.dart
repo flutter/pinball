@@ -1,8 +1,8 @@
 import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
-import 'package:pinball/flame/flame.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template game_flow_controller}
 /// A [Component] that controls the game over and game restart logic
@@ -28,7 +28,12 @@ class GameFlowController extends ComponentController<PinballGame>
 
   /// Puts the game on a game over state
   void gameOver() {
-    component.firstChild<Backboard>()?.gameOverMode();
+    // TODO(erickzanardo): implement score submission and "navigate" to the
+    // next page
+    component.firstChild<Backboard>()?.gameOverMode(
+          score: state?.score ?? 0,
+          characterIconPath: component.characterTheme.leaderboardIcon.keyName,
+        );
     component.firstChild<CameraController>()?.focusOnBackboard();
   }
 

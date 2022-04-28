@@ -1,12 +1,18 @@
 import 'package:flame/extensions.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:sandbox/common/common.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class SlingshotGame extends BasicBallGame with Traceable {
-  SlingshotGame() : super(color: const Color(0xFFFF0000));
+class SlingshotGame extends BallGame {
+  SlingshotGame()
+      : super(
+          imagesFileNames: [
+            Assets.images.slingshot.upper.keyName,
+            Assets.images.slingshot.lower.keyName,
+          ],
+        );
 
-  static const info = '''
+  static const description = '''
     Shows how Slingshots are rendered.
 
     - Activate the "trace" parameter to overlay the body.
@@ -16,8 +22,10 @@ class SlingshotGame extends BasicBallGame with Traceable {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await addFromBlueprint(Slingshots());
+
     camera.followVector2(Vector2.zero());
+    await addFromBlueprint(Slingshots());
+    await ready();
     await traceAllBodies();
   }
 }

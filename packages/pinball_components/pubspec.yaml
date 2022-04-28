@@ -7,15 +7,25 @@ environment:
   sdk: ">=2.16.0 <3.0.0"
 
 dependencies:
-  flame: ^1.1.0
-  flame_forge2d: ^0.10.0
+  bloc: ^8.0.3
+  flame: ^1.1.1
+  flame_forge2d:
+    git:
+      url: https://github.com/flame-engine/flame/
+      path: packages/flame_forge2d/
+      ref: a50d4a1e7d9eaf66726ed1bb9894c9d495547d8f
   flutter:
     sdk: flutter
   geometry:
     path: ../geometry
-
+  intl: ^0.17.0
+  pinball_flame:
+    path: ../pinball_flame
+  pinball_theme:
+    path: ../pinball_theme
 
 dev_dependencies:
+  bloc_test: ^9.0.3
   flame_test: ^1.3.0
   flutter_test:
     sdk: flutter
@@ -36,26 +46,34 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/ball/
     - assets/images/baseboard/
     - assets/images/boundary/
     - assets/images/dino/
     - assets/images/flipper/
     - assets/images/launch_ramp/
-    - assets/images/dash_bumper/a/
-    - assets/images/dash_bumper/b/
-    - assets/images/dash_bumper/main/
+    - assets/images/dash/
+    - assets/images/dash/bumper/a/
+    - assets/images/dash/bumper/b/
+    - assets/images/dash/bumper/main/
     - assets/images/spaceship/
     - assets/images/spaceship/rail/
     - assets/images/spaceship/ramp/
+    - assets/images/spaceship/ramp/arrow/
     - assets/images/chrome_dino/
     - assets/images/kicker/
+    - assets/images/plunger/
     - assets/images/slingshot/
+    - assets/images/alien_bumper/a/
+    - assets/images/alien_bumper/b/
+    - assets/images/sparky/
     - assets/images/sparky/computer/
     - assets/images/sparky/bumper/a/
     - assets/images/sparky/bumper/b/
     - assets/images/sparky/bumper/c/
     - assets/images/backboard/
     - assets/images/google_word/
+    - assets/images/signpost/
 
 flutter_gen:
   line_length: 80

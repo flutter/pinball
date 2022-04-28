@@ -1,115 +1,110 @@
 // ignore_for_file: cascade_invocations
 
-import 'dart:ui';
-
-import 'package:bloc_test/bloc_test.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(EmptyPinballGameTest.new);
+  final assets = [
+    Assets.images.sparky.bumper.a.active.keyName,
+    Assets.images.sparky.bumper.a.inactive.keyName,
+    Assets.images.sparky.bumper.b.active.keyName,
+    Assets.images.sparky.bumper.b.inactive.keyName,
+    Assets.images.sparky.bumper.c.active.keyName,
+    Assets.images.sparky.bumper.c.inactive.keyName,
+    Assets.images.sparky.animatronic.keyName,
+  ];
+
+  final flameTester = FlameTester(
+    () => EmptyPinballTestGame(assets: assets),
+  );
 
   group('SparkyFireZone', () {
-    flameTester.test(
-      'loads correctly',
-      (game) async {
-        await game.ready();
-        final sparkyFireZone = SparkyFireZone();
-        await game.ensureAdd(sparkyFireZone);
-
-        expect(game.contains(sparkyFireZone), isTrue);
-      },
-    );
+    flameTester.test('loads correctly', (game) async {
+      await game.addFromBlueprint(SparkyFireZone());
+      await game.ready();
+    });
 
     group('loads', () {
       flameTester.test(
-        'three SparkyBumper',
+        'a SparkyComputer',
         (game) async {
-          await game.ready();
+          expect(
+            SparkyFireZone().blueprints.whereType<SparkyComputer>().single,
+            isNotNull,
+          );
+        },
+      );
+
+      flameTester.test(
+        'a SparkyAnimatronic',
+        (game) async {
           final sparkyFireZone = SparkyFireZone();
-          await game.ensureAdd(sparkyFireZone);
+          await game.addFromBlueprint(sparkyFireZone);
+          await game.ready();
 
           expect(
-            sparkyFireZone.descendants().whereType<SparkyBumper>().length,
+            game.descendants().whereType<SparkyAnimatronic>().single,
+            isNotNull,
+          );
+        },
+      );
+
+      flameTester.test(
+        'three SparkyBumper',
+        (game) async {
+          final sparkyFireZone = SparkyFireZone();
+          await game.addFromBlueprint(sparkyFireZone);
+          await game.ready();
+
+          expect(
+            game.descendants().whereType<SparkyBumper>().length,
             equals(3),
           );
         },
       );
     });
+  });
 
-    group('bumpers', () {
-      late ControlledSparkyBumper controlledSparkyBumper;
-      late Ball ball;
-      late GameBloc gameBloc;
+  group('SparkyComputerSensor', () {
+    flameTester.test('calls turboCharge', (game) async {
+      final sensor = SparkyComputerSensor();
+      final ball = MockControlledBall();
+      final controller = MockBallController();
+      when(() => ball.controller).thenReturn(controller);
+      when(controller.turboCharge).thenAnswer((_) async {});
 
-      setUp(() {
-        ball = Ball(baseColor: const Color(0xFF00FFFF));
-        gameBloc = MockGameBloc();
-        whenListen(
-          gameBloc,
-          const Stream<GameState>.empty(),
-          initialState: const GameState.initial(),
-        );
-      });
+      await game.ensureAddAll([
+        sensor,
+        SparkyAnimatronic(),
+      ]);
 
-      final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
-        gameBuilder: EmptyPinballGameTest.new,
-        blocBuilder: () => gameBloc,
-      );
+      sensor.beginContact(ball, MockContact());
 
-      flameTester.testGameWidget(
-        'activate when deactivated bumper is hit',
-        setUp: (game, tester) async {
-          controlledSparkyBumper = ControlledSparkyBumper.a();
-          await game.ensureAdd(controlledSparkyBumper);
+      verify(() => ball.controller.turboCharge()).called(1);
+    });
 
-          controlledSparkyBumper.controller.hit();
-        },
-        verify: (game, tester) async {
-          expect(controlledSparkyBumper.controller.isActivated, isTrue);
-        },
-      );
+    flameTester.test('plays SparkyAnimatronic', (game) async {
+      final sensor = SparkyComputerSensor();
+      final sparkyAnimatronic = SparkyAnimatronic();
+      final ball = MockControlledBall();
+      final controller = MockBallController();
+      when(() => ball.controller).thenReturn(controller);
+      when(controller.turboCharge).thenAnswer((_) async {});
+      await game.ensureAddAll([
+        sensor,
+        sparkyAnimatronic,
+      ]);
 
-      flameTester.testGameWidget(
-        'deactivate when activated bumper is hit',
-        setUp: (game, tester) async {
-          controlledSparkyBumper = ControlledSparkyBumper.a();
-          await game.ensureAdd(controlledSparkyBumper);
-
-          controlledSparkyBumper.controller.hit();
-          controlledSparkyBumper.controller.hit();
-        },
-        verify: (game, tester) async {
-          expect(controlledSparkyBumper.controller.isActivated, isFalse);
-        },
-      );
-
-      flameBlocTester.testGameWidget(
-        'add Scored event',
-        setUp: (game, tester) async {
-          final sparkyFireZone = SparkyFireZone();
-          await game.ensureAdd(sparkyFireZone);
-          await game.ensureAdd(ball);
-          game.addContactCallback(BallScorePointsCallback(game));
-
-          final bumpers = sparkyFireZone.descendants().whereType<ScorePoints>();
-
-          for (final bumper in bumpers) {
-            beginContact(game, bumper, ball);
-            verify(
-              () => gameBloc.add(
-                Scored(points: bumper.points),
-              ),
-            ).called(1);
-          }
-        },
-      );
+      expect(sparkyAnimatronic.playing, isFalse);
+      sensor.beginContact(ball, MockContact());
+      expect(sparkyAnimatronic.playing, isTrue);
     });
   });
 }

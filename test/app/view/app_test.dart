@@ -7,8 +7,9 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pinball/app/app.dart';
-import 'package:pinball/landing/landing.dart';
+import 'package:pinball/game/game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 
 import '../../helpers/mocks.dart';
@@ -21,16 +22,18 @@ void main() {
     setUp(() {
       leaderboardRepository = MockLeaderboardRepository();
       pinballAudio = MockPinballAudio();
+
+      when(pinballAudio.load).thenAnswer((_) => Future.value());
     });
 
-    testWidgets('renders LandingPage', (tester) async {
+    testWidgets('renders PinballGamePage', (tester) async {
       await tester.pumpWidget(
         App(
           leaderboardRepository: leaderboardRepository,
           pinballAudio: pinballAudio,
         ),
       );
-      expect(find.byType(LandingPage), findsOneWidget);
+      expect(find.byType(PinballGamePage), findsOneWidget);
     });
   });
 }

@@ -4,6 +4,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -16,15 +17,15 @@ void main() {
       setUp: (game, tester) async {
         await game.addFromBlueprint(SparkyComputer());
         await game.ready();
+
         game.camera.followVector2(Vector2(-15, -50));
       },
-      // TODO(allisonryan0002): enable test when workflows are fixed.
-      // verify: (game, tester) async {
-      //   await expectLater(
-      //     find.byGame<Forge2DGame>(),
-      //     matchesGoldenFile('golden/sparky-computer.png'),
-      //   );
-      // },
+      verify: (game, tester) async {
+        await expectLater(
+          find.byGame<TestGame>(),
+          matchesGoldenFile('golden/sparky-computer.png'),
+        );
+      },
     );
   });
 }

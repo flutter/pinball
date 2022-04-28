@@ -10,9 +10,13 @@ dependencies:
   bloc: ^8.0.2
   cloud_firestore: ^3.1.10
   equatable: ^2.0.3
-  flame: ^1.1.0
+  flame: ^1.1.1
   flame_bloc: ^1.2.0
-  flame_forge2d: ^0.10.0
+  flame_forge2d:
+    git: 
+      url: https://github.com/flame-engine/flame/
+      path: packages/flame_forge2d/
+      ref: a50d4a1e7d9eaf66726ed1bb9894c9d495547d8f
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
@@ -27,6 +31,8 @@ dependencies:
     path: packages/pinball_audio
   pinball_components:
     path: packages/pinball_components
+  pinball_flame:
+    path: packages/pinball_flame
   pinball_theme:
     path: packages/pinball_theme
 
@@ -45,6 +51,8 @@ flutter:
 
   assets:
     - assets/images/components/
+    - assets/images/bonus_animation/
+    - assets/images/score/
 
 flutter_gen:
   line_length: 80
