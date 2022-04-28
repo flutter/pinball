@@ -14,11 +14,7 @@ class DinoDesert extends Blueprint {
   DinoDesert()
       : super(
           components: [
-            ChromeDino()
-              ..initialPosition = Vector2(
-                BoardDimensions.bounds.center.dx + 25,
-                BoardDimensions.bounds.center.dy - 10,
-              ),
+            ChromeDino()..initialPosition = Vector2(12.3, -6.9),
           ],
           blueprints: [
             DinoWalls(),

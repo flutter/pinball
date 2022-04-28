@@ -16,8 +16,6 @@ class $AssetsImagesGen {
   $AssetsImagesBallGen get ball => const $AssetsImagesBallGen();
   $AssetsImagesBaseboardGen get baseboard => const $AssetsImagesBaseboardGen();
   $AssetsImagesBoundaryGen get boundary => const $AssetsImagesBoundaryGen();
-  $AssetsImagesChromeDinoGen get chromeDino =>
-      const $AssetsImagesChromeDinoGen();
   $AssetsImagesDashGen get dash => const $AssetsImagesDashGen();
   $AssetsImagesDinoGen get dino => const $AssetsImagesDinoGen();
   $AssetsImagesFlipperGen get flipper => const $AssetsImagesFlipperGen();
@@ -97,18 +95,6 @@ class $AssetsImagesBoundaryGen {
       const AssetGenImage('assets/images/boundary/outer.png');
 }
 
-class $AssetsImagesChromeDinoGen {
-  const $AssetsImagesChromeDinoGen();
-
-  /// File path: assets/images/chrome_dino/head.png
-  AssetGenImage get head =>
-      const AssetGenImage('assets/images/chrome_dino/head.png');
-
-  /// File path: assets/images/chrome_dino/mouth.png
-  AssetGenImage get mouth =>
-      const AssetGenImage('assets/images/chrome_dino/mouth.png');
-}
-
 class $AssetsImagesDashGen {
   const $AssetsImagesDashGen();
 
@@ -122,13 +108,16 @@ class $AssetsImagesDashGen {
 class $AssetsImagesDinoGen {
   const $AssetsImagesDinoGen();
 
-  /// File path: assets/images/dino/dino-land-bottom.png
-  AssetGenImage get dinoLandBottom =>
-      const AssetGenImage('assets/images/dino/dino-land-bottom.png');
+  $AssetsImagesDinoAnimatronicGen get animatronic =>
+      const $AssetsImagesDinoAnimatronicGen();
 
-  /// File path: assets/images/dino/dino-land-top.png
-  AssetGenImage get dinoLandTop =>
-      const AssetGenImage('assets/images/dino/dino-land-top.png');
+  /// File path: assets/images/dino/bottom-wall.png
+  AssetGenImage get bottomWall =>
+      const AssetGenImage('assets/images/dino/bottom-wall.png');
+
+  /// File path: assets/images/dino/top-wall.png
+  AssetGenImage get topWall =>
+      const AssetGenImage('assets/images/dino/top-wall.png');
 }
 
 class $AssetsImagesFlipperGen {
@@ -302,6 +291,18 @@ class $AssetsImagesDashBumperGen {
   $AssetsImagesDashBumperBGen get b => const $AssetsImagesDashBumperBGen();
   $AssetsImagesDashBumperMainGen get main =>
       const $AssetsImagesDashBumperMainGen();
+}
+
+class $AssetsImagesDinoAnimatronicGen {
+  const $AssetsImagesDinoAnimatronicGen();
+
+  /// File path: assets/images/dino/animatronic/head.png
+  AssetGenImage get head =>
+      const AssetGenImage('assets/images/dino/animatronic/head.png');
+
+  /// File path: assets/images/dino/animatronic/mouth.png
+  AssetGenImage get mouth =>
+      const AssetGenImage('assets/images/dino/animatronic/mouth.png');
 }
 
 class $AssetsImagesSpaceshipRailGen {

@@ -35,51 +35,46 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
   List<FixtureDef> _createFixtureDefs() {
     final topStraightShape = EdgeShape()
       ..set(
-        Vector2(28.65, -35.1),
-        Vector2(29.5, -35.1),
+        Vector2(28.65, -34.3),
+        Vector2(29.5, -34.3),
       );
-    final topStraightFixtureDef = FixtureDef(topStraightShape);
 
     final topCurveShape = BezierCurveShape(
       controlPoints: [
         topStraightShape.vertex1,
-        Vector2(18.8, -27),
-        Vector2(26.6, -21),
+        Vector2(18.8, -26.2),
+        Vector2(26.6, -20.2),
       ],
     );
-    final topCurveFixtureDef = FixtureDef(topCurveShape);
 
     final middleCurveShape = BezierCurveShape(
       controlPoints: [
         topCurveShape.vertices.last,
-        Vector2(27.8, -20.1),
-        Vector2(26.8, -19.5),
+        Vector2(27.8, -19.3),
+        Vector2(26.8, -18.7),
       ],
     );
-    final middleCurveFixtureDef = FixtureDef(middleCurveShape);
 
     final bottomCurveShape = BezierCurveShape(
       controlPoints: [
         middleCurveShape.vertices.last,
-        Vector2(23, -15),
-        Vector2(27, -15),
+        Vector2(23, -14.2),
+        Vector2(27, -14.2),
       ],
     );
-    final bottomCurveFixtureDef = FixtureDef(bottomCurveShape);
 
     final bottomStraightShape = EdgeShape()
       ..set(
         bottomCurveShape.vertices.last,
-        Vector2(31, -14.5),
+        Vector2(31, -13.7),
       );
-    final bottomStraightFixtureDef = FixtureDef(bottomStraightShape);
 
     return [
-      topStraightFixtureDef,
-      topCurveFixtureDef,
-      middleCurveFixtureDef,
-      bottomCurveFixtureDef,
-      bottomStraightFixtureDef,
+      FixtureDef(topStraightShape),
+      FixtureDef(topCurveShape),
+      FixtureDef(middleCurveShape),
+      FixtureDef(bottomCurveShape),
+      FixtureDef(bottomStraightShape),
     ];
   }
 
@@ -109,12 +104,12 @@ class _DinoTopWallSpriteComponent extends SpriteComponent with HasGameRef {
     await super.onLoad();
     final sprite = Sprite(
       gameRef.images.fromCache(
-        Assets.images.dino.dinoLandTop.keyName,
+        Assets.images.dino.topWall.keyName,
       ),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
-    position = Vector2(22.8, -38.9);
+    position = Vector2(22.8, -38.1);
   }
 }
 
@@ -131,17 +126,11 @@ class _DinoBottomWall extends BodyComponent with InitialPosition {
         );
 
   List<FixtureDef> _createFixtureDefs() {
-    const restitution = 1.0;
-
     final topStraightShape = EdgeShape()
       ..set(
         Vector2(32.4, -8.8),
         Vector2(25, -7.7),
       );
-    final topStraightFixtureDef = FixtureDef(
-      topStraightShape,
-      restitution: restitution,
-    );
 
     final topLeftCurveShape = BezierCurveShape(
       controlPoints: [
@@ -150,36 +139,24 @@ class _DinoBottomWall extends BodyComponent with InitialPosition {
         Vector2(29.8, 13.8),
       ],
     );
-    final topLeftCurveFixtureDef = FixtureDef(
-      topLeftCurveShape,
-      restitution: restitution,
-    );
 
     final bottomLeftStraightShape = EdgeShape()
       ..set(
         topLeftCurveShape.vertices.last,
         Vector2(31.9, 44.1),
       );
-    final bottomLeftStraightFixtureDef = FixtureDef(
-      bottomLeftStraightShape,
-      restitution: restitution,
-    );
 
     final bottomStraightShape = EdgeShape()
       ..set(
         bottomLeftStraightShape.vertex2,
         Vector2(37.8, 44.1),
       );
-    final bottomStraightFixtureDef = FixtureDef(
-      bottomStraightShape,
-      restitution: restitution,
-    );
 
     return [
-      topStraightFixtureDef,
-      topLeftCurveFixtureDef,
-      bottomLeftStraightFixtureDef,
-      bottomStraightFixtureDef,
+      FixtureDef(topStraightShape),
+      FixtureDef(topLeftCurveShape),
+      FixtureDef(bottomLeftStraightShape),
+      FixtureDef(bottomStraightShape),
     ];
   }
 
@@ -203,11 +180,11 @@ class _DinoBottomWallSpriteComponent extends SpriteComponent with HasGameRef {
     await super.onLoad();
     final sprite = Sprite(
       gameRef.images.fromCache(
-        Assets.images.dino.dinoLandBottom.keyName,
+        Assets.images.dino.bottomWall.keyName,
       ),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
-    position = Vector2(23.6, -9.5);
+    position = Vector2(23.8, -9.5);
   }
 }
