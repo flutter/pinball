@@ -39,26 +39,23 @@ class MultipliersGame extends BallGame with KeyboardEvents {
     await super.onLoad();
 
     camera.followVector2(Vector2.zero());
+
     x2 = Multiplier(
       value: 2,
       position: Vector2(-20, 0),
     );
-
     x3 = Multiplier(
       value: 3,
       position: Vector2(20, -5),
     );
-
     x4 = Multiplier(
       value: 4,
       position: Vector2(0, -15),
     );
-
     x5 = Multiplier(
       value: 5,
       position: Vector2(-10, -25),
     );
-
     x6 = Multiplier(
       value: 6,
       position: Vector2(10, -35),
