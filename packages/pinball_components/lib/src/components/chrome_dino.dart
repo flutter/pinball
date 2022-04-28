@@ -26,8 +26,7 @@ class ChromeDino extends BodyComponent with InitialPosition {
   /// Anchors the [ChromeDino] to the [RevoluteJoint] that controls its arc
   /// motion.
   Future<_ChromeDinoJoint> _anchorToJoint() async {
-    final anchor = _ChromeDinoAnchor()
-      ..initialPosition = initialPosition + Vector2(9, -4);
+    final anchor = _ChromeDinoAnchor();
     await add(anchor);
 
     final jointDef = _ChromeDinoAnchorRevoluteJointDef(
@@ -86,7 +85,12 @@ class ChromeDino extends BodyComponent with InitialPosition {
 }
 
 class _ChromeDinoAnchor extends JointAnchor {
-  _ChromeDinoAnchor();
+  _ChromeDinoAnchor() {
+    initialPosition = Vector2(
+      ChromeDino.size.x / 2 + 9,
+      ChromeDino.size.y / 2 - 4,
+    );
+  }
 
   // TODO(allisonryan0002): if these aren't moved when fixing the rendering, see
   // if the joint can be created in onMount to resolve render syncing.
