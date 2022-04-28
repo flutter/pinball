@@ -8,7 +8,7 @@ import 'package:pinball_theme/pinball_theme.dart';
 /// {@template controlled_ball}
 /// A [Ball] with a [BallController] attached.
 ///
-/// When a [Ball] is lost, if there aren't more [Ball]s and game is not over,
+/// When a [Ball] is lost, if there aren't more [Ball]s in play and the game is not over,
 /// a new [Ball] will be spawned.
 /// {@endtemplate}
 class ControlledBall extends Ball with Controls<BallController> {
@@ -46,10 +46,8 @@ class BallController extends ComponentController<Ball>
   /// {@macro ball_controller}
   BallController(Ball ball) : super(ball);
 
-  /// Removes the [Ball] from a [PinballGame].
-  ///
-  /// Triggered by [BottomWallBallContactCallback] when the [Ball] falls into
-  /// a [BottomWall].
+  /// Event triggered when the ball is lost.
+  // TODO(alestiago): Refactor using behaviors.
   void lost() {
     component.shouldRemove = true;
   }

@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_renaming_method_parameters
 
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
@@ -17,9 +16,21 @@ class SparkyFireZone extends Blueprint {
   SparkyFireZone()
       : super(
           components: [
-            _SparkyBumper.a()..initialPosition = Vector2(-22.9, -41.65),
-            _SparkyBumper.b()..initialPosition = Vector2(-21.25, -57.9),
-            _SparkyBumper.c()..initialPosition = Vector2(-3.3, -52.55),
+            SparkyBumper.a(
+              children: [
+                ScoringBehavior(points: 20),
+              ],
+            )..initialPosition = Vector2(-22.9, -41.65),
+            SparkyBumper.b(
+              children: [
+                ScoringBehavior(points: 20),
+              ],
+            )..initialPosition = Vector2(-21.25, -57.9),
+            SparkyBumper.c(
+              children: [
+                ScoringBehavior(points: 20),
+              ],
+            )..initialPosition = Vector2(-3.3, -52.55),
             SparkyComputerSensor()..initialPosition = Vector2(-13, -49.8),
             SparkyAnimatronic()..position = Vector2(-13.8, -58.2),
           ],
@@ -29,52 +40,14 @@ class SparkyFireZone extends Blueprint {
         );
 }
 
-// TODO(alestiago): Revisit ScorePoints logic once the FlameForge2D
-// ContactCallback process is enhanced.
-class _SparkyBumper extends SparkyBumper with ScorePoints {
-  _SparkyBumper.a() : super.a();
-
-  _SparkyBumper.b() : super.b();
-
-  _SparkyBumper.c() : super.c();
-
-  @override
-  int get points => 20;
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    // TODO(alestiago): Revisit once this has been merged:
-    // https://github.com/flame-engine/flame/pull/1547
-    gameRef.addContactCallback(SparkyBumperBallContactCallback());
-  }
-}
-
-/// Listens when a [Ball] bounces bounces against a [SparkyBumper].
-@visibleForTesting
-class SparkyBumperBallContactCallback
-    extends ContactCallback<SparkyBumper, Ball> {
-  @override
-  void begin(
-    SparkyBumper sparkyBumper,
-    Ball _,
-    Contact __,
-  ) {
-    sparkyBumper.animate();
-  }
-}
-
 /// {@template sparky_computer_sensor}
 /// Small sensor body used to detect when a ball has entered the
 /// [SparkyComputer].
 /// {@endtemplate}
-// TODO(alestiago): Revisit once this has been merged:
-// https://github.com/flame-engine/flame/pull/1547
-class SparkyComputerSensor extends BodyComponent with InitialPosition {
+class SparkyComputerSensor extends BodyComponent
+    with InitialPosition, ContactCallbacks {
   /// {@macro sparky_computer_sensor}
-  SparkyComputerSensor() {
-    renderBody = false;
-  }
+  SparkyComputerSensor() : super(renderBody: false);
 
   @override
   Body createBody() {
@@ -88,23 +61,11 @@ class SparkyComputerSensor extends BodyComponent with InitialPosition {
   }
 
   @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    // TODO(alestiago): Revisit once this has been merged:
-    // https://github.com/flame-engine/flame/pull/1547
-    gameRef.addContactCallback(SparkyComputerSensorBallContactCallback());
-  }
-}
+  void beginContact(Object other, Contact contact) {
+    super.beginContact(other, contact);
+    if (other is! ControlledBall) return;
 
-@visibleForTesting
-// TODO(alestiago): Revisit once this has been merged:
-// https://github.com/flame-engine/flame/pull/1547
-// ignore: public_member_api_docs
-class SparkyComputerSensorBallContactCallback
-    extends ContactCallback<SparkyComputerSensor, ControlledBall> {
-  @override
-  void begin(_, ControlledBall controlledBall, __) {
-    controlledBall.controller.turboCharge();
-    controlledBall.gameRef.firstChild<SparkyAnimatronic>()?.playing = true;
+    other.controller.turboCharge();
+    gameRef.firstChild<SparkyAnimatronic>()?.playing = true;
   }
 }

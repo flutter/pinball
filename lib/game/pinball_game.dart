@@ -41,8 +41,6 @@ class PinballGame extends Forge2DGame
 
   @override
   Future<void> onLoad() async {
-    _addContactCallbacks();
-
     unawaited(add(gameFlowController = GameFlowController(this)));
     unawaited(add(CameraController(this)));
     unawaited(add(Backboard.waiting(position: Vector2(0, -88))));
@@ -55,11 +53,11 @@ class PinballGame extends Forge2DGame
     final launcher = Launcher();
     unawaited(addFromBlueprint(launcher));
     unawaited(add(Board()));
-    unawaited(add(AlienZone()));
+    await addFromBlueprint(AlienZone());
+
     await addFromBlueprint(SparkyFireZone());
     unawaited(addFromBlueprint(Slingshots()));
     unawaited(addFromBlueprint(DinoWalls()));
-    unawaited(_addBonusWord());
     unawaited(addFromBlueprint(SpaceshipRamp()));
     unawaited(
       addFromBlueprint(
@@ -69,17 +67,6 @@ class PinballGame extends Forge2DGame
       ),
     );
     unawaited(addFromBlueprint(SpaceshipRail()));
-
-    controller.attachTo(launcher.components.whereType<Plunger>().first);
-    await super.onLoad();
-  }
-
-  void _addContactCallbacks() {
-    addContactCallback(BallScorePointsCallback(this));
-    addContactCallback(BottomWallBallContactCallback());
-  }
-
-  Future<void> _addBonusWord() async {
     await add(
       GoogleWord(
         position: Vector2(
@@ -88,6 +75,9 @@ class PinballGame extends Forge2DGame
         ),
       ),
     );
+
+    controller.attachTo(launcher.components.whereType<Plunger>().first);
+    await super.onLoad();
   }
 }
 

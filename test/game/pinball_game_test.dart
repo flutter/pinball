@@ -84,14 +84,17 @@ void main() {
     Assets.images.backboard.display.keyName,
   ];
 
-  final flameTester = FlameTester(() => PinballTestGame(assets));
-  final debugModeFlameTester = FlameTester(() => DebugPinballTestGame(assets));
+  final flameTester = FlameTester(
+    () => PinballTestGame(assets: assets),
+  );
+  final debugModeFlameTester = FlameTester(
+    () => DebugPinballTestGame(assets: assets),
+  );
 
   group('PinballGame', () {
-    // TODO(alestiago): test if [PinballGame] registers
-    // [BallScorePointsCallback] once the following issue is resolved:
-    // https://github.com/flame-engine/flame/issues/1416
     group('components', () {
+      // TODO(alestiago): tests that Blueprints get added once the Blueprint
+      // class is removed.
       flameTester.test(
         'has only one BottomWall',
         (game) async {
@@ -122,14 +125,6 @@ void main() {
             game.children.whereType<Board>().length,
             equals(1),
           );
-        },
-      );
-
-      flameTester.test(
-        'one AlienZone',
-        (game) async {
-          await game.ready();
-          expect(game.children.whereType<AlienZone>().length, equals(1));
         },
       );
 

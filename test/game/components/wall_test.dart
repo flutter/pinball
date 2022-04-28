@@ -122,7 +122,6 @@ void main() {
             );
             final wall = BottomWall();
             await game.ensureAddAll([ball, wall]);
-            game.addContactCallback(BottomWallBallContactCallback());
 
             beginContact(game, ball, wall);
             await game.ready();
@@ -139,7 +138,6 @@ void main() {
             );
             final wall = BottomWall();
             await game.ensureAddAll([ball, wall]);
-            game.addContactCallback(BottomWallBallContactCallback());
 
             beginContact(game, ball, wall);
             await game.ready();
@@ -154,7 +152,6 @@ void main() {
             final ball = ControlledBall.debug();
             final wall = BottomWall();
             await game.ensureAddAll([ball, wall]);
-            game.addContactCallback(BottomWallBallContactCallback());
 
             beginContact(game, ball, wall);
             await game.ready();
