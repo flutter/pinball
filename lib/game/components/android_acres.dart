@@ -5,25 +5,30 @@ import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
-/// {@template alien_zone}
-/// Area positioned below [Spaceship] where the [Ball]
-/// can bounce off [AlienBumper]s.
+/// {@template android_acres}
+/// Area positioned on the left side of the board containing the [Spaceship],
+/// [SpaceshipRamp], [SpaceshipRail], and [AndroidBumper]s.
 /// {@endtemplate}
-class AlienZone extends Blueprint {
-  /// {@macro alien_zone}
-  AlienZone()
+class AndroidAcres extends Blueprint {
+  /// {@macro android_acres}
+  AndroidAcres()
       : super(
           components: [
-            AlienBumper.a(
+            AndroidBumper.a(
               children: [
                 ScoringBehavior(points: 20),
               ],
             )..initialPosition = Vector2(-32.52, -9.1),
-            AlienBumper.b(
+            AndroidBumper.b(
               children: [
                 ScoringBehavior(points: 20),
               ],
             )..initialPosition = Vector2(-22.89, -17.35),
+          ],
+          blueprints: [
+            SpaceshipRamp(),
+            Spaceship(position: Vector2(-26.5, -28.5)),
+            SpaceshipRail(),
           ],
         );
 }

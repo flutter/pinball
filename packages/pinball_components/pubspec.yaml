@@ -64,8 +64,8 @@ flutter:
     - assets/images/kicker/
     - assets/images/plunger/
     - assets/images/slingshot/
-    - assets/images/alien_bumper/a/
-    - assets/images/alien_bumper/b/
+    - assets/images/android_bumper/a/
+    - assets/images/android_bumper/b/
     - assets/images/sparky/
     - assets/images/sparky/computer/
     - assets/images/sparky/bumper/a/
