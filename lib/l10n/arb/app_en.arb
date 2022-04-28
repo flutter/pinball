@@ -24,7 +24,7 @@
   "@select": {
     "description": "Text displayed on the character selection page select button"
   },
-  "characterSelectionTitle": "Choose your character!",
+  "characterSelectionTitle": "Select a character",
   "@characterSelectionTitle": {
     "description": "Title text displayed on the character selection page"
   },
