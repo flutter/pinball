@@ -26,7 +26,7 @@ void main() {
       expect(find.text('Play'), findsOneWidget);
     });
 
-    testWidgets('calls PlayTapped event to StartGameBloc when taped on play',
+    testWidgets('adds PlayTapped event to StartGameBloc when taped',
         (tester) async {
       await tester.pumpApp(
         const PlayButtonOverlay(),
