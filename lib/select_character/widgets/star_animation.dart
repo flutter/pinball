@@ -7,7 +7,7 @@ import 'package:pinball/gen/gen.dart';
 /// {@template star_animation}
 /// Widget to display a looped the star animation.
 ///
-/// For animation is using [SpriteAnimationWidget].
+/// For animation uses [SpriteAnimationWidget].
 /// {@endtemplate}
 class StarAnimation extends StatelessWidget {
   const StarAnimation._({
@@ -60,7 +60,7 @@ class StarAnimation extends StatelessWidget {
   final int _rows;
   final double _stepTime;
 
-  /// Returns a list of assets to be loaded
+  /// Returns a list of assets to be loaded.
   static Future<void> loadAssets() {
     Flame.images.prefix = '';
 

@@ -11,6 +11,7 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+
   late CharacterThemeCubit characterThemeCubit;
 
   setUpAll(() async {
@@ -29,7 +30,7 @@ void main() {
   });
 
   group('SelectedCharacter', () {
-    testWidgets('loadAssets returns list of futures', (tester) async {
+    testWidgets('loadAssets method returns list of futures', (tester) async {
       expect(SelectedCharacter.loadAssets(), isList);
     });
 
