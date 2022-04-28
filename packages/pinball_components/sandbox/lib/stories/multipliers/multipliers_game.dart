@@ -86,7 +86,7 @@ class MultipliersGame extends BallGame with KeyboardEvents {
       }
 
       for (final multiplier in multipliers) {
-        multiplier.bloc.toggle(currentMultiplier);
+        multiplier.bloc.next(currentMultiplier);
       }
 
       return KeyEventResult.handled;

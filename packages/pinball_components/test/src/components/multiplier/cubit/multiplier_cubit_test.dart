@@ -9,9 +9,9 @@ void main() {
     'MultiplierCubit',
     () {
       blocTest<MultiplierCubit, MultiplierState>(
-        'emits [lit] when toggle dimmed with same multiplier value',
+        "emits [lit] when 'next' on dimmed with same multiplier value",
         build: () => MultiplierCubit(MultiplierValue.x2),
-        act: (bloc) => bloc.toggle(2),
+        act: (bloc) => bloc.next(2),
         expect: () => [
           isA<MultiplierState>()
             ..having(
@@ -23,13 +23,13 @@ void main() {
       );
 
       blocTest<MultiplierCubit, MultiplierState>(
-        'emits [dimmed] when toggle lit with different multiplier value',
+        "emits [dimmed] when 'next' on lit with different multiplier value",
         build: () => MultiplierCubit(MultiplierValue.x2),
         seed: () => MultiplierState(
           value: MultiplierValue.x2,
           spriteState: MultiplierSpriteState.lit,
         ),
-        act: (bloc) => bloc.toggle(3),
+        act: (bloc) => bloc.next(3),
         expect: () => [
           isA<MultiplierState>()
             ..having(
@@ -41,20 +41,20 @@ void main() {
       );
 
       blocTest<MultiplierCubit, MultiplierState>(
-        'emits nothing when toggle lit with same multiplier value',
+        "emits nothing when 'next' on lit with same multiplier value",
         build: () => MultiplierCubit(MultiplierValue.x2),
         seed: () => MultiplierState(
           value: MultiplierValue.x2,
           spriteState: MultiplierSpriteState.lit,
         ),
-        act: (bloc) => bloc.toggle(2),
+        act: (bloc) => bloc.next(2),
         expect: () => <MultiplierState>[],
       );
 
       blocTest<MultiplierCubit, MultiplierState>(
-        'emits nothing when toggle dimmed with different multiplier value',
+        "emits nothing when 'next' on dimmed with different multiplier value",
         build: () => MultiplierCubit(MultiplierValue.x2),
-        act: (bloc) => bloc.toggle(3),
+        act: (bloc) => bloc.next(3),
         expect: () => <MultiplierState>[],
       );
     },

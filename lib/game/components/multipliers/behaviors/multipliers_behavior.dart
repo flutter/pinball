@@ -19,7 +19,7 @@ class MultipliersBehavior extends Component
 
         final multipliers = parent.children.whereType<Multiplier>();
         for (final multiplier in multipliers) {
-          multiplier.bloc.toggle(state.multiplier);
+          multiplier.bloc.next(state.multiplier);
         }
       }
     });

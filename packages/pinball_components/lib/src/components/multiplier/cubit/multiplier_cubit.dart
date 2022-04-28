@@ -16,7 +16,7 @@ class MultiplierCubit extends Cubit<MultiplierState> {
         );
 
   /// Event added when the game current multiplier changes.
-  void toggle(int multiplier) {
+  void next(int multiplier) {
     if (state.equalsTo(multiplier)) {
       if (state.spriteState == MultiplierSpriteState.dimmed) {
         emit(state.copyWith(spriteState: MultiplierSpriteState.lit));

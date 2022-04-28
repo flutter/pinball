@@ -47,7 +47,7 @@ void main() {
     );
 
     flameBlocTester.testGameWidget(
-      'calls toggle once per each multiplier when GameBloc emit state',
+      "calls 'next' once per each multiplier when GameBloc emit state",
       setUp: (game, tester) async {
         final multiplierCubit = MockMultiplierCubit();
         final behavior = MultipliersBehavior();
@@ -85,7 +85,7 @@ void main() {
 
         for (final multiplier in multipliers) {
           verify(
-            () => multiplier.bloc.toggle(any()),
+            () => multiplier.bloc.next(any()),
           ).called(1);
         }
       },
