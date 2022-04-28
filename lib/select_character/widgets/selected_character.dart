@@ -24,7 +24,7 @@ class SelectedCharacter extends StatefulWidget {
   State<SelectedCharacter> createState() => _SelectedCharacterState();
 
   /// Returns a list of assets to be loaded.
-  static List<Future> loadAssets() {
+  static List<Future> loadAssets(BuildContext context) {
     Flame.images.prefix = '';
 
     const dashTheme = DashTheme();
@@ -41,6 +41,10 @@ class SelectedCharacter extends StatefulWidget {
       Flame.images.load(androidTheme.background.keyName),
       Flame.images.load(dinoTheme.background.keyName),
       Flame.images.load(sparkyTheme.background.keyName),
+      precacheImage(AssetImage(dashTheme.background.keyName), context),
+      precacheImage(AssetImage(androidTheme.background.keyName), context),
+      precacheImage(AssetImage(dinoTheme.background.keyName), context),
+      precacheImage(AssetImage(sparkyTheme.background.keyName), context),
     ];
   }
 }
