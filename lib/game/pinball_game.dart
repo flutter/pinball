@@ -53,20 +53,10 @@ class PinballGame extends Forge2DGame
     final launcher = Launcher();
     unawaited(addFromBlueprint(launcher));
     unawaited(add(Board()));
-    await addFromBlueprint(AlienZone());
-
     await addFromBlueprint(SparkyFireZone());
+    await addFromBlueprint(AndroidAcres());
     unawaited(addFromBlueprint(Slingshots()));
     unawaited(addFromBlueprint(DinoWalls()));
-    unawaited(addFromBlueprint(SpaceshipRamp()));
-    unawaited(
-      addFromBlueprint(
-        Spaceship(
-          position: Vector2(-26.5, -28.5),
-        ),
-      ),
-    );
-    unawaited(addFromBlueprint(SpaceshipRail()));
     await add(
       GoogleWord(
         position: Vector2(
