@@ -12,7 +12,11 @@ void main() {
     testWidgets('displays content', (tester) async {
       final l10n = await AppLocalizations.delegate.load(Locale('en'));
 
-      await tester.pumpApp(HowToPlayDialog());
+      await tester.pumpApp(
+        HowToPlayDialog(
+          onDismissCallback: () {},
+        ),
+      );
 
       expect(find.text(l10n.launchControls), findsOneWidget);
     });

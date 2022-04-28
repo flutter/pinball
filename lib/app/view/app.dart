@@ -14,6 +14,7 @@ import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/select_character/select_character.dart';
+import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 
 class App extends StatelessWidget {
@@ -35,8 +36,11 @@ class App extends StatelessWidget {
         RepositoryProvider.value(value: _leaderboardRepository),
         RepositoryProvider.value(value: _pinballAudio),
       ],
-      child: BlocProvider(
-        create: (context) => CharacterThemeCubit(),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => CharacterThemeCubit()),
+          BlocProvider(create: (context) => StartGameBloc()),
+        ],
         child: const MaterialApp(
           title: 'I/O Pinball',
           localizationsDelegates: [
