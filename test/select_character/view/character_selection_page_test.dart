@@ -12,9 +12,12 @@ import '../../helpers/helpers.dart';
 
 void main() {
   late CharacterThemeCubit characterThemeCubit;
+  late StartGameBloc startGameBloc;
 
   setUp(() {
     characterThemeCubit = MockCharacterThemeCubit();
+    startGameBloc = MockStartGameBloc();
+
     whenListen(
       characterThemeCubit,
       const Stream<CharacterThemeState>.empty(),
@@ -84,17 +87,24 @@ void main() {
           .called(1);
     });
 
-    testWidgets('displays how to play dialog when start is tapped',
+    testWidgets('calls CharacterSelected event when start is tapped',
         (tester) async {
+      whenListen(
+        startGameBloc,
+        Stream.value(const StartGameState.initial()),
+        initialState: const StartGameState.initial(),
+      );
+
       await tester.pumpApp(
         CharacterSelectionView(),
         characterThemeCubit: characterThemeCubit,
+        startGameBloc: startGameBloc,
       );
       await tester.ensureVisible(find.byType(TextButton));
       await tester.tap(find.byType(TextButton));
       await tester.pumpAndSettle();
 
-      expect(find.byType(HowToPlayDialog), findsOneWidget);
+      verify(() => startGameBloc.add(CharacterSelected())).called(1);
     });
   });
 
