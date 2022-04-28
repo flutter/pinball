@@ -6,10 +6,10 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@endtemplate}
 class BumpingBehavior extends ContactBehavior {
   /// {@macro bumping_behavior}
-  BumpingBehavior({required this.strength});
+  BumpingBehavior({required double strength}) : _strength = strength;
 
   /// Determines how strong the bump is.
-  double strength;
+  final double _strength;
 
   @override
   void postSolve(Object other, Contact contact, ContactImpulse impulse) {
@@ -19,7 +19,7 @@ class BumpingBehavior extends ContactBehavior {
     other.body.applyLinearImpulse(
       contact.manifold.localPoint
         ..normalize()
-        ..multiply(Vector2.all(other.body.mass * strength)),
+        ..multiply(Vector2.all(other.body.mass * _strength)),
     );
   }
 }

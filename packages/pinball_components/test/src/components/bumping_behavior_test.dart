@@ -58,7 +58,6 @@ void main() {
           dummy2,
         ]);
 
-        expect(behavior2.strength, greaterThan(behavior1.strength));
         expect(dummy1.body.inverseMass, greaterThan(0));
         expect(dummy2.body.inverseMass, greaterThan(0));
 
