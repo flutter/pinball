@@ -19,9 +19,8 @@ class Kicker extends BodyComponent with InitialPosition {
   })  : _side = side,
         super(
           children: [_KickerSpriteComponent(side: side)],
-        ) {
-    renderBody = false;
-  }
+          renderBody: false,
+        );
 
   /// The size of the [Kicker] body.
   static final Vector2 size = Vector2(4.4, 15);

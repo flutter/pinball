@@ -69,11 +69,7 @@ abstract class RenderPriority {
 
   // Flutter Forest
 
-  static const int signpost = _above + launchRampForegroundRailing;
-
-  static const int dashBumper = _above + ballOnBoard;
-
-  static const int dashAnimatronic = 2 * _above + launchRamp;
+  static const int flutterForest = _above + launchRampForegroundRailing;
 
   // Sparky Fire Zone
 

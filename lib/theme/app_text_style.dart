@@ -5,7 +5,7 @@ import 'package:pinball/theme/theme.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 const _fontPackage = 'pinball_components';
-const _primaryFontFamily = PinballFonts.pixeloidSans;
+const _primaryFontFamily = FontFamily.pixeloidSans;
 
 abstract class AppTextStyle {
   static const headline1 = TextStyle(

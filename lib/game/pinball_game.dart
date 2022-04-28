@@ -22,7 +22,7 @@ class PinballGame extends Forge2DGame
         Controls<_GameBallsController>,
         TapDetector {
   PinballGame({
-    required this.theme,
+    required this.characterTheme,
     required this.audio,
   }) {
     images.prefix = '';
@@ -35,7 +35,7 @@ class PinballGame extends Forge2DGame
   @override
   Color backgroundColor() => Colors.transparent;
 
-  final PinballTheme theme;
+  final CharacterTheme characterTheme;
 
   final PinballAudio audio;
 
@@ -43,8 +43,6 @@ class PinballGame extends Forge2DGame
 
   @override
   Future<void> onLoad() async {
-    _addContactCallbacks();
-
     unawaited(add(gameFlowController = GameFlowController(this)));
     unawaited(add(CameraController(this)));
     unawaited(add(Backboard.waiting(position: Vector2(0, -88))));
@@ -57,11 +55,11 @@ class PinballGame extends Forge2DGame
     final launcher = Launcher();
     unawaited(addFromBlueprint(launcher));
     unawaited(add(Board()));
-    unawaited(add(AlienZone()));
+    await addFromBlueprint(AlienZone());
+
     await addFromBlueprint(SparkyFireZone());
     unawaited(addFromBlueprint(Slingshots()));
     unawaited(addFromBlueprint(DinoWalls()));
-    unawaited(_addBonusWord());
     unawaited(addFromBlueprint(SpaceshipRamp()));
     unawaited(
       addFromBlueprint(
@@ -71,6 +69,14 @@ class PinballGame extends Forge2DGame
       ),
     );
     unawaited(addFromBlueprint(SpaceshipRail()));
+    await add(
+      GoogleWord(
+        position: Vector2(
+          BoardDimensions.bounds.center.dx - 4.1,
+          BoardDimensions.bounds.center.dy + 1.8,
+        ),
+      ),
+    );
 
     controller.attachTo(launcher.components.whereType<Plunger>().first);
     await super.onLoad();
@@ -134,22 +140,6 @@ class PinballGame extends Forge2DGame
       boardSideActive = null;
     }
   }
-
-  void _addContactCallbacks() {
-    addContactCallback(BallScorePointsCallback(this));
-    addContactCallback(BottomWallBallContactCallback());
-  }
-
-  Future<void> _addBonusWord() async {
-    await add(
-      GoogleWord(
-        position: Vector2(
-          BoardDimensions.bounds.center.dx - 4.1,
-          BoardDimensions.bounds.center.dy + 1.8,
-        ),
-      ),
-    );
-  }
 }
 
 class _GameBallsController extends ComponentController<PinballGame>
@@ -180,7 +170,7 @@ class _GameBallsController extends ComponentController<PinballGame>
 
   void _spawnBall() {
     final ball = ControlledBall.launch(
-      theme: gameRef.theme,
+      characterTheme: gameRef.characterTheme,
     )..initialPosition = Vector2(
         _plunger.body.position.x,
         _plunger.body.position.y - Ball.size.y,
@@ -198,10 +188,10 @@ class _GameBallsController extends ComponentController<PinballGame>
 
 class DebugPinballGame extends PinballGame with FPSCounter {
   DebugPinballGame({
-    required PinballTheme theme,
+    required CharacterTheme characterTheme,
     required PinballAudio audio,
   }) : super(
-          theme: theme,
+          characterTheme: characterTheme,
           audio: audio,
         ) {
     controller = _DebugGameBallsController(this);

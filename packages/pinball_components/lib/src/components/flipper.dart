@@ -14,10 +14,9 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   Flipper({
     required this.side,
   }) : super(
+          renderBody: false,
           children: [_FlipperSpriteComponent(side: side)],
-        ) {
-    renderBody = false;
-  }
+        );
 
   /// The size of the [Flipper].
   static final size = Vector2(13.5, 4.3);
