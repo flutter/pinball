@@ -8,7 +8,8 @@ import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/leaderboard/leaderboard.dart';
-import 'package:pinball/theme/theme.dart';
+import 'package:pinball/select_character/select_character.dart';
+import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 
@@ -28,14 +29,13 @@ class MockBallController extends Mock implements BallController {}
 
 class MockContact extends Mock implements Contact {}
 
-class MockContactCallback extends Mock
-    implements ContactCallback<Object, Object> {}
-
 class MockGameBloc extends Mock implements GameBloc {}
+
+class MockStartGameBloc extends Mock implements StartGameBloc {}
 
 class MockGameState extends Mock implements GameState {}
 
-class MockThemeCubit extends Mock implements ThemeCubit {}
+class MockCharacterThemeCubit extends Mock implements CharacterThemeCubit {}
 
 class MockLeaderboardBloc extends Mock implements LeaderboardBloc {}
 
@@ -82,6 +82,6 @@ class MockActiveOverlaysNotifier extends Mock
 
 class MockGameFlowController extends Mock implements GameFlowController {}
 
-class MockAlienBumper extends Mock implements AlienBumper {}
+class MockAndroidBumper extends Mock implements AndroidBumper {}
 
 class MockSparkyBumper extends Mock implements SparkyBumper {}

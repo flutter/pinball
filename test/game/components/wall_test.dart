@@ -117,10 +117,11 @@ void main() {
         flameBlocTester.testGameWidget(
           'when ball is launch',
           setUp: (game, tester) async {
-            final ball = ControlledBall.launch(theme: game.theme);
+            final ball = ControlledBall.launch(
+              characterTheme: game.characterTheme,
+            );
             final wall = BottomWall();
             await game.ensureAddAll([ball, wall]);
-            game.addContactCallback(BottomWallBallContactCallback());
 
             beginContact(game, ball, wall);
             await game.ready();
@@ -132,10 +133,11 @@ void main() {
         flameBlocTester.testGameWidget(
           'when ball is bonus',
           setUp: (game, tester) async {
-            final ball = ControlledBall.bonus(theme: game.theme);
+            final ball = ControlledBall.bonus(
+              characterTheme: game.characterTheme,
+            );
             final wall = BottomWall();
             await game.ensureAddAll([ball, wall]);
-            game.addContactCallback(BottomWallBallContactCallback());
 
             beginContact(game, ball, wall);
             await game.ready();
@@ -144,13 +146,12 @@ void main() {
           },
         );
 
-        flameTester.test(
+        flameBlocTester.testGameWidget(
           'when ball is debug',
-          (game) async {
+          setUp: (game, tester) async {
             final ball = ControlledBall.debug();
             final wall = BottomWall();
             await game.ensureAddAll([ball, wall]);
-            game.addContactCallback(BottomWallBallContactCallback());
 
             beginContact(game, ball, wall);
             await game.ready();

@@ -12,9 +12,11 @@ import 'package:pinball_components/pinball_components.dart';
 /// {@endtemplate}
 class ChromeDino extends BodyComponent with InitialPosition {
   /// {@macro chrome_dino}
-  ChromeDino() : super(priority: RenderPriority.dino) {
-    renderBody = false;
-  }
+  ChromeDino()
+      : super(
+          priority: RenderPriority.dino,
+          renderBody: false,
+        );
 
   /// The size of the dinosaur mouth.
   static final size = Vector2(5.5, 5);
@@ -22,8 +24,10 @@ class ChromeDino extends BodyComponent with InitialPosition {
   /// Anchors the [ChromeDino] to the [RevoluteJoint] that controls its arc
   /// motion.
   Future<_ChromeDinoJoint> _anchorToJoint() async {
+    // TODO(allisonryan0002): try moving to anchor after new body is defined.
     final anchor = _ChromeDinoAnchor()
       ..initialPosition = initialPosition + Vector2(9, -4);
+
     await add(anchor);
 
     final jointDef = _ChromeDinoAnchorRevoluteJointDef(
@@ -40,9 +44,11 @@ class ChromeDino extends BodyComponent with InitialPosition {
   Future<void> onLoad() async {
     await super.onLoad();
     final joint = await _anchorToJoint();
+    const framesInAnimation = 98;
+    const animationFPS = 1 / 24;
     await add(
       TimerComponent(
-        period: 98 / 48,
+        period: (framesInAnimation / 2) * animationFPS,
         onTick: joint._swivel,
         repeat: true,
       ),
@@ -81,13 +87,11 @@ class ChromeDino extends BodyComponent with InitialPosition {
   }
 }
 
-/// {@template chrome_dino_anchor}
-/// [JointAnchor] positioned at the back of the [ChromeDino].
-/// {@endtemplate}
 class _ChromeDinoAnchor extends JointAnchor {
-  /// {@macro chrome_dino_anchor}
   _ChromeDinoAnchor();
 
+  // TODO(allisonryan0002): if these aren't moved when fixing the rendering, see
+  // if the joint can be created in onMount to resolve render syncing.
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -113,9 +117,8 @@ class _ChromeDinoAnchorRevoluteJointDef extends RevoluteJointDef {
       chromeDino.body.position + anchor.body.position,
     );
     enableLimit = true;
-    const angle = _ChromeDinoJoint._halfSweepingAngle;
-    lowerAngle = -angle;
-    upperAngle = angle;
+    lowerAngle = -_ChromeDinoJoint._halfSweepingAngle;
+    upperAngle = _ChromeDinoJoint._halfSweepingAngle;
 
     enableMotor = true;
     maxMotorTorque = chromeDino.body.mass * 255;
@@ -126,7 +129,6 @@ class _ChromeDinoAnchorRevoluteJointDef extends RevoluteJointDef {
 class _ChromeDinoJoint extends RevoluteJoint {
   _ChromeDinoJoint(_ChromeDinoAnchorRevoluteJointDef def) : super(def);
 
-  /// Half the angle of the arc motion.
   static const _halfSweepingAngle = 0.1143;
 
   /// Sweeps the [ChromeDino] up and down repeatedly.

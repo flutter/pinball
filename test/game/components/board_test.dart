@@ -26,7 +26,9 @@ void main() {
     Assets.images.flipper.left.keyName,
     Assets.images.flipper.right.keyName,
   ];
-  final flameTester = FlameTester(() => EmptyPinballTestGame(assets));
+  final flameTester = FlameTester(
+    () => EmptyPinballTestGame(assets: assets),
+  );
 
   group('Board', () {
     flameTester.test(

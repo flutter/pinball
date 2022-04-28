@@ -17,20 +17,10 @@ class GoogleLetterGame extends BallGame {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    addContactCallback(_BallGoogleLetterContactCallback());
 
     camera.followVector2(Vector2.zero());
     await add(GoogleLetter(0));
 
     await traceAllBodies();
-  }
-}
-
-class _BallGoogleLetterContactCallback
-    extends ContactCallback<Ball, GoogleLetter> {
-  @override
-  void begin(Ball<Forge2DGame> a, GoogleLetter b, Contact contact) {
-    super.begin(a, b, contact);
-    b.activate();
   }
 }
