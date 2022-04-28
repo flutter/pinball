@@ -1,46 +1,42 @@
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball/select_character/select_character.dart';
+import 'package:pinball/start_game/bloc/start_game_bloc.dart';
 
 import '../../../helpers/helpers.dart';
 
 void main() {
   group('PlayButtonOverlay', () {
-    late PinballGame game;
-    late GameFlowController gameFlowController;
+    late StartGameBloc startGameBloc;
 
     setUp(() {
-      game = MockPinballGame();
-      gameFlowController = MockGameFlowController();
+      startGameBloc = MockStartGameBloc();
 
-      when(() => game.gameFlowController).thenReturn(gameFlowController);
-      when(gameFlowController.start).thenAnswer((_) {});
+      whenListen(
+        startGameBloc,
+        Stream.value(const StartGameState.initial()),
+        initialState: const StartGameState.initial(),
+      );
     });
 
     testWidgets('renders correctly', (tester) async {
-      await tester.pumpApp(PlayButtonOverlay(game: game));
+      await tester.pumpApp(const PlayButtonOverlay());
 
       expect(find.text('Play'), findsOneWidget);
     });
 
-    testWidgets('calls gameFlowController.start when taped', (tester) async {
-      await tester.pumpApp(PlayButtonOverlay(game: game));
-
-      await tester.tap(find.text('Play'));
-      await tester.pump();
-
-      verify(gameFlowController.start).called(1);
-    });
-
-    testWidgets('displays CharacterSelectionDialog when tapped',
+    testWidgets('calls PlayTapped event to StartGameBloc when taped on play',
         (tester) async {
-      await tester.pumpApp(PlayButtonOverlay(game: game));
+      await tester.pumpApp(
+        const PlayButtonOverlay(),
+        startGameBloc: startGameBloc,
+      );
 
       await tester.tap(find.text('Play'));
       await tester.pump();
 
-      expect(find.byType(CharacterSelectionDialog), findsOneWidget);
+      verify(() => startGameBloc.add(const PlayTapped())).called(1);
     });
   });
 }
