@@ -86,22 +86,55 @@ void main() {
           .called(1);
     });
 
-    testWidgets(
-      'displays how to play dialog for 3 seconds when start is tapped',
-      (tester) async {
-        await tester.pumpApp(
-          CharacterSelectionView(),
-          characterThemeCubit: characterThemeCubit,
-        );
-        await tester.ensureVisible(find.byType(TextButton));
-        await tester.tap(find.byType(TextButton));
-        await tester.pumpAndSettle();
-        expect(find.byType(HowToPlayDialog), findsOneWidget);
-        await tester.pump(Duration(seconds: 3));
-        await tester.pumpAndSettle();
-        expect(find.byType(HowToPlayDialog), findsNothing);
-      },
-    );
+    group('HowToPlayDialog', () {
+      testWidgets(
+        'is displayed for 3 seconds when start is tapped',
+        (tester) async {
+          await tester.pumpApp(
+            CharacterSelectionView(),
+            characterThemeCubit: characterThemeCubit,
+          );
+          await tester.ensureVisible(find.byType(TextButton));
+          await tester.tap(find.byType(TextButton));
+          await tester.pumpAndSettle();
+          expect(find.byType(HowToPlayDialog), findsOneWidget);
+          await tester.pump(Duration(seconds: 3));
+          await tester.pumpAndSettle();
+          expect(find.byType(HowToPlayDialog), findsNothing);
+        },
+      );
+
+      testWidgets(
+        'can be dismissed manually before 3 seconds have passed',
+        (tester) async {
+          await tester.pumpApp(
+            Scaffold(
+              body: Builder(
+                builder: (context) {
+                  return ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context)
+                          .push<void>(CharacterSelectionDialog.route());
+                    },
+                    child: Text('Tap me'),
+                  );
+                },
+              ),
+            ),
+            characterThemeCubit: characterThemeCubit,
+          );
+          await tester.tap(find.text('Tap me'));
+          await tester.pumpAndSettle();
+          await tester.ensureVisible(find.byType(TextButton));
+          await tester.tap(find.byType(TextButton));
+          await tester.pumpAndSettle();
+          expect(find.byType(HowToPlayDialog), findsOneWidget);
+          await tester.tapAt(Offset(1, 1));
+          await tester.pumpAndSettle();
+          expect(find.byType(HowToPlayDialog), findsNothing);
+        },
+      );
+    });
   });
 
   testWidgets('CharacterImageButton renders correctly', (tester) async {
