@@ -21,6 +21,8 @@ void main() {
     Assets.images.spaceship.ramp.arrow.active3.keyName,
     Assets.images.spaceship.ramp.arrow.active4.keyName,
     Assets.images.spaceship.ramp.arrow.active5.keyName,
+    Assets.images.spaceship.rail.main.keyName,
+    Assets.images.spaceship.rail.exit.keyName,
     Assets.images.androidBumper.a.lit.keyName,
     Assets.images.androidBumper.a.dimmed.keyName,
     Assets.images.androidBumper.b.lit.keyName,

@@ -45,6 +45,7 @@ void main() {
         );
       },
     );
+
     flameTester.test(
       'loads correctly',
       (game) async {

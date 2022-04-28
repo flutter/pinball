@@ -105,18 +105,6 @@ void main() {
           expect(flutterForest.length, equals(1));
         },
       );
-
-      flameTester.test(
-        'one ChromeDino',
-        (game) async {
-          final board = Board();
-          await game.ready();
-          await game.ensureAdd(board);
-
-          final chromeDino = board.descendants().whereType<ChromeDino>();
-          expect(chromeDino.length, equals(1));
-        },
-      );
     });
   });
 }

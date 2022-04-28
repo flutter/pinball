@@ -12,6 +12,10 @@ class SpaceshipRailGame extends BallGame {
           color: Colors.blue,
           ballPriority: RenderPriority.ballOnSpaceshipRail,
           ballLayer: Layer.spaceshipExitRail,
+          imagesFileNames: [
+            Assets.images.spaceship.rail.main.keyName,
+            Assets.images.spaceship.rail.exit.keyName,
+          ],
         );
 
   static const description = '''
