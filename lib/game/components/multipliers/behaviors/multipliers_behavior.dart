@@ -10,16 +10,17 @@ class MultipliersBehavior extends Component
   void onMount() {
     super.onMount();
 
-    // TODO(ruimiguel): filter only when multiplier has change, not every other
-    // state.
-    gameRef.read<GameBloc>().stream.listen((state) {
-      final multipliers = parent.children.whereType<Multiplier>();
-      for (final multiplier in multipliers) {
-        // TODO(ruimiguel): use here GameState.multiplier when merged
-        // https://github.com/VGVentures/pinball/pull/213.
-        final currentMultiplier = state.score.bitLength % 6 + 1;
+    var previousMultiplier = 1;
 
-        multiplier.bloc.toggle(currentMultiplier);
+    // TODO(ruimiguel): filter only when multiplier has change.
+    gameRef.read<GameBloc>().stream.listen((state) {
+      if (state.multiplier != previousMultiplier) {
+        previousMultiplier = state.multiplier;
+
+        final multipliers = parent.children.whereType<Multiplier>();
+        for (final multiplier in multipliers) {
+          multiplier.bloc.toggle(state.multiplier);
+        }
       }
     });
   }

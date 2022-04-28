@@ -91,3 +91,5 @@ class MockSparkyBumper extends Mock implements SparkyBumper {}
 class MockMultiplier extends Mock implements Multiplier {}
 
 class MockMultipliersGroup extends Mock implements Multipliers {}
+
+class MockMultiplierCubit extends Mock implements MultiplierCubit {}

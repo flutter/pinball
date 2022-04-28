@@ -49,10 +49,24 @@ void main() {
     flameBlocTester.testGameWidget(
       'calls toggle once per each multiplier when GameBloc emit state',
       setUp: (game, tester) async {
+        final multiplierCubit = MockMultiplierCubit();
         final behavior = MultipliersBehavior();
         final parent = Multipliers.test();
-        final multiplier = MockMultiplier();
-        final multipliers = [multiplier];
+        final multipliers = [
+          Multiplier.test(
+            value: MultiplierValue.x2,
+            bloc: multiplierCubit,
+          ),
+        ];
+
+        whenListen(
+          multiplierCubit,
+          const Stream<MultiplierState>.empty(),
+          initialState: MultiplierState(
+            value: MultiplierValue.x2,
+            spriteState: MultiplierSpriteState.dimmed,
+          ),
+        );
 
         final streamController = StreamController<GameState>();
         whenListen(
@@ -60,18 +74,13 @@ void main() {
           streamController.stream,
           initialState: GameState.initial(),
         );
-        when(() => multiplier.addToParent(any()))
-            .thenAnswer((_) async => () {});
 
         await parent.addAll(multipliers);
         await game.ensureAdd(parent);
         await parent.ensureAdd(behavior);
 
-        await tester.pump();
+        streamController.add(GameState.initial().copyWith(multiplier: 2));
 
-        streamController.add(GameState.initial().copyWith(score: 100));
-
-        await game.ready();
         await tester.pump();
 
         for (final multiplier in multipliers) {
