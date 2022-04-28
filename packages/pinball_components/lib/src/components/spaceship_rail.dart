@@ -29,10 +29,10 @@ class _SpaceshipRailRamp extends BodyComponent with Layered {
   _SpaceshipRailRamp()
       : super(
           priority: RenderPriority.spaceshipRail,
+          renderBody: false,
           children: [_SpaceshipRailRampSpriteComponent()],
         ) {
     layer = Layer.spaceshipExitRail;
-    renderBody = false;
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -114,14 +114,6 @@ class _SpaceshipRailRamp extends BodyComponent with Layered {
     _createFixtureDefs().forEach(body.createFixture);
     return body;
   }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    gameRef.addContactCallback(
-      LayerSensorBallContactCallback<_SpaceshipRailExit>(),
-    );
-  }
 }
 
 class _SpaceshipRailRampSpriteComponent extends SpriteComponent
@@ -160,9 +152,7 @@ class _SpaceshipRailForeground extends SpriteComponent with HasGameRef {
 
 /// Represents the ground bases of the [_SpaceshipRailRamp].
 class _SpaceshipRailBase extends BodyComponent with InitialPosition {
-  _SpaceshipRailBase({required this.radius}) {
-    renderBody = false;
-  }
+  _SpaceshipRailBase({required this.radius}) : super(renderBody: false);
 
   final double radius;
 
@@ -185,7 +175,6 @@ class _SpaceshipRailExit extends LayerSensor {
           insideLayer: Layer.spaceshipExitRail,
           insidePriority: RenderPriority.ballOnSpaceshipRail,
         ) {
-    renderBody = false;
     layer = Layer.spaceshipExitRail;
   }
 

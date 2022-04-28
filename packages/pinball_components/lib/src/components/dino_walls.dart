@@ -29,9 +29,8 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
       : super(
           priority: RenderPriority.dinoTopWall,
           children: [_DinoTopWallSpriteComponent()],
-        ) {
-    renderBody = false;
-  }
+          renderBody: false,
+        );
 
   List<FixtureDef> _createFixtureDefs() {
     final topStraightShape = EdgeShape()
@@ -128,9 +127,8 @@ class _DinoBottomWall extends BodyComponent with InitialPosition {
       : super(
           priority: RenderPriority.dinoBottomWall,
           children: [_DinoBottomWallSpriteComponent()],
-        ) {
-    renderBody = false;
-  }
+          renderBody: false,
+        );
 
   List<FixtureDef> _createFixtureDefs() {
     const restitution = 1.0;
