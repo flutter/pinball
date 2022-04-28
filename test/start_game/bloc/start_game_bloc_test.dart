@@ -22,9 +22,7 @@ void main() {
   group('StartGameBloc', () {
     blocTest<StartGameBloc, StartGameState>(
       'on PlayTapped changes status to selectCharacter',
-      build: () => StartGameBloc(
-        game: pinballGame,
-      ),
+      build: StartGameBloc.new,
       act: (bloc) => bloc.add(const PlayTapped()),
       expect: () => [
         const StartGameState(
@@ -35,9 +33,7 @@ void main() {
 
     blocTest<StartGameBloc, StartGameState>(
       'on CharacterSelected changes status to howToPlay',
-      build: () => StartGameBloc(
-        game: pinballGame,
-      ),
+      build: StartGameBloc.new,
       act: (bloc) => bloc.add(const CharacterSelected()),
       expect: () => [
         const StartGameState(
@@ -48,9 +44,7 @@ void main() {
 
     blocTest<StartGameBloc, StartGameState>(
       'on HowToPlayFinished changes status to play',
-      build: () => StartGameBloc(
-        game: pinballGame,
-      ),
+      build: StartGameBloc.new,
       act: (bloc) => bloc.add(const HowToPlayFinished()),
       expect: () => [
         const StartGameState(
