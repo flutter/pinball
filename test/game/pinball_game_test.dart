@@ -3,6 +3,7 @@
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_test/flame_test.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
@@ -229,6 +230,181 @@ void main() {
         );
       });
     });
+
+    group('flipper control', () {
+      flameTester.test('tap down moves left flipper up', (game) async {
+        await game.ready();
+
+        final eventPosition = MockEventPosition();
+        when(() => eventPosition.game).thenReturn(Vector2.zero());
+        when(() => eventPosition.widget).thenReturn(Vector2.zero());
+
+        final raw = MockTapDownDetails();
+        when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
+
+        final tapDownEvent = MockTapDownInfo();
+        when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
+        when(() => tapDownEvent.raw).thenReturn(raw);
+
+        final flippers = game.descendants().whereType<Flipper>().where(
+              (flipper) => flipper.side == BoardSide.left,
+            );
+
+        game.onTapDown(tapDownEvent);
+
+        expect(flippers.first.body.linearVelocity.y, isNegative);
+      });
+
+      flameTester.test('tap down moves right flipper up', (game) async {
+        await game.ready();
+
+        final eventPosition = MockEventPosition();
+        when(() => eventPosition.game).thenReturn(Vector2.zero());
+        when(() => eventPosition.widget).thenReturn(game.canvasSize);
+
+        final raw = MockTapDownDetails();
+        when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
+
+        final tapDownEvent = MockTapDownInfo();
+        when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
+        when(() => tapDownEvent.raw).thenReturn(raw);
+
+        final flippers = game.descendants().whereType<Flipper>().where(
+              (flipper) => flipper.side == BoardSide.right,
+            );
+
+        game.onTapDown(tapDownEvent);
+
+        expect(flippers.first.body.linearVelocity.y, isNegative);
+      });
+
+      flameTester.test('tap up moves flipper down', (game) async {
+        await game.ready();
+
+        final eventPosition = MockEventPosition();
+        when(() => eventPosition.game).thenReturn(Vector2.zero());
+        when(() => eventPosition.widget).thenReturn(Vector2.zero());
+
+        final raw = MockTapDownDetails();
+        when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
+
+        final tapDownEvent = MockTapDownInfo();
+        when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
+        when(() => tapDownEvent.raw).thenReturn(raw);
+
+        final flippers = game.descendants().whereType<Flipper>().where(
+              (flipper) => flipper.side == BoardSide.left,
+            );
+
+        game.onTapDown(tapDownEvent);
+
+        expect(flippers.first.body.linearVelocity.y, isNegative);
+
+        final tapUpEvent = MockTapUpInfo();
+        when(() => tapUpEvent.eventPosition).thenReturn(eventPosition);
+
+        game.onTapUp(tapUpEvent);
+        await game.ready();
+
+        expect(flippers.first.body.linearVelocity.y, isPositive);
+      });
+
+      flameTester.test('tap cancel moves flipper down', (game) async {
+        await game.ready();
+
+        final eventPosition = MockEventPosition();
+        when(() => eventPosition.game).thenReturn(Vector2.zero());
+        when(() => eventPosition.widget).thenReturn(Vector2.zero());
+
+        final raw = MockTapDownDetails();
+        when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
+
+        final tapDownEvent = MockTapDownInfo();
+        when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
+        when(() => tapDownEvent.raw).thenReturn(raw);
+
+        final flippers = game.descendants().whereType<Flipper>().where(
+              (flipper) => flipper.side == BoardSide.left,
+            );
+
+        game.onTapDown(tapDownEvent);
+
+        expect(flippers.first.body.linearVelocity.y, isNegative);
+
+        game.onTapCancel();
+
+        expect(flippers.first.body.linearVelocity.y, isPositive);
+      });
+    });
+
+    group('plunger control', () {
+      flameTester.test('tap down moves plunger down', (game) async {
+        await game.ready();
+
+        final eventPosition = MockEventPosition();
+        when(() => eventPosition.game).thenReturn(Vector2(40, 60));
+
+        final raw = MockTapDownDetails();
+        when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
+
+        final tapDownEvent = MockTapDownInfo();
+        when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
+        when(() => tapDownEvent.raw).thenReturn(raw);
+
+        final plunger = game.descendants().whereType<Plunger>().first;
+
+        game.onTapDown(tapDownEvent);
+
+        expect(plunger.body.linearVelocity.y, equals(7));
+      });
+
+      flameTester.test('tap up releases plunger', (game) async {
+        final eventPosition = MockEventPosition();
+        when(() => eventPosition.game).thenReturn(Vector2(40, 60));
+
+        final raw = MockTapDownDetails();
+        when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
+
+        final tapDownEvent = MockTapDownInfo();
+        when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
+        when(() => tapDownEvent.raw).thenReturn(raw);
+
+        final plunger = game.descendants().whereType<Plunger>().first;
+        game.onTapDown(tapDownEvent);
+
+        expect(plunger.body.linearVelocity.y, equals(7));
+
+        final tapUpEvent = MockTapUpInfo();
+        when(() => tapUpEvent.eventPosition).thenReturn(eventPosition);
+
+        game.onTapUp(tapUpEvent);
+
+        expect(plunger.body.linearVelocity.y, equals(0));
+      });
+
+      flameTester.test('tap cancel releases plunger', (game) async {
+        await game.ready();
+
+        final eventPosition = MockEventPosition();
+        when(() => eventPosition.game).thenReturn(Vector2(40, 60));
+
+        final raw = MockTapDownDetails();
+        when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
+
+        final tapDownEvent = MockTapDownInfo();
+        when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
+        when(() => tapDownEvent.raw).thenReturn(raw);
+
+        final plunger = game.descendants().whereType<Plunger>().first;
+        game.onTapDown(tapDownEvent);
+
+        expect(plunger.body.linearVelocity.y, equals(7));
+
+        game.onTapCancel();
+
+        expect(plunger.body.linearVelocity.y, equals(0));
+      });
+    });
   });
 
   group('DebugPinballGame', () {
@@ -238,8 +414,12 @@ void main() {
         final eventPosition = MockEventPosition();
         when(() => eventPosition.game).thenReturn(Vector2.all(10));
 
+        final raw = MockTapUpDetails();
+        when(() => raw.kind).thenReturn(PointerDeviceKind.mouse);
+
         final tapUpEvent = MockTapUpInfo();
         when(() => tapUpEvent.eventPosition).thenReturn(eventPosition);
+        when(() => tapUpEvent.raw).thenReturn(raw);
 
         final previousBalls =
             game.descendants().whereType<ControlledBall>().toList();
