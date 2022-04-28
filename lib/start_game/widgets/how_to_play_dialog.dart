@@ -4,25 +4,40 @@ import 'package:flutter/material.dart';
 import 'package:pinball/l10n/l10n.dart';
 
 class HowToPlayDialog extends StatelessWidget {
-  const HowToPlayDialog({Key? key}) : super(key: key);
+  const HowToPlayDialog({
+    Key? key,
+    required this.onDismissCallback,
+  }) : super(key: key);
+
+  final VoidCallback onDismissCallback;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     const spacing = SizedBox(height: 16);
 
-    return Dialog(
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(l10n.howToPlay),
-            spacing,
-            const _LaunchControls(),
-            spacing,
-            const _FlipperControls(),
-          ],
+    return WillPopScope(
+      onWillPop: () {
+        Future.delayed(
+          kThemeAnimationDuration,
+          onDismissCallback.call,
+        );
+
+        return Future.value(true);
+      },
+      child: Dialog(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(l10n.howToPlay),
+              spacing,
+              const _LaunchControls(),
+              spacing,
+              const _FlipperControls(),
+            ],
+          ),
         ),
       ),
     );

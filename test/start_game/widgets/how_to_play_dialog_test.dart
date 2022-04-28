@@ -9,7 +9,11 @@ import '../../helpers/helpers.dart';
 void main() {
   group('HowToPlayDialog', () {
     testWidgets('displays dialog', (tester) async {
-      await tester.pumpApp(HowToPlayDialog());
+      await tester.pumpApp(
+        HowToPlayDialog(
+          onDismissCallback: () {},
+        ),
+      );
 
       expect(find.byType(Dialog), findsOneWidget);
     });
