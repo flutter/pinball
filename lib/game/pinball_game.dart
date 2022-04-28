@@ -90,6 +90,7 @@ class PinballGame extends Forge2DGame
       final rocket = children.whereType<RocketSpriteComponent>().first;
       final bounds = rocket.topLeftPosition & rocket.size;
 
+      // NOTE(wolfen): As long as Flame does not have https://github.com/flame-engine/flame/issues/1586 we need to check it at the highest level manually.
       if (bounds.contains(info.eventPosition.game.toOffset())) {
         children.whereType<Plunger>().first.pull();
       } else {
