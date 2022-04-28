@@ -57,6 +57,7 @@ class PinballGame extends Forge2DGame
     await addFromBlueprint(AndroidAcres());
     unawaited(addFromBlueprint(Slingshots()));
     unawaited(addFromBlueprint(DinoWalls()));
+    await add(ChromeDino()..initialPosition = Vector2(12.3, -6.9));
     await add(
       GoogleWord(
         position: Vector2(
