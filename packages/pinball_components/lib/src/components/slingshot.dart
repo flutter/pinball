@@ -40,9 +40,8 @@ class Slingshot extends BodyComponent with InitialPosition {
         super(
           priority: RenderPriority.slingshot,
           children: [_SlinghsotSpriteComponent(spritePath, angle: angle)],
-        ) {
-    renderBody = false;
-  }
+          renderBody: false,
+        );
 
   final double _length;
 

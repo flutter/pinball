@@ -24,7 +24,7 @@ class HowToPlayDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final isMobile = defaultTargetPlatform == TargetPlatform.iOS ||
         defaultTargetPlatform == TargetPlatform.android;
-    return PinballDialogLayout(
+    return PixelatedDecoration(
       header: const _HowToPlayHeader(),
       body: isMobile ? const _MobileBody() : const _DesktopBody(),
     );

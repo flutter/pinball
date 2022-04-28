@@ -151,5 +151,14 @@ void main() {
         expect(spriteComponent.current, SignpostSpriteState.inactive);
       },
     );
+
+    flameTester.test('adds new children', (game) async {
+      final component = Component();
+      final signpost = Signpost(
+        children: [component],
+      );
+      await game.ensureAdd(signpost);
+      expect(signpost.children, contains(component));
+    });
   });
 }

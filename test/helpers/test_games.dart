@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
 import 'helpers.dart';
@@ -16,11 +17,14 @@ class TestGame extends Forge2DGame with FlameBloc {
 }
 
 class PinballTestGame extends PinballGame {
-  PinballTestGame([List<String>? assets])
-      : _assets = assets,
+  PinballTestGame({
+    List<String>? assets,
+    PinballAudio? audio,
+    CharacterTheme? theme,
+  })  : _assets = assets,
         super(
-          audio: MockPinballAudio(),
-          characterTheme: const DashTheme(),
+          audio: audio ?? MockPinballAudio(),
+          characterTheme: theme ?? const DashTheme(),
         );
   final List<String>? _assets;
 
@@ -34,11 +38,14 @@ class PinballTestGame extends PinballGame {
 }
 
 class DebugPinballTestGame extends DebugPinballGame {
-  DebugPinballTestGame([List<String>? assets])
-      : _assets = assets,
+  DebugPinballTestGame({
+    List<String>? assets,
+    PinballAudio? audio,
+    CharacterTheme? theme,
+  })  : _assets = assets,
         super(
-          audio: MockPinballAudio(),
-          characterTheme: const DashTheme(),
+          audio: audio ?? MockPinballAudio(),
+          characterTheme: theme ?? const DashTheme(),
         );
 
   final List<String>? _assets;
@@ -53,7 +60,15 @@ class DebugPinballTestGame extends DebugPinballGame {
 }
 
 class EmptyPinballTestGame extends PinballTestGame {
-  EmptyPinballTestGame([List<String>? assets]) : super(assets);
+  EmptyPinballTestGame({
+    List<String>? assets,
+    PinballAudio? audio,
+    CharacterTheme? theme,
+  }) : super(
+          assets: assets,
+          audio: audio,
+          theme: theme,
+        );
 
   @override
   Future<void> onLoad() async {
