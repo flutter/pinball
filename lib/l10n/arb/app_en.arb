@@ -75,5 +75,9 @@
   "enterInitials": "Enter your initials",
   "@enterInitials": {
     "description": "Text displayed on the ending dialog when game finishes to ask the user for his initials"
+  },
+  "rounds": "Ball Ct:",
+  "@rounds": {
+    "description": "Text displayed on the scoreboard widget to indicate rounds left"
   }
 }

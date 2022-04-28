@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pinball/game/pinball_game.dart';
 import 'package:pinball/l10n/l10n.dart';
-import 'package:pinball/theme/theme.dart';
+import 'package:pinball/select_character/select_character.dart';
 
 /// {@template play_button_overlay}
 /// [Widget] that renders the button responsible to starting the game

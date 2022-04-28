@@ -11,13 +11,19 @@ import '../../helpers/helpers.dart';
 void main() {
   group('SpaceshipRail', () {
     TestWidgetsFlutterBinding.ensureInitialized();
-    final flameTester = FlameTester(TestGame.new);
+    final assets = [
+      Assets.images.spaceship.rail.main.keyName,
+      Assets.images.spaceship.rail.exit.keyName,
+    ];
+    final flameTester = FlameTester(() => TestGame(assets));
 
     flameTester.testGameWidget(
       'renders correctly',
       setUp: (game, tester) async {
+        await game.images.loadAll(assets);
         await game.addFromBlueprint(SpaceshipRail());
         await game.ready();
+        await tester.pump();
 
         game.camera.followVector2(Vector2.zero());
         game.camera.zoom = 8;

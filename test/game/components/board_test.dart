@@ -26,7 +26,9 @@ void main() {
     Assets.images.flipper.left.keyName,
     Assets.images.flipper.right.keyName,
   ];
-  final flameTester = FlameTester(() => EmptyPinballTestGame(assets));
+  final flameTester = FlameTester(
+    () => EmptyPinballTestGame(assets: assets),
+  );
 
   group('Board', () {
     flameTester.test(
@@ -101,18 +103,6 @@ void main() {
 
           final flutterForest = board.descendants().whereType<FlutterForest>();
           expect(flutterForest.length, equals(1));
-        },
-      );
-
-      flameTester.test(
-        'one ChromeDino',
-        (game) async {
-          final board = Board();
-          await game.ready();
-          await game.ensureAdd(board);
-
-          final chromeDino = board.descendants().whereType<ChromeDino>();
-          expect(chromeDino.length, equals(1));
         },
       );
     });

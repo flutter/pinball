@@ -20,8 +20,8 @@ class DinoWallGame extends BallGame {
     await super.onLoad();
 
     await images.loadAll([
-      Assets.images.dino.dinoLandTop.keyName,
-      Assets.images.dino.dinoLandBottom.keyName,
+      Assets.images.dino.topWall.keyName,
+      Assets.images.dino.bottomWall.keyName,
     ]);
 
     await addFromBlueprint(DinoWalls());
