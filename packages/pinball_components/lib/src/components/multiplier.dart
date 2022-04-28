@@ -16,8 +16,8 @@ class Multiplier extends Component {
   })  : _value = value,
         _sprite = MultiplierSpriteGroupComponent(
           position: position,
-          onAssetPath: value.onAssetPath,
-          offAssetPath: value.offAssetPath,
+          litAssetPath: value.litAssetPath,
+          dimmedAssetPath: value.dimmedAssetPath,
           rotation: rotation,
         );
 
@@ -28,9 +28,9 @@ class Multiplier extends Component {
   /// multiplier.
   void toggle(int multiplier) {
     if (_value.equalsTo(multiplier)) {
-      _sprite.current = MultiplierSpriteState.active;
+      _sprite.current = MultiplierSpriteState.lit;
     } else {
-      _sprite.current = MultiplierSpriteState.inactive;
+      _sprite.current = MultiplierSpriteState.dimmed;
     }
   }
 
@@ -53,14 +53,14 @@ enum MultiplierValue {
 /// Indicates the current sprite state of the multiplier.
 enum MultiplierSpriteState {
   /// A lit up bumper.
-  active,
+  lit,
 
   /// A dimmed bumper.
-  inactive,
+  dimmed,
 }
 
 extension on MultiplierValue {
-  String get onAssetPath {
+  String get litAssetPath {
     switch (this) {
       case MultiplierValue.x2:
         return Assets.images.multiplier.x2.lit.keyName;
@@ -75,7 +75,7 @@ extension on MultiplierValue {
     }
   }
 
-  String get offAssetPath {
+  String get dimmedAssetPath {
     switch (this) {
       case MultiplierValue.x2:
         return Assets.images.multiplier.x2.dimmed.keyName;
@@ -115,33 +115,33 @@ class MultiplierSpriteGroupComponent
   /// {@macro multiplier_sprite_group_component}
   MultiplierSpriteGroupComponent({
     required Vector2 position,
-    required String onAssetPath,
-    required String offAssetPath,
+    required String litAssetPath,
+    required String dimmedAssetPath,
     required double rotation,
-  })  : _onAssetPath = onAssetPath,
-        _offAssetPath = offAssetPath,
+  })  : _litAssetPath = litAssetPath,
+        _dimmedAssetPath = dimmedAssetPath,
         super(
           anchor: Anchor.center,
           position: position,
           angle: rotation,
         );
 
-  final String _onAssetPath;
-  final String _offAssetPath;
+  final String _litAssetPath;
+  final String _dimmedAssetPath;
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
 
     final sprites = {
-      MultiplierSpriteState.active:
-          Sprite(gameRef.images.fromCache(_onAssetPath)),
-      MultiplierSpriteState.inactive:
-          Sprite(gameRef.images.fromCache(_offAssetPath)),
+      MultiplierSpriteState.lit:
+          Sprite(gameRef.images.fromCache(_litAssetPath)),
+      MultiplierSpriteState.dimmed:
+          Sprite(gameRef.images.fromCache(_dimmedAssetPath)),
     };
     this.sprites = sprites;
 
-    current = MultiplierSpriteState.inactive;
+    current = MultiplierSpriteState.dimmed;
     size = sprites[current]!.originalSize / 10;
   }
 }

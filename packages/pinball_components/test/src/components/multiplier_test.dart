@@ -47,7 +47,7 @@ void main() {
                 .whereType<MultiplierSpriteGroupComponent>()
                 .first
                 .current,
-            MultiplierSpriteState.active,
+            MultiplierSpriteState.lit,
           );
 
           await expectLater(
@@ -78,7 +78,7 @@ void main() {
                 .whereType<MultiplierSpriteGroupComponent>()
                 .first
                 .current,
-            MultiplierSpriteState.inactive,
+            MultiplierSpriteState.dimmed,
           );
 
           await expectLater(
@@ -110,7 +110,7 @@ void main() {
                 .whereType<MultiplierSpriteGroupComponent>()
                 .first
                 .current,
-            MultiplierSpriteState.inactive,
+            MultiplierSpriteState.dimmed,
           );
         },
       );
@@ -138,7 +138,7 @@ void main() {
                 .whereType<MultiplierSpriteGroupComponent>()
                 .first
                 .current,
-            MultiplierSpriteState.active,
+            MultiplierSpriteState.lit,
           );
 
           await expectLater(
@@ -169,7 +169,7 @@ void main() {
                 .whereType<MultiplierSpriteGroupComponent>()
                 .first
                 .current,
-            MultiplierSpriteState.inactive,
+            MultiplierSpriteState.dimmed,
           );
 
           await expectLater(
@@ -201,7 +201,7 @@ void main() {
                 .whereType<MultiplierSpriteGroupComponent>()
                 .first
                 .current,
-            MultiplierSpriteState.inactive,
+            MultiplierSpriteState.dimmed,
           );
         },
       );
@@ -229,7 +229,7 @@ void main() {
                 .whereType<MultiplierSpriteGroupComponent>()
                 .first
                 .current,
-            MultiplierSpriteState.active,
+            MultiplierSpriteState.lit,
           );
 
           await expectLater(
@@ -260,7 +260,7 @@ void main() {
                 .whereType<MultiplierSpriteGroupComponent>()
                 .first
                 .current,
-            MultiplierSpriteState.inactive,
+            MultiplierSpriteState.dimmed,
           );
 
           await expectLater(
@@ -292,7 +292,7 @@ void main() {
                 .whereType<MultiplierSpriteGroupComponent>()
                 .first
                 .current,
-            MultiplierSpriteState.inactive,
+            MultiplierSpriteState.dimmed,
           );
         },
       );
@@ -320,7 +320,7 @@ void main() {
                 .whereType<MultiplierSpriteGroupComponent>()
                 .first
                 .current,
-            MultiplierSpriteState.active,
+            MultiplierSpriteState.lit,
           );
 
           await expectLater(
@@ -351,7 +351,7 @@ void main() {
                 .whereType<MultiplierSpriteGroupComponent>()
                 .first
                 .current,
-            MultiplierSpriteState.inactive,
+            MultiplierSpriteState.dimmed,
           );
 
           await expectLater(
@@ -383,7 +383,7 @@ void main() {
                 .whereType<MultiplierSpriteGroupComponent>()
                 .first
                 .current,
-            MultiplierSpriteState.inactive,
+            MultiplierSpriteState.dimmed,
           );
         },
       );
@@ -411,7 +411,7 @@ void main() {
                 .whereType<MultiplierSpriteGroupComponent>()
                 .first
                 .current,
-            MultiplierSpriteState.active,
+            MultiplierSpriteState.lit,
           );
 
           await expectLater(
@@ -442,7 +442,7 @@ void main() {
                 .whereType<MultiplierSpriteGroupComponent>()
                 .first
                 .current,
-            MultiplierSpriteState.inactive,
+            MultiplierSpriteState.dimmed,
           );
 
           await expectLater(
@@ -474,7 +474,7 @@ void main() {
                 .whereType<MultiplierSpriteGroupComponent>()
                 .first
                 .current,
-            MultiplierSpriteState.inactive,
+            MultiplierSpriteState.dimmed,
           );
         },
       );
