@@ -5,15 +5,15 @@ import 'package:pinball/game/game.dart';
 
 void main() {
   group('GameEvent', () {
-    group('BallLost', () {
+    group('RoundLost', () {
       test('can be instantiated', () {
-        expect(const BallLost(), isNotNull);
+        expect(const RoundLost(), isNotNull);
       });
 
       test('supports value equality', () {
         expect(
-          BallLost(),
-          equals(const BallLost()),
+          RoundLost(),
+          equals(const RoundLost()),
         );
       });
     });
@@ -38,6 +38,19 @@ void main() {
           'throws AssertionError '
           'when score is smaller than 1', () {
         expect(() => Scored(points: 0), throwsAssertionError);
+      });
+    });
+
+    group('MultiplierIncreased', () {
+      test('can be instantiated', () {
+        expect(const MultiplierIncreased(), isNotNull);
+      });
+
+      test('supports value equality', () {
+        expect(
+          MultiplierIncreased(),
+          equals(const MultiplierIncreased()),
+        );
       });
     });
 
