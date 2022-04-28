@@ -12,20 +12,19 @@ import 'package:pinball_components/pinball_components.dart';
 /// {@endtemplate}
 class ChromeDino extends BodyComponent with InitialPosition {
   /// {@macro chrome_dino}
-  ChromeDino() : super(priority: RenderPriority.dino) {
-    renderBody = false;
-  }
+  ChromeDino()
+      : super(
+          priority: RenderPriority.dino,
+          renderBody: false,
+        );
 
   /// The size of the dinosaur mouth.
   static final size = Vector2(5.5, 5);
 
-  static const _framesInAnimation = 98;
-
-  static const _animationFPS = 1 / 24;
-
   /// Anchors the [ChromeDino] to the [RevoluteJoint] that controls its arc
   /// motion.
   Future<_ChromeDinoJoint> _anchorToJoint() async {
+    // TODO(allisonryan0002): try moving to anchor after new body is defined.
     final anchor = _ChromeDinoAnchor()
       ..initialPosition = initialPosition + Vector2(9, -4);
 
@@ -45,9 +44,11 @@ class ChromeDino extends BodyComponent with InitialPosition {
   Future<void> onLoad() async {
     await super.onLoad();
     final joint = await _anchorToJoint();
+    const framesInAnimation = 98;
+    const animationFPS = 1 / 24;
     await add(
       TimerComponent(
-        period: (_framesInAnimation / 2) * _animationFPS,
+        period: (framesInAnimation / 2) * animationFPS,
         onTick: joint._swivel,
         repeat: true,
       ),
