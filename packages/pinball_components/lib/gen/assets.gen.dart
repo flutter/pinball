@@ -10,8 +10,8 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
-  $AssetsImagesAlienBumperGen get alienBumper =>
-      const $AssetsImagesAlienBumperGen();
+  $AssetsImagesAndroidBumperGen get androidBumper =>
+      const $AssetsImagesAndroidBumperGen();
   $AssetsImagesBackboardGen get backboard => const $AssetsImagesBackboardGen();
   $AssetsImagesBallGen get ball => const $AssetsImagesBallGen();
   $AssetsImagesBaseboardGen get baseboard => const $AssetsImagesBaseboardGen();
@@ -33,11 +33,13 @@ class $AssetsImagesGen {
   $AssetsImagesSparkyGen get sparky => const $AssetsImagesSparkyGen();
 }
 
-class $AssetsImagesAlienBumperGen {
-  const $AssetsImagesAlienBumperGen();
+class $AssetsImagesAndroidBumperGen {
+  const $AssetsImagesAndroidBumperGen();
 
-  $AssetsImagesAlienBumperAGen get a => const $AssetsImagesAlienBumperAGen();
-  $AssetsImagesAlienBumperBGen get b => const $AssetsImagesAlienBumperBGen();
+  $AssetsImagesAndroidBumperAGen get a =>
+      const $AssetsImagesAndroidBumperAGen();
+  $AssetsImagesAndroidBumperBGen get b =>
+      const $AssetsImagesAndroidBumperBGen();
 }
 
 class $AssetsImagesBackboardGen {
@@ -269,28 +271,28 @@ class $AssetsImagesSparkyGen {
       const $AssetsImagesSparkyComputerGen();
 }
 
-class $AssetsImagesAlienBumperAGen {
-  const $AssetsImagesAlienBumperAGen();
+class $AssetsImagesAndroidBumperAGen {
+  const $AssetsImagesAndroidBumperAGen();
 
-  /// File path: assets/images/alien_bumper/a/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/alien_bumper/a/active.png');
+  /// File path: assets/images/android_bumper/a/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/android_bumper/a/dimmed.png');
 
-  /// File path: assets/images/alien_bumper/a/inactive.png
-  AssetGenImage get inactive =>
-      const AssetGenImage('assets/images/alien_bumper/a/inactive.png');
+  /// File path: assets/images/android_bumper/a/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/android_bumper/a/lit.png');
 }
 
-class $AssetsImagesAlienBumperBGen {
-  const $AssetsImagesAlienBumperBGen();
+class $AssetsImagesAndroidBumperBGen {
+  const $AssetsImagesAndroidBumperBGen();
 
-  /// File path: assets/images/alien_bumper/b/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/alien_bumper/b/active.png');
+  /// File path: assets/images/android_bumper/b/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/android_bumper/b/dimmed.png');
 
-  /// File path: assets/images/alien_bumper/b/inactive.png
-  AssetGenImage get inactive =>
-      const AssetGenImage('assets/images/alien_bumper/b/inactive.png');
+  /// File path: assets/images/android_bumper/b/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/android_bumper/b/lit.png');
 }
 
 class $AssetsImagesDashBumperGen {

@@ -83,7 +83,7 @@ abstract class RenderPriority {
 
   static const int turboChargeFlame = _above + ballOnBoard;
 
-  // Android Spaceship
+  // Android Acres
 
   static const int spaceshipRail = _above + bottomGroup;
 
@@ -106,7 +106,7 @@ abstract class RenderPriority {
 
   static const int spaceshipRampBoardOpening = _below + ballOnBoard;
 
-  static const int alienBumper = _above + ballOnBoard;
+  static const int androidBumper = _above + ballOnBoard;
 
   // Score Text
 
