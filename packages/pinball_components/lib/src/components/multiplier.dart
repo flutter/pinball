@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/gen/assets.gen.dart';
@@ -8,27 +10,24 @@ import 'package:pinball_components/gen/assets.gen.dart';
 class Multiplier extends Component {
   /// {@macro multiplier}
   Multiplier({
-    required int value,
+    required MultiplierValue value,
     required Vector2 position,
     double rotation = 0,
-  })  : assert(
-          2 <= value && value <= 6,
-          'multiplier value must be in range 2 <= value <= 6',
-        ),
-        _value = value,
-        _position = position,
-        _rotation = rotation,
-        super();
+  })  : _value = value,
+        _sprite = MultiplierSpriteGroupComponent(
+          position: position,
+          onAssetPath: value.onAssetPath,
+          offAssetPath: value.offAssetPath,
+          rotation: rotation,
+        );
 
-  final int _value;
-  final Vector2 _position;
-  final double _rotation;
-  late final MultiplierSpriteGroupComponent _sprite;
+  final MultiplierValue _value;
+  final MultiplierSpriteGroupComponent _sprite;
 
   /// Change current [Sprite] to active or inactive depending on applied
   /// multiplier.
   void toggle(int multiplier) {
-    if (multiplier == _value) {
+    if (_value.equalsTo(multiplier)) {
       _sprite.current = MultiplierSpriteState.active;
     } else {
       _sprite.current = MultiplierSpriteState.inactive;
@@ -38,41 +37,17 @@ class Multiplier extends Component {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-
-    String? onAssetPath;
-    String? offAssetPath;
-
-    switch (_value) {
-      case 2:
-        onAssetPath = Assets.images.multiplier.x2.active.keyName;
-        offAssetPath = Assets.images.multiplier.x2.inactive.keyName;
-        break;
-      case 3:
-        onAssetPath = Assets.images.multiplier.x3.active.keyName;
-        offAssetPath = Assets.images.multiplier.x3.inactive.keyName;
-        break;
-      case 4:
-        onAssetPath = Assets.images.multiplier.x4.active.keyName;
-        offAssetPath = Assets.images.multiplier.x4.inactive.keyName;
-        break;
-      case 5:
-        onAssetPath = Assets.images.multiplier.x5.active.keyName;
-        offAssetPath = Assets.images.multiplier.x5.inactive.keyName;
-        break;
-      case 6:
-        onAssetPath = Assets.images.multiplier.x6.active.keyName;
-        offAssetPath = Assets.images.multiplier.x6.inactive.keyName;
-        break;
-    }
-
-    _sprite = MultiplierSpriteGroupComponent(
-      position: _position,
-      onAssetPath: onAssetPath!,
-      offAssetPath: offAssetPath!,
-    )..angle = _rotation;
-
     await add(_sprite);
   }
+}
+
+/// Available multiplier values.
+enum MultiplierValue {
+  x2,
+  x3,
+  x4,
+  x5,
+  x6,
 }
 
 /// Indicates the current sprite state of the multiplier.
@@ -82,6 +57,53 @@ enum MultiplierSpriteState {
 
   /// A dimmed bumper.
   inactive,
+}
+
+extension on MultiplierValue {
+  String get onAssetPath {
+    switch (this) {
+      case MultiplierValue.x2:
+        return Assets.images.multiplier.x2.lit.keyName;
+      case MultiplierValue.x3:
+        return Assets.images.multiplier.x3.lit.keyName;
+      case MultiplierValue.x4:
+        return Assets.images.multiplier.x4.lit.keyName;
+      case MultiplierValue.x5:
+        return Assets.images.multiplier.x5.lit.keyName;
+      case MultiplierValue.x6:
+        return Assets.images.multiplier.x6.lit.keyName;
+    }
+  }
+
+  String get offAssetPath {
+    switch (this) {
+      case MultiplierValue.x2:
+        return Assets.images.multiplier.x2.dimmed.keyName;
+      case MultiplierValue.x3:
+        return Assets.images.multiplier.x3.dimmed.keyName;
+      case MultiplierValue.x4:
+        return Assets.images.multiplier.x4.dimmed.keyName;
+      case MultiplierValue.x5:
+        return Assets.images.multiplier.x5.dimmed.keyName;
+      case MultiplierValue.x6:
+        return Assets.images.multiplier.x6.dimmed.keyName;
+    }
+  }
+
+  bool equalsTo(int value) {
+    switch (this) {
+      case MultiplierValue.x2:
+        return value == 2;
+      case MultiplierValue.x3:
+        return value == 3;
+      case MultiplierValue.x4:
+        return value == 4;
+      case MultiplierValue.x5:
+        return value == 5;
+      case MultiplierValue.x6:
+        return value == 6;
+    }
+  }
 }
 
 /// {@template multiplier_sprite_group_component}
@@ -95,11 +117,13 @@ class MultiplierSpriteGroupComponent
     required Vector2 position,
     required String onAssetPath,
     required String offAssetPath,
+    required double rotation,
   })  : _onAssetPath = onAssetPath,
         _offAssetPath = offAssetPath,
         super(
           anchor: Anchor.center,
           position: position,
+          angle: rotation,
         );
 
   final String _onAssetPath;

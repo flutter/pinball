@@ -16,26 +16,26 @@ class Multipliers extends Component
   /// {@macro multipliers_group_component}
   Multipliers()
       : x2multiplier = Multiplier(
-          value: 2,
+          value: MultiplierValue.x2,
           position: Vector2(-19.5, -2),
           rotation: -15 * math.pi / 180,
         ),
         x3multiplier = Multiplier(
-          value: 3,
+          value: MultiplierValue.x3,
           position: Vector2(13, -9.5),
           rotation: 15 * math.pi / 180,
         ),
         x4multiplier = Multiplier(
-          value: 4,
+          value: MultiplierValue.x4,
           position: Vector2(0, -21),
         ),
         x5multiplier = Multiplier(
-          value: 5,
+          value: MultiplierValue.x5,
           position: Vector2(-8.5, -28),
           rotation: -3 * math.pi / 180,
         ),
         x6multiplier = Multiplier(
-          value: 6,
+          value: MultiplierValue.x6,
           position: Vector2(10, -31),
           rotation: 8 * math.pi / 180,
         ),

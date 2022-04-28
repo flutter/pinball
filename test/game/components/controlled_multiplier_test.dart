@@ -11,16 +11,16 @@ import '../../helpers/helpers.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
-    Assets.images.multiplier.x2.active.keyName,
-    Assets.images.multiplier.x2.inactive.keyName,
-    Assets.images.multiplier.x3.active.keyName,
-    Assets.images.multiplier.x3.inactive.keyName,
-    Assets.images.multiplier.x4.active.keyName,
-    Assets.images.multiplier.x4.inactive.keyName,
-    Assets.images.multiplier.x5.active.keyName,
-    Assets.images.multiplier.x5.inactive.keyName,
-    Assets.images.multiplier.x6.active.keyName,
-    Assets.images.multiplier.x6.inactive.keyName,
+    Assets.images.multiplier.x2.lit.keyName,
+    Assets.images.multiplier.x2.dimmed.keyName,
+    Assets.images.multiplier.x3.lit.keyName,
+    Assets.images.multiplier.x3.dimmed.keyName,
+    Assets.images.multiplier.x4.lit.keyName,
+    Assets.images.multiplier.x4.dimmed.keyName,
+    Assets.images.multiplier.x5.lit.keyName,
+    Assets.images.multiplier.x5.dimmed.keyName,
+    Assets.images.multiplier.x6.lit.keyName,
+    Assets.images.multiplier.x6.dimmed.keyName,
   ];
   final flameTester = FlameTester(() => EmptyPinballTestGame(assets));
 

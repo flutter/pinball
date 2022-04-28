@@ -8,16 +8,16 @@ class MultipliersGame extends BallGame with KeyboardEvents {
   MultipliersGame()
       : super(
           imagesFileNames: [
-            Assets.images.multiplier.x2.active.keyName,
-            Assets.images.multiplier.x2.inactive.keyName,
-            Assets.images.multiplier.x3.active.keyName,
-            Assets.images.multiplier.x3.inactive.keyName,
-            Assets.images.multiplier.x4.active.keyName,
-            Assets.images.multiplier.x4.inactive.keyName,
-            Assets.images.multiplier.x5.active.keyName,
-            Assets.images.multiplier.x5.inactive.keyName,
-            Assets.images.multiplier.x6.active.keyName,
-            Assets.images.multiplier.x6.inactive.keyName,
+            Assets.images.multiplier.x2.lit.keyName,
+            Assets.images.multiplier.x2.dimmed.keyName,
+            Assets.images.multiplier.x3.lit.keyName,
+            Assets.images.multiplier.x3.dimmed.keyName,
+            Assets.images.multiplier.x4.lit.keyName,
+            Assets.images.multiplier.x4.dimmed.keyName,
+            Assets.images.multiplier.x5.lit.keyName,
+            Assets.images.multiplier.x5.dimmed.keyName,
+            Assets.images.multiplier.x6.lit.keyName,
+            Assets.images.multiplier.x6.dimmed.keyName,
           ],
         );
 
@@ -41,23 +41,23 @@ class MultipliersGame extends BallGame with KeyboardEvents {
     camera.followVector2(Vector2.zero());
 
     x2 = Multiplier(
-      value: 2,
+      value: MultiplierValue.x2,
       position: Vector2(-20, 0),
     );
     x3 = Multiplier(
-      value: 3,
+      value: MultiplierValue.x3,
       position: Vector2(20, -5),
     );
     x4 = Multiplier(
-      value: 4,
+      value: MultiplierValue.x4,
       position: Vector2(0, -15),
     );
     x5 = Multiplier(
-      value: 5,
+      value: MultiplierValue.x5,
       position: Vector2(-10, -25),
     );
     x6 = Multiplier(
-      value: 6,
+      value: MultiplierValue.x6,
       position: Vector2(10, -35),
     );
 

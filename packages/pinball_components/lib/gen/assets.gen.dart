@@ -319,61 +319,61 @@ class $AssetsImagesDashBumperGen {
 class $AssetsImagesMultiplierX2Gen {
   const $AssetsImagesMultiplierX2Gen();
 
-  /// File path: assets/images/multiplier/x2/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/multiplier/x2/active.png');
+  /// File path: assets/images/multiplier/x2/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/multiplier/x2/dimmed.png');
 
-  /// File path: assets/images/multiplier/x2/inactive.png
-  AssetGenImage get inactive =>
-      const AssetGenImage('assets/images/multiplier/x2/inactive.png');
+  /// File path: assets/images/multiplier/x2/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/multiplier/x2/lit.png');
 }
 
 class $AssetsImagesMultiplierX3Gen {
   const $AssetsImagesMultiplierX3Gen();
 
-  /// File path: assets/images/multiplier/x3/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/multiplier/x3/active.png');
+  /// File path: assets/images/multiplier/x3/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/multiplier/x3/dimmed.png');
 
-  /// File path: assets/images/multiplier/x3/inactive.png
-  AssetGenImage get inactive =>
-      const AssetGenImage('assets/images/multiplier/x3/inactive.png');
+  /// File path: assets/images/multiplier/x3/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/multiplier/x3/lit.png');
 }
 
 class $AssetsImagesMultiplierX4Gen {
   const $AssetsImagesMultiplierX4Gen();
 
-  /// File path: assets/images/multiplier/x4/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/multiplier/x4/active.png');
+  /// File path: assets/images/multiplier/x4/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/multiplier/x4/dimmed.png');
 
-  /// File path: assets/images/multiplier/x4/inactive.png
-  AssetGenImage get inactive =>
-      const AssetGenImage('assets/images/multiplier/x4/inactive.png');
+  /// File path: assets/images/multiplier/x4/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/multiplier/x4/lit.png');
 }
 
 class $AssetsImagesMultiplierX5Gen {
   const $AssetsImagesMultiplierX5Gen();
 
-  /// File path: assets/images/multiplier/x5/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/multiplier/x5/active.png');
+  /// File path: assets/images/multiplier/x5/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/multiplier/x5/dimmed.png');
 
-  /// File path: assets/images/multiplier/x5/inactive.png
-  AssetGenImage get inactive =>
-      const AssetGenImage('assets/images/multiplier/x5/inactive.png');
+  /// File path: assets/images/multiplier/x5/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/multiplier/x5/lit.png');
 }
 
 class $AssetsImagesMultiplierX6Gen {
   const $AssetsImagesMultiplierX6Gen();
 
-  /// File path: assets/images/multiplier/x6/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/multiplier/x6/active.png');
+  /// File path: assets/images/multiplier/x6/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/multiplier/x6/dimmed.png');
 
-  /// File path: assets/images/multiplier/x6/inactive.png
-  AssetGenImage get inactive =>
-      const AssetGenImage('assets/images/multiplier/x6/inactive.png');
+  /// File path: assets/images/multiplier/x6/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/multiplier/x6/lit.png');
 }
 
 class $AssetsImagesSpaceshipRailGen {
