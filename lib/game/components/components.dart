@@ -5,6 +5,7 @@ export 'controlled_ball.dart';
 export 'controlled_flipper.dart';
 export 'controlled_plunger.dart';
 export 'dino_desert.dart';
+export 'drain.dart';
 export 'flutter_forest/flutter_forest.dart';
 export 'game_flow_controller.dart';
 export 'google_word/google_word.dart';
