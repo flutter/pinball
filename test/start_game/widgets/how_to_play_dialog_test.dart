@@ -9,10 +9,14 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('HowToPlayDialog', () {
-    testWidgets('displays content', (tester) async {
+    testWidgets('displays dialog', (tester) async {
       final l10n = await AppLocalizations.delegate.load(Locale('en'));
 
-      await tester.pumpApp(HowToPlayDialog());
+      await tester.pumpApp(
+        HowToPlayDialog(
+          onDismissCallback: () {},
+        ),
+      );
 
       expect(find.text(l10n.launchControls), findsOneWidget);
     });

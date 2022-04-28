@@ -5,22 +5,33 @@ import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 
 class HowToPlayDialog extends StatelessWidget {
-  const HowToPlayDialog({Key? key}) : super(key: key);
+  const HowToPlayDialog({
+    Key? key,
+    required this.onDismissCallback,
+  }) : super(key: key);
+
+  final VoidCallback onDismissCallback;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     const spacing = SizedBox(height: 16);
 
-    return PixelatedDecoration(
-      header: Text(l10n.howToPlay),
-      body: ListView(
-        children: const [
-          spacing,
-          _LaunchControls(),
-          spacing,
-          _FlipperControls(),
-        ],
+    return WillPopScope(
+      onWillPop: () {
+        onDismissCallback.call();
+        return Future.value(true);
+      },
+      child: PixelatedDecoration(
+        header: Text(l10n.howToPlay),
+        body: ListView(
+          children: const [
+            spacing,
+            _LaunchControls(),
+            spacing,
+            _FlipperControls(),
+          ],
+        ),
       ),
     );
   }
