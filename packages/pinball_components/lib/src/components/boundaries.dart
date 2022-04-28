@@ -102,28 +102,59 @@ class _OuterBoundary extends BodyComponent with InitialPosition {
         Vector2(3.6, -70.2),
         Vector2(-14.1, -70.2),
       );
-    final topWallFixtureDef = FixtureDef(topWall);
 
     final topLeftCurve = BezierCurveShape(
       controlPoints: [
-        Vector2(-32.3, -57.2),
+        topWall.vertex1,
         Vector2(-31.5, -69.9),
-        Vector2(-14.1, -70.2),
+        Vector2(-32.3, -57.2),
       ],
     );
-    final topLeftCurveFixtureDef = FixtureDef(topLeftCurve);
 
-    final leftWall = EdgeShape()
+    final topLeftWall = EdgeShape()
       ..set(
-        Vector2(-32.3, -57.2),
+        topLeftCurve.vertices.last,
+        Vector2(-33.5, -44),
+      );
+
+    final upperLeftWallCurve = BezierCurveShape(
+      controlPoints: [
+        topLeftWall.vertex1,
+        Vector2(-33.9, -40.7),
+        Vector2(-32.5, -39),
+      ],
+    );
+
+    final middleLeftWallCurve = BezierCurveShape(
+      controlPoints: [
+        upperLeftWallCurve.vertices.last,
+        Vector2(-23.2, -31.4),
+        Vector2(-33.9, -21.8),
+      ],
+    );
+
+    final lowerLeftWallCurve = BezierCurveShape(
+      controlPoints: [
+        middleLeftWallCurve.vertices.last,
+        Vector2(-32.4, -17.6),
+        Vector2(-37.3, -11),
+      ],
+    );
+
+    final bottomLeftWall = EdgeShape()
+      ..set(
+        lowerLeftWallCurve.vertices.last,
         Vector2(-43.9, 41.8),
       );
-    final leftWallFixtureDef = FixtureDef(leftWall);
 
     return [
-      topWallFixtureDef,
-      topLeftCurveFixtureDef,
-      leftWallFixtureDef,
+      FixtureDef(topWall),
+      FixtureDef(topLeftCurve),
+      FixtureDef(topLeftWall),
+      FixtureDef(upperLeftWallCurve),
+      FixtureDef(middleLeftWallCurve),
+      FixtureDef(lowerLeftWallCurve),
+      FixtureDef(bottomLeftWall),
     ];
   }
 
