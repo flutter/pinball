@@ -65,14 +65,12 @@ void main() {
     );
 
     group('swivels', () {
-      flameTester.testGameWidget(
+      flameTester.test(
         'up',
-        setUp: (game, tester) async {
-          await game.images.loadAll(assets);
+        (game) async {
           final chromeDino = ChromeDino();
           await game.ensureAdd(chromeDino);
           game.camera.followVector2(Vector2.zero());
-          await tester.pump();
 
           final sweepAnimationDuration = game
                   .descendants()
@@ -82,20 +80,17 @@ void main() {
                   .totalDuration() /
               2;
           game.update(sweepAnimationDuration * 1.5);
-          await tester.pump();
 
           expect(chromeDino.body.angularVelocity, isPositive);
         },
       );
 
-      flameTester.testGameWidget(
+      flameTester.test(
         'down',
-        setUp: (game, tester) async {
-          await game.images.loadAll(assets);
+        (game) async {
           final chromeDino = ChromeDino();
           await game.ensureAdd(chromeDino);
           game.camera.followVector2(Vector2.zero());
-          await tester.pump();
 
           final sweepAnimationDuration = game
                   .descendants()
@@ -105,7 +100,6 @@ void main() {
                   .totalDuration() /
               2;
           game.update(sweepAnimationDuration * 0.5);
-          await tester.pump();
 
           expect(chromeDino.body.angularVelocity, isNegative);
         },

@@ -44,10 +44,9 @@ class ChromeDino extends BodyComponent with InitialPosition {
   Future<void> onLoad() async {
     await super.onLoad();
     final joint = await _anchorToJoint();
-    const halfAnimationPeriod = (_framesInAnimation / 2) * _animationFPS;
     await add(
       TimerComponent(
-        period: halfAnimationPeriod,
+        period: (_framesInAnimation / 2) * _animationFPS,
         onTick: joint._swivel,
         repeat: true,
       ),
@@ -86,11 +85,7 @@ class ChromeDino extends BodyComponent with InitialPosition {
   }
 }
 
-/// {@template chrome_dino_anchor}
-/// [JointAnchor] positioned at the back of the [ChromeDino].
-/// {@endtemplate}
 class _ChromeDinoAnchor extends JointAnchor {
-  /// {@macro chrome_dino_anchor}
   _ChromeDinoAnchor();
 
   // TODO(allisonryan0002): if these aren't moved when fixing the rendering, see
@@ -120,9 +115,8 @@ class _ChromeDinoAnchorRevoluteJointDef extends RevoluteJointDef {
       chromeDino.body.position + anchor.body.position,
     );
     enableLimit = true;
-    const angle = _ChromeDinoJoint._halfSweepingAngle;
-    lowerAngle = -angle;
-    upperAngle = angle;
+    lowerAngle = -_ChromeDinoJoint._halfSweepingAngle;
+    upperAngle = _ChromeDinoJoint._halfSweepingAngle;
 
     enableMotor = true;
     maxMotorTorque = chromeDino.body.mass * 255;
