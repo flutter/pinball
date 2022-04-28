@@ -2,7 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:mocktail/mocktail.dart';
@@ -55,7 +55,13 @@ class MockRawKeyUpEvent extends Mock implements RawKeyUpEvent {
   }
 }
 
+class MockTapDownInfo extends Mock implements TapDownInfo {}
+
+class MockTapDownDetails extends Mock implements TapDownDetails {}
+
 class MockTapUpInfo extends Mock implements TapUpInfo {}
+
+class MockTapUpDetails extends Mock implements TapUpDetails {}
 
 class MockEventPosition extends Mock implements EventPosition {}
 
