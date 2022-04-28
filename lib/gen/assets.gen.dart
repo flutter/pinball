@@ -15,6 +15,8 @@ class $AssetsImagesGen {
   $AssetsImagesComponentsGen get components =>
       const $AssetsImagesComponentsGen();
   $AssetsImagesScoreGen get score => const $AssetsImagesScoreGen();
+  $AssetsImagesSelectCharacterGen get selectCharacter =>
+      const $AssetsImagesSelectCharacterGen();
 }
 
 class $AssetsImagesBonusAnimationGen {
@@ -63,6 +65,26 @@ class $AssetsImagesScoreGen {
   /// File path: assets/images/score/mini_score_background.png
   AssetGenImage get miniScoreBackground =>
       const AssetGenImage('assets/images/score/mini_score_background.png');
+}
+
+class $AssetsImagesSelectCharacterGen {
+  const $AssetsImagesSelectCharacterGen();
+
+  /// File path: assets/images/select_character/pinball_button.png
+  AssetGenImage get pinballButton =>
+      const AssetGenImage('assets/images/select_character/pinball_button.png');
+
+  /// File path: assets/images/select_character/star_a.png
+  AssetGenImage get starA =>
+      const AssetGenImage('assets/images/select_character/star_a.png');
+
+  /// File path: assets/images/select_character/star_b.png
+  AssetGenImage get starB =>
+      const AssetGenImage('assets/images/select_character/star_b.png');
+
+  /// File path: assets/images/select_character/star_c.png
+  AssetGenImage get starC =>
+      const AssetGenImage('assets/images/select_character/star_c.png');
 }
 
 class Assets {
