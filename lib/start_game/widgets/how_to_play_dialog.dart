@@ -77,9 +77,7 @@ class _FlipperControls extends StatelessWidget {
         const SizedBox(height: 10),
         Column(
           children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
+            Wrap(
               children: const [
                 KeyIndicator.fromIcon(keyIcon: Icons.keyboard_arrow_left),
                 rowSpacing,
