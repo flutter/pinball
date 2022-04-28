@@ -1,23 +1,25 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-import '../../helpers/helpers.dart';
+import '../../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
-    Assets.images.multiball.a.active.keyName,
-    Assets.images.multiball.a.inactive.keyName,
-    Assets.images.multiball.b.active.keyName,
-    Assets.images.multiball.b.inactive.keyName,
-    Assets.images.multiball.c.active.keyName,
-    Assets.images.multiball.c.inactive.keyName,
-    Assets.images.multiball.d.active.keyName,
-    Assets.images.multiball.d.inactive.keyName,
+    Assets.images.multiball.a.lit.keyName,
+    Assets.images.multiball.a.dimmed.keyName,
+    Assets.images.multiball.b.lit.keyName,
+    Assets.images.multiball.b.dimmed.keyName,
+    Assets.images.multiball.c.lit.keyName,
+    Assets.images.multiball.c.dimmed.keyName,
+    Assets.images.multiball.d.lit.keyName,
+    Assets.images.multiball.d.dimmed.keyName,
   ];
   final flameTester = FlameTester(() => TestGame(assets));
 
@@ -50,34 +52,24 @@ void main() {
       });
     });
 
-    // TODO(ruimiguel): needs to add golden tests for multiball states.
+    flameTester.test(
+      'closes bloc when removed',
+      (game) async {
+        final bloc = MockMultiballCubit();
+        whenListen(
+          bloc,
+          const Stream<MultiballState>.empty(),
+          initialState: MultiballState.dimmed,
+        );
+        when(bloc.close).thenAnswer((_) async {});
+        final multiball = Multiball.test(bloc: bloc);
 
-    flameTester.test('animate switches between on and off sprites',
-        (game) async {
-      final multiball = Multiball.a();
-      await game.ensureAdd(multiball);
+        await game.ensureAdd(multiball);
+        game.remove(multiball);
+        await game.ready();
 
-      final spriteGroupComponent =
-          multiball.firstChild<SpriteGroupComponent>()!;
-
-      expect(
-        spriteGroupComponent.current,
-        equals(MultiballSpriteState.inactive),
-      );
-
-      final future = multiball.animate();
-
-      expect(
-        spriteGroupComponent.current,
-        equals(MultiballSpriteState.active),
-      );
-
-      await future;
-
-      expect(
-        spriteGroupComponent.current,
-        equals(MultiballSpriteState.inactive),
-      );
-    });
+        verify(bloc.close).called(1);
+      },
+    );
   });
 }
