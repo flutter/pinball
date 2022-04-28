@@ -1,4 +1,4 @@
-export 'alien_bumper/alien_bumper.dart';
+export 'android_bumper/android_bumper.dart';
 export 'backboard/backboard.dart';
 export 'ball.dart';
 export 'baseboard.dart';

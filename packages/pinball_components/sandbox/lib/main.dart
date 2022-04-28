@@ -23,7 +23,7 @@ void main() {
   addPlungerStories(dashbook);
   addSlingshotStories(dashbook);
   addSparkyBumperStories(dashbook);
-  addAlienZoneStories(dashbook);
+  addAndroidAcresStories(dashbook);
   addBoundariesStories(dashbook);
   addGoogleWordStories(dashbook);
   addLaunchRampStories(dashbook);

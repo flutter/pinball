@@ -17,7 +17,7 @@ class MockContact extends Mock implements Contact {}
 
 class MockComponent extends Mock implements Component {}
 
-class MockAlienBumperCubit extends Mock implements AlienBumperCubit {}
+class MockAndroidBumperCubit extends Mock implements AndroidBumperCubit {}
 
 class MockGoogleLetterCubit extends Mock implements GoogleLetterCubit {}
 

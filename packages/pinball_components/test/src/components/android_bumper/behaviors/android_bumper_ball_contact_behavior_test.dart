@@ -5,7 +5,7 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_components/src/components/alien_bumper/behaviors/behaviors.dart';
+import 'package:pinball_components/src/components/android_bumper/behaviors/behaviors.dart';
 
 import '../../../../helpers/helpers.dart';
 
@@ -14,33 +14,33 @@ void main() {
   final flameTester = FlameTester(TestGame.new);
 
   group(
-    'AlienBumperBallContactBehavior',
+    'AndroidBumperBallContactBehavior',
     () {
       test('can be instantiated', () {
         expect(
-          AlienBumperBallContactBehavior(),
-          isA<AlienBumperBallContactBehavior>(),
+          AndroidBumperBallContactBehavior(),
+          isA<AndroidBumperBallContactBehavior>(),
         );
       });
 
       flameTester.test(
         'beginContact emits onBallContacted when contacts with a ball',
         (game) async {
-          final behavior = AlienBumperBallContactBehavior();
-          final bloc = MockAlienBumperCubit();
+          final behavior = AndroidBumperBallContactBehavior();
+          final bloc = MockAndroidBumperCubit();
           whenListen(
             bloc,
-            const Stream<AlienBumperState>.empty(),
-            initialState: AlienBumperState.active,
+            const Stream<AndroidBumperState>.empty(),
+            initialState: AndroidBumperState.lit,
           );
 
-          final alienBumper = AlienBumper.test(bloc: bloc);
-          await alienBumper.add(behavior);
-          await game.ensureAdd(alienBumper);
+          final androidBumper = AndroidBumper.test(bloc: bloc);
+          await androidBumper.add(behavior);
+          await game.ensureAdd(androidBumper);
 
           behavior.beginContact(MockBall(), MockContact());
 
-          verify(alienBumper.bloc.onBallContacted).called(1);
+          verify(androidBumper.bloc.onBallContacted).called(1);
         },
       );
     },
