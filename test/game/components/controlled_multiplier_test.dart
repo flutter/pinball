@@ -28,7 +28,7 @@ void main() {
     flameTester.test(
       'loads correctly',
       (game) async {
-        final multipliersGroup = MultipliersGroup();
+        final multipliersGroup = Multipliers();
         await game.ensureAdd(multipliersGroup);
 
         expect(game.contains(multipliersGroup), isTrue);
@@ -39,7 +39,7 @@ void main() {
       flameTester.test(
         'five Multiplier',
         (game) async {
-          final multipliersGroup = MultipliersGroup();
+          final multipliersGroup = Multipliers();
           await game.ensureAdd(multipliersGroup);
 
           expect(
@@ -60,7 +60,7 @@ void main() {
             const previous = GameState.initial();
             final state = previous.copyWith(score: 100);
 
-            final multipliersGroup = MultipliersGroup();
+            final multipliersGroup = Multipliers();
             await game.ensureAdd(multipliersGroup);
 
             expect(
@@ -75,7 +75,7 @@ void main() {
           (game) async {
             const previous = GameState.initial();
 
-            final multipliersGroup = MultipliersGroup();
+            final multipliersGroup = Multipliers();
             await game.ensureAdd(multipliersGroup);
 
             expect(

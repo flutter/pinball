@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'dart:math' as math;
 import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
@@ -9,60 +11,51 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template multipliers_group_component}
 /// A [SpriteGroupComponent] for the multiplier over the board.
 /// {@endtemplate}
-class MultipliersGroup extends Component
+class Multipliers extends Component
     with Controls<MultipliersController>, HasGameRef<PinballGame> {
   /// {@macro multipliers_group_component}
-  MultipliersGroup() : super() {
+  Multipliers()
+      : x2multiplier = Multiplier(
+          value: 2,
+          position: Vector2(-19.5, -2),
+          rotation: -15 * math.pi / 180,
+        ),
+        x3multiplier = Multiplier(
+          value: 3,
+          position: Vector2(13, -9.5),
+          rotation: 15 * math.pi / 180,
+        ),
+        x4multiplier = Multiplier(
+          value: 4,
+          position: Vector2(0, -21),
+        ),
+        x5multiplier = Multiplier(
+          value: 5,
+          position: Vector2(-8.5, -28),
+          rotation: -3 * math.pi / 180,
+        ),
+        x6multiplier = Multiplier(
+          value: 6,
+          position: Vector2(10, -31),
+          rotation: 8 * math.pi / 180,
+        ),
+        super() {
     controller = MultipliersController(this);
   }
 
-  /// Multiplier x2.
-  late final Multiplier x2multiplier;
+  final Multiplier x2multiplier;
 
-  /// Multiplier x3.
-  late final Multiplier x3multiplier;
+  final Multiplier x3multiplier;
 
-  /// Multiplier x4.
-  late final Multiplier x4multiplier;
+  final Multiplier x4multiplier;
 
-  /// Multiplier x5.
-  late final Multiplier x5multiplier;
+  final Multiplier x5multiplier;
 
-  /// Multiplier x6.
-  late final Multiplier x6multiplier;
+  final Multiplier x6multiplier;
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-
-    x2multiplier = Multiplier(
-      value: 2,
-      position: Vector2(-19.5, -2),
-      rotation: -15 * math.pi / 180,
-    );
-
-    x3multiplier = Multiplier(
-      value: 3,
-      position: Vector2(13, -9.5),
-      rotation: 15 * math.pi / 180,
-    );
-
-    x4multiplier = Multiplier(
-      value: 4,
-      position: Vector2(0, -21),
-    );
-
-    x5multiplier = Multiplier(
-      value: 5,
-      position: Vector2(-8.5, -28),
-      rotation: -3 * math.pi / 180,
-    );
-
-    x6multiplier = Multiplier(
-      value: 6,
-      position: Vector2(10, -31),
-      rotation: 8 * math.pi / 180,
-    );
 
     await addAll([
       x2multiplier,
@@ -75,15 +68,14 @@ class MultipliersGroup extends Component
 }
 
 /// {@template multipliers_controller}
-/// Controller attached to a [MultipliersGroup] that handles its game related
+/// Controller attached to a [Multipliers] that handles its game related
 /// logic.
 /// {@endtemplate}
 @visibleForTesting
-class MultipliersController extends ComponentController<MultipliersGroup>
+class MultipliersController extends ComponentController<Multipliers>
     with BlocComponent<GameBloc, GameState>, HasGameRef<PinballGame> {
   /// {@macro multipliers_controller}
-  MultipliersController(MultipliersGroup multipliersGroup)
-      : super(multipliersGroup);
+  MultipliersController(Multipliers multipliersGroup) : super(multipliersGroup);
 
   @override
   bool listenWhen(GameState? previousState, GameState newState) {
