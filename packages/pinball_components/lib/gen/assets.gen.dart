@@ -317,49 +317,49 @@ class $AssetsImagesDashBumperGen {
 class $AssetsImagesMultiballAGen {
   const $AssetsImagesMultiballAGen();
 
-  /// File path: assets/images/multiball/a/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/multiball/a/active.png');
+  /// File path: assets/images/multiball/a/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/multiball/a/dimmed.png');
 
-  /// File path: assets/images/multiball/a/inactive.png
-  AssetGenImage get inactive =>
-      const AssetGenImage('assets/images/multiball/a/inactive.png');
+  /// File path: assets/images/multiball/a/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/multiball/a/lit.png');
 }
 
 class $AssetsImagesMultiballBGen {
   const $AssetsImagesMultiballBGen();
 
-  /// File path: assets/images/multiball/b/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/multiball/b/active.png');
+  /// File path: assets/images/multiball/b/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/multiball/b/dimmed.png');
 
-  /// File path: assets/images/multiball/b/inactive.png
-  AssetGenImage get inactive =>
-      const AssetGenImage('assets/images/multiball/b/inactive.png');
+  /// File path: assets/images/multiball/b/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/multiball/b/lit.png');
 }
 
 class $AssetsImagesMultiballCGen {
   const $AssetsImagesMultiballCGen();
 
-  /// File path: assets/images/multiball/c/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/multiball/c/active.png');
+  /// File path: assets/images/multiball/c/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/multiball/c/dimmed.png');
 
-  /// File path: assets/images/multiball/c/inactive.png
-  AssetGenImage get inactive =>
-      const AssetGenImage('assets/images/multiball/c/inactive.png');
+  /// File path: assets/images/multiball/c/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/multiball/c/lit.png');
 }
 
 class $AssetsImagesMultiballDGen {
   const $AssetsImagesMultiballDGen();
 
-  /// File path: assets/images/multiball/d/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/multiball/d/active.png');
+  /// File path: assets/images/multiball/d/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/multiball/d/dimmed.png');
 
-  /// File path: assets/images/multiball/d/inactive.png
-  AssetGenImage get inactive =>
-      const AssetGenImage('assets/images/multiball/d/inactive.png');
+  /// File path: assets/images/multiball/d/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/multiball/d/lit.png');
 }
 
 class $AssetsImagesSpaceshipRailGen {
