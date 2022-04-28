@@ -15,7 +15,12 @@ class MockGame extends Mock implements Forge2DGame {}
 
 class MockContact extends Mock implements Contact {}
 
-class MockContactCallback extends Mock
-    implements ContactCallback<Object, Object> {}
-
 class MockComponent extends Mock implements Component {}
+
+class MockAlienBumperCubit extends Mock implements AlienBumperCubit {}
+
+class MockGoogleLetterCubit extends Mock implements GoogleLetterCubit {}
+
+class MockSparkyBumperCubit extends Mock implements SparkyBumperCubit {}
+
+class MockDashNestBumperCubit extends Mock implements DashNestBumperCubit {}

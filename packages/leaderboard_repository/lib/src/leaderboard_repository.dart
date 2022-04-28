@@ -72,6 +72,20 @@ class FetchPlayerRankingException extends LeaderboardException {
         );
 }
 
+/// {@template fetch_prohibited_initials_exception}
+/// Exception thrown when failure occurs while fetching prohibited initials.
+/// {@endtemplate}
+class FetchProhibitedInitialsException extends LeaderboardException {
+  /// {@macro fetch_prohibited_initials_exception}
+  const FetchProhibitedInitialsException(
+    Object error,
+    StackTrace stackTrace,
+  ) : super(
+          error,
+          stackTrace,
+        );
+}
+
 /// {@template leaderboard_repository}
 /// Repository to access leaderboard data in Firebase Cloud Firestore.
 /// {@endtemplate}
@@ -150,6 +164,27 @@ class LeaderboardRepository {
       }
     } on Exception catch (error, stackTrace) {
       throw FetchPlayerRankingException(error, stackTrace);
+    }
+  }
+
+  /// Determines if the given [initials] are allowed.
+  Future<bool> areInitialsAllowed({required String initials}) async {
+    // Initials can only be three uppercase A-Z letters
+    final initialsRegex = RegExp(r'^[A-Z]{3}$');
+    if (!initialsRegex.hasMatch(initials)) {
+      return false;
+    }
+
+    try {
+      final document = await _firebaseFirestore
+          .collection('prohibitedInitials')
+          .doc('list')
+          .get();
+      final prohibitedInitials =
+          document.get('prohibitedInitials') as List<String>;
+      return !prohibitedInitials.contains(initials);
+    } on Exception catch (error, stackTrace) {
+      throw FetchProhibitedInitialsException(error, stackTrace);
     }
   }
 }

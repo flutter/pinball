@@ -1,8 +1,7 @@
 // ignore_for_file: avoid_renaming_method_parameters
 
 import 'package:flame/components.dart';
-import 'package:flame_forge2d/contact_callbacks.dart';
-import 'package:flame_forge2d/forge2d_game.dart';
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -18,8 +17,8 @@ class ControlledBall extends Ball with Controls<BallController> {
   /// When a launched [Ball] is lost, it will decrease the [GameState.balls]
   /// count, and a new [Ball] is spawned.
   ControlledBall.launch({
-    required PinballTheme theme,
-  }) : super(baseColor: theme.characterTheme.ballColor) {
+    required CharacterTheme characterTheme,
+  }) : super(baseColor: characterTheme.ballColor) {
     controller = BallController(this);
     priority = RenderPriority.ballOnLaunchRamp;
     layer = Layer.launcher;
@@ -31,8 +30,8 @@ class ControlledBall extends Ball with Controls<BallController> {
   /// When a bonus [Ball] is lost, the [GameState.balls] doesn't change.
   /// {@endtemplate}
   ControlledBall.bonus({
-    required PinballTheme theme,
-  }) : super(baseColor: theme.characterTheme.ballColor) {
+    required CharacterTheme characterTheme,
+  }) : super(baseColor: characterTheme.ballColor) {
     controller = BallController(this);
     priority = RenderPriority.ballOnBoard;
   }
@@ -52,10 +51,8 @@ class BallController extends ComponentController<Ball>
   /// {@macro ball_controller}
   BallController(Ball ball) : super(ball);
 
-  /// Removes the [Ball] from a [PinballGame].
-  ///
-  /// Triggered by [DrainBallContactCallback] when the [Ball] falls into
-  /// a [Drain].
+  /// Event triggered when the ball is lost.
+  // TODO(alestiago): Refactor using behaviors.
   void lost() {
     component.shouldRemove = true;
   }
@@ -90,14 +87,4 @@ class DebugBallController extends BallController {
 
   @override
   void onRemove() {}
-}
-
-/// {@template drain_ball_contact_callback}
-/// Listens when a [ControlledBall] falls into a [Drain].
-/// {@endtemplate}
-class DrainBallContactCallback extends ContactCallback<ControlledBall, Drain> {
-  @override
-  void begin(ControlledBall ball, _, __) {
-    ball.controller.lost();
-  }
 }

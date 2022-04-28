@@ -20,7 +20,7 @@ class PinballGame extends Forge2DGame
         HasKeyboardHandlerComponents,
         Controls<_GameBallsController> {
   PinballGame({
-    required this.theme,
+    required this.characterTheme,
     required this.audio,
   }) {
     images.prefix = '';
@@ -33,7 +33,7 @@ class PinballGame extends Forge2DGame
   @override
   Color backgroundColor() => Colors.transparent;
 
-  final PinballTheme theme;
+  final CharacterTheme characterTheme;
 
   final PinballAudio audio;
 
@@ -41,8 +41,6 @@ class PinballGame extends Forge2DGame
 
   @override
   Future<void> onLoad() async {
-    _addContactCallbacks();
-
     unawaited(add(gameFlowController = GameFlowController(this)));
     unawaited(add(CameraController(this)));
     unawaited(add(Backboard.waiting(position: Vector2(0, -88))));
@@ -54,11 +52,10 @@ class PinballGame extends Forge2DGame
     final launcher = Launcher();
     unawaited(addFromBlueprint(launcher));
     await add(FlutterForest());
-    unawaited(add(AlienZone()));
+    await addFromBlueprint(AlienZone());
     await addFromBlueprint(SparkyFireZone());
     unawaited(addFromBlueprint(Slingshots()));
     await addFromBlueprint(DinoDesert());
-    unawaited(_addBonusWord());
     unawaited(addFromBlueprint(SpaceshipRamp()));
     unawaited(
       addFromBlueprint(
@@ -68,17 +65,6 @@ class PinballGame extends Forge2DGame
       ),
     );
     unawaited(addFromBlueprint(SpaceshipRail()));
-
-    controller.attachTo(launcher.components.whereType<Plunger>().first);
-    await super.onLoad();
-  }
-
-  void _addContactCallbacks() {
-    addContactCallback(BallScorePointsCallback(this));
-    addContactCallback(DrainBallContactCallback());
-  }
-
-  Future<void> _addBonusWord() async {
     await add(
       GoogleWord(
         position: Vector2(
@@ -87,6 +73,9 @@ class PinballGame extends Forge2DGame
         ),
       ),
     );
+
+    controller.attachTo(launcher.components.whereType<Plunger>().first);
+    await super.onLoad();
   }
 }
 
@@ -118,7 +107,7 @@ class _GameBallsController extends ComponentController<PinballGame>
 
   void _spawnBall() {
     final ball = ControlledBall.launch(
-      theme: gameRef.theme,
+      characterTheme: gameRef.characterTheme,
     )..initialPosition = Vector2(
         _plunger.body.position.x,
         _plunger.body.position.y - Ball.size.y,
@@ -136,10 +125,10 @@ class _GameBallsController extends ComponentController<PinballGame>
 
 class DebugPinballGame extends PinballGame with FPSCounter, TapDetector {
   DebugPinballGame({
-    required PinballTheme theme,
+    required CharacterTheme characterTheme,
     required PinballAudio audio,
   }) : super(
-          theme: theme,
+          characterTheme: characterTheme,
           audio: audio,
         ) {
     controller = _DebugGameBallsController(this);

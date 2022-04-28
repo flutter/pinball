@@ -57,8 +57,7 @@ void main() {
         when(game.firstChild<Backboard>).thenReturn(backboard);
         when(game.firstChild<CameraController>).thenReturn(cameraController);
         when(() => game.overlays).thenReturn(overlays);
-        when(() => game.theme)
-            .thenReturn(PinballTheme(characterTheme: DashTheme()));
+        when(() => game.characterTheme).thenReturn(DashTheme());
       });
 
       test(

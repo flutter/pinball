@@ -16,6 +16,7 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   Ball({
     required this.baseColor,
   }) : super(
+          renderBody: false,
           children: [
             _BallSpriteComponent()..tint(baseColor.withOpacity(0.5)),
           ],
@@ -26,7 +27,6 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
     // We need to see what happens if Ball appears from other place like nest
     // bumper, it will need to explicit change layer to Layer.board then.
     layer = Layer.board;
-    renderBody = false;
   }
 
   /// The size of the [Ball].
