@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pinball_ui/gen/gen.dart';
 
 /// {@template pixelated_decoration}
-/// Pixelated decoration.
+/// Widget with pixelated background and layout defined for dialog displays.
 /// {@endtemplate}
 class PixelatedDecoration extends StatelessWidget {
   /// {@macro pixelated_decoration}
