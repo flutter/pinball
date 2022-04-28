@@ -11,7 +11,8 @@ import 'package:pinball_theme/pinball_theme.dart';
 /// Widget to display the selected character based on the [CharacterThemeCubit]
 /// state.
 ///
-/// Displays a looped [SpriteAnimationWidget].
+/// Displays the looped [SpriteAnimationWidget] and the character name on the
+/// list.
 /// {@endtemplate}
 class SelectedCharacter extends StatefulWidget {
   /// {@macro selected_character}
@@ -22,7 +23,7 @@ class SelectedCharacter extends StatefulWidget {
   @override
   State<SelectedCharacter> createState() => _SelectedCharacterState();
 
-  /// Returns a list of assets to be loaded
+  /// Returns a list of assets to be loaded.
   static List<Future> loadAssets() {
     Flame.images.prefix = '';
 

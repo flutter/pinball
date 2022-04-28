@@ -4,13 +4,12 @@ import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_theme/pinball_theme.dart' hide Assets;
 
 /// {@template character_icon}
-/// Widget for displaying character icon.
+/// Widget to display character icon.
 ///
 /// On tap changes selected character in [CharacterThemeCubit].
 /// {@endtemplate}
 class CharacterIcon extends StatelessWidget {
   /// {@macro character_icon}
-
   const CharacterIcon(
     CharacterTheme characterTheme, {
     Key? key,
