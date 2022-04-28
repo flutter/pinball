@@ -1,7 +1,6 @@
-// ignore_for_file: public_member_api_docs
-
 import 'dart:math' as math;
 import 'package:flame/components.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball/game/components/multipliers/behaviors/behaviors.dart';
 import 'package:pinball_components/pinball_components.dart';
 
@@ -40,4 +39,10 @@ class Multipliers extends Component {
             MultipliersBehavior(),
           ],
         );
+
+  /// Creates a [Multipliers] without any children.
+  ///
+  /// This can be used for testing [Multipliers]'s behaviors in isolation.
+  @visibleForTesting
+  Multipliers.test();
 }
