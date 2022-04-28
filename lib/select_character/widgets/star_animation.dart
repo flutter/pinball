@@ -61,14 +61,14 @@ class StarAnimation extends StatelessWidget {
   final double _stepTime;
 
   /// Returns a list of assets to be loaded.
-  static Future<void> loadAssets() {
+  static List<Future> loadAssets() {
     Flame.images.prefix = '';
 
-    return Flame.images.loadAll([
-      Assets.images.selectCharacter.starA.keyName,
-      Assets.images.selectCharacter.starB.keyName,
-      Assets.images.selectCharacter.starC.keyName,
-    ]);
+    return [
+      Flame.images.load(Assets.images.selectCharacter.starA.keyName),
+      Flame.images.load(Assets.images.selectCharacter.starB.keyName),
+      Flame.images.load(Assets.images.selectCharacter.starC.keyName),
+    ];
   }
 
   @override

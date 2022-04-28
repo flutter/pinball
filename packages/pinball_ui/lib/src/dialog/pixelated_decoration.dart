@@ -20,36 +20,34 @@ class PixelatedDecoration extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const radius = BorderRadius.all(Radius.circular(12));
-    const borderWidth = 5.0;
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          fit: BoxFit.fill,
-          image: AssetImage(Assets.images.dialog.background.keyName),
-        ),
-        borderRadius: radius,
-        border: Border.all(
-          color: Colors.white,
-          width: borderWidth,
-        ),
-      ),
+    return Material(
+      borderRadius: radius,
       child: Padding(
-        padding: const EdgeInsets.all(borderWidth),
-        child: ClipRRect(
-          borderRadius: radius,
-          child: Column(
-            children: [
-              Expanded(
-                child: Center(
-                  child: _header,
+        padding: const EdgeInsets.all(5),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: radius,
+            image: DecorationImage(
+              fit: BoxFit.fill,
+              image: AssetImage(Assets.images.dialog.background.keyName),
+            ),
+          ),
+          child: ClipRRect(
+            borderRadius: radius,
+            child: Column(
+              children: [
+                Expanded(
+                  child: Center(
+                    child: _header,
+                  ),
                 ),
-              ),
-              Expanded(
-                flex: 4,
-                child: _body,
-              ),
-            ],
+                Expanded(
+                  flex: 4,
+                  child: _body,
+                ),
+              ],
+            ),
           ),
         ),
       ),

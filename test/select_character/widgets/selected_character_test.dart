@@ -11,7 +11,6 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-
   late CharacterThemeCubit characterThemeCubit;
 
   setUpAll(() async {

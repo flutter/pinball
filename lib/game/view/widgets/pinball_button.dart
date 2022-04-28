@@ -21,17 +21,17 @@ class PinballButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: _onPressed,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(
-              Assets.images.selectCharacter.pinballButton.keyName,
-            ),
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(
+            Assets.images.selectCharacter.pinballButton.keyName,
           ),
         ),
-        child: Center(
+      ),
+      child: Center(
+        child: InkWell(
+          onTap: _onPressed,
           child: Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 32,
