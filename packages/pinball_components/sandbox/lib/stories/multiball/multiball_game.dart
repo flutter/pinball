@@ -8,14 +8,14 @@ class MultiballGame extends BallGame with KeyboardEvents {
   MultiballGame()
       : super(
           imagesFileNames: [
-            Assets.images.multiball.a.active.keyName,
-            Assets.images.multiball.a.inactive.keyName,
-            Assets.images.multiball.b.active.keyName,
-            Assets.images.multiball.b.inactive.keyName,
-            Assets.images.multiball.c.active.keyName,
-            Assets.images.multiball.c.inactive.keyName,
-            Assets.images.multiball.d.active.keyName,
-            Assets.images.multiball.d.inactive.keyName,
+            Assets.images.multiball.a.lit.keyName,
+            Assets.images.multiball.a.dimmed.keyName,
+            Assets.images.multiball.b.lit.keyName,
+            Assets.images.multiball.b.dimmed.keyName,
+            Assets.images.multiball.c.lit.keyName,
+            Assets.images.multiball.c.dimmed.keyName,
+            Assets.images.multiball.d.lit.keyName,
+            Assets.images.multiball.d.dimmed.keyName,
           ],
         );
 
@@ -23,13 +23,15 @@ class MultiballGame extends BallGame with KeyboardEvents {
     Shows how the Multiball are rendered.
       
     - Tap anywhere on the screen to spawn a ball into the game.
-    - Press space bar for animate state multiballs.
+    - Press space bar to animate multiballs.
 ''';
 
-  late final Multiball _multiballA;
-  late final Multiball _multiballB;
-  late final Multiball _multiballC;
-  late final Multiball _multiballD;
+  final List<Multiball> multiballs = [
+    Multiball.a(),
+    Multiball.b(),
+    Multiball.c(),
+    Multiball.d(),
+  ];
 
   @override
   Future<void> onLoad() async {
@@ -37,12 +39,7 @@ class MultiballGame extends BallGame with KeyboardEvents {
 
     camera.followVector2(Vector2.zero());
 
-    await addAll([
-      _multiballA = Multiball.a(),
-      _multiballB = Multiball.b(),
-      _multiballC = Multiball.c(),
-      _multiballD = Multiball.d(),
-    ]);
+    await addAll(multiballs);
     await traceAllBodies();
   }
 
@@ -53,10 +50,9 @@ class MultiballGame extends BallGame with KeyboardEvents {
   ) {
     if (event is RawKeyDownEvent &&
         event.logicalKey == LogicalKeyboardKey.space) {
-      _multiballA.animate();
-      _multiballB.animate();
-      _multiballC.animate();
-      _multiballD.animate();
+      for (final multiball in multiballs) {
+        multiball.bloc.animate();
+      }
 
       return KeyEventResult.handled;
     }

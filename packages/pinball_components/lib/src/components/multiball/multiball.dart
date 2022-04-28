@@ -102,18 +102,6 @@ class Multiball extends Component {
     bloc.close();
     super.onRemove();
   }
-
-  /// Animates the [Multiball].
-  Future<void> animate() async {
-    final spriteGroupComponent = firstChild<MultiballSpriteGroupComponent>();
-
-    for (var i = 0; i < 5; i++) {
-      spriteGroupComponent?.current = MultiballState.lit;
-      await Future<void>.delayed(const Duration(milliseconds: 100));
-      spriteGroupComponent?.current = MultiballState.dimmed;
-      await Future<void>.delayed(const Duration(milliseconds: 100));
-    }
-  }
 }
 
 /// {@template multiball_sprite_group_component}

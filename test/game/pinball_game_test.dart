@@ -56,14 +56,14 @@ void main() {
     Assets.images.slingshot.lower.keyName,
     Assets.images.dino.dinoLandTop.keyName,
     Assets.images.dino.dinoLandBottom.keyName,
-    Assets.images.multiball.a.active.keyName,
-    Assets.images.multiball.a.inactive.keyName,
-    Assets.images.multiball.b.active.keyName,
-    Assets.images.multiball.b.inactive.keyName,
-    Assets.images.multiball.c.active.keyName,
-    Assets.images.multiball.c.inactive.keyName,
-    Assets.images.multiball.d.active.keyName,
-    Assets.images.multiball.d.inactive.keyName,
+    Assets.images.multiball.a.lit.keyName,
+    Assets.images.multiball.a.dimmed.keyName,
+    Assets.images.multiball.b.lit.keyName,
+    Assets.images.multiball.b.dimmed.keyName,
+    Assets.images.multiball.c.lit.keyName,
+    Assets.images.multiball.c.dimmed.keyName,
+    Assets.images.multiball.d.lit.keyName,
+    Assets.images.multiball.d.dimmed.keyName,
   ];
   final flameTester = FlameTester(
     () => PinballTestGame(assets: assets),
@@ -108,12 +108,12 @@ void main() {
       });
 
       flameTester.test(
-        'has only one Multiball',
+        'has only one Multiballs',
         (game) async {
           await game.ready();
 
           expect(
-            game.children.whereType<MultiballGroup>().length,
+            game.children.whereType<Multiballs>().length,
             equals(1),
           );
         },

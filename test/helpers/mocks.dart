@@ -88,4 +88,4 @@ class MockSparkyBumper extends Mock implements SparkyBumper {}
 
 class MockMultiball extends Mock implements Multiball {}
 
-class MockMultiballGroup extends Mock implements MultiballGroup {}
+class MockMultiballGroup extends Mock implements Multiballs {}
