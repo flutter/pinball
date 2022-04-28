@@ -72,7 +72,7 @@ void main() {
     Assets.images.spaceship.ramp.arrow.active4.keyName,
     Assets.images.spaceship.ramp.arrow.active5.keyName,
     Assets.images.spaceship.rail.main.keyName,
-    Assets.images.spaceship.rail.foreground.keyName,
+    Assets.images.spaceship.rail.exit.keyName,
     Assets.images.sparky.bumper.a.active.keyName,
     Assets.images.sparky.bumper.a.inactive.keyName,
     Assets.images.sparky.bumper.b.active.keyName,
