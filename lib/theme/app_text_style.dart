@@ -27,6 +27,20 @@ abstract class AppTextStyle {
     fontFamily: _primaryFontFamily,
   );
 
+  static const headline4 = TextStyle(
+    color: AppColors.white,
+    fontSize: 18,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+  );
+
+  static const headline5 = TextStyle(
+    color: AppColors.white,
+    fontSize: 16,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+  );
+
   static const subtitle1 = TextStyle(
     fontSize: 10,
     fontFamily: _primaryFontFamily,
