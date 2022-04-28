@@ -2,7 +2,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template bumping_behavior}
-/// Makes any [BodyComponent] that contacts with [parent] to bounce off.
+/// Makes any [BodyComponent] that contacts with [parent] bounce off.
 /// {@endtemplate}
 class BumpingBehavior extends ContactBehavior {
   /// {@macro bumping_behavior}
