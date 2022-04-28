@@ -55,7 +55,6 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
     );
     final joint = _FlipperJoint(jointDef);
     world.createJoint(joint);
-    unawaited(mounted.whenComplete(joint.unlock));
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -131,6 +130,15 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;
+  }
+
+  @override
+  void onMount() {
+    super.onMount();
+
+    gameRef.ready().whenComplete(
+          () => body.joints.whereType<_FlipperJoint>().first.unlock(),
+        );
   }
 }
 
@@ -215,11 +223,8 @@ class _FlipperJoint extends RevoluteJoint {
   /// The joint is locked when initialized in order to force the [Flipper]
   /// at its resting position.
   void lock() {
-    const angle = _halfSweepingAngle;
-    setLimits(
-      angle * side.direction,
-      angle * side.direction,
-    );
+    final angle = _halfSweepingAngle * side.direction;
+    setLimits(angle, angle);
   }
 
   /// Unlocks the [Flipper] from its resting position.
