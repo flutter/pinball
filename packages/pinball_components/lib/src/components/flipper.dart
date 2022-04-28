@@ -223,7 +223,7 @@ class _FlipperJoint extends RevoluteJoint {
   /// The joint is locked when initialized in order to force the [Flipper]
   /// at its resting position.
   void lock() {
-    final angle = -_halfSweepingAngle * side.direction;
+    final angle = _halfSweepingAngle * side.direction;
     setLimits(angle, angle);
   }
 
