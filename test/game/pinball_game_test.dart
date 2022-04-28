@@ -81,6 +81,18 @@ void main() {
       );
 
       flameTester.test(
+        'has only one BottomGroup',
+        (game) async {
+          await game.ready();
+
+          expect(
+            game.children.whereType<BottomGroup>().length,
+            equals(1),
+          );
+        },
+      );
+
+      flameTester.test(
         'has only one Plunger',
         (game) async {
           await game.ready();

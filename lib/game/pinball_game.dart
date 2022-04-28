@@ -45,7 +45,7 @@ class PinballGame extends Forge2DGame
     unawaited(add(CameraController(this)));
     unawaited(add(Backboard.waiting(position: Vector2(0, -88))));
     await add(Drain());
-    await addFromBlueprint(BottomGroup());
+    await add(BottomGroup());
     unawaited(addFromBlueprint(Boundaries()));
     unawaited(addFromBlueprint(LaunchRamp()));
 

@@ -4,7 +4,6 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -24,8 +23,10 @@ void main() {
     flameTester.test(
       'loads correctly',
       (game) async {
-        await game.addFromBlueprint(BottomGroup());
-        await game.ready();
+        final bottomGroup = BottomGroup();
+        await game.ensureAdd(bottomGroup);
+
+        expect(game.contains(bottomGroup), isTrue);
       },
     );
 
@@ -33,12 +34,13 @@ void main() {
       flameTester.test(
         'one left flipper',
         (game) async {
-          await game.addFromBlueprint(BottomGroup());
-          await game.ready();
+          final bottomGroup = BottomGroup();
+          await game.ensureAdd(bottomGroup);
 
-          final leftFlippers = game.descendants().whereType<Flipper>().where(
-                (flipper) => flipper.side.isLeft,
-              );
+          final leftFlippers =
+              bottomGroup.descendants().whereType<Flipper>().where(
+                    (flipper) => flipper.side.isLeft,
+                  );
           expect(leftFlippers.length, equals(1));
         },
       );
@@ -46,12 +48,13 @@ void main() {
       flameTester.test(
         'one right flipper',
         (game) async {
-          await game.addFromBlueprint(BottomGroup());
-          await game.ready();
+          final bottomGroup = BottomGroup();
+          await game.ensureAdd(bottomGroup);
 
-          final rightFlippers = game.descendants().whereType<Flipper>().where(
-                (flipper) => flipper.side.isRight,
-              );
+          final rightFlippers =
+              bottomGroup.descendants().whereType<Flipper>().where(
+                    (flipper) => flipper.side.isRight,
+                  );
           expect(rightFlippers.length, equals(1));
         },
       );
@@ -59,10 +62,11 @@ void main() {
       flameTester.test(
         'two Baseboards',
         (game) async {
-          await game.addFromBlueprint(BottomGroup());
-          await game.ready();
+          final bottomGroup = BottomGroup();
+          await game.ensureAdd(bottomGroup);
 
-          final basebottomGroups = game.descendants().whereType<Baseboard>();
+          final basebottomGroups =
+              bottomGroup.descendants().whereType<Baseboard>();
           expect(basebottomGroups.length, equals(2));
         },
       );
@@ -70,10 +74,10 @@ void main() {
       flameTester.test(
         'two Kickers',
         (game) async {
-          await game.addFromBlueprint(BottomGroup());
-          await game.ready();
+          final bottomGroup = BottomGroup();
+          await game.ensureAdd(bottomGroup);
 
-          final kickers = game.descendants().whereType<Kicker>();
+          final kickers = bottomGroup.descendants().whereType<Kicker>();
           expect(kickers.length, equals(2));
         },
       );
