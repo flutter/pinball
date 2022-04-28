@@ -7,6 +7,7 @@ import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/theme/theme.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 
+@visibleForTesting
 enum Control {
   left,
   right,
@@ -15,6 +16,37 @@ enum Control {
   d,
   s,
   space,
+}
+
+extension on Control {
+  bool get isArrow => isDown || isRight || isLeft;
+
+  bool get isDown => this == Control.down;
+
+  bool get isRight => this == Control.right;
+
+  bool get isLeft => this == Control.left;
+
+  bool get isSpace => this == Control.space;
+
+  String getCharacter(BuildContext context) {
+    switch (this) {
+      case Control.a:
+        return 'A';
+      case Control.d:
+        return 'D';
+      case Control.down:
+        return '>'; // Will be rotated
+      case Control.left:
+        return '<';
+      case Control.right:
+        return '>';
+      case Control.s:
+        return 'S';
+      case Control.space:
+        return context.l10n.space;
+    }
+  }
 }
 
 class HowToPlayDialog extends StatelessWidget {
@@ -51,21 +83,26 @@ class _MobileLaunchControls extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = AppTextStyle.headline3.copyWith(
-      color: AppColors.white,
-      fontWeight: FontWeight.bold,
-    );
     final l10n = context.l10n;
+    const textStyle = AppTextStyle.subtitle3;
     return Column(
       children: [
-        Text(l10n.tapAndHold, style: textStyle),
+        Text(
+          l10n.tapAndHold,
+          style: textStyle,
+        ),
         Text.rich(
           TextSpan(
             children: [
-              TextSpan(text: '${l10n.to} ', style: textStyle),
+              TextSpan(
+                text: '${l10n.to} ',
+                style: textStyle,
+              ),
               TextSpan(
                 text: l10n.launch,
-                style: textStyle.copyWith(color: AppColors.blue),
+                style: textStyle.copyWith(
+                  color: AppColors.blue,
+                ),
               ),
             ],
           ),
@@ -80,21 +117,26 @@ class _MobileFlipperControls extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = AppTextStyle.headline3.copyWith(
-      color: AppColors.white,
-      fontWeight: FontWeight.bold,
-    );
     final l10n = context.l10n;
+    const textStyle = AppTextStyle.subtitle3;
     return Column(
       children: [
-        Text(l10n.tapLeftRightScreen, style: textStyle),
+        Text(
+          l10n.tapLeftRightScreen,
+          style: textStyle,
+        ),
         Text.rich(
           TextSpan(
             children: [
-              TextSpan(text: '${l10n.to} ', style: textStyle),
+              TextSpan(
+                text: '${l10n.to} ',
+                style: textStyle,
+              ),
               TextSpan(
                 text: l10n.flip,
-                style: textStyle.copyWith(color: AppColors.orange),
+                style: textStyle.copyWith(
+                  color: AppColors.orange,
+                ),
               ),
             ],
           ),
@@ -127,16 +169,17 @@ class _HowToPlayHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final headerTextStyle = AppTextStyle.headline3.copyWith(
-      color: AppColors.darkBlue,
-    );
+    const headerTextStyle = AppTextStyle.title;
+
     return FittedBox(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             l10n.howToPlay,
-            style: headerTextStyle.copyWith(fontWeight: FontWeight.bold),
+            style: headerTextStyle.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
           ),
           Text(
             l10n.tipsForFlips,
@@ -160,10 +203,7 @@ class _DesktopLaunchControls extends StatelessWidget {
       children: [
         Text(
           l10n.launchControls,
-          style: AppTextStyle.headline3.copyWith(
-            color: AppColors.white,
-            fontSize: 16,
-          ),
+          style: AppTextStyle.headline4,
         ),
         const SizedBox(height: 10),
         Wrap(
@@ -192,10 +232,7 @@ class _DesktopFlipperControls extends StatelessWidget {
       children: [
         Text(
           l10n.flipperControls,
-          style: AppTextStyle.headline3.copyWith(
-            color: AppColors.white,
-            fontSize: 16,
-          ),
+          style: AppTextStyle.subtitle2,
         ),
         const SizedBox(height: 10),
         Column(
@@ -228,17 +265,18 @@ class _DesktopFlipperControls extends StatelessWidget {
 class KeyButton extends StatelessWidget {
   const KeyButton({
     Key? key,
-    required this.control,
-  }) : super(key: key);
+    required Control control,
+  })  : _control = control,
+        super(key: key);
 
-  final Control control;
+  final Control _control;
 
   @override
   Widget build(BuildContext context) {
     final textStyle =
-        control.isArrow ? AppTextStyle.headline1 : AppTextStyle.headline3;
+        _control.isArrow ? AppTextStyle.headline1 : AppTextStyle.headline3;
     const height = 60.0;
-    final width = control.isSpace ? height * 2.83 : height;
+    final width = _control.isSpace ? height * 2.83 : height;
     return DecoratedBox(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -253,40 +291,14 @@ class KeyButton extends StatelessWidget {
         height: height,
         child: Center(
           child: RotatedBox(
-            quarterTurns: control.isDown ? 1 : 0,
+            quarterTurns: _control.isDown ? 1 : 0,
             child: Text(
-              control.getCharacter(context),
+              _control.getCharacter(context),
               style: textStyle.copyWith(color: AppColors.white),
             ),
           ),
         ),
       ),
     );
-  }
-}
-
-extension on Control {
-  bool get isArrow => isDown || isRight || isLeft;
-  bool get isDown => this == Control.down;
-  bool get isRight => this == Control.right;
-  bool get isLeft => this == Control.left;
-  bool get isSpace => this == Control.space;
-  String getCharacter(BuildContext context) {
-    switch (this) {
-      case Control.a:
-        return 'A';
-      case Control.d:
-        return 'D';
-      case Control.down:
-        return '>'; // Will be rotated
-      case Control.left:
-        return '<';
-      case Control.right:
-        return '>';
-      case Control.s:
-        return 'S';
-      case Control.space:
-        return context.l10n.space;
-    }
   }
 }
