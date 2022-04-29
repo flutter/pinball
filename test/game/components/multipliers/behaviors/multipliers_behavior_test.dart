@@ -46,49 +46,86 @@ void main() {
       assets: assets,
     );
 
-    flameBlocTester.testGameWidget(
-      "calls 'next' once per each multiplier when GameBloc emit state",
-      setUp: (game, tester) async {
-        final multiplierCubit = MockMultiplierCubit();
-        final behavior = MultipliersBehavior();
-        final parent = Multipliers.test();
-        final multipliers = [
-          Multiplier.test(
-            value: MultiplierValue.x2,
-            bloc: multiplierCubit,
-          ),
-        ];
-
-        whenListen(
-          multiplierCubit,
-          const Stream<MultiplierState>.empty(),
-          initialState: MultiplierState(
-            value: MultiplierValue.x2,
-            spriteState: MultiplierSpriteState.dimmed,
-          ),
+    group('listenWhen', () {
+      test('is true when the multiplier has changed', () {
+        final state = GameState(
+          score: 10,
+          multiplier: 2,
+          rounds: 0,
+          bonusHistory: const [],
         );
 
-        final streamController = StreamController<GameState>();
-        whenListen(
-          gameBloc,
-          streamController.stream,
-          initialState: GameState.initial(),
+        final previous = GameState.initial();
+        expect(
+          MultipliersBehavior().listenWhen(previous, state),
+          isTrue,
+        );
+      });
+
+      test('is false when the multiplier state is the same', () {
+        final state = GameState(
+          score: 10,
+          multiplier: 1,
+          rounds: 0,
+          bonusHistory: const [],
         );
 
-        await parent.addAll(multipliers);
-        await game.ensureAdd(parent);
-        await parent.ensureAdd(behavior);
+        final previous = GameState.initial();
+        expect(
+          MultipliersBehavior().listenWhen(previous, state),
+          isFalse,
+        );
+      });
 
-        streamController.add(GameState.initial().copyWith(multiplier: 2));
+      flameBlocTester.testGameWidget(
+        "calls 'next' once per each multiplier when GameBloc emit state",
+        setUp: (game, tester) async {
+          final behavior = MultipliersBehavior();
+          final parent = Multipliers.test();
+          final multiplierX2Cubit = MockMultiplierCubit();
+          final multiplierX3Cubit = MockMultiplierCubit();
+          final multipliers = [
+            Multiplier.test(
+              value: MultiplierValue.x2,
+              bloc: multiplierX2Cubit,
+            ),
+            Multiplier.test(
+              value: MultiplierValue.x3,
+              bloc: multiplierX3Cubit,
+            ),
+          ];
 
-        await tester.pump();
+          whenListen(
+            multiplierX2Cubit,
+            const Stream<MultiplierState>.empty(),
+            initialState: MultiplierState.initial(MultiplierValue.x2),
+          );
+          when(() => multiplierX2Cubit.next(any())).thenAnswer((_) async {});
 
-        for (final multiplier in multipliers) {
-          verify(
-            () => multiplier.bloc.next(any()),
-          ).called(1);
-        }
-      },
-    );
+          whenListen(
+            multiplierX3Cubit,
+            const Stream<MultiplierState>.empty(),
+            initialState: MultiplierState.initial(MultiplierValue.x2),
+          );
+          when(() => multiplierX3Cubit.next(any())).thenAnswer((_) async {});
+
+          await parent.addAll(multipliers);
+          await game.ensureAdd(parent);
+          await parent.ensureAdd(behavior);
+
+          await tester.pump();
+
+          behavior.onNewState(
+            GameState.initial().copyWith(multiplier: 2),
+          );
+
+          for (final multiplier in multipliers) {
+            verify(
+              () => multiplier.bloc.next(any()),
+            ).called(1);
+          }
+        },
+      );
+    });
   });
 }
