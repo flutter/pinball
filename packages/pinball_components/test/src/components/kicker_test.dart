@@ -45,19 +45,15 @@ void main() {
       },
     );
 
-    flameTester.test(
-      'loads children correctly',
-      (game) async {
-        final component = Component();
-        final kicker = Kicker(
-          side: BoardSide.left,
-          children: [component],
-        );
-        await game.ensureAdd(kicker);
-
-        expect(kicker.children.contains(component), isTrue);
-      },
-    );
+    flameTester.test('new children', (game) async {
+      final component = Component();
+      final kicker = Kicker(
+        side: BoardSide.left,
+        children: [component],
+      );
+      await game.ensureAdd(kicker);
+      expect(kicker.children, contains(component));
+    });
 
     flameTester.test(
       'body is static',

@@ -81,19 +81,15 @@ void main() {
       },
     );
 
-    flameTester.test(
-      'loads children correctly',
-      (game) async {
-        final component = Component();
-        final googleLetter = GoogleLetter(
-          1,
-          children: [component],
-        );
-        await game.ensureAdd(googleLetter);
-
-        expect(googleLetter.children.contains(component), isTrue);
-      },
-    );
+    flameTester.test('new children', (game) async {
+      final component = Component();
+      final googleLetter = GoogleLetter(
+        1,
+        children: [component],
+      );
+      await game.ensureAdd(googleLetter);
+      expect(googleLetter.children, contains(component));
+    });
 
     test('throws error when index out of range', () {
       expect(() => GoogleLetter(-1), throwsA(isA<RangeError>()));
