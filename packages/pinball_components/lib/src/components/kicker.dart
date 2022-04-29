@@ -90,8 +90,7 @@ class Kicker extends BodyComponent with InitialPosition {
 
     final bouncyFixtureDef = FixtureDef(
       bouncyEdge,
-      // TODO(alestiago): Play with restitution value once game is bundled.
-      restitution: 10,
+      userData: 'bouncy_fixture',
     );
     fixturesDefs.add(bouncyFixtureDef);
 

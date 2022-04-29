@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/src/components/bumping_behavior.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template slingshots}
@@ -39,7 +40,10 @@ class Slingshot extends BodyComponent with InitialPosition {
         _angle = angle,
         super(
           priority: RenderPriority.slingshot,
-          children: [_SlinghsotSpriteComponent(spritePath, angle: angle)],
+          children: [
+            _SlinghsotSpriteComponent(spritePath, angle: angle),
+            BumpingBehavior(strength: 10),
+          ],
           renderBody: false,
         );
 

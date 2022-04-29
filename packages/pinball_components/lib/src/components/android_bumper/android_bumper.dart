@@ -5,6 +5,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_components/src/components/android_bumper/behaviors/behaviors.dart';
+import 'package:pinball_components/src/components/bumping_behavior.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 export 'cubit/android_bumper_cubit.dart';
@@ -47,7 +48,10 @@ class AndroidBumper extends BodyComponent with InitialPosition {
           litAssetPath: Assets.images.androidBumper.a.lit.keyName,
           dimmedAssetPath: Assets.images.androidBumper.a.dimmed.keyName,
           bloc: AndroidBumperCubit(),
-          children: children,
+          children: [
+            ...?children,
+            BumpingBehavior(strength: 20),
+          ],
         );
 
   /// {@macro android_bumper}
@@ -59,7 +63,10 @@ class AndroidBumper extends BodyComponent with InitialPosition {
           litAssetPath: Assets.images.androidBumper.b.lit.keyName,
           dimmedAssetPath: Assets.images.androidBumper.b.dimmed.keyName,
           bloc: AndroidBumperCubit(),
-          children: children,
+          children: [
+            ...?children,
+            BumpingBehavior(strength: 20),
+          ],
         );
 
   /// Creates an [AndroidBumper] without any children.
@@ -95,15 +102,11 @@ class AndroidBumper extends BodyComponent with InitialPosition {
       majorRadius: _majorRadius,
       minorRadius: _minorRadius,
     )..rotate(1.29);
-    final fixtureDef = FixtureDef(
-      shape,
-      restitution: 4,
-    );
     final bodyDef = BodyDef(
       position: initialPosition,
     );
 
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
+    return world.createBody(bodyDef)..createFixtureFromShape(shape);
   }
 }
 

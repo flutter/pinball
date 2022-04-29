@@ -35,7 +35,7 @@ class FlutterForest extends Component {
               children: [
                 ScoringBehavior(points: 20),
               ],
-            )..initialPosition = Vector2(23.3, -46.75),
+            )..initialPosition = Vector2(22.3, -46.75),
             DashAnimatronic()..position = Vector2(20, -66),
             FlutterForestBonusBehavior(),
           ],

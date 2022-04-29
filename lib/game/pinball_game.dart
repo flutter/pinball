@@ -24,7 +24,7 @@ class PinballGame extends Forge2DGame
   PinballGame({
     required this.characterTheme,
     required this.audio,
-  }) {
+  }) : super(gravity: Vector2(0, 35)) {
     images.prefix = '';
     controller = _GameBallsController(this);
   }

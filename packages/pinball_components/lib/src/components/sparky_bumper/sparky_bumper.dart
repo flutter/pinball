@@ -4,6 +4,7 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/src/components/bumping_behavior.dart';
 import 'package:pinball_components/src/components/sparky_bumper/behaviors/behaviors.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
@@ -50,7 +51,10 @@ class SparkyBumper extends BodyComponent with InitialPosition {
           offAssetPath: Assets.images.sparky.bumper.a.inactive.keyName,
           spritePosition: Vector2(0, -0.25),
           bloc: SparkyBumperCubit(),
-          children: children,
+          children: [
+            ...?children,
+            BumpingBehavior(strength: 20),
+          ],
         );
 
   /// {@macro sparky_bumper}
@@ -63,7 +67,10 @@ class SparkyBumper extends BodyComponent with InitialPosition {
           offAssetPath: Assets.images.sparky.bumper.b.inactive.keyName,
           spritePosition: Vector2(0, -0.35),
           bloc: SparkyBumperCubit(),
-          children: children,
+          children: [
+            ...?children,
+            BumpingBehavior(strength: 20),
+          ],
         );
 
   /// {@macro sparky_bumper}
@@ -76,7 +83,10 @@ class SparkyBumper extends BodyComponent with InitialPosition {
           offAssetPath: Assets.images.sparky.bumper.c.inactive.keyName,
           spritePosition: Vector2(0, -0.4),
           bloc: SparkyBumperCubit(),
-          children: children,
+          children: [
+            ...?children,
+            BumpingBehavior(strength: 20),
+          ],
         );
 
   /// Creates an [SparkyBumper] without any children.
@@ -111,15 +121,11 @@ class SparkyBumper extends BodyComponent with InitialPosition {
       majorRadius: _majorRadius,
       minorRadius: _minorRadius,
     )..rotate(math.pi / 2.1);
-    final fixtureDef = FixtureDef(
-      shape,
-      restitution: 4,
+    final bodyDef = BodyDef(
+      position: initialPosition,
     );
-    final bodyDef = BodyDef()
-      ..position = initialPosition
-      ..userData = this;
 
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
+    return world.createBody(bodyDef)..createFixtureFromShape(shape);
   }
 }
 
