@@ -27,7 +27,7 @@ void main() {
     Assets.images.multiplier.x6.dimmed.keyName,
   ];
 
-  group('MultipliersBehaviors', () {
+  group('MultipliersBehavior', () {
     late GameBloc gameBloc;
 
     setUp(() {
