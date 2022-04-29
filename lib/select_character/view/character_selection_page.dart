@@ -46,13 +46,12 @@ class CharacterSelectionView extends StatelessWidget {
             const SizedBox(height: 20),
             TextButton(
               onPressed: () {
+                Navigator.of(context).pop();
                 // TODO(arturplaczek): remove after merge StarBlocListener
                 final height = MediaQuery.of(context).size.height * 0.5;
-
-                Navigator.of(context).pop();
                 showDialog<void>(
                   context: context,
-                  builder: (context) => Center(
+                  builder: (_) => Center(
                     child: SizedBox(
                       height: height,
                       width: height * 1.4,
