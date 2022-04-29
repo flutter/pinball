@@ -28,6 +28,59 @@ void main() {
     ];
     final flameTester = FlameTester(() => TestGame(assets));
 
+    flameTester.test('"x2" loads correctly', (game) async {
+      final multiplier = Multiplier.x2(
+        position: Vector2.zero(),
+        rotation: 0,
+      );
+      await game.ensureAdd(multiplier);
+      expect(game.contains(multiplier), isTrue);
+    });
+    flameTester.test('"x2" loads correctly', (game) async {
+      final multiplier = Multiplier.x2(
+        position: Vector2.zero(),
+        rotation: 0,
+      );
+      await game.ensureAdd(multiplier);
+      expect(game.contains(multiplier), isTrue);
+    });
+
+    flameTester.test('"x3" loads correctly', (game) async {
+      final multiplier = Multiplier.x3(
+        position: Vector2.zero(),
+        rotation: 0,
+      );
+      await game.ensureAdd(multiplier);
+      expect(game.contains(multiplier), isTrue);
+    });
+
+    flameTester.test('"x4" loads correctly', (game) async {
+      final multiplier = Multiplier.x4(
+        position: Vector2.zero(),
+        rotation: 0,
+      );
+      await game.ensureAdd(multiplier);
+      expect(game.contains(multiplier), isTrue);
+    });
+
+    flameTester.test('"x5" loads correctly', (game) async {
+      final multiplier = Multiplier.x5(
+        position: Vector2.zero(),
+        rotation: 0,
+      );
+      await game.ensureAdd(multiplier);
+      expect(game.contains(multiplier), isTrue);
+    });
+
+    flameTester.test('"x6" loads correctly', (game) async {
+      final multiplier = Multiplier.x6(
+        position: Vector2.zero(),
+        rotation: 0,
+      );
+      await game.ensureAdd(multiplier);
+      expect(game.contains(multiplier), isTrue);
+    });
+
     group('renders correctly', () {
       group('x2', () {
         const multiplierValue = MultiplierValue.x2;

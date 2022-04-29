@@ -12,27 +12,23 @@ class Multipliers extends Component {
   Multipliers()
       : super(
           children: [
-            Multiplier(
-              value: MultiplierValue.x2,
+            Multiplier.x3(
               position: Vector2(-19.5, -2),
               rotation: -15 * math.pi / 180,
             ),
-            Multiplier(
-              value: MultiplierValue.x3,
+            Multiplier.x3(
               position: Vector2(13, -9.4),
               rotation: 15 * math.pi / 180,
             ),
-            Multiplier(
-              value: MultiplierValue.x4,
+            Multiplier.x4(
               position: Vector2(0, -21.2),
+              rotation: 0,
             ),
-            Multiplier(
-              value: MultiplierValue.x5,
+            Multiplier.x5(
               position: Vector2(-8.5, -28),
               rotation: -3 * math.pi / 180,
             ),
-            Multiplier(
-              value: MultiplierValue.x6,
+            Multiplier.x6(
               position: Vector2(10, -30.7),
               rotation: 8 * math.pi / 180,
             ),

@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs
-
+import 'dart:math' as math;
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/gen/assets.gen.dart';
@@ -13,15 +13,70 @@ export 'cubit/multiplier_cubit.dart';
 /// {@endtemplate}
 class Multiplier extends Component {
   /// {@macro multiplier}
-  Multiplier({
+  Multiplier._({
     required MultiplierValue value,
     required Vector2 position,
-    double rotation = 0,
+    required double rotation,
+    required this.bloc,
   })  : _value = value,
         _position = position,
         _rotation = rotation,
-        bloc = MultiplierCubit(value),
         super();
+
+  /// {@macro multiplier}
+  Multiplier.x2({
+    required Vector2 position,
+    required double rotation,
+  }) : this._(
+          value: MultiplierValue.x2,
+          position: position,
+          rotation: rotation,
+          bloc: MultiplierCubit(MultiplierValue.x2),
+        );
+
+  /// {@macro multiplier}
+  Multiplier.x3({
+    required Vector2 position,
+    required double rotation,
+  }) : this._(
+          value: MultiplierValue.x3,
+          position: position,
+          rotation: rotation,
+          bloc: MultiplierCubit(MultiplierValue.x3),
+        );
+
+  /// {@macro multiplier}
+  Multiplier.x4({
+    required Vector2 position,
+    required double rotation,
+  }) : this._(
+          value: MultiplierValue.x4,
+          position: position,
+          rotation: rotation,
+          bloc: MultiplierCubit(MultiplierValue.x4),
+        );
+
+  /// {@macro multiplier}
+  Multiplier.x5({
+    required Vector2 position,
+    required double rotation,
+  }) : this._(
+          value: MultiplierValue.x5,
+          position: position,
+          rotation: rotation,
+          bloc: MultiplierCubit(MultiplierValue.x5),
+        );
+
+  /// {@macro multiplier}
+  Multiplier.x6({
+    required Vector2 position,
+    required double rotation,
+  }) : this._(
+          value: MultiplierValue.x6,
+          position: position,
+          rotation: rotation,
+          bloc: MultiplierCubit(MultiplierValue.x6),
+        );
 
   /// Creates a [Multiplier] without any children.
   ///

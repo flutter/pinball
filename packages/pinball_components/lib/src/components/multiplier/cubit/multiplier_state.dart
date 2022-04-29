@@ -15,6 +15,12 @@ class MultiplierState extends Equatable {
     required this.spriteState,
   });
 
+  const MultiplierState.initial(MultiplierValue multiplierValue)
+      : this(
+          value: multiplierValue,
+          spriteState: MultiplierSpriteState.dimmed,
+        );
+
   /// Current value for the [Multiplier]
   final MultiplierValue value;
 

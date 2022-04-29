@@ -8,12 +8,7 @@ part 'multiplier_state.dart';
 
 class MultiplierCubit extends Cubit<MultiplierState> {
   MultiplierCubit(MultiplierValue multiplierValue)
-      : super(
-          MultiplierState(
-            value: multiplierValue,
-            spriteState: MultiplierSpriteState.dimmed,
-          ),
-        );
+      : super(MultiplierState.initial(multiplierValue));
 
   /// Event added when the game current multiplier changes.
   void next(int multiplier) {
