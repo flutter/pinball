@@ -91,7 +91,9 @@ class _SelectedCharacterState extends State<SelectedCharacter>
           children: [
             Text(
               currentCharacter.name,
-              style: AppTextStyle.headline3,
+              style: AppTextStyle.headline2.copyWith(
+                color: AppColors.white,
+              ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
