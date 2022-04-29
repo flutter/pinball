@@ -2,7 +2,6 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
-/// {@template contact_behavior}
 /// Appends a new [ContactCallbacks] to the parent.
 ///
 /// This is a convenience class for adding a [ContactCallbacks] to the parent.
@@ -13,11 +12,8 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// parent's userData accordingly.
 // TODO(alestiago): Make use of generics to infer the type of the contact.
 // https://github.com/VGVentures/pinball/pull/234#discussion_r859182267
-// {@endtemplate}
 class ContactBehavior<T extends BodyComponent> extends Component
     with ContactCallbacks, ParentIsA<T> {
-  /// {@macro contact_behavior}
-
   final _fixtureUserDatas = <Object>{};
 
   /// Specifies which fixtures should be considered for contact.
