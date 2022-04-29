@@ -71,7 +71,7 @@ class AndroidBumper extends BodyComponent with InitialPosition {
     Iterable<Component>? children,
   }) : this._(
           majorRadius: 3.52,
-          minorRadius: 2.97,
+          minorRadius: 3.1,
           litAssetPath: Assets.images.androidBumper.cow.lit.keyName,
           dimmedAssetPath: Assets.images.androidBumper.cow.dimmed.keyName,
           spritePosition: Vector2(0, -0.4),
