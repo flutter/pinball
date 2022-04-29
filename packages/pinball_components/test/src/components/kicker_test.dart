@@ -48,19 +48,14 @@ void main() {
     flameTester.test(
       'loads children correctly',
       (game) async {
+        final component = Component();
         final kicker = Kicker(
           side: BoardSide.left,
-          children: [
-            TimerComponent(period: 10),
-          ],
+          children: [component],
         );
-        await game.ready();
         await game.ensureAdd(kicker);
 
-        expect(
-          kicker.children.whereType<TimerComponent>().length,
-          equals(1),
-        );
+        expect(kicker.children.contains(component), isTrue);
       },
     );
 

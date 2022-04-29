@@ -84,19 +84,14 @@ void main() {
     flameTester.test(
       'loads children correctly',
       (game) async {
+        final component = Component();
         final googleLetter = GoogleLetter(
           1,
-          children: [
-            TimerComponent(period: 10),
-          ],
+          children: [component],
         );
-        await game.ready();
         await game.ensureAdd(googleLetter);
 
-        expect(
-          googleLetter.children.whereType<TimerComponent>().length,
-          equals(1),
-        );
+        expect(googleLetter.children.contains(component), isTrue);
       },
     );
 
