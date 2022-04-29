@@ -12,7 +12,7 @@ class MultiplierCubit extends Cubit<MultiplierState> {
 
   /// Event added when the game's current multiplier changes.
   void next(int multiplier) {
-    if (state.equalsTo(multiplier)) {
+    if (state.value.equalsTo(multiplier)) {
       if (state.spriteState == MultiplierSpriteState.dimmed) {
         emit(state.copyWith(spriteState: MultiplierSpriteState.lit));
       }
@@ -20,23 +20,6 @@ class MultiplierCubit extends Cubit<MultiplierState> {
       if (state.spriteState == MultiplierSpriteState.lit) {
         emit(state.copyWith(spriteState: MultiplierSpriteState.dimmed));
       }
-    }
-  }
-}
-
-extension on MultiplierState {
-  bool equalsTo(int value) {
-    switch (this.value) {
-      case MultiplierValue.x2:
-        return value == 2;
-      case MultiplierValue.x3:
-        return value == 3;
-      case MultiplierValue.x4:
-        return value == 4;
-      case MultiplierValue.x5:
-        return value == 5;
-      case MultiplierValue.x6:
-        return value == 6;
     }
   }
 }

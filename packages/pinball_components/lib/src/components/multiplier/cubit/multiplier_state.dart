@@ -37,3 +37,20 @@ class MultiplierState extends Equatable {
   @override
   List<Object> get props => [value, spriteState];
 }
+
+extension MultiplierValueX on MultiplierValue {
+  bool equalsTo(int value) {
+    switch (this) {
+      case MultiplierValue.x2:
+        return value == 2;
+      case MultiplierValue.x3:
+        return value == 3;
+      case MultiplierValue.x4:
+        return value == 4;
+      case MultiplierValue.x5:
+        return value == 5;
+      case MultiplierValue.x6:
+        return value == 6;
+    }
+  }
+}
