@@ -1,5 +1,5 @@
 name: platform_helper
-description: A Very Good Project created by Very Good CLI.
+description: Platform helper for Pinball application.
 version: 1.0.0+1
 publish_to: none
 
