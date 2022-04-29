@@ -35,7 +35,6 @@ class MultiballBlinkingBehavior extends Component with ParentIsA<Multiball> {
           const Duration(milliseconds: 100),
         );
       }
-    } else {
       _stop();
     }
   }

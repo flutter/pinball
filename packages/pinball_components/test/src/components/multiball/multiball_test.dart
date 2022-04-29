@@ -1,10 +1,12 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/src/components/multiball/behaviors/behaviors.dart';
 
 import '../../../helpers/helpers.dart';
 
@@ -64,5 +66,25 @@ void main() {
         verify(bloc.close).called(1);
       },
     );
+
+    group('adds', () {
+      flameTester.test('new children', (game) async {
+        final component = Component();
+        final multiball = Multiball.a(
+          children: [component],
+        );
+        await game.ensureAdd(multiball);
+        expect(multiball.children, contains(component));
+      });
+
+      flameTester.test('an MultiballBlinkingBehavior', (game) async {
+        final multiball = Multiball.a();
+        await game.ensureAdd(multiball);
+        expect(
+          multiball.children.whereType<MultiballBlinkingBehavior>().single,
+          isNotNull,
+        );
+      });
+    });
   });
 }
