@@ -81,7 +81,7 @@ class PinballGame extends Forge2DGame
 
       // NOTE(wolfen): As long as Flame does not have https://github.com/flame-engine/flame/issues/1586 we need to check it at the highest level manually.
       if (bounds.contains(info.eventPosition.game.toOffset())) {
-        children.whereType<Plunger>().first.pull();
+        children.whereType<Plunger>().first.pullFor(2);
       } else {
         final leftSide = info.eventPosition.widget.x < canvasSize.x / 2;
         focusedBoardSide = leftSide ? BoardSide.left : BoardSide.right;
@@ -97,21 +97,12 @@ class PinballGame extends Forge2DGame
 
   @override
   void onTapUp(TapUpInfo info) {
-    final rocket = descendants().whereType<RocketSpriteComponent>().first;
-    final bounds = rocket.topLeftPosition & rocket.size;
-
-    if (bounds.contains(info.eventPosition.game.toOffset())) {
-      children.whereType<Plunger>().first.release();
-    } else {
-      _moveFlippersDown();
-    }
+    _moveFlippersDown();
     super.onTapUp(info);
   }
 
   @override
   void onTapCancel() {
-    children.whereType<Plunger>().first.release();
-
     _moveFlippersDown();
     super.onTapCancel();
   }
