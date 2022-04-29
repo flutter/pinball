@@ -7,17 +7,60 @@ void main() {
     'MultiballCubit',
     () {
       blocTest<MultiballCubit, MultiballState>(
-        'animate emits lit',
+        'onAnimate emits animationState [animate]',
         build: MultiballCubit.new,
-        act: (bloc) => bloc.animate(),
-        expect: () => [MultiballState.lit],
+        act: (bloc) => bloc.onAnimate(),
+        expect: () => [
+          isA<MultiballState>()
+            ..having(
+              (state) => state.animationState,
+              'animationState',
+              MultiballAnimationState.animated,
+            )
+        ],
       );
 
       blocTest<MultiballCubit, MultiballState>(
-        'onBlinked emits dimmed',
+        'onStop emits animationState [stopped]',
         build: MultiballCubit.new,
-        act: (bloc) => bloc.onBlinked(),
-        expect: () => [MultiballState.dimmed],
+        act: (bloc) => bloc.onStop(),
+        expect: () => [
+          isA<MultiballState>()
+            ..having(
+              (state) => state.animationState,
+              'animationState',
+              MultiballAnimationState.stopped,
+            )
+        ],
+      );
+
+      blocTest<MultiballCubit, MultiballState>(
+        'onBlink emits lightState [lit, dimmed, lit]',
+        build: MultiballCubit.new,
+        act: (bloc) => bloc
+          ..onBlink()
+          ..onBlink()
+          ..onBlink(),
+        expect: () => [
+          isA<MultiballState>()
+            ..having(
+              (state) => state.lightState,
+              'lightState',
+              MultiballLightState.lit,
+            ),
+          isA<MultiballState>()
+            ..having(
+              (state) => state.lightState,
+              'lightState',
+              MultiballLightState.dimmed,
+            ),
+          isA<MultiballState>()
+            ..having(
+              (state) => state.lightState,
+              'lightState',
+              MultiballLightState.lit,
+            )
+        ],
       );
     },
   );
