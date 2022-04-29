@@ -4,7 +4,7 @@ import 'package:sandbox/stories/multipliers/multipliers_game.dart';
 
 void addMultipliersStories(Dashbook dashbook) {
   dashbook.storiesOf('Multipliers').addGame(
-        title: 'Assets',
+        title: 'Multipliers',
         description: MultipliersGame.description,
         gameBuilder: (_) => MultipliersGame(),
       );
