@@ -21,8 +21,9 @@ void main() {
         await game.images.loadAll(assets);
         await game.ensureAdd(RocketSpriteComponent());
 
-        game.camera.followVector2(Vector2.zero());
-        game.camera.zoom = 8;
+        game.camera
+          ..followVector2(Vector2.zero())
+          ..zoom = 8;
 
         await tester.pump();
       },
