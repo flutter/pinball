@@ -55,7 +55,7 @@ abstract class RenderPriority {
 
   static const int plunger = _above + launchRamp;
 
-  static const int rocket = _above + bottomBoundary;
+  static const int rocket = _below + bottomBoundary;
 
   // Dino Land
 
