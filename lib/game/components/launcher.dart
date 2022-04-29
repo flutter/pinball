@@ -12,9 +12,9 @@ class Launcher extends Blueprint {
   Launcher()
       : super(
           components: [
-            ControlledPlunger(compressionDistance: 14)
-              ..initialPosition = Vector2(40.7, 38),
-            RocketSpriteComponent()..position = Vector2(43, 62),
+            ControlledPlunger(compressionDistance: 10.5)
+              ..initialPosition = Vector2(41.1, 43),
+            RocketSpriteComponent()..position = Vector2(43, 62.3),
           ],
           blueprints: [LaunchRamp()],
         );
