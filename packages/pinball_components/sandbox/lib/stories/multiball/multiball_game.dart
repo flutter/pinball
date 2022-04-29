@@ -8,14 +8,8 @@ class MultiballGame extends BallGame with KeyboardEvents {
   MultiballGame()
       : super(
           imagesFileNames: [
-            Assets.images.multiball.a.lit.keyName,
-            Assets.images.multiball.a.dimmed.keyName,
-            Assets.images.multiball.b.lit.keyName,
-            Assets.images.multiball.b.dimmed.keyName,
-            Assets.images.multiball.c.lit.keyName,
-            Assets.images.multiball.c.dimmed.keyName,
-            Assets.images.multiball.d.lit.keyName,
-            Assets.images.multiball.d.dimmed.keyName,
+            Assets.images.multiball.lit.keyName,
+            Assets.images.multiball.dimmed.keyName,
           ],
         );
 
@@ -51,7 +45,7 @@ class MultiballGame extends BallGame with KeyboardEvents {
     if (event is RawKeyDownEvent &&
         event.logicalKey == LogicalKeyboardKey.space) {
       for (final multiball in multiballs) {
-        multiball.bloc.animate();
+        multiball.bloc.onLit();
       }
 
       return KeyEventResult.handled;

@@ -74,10 +74,7 @@ flutter:
     - assets/images/backboard/
     - assets/images/google_word/
     - assets/images/signpost/
-    - assets/images/multiball/a/
-    - assets/images/multiball/b/
-    - assets/images/multiball/c/
-    - assets/images/multiball/d/
+    - assets/images/multiball/
 
 flutter_gen:
   line_length: 80
