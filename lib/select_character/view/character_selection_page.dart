@@ -53,9 +53,6 @@ class CharacterSelectionView extends StatelessWidget {
                 final height = MediaQuery.of(context).size.height * 0.5;
 
                 Navigator.of(context).pop();
-                // TODO(arturplaczek): remove after merge StarBlocListener
-                final height = MediaQuery.of(context).size.height * 0.5;
-
                 showDialog<void>(
                   context: context,
                   builder: (context) {
