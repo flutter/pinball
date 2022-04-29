@@ -10,13 +10,30 @@ class MultiballsBehavior extends Component
   void onMount() {
     super.onMount();
 
-    gameRef.read<GameBloc>().stream.listen((state) {
-      final hasMultiball = state.bonusHistory.contains(GameBonus.dashNest);
+    int _previousMultiballBonus = 0;
 
-      if (hasMultiball) {
-        parent.children.whereType<Multiball>().forEach((multiball) {
-          multiball.bloc.onAnimate();
-        });
+    gameRef.read<GameBloc>().stream.listen((state) {
+      // TODO(ruimiguel): only when state.bonusHistory dashNest has changed
+      var multiballBonus = state.bonusHistory.fold<int>(
+        0,
+        (previousValue, bonus) {
+          if (bonus == GameBonus.dashNest) {
+            previousValue++;
+          }
+          return previousValue;
+        },
+      );
+
+      if (_previousMultiballBonus != multiballBonus) {
+        _previousMultiballBonus = multiballBonus;
+
+        final hasMultiball = state.bonusHistory.contains(GameBonus.dashNest);
+
+        if (hasMultiball) {
+          parent.children.whereType<Multiball>().forEach((multiball) {
+            multiball.bloc.onAnimate();
+          });
+        }
       }
     });
   }

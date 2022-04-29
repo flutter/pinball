@@ -6,50 +6,47 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// Makes a [Multiball] blink back to [MultiballLightState.lit] when
 /// [MultiballLightState.dimmed].
 /// {@endtemplate}
-class MultiballBlinkingBehavior extends TimerComponent
-    with ParentIsA<Multiball> {
+class MultiballBlinkingBehavior extends Component with ParentIsA<Multiball> {
   /// {@macro multiball_blinking_behavior}
-  MultiballBlinkingBehavior() : super(period: 0.5);
+  MultiballBlinkingBehavior() : super();
 
-  final _maxBlinks = 5;
-  int _blinkCounter = 0;
+  final _maxBlinks = 10;
+  bool _isAnimating = false;
 
   void _onNewState(MultiballState state) {
     if (state.animationState == MultiballAnimationState.animated) {
       _animate();
-      if (!timer.isRunning()) {
-        timer
-          ..reset()
-          ..start();
-      }
     } else {
-      timer.stop();
-      parent.bloc.onStop();
+      _stop();
     }
   }
 
-  void _animate() {
-    if (_blinkCounter <= _maxBlinks) {
-      _blinkCounter++;
-      print("onBlink");
-      parent.bloc.onBlink();
+  void _animate() async {
+    if (!_isAnimating) {
+      _isAnimating = true;
+      for (var i = 0; i < 5; i++) {
+        parent.bloc.onBlink();
+        await Future<void>.delayed(
+          const Duration(milliseconds: 100),
+        );
+        parent.bloc.onBlink();
+        await Future<void>.delayed(
+          const Duration(milliseconds: 100),
+        );
+      }
     } else {
-      print("onStop");
-      parent.bloc.onStop();
+      _stop();
     }
+  }
+
+  void _stop() {
+    _isAnimating = false;
+    parent.bloc.onStop();
   }
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
     parent.bloc.stream.listen(_onNewState);
-  }
-
-  @override
-  void onTick() {
-    super.onTick();
-    timer
-      ..reset()
-      ..start();
   }
 }
