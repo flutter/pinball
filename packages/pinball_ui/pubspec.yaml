@@ -1,0 +1,29 @@
+name: pinball_ui
+description: UI Toolkit for the Pinball Flutter Application
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: ">=2.16.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  test: ^1.19.2
+  very_good_analysis: ^2.4.0
+
+flutter:
+  uses-material-design: true
+  generate: true
+
+  assets:
+    - assets/images/dialog/
+
+flutter_gen:
+  line_length: 80
+  assets:
+    package_parameter_enabled: true

@@ -499,6 +499,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0+1"
+  pinball_ui:
+    dependency: "direct main"
+    description:
+      path: "packages/pinball_ui"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   platform:
     dependency: transitive
     description:

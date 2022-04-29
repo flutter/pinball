@@ -1,12 +1,11 @@
 export 'android_acres/stories.dart';
 export 'backboard/stories.dart';
 export 'ball/stories.dart';
-export 'baseboard/stories.dart';
+export 'bottom_group/stories.dart';
 export 'boundaries/stories.dart';
 export 'chrome_dino/stories.dart';
 export 'dino_wall/stories.dart';
 export 'effects/stories.dart';
-export 'flipper/stories.dart';
 export 'flutter_forest/stories.dart';
 export 'google_word/stories.dart';
 export 'launch_ramp/stories.dart';

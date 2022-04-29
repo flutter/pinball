@@ -66,14 +66,14 @@ class _ScoreViewDecoration extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const radius = BorderRadius.all(Radius.circular(12));
-    const boardWidth = 5.0;
+    const borderWidth = 5.0;
 
     return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: radius,
         border: Border.all(
           color: AppColors.white,
-          width: boardWidth,
+          width: borderWidth,
         ),
         image: DecorationImage(
           fit: BoxFit.cover,
@@ -83,7 +83,7 @@ class _ScoreViewDecoration extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(boardWidth - 1),
+        padding: const EdgeInsets.all(borderWidth - 1),
         child: ClipRRect(
           borderRadius: radius,
           child: child,

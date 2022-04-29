@@ -28,6 +28,7 @@ class PlayButtonOverlay extends StatelessWidget {
             context: context,
             barrierDismissible: false,
             builder: (_) {
+              // TODO(arturplaczek): remove after merge StarBlocListener
               final height = MediaQuery.of(context).size.height * 0.5;
 
               return Center(
