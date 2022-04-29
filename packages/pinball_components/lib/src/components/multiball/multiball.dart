@@ -46,8 +46,8 @@ class Multiball extends Component {
   Multiball.b({
     Iterable<Component>? children,
   }) : this._(
-          position: Vector2(-7.2, -6.5),
-          rotation: -6 * math.pi / 180,
+          position: Vector2(-7.2, -6.2),
+          rotation: -5 * math.pi / 180,
           bloc: MultiballCubit(),
           children: children,
         );
@@ -56,8 +56,8 @@ class Multiball extends Component {
   Multiball.c({
     Iterable<Component>? children,
   }) : this._(
-          position: Vector2(-0.7, -9.5),
-          rotation: 3 * math.pi / 180,
+          position: Vector2(-0.7, -9.3),
+          rotation: 2.7 * math.pi / 180,
           bloc: MultiballCubit(),
           children: children,
         );
