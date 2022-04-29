@@ -13,10 +13,10 @@ import '../../../helpers/helpers.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
-    Assets.images.androidBumper.a.lit.keyName,
-    Assets.images.androidBumper.a.dimmed.keyName,
-    Assets.images.androidBumper.b.lit.keyName,
-    Assets.images.androidBumper.b.dimmed.keyName,
+    Assets.images.android.bumper.a.lit.keyName,
+    Assets.images.android.bumper.a.dimmed.keyName,
+    Assets.images.android.bumper.b.lit.keyName,
+    Assets.images.android.bumper.b.dimmed.keyName,
   ];
   final flameTester = FlameTester(() => TestGame(assets));
 

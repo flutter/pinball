@@ -49,7 +49,6 @@ class PinballGame extends Forge2DGame
     await add(Drain());
     await add(BottomGroup());
     unawaited(addFromBlueprint(Boundaries()));
-    unawaited(addFromBlueprint(LaunchRamp()));
 
     final launcher = Launcher();
     unawaited(addFromBlueprint(launcher));
@@ -67,7 +66,7 @@ class PinballGame extends Forge2DGame
       ),
     );
 
-    controller.attachTo(launcher.components.whereType<Plunger>().first);
+    controller.attachTo(launcher.components.whereType<Plunger>().single);
     await super.onLoad();
   }
 

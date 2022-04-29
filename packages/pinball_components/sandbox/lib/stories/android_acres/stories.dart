@@ -2,7 +2,7 @@ import 'package:dashbook/dashbook.dart';
 import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/android_acres/android_bumper_a_game.dart';
 import 'package:sandbox/stories/android_acres/android_bumper_b_game.dart';
-import 'package:sandbox/stories/android_acres/spaceship_game.dart';
+import 'package:sandbox/stories/android_acres/android_spaceship_game.dart';
 import 'package:sandbox/stories/android_acres/spaceship_rail_game.dart';
 import 'package:sandbox/stories/android_acres/spaceship_ramp_game.dart';
 
@@ -19,9 +19,9 @@ void addAndroidAcresStories(Dashbook dashbook) {
       gameBuilder: (_) => AndroidBumperBGame(),
     )
     ..addGame(
-      title: 'Spaceship',
-      description: SpaceshipGame.description,
-      gameBuilder: (_) => SpaceshipGame(),
+      title: 'Android Spaceship',
+      description: AndroidSpaceshipGame.description,
+      gameBuilder: (_) => AndroidSpaceshipGame(),
     )
     ..addGame(
       title: 'Spaceship Rail',

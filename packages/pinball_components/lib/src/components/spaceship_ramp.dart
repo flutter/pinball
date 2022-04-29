@@ -8,7 +8,7 @@ import 'package:pinball_components/pinball_components.dart' hide Assets;
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template spaceship_ramp}
-/// A [Blueprint] which creates the ramp leading into the [Spaceship].
+/// A [Blueprint] which creates the ramp leading into the [AndroidSpaceship].
 /// {@endtemplate}
 class SpaceshipRamp extends Blueprint {
   /// {@macro spaceship_ramp}
@@ -73,17 +73,17 @@ extension on SpaceshipRampArrowSpriteState {
   String get path {
     switch (this) {
       case SpaceshipRampArrowSpriteState.inactive:
-        return Assets.images.spaceship.ramp.arrow.inactive.keyName;
+        return Assets.images.android.ramp.arrow.inactive.keyName;
       case SpaceshipRampArrowSpriteState.active1:
-        return Assets.images.spaceship.ramp.arrow.active1.keyName;
+        return Assets.images.android.ramp.arrow.active1.keyName;
       case SpaceshipRampArrowSpriteState.active2:
-        return Assets.images.spaceship.ramp.arrow.active2.keyName;
+        return Assets.images.android.ramp.arrow.active2.keyName;
       case SpaceshipRampArrowSpriteState.active3:
-        return Assets.images.spaceship.ramp.arrow.active3.keyName;
+        return Assets.images.android.ramp.arrow.active3.keyName;
       case SpaceshipRampArrowSpriteState.active4:
-        return Assets.images.spaceship.ramp.arrow.active4.keyName;
+        return Assets.images.android.ramp.arrow.active4.keyName;
       case SpaceshipRampArrowSpriteState.active5:
-        return Assets.images.spaceship.ramp.arrow.active5.keyName;
+        return Assets.images.android.ramp.arrow.active5.keyName;
     }
   }
 
@@ -161,7 +161,7 @@ class _SpaceshipRampBackgroundRailingSpriteComponent extends SpriteComponent
     await super.onLoad();
     final sprite = Sprite(
       gameRef.images.fromCache(
-        Assets.images.spaceship.ramp.railingBackground.keyName,
+        Assets.images.android.ramp.railingBackground.keyName,
       ),
     );
     this.sprite = sprite;
@@ -182,7 +182,7 @@ class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
     await super.onLoad();
     final sprite = Sprite(
       gameRef.images.fromCache(
-        Assets.images.spaceship.ramp.main.keyName,
+        Assets.images.android.ramp.main.keyName,
       ),
     );
     this.sprite = sprite;
@@ -234,7 +234,7 @@ class _SpaceshipRampBoardOpeningSpriteComponent extends SpriteComponent
     await super.onLoad();
     final sprite = Sprite(
       gameRef.images.fromCache(
-        Assets.images.spaceship.ramp.boardOpening.keyName,
+        Assets.images.android.ramp.boardOpening.keyName,
       ),
     );
     this.sprite = sprite;
@@ -304,7 +304,7 @@ class _SpaceshipRampForegroundRailingSpriteComponent extends SpriteComponent
     await super.onLoad();
     final sprite = Sprite(
       gameRef.images.fromCache(
-        Assets.images.spaceship.ramp.railingForeground.keyName,
+        Assets.images.android.ramp.railingForeground.keyName,
       ),
     );
     this.sprite = sprite;
