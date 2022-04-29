@@ -89,7 +89,7 @@ void main() {
         await game.ensureAdd(parent);
         final fixture1 =
             parent.body.createFixture(fixtureDef..userData = 'foo');
-        final fixture2 = parent.body.createFixture(fixtureDef);
+        final fixture2 = parent.body.createFixture(fixtureDef..userData = null);
         final contactBehavior = ContactBehavior()
           ..applyTo(
             [fixture1.userData!],
