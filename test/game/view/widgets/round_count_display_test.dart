@@ -108,7 +108,7 @@ void main() {
 
     expect(
       find.byWidgetPredicate(
-        (widget) => widget is Container && widget.color == AppColors.orange,
+        (widget) => widget is Container && widget.color == AppColors.yellow,
       ),
       findsOneWidget,
     );
@@ -125,7 +125,7 @@ void main() {
       find.byWidgetPredicate(
         (widget) =>
             widget is Container &&
-            widget.color == AppColors.orange.withAlpha(128),
+            widget.color == AppColors.yellow.withAlpha(128),
       ),
       findsOneWidget,
     );
