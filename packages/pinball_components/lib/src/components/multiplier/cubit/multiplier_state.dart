@@ -8,7 +8,6 @@ enum MultiplierSpriteState {
   dimmed,
 }
 
-/// Indicates the [MultiplierCubit]'s current state.
 class MultiplierState extends Equatable {
   const MultiplierState({
     required this.value,
