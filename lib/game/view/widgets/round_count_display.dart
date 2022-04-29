@@ -21,7 +21,7 @@ class RoundCountDisplay extends StatelessWidget {
         Text(
           l10n.rounds,
           style: AppTextStyle.subtitle1.copyWith(
-            color: AppColors.orange,
+            color: AppColors.yellow,
           ),
         ),
         const SizedBox(width: 8),
@@ -53,7 +53,7 @@ class RoundIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isActive ? AppColors.orange : AppColors.orange.withAlpha(128);
+    final color = isActive ? AppColors.yellow : AppColors.yellow.withAlpha(128);
     const size = 8.0;
 
     return Padding(
