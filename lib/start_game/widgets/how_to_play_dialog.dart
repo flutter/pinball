@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:pinball/l10n/l10n.dart';
+import 'package:pinball_ui/pinball_ui.dart';
 
 class HowToPlayDialog extends StatelessWidget {
   const HowToPlayDialog({Key? key}) : super(key: key);
@@ -11,19 +12,15 @@ class HowToPlayDialog extends StatelessWidget {
     final l10n = context.l10n;
     const spacing = SizedBox(height: 16);
 
-    return Dialog(
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(l10n.howToPlay),
-            spacing,
-            const _LaunchControls(),
-            spacing,
-            const _FlipperControls(),
-          ],
-        ),
+    return PixelatedDecoration(
+      header: Text(l10n.howToPlay),
+      body: ListView(
+        children: const [
+          spacing,
+          _LaunchControls(),
+          spacing,
+          _FlipperControls(),
+        ],
       ),
     );
   }
@@ -41,9 +38,7 @@ class _LaunchControls extends StatelessWidget {
       children: [
         Text(l10n.launchControls),
         const SizedBox(height: 10),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
+        Wrap(
           children: const [
             KeyIndicator.fromIcon(keyIcon: Icons.keyboard_arrow_down),
             spacing,
@@ -81,9 +76,7 @@ class _FlipperControls extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
+            Wrap(
               children: const [
                 KeyIndicator.fromKeyName(keyName: 'A'),
                 rowSpacing,

@@ -1,0 +1,23 @@
+name: pinball_ui
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    paths:
+      - "packages/pinball_ui/**"
+      - ".github/workflows/pinball_ui.yaml"
+
+  pull_request:
+    paths:
+      - "packages/pinball_ui/**"
+      - ".github/workflows/pinball_ui.yaml"
+
+jobs:
+  build:
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
+    with:
+      working_directory: packages/pinball_ui
+      coverage_excludes: "lib/gen/*.dart"
