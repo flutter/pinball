@@ -6,7 +6,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template sparky_fire_zone}
-/// Area positioned at the top left of the [Board] where the [Ball]
+/// Area positioned at the top left of the board where the [Ball]
 /// can bounce off [SparkyBumper]s.
 ///
 /// When a [Ball] hits [SparkyBumper]s, the bumper animates.

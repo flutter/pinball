@@ -5,7 +5,7 @@ import 'package:sandbox/stories/flutter_forest/signpost_game.dart';
 import 'package:sandbox/stories/flutter_forest/small_dash_nest_bumper_a_game.dart';
 import 'package:sandbox/stories/flutter_forest/small_dash_nest_bumper_b_game.dart';
 
-void addDashNestBumperStories(Dashbook dashbook) {
+void addFlutterForestStories(Dashbook dashbook) {
   dashbook.storiesOf('Flutter Forest')
     ..addGame(
       title: 'Signpost',
