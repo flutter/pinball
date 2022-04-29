@@ -2,12 +2,12 @@
 
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/gen/gen.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/theme/theme.dart';
 import 'package:pinball_ui/pinball_ui.dart';
+import 'package:platform_helper/platform_helper.dart';
 
 @visibleForTesting
 enum Control {
@@ -52,7 +52,13 @@ extension on Control {
 }
 
 class HowToPlayDialog extends StatefulWidget {
-  const HowToPlayDialog({Key? key}) : super(key: key);
+  HowToPlayDialog({
+    Key? key,
+    @visibleForTesting PlatformHelper? platformHelper,
+  })  : platformHelper = platformHelper ?? PlatformHelper(),
+        super(key: key);
+
+  final PlatformHelper platformHelper;
 
   @override
   State<HowToPlayDialog> createState() => _HowToPlayDialogState();
@@ -78,8 +84,7 @@ class _HowToPlayDialogState extends State<HowToPlayDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final isMobile = defaultTargetPlatform == TargetPlatform.iOS ||
-        defaultTargetPlatform == TargetPlatform.android;
+    final isMobile = widget.platformHelper.isMobile;
     return PixelatedDecoration(
       header: const _HowToPlayHeader(),
       body: isMobile ? const _MobileBody() : const _DesktopBody(),

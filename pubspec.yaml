@@ -37,6 +37,8 @@ dependencies:
     path: packages/pinball_theme
   pinball_ui:
     path: packages/pinball_ui
+  platform_helper:
+    path: packages/platform_helper
 
 dev_dependencies:
   bloc_test: ^9.0.2

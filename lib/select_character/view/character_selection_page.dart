@@ -56,7 +56,7 @@ class CharacterSelectionView extends StatelessWidget {
                     child: SizedBox(
                       height: height,
                       width: height * 1.4,
-                      child: const HowToPlayDialog(),
+                      child: HowToPlayDialog(),
                     ),
                   ),
                 );
