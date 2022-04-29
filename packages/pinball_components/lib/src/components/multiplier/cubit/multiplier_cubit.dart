@@ -10,7 +10,7 @@ class MultiplierCubit extends Cubit<MultiplierState> {
   MultiplierCubit(MultiplierValue multiplierValue)
       : super(MultiplierState.initial(multiplierValue));
 
-  /// Event added when the game current multiplier changes.
+  /// Event added when the game's current multiplier changes.
   void next(int multiplier) {
     if (state.equalsTo(multiplier)) {
       if (state.spriteState == MultiplierSpriteState.dimmed) {
