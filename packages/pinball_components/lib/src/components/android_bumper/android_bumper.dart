@@ -62,6 +62,18 @@ class AndroidBumper extends BodyComponent with InitialPosition {
           children: children,
         );
 
+  /// {@macro android_bumper}
+  AndroidBumper.cow({
+    Iterable<Component>? children,
+  }) : this._(
+          majorRadius: 3.52,
+          minorRadius: 2.97,
+          litAssetPath: Assets.images.androidBumper.cow.lit.keyName,
+          dimmedAssetPath: Assets.images.androidBumper.cow.dimmed.keyName,
+          bloc: AndroidBumperCubit(),
+          children: children,
+        );
+
   /// Creates an [AndroidBumper] without any children.
   ///
   /// This can be used for testing [AndroidBumper]'s behaviors in isolation.

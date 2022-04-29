@@ -18,6 +18,8 @@ void main() {
     Assets.images.androidBumper.a.dimmed.keyName,
     Assets.images.androidBumper.b.lit.keyName,
     Assets.images.androidBumper.b.dimmed.keyName,
+    Assets.images.androidBumper.cow.lit.keyName,
+    Assets.images.androidBumper.cow.dimmed.keyName,
     Assets.images.backboard.backboardScores.keyName,
     Assets.images.backboard.backboardGameOver.keyName,
     Assets.images.backboard.display.keyName,
