@@ -112,7 +112,7 @@ void main() {
 
             await expectLater(
               find.byGame<TestGame>(),
-              matchesGoldenFile('golden/multipliers/x2-lit.png'),
+              matchesGoldenFile('../golden/multipliers/x2-lit.png'),
             );
           },
         );
@@ -152,7 +152,7 @@ void main() {
 
             await expectLater(
               find.byGame<TestGame>(),
-              matchesGoldenFile('golden/multipliers/x2-dimmed.png'),
+              matchesGoldenFile('../golden/multipliers/x2-dimmed.png'),
             );
           },
         );
@@ -196,7 +196,7 @@ void main() {
 
             await expectLater(
               find.byGame<TestGame>(),
-              matchesGoldenFile('golden/multipliers/x3-lit.png'),
+              matchesGoldenFile('../golden/multipliers/x3-lit.png'),
             );
           },
         );
@@ -236,7 +236,7 @@ void main() {
 
             await expectLater(
               find.byGame<TestGame>(),
-              matchesGoldenFile('golden/multipliers/x3-dimmed.png'),
+              matchesGoldenFile('../golden/multipliers/x3-dimmed.png'),
             );
           },
         );
@@ -280,7 +280,7 @@ void main() {
 
             await expectLater(
               find.byGame<TestGame>(),
-              matchesGoldenFile('golden/multipliers/x4-lit.png'),
+              matchesGoldenFile('../golden/multipliers/x4-lit.png'),
             );
           },
         );
@@ -320,7 +320,7 @@ void main() {
 
             await expectLater(
               find.byGame<TestGame>(),
-              matchesGoldenFile('golden/multipliers/x4-dimmed.png'),
+              matchesGoldenFile('../golden/multipliers/x4-dimmed.png'),
             );
           },
         );
@@ -364,7 +364,7 @@ void main() {
 
             await expectLater(
               find.byGame<TestGame>(),
-              matchesGoldenFile('golden/multipliers/x5-lit.png'),
+              matchesGoldenFile('../golden/multipliers/x5-lit.png'),
             );
           },
         );
@@ -404,7 +404,7 @@ void main() {
 
             await expectLater(
               find.byGame<TestGame>(),
-              matchesGoldenFile('golden/multipliers/x5-dimmed.png'),
+              matchesGoldenFile('../golden/multipliers/x5-dimmed.png'),
             );
           },
         );
@@ -448,7 +448,7 @@ void main() {
 
             await expectLater(
               find.byGame<TestGame>(),
-              matchesGoldenFile('golden/multipliers/x6-lit.png'),
+              matchesGoldenFile('../golden/multipliers/x6-lit.png'),
             );
           },
         );
@@ -488,7 +488,7 @@ void main() {
 
             await expectLater(
               find.byGame<TestGame>(),
-              matchesGoldenFile('golden/multipliers/x6-dimmed.png'),
+              matchesGoldenFile('../golden/multipliers/x6-dimmed.png'),
             );
           },
         );
