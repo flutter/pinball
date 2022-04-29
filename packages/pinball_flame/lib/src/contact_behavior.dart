@@ -5,7 +5,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// Appends a new [ContactCallbacks] to the parent.
 ///
 /// This is a convenience class for adding a [ContactCallbacks] to the parent.
-/// In constract with just assigning a [ContactCallbacks] to a userData, this
+/// In constrast with just assigning a [ContactCallbacks] to a userData, this
 /// class respects the previous userData.
 ///
 /// It does so by grouping the userData in a [_UserData], and resetting the
@@ -20,8 +20,8 @@ class ContactBehavior<T extends BodyComponent> extends Component
   ///
   /// Fixtures are identifiable by their userData.
   ///
-  /// If no specific fixtures are specified, the [ContactCallbacks] is applied
-  /// to the entire body, hence all fixtures are considered.
+  /// If no fixtures are specified, the [ContactCallbacks] is applied to the
+  /// entire body, hence all fixtures are considered.
   void applyTo(Iterable<Object> userData) => _fixtureUserDatas.addAll(userData);
 
   @override
