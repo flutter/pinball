@@ -7,7 +7,7 @@ import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template flutter_forest}
-/// Area positioned at the top right of the [Board] where the [Ball] can bounce
+/// Area positioned at the top right of the board where the [Ball] can bounce
 /// off [DashNestBumper]s.
 /// {@endtemplate}
 class FlutterForest extends Component {
