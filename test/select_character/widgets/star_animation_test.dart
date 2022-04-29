@@ -11,7 +11,7 @@ void main() {
 
   group('loads SpriteAnimationWidget correctly for', () {
     setUpAll(() async {
-      await StarAnimation.loadAssets();
+      StarAnimation.loadAssets();
     });
 
     testWidgets('starA', (tester) async {
