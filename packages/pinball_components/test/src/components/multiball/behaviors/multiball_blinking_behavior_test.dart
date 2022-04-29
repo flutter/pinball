@@ -21,23 +21,23 @@ void main() {
         setUp: (game, tester) async {
           final behavior = MultiballBlinkingBehavior();
           final bloc = MockMultiballCubit();
-          final streamController = StreamController<MultiballState>();
+          final streamController = StreamController<MultiballLightState>();
           whenListen(
             bloc,
             streamController.stream,
-            initialState: MultiballState.dimmed,
+            initialState: MultiballLightState.dimmed,
           );
 
           final multiball = Multiball.test(bloc: bloc);
           await multiball.add(behavior);
           await game.ensureAdd(multiball);
 
-          streamController.add(MultiballState.lit);
+          streamController.add(MultiballLightState.lit);
           await tester.pump();
           game.update(0.05);
 
           await streamController.close();
-          verify(bloc.onBlinked).called(1);
+          verify(bloc.onDimmed).called(1);
         },
       );
     },

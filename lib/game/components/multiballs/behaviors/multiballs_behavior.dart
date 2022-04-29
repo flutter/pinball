@@ -14,10 +14,9 @@ class MultiballsBehavior extends Component
       final hasMultiball = state.bonusHistory.contains(GameBonus.dashNest);
 
       if (hasMultiball) {
-        final multiballs = parent.children.whereType<Multiball>();
-        for (final multiball in multiballs) {
-          multiball.bloc.animate();
-        }
+        parent.children.whereType<Multiball>().forEach((multiball) {
+          multiball.bloc.onAnimate();
+        });
       }
     });
   }
