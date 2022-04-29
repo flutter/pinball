@@ -23,17 +23,17 @@ class FlutterForest extends Component {
             )..initialPosition = Vector2(8.35, -58.3),
             DashNestBumper.main(
               children: [
-                ScoringBehavior(points: 20),
+                ScoringBehavior(points: 200000),
               ],
             )..initialPosition = Vector2(18.55, -59.35),
             DashNestBumper.a(
               children: [
-                ScoringBehavior(points: 20),
+                ScoringBehavior(points: 20000),
               ],
             )..initialPosition = Vector2(8.95, -51.95),
             DashNestBumper.b(
               children: [
-                ScoringBehavior(points: 20),
+                ScoringBehavior(points: 20000),
               ],
             )..initialPosition = Vector2(23.3, -46.75),
             DashAnimatronic()..position = Vector2(20, -66),
