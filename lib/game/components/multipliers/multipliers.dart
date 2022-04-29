@@ -36,7 +36,7 @@ class Multipliers extends Component {
           ],
         );
 
-  /// Creates a [Multipliers] without any children.
+  /// Creates [Multipliers] without any children.
   ///
   /// This can be used for testing [Multipliers]'s behaviors in isolation.
   @visibleForTesting
