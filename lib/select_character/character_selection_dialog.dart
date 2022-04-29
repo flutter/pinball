@@ -63,7 +63,7 @@ class _CharacterSelectionTitle extends StatelessWidget {
           l10n.characterSelectionSubtitle,
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.center,
-          style: AppTextStyle.headline3.copyWith(
+          style: AppTextStyle.headline2.copyWith(
             color: AppColors.darkBlue,
           ),
         ),
@@ -160,7 +160,7 @@ class _SelectCharacterButton extends StatelessWidget {
     return PinballButton(
       child: Text(
         l10n.select,
-        style: AppTextStyle.headline5,
+        style: AppTextStyle.headline3,
       ),
       onPressed: () {
         context.read<StartGameBloc>().add(const CharacterSelected());
