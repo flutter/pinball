@@ -1,5 +1,6 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -41,6 +42,25 @@ void main() {
         await game.ensureAdd(kicker);
 
         expect(game.contains(kicker), isTrue);
+      },
+    );
+
+    flameTester.test(
+      'loads children correctly',
+      (game) async {
+        final kicker = Kicker(
+          side: BoardSide.left,
+          children: [
+            TimerComponent(period: 10),
+          ],
+        );
+        await game.ready();
+        await game.ensureAdd(kicker);
+
+        expect(
+          kicker.children.whereType<TimerComponent>().length,
+          equals(1),
+        );
       },
     );
 
