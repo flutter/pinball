@@ -16,9 +16,13 @@ class Kicker extends BodyComponent with InitialPosition {
   /// {@macro kicker}
   Kicker({
     required BoardSide side,
+    Iterable<Component>? children,
   })  : _side = side,
         super(
-          children: [_KickerSpriteComponent(side: side)],
+          children: [
+            _KickerSpriteComponent(side: side),
+            ...?children,
+          ],
           renderBody: false,
         );
 
