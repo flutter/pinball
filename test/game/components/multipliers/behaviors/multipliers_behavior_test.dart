@@ -76,7 +76,9 @@ void main() {
           isFalse,
         );
       });
+    });
 
+    group('onNewState', () {
       flameBlocTester.testGameWidget(
         "calls 'next' once per each multiplier when GameBloc emit state",
         setUp: (game, tester) async {
