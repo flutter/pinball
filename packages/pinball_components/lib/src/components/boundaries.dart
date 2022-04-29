@@ -67,7 +67,7 @@ class _BottomBoundarySpriteComponent extends SpriteComponent with HasGameRef {
   _BottomBoundarySpriteComponent()
       : super(
           anchor: Anchor.center,
-          position: Vector2(-5.4, 55.6),
+          position: Vector2(-5, 55.6),
         );
 
   @override

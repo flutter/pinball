@@ -6,7 +6,6 @@
 // https://opensource.org/licenses/MIT.
 import 'package:dashbook/dashbook.dart';
 import 'package:flutter/material.dart';
-import 'package:sandbox/stories/kicker/stories.dart';
 import 'package:sandbox/stories/stories.dart';
 
 void main() {
@@ -15,11 +14,9 @@ void main() {
   addBallStories(dashbook);
   addLayerStories(dashbook);
   addEffectsStories(dashbook);
-  addFlipperStories(dashbook);
-  addBaseboardStories(dashbook);
   addChromeDinoStories(dashbook);
-  addDashNestBumperStories(dashbook);
-  addKickerStories(dashbook);
+  addFlutterForestStories(dashbook);
+  addBottomGroupStories(dashbook);
   addPlungerStories(dashbook);
   addSlingshotStories(dashbook);
   addSparkyBumperStories(dashbook);

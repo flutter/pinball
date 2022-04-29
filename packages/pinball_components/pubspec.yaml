@@ -50,6 +50,7 @@ flutter:
     - assets/images/baseboard/
     - assets/images/boundary/
     - assets/images/dino/
+    - assets/images/dino/animatronic/
     - assets/images/flipper/
     - assets/images/launch_ramp/
     - assets/images/dash/
@@ -60,7 +61,6 @@ flutter:
     - assets/images/spaceship/rail/
     - assets/images/spaceship/ramp/
     - assets/images/spaceship/ramp/arrow/
-    - assets/images/chrome_dino/
     - assets/images/kicker/
     - assets/images/plunger/
     - assets/images/slingshot/

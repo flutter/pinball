@@ -4,7 +4,7 @@ import 'package:sandbox/stories/chrome_dino/chrome_dino_game.dart';
 
 void addChromeDinoStories(Dashbook dashbook) {
   dashbook.storiesOf('Chrome Dino').addGame(
-        title: 'Trace',
+        title: 'Traced',
         description: ChromeDinoGame.description,
         gameBuilder: (_) => ChromeDinoGame(),
       );
