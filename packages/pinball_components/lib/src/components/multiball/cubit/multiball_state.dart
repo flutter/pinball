@@ -15,12 +15,12 @@ enum MultiballAnimationState {
 }
 
 class MultiballState extends Equatable {
-  MultiballState({
+  const MultiballState({
     required this.lightState,
     required this.animationState,
   });
 
-  MultiballState.initial()
+  const MultiballState.initial()
       : this(
           lightState: MultiballLightState.dimmed,
           animationState: MultiballAnimationState.stopped,
