@@ -8,6 +8,10 @@
   "@howToPlay": {
     "description": "Text displayed on the landing page how to play button"
   },
+  "tipsForFlips": "Tips for flips",
+  "@tipsForFlips": {
+    "description": "Text displayed on the landing page how to play button"
+  },
   "launchControls": "Launch Controls",
   "@launchControls": {
     "description": "Text displayed on the how to play dialog with the launch controls"
@@ -16,6 +20,26 @@
   "@flipperControls": {
     "description": "Text displayed on the how to play dialog with the flipper controls"
   },
+  "tapAndHoldRocket": "Tap & Hold Rocket",
+  "@tapAndHoldRocket": {
+    "description": "Text displayed on the how to launch on mobile"
+  },
+  "to": "to",
+  "@to": {
+    "description": "Text displayed for the word to"
+  },
+  "launch": "LAUNCH",
+  "@launch": {
+    "description": "Text displayed for the word launch"
+  },
+  "tapLeftRightScreen": "Tap left/right screen",
+  "@tapLeftRightScreen": {
+    "description": "Text displayed on the how to flip on mobile"
+  },
+  "flip": "FLIP",
+  "@flip": {
+    "description": "Text displayed for the word FLIP"
+  },
   "start": "Start",
   "@start": {
     "description": "Text displayed on the character selection page start button"
@@ -23,6 +47,10 @@
   "select": "Select",
   "@select": {
     "description": "Text displayed on the character selection page select button"
+  },
+  "space": "Space",
+  "@space": {
+    "description": "Text displayed on space control button"
   },
   "characterSelectionTitle": "Choose your character!",
   "@characterSelectionTitle": {

@@ -82,7 +82,7 @@ class Plunger extends BodyComponent with InitialPosition, Layered {
   /// The velocity's magnitude depends on how far the [Plunger] has been pulled
   /// from its original [initialPosition].
   void release() {
-    final velocity = (initialPosition.y - body.position.y) * 5;
+    final velocity = (initialPosition.y - body.position.y) * 7;
     body.linearVelocity = Vector2(0, velocity);
     _spriteComponent.release();
   }
@@ -221,7 +221,7 @@ class PlungerAnchorPrismaticJointDef extends PrismaticJointDef {
       plunger.body,
       anchor.body,
       plunger.body.position + anchor.body.position,
-      Vector2(18.6, BoardDimensions.bounds.height),
+      Vector2(16, BoardDimensions.bounds.height),
     );
     enableLimit = true;
     lowerTranslation = double.negativeInfinity;
