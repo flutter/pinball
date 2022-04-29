@@ -2,16 +2,19 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/start_game/start_game.dart';
 
 import '../../helpers/helpers.dart';
 
 void main() {
   group('HowToPlayDialog', () {
-    testWidgets('displays dialog', (tester) async {
+    testWidgets('displays content', (tester) async {
+      final l10n = await AppLocalizations.delegate.load(Locale('en'));
+
       await tester.pumpApp(HowToPlayDialog());
 
-      expect(find.byType(Dialog), findsOneWidget);
+      expect(find.text(l10n.launchControls), findsOneWidget);
     });
   });
 
