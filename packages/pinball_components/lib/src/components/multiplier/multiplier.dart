@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs
-
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/gen/assets.gen.dart';
@@ -9,72 +7,72 @@ import 'package:pinball_flame/pinball_flame.dart';
 export 'cubit/multiplier_cubit.dart';
 
 /// {@template multiplier}
-/// A [Component] for the multiplier over the board.
+/// Backlit multiplier decal displayed on the board.
 /// {@endtemplate}
 class Multiplier extends Component {
   /// {@macro multiplier}
   Multiplier._({
     required MultiplierValue value,
     required Vector2 position,
-    required double rotation,
+    required double angle,
     required this.bloc,
   })  : _value = value,
         _position = position,
-        _rotation = rotation,
+        _angle = angle,
         super();
 
   /// {@macro multiplier}
   Multiplier.x2({
     required Vector2 position,
-    required double rotation,
+    required double angle,
   }) : this._(
           value: MultiplierValue.x2,
           position: position,
-          rotation: rotation,
+          angle: angle,
           bloc: MultiplierCubit(MultiplierValue.x2),
         );
 
   /// {@macro multiplier}
   Multiplier.x3({
     required Vector2 position,
-    required double rotation,
+    required double angle,
   }) : this._(
           value: MultiplierValue.x3,
           position: position,
-          rotation: rotation,
+          angle: angle,
           bloc: MultiplierCubit(MultiplierValue.x3),
         );
 
   /// {@macro multiplier}
   Multiplier.x4({
     required Vector2 position,
-    required double rotation,
+    required double angle,
   }) : this._(
           value: MultiplierValue.x4,
           position: position,
-          rotation: rotation,
+          angle: angle,
           bloc: MultiplierCubit(MultiplierValue.x4),
         );
 
   /// {@macro multiplier}
   Multiplier.x5({
     required Vector2 position,
-    required double rotation,
+    required double angle,
   }) : this._(
           value: MultiplierValue.x5,
           position: position,
-          rotation: rotation,
+          angle: angle,
           bloc: MultiplierCubit(MultiplierValue.x5),
         );
 
   /// {@macro multiplier}
   Multiplier.x6({
     required Vector2 position,
-    required double rotation,
+    required double angle,
   }) : this._(
           value: MultiplierValue.x6,
           position: position,
-          rotation: rotation,
+          angle: angle,
           bloc: MultiplierCubit(MultiplierValue.x6),
         );
 
@@ -89,7 +87,7 @@ class Multiplier extends Component {
     required this.bloc,
   })  : _value = value,
         _position = Vector2.zero(),
-        _rotation = 0;
+        _angle = 0;
 
 // TODO(ruimiguel): Consider refactoring once the following is merged:
   // https://github.com/flame-engine/flame/pull/1538
@@ -97,7 +95,7 @@ class Multiplier extends Component {
 
   final MultiplierValue _value;
   final Vector2 _position;
-  final double _rotation;
+  final double _angle;
   late final MultiplierSpriteGroupComponent _sprite;
 
   @override
@@ -113,7 +111,7 @@ class Multiplier extends Component {
       position: _position,
       litAssetPath: _value.litAssetPath,
       dimmedAssetPath: _value.dimmedAssetPath,
-      rotation: _rotation,
+      angle: _angle,
       current: bloc.state,
     );
     await add(_sprite);
@@ -162,7 +160,7 @@ extension on MultiplierValue {
 }
 
 /// {@template multiplier_sprite_group_component}
-/// A [SpriteGroupComponent] for the multiplier over the board.
+/// A [SpriteGroupComponent] for a [Multiplier] with lit and dimmed states.
 /// {@endtemplate}
 @visibleForTesting
 class MultiplierSpriteGroupComponent
@@ -173,14 +171,14 @@ class MultiplierSpriteGroupComponent
     required Vector2 position,
     required String litAssetPath,
     required String dimmedAssetPath,
-    required double rotation,
+    required double angle,
     required MultiplierState current,
   })  : _litAssetPath = litAssetPath,
         _dimmedAssetPath = dimmedAssetPath,
         super(
           anchor: Anchor.center,
           position: position,
-          angle: rotation,
+          angle: angle,
           current: current.spriteState,
         );
 

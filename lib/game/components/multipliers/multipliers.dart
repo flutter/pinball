@@ -14,23 +14,23 @@ class Multipliers extends Component {
           children: [
             Multiplier.x2(
               position: Vector2(-19.5, -2),
-              rotation: -15 * math.pi / 180,
+              angle: -15 * math.pi / 180,
             ),
             Multiplier.x3(
               position: Vector2(13, -9.4),
-              rotation: 15 * math.pi / 180,
+              angle: 15 * math.pi / 180,
             ),
             Multiplier.x4(
               position: Vector2(0, -21.2),
-              rotation: 0,
+              angle: 0,
             ),
             Multiplier.x5(
               position: Vector2(-8.5, -28),
-              rotation: -3 * math.pi / 180,
+              angle: -3 * math.pi / 180,
             ),
             Multiplier.x6(
               position: Vector2(10, -30.7),
-              rotation: 8 * math.pi / 180,
+              angle: 8 * math.pi / 180,
             ),
             MultipliersBehavior(),
           ],

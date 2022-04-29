@@ -32,23 +32,23 @@ class MultipliersGame extends BallGame with KeyboardEvents {
   final List<Multiplier> multipliers = [
     Multiplier.x2(
       position: Vector2(-20, 0),
-      rotation: -15 * math.pi / 180,
+      angle: -15 * math.pi / 180,
     ),
     Multiplier.x3(
       position: Vector2(20, -5),
-      rotation: 15 * math.pi / 180,
+      angle: 15 * math.pi / 180,
     ),
     Multiplier.x4(
       position: Vector2(0, -15),
-      rotation: 0,
+      angle: 0,
     ),
     Multiplier.x5(
       position: Vector2(-10, -25),
-      rotation: -3 * math.pi / 180,
+      angle: -3 * math.pi / 180,
     ),
     Multiplier.x6(
       position: Vector2(10, -35),
-      rotation: 8 * math.pi / 180,
+      angle: 8 * math.pi / 180,
     ),
   ];
 

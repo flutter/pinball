@@ -31,7 +31,7 @@ void main() {
     flameTester.test('"x2" loads correctly', (game) async {
       final multiplier = Multiplier.x2(
         position: Vector2.zero(),
-        rotation: 0,
+        angle: 0,
       );
       await game.ensureAdd(multiplier);
       expect(game.contains(multiplier), isTrue);
@@ -40,7 +40,7 @@ void main() {
     flameTester.test('"x3" loads correctly', (game) async {
       final multiplier = Multiplier.x3(
         position: Vector2.zero(),
-        rotation: 0,
+        angle: 0,
       );
       await game.ensureAdd(multiplier);
       expect(game.contains(multiplier), isTrue);
@@ -49,7 +49,7 @@ void main() {
     flameTester.test('"x4" loads correctly', (game) async {
       final multiplier = Multiplier.x4(
         position: Vector2.zero(),
-        rotation: 0,
+        angle: 0,
       );
       await game.ensureAdd(multiplier);
       expect(game.contains(multiplier), isTrue);
@@ -58,7 +58,7 @@ void main() {
     flameTester.test('"x5" loads correctly', (game) async {
       final multiplier = Multiplier.x5(
         position: Vector2.zero(),
-        rotation: 0,
+        angle: 0,
       );
       await game.ensureAdd(multiplier);
       expect(game.contains(multiplier), isTrue);
@@ -67,7 +67,7 @@ void main() {
     flameTester.test('"x6" loads correctly', (game) async {
       final multiplier = Multiplier.x6(
         position: Vector2.zero(),
-        rotation: 0,
+        angle: 0,
       );
       await game.ensureAdd(multiplier);
       expect(game.contains(multiplier), isTrue);
