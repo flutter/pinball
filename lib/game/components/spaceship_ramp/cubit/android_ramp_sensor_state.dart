@@ -11,13 +11,14 @@ enum AndroidRampSensorType {
 }
 
 class AndroidRampSensorState extends Equatable {
-  AndroidRampSensorState({
+  const AndroidRampSensorState({
     required this.type,
     this.ball,
   });
 
   /// {@macro assets_manager_state}
-  AndroidRampSensorState.initial() : this(type: AndroidRampSensorType.door);
+  const AndroidRampSensorState.initial()
+      : this(type: AndroidRampSensorType.door);
 
   final AndroidRampSensorType type;
   final Ball? ball;

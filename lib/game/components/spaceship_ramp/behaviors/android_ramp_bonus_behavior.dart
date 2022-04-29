@@ -59,7 +59,7 @@ class AndroidRampBonusBehavior extends Component
       _balls.remove(ball);
       print("removed $_balls");
       _previousHits++;
-      shot(_previousHits);
+      shot(_previousHits, ball.body.position);
     }
   }
 
@@ -67,12 +67,18 @@ class AndroidRampBonusBehavior extends Component
 
   /// When a [Ball] shot the [SpaceshipRamp] it achieve improvements for the
   /// current game, like multipliers or score.
-  void shot(int currentHits) {
+  void shot(int currentHits, Vector2 position) {
     parent.spaceshipRamp.progress();
     print("SHOT $currentHits");
 
     print("Score $_shotPoints");
     gameRef.read<GameBloc>().add(Scored(points: _shotPoints));
+    gameRef.add(
+      ScoreText(
+        text: _shotPoints.toString(),
+        position: position,
+      ),
+    );
 
     final multiplier = gameRef.read<GameBloc>().state.multiplier;
     gameRef.read<GameBloc>().add(const MultiplierIncreased());
@@ -84,7 +90,7 @@ class AndroidRampBonusBehavior extends Component
       gameRef.add(
         ScoreText(
           text: _bonusPoints.toString(),
-          position: Vector2(1.7, -20),
+          position: position + Vector2(-2, -5),
         ),
       );
     }

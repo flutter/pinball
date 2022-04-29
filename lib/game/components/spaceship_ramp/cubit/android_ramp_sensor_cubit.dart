@@ -19,9 +19,11 @@ class AndroidRampSensorCubit extends Cubit<AndroidRampSensorState> {
   }
 
   void onInside(Ball ball) {
-    emit(state.copyWith(
-      type: AndroidRampSensorType.inside,
-      ball: ball,
-    ));
+    emit(
+      state.copyWith(
+        type: AndroidRampSensorType.inside,
+        ball: ball,
+      ),
+    );
   }
 }
