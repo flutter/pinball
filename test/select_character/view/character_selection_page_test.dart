@@ -91,9 +91,23 @@ void main() {
         'is displayed for 3 seconds when start is tapped',
         (tester) async {
           await tester.pumpApp(
-            CharacterSelectionView(),
+            Scaffold(
+              body: Builder(
+                builder: (context) {
+                  return ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context)
+                          .push<void>(CharacterSelectionDialog.route());
+                    },
+                    child: Text('Tap me'),
+                  );
+                },
+              ),
+            ),
             characterThemeCubit: characterThemeCubit,
           );
+          await tester.tap(find.text('Tap me'));
+          await tester.pumpAndSettle();
           await tester.ensureVisible(find.byType(TextButton));
           await tester.tap(find.byType(TextButton));
           await tester.pumpAndSettle();

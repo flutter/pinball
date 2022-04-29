@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs
 
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/gen/gen.dart';
@@ -49,8 +51,30 @@ extension on Control {
   }
 }
 
-class HowToPlayDialog extends StatelessWidget {
+class HowToPlayDialog extends StatefulWidget {
   const HowToPlayDialog({Key? key}) : super(key: key);
+
+  @override
+  State<HowToPlayDialog> createState() => _HowToPlayDialogState();
+}
+
+class _HowToPlayDialogState extends State<HowToPlayDialog> {
+  late Timer closeTimer;
+  @override
+  void initState() {
+    super.initState();
+    closeTimer = Timer(const Duration(seconds: 3), () {
+      if (mounted) {
+        Navigator.of(context).maybePop();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    closeTimer.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,5 @@
 // ignore_for_file: public_member_api_docs
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/l10n/l10n.dart';
@@ -48,34 +46,19 @@ class CharacterSelectionView extends StatelessWidget {
             const SizedBox(height: 20),
             TextButton(
               onPressed: () {
-                late Timer timer;
                 // TODO(arturplaczek): remove after merge StarBlocListener
                 final height = MediaQuery.of(context).size.height * 0.5;
 
                 Navigator.of(context).pop();
                 showDialog<void>(
                   context: context,
-                  builder: (context) {
-                    timer = Timer(
-                      const Duration(seconds: 3),
-                      () {
-                        Navigator.of(context).pop();
-                      },
-                    );
-                    return Center(
-                      child: SizedBox(
-                        height: height,
-                        width: height * 1.4,
-                        child: const HowToPlayDialog(),
-                      ),
-                    );
-                  },
-                ).then(
-                  (_) {
-                    if (timer.isActive) {
-                      timer.cancel();
-                    }
-                  },
+                  builder: (context) => Center(
+                    child: SizedBox(
+                      height: height,
+                      width: height * 1.4,
+                      child: const HowToPlayDialog(),
+                    ),
+                  ),
                 );
               },
               child: Text(l10n.start),
