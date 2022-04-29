@@ -15,7 +15,7 @@ jobs:
         with:
           channel: stable
       - run: flutter packages get
-      - run: flutter build web -t lib/main_development.dart --web-renderer canvaskit
+      - run: flutter build web --target lib/main_development.dart --web-renderer canvaskit --release
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
