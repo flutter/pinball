@@ -8,16 +8,41 @@ import 'package:pinball/start_game/start_game.dart';
 
 import '../../helpers/helpers.dart';
 
+class MockBuildContext extends Mock implements BuildContext {}
+
 void main() {
   late StartGameBloc startGameBloc;
+  late CharacterThemeCubit characterThemeCubit;
   late PinballGame pinballGame;
+  late GameFlowController gameController;
+
+  setUpAll(() async {
+    await Future.wait<void>(
+      [
+        ...SelectedCharacter.loadAssets(MockBuildContext()),
+        ...StarAnimation.loadAssets(),
+      ],
+    );
+  });
+
+  setUp(() {
+    startGameBloc = MockStartGameBloc();
+    characterThemeCubit = MockCharacterThemeCubit();
+    pinballGame = MockPinballGame();
+    gameController = MockGameFlowController();
+
+    when(() => pinballGame.gameFlowController).thenAnswer(
+      (_) => gameController,
+    );
+
+    whenListen(
+      characterThemeCubit,
+      Stream.value(const CharacterThemeState.initial()),
+      initialState: const CharacterThemeState.initial(),
+    );
+  });
 
   group('StartGameListener', () {
-    setUp(() {
-      startGameBloc = MockStartGameBloc();
-      pinballGame = MockPinballGame();
-    });
-
     testWidgets(
       'on selectCharacter status shows SelectCharacter dialog',
       (tester) async {
@@ -35,9 +60,10 @@ void main() {
             child: const SizedBox.shrink(),
           ),
           startGameBloc: startGameBloc,
+          characterThemeCubit: characterThemeCubit,
         );
 
-        await tester.pumpAndSettle();
+        await tester.pump();
 
         expect(
           find.byType(CharacterSelectionDialog),
@@ -63,9 +89,10 @@ void main() {
             child: const SizedBox.shrink(),
           ),
           startGameBloc: startGameBloc,
+          characterThemeCubit: characterThemeCubit,
         );
 
-        await tester.pumpAndSettle();
+        await tester.pump();
 
         expect(
           find.byType(HowToPlayDialog),
@@ -75,7 +102,7 @@ void main() {
     );
 
     testWidgets(
-      'on play status call start on game controller',
+      'do nothing on play status',
       (tester) async {
         whenListen(
           startGameBloc,
@@ -85,10 +112,6 @@ void main() {
           initialState: const StartGameState.initial(),
         );
 
-        final gameController = MockGameFlowController();
-        when(() => pinballGame.gameFlowController)
-            .thenAnswer((invocation) => gameController);
-
         await tester.pumpApp(
           StartGameListener(
             game: pinballGame,
@@ -97,10 +120,16 @@ void main() {
           startGameBloc: startGameBloc,
         );
 
-        await tester.pumpAndSettle(kThemeAnimationDuration);
-        await tester.pumpAndSettle(kThemeAnimationDuration);
+        await tester.pump();
 
-        verify(gameController.start).called(1);
+        expect(
+          find.byType(HowToPlayDialog),
+          findsNothing,
+        );
+        expect(
+          find.byType(CharacterSelectionDialog),
+          findsNothing,
+        );
       },
     );
 
@@ -123,7 +152,7 @@ void main() {
           startGameBloc: startGameBloc,
         );
 
-        await tester.pumpAndSettle();
+        await tester.pump();
 
         expect(
           find.byType(HowToPlayDialog),

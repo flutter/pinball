@@ -8,6 +8,7 @@ import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:mockingjay/mockingjay.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/leaderboard/leaderboard.dart';
+import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
 import '../../helpers/helpers.dart';
@@ -145,21 +146,25 @@ void main() {
       expect(find.byType(ListView), findsOneWidget);
     });
 
-    testWidgets('navigates to CharacterSelectionPage when retry is tapped',
-        (tester) async {
-      final navigator = MockNavigator();
-      when(() => navigator.push<void>(any())).thenAnswer((_) async {});
+    testWidgets('adds PlayTapped event when retry is tapped', (tester) async {
+      final startGameBloc = MockStartGameBloc();
+
+      whenListen(
+        startGameBloc,
+        Stream.value(const StartGameState.initial()),
+        initialState: const StartGameState.initial(),
+      );
 
       await tester.pumpApp(
         LeaderboardPage(
           theme: DashTheme(),
         ),
-        navigator: navigator,
+        startGameBloc: startGameBloc,
       );
       await tester.ensureVisible(find.byType(TextButton));
       await tester.tap(find.byType(TextButton));
 
-      verify(() => navigator.push<void>(any())).called(1);
+      verify(() => startGameBloc.add(PlayTapped())).called(1);
     });
   });
 }
