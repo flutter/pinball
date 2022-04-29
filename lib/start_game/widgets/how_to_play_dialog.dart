@@ -92,12 +92,21 @@ class _MobileBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: const [
-        _MobileLaunchControls(),
-        _MobileFlipperControls(),
-      ],
+    final paddingWidth = MediaQuery.of(context).size.width * 0.15;
+    final paddingHeight = MediaQuery.of(context).size.height * 0.075;
+    return FittedBox(
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: paddingWidth,
+        ),
+        child: Column(
+          children: [
+            const _MobileLaunchControls(),
+            SizedBox(height: paddingHeight),
+            const _MobileFlipperControls(),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -112,7 +121,7 @@ class _MobileLaunchControls extends StatelessWidget {
     return Column(
       children: [
         Text(
-          l10n.tapAndHold,
+          l10n.tapAndHoldRocket,
           style: textStyle,
         ),
         Text.rich(

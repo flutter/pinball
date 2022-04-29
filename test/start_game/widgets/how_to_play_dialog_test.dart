@@ -31,7 +31,7 @@ void main() {
       await tester.pumpApp(HowToPlayDialog());
       expect(find.text(l10n.howToPlay), findsOneWidget);
       expect(find.text(l10n.tipsForFlips), findsOneWidget);
-      expect(find.text(l10n.tapAndHold), findsOneWidget);
+      expect(find.text(l10n.tapAndHoldRocket), findsOneWidget);
       expect(find.text(l10n.tapLeftRightScreen), findsOneWidget);
       debugDefaultTargetPlatformOverride = null;
     });
