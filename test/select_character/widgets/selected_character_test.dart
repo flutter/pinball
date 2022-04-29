@@ -2,12 +2,16 @@
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/flame.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
 import '../../helpers/helpers.dart';
+
+class MockBuildContext extends Mock implements BuildContext {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +34,7 @@ void main() {
 
   group('SelectedCharacter', () {
     testWidgets('loadAssets method returns list of futures', (tester) async {
-      expect(SelectedCharacter.loadAssets(), isList);
+      expect(SelectedCharacter.loadAssets(MockBuildContext()), isList);
     });
 
     testWidgets('renders selected character', (tester) async {
