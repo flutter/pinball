@@ -27,14 +27,8 @@ class StartGameListener extends StatelessWidget {
           case StartGameStatus.initial:
             break;
           case StartGameStatus.selectCharacter:
+            _onSelectCharacter(context);
             _game.gameFlowController.start();
-            // We need to add a delay between starting the game and showing
-            // the dialog.
-            Future.delayed(
-              const Duration(milliseconds: 1300),
-              () => _onSelectCharacter(context),
-            );
-
             break;
           case StartGameStatus.howToPlay:
             _onHowToPlay(context);
@@ -56,7 +50,7 @@ class StartGameListener extends StatelessWidget {
   }
 }
 
-Future<void> _onHowToPlay(BuildContext context) async {
+void _onHowToPlay(BuildContext context) {
   _showPinballDialog(
     context: context,
     child: HowToPlayDialog(
