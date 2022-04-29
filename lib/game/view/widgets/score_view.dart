@@ -59,7 +59,7 @@ class _ScoreDisplay extends StatelessWidget {
         Text(
           l10n.score.toLowerCase(),
           style: AppTextStyle.subtitle1.copyWith(
-            color: AppColors.orange,
+            color: AppColors.yellow,
           ),
         ),
         const _ScoreText(),

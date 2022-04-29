@@ -13,12 +13,14 @@ export 'cubit/google_letter_cubit.dart';
 class GoogleLetter extends BodyComponent with InitialPosition {
   /// {@macro google_letter}
   GoogleLetter(
-    int index,
-  )   : bloc = GoogleLetterCubit(),
+    int index, {
+    Iterable<Component>? children,
+  })  : bloc = GoogleLetterCubit(),
         super(
           children: [
             GoogleLetterBallContactBehavior(),
-            _GoogleLetterSprite(_GoogleLetterSprite.spritePaths[index])
+            _GoogleLetterSprite(_GoogleLetterSprite.spritePaths[index]),
+            ...?children,
           ],
         );
 
