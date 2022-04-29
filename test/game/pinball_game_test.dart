@@ -1,5 +1,6 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_test/flame_test.dart';
@@ -102,6 +103,18 @@ void main() {
     Assets.images.sparky.bumper.c.inactive.keyName,
   ];
 
+  late GameBloc gameBloc;
+
+  setUp(() {
+    gameBloc = MockGameBloc();
+    // ignore: avoid_dynamic_calls
+    whenListen(
+      gameBloc,
+      const Stream<GameState>.empty(),
+      initialState: const GameState.initial(),
+    );
+  });
+
   final flameTester = FlameTester(
     () => PinballTestGame(assets: assets),
   );
@@ -109,11 +122,16 @@ void main() {
     () => DebugPinballTestGame(assets: assets),
   );
 
+  final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
+    gameBuilder: () => PinballTestGame(assets: assets),
+    blocBuilder: () => gameBloc,
+  );
+
   group('PinballGame', () {
     group('components', () {
       // TODO(alestiago): tests that Blueprints get added once the Blueprint
       // class is removed.
-      flameTester.test(
+      flameBlocTester.test(
         'has only one Drain',
         (game) async {
           await game.ready();
@@ -124,11 +142,10 @@ void main() {
         },
       );
 
-      flameTester.test(
+      flameBlocTester.test(
         'has only one BottomGroup',
         (game) async {
           await game.ready();
-
           expect(
             game.children.whereType<BottomGroup>().length,
             equals(1),
@@ -136,7 +153,7 @@ void main() {
         },
       );
 
-      flameTester.test(
+      flameBlocTester.test(
         'has only one Plunger',
         (game) async {
           await game.ready();
@@ -147,7 +164,7 @@ void main() {
         },
       );
 
-      flameTester.test('has one FlutterForest', (game) async {
+      flameBlocTester.test('has one FlutterForest', (game) async {
         await game.ready();
         expect(
           game.children.whereType<FlutterForest>().length,
@@ -155,7 +172,7 @@ void main() {
         );
       });
 
-      flameTester.test(
+      flameBlocTester.test(
         'one GoogleWord',
         (game) async {
           await game.ready();
