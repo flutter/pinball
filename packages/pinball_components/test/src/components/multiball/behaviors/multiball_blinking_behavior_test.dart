@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, cascade_invocations
 
 import 'dart:async';
 
@@ -19,7 +19,7 @@ void main() {
     'MultiballBlinkingBehavior',
     () {
       flameTester.testGameWidget(
-        'calls onBlinked after 0.01 seconds',
+        'calls onBlinked each 0.1 seconds',
         setUp: (game, tester) async {
           final behavior = MultiballBlinkingBehavior();
           final bloc = MockMultiballCubit();
@@ -41,10 +41,48 @@ void main() {
             ),
           );
           await tester.pump();
-          game.update(0.01);
+          game.update(0.1);
 
           await streamController.close();
           verify(bloc.onBlink).called(1);
+        },
+      );
+
+      flameTester.testGameWidget(
+        'stops animation after 2 seconds',
+        setUp: (game, tester) async {
+          final behavior = MultiballBlinkingBehavior();
+          final bloc = MockMultiballCubit();
+          final streamController = StreamController<MultiballState>();
+          whenListen(
+            bloc,
+            streamController.stream,
+            initialState: MultiballState.initial(),
+          );
+          when(bloc.onBlink).thenAnswer((_) async {});
+
+          final multiball = Multiball.test(bloc: bloc);
+          await multiball.add(behavior);
+          await game.ensureAdd(multiball);
+
+          streamController.add(
+            MultiballState(
+              animationState: MultiballAnimationState.animated,
+              lightState: MultiballLightState.lit,
+            ),
+          );
+          await tester.pump();
+          game.update(2);
+
+          streamController.add(
+            MultiballState(
+              animationState: MultiballAnimationState.stopped,
+              lightState: MultiballLightState.lit,
+            ),
+          );
+
+          await streamController.close();
+          verify(bloc.onStop).called(1);
         },
       );
     },
