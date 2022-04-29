@@ -2,7 +2,6 @@
 
 part of 'multiplier_cubit.dart';
 
-/// Indicates the different sprite states for [MultiplierSpriteGroupComponent].
 enum MultiplierSpriteState {
   lit,
   dimmed,
