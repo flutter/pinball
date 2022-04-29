@@ -235,8 +235,10 @@ class $AssetsImagesSlingshotGen {
 class $AssetsImagesSparkyGen {
   const $AssetsImagesSparkyGen();
 
+  /// File path: assets/images/sparky/animatronic.png
   AssetGenImage get animatronic =>
       const AssetGenImage('assets/images/sparky/animatronic.png');
+
   $AssetsImagesSparkyBumperGen get bumper =>
       const $AssetsImagesSparkyBumperGen();
   $AssetsImagesSparkyComputerGen get computer =>
