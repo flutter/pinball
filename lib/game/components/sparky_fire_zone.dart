@@ -18,17 +18,17 @@ class SparkyFireZone extends Blueprint {
           components: [
             SparkyBumper.a(
               children: [
-                ScoringBehavior(points: 20),
+                ScoringBehavior(points: 20000),
               ],
             )..initialPosition = Vector2(-22.9, -41.65),
             SparkyBumper.b(
               children: [
-                ScoringBehavior(points: 20),
+                ScoringBehavior(points: 20000),
               ],
             )..initialPosition = Vector2(-21.25, -57.9),
             SparkyBumper.c(
               children: [
-                ScoringBehavior(points: 20),
+                ScoringBehavior(points: 20000),
               ],
             )..initialPosition = Vector2(-3.3, -52.55),
             SparkyComputerSensor()..initialPosition = Vector2(-13, -49.8),
@@ -47,7 +47,13 @@ class SparkyFireZone extends Blueprint {
 class SparkyComputerSensor extends BodyComponent
     with InitialPosition, ContactCallbacks {
   /// {@macro sparky_computer_sensor}
-  SparkyComputerSensor() : super(renderBody: false);
+  SparkyComputerSensor()
+      : super(
+          renderBody: false,
+          children: [
+            ScoringBehavior(points: 200000),
+          ],
+        );
 
   @override
   Body createBody() {
