@@ -24,6 +24,11 @@ void main() {
 
     setUp(() {
       gameBloc = MockGameBloc();
+      whenListen(
+        gameBloc,
+        const Stream<GameState>.empty(),
+        initialState: const GameState.initial(),
+      );
     });
 
     final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
@@ -32,74 +37,99 @@ void main() {
       assets: assets,
     );
 
-    flameBlocTester.testGameWidget(
-      'animate multiballs when new GameBonus.dashNest received',
-      setUp: (game, tester) async {
-        final streamController = StreamController<GameState>();
-        whenListen(
-          gameBloc,
-          streamController.stream,
-          initialState: const GameState.initial(),
+    group('listenWhen', () {
+      test(
+          'is true when the bonusHistory has changed '
+          'with a new GameBonus.dashNest', () {
+        final previous = GameState.initial();
+        final state = previous.copyWith(
+          bonusHistory: [GameBonus.dashNest],
         );
 
-        final behavior = MultiballsBehavior();
-        final parent = Multiballs.test();
-        final multiballs = [
-          Multiball.test(bloc: MockMultiballCubit()),
-          Multiball.test(bloc: MockMultiballCubit()),
-          Multiball.test(bloc: MockMultiballCubit()),
-          Multiball.test(bloc: MockMultiballCubit()),
-        ];
-
-        await parent.addAll(multiballs);
-        await game.ensureAdd(parent);
-        await parent.ensureAdd(behavior);
-
-        streamController.add(
-          GameState.initial().copyWith(bonusHistory: [GameBonus.dashNest]),
+        expect(
+          MultiballsBehavior().listenWhen(previous, state),
+          isTrue,
         );
-        await tester.pump();
+      });
 
-        for (final multiball in multiballs) {
-          verify(multiball.bloc.onAnimate).called(1);
-        }
-      },
-    );
-
-    flameBlocTester.testGameWidget(
-      "don't animate multiballs when now new GameBonus.dashNest received",
-      setUp: (game, tester) async {
-        final streamController = StreamController<GameState>();
-        whenListen(
-          gameBloc,
-          streamController.stream,
-          initialState: const GameState.initial(),
+      test(
+          'is false when the bonusHistory has changed '
+          'with a bonus different than GameBonus.dashNest', () {
+        final previous = GameState.initial();
+        final state = previous.copyWith(
+          bonusHistory: [GameBonus.androidSpaceship],
         );
 
-        final behavior = MultiballsBehavior();
-        final parent = Multiballs.test();
-        final multiballs = [
-          Multiball.test(bloc: MockMultiballCubit()),
-          Multiball.test(bloc: MockMultiballCubit()),
-          Multiball.test(bloc: MockMultiballCubit()),
-          Multiball.test(bloc: MockMultiballCubit()),
-        ];
-
-        await parent.addAll(multiballs);
-        await game.ensureAdd(parent);
-        await parent.ensureAdd(behavior);
-
-        streamController.add(
-          GameState.initial().copyWith(
-            bonusHistory: [GameBonus.sparkyTurboCharge],
-          ),
+        expect(
+          MultiballsBehavior().listenWhen(previous, state),
+          isFalse,
         );
-        await tester.pump();
+      });
 
-        for (final multiball in multiballs) {
-          verifyNever(multiball.bloc.onAnimate);
-        }
-      },
-    );
+      test('is false when the bonusHistory state is the same', () {
+        final state = GameState(
+          score: 10,
+          multiplier: 1,
+          rounds: 0,
+          bonusHistory: const [],
+        );
+
+        final previous = GameState.initial();
+        expect(
+          MultiballsBehavior().listenWhen(previous, state),
+          isFalse,
+        );
+      });
+    });
+
+    group('onNewState', () {
+      flameBlocTester.testGameWidget(
+        "calls 'onAnimate' once per each multiball when GameBloc emit state",
+        setUp: (game, tester) async {
+          final behavior = MultiballsBehavior();
+          final parent = Multiballs.test();
+          final multiballCubit = MockMultiballCubit();
+          final otherMultiballCubit = MockMultiballCubit();
+          final multiballs = [
+            Multiball.test(
+              bloc: multiballCubit,
+            ),
+            Multiball.test(
+              bloc: otherMultiballCubit,
+            ),
+          ];
+
+          whenListen(
+            multiballCubit,
+            const Stream<MultiballState>.empty(),
+            initialState: MultiballState.initial(),
+          );
+          when(multiballCubit.onAnimate).thenAnswer((_) async {});
+
+          whenListen(
+            otherMultiballCubit,
+            const Stream<MultiballState>.empty(),
+            initialState: MultiballState.initial(),
+          );
+          when(otherMultiballCubit.onAnimate).thenAnswer((_) async {});
+
+          await parent.addAll(multiballs);
+          await game.ensureAdd(parent);
+          await parent.ensureAdd(behavior);
+
+          await tester.pump();
+
+          behavior.onNewState(
+            GameState.initial().copyWith(bonusHistory: [GameBonus.dashNest]),
+          );
+
+          for (final multiball in multiballs) {
+            verify(
+              multiball.bloc.onAnimate,
+            ).called(1);
+          }
+        },
+      );
+    });
   });
 }

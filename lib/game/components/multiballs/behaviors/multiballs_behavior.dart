@@ -1,40 +1,26 @@
 import 'package:flame/components.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// Toggle each [Multiball] when there is a bonus ball.
 class MultiballsBehavior extends Component
-    with HasGameRef<PinballGame>, ParentIsA<Multiballs> {
+    with
+        HasGameRef<PinballGame>,
+        ParentIsA<Multiballs>,
+        BlocComponent<GameBloc, GameState> {
   @override
-  void onMount() {
-    super.onMount();
+  bool listenWhen(GameState? previousState, GameState newState) {
+    final hasMultiball = newState.bonusHistory.contains(GameBonus.dashNest);
+    final hasChanged = previousState?.bonusHistory != newState.bonusHistory;
+    return hasChanged && hasMultiball;
+  }
 
-    var _previousMultiballBonus = 0;
-
-    gameRef.read<GameBloc>().stream.listen((state) {
-      // TODO(ruimiguel): only when state.bonusHistory dashNest has changed
-      final multiballBonus = state.bonusHistory.fold<int>(
-        0,
-        (previousValue, bonus) {
-          if (bonus == GameBonus.dashNest) {
-            previousValue++;
-          }
-          return previousValue;
-        },
-      );
-
-      if (_previousMultiballBonus != multiballBonus) {
-        _previousMultiballBonus = multiballBonus;
-
-        final hasMultiball = state.bonusHistory.contains(GameBonus.dashNest);
-
-        if (hasMultiball) {
-          parent.children.whereType<Multiball>().forEach((multiball) {
-            multiball.bloc.onAnimate();
-          });
-        }
-      }
+  @override
+  void onNewState(GameState state) {
+    parent.children.whereType<Multiball>().forEach((multiball) {
+      multiball.bloc.onAnimate();
     });
   }
 }
