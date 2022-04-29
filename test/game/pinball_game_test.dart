@@ -107,7 +107,6 @@ void main() {
 
   setUp(() {
     gameBloc = MockGameBloc();
-    // ignore: avoid_dynamic_calls
     whenListen(
       gameBloc,
       const Stream<GameState>.empty(),
