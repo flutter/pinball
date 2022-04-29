@@ -14,7 +14,7 @@ class AndroidBumperCowGame extends BallGame {
         );
 
   static const description = '''
-    Shows how a AndroidBumperCowGame is rendered.
+    Shows how a AndroidBumper.cow is rendered.
 
     - Activate the "trace" parameter to overlay the body.
 ''';
