@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:pinball/game/components/multipliers/behaviors/behaviors.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-/// {@template multipliers_component}
-/// A group for the multipliers over the board.
+/// {@template multipliers}
+/// A group for the multipliers on the board.
 /// {@endtemplate}
 class Multipliers extends Component {
-  /// {@macro multipliers_component}
+  /// {@macro multipliers}
   Multipliers()
       : super(
           children: [
