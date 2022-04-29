@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,25 +30,25 @@ class MultipliersGame extends BallGame with KeyboardEvents {
 ''';
 
   final List<Multiplier> multipliers = [
-    Multiplier(
-      value: MultiplierValue.x2,
+    Multiplier.x2(
       position: Vector2(-20, 0),
+      rotation: -15 * math.pi / 180,
     ),
-    Multiplier(
-      value: MultiplierValue.x3,
+    Multiplier.x3(
       position: Vector2(20, -5),
+      rotation: 15 * math.pi / 180,
     ),
-    Multiplier(
-      value: MultiplierValue.x4,
+    Multiplier.x4(
       position: Vector2(0, -15),
+      rotation: 0,
     ),
-    Multiplier(
-      value: MultiplierValue.x5,
+    Multiplier.x5(
       position: Vector2(-10, -25),
+      rotation: -3 * math.pi / 180,
     ),
-    Multiplier(
-      value: MultiplierValue.x6,
+    Multiplier.x6(
       position: Vector2(10, -35),
+      rotation: 8 * math.pi / 180,
     ),
   ];
 
