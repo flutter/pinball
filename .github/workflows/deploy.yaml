@@ -11,7 +11,7 @@ jobs:
     name: Deploy Development
     steps:
       - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v1.5.0
+      - uses: subosito/flutter-action@v2
         with:
           channel: stable
       - run: flutter packages get
