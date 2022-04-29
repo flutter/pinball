@@ -1,5 +1,6 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -43,6 +44,16 @@ void main() {
         expect(game.contains(kicker), isTrue);
       },
     );
+
+    flameTester.test('adds new children', (game) async {
+      final component = Component();
+      final kicker = Kicker(
+        side: BoardSide.left,
+        children: [component],
+      );
+      await game.ensureAdd(kicker);
+      expect(kicker.children, contains(component));
+    });
 
     flameTester.test(
       'body is static',
