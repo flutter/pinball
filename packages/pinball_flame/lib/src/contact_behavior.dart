@@ -8,7 +8,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// In constract with just assigning a [ContactCallbacks] to a userData, this
 /// class respects the previous userData.
 ///
-/// It does so by grouping the userDatas in a [_UserDatas], and resetting the
+/// It does so by grouping the userData in a [_UserData], and resetting the
 /// parent's userData accordingly.
 // TODO(alestiago): Make use of generics to infer the type of the contact.
 // https://github.com/VGVentures/pinball/pull/234#discussion_r859182267
@@ -22,17 +22,16 @@ class ContactBehavior<T extends BodyComponent> extends Component
   ///
   /// If no specific fixtures are specified, the [ContactCallbacks] is applied
   /// to the entire body, hence all fixtures are considered.
-  void applyTo(Iterable<Object> userDatas) =>
-      _fixtureUserDatas.addAll(userDatas);
+  void applyTo(Iterable<Object> userData) => _fixtureUserDatas.addAll(userData);
 
   @override
   Future<void> onLoad() async {
     if (_fixtureUserDatas.isNotEmpty) {
       for (final fixture in _targetedFixtures) {
-        fixture.userData = _UserDatas.fromFixture(fixture)..add(this);
+        fixture.userData = _UserData.fromFixture(fixture)..add(this);
       }
     } else {
-      parent.body.userData = _UserDatas.fromBody(parent.body)..add(this);
+      parent.body.userData = _UserData.fromBody(parent.body)..add(this);
     }
   }
 
@@ -41,7 +40,7 @@ class ContactBehavior<T extends BodyComponent> extends Component
         if (_fixtureUserDatas.contains(fixture.userData)) return true;
 
         final userData = fixture.userData;
-        if (userData is _UserDatas) {
+        if (userData is _UserData) {
           return _fixtureUserDatas.contains(userData.value);
         }
 
@@ -49,28 +48,28 @@ class ContactBehavior<T extends BodyComponent> extends Component
       });
 }
 
-class _UserDatas with ContactCallbacks {
-  _UserDatas._(Object? userData) : _userDatas = [userData];
+class _UserData with ContactCallbacks {
+  _UserData._(Object? userData) : _userData = [userData];
 
-  factory _UserDatas._fromUserData(Object? userData) {
-    if (userData is _UserDatas) return userData;
-    return _UserDatas._(userData);
+  factory _UserData._fromUserData(Object? userData) {
+    if (userData is _UserData) return userData;
+    return _UserData._(userData);
   }
 
-  factory _UserDatas.fromFixture(Fixture fixture) =>
-      _UserDatas._fromUserData(fixture.userData);
+  factory _UserData.fromFixture(Fixture fixture) =>
+      _UserData._fromUserData(fixture.userData);
 
-  factory _UserDatas.fromBody(Body body) =>
-      _UserDatas._fromUserData(body.userData);
+  factory _UserData.fromBody(Body body) =>
+      _UserData._fromUserData(body.userData);
 
-  final List<Object?> _userDatas;
+  final List<Object?> _userData;
 
   Iterable<ContactCallbacks> get _contactCallbacks =>
-      _userDatas.whereType<ContactCallbacks>();
+      _userData.whereType<ContactCallbacks>();
 
-  Object? get value => _userDatas.first;
+  Object? get value => _userData.first;
 
-  void add(Object? userData) => _userDatas.add(userData);
+  void add(Object? userData) => _userData.add(userData);
 
   @override
   void beginContact(Object other, Contact contact) {
