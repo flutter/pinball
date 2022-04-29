@@ -16,16 +16,24 @@ void main() {
   group('PinballGamePage', () {
     late CharacterThemeCubit characterThemeCubit;
     late GameBloc gameBloc;
+    late StartGameBloc startGameBloc;
 
     setUp(() async {
       await Future.wait<void>(game.preLoadAssets());
       characterThemeCubit = MockCharacterThemeCubit();
       gameBloc = MockGameBloc();
+      startGameBloc = MockStartGameBloc();
 
       whenListen(
         characterThemeCubit,
         const Stream<CharacterThemeState>.empty(),
         initialState: const CharacterThemeState.initial(),
+      );
+
+      whenListen(
+        startGameBloc,
+        const Stream<StartGameState>.empty(),
+        initialState: const StartGameState.initial(),
       );
 
       whenListen(
@@ -170,9 +178,17 @@ void main() {
   group('PinballGameView', () {
     final gameBloc = MockGameBloc();
     final startGameBloc = MockStartGameBloc();
+    late CharacterThemeCubit characterThemeCubit;
 
     setUp(() async {
       await Future.wait<void>(game.preLoadAssets());
+      characterThemeCubit = MockCharacterThemeCubit();
+
+      whenListen(
+        characterThemeCubit,
+        const Stream<CharacterThemeState>.empty(),
+        initialState: const CharacterThemeState.initial(),
+      );
 
       whenListen(
         gameBloc,
@@ -192,6 +208,7 @@ void main() {
         PinballGameView(game: game),
         gameBloc: gameBloc,
         startGameBloc: startGameBloc,
+        characterThemeCubit: characterThemeCubit,
       );
 
       expect(
@@ -216,10 +233,17 @@ void main() {
         initialState: startGameState,
       );
 
+      whenListen(
+        startGameBloc,
+        Stream.value(startGameState),
+        initialState: startGameState,
+      );
+
       await tester.pumpApp(
         PinballGameView(game: game),
         gameBloc: gameBloc,
         startGameBloc: startGameBloc,
+        characterThemeCubit: characterThemeCubit,
       );
 
       expect(
