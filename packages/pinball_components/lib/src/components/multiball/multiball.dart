@@ -15,8 +15,6 @@ class Multiball extends Component {
   /// {@macro multiball}
   Multiball._({
     required Vector2 position,
-    required String onAssetPath,
-    required String offAssetPath,
     double rotation = 0,
     Iterable<Component>? children,
     required this.bloc,
@@ -25,10 +23,10 @@ class Multiball extends Component {
             MultiballBlinkingBehavior(),
             MultiballSpriteGroupComponent(
               position: position,
-              onAssetPath: onAssetPath,
-              offAssetPath: offAssetPath,
+              litAssetPath: Assets.images.multiball.lit.keyName,
+              dimmedAssetPath: Assets.images.multiball.dimmed.keyName,
               rotation: rotation,
-              state: bloc.state,
+              state: bloc.state.lightState,
             ),
             ...?children,
           ],
@@ -39,8 +37,6 @@ class Multiball extends Component {
     Iterable<Component>? children,
   }) : this._(
           position: Vector2(-23, 7.5),
-          onAssetPath: Assets.images.multiball.a.lit.keyName,
-          offAssetPath: Assets.images.multiball.a.dimmed.keyName,
           rotation: -24 * math.pi / 180,
           bloc: MultiballCubit(),
           children: children,
@@ -50,10 +46,8 @@ class Multiball extends Component {
   Multiball.b({
     Iterable<Component>? children,
   }) : this._(
-          position: Vector2(-7, -6.5),
-          onAssetPath: Assets.images.multiball.b.lit.keyName,
-          offAssetPath: Assets.images.multiball.b.dimmed.keyName,
-          rotation: -5 * math.pi / 180,
+          position: Vector2(-7.2, -6.5),
+          rotation: -6 * math.pi / 180,
           bloc: MultiballCubit(),
           children: children,
         );
@@ -62,9 +56,7 @@ class Multiball extends Component {
   Multiball.c({
     Iterable<Component>? children,
   }) : this._(
-          position: Vector2(-0.5, -9.5),
-          onAssetPath: Assets.images.multiball.c.lit.keyName,
-          offAssetPath: Assets.images.multiball.c.dimmed.keyName,
+          position: Vector2(-0.7, -9.5),
           rotation: 3 * math.pi / 180,
           bloc: MultiballCubit(),
           children: children,
@@ -75,8 +67,6 @@ class Multiball extends Component {
     Iterable<Component>? children,
   }) : this._(
           position: Vector2(15, 7),
-          onAssetPath: Assets.images.multiball.d.lit.keyName,
-          offAssetPath: Assets.images.multiball.d.dimmed.keyName,
           rotation: 24 * math.pi / 180,
           bloc: MultiballCubit(),
           children: children,
@@ -108,17 +98,18 @@ class Multiball extends Component {
 /// A [SpriteGroupComponent] for the multiball over the board.
 /// {@endtemplate}
 @visibleForTesting
-class MultiballSpriteGroupComponent extends SpriteGroupComponent<MultiballState>
+class MultiballSpriteGroupComponent
+    extends SpriteGroupComponent<MultiballLightState>
     with HasGameRef, ParentIsA<Multiball> {
   /// {@macro multiball_sprite_group_component}
   MultiballSpriteGroupComponent({
     required Vector2 position,
-    required String onAssetPath,
-    required String offAssetPath,
+    required String litAssetPath,
+    required String dimmedAssetPath,
     required double rotation,
-    required MultiballState state,
-  })  : _litAssetPath = onAssetPath,
-        _dimmedAssetPath = offAssetPath,
+    required MultiballLightState state,
+  })  : _litAssetPath = litAssetPath,
+        _dimmedAssetPath = dimmedAssetPath,
         super(
           anchor: Anchor.center,
           position: position,
@@ -132,15 +123,16 @@ class MultiballSpriteGroupComponent extends SpriteGroupComponent<MultiballState>
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    parent.bloc.stream.listen((state) => current = state);
+    parent.bloc.stream.listen((state) => current = state.lightState);
 
     final sprites = {
-      MultiballState.lit: Sprite(gameRef.images.fromCache(_litAssetPath)),
-      MultiballState.dimmed: Sprite(gameRef.images.fromCache(_dimmedAssetPath)),
+      MultiballLightState.lit: Sprite(
+        gameRef.images.fromCache(_litAssetPath),
+      ),
+      MultiballLightState.dimmed:
+          Sprite(gameRef.images.fromCache(_dimmedAssetPath)),
     };
     this.sprites = sprites;
-
-    current = MultiballState.dimmed;
     size = sprites[current]!.originalSize / 10;
   }
 }

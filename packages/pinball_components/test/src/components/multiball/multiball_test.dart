@@ -1,7 +1,6 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -12,14 +11,8 @@ import '../../../helpers/helpers.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
-    Assets.images.multiball.a.lit.keyName,
-    Assets.images.multiball.a.dimmed.keyName,
-    Assets.images.multiball.b.lit.keyName,
-    Assets.images.multiball.b.dimmed.keyName,
-    Assets.images.multiball.c.lit.keyName,
-    Assets.images.multiball.c.dimmed.keyName,
-    Assets.images.multiball.d.lit.keyName,
-    Assets.images.multiball.d.dimmed.keyName,
+    Assets.images.multiball.lit.keyName,
+    Assets.images.multiball.dimmed.keyName,
   ];
   final flameTester = FlameTester(() => TestGame(assets));
 
@@ -58,8 +51,8 @@ void main() {
         final bloc = MockMultiballCubit();
         whenListen(
           bloc,
-          const Stream<MultiballState>.empty(),
-          initialState: MultiballState.dimmed,
+          const Stream<MultiballLightState>.empty(),
+          initialState: MultiballLightState.dimmed,
         );
         when(bloc.close).thenAnswer((_) async {});
         final multiball = Multiball.test(bloc: bloc);
