@@ -1,6 +1,7 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -80,6 +81,24 @@ void main() {
       },
     );
 
+    flameTester.test(
+      'loads children correctly',
+      (game) async {
+        final googleLetter = GoogleLetter(
+          1,
+          children: [
+            TimerComponent(period: 10),
+          ],
+        );
+        await game.ready();
+        await game.ensureAdd(googleLetter);
+
+        expect(
+          googleLetter.children.whereType<TimerComponent>().length,
+          equals(1),
+        );
+      },
+    );
     test('throws error when index out of range', () {
       expect(() => GoogleLetter(-1), throwsA(isA<RangeError>()));
       expect(() => GoogleLetter(6), throwsA(isA<RangeError>()));
