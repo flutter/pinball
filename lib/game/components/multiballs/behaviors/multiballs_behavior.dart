@@ -10,11 +10,11 @@ class MultiballsBehavior extends Component
   void onMount() {
     super.onMount();
 
-    int _previousMultiballBonus = 0;
+    var _previousMultiballBonus = 0;
 
     gameRef.read<GameBloc>().stream.listen((state) {
       // TODO(ruimiguel): only when state.bonusHistory dashNest has changed
-      var multiballBonus = state.bonusHistory.fold<int>(
+      final multiballBonus = state.bonusHistory.fold<int>(
         0,
         (previousValue, bonus) {
           if (bonus == GameBonus.dashNest) {

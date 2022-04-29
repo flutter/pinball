@@ -21,10 +21,11 @@ class MultiballBlinkingBehavior extends Component with ParentIsA<Multiball> {
     }
   }
 
-  void _animate() async {
+  // TODO(ruimiguel): try to improve with TimerComponent?
+  Future<void> _animate() async {
     if (!_isAnimating) {
       _isAnimating = true;
-      for (var i = 0; i < 5; i++) {
+      for (var i = 0; i < _maxBlinks; i++) {
         parent.bloc.onBlink();
         await Future<void>.delayed(
           const Duration(milliseconds: 100),

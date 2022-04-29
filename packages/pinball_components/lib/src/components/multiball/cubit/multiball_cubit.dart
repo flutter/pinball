@@ -6,7 +6,7 @@ import 'package:equatable/equatable.dart';
 part 'multiball_state.dart';
 
 class MultiballCubit extends Cubit<MultiballState> {
-  MultiballCubit() : super(MultiballState.initial());
+  MultiballCubit() : super(const MultiballState.initial());
 
   void onAnimate() {
     emit(
