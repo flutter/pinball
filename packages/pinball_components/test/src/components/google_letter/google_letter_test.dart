@@ -81,7 +81,7 @@ void main() {
       },
     );
 
-    flameTester.test('new children', (game) async {
+    flameTester.test('adds new children', (game) async {
       final component = Component();
       final googleLetter = GoogleLetter(
         1,
