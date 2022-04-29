@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
@@ -17,7 +19,7 @@ void main() {
     'MultiballBlinkingBehavior',
     () {
       flameTester.testGameWidget(
-        'calls onBlinked after 0.05 seconds when inactive',
+        'calls onBlinked after 0.01 seconds',
         setUp: (game, tester) async {
           final behavior = MultiballBlinkingBehavior();
           final bloc = MockMultiballCubit();
@@ -39,7 +41,7 @@ void main() {
             ),
           );
           await tester.pump();
-          game.update(0.05);
+          game.update(0.01);
 
           await streamController.close();
           verify(bloc.onBlink).called(1);
