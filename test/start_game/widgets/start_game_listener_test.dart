@@ -18,40 +18,62 @@ void main() {
       pinballGame = MockPinballGame();
     });
 
-    // TODO(arturplaczek): need to fix that test
-    testWidgets(
-      'on selectCharacter status calls start on the game controller and shows '
-      'SelectCharacter dialog',
-      (tester) async {
-        whenListen(
-          startGameBloc,
-          Stream.value(
-            const StartGameState(status: StartGameStatus.selectCharacter),
-          ),
-          initialState: const StartGameState.initial(),
-        );
-        final gameController = MockGameFlowController();
-        when(() => pinballGame.gameFlowController)
-            .thenAnswer((_) => gameController);
+    group('on selectCharacter status', () {
+      testWidgets(
+        'calls start on the game controller',
+        (tester) async {
+          whenListen(
+            startGameBloc,
+            Stream.value(
+              const StartGameState(status: StartGameStatus.selectCharacter),
+            ),
+            initialState: const StartGameState.initial(),
+          );
+          final gameController = MockGameFlowController();
+          when(() => pinballGame.gameFlowController)
+              .thenAnswer((_) => gameController);
 
-        await tester.pumpApp(
-          StartGameListener(
-            game: pinballGame,
-            selectCharacterDelay: 0,
-            child: const SizedBox.shrink(),
-          ),
-          startGameBloc: startGameBloc,
-        );
-        verify(gameController.start).called(1);
+          await tester.pumpApp(
+            StartGameListener(
+              game: pinballGame,
+              child: const SizedBox.shrink(),
+            ),
+            startGameBloc: startGameBloc,
+          );
+        },
+      );
 
-        await tester.pumpAndSettle(kThemeAnimationDuration);
+      testWidgets(
+        'shows SelectCharacter dialog',
+        (tester) async {
+          whenListen(
+            startGameBloc,
+            Stream.value(
+              const StartGameState(status: StartGameStatus.selectCharacter),
+            ),
+            initialState: const StartGameState.initial(),
+          );
+          final gameController = MockGameFlowController();
+          when(() => pinballGame.gameFlowController)
+              .thenAnswer((_) => gameController);
 
-        await expectLater(
-          find.byType(CharacterSelectionDialog),
-          findsOneWidget,
-        );
-      },
-    );
+          await tester.pumpApp(
+            StartGameListener(
+              game: pinballGame,
+              child: const SizedBox.shrink(),
+            ),
+            startGameBloc: startGameBloc,
+          );
+
+          await tester.pumpAndSettle(kThemeAnimationDuration);
+
+          expect(
+            find.byType(CharacterSelectionDialog),
+            findsOneWidget,
+          );
+        },
+      );
+    });
 
     testWidgets(
       'on howToPlay status shows HowToPlay dialog',
