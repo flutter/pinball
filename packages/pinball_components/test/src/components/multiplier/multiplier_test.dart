@@ -12,7 +12,7 @@ import '../../../helpers/helpers.dart';
 void main() {
   final bloc = MockMultiplierCubit();
 
-  group('MultiplierSpriteGroupComponent', () {
+  group('Multiplier', () {
     TestWidgetsFlutterBinding.ensureInitialized();
     final assets = [
       Assets.images.multiplier.x2.lit.keyName,
@@ -28,14 +28,6 @@ void main() {
     ];
     final flameTester = FlameTester(() => TestGame(assets));
 
-    flameTester.test('"x2" loads correctly', (game) async {
-      final multiplier = Multiplier.x2(
-        position: Vector2.zero(),
-        rotation: 0,
-      );
-      await game.ensureAdd(multiplier);
-      expect(game.contains(multiplier), isTrue);
-    });
     flameTester.test('"x2" loads correctly', (game) async {
       final multiplier = Multiplier.x2(
         position: Vector2.zero(),
