@@ -3,6 +3,7 @@ export 'android_spaceship.dart';
 export 'backboard/backboard.dart';
 export 'ball.dart';
 export 'baseboard.dart';
+export 'board_background_sprite_component.dart';
 export 'board_dimensions.dart';
 export 'board_side.dart';
 export 'boundaries.dart';

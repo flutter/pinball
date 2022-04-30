@@ -13,6 +13,7 @@ extension PinballGameAssetsX on PinballGame {
     const dinoTheme = DinoTheme();
 
     return [
+      images.load(components.Assets.images.boardBackground.keyName),
       images.load(components.Assets.images.ball.ball.keyName),
       images.load(components.Assets.images.ball.flameEffect.keyName),
       images.load(components.Assets.images.signpost.inactive.keyName),

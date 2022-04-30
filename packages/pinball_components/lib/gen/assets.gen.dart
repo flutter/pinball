@@ -14,6 +14,10 @@ class $AssetsImagesGen {
   $AssetsImagesBackboardGen get backboard => const $AssetsImagesBackboardGen();
   $AssetsImagesBallGen get ball => const $AssetsImagesBallGen();
   $AssetsImagesBaseboardGen get baseboard => const $AssetsImagesBaseboardGen();
+
+  /// File path: assets/images/board-background.png
+  AssetGenImage get boardBackground =>
+      const AssetGenImage('assets/images/board-background.png');
   $AssetsImagesBoundaryGen get boundary => const $AssetsImagesBoundaryGen();
   $AssetsImagesDashGen get dash => const $AssetsImagesDashGen();
   $AssetsImagesDinoGen get dino => const $AssetsImagesDinoGen();

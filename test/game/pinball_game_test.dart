@@ -24,6 +24,7 @@ void main() {
     Assets.images.backboard.backboardScores.keyName,
     Assets.images.backboard.backboardGameOver.keyName,
     Assets.images.backboard.display.keyName,
+    Assets.images.boardBackground.keyName,
     Assets.images.ball.ball.keyName,
     Assets.images.ball.flameEffect.keyName,
     Assets.images.baseboard.left.keyName,
