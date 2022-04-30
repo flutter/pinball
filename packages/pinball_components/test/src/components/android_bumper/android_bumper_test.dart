@@ -17,6 +17,8 @@ void main() {
     Assets.images.androidBumper.a.dimmed.keyName,
     Assets.images.androidBumper.b.lit.keyName,
     Assets.images.androidBumper.b.dimmed.keyName,
+    Assets.images.androidBumper.cow.lit.keyName,
+    Assets.images.androidBumper.cow.dimmed.keyName,
   ];
   final flameTester = FlameTester(() => TestGame(assets));
 
@@ -29,6 +31,12 @@ void main() {
 
     flameTester.test('"b" loads correctly', (game) async {
       final androidBumper = AndroidBumper.b();
+      await game.ensureAdd(androidBumper);
+      expect(game.contains(androidBumper), isTrue);
+    });
+
+    flameTester.test('"cow" loads correctly', (game) async {
+      final androidBumper = AndroidBumper.cow();
       await game.ensureAdd(androidBumper);
       expect(game.contains(androidBumper), isTrue);
     });

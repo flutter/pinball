@@ -38,6 +38,8 @@ class $AssetsImagesAndroidBumperGen {
       const $AssetsImagesAndroidBumperAGen();
   $AssetsImagesAndroidBumperBGen get b =>
       const $AssetsImagesAndroidBumperBGen();
+  $AssetsImagesAndroidBumperCowGen get cow =>
+      const $AssetsImagesAndroidBumperCowGen();
 }
 
 class $AssetsImagesBackboardGen {
@@ -284,6 +286,18 @@ class $AssetsImagesAndroidBumperBGen {
   /// File path: assets/images/android_bumper/b/lit.png
   AssetGenImage get lit =>
       const AssetGenImage('assets/images/android_bumper/b/lit.png');
+}
+
+class $AssetsImagesAndroidBumperCowGen {
+  const $AssetsImagesAndroidBumperCowGen();
+
+  /// File path: assets/images/android_bumper/cow/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/android_bumper/cow/dimmed.png');
+
+  /// File path: assets/images/android_bumper/cow/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/android_bumper/cow/lit.png');
 }
 
 class $AssetsImagesDashBumperGen {
