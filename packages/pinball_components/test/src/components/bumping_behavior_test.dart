@@ -14,12 +14,9 @@ class _MockContactImpulse extends Mock implements ContactImpulse {}
 
 class _TestBodyComponent extends BodyComponent {
   @override
-  Body createBody() {
-    final shape = CircleShape();
-    return world.createBody(
-      BodyDef(type: BodyType.dynamic),
-    )..createFixtureFromShape(shape, 20);
-  }
+  Body createBody() => world.createBody(
+        BodyDef(type: BodyType.dynamic),
+      )..createFixtureFromShape(CircleShape(), 1);
 }
 
 void main() {
