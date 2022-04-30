@@ -58,28 +58,78 @@ void main() {
     late Contact contact;
     late Manifold manifold;
     late ContactImpulse contactImpulse;
+    late FixtureDef fixtureDef;
 
     setUp(() {
       other = Object();
       contact = _MockContact();
       manifold = _MockManifold();
       contactImpulse = _MockContactImpulse();
+      fixtureDef = FixtureDef(CircleShape());
     });
 
     flameTester.test(
-      'should add a new ContactCallbacks to the parent',
+      "should add a new ContactCallbacks to the parent's body userData "
+      'when not applied to fixtures',
       (game) async {
         final parent = _TestBodyComponent();
         final contactBehavior = ContactBehavior();
         await parent.add(contactBehavior);
         await game.ensureAdd(parent);
 
-        expect(parent.body.userData, contactBehavior);
+        expect(parent.body.userData, isA<ContactCallbacks>());
       },
     );
 
     flameTester.test(
-      "should respect the previous ContactCallbacks in the parent's userData",
+      'should add a new ContactCallbacks to the targeted fixture ',
+      (game) async {
+        final parent = _TestBodyComponent();
+
+        await game.ensureAdd(parent);
+        final fixture1 =
+            parent.body.createFixture(fixtureDef..userData = 'foo');
+        final fixture2 = parent.body.createFixture(fixtureDef..userData = null);
+        final contactBehavior = ContactBehavior()
+          ..applyTo(
+            [fixture1.userData!],
+          );
+
+        await parent.ensureAdd(contactBehavior);
+
+        expect(parent.body.userData, isNull);
+        expect(fixture1.userData, isA<ContactCallbacks>());
+        expect(fixture2.userData, isNull);
+      },
+    );
+
+    flameTester.test(
+      'should add a new ContactCallbacks to the targeted fixtures ',
+      (game) async {
+        final parent = _TestBodyComponent();
+
+        await game.ensureAdd(parent);
+        final fixture1 =
+            parent.body.createFixture(fixtureDef..userData = 'foo');
+        final fixture2 =
+            parent.body.createFixture(fixtureDef..userData = 'boo');
+        final contactBehavior = ContactBehavior()
+          ..applyTo([
+            fixture1.userData!,
+            fixture2.userData!,
+          ]);
+
+        await parent.ensureAdd(contactBehavior);
+
+        expect(parent.body.userData, isNull);
+        expect(fixture1.userData, isA<ContactCallbacks>());
+        expect(fixture2.userData, isA<ContactCallbacks>());
+      },
+    );
+
+    flameTester.test(
+      "should respect the previous ContactCallbacks in the parent's userData "
+      'when not applied to fixtures',
       (game) async {
         final parent = _TestBodyComponent();
         await game.ensureAdd(parent);
@@ -113,41 +163,94 @@ void main() {
       },
     );
 
-    flameTester.test('can group multiple ContactBehaviors and keep listening',
-        (game) async {
-      final parent = _TestBodyComponent();
-      await game.ensureAdd(parent);
+    flameTester.test(
+      'can group multiple ContactBehaviors and keep listening',
+      (game) async {
+        final parent = _TestBodyComponent();
+        await game.ensureAdd(parent);
 
-      final contactBehavior1 = _TestContactBehavior();
-      final contactBehavior2 = _TestContactBehavior();
-      final contactBehavior3 = _TestContactBehavior();
-      await parent.ensureAddAll([
-        contactBehavior1,
-        contactBehavior2,
-        contactBehavior3,
-      ]);
+        final contactBehavior1 = _TestContactBehavior();
+        final contactBehavior2 = _TestContactBehavior();
+        final contactBehavior3 = _TestContactBehavior();
+        await parent.ensureAddAll([
+          contactBehavior1,
+          contactBehavior2,
+          contactBehavior3,
+        ]);
 
-      final contactCallbacks = parent.body.userData! as ContactCallbacks;
+        final contactCallbacks = parent.body.userData! as ContactCallbacks;
 
-      contactCallbacks.beginContact(other, contact);
-      expect(contactBehavior1.beginContactCallsCount, equals(1));
-      expect(contactBehavior2.beginContactCallsCount, equals(1));
-      expect(contactBehavior3.beginContactCallsCount, equals(1));
+        contactCallbacks.beginContact(other, contact);
+        expect(contactBehavior1.beginContactCallsCount, equals(1));
+        expect(contactBehavior2.beginContactCallsCount, equals(1));
+        expect(contactBehavior3.beginContactCallsCount, equals(1));
 
-      contactCallbacks.endContact(other, contact);
-      expect(contactBehavior1.endContactCallsCount, equals(1));
-      expect(contactBehavior2.endContactCallsCount, equals(1));
-      expect(contactBehavior3.endContactCallsCount, equals(1));
+        contactCallbacks.endContact(other, contact);
+        expect(contactBehavior1.endContactCallsCount, equals(1));
+        expect(contactBehavior2.endContactCallsCount, equals(1));
+        expect(contactBehavior3.endContactCallsCount, equals(1));
 
-      contactCallbacks.preSolve(other, contact, manifold);
-      expect(contactBehavior1.preSolveContactCallsCount, equals(1));
-      expect(contactBehavior2.preSolveContactCallsCount, equals(1));
-      expect(contactBehavior3.preSolveContactCallsCount, equals(1));
+        contactCallbacks.preSolve(other, contact, manifold);
+        expect(contactBehavior1.preSolveContactCallsCount, equals(1));
+        expect(contactBehavior2.preSolveContactCallsCount, equals(1));
+        expect(contactBehavior3.preSolveContactCallsCount, equals(1));
 
-      contactCallbacks.postSolve(other, contact, contactImpulse);
-      expect(contactBehavior1.postSolveContactCallsCount, equals(1));
-      expect(contactBehavior2.postSolveContactCallsCount, equals(1));
-      expect(contactBehavior3.postSolveContactCallsCount, equals(1));
-    });
+        contactCallbacks.postSolve(other, contact, contactImpulse);
+        expect(contactBehavior1.postSolveContactCallsCount, equals(1));
+        expect(contactBehavior2.postSolveContactCallsCount, equals(1));
+        expect(contactBehavior3.postSolveContactCallsCount, equals(1));
+      },
+    );
+
+    flameTester.test(
+      'can group multiple ContactBehaviors and keep listening '
+      'when applied to a fixture',
+      (game) async {
+        final parent = _TestBodyComponent();
+        await game.ensureAdd(parent);
+
+        final fixture = parent.body.createFixture(fixtureDef..userData = 'foo');
+
+        final contactBehavior1 = _TestContactBehavior()
+          ..applyTo(
+            [fixture.userData!],
+          );
+        final contactBehavior2 = _TestContactBehavior()
+          ..applyTo(
+            [fixture.userData!],
+          );
+        final contactBehavior3 = _TestContactBehavior()
+          ..applyTo(
+            [fixture.userData!],
+          );
+        await parent.ensureAddAll([
+          contactBehavior1,
+          contactBehavior2,
+          contactBehavior3,
+        ]);
+
+        final contactCallbacks = fixture.userData! as ContactCallbacks;
+
+        contactCallbacks.beginContact(other, contact);
+        expect(contactBehavior1.beginContactCallsCount, equals(1));
+        expect(contactBehavior2.beginContactCallsCount, equals(1));
+        expect(contactBehavior3.beginContactCallsCount, equals(1));
+
+        contactCallbacks.endContact(other, contact);
+        expect(contactBehavior1.endContactCallsCount, equals(1));
+        expect(contactBehavior2.endContactCallsCount, equals(1));
+        expect(contactBehavior3.endContactCallsCount, equals(1));
+
+        contactCallbacks.preSolve(other, contact, manifold);
+        expect(contactBehavior1.preSolveContactCallsCount, equals(1));
+        expect(contactBehavior2.preSolveContactCallsCount, equals(1));
+        expect(contactBehavior3.preSolveContactCallsCount, equals(1));
+
+        contactCallbacks.postSolve(other, contact, contactImpulse);
+        expect(contactBehavior1.postSolveContactCallsCount, equals(1));
+        expect(contactBehavior2.postSolveContactCallsCount, equals(1));
+        expect(contactBehavior3.postSolveContactCallsCount, equals(1));
+      },
+    );
   });
 }
