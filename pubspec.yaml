@@ -7,9 +7,12 @@ environment:
   sdk: ">=2.16.0 <3.0.0"
 
 dependencies:
+  authentication_repository:
+    path: packages/authentication_repository
   bloc: ^8.0.2
   cloud_firestore: ^3.1.10
   equatable: ^2.0.3
+  firebase_auth: ^3.3.16
   flame: ^1.1.1
   flame_bloc: ^1.2.0
   flame_forge2d:
