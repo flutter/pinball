@@ -10,7 +10,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 export 'cubit/android_bumper_cubit.dart';
 
 /// {@template android_bumper}
-/// Bumper for area under the [Spaceship].
+/// Bumper for area under the [AndroidSpaceship].
 /// {@endtemplate}
 class AndroidBumper extends BodyComponent with InitialPosition {
   /// {@macro android_bumper}
@@ -46,8 +46,8 @@ class AndroidBumper extends BodyComponent with InitialPosition {
   }) : this._(
           majorRadius: 3.52,
           minorRadius: 2.97,
-          litAssetPath: Assets.images.androidBumper.a.lit.keyName,
-          dimmedAssetPath: Assets.images.androidBumper.a.dimmed.keyName,
+          litAssetPath: Assets.images.android.bumper.a.lit.keyName,
+          dimmedAssetPath: Assets.images.android.bumper.a.dimmed.keyName,
           spritePosition: Vector2(0, -0.1),
           bloc: AndroidBumperCubit(),
           children: children,
@@ -59,8 +59,8 @@ class AndroidBumper extends BodyComponent with InitialPosition {
   }) : this._(
           majorRadius: 3.19,
           minorRadius: 2.79,
-          litAssetPath: Assets.images.androidBumper.b.lit.keyName,
-          dimmedAssetPath: Assets.images.androidBumper.b.dimmed.keyName,
+          litAssetPath: Assets.images.android.bumper.b.lit.keyName,
+          dimmedAssetPath: Assets.images.android.bumper.b.dimmed.keyName,
           spritePosition: Vector2(0, -0.1),
           bloc: AndroidBumperCubit(),
           children: children,
@@ -72,8 +72,8 @@ class AndroidBumper extends BodyComponent with InitialPosition {
   }) : this._(
           majorRadius: 3.4,
           minorRadius: 2.9,
-          litAssetPath: Assets.images.androidBumper.cow.lit.keyName,
-          dimmedAssetPath: Assets.images.androidBumper.cow.dimmed.keyName,
+          litAssetPath: Assets.images.android.bumper.cow.lit.keyName,
+          dimmedAssetPath: Assets.images.android.bumper.cow.dimmed.keyName,
           spritePosition: Vector2(0, -0.68),
           bloc: AndroidBumperCubit(),
           children: children,

@@ -20,7 +20,7 @@ abstract class RenderPriority {
   static const int ballOnSpaceshipRamp =
       _above + spaceshipRampBackgroundRailing;
 
-  /// Render priority for the [Ball] while it's on the [Spaceship].
+  /// Render priority for the [Ball] while it's on the [AndroidSpaceship].
   static const int ballOnSpaceship = _above + spaceshipSaucer;
 
   /// Render priority for the [Ball] while it's on the [SpaceshipRail].
@@ -91,7 +91,7 @@ abstract class RenderPriority {
 
   static const int spaceshipSaucer = _above + ballOnSpaceshipRail;
 
-  static const int spaceshipSaucerWall = _above + spaceshipSaucer;
+  static const int spaceshipLightBeam = _below + spaceshipSaucer;
 
   static const int androidHead = _above + spaceshipSaucer;
 

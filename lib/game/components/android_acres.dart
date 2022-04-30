@@ -6,8 +6,8 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template android_acres}
-/// Area positioned on the left side of the board containing the [Spaceship],
-/// [SpaceshipRamp], [SpaceshipRail], and [AndroidBumper]s.
+/// Area positioned on the left side of the board containing the
+/// [AndroidSpaceship], [SpaceshipRamp], [SpaceshipRail], and [AndroidBumper]s.
 /// {@endtemplate}
 class AndroidAcres extends Blueprint {
   /// {@macro android_acres}
@@ -32,7 +32,7 @@ class AndroidAcres extends Blueprint {
           ],
           blueprints: [
             SpaceshipRamp(),
-            Spaceship(position: Vector2(-26.5, -28.5)),
+            AndroidSpaceship(position: Vector2(-26.5, -28.5)),
             SpaceshipRail(),
           ],
         );
