@@ -11,16 +11,16 @@ import '../../helpers/helpers.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
-    Assets.images.spaceship.ramp.boardOpening.keyName,
-    Assets.images.spaceship.ramp.railingForeground.keyName,
-    Assets.images.spaceship.ramp.railingBackground.keyName,
-    Assets.images.spaceship.ramp.main.keyName,
-    Assets.images.spaceship.ramp.arrow.inactive.keyName,
-    Assets.images.spaceship.ramp.arrow.active1.keyName,
-    Assets.images.spaceship.ramp.arrow.active2.keyName,
-    Assets.images.spaceship.ramp.arrow.active3.keyName,
-    Assets.images.spaceship.ramp.arrow.active4.keyName,
-    Assets.images.spaceship.ramp.arrow.active5.keyName,
+    Assets.images.android.ramp.boardOpening.keyName,
+    Assets.images.android.ramp.railingForeground.keyName,
+    Assets.images.android.ramp.railingBackground.keyName,
+    Assets.images.android.ramp.main.keyName,
+    Assets.images.android.ramp.arrow.inactive.keyName,
+    Assets.images.android.ramp.arrow.active1.keyName,
+    Assets.images.android.ramp.arrow.active2.keyName,
+    Assets.images.android.ramp.arrow.active3.keyName,
+    Assets.images.android.ramp.arrow.active4.keyName,
+    Assets.images.android.ramp.arrow.active5.keyName,
   ];
   final flameTester = FlameTester(() => TestGame(assets));
 

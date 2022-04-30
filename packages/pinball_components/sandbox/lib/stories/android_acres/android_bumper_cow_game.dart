@@ -8,8 +8,8 @@ class AndroidBumperCowGame extends BallGame {
   AndroidBumperCowGame()
       : super(
           imagesFileNames: [
-            Assets.images.androidBumper.cow.lit.keyName,
-            Assets.images.androidBumper.cow.dimmed.keyName,
+            Assets.images.android.bumper.cow.lit.keyName,
+            Assets.images.android.bumper.cow.dimmed.keyName,
           ],
         );
 

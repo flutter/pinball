@@ -6,7 +6,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template spaceship_rail}
-/// A [Blueprint] for the rail exiting the [Spaceship].
+/// A [Blueprint] for the rail exiting the [AndroidSpaceship].
 /// {@endtemplate}
 class SpaceshipRail extends Blueprint {
   /// {@macro spaceship_rail}
@@ -116,7 +116,7 @@ class _SpaceshipRailSpriteComponent extends SpriteComponent with HasGameRef {
 
     final sprite = Sprite(
       gameRef.images.fromCache(
-        Assets.images.spaceship.rail.main.keyName,
+        Assets.images.android.rail.main.keyName,
       ),
     );
     this.sprite = sprite;
@@ -139,7 +139,7 @@ class _SpaceshipRailExitSpriteComponent extends SpriteComponent
 
     final sprite = Sprite(
       gameRef.images.fromCache(
-        Assets.images.spaceship.rail.exit.keyName,
+        Assets.images.android.rail.exit.keyName,
       ),
     );
     this.sprite = sprite;

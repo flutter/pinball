@@ -45,7 +45,6 @@ flutter:
         - asset: fonts/PixeloidMono-1G8ae.ttf
 
   assets:
-    - assets/images/
     - assets/images/ball/
     - assets/images/baseboard/
     - assets/images/boundary/
@@ -57,16 +56,16 @@ flutter:
     - assets/images/dash/bumper/a/
     - assets/images/dash/bumper/b/
     - assets/images/dash/bumper/main/
-    - assets/images/spaceship/
-    - assets/images/spaceship/rail/
-    - assets/images/spaceship/ramp/
-    - assets/images/spaceship/ramp/arrow/
+    - assets/images/android/spaceship/
+    - assets/images/android/rail/
+    - assets/images/android/ramp/
+    - assets/images/android/ramp/arrow/
+    - assets/images/android/bumper/a/
+    - assets/images/android/bumper/b/
+    - assets/images/android/bumper/cow/
     - assets/images/kicker/
     - assets/images/plunger/
     - assets/images/slingshot/
-    - assets/images/android_bumper/a/
-    - assets/images/android_bumper/b/
-    - assets/images/android_bumper/cow/
     - assets/images/sparky/
     - assets/images/sparky/computer/
     - assets/images/sparky/bumper/a/
