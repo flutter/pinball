@@ -191,8 +191,8 @@ class DebugPinballGame extends PinballGame with FPSCounter {
 
   // TODO(allisonryan0002): Remove after google letters have been correctly
   // placed.
-  // ignore: unused_element
   // coverage:ignore-start
+  // ignore: unused_element
   Future<void> _loadBackground() async {
     final sprite = await loadSprite(
       Assets.images.components.background.path,
