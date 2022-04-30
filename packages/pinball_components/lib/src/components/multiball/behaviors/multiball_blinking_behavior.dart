@@ -6,15 +6,20 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// Makes a [Multiball] blink back to [MultiballLightState.lit] when
 /// [MultiballLightState.dimmed].
 /// {@endtemplate}
-class MultiballBlinkingBehavior extends Component with ParentIsA<Multiball> {
+class MultiballBlinkingBehavior extends TimerComponent
+    with ParentIsA<Multiball> {
   /// {@macro multiball_blinking_behavior}
-  MultiballBlinkingBehavior() : super();
+  MultiballBlinkingBehavior() : super(period: 0.01);
 
   final _maxBlinks = 10;
+  int _blinksCounter = 0;
   bool _isAnimating = false;
 
   void _onNewState(MultiballState state) {
-    if (state.animationState == MultiballAnimationState.animated) {
+    final animationEnabled =
+        state.animationState == MultiballAnimationState.animated;
+    final canBlink = _blinksCounter < _maxBlinks;
+    if (animationEnabled && canBlink) {
       _animate();
     } else {
       _stop();
@@ -24,28 +29,36 @@ class MultiballBlinkingBehavior extends Component with ParentIsA<Multiball> {
   Future<void> _animate() async {
     if (!_isAnimating) {
       _isAnimating = true;
-      for (var i = 0; i < _maxBlinks; i++) {
-        parent.bloc.onBlink();
-        await Future<void>.delayed(
-          const Duration(milliseconds: 100),
-        );
-        parent.bloc.onBlink();
-        await Future<void>.delayed(
-          const Duration(milliseconds: 100),
-        );
-      }
-      _stop();
+      parent.bloc.onBlink();
+      _blinksCounter++;
     }
   }
 
   void _stop() {
-    _isAnimating = false;
-    parent.bloc.onStop();
+    if (_isAnimating) {
+      _isAnimating = false;
+      timer.stop();
+      _blinksCounter = 0;
+      parent.bloc.onStop();
+    }
   }
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    timer.stop();
     parent.bloc.stream.listen(_onNewState);
+  }
+
+  @override
+  void onTick() {
+    super.onTick();
+    if (_isAnimating) {
+      timer
+        ..reset()
+        ..start();
+    } else {
+      timer.stop();
+    }
   }
 }
