@@ -20,6 +20,6 @@ jobs:
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PINBALL_DEV }}"
-          projectId: ashehwkdkdjruejdnensjsjdne
-          expires: 30d
           channelId: live
+          projectId: pinball-dev
+          target: ashehwkdkdjruejdnensjsjdne
