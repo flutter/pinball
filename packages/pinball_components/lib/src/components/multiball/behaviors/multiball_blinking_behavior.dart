@@ -10,7 +10,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 class MultiballBlinkingBehavior extends TimerComponent
     with ParentIsA<Multiball> {
   /// {@macro multiball_blinking_behavior}
-  MultiballBlinkingBehavior() : super(period: 0.5);
+  MultiballBlinkingBehavior() : super(period: 0.1);
 
   final _maxBlinks = 10;
 
@@ -18,15 +18,11 @@ class MultiballBlinkingBehavior extends TimerComponent
 
   bool _isAnimating = false;
 
-  @visibleForTesting
-  // ignore: public_member_api_docs
-  void onNewState(MultiballState state) {
+  void _onNewState(MultiballState state) {
     final animationEnabled =
         state.animationState == MultiballAnimationState.animated;
     final canBlink = _blinksCounter < _maxBlinks;
 
-    print("onNewState ${animationEnabled}");
-    print("onNewState ${canBlink}");
     if (animationEnabled && canBlink) {
       _start();
     } else {
@@ -61,7 +57,7 @@ class MultiballBlinkingBehavior extends TimerComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    parent.bloc.stream.listen(onNewState);
+    parent.bloc.stream.listen(_onNewState);
   }
 
   @override
