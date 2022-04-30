@@ -146,18 +146,6 @@ void main() {
           expect(plunger.body.linearVelocity.y, isZero);
         },
       );
-
-      flameTester.test(
-          'moves downwards when pull is called '
-          'and plunger is below its starting position', (game) async {
-        await game.ensureAdd(plunger);
-        plunger.pull();
-        plunger.release();
-        plunger.pull();
-
-        expect(plunger.body.linearVelocity.y, isPositive);
-        expect(plunger.body.linearVelocity.x, isZero);
-      });
     });
 
     group('pull', () {

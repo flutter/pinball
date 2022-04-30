@@ -74,6 +74,7 @@ class Plunger extends BodyComponent with InitialPosition, Layered {
   var _pullingDownTime = 0.0;
 
   /// Pulls the plunger down for the given amount of [seconds].
+  // ignore: use_setters_to_change_properties
   void pullFor(double seconds) {
     _pullingDownTime = seconds;
   }
