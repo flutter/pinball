@@ -307,8 +307,8 @@ void main() {
       });
 
       test(
-          'does save the new score if there are more than 10 scores in the '
-          'leaderboard but the new score is higher than the lowest top 10, and '
+          'saves the new score when there are more than 10 scores in the '
+          'leaderboard and the new score is higher than the lowest top 10, and '
           'deletes the scores that are not in the top 10 anymore', () async {
         final deleteQuery = MockQuery();
         final deleteQuerySnapshot = MockQuerySnapshot();
