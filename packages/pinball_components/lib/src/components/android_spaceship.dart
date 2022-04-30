@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'dart:async';
 import 'dart:math' as math;
 
@@ -7,11 +9,7 @@ import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 import 'package:pinball_flame/pinball_flame.dart';
 
-/// {@template android_spaceship}
-/// A [Blueprint] which creates the Android spaceship.
-/// {@endtemplate}
 class AndroidSpaceship extends Blueprint {
-  /// {@macro android_spaceship}
   AndroidSpaceship({required Vector2 position})
       : super(
           components: [
@@ -29,9 +27,6 @@ class AndroidSpaceship extends Blueprint {
             )..initialPosition = position - Vector2(-7.5, -1.1),
           ],
         );
-
-  /// Total size of the spaceship.
-  static final size = Vector2(25.8, 19.8);
 }
 
 class _SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
@@ -42,22 +37,20 @@ class _SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
   @override
   Body createBody() {
     final shape = _SpaceshipSaucerShape();
-    final fixtureDef = FixtureDef(shape);
-
     final bodyDef = BodyDef(
       position: initialPosition,
       userData: this,
       angle: -1.7,
     );
 
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
+    return world.createBody(bodyDef)..createFixtureFromShape(shape);
   }
 }
 
 class _SpaceshipSaucerShape extends ChainShape {
   _SpaceshipSaucerShape() {
-    final minorRadius = (AndroidSpaceship.size.y - 2.3) / 2;
-    final majorRadius = (AndroidSpaceship.size.x - 2) / 2;
+    const minorRadius = 9.75;
+    const majorRadius = 11.9;
 
     createChain(
       [
@@ -150,10 +143,7 @@ class _AndroidHead extends BodyComponent with InitialPosition, Layered {
       shape,
       restitution: 0.1,
     );
-    final bodyDef = BodyDef(
-      position: initialPosition,
-      userData: this,
-    );
+    final bodyDef = BodyDef(position: initialPosition);
 
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
