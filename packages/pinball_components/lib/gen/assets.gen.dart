@@ -397,7 +397,7 @@ class $AssetsImagesMultiplierX6Gen {
 
   /// File path: assets/images/multiplier/x6/lit.png
   AssetGenImage get lit =>
-      const AssetGenImage('assets/images/multiplier/x6/lit.png');;
+      const AssetGenImage('assets/images/multiplier/x6/lit.png');
 }
 
 class $AssetsImagesSparkyBumperGen {
