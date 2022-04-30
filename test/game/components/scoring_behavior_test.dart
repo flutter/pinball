@@ -17,6 +17,33 @@ class _TestBodyComponent extends BodyComponent {
 }
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  final assets = [
+    Assets.images.score.points1m.keyName,
+    Assets.images.score.points1m2.keyName,
+    Assets.images.score.points2m.keyName,
+    Assets.images.score.points3m.keyName,
+    Assets.images.score.points4m.keyName,
+    Assets.images.score.points5k.keyName,
+    Assets.images.score.points5m.keyName,
+    Assets.images.score.points6m.keyName,
+    Assets.images.score.points10k.keyName,
+    Assets.images.score.points15k.keyName,
+    Assets.images.score.points20k.keyName,
+    Assets.images.score.points25k.keyName,
+    Assets.images.score.points30k.keyName,
+    Assets.images.score.points40k.keyName,
+    Assets.images.score.points50k.keyName,
+    Assets.images.score.points60k.keyName,
+    Assets.images.score.points80k.keyName,
+    Assets.images.score.points100k.keyName,
+    Assets.images.score.points120k.keyName,
+    Assets.images.score.points200k.keyName,
+    Assets.images.score.points400k.keyName,
+    Assets.images.score.points600k.keyName,
+    Assets.images.score.points800k.keyName,
+  ];
+
   group('ScoringBehavior', () {
     group('beginContact', () {
       late GameBloc bloc;
@@ -50,13 +77,14 @@ void main() {
           whenListen(bloc, Stream.value(state), initialState: state);
           return bloc;
         },
+        assets: assets,
       );
 
       flameBlocTester.testGameWidget(
         'emits Scored event with points',
         setUp: (game, tester) async {
-          const points = 20;
-          final scoringBehavior = ScoringBehavior(points: Score.points_6m);
+          const points = Score.points_6m;
+          final scoringBehavior = ScoringBehavior(points: points);
           await parent.add(scoringBehavior);
           await game.ensureAdd(parent);
 
@@ -64,7 +92,7 @@ void main() {
 
           verify(
             () => bloc.add(
-              const Scored(points: points),
+              Scored(points: points.value),
             ),
           ).called(1);
         },
@@ -87,18 +115,19 @@ void main() {
       flameBlocTester.testGameWidget(
         "adds a ScoreText component at Ball's position with points",
         setUp: (game, tester) async {
-          final scoringBehavior = ScoringBehavior(points: Score.points_6m);
+          const points = Score.points_6m;
+          final scoringBehavior = ScoringBehavior(points: points);
           await parent.add(scoringBehavior);
           await game.ensureAdd(parent);
 
           scoringBehavior.beginContact(ball, MockContact());
           await game.ready();
 
-          final scoreText = game.descendants().whereType<ScoreText>();
+          final scoreText = game.descendants().whereType<ScoreComponent>();
           expect(scoreText.length, equals(1));
           expect(
             scoreText.first.score,
-            equals(Score.points_6m),
+            equals(points),
           );
           expect(
             scoreText.first.position,
