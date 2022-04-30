@@ -9,8 +9,8 @@ class AndroidBumperAGame extends BallGame {
       : super(
           color: const Color(0xFF0000FF),
           imagesFileNames: [
-            Assets.images.androidBumper.a.lit.keyName,
-            Assets.images.androidBumper.a.dimmed.keyName,
+            Assets.images.android.bumper.a.lit.keyName,
+            Assets.images.android.bumper.a.dimmed.keyName,
           ],
         );
 

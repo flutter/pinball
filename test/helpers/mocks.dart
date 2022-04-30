@@ -2,12 +2,11 @@ import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball/leaderboard/leaderboard.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
@@ -15,9 +14,7 @@ import 'package:pinball_components/pinball_components.dart';
 
 class MockPinballGame extends Mock implements PinballGame {}
 
-class MockWall extends Mock implements Wall {}
-
-class MockBottomWall extends Mock implements BottomWall {}
+class MockDrain extends Mock implements Drain {}
 
 class MockBody extends Mock implements Body {}
 
@@ -37,8 +34,6 @@ class MockGameState extends Mock implements GameState {}
 
 class MockCharacterThemeCubit extends Mock implements CharacterThemeCubit {}
 
-class MockLeaderboardBloc extends Mock implements LeaderboardBloc {}
-
 class MockLeaderboardRepository extends Mock implements LeaderboardRepository {}
 
 class MockRawKeyDownEvent extends Mock implements RawKeyDownEvent {
@@ -55,13 +50,21 @@ class MockRawKeyUpEvent extends Mock implements RawKeyUpEvent {
   }
 }
 
+class MockTapDownInfo extends Mock implements TapDownInfo {}
+
+class MockTapDownDetails extends Mock implements TapDownDetails {}
+
 class MockTapUpInfo extends Mock implements TapUpInfo {}
+
+class MockTapUpDetails extends Mock implements TapUpDetails {}
 
 class MockEventPosition extends Mock implements EventPosition {}
 
 class MockFilter extends Mock implements Filter {}
 
 class MockFixture extends Mock implements Fixture {}
+
+class MockComponent extends Mock implements Component {}
 
 class MockComponentSet extends Mock implements ComponentSet {}
 
@@ -85,3 +88,9 @@ class MockGameFlowController extends Mock implements GameFlowController {}
 class MockAndroidBumper extends Mock implements AndroidBumper {}
 
 class MockSparkyBumper extends Mock implements SparkyBumper {}
+
+class MockMultiplier extends Mock implements Multiplier {}
+
+class MockMultipliersGroup extends Mock implements Multipliers {}
+
+class MockMultiplierCubit extends Mock implements MultiplierCubit {}

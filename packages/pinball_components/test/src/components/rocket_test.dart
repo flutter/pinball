@@ -8,14 +8,24 @@ import 'package:pinball_components/pinball_components.dart';
 import '../../helpers/helpers.dart';
 
 void main() {
-  group('RocketSpriteComponent', () {
-    final tester = FlameTester(TestGame.new);
+  TestWidgetsFlutterBinding.ensureInitialized();
+  final assets = [
+    Assets.images.plunger.rocket.keyName,
+  ];
+  final flameTester = FlameTester(() => TestGame(assets));
 
-    tester.testGameWidget(
+  group('RocketSpriteComponent', () {
+    flameTester.testGameWidget(
       'renders correctly',
       setUp: (game, tester) async {
-        game.camera.followVector2(Vector2.zero());
+        await game.images.loadAll(assets);
         await game.ensureAdd(RocketSpriteComponent());
+
+        game.camera
+          ..followVector2(Vector2.zero())
+          ..zoom = 8;
+
+        await tester.pump();
       },
       verify: (game, tester) async {
         await expectLater(

@@ -1,8 +1,10 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_test/flame_test.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
@@ -13,10 +15,12 @@ import '../helpers/helpers.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
-    Assets.images.androidBumper.a.lit.keyName,
-    Assets.images.androidBumper.a.dimmed.keyName,
-    Assets.images.androidBumper.b.lit.keyName,
-    Assets.images.androidBumper.b.dimmed.keyName,
+    Assets.images.android.bumper.a.lit.keyName,
+    Assets.images.android.bumper.a.dimmed.keyName,
+    Assets.images.android.bumper.b.lit.keyName,
+    Assets.images.android.bumper.b.dimmed.keyName,
+    Assets.images.android.bumper.cow.lit.keyName,
+    Assets.images.android.bumper.cow.dimmed.keyName,
     Assets.images.backboard.backboardScores.keyName,
     Assets.images.backboard.backboardGameOver.keyName,
     Assets.images.backboard.display.keyName,
@@ -51,6 +55,16 @@ void main() {
     Assets.images.launchRamp.ramp.keyName,
     Assets.images.launchRamp.foregroundRailing.keyName,
     Assets.images.launchRamp.backgroundRailing.keyName,
+    Assets.images.multiplier.x2.lit.keyName,
+    Assets.images.multiplier.x2.dimmed.keyName,
+    Assets.images.multiplier.x3.lit.keyName,
+    Assets.images.multiplier.x3.dimmed.keyName,
+    Assets.images.multiplier.x4.lit.keyName,
+    Assets.images.multiplier.x4.dimmed.keyName,
+    Assets.images.multiplier.x5.lit.keyName,
+    Assets.images.multiplier.x5.dimmed.keyName,
+    Assets.images.multiplier.x6.lit.keyName,
+    Assets.images.multiplier.x6.dimmed.keyName,
     Assets.images.plunger.plunger.keyName,
     Assets.images.plunger.rocket.keyName,
     Assets.images.signpost.inactive.keyName,
@@ -59,20 +73,21 @@ void main() {
     Assets.images.signpost.active3.keyName,
     Assets.images.slingshot.upper.keyName,
     Assets.images.slingshot.lower.keyName,
-    Assets.images.spaceship.saucer.keyName,
-    Assets.images.spaceship.bridge.keyName,
-    Assets.images.spaceship.ramp.boardOpening.keyName,
-    Assets.images.spaceship.ramp.railingForeground.keyName,
-    Assets.images.spaceship.ramp.railingBackground.keyName,
-    Assets.images.spaceship.ramp.main.keyName,
-    Assets.images.spaceship.ramp.arrow.inactive.keyName,
-    Assets.images.spaceship.ramp.arrow.active1.keyName,
-    Assets.images.spaceship.ramp.arrow.active2.keyName,
-    Assets.images.spaceship.ramp.arrow.active3.keyName,
-    Assets.images.spaceship.ramp.arrow.active4.keyName,
-    Assets.images.spaceship.ramp.arrow.active5.keyName,
-    Assets.images.spaceship.rail.main.keyName,
-    Assets.images.spaceship.rail.exit.keyName,
+    Assets.images.android.spaceship.saucer.keyName,
+    Assets.images.android.spaceship.animatronic.keyName,
+    Assets.images.android.spaceship.lightBeam.keyName,
+    Assets.images.android.ramp.boardOpening.keyName,
+    Assets.images.android.ramp.railingForeground.keyName,
+    Assets.images.android.ramp.railingBackground.keyName,
+    Assets.images.android.ramp.main.keyName,
+    Assets.images.android.ramp.arrow.inactive.keyName,
+    Assets.images.android.ramp.arrow.active1.keyName,
+    Assets.images.android.ramp.arrow.active2.keyName,
+    Assets.images.android.ramp.arrow.active3.keyName,
+    Assets.images.android.ramp.arrow.active4.keyName,
+    Assets.images.android.ramp.arrow.active5.keyName,
+    Assets.images.android.rail.main.keyName,
+    Assets.images.android.rail.exit.keyName,
     Assets.images.sparky.bumper.a.active.keyName,
     Assets.images.sparky.bumper.a.inactive.keyName,
     Assets.images.sparky.bumper.b.active.keyName,
@@ -91,6 +106,17 @@ void main() {
     Assets.images.sparky.bumper.c.inactive.keyName,
   ];
 
+  late GameBloc gameBloc;
+
+  setUp(() {
+    gameBloc = MockGameBloc();
+    whenListen(
+      gameBloc,
+      const Stream<GameState>.empty(),
+      initialState: const GameState.initial(),
+    );
+  });
+
   final flameTester = FlameTester(
     () => PinballTestGame(assets: assets),
   );
@@ -98,22 +124,38 @@ void main() {
     () => DebugPinballTestGame(assets: assets),
   );
 
+  final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
+    gameBuilder: () => PinballTestGame(assets: assets),
+    blocBuilder: () => gameBloc,
+  );
+
   group('PinballGame', () {
     group('components', () {
       // TODO(alestiago): tests that Blueprints get added once the Blueprint
       // class is removed.
-      flameTester.test(
-        'has only one BottomWall',
+      flameBlocTester.test(
+        'has only one Drain',
         (game) async {
           await game.ready();
           expect(
-            game.children.whereType<BottomWall>().length,
+            game.children.whereType<Drain>().length,
             equals(1),
           );
         },
       );
 
-      flameTester.test(
+      flameBlocTester.test(
+        'has only one BottomGroup',
+        (game) async {
+          await game.ready();
+          expect(
+            game.children.whereType<BottomGroup>().length,
+            equals(1),
+          );
+        },
+      );
+
+      flameBlocTester.test(
         'has only one Plunger',
         (game) async {
           await game.ready();
@@ -124,18 +166,15 @@ void main() {
         },
       );
 
-      flameTester.test(
-        'has one Board',
-        (game) async {
-          await game.ready();
-          expect(
-            game.children.whereType<Board>().length,
-            equals(1),
-          );
-        },
-      );
+      flameBlocTester.test('has one FlutterForest', (game) async {
+        await game.ready();
+        expect(
+          game.children.whereType<FlutterForest>().length,
+          equals(1),
+        );
+      });
 
-      flameTester.test(
+      flameBlocTester.test(
         'one GoogleWord',
         (game) async {
           await game.ready();
@@ -229,6 +268,181 @@ void main() {
         );
       });
     });
+
+    group('flipper control', () {
+      flameTester.test('tap down moves left flipper up', (game) async {
+        await game.ready();
+
+        final eventPosition = MockEventPosition();
+        when(() => eventPosition.game).thenReturn(Vector2.zero());
+        when(() => eventPosition.widget).thenReturn(Vector2.zero());
+
+        final raw = MockTapDownDetails();
+        when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
+
+        final tapDownEvent = MockTapDownInfo();
+        when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
+        when(() => tapDownEvent.raw).thenReturn(raw);
+
+        final flippers = game.descendants().whereType<Flipper>().where(
+              (flipper) => flipper.side == BoardSide.left,
+            );
+
+        game.onTapDown(tapDownEvent);
+
+        expect(flippers.first.body.linearVelocity.y, isNegative);
+      });
+
+      flameTester.test('tap down moves right flipper up', (game) async {
+        await game.ready();
+
+        final eventPosition = MockEventPosition();
+        when(() => eventPosition.game).thenReturn(Vector2.zero());
+        when(() => eventPosition.widget).thenReturn(game.canvasSize);
+
+        final raw = MockTapDownDetails();
+        when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
+
+        final tapDownEvent = MockTapDownInfo();
+        when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
+        when(() => tapDownEvent.raw).thenReturn(raw);
+
+        final flippers = game.descendants().whereType<Flipper>().where(
+              (flipper) => flipper.side == BoardSide.right,
+            );
+
+        game.onTapDown(tapDownEvent);
+
+        expect(flippers.first.body.linearVelocity.y, isNegative);
+      });
+
+      flameTester.test('tap up moves flipper down', (game) async {
+        await game.ready();
+
+        final eventPosition = MockEventPosition();
+        when(() => eventPosition.game).thenReturn(Vector2.zero());
+        when(() => eventPosition.widget).thenReturn(Vector2.zero());
+
+        final raw = MockTapDownDetails();
+        when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
+
+        final tapDownEvent = MockTapDownInfo();
+        when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
+        when(() => tapDownEvent.raw).thenReturn(raw);
+
+        final flippers = game.descendants().whereType<Flipper>().where(
+              (flipper) => flipper.side == BoardSide.left,
+            );
+
+        game.onTapDown(tapDownEvent);
+
+        expect(flippers.first.body.linearVelocity.y, isNegative);
+
+        final tapUpEvent = MockTapUpInfo();
+        when(() => tapUpEvent.eventPosition).thenReturn(eventPosition);
+
+        game.onTapUp(tapUpEvent);
+        await game.ready();
+
+        expect(flippers.first.body.linearVelocity.y, isPositive);
+      });
+
+      flameTester.test('tap cancel moves flipper down', (game) async {
+        await game.ready();
+
+        final eventPosition = MockEventPosition();
+        when(() => eventPosition.game).thenReturn(Vector2.zero());
+        when(() => eventPosition.widget).thenReturn(Vector2.zero());
+
+        final raw = MockTapDownDetails();
+        when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
+
+        final tapDownEvent = MockTapDownInfo();
+        when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
+        when(() => tapDownEvent.raw).thenReturn(raw);
+
+        final flippers = game.descendants().whereType<Flipper>().where(
+              (flipper) => flipper.side == BoardSide.left,
+            );
+
+        game.onTapDown(tapDownEvent);
+
+        expect(flippers.first.body.linearVelocity.y, isNegative);
+
+        game.onTapCancel();
+
+        expect(flippers.first.body.linearVelocity.y, isPositive);
+      });
+    });
+
+    group('plunger control', () {
+      flameTester.test('tap down moves plunger down', (game) async {
+        await game.ready();
+
+        final eventPosition = MockEventPosition();
+        when(() => eventPosition.game).thenReturn(Vector2(40, 60));
+
+        final raw = MockTapDownDetails();
+        when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
+
+        final tapDownEvent = MockTapDownInfo();
+        when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
+        when(() => tapDownEvent.raw).thenReturn(raw);
+
+        final plunger = game.descendants().whereType<Plunger>().first;
+
+        game.onTapDown(tapDownEvent);
+
+        expect(plunger.body.linearVelocity.y, equals(7));
+      });
+
+      flameTester.test('tap up releases plunger', (game) async {
+        final eventPosition = MockEventPosition();
+        when(() => eventPosition.game).thenReturn(Vector2(40, 60));
+
+        final raw = MockTapDownDetails();
+        when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
+
+        final tapDownEvent = MockTapDownInfo();
+        when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
+        when(() => tapDownEvent.raw).thenReturn(raw);
+
+        final plunger = game.descendants().whereType<Plunger>().first;
+        game.onTapDown(tapDownEvent);
+
+        expect(plunger.body.linearVelocity.y, equals(7));
+
+        final tapUpEvent = MockTapUpInfo();
+        when(() => tapUpEvent.eventPosition).thenReturn(eventPosition);
+
+        game.onTapUp(tapUpEvent);
+
+        expect(plunger.body.linearVelocity.y, equals(0));
+      });
+
+      flameTester.test('tap cancel releases plunger', (game) async {
+        await game.ready();
+
+        final eventPosition = MockEventPosition();
+        when(() => eventPosition.game).thenReturn(Vector2(40, 60));
+
+        final raw = MockTapDownDetails();
+        when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
+
+        final tapDownEvent = MockTapDownInfo();
+        when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
+        when(() => tapDownEvent.raw).thenReturn(raw);
+
+        final plunger = game.descendants().whereType<Plunger>().first;
+        game.onTapDown(tapDownEvent);
+
+        expect(plunger.body.linearVelocity.y, equals(7));
+
+        game.onTapCancel();
+
+        expect(plunger.body.linearVelocity.y, equals(0));
+      });
+    });
   });
 
   group('DebugPinballGame', () {
@@ -238,8 +452,12 @@ void main() {
         final eventPosition = MockEventPosition();
         when(() => eventPosition.game).thenReturn(Vector2.all(10));
 
+        final raw = MockTapUpDetails();
+        when(() => raw.kind).thenReturn(PointerDeviceKind.mouse);
+
         final tapUpEvent = MockTapUpInfo();
         when(() => tapUpEvent.eventPosition).thenReturn(eventPosition);
+        when(() => tapUpEvent.raw).thenReturn(raw);
 
         final previousBalls =
             game.descendants().whereType<ControlledBall>().toList();

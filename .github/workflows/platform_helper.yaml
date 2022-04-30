@@ -1,0 +1,23 @@
+name: platform_helper
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    paths:
+      - "packages/platform_helper/**"
+      - ".github/workflows/platform_helper.yaml"
+
+  pull_request:
+    paths:
+      - "packages/platform_helper/**"
+      - ".github/workflows/platform_helper.yaml"
+
+jobs:
+  build:
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
+    with:
+      working_directory: packages/platform_helper
+      coverage_excludes: "lib/gen/*.dart"

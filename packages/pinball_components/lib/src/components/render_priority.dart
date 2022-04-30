@@ -20,14 +20,14 @@ abstract class RenderPriority {
   static const int ballOnSpaceshipRamp =
       _above + spaceshipRampBackgroundRailing;
 
-  /// Render priority for the [Ball] while it's on the [Spaceship].
+  /// Render priority for the [Ball] while it's on the [AndroidSpaceship].
   static const int ballOnSpaceship = _above + spaceshipSaucer;
 
   /// Render priority for the [Ball] while it's on the [SpaceshipRail].
   static const int ballOnSpaceshipRail = _above + spaceshipRail;
 
   /// Render priority for the [Ball] while it's on the [LaunchRamp].
-  static const int ballOnLaunchRamp = _above + launchRamp;
+  static const int ballOnLaunchRamp = launchRamp;
 
   // Background
 
@@ -51,11 +51,11 @@ abstract class RenderPriority {
 
   static const int launchRamp = _above + outerBoundary;
 
-  static const int launchRampForegroundRailing = _below + ballOnBoard;
+  static const int launchRampForegroundRailing = ballOnBoard;
 
   static const int plunger = _above + launchRamp;
 
-  static const int rocket = _above + bottomBoundary;
+  static const int rocket = _below + bottomBoundary;
 
   // Dino Land
 
@@ -91,7 +91,7 @@ abstract class RenderPriority {
 
   static const int spaceshipSaucer = _above + ballOnSpaceshipRail;
 
-  static const int spaceshipSaucerWall = _above + spaceshipSaucer;
+  static const int spaceshipLightBeam = _below + spaceshipSaucer;
 
   static const int androidHead = _above + spaceshipSaucer;
 

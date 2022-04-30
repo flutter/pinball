@@ -499,6 +499,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0+1"
+  pinball_ui:
+    dependency: "direct main"
+    description:
+      path: "packages/pinball_ui"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   platform:
     dependency: transitive
     description:
@@ -506,6 +513,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.0"
+  platform_helper:
+    dependency: "direct main"
+    description:
+      path: "packages/platform_helper"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   plugin_platform_interface:
     dependency: transitive
     description:
