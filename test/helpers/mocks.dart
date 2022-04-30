@@ -64,6 +64,8 @@ class MockFilter extends Mock implements Filter {}
 
 class MockFixture extends Mock implements Fixture {}
 
+class MockComponent extends Mock implements Component {}
+
 class MockComponentSet extends Mock implements ComponentSet {}
 
 class MockDashNestBumper extends Mock implements DashNestBumper {}
@@ -86,3 +88,9 @@ class MockGameFlowController extends Mock implements GameFlowController {}
 class MockAndroidBumper extends Mock implements AndroidBumper {}
 
 class MockSparkyBumper extends Mock implements SparkyBumper {}
+
+class MockMultiplier extends Mock implements Multiplier {}
+
+class MockMultipliersGroup extends Mock implements Multipliers {}
+
+class MockMultiplierCubit extends Mock implements MultiplierCubit {}

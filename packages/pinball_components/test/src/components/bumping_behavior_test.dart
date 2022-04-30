@@ -7,22 +7,16 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/src/components/bumping_behavior.dart';
 
 import '../../helpers/helpers.dart';
-import 'layer_test.dart';
 
-class MockContactImpulse extends Mock implements ContactImpulse {}
+class _MockContact extends Mock implements Contact {}
 
-class MockManifold extends Mock implements Manifold {}
+class _MockContactImpulse extends Mock implements ContactImpulse {}
 
-class TestHeavyBodyComponent extends BodyComponent {
+class _TestBodyComponent extends BodyComponent {
   @override
-  Body createBody() {
-    final shape = CircleShape();
-    return world.createBody(
-      BodyDef(
-        type: BodyType.dynamic,
-      ),
-    )..createFixtureFromShape(shape, 20);
-  }
+  Body createBody() => world.createBody(
+        BodyDef(type: BodyType.dynamic),
+      )..createFixtureFromShape(CircleShape(), 1);
 }
 
 void main() {
@@ -32,7 +26,7 @@ void main() {
   group('BumpingBehavior', () {
     flameTester.test('can be added', (game) async {
       final behavior = BumpingBehavior(strength: 0);
-      final component = TestBodyComponent();
+      final component = _TestBodyComponent();
       await component.add(behavior);
       await game.ensureAdd(component);
     });
@@ -40,16 +34,18 @@ void main() {
     flameTester.testGameWidget(
       'the bump is greater when the strengh is greater',
       setUp: (game, tester) async {
-        final component1 = TestBodyComponent();
-        final behavior1 = BumpingBehavior(strength: 1);
+        final component1 = _TestBodyComponent();
+        final behavior1 = BumpingBehavior(strength: 1)
+          ..worldManifold.normal.setFrom(Vector2.all(1));
         await component1.add(behavior1);
 
-        final component2 = TestBodyComponent();
-        final behavior2 = BumpingBehavior(strength: 2);
+        final component2 = _TestBodyComponent();
+        final behavior2 = BumpingBehavior(strength: 2)
+          ..worldManifold.normal.setFrom(Vector2.all(1));
         await component2.add(behavior2);
 
-        final dummy1 = TestHeavyBodyComponent();
-        final dummy2 = TestHeavyBodyComponent();
+        final dummy1 = _TestBodyComponent();
+        final dummy2 = _TestBodyComponent();
 
         await game.ensureAddAll([
           component1,
@@ -58,14 +54,8 @@ void main() {
           dummy2,
         ]);
 
-        expect(dummy1.body.inverseMass, greaterThan(0));
-        expect(dummy2.body.inverseMass, greaterThan(0));
-
-        final contact = MockContact();
-        final manifold = MockManifold();
-        final contactImpulse = MockContactImpulse();
-        when(() => manifold.localPoint).thenReturn(Vector2.all(1));
-        when(() => contact.manifold).thenReturn(manifold);
+        final contact = _MockContact();
+        final contactImpulse = _MockContactImpulse();
 
         behavior1.postSolve(dummy1, contact, contactImpulse);
         behavior2.postSolve(dummy2, contact, contactImpulse);

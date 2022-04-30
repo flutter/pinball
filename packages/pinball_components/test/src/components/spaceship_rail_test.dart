@@ -12,8 +12,8 @@ void main() {
   group('SpaceshipRail', () {
     TestWidgetsFlutterBinding.ensureInitialized();
     final assets = [
-      Assets.images.spaceship.rail.main.keyName,
-      Assets.images.spaceship.rail.exit.keyName,
+      Assets.images.android.rail.main.keyName,
+      Assets.images.android.rail.exit.keyName,
     ];
     final flameTester = FlameTester(() => TestGame(assets));
 
