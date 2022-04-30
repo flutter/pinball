@@ -55,10 +55,8 @@ void main() {
     Assets.images.launchRamp.ramp.keyName,
     Assets.images.launchRamp.foregroundRailing.keyName,
     Assets.images.launchRamp.backgroundRailing.keyName,
-<<<<<<< HEAD
     Assets.images.multiball.lit.keyName,
     Assets.images.multiball.dimmed.keyName,
-=======
     Assets.images.multiplier.x2.lit.keyName,
     Assets.images.multiplier.x2.dimmed.keyName,
     Assets.images.multiplier.x3.lit.keyName,
@@ -69,7 +67,6 @@ void main() {
     Assets.images.multiplier.x5.dimmed.keyName,
     Assets.images.multiplier.x6.lit.keyName,
     Assets.images.multiplier.x6.dimmed.keyName,
->>>>>>> main
     Assets.images.plunger.plunger.keyName,
     Assets.images.plunger.rocket.keyName,
     Assets.images.signpost.inactive.keyName,
@@ -133,10 +130,7 @@ void main() {
     gameBuilder: () => PinballTestGame(assets: assets),
     blocBuilder: () => gameBloc,
   );
-<<<<<<< HEAD
-=======
 
->>>>>>> main
   group('PinballGame', () {
     group('components', () {
       // TODO(alestiago): tests that Blueprints get added once the Blueprint
@@ -183,7 +177,6 @@ void main() {
       });
 
       flameBlocTester.test(
-<<<<<<< HEAD
         'has only one Multiballs',
         (game) async {
           await game.ready();
@@ -196,8 +189,6 @@ void main() {
       );
 
       flameBlocTester.test(
-=======
->>>>>>> main
         'one GoogleWord',
         (game) async {
           await game.ready();
