@@ -79,7 +79,7 @@ void main() {
         );
       });
 
-      test('headline1 matches PinballTextStyle#subtitle2', () {
+      test('subtitle2 matches PinballTextStyle#subtitle2', () {
         expect(
           PinballTheme.standard.textTheme.subtitle2!.fontSize,
           PinballTextStyle.subtitle2.fontSize,
