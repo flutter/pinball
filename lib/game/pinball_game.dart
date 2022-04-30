@@ -185,7 +185,7 @@ class DebugPinballGame extends PinballGame with FPSCounter {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    // await _loadBackground();
+    await _loadBackground();
     await add(_DebugInformation());
   }
 
