@@ -39,7 +39,7 @@ class MultiplierState extends Equatable {
 }
 
 extension MultiplierValueX on MultiplierValue {
-  bool equalsTo(int value) {
+  bool equals(int value) {
     switch (this) {
       case MultiplierValue.x2:
         return value == 2;
