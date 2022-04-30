@@ -47,29 +47,29 @@ void main() {
           ..worldManifold.normal.setFrom(Vector2.all(1));
         await component2.add(behavior2);
 
-        final other1 = _TestBodyComponent();
-        final other2 = _TestBodyComponent();
+        final dummy1 = _TestBodyComponent();
+        final dummy2 = _TestBodyComponent();
 
         await game.ensureAddAll([
           component1,
           component2,
-          other1,
-          other2,
+          dummy1,
+          dummy2,
         ]);
 
         final contact = _MockContact();
         final contactImpulse = _MockContactImpulse();
 
-        behavior1.postSolve(other1, contact, contactImpulse);
-        behavior2.postSolve(other2, contact, contactImpulse);
+        behavior1.postSolve(dummy1, contact, contactImpulse);
+        behavior2.postSolve(dummy2, contact, contactImpulse);
 
         expect(
-          other2.body.linearVelocity.x,
-          greaterThan(other1.body.linearVelocity.x),
+          dummy2.body.linearVelocity.x,
+          greaterThan(dummy1.body.linearVelocity.x),
         );
         expect(
-          other2.body.linearVelocity.y,
-          greaterThan(other1.body.linearVelocity.y),
+          dummy2.body.linearVelocity.y,
+          greaterThan(dummy1.body.linearVelocity.y),
         );
       },
     );
