@@ -54,7 +54,7 @@ class _MadeWithFlutterAndFirebase extends StatelessWidget {
         style: theme.textTheme.bodyText1!.copyWith(color: AppColors.white),
         children: <TextSpan>[
           TextSpan(
-            text: l10n.footerMadeWithFlutterLinkText,
+            text: l10n.footerFlutterLinkText,
             recognizer: TapGestureRecognizer()
               ..onTap = () => openLink('https://flutter.dev'),
             style: const TextStyle(
@@ -63,7 +63,7 @@ class _MadeWithFlutterAndFirebase extends StatelessWidget {
           ),
           const TextSpan(text: ' & '),
           TextSpan(
-            text: l10n.footerMadeWithFirebaseLinkText,
+            text: l10n.footerFirebaseLinkText,
             recognizer: TapGestureRecognizer()
               ..onTap = () => openLink('https://firebase.google.com'),
             style: const TextStyle(

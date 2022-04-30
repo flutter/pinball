@@ -112,12 +112,12 @@
   "@footerMadeWithText": {
     "description": "Text shown on the footer which mentions technologies used to build the app."
   },
-  "footerMadeWithFlutterLinkText": "Flutter",
-  "@footerMadeWithFlutterLinkText": {
+  "footerFlutterLinkText": "Flutter",
+  "@footerFlutterLinkText": {
     "description": "Text on the link shown on the footer which navigates to the Flutter page"
   },
-  "footerMadeWithFirebaseLinkText": "Firebase",
-  "@footerMadeWithFirebaseLinkText": {
+  "footerFirebaseLinkText": "Firebase",
+  "@footerFirebaseLinkText": {
     "description": "Text on the link shown on the footer which navigates to the Firebase page"
   },
   "footerGoogleIOText": "Google I/O",
