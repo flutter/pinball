@@ -18,9 +18,9 @@ class KickerGame extends BallGame {
     await addAll(
       [
         Kicker(side: BoardSide.left)
-          ..initialPosition = Vector2(center.x - (Kicker.size.x * 2), center.y),
+          ..initialPosition = Vector2(center.x - 8.8, center.y),
         Kicker(side: BoardSide.right)
-          ..initialPosition = Vector2(center.x + (Kicker.size.x * 2), center.y),
+          ..initialPosition = Vector2(center.x + 8.8, center.y),
       ],
     );
 

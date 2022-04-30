@@ -26,9 +26,6 @@ class Kicker extends BodyComponent with InitialPosition {
           renderBody: false,
         );
 
-  /// The size of the [Kicker] body.
-  static final Vector2 size = Vector2(4.4, 15);
-
   /// Whether the [Kicker] is on the left or right side of the board.
   ///
   /// A [Kicker] with [BoardSide.left] propels the [Ball] to the right,
@@ -37,22 +34,18 @@ class Kicker extends BodyComponent with InitialPosition {
   final BoardSide _side;
 
   List<FixtureDef> _createFixtureDefs() {
-    final fixturesDefs = <FixtureDef>[];
     final direction = _side.direction;
     const quarterPi = math.pi / 4;
+    final size = Vector2(4.4, 15);
 
     final upperCircle = CircleShape()..radius = 1.6;
     upperCircle.position.setValues(0, upperCircle.radius / 2);
-    final upperCircleFixtureDef = FixtureDef(upperCircle);
-    fixturesDefs.add(upperCircleFixtureDef);
 
     final lowerCircle = CircleShape()..radius = 1.6;
     lowerCircle.position.setValues(
       size.x * -direction,
       size.y + 0.8,
     );
-    final lowerCircleFixtureDef = FixtureDef(lowerCircle);
-    fixturesDefs.add(lowerCircleFixtureDef);
 
     final wallFacingEdge = EdgeShape()
       ..set(
@@ -63,8 +56,6 @@ class Kicker extends BodyComponent with InitialPosition {
             ),
         Vector2(2.5 * direction, size.y - 2),
       );
-    final wallFacingLineFixtureDef = FixtureDef(wallFacingEdge);
-    fixturesDefs.add(wallFacingLineFixtureDef);
 
     final bottomEdge = EdgeShape()
       ..set(
@@ -75,8 +66,6 @@ class Kicker extends BodyComponent with InitialPosition {
               lowerCircle.radius * math.sin(quarterPi),
             ),
       );
-    final bottomLineFixtureDef = FixtureDef(bottomEdge);
-    fixturesDefs.add(bottomLineFixtureDef);
 
     final bouncyEdge = EdgeShape()
       ..set(
@@ -92,12 +81,14 @@ class Kicker extends BodyComponent with InitialPosition {
             ),
       );
 
-    final bouncyFixtureDef = FixtureDef(
-      bouncyEdge,
-      // TODO(alestiago): Play with restitution value once game is bundled.
-      restitution: 10,
-    );
-    fixturesDefs.add(bouncyFixtureDef);
+    final fixturesDefs = [
+      FixtureDef(upperCircle),
+      FixtureDef(lowerCircle),
+      FixtureDef(wallFacingEdge),
+      FixtureDef(bottomEdge),
+      // TODO(alestiago): Add BumpingBehaviour.
+      FixtureDef(bouncyEdge),
+    ];
 
     // TODO(alestiago): Evaluate if there is value on centering the fixtures.
     final centroid = geometry.centroid(
