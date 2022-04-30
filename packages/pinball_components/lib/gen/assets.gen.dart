@@ -18,6 +18,7 @@ class $AssetsImagesGen {
   /// File path: assets/images/board-background.png
   AssetGenImage get boardBackground =>
       const AssetGenImage('assets/images/board-background.png');
+
   $AssetsImagesBoundaryGen get boundary => const $AssetsImagesBoundaryGen();
   $AssetsImagesDashGen get dash => const $AssetsImagesDashGen();
   $AssetsImagesDinoGen get dino => const $AssetsImagesDinoGen();
@@ -30,6 +31,7 @@ class $AssetsImagesGen {
   $AssetsImagesMultiplierGen get multiplier =>
       const $AssetsImagesMultiplierGen();
   $AssetsImagesPlungerGen get plunger => const $AssetsImagesPlungerGen();
+  $AssetsImagesScoreGen get score => const $AssetsImagesScoreGen();
   $AssetsImagesSignpostGen get signpost => const $AssetsImagesSignpostGen();
   $AssetsImagesSlingshotGen get slingshot => const $AssetsImagesSlingshotGen();
   $AssetsImagesSparkyGen get sparky => const $AssetsImagesSparkyGen();
@@ -214,6 +216,102 @@ class $AssetsImagesPlungerGen {
   /// File path: assets/images/plunger/rocket.png
   AssetGenImage get rocket =>
       const AssetGenImage('assets/images/plunger/rocket.png');
+}
+
+class $AssetsImagesScoreGen {
+  const $AssetsImagesScoreGen();
+
+  /// File path: assets/images/score/points-100k.png
+  AssetGenImage get points100k =>
+      const AssetGenImage('assets/images/score/points-100k.png');
+
+  /// File path: assets/images/score/points-10k.png
+  AssetGenImage get points10k =>
+      const AssetGenImage('assets/images/score/points-10k.png');
+
+  /// File path: assets/images/score/points-120k.png
+  AssetGenImage get points120k =>
+      const AssetGenImage('assets/images/score/points-120k.png');
+
+  /// File path: assets/images/score/points-15k.png
+  AssetGenImage get points15k =>
+      const AssetGenImage('assets/images/score/points-15k.png');
+
+  /// File path: assets/images/score/points-1m.png
+  AssetGenImage get points1m =>
+      const AssetGenImage('assets/images/score/points-1m.png');
+
+  /// File path: assets/images/score/points-1m2.png
+  AssetGenImage get points1m2 =>
+      const AssetGenImage('assets/images/score/points-1m2.png');
+
+  /// File path: assets/images/score/points-200k.png
+  AssetGenImage get points200k =>
+      const AssetGenImage('assets/images/score/points-200k.png');
+
+  /// File path: assets/images/score/points-20k.png
+  AssetGenImage get points20k =>
+      const AssetGenImage('assets/images/score/points-20k.png');
+
+  /// File path: assets/images/score/points-25k.png
+  AssetGenImage get points25k =>
+      const AssetGenImage('assets/images/score/points-25k.png');
+
+  /// File path: assets/images/score/points-2m.png
+  AssetGenImage get points2m =>
+      const AssetGenImage('assets/images/score/points-2m.png');
+
+  /// File path: assets/images/score/points-30k.png
+  AssetGenImage get points30k =>
+      const AssetGenImage('assets/images/score/points-30k.png');
+
+  /// File path: assets/images/score/points-3m.png
+  AssetGenImage get points3m =>
+      const AssetGenImage('assets/images/score/points-3m.png');
+
+  /// File path: assets/images/score/points-400k.png
+  AssetGenImage get points400k =>
+      const AssetGenImage('assets/images/score/points-400k.png');
+
+  /// File path: assets/images/score/points-40k.png
+  AssetGenImage get points40k =>
+      const AssetGenImage('assets/images/score/points-40k.png');
+
+  /// File path: assets/images/score/points-4m.png
+  AssetGenImage get points4m =>
+      const AssetGenImage('assets/images/score/points-4m.png');
+
+  /// File path: assets/images/score/points-50k.png
+  AssetGenImage get points50k =>
+      const AssetGenImage('assets/images/score/points-50k.png');
+
+  /// File path: assets/images/score/points-5k.png
+  AssetGenImage get points5k =>
+      const AssetGenImage('assets/images/score/points-5k.png');
+
+  /// File path: assets/images/score/points-5m.png
+  AssetGenImage get points5m =>
+      const AssetGenImage('assets/images/score/points-5m.png');
+
+  /// File path: assets/images/score/points-600k.png
+  AssetGenImage get points600k =>
+      const AssetGenImage('assets/images/score/points-600k.png');
+
+  /// File path: assets/images/score/points-60k.png
+  AssetGenImage get points60k =>
+      const AssetGenImage('assets/images/score/points-60k.png');
+
+  /// File path: assets/images/score/points-6m.png
+  AssetGenImage get points6m =>
+      const AssetGenImage('assets/images/score/points-6m.png');
+
+  /// File path: assets/images/score/points-800k.png
+  AssetGenImage get points800k =>
+      const AssetGenImage('assets/images/score/points-800k.png');
+
+  /// File path: assets/images/score/points-80k.png
+  AssetGenImage get points80k =>
+      const AssetGenImage('assets/images/score/points-80k.png');
 }
 
 class $AssetsImagesSignpostGen {
