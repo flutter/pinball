@@ -16,6 +16,7 @@ class BottomGroup extends Component {
             _BottomGroupSide(side: BoardSide.right),
             _BottomGroupSide(side: BoardSide.left),
           ],
+          priority: RenderPriority.bottomGroup,
         );
 }
 
@@ -28,8 +29,7 @@ class _BottomGroupSide extends Component {
   /// {@macro bottom_group_side}
   _BottomGroupSide({
     required BoardSide side,
-  })  : _side = side,
-        super(priority: RenderPriority.bottomGroup);
+  }) : _side = side;
 
   final BoardSide _side;
 
@@ -48,6 +48,9 @@ class _BottomGroupSide extends Component {
       );
     final kicker = Kicker(
       side: _side,
+      children: [
+        ScoringBehavior(points: 5000),
+      ],
     )..initialPosition = Vector2(
         (22.4 * direction) + centerXAdjustment,
         25,

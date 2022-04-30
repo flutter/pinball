@@ -241,7 +241,7 @@ class PlungerAnchorPrismaticJointDef extends PrismaticJointDef {
       plunger.body,
       anchor.body,
       plunger.body.position + anchor.body.position,
-      Vector2(18.6, BoardDimensions.bounds.height),
+      Vector2(16, BoardDimensions.bounds.height),
     );
     enableLimit = true;
     lowerTranslation = double.negativeInfinity;
