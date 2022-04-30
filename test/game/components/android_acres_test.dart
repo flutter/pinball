@@ -30,6 +30,8 @@ void main() {
     Assets.images.android.bumper.a.dimmed.keyName,
     Assets.images.android.bumper.b.lit.keyName,
     Assets.images.android.bumper.b.dimmed.keyName,
+    Assets.images.android.bumper.cow.lit.keyName,
+    Assets.images.android.bumper.cow.dimmed.keyName,
   ];
   final flameTester = FlameTester(
     () => EmptyPinballTestGame(assets: assets),
@@ -76,7 +78,7 @@ void main() {
       );
 
       flameTester.test(
-        'two AndroidBumper',
+        'three AndroidBumper',
         (game) async {
           final androidZone = AndroidAcres();
           await game.addFromBlueprint(androidZone);
@@ -84,7 +86,7 @@ void main() {
 
           expect(
             game.descendants().whereType<AndroidBumper>().length,
-            equals(2),
+            equals(3),
           );
         },
       );

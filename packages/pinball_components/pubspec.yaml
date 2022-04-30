@@ -62,6 +62,7 @@ flutter:
     - assets/images/android/ramp/arrow/
     - assets/images/android/bumper/a/
     - assets/images/android/bumper/b/
+    - assets/images/android/bumper/cow/
     - assets/images/kicker/
     - assets/images/plunger/
     - assets/images/slingshot/
@@ -73,6 +74,11 @@ flutter:
     - assets/images/backboard/
     - assets/images/google_word/
     - assets/images/signpost/
+    - assets/images/multiplier/x2/
+    - assets/images/multiplier/x3/
+    - assets/images/multiplier/x4/
+    - assets/images/multiplier/x5/
+    - assets/images/multiplier/x6/
 
 flutter_gen:
   line_length: 80

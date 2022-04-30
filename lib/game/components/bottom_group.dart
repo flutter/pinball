@@ -48,6 +48,9 @@ class _BottomGroupSide extends Component {
       );
     final kicker = Kicker(
       side: _side,
+      children: [
+        ScoringBehavior(points: 5000),
+      ],
     )..initialPosition = Vector2(
         (22.4 * direction) + centerXAdjustment,
         25,

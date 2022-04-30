@@ -153,7 +153,6 @@ void main() {
         character: CharacterType.dash,
       );
       const entryDocumentId = 'id$entryScore';
-      final ranking = LeaderboardRanking(ranking: 3, outOf: 4);
 
       setUp(() {
         leaderboardRepository = LeaderboardRepository(firestore);
@@ -165,13 +164,12 @@ void main() {
           final queryDocumentSnapshot = MockQueryDocumentSnapshot();
           when(queryDocumentSnapshot.data).thenReturn(<String, dynamic>{
             'character': 'dash',
-            'username': 'user$score',
+            'playerInitials': 'AAA',
             'score': score
           });
           when(() => queryDocumentSnapshot.id).thenReturn('id$score');
           return queryDocumentSnapshot;
         }).toList();
-
         when(() => firestore.collection('leaderboard'))
             .thenAnswer((_) => collectionReference);
         when(() => collectionReference.add(any()))
@@ -184,19 +182,29 @@ void main() {
       });
 
       test(
-          'adds leaderboard entry and returns player ranking when '
-          'firestore operations succeed', () async {
-        final rankingResult =
-            await leaderboardRepository.addLeaderboardEntry(leaderboardEntry);
-
-        expect(rankingResult, equals(ranking));
+          'throws FetchLeaderboardException '
+          'when querying the leaderboard fails', () {
+        when(() => firestore.collection('leaderboard')).thenThrow(Exception());
+        expect(
+          () => leaderboardRepository.addLeaderboardEntry(leaderboardEntry),
+          throwsA(isA<FetchLeaderboardException>()),
+        );
       });
 
       test(
-          'throws AddLeaderboardEntryException when Exception occurs '
-          'when trying to add entry to firestore', () async {
-        when(() => firestore.collection('leaderboard')).thenThrow(Exception());
+          'saves the new score if the existing leaderboard '
+          'has less than 10 scores', () async {
+        await leaderboardRepository.addLeaderboardEntry(leaderboardEntry);
+        verify(
+          () => collectionReference.add(leaderboardEntry.toJson()),
+        ).called(1);
+      });
 
+      test(
+          'throws AddLeaderboardEntryException '
+          'when adding a new entry fails', () async {
+        when(() => collectionReference.add(leaderboardEntry.toJson()))
+            .thenThrow(Exception('oops'));
         expect(
           () => leaderboardRepository.addLeaderboardEntry(leaderboardEntry),
           throwsA(isA<AddLeaderboardEntryException>()),
@@ -204,26 +212,160 @@ void main() {
       });
 
       test(
-          'throws FetchPlayerRankingException when Exception occurs '
-          'when trying to retrieve information from firestore', () async {
-        when(() => collectionReference.orderBy('score', descending: true))
-            .thenThrow(Exception());
+          'does nothing if there are more than 10 scores in the leaderboard '
+          'and the new score is smaller than the top 10', () async {
+        final leaderboardScores = [
+          10000,
+          9500,
+          9000,
+          8500,
+          8000,
+          7500,
+          7000,
+          6500,
+          6000,
+          5500,
+          5000
+        ];
+        final queryDocumentSnapshots = leaderboardScores.map((score) {
+          final queryDocumentSnapshot = MockQueryDocumentSnapshot();
+          when(queryDocumentSnapshot.data).thenReturn(<String, dynamic>{
+            'character': 'dash',
+            'playerInitials': 'AAA',
+            'score': score
+          });
+          when(() => queryDocumentSnapshot.id).thenReturn('id$score');
+          return queryDocumentSnapshot;
+        }).toList();
+        when(() => querySnapshot.docs).thenReturn(queryDocumentSnapshots);
 
-        expect(
-          () => leaderboardRepository.addLeaderboardEntry(leaderboardEntry),
-          throwsA(isA<FetchPlayerRankingException>()),
+        await leaderboardRepository.addLeaderboardEntry(leaderboardEntry);
+        verifyNever(
+          () => collectionReference.add(leaderboardEntry.toJson()),
         );
       });
 
       test(
-          'throws FetchPlayerRankingException when score cannot be found '
-          'in firestore leaderboard data', () async {
-        when(() => documentReference.id).thenReturn('nonexistentDocumentId');
-
-        expect(
-          () => leaderboardRepository.addLeaderboardEntry(leaderboardEntry),
-          throwsA(isA<FetchPlayerRankingException>()),
+          'throws DeleteLeaderboardException '
+          'when deleting scores outside the top 10 fails', () async {
+        final deleteQuery = MockQuery();
+        final deleteQuerySnapshot = MockQuerySnapshot();
+        final newScore = LeaderboardEntryData(
+          playerInitials: 'ABC',
+          score: 15000,
+          character: CharacterType.android,
         );
+        final leaderboardScores = [
+          10000,
+          9500,
+          9000,
+          8500,
+          8000,
+          7500,
+          7000,
+          6500,
+          6000,
+          5500,
+          5000,
+        ];
+        final deleteDocumentSnapshots = [5500, 5000].map((score) {
+          final queryDocumentSnapshot = MockQueryDocumentSnapshot();
+          when(queryDocumentSnapshot.data).thenReturn(<String, dynamic>{
+            'character': 'dash',
+            'playerInitials': 'AAA',
+            'score': score
+          });
+          when(() => queryDocumentSnapshot.id).thenReturn('id$score');
+          when(() => queryDocumentSnapshot.reference)
+              .thenReturn(documentReference);
+          return queryDocumentSnapshot;
+        }).toList();
+        when(deleteQuery.get).thenAnswer((_) async => deleteQuerySnapshot);
+        when(() => deleteQuerySnapshot.docs)
+            .thenReturn(deleteDocumentSnapshots);
+        final queryDocumentSnapshots = leaderboardScores.map((score) {
+          final queryDocumentSnapshot = MockQueryDocumentSnapshot();
+          when(queryDocumentSnapshot.data).thenReturn(<String, dynamic>{
+            'character': 'dash',
+            'playerInitials': 'AAA',
+            'score': score
+          });
+          when(() => queryDocumentSnapshot.id).thenReturn('id$score');
+          when(() => queryDocumentSnapshot.reference)
+              .thenReturn(documentReference);
+          return queryDocumentSnapshot;
+        }).toList();
+        when(
+          () => collectionReference.where('score', isLessThanOrEqualTo: 5500),
+        ).thenAnswer((_) => deleteQuery);
+        when(() => documentReference.delete()).thenThrow(Exception('oops'));
+        when(() => querySnapshot.docs).thenReturn(queryDocumentSnapshots);
+        expect(
+          () => leaderboardRepository.addLeaderboardEntry(newScore),
+          throwsA(isA<DeleteLeaderboardException>()),
+        );
+      });
+
+      test(
+          'saves the new score when there are more than 10 scores in the '
+          'leaderboard and the new score is higher than the lowest top 10, and '
+          'deletes the scores that are not in the top 10 anymore', () async {
+        final deleteQuery = MockQuery();
+        final deleteQuerySnapshot = MockQuerySnapshot();
+        final newScore = LeaderboardEntryData(
+          playerInitials: 'ABC',
+          score: 15000,
+          character: CharacterType.android,
+        );
+        final leaderboardScores = [
+          10000,
+          9500,
+          9000,
+          8500,
+          8000,
+          7500,
+          7000,
+          6500,
+          6000,
+          5500,
+          5000,
+        ];
+        final deleteDocumentSnapshots = [5500, 5000].map((score) {
+          final queryDocumentSnapshot = MockQueryDocumentSnapshot();
+          when(queryDocumentSnapshot.data).thenReturn(<String, dynamic>{
+            'character': 'dash',
+            'playerInitials': 'AAA',
+            'score': score
+          });
+          when(() => queryDocumentSnapshot.id).thenReturn('id$score');
+          when(() => queryDocumentSnapshot.reference)
+              .thenReturn(documentReference);
+          return queryDocumentSnapshot;
+        }).toList();
+        when(deleteQuery.get).thenAnswer((_) async => deleteQuerySnapshot);
+        when(() => deleteQuerySnapshot.docs)
+            .thenReturn(deleteDocumentSnapshots);
+        final queryDocumentSnapshots = leaderboardScores.map((score) {
+          final queryDocumentSnapshot = MockQueryDocumentSnapshot();
+          when(queryDocumentSnapshot.data).thenReturn(<String, dynamic>{
+            'character': 'dash',
+            'playerInitials': 'AAA',
+            'score': score
+          });
+          when(() => queryDocumentSnapshot.id).thenReturn('id$score');
+          when(() => queryDocumentSnapshot.reference)
+              .thenReturn(documentReference);
+          return queryDocumentSnapshot;
+        }).toList();
+        when(
+          () => collectionReference.where('score', isLessThanOrEqualTo: 5500),
+        ).thenAnswer((_) => deleteQuery);
+        when(() => documentReference.delete())
+            .thenAnswer((_) async => Future.value());
+        when(() => querySnapshot.docs).thenReturn(queryDocumentSnapshots);
+        await leaderboardRepository.addLeaderboardEntry(newScore);
+        verify(() => collectionReference.add(newScore.toJson())).called(1);
+        verify(() => documentReference.delete()).called(2);
       });
     });
 

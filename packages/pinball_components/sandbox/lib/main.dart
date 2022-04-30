@@ -27,6 +27,7 @@ void main() {
   addScoreTextStories(dashbook);
   addBackboardStories(dashbook);
   addDinoWallStories(dashbook);
+  addMultipliersStories(dashbook);
 
   runApp(dashbook);
 }

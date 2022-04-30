@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball/leaderboard/leaderboard.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
@@ -34,8 +33,6 @@ class MockStartGameBloc extends Mock implements StartGameBloc {}
 class MockGameState extends Mock implements GameState {}
 
 class MockCharacterThemeCubit extends Mock implements CharacterThemeCubit {}
-
-class MockLeaderboardBloc extends Mock implements LeaderboardBloc {}
 
 class MockLeaderboardRepository extends Mock implements LeaderboardRepository {}
 
@@ -67,6 +64,8 @@ class MockFilter extends Mock implements Filter {}
 
 class MockFixture extends Mock implements Fixture {}
 
+class MockComponent extends Mock implements Component {}
+
 class MockComponentSet extends Mock implements ComponentSet {}
 
 class MockDashNestBumper extends Mock implements DashNestBumper {}
@@ -89,3 +88,9 @@ class MockGameFlowController extends Mock implements GameFlowController {}
 class MockAndroidBumper extends Mock implements AndroidBumper {}
 
 class MockSparkyBumper extends Mock implements SparkyBumper {}
+
+class MockMultiplier extends Mock implements Multiplier {}
+
+class MockMultipliersGroup extends Mock implements Multipliers {}
+
+class MockMultiplierCubit extends Mock implements MultiplierCubit {}
