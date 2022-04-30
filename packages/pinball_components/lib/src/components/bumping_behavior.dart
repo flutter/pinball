@@ -16,10 +16,14 @@ class BumpingBehavior extends ContactBehavior {
     super.postSolve(other, contact, impulse);
     if (other is! BodyComponent) return;
 
+    final worldManifold = WorldManifold();
+    contact.getWorldManifold(worldManifold);
+
     other.body.applyLinearImpulse(
-      contact.manifold.localPoint
-        ..normalize()
-        ..multiply(Vector2.all(other.body.mass * _strength)),
+      worldManifold.normal
+        ..multiply(
+          Vector2.all(other.body.mass * _strength),
+        ),
     );
   }
 }
