@@ -1,3 +1,4 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
@@ -35,6 +36,9 @@ class MockStartGameBloc extends Mock implements StartGameBloc {}
 class MockGameState extends Mock implements GameState {}
 
 class MockCharacterThemeCubit extends Mock implements CharacterThemeCubit {}
+
+class MockAuthenticationRepository extends Mock
+    implements AuthenticationRepository {}
 
 class MockLeaderboardRepository extends Mock implements LeaderboardRepository {}
 
