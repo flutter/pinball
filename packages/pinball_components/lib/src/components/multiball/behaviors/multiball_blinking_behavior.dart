@@ -9,7 +9,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 class MultiballBlinkingBehavior extends TimerComponent
     with ParentIsA<Multiball> {
   /// {@macro multiball_blinking_behavior}
-  MultiballBlinkingBehavior() : super(period: 0.01);
+  MultiballBlinkingBehavior() : super(period: 0.1);
 
   final _maxBlinks = 10;
   int _blinksCounter = 0;
@@ -19,19 +19,27 @@ class MultiballBlinkingBehavior extends TimerComponent
     final animationEnabled =
         state.animationState == MultiballAnimationState.animated;
     final canBlink = _blinksCounter < _maxBlinks;
+
     if (animationEnabled && canBlink) {
-      _animate();
+      _start();
     } else {
       _stop();
     }
   }
 
-  Future<void> _animate() async {
+  void _start() {
     if (!_isAnimating) {
       _isAnimating = true;
-      parent.bloc.onBlink();
-      _blinksCounter++;
+      timer
+        ..reset()
+        ..start();
+      _animate();
     }
+  }
+
+  void _animate() {
+    parent.bloc.onBlink();
+    _blinksCounter++;
   }
 
   void _stop() {
@@ -46,19 +54,23 @@ class MultiballBlinkingBehavior extends TimerComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    timer.stop();
     parent.bloc.stream.listen(_onNewState);
   }
 
   @override
   void onTick() {
     super.onTick();
-    if (_isAnimating) {
-      timer
-        ..reset()
-        ..start();
-    } else {
+    if (!_isAnimating) {
       timer.stop();
+    } else {
+      if (_blinksCounter < _maxBlinks) {
+        _animate();
+        timer
+          ..reset()
+          ..start();
+      } else {
+        timer.stop();
+      }
     }
   }
 }

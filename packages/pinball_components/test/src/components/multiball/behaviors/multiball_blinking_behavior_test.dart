@@ -41,6 +41,11 @@ void main() {
             ),
           );
           await tester.pump();
+          game.update(0);
+
+          verify(bloc.onBlink).called(1);
+
+          await tester.pump();
           game.update(0.1);
 
           await streamController.close();
