@@ -2,7 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball/theme/app_colors.dart';
+import 'package:pinball_ui/pinball_ui.dart';
 
 import '../../../helpers/helpers.dart';
 
@@ -108,7 +108,7 @@ void main() {
 
     expect(
       find.byWidgetPredicate(
-        (widget) => widget is Container && widget.color == AppColors.yellow,
+        (widget) => widget is Container && widget.color == PinballColors.yellow,
       ),
       findsOneWidget,
     );
@@ -125,7 +125,7 @@ void main() {
       find.byWidgetPredicate(
         (widget) =>
             widget is Container &&
-            widget.color == AppColors.yellow.withAlpha(128),
+            widget.color == PinballColors.yellow.withAlpha(128),
       ),
       findsOneWidget,
     );

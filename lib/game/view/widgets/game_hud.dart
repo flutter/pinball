@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/gen/gen.dart';
-import 'package:pinball/theme/app_colors.dart';
+import 'package:pinball_ui/pinball_ui.dart';
 
 /// {@template game_hud}
 /// Overlay on the [PinballGame].
@@ -72,7 +72,7 @@ class _ScoreViewDecoration extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: radius,
         border: Border.all(
-          color: AppColors.white,
+          color: PinballColors.white,
           width: borderWidth,
         ),
         image: DecorationImage(
