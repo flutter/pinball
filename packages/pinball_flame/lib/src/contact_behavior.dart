@@ -5,7 +5,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// Appends a new [ContactCallbacks] to the parent.
 ///
 /// This is a convenience class for adding a [ContactCallbacks] to the parent.
-/// In constrast with just assigning a [ContactCallbacks] to a userData, this
+/// In contrast with just assigning a [ContactCallbacks] to a userData, this
 /// class respects the previous userData.
 ///
 /// It does so by grouping the userData in a [_UserData], and resetting the
