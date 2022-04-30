@@ -77,7 +77,35 @@ void main() {
             ),
           );
           await tester.pump();
-          game.update(0.1);
+
+          streamController.add(
+            MultiballState(
+              animationState: MultiballAnimationState.stopped,
+              lightState: MultiballLightState.lit,
+            ),
+          );
+
+          await streamController.close();
+          verify(bloc.onStop).called(1);
+        },
+      );
+
+      flameTester.testGameWidget(
+        'onTick stops when there is no animation',
+        setUp: (game, tester) async {
+          final behavior = MultiballBlinkingBehavior();
+          final bloc = MockMultiballCubit();
+          final streamController = StreamController<MultiballState>();
+          whenListen(
+            bloc,
+            streamController.stream,
+            initialState: MultiballState.initial(),
+          );
+          when(bloc.onBlink).thenAnswer((_) async {});
+
+          final multiball = Multiball.test(bloc: bloc);
+          await multiball.add(behavior);
+          await game.ensureAdd(multiball);
 
           streamController.add(
             MultiballState(
@@ -87,8 +115,42 @@ void main() {
           );
           await tester.pump();
 
-          await streamController.close();
-          verify(bloc.onStop).called(1);
+          behavior.onTick();
+
+          expect(behavior.timer.isRunning(), false);
+        },
+      );
+
+      flameTester.testGameWidget(
+        'onTick stops after 10 blinks repetitions',
+        setUp: (game, tester) async {
+          final behavior = MultiballBlinkingBehavior();
+          final bloc = MockMultiballCubit();
+          final streamController = StreamController<MultiballState>();
+          whenListen(
+            bloc,
+            streamController.stream,
+            initialState: MultiballState.initial(),
+          );
+          when(bloc.onBlink).thenAnswer((_) async {});
+
+          final multiball = Multiball.test(bloc: bloc);
+          await multiball.add(behavior);
+          await game.ensureAdd(multiball);
+
+          streamController.add(
+            MultiballState(
+              animationState: MultiballAnimationState.animated,
+              lightState: MultiballLightState.dimmed,
+            ),
+          );
+          await tester.pump();
+
+          for (var i = 0; i < 10; i++) {
+            behavior.onTick();
+          }
+
+          expect(behavior.timer.isRunning(), false);
         },
       );
     },
