@@ -19,6 +19,8 @@ void main() {
     Assets.images.androidBumper.a.dimmed.keyName,
     Assets.images.androidBumper.b.lit.keyName,
     Assets.images.androidBumper.b.dimmed.keyName,
+    Assets.images.androidBumper.cow.lit.keyName,
+    Assets.images.androidBumper.cow.dimmed.keyName,
     Assets.images.backboard.backboardScores.keyName,
     Assets.images.backboard.backboardGameOver.keyName,
     Assets.images.backboard.display.keyName,
@@ -53,8 +55,21 @@ void main() {
     Assets.images.launchRamp.ramp.keyName,
     Assets.images.launchRamp.foregroundRailing.keyName,
     Assets.images.launchRamp.backgroundRailing.keyName,
+<<<<<<< HEAD
     Assets.images.multiball.lit.keyName,
     Assets.images.multiball.dimmed.keyName,
+=======
+    Assets.images.multiplier.x2.lit.keyName,
+    Assets.images.multiplier.x2.dimmed.keyName,
+    Assets.images.multiplier.x3.lit.keyName,
+    Assets.images.multiplier.x3.dimmed.keyName,
+    Assets.images.multiplier.x4.lit.keyName,
+    Assets.images.multiplier.x4.dimmed.keyName,
+    Assets.images.multiplier.x5.lit.keyName,
+    Assets.images.multiplier.x5.dimmed.keyName,
+    Assets.images.multiplier.x6.lit.keyName,
+    Assets.images.multiplier.x6.dimmed.keyName,
+>>>>>>> main
     Assets.images.plunger.plunger.keyName,
     Assets.images.plunger.rocket.keyName,
     Assets.images.signpost.inactive.keyName,
@@ -117,6 +132,10 @@ void main() {
     gameBuilder: () => PinballTestGame(assets: assets),
     blocBuilder: () => gameBloc,
   );
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
   group('PinballGame', () {
     group('components', () {
       // TODO(alestiago): tests that Blueprints get added once the Blueprint
@@ -136,7 +155,6 @@ void main() {
         'has only one BottomGroup',
         (game) async {
           await game.ready();
-
           expect(
             game.children.whereType<BottomGroup>().length,
             equals(1),
@@ -164,6 +182,7 @@ void main() {
       });
 
       flameBlocTester.test(
+<<<<<<< HEAD
         'has only one Multiballs',
         (game) async {
           await game.ready();
@@ -176,6 +195,8 @@ void main() {
       );
 
       flameBlocTester.test(
+=======
+>>>>>>> main
         'one GoogleWord',
         (game) async {
           await game.ready();

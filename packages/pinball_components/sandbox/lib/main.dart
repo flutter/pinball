@@ -28,6 +28,7 @@ void main() {
   addBackboardStories(dashbook);
   addDinoWallStories(dashbook);
   addMultiballStories(dashbook);
+  addMultipliersStories(dashbook);
 
   runApp(dashbook);
 }

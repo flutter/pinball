@@ -25,6 +25,8 @@ class $AssetsImagesGen {
   $AssetsImagesLaunchRampGen get launchRamp =>
       const $AssetsImagesLaunchRampGen();
   $AssetsImagesMultiballGen get multiball => const $AssetsImagesMultiballGen();
+  $AssetsImagesMultiplierGen get multiplier =>
+      const $AssetsImagesMultiplierGen();
   $AssetsImagesPlungerGen get plunger => const $AssetsImagesPlungerGen();
   $AssetsImagesSignpostGen get signpost => const $AssetsImagesSignpostGen();
   $AssetsImagesSlingshotGen get slingshot => const $AssetsImagesSlingshotGen();
@@ -39,6 +41,8 @@ class $AssetsImagesAndroidBumperGen {
       const $AssetsImagesAndroidBumperAGen();
   $AssetsImagesAndroidBumperBGen get b =>
       const $AssetsImagesAndroidBumperBGen();
+  $AssetsImagesAndroidBumperCowGen get cow =>
+      const $AssetsImagesAndroidBumperCowGen();
 }
 
 class $AssetsImagesBackboardGen {
@@ -201,6 +205,16 @@ class $AssetsImagesMultiballGen {
       const AssetGenImage('assets/images/multiball/lit.png');
 }
 
+class $AssetsImagesMultiplierGen {
+  const $AssetsImagesMultiplierGen();
+
+  $AssetsImagesMultiplierX2Gen get x2 => const $AssetsImagesMultiplierX2Gen();
+  $AssetsImagesMultiplierX3Gen get x3 => const $AssetsImagesMultiplierX3Gen();
+  $AssetsImagesMultiplierX4Gen get x4 => const $AssetsImagesMultiplierX4Gen();
+  $AssetsImagesMultiplierX5Gen get x5 => const $AssetsImagesMultiplierX5Gen();
+  $AssetsImagesMultiplierX6Gen get x6 => const $AssetsImagesMultiplierX6Gen();
+}
+
 class $AssetsImagesPlungerGen {
   const $AssetsImagesPlungerGen();
 
@@ -299,6 +313,18 @@ class $AssetsImagesAndroidBumperBGen {
       const AssetGenImage('assets/images/android_bumper/b/lit.png');
 }
 
+class $AssetsImagesAndroidBumperCowGen {
+  const $AssetsImagesAndroidBumperCowGen();
+
+  /// File path: assets/images/android_bumper/cow/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/android_bumper/cow/dimmed.png');
+
+  /// File path: assets/images/android_bumper/cow/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/android_bumper/cow/lit.png');
+}
+
 class $AssetsImagesDashBumperGen {
   const $AssetsImagesDashBumperGen();
 
@@ -318,6 +344,66 @@ class $AssetsImagesDinoAnimatronicGen {
   /// File path: assets/images/dino/animatronic/mouth.png
   AssetGenImage get mouth =>
       const AssetGenImage('assets/images/dino/animatronic/mouth.png');
+}
+
+class $AssetsImagesMultiplierX2Gen {
+  const $AssetsImagesMultiplierX2Gen();
+
+  /// File path: assets/images/multiplier/x2/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/multiplier/x2/dimmed.png');
+
+  /// File path: assets/images/multiplier/x2/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/multiplier/x2/lit.png');
+}
+
+class $AssetsImagesMultiplierX3Gen {
+  const $AssetsImagesMultiplierX3Gen();
+
+  /// File path: assets/images/multiplier/x3/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/multiplier/x3/dimmed.png');
+
+  /// File path: assets/images/multiplier/x3/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/multiplier/x3/lit.png');
+}
+
+class $AssetsImagesMultiplierX4Gen {
+  const $AssetsImagesMultiplierX4Gen();
+
+  /// File path: assets/images/multiplier/x4/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/multiplier/x4/dimmed.png');
+
+  /// File path: assets/images/multiplier/x4/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/multiplier/x4/lit.png');
+}
+
+class $AssetsImagesMultiplierX5Gen {
+  const $AssetsImagesMultiplierX5Gen();
+
+  /// File path: assets/images/multiplier/x5/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/multiplier/x5/dimmed.png');
+
+  /// File path: assets/images/multiplier/x5/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/multiplier/x5/lit.png');
+}
+
+class $AssetsImagesMultiplierX6Gen {
+  const $AssetsImagesMultiplierX6Gen();
+
+  /// File path: assets/images/multiplier/x6/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/multiplier/x6/dimmed.png');
+
+  /// File path: assets/images/multiplier/x6/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/multiplier/x6/lit.png');
 }
 
 class $AssetsImagesSpaceshipRailGen {
