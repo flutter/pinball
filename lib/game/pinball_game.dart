@@ -9,11 +9,10 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball/gen/assets.gen.dart';
 import 'package:pinball_audio/pinball_audio.dart';
-import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
-import 'package:pinball_theme/pinball_theme.dart' hide Assets;
+import 'package:pinball_theme/pinball_theme.dart';
 
 class PinballGame extends Forge2DGame
     with
@@ -46,6 +45,7 @@ class PinballGame extends Forge2DGame
     unawaited(add(gameFlowController = GameFlowController(this)));
     unawaited(add(CameraController(this)));
     unawaited(add(Backboard.waiting(position: Vector2(0, -88))));
+    await add(BoardBackgroundSpriteComponent());
     await add(Drain());
     await add(BottomGroup());
     unawaited(addFromBlueprint(Boundaries()));
@@ -185,26 +185,25 @@ class DebugPinballGame extends PinballGame with FPSCounter {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadBackground();
     await add(_DebugInformation());
   }
 
-  // TODO(alestiago): Move to PinballGame once we have the real background
-  // component.
-  Future<void> _loadBackground() async {
-    final sprite = await loadSprite(
-      Assets.images.components.background.path,
-    );
-    final spriteComponent = SpriteComponent(
-      sprite: sprite,
-      size: Vector2(120, 160),
-      anchor: Anchor.center,
-    )
-      ..position = Vector2(0, -7.8)
-      ..priority = RenderPriority.background;
+  // TODO(allisonryan0002): Remove after google letters have been correctly
+  // placed.
+  // Future<void> _loadBackground() async {
+  //   final sprite = await loadSprite(
+  //     Assets.images.components.background.path,
+  //   );
+  //   final spriteComponent = SpriteComponent(
+  //     sprite: sprite,
+  //     size: Vector2(120, 160),
+  //     anchor: Anchor.center,
+  //   )
+  //     ..position = Vector2(0, -7.8)
+  //     ..priority = RenderPriority.boardBackground;
 
-    await add(spriteComponent);
-  }
+  //   await add(spriteComponent);
+  // }
 
   @override
   void onTapUp(TapUpInfo info) {

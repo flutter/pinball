@@ -33,13 +33,13 @@ abstract class RenderPriority {
 
   // TODO(allisonryan0002): fix this magic priority. Could bump all priorities
   // so there are no negatives.
-  static const int background = 3 * _below + _base;
+  static const int boardBackground = 3 * _below + _base;
 
   // Boundaries
 
   static const int bottomBoundary = _above + dinoBottomWall;
 
-  static const int outerBoundary = _above + background;
+  static const int outerBoundary = _above + boardBackground;
 
   static const int outerBottomBoundary = _above + rocket;
 

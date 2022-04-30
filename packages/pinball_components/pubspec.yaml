@@ -45,6 +45,7 @@ flutter:
         - asset: fonts/PixeloidMono-1G8ae.ttf
 
   assets:
+    - assets/images/
     - assets/images/ball/
     - assets/images/baseboard/
     - assets/images/boundary/
