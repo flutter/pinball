@@ -13,12 +13,12 @@ import '../../../helpers/helpers.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
-    Assets.images.sparky.bumper.a.active.keyName,
-    Assets.images.sparky.bumper.a.inactive.keyName,
-    Assets.images.sparky.bumper.b.active.keyName,
-    Assets.images.sparky.bumper.b.inactive.keyName,
-    Assets.images.sparky.bumper.c.active.keyName,
-    Assets.images.sparky.bumper.c.inactive.keyName,
+    Assets.images.sparky.bumper.a.lit.keyName,
+    Assets.images.sparky.bumper.a.dimmed.keyName,
+    Assets.images.sparky.bumper.b.lit.keyName,
+    Assets.images.sparky.bumper.b.dimmed.keyName,
+    Assets.images.sparky.bumper.c.lit.keyName,
+    Assets.images.sparky.bumper.c.dimmed.keyName,
   ];
   final flameTester = FlameTester(() => TestGame(assets));
 
@@ -49,7 +49,7 @@ void main() {
       whenListen(
         bloc,
         const Stream<SparkyBumperState>.empty(),
-        initialState: SparkyBumperState.active,
+        initialState: SparkyBumperState.lit,
       );
       when(bloc.close).thenAnswer((_) async {});
       final sparkyBumper = SparkyBumper.test(bloc: bloc);

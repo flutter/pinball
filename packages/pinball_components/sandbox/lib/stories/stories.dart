@@ -13,4 +13,4 @@ export 'layer/stories.dart';
 export 'plunger/stories.dart';
 export 'score_text/stories.dart';
 export 'slingshot/stories.dart';
-export 'sparky_bumper/stories.dart';
+export 'sparky_scorch/stories.dart';

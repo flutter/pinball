@@ -54,7 +54,7 @@ class PinballGame extends Forge2DGame
     final launcher = Launcher();
     unawaited(addFromBlueprint(launcher));
     await add(FlutterForest());
-    await addFromBlueprint(SparkyFireZone());
+    await addFromBlueprint(SparkyScorch());
     await addFromBlueprint(AndroidAcres());
     await addFromBlueprint(DinoDesert());
     unawaited(addFromBlueprint(Slingshots()));
@@ -185,7 +185,7 @@ class DebugPinballGame extends PinballGame with FPSCounter {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadBackground();
+    // await _loadBackground();
     await add(_DebugInformation());
   }
 
