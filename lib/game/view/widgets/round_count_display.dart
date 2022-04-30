@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
-import 'package:pinball/theme/theme.dart';
+import 'package:pinball_ui/pinball_ui.dart';
 
 /// {@template round_count_display}
 /// Colored square indicating if a round is available.
@@ -20,9 +20,7 @@ class RoundCountDisplay extends StatelessWidget {
       children: [
         Text(
           l10n.rounds,
-          style: AppTextStyle.subtitle1.copyWith(
-            color: AppColors.yellow,
-          ),
+          style: Theme.of(context).textTheme.subtitle1,
         ),
         const SizedBox(width: 8),
         Row(
@@ -53,9 +51,9 @@ class RoundIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isActive ? AppColors.yellow : AppColors.yellow.withAlpha(128);
+    final color =
+        isActive ? PinballColors.yellow : PinballColors.yellow.withAlpha(128);
     const size = 8.0;
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Container(

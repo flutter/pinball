@@ -107,5 +107,21 @@
   "rounds": "Ball Ct:",
   "@rounds": {
     "description": "Text displayed on the scoreboard widget to indicate rounds left"
+  },
+  "footerMadeWithText": "Made with ",
+  "@footerMadeWithText": {
+    "description": "Text shown on the footer which mentions technologies used to build the app."
+  },
+  "footerFlutterLinkText": "Flutter",
+  "@footerFlutterLinkText": {
+    "description": "Text on the link shown on the footer which navigates to the Flutter page"
+  },
+  "footerFirebaseLinkText": "Firebase",
+  "@footerFirebaseLinkText": {
+    "description": "Text on the link shown on the footer which navigates to the Firebase page"
+  },
+  "footerGoogleIOText": "Google I/O",
+  "@footerGoogleIOText": {
+    "description": "Text shown on the footer which mentions Google I/O"
   }
 }

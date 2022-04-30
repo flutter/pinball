@@ -5,7 +5,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pinball/gen/gen.dart';
 import 'package:pinball/l10n/l10n.dart';
-import 'package:pinball/theme/theme.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 import 'package:platform_helper/platform_helper.dart';
 
@@ -122,7 +121,7 @@ class _MobileLaunchControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    const textStyle = AppTextStyle.subtitle3;
+    final textStyle = Theme.of(context).textTheme.headline3;
     return Column(
       children: [
         Text(
@@ -138,9 +137,7 @@ class _MobileLaunchControls extends StatelessWidget {
               ),
               TextSpan(
                 text: l10n.launch,
-                style: textStyle.copyWith(
-                  color: AppColors.blue,
-                ),
+                style: textStyle?.copyWith(color: PinballColors.blue),
               ),
             ],
           ),
@@ -156,7 +153,7 @@ class _MobileFlipperControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    const textStyle = AppTextStyle.subtitle3;
+    final textStyle = Theme.of(context).textTheme.headline3;
     return Column(
       children: [
         Text(
@@ -172,9 +169,7 @@ class _MobileFlipperControls extends StatelessWidget {
               ),
               TextSpan(
                 text: l10n.flip,
-                style: textStyle.copyWith(
-                  color: AppColors.orange,
-                ),
+                style: textStyle?.copyWith(color: PinballColors.orange),
               ),
             ],
           ),
@@ -207,21 +202,22 @@ class _HowToPlayHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    const headerTextStyle = AppTextStyle.title;
-
+    final textStyle = Theme.of(context).textTheme.headline3?.copyWith(
+          color: PinballColors.darkBlue,
+        );
     return FittedBox(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             l10n.howToPlay,
-            style: headerTextStyle.copyWith(
+            style: textStyle?.copyWith(
               fontWeight: FontWeight.bold,
             ),
           ),
           Text(
             l10n.tipsForFlips,
-            style: headerTextStyle,
+            style: textStyle,
           ),
         ],
       ),
@@ -241,7 +237,7 @@ class _DesktopLaunchControls extends StatelessWidget {
       children: [
         Text(
           l10n.launchControls,
-          style: AppTextStyle.headline4,
+          style: Theme.of(context).textTheme.headline4,
         ),
         const SizedBox(height: 10),
         Wrap(
@@ -270,7 +266,7 @@ class _DesktopFlipperControls extends StatelessWidget {
       children: [
         Text(
           l10n.flipperControls,
-          style: AppTextStyle.subtitle2,
+          style: Theme.of(context).textTheme.subtitle2,
         ),
         const SizedBox(height: 10),
         Column(
@@ -311,8 +307,9 @@ class KeyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     final textStyle =
-        _control.isArrow ? AppTextStyle.headline1 : AppTextStyle.headline3;
+        _control.isArrow ? textTheme.headline1 : textTheme.headline3;
     const height = 60.0;
     final width = _control.isSpace ? height * 2.83 : height;
     return DecoratedBox(
@@ -334,7 +331,7 @@ class KeyButton extends StatelessWidget {
             quarterTurns: _control.isDown ? 1 : 0,
             child: Text(
               _control.getCharacter(context),
-              style: textStyle.copyWith(color: AppColors.white),
+              style: textStyle?.copyWith(color: PinballColors.white),
             ),
           ),
         ),

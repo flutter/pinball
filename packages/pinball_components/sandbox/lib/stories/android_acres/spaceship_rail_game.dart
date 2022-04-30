@@ -13,8 +13,8 @@ class SpaceshipRailGame extends BallGame {
           ballPriority: RenderPriority.ballOnSpaceshipRail,
           ballLayer: Layer.spaceshipExitRail,
           imagesFileNames: [
-            Assets.images.spaceship.rail.main.keyName,
-            Assets.images.spaceship.rail.exit.keyName,
+            Assets.images.android.rail.main.keyName,
+            Assets.images.android.rail.exit.keyName,
           ],
         );
 

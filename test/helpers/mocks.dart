@@ -1,3 +1,4 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
@@ -11,6 +12,8 @@ import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_ui/pinball_ui.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 class MockPinballGame extends Mock implements PinballGame {}
 
@@ -33,6 +36,9 @@ class MockStartGameBloc extends Mock implements StartGameBloc {}
 class MockGameState extends Mock implements GameState {}
 
 class MockCharacterThemeCubit extends Mock implements CharacterThemeCubit {}
+
+class MockAuthenticationRepository extends Mock
+    implements AuthenticationRepository {}
 
 class MockLeaderboardRepository extends Mock implements LeaderboardRepository {}
 
@@ -94,3 +100,7 @@ class MockMultiplier extends Mock implements Multiplier {}
 class MockMultipliersGroup extends Mock implements Multipliers {}
 
 class MockMultiplierCubit extends Mock implements MultiplierCubit {}
+
+class MockUrlLauncher extends Mock
+    with MockPlatformInterfaceMixin
+    implements UrlLauncherPlatform {}

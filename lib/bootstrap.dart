@@ -12,6 +12,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 
 class AppBlocObserver extends BlocObserver {
@@ -28,9 +29,12 @@ class AppBlocObserver extends BlocObserver {
   }
 }
 
-Future<void> bootstrap(
-  Future<Widget> Function(FirebaseFirestore firestore) builder,
-) async {
+typedef BootstrapBuilder = Future<Widget> Function(
+  FirebaseFirestore firestore,
+  FirebaseAuth firebaseAuth,
+);
+
+Future<void> bootstrap(BootstrapBuilder builder) async {
   WidgetsFlutterBinding.ensureInitialized();
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
@@ -39,7 +43,12 @@ Future<void> bootstrap(
   await runZonedGuarded(
     () async {
       await BlocOverrides.runZoned(
-        () async => runApp(await builder(FirebaseFirestore.instance)),
+        () async => runApp(
+          await builder(
+            FirebaseFirestore.instance,
+            FirebaseAuth.instance,
+          ),
+        ),
         blocObserver: AppBlocObserver(),
       );
     },
