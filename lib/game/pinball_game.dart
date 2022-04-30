@@ -9,11 +9,10 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball/gen/assets.gen.dart';
 import 'package:pinball_audio/pinball_audio.dart';
-import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
-import 'package:pinball_theme/pinball_theme.dart' hide Assets;
+import 'package:pinball_theme/pinball_theme.dart';
 
 class PinballGame extends Forge2DGame
     with
