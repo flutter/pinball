@@ -21,7 +21,6 @@ class MultiballBlinkingBehavior extends Component with ParentIsA<Multiball> {
     }
   }
 
-  // TODO(ruimiguel): try to improve with TimerComponent?
   Future<void> _animate() async {
     if (!_isAnimating) {
       _isAnimating = true;

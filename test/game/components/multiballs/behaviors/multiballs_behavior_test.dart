@@ -55,9 +55,10 @@ void main() {
       test(
           'is false when the bonusHistory has changed '
           'with a bonus different than GameBonus.dashNest', () {
-        final previous = GameState.initial();
+        final previous =
+            GameState.initial().copyWith(bonusHistory: [GameBonus.dashNest]);
         final state = previous.copyWith(
-          bonusHistory: [GameBonus.androidSpaceship],
+          bonusHistory: [...previous.bonusHistory, GameBonus.androidSpaceship],
         );
 
         expect(
@@ -67,6 +68,7 @@ void main() {
       });
 
       test('is false when the bonusHistory state is the same', () {
+        final previous = GameState.initial();
         final state = GameState(
           score: 10,
           multiplier: 1,
@@ -74,7 +76,6 @@ void main() {
           bonusHistory: const [],
         );
 
-        final previous = GameState.initial();
         expect(
           MultiballsBehavior().listenWhen(previous, state),
           isFalse,

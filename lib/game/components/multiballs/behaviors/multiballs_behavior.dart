@@ -12,9 +12,11 @@ class MultiballsBehavior extends Component
         BlocComponent<GameBloc, GameState> {
   @override
   bool listenWhen(GameState? previousState, GameState newState) {
-    final hasMultiball = newState.bonusHistory.contains(GameBonus.dashNest);
     final hasChanged = previousState?.bonusHistory != newState.bonusHistory;
-    return hasChanged && hasMultiball;
+    final lastBonusIsMultiball = newState.bonusHistory.isNotEmpty &&
+        newState.bonusHistory.last == GameBonus.dashNest;
+
+    return hasChanged && lastBonusIsMultiball;
   }
 
   @override
