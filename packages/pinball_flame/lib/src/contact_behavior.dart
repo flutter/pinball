@@ -14,7 +14,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 // https://github.com/VGVentures/pinball/pull/234#discussion_r859182267
 class ContactBehavior<T extends BodyComponent> extends Component
     with ContactCallbacks, ParentIsA<T> {
-  final _fixtureUserDatas = <Object>{};
+  final _fixturesUserData = <Object>{};
 
   /// Specifies which fixtures should be considered for contact.
   ///
@@ -22,11 +22,11 @@ class ContactBehavior<T extends BodyComponent> extends Component
   ///
   /// If no fixtures are specified, the [ContactCallbacks] is applied to the
   /// entire body, hence all fixtures are considered.
-  void applyTo(Iterable<Object> userData) => _fixtureUserDatas.addAll(userData);
+  void applyTo(Iterable<Object> userData) => _fixturesUserData.addAll(userData);
 
   @override
   Future<void> onLoad() async {
-    if (_fixtureUserDatas.isNotEmpty) {
+    if (_fixturesUserData.isNotEmpty) {
       for (final fixture in _targetedFixtures) {
         fixture.userData = _UserData.fromFixture(fixture)..add(this);
       }
@@ -37,11 +37,11 @@ class ContactBehavior<T extends BodyComponent> extends Component
 
   Iterable<Fixture> get _targetedFixtures =>
       parent.body.fixtures.where((fixture) {
-        if (_fixtureUserDatas.contains(fixture.userData)) return true;
+        if (_fixturesUserData.contains(fixture.userData)) return true;
 
         final userData = fixture.userData;
         if (userData is _UserData) {
-          return _fixtureUserDatas.contains(userData.value);
+          return _fixturesUserData.contains(userData.value);
         }
 
         return false;
