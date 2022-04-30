@@ -83,6 +83,8 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.androidBumper.a.dimmed.keyName),
       images.load(components.Assets.images.androidBumper.b.lit.keyName),
       images.load(components.Assets.images.androidBumper.b.dimmed.keyName),
+      images.load(components.Assets.images.androidBumper.cow.lit.keyName),
+      images.load(components.Assets.images.androidBumper.cow.dimmed.keyName),
       images.load(components.Assets.images.sparky.computer.top.keyName),
       images.load(components.Assets.images.sparky.computer.base.keyName),
       images.load(components.Assets.images.sparky.animatronic.keyName),
