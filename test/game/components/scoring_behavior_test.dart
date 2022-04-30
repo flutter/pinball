@@ -56,7 +56,7 @@ void main() {
         'emits Scored event with points',
         setUp: (game, tester) async {
           const points = 20;
-          final scoringBehavior = ScoringBehavior(points: points);
+          final scoringBehavior = ScoringBehavior(points: Score.points_6m);
           await parent.add(scoringBehavior);
           await game.ensureAdd(parent);
 
@@ -74,7 +74,7 @@ void main() {
         'plays score sound',
         setUp: (game, tester) async {
           const points = 20;
-          final scoringBehavior = ScoringBehavior(points: points);
+          final scoringBehavior = ScoringBehavior(points: Score.points_6m);
           await parent.add(scoringBehavior);
           await game.ensureAdd(parent);
 
@@ -87,8 +87,7 @@ void main() {
       flameBlocTester.testGameWidget(
         "adds a ScoreText component at Ball's position with points",
         setUp: (game, tester) async {
-          const points = 20;
-          final scoringBehavior = ScoringBehavior(points: points);
+          final scoringBehavior = ScoringBehavior(points: Score.points_6m);
           await parent.add(scoringBehavior);
           await game.ensureAdd(parent);
 
@@ -98,8 +97,8 @@ void main() {
           final scoreText = game.descendants().whereType<ScoreText>();
           expect(scoreText.length, equals(1));
           expect(
-            scoreText.first.text,
-            equals(points.toString()),
+            scoreText.first.score,
+            equals(Score.points_6m),
           );
           expect(
             scoreText.first.position,

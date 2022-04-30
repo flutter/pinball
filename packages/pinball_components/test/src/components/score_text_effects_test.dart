@@ -19,9 +19,8 @@ void main() {
         game.camera.followVector2(Vector2.zero());
         await game.ensureAdd(
           ScoreText(
-            text: '123',
+            score: Score.points_6m,
             position: Vector2.zero(),
-            color: Colors.white,
           ),
         );
       },
@@ -37,9 +36,8 @@ void main() {
         game.camera.followVector2(Vector2.zero());
         await game.ensureAdd(
           ScoreText(
-            text: '123',
+            score: Score.points_6m,
             position: Vector2.zero(),
-            color: Colors.white,
           ),
         );
 
@@ -58,9 +56,8 @@ void main() {
         game.camera.followVector2(Vector2.zero());
         await game.ensureAdd(
           ScoreText(
-            text: '123',
+            score: Score.points_6m,
             position: Vector2.zero(),
-            color: Colors.white,
           ),
         );
 

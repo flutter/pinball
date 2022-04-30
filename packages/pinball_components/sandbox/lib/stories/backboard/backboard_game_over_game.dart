@@ -42,9 +42,10 @@ class BackboardGameOverGame extends AssetsGame
         onSubmit: (initials) {
           add(
             ScoreText(
-              text: 'User $initials made $score',
+              score: Score.points_6m,
+              //text: 'User $initials made $score',
               position: Vector2(0, 50),
-              color: Colors.pink,
+              //color: Colors.pink,
             ),
           );
         },

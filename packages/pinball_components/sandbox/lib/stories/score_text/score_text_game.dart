@@ -21,10 +21,12 @@ class ScoreTextGame extends AssetsGame with TapDetector {
 
   @override
   void onTapUp(TapUpInfo info) {
+    final index = random.nextInt(Score.values.length);
+    final score = Score.values[index];
+
     add(
       ScoreText(
-        text: random.nextInt(100000).toString(),
-        color: Colors.white,
+        score: score,
         position: info.eventPosition.game..multiply(Vector2(1, -1)),
       ),
     );
