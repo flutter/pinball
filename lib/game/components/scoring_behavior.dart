@@ -25,7 +25,7 @@ class ScoringBehavior extends ContactBehavior with HasGameRef<PinballGame> {
     gameRef.read<GameBloc>().add(Scored(points: _points.value));
     gameRef.audio.score();
     gameRef.add(
-      ScoreText(
+      ScoreComponent(
         score: _points,
         position: other.body.position,
       ),
