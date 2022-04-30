@@ -19,6 +19,7 @@ export 'kicker.dart';
 export 'launch_ramp.dart';
 export 'layer.dart';
 export 'layer_sensor.dart';
+export 'multiplier/multiplier.dart';
 export 'plunger.dart';
 export 'render_priority.dart';
 export 'rocket.dart';
