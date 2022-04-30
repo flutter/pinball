@@ -25,7 +25,7 @@ export 'multiplier/multiplier.dart';
 export 'plunger.dart';
 export 'render_priority.dart';
 export 'rocket.dart';
-export 'score_text.dart';
+export 'score_component.dart';
 export 'shapes/shapes.dart';
 export 'signpost.dart';
 export 'slingshot.dart';
