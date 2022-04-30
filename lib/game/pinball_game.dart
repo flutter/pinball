@@ -46,6 +46,7 @@ class PinballGame extends Forge2DGame
     unawaited(add(gameFlowController = GameFlowController(this)));
     unawaited(add(CameraController(this)));
     unawaited(add(Backboard.waiting(position: Vector2(0, -88))));
+    await add(BoardBackgroundSpriteComponent());
     await add(Drain());
     await add(BottomGroup());
     unawaited(addFromBlueprint(Boundaries()));
@@ -185,12 +186,12 @@ class DebugPinballGame extends PinballGame with FPSCounter {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadBackground();
     await add(_DebugInformation());
   }
 
-  // TODO(alestiago): Move to PinballGame once we have the real background
-  // component.
+  // TODO(allisonryan0002): Remove after google letters have been correctly
+  // placed.
+  // ignore: unused_element
   Future<void> _loadBackground() async {
     final sprite = await loadSprite(
       Assets.images.components.background.path,
@@ -201,7 +202,7 @@ class DebugPinballGame extends PinballGame with FPSCounter {
       anchor: Anchor.center,
     )
       ..position = Vector2(0, -7.8)
-      ..priority = RenderPriority.background;
+      ..priority = RenderPriority.boardBackground;
 
     await add(spriteComponent);
   }
