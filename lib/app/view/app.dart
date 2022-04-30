@@ -15,6 +15,7 @@ import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_audio/pinball_audio.dart';
+import 'package:pinball_ui/pinball_ui.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -37,14 +38,15 @@ class App extends StatelessWidget {
       ],
       child: BlocProvider(
         create: (context) => CharacterThemeCubit(),
-        child: const MaterialApp(
+        child: MaterialApp(
           title: 'I/O Pinball',
-          localizationsDelegates: [
+          theme: PinballTheme.standard,
+          localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
           ],
           supportedLocales: AppLocalizations.supportedLocales,
-          home: PinballGamePage(),
+          home: const PinballGamePage(),
         ),
       ),
     );

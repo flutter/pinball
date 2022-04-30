@@ -17,6 +17,7 @@ import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
+import 'package:pinball_ui/pinball_ui.dart';
 
 import 'helpers.dart';
 
@@ -85,6 +86,7 @@ extension PumpApp on WidgetTester {
               ),
             ],
             child: MaterialApp(
+              theme: PinballTheme.standard,
               localizationsDelegates: const [
                 AppLocalizations.delegate,
                 GlobalMaterialLocalizations.delegate,

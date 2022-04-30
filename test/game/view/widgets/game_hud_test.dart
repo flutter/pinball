@@ -15,6 +15,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_ui/pinball_ui.dart';
 
 import '../../../helpers/helpers.dart';
 
@@ -56,6 +57,7 @@ void main() {
     Future<void> _pumpAppWithWidget(WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
+          theme: PinballTheme.standard,
           localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,

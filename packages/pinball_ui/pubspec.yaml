@@ -23,6 +23,15 @@ flutter:
   generate: true
   assets:
     - assets/images/dialog/
+  fonts:
+    - family: PixeloidSans
+      fonts:
+        - asset: fonts/PixeloidSans-nR3g1.ttf
+        - asset: fonts/PixeloidSansBold-RpeJo.ttf
+          weight: 700
+    - family: PixeloidMono
+      fonts:
+        - asset: fonts/PixeloidMono-1G8ae.ttf
 
 flutter_gen:
   line_length: 80
