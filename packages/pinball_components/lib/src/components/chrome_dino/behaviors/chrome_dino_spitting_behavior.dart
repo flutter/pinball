@@ -8,9 +8,6 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@endtemplate}
 class ChromeDinoSpittingBehavior extends Component
     with ContactCallbacks, ParentIsA<ChromeDino> {
-  /// {@macro chrome_dino_spitting_behavior}
-  ChromeDinoSpittingBehavior();
-
   bool _waitingForSwivel = true;
 
   void _onNewState(ChromeDinoState state) {
