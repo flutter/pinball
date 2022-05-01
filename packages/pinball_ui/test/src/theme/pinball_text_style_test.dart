@@ -14,10 +14,10 @@ void main() {
       expect(style.fontSize, 24);
     });
 
-    test('headline3 has fontSize 20 and white color', () {
+    test('headline3 has fontSize 20 and dark blue color', () {
       const style = PinballTextStyle.headline3;
       expect(style.fontSize, 20);
-      expect(style.color, PinballColors.white);
+      expect(style.color, PinballColors.darkBlue);
     });
 
     test('headline4 has fontSize 16 and white color', () {
