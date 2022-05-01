@@ -8,7 +8,6 @@ import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 import 'package:platform_helper/platform_helper.dart';
 
-@visibleForTesting
 enum Control {
   left,
   right,
@@ -51,18 +50,10 @@ extension on Control {
 }
 
 Future<void> showHowToPlayDialog(BuildContext context) {
-  final height = MediaQuery.of(context).size.height * 0.5;
   return showDialog<void>(
     context: context,
-    builder: (context) {
-      return Center(
-        child: SizedBox(
-          height: height,
-          width: height * 1.4,
-          child: HowToPlayDialog(),
-        ),
-      );
-    },
+    barrierDismissible: false,
+    builder: (_) => HowToPlayDialog(),
   );
 }
 
@@ -100,9 +91,11 @@ class _HowToPlayDialogState extends State<HowToPlayDialog> {
   @override
   Widget build(BuildContext context) {
     final isMobile = widget.platformHelper.isMobile;
-    return PixelatedDecoration(
-      header: const _HowToPlayHeader(),
-      body: isMobile ? const _MobileBody() : const _DesktopBody(),
+    final l10n = context.l10n;
+    return PinballDialog(
+      title: l10n.howToPlay,
+      subtitle: l10n.tipsForFlips,
+      child: isMobile ? const _MobileBody() : const _DesktopBody(),
     );
   }
 }
@@ -137,26 +130,20 @@ class _MobileLaunchControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final textStyle = Theme.of(context)
+    final headline3 = Theme.of(context)
         .textTheme
         .headline3!
         .copyWith(color: PinballColors.white);
     return Column(
       children: [
-        Text(
-          l10n.tapAndHoldRocket,
-          style: textStyle,
-        ),
+        Text(l10n.tapAndHoldRocket, style: headline3),
         Text.rich(
           TextSpan(
             children: [
-              TextSpan(
-                text: '${l10n.to} ',
-                style: textStyle,
-              ),
+              TextSpan(text: '${l10n.to} ', style: headline3),
               TextSpan(
                 text: l10n.launch,
-                style: textStyle.copyWith(color: PinballColors.blue),
+                style: headline3.copyWith(color: PinballColors.blue),
               ),
             ],
           ),
@@ -172,26 +159,20 @@ class _MobileFlipperControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final textStyle = Theme.of(context)
+    final headline3 = Theme.of(context)
         .textTheme
         .headline3!
         .copyWith(color: PinballColors.white);
     return Column(
       children: [
-        Text(
-          l10n.tapLeftRightScreen,
-          style: textStyle,
-        ),
+        Text(l10n.tapLeftRightScreen, style: headline3),
         Text.rich(
           TextSpan(
             children: [
-              TextSpan(
-                text: '${l10n.to} ',
-                style: textStyle,
-              ),
+              TextSpan(text: '${l10n.to} ', style: headline3),
               TextSpan(
                 text: l10n.flip,
-                style: textStyle.copyWith(color: PinballColors.orange),
+                style: headline3.copyWith(color: PinballColors.orange),
               ),
             ],
           ),
@@ -206,43 +187,13 @@ class _DesktopBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const spacing = SizedBox(height: 16);
     return ListView(
       children: const [
-        spacing,
+        SizedBox(height: 16),
         _DesktopLaunchControls(),
-        spacing,
+        SizedBox(height: 16),
         _DesktopFlipperControls(),
       ],
-    );
-  }
-}
-
-class _HowToPlayHeader extends StatelessWidget {
-  const _HowToPlayHeader({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final textStyle = Theme.of(context).textTheme.headline3?.copyWith(
-          color: PinballColors.darkBlue,
-        );
-    return FittedBox(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            l10n.howToPlay,
-            style: textStyle?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Text(
-            l10n.tipsForFlips,
-            style: textStyle,
-          ),
-        ],
-      ),
     );
   }
 }
@@ -253,8 +204,6 @@ class _DesktopLaunchControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    const spacing = SizedBox(width: 10);
-
     return Column(
       children: [
         Text(
@@ -264,11 +213,11 @@ class _DesktopLaunchControls extends StatelessWidget {
         const SizedBox(height: 10),
         Wrap(
           children: const [
-            KeyButton(control: Control.down),
-            spacing,
-            KeyButton(control: Control.space),
-            spacing,
-            KeyButton(control: Control.s),
+            _KeyButton(control: Control.down),
+            SizedBox(width: 10),
+            _KeyButton(control: Control.space),
+            SizedBox(width: 10),
+            _KeyButton(control: Control.s),
           ],
         )
       ],
@@ -282,8 +231,6 @@ class _DesktopFlipperControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    const rowSpacing = SizedBox(width: 20);
-
     return Column(
       children: [
         Text(
@@ -297,17 +244,17 @@ class _DesktopFlipperControls extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
-                KeyButton(control: Control.left),
-                rowSpacing,
-                KeyButton(control: Control.right),
+                _KeyButton(control: Control.left),
+                SizedBox(width: 20),
+                _KeyButton(control: Control.right),
               ],
             ),
             const SizedBox(height: 8),
             Wrap(
               children: const [
-                KeyButton(control: Control.a),
-                rowSpacing,
-                KeyButton(control: Control.d),
+                _KeyButton(control: Control.a),
+                SizedBox(width: 20),
+                _KeyButton(control: Control.d),
               ],
             )
           ],
@@ -317,29 +264,24 @@ class _DesktopFlipperControls extends StatelessWidget {
   }
 }
 
-@visibleForTesting
-class KeyButton extends StatelessWidget {
-  const KeyButton({
-    Key? key,
-    required Control control,
-  })  : _control = control,
-        super(key: key);
+class _KeyButton extends StatelessWidget {
+  const _KeyButton({Key? key, required this.control}) : super(key: key);
 
-  final Control _control;
+  final Control control;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final textStyle =
-        _control.isArrow ? textTheme.headline1 : textTheme.headline3;
+        control.isArrow ? textTheme.headline1 : textTheme.headline3;
     const height = 60.0;
-    final width = _control.isSpace ? height * 2.83 : height;
+    final width = control.isSpace ? height * 2.83 : height;
     return DecoratedBox(
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.fill,
           image: AssetImage(
-            _control.isSpace
+            control.isSpace
                 ? Assets.images.components.space.keyName
                 : Assets.images.components.key.keyName,
           ),
@@ -350,9 +292,9 @@ class KeyButton extends StatelessWidget {
         height: height,
         child: Center(
           child: RotatedBox(
-            quarterTurns: _control.isDown ? 1 : 0,
+            quarterTurns: control.isDown ? 1 : 0,
             child: Text(
-              _control.getCharacter(context),
+              control.getCharacter(context),
               style: textStyle?.copyWith(color: PinballColors.white),
             ),
           ),
