@@ -4,7 +4,37 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:flame/components.dart';
-import 'package:pinball_flame/src/rendering/rendering.dart';
+
+class ZCanvasComponent extends Component {
+  ZCanvasComponent({
+    Iterable<Component>? children,
+  })  : _pinballCanvas = ZCanvas(),
+        super(children: children);
+
+  final ZCanvas _pinballCanvas;
+
+  @override
+  void renderTree(Canvas canvas) {
+    _pinballCanvas.canvas = canvas;
+    super.renderTree(_pinballCanvas);
+    _pinballCanvas.render();
+  }
+}
+
+mixin ZIndex on Component {
+  int zIndex = 0;
+
+  @override
+  void renderTree(
+    Canvas canvas,
+  ) {
+    if (canvas is ZCanvas) {
+      canvas.buffer(this);
+    } else {
+      super.renderTree(canvas);
+    }
+  }
+}
 
 class ZCanvas implements Canvas {
   late Canvas canvas;
@@ -176,7 +206,7 @@ class ZCanvas implements Canvas {
   void saveLayer(Rect? bounds, Paint paint) => canvas.saveLayer(bounds, paint);
 
   @override
-  void scale(double sx, [double? sy]) => canvas.scale(sx);
+  void scale(double sx, [double? sy]) => canvas.scale(sx, sy);
 
   @override
   void skew(double sx, double sy) => canvas.skew(sx, sy);

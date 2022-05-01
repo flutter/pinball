@@ -4,5 +4,5 @@ export 'src/component_controller.dart';
 export 'src/contact_behavior.dart';
 export 'src/keyboard_input_controller.dart';
 export 'src/parent_is_a.dart';
-export 'src/rendering/rendering.dart';
 export 'src/sprite_animation.dart';
+export 'src/z_canvas_component.dart';
