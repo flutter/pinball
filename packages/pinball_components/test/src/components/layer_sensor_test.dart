@@ -121,12 +121,11 @@ void main() {
       insideLayer = Layer.spaceshipEntranceRamp;
 
       when(() => ball.body).thenReturn(body);
-      when(() => ball.priority).thenReturn(1);
       when(() => ball.layer).thenReturn(Layer.board);
     });
 
     flameTester.test(
-        'changes ball layer and priority '
+        'changes ball layer and zIndex '
         'when a ball enters and exits a downward oriented LayerSensor',
         (game) async {
       final sensor = TestLayerSensor(
@@ -149,7 +148,7 @@ void main() {
     });
 
     flameTester.test(
-        'changes ball layer and priority '
+        'changes ball layer and zIndex '
         'when a ball enters and exits an upward oriented LayerSensor',
         (game) async {
       final sensor = TestLayerSensor(
