@@ -7,11 +7,11 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// A [Blueprint] which creates the pair of [Slingshot]s on the right side of
 /// the board.
 /// {@endtemplate}
-class Slingshots extends Blueprint {
+class Slingshots extends Component with Rendering {
   /// {@macro slingshots}
   Slingshots()
       : super(
-          components: [
+          children: [
             Slingshot(
               length: 5.64,
               angle: -0.017,
@@ -23,7 +23,9 @@ class Slingshots extends Blueprint {
               spritePath: Assets.images.slingshot.lower.keyName,
             )..initialPosition = Vector2(24.7, 6.2),
           ],
-        );
+        ) {
+    zIndex = RenderPriority.slingshots;
+  }
 }
 
 /// {@template slingshot}
@@ -38,7 +40,6 @@ class Slingshot extends BodyComponent with InitialPosition {
   })  : _length = length,
         _angle = angle,
         super(
-          priority: RenderPriority.slingshot,
           children: [_SlinghsotSpriteComponent(spritePath, angle: angle)],
           renderBody: false,
         );

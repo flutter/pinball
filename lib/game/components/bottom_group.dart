@@ -17,9 +17,8 @@ class BottomGroup extends Component with Rendering {
             _BottomGroupSide(side: BoardSide.right),
             _BottomGroupSide(side: BoardSide.left),
           ],
-          priority: RenderPriority.bottomGroup,
         ) {
-    zIndex = 2;
+    zIndex = RenderPriority.bottomGroup;
   }
 }
 

@@ -6,11 +6,11 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template boundaries}
 /// A [Blueprint] which creates the [_BottomBoundary] and [_OuterBoundary].
 ///{@endtemplate boundaries}
-class Boundaries extends Blueprint {
+class Boundaries extends Component {
   /// {@macro boundaries}
   Boundaries()
       : super(
-          components: [
+          children: [
             _BottomBoundary(),
             _OuterBoundary(),
             _OuterBottomBoundarySpriteComponent(),
@@ -22,14 +22,15 @@ class Boundaries extends Blueprint {
 /// Curved boundary at the bottom of the board where the [Ball] exits the field
 /// of play.
 /// {@endtemplate bottom_boundary}
-class _BottomBoundary extends BodyComponent with InitialPosition {
+class _BottomBoundary extends BodyComponent with InitialPosition, Rendering {
   /// {@macro bottom_boundary}
   _BottomBoundary()
       : super(
           renderBody: false,
-          priority: RenderPriority.bottomBoundary,
           children: [_BottomBoundarySpriteComponent()],
-        );
+        ) {
+    zIndex = RenderPriority.bottomBoundary;
+  }
 
   List<FixtureDef> _createFixtureDefs() {
     final bottomLeftCurve = BezierCurveShape(
@@ -87,14 +88,15 @@ class _BottomBoundarySpriteComponent extends SpriteComponent with HasGameRef {
 /// Boundary enclosing the top and left side of the board. The right side of the
 /// board is closed by the barrier the [LaunchRamp] creates.
 /// {@endtemplate outer_boundary}
-class _OuterBoundary extends BodyComponent with InitialPosition {
+class _OuterBoundary extends BodyComponent with InitialPosition, Rendering {
   /// {@macro outer_boundary}
   _OuterBoundary()
       : super(
           renderBody: false,
-          priority: RenderPriority.outerBoundary,
           children: [_OuterBoundarySpriteComponent()],
-        );
+        ) {
+    zIndex = RenderPriority.outerBoundary;
+  }
 
   List<FixtureDef> _createFixtureDefs() {
     final topWall = EdgeShape()
@@ -189,13 +191,14 @@ class _OuterBoundarySpriteComponent extends SpriteComponent with HasGameRef {
 }
 
 class _OuterBottomBoundarySpriteComponent extends SpriteComponent
-    with HasGameRef {
+    with HasGameRef, Rendering {
   _OuterBottomBoundarySpriteComponent()
       : super(
-          priority: RenderPriority.outerBottomBoundary,
           anchor: Anchor.center,
           position: Vector2(0, 71),
-        );
+        ) {
+    zIndex = RenderPriority.outerBottomBoundary;
+  }
 
   @override
   Future<void> onLoad() async {

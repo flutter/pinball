@@ -6,12 +6,13 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template ball}
 /// A solid, [BodyType.dynamic] sphere that rolls and bounces around.
 /// {@endtemplate}
 class Ball<T extends Forge2DGame> extends BodyComponent<T>
-    with Layered, InitialPosition {
+    with Layered, InitialPosition, Rendering {
   /// {@macro ball}
   Ball({
     required this.baseColor,
@@ -133,13 +134,14 @@ class _BallSpriteComponent extends SpriteComponent with HasGameRef {
 }
 
 class _TurboChargeSpriteAnimationComponent extends SpriteAnimationComponent
-    with HasGameRef {
+    with HasGameRef, Rendering {
   _TurboChargeSpriteAnimationComponent()
       : super(
           anchor: const Anchor(0.53, 0.72),
-          priority: RenderPriority.turboChargeFlame,
           removeOnFinish: true,
-        );
+        ) {
+    zIndex = RenderPriority.turboChargeFlame;
+  }
 
   late final Vector2 _textureSize;
 

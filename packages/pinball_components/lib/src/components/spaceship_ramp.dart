@@ -10,11 +10,11 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template spaceship_ramp}
 /// A [Blueprint] which creates the ramp leading into the [AndroidSpaceship].
 /// {@endtemplate}
-class SpaceshipRamp extends Blueprint {
+class SpaceshipRamp extends Component {
   /// {@macro spaceship_ramp}
   SpaceshipRamp()
       : super(
-          components: [
+          children: [
             _SpaceshipRampOpening(
               outsidePriority: RenderPriority.ballOnBoard,
               rotation: math.pi,
@@ -41,10 +41,8 @@ class SpaceshipRamp extends Blueprint {
   /// Forwards the sprite to the next [SpaceshipRampArrowSpriteState].
   ///
   /// If the current state is the last one it cycles back to the initial state.
-  void progress() => components
-      .whereType<_SpaceshipRampArrowSpriteComponent>()
-      .first
-      .progress();
+  void progress() =>
+      firstChild<_SpaceshipRampArrowSpriteComponent>()?.progress();
 }
 
 /// Indicates the state of the arrow on the [SpaceshipRamp].
@@ -94,16 +92,16 @@ extension on SpaceshipRampArrowSpriteState {
 }
 
 class _SpaceshipRampBackground extends BodyComponent
-    with InitialPosition, Layered {
+    with InitialPosition, Layered, Rendering {
   _SpaceshipRampBackground()
       : super(
-          priority: RenderPriority.spaceshipRamp,
           renderBody: false,
           children: [
             _SpaceshipRampBackgroundRampSpriteComponent(),
           ],
         ) {
     layer = Layer.spaceshipEntranceRamp;
+    zIndex = RenderPriority.spaceshipRamp;
   }
 
   /// Width between walls of the ramp.
@@ -148,13 +146,14 @@ class _SpaceshipRampBackground extends BodyComponent
 }
 
 class _SpaceshipRampBackgroundRailingSpriteComponent extends SpriteComponent
-    with HasGameRef {
+    with HasGameRef, Rendering {
   _SpaceshipRampBackgroundRailingSpriteComponent()
       : super(
           anchor: Anchor.center,
           position: Vector2(-11.7, -54.3),
-          priority: RenderPriority.spaceshipRampBackgroundRailing,
-        );
+        ) {
+    zIndex = RenderPriority.spaceshipRampBackgroundRailing;
+  }
 
   @override
   Future<void> onLoad() async {
@@ -197,14 +196,15 @@ class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
 /// {@endtemplate}
 class _SpaceshipRampArrowSpriteComponent
     extends SpriteGroupComponent<SpaceshipRampArrowSpriteState>
-    with HasGameRef {
+    with HasGameRef, Rendering {
   /// {@macro spaceship_ramp_arrow_sprite_component}
   _SpaceshipRampArrowSpriteComponent()
       : super(
           anchor: Anchor.center,
           position: Vector2(-3.9, -56.5),
-          priority: RenderPriority.spaceshipRampArrow,
-        );
+        ) {
+    zIndex = RenderPriority.spaceshipRampArrow;
+  }
 
   /// Changes arrow image to the next [Sprite].
   void progress() => current = current?.next;
@@ -226,8 +226,10 @@ class _SpaceshipRampArrowSpriteComponent
 }
 
 class _SpaceshipRampBoardOpeningSpriteComponent extends SpriteComponent
-    with HasGameRef {
-  _SpaceshipRampBoardOpeningSpriteComponent() : super(anchor: Anchor.center);
+    with HasGameRef, Rendering {
+  _SpaceshipRampBoardOpeningSpriteComponent() : super(anchor: Anchor.center) {
+    zIndex = RenderPriority.spaceshipRampBoardOpening;
+  }
 
   @override
   Future<void> onLoad() async {
@@ -243,14 +245,14 @@ class _SpaceshipRampBoardOpeningSpriteComponent extends SpriteComponent
 }
 
 class _SpaceshipRampForegroundRailing extends BodyComponent
-    with InitialPosition, Layered {
+    with InitialPosition, Layered, Rendering {
   _SpaceshipRampForegroundRailing()
       : super(
-          priority: RenderPriority.spaceshipRampForegroundRailing,
           renderBody: false,
           children: [_SpaceshipRampForegroundRailingSpriteComponent()],
         ) {
     layer = Layer.spaceshipEntranceRamp;
+    zIndex = RenderPriority.spaceshipRampForegroundRailing;
   }
 
   List<FixtureDef> _createFixtureDefs() {

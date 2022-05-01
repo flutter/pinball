@@ -27,7 +27,7 @@ class LaunchRamp extends Component {
 /// {@template launch_ramp_base}
 /// Ramp the [Ball] is launched from at the beginning of each ball life.
 /// {@endtemplate}
-class _LaunchRampBase extends BodyComponent with Layered {
+class _LaunchRampBase extends BodyComponent with Layered, Rendering {
   /// {@macro launch_ramp_base}
   _LaunchRampBase()
       : super(
@@ -37,6 +37,7 @@ class _LaunchRampBase extends BodyComponent with Layered {
             _LaunchRampBaseSpriteComponent(),
           ],
         ) {
+    zIndex = RenderPriority.launchRamp;
     layer = Layer.launcher;
   }
 
@@ -124,11 +125,10 @@ class _LaunchRampBaseSpriteComponent extends SpriteComponent with HasGameRef {
 }
 
 class _LaunchRampBackgroundRailingSpriteComponent extends SpriteComponent
-    with HasGameRef, Rendering {
+    with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    zIndex = 1;
 
     final sprite = await gameRef.loadSprite(
       Assets.images.launchRamp.backgroundRailing.keyName,
@@ -144,13 +144,15 @@ class _LaunchRampBackgroundRailingSpriteComponent extends SpriteComponent
 /// Foreground railing for the [_LaunchRampBase] to render in front of the
 /// [Ball].
 /// {@endtemplate}
-class _LaunchRampForegroundRailing extends BodyComponent {
+class _LaunchRampForegroundRailing extends BodyComponent with Rendering {
   /// {@macro launch_ramp_foreground_railing}
   _LaunchRampForegroundRailing()
       : super(
           children: [_LaunchRampForegroundRailingSpriteComponent()],
           renderBody: false,
-        );
+        ) {
+    zIndex = RenderPriority.launchRampForegroundRailing;
+  }
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];

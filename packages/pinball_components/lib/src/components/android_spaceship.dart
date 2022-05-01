@@ -9,10 +9,10 @@ import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 import 'package:pinball_flame/pinball_flame.dart';
 
-class AndroidSpaceship extends Blueprint {
+class AndroidSpaceship extends Component {
   AndroidSpaceship({required Vector2 position})
       : super(
-          components: [
+          children: [
             _SpaceshipSaucer()..initialPosition = position,
             _SpaceshipSaucerSpriteAnimationComponent()..position = position,
             _LightBeamSpriteComponent()..position = position + Vector2(2.5, 5),
@@ -65,12 +65,13 @@ class _SpaceshipSaucerShape extends ChainShape {
 }
 
 class _SpaceshipSaucerSpriteAnimationComponent extends SpriteAnimationComponent
-    with HasGameRef {
+    with HasGameRef, Rendering {
   _SpaceshipSaucerSpriteAnimationComponent()
       : super(
           anchor: Anchor.center,
-          priority: RenderPriority.spaceshipSaucer,
-        );
+        ) {
+    zIndex = RenderPriority.spaceshipSaucer;
+  }
 
   @override
   Future<void> onLoad() async {
@@ -101,12 +102,14 @@ class _SpaceshipSaucerSpriteAnimationComponent extends SpriteAnimationComponent
 }
 
 // TODO(allisonryan0002): add pulsing behavior.
-class _LightBeamSpriteComponent extends SpriteComponent with HasGameRef {
+class _LightBeamSpriteComponent extends SpriteComponent
+    with HasGameRef, Rendering {
   _LightBeamSpriteComponent()
       : super(
           anchor: Anchor.center,
-          priority: RenderPriority.spaceshipLightBeam,
-        );
+        ) {
+    zIndex = RenderPriority.spaceshipLightBeam;
+  }
 
   @override
   Future<void> onLoad() async {
@@ -121,14 +124,15 @@ class _LightBeamSpriteComponent extends SpriteComponent with HasGameRef {
   }
 }
 
-class _AndroidHead extends BodyComponent with InitialPosition, Layered {
+class _AndroidHead extends BodyComponent
+    with InitialPosition, Layered, Rendering {
   _AndroidHead()
       : super(
-          priority: RenderPriority.androidHead,
           children: [_AndroidHeadSpriteAnimationComponent()],
           renderBody: false,
         ) {
     layer = Layer.spaceship;
+    zIndex = RenderPriority.androidHead;
   }
 
   @override

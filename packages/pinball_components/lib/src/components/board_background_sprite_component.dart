@@ -9,9 +9,10 @@ class BoardBackgroundSpriteComponent extends SpriteComponent
   BoardBackgroundSpriteComponent()
       : super(
           anchor: Anchor.center,
-          priority: RenderPriority.boardBackground,
           position: Vector2(0, -1),
-        );
+        ) {
+    zIndex = RenderPriority.boardBackground;
+  }
 
   @override
   Future<void> onLoad() async {

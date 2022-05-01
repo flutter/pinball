@@ -26,17 +26,7 @@ class PinballCanvas implements Canvas {
     _zBuffer
       ..sort((a, b) => a.zIndex.compareTo(b.zIndex))
       ..whereType<Component>().forEach(_render);
-    // ..expand(_flatten).forEach(_render);
     _zBuffer.clear();
-  }
-
-  Iterable<PositionComponent> _flatten(Rendering rendering) {
-    final components = <PositionComponent>[];
-    if (rendering is PositionComponent) {
-      components.add(rendering as PositionComponent);
-    }
-    components.addAll(rendering.descendants().whereType<PositionComponent>());
-    return components;
   }
 
   void _render(Component component) {

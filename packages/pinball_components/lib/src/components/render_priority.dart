@@ -14,106 +14,106 @@ abstract class RenderPriority {
   // Ball
 
   /// Render priority for the [Ball] while it's on the board.
-  static const int ballOnBoard = _base;
+  static const ballOnBoard = _base;
 
   /// Render priority for the [Ball] while it's on the [SpaceshipRamp].
-  static const int ballOnSpaceshipRamp =
-      _above + spaceshipRampBackgroundRailing;
+  static const ballOnSpaceshipRamp = _above + spaceshipRampBackgroundRailing;
 
   /// Render priority for the [Ball] while it's on the [AndroidSpaceship].
-  static const int ballOnSpaceship = _above + spaceshipSaucer;
+  static const ballOnSpaceship = _above + spaceshipSaucer;
 
   /// Render priority for the [Ball] while it's on the [SpaceshipRail].
-  static const int ballOnSpaceshipRail = _above + spaceshipRail;
+  static const ballOnSpaceshipRail = _above + spaceshipRail;
 
   /// Render priority for the [Ball] while it's on the [LaunchRamp].
-  static const int ballOnLaunchRamp = launchRamp;
+  static const ballOnLaunchRamp = launchRamp;
 
   // Background
 
   // TODO(allisonryan0002): fix this magic priority. Could bump all priorities
   // so there are no negatives.
-  static const int boardBackground = 3 * _below + _base;
+  static const boardBackground = 3 * _below + _base;
+
+  static const decal = _above + boardBackground;
 
   // Boundaries
 
-  static const int bottomBoundary = _above + dinoBottomWall;
+  static const bottomBoundary = _above + dinoBottomWall;
 
-  static const int outerBoundary = _above + boardBackground;
+  static const outerBoundary = _above + boardBackground;
 
-  static const int outerBottomBoundary = _above + rocket;
+  static const outerBottomBoundary = _above + rocket;
 
   // Bottom Group
 
-  static const int bottomGroup = _above + ballOnBoard;
+  static const bottomGroup = _above + ballOnBoard;
 
   // Launcher
 
-  static const int launchRamp = _above + outerBoundary;
+  static const launchRamp = _above + outerBoundary;
 
-  static const int launchRampForegroundRailing = ballOnBoard;
+  static const launchRampForegroundRailing = ballOnBoard;
 
-  static const int plunger = _above + launchRamp;
+  static const plunger = _above + launchRamp;
 
-  static const int rocket = _below + bottomBoundary;
+  static const rocket = _below + bottomBoundary;
 
   // Dino Desert
 
-  static const int dinoTopWall = _above + ballOnBoard;
+  static const dinoTopWall = _above + ballOnBoard;
 
-  static const int dino = _above + dinoTopWall;
+  static const dino = _above + dinoTopWall;
 
-  static const int dinoBottomWall = _above + dino;
+  static const dinoBottomWall = _above + dino;
 
-  static const int slingshot = _above + dinoBottomWall;
+  static const slingshots = _above + dinoBottomWall;
 
   // Flutter Forest
 
-  static const int flutterForest = _above + launchRampForegroundRailing;
+  static const flutterForest = _above + launchRampForegroundRailing;
 
   // Sparky Scorch
 
-  static const int computerBase = _below + ballOnBoard;
+  static const computerBase = _below + ballOnBoard;
 
-  static const int computerTop = _above + ballOnBoard;
+  static const computerTop = _above + ballOnBoard;
 
-  static const int computerGlow = _above + ballOnBoard;
+  static const computerGlow = _above + ballOnBoard;
 
-  static const int sparkyAnimatronic = _above + spaceshipRampForegroundRailing;
+  static const sparkyAnimatronic = _above + spaceshipRampForegroundRailing;
 
-  static const int sparkyBumper = _above + ballOnBoard;
+  static const sparkyBumper = _above + ballOnBoard;
 
-  static const int turboChargeFlame = _above + ballOnBoard;
+  static const turboChargeFlame = _above + ballOnBoard;
 
   // Android Acres
 
-  static const int spaceshipRail = _above + bottomGroup;
+  static const spaceshipRail = _above + bottomGroup;
 
-  static const int spaceshipRailExit = _above + ballOnSpaceshipRail;
+  static const spaceshipRailExit = _above + ballOnSpaceshipRail;
 
-  static const int spaceshipSaucer = _above + ballOnSpaceshipRail;
+  static const spaceshipSaucer = _above + ballOnSpaceshipRail;
 
-  static const int spaceshipLightBeam = _below + spaceshipSaucer;
+  static const spaceshipLightBeam = _below + spaceshipSaucer;
 
-  static const int androidHead = _above + spaceshipSaucer;
+  static const androidHead = _above + ballOnSpaceship;
 
-  static const int spaceshipRamp = _above + ballOnBoard;
+  static const spaceshipRamp = _above + ballOnBoard;
 
-  static const int spaceshipRampBackgroundRailing = _above + spaceshipRamp;
+  static const spaceshipRampBackgroundRailing = _above + spaceshipRamp;
 
-  static const int spaceshipRampArrow = _above + spaceshipRamp;
+  static const spaceshipRampArrow = _above + spaceshipRamp;
 
-  static const int spaceshipRampForegroundRailing =
-      _above + ballOnSpaceshipRamp;
+  static const spaceshipRampForegroundRailing = _above + ballOnSpaceshipRamp;
 
-  static const int spaceshipRampBoardOpening = _below + ballOnBoard;
+  static const spaceshipRampBoardOpening = _below + ballOnBoard;
 
-  static const int androidBumper = _above + ballOnBoard;
+  static const androidBumper = _above + ballOnBoard;
 
   // Score Text
 
-  static const int scoreText = _above + spaceshipRampForegroundRailing;
+  static const scoreText = _above + spaceshipRampForegroundRailing;
 
   // Debug information
-  static const int debugInfo = _above + scoreText;
+  static const debugInfo = _above + scoreText;
 }

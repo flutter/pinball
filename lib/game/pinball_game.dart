@@ -62,15 +62,14 @@ class PinballGame extends Forge2DGame
               BoardDimensions.bounds.center.dy + 1.8,
             ),
           ),
+          Slingshots(),
+          Boundaries(),
+          DinoDesert(),
+          SparkyScorch(),
+          AndroidAcres(),
         ],
       ),
     );
-
-    await addFromBlueprint(Boundaries());
-    await addFromBlueprint(SparkyScorch());
-    await addFromBlueprint(AndroidAcres());
-    await addFromBlueprint(DinoDesert());
-    await addFromBlueprint(Slingshots());
 
     await super.onLoad();
   }
@@ -205,7 +204,9 @@ class DebugPinballGame extends PinballGame with FPSCounter {
     super.onTapUp(info);
 
     if (info.raw.kind == PointerDeviceKind.mouse) {
-      add(ControlledBall.debug()..initialPosition = info.eventPosition.game);
+      final ball = ControlledBall.debug()
+        ..initialPosition = info.eventPosition.game;
+      firstChild<PinballCanvasComponent>()?.add(ball);
     }
   }
 }

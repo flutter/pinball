@@ -90,14 +90,12 @@ abstract class LayerSensor extends BodyComponent
       if (isBallEnteringOpening) {
         other
           ..layer = insideLayer
-          ..priority = insidePriority
-          ..reorderChildren();
+          ..zIndex = insidePriority;
       }
     } else {
       other
         ..layer = outsideLayer
-        ..priority = outsidePriority
-        ..reorderChildren();
+        ..zIndex = outsidePriority;
     }
   }
 }

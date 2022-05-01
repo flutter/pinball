@@ -5,12 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:pinball/game/components/flutter_forest/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template flutter_forest}
 /// Area positioned at the top right of the board where the [Ball] can bounce
 /// off [DashNestBumper]s.
 /// {@endtemplate}
-class FlutterForest extends Component {
+class FlutterForest extends Component with Rendering {
   /// {@macro flutter_forest}
   FlutterForest()
       : super(
@@ -38,7 +39,9 @@ class FlutterForest extends Component {
             DashAnimatronic()..position = Vector2(20, -66),
             FlutterForestBonusBehavior(),
           ],
-        );
+        ) {
+    zIndex = RenderPriority.flutterForest;
+  }
 
   /// Creates a [FlutterForest] without any children.
   ///
