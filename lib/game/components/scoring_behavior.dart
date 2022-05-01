@@ -12,10 +12,10 @@ import 'package:pinball_flame/pinball_flame.dart';
 class ScoringBehavior extends ContactBehavior with HasGameRef<PinballGame> {
   /// {@macro scoring_behavior}
   ScoringBehavior({
-    required Score points,
+    required Points points,
   }) : _points = points;
 
-  final Score _points;
+  final Points _points;
 
   @override
   void beginContact(Object other, Contact contact) {
@@ -26,7 +26,7 @@ class ScoringBehavior extends ContactBehavior with HasGameRef<PinballGame> {
     gameRef.audio.score();
     gameRef.add(
       ScoreComponent(
-        score: _points,
+        points: _points,
         position: other.body.position,
       ),
     );

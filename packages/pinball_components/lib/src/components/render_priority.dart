@@ -110,10 +110,10 @@ abstract class RenderPriority {
 
   static const int androidBumper = _above + ballOnBoard;
 
-  // Score Text
+  // Score
 
-  static const int scoreText = _above + spaceshipRampForegroundRailing;
+  static const int score = _above + spaceshipRampForegroundRailing;
 
   // Debug information
-  static const int debugInfo = _above + scoreText;
+  static const int debugInfo = _above + score;
 }

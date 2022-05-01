@@ -69,7 +69,7 @@ class BackboardGameOverGame extends AssetsGame
         onSubmit: (initials) {
           add(
             components.ScoreComponent(
-              score: components.Score.values
+              points: components.Points.values
                   .firstWhere((element) => element.value == score),
               position: Vector2(0, 50),
             ),

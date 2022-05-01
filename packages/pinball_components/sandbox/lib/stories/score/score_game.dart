@@ -8,14 +8,7 @@ class ScoreGame extends AssetsGame with TapDetector {
   ScoreGame()
       : super(
           imagesFileNames: [
-            Assets.images.score.points1m.keyName,
-            Assets.images.score.points1m2.keyName,
-            Assets.images.score.points2m.keyName,
-            Assets.images.score.points3m.keyName,
-            Assets.images.score.points4m.keyName,
             Assets.images.score.points5k.keyName,
-            Assets.images.score.points5m.keyName,
-            Assets.images.score.points6m.keyName,
             Assets.images.score.points10k.keyName,
             Assets.images.score.points15k.keyName,
             Assets.images.score.points20k.keyName,
@@ -31,6 +24,13 @@ class ScoreGame extends AssetsGame with TapDetector {
             Assets.images.score.points400k.keyName,
             Assets.images.score.points600k.keyName,
             Assets.images.score.points800k.keyName,
+            Assets.images.score.points1m.keyName,
+            Assets.images.score.points1m2.keyName,
+            Assets.images.score.points2m.keyName,
+            Assets.images.score.points3m.keyName,
+            Assets.images.score.points4m.keyName,
+            Assets.images.score.points5m.keyName,
+            Assets.images.score.points6m.keyName,
           ],
         );
 
@@ -50,12 +50,12 @@ class ScoreGame extends AssetsGame with TapDetector {
 
   @override
   void onTapUp(TapUpInfo info) {
-    final index = random.nextInt(Score.values.length);
-    final score = Score.values[index];
+    final index = random.nextInt(Points.values.length);
+    final score = Points.values[index];
 
     add(
       ScoreComponent(
-        score: score,
+        points: score,
         position: info.eventPosition.game..multiply(Vector2(1, -1)),
       ),
     );

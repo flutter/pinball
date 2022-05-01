@@ -17,8 +17,8 @@ void addBackboardStories(Dashbook dashbook) {
       gameBuilder: (context) => BackboardGameOverGame(
         context.listProperty(
           'Score',
-          Score.values.first.value,
-          Score.values.map((score) => score.value).toList(),
+          Points.values.first.value,
+          Points.values.map((score) => score.value).toList(),
         ),
         context.listProperty(
           'Character',

@@ -10,15 +10,9 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
-    Assets.images.score.points1m.keyName,
-    Assets.images.score.points1m2.keyName,
-    Assets.images.score.points2m.keyName,
-    Assets.images.score.points3m.keyName,
-    Assets.images.score.points4m.keyName,
     Assets.images.score.points5k.keyName,
-    Assets.images.score.points5m.keyName,
-    Assets.images.score.points6m.keyName,
     Assets.images.score.points10k.keyName,
     Assets.images.score.points15k.keyName,
     Assets.images.score.points20k.keyName,
@@ -34,9 +28,46 @@ void main() {
     Assets.images.score.points400k.keyName,
     Assets.images.score.points600k.keyName,
     Assets.images.score.points800k.keyName,
+    Assets.images.score.points1m.keyName,
+    Assets.images.score.points1m2.keyName,
+    Assets.images.score.points2m.keyName,
+    Assets.images.score.points3m.keyName,
+    Assets.images.score.points4m.keyName,
+    Assets.images.score.points5m.keyName,
+    Assets.images.score.points6m.keyName,
   ];
+  final flameTester = FlameTester(() => TestGame(assets));
 
-  group('ScoreText', () {
+  group('ScoreComponent', () {
+    group('renders correctly', () {
+      flameTester.testGameWidget(
+        'one million points',
+        setUp: (game, tester) async {
+          await game.images.loadAll(assets);
+          await game.ensureAdd(
+            ScoreComponent(
+              points: Points.points_1m,
+              position: Vector2.zero(),
+            ),
+          );
+
+          game.camera
+            ..followVector2(Vector2.zero())
+            ..zoom = 8;
+
+          await tester.pump();
+        },
+        verify: (game, tester) async {
+          await expectLater(
+            find.byGame<TestGame>(),
+            matchesGoldenFile('golden/score/1m.png'),
+          );
+        },
+      );
+    });
+  });
+
+  group('Effects', () {
     final flameTester = FlameTester(() => TestGame(assets));
 
     flameTester.testGameWidget(
@@ -46,7 +77,7 @@ void main() {
         game.camera.followVector2(Vector2.zero());
         await game.ensureAdd(
           ScoreComponent(
-            score: Score.points_6m,
+            points: Points.points_6m,
             position: Vector2.zero(),
           ),
         );
@@ -64,7 +95,7 @@ void main() {
         game.camera.followVector2(Vector2.zero());
         await game.ensureAdd(
           ScoreComponent(
-            score: Score.points_6m,
+            points: Points.points_6m,
             position: Vector2.zero(),
           ),
         );
@@ -78,8 +109,6 @@ void main() {
       },
     );
 
-    // TODO(ruimiguel): review why this test is failing after ScoreComponent
-    // refactor.
     flameTester.testGameWidget(
       'is removed once finished',
       setUp: (game, tester) async {
@@ -87,13 +116,14 @@ void main() {
         game.camera.followVector2(Vector2.zero());
         await game.ensureAdd(
           ScoreComponent(
-            score: Score.points_6m,
+            points: Points.points_6m,
             position: Vector2.zero(),
           ),
         );
 
         game.update(1);
         game.update(0); // Ensure all component removals
+        await tester.pump();
       },
       verify: (game, tester) async {
         expect(game.children.length, equals(0));
