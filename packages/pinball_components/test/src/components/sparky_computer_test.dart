@@ -10,15 +10,33 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('SparkyComputer', () {
-    final tester = FlameTester(TestGame.new);
+    TestWidgetsFlutterBinding.ensureInitialized();
+    final assets = [
+      Assets.images.sparky.computer.base.keyName,
+      Assets.images.sparky.computer.top.keyName,
+      Assets.images.sparky.computer.glow.keyName,
+    ];
+    final flameTester = FlameTester(() => TestGame(assets));
 
-    tester.testGameWidget(
-      'renders correctly',
-      setUp: (game, tester) async {
+    flameTester.test(
+      'loads correctly',
+      (game) async {
         await game.addFromBlueprint(SparkyComputer());
         await game.ready();
+      },
+    );
 
-        game.camera.followVector2(Vector2(-15, -50));
+    flameTester.testGameWidget(
+      'renders correctly',
+      setUp: (game, tester) async {
+        await game.images.loadAll(assets);
+        await game.addFromBlueprint(SparkyComputer());
+        await game.ready();
+        await tester.pump();
+
+        game.camera
+          ..followVector2(Vector2(0, -20))
+          ..zoom = 7;
       },
       verify: (game, tester) async {
         await expectLater(

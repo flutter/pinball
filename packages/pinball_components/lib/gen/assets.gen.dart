@@ -10,11 +10,14 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
-  $AssetsImagesAndroidBumperGen get androidBumper =>
-      const $AssetsImagesAndroidBumperGen();
+  $AssetsImagesAndroidGen get android => const $AssetsImagesAndroidGen();
   $AssetsImagesBackboardGen get backboard => const $AssetsImagesBackboardGen();
   $AssetsImagesBallGen get ball => const $AssetsImagesBallGen();
   $AssetsImagesBaseboardGen get baseboard => const $AssetsImagesBaseboardGen();
+
+  /// File path: assets/images/board-background.png
+  AssetGenImage get boardBackground =>
+      const AssetGenImage('assets/images/board-background.png');
   $AssetsImagesBoundaryGen get boundary => const $AssetsImagesBoundaryGen();
   $AssetsImagesDashGen get dash => const $AssetsImagesDashGen();
   $AssetsImagesDinoGen get dino => const $AssetsImagesDinoGen();
@@ -29,19 +32,18 @@ class $AssetsImagesGen {
   $AssetsImagesPlungerGen get plunger => const $AssetsImagesPlungerGen();
   $AssetsImagesSignpostGen get signpost => const $AssetsImagesSignpostGen();
   $AssetsImagesSlingshotGen get slingshot => const $AssetsImagesSlingshotGen();
-  $AssetsImagesSpaceshipGen get spaceship => const $AssetsImagesSpaceshipGen();
   $AssetsImagesSparkyGen get sparky => const $AssetsImagesSparkyGen();
 }
 
-class $AssetsImagesAndroidBumperGen {
-  const $AssetsImagesAndroidBumperGen();
+class $AssetsImagesAndroidGen {
+  const $AssetsImagesAndroidGen();
 
-  $AssetsImagesAndroidBumperAGen get a =>
-      const $AssetsImagesAndroidBumperAGen();
-  $AssetsImagesAndroidBumperBGen get b =>
-      const $AssetsImagesAndroidBumperBGen();
-  $AssetsImagesAndroidBumperCowGen get cow =>
-      const $AssetsImagesAndroidBumperCowGen();
+  $AssetsImagesAndroidBumperGen get bumper =>
+      const $AssetsImagesAndroidBumperGen();
+  $AssetsImagesAndroidRailGen get rail => const $AssetsImagesAndroidRailGen();
+  $AssetsImagesAndroidRampGen get ramp => const $AssetsImagesAndroidRampGen();
+  $AssetsImagesAndroidSpaceshipGen get spaceship =>
+      const $AssetsImagesAndroidSpaceshipGen();
 }
 
 class $AssetsImagesBackboardGen {
@@ -246,23 +248,6 @@ class $AssetsImagesSlingshotGen {
       const AssetGenImage('assets/images/slingshot/upper.png');
 }
 
-class $AssetsImagesSpaceshipGen {
-  const $AssetsImagesSpaceshipGen();
-
-  /// File path: assets/images/spaceship/bridge.png
-  AssetGenImage get bridge =>
-      const AssetGenImage('assets/images/spaceship/bridge.png');
-
-  $AssetsImagesSpaceshipRailGen get rail =>
-      const $AssetsImagesSpaceshipRailGen();
-  $AssetsImagesSpaceshipRampGen get ramp =>
-      const $AssetsImagesSpaceshipRampGen();
-
-  /// File path: assets/images/spaceship/saucer.png
-  AssetGenImage get saucer =>
-      const AssetGenImage('assets/images/spaceship/saucer.png');
-}
-
 class $AssetsImagesSparkyGen {
   const $AssetsImagesSparkyGen();
 
@@ -276,40 +261,66 @@ class $AssetsImagesSparkyGen {
       const $AssetsImagesSparkyComputerGen();
 }
 
-class $AssetsImagesAndroidBumperAGen {
-  const $AssetsImagesAndroidBumperAGen();
+class $AssetsImagesAndroidBumperGen {
+  const $AssetsImagesAndroidBumperGen();
 
-  /// File path: assets/images/android_bumper/a/dimmed.png
-  AssetGenImage get dimmed =>
-      const AssetGenImage('assets/images/android_bumper/a/dimmed.png');
-
-  /// File path: assets/images/android_bumper/a/lit.png
-  AssetGenImage get lit =>
-      const AssetGenImage('assets/images/android_bumper/a/lit.png');
+  $AssetsImagesAndroidBumperAGen get a =>
+      const $AssetsImagesAndroidBumperAGen();
+  $AssetsImagesAndroidBumperBGen get b =>
+      const $AssetsImagesAndroidBumperBGen();
+  $AssetsImagesAndroidBumperCowGen get cow =>
+      const $AssetsImagesAndroidBumperCowGen();
 }
 
-class $AssetsImagesAndroidBumperBGen {
-  const $AssetsImagesAndroidBumperBGen();
+class $AssetsImagesAndroidRailGen {
+  const $AssetsImagesAndroidRailGen();
 
-  /// File path: assets/images/android_bumper/b/dimmed.png
-  AssetGenImage get dimmed =>
-      const AssetGenImage('assets/images/android_bumper/b/dimmed.png');
+  /// File path: assets/images/android/rail/exit.png
+  AssetGenImage get exit =>
+      const AssetGenImage('assets/images/android/rail/exit.png');
 
-  /// File path: assets/images/android_bumper/b/lit.png
-  AssetGenImage get lit =>
-      const AssetGenImage('assets/images/android_bumper/b/lit.png');
+  /// File path: assets/images/android/rail/main.png
+  AssetGenImage get main =>
+      const AssetGenImage('assets/images/android/rail/main.png');
 }
 
-class $AssetsImagesAndroidBumperCowGen {
-  const $AssetsImagesAndroidBumperCowGen();
+class $AssetsImagesAndroidRampGen {
+  const $AssetsImagesAndroidRampGen();
 
-  /// File path: assets/images/android_bumper/cow/dimmed.png
-  AssetGenImage get dimmed =>
-      const AssetGenImage('assets/images/android_bumper/cow/dimmed.png');
+  $AssetsImagesAndroidRampArrowGen get arrow =>
+      const $AssetsImagesAndroidRampArrowGen();
 
-  /// File path: assets/images/android_bumper/cow/lit.png
-  AssetGenImage get lit =>
-      const AssetGenImage('assets/images/android_bumper/cow/lit.png');
+  /// File path: assets/images/android/ramp/board-opening.png
+  AssetGenImage get boardOpening =>
+      const AssetGenImage('assets/images/android/ramp/board-opening.png');
+
+  /// File path: assets/images/android/ramp/main.png
+  AssetGenImage get main =>
+      const AssetGenImage('assets/images/android/ramp/main.png');
+
+  /// File path: assets/images/android/ramp/railing-background.png
+  AssetGenImage get railingBackground =>
+      const AssetGenImage('assets/images/android/ramp/railing-background.png');
+
+  /// File path: assets/images/android/ramp/railing-foreground.png
+  AssetGenImage get railingForeground =>
+      const AssetGenImage('assets/images/android/ramp/railing-foreground.png');
+}
+
+class $AssetsImagesAndroidSpaceshipGen {
+  const $AssetsImagesAndroidSpaceshipGen();
+
+  /// File path: assets/images/android/spaceship/animatronic.png
+  AssetGenImage get animatronic =>
+      const AssetGenImage('assets/images/android/spaceship/animatronic.png');
+
+  /// File path: assets/images/android/spaceship/light-beam.png
+  AssetGenImage get lightBeam =>
+      const AssetGenImage('assets/images/android/spaceship/light-beam.png');
+
+  /// File path: assets/images/android/spaceship/saucer.png
+  AssetGenImage get saucer =>
+      const AssetGenImage('assets/images/android/spaceship/saucer.png');
 }
 
 class $AssetsImagesDashBumperGen {
@@ -393,41 +404,6 @@ class $AssetsImagesMultiplierX6Gen {
       const AssetGenImage('assets/images/multiplier/x6/lit.png');
 }
 
-class $AssetsImagesSpaceshipRailGen {
-  const $AssetsImagesSpaceshipRailGen();
-
-  /// File path: assets/images/spaceship/rail/exit.png
-  AssetGenImage get exit =>
-      const AssetGenImage('assets/images/spaceship/rail/exit.png');
-
-  /// File path: assets/images/spaceship/rail/main.png
-  AssetGenImage get main =>
-      const AssetGenImage('assets/images/spaceship/rail/main.png');
-}
-
-class $AssetsImagesSpaceshipRampGen {
-  const $AssetsImagesSpaceshipRampGen();
-
-  $AssetsImagesSpaceshipRampArrowGen get arrow =>
-      const $AssetsImagesSpaceshipRampArrowGen();
-
-  /// File path: assets/images/spaceship/ramp/board-opening.png
-  AssetGenImage get boardOpening =>
-      const AssetGenImage('assets/images/spaceship/ramp/board-opening.png');
-
-  /// File path: assets/images/spaceship/ramp/main.png
-  AssetGenImage get main =>
-      const AssetGenImage('assets/images/spaceship/ramp/main.png');
-
-  /// File path: assets/images/spaceship/ramp/railing-background.png
-  AssetGenImage get railingBackground => const AssetGenImage(
-      'assets/images/spaceship/ramp/railing-background.png');
-
-  /// File path: assets/images/spaceship/ramp/railing-foreground.png
-  AssetGenImage get railingForeground => const AssetGenImage(
-      'assets/images/spaceship/ramp/railing-foreground.png');
-}
-
 class $AssetsImagesSparkyBumperGen {
   const $AssetsImagesSparkyBumperGen();
 
@@ -443,9 +419,77 @@ class $AssetsImagesSparkyComputerGen {
   AssetGenImage get base =>
       const AssetGenImage('assets/images/sparky/computer/base.png');
 
+  /// File path: assets/images/sparky/computer/glow.png
+  AssetGenImage get glow =>
+      const AssetGenImage('assets/images/sparky/computer/glow.png');
+
   /// File path: assets/images/sparky/computer/top.png
   AssetGenImage get top =>
       const AssetGenImage('assets/images/sparky/computer/top.png');
+}
+
+class $AssetsImagesAndroidBumperAGen {
+  const $AssetsImagesAndroidBumperAGen();
+
+  /// File path: assets/images/android/bumper/a/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/android/bumper/a/dimmed.png');
+
+  /// File path: assets/images/android/bumper/a/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/android/bumper/a/lit.png');
+}
+
+class $AssetsImagesAndroidBumperBGen {
+  const $AssetsImagesAndroidBumperBGen();
+
+  /// File path: assets/images/android/bumper/b/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/android/bumper/b/dimmed.png');
+
+  /// File path: assets/images/android/bumper/b/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/android/bumper/b/lit.png');
+}
+
+class $AssetsImagesAndroidBumperCowGen {
+  const $AssetsImagesAndroidBumperCowGen();
+
+  /// File path: assets/images/android/bumper/cow/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/android/bumper/cow/dimmed.png');
+
+  /// File path: assets/images/android/bumper/cow/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/android/bumper/cow/lit.png');
+}
+
+class $AssetsImagesAndroidRampArrowGen {
+  const $AssetsImagesAndroidRampArrowGen();
+
+  /// File path: assets/images/android/ramp/arrow/active1.png
+  AssetGenImage get active1 =>
+      const AssetGenImage('assets/images/android/ramp/arrow/active1.png');
+
+  /// File path: assets/images/android/ramp/arrow/active2.png
+  AssetGenImage get active2 =>
+      const AssetGenImage('assets/images/android/ramp/arrow/active2.png');
+
+  /// File path: assets/images/android/ramp/arrow/active3.png
+  AssetGenImage get active3 =>
+      const AssetGenImage('assets/images/android/ramp/arrow/active3.png');
+
+  /// File path: assets/images/android/ramp/arrow/active4.png
+  AssetGenImage get active4 =>
+      const AssetGenImage('assets/images/android/ramp/arrow/active4.png');
+
+  /// File path: assets/images/android/ramp/arrow/active5.png
+  AssetGenImage get active5 =>
+      const AssetGenImage('assets/images/android/ramp/arrow/active5.png');
+
+  /// File path: assets/images/android/ramp/arrow/inactive.png
+  AssetGenImage get inactive =>
+      const AssetGenImage('assets/images/android/ramp/arrow/inactive.png');
 }
 
 class $AssetsImagesDashBumperAGen {
@@ -484,68 +528,40 @@ class $AssetsImagesDashBumperMainGen {
       const AssetGenImage('assets/images/dash/bumper/main/inactive.png');
 }
 
-class $AssetsImagesSpaceshipRampArrowGen {
-  const $AssetsImagesSpaceshipRampArrowGen();
-
-  /// File path: assets/images/spaceship/ramp/arrow/active1.png
-  AssetGenImage get active1 =>
-      const AssetGenImage('assets/images/spaceship/ramp/arrow/active1.png');
-
-  /// File path: assets/images/spaceship/ramp/arrow/active2.png
-  AssetGenImage get active2 =>
-      const AssetGenImage('assets/images/spaceship/ramp/arrow/active2.png');
-
-  /// File path: assets/images/spaceship/ramp/arrow/active3.png
-  AssetGenImage get active3 =>
-      const AssetGenImage('assets/images/spaceship/ramp/arrow/active3.png');
-
-  /// File path: assets/images/spaceship/ramp/arrow/active4.png
-  AssetGenImage get active4 =>
-      const AssetGenImage('assets/images/spaceship/ramp/arrow/active4.png');
-
-  /// File path: assets/images/spaceship/ramp/arrow/active5.png
-  AssetGenImage get active5 =>
-      const AssetGenImage('assets/images/spaceship/ramp/arrow/active5.png');
-
-  /// File path: assets/images/spaceship/ramp/arrow/inactive.png
-  AssetGenImage get inactive =>
-      const AssetGenImage('assets/images/spaceship/ramp/arrow/inactive.png');
-}
-
 class $AssetsImagesSparkyBumperAGen {
   const $AssetsImagesSparkyBumperAGen();
 
-  /// File path: assets/images/sparky/bumper/a/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/sparky/bumper/a/active.png');
+  /// File path: assets/images/sparky/bumper/a/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/sparky/bumper/a/dimmed.png');
 
-  /// File path: assets/images/sparky/bumper/a/inactive.png
-  AssetGenImage get inactive =>
-      const AssetGenImage('assets/images/sparky/bumper/a/inactive.png');
+  /// File path: assets/images/sparky/bumper/a/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/sparky/bumper/a/lit.png');
 }
 
 class $AssetsImagesSparkyBumperBGen {
   const $AssetsImagesSparkyBumperBGen();
 
-  /// File path: assets/images/sparky/bumper/b/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/sparky/bumper/b/active.png');
+  /// File path: assets/images/sparky/bumper/b/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/sparky/bumper/b/dimmed.png');
 
-  /// File path: assets/images/sparky/bumper/b/inactive.png
-  AssetGenImage get inactive =>
-      const AssetGenImage('assets/images/sparky/bumper/b/inactive.png');
+  /// File path: assets/images/sparky/bumper/b/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/sparky/bumper/b/lit.png');
 }
 
 class $AssetsImagesSparkyBumperCGen {
   const $AssetsImagesSparkyBumperCGen();
 
-  /// File path: assets/images/sparky/bumper/c/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/sparky/bumper/c/active.png');
+  /// File path: assets/images/sparky/bumper/c/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/sparky/bumper/c/dimmed.png');
 
-  /// File path: assets/images/sparky/bumper/c/inactive.png
-  AssetGenImage get inactive =>
-      const AssetGenImage('assets/images/sparky/bumper/c/inactive.png');
+  /// File path: assets/images/sparky/bumper/c/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/sparky/bumper/c/lit.png');
 }
 
 class Assets {

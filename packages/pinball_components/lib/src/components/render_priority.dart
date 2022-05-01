@@ -20,7 +20,7 @@ abstract class RenderPriority {
   static const int ballOnSpaceshipRamp =
       _above + spaceshipRampBackgroundRailing;
 
-  /// Render priority for the [Ball] while it's on the [Spaceship].
+  /// Render priority for the [Ball] while it's on the [AndroidSpaceship].
   static const int ballOnSpaceship = _above + spaceshipSaucer;
 
   /// Render priority for the [Ball] while it's on the [SpaceshipRail].
@@ -33,13 +33,13 @@ abstract class RenderPriority {
 
   // TODO(allisonryan0002): fix this magic priority. Could bump all priorities
   // so there are no negatives.
-  static const int background = 3 * _below + _base;
+  static const int boardBackground = 3 * _below + _base;
 
   // Boundaries
 
   static const int bottomBoundary = _above + dinoBottomWall;
 
-  static const int outerBoundary = _above + background;
+  static const int outerBoundary = _above + boardBackground;
 
   static const int outerBottomBoundary = _above + rocket;
 
@@ -57,7 +57,7 @@ abstract class RenderPriority {
 
   static const int rocket = _below + bottomBoundary;
 
-  // Dino Land
+  // Dino Desert
 
   static const int dinoTopWall = _above + ballOnBoard;
 
@@ -71,11 +71,13 @@ abstract class RenderPriority {
 
   static const int flutterForest = _above + launchRampForegroundRailing;
 
-  // Sparky Fire Zone
+  // Sparky Scorch
 
   static const int computerBase = _below + ballOnBoard;
 
   static const int computerTop = _above + ballOnBoard;
+
+  static const int computerGlow = _above + ballOnBoard;
 
   static const int sparkyAnimatronic = _above + spaceshipRampForegroundRailing;
 
@@ -91,7 +93,7 @@ abstract class RenderPriority {
 
   static const int spaceshipSaucer = _above + ballOnSpaceshipRail;
 
-  static const int spaceshipSaucerWall = _above + spaceshipSaucer;
+  static const int spaceshipLightBeam = _below + spaceshipSaucer;
 
   static const int androidHead = _above + spaceshipSaucer;
 
