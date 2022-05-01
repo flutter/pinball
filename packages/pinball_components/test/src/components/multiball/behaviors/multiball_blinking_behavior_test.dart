@@ -54,7 +54,7 @@ void main() {
       );
 
       flameTester.testGameWidget(
-        'calls onStop stops animation',
+        'calls onStop when animation state is stopped',
         setUp: (game, tester) async {
           final behavior = MultiballBlinkingBehavior();
           final bloc = MockMultiballCubit();
