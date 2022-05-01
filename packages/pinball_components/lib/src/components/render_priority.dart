@@ -98,7 +98,7 @@ abstract class RenderPriority {
 
   static const androidHead = _above + ballOnSpaceship;
 
-  static const spaceshipRamp = _above + ballOnBoard;
+  static const spaceshipRamp = _above + sparkyBumper;
 
   static const spaceshipRampBackgroundRailing = _above + spaceshipRamp;
 
