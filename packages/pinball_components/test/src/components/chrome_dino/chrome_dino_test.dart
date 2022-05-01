@@ -29,6 +29,15 @@ void main() {
       },
     );
 
+    flameTester.test('adds new children', (game) async {
+      final component = Component();
+      final chromeDino = ChromeDino(
+        children: [component],
+      );
+      await game.ensureAdd(chromeDino);
+      expect(chromeDino.children, contains(component));
+    });
+
     flameTester.testGameWidget(
       'renders correctly',
       setUp: (game, tester) async {

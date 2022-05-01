@@ -31,6 +31,14 @@ void main() {
           isNotNull,
         );
       });
+
+      test('initial is idle with mouth closed', () {
+        const initialState = ChromeDinoState(
+          status: ChromeDinoStatus.idle,
+          isMouthOpen: false,
+        );
+        expect(ChromeDinoState.inital(), equals(initialState));
+      });
     });
 
     group('copyWith', () {
