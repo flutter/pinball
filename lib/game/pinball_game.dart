@@ -87,7 +87,7 @@ class PinballGame extends Forge2DGame
   @override
   void onTapDown(TapDownInfo info) {
     if (info.raw.kind == PointerDeviceKind.touch) {
-      final rocket = children.whereType<RocketSpriteComponent>().first;
+      final rocket = descendants().whereType<RocketSpriteComponent>().first;
       final bounds = rocket.topLeftPosition & rocket.size;
 
       // NOTE(wolfen): As long as Flame does not have https://github.com/flame-engine/flame/issues/1586 we need to check it at the highest level manually.
@@ -153,23 +153,27 @@ class _GameBallsController extends ComponentController<PinballGame>
   @override
   void onNewState(GameState state) {
     super.onNewState(state);
-    _spawnBall();
+    spawnBall();
   }
 
   @override
-  void onMount() {
-    super.onMount();
-    _spawnBall();
+  Future<void> onLoad() async {
+    await super.onLoad();
+    spawnBall();
   }
 
-  void _spawnBall() {
-    final ball = ControlledBall.launch(
-      characterTheme: component.characterTheme,
-    )..initialPosition = Vector2(
-        Vector2(41.1, 43).x,
-        Vector2(41.1, 45).y - Ball.size.y,
-      );
-    component.firstChild<ZCanvasComponent>()?.add(ball);
+  void spawnBall() {
+    // TODO(alestiago): Refactor with behavioural pattern.
+    component.ready().whenComplete(() {
+      final plunger = parent!.descendants().whereType<Plunger>().single;
+      final ball = ControlledBall.launch(
+        characterTheme: component.characterTheme,
+      )..initialPosition = Vector2(
+          plunger.body.position.x,
+          plunger.body.position.y - Ball.size.y,
+        );
+      component.firstChild<ZCanvasComponent>()?.add(ball);
+    });
   }
 }
 
@@ -181,7 +185,7 @@ class DebugPinballGame extends PinballGame with FPSCounter {
           characterTheme: characterTheme,
           audio: audio,
         ) {
-    controller = _DebugGameBallsController(this);
+    controller = _GameBallsController(this);
   }
 
   @override
@@ -200,10 +204,6 @@ class DebugPinballGame extends PinballGame with FPSCounter {
       firstChild<ZCanvasComponent>()?.add(ball);
     }
   }
-}
-
-class _DebugGameBallsController extends _GameBallsController {
-  _DebugGameBallsController(PinballGame game) : super(game);
 }
 
 // TODO(wolfenrain): investigate this CI failure.
