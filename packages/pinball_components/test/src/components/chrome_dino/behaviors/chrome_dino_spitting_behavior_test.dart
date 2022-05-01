@@ -28,31 +28,47 @@ void main() {
         );
       });
 
-      flameTester.test(
-        'creates a RevoluteJoint',
-        (game) async {
-          final behavior = ChromeDinoSpittingBehavior();
-          final bloc = MockChromeDinoCubit();
-          whenListen(
-            bloc,
-            const Stream<ChromeDinoState>.empty(),
-            initialState: const ChromeDinoState.inital(),
-          );
-
-          final chromeDino = ChromeDino.test(bloc: bloc);
-          await chromeDino.add(behavior);
-          await game.ensureAdd(chromeDino);
-
-          expect(
-            game.world.joints.whereType<RevoluteJoint>().single,
-            isNotNull,
-          );
-        },
-      );
-
-      group('calls', () {
+      group('on the next time the mouth opens and status is chomping', () {
         flameTester.test(
-          'onSpit the next time the mouth opens and status is chomping',
+          'sets ball sprite to visible and sets a linear velocity',
+          (game) async {
+            final ball = Ball(baseColor: Colors.red);
+            final behavior = ChromeDinoSpittingBehavior();
+            final bloc = MockChromeDinoCubit();
+            final streamController = StreamController<ChromeDinoState>();
+            final chompingState = ChromeDinoState(
+              status: ChromeDinoStatus.chomping,
+              isMouthOpen: true,
+              ball: ball,
+            );
+            whenListen(
+              bloc,
+              streamController.stream,
+              initialState: chompingState,
+            );
+
+            final chromeDino = ChromeDino.test(bloc: bloc);
+            await chromeDino.add(behavior);
+            await game.ensureAddAll([chromeDino, ball]);
+
+            streamController.add(chompingState.copyWith(isMouthOpen: false));
+            streamController.add(chompingState.copyWith(isMouthOpen: true));
+            await game.ready();
+
+            game
+                .descendants()
+                .whereType<TimerComponent>()
+                .single
+                .timer
+                .onTick!();
+
+            expect(ball.firstChild<SpriteComponent>()!.getOpacity(), equals(1));
+            expect(ball.body.linearVelocity, equals(Vector2(-50, 0)));
+          },
+        );
+
+        flameTester.test(
+          'calls onSpit',
           (game) async {
             final ball = Ball(baseColor: Colors.red);
             final behavior = ChromeDinoSpittingBehavior();

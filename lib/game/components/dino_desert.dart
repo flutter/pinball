@@ -30,7 +30,7 @@ class _BarrierBehindDino extends BodyComponent {
   Body createBody() {
     final shape = EdgeShape()
       ..set(
-        Vector2(27, -14.2),
+        Vector2(25, -14.2),
         Vector2(25, -7.7),
       );
 
