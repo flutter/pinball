@@ -32,7 +32,7 @@ void main() {
       expect(find.text('Play'), findsOneWidget);
     });
 
-    testWidgets('calls gameFlowController.start when taped', (tester) async {
+    testWidgets('calls gameFlowController.start when tapped', (tester) async {
       await tester.pumpApp(
         PlayButtonOverlay(game: game),
         characterThemeCubit: characterThemeCubit,
