@@ -38,31 +38,33 @@ void main() {
         await tester.pump();
       },
       verify: (game, tester) async {
-        final sweepAnimationDuration = game
+        final swivelAnimationDuration = game
                 .descendants()
                 .whereType<SpriteAnimationComponent>()
                 .first
                 .animation!
                 .totalDuration() /
             2;
+        game.update(swivelAnimationDuration);
+        await tester.pump();
 
         await expectLater(
           find.byGame<TestGame>(),
-          matchesGoldenFile('golden/chrome_dino/up.png'),
+          matchesGoldenFile('golden/chrome_dino/down.png'),
         );
 
-        game.update(sweepAnimationDuration * 0.25);
+        game.update(swivelAnimationDuration * 0.25);
         await tester.pump();
         await expectLater(
           find.byGame<TestGame>(),
           matchesGoldenFile('golden/chrome_dino/middle.png'),
         );
 
-        game.update(sweepAnimationDuration * 0.25);
+        game.update(swivelAnimationDuration * 0.25);
         await tester.pump();
         await expectLater(
           find.byGame<TestGame>(),
-          matchesGoldenFile('golden/chrome_dino/down.png'),
+          matchesGoldenFile('golden/chrome_dino/up.png'),
         );
       },
     );
