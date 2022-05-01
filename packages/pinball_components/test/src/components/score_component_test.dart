@@ -10,7 +10,6 @@ import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
     Assets.images.score.fiveThousand.keyName,
     Assets.images.score.twentyThousand.keyName,
@@ -20,6 +19,66 @@ void main() {
   final flameTester = FlameTester(() => TestGame(assets));
 
   group('ScoreComponent', () {
+    flameTester.testGameWidget(
+      'loads correctly',
+      setUp: (game, tester) async {
+        await game.images.loadAll(assets);
+        game.camera.followVector2(Vector2.zero());
+        await game.ensureAdd(
+          ScoreComponent(
+            points: Points.oneMillion,
+            position: Vector2.zero(),
+          ),
+        );
+      },
+      verify: (game, tester) async {
+        final texts = game.descendants().whereType<SpriteComponent>().length;
+        expect(texts, equals(1));
+      },
+    );
+
+    flameTester.testGameWidget(
+      'has a movement effect',
+      setUp: (game, tester) async {
+        await game.images.loadAll(assets);
+        game.camera.followVector2(Vector2.zero());
+        await game.ensureAdd(
+          ScoreComponent(
+            points: Points.oneMillion,
+            position: Vector2.zero(),
+          ),
+        );
+
+        game.update(0.5);
+        await tester.pump();
+      },
+      verify: (game, tester) async {
+        final text = game.descendants().whereType<SpriteComponent>().first;
+        expect(text.firstChild<MoveEffect>(), isNotNull);
+      },
+    );
+
+    flameTester.testGameWidget(
+      'is removed once finished',
+      setUp: (game, tester) async {
+        await game.images.loadAll(assets);
+        game.camera.followVector2(Vector2.zero());
+        await game.ensureAdd(
+          ScoreComponent(
+            points: Points.oneMillion,
+            position: Vector2.zero(),
+          ),
+        );
+
+        game.update(1);
+        game.update(0); // Ensure all component removals
+        await tester.pump();
+      },
+      verify: (game, tester) async {
+        expect(game.children.length, equals(0));
+      },
+    );
+
     group('renders correctly', () {
       flameTester.testGameWidget(
         '5000 points',
@@ -143,65 +202,5 @@ void main() {
 
   group('Effects', () {
     final flameTester = FlameTester(() => TestGame(assets));
-
-    flameTester.testGameWidget(
-      'renders correctly',
-      setUp: (game, tester) async {
-        await game.images.loadAll(assets);
-        game.camera.followVector2(Vector2.zero());
-        await game.ensureAdd(
-          ScoreComponent(
-            points: Points.oneMillion,
-            position: Vector2.zero(),
-          ),
-        );
-      },
-      verify: (game, tester) async {
-        final texts = game.descendants().whereType<SpriteComponent>().length;
-        expect(texts, equals(1));
-      },
-    );
-
-    flameTester.testGameWidget(
-      'has a movement effect',
-      setUp: (game, tester) async {
-        await game.images.loadAll(assets);
-        game.camera.followVector2(Vector2.zero());
-        await game.ensureAdd(
-          ScoreComponent(
-            points: Points.oneMillion,
-            position: Vector2.zero(),
-          ),
-        );
-
-        game.update(0.5);
-        await tester.pump();
-      },
-      verify: (game, tester) async {
-        final text = game.descendants().whereType<SpriteComponent>().first;
-        expect(text.firstChild<MoveEffect>(), isNotNull);
-      },
-    );
-
-    flameTester.testGameWidget(
-      'is removed once finished',
-      setUp: (game, tester) async {
-        await game.images.loadAll(assets);
-        game.camera.followVector2(Vector2.zero());
-        await game.ensureAdd(
-          ScoreComponent(
-            points: Points.oneMillion,
-            position: Vector2.zero(),
-          ),
-        );
-
-        game.update(1);
-        game.update(0); // Ensure all component removals
-        await tester.pump();
-      },
-      verify: (game, tester) async {
-        expect(game.children.length, equals(0));
-      },
-    );
   });
 }
