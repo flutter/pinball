@@ -17,7 +17,7 @@ Future<void> showCharacterSelectionDialog(BuildContext context) {
 }
 
 /// {@template character_selection_dialog}
-/// Dialog used to select the playing character of the game
+/// Dialog used to select the playing character of the game.
 /// {@endtemplate character_selection_dialog}
 class CharacterSelectionDialog extends StatelessWidget {
   /// {@macro character_selection_dialog}
