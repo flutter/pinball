@@ -39,7 +39,7 @@ class Kicker extends BodyComponent with InitialPosition {
           renderBody: false,
         );
 
-  /// Creates an [Kicker] without any children.
+  /// Creates a [Kicker] without any children.
   ///
   /// This can be used for testing [Kicker]'s behaviors in isolation.
   // TODO(alestiago): Refactor injecting bloc once the following is merged:
@@ -61,10 +61,6 @@ class Kicker extends BodyComponent with InitialPosition {
   }
 
   /// Whether the [Kicker] is on the left or right side of the board.
-  ///
-  /// A [Kicker] with [BoardSide.left] propels the [Ball] to the right,
-  /// whereas a [Kicker] with [BoardSide.right] propels the [Ball] to the
-  /// left.
   final BoardSide _side;
 
   List<FixtureDef> _createFixtureDefs() {
