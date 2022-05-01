@@ -1,5 +1,4 @@
 import 'package:flame/input.dart';
-import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart' as components;
 import 'package:pinball_theme/pinball_theme.dart';
 import 'package:sandbox/common/common.dart';
