@@ -7,7 +7,7 @@ import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 
-/// Inflates [CharacterSelectionDialog] using [showDialog]
+/// Inflates [CharacterSelectionDialog] using [showDialog].
 Future<void> showCharacterSelectionDialog(BuildContext context) {
   return showDialog<void>(
     context: context,
