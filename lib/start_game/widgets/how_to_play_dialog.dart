@@ -50,6 +50,22 @@ extension on Control {
   }
 }
 
+Future<void> showHowToPlayDialog(BuildContext context) {
+  final height = MediaQuery.of(context).size.height * 0.5;
+  return showDialog<void>(
+    context: context,
+    builder: (context) {
+      return Center(
+        child: SizedBox(
+          height: height,
+          width: height * 1.4,
+          child: HowToPlayDialog(),
+        ),
+      );
+    },
+  );
+}
+
 class HowToPlayDialog extends StatefulWidget {
   HowToPlayDialog({
     Key? key,
@@ -70,7 +86,7 @@ class _HowToPlayDialogState extends State<HowToPlayDialog> {
     super.initState();
     closeTimer = Timer(const Duration(seconds: 3), () {
       if (mounted) {
-        Navigator.of(context).maybePop();
+        Navigator.of(context).pop();
       }
     });
   }
@@ -121,7 +137,10 @@ class _MobileLaunchControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final textStyle = Theme.of(context).textTheme.headline3;
+    final textStyle = Theme.of(context)
+        .textTheme
+        .headline3!
+        .copyWith(color: PinballColors.white);
     return Column(
       children: [
         Text(
@@ -137,7 +156,7 @@ class _MobileLaunchControls extends StatelessWidget {
               ),
               TextSpan(
                 text: l10n.launch,
-                style: textStyle?.copyWith(color: PinballColors.blue),
+                style: textStyle.copyWith(color: PinballColors.blue),
               ),
             ],
           ),
@@ -153,7 +172,10 @@ class _MobileFlipperControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final textStyle = Theme.of(context).textTheme.headline3;
+    final textStyle = Theme.of(context)
+        .textTheme
+        .headline3!
+        .copyWith(color: PinballColors.white);
     return Column(
       children: [
         Text(
@@ -169,7 +191,7 @@ class _MobileFlipperControls extends StatelessWidget {
               ),
               TextSpan(
                 text: l10n.flip,
-                style: textStyle?.copyWith(color: PinballColors.orange),
+                style: textStyle.copyWith(color: PinballColors.orange),
               ),
             ],
           ),

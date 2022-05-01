@@ -1,67 +1,49 @@
-// ignore_for_file: public_member_api_docs
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/l10n/l10n.dart';
+import 'package:pinball/select_character/cubit/character_theme_cubit.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 
-class CharacterSelectionDialog extends StatelessWidget {
-  const CharacterSelectionDialog({Key? key}) : super(key: key);
-
-  static Route route() {
-    return MaterialPageRoute<void>(
-      builder: (_) => const CharacterSelectionDialog(),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => CharacterThemeCubit(),
-      child: const CharacterSelectionView(),
-    );
-  }
+/// Inflates [CharacterSelectionDialog] using [showDialog].
+Future<void> showCharacterSelectionDialog(BuildContext context) {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false,
+    builder: (_) => const CharacterSelectionDialog(),
+  );
 }
 
-class CharacterSelectionView extends StatelessWidget {
-  const CharacterSelectionView({Key? key}) : super(key: key);
+/// {@template character_selection_dialog}
+/// Dialog used to select the playing character of the game.
+/// {@endtemplate character_selection_dialog}
+class CharacterSelectionDialog extends StatelessWidget {
+  /// {@macro character_selection_dialog}
+  const CharacterSelectionDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-
-    return PixelatedDecoration(
-      header: Text(
-        l10n.characterSelectionTitle,
-        style: Theme.of(context).textTheme.headline3,
-      ),
-      body: SingleChildScrollView(
+    return PinballDialog(
+      title: l10n.characterSelectionTitle,
+      subtitle: l10n.characterSelectionSubtitle,
+      child: Padding(
+        padding: const EdgeInsets.all(12),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const _CharacterSelectionGridView(),
-            const SizedBox(height: 20),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                // TODO(arturplaczek): remove after merge StarBlocListener
-                final height = MediaQuery.of(context).size.height * 0.5;
-                showDialog<void>(
-                  context: context,
-                  builder: (_) => Center(
-                    child: SizedBox(
-                      height: height,
-                      width: height * 1.4,
-                      child: HowToPlayDialog(),
-                    ),
-                  ),
-                );
-              },
-              child: Text(l10n.start),
+            Expanded(
+              child: Row(
+                children: [
+                  Expanded(child: _CharacterPreview()),
+                  Expanded(child: _CharacterGrid()),
+                ],
+              ),
             ),
+            const SizedBox(height: 8),
+            const _SelectCharacterButton(),
           ],
         ),
       ),
@@ -69,71 +51,110 @@ class CharacterSelectionView extends StatelessWidget {
   }
 }
 
-class _CharacterSelectionGridView extends StatelessWidget {
-  const _CharacterSelectionGridView({Key? key}) : super(key: key);
+class _SelectCharacterButton extends StatelessWidget {
+  const _SelectCharacterButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: GridView.count(
-        shrinkWrap: true,
-        crossAxisCount: 2,
-        mainAxisSpacing: 20,
-        crossAxisSpacing: 20,
-        children: const [
-          CharacterImageButton(
-            DashTheme(),
-            key: Key('characterSelectionPage_dashButton'),
-          ),
-          CharacterImageButton(
-            SparkyTheme(),
-            key: Key('characterSelectionPage_sparkyButton'),
-          ),
-          CharacterImageButton(
-            AndroidTheme(),
-            key: Key('characterSelectionPage_androidButton'),
-          ),
-          CharacterImageButton(
-            DinoTheme(),
-            key: Key('characterSelectionPage_dinoButton'),
-          ),
-        ],
-      ),
+    final l10n = context.l10n;
+    return PinballButton(
+      onTap: () async {
+        Navigator.of(context).pop();
+        await showHowToPlayDialog(context);
+      },
+      text: l10n.select,
     );
   }
 }
 
-// TODO(allisonryan0002): remove visibility when adding final UI.
-@visibleForTesting
-class CharacterImageButton extends StatelessWidget {
-  const CharacterImageButton(
-    this.characterTheme, {
+class _CharacterGrid extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CharacterThemeCubit, CharacterThemeState>(
+      builder: (context, state) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              children: [
+                _Character(
+                  key: const Key('sparky_character_selection'),
+                  character: const SparkyTheme(),
+                  isSelected: state.isSparkySelected,
+                ),
+                const SizedBox(height: 6),
+                _Character(
+                  key: const Key('android_character_selection'),
+                  character: const AndroidTheme(),
+                  isSelected: state.isAndroidSelected,
+                ),
+              ],
+            ),
+            const SizedBox(width: 6),
+            Column(
+              children: [
+                _Character(
+                  key: const Key('dash_character_selection'),
+                  character: const DashTheme(),
+                  isSelected: state.isDashSelected,
+                ),
+                const SizedBox(height: 6),
+                _Character(
+                  key: const Key('dino_character_selection'),
+                  character: const DinoTheme(),
+                  isSelected: state.isDinoSelected,
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _CharacterPreview extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CharacterThemeCubit, CharacterThemeState>(
+      builder: (context, state) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              state.characterTheme.name,
+              style: Theme.of(context).textTheme.headline2,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 10),
+            Expanded(child: state.characterTheme.icon.image()),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _Character extends StatelessWidget {
+  const _Character({
     Key? key,
+    required this.character,
+    required this.isSelected,
   }) : super(key: key);
 
-  final CharacterTheme characterTheme;
+  final CharacterTheme character;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
-    final currentCharacterTheme =
-        context.select<CharacterThemeCubit, CharacterTheme>(
-      (cubit) => cubit.state.characterTheme,
-    );
-
-    return GestureDetector(
-      onTap: () =>
-          context.read<CharacterThemeCubit>().characterSelected(characterTheme),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: (currentCharacterTheme == characterTheme)
-              ? Colors.blue.withOpacity(0.5)
-              : null,
-          borderRadius: BorderRadius.circular(6),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: characterTheme.icon.image(),
+    return Expanded(
+      child: Opacity(
+        opacity: isSelected ? 1 : 0.3,
+        child: InkWell(
+          onTap: () =>
+              context.read<CharacterThemeCubit>().characterSelected(character),
+          child: character.icon.image(fit: BoxFit.contain),
         ),
       ),
     );

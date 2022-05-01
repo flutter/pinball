@@ -55,14 +55,31 @@ void main() {
       expect(find.text(l10n.tapAndHoldRocket), findsOneWidget);
       expect(find.text(l10n.tapLeftRightScreen), findsOneWidget);
     });
+
+    testWidgets('disappears after 3 seconds', (tester) async {
+      await tester.pumpApp(
+        Builder(
+          builder: (context) {
+            return TextButton(
+              onPressed: () => showHowToPlayDialog(context),
+              child: const Text('test'),
+            );
+          },
+        ),
+      );
+      expect(find.byType(HowToPlayDialog), findsNothing);
+      await tester.tap(find.text('test'));
+      await tester.pumpAndSettle();
+      expect(find.byType(HowToPlayDialog), findsOneWidget);
+      await tester.pump(const Duration(seconds: 4));
+      await tester.pumpAndSettle();
+      expect(find.byType(HowToPlayDialog), findsNothing);
+    });
   });
 
   group('KeyButton', () {
     testWidgets('renders correctly', (tester) async {
-      await tester.pumpApp(
-        KeyButton(control: Control.a),
-      );
-
+      await tester.pumpApp(KeyButton(control: Control.a));
       expect(find.text('A'), findsOneWidget);
     });
   });
