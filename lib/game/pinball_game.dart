@@ -42,22 +42,22 @@ class PinballGame extends Forge2DGame
 
   @override
   Future<void> onLoad() async {
-    unawaited(add(gameFlowController = GameFlowController(this)));
-    unawaited(add(CameraController(this)));
-    unawaited(add(Backboard.waiting(position: Vector2(0, -88))));
+    await add(gameFlowController = GameFlowController(this));
+    await add(CameraController(this));
+    await add(Backboard.waiting(position: Vector2(0, -88)));
     await add(BoardBackgroundSpriteComponent());
     await add(Drain());
     await add(BottomGroup());
-    unawaited(addFromBlueprint(Boundaries()));
+    await addFromBlueprint(Boundaries());
 
     final launcher = Launcher();
-    unawaited(addFromBlueprint(launcher));
+    await addFromBlueprint(launcher);
     await add(Multipliers());
     await add(FlutterForest());
     await addFromBlueprint(SparkyScorch());
     await addFromBlueprint(AndroidAcres());
     await addFromBlueprint(DinoDesert());
-    unawaited(addFromBlueprint(Slingshots()));
+    await addFromBlueprint(Slingshots());
     await add(
       GoogleWord(
         position: Vector2(
