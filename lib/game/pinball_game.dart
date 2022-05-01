@@ -48,7 +48,6 @@ class PinballGame extends Forge2DGame
 
     await add(
       PinballCanvasComponent(
-        camera: camera,
         children: [
           BoardBackgroundSpriteComponent(),
           Multipliers(),

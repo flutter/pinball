@@ -8,11 +8,8 @@ mixin Rendering on Component {
   int zIndex = 0;
 
   @override
-  void renderTree(Canvas canvas) {
-    if (canvas is PinballCanvas) {
+  void renderTree(
+    covariant PinballCanvas canvas,
+  ) =>
       canvas.buffer(this);
-    } else {
-      super.renderTree(canvas);
-    }
-  }
 }

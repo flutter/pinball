@@ -5,18 +5,11 @@ import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
-import 'package:flame/game.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_flame/src/rendering/rendering.dart';
 
 class PinballCanvas implements Canvas {
-  PinballCanvas({
-    required this.camera,
-  });
-
   late Canvas canvas;
-
-  Camera camera;
 
   final List<Rendering> _zBuffer = [];
 

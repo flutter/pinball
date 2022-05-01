@@ -8,9 +8,8 @@ import 'package:pinball_flame/src/rendering/rendering.dart';
 
 class PinballCanvasComponent extends Component {
   PinballCanvasComponent({
-    required Camera camera,
     Iterable<Component>? children,
-  })  : _pinballCanvas = PinballCanvas(camera: camera),
+  })  : _pinballCanvas = PinballCanvas(),
         super(children: children);
 
   final PinballCanvas _pinballCanvas;
