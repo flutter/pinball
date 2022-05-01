@@ -23,7 +23,7 @@ void main() {
       );
 
       blocTest<ChromeDinoCubit, ChromeDinoState>(
-        'onCloseMouth emits true',
+        'onCloseMouth emits false',
         build: ChromeDinoCubit.new,
         act: (bloc) => bloc.onCloseMouth(),
         expect: () => [
