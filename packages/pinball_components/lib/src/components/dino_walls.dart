@@ -23,7 +23,7 @@ class DinoWalls extends Component {
 /// {@template dino_top_wall}
 /// Wall segment located above [ChromeDino].
 /// {@endtemplate}
-class _DinoTopWall extends BodyComponent with InitialPosition, Rendering {
+class _DinoTopWall extends BodyComponent with InitialPosition, ZIndex {
   ///{@macro dino_top_wall}
   _DinoTopWall()
       : super(
@@ -117,7 +117,7 @@ class _DinoTopWallSpriteComponent extends SpriteComponent with HasGameRef {
 /// {@template dino_bottom_wall}
 /// Wall segment located below [ChromeDino].
 /// {@endtemplate}
-class _DinoBottomWall extends BodyComponent with InitialPosition, Rendering {
+class _DinoBottomWall extends BodyComponent with InitialPosition, ZIndex {
   ///{@macro dino_top_wall}
   _DinoBottomWall()
       : super(

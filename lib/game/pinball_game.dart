@@ -67,7 +67,7 @@ class PinballGame extends Forge2DGame
     ];
 
     await add(
-      PinballCanvasComponent(
+      ZCanvasComponent(
         children: [
           ...machine,
           ...decals,
@@ -169,7 +169,7 @@ class _GameBallsController extends ComponentController<PinballGame>
         Vector2(41.1, 43).x,
         Vector2(41.1, 45).y - Ball.size.y,
       );
-    component.firstChild<PinballCanvasComponent>()?.add(ball);
+    component.firstChild<ZCanvasComponent>()?.add(ball);
   }
 }
 
@@ -197,7 +197,7 @@ class DebugPinballGame extends PinballGame with FPSCounter {
     if (info.raw.kind == PointerDeviceKind.mouse) {
       final ball = ControlledBall.debug()
         ..initialPosition = info.eventPosition.game;
-      firstChild<PinballCanvasComponent>()?.add(ball);
+      firstChild<ZCanvasComponent>()?.add(ball);
     }
   }
 }

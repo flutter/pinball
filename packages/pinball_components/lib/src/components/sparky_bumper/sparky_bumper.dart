@@ -12,7 +12,7 @@ export 'cubit/sparky_bumper_cubit.dart';
 /// {@template sparky_bumper}
 /// Bumper for Sparky area.
 /// {@endtemplate}
-class SparkyBumper extends BodyComponent with InitialPosition, Rendering {
+class SparkyBumper extends BodyComponent with InitialPosition, ZIndex {
   /// {@macro sparky_bumper}
   SparkyBumper._({
     required double majorRadius,

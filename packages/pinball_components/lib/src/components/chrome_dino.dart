@@ -11,7 +11,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// Upon eating a [Ball], the dino rotates and spits the [Ball] out in a
 /// different direction.
 /// {@endtemplate}
-class ChromeDino extends BodyComponent with InitialPosition, Rendering {
+class ChromeDino extends BodyComponent with InitialPosition, ZIndex {
   /// {@macro chrome_dino}
   ChromeDino()
       : super(

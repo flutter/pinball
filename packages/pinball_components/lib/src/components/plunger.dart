@@ -9,7 +9,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 ///
 /// [Plunger] ignores gravity so the player controls its downward [pull].
 /// {@endtemplate}
-class Plunger extends BodyComponent with InitialPosition, Layered, Rendering {
+class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
   /// {@macro plunger}
   Plunger({
     required this.compressionDistance,

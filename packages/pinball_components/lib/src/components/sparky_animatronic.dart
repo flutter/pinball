@@ -6,7 +6,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// Animated Sparky that sits on top of the [SparkyComputer].
 /// {@endtemplate}
 class SparkyAnimatronic extends SpriteAnimationComponent
-    with HasGameRef, Rendering {
+    with HasGameRef, ZIndex {
   /// {@macro sparky_animatronic}
   SparkyAnimatronic()
       : super(

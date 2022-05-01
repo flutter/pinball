@@ -6,7 +6,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template slingshots}
 /// A collection of [Slingshot]s.
 /// {@endtemplate}
-class Slingshots extends Component with Rendering {
+class Slingshots extends Component with ZIndex {
   /// {@macro slingshots}
   Slingshots()
       : super(

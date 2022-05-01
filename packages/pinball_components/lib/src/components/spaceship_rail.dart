@@ -20,7 +20,7 @@ class SpaceshipRail extends Component {
         );
 }
 
-class _SpaceshipRail extends BodyComponent with Layered, Rendering {
+class _SpaceshipRail extends BodyComponent with Layered, ZIndex {
   _SpaceshipRail()
       : super(
           children: [_SpaceshipRailSpriteComponent()],
@@ -125,7 +125,7 @@ class _SpaceshipRailSpriteComponent extends SpriteComponent with HasGameRef {
 }
 
 class _SpaceshipRailExitSpriteComponent extends SpriteComponent
-    with HasGameRef, Rendering {
+    with HasGameRef, ZIndex {
   _SpaceshipRailExitSpriteComponent()
       : super(
           anchor: Anchor.center,

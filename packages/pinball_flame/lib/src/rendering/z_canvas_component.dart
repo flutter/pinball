@@ -5,13 +5,13 @@ import 'dart:ui' show Canvas;
 import 'package:flame/components.dart';
 import 'package:pinball_flame/src/rendering/rendering.dart';
 
-class PinballCanvasComponent extends Component {
-  PinballCanvasComponent({
+class ZCanvasComponent extends Component {
+  ZCanvasComponent({
     Iterable<Component>? children,
-  })  : _pinballCanvas = PinballCanvas(),
+  })  : _pinballCanvas = ZCanvas(),
         super(children: children);
 
-  final PinballCanvas _pinballCanvas;
+  final ZCanvas _pinballCanvas;
 
   @override
   void renderTree(Canvas canvas) {

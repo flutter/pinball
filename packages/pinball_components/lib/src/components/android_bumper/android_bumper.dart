@@ -12,7 +12,7 @@ export 'cubit/android_bumper_cubit.dart';
 /// {@template android_bumper}
 /// Bumper for area under the [AndroidSpaceship].
 /// {@endtemplate}
-class AndroidBumper extends BodyComponent with InitialPosition, Rendering {
+class AndroidBumper extends BodyComponent with InitialPosition, ZIndex {
   /// {@macro android_bumper}
   AndroidBumper._({
     required double majorRadius,

@@ -92,7 +92,7 @@ extension on SpaceshipRampArrowSpriteState {
 }
 
 class _SpaceshipRampBackground extends BodyComponent
-    with InitialPosition, Layered, Rendering {
+    with InitialPosition, Layered, ZIndex {
   _SpaceshipRampBackground()
       : super(
           renderBody: false,
@@ -146,7 +146,7 @@ class _SpaceshipRampBackground extends BodyComponent
 }
 
 class _SpaceshipRampBackgroundRailingSpriteComponent extends SpriteComponent
-    with HasGameRef, Rendering {
+    with HasGameRef, ZIndex {
   _SpaceshipRampBackgroundRailingSpriteComponent()
       : super(
           anchor: Anchor.center,
@@ -196,7 +196,7 @@ class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
 /// {@endtemplate}
 class _SpaceshipRampArrowSpriteComponent
     extends SpriteGroupComponent<SpaceshipRampArrowSpriteState>
-    with HasGameRef, Rendering {
+    with HasGameRef, ZIndex {
   /// {@macro spaceship_ramp_arrow_sprite_component}
   _SpaceshipRampArrowSpriteComponent()
       : super(
@@ -226,7 +226,7 @@ class _SpaceshipRampArrowSpriteComponent
 }
 
 class _SpaceshipRampBoardOpeningSpriteComponent extends SpriteComponent
-    with HasGameRef, Rendering {
+    with HasGameRef, ZIndex {
   _SpaceshipRampBoardOpeningSpriteComponent() : super(anchor: Anchor.center) {
     zIndex = RenderPriority.spaceshipRampBoardOpening;
   }
@@ -245,7 +245,7 @@ class _SpaceshipRampBoardOpeningSpriteComponent extends SpriteComponent
 }
 
 class _SpaceshipRampForegroundRailing extends BodyComponent
-    with InitialPosition, Layered, Rendering {
+    with InitialPosition, Layered, ZIndex {
   _SpaceshipRampForegroundRailing()
       : super(
           renderBody: false,

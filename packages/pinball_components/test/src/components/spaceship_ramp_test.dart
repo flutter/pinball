@@ -40,7 +40,7 @@ void main() {
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
           final component = SpaceshipRamp();
-          final canvas = PinballCanvasComponent(children: [component]);
+          final canvas = ZCanvasComponent(children: [component]);
           await game.ensureAdd(canvas);
 
           await tester.pump();
@@ -65,7 +65,7 @@ void main() {
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
           final component = SpaceshipRamp();
-          final canvas = PinballCanvasComponent(children: [component]);
+          final canvas = ZCanvasComponent(children: [component]);
           await game.ensureAdd(canvas);
 
           component.progress();
@@ -91,7 +91,7 @@ void main() {
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
           final component = SpaceshipRamp();
-          final canvas = PinballCanvasComponent(children: [component]);
+          final canvas = ZCanvasComponent(children: [component]);
           await game.ensureAdd(canvas);
 
           component
@@ -119,7 +119,7 @@ void main() {
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
           final component = SpaceshipRamp();
-          final canvas = PinballCanvasComponent(children: [component]);
+          final canvas = ZCanvasComponent(children: [component]);
           await game.ensureAdd(canvas);
 
           component
@@ -148,7 +148,7 @@ void main() {
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
           final component = SpaceshipRamp();
-          final canvas = PinballCanvasComponent(children: [component]);
+          final canvas = ZCanvasComponent(children: [component]);
           await game.ensureAdd(canvas);
 
           component
@@ -178,7 +178,7 @@ void main() {
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
           final component = SpaceshipRamp();
-          final canvas = PinballCanvasComponent(children: [component]);
+          final canvas = ZCanvasComponent(children: [component]);
           await game.ensureAdd(canvas);
 
           component

@@ -23,7 +23,7 @@ class LaunchRamp extends Component {
         );
 }
 
-class _LaunchRampBase extends BodyComponent with Layered, Rendering {
+class _LaunchRampBase extends BodyComponent with Layered, ZIndex {
   _LaunchRampBase()
       : super(
           renderBody: false,
@@ -135,7 +135,7 @@ class _LaunchRampBackgroundRailingSpriteComponent extends SpriteComponent
   }
 }
 
-class _LaunchRampForegroundRailing extends BodyComponent with Rendering {
+class _LaunchRampForegroundRailing extends BodyComponent with ZIndex {
   _LaunchRampForegroundRailing()
       : super(
           children: [_LaunchRampForegroundRailingSpriteComponent()],

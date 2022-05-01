@@ -6,12 +6,12 @@ import 'dart:ui';
 import 'package:flame/components.dart';
 import 'package:pinball_flame/src/rendering/rendering.dart';
 
-class PinballCanvas implements Canvas {
+class ZCanvas implements Canvas {
   late Canvas canvas;
 
-  final List<Rendering> _zBuffer = [];
+  final List<ZIndex> _zBuffer = [];
 
-  void buffer(Rendering rendering) => _zBuffer.add(rendering);
+  void buffer(ZIndex rendering) => _zBuffer.add(rendering);
 
   void render() => _zBuffer
     ..sort((a, b) => a.zIndex.compareTo(b.zIndex))

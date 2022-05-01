@@ -22,7 +22,7 @@ class Boundaries extends Component {
 /// Curved boundary at the bottom of the board where the [Ball] exits the field
 /// of play.
 /// {@endtemplate bottom_boundary}
-class _BottomBoundary extends BodyComponent with InitialPosition, Rendering {
+class _BottomBoundary extends BodyComponent with InitialPosition, ZIndex {
   /// {@macro bottom_boundary}
   _BottomBoundary()
       : super(
@@ -90,7 +90,7 @@ class _BottomBoundarySpriteComponent extends SpriteComponent with HasGameRef {
 /// The right side of the board is closed by the barrier the [LaunchRamp]
 /// creates.
 /// {@endtemplate outer_boundary}
-class _OuterBoundary extends BodyComponent with InitialPosition, Rendering {
+class _OuterBoundary extends BodyComponent with InitialPosition, ZIndex {
   /// {@macro outer_boundary}
   _OuterBoundary()
       : super(
@@ -193,7 +193,7 @@ class _OuterBoundarySpriteComponent extends SpriteComponent with HasGameRef {
 }
 
 class _OuterBottomBoundarySpriteComponent extends SpriteComponent
-    with HasGameRef, Rendering {
+    with HasGameRef, ZIndex {
   _OuterBottomBoundarySpriteComponent()
       : super(
           anchor: Anchor.center,

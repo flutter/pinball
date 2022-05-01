@@ -9,7 +9,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template score_text}
 /// A [TextComponent] that spawns at a given [position] with a moving animation.
 /// {@endtemplate}
-class ScoreText extends TextComponent with Rendering {
+class ScoreText extends TextComponent with ZIndex {
   /// {@macro score_text}
   ScoreText({
     required String text,

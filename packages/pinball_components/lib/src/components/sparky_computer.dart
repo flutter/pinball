@@ -20,7 +20,7 @@ class SparkyComputer extends Component {
         );
 }
 
-class _ComputerBase extends BodyComponent with InitialPosition, Rendering {
+class _ComputerBase extends BodyComponent with InitialPosition, ZIndex {
   _ComputerBase()
       : super(
           renderBody: false,
@@ -85,7 +85,7 @@ class _ComputerBaseSpriteComponent extends SpriteComponent with HasGameRef {
 }
 
 class _ComputerTopSpriteComponent extends SpriteComponent
-    with HasGameRef, Rendering {
+    with HasGameRef, ZIndex {
   _ComputerTopSpriteComponent()
       : super(
           anchor: Anchor.center,
@@ -109,7 +109,7 @@ class _ComputerTopSpriteComponent extends SpriteComponent
 }
 
 class _ComputerGlowSpriteComponent extends SpriteComponent
-    with HasGameRef, Rendering {
+    with HasGameRef, ZIndex {
   _ComputerGlowSpriteComponent()
       : super(
           anchor: Anchor.center,

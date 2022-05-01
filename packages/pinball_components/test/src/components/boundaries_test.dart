@@ -29,7 +29,7 @@ void main() {
       'render correctly',
       setUp: (game, tester) async {
         await game.images.loadAll(assets);
-        final canvas = PinballCanvasComponent(children: [Boundaries()]);
+        final canvas = ZCanvasComponent(children: [Boundaries()]);
         await game.ensureAdd(canvas);
 
         game.camera.followVector2(Vector2.zero());

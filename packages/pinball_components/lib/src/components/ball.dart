@@ -12,7 +12,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// A solid, [BodyType.dynamic] sphere that rolls and bounces around.
 /// {@endtemplate}
 class Ball<T extends Forge2DGame> extends BodyComponent<T>
-    with Layered, InitialPosition, Rendering {
+    with Layered, InitialPosition, ZIndex {
   /// {@macro ball}
   Ball({
     required this.baseColor,
@@ -134,7 +134,7 @@ class _BallSpriteComponent extends SpriteComponent with HasGameRef {
 }
 
 class _TurboChargeSpriteAnimationComponent extends SpriteAnimationComponent
-    with HasGameRef, Rendering {
+    with HasGameRef, ZIndex {
   _TurboChargeSpriteAnimationComponent()
       : super(
           anchor: const Anchor(0.53, 0.72),

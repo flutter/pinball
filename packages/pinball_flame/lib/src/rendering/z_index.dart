@@ -4,14 +4,14 @@ import 'dart:ui';
 import 'package:flame/components.dart';
 import 'package:pinball_flame/src/rendering/rendering.dart';
 
-mixin Rendering on Component {
+mixin ZIndex on Component {
   int zIndex = 0;
 
   @override
   void renderTree(
     Canvas canvas,
   ) {
-    if (canvas is PinballCanvas) {
+    if (canvas is ZCanvas) {
       canvas.buffer(this);
     } else {
       super.renderTree(canvas);

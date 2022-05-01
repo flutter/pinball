@@ -8,7 +8,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template multipliers}
 /// A group for the multipliers on the board.
 /// {@endtemplate}
-class Multipliers extends Component with Rendering {
+class Multipliers extends Component with ZIndex {
   /// {@macro multipliers}
   Multipliers()
       : super(

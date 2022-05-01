@@ -8,7 +8,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template google_word}
 /// Loads all [GoogleLetter]s to compose a [GoogleWord].
 /// {@endtemplate}
-class GoogleWord extends Component with Rendering {
+class GoogleWord extends Component with ZIndex {
   /// {@macro google_word}
   GoogleWord({
     required Vector2 position,

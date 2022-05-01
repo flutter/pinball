@@ -11,7 +11,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// Area positioned at the top right of the board where the [Ball] can bounce
 /// off [DashNestBumper]s.
 /// {@endtemplate}
-class FlutterForest extends Component with Rendering {
+class FlutterForest extends Component with ZIndex {
   /// {@macro flutter_forest}
   FlutterForest()
       : super(

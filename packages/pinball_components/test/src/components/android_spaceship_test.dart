@@ -27,7 +27,7 @@ void main() {
       'renders correctly',
       setUp: (game, tester) async {
         await game.images.loadAll(assets);
-        final canvas = PinballCanvasComponent(
+        final canvas = ZCanvasComponent(
           children: [AndroidSpaceship(position: Vector2.zero())],
         );
         await game.ensureAdd(canvas);

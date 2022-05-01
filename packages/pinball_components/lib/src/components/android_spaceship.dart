@@ -65,7 +65,7 @@ class _SpaceshipSaucerShape extends ChainShape {
 }
 
 class _SpaceshipSaucerSpriteAnimationComponent extends SpriteAnimationComponent
-    with HasGameRef, Rendering {
+    with HasGameRef, ZIndex {
   _SpaceshipSaucerSpriteAnimationComponent()
       : super(
           anchor: Anchor.center,
@@ -103,7 +103,7 @@ class _SpaceshipSaucerSpriteAnimationComponent extends SpriteAnimationComponent
 
 // TODO(allisonryan0002): add pulsing behavior.
 class _LightBeamSpriteComponent extends SpriteComponent
-    with HasGameRef, Rendering {
+    with HasGameRef, ZIndex {
   _LightBeamSpriteComponent()
       : super(
           anchor: Anchor.center,
@@ -124,8 +124,7 @@ class _LightBeamSpriteComponent extends SpriteComponent
   }
 }
 
-class _AndroidHead extends BodyComponent
-    with InitialPosition, Layered, Rendering {
+class _AndroidHead extends BodyComponent with InitialPosition, Layered, ZIndex {
   _AndroidHead()
       : super(
           children: [_AndroidHeadSpriteAnimationComponent()],
