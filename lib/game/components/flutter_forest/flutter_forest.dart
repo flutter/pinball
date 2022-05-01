@@ -14,7 +14,6 @@ class FlutterForest extends Component {
   /// {@macro flutter_forest}
   FlutterForest()
       : super(
-          priority: RenderPriority.flutterForest,
           children: [
             Signpost(
               children: [

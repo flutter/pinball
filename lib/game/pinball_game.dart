@@ -52,8 +52,8 @@ class PinballGame extends Forge2DGame
 
     final launcher = Launcher();
     await add(launcher);
+    await add(FlutterForest()..priority = 1);
     await add(Multipliers());
-    await add(FlutterForest());
     await addFromBlueprint(SparkyScorch());
     await addFromBlueprint(AndroidAcres());
     await addFromBlueprint(DinoDesert());
