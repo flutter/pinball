@@ -1,13 +1,11 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pinball/how_to_play/how_to_play.dart';
 import 'package:pinball/l10n/l10n.dart';
-import 'package:pinball/start_game/start_game.dart';
 import 'package:platform_helper/platform_helper.dart';
 
-import '../../helpers/helpers.dart';
+import '../helpers/helpers.dart';
 
 class MockPlatformHelper extends Mock implements PlatformHelper {}
 
@@ -17,7 +15,7 @@ void main() {
     late PlatformHelper platformHelper;
 
     setUp(() async {
-      l10n = await AppLocalizations.delegate.load(Locale('en'));
+      l10n = await AppLocalizations.delegate.load(const Locale('en'));
       platformHelper = MockPlatformHelper();
     });
 
@@ -40,7 +38,7 @@ void main() {
       expect(find.text(l10n.tipsForFlips), findsOneWidget);
       expect(find.text(l10n.launchControls), findsOneWidget);
       expect(find.text(l10n.flipperControls), findsOneWidget);
-      expect(find.byType(KeyButton), findsNWidgets(7));
+      expect(find.byType(RotatedBox), findsNWidgets(7)); // controls
     });
 
     testWidgets('displays content for mobile', (tester) async {
@@ -74,13 +72,6 @@ void main() {
       await tester.pump(const Duration(seconds: 4));
       await tester.pumpAndSettle();
       expect(find.byType(HowToPlayDialog), findsNothing);
-    });
-  });
-
-  group('KeyButton', () {
-    testWidgets('renders correctly', (tester) async {
-      await tester.pumpApp(KeyButton(control: Control.a));
-      expect(find.text('A'), findsOneWidget);
     });
   });
 }
