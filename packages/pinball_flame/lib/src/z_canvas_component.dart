@@ -11,16 +11,16 @@ class ZCanvasComponent extends Component {
   /// {@macro z_canvas_component}
   ZCanvasComponent({
     Iterable<Component>? children,
-  })  : _pinballCanvas = ZCanvas(),
+  })  : _zCanvas = ZCanvas(),
         super(children: children);
 
-  final ZCanvas _pinballCanvas;
+  final ZCanvas _zCanvas;
 
   @override
   void renderTree(Canvas canvas) {
-    _pinballCanvas.canvas = canvas;
-    super.renderTree(_pinballCanvas);
-    _pinballCanvas.render();
+    _zCanvas.canvas = canvas;
+    super.renderTree(_zCanvas);
+    _zCanvas.render();
   }
 }
 
