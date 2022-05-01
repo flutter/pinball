@@ -85,7 +85,7 @@ void main() {
 
     group('onNewState', () {
       flameBlocTester.testGameWidget(
-        "calls 'onAnimate' once per each multiball when GameBloc emit state",
+        "calls 'onAnimate' once for every multiball",
         setUp: (game, tester) async {
           final behavior = MultiballsBehavior();
           final parent = Multiballs.test();
