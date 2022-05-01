@@ -112,7 +112,7 @@ abstract class RenderPriority {
 
   // Score
 
-  static const int score = _above + spaceshipRampForegroundRailing;
+  static const int score = _above + sparkyAnimatronic;
 
   // Debug information
   static const int debugInfo = _above + score;
