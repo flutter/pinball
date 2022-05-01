@@ -2,9 +2,15 @@ import 'dart:math' as math;
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 import 'package:geometry/geometry.dart' as geometry show centroid;
 import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_components/src/components/bumping_behavior.dart';
+import 'package:pinball_components/src/components/kicker/behaviors/behaviors.dart';
+import 'package:pinball_flame/pinball_flame.dart';
+
+export 'cubit/kicker_cubit.dart';
 
 /// {@template kicker}
 /// Triangular [BodyType.static] body that propels the [Ball] towards the
@@ -16,15 +22,43 @@ class Kicker extends BodyComponent with InitialPosition {
   /// {@macro kicker}
   Kicker({
     required BoardSide side,
+    required this.bloc,
     Iterable<Component>? children,
   })  : _side = side,
         super(
           children: [
-            _KickerSpriteComponent(side: side),
+            BumpingBehavior(strength: 15)..applyTo(['bouncy_edge']),
+            KickerBallContactBehavior()..applyTo(['bouncy_edge']),
+            KickerBlinkingBehavior(),
+            _KickerSpriteGroupComponent(
+              side: side,
+              state: bloc.state,
+            ),
             ...?children,
           ],
           renderBody: false,
         );
+
+  /// Creates an [Kicker] without any children.
+  ///
+  /// This can be used for testing [Kicker]'s behaviors in isolation.
+  // TODO(alestiago): Refactor injecting bloc once the following is merged:
+  // https://github.com/flame-engine/flame/pull/1538
+  @visibleForTesting
+  Kicker.test({
+    required this.bloc,
+  }) : _side = BoardSide.left;
+
+  // TODO(alestiago): Consider refactoring once the following is merged:
+  // https://github.com/flame-engine/flame/pull/1538
+  // ignore: public_member_api_docs
+  final KickerCubit bloc;
+
+  @override
+  void onRemove() {
+    bloc.close();
+    super.onRemove();
+  }
 
   /// Whether the [Kicker] is on the left or right side of the board.
   ///
@@ -86,8 +120,7 @@ class Kicker extends BodyComponent with InitialPosition {
       FixtureDef(lowerCircle),
       FixtureDef(wallFacingEdge),
       FixtureDef(bottomEdge),
-      // TODO(alestiago): Add BumpingBehaviour.
-      FixtureDef(bouncyEdge),
+      FixtureDef(bouncyEdge, userData: 'bouncy_edge'),
     ];
 
     // TODO(alestiago): Evaluate if there is value on centering the fixtures.
@@ -121,25 +154,46 @@ class Kicker extends BodyComponent with InitialPosition {
   }
 }
 
-class _KickerSpriteComponent extends SpriteComponent with HasGameRef {
-  _KickerSpriteComponent({required BoardSide side}) : _side = side;
+class _KickerSpriteGroupComponent extends SpriteGroupComponent<KickerState>
+    with HasGameRef, ParentIsA<Kicker> {
+  _KickerSpriteGroupComponent({
+    required BoardSide side,
+    required KickerState state,
+  })  : _side = side,
+        super(
+          anchor: Anchor.center,
+          position: Vector2(0.7 * -side.direction, -2.2),
+          current: state,
+        );
 
   final BoardSide _side;
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    // TODO(alestiago): Consider refactoring once the following is merged:
+    // https://github.com/flame-engine/flame/pull/1538
+    // ignore: public_member_api_docs
+    parent.bloc.stream.listen((state) => current = state);
 
-    // TODO(alestiago): Used cached asset.
-    final sprite = await gameRef.loadSprite(
-      (_side.isLeft)
-          ? Assets.images.kicker.left.keyName
-          : Assets.images.kicker.right.keyName,
-    );
-    this.sprite = sprite;
-    size = sprite.originalSize / 10;
-    anchor = Anchor.center;
-    position = Vector2(0.7 * -_side.direction, -2.2);
+    final sprites = {
+      KickerState.lit: Sprite(
+        gameRef.images.fromCache(
+          (_side.isLeft)
+              ? Assets.images.kicker.left.lit.keyName
+              : Assets.images.kicker.right.lit.keyName,
+        ),
+      ),
+      KickerState.dimmed: Sprite(
+        gameRef.images.fromCache(
+          (_side.isLeft)
+              ? Assets.images.kicker.left.dimmed.keyName
+              : Assets.images.kicker.right.dimmed.keyName,
+        ),
+      ),
+    };
+    this.sprites = sprites;
+    size = sprites[current]!.originalSize / 10;
   }
 }
 

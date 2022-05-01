@@ -3,6 +3,16 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class KickerGame extends BallGame {
+  KickerGame()
+      : super(
+          imagesFileNames: [
+            Assets.images.kicker.left.lit.keyName,
+            Assets.images.kicker.left.dimmed.keyName,
+            Assets.images.kicker.right.lit.keyName,
+            Assets.images.kicker.right.dimmed.keyName,
+          ],
+        );
+
   static const description = '''
     Shows how Kickers are rendered.
 
@@ -17,9 +27,9 @@ class KickerGame extends BallGame {
     final center = screenToWorld(camera.viewport.canvasSize! / 2);
     await addAll(
       [
-        Kicker(side: BoardSide.left)
+        Kicker(side: BoardSide.left, bloc: KickerCubit())
           ..initialPosition = Vector2(center.x - 8.8, center.y),
-        Kicker(side: BoardSide.right)
+        Kicker(side: BoardSide.right, bloc: KickerCubit())
           ..initialPosition = Vector2(center.x + 8.8, center.y),
       ],
     );

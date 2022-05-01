@@ -5,13 +5,13 @@ import 'package:bloc/bloc.dart';
 part 'kicker_state.dart';
 
 class KickerCubit extends Cubit<KickerState> {
-  KickerCubit() : super(KickerState.dimmed);
+  KickerCubit() : super(KickerState.lit);
 
   void onBallContacted() {
-    emit(KickerState.lit);
+    emit(KickerState.dimmed);
   }
 
   void onBlinked() {
-    emit(KickerState.dimmed);
+    emit(KickerState.lit);
   }
 }
