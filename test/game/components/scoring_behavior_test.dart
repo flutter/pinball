@@ -101,7 +101,6 @@ void main() {
       flameBlocTester.testGameWidget(
         'plays score sound',
         setUp: (game, tester) async {
-          const points = 20;
           final scoringBehavior = ScoringBehavior(points: Points.points_6m);
           await parent.add(scoringBehavior);
           await game.ensureAdd(parent);
