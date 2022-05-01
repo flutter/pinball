@@ -44,28 +44,37 @@ class PinballGame extends Forge2DGame
   Future<void> onLoad() async {
     await add(gameFlowController = GameFlowController(this));
     await add(CameraController(this));
-    await add(Backboard.waiting(position: Vector2(0, -88)));
+
+    final machine = [
+      BoardBackgroundSpriteComponent(),
+      Boundaries(),
+      Backboard.waiting(position: Vector2(0, -88)),
+    ];
+    final decals = [
+      GoogleWord(
+        position: Vector2(
+          BoardDimensions.bounds.center.dx - 4.1,
+          BoardDimensions.bounds.center.dy + 1.8,
+        ),
+      ),
+      Multipliers(),
+    ];
+    final characterAreas = [
+      AndroidAcres(),
+      DinoDesert(),
+      FlutterForest(),
+      SparkyScorch(),
+    ];
 
     await add(
       PinballCanvasComponent(
         children: [
-          BoardBackgroundSpriteComponent(),
-          Multipliers(),
+          ...machine,
+          ...decals,
+          ...characterAreas,
           Drain(),
           BottomGroup(),
           Launcher(),
-          FlutterForest(),
-          GoogleWord(
-            position: Vector2(
-              BoardDimensions.bounds.center.dx - 4.1,
-              BoardDimensions.bounds.center.dy + 1.8,
-            ),
-          ),
-          Slingshots(),
-          Boundaries(),
-          DinoDesert(),
-          SparkyScorch(),
-          AndroidAcres(),
         ],
       ),
     );

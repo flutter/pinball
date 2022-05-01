@@ -16,6 +16,7 @@ class DinoDesert extends Component {
           children: [
             // ChromeDino()..initialPosition = Vector2(12.3, -6.9),
             DinoWalls(),
+            Slingshots(),
           ],
         );
 }
