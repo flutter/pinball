@@ -17,6 +17,7 @@ class AndroidSpaceship extends Blueprint {
             _SpaceshipSaucerSpriteAnimationComponent()..position = position,
             _LightBeamSpriteComponent()..position = position + Vector2(2.5, 5),
             _AndroidHead()..initialPosition = position + Vector2(0.5, 0.25),
+            _SpaceshipEntrance(),
             _SpaceshipHole(
               outsideLayer: Layer.spaceshipExitRail,
               outsidePriority: RenderPriority.ballOnSpaceshipRail,
@@ -182,6 +183,30 @@ class _AndroidHeadSpriteAnimationComponent extends SpriteAnimationComponent
         textureSize: textureSize,
       ),
     );
+  }
+}
+
+class _SpaceshipEntrance extends LayerSensor {
+  _SpaceshipEntrance()
+      : super(
+          insideLayer: Layer.spaceship,
+          outsideLayer: Layer.spaceshipEntranceRamp,
+          orientation: LayerEntranceOrientation.up,
+          insidePriority: RenderPriority.ballOnSpaceship,
+          outsidePriority: RenderPriority.ballOnSpaceshipRamp,
+        ) {
+    layer = Layer.spaceship;
+  }
+
+  @override
+  Shape get shape {
+    return PolygonShape()
+      ..setAsBox(
+        2,
+        0.1,
+        Vector2(-27.4, -37.2),
+        -0.12,
+      );
   }
 }
 
