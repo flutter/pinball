@@ -1,14 +1,11 @@
-// ignore_for_file: prefer_const_constructors
-
-import 'dart:async';
-
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockingjay/mockingjay.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_theme/pinball_theme.dart';
+import 'package:pinball_ui/pinball_ui.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -22,141 +19,54 @@ void main() {
       const Stream<CharacterThemeState>.empty(),
       initialState: const CharacterThemeState.initial(),
     );
+    when(() => characterThemeCubit.state)
+        .thenReturn(const CharacterThemeState.initial());
   });
 
-  group('CharacterSelectionPage', () {
-    testWidgets('renders CharacterSelectionView', (tester) async {
-      await tester.pumpApp(
-        CharacterSelectionDialog(),
-        characterThemeCubit: characterThemeCubit,
-      );
-      expect(find.byType(CharacterSelectionView), findsOneWidget);
-    });
-
-    testWidgets('route returns a valid navigation route', (tester) async {
-      await tester.pumpApp(
-        Scaffold(
-          body: Builder(
+  group('CharacterSelectionDialog', () {
+    group('showCharacterSelectionDialog', () {
+      testWidgets('inflates the dialog', (tester) async {
+        await tester.pumpApp(
+          Builder(
             builder: (context) {
-              return ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context)
-                      .push<void>(CharacterSelectionDialog.route());
-                },
-                child: Text('Tap me'),
+              return TextButton(
+                onPressed: () => showCharacterSelectionDialog(context),
+                child: const Text('test'),
               );
             },
           ),
-        ),
+          characterThemeCubit: characterThemeCubit,
+        );
+        await tester.tap(find.text('test'));
+        await tester.pumpAndSettle();
+        expect(find.byType(CharacterSelectionDialog), findsOneWidget);
+      });
+    });
+
+    testWidgets('selecting a new character calls characterSelected on cubit',
+        (tester) async {
+      await tester.pumpApp(
+        const CharacterSelectionDialog(),
         characterThemeCubit: characterThemeCubit,
       );
-
-      await tester.tap(find.text('Tap me'));
+      await tester.tap(find.byKey(const Key('sparky_character_selection')));
       await tester.pumpAndSettle();
-
-      expect(find.byType(CharacterSelectionDialog), findsOneWidget);
+      verify(
+        () => characterThemeCubit.characterSelected(const SparkyTheme()),
+      ).called(1);
     });
-  });
 
-  group('CharacterSelectionView', () {
-    testWidgets('renders correctly', (tester) async {
-      const titleText = 'Choose your character!';
+    testWidgets(
+        'tapping the select button dismisses the character '
+        'dialog and shows the how to play dialog', (tester) async {
       await tester.pumpApp(
-        CharacterSelectionView(),
+        const CharacterSelectionDialog(),
         characterThemeCubit: characterThemeCubit,
       );
-
-      expect(find.text(titleText), findsOneWidget);
-      expect(find.byType(CharacterImageButton), findsNWidgets(4));
-      expect(find.byType(TextButton), findsOneWidget);
+      await tester.tap(find.byType(PinballButton));
+      await tester.pumpAndSettle();
+      expect(find.byType(CharacterSelectionDialog), findsNothing);
+      expect(find.byType(HowToPlayDialog), findsOneWidget);
     });
-
-    testWidgets('calls characterSelected when a character image is tapped',
-        (tester) async {
-      const sparkyButtonKey = Key('characterSelectionPage_sparkyButton');
-
-      await tester.pumpApp(
-        CharacterSelectionView(),
-        characterThemeCubit: characterThemeCubit,
-      );
-
-      await tester.tap(find.byKey(sparkyButtonKey));
-
-      verify(() => characterThemeCubit.characterSelected(SparkyTheme()))
-          .called(1);
-    });
-
-    group('HowToPlayDialog', () {
-      testWidgets(
-        'is displayed for 3 seconds when start is tapped',
-        (tester) async {
-          await tester.pumpApp(
-            Scaffold(
-              body: Builder(
-                builder: (context) {
-                  return ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context)
-                          .push<void>(CharacterSelectionDialog.route());
-                    },
-                    child: Text('Tap me'),
-                  );
-                },
-              ),
-            ),
-            characterThemeCubit: characterThemeCubit,
-          );
-          await tester.tap(find.text('Tap me'));
-          await tester.pumpAndSettle();
-          await tester.ensureVisible(find.byType(TextButton));
-          await tester.tap(find.byType(TextButton));
-          await tester.pumpAndSettle();
-          expect(find.byType(HowToPlayDialog), findsOneWidget);
-          await tester.pump(Duration(seconds: 3));
-          await tester.pumpAndSettle();
-          expect(find.byType(HowToPlayDialog), findsNothing);
-        },
-      );
-
-      testWidgets(
-        'can be dismissed manually before 3 seconds have passed',
-        (tester) async {
-          await tester.pumpApp(
-            Scaffold(
-              body: Builder(
-                builder: (context) {
-                  return ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context)
-                          .push<void>(CharacterSelectionDialog.route());
-                    },
-                    child: Text('Tap me'),
-                  );
-                },
-              ),
-            ),
-            characterThemeCubit: characterThemeCubit,
-          );
-          await tester.tap(find.text('Tap me'));
-          await tester.pumpAndSettle();
-          await tester.ensureVisible(find.byType(TextButton));
-          await tester.tap(find.byType(TextButton));
-          await tester.pumpAndSettle();
-          expect(find.byType(HowToPlayDialog), findsOneWidget);
-          await tester.tapAt(Offset(1, 1));
-          await tester.pumpAndSettle();
-          expect(find.byType(HowToPlayDialog), findsNothing);
-        },
-      );
-    });
-  });
-
-  testWidgets('CharacterImageButton renders correctly', (tester) async {
-    await tester.pumpApp(
-      CharacterImageButton(DashTheme()),
-      characterThemeCubit: characterThemeCubit,
-    );
-
-    expect(find.byType(Image), findsOneWidget);
   });
 }
