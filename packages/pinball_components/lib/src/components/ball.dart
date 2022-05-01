@@ -15,10 +15,11 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   /// {@macro ball}
   Ball({
     required this.baseColor,
+    String? spriteAsset,
   }) : super(
           renderBody: false,
           children: [
-            _BallSpriteComponent()..tint(baseColor.withOpacity(0.5)),
+            _BallSpriteComponent(spriteAsset),
           ],
         ) {
     // TODO(ruimiguel): while developing Ball can be launched by clicking mouse,
@@ -120,21 +121,22 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
 }
 
 class _BallSpriteComponent extends SpriteComponent with HasGameRef {
-  _BallSpriteComponent()
-      : super(
+  _BallSpriteComponent(
+    this.spriteAsset,
+  ) : super(
           anchor: Anchor.center,
         );
+
+  final String? spriteAsset;
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
     final sprite = Sprite(
-      gameRef.images.fromCache(
-        Assets.images.ball.ball.keyName,
-      ),
+      gameRef.images.fromCache(spriteAsset ?? Assets.images.ball.ball.keyName),
     );
     this.sprite = sprite;
-    size = sprite.originalSize / 10;
+    size = sprite.originalSize / 12.5;
   }
 }
 
