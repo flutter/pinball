@@ -120,15 +120,21 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
 }
 
 class _BallSpriteComponent extends SpriteComponent with HasGameRef {
+  _BallSpriteComponent()
+      : super(
+          anchor: Anchor.center,
+        );
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final sprite = await gameRef.loadSprite(
-      Assets.images.ball.ball.keyName,
+    final sprite = Sprite(
+      gameRef.images.fromCache(
+        Assets.images.ball.ball.keyName,
+      ),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
-    anchor = Anchor.center;
   }
 }
 
@@ -147,7 +153,7 @@ class _TurboChargeSpriteAnimationComponent extends SpriteAnimationComponent
   Future<void> onLoad() async {
     await super.onLoad();
 
-    final spriteSheet = await gameRef.images.load(
+    final spriteSheet = gameRef.images.fromCache(
       Assets.images.ball.flameEffect.keyName,
     );
 
