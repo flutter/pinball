@@ -21,8 +21,8 @@ abstract class ZIndexes {
 
   // Background
 
-  // TODO(allisonryan0002): fix this magic priority. Could bump all priorities
-  // so there are no negatives.
+  // TODO(allisonryan0002): fix this magic zindex. Could bump all priorities so
+  // there are no negatives.
   static const boardBackground = 3 * _below + _base;
 
   static const decal = _above + boardBackground;

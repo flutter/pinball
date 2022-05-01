@@ -209,8 +209,6 @@ class _DebugGameBallsController extends _GameBallsController {
 // TODO(wolfenrain): investigate this CI failure.
 // coverage:ignore-start
 class _DebugInformation extends Component with HasGameRef<DebugPinballGame> {
-  _DebugInformation() : super(priority: ZIndexes.debugInfo);
-
   @override
   PositionType get positionType => PositionType.widget;
 
