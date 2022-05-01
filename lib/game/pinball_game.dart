@@ -71,6 +71,13 @@ class PinballGame extends Forge2DGame
     await super.onLoad();
   }
 
+  @override
+  void renderTree(Canvas canvas) {
+    final pinballCanvas = PinballCanvas(canvas, camera);
+    super.renderTree(pinballCanvas);
+    pinballCanvas.runPostActions();
+  }
+
   BoardSide? focusedBoardSide;
 
   @override
