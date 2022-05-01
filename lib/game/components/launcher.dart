@@ -3,8 +3,7 @@ import 'package:pinball/game/components/components.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 
 /// {@template launcher}
-/// A [Blueprint] which creates the [Plunger], [RocketSpriteComponent] and
-/// [LaunchRamp].
+/// Section where the ball is launched from.
 /// {@endtemplate}
 class Launcher extends Component {
   /// {@macro launcher}

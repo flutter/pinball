@@ -4,8 +4,8 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template boundaries}
-/// A [Blueprint] which creates the [_BottomBoundary] and [_OuterBoundary].
-///{@endtemplate boundaries}
+/// Pinball machine boundaring walls.
+/// {@endtemplate}
 class Boundaries extends Component {
   /// {@macro boundaries}
   Boundaries()
@@ -85,8 +85,10 @@ class _BottomBoundarySpriteComponent extends SpriteComponent with HasGameRef {
 }
 
 /// {@template outer_boundary}
-/// Boundary enclosing the top and left side of the board. The right side of the
-/// board is closed by the barrier the [LaunchRamp] creates.
+/// Boundary enclosing the top and left side of the board.
+///
+/// The right side of the board is closed by the barrier the [LaunchRamp]
+/// creates.
 /// {@endtemplate outer_boundary}
 class _OuterBoundary extends BodyComponent with InitialPosition, Rendering {
   /// {@macro outer_boundary}

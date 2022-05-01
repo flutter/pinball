@@ -8,7 +8,7 @@ import 'package:pinball_components/pinball_components.dart' hide Assets;
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template spaceship_ramp}
-/// A [Blueprint] which creates the ramp leading into the [AndroidSpaceship].
+/// Raamp leading into the [AndroidSpaceship].
 /// {@endtemplate}
 class SpaceshipRamp extends Component {
   /// {@macro spaceship_ramp}

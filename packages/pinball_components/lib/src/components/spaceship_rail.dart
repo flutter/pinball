@@ -6,7 +6,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template spaceship_rail}
-/// A [Blueprint] for the rail exiting the [AndroidSpaceship].
+/// Rail exiting the [AndroidSpaceship].
 /// {@endtemplate}
 class SpaceshipRail extends Component {
   /// {@macro spaceship_rail}

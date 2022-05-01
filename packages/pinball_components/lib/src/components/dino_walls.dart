@@ -7,7 +7,7 @@ import 'package:pinball_components/pinball_components.dart' hide Assets;
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template dinowalls}
-/// A [Blueprint] which creates walls for the [ChromeDino].
+/// Walls near the [ChromeDino].
 /// {@endtemplate}
 class DinoWalls extends Component {
   /// {@macro dinowalls}

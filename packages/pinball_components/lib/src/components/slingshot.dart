@@ -4,8 +4,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template slingshots}
-/// A [Blueprint] which creates the pair of [Slingshot]s on the right side of
-/// the board.
+/// A collection of [Slingshot]s.
 /// {@endtemplate}
 class Slingshots extends Component with Rendering {
   /// {@macro slingshots}

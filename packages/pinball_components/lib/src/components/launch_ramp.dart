@@ -8,8 +8,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template launch_ramp}
-/// A [Blueprint] which creates the [_LaunchRampBase] and
-/// [_LaunchRampForegroundRailing].
+/// Ramp where the ball is launched from.
 /// {@endtemplate}
 class LaunchRamp extends Component {
   /// {@macro launch_ramp}
@@ -24,11 +23,7 @@ class LaunchRamp extends Component {
         );
 }
 
-/// {@template launch_ramp_base}
-/// Ramp the [Ball] is launched from at the beginning of each ball life.
-/// {@endtemplate}
 class _LaunchRampBase extends BodyComponent with Layered, Rendering {
-  /// {@macro launch_ramp_base}
   _LaunchRampBase()
       : super(
           renderBody: false,
@@ -140,12 +135,7 @@ class _LaunchRampBackgroundRailingSpriteComponent extends SpriteComponent
   }
 }
 
-/// {@template launch_ramp_foreground_railing}
-/// Foreground railing for the [_LaunchRampBase] to render in front of the
-/// [Ball].
-/// {@endtemplate}
 class _LaunchRampForegroundRailing extends BodyComponent with Rendering {
-  /// {@macro launch_ramp_foreground_railing}
   _LaunchRampForegroundRailing()
       : super(
           children: [_LaunchRampForegroundRailingSpriteComponent()],
