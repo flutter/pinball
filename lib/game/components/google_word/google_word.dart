@@ -15,27 +15,27 @@ class GoogleWord extends Component {
           children: [
             GoogleLetter(
               0,
-              children: [ScoringBehavior(points: Points.points_5k)],
+              children: [ScoringBehavior(points: Points.fiveThousand)],
             )..initialPosition = position + Vector2(-12.92, 1.82),
             GoogleLetter(
               1,
-              children: [ScoringBehavior(points: Points.points_5k)],
+              children: [ScoringBehavior(points: Points.fiveThousand)],
             )..initialPosition = position + Vector2(-8.33, -0.65),
             GoogleLetter(
               2,
-              children: [ScoringBehavior(points: Points.points_5k)],
+              children: [ScoringBehavior(points: Points.fiveThousand)],
             )..initialPosition = position + Vector2(-2.88, -1.75),
             GoogleLetter(
               3,
-              children: [ScoringBehavior(points: Points.points_5k)],
+              children: [ScoringBehavior(points: Points.fiveThousand)],
             )..initialPosition = position + Vector2(2.88, -1.75),
             GoogleLetter(
               4,
-              children: [ScoringBehavior(points: Points.points_5k)],
+              children: [ScoringBehavior(points: Points.fiveThousand)],
             )..initialPosition = position + Vector2(8.33, -0.65),
             GoogleLetter(
               5,
-              children: [ScoringBehavior(points: Points.points_5k)],
+              children: [ScoringBehavior(points: Points.fiveThousand)],
             )..initialPosition = position + Vector2(12.92, 1.82),
             GoogleWordBonusBehavior(),
           ],

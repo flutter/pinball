@@ -18,22 +18,22 @@ class FlutterForest extends Component {
           children: [
             Signpost(
               children: [
-                ScoringBehavior(points: Points.points_5k),
+                ScoringBehavior(points: Points.fiveThousand),
               ],
             )..initialPosition = Vector2(8.35, -58.3),
             DashNestBumper.main(
               children: [
-                ScoringBehavior(points: Points.points_200k),
+                ScoringBehavior(points: Points.twoHundredThousand),
               ],
             )..initialPosition = Vector2(18.55, -59.35),
             DashNestBumper.a(
               children: [
-                ScoringBehavior(points: Points.points_20k),
+                ScoringBehavior(points: Points.twentyThousand),
               ],
             )..initialPosition = Vector2(8.95, -51.95),
             DashNestBumper.b(
               children: [
-                ScoringBehavior(points: Points.points_20k),
+                ScoringBehavior(points: Points.twentyThousand),
               ],
             )..initialPosition = Vector2(23.3, -46.75),
             DashAnimatronic()..position = Vector2(20, -66),
