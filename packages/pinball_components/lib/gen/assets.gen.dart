@@ -49,17 +49,13 @@ class $AssetsImagesAndroidGen {
 class $AssetsImagesBackboardGen {
   const $AssetsImagesBackboardGen();
 
-  /// File path: assets/images/backboard/backboard_game_over.png
-  AssetGenImage get backboardGameOver =>
-      const AssetGenImage('assets/images/backboard/backboard_game_over.png');
+  /// File path: assets/images/backboard/display-divider.png
+  AssetGenImage get displayDivider =>
+      const AssetGenImage('assets/images/backboard/display-divider.png');
 
-  /// File path: assets/images/backboard/backboard_scores.png
-  AssetGenImage get backboardScores =>
-      const AssetGenImage('assets/images/backboard/backboard_scores.png');
-
-  /// File path: assets/images/backboard/display.png
-  AssetGenImage get display =>
-      const AssetGenImage('assets/images/backboard/display.png');
+  /// File path: assets/images/backboard/marquee.png
+  AssetGenImage get marquee =>
+      const AssetGenImage('assets/images/backboard/marquee.png');
 }
 
 class $AssetsImagesBallGen {

@@ -44,7 +44,7 @@ class PinballGame extends Forge2DGame
   Future<void> onLoad() async {
     unawaited(add(gameFlowController = GameFlowController(this)));
     unawaited(add(CameraController(this)));
-    unawaited(add(Backboard.waiting(position: Vector2(0, -88))));
+    await add(Backboard());
     await add(BoardBackgroundSpriteComponent());
     await add(Drain());
     await add(BottomGroup());
