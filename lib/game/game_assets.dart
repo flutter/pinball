@@ -15,6 +15,10 @@ extension PinballGameAssetsX on PinballGame {
     return [
       images.load(components.Assets.images.boardBackground.keyName),
       images.load(components.Assets.images.ball.ball.keyName),
+      images.load(components.Assets.images.ball.androidBall.keyName),
+      images.load(components.Assets.images.ball.dashBall.keyName),
+      images.load(components.Assets.images.ball.dinoBall.keyName),
+      images.load(components.Assets.images.ball.sparkyBall.keyName),
       images.load(components.Assets.images.ball.flameEffect.keyName),
       images.load(components.Assets.images.signpost.inactive.keyName),
       images.load(components.Assets.images.signpost.active1.keyName),
