@@ -12,22 +12,25 @@ import '../../helpers/helpers.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
-    Assets.images.sparky.bumper.a.active.keyName,
-    Assets.images.sparky.bumper.a.inactive.keyName,
-    Assets.images.sparky.bumper.b.active.keyName,
-    Assets.images.sparky.bumper.b.inactive.keyName,
-    Assets.images.sparky.bumper.c.active.keyName,
-    Assets.images.sparky.bumper.c.inactive.keyName,
+    Assets.images.sparky.computer.top.keyName,
+    Assets.images.sparky.computer.base.keyName,
+    Assets.images.sparky.computer.glow.keyName,
     Assets.images.sparky.animatronic.keyName,
+    Assets.images.sparky.bumper.a.lit.keyName,
+    Assets.images.sparky.bumper.a.dimmed.keyName,
+    Assets.images.sparky.bumper.b.lit.keyName,
+    Assets.images.sparky.bumper.b.dimmed.keyName,
+    Assets.images.sparky.bumper.c.lit.keyName,
+    Assets.images.sparky.bumper.c.dimmed.keyName,
   ];
 
   final flameTester = FlameTester(
     () => EmptyPinballTestGame(assets: assets),
   );
 
-  group('SparkyFireZone', () {
+  group('SparkyScorch', () {
     flameTester.test('loads correctly', (game) async {
-      await game.addFromBlueprint(SparkyFireZone());
+      await game.addFromBlueprint(SparkyScorch());
       await game.ready();
     });
 
@@ -36,7 +39,7 @@ void main() {
         'a SparkyComputer',
         (game) async {
           expect(
-            SparkyFireZone().blueprints.whereType<SparkyComputer>().single,
+            SparkyScorch().blueprints.whereType<SparkyComputer>().single,
             isNotNull,
           );
         },
@@ -45,8 +48,8 @@ void main() {
       flameTester.test(
         'a SparkyAnimatronic',
         (game) async {
-          final sparkyFireZone = SparkyFireZone();
-          await game.addFromBlueprint(sparkyFireZone);
+          final sparkysScorch = SparkyScorch();
+          await game.addFromBlueprint(sparkysScorch);
           await game.ready();
 
           expect(
@@ -59,8 +62,8 @@ void main() {
       flameTester.test(
         'three SparkyBumper',
         (game) async {
-          final sparkyFireZone = SparkyFireZone();
-          await game.addFromBlueprint(sparkyFireZone);
+          final sparkysScorch = SparkyScorch();
+          await game.addFromBlueprint(sparkysScorch);
           await game.ready();
 
           expect(

@@ -55,7 +55,7 @@ class PinballGame extends Forge2DGame
     await add(Multiballs());
     await add(Multipliers());
     await add(FlutterForest());
-    await addFromBlueprint(SparkyFireZone());
+    await addFromBlueprint(SparkyScorch());
     await addFromBlueprint(AndroidAcres());
     await addFromBlueprint(DinoDesert());
     unawaited(addFromBlueprint(Slingshots()));

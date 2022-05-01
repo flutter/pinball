@@ -17,8 +17,8 @@ class SparkyBumper extends BodyComponent with InitialPosition {
   SparkyBumper._({
     required double majorRadius,
     required double minorRadius,
-    required String onAssetPath,
-    required String offAssetPath,
+    required String litAssetPath,
+    required String dimmedAssetPath,
     required Vector2 spritePosition,
     required this.bloc,
     Iterable<Component>? children,
@@ -31,8 +31,8 @@ class SparkyBumper extends BodyComponent with InitialPosition {
             SparkyBumperBallContactBehavior(),
             SparkyBumperBlinkingBehavior(),
             _SparkyBumperSpriteGroupComponent(
-              onAssetPath: onAssetPath,
-              offAssetPath: offAssetPath,
+              litAssetPath: litAssetPath,
+              dimmedAssetPath: dimmedAssetPath,
               position: spritePosition,
               state: bloc.state,
             ),
@@ -46,8 +46,8 @@ class SparkyBumper extends BodyComponent with InitialPosition {
   }) : this._(
           majorRadius: 2.9,
           minorRadius: 2.1,
-          onAssetPath: Assets.images.sparky.bumper.a.active.keyName,
-          offAssetPath: Assets.images.sparky.bumper.a.inactive.keyName,
+          litAssetPath: Assets.images.sparky.bumper.a.lit.keyName,
+          dimmedAssetPath: Assets.images.sparky.bumper.a.dimmed.keyName,
           spritePosition: Vector2(0, -0.25),
           bloc: SparkyBumperCubit(),
           children: children,
@@ -59,8 +59,8 @@ class SparkyBumper extends BodyComponent with InitialPosition {
   }) : this._(
           majorRadius: 2.85,
           minorRadius: 2,
-          onAssetPath: Assets.images.sparky.bumper.b.active.keyName,
-          offAssetPath: Assets.images.sparky.bumper.b.inactive.keyName,
+          litAssetPath: Assets.images.sparky.bumper.b.lit.keyName,
+          dimmedAssetPath: Assets.images.sparky.bumper.b.dimmed.keyName,
           spritePosition: Vector2(0, -0.35),
           bloc: SparkyBumperCubit(),
           children: children,
@@ -72,8 +72,8 @@ class SparkyBumper extends BodyComponent with InitialPosition {
   }) : this._(
           majorRadius: 3,
           minorRadius: 2.2,
-          onAssetPath: Assets.images.sparky.bumper.c.active.keyName,
-          offAssetPath: Assets.images.sparky.bumper.c.inactive.keyName,
+          litAssetPath: Assets.images.sparky.bumper.c.lit.keyName,
+          dimmedAssetPath: Assets.images.sparky.bumper.c.dimmed.keyName,
           spritePosition: Vector2(0, -0.4),
           bloc: SparkyBumperCubit(),
           children: children,
@@ -127,20 +127,20 @@ class _SparkyBumperSpriteGroupComponent
     extends SpriteGroupComponent<SparkyBumperState>
     with HasGameRef, ParentIsA<SparkyBumper> {
   _SparkyBumperSpriteGroupComponent({
-    required String onAssetPath,
-    required String offAssetPath,
+    required String litAssetPath,
+    required String dimmedAssetPath,
     required Vector2 position,
     required SparkyBumperState state,
-  })  : _onAssetPath = onAssetPath,
-        _offAssetPath = offAssetPath,
+  })  : _litAssetPath = litAssetPath,
+        _dimmedAssetPath = dimmedAssetPath,
         super(
           anchor: Anchor.center,
           position: position,
           current: state,
         );
 
-  final String _onAssetPath;
-  final String _offAssetPath;
+  final String _litAssetPath;
+  final String _dimmedAssetPath;
 
   @override
   Future<void> onLoad() async {
@@ -151,11 +151,11 @@ class _SparkyBumperSpriteGroupComponent
     parent.bloc.stream.listen((state) => current = state);
 
     final sprites = {
-      SparkyBumperState.active: Sprite(
-        gameRef.images.fromCache(_onAssetPath),
+      SparkyBumperState.lit: Sprite(
+        gameRef.images.fromCache(_litAssetPath),
       ),
-      SparkyBumperState.inactive: Sprite(
-        gameRef.images.fromCache(_offAssetPath),
+      SparkyBumperState.dimmed: Sprite(
+        gameRef.images.fromCache(_dimmedAssetPath),
       ),
     };
     this.sprites = sprites;

@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/l10n/l10n.dart';
-import 'package:pinball/theme/theme.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 
 /// {@template footer}
@@ -35,7 +34,7 @@ class _GoogleIO extends StatelessWidget {
     final theme = Theme.of(context);
     return Text(
       l10n.footerGoogleIOText,
-      style: theme.textTheme.bodyText1!.copyWith(color: AppColors.white),
+      style: theme.textTheme.bodyText1!.copyWith(color: PinballColors.white),
     );
   }
 }
@@ -51,7 +50,7 @@ class _MadeWithFlutterAndFirebase extends StatelessWidget {
       textAlign: TextAlign.center,
       text: TextSpan(
         text: l10n.footerMadeWithText,
-        style: theme.textTheme.bodyText1!.copyWith(color: AppColors.white),
+        style: theme.textTheme.bodyText1!.copyWith(color: PinballColors.white),
         children: <TextSpan>[
           TextSpan(
             text: l10n.footerFlutterLinkText,

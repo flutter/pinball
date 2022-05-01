@@ -1,21 +1,13 @@
 import 'dart:async';
 
 import 'package:flame/input.dart';
-import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class LaunchRampGame extends BallGame {
-  LaunchRampGame()
-      : super(
-          color: Colors.blue,
-          ballPriority: RenderPriority.ballOnLaunchRamp,
-          ballLayer: Layer.launcher,
-        );
-
+class SparkyComputerGame extends BallGame {
   static const description = '''
-    Shows how the LaunchRamp is rendered.
+    Shows how the SparkyComputer is rendered.
 
     - Activate the "trace" parameter to overlay the body.
     - Tap anywhere on the screen to spawn a ball into the game.
@@ -25,10 +17,14 @@ class LaunchRampGame extends BallGame {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    camera
-      ..followVector2(Vector2.zero())
-      ..zoom = 7.5;
-    await addFromBlueprint(LaunchRamp());
+    await images.loadAll([
+      Assets.images.sparky.computer.base.keyName,
+      Assets.images.sparky.computer.top.keyName,
+      Assets.images.sparky.computer.glow.keyName,
+    ]);
+
+    camera.followVector2(Vector2(-10, -40));
+    await addFromBlueprint(SparkyComputer());
     await ready();
     await traceAllBodies();
   }

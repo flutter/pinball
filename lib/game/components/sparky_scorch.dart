@@ -5,15 +5,13 @@ import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
-/// {@template sparky_fire_zone}
-/// Area positioned at the top left of the board where the [Ball]
-/// can bounce off [SparkyBumper]s.
-///
-/// When a [Ball] hits [SparkyBumper]s, the bumper animates.
+/// {@template sparky_scorch}
+/// Area positioned at the top left of the board containing the
+/// [SparkyComputer], [SparkyAnimatronic], and [SparkyBumper]s.
 /// {@endtemplate}
-class SparkyFireZone extends Blueprint {
-  /// {@macro sparky_fire_zone}
-  SparkyFireZone()
+class SparkyScorch extends Blueprint {
+  /// {@macro sparky_scorch}
+  SparkyScorch()
       : super(
           components: [
             SparkyBumper.a(
