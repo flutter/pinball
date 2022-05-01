@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template bottom_group}
 /// Grouping of the board's symmetrical bottom [Component]s.
@@ -8,7 +9,7 @@ import 'package:pinball_components/pinball_components.dart';
 /// The [BottomGroup] consists of [Flipper]s, [Baseboard]s and [Kicker]s.
 /// {@endtemplate}
 // TODO(allisonryan0002): Consider renaming.
-class BottomGroup extends Component {
+class BottomGroup extends Component with Rendering {
   /// {@macro bottom_group}
   BottomGroup()
       : super(
@@ -17,7 +18,9 @@ class BottomGroup extends Component {
             _BottomGroupSide(side: BoardSide.left),
           ],
           priority: RenderPriority.bottomGroup,
-        );
+        ) {
+    zIndex = 2;
+  }
 }
 
 /// {@template bottom_group_side}

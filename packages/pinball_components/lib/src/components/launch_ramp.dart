@@ -124,10 +124,11 @@ class _LaunchRampBaseSpriteComponent extends SpriteComponent with HasGameRef {
 }
 
 class _LaunchRampBackgroundRailingSpriteComponent extends SpriteComponent
-    with HasGameRef {
+    with HasGameRef, Rendering {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    zIndex = 1;
 
     final sprite = await gameRef.loadSprite(
       Assets.images.launchRamp.backgroundRailing.keyName,

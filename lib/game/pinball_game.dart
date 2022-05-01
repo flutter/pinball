@@ -45,36 +45,34 @@ class PinballGame extends Forge2DGame
     await add(gameFlowController = GameFlowController(this));
     await add(CameraController(this));
     await add(Backboard.waiting(position: Vector2(0, -88)));
-    await add(BoardBackgroundSpriteComponent());
-    await add(Drain());
-    await add(BottomGroup());
-    await addFromBlueprint(Boundaries());
 
-    final launcher = Launcher();
-    await add(launcher);
-    await add(FlutterForest()..priority = 1);
-    await add(Multipliers());
+    await add(
+      PinballCanvasComponent(
+        camera: camera,
+        children: [
+          BoardBackgroundSpriteComponent(),
+          Multipliers(),
+          Drain(),
+          BottomGroup(),
+          Launcher(),
+          FlutterForest(),
+          GoogleWord(
+            position: Vector2(
+              BoardDimensions.bounds.center.dx - 4.1,
+              BoardDimensions.bounds.center.dy + 1.8,
+            ),
+          ),
+        ],
+      ),
+    );
+
+    await addFromBlueprint(Boundaries());
     await addFromBlueprint(SparkyScorch());
     await addFromBlueprint(AndroidAcres());
     await addFromBlueprint(DinoDesert());
     await addFromBlueprint(Slingshots());
-    await add(
-      GoogleWord(
-        position: Vector2(
-          BoardDimensions.bounds.center.dx - 4.1,
-          BoardDimensions.bounds.center.dy + 1.8,
-        ),
-      ),
-    );
 
     await super.onLoad();
-  }
-
-  @override
-  void renderTree(Canvas canvas) {
-    final pinballCanvas = PinballCanvas(canvas, camera);
-    super.renderTree(pinballCanvas);
-    pinballCanvas.runPostActions();
   }
 
   BoardSide? focusedBoardSide;
@@ -152,8 +150,8 @@ class _GameBallsController extends ComponentController<PinballGame>
   }
 
   @override
-  Future<void> onLoad() async {
-    await super.onLoad();
+  void onMount() {
+    super.onMount();
     _spawnBall();
   }
 
@@ -164,7 +162,7 @@ class _GameBallsController extends ComponentController<PinballGame>
         Vector2(41.1, 43).x,
         Vector2(41.1, 45).y - Ball.size.y,
       );
-    component.add(ball);
+    component.firstChild<PinballCanvasComponent>()?.add(ball);
   }
 }
 

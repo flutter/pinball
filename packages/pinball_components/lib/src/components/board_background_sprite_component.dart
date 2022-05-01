@@ -2,8 +2,10 @@
 
 import 'package:flame/components.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
-class BoardBackgroundSpriteComponent extends SpriteComponent with HasGameRef {
+class BoardBackgroundSpriteComponent extends SpriteComponent
+    with HasGameRef, Rendering {
   BoardBackgroundSpriteComponent()
       : super(
           anchor: Anchor.center,
