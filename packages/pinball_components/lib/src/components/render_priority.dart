@@ -57,7 +57,7 @@ abstract class RenderPriority {
 
   static const int rocket = _below + bottomBoundary;
 
-  // Dino Land
+  // Dino Desert
 
   static const int dinoTopWall = _above + ballOnBoard;
 
@@ -71,11 +71,13 @@ abstract class RenderPriority {
 
   static const int flutterForest = _above + launchRampForegroundRailing;
 
-  // Sparky Fire Zone
+  // Sparky Scorch
 
   static const int computerBase = _below + ballOnBoard;
 
   static const int computerTop = _above + ballOnBoard;
+
+  static const int computerGlow = _above + ballOnBoard;
 
   static const int sparkyAnimatronic = _above + spaceshipRampForegroundRailing;
 

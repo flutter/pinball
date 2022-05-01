@@ -7,6 +7,7 @@
 
 // ignore_for_file: public_member_api_docs
 
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -15,16 +16,20 @@ import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_audio/pinball_audio.dart';
+import 'package:pinball_ui/pinball_ui.dart';
 
 class App extends StatelessWidget {
   const App({
     Key? key,
+    required AuthenticationRepository authenticationRepository,
     required LeaderboardRepository leaderboardRepository,
     required PinballAudio pinballAudio,
-  })  : _leaderboardRepository = leaderboardRepository,
+  })  : _authenticationRepository = authenticationRepository,
+        _leaderboardRepository = leaderboardRepository,
         _pinballAudio = pinballAudio,
         super(key: key);
 
+  final AuthenticationRepository _authenticationRepository;
   final LeaderboardRepository _leaderboardRepository;
   final PinballAudio _pinballAudio;
 
@@ -32,19 +37,21 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
+        RepositoryProvider.value(value: _authenticationRepository),
         RepositoryProvider.value(value: _leaderboardRepository),
         RepositoryProvider.value(value: _pinballAudio),
       ],
       child: BlocProvider(
         create: (context) => CharacterThemeCubit(),
-        child: const MaterialApp(
+        child: MaterialApp(
           title: 'I/O Pinball',
-          localizationsDelegates: [
+          theme: PinballTheme.standard,
+          localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
           ],
           supportedLocales: AppLocalizations.supportedLocales,
-          home: PinballGamePage(),
+          home: const PinballGamePage(),
         ),
       ),
     );
