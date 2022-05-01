@@ -92,7 +92,7 @@ class PinballGame extends Forge2DGame
 
       // NOTE(wolfen): As long as Flame does not have https://github.com/flame-engine/flame/issues/1586 we need to check it at the highest level manually.
       if (bounds.contains(info.eventPosition.game.toOffset())) {
-        children.whereType<Plunger>().first.pull();
+        descendants().whereType<Plunger>().single.pull();
       } else {
         final leftSide = info.eventPosition.widget.x < canvasSize.x / 2;
         focusedBoardSide = leftSide ? BoardSide.left : BoardSide.right;
@@ -112,7 +112,7 @@ class PinballGame extends Forge2DGame
     final bounds = rocket.topLeftPosition & rocket.size;
 
     if (bounds.contains(info.eventPosition.game.toOffset())) {
-      children.whereType<Plunger>().first.release();
+      descendants().whereType<Plunger>().single.release();
     } else {
       _moveFlippersDown();
     }
@@ -121,7 +121,7 @@ class PinballGame extends Forge2DGame
 
   @override
   void onTapCancel() {
-    children.whereType<Plunger>().first.release();
+    descendants().whereType<Plunger>().single.release();
 
     _moveFlippersDown();
     super.onTapCancel();
@@ -189,23 +189,6 @@ class DebugPinballGame extends PinballGame with FPSCounter {
     await super.onLoad();
     await add(_DebugInformation());
   }
-
-  // TODO(allisonryan0002): Remove after google letters have been correctly
-  // placed.
-  // Future<void> _loadBackground() async {
-  //   final sprite = await loadSprite(
-  //     Assets.images.components.background.path,
-  //   );
-  //   final spriteComponent = SpriteComponent(
-  //     sprite: sprite,
-  //     size: Vector2(120, 160),
-  //     anchor: Anchor.center,
-  //   )
-  //     ..position = Vector2(0, -7.8)
-  //     ..priority = RenderPriority.boardBackground;
-
-  //   await add(spriteComponent);
-  // }
 
   @override
   void onTapUp(TapUpInfo info) {

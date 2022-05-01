@@ -29,8 +29,11 @@ class PinballCanvas implements Canvas {
       canvas.clipRRect(rrect, doAntiAlias: doAntiAlias);
 
   @override
-  void clipRect(Rect rect,
-          {ClipOp clipOp = ClipOp.intersect, bool doAntiAlias = true}) =>
+  void clipRect(
+    Rect rect, {
+    ClipOp clipOp = ClipOp.intersect,
+    bool doAntiAlias = true,
+  }) =>
       canvas.clipRect(rect, clipOp: clipOp, doAntiAlias: doAntiAlias);
 
   @override

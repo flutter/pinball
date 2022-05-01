@@ -1,7 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template dino_desert}
 /// Area located next to the [Launcher] containing the [ChromeDino] and

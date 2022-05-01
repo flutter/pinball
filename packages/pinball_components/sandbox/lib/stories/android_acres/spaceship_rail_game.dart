@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class SpaceshipRailGame extends BallGame {
@@ -30,7 +29,7 @@ class SpaceshipRailGame extends BallGame {
     await super.onLoad();
 
     camera.followVector2(Vector2(-30, -10));
-    await addFromBlueprint(SpaceshipRail());
+    await add(SpaceshipRail());
     await ready();
     await traceAllBodies();
   }

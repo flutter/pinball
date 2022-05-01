@@ -3,7 +3,6 @@
 import 'dart:ui' show Canvas;
 
 import 'package:flame/components.dart';
-import 'package:flame/game.dart';
 import 'package:pinball_flame/src/rendering/rendering.dart';
 
 class PinballCanvasComponent extends Component {
