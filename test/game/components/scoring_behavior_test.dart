@@ -59,7 +59,8 @@ void main() {
           const points = 20;
           final scoringBehavior = ScoringBehavior(points: points);
           await parent.add(scoringBehavior);
-          await game.ensureAdd(parent);
+          final canvas = ZCanvasComponent(children: [parent]);
+          await game.ensureAdd(canvas);
 
           scoringBehavior.beginContact(ball, MockContact());
 
@@ -77,7 +78,8 @@ void main() {
           const points = 20;
           final scoringBehavior = ScoringBehavior(points: points);
           await parent.add(scoringBehavior);
-          await game.ensureAdd(parent);
+          final canvas = ZCanvasComponent(children: [parent]);
+          await game.ensureAdd(canvas);
 
           scoringBehavior.beginContact(ball, MockContact());
 
