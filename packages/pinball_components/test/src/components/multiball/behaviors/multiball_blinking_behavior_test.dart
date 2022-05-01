@@ -19,7 +19,7 @@ void main() {
     'MultiballBlinkingBehavior',
     () {
       flameTester.testGameWidget(
-        'calls onBlinked each 0.1 seconds',
+        'calls onBlink every 0.1 seconds when animation state is animated',
         setUp: (game, tester) async {
           final behavior = MultiballBlinkingBehavior();
           final bloc = MockMultiballCubit();
