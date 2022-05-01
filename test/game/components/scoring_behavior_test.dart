@@ -93,7 +93,7 @@ void main() {
       );
 
       flameBlocTester.testGameWidget(
-        "adds a ScoreText component at Ball's position with points",
+        "adds a ScoreComponent at Ball's position with points",
         setUp: (game, tester) async {
           const points = Points.oneMillion;
           final scoringBehavior = ScoringBehavior(points: points);
