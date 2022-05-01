@@ -199,8 +199,4 @@ void main() {
       expect(Points.oneMillion.value, 1000000);
     });
   });
-
-  group('Effects', () {
-    final flameTester = FlameTester(() => TestGame(assets));
-  });
 }
