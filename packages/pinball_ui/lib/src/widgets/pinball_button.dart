@@ -13,7 +13,7 @@ class PinballButton extends StatelessWidget {
     required this.onTap,
   }) : super(key: key);
 
-  /// Text of the button
+  /// Text of the button.
   final String text;
 
   /// Tap callback.
