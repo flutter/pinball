@@ -11,11 +11,11 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// A [Blueprint] which creates the [_LaunchRampBase] and
 /// [_LaunchRampForegroundRailing].
 /// {@endtemplate}
-class LaunchRamp extends Blueprint {
+class LaunchRamp extends Component {
   /// {@macro launch_ramp}
   LaunchRamp()
       : super(
-          components: [
+          children: [
             _LaunchRampBase(),
             _LaunchRampForegroundRailing(),
             _LaunchRampExit()..initialPosition = Vector2(0.6, -34),
@@ -31,7 +31,6 @@ class _LaunchRampBase extends BodyComponent with Layered {
   /// {@macro launch_ramp_base}
   _LaunchRampBase()
       : super(
-          priority: RenderPriority.launchRamp,
           renderBody: false,
           children: [
             _LaunchRampBackgroundRailingSpriteComponent(),
@@ -148,7 +147,6 @@ class _LaunchRampForegroundRailing extends BodyComponent {
   /// {@macro launch_ramp_foreground_railing}
   _LaunchRampForegroundRailing()
       : super(
-          priority: RenderPriority.launchRampForegroundRailing,
           children: [_LaunchRampForegroundRailingSpriteComponent()],
           renderBody: false,
         );

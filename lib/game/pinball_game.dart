@@ -51,7 +51,7 @@ class PinballGame extends Forge2DGame
     await addFromBlueprint(Boundaries());
 
     final launcher = Launcher();
-    await addFromBlueprint(launcher);
+    await add(launcher);
     await add(Multipliers());
     await add(FlutterForest());
     await addFromBlueprint(SparkyScorch());
@@ -67,7 +67,6 @@ class PinballGame extends Forge2DGame
       ),
     );
 
-    controller.attachTo(launcher.components.whereType<Plunger>().single);
     await super.onLoad();
   }
 
@@ -138,8 +137,6 @@ class _GameBallsController extends ComponentController<PinballGame>
     with BlocComponent<GameBloc, GameState> {
   _GameBallsController(PinballGame game) : super(game);
 
-  late final Plunger _plunger;
-
   @override
   bool listenWhen(GameState? previousState, GameState newState) {
     final noBallsLeft = component.descendants().whereType<Ball>().isEmpty;
@@ -164,17 +161,10 @@ class _GameBallsController extends ComponentController<PinballGame>
     final ball = ControlledBall.launch(
       characterTheme: component.characterTheme,
     )..initialPosition = Vector2(
-        _plunger.body.position.x,
-        _plunger.body.position.y - Ball.size.y,
+        Vector2(41.1, 43).x,
+        Vector2(41.1, 45).y - Ball.size.y,
       );
     component.add(ball);
-  }
-
-  /// Attaches the controller to the plunger.
-  // TODO(alestiago): Remove this method and use onLoad instead.
-  // ignore: use_setters_to_change_properties
-  void attachTo(Plunger plunger) {
-    _plunger = plunger;
   }
 }
 
