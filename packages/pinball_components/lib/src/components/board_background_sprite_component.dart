@@ -11,7 +11,7 @@ class BoardBackgroundSpriteComponent extends SpriteComponent
           anchor: Anchor.center,
           position: Vector2(0, -1),
         ) {
-    zIndex = RenderPriority.boardBackground;
+    zIndex = ZIndexes.boardBackground;
   }
 
   @override

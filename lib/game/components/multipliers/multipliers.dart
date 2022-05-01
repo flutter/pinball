@@ -36,7 +36,7 @@ class Multipliers extends Component with ZIndex {
             MultipliersBehavior(),
           ],
         ) {
-    zIndex = RenderPriority.decal;
+    zIndex = ZIndexes.decal;
   }
 
   /// Creates [Multipliers] without any children.

@@ -38,7 +38,7 @@ class AndroidBumper extends BodyComponent with InitialPosition, ZIndex {
             ...?children,
           ],
         ) {
-    zIndex = RenderPriority.androidBumper;
+    zIndex = ZIndexes.androidBumper;
   }
 
   /// {@macro android_bumper}

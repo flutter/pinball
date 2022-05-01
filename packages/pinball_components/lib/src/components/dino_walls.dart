@@ -30,7 +30,7 @@ class _DinoTopWall extends BodyComponent with InitialPosition, ZIndex {
           children: [_DinoTopWallSpriteComponent()],
           renderBody: false,
         ) {
-    zIndex = RenderPriority.dinoTopWall;
+    zIndex = ZIndexes.dinoTopWall;
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -124,7 +124,7 @@ class _DinoBottomWall extends BodyComponent with InitialPosition, ZIndex {
           children: [_DinoBottomWallSpriteComponent()],
           renderBody: false,
         ) {
-    zIndex = RenderPriority.dinoBottomWall;
+    zIndex = ZIndexes.dinoBottomWall;
   }
 
   List<FixtureDef> _createFixtureDefs() {

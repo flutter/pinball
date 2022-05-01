@@ -17,7 +17,7 @@ class ChromeDino extends BodyComponent with InitialPosition, ZIndex {
       : super(
           renderBody: false,
         ) {
-    zIndex = RenderPriority.dino;
+    zIndex = ZIndexes.dino;
   }
 
   /// The size of the dinosaur mouth.

@@ -26,7 +26,7 @@ class _ComputerBase extends BodyComponent with InitialPosition, ZIndex {
           renderBody: false,
           children: [_ComputerBaseSpriteComponent()],
         ) {
-    zIndex = RenderPriority.computerBase;
+    zIndex = ZIndexes.computerBase;
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -91,7 +91,7 @@ class _ComputerTopSpriteComponent extends SpriteComponent
           anchor: Anchor.center,
           position: Vector2(-12.52, -49.37),
         ) {
-    zIndex = RenderPriority.computerTop;
+    zIndex = ZIndexes.computerTop;
   }
 
   @override
@@ -115,7 +115,7 @@ class _ComputerGlowSpriteComponent extends SpriteComponent
           anchor: Anchor.center,
           position: Vector2(7.4, 10),
         ) {
-    zIndex = RenderPriority.computerGlow;
+    zIndex = ZIndexes.computerGlow;
   }
 
   @override

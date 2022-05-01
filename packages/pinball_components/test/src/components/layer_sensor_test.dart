@@ -145,7 +145,7 @@ void main() {
 
       sensor.beginContact(ball, MockContact());
       verify(() => ball.layer = Layer.board);
-      verify(() => ball.zIndex = RenderPriority.ballOnBoard).called(1);
+      verify(() => ball.zIndex = ZIndexes.ballOnBoard).called(1);
     });
 
     flameTester.test(
@@ -168,7 +168,7 @@ void main() {
 
       sensor.beginContact(ball, MockContact());
       verify(() => ball.layer = Layer.board);
-      verify(() => ball.zIndex = RenderPriority.ballOnBoard).called(1);
+      verify(() => ball.zIndex = ZIndexes.ballOnBoard).called(1);
     });
   });
 }

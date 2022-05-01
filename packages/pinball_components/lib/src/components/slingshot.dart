@@ -23,7 +23,7 @@ class Slingshots extends Component with ZIndex {
             )..initialPosition = Vector2(24.7, 6.2),
           ],
         ) {
-    zIndex = RenderPriority.slingshots;
+    zIndex = ZIndexes.slingshots;
   }
 }
 

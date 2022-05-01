@@ -40,7 +40,7 @@ class FlutterForest extends Component with ZIndex {
             FlutterForestBonusBehavior(),
           ],
         ) {
-    zIndex = RenderPriority.flutterForest;
+    zIndex = ZIndexes.flutterForest;
   }
 
   /// Creates a [FlutterForest] without any children.

@@ -1,31 +1,22 @@
 // ignore_for_file: public_member_api_docs
 
-import 'package:pinball_components/pinball_components.dart';
-
-/// {@template render_priority}
-/// Priorities for the component rendering order in the pinball game.
-/// {@endtemplate}
+/// Z-Indexes for the component rendering order in the pinball game.
 // TODO(allisonryan0002): find alternative to section comments.
-abstract class RenderPriority {
+abstract class ZIndexes {
   static const _base = 0;
   static const _above = 1;
   static const _below = -1;
 
   // Ball
 
-  /// Render priority for the [Ball] while it's on the board.
   static const ballOnBoard = _base;
 
-  /// Render priority for the [Ball] while it's on the [SpaceshipRamp].
   static const ballOnSpaceshipRamp = _above + spaceshipRampBackgroundRailing;
 
-  /// Render priority for the [Ball] while it's on the [AndroidSpaceship].
   static const ballOnSpaceship = _above + spaceshipSaucer;
 
-  /// Render priority for the [Ball] while it's on the [SpaceshipRail].
   static const ballOnSpaceshipRail = _above + spaceshipRail;
 
-  /// Render priority for the [Ball] while it's on the [LaunchRamp].
   static const ballOnLaunchRamp = _above + launchRamp;
 
   // Background

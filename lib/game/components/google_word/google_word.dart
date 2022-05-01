@@ -41,7 +41,7 @@ class GoogleWord extends Component with ZIndex {
             GoogleWordBonusBehavior(),
           ],
         ) {
-    zIndex = RenderPriority.decal;
+    zIndex = ZIndexes.decal;
   }
 
   /// Creates a [GoogleWord] without any children.

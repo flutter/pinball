@@ -19,11 +19,11 @@ class AndroidSpaceship extends Component {
             _AndroidHead()..initialPosition = position + Vector2(0.5, 0.25),
             _SpaceshipHole(
               outsideLayer: Layer.spaceshipExitRail,
-              outsidePriority: RenderPriority.ballOnSpaceshipRail,
+              outsidePriority: ZIndexes.ballOnSpaceshipRail,
             )..initialPosition = position - Vector2(5.3, -5.4),
             _SpaceshipHole(
               outsideLayer: Layer.board,
-              outsidePriority: RenderPriority.ballOnBoard,
+              outsidePriority: ZIndexes.ballOnBoard,
             )..initialPosition = position - Vector2(-7.5, -1.1),
           ],
         );
@@ -70,7 +70,7 @@ class _SpaceshipSaucerSpriteAnimationComponent extends SpriteAnimationComponent
       : super(
           anchor: Anchor.center,
         ) {
-    zIndex = RenderPriority.spaceshipSaucer;
+    zIndex = ZIndexes.spaceshipSaucer;
   }
 
   @override
@@ -108,7 +108,7 @@ class _LightBeamSpriteComponent extends SpriteComponent
       : super(
           anchor: Anchor.center,
         ) {
-    zIndex = RenderPriority.spaceshipLightBeam;
+    zIndex = ZIndexes.spaceshipLightBeam;
   }
 
   @override
@@ -131,7 +131,7 @@ class _AndroidHead extends BodyComponent with InitialPosition, Layered, ZIndex {
           renderBody: false,
         ) {
     layer = Layer.spaceship;
-    zIndex = RenderPriority.androidHead;
+    zIndex = ZIndexes.androidHead;
   }
 
   @override
@@ -194,7 +194,7 @@ class _SpaceshipHole extends LayerSensor {
           insideLayer: Layer.spaceship,
           outsideLayer: outsideLayer,
           orientation: LayerEntranceOrientation.down,
-          insideZIndex: RenderPriority.ballOnSpaceship,
+          insideZIndex: ZIndexes.ballOnSpaceship,
           outsideZIndex: outsidePriority,
         ) {
     layer = Layer.spaceship;

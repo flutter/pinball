@@ -27,7 +27,7 @@ class _SpaceshipRail extends BodyComponent with Layered, ZIndex {
           renderBody: false,
         ) {
     layer = Layer.spaceshipExitRail;
-    zIndex = RenderPriority.spaceshipRail;
+    zIndex = ZIndexes.spaceshipRail;
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -131,7 +131,7 @@ class _SpaceshipRailExitSpriteComponent extends SpriteComponent
           anchor: Anchor.center,
           position: Vector2(-28, 19.4),
         ) {
-    zIndex = RenderPriority.spaceshipRailExit;
+    zIndex = ZIndexes.spaceshipRailExit;
   }
 
   @override
@@ -153,7 +153,7 @@ class _SpaceshipRailExit extends LayerSensor {
       : super(
           orientation: LayerEntranceOrientation.down,
           insideLayer: Layer.spaceshipExitRail,
-          insideZIndex: RenderPriority.ballOnSpaceshipRail,
+          insideZIndex: ZIndexes.ballOnSpaceshipRail,
         ) {
     layer = Layer.spaceshipExitRail;
   }

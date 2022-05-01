@@ -9,7 +9,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 class RocketSpriteComponent extends SpriteComponent with HasGameRef, ZIndex {
   /// {@macro rocket_sprite_component}
   RocketSpriteComponent() : super(anchor: Anchor.center) {
-    zIndex = RenderPriority.rocket;
+    zIndex = ZIndexes.rocket;
   }
 
   @override

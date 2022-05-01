@@ -16,14 +16,14 @@ class SpaceshipRamp extends Component {
       : super(
           children: [
             _SpaceshipRampOpening(
-              outsidePriority: RenderPriority.ballOnBoard,
+              outsidePriority: ZIndexes.ballOnBoard,
               rotation: math.pi,
             )
               ..initialPosition = Vector2(1.7, -19.8)
               ..layer = Layer.opening,
             _SpaceshipRampOpening(
               outsideLayer: Layer.spaceship,
-              outsidePriority: RenderPriority.ballOnSpaceship,
+              outsidePriority: ZIndexes.ballOnSpaceship,
               rotation: math.pi,
             )
               ..initialPosition = Vector2(-13.7, -18.6)
@@ -101,7 +101,7 @@ class _SpaceshipRampBackground extends BodyComponent
           ],
         ) {
     layer = Layer.spaceshipEntranceRamp;
-    zIndex = RenderPriority.spaceshipRamp;
+    zIndex = ZIndexes.spaceshipRamp;
   }
 
   /// Width between walls of the ramp.
@@ -152,7 +152,7 @@ class _SpaceshipRampBackgroundRailingSpriteComponent extends SpriteComponent
           anchor: Anchor.center,
           position: Vector2(-11.7, -54.3),
         ) {
-    zIndex = RenderPriority.spaceshipRampBackgroundRailing;
+    zIndex = ZIndexes.spaceshipRampBackgroundRailing;
   }
 
   @override
@@ -203,7 +203,7 @@ class _SpaceshipRampArrowSpriteComponent
           anchor: Anchor.center,
           position: Vector2(-3.9, -56.5),
         ) {
-    zIndex = RenderPriority.spaceshipRampArrow;
+    zIndex = ZIndexes.spaceshipRampArrow;
   }
 
   /// Changes arrow image to the next [Sprite].
@@ -228,7 +228,7 @@ class _SpaceshipRampArrowSpriteComponent
 class _SpaceshipRampBoardOpeningSpriteComponent extends SpriteComponent
     with HasGameRef, ZIndex {
   _SpaceshipRampBoardOpeningSpriteComponent() : super(anchor: Anchor.center) {
-    zIndex = RenderPriority.spaceshipRampBoardOpening;
+    zIndex = ZIndexes.spaceshipRampBoardOpening;
   }
 
   @override
@@ -252,7 +252,7 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
           children: [_SpaceshipRampForegroundRailingSpriteComponent()],
         ) {
     layer = Layer.spaceshipEntranceRamp;
-    zIndex = RenderPriority.spaceshipRampForegroundRailing;
+    zIndex = ZIndexes.spaceshipRampForegroundRailing;
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -354,7 +354,7 @@ class _SpaceshipRampOpening extends LayerSensor {
           insideLayer: Layer.spaceshipEntranceRamp,
           outsideLayer: outsideLayer,
           orientation: LayerEntranceOrientation.down,
-          insideZIndex: RenderPriority.ballOnSpaceshipRamp,
+          insideZIndex: ZIndexes.ballOnSpaceshipRamp,
           outsideZIndex: outsidePriority,
         );
 

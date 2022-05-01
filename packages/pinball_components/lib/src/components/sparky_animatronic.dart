@@ -13,7 +13,7 @@ class SparkyAnimatronic extends SpriteAnimationComponent
           anchor: Anchor.center,
           playing: false,
         ) {
-    zIndex = RenderPriority.sparkyAnimatronic;
+    zIndex = ZIndexes.sparkyAnimatronic;
   }
 
   @override

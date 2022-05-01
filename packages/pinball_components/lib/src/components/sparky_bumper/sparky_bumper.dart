@@ -38,7 +38,7 @@ class SparkyBumper extends BodyComponent with InitialPosition, ZIndex {
             ...?children,
           ],
         ) {
-    zIndex = RenderPriority.sparkyBumper;
+    zIndex = ZIndexes.sparkyBumper;
   }
 
   /// {@macro sparky_bumper}

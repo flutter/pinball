@@ -20,7 +20,7 @@ class ScoreText extends TextComponent with ZIndex {
           position: position,
           anchor: Anchor.center,
         ) {
-    zIndex = RenderPriority.scoreText;
+    zIndex = ZIndexes.scoreText;
   }
 
   late final Effect _effect;

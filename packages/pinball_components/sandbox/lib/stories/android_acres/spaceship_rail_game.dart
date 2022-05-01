@@ -9,7 +9,7 @@ class SpaceshipRailGame extends BallGame {
   SpaceshipRailGame()
       : super(
           color: Colors.blue,
-          ballPriority: RenderPriority.ballOnSpaceshipRail,
+          ballPriority: ZIndexes.ballOnSpaceshipRail,
           ballLayer: Layer.spaceshipExitRail,
           imagesFileNames: [
             Assets.images.android.rail.main.keyName,

@@ -14,7 +14,7 @@ class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
   Plunger({
     required this.compressionDistance,
   }) : super(renderBody: false) {
-    zIndex = RenderPriority.plunger;
+    zIndex = ZIndexes.plunger;
     layer = Layer.launcher;
   }
 

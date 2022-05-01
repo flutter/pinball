@@ -32,7 +32,7 @@ class _LaunchRampBase extends BodyComponent with Layered, ZIndex {
             _LaunchRampBaseSpriteComponent(),
           ],
         ) {
-    zIndex = RenderPriority.launchRamp;
+    zIndex = ZIndexes.launchRamp;
     layer = Layer.launcher;
   }
 
@@ -141,7 +141,7 @@ class _LaunchRampForegroundRailing extends BodyComponent with ZIndex {
           children: [_LaunchRampForegroundRailingSpriteComponent()],
           renderBody: false,
         ) {
-    zIndex = RenderPriority.launchRampForegroundRailing;
+    zIndex = ZIndexes.launchRampForegroundRailing;
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -230,8 +230,8 @@ class _LaunchRampExit extends LayerSensor {
           insideLayer: Layer.launcher,
           outsideLayer: Layer.board,
           orientation: LayerEntranceOrientation.down,
-          insideZIndex: RenderPriority.ballOnLaunchRamp,
-          outsideZIndex: RenderPriority.ballOnBoard,
+          insideZIndex: ZIndexes.ballOnLaunchRamp,
+          outsideZIndex: ZIndexes.ballOnBoard,
         ) {
     layer = Layer.launcher;
   }

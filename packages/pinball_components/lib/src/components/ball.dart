@@ -140,7 +140,7 @@ class _TurboChargeSpriteAnimationComponent extends SpriteAnimationComponent
           anchor: const Anchor(0.53, 0.72),
           removeOnFinish: true,
         ) {
-    zIndex = RenderPriority.turboChargeFlame;
+    zIndex = ZIndexes.turboChargeFlame;
   }
 
   late final Vector2 _textureSize;

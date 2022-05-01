@@ -7,7 +7,7 @@ import 'package:sandbox/stories/ball/basic_ball_game.dart';
 class AndroidSpaceshipGame extends BallGame {
   AndroidSpaceshipGame()
       : super(
-          ballPriority: RenderPriority.ballOnSpaceship,
+          ballPriority: ZIndexes.ballOnSpaceship,
           ballLayer: Layer.spaceship,
           imagesFileNames: [
             Assets.images.android.spaceship.saucer.keyName,

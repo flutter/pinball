@@ -10,7 +10,7 @@ class SpaceshipRampGame extends BallGame with KeyboardEvents {
   SpaceshipRampGame()
       : super(
           color: Colors.blue,
-          ballPriority: RenderPriority.ballOnSpaceshipRamp,
+          ballPriority: ZIndexes.ballOnSpaceshipRamp,
           ballLayer: Layer.spaceshipEntranceRamp,
           imagesFileNames: [
             Assets.images.android.ramp.railingBackground.keyName,

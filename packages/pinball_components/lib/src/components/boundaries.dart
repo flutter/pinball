@@ -29,7 +29,7 @@ class _BottomBoundary extends BodyComponent with InitialPosition, ZIndex {
           renderBody: false,
           children: [_BottomBoundarySpriteComponent()],
         ) {
-    zIndex = RenderPriority.bottomBoundary;
+    zIndex = ZIndexes.bottomBoundary;
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -97,7 +97,7 @@ class _OuterBoundary extends BodyComponent with InitialPosition, ZIndex {
           renderBody: false,
           children: [_OuterBoundarySpriteComponent()],
         ) {
-    zIndex = RenderPriority.outerBoundary;
+    zIndex = ZIndexes.outerBoundary;
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -199,7 +199,7 @@ class _OuterBottomBoundarySpriteComponent extends SpriteComponent
           anchor: Anchor.center,
           position: Vector2(0, 71),
         ) {
-    zIndex = RenderPriority.outerBottomBoundary;
+    zIndex = ZIndexes.outerBottomBoundary;
   }
 
   @override

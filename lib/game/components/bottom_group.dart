@@ -18,7 +18,7 @@ class BottomGroup extends Component with ZIndex {
             _BottomGroupSide(side: BoardSide.left),
           ],
         ) {
-    zIndex = RenderPriority.bottomGroup;
+    zIndex = ZIndexes.bottomGroup;
   }
 }
 

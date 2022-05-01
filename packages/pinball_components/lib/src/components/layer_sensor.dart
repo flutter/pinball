@@ -18,7 +18,7 @@ enum LayerEntranceOrientation {
 /// [BodyComponent] located at the entrance and exit of a [Layer].
 ///
 /// By default the base [layer] is set to [Layer.board] and the
-/// [_outsideZIndex] is set to [RenderPriority.ballOnBoard].
+/// [_outsideZIndex] is set to [ZIndexes.ballOnBoard].
 /// {@endtemplate}
 abstract class LayerSensor extends BodyComponent
     with InitialPosition, Layered, ContactCallbacks {
@@ -32,7 +32,7 @@ abstract class LayerSensor extends BodyComponent
   })  : _insideLayer = insideLayer,
         _outsideLayer = outsideLayer ?? Layer.board,
         _insideZIndex = insideZIndex,
-        _outsideZIndex = outsideZIndex ?? RenderPriority.ballOnBoard,
+        _outsideZIndex = outsideZIndex ?? ZIndexes.ballOnBoard,
         super(renderBody: false) {
     layer = Layer.opening;
   }
