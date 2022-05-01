@@ -15,6 +15,7 @@ class SparkyComputer extends Blueprint {
           components: [
             _ComputerBase(),
             _ComputerTopSpriteComponent(),
+            _ComputerGlowSpriteComponent(),
           ],
         );
 }
@@ -65,15 +66,17 @@ class _ComputerBaseSpriteComponent extends SpriteComponent with HasGameRef {
   _ComputerBaseSpriteComponent()
       : super(
           anchor: Anchor.center,
-          position: Vector2(-11.95, -48.35),
+          position: Vector2(-12.1, -48.15),
         );
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
 
-    final sprite = await gameRef.loadSprite(
-      Assets.images.sparky.computer.base.keyName,
+    final sprite = Sprite(
+      gameRef.images.fromCache(
+        Assets.images.sparky.computer.base.keyName,
+      ),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
@@ -84,7 +87,7 @@ class _ComputerTopSpriteComponent extends SpriteComponent with HasGameRef {
   _ComputerTopSpriteComponent()
       : super(
           anchor: Anchor.center,
-          position: Vector2(-12.45, -49.75),
+          position: Vector2(-12.52, -49.37),
           priority: RenderPriority.computerTop,
         );
 
@@ -92,8 +95,32 @@ class _ComputerTopSpriteComponent extends SpriteComponent with HasGameRef {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    final sprite = await gameRef.loadSprite(
-      Assets.images.sparky.computer.top.keyName,
+    final sprite = Sprite(
+      gameRef.images.fromCache(
+        Assets.images.sparky.computer.top.keyName,
+      ),
+    );
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
+  }
+}
+
+class _ComputerGlowSpriteComponent extends SpriteComponent with HasGameRef {
+  _ComputerGlowSpriteComponent()
+      : super(
+          anchor: Anchor.center,
+          position: Vector2(7.4, 10),
+          priority: RenderPriority.computerGlow,
+        );
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+
+    final sprite = Sprite(
+      gameRef.images.fromCache(
+        Assets.images.sparky.computer.glow.keyName,
+      ),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;

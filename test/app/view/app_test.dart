@@ -5,6 +5,7 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:mocktail/mocktail.dart';
@@ -16,19 +17,21 @@ import '../../helpers/mocks.dart';
 
 void main() {
   group('App', () {
+    late AuthenticationRepository authenticationRepository;
     late LeaderboardRepository leaderboardRepository;
     late PinballAudio pinballAudio;
 
     setUp(() {
+      authenticationRepository = MockAuthenticationRepository();
       leaderboardRepository = MockLeaderboardRepository();
       pinballAudio = MockPinballAudio();
-
       when(pinballAudio.load).thenAnswer((_) => Future.value());
     });
 
     testWidgets('renders PinballGamePage', (tester) async {
       await tester.pumpWidget(
         App(
+          authenticationRepository: authenticationRepository,
           leaderboardRepository: leaderboardRepository,
           pinballAudio: pinballAudio,
         ),

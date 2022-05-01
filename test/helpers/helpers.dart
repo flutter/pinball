@@ -12,3 +12,4 @@ export 'mocks.dart';
 export 'navigator.dart';
 export 'pump_app.dart';
 export 'test_games.dart';
+export 'text_span.dart';

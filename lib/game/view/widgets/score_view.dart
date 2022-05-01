@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
-import 'package:pinball/theme/theme.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template score_view}
@@ -38,9 +37,7 @@ class _GameOver extends StatelessWidget {
 
     return Text(
       l10n.gameOver,
-      style: AppTextStyle.headline1.copyWith(
-        color: AppColors.white,
-      ),
+      style: Theme.of(context).textTheme.headline1,
     );
   }
 }
@@ -58,9 +55,7 @@ class _ScoreDisplay extends StatelessWidget {
       children: [
         Text(
           l10n.score.toLowerCase(),
-          style: AppTextStyle.subtitle1.copyWith(
-            color: AppColors.yellow,
-          ),
+          style: Theme.of(context).textTheme.subtitle1,
         ),
         const _ScoreText(),
         const RoundCountDisplay(),
@@ -78,9 +73,7 @@ class _ScoreText extends StatelessWidget {
 
     return Text(
       score.formatScore(),
-      style: AppTextStyle.headline1.copyWith(
-        color: AppColors.white,
-      ),
+      style: Theme.of(context).textTheme.headline1,
     );
   }
 }

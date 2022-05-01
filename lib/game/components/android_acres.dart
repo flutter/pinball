@@ -23,7 +23,7 @@ class AndroidAcres extends Blueprint {
               children: [
                 ScoringBehavior(points: 20000),
               ],
-            )..initialPosition = Vector2(-32.6, -9.2),
+            )..initialPosition = Vector2(-32.8, -9.2),
             AndroidBumper.cow(
               children: [
                 ScoringBehavior(points: 20),

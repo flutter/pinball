@@ -15,7 +15,7 @@ class LaunchRampGame extends BallGame {
         );
 
   static const description = '''
-    Shows how LaunchRamp are rendered.
+    Shows how the LaunchRamp is rendered.
 
     - Activate the "trace" parameter to overlay the body.
     - Tap anywhere on the screen to spawn a ball into the game.
@@ -26,7 +26,7 @@ class LaunchRampGame extends BallGame {
     await super.onLoad();
 
     camera
-      ..followVector2(Vector2(0, 0))
+      ..followVector2(Vector2.zero())
       ..zoom = 7.5;
     await addFromBlueprint(LaunchRamp());
     await ready();
