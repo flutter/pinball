@@ -38,9 +38,9 @@ void main() {
       flameTester.test(
         'a SparkyComputer',
         (game) async {
-          await game.ensureAdd(AndroidAcres());
+          await game.ensureAdd(SparkyScorch());
           expect(
-            game.descendants().whereType<AndroidSpaceship>().length,
+            game.descendants().whereType<SparkyComputer>().length,
             equals(1),
           );
         },
@@ -49,9 +49,9 @@ void main() {
       flameTester.test(
         'a SparkyAnimatronic',
         (game) async {
-          await game.ensureAdd(AndroidAcres());
+          await game.ensureAdd(SparkyScorch());
           expect(
-            game.descendants().whereType<AndroidSpaceship>().length,
+            game.descendants().whereType<SparkyAnimatronic>().length,
             equals(1),
           );
         },
@@ -60,10 +60,10 @@ void main() {
       flameTester.test(
         'three SparkyBumper',
         (game) async {
-          await game.ensureAdd(AndroidAcres());
+          await game.ensureAdd(SparkyScorch());
           expect(
-            game.descendants().whereType<AndroidSpaceship>().length,
-            equals(1),
+            game.descendants().whereType<SparkyBumper>().length,
+            equals(3),
           );
         },
       );
