@@ -419,6 +419,10 @@ class $AssetsImagesSparkyComputerGen {
   AssetGenImage get base =>
       const AssetGenImage('assets/images/sparky/computer/base.png');
 
+  /// File path: assets/images/sparky/computer/glow.png
+  AssetGenImage get glow =>
+      const AssetGenImage('assets/images/sparky/computer/glow.png');
+
   /// File path: assets/images/sparky/computer/top.png
   AssetGenImage get top =>
       const AssetGenImage('assets/images/sparky/computer/top.png');
@@ -527,37 +531,37 @@ class $AssetsImagesDashBumperMainGen {
 class $AssetsImagesSparkyBumperAGen {
   const $AssetsImagesSparkyBumperAGen();
 
-  /// File path: assets/images/sparky/bumper/a/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/sparky/bumper/a/active.png');
+  /// File path: assets/images/sparky/bumper/a/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/sparky/bumper/a/dimmed.png');
 
-  /// File path: assets/images/sparky/bumper/a/inactive.png
-  AssetGenImage get inactive =>
-      const AssetGenImage('assets/images/sparky/bumper/a/inactive.png');
+  /// File path: assets/images/sparky/bumper/a/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/sparky/bumper/a/lit.png');
 }
 
 class $AssetsImagesSparkyBumperBGen {
   const $AssetsImagesSparkyBumperBGen();
 
-  /// File path: assets/images/sparky/bumper/b/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/sparky/bumper/b/active.png');
+  /// File path: assets/images/sparky/bumper/b/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/sparky/bumper/b/dimmed.png');
 
-  /// File path: assets/images/sparky/bumper/b/inactive.png
-  AssetGenImage get inactive =>
-      const AssetGenImage('assets/images/sparky/bumper/b/inactive.png');
+  /// File path: assets/images/sparky/bumper/b/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/sparky/bumper/b/lit.png');
 }
 
 class $AssetsImagesSparkyBumperCGen {
   const $AssetsImagesSparkyBumperCGen();
 
-  /// File path: assets/images/sparky/bumper/c/active.png
-  AssetGenImage get active =>
-      const AssetGenImage('assets/images/sparky/bumper/c/active.png');
+  /// File path: assets/images/sparky/bumper/c/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/sparky/bumper/c/dimmed.png');
 
-  /// File path: assets/images/sparky/bumper/c/inactive.png
-  AssetGenImage get inactive =>
-      const AssetGenImage('assets/images/sparky/bumper/c/inactive.png');
+  /// File path: assets/images/sparky/bumper/c/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/sparky/bumper/c/lit.png');
 }
 
 class Assets {

@@ -9,6 +9,7 @@ class SparkyBumperGame extends BallGame {
     Shows how a SparkyBumper is rendered.
 
     - Activate the "trace" parameter to overlay the body.
+    - Tap anywhere on the screen to spawn a ball into the game.
 ''';
 
   @override
@@ -16,12 +17,12 @@ class SparkyBumperGame extends BallGame {
     await super.onLoad();
 
     await images.loadAll([
-      Assets.images.sparky.bumper.a.active.keyName,
-      Assets.images.sparky.bumper.a.inactive.keyName,
-      Assets.images.sparky.bumper.b.active.keyName,
-      Assets.images.sparky.bumper.b.inactive.keyName,
-      Assets.images.sparky.bumper.c.active.keyName,
-      Assets.images.sparky.bumper.c.inactive.keyName,
+      Assets.images.sparky.bumper.a.lit.keyName,
+      Assets.images.sparky.bumper.a.dimmed.keyName,
+      Assets.images.sparky.bumper.b.lit.keyName,
+      Assets.images.sparky.bumper.b.dimmed.keyName,
+      Assets.images.sparky.bumper.c.lit.keyName,
+      Assets.images.sparky.bumper.c.dimmed.keyName,
     ]);
 
     final center = screenToWorld(camera.viewport.canvasSize! / 2);
