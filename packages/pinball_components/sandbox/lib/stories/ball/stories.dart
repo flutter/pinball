@@ -11,6 +11,11 @@ void addBallStories(Dashbook dashbook) {
       description: BallGame.description,
       gameBuilder: (context) => BallGame(
         color: context.colorProperty('color', Colors.blue),
+        character: context.listProperty(
+          'Character',
+          BallGame.characterBallPaths.keys.first,
+          BallGame.characterBallPaths.keys.toList(),
+        ),
       ),
     )
     ..addGame(

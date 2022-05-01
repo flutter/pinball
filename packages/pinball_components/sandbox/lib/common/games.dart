@@ -24,6 +24,14 @@ abstract class AssetsGame extends Forge2DGame {
 }
 
 abstract class LineGame extends AssetsGame with PanDetector {
+  LineGame({
+    List<String>? imagesFileNames,
+  }) : super(
+          imagesFileNames: [
+            if (imagesFileNames != null) ...imagesFileNames,
+          ],
+        );
+
   Vector2? _lineEnd;
 
   @override
