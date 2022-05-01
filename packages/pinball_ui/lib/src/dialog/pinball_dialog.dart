@@ -16,10 +16,10 @@ class PinballDialog extends StatelessWidget {
   /// Title shown in the dialog.
   final String title;
 
-  /// Optional subtitle shown below the [title]
+  /// Optional subtitle shown below the [title].
   final String? subtitle;
 
-  /// Body of the dialog
+  /// Body of the dialog.
   final Widget child;
 
   @override
