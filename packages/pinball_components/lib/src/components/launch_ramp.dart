@@ -230,8 +230,8 @@ class _LaunchRampExit extends LayerSensor {
           insideLayer: Layer.launcher,
           outsideLayer: Layer.board,
           orientation: LayerEntranceOrientation.down,
-          insidePriority: RenderPriority.ballOnLaunchRamp,
-          outsidePriority: RenderPriority.ballOnBoard,
+          insideZIndex: RenderPriority.ballOnLaunchRamp,
+          outsideZIndex: RenderPriority.ballOnBoard,
         ) {
     layer = Layer.launcher;
   }

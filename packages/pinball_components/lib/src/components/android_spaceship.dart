@@ -194,8 +194,8 @@ class _SpaceshipHole extends LayerSensor {
           insideLayer: Layer.spaceship,
           outsideLayer: outsideLayer,
           orientation: LayerEntranceOrientation.down,
-          insidePriority: RenderPriority.ballOnSpaceship,
-          outsidePriority: outsidePriority,
+          insideZIndex: RenderPriority.ballOnSpaceship,
+          outsideZIndex: outsidePriority,
         ) {
     layer = Layer.spaceship;
   }

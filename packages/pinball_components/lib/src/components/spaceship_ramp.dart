@@ -354,8 +354,8 @@ class _SpaceshipRampOpening extends LayerSensor {
           insideLayer: Layer.spaceshipEntranceRamp,
           outsideLayer: outsideLayer,
           orientation: LayerEntranceOrientation.down,
-          insidePriority: RenderPriority.ballOnSpaceshipRamp,
-          outsidePriority: outsidePriority,
+          insideZIndex: RenderPriority.ballOnSpaceshipRamp,
+          outsideZIndex: outsidePriority,
         );
 
   final double _rotation;

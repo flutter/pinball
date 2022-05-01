@@ -153,7 +153,7 @@ class _SpaceshipRailExit extends LayerSensor {
       : super(
           orientation: LayerEntranceOrientation.down,
           insideLayer: Layer.spaceshipExitRail,
-          insidePriority: RenderPriority.ballOnSpaceshipRail,
+          insideZIndex: RenderPriority.ballOnSpaceshipRail,
         ) {
     layer = Layer.spaceshipExitRail;
   }
