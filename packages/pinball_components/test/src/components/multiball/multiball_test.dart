@@ -77,7 +77,7 @@ void main() {
         expect(multiball.children, contains(component));
       });
 
-      flameTester.test('an MultiballBlinkingBehavior', (game) async {
+      flameTester.test('a MultiballBlinkingBehavior', (game) async {
         final multiball = Multiball.a();
         await game.ensureAdd(multiball);
         expect(
