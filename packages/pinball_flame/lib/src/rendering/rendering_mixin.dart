@@ -9,7 +9,12 @@ mixin Rendering on Component {
 
   @override
   void renderTree(
-    covariant PinballCanvas canvas,
-  ) =>
+    Canvas canvas,
+  ) {
+    if (canvas is PinballCanvas) {
       canvas.buffer(this);
+    } else {
+      super.renderTree(canvas);
+    }
+  }
 }

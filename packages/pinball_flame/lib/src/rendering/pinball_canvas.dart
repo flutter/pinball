@@ -4,8 +4,6 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:flame/components.dart';
-import 'package:flame/extensions.dart';
-import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_flame/src/rendering/rendering.dart';
 
 class PinballCanvas implements Canvas {
@@ -15,45 +13,12 @@ class PinballCanvas implements Canvas {
 
   void buffer(Rendering rendering) => _zBuffer.add(rendering);
 
-  void render() {
-    _zBuffer
-      ..sort((a, b) => a.zIndex.compareTo(b.zIndex))
-      ..whereType<Component>().forEach(_render);
-    _zBuffer.clear();
-  }
+  void render() => _zBuffer
+    ..sort((a, b) => a.zIndex.compareTo(b.zIndex))
+    ..whereType<Component>().forEach(_render)
+    ..clear();
 
-  void _render(Component component) {
-    // TODO(alestiago): Uses zones to detect when super.renderTree is called,
-    // and call _render insted.
-    if (component is BodyComponent) {
-      final Matrix4 _transform = Matrix4.identity();
-      double? _lastAngle;
-
-      if (_transform.m14 != component.body.position.x ||
-          _transform.m24 != component.body.position.y ||
-          _lastAngle != component.angle) {
-        _transform.setIdentity();
-        _transform.translate(
-            component.body.position.x, component.body.position.y);
-        _transform.rotateZ(component.angle);
-        _lastAngle = component.angle;
-      }
-      canvas.save();
-      canvas.transform(_transform.storage);
-      component.children.forEach(_render);
-      canvas.restore();
-    } else if (component is PositionComponent) {
-      canvas
-        ..save()
-        ..transform(component.transformMatrix.storage);
-      component.render(canvas);
-      component.children.forEach(_render);
-      canvas.restore();
-    } else {
-      component.render(canvas);
-      component.children.forEach(_render);
-    }
-  }
+  void _render(Component component) => component.renderTree(canvas);
 
   @override
   void clipPath(Path path, {bool doAntiAlias = true}) =>
