@@ -10,8 +10,8 @@ enum MultiballLightState {
 
 // Indicates if the blinking animation is running.
 enum MultiballAnimationState {
-  stopped,
-  animated,
+  idle,
+  blinking,
 }
 
 class MultiballState extends Equatable {
@@ -23,7 +23,7 @@ class MultiballState extends Equatable {
   const MultiballState.initial()
       : this(
           lightState: MultiballLightState.dimmed,
-          animationState: MultiballAnimationState.stopped,
+          animationState: MultiballAnimationState.idle,
         );
 
   final MultiballLightState lightState;

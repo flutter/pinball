@@ -10,13 +10,13 @@ class MultiballCubit extends Cubit<MultiballState> {
 
   void onAnimate() {
     emit(
-      state.copyWith(animationState: MultiballAnimationState.animated),
+      state.copyWith(animationState: MultiballAnimationState.blinking),
     );
   }
 
   void onStop() {
     emit(
-      state.copyWith(animationState: MultiballAnimationState.stopped),
+      state.copyWith(animationState: MultiballAnimationState.idle),
     );
   }
 

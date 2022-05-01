@@ -36,7 +36,7 @@ void main() {
 
           streamController.add(
             MultiballState(
-              animationState: MultiballAnimationState.animated,
+              animationState: MultiballAnimationState.blinking,
               lightState: MultiballLightState.lit,
             ),
           );
@@ -72,7 +72,7 @@ void main() {
 
           streamController.add(
             MultiballState(
-              animationState: MultiballAnimationState.animated,
+              animationState: MultiballAnimationState.blinking,
               lightState: MultiballLightState.lit,
             ),
           );
@@ -80,7 +80,7 @@ void main() {
 
           streamController.add(
             MultiballState(
-              animationState: MultiballAnimationState.stopped,
+              animationState: MultiballAnimationState.idle,
               lightState: MultiballLightState.lit,
             ),
           );
@@ -109,7 +109,7 @@ void main() {
 
           streamController.add(
             MultiballState(
-              animationState: MultiballAnimationState.stopped,
+              animationState: MultiballAnimationState.idle,
               lightState: MultiballLightState.lit,
             ),
           );
@@ -140,7 +140,7 @@ void main() {
 
           streamController.add(
             MultiballState(
-              animationState: MultiballAnimationState.animated,
+              animationState: MultiballAnimationState.blinking,
               lightState: MultiballLightState.dimmed,
             ),
           );

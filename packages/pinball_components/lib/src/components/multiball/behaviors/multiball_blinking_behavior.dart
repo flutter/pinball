@@ -19,7 +19,7 @@ class MultiballBlinkingBehavior extends TimerComponent
 
   void _onNewState(MultiballState state) {
     final animationEnabled =
-        state.animationState == MultiballAnimationState.animated;
+        state.animationState == MultiballAnimationState.blinking;
     final canBlink = _blinksCounter < _maxBlinks;
 
     if (animationEnabled && canBlink) {

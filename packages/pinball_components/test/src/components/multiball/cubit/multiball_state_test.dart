@@ -8,12 +8,12 @@ void main() {
     test('supports value equality', () {
       expect(
         MultiballState(
-          animationState: MultiballAnimationState.stopped,
+          animationState: MultiballAnimationState.idle,
           lightState: MultiballLightState.dimmed,
         ),
         equals(
           MultiballState(
-            animationState: MultiballAnimationState.stopped,
+            animationState: MultiballAnimationState.idle,
             lightState: MultiballLightState.dimmed,
           ),
         ),
@@ -24,7 +24,7 @@ void main() {
       test('can be instantiated', () {
         expect(
           MultiballState(
-            animationState: MultiballAnimationState.stopped,
+            animationState: MultiballAnimationState.idle,
             lightState: MultiballLightState.dimmed,
           ),
           isNotNull,
@@ -38,7 +38,7 @@ void main() {
         'when no argument specified',
         () {
           final multiballState = MultiballState(
-            animationState: MultiballAnimationState.stopped,
+            animationState: MultiballAnimationState.idle,
             lightState: MultiballLightState.dimmed,
           );
           expect(
@@ -53,18 +53,18 @@ void main() {
         'when all arguments specified',
         () {
           final multiballState = MultiballState(
-            animationState: MultiballAnimationState.stopped,
+            animationState: MultiballAnimationState.idle,
             lightState: MultiballLightState.dimmed,
           );
           final otherMultiballState = MultiballState(
-            animationState: MultiballAnimationState.animated,
+            animationState: MultiballAnimationState.blinking,
             lightState: MultiballLightState.lit,
           );
           expect(multiballState, isNot(equals(otherMultiballState)));
 
           expect(
             multiballState.copyWith(
-              animationState: MultiballAnimationState.animated,
+              animationState: MultiballAnimationState.blinking,
               lightState: MultiballLightState.lit,
             ),
             equals(otherMultiballState),

@@ -15,7 +15,7 @@ void main() {
             ..having(
               (state) => state.animationState,
               'animationState',
-              MultiballAnimationState.animated,
+              MultiballAnimationState.blinking,
             )
         ],
       );
@@ -29,7 +29,7 @@ void main() {
             ..having(
               (state) => state.animationState,
               'animationState',
-              MultiballAnimationState.stopped,
+              MultiballAnimationState.idle,
             )
         ],
       );
