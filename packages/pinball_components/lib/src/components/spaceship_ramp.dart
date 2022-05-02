@@ -15,7 +15,19 @@ class SpaceshipRamp extends Component {
   SpaceshipRamp()
       : super(
           children: [
-            _SpaceshipRampOpening()..initialPosition = Vector2(1.7, -19.8),
+            _SpaceshipRampOpening(
+              outsidePriority: ZIndexes.ballOnBoard,
+              rotation: math.pi,
+            )
+              ..initialPosition = Vector2(1.7, -19.8)
+              ..layer = Layer.opening,
+            _SpaceshipRampOpening(
+              outsideLayer: Layer.spaceship,
+              outsidePriority: ZIndexes.ballOnSpaceship,
+              rotation: math.pi,
+            )
+              ..initialPosition = Vector2(-13.7, -18.6)
+              ..layer = Layer.spaceshipEntranceRamp,
             _SpaceshipRampBackground(),
             _SpaceshipRampBoardOpeningSpriteComponent()
               ..position = Vector2(3.4, -39.5),
@@ -333,14 +345,20 @@ class _SpaceshipRampBase extends BodyComponent with InitialPosition, Layered {
 /// {@endtemplate}
 class _SpaceshipRampOpening extends LayerSensor {
   /// {@macro spaceship_ramp_opening}
-  _SpaceshipRampOpening()
-      : super(
+  _SpaceshipRampOpening({
+    Layer? outsideLayer,
+    int? outsidePriority,
+    required double rotation,
+  })  : _rotation = rotation,
+        super(
           insideLayer: Layer.spaceshipEntranceRamp,
-          outsideLayer: Layer.opening,
+          outsideLayer: outsideLayer,
           orientation: LayerEntranceOrientation.down,
           insideZIndex: ZIndexes.ballOnSpaceshipRamp,
-          outsideZIndex: ZIndexes.ballOnBoard,
+          outsideZIndex: outsidePriority,
         );
+
+  final double _rotation;
 
   static final Vector2 _size = Vector2(_SpaceshipRampBackground.width / 3, .1);
 
@@ -351,7 +369,7 @@ class _SpaceshipRampOpening extends LayerSensor {
         _size.x,
         _size.y,
         initialPosition,
-        math.pi,
+        _rotation,
       );
   }
 }
