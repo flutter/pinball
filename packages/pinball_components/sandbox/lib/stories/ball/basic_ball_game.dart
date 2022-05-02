@@ -5,7 +5,7 @@ import 'package:sandbox/common/common.dart';
 
 class BallGame extends AssetsGame with TapDetector, Traceable {
   BallGame({
-    this.color = Colors.blue,
+    Color? color,
     this.ballPriority = 0,
     this.ballLayer = Layer.all,
     this.character,
@@ -34,7 +34,6 @@ class BallGame extends AssetsGame with TapDetector, Traceable {
     'Dino': Assets.images.ball.dinoBall.keyName,
   };
 
-  final Color color;
   final int ballPriority;
   final Layer ballLayer;
   final String? character;
@@ -43,7 +42,6 @@ class BallGame extends AssetsGame with TapDetector, Traceable {
   void onTapUp(TapUpInfo info) {
     add(
       Ball(
-        baseColor: color,
         spriteAsset: characterBallPaths[character],
       )
         ..initialPosition = info.eventPosition.game

@@ -14,7 +14,7 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
     with Layered, InitialPosition {
   /// {@macro ball}
   Ball({
-    required this.baseColor,
+    Color? baseColor,
     String? spriteAsset,
   }) : super(
           renderBody: false,
@@ -32,9 +32,6 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
 
   /// The size of the [Ball].
   static final Vector2 size = Vector2.all(4.13);
-
-  /// The base [Color] used to tint this [Ball].
-  final Color baseColor;
 
   @override
   Body createBody() {
