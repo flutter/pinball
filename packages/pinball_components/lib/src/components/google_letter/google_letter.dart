@@ -7,6 +7,33 @@ import 'package:pinball_flame/pinball_flame.dart';
 
 export 'cubit/google_letter_cubit.dart';
 
+final _spritePaths = <Map<GoogleLetterState, String>>[
+  {
+    GoogleLetterState.lit: Assets.images.googleWord.letter1.lit.keyName,
+    GoogleLetterState.dimmed: Assets.images.googleWord.letter1.dimmed.keyName,
+  },
+  {
+    GoogleLetterState.lit: Assets.images.googleWord.letter2.lit.keyName,
+    GoogleLetterState.dimmed: Assets.images.googleWord.letter2.dimmed.keyName,
+  },
+  {
+    GoogleLetterState.lit: Assets.images.googleWord.letter3.lit.keyName,
+    GoogleLetterState.dimmed: Assets.images.googleWord.letter3.dimmed.keyName,
+  },
+  {
+    GoogleLetterState.lit: Assets.images.googleWord.letter4.lit.keyName,
+    GoogleLetterState.dimmed: Assets.images.googleWord.letter4.dimmed.keyName,
+  },
+  {
+    GoogleLetterState.lit: Assets.images.googleWord.letter5.lit.keyName,
+    GoogleLetterState.dimmed: Assets.images.googleWord.letter5.dimmed.keyName,
+  },
+  {
+    GoogleLetterState.lit: Assets.images.googleWord.letter6.lit.keyName,
+    GoogleLetterState.dimmed: Assets.images.googleWord.letter6.dimmed.keyName,
+  },
+];
+
 /// {@template google_letter}
 /// Circular sensor that represents a letter in "GOOGLE" for a given index.
 /// {@endtemplate}
@@ -28,10 +55,8 @@ class GoogleLetter extends BodyComponent with InitialPosition {
   }) : super(
           children: [
             _GoogleLetterSpriteGroupComponent(
-              activeAssetPath: _GoogleLetterSpriteGroupComponent
-                  .spritePaths[index][GoogleLetterState.lit]!,
-              inactiveAssetPath: _GoogleLetterSpriteGroupComponent
-                  .spritePaths[index][GoogleLetterState.dimmed]!,
+              litAssetPath: _spritePaths[index][GoogleLetterState.lit]!,
+              dimmedAssetPath: _spritePaths[index][GoogleLetterState.dimmed]!,
               current: bloc.state,
             ),
             GoogleLetterBallContactBehavior(),
@@ -81,51 +106,18 @@ class _GoogleLetterSpriteGroupComponent
     extends SpriteGroupComponent<GoogleLetterState>
     with HasGameRef, ParentIsA<GoogleLetter> {
   _GoogleLetterSpriteGroupComponent({
-    required String activeAssetPath,
-    required String inactiveAssetPath,
+    required String litAssetPath,
+    required String dimmedAssetPath,
     required GoogleLetterState current,
-  })  : _activeAssetPath = activeAssetPath,
-        _inactiveAssetPath = inactiveAssetPath,
+  })  : _litAssetPath = litAssetPath,
+        _dimmedAssetPath = dimmedAssetPath,
         super(
           anchor: Anchor.center,
           current: current,
         );
 
-  final String _activeAssetPath;
-  final String _inactiveAssetPath;
-
-  static final spritePaths = <Map<GoogleLetterState, String>>[
-    {
-      GoogleLetterState.lit: Assets.images.googleWord.letter1.active.keyName,
-      GoogleLetterState.dimmed:
-          Assets.images.googleWord.letter1.inactive.keyName,
-    },
-    {
-      GoogleLetterState.lit: Assets.images.googleWord.letter2.active.keyName,
-      GoogleLetterState.dimmed:
-          Assets.images.googleWord.letter2.inactive.keyName,
-    },
-    {
-      GoogleLetterState.lit: Assets.images.googleWord.letter3.active.keyName,
-      GoogleLetterState.dimmed:
-          Assets.images.googleWord.letter3.inactive.keyName,
-    },
-    {
-      GoogleLetterState.lit: Assets.images.googleWord.letter4.active.keyName,
-      GoogleLetterState.dimmed:
-          Assets.images.googleWord.letter4.inactive.keyName,
-    },
-    {
-      GoogleLetterState.lit: Assets.images.googleWord.letter5.active.keyName,
-      GoogleLetterState.dimmed:
-          Assets.images.googleWord.letter5.inactive.keyName,
-    },
-    {
-      GoogleLetterState.lit: Assets.images.googleWord.letter6.active.keyName,
-      GoogleLetterState.dimmed:
-          Assets.images.googleWord.letter6.inactive.keyName,
-    },
-  ];
+  final String _litAssetPath;
+  final String _dimmedAssetPath;
 
   @override
   Future<void> onLoad() async {
@@ -134,10 +126,10 @@ class _GoogleLetterSpriteGroupComponent
 
     final sprites = {
       GoogleLetterState.lit: Sprite(
-        gameRef.images.fromCache(_activeAssetPath),
+        gameRef.images.fromCache(_litAssetPath),
       ),
       GoogleLetterState.dimmed: Sprite(
-        gameRef.images.fromCache(_inactiveAssetPath),
+        gameRef.images.fromCache(_dimmedAssetPath),
       ),
     };
     this.sprites = sprites;
