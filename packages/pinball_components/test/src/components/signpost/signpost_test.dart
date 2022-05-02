@@ -1,11 +1,15 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 import '../../../helpers/helpers.dart';
+
+class _MockSignpostCubit extends Mock implements SignpostCubit {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -139,6 +143,23 @@ void main() {
       );
       await game.ensureAdd(signpost);
       expect(signpost.children, contains(component));
+    });
+
+    flameTester.test('closes bloc when removed', (game) async {
+      final bloc = _MockSignpostCubit();
+      whenListen(
+        bloc,
+        const Stream<SignpostCubit>.empty(),
+        initialState: SignpostState.inactive,
+      );
+      when(bloc.close).thenAnswer((_) async {});
+      final component = Signpost.test(bloc: bloc);
+
+      await game.ensureAdd(component);
+      game.remove(component);
+      await game.ready();
+
+      verify(bloc.close).called(1);
     });
   });
 }

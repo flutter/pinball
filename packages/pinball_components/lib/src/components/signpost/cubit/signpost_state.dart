@@ -15,7 +15,3 @@ enum SignpostState {
   /// Signpost with all signs of lit up dashes.
   active3,
 }
-
-extension SignpostX on SignpostState {
-  bool isFullyLit() => this == SignpostState.active3;
-}

@@ -13,4 +13,6 @@ class SignpostCubit extends Cubit<SignpostState> {
       SignpostState.values[(index + 1) % SignpostState.values.length],
     );
   }
+
+  bool isFullyProgressed() => state == SignpostState.active3;
 }

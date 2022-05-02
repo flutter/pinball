@@ -31,7 +31,7 @@ class FlutterForestBonusBehavior extends Component
             bumper.bloc.onReset();
           }
 
-          if (signpost.bloc.state.isFullyLit()) {
+          if (signpost.bloc.isFullyProgressed()) {
             gameRef
                 .read<GameBloc>()
                 .add(const BonusActivated(GameBonus.dashNest));

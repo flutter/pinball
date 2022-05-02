@@ -49,6 +49,12 @@ class Signpost extends BodyComponent with InitialPosition {
   final SignpostCubit bloc;
 
   @override
+  void onRemove() {
+    bloc.close();
+    super.onRemove();
+  }
+
+  @override
   Body createBody() {
     final shape = CircleShape()..radius = 0.25;
     final bodyDef = BodyDef(
