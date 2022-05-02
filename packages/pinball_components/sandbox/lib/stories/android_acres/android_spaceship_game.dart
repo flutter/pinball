@@ -17,7 +17,7 @@ class AndroidSpaceshipGame extends BallGame {
         );
 
   static const description = '''
-    Shows how the AndroidSpaceship is rendered.
+    Shows how the AndroidSpaceship and AndroidAnimatronic are rendered.
 
     - Activate the "trace" parameter to overlay the body.
     - Tap anywhere on the screen to spawn a Ball into the game.
@@ -28,8 +28,11 @@ class AndroidSpaceshipGame extends BallGame {
     await super.onLoad();
 
     camera.followVector2(Vector2.zero());
-    await add(
-      AndroidSpaceship(position: Vector2.zero()),
+    await addAll(
+      [
+        AndroidSpaceship(position: Vector2.zero()),
+        AndroidAnimatronic(),
+      ],
     );
 
     await traceAllBodies();

@@ -157,7 +157,10 @@ class _LightBeamSpriteComponent extends SpriteComponent
 class AndroidSpaceshipEntrance extends BodyComponent
     with ParentIsA<AndroidSpaceship>, Layered {
   AndroidSpaceshipEntrance({Iterable<Component>? children})
-      : super(children: children) {
+      : super(
+          children: children,
+          renderBody: false,
+        ) {
     layer = Layer.spaceship;
   }
 
