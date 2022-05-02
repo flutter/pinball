@@ -74,7 +74,12 @@ flutter:
     - assets/images/sparky/bumper/b/
     - assets/images/sparky/bumper/c/
     - assets/images/backboard/
-    - assets/images/google_word/
+    - assets/images/google_word/letter1/
+    - assets/images/google_word/letter2/
+    - assets/images/google_word/letter3/
+    - assets/images/google_word/letter4/
+    - assets/images/google_word/letter5/
+    - assets/images/google_word/letter6/
     - assets/images/signpost/
     - assets/images/multiplier/x2/
     - assets/images/multiplier/x3/
