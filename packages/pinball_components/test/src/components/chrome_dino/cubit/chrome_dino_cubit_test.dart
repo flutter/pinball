@@ -7,7 +7,7 @@ void main() {
   group(
     'ChromeDinoCubit',
     () {
-      final ball = Ball(baseColor: Colors.red);
+      final ball = Ball();
 
       blocTest<ChromeDinoCubit, ChromeDinoState>(
         'onOpenMouth emits true',

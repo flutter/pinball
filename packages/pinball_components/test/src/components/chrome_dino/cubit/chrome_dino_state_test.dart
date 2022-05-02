@@ -61,7 +61,7 @@ void main() {
         'copies correctly '
         'when all arguments specified',
         () {
-          final ball = Ball(baseColor: Colors.red);
+          final ball = Ball();
           const chromeDinoState = ChromeDinoState(
             status: ChromeDinoStatus.chomping,
             isMouthOpen: true,

@@ -31,7 +31,7 @@ void main() {
     late GameBloc gameBloc;
 
     setUp(() {
-      ball = Ball(baseColor: const Color(0xFF00FFFF));
+      ball = Ball();
       gameBloc = MockGameBloc();
       whenListen(
         gameBloc,
@@ -60,7 +60,7 @@ void main() {
         await ball.add(controller);
         await game.ensureAdd(ball);
 
-        final otherBall = Ball(baseColor: const Color(0xFF00FFFF));
+        final otherBall = Ball();
         final otherController = BallController(otherBall);
         await otherBall.add(otherController);
         await game.ensureAdd(otherBall);

@@ -9,7 +9,6 @@ import 'package:sandbox/stories/ball/basic_ball_game.dart';
 class SpaceshipRampGame extends BallGame with KeyboardEvents {
   SpaceshipRampGame()
       : super(
-          color: Colors.blue,
           ballPriority: ZIndexes.ballOnSpaceshipRamp,
           ballLayer: Layer.spaceshipEntranceRamp,
           imagesFileNames: [

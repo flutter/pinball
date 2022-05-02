@@ -1,12 +1,10 @@
 import 'package:flame/input.dart';
-import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_theme/pinball_theme.dart' as theme;
 import 'package:sandbox/common/common.dart';
 
 class BallGame extends AssetsGame with TapDetector, Traceable {
   BallGame({
-    Color? color,
     this.ballPriority = 0,
     this.ballLayer = Layer.all,
     this.character,

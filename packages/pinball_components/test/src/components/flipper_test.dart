@@ -89,7 +89,7 @@ void main() {
         'has greater mass than Ball',
         (game) async {
           final flipper = Flipper(side: BoardSide.left);
-          final ball = Ball(baseColor: Colors.white);
+          final ball = Ball();
 
           await game.ready();
           await game.ensureAddAll([flipper, ball]);

@@ -14,7 +14,6 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
     with Layered, InitialPosition, ZIndex {
   /// {@macro ball}
   Ball({
-    Color? baseColor,
     String? spriteAsset,
   }) : super(
           renderBody: false,

@@ -31,7 +31,7 @@ void main() {
         flameTester.test(
           'sets ball sprite to visible and sets a linear velocity',
           (game) async {
-            final ball = Ball(baseColor: Colors.red);
+            final ball = Ball();
             final behavior = ChromeDinoSpittingBehavior();
             final bloc = MockChromeDinoCubit();
             final streamController = StreamController<ChromeDinoState>();
@@ -69,7 +69,7 @@ void main() {
         flameTester.test(
           'calls onSpit',
           (game) async {
-            final ball = Ball(baseColor: Colors.red);
+            final ball = Ball();
             final behavior = ChromeDinoSpittingBehavior();
             final bloc = MockChromeDinoCubit();
             final streamController = StreamController<ChromeDinoState>();

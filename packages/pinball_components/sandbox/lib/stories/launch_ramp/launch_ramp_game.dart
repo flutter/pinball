@@ -1,14 +1,12 @@
 import 'dart:async';
 
 import 'package:flame/input.dart';
-import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class LaunchRampGame extends BallGame {
   LaunchRampGame()
       : super(
-          color: Colors.blue,
           ballPriority: ZIndexes.ballOnLaunchRamp,
           ballLayer: Layer.launcher,
         );
