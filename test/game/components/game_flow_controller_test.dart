@@ -101,7 +101,7 @@ void main() {
       );
 
       test(
-        'plays the backboard music on start',
+        'plays the background music on start',
         () {
           gameFlowController.onNewState(GameState.initial());
 
