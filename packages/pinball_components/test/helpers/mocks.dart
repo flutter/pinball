@@ -25,6 +25,8 @@ class MockSparkyBumperCubit extends Mock implements SparkyBumperCubit {}
 
 class MockDashNestBumperCubit extends Mock implements DashNestBumperCubit {}
 
+class MockMultiballCubit extends Mock implements MultiballCubit {}
+
 class MockMultiplierCubit extends Mock implements MultiplierCubit {}
 
 class MockChromeDinoCubit extends Mock implements ChromeDinoCubit {}

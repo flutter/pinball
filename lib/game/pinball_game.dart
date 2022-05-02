@@ -53,6 +53,7 @@ class PinballGame extends Forge2DGame
     final decals = [
       GoogleWord(position: Vector2(-4.25, 1.8)),
       Multipliers(),
+      Multiballs(),
     ];
     final characterAreas = [
       AndroidAcres(),
