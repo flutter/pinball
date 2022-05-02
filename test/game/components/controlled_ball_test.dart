@@ -6,7 +6,6 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
-
 import 'package:pinball_components/pinball_components.dart';
 
 import '../../helpers/helpers.dart';
@@ -24,6 +23,10 @@ class WrappedBallController extends BallController {
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  final assets = [
+    Assets.images.ball.ball.keyName,
+    Assets.images.ball.flameEffect.keyName,
+  ];
 
   group('BallController', () {
     late Ball ball;
@@ -42,6 +45,7 @@ void main() {
     final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
       gameBuilder: EmptyPinballTestGame.new,
       blocBuilder: () => gameBloc,
+      assets: assets,
     );
 
     test('can be instantiated', () {
@@ -96,6 +100,7 @@ void main() {
       flameBlocTester.testGameWidget(
         'adds TurboChargeActivated',
         setUp: (game, tester) async {
+          await game.images.loadAll(assets);
           final controller = BallController(ball);
           await ball.add(controller);
           await game.ensureAdd(ball);
