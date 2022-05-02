@@ -24,7 +24,7 @@ void main() {
   addBoundariesStories(dashbook);
   addGoogleWordStories(dashbook);
   addLaunchRampStories(dashbook);
-  addScoreTextStories(dashbook);
+  addScoreStories(dashbook);
   addBackboardStories(dashbook);
   addDinoWallStories(dashbook);
   addMultipliersStories(dashbook);
