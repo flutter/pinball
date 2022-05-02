@@ -68,25 +68,28 @@ class _ScoreViewDecoration extends StatelessWidget {
     const radius = BorderRadius.all(Radius.circular(12));
     const borderWidth = 5.0;
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        borderRadius: radius,
-        border: Border.all(
-          color: PinballColors.white,
-          width: borderWidth,
-        ),
-        image: DecorationImage(
-          fit: BoxFit.cover,
-          image: AssetImage(
-            Assets.images.score.miniScoreBackground.path,
+    return Opacity(
+      opacity: 0.7,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: radius,
+          border: Border.all(
+            color: PinballColors.white,
+            width: borderWidth,
+          ),
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: AssetImage(
+              Assets.images.score.miniScoreBackground.path,
+            ),
           ),
         ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(borderWidth - 1),
-        child: ClipRRect(
-          borderRadius: radius,
-          child: child,
+        child: Padding(
+          padding: const EdgeInsets.all(borderWidth - 1),
+          child: ClipRRect(
+            borderRadius: radius,
+            child: child,
+          ),
         ),
       ),
     );
