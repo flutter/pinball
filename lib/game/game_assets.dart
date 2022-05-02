@@ -1,5 +1,4 @@
 import 'package:pinball/game/game.dart';
-import 'package:pinball/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' as components;
 import 'package:pinball_theme/pinball_theme.dart' hide Assets;
 
@@ -114,6 +113,8 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.googleWord.letter6.lit.keyName),
       images.load(components.Assets.images.googleWord.letter6.dimmed.keyName),
       images.load(components.Assets.images.backboard.display.keyName),
+      images.load(components.Assets.images.multiball.lit.keyName),
+      images.load(components.Assets.images.multiball.dimmed.keyName),
       images.load(components.Assets.images.multiplier.x2.lit.keyName),
       images.load(components.Assets.images.multiplier.x2.dimmed.keyName),
       images.load(components.Assets.images.multiplier.x3.lit.keyName),
@@ -124,11 +125,14 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.multiplier.x5.dimmed.keyName),
       images.load(components.Assets.images.multiplier.x6.lit.keyName),
       images.load(components.Assets.images.multiplier.x6.dimmed.keyName),
+      images.load(components.Assets.images.score.fiveThousand.keyName),
+      images.load(components.Assets.images.score.twentyThousand.keyName),
+      images.load(components.Assets.images.score.twoHundredThousand.keyName),
+      images.load(components.Assets.images.score.oneMillion.keyName),
       images.load(dashTheme.leaderboardIcon.keyName),
       images.load(sparkyTheme.leaderboardIcon.keyName),
       images.load(androidTheme.leaderboardIcon.keyName),
       images.load(dinoTheme.leaderboardIcon.keyName),
-      images.load(Assets.images.components.background.path),
     ];
   }
 }
