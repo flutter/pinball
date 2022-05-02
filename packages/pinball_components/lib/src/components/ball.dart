@@ -5,6 +5,7 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
+import 'package:pinball_theme/pinball_theme.dart' as theme;
 
 /// {@template ball}
 /// A solid, [BodyType.dynamic] sphere that rolls and bounces around.
@@ -128,7 +129,8 @@ class _BallSpriteComponent extends SpriteComponent with HasGameRef {
   Future<void> onLoad() async {
     await super.onLoad();
     final sprite = Sprite(
-      gameRef.images.fromCache(spriteAsset ?? Assets.images.ball.ball.keyName),
+      gameRef.images
+          .fromCache(spriteAsset ?? theme.Assets.images.dash.ball.keyName),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 12.5;
