@@ -138,8 +138,8 @@ class _Character extends StatelessWidget {
     return Expanded(
       child: Opacity(
         opacity: isSelected ? 1 : 0.3,
-        child: InkWell(
-          onTap: () =>
+        child: TextButton(
+          onPressed: () =>
               context.read<CharacterThemeCubit>().characterSelected(character),
           child: character.icon.image(fit: BoxFit.contain),
         ),
