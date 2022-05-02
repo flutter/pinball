@@ -13,18 +13,18 @@ import '../../../../helpers/helpers.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
-    Assets.images.googleWord.letter1.active.keyName,
-    Assets.images.googleWord.letter1.inactive.keyName,
-    Assets.images.googleWord.letter2.active.keyName,
-    Assets.images.googleWord.letter2.inactive.keyName,
-    Assets.images.googleWord.letter3.active.keyName,
-    Assets.images.googleWord.letter3.inactive.keyName,
-    Assets.images.googleWord.letter4.active.keyName,
-    Assets.images.googleWord.letter4.inactive.keyName,
-    Assets.images.googleWord.letter5.active.keyName,
-    Assets.images.googleWord.letter5.inactive.keyName,
-    Assets.images.googleWord.letter6.active.keyName,
-    Assets.images.googleWord.letter6.inactive.keyName,
+    Assets.images.googleWord.letter1.lit.keyName,
+    Assets.images.googleWord.letter1.dimmed.keyName,
+    Assets.images.googleWord.letter2.lit.keyName,
+    Assets.images.googleWord.letter2.dimmed.keyName,
+    Assets.images.googleWord.letter3.lit.keyName,
+    Assets.images.googleWord.letter3.dimmed.keyName,
+    Assets.images.googleWord.letter4.lit.keyName,
+    Assets.images.googleWord.letter4.dimmed.keyName,
+    Assets.images.googleWord.letter5.lit.keyName,
+    Assets.images.googleWord.letter5.dimmed.keyName,
+    Assets.images.googleWord.letter6.lit.keyName,
+    Assets.images.googleWord.letter6.dimmed.keyName,
   ];
 
   group('GoogleWordBonusBehaviors', () {

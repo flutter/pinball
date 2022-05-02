@@ -10,8 +10,8 @@ class GoogleLetterGame extends BallGame {
       : super(
           color: const Color(0xFF009900),
           imagesFileNames: [
-            Assets.images.googleWord.letter1.active.keyName,
-            Assets.images.googleWord.letter1.inactive.keyName,
+            Assets.images.googleWord.letter1.lit.keyName,
+            Assets.images.googleWord.letter1.dimmed.keyName,
           ],
         );
 
