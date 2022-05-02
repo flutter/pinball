@@ -141,7 +141,7 @@ class PinballGameLoadedView extends StatelessWidget {
         Positioned(
           top: 16,
           left: leftMargin,
-          child: Container(), //const GameHud(),
+          child: const GameHud(),
         ),
       ],
     );
