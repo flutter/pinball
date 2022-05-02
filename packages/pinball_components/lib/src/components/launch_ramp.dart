@@ -8,14 +8,13 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template launch_ramp}
-/// A [Blueprint] which creates the [_LaunchRampBase] and
-/// [_LaunchRampForegroundRailing].
+/// Ramp where the ball is launched from.
 /// {@endtemplate}
-class LaunchRamp extends Blueprint {
+class LaunchRamp extends Component {
   /// {@macro launch_ramp}
   LaunchRamp()
       : super(
-          components: [
+          children: [
             _LaunchRampBase(),
             _LaunchRampForegroundRailing(),
             _LaunchRampExit()..initialPosition = Vector2(0.6, -34),
@@ -24,20 +23,16 @@ class LaunchRamp extends Blueprint {
         );
 }
 
-/// {@template launch_ramp_base}
-/// Ramp the [Ball] is launched from at the beginning of each ball life.
-/// {@endtemplate}
-class _LaunchRampBase extends BodyComponent with Layered {
-  /// {@macro launch_ramp_base}
+class _LaunchRampBase extends BodyComponent with Layered, ZIndex {
   _LaunchRampBase()
       : super(
-          priority: RenderPriority.launchRamp,
           renderBody: false,
           children: [
             _LaunchRampBackgroundRailingSpriteComponent(),
             _LaunchRampBaseSpriteComponent(),
           ],
         ) {
+    zIndex = ZIndexes.launchRamp;
     layer = Layer.launcher;
   }
 
@@ -140,18 +135,14 @@ class _LaunchRampBackgroundRailingSpriteComponent extends SpriteComponent
   }
 }
 
-/// {@template launch_ramp_foreground_railing}
-/// Foreground railing for the [_LaunchRampBase] to render in front of the
-/// [Ball].
-/// {@endtemplate}
-class _LaunchRampForegroundRailing extends BodyComponent {
-  /// {@macro launch_ramp_foreground_railing}
+class _LaunchRampForegroundRailing extends BodyComponent with ZIndex {
   _LaunchRampForegroundRailing()
       : super(
-          priority: RenderPriority.launchRampForegroundRailing,
           children: [_LaunchRampForegroundRailingSpriteComponent()],
           renderBody: false,
-        );
+        ) {
+    zIndex = ZIndexes.launchRampForegroundRailing;
+  }
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
@@ -239,8 +230,8 @@ class _LaunchRampExit extends LayerSensor {
           insideLayer: Layer.launcher,
           outsideLayer: Layer.board,
           orientation: LayerEntranceOrientation.down,
-          insidePriority: RenderPriority.ballOnLaunchRamp,
-          outsidePriority: RenderPriority.ballOnBoard,
+          insideZIndex: ZIndexes.ballOnLaunchRamp,
+          outsideZIndex: ZIndexes.ballOnBoard,
         ) {
     layer = Layer.launcher;
   }

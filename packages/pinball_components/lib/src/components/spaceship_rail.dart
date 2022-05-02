@@ -6,13 +6,13 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template spaceship_rail}
-/// A [Blueprint] for the rail exiting the [AndroidSpaceship].
+/// Rail exiting the [AndroidSpaceship].
 /// {@endtemplate}
-class SpaceshipRail extends Blueprint {
+class SpaceshipRail extends Component {
   /// {@macro spaceship_rail}
   SpaceshipRail()
       : super(
-          components: [
+          children: [
             _SpaceshipRail(),
             _SpaceshipRailExit(),
             _SpaceshipRailExitSpriteComponent()
@@ -20,14 +20,14 @@ class SpaceshipRail extends Blueprint {
         );
 }
 
-class _SpaceshipRail extends BodyComponent with Layered {
+class _SpaceshipRail extends BodyComponent with Layered, ZIndex {
   _SpaceshipRail()
       : super(
-          priority: RenderPriority.spaceshipRail,
           children: [_SpaceshipRailSpriteComponent()],
           renderBody: false,
         ) {
     layer = Layer.spaceshipExitRail;
+    zIndex = ZIndexes.spaceshipRail;
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -125,13 +125,14 @@ class _SpaceshipRailSpriteComponent extends SpriteComponent with HasGameRef {
 }
 
 class _SpaceshipRailExitSpriteComponent extends SpriteComponent
-    with HasGameRef {
+    with HasGameRef, ZIndex {
   _SpaceshipRailExitSpriteComponent()
       : super(
           anchor: Anchor.center,
           position: Vector2(-28, 19.4),
-          priority: RenderPriority.spaceshipRailExit,
-        );
+        ) {
+    zIndex = ZIndexes.spaceshipRailExit;
+  }
 
   @override
   Future<void> onLoad() async {
@@ -152,7 +153,7 @@ class _SpaceshipRailExit extends LayerSensor {
       : super(
           orientation: LayerEntranceOrientation.down,
           insideLayer: Layer.spaceshipExitRail,
-          insidePriority: RenderPriority.ballOnSpaceshipRail,
+          insideZIndex: ZIndexes.ballOnSpaceshipRail,
         ) {
     layer = Layer.spaceshipExitRail;
   }

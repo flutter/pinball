@@ -10,6 +10,10 @@ import '../../helpers/helpers.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
+    Assets.images.kicker.left.lit.keyName,
+    Assets.images.kicker.left.dimmed.keyName,
+    Assets.images.kicker.right.lit.keyName,
+    Assets.images.kicker.right.dimmed.keyName,
     Assets.images.baseboard.left.keyName,
     Assets.images.baseboard.right.keyName,
     Assets.images.flipper.left.keyName,
