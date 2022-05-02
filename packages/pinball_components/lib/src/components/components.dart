@@ -8,7 +8,7 @@ export 'board_dimensions.dart';
 export 'board_side.dart';
 export 'boundaries.dart';
 export 'camera_zoom.dart';
-export 'chrome_dino.dart';
+export 'chrome_dino/chrome_dino.dart';
 export 'dash_animatronic.dart';
 export 'dash_nest_bumper/dash_nest_bumper.dart';
 export 'dino_walls.dart';

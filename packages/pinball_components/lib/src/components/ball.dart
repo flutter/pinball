@@ -68,7 +68,7 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   ///
   /// If previously [stop]ped, the previous ball's velocity is not kept.
   void resume() {
-    body.gravityScale = Vector2(0, 1);
+    body.gravityScale = Vector2(1, 1);
   }
 
   /// Applies a boost and [_TurboChargeSpriteAnimationComponent] on this [Ball].
