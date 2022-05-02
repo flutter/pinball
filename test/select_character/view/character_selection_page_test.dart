@@ -50,19 +50,6 @@ void main() {
       });
     });
 
-    testWidgets('selecting a new character calls characterSelected on cubit',
-        (tester) async {
-      await tester.pumpApp(
-        const CharacterSelectionDialog(),
-        characterThemeCubit: characterThemeCubit,
-      );
-      await tester.tap(find.byKey(const Key('sparky_character_selection')));
-      await tester.pump();
-      verify(
-        () => characterThemeCubit.characterSelected(const SparkyTheme()),
-      ).called(1);
-    });
-
     testWidgets(
         'tapping the select button dismisses the character '
         'dialog and shows the how to play dialog', (tester) async {
