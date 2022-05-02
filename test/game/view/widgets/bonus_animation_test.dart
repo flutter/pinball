@@ -24,6 +24,7 @@ class MockCallback extends Mock {
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  const animationDuration = 6;
 
   setUp(() async {
     // TODO(arturplaczek): need to find for a better solution for loading image
@@ -102,7 +103,7 @@ void main() {
 
       await tester.pump();
 
-      await Future<void>.delayed(const Duration(seconds: 4));
+      await Future<void>.delayed(const Duration(seconds: animationDuration));
 
       await tester.pump();
 
@@ -133,7 +134,7 @@ void main() {
           .state(find.byType(BonusAnimation))
           .didUpdateWidget(secondAnimation);
 
-      await Future<void>.delayed(const Duration(seconds: 4));
+      await Future<void>.delayed(const Duration(seconds: animationDuration));
 
       await tester.pump();
 
