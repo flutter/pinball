@@ -1,0 +1,9 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{folder}/{imageId} {
+    	allow read: if imageId.matches(".*\\.png") || imageId.matches(".*\\.jpg");
+      allow write: if false;
+    }
+  }
+}
