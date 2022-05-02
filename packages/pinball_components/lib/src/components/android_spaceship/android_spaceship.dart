@@ -27,9 +27,7 @@ class AndroidSpaceship extends Component {
             _SpaceshipHole(
               outsideLayer: Layer.spaceshipExitRail,
               outsidePriority: ZIndexes.ballOnSpaceshipRail,
-            )
-              ..initialPosition = position - Vector2(5.3, -5.4)
-              ..renderBody,
+            )..initialPosition = position - Vector2(5.3, -5.4),
             _SpaceshipHole(
               outsideLayer: Layer.board,
               outsidePriority: ZIndexes.ballOnBoard,
