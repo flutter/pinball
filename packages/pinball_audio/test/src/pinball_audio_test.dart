@@ -130,5 +130,17 @@ void main() {
         ).called(1);
       });
     });
+
+    group('backgroundMusic', () {
+      test('plays the correct file', () async {
+        await audio.load();
+        audio.backgroundMusic();
+
+        verify(
+          () => loopSingleAudio
+              .onCall('packages/pinball_audio/${Assets.music.background}'),
+        ).called(1);
+      });
+    });
   });
 }
