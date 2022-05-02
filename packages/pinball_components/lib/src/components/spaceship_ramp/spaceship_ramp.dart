@@ -395,7 +395,7 @@ class RampSensor extends BodyComponent
       : bloc = RampSensorCubit(),
         super(
           children: [
-            RampShotBehavior(),
+            RampContactBehavior(),
           ],
           renderBody: true,
         ) {

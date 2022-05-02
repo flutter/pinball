@@ -28,12 +28,12 @@ void main() {
   final flameTester = FlameTester(() => TestGame(assets));
 
   group(
-    'RampShotBehavior',
+    'RampContactBehavior',
     () {
       test('can be instantiated', () {
         expect(
-          RampShotBehavior(),
-          isA<RampShotBehavior>(),
+          RampContactBehavior(),
+          isA<RampContactBehavior>(),
         );
       });
 
@@ -41,7 +41,7 @@ void main() {
         "beginContact with door sensor calls bloc 'onDoor'",
         (game) async {
           final ball = Ball(baseColor: Colors.red);
-          final behavior = RampShotBehavior();
+          final behavior = RampContactBehavior();
           final bloc = MockRampSensorCubit();
           whenListen(
             bloc,
@@ -72,7 +72,7 @@ void main() {
         "beginContact with inside sensor calls bloc 'onInside'",
         (game) async {
           final ball = Ball(baseColor: Colors.red);
-          final behavior = RampShotBehavior();
+          final behavior = RampContactBehavior();
           final bloc = MockRampSensorCubit();
           whenListen(
             bloc,

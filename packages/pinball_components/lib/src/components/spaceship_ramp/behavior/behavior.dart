@@ -1,1 +1,1 @@
-export 'ramp_shot_behavior.dart';
+export 'ramp_contact_behavior.dart';
