@@ -12,7 +12,7 @@ export 'cubit/sparky_bumper_cubit.dart';
 /// {@template sparky_bumper}
 /// Bumper for Sparky area.
 /// {@endtemplate}
-class SparkyBumper extends BodyComponent with InitialPosition {
+class SparkyBumper extends BodyComponent with InitialPosition, ZIndex {
   /// {@macro sparky_bumper}
   SparkyBumper._({
     required double majorRadius,
@@ -25,7 +25,6 @@ class SparkyBumper extends BodyComponent with InitialPosition {
   })  : _majorRadius = majorRadius,
         _minorRadius = minorRadius,
         super(
-          priority: RenderPriority.sparkyBumper,
           renderBody: false,
           children: [
             SparkyBumperBallContactBehavior(),
@@ -38,7 +37,9 @@ class SparkyBumper extends BodyComponent with InitialPosition {
             ),
             ...?children,
           ],
-        );
+        ) {
+    zIndex = ZIndexes.sparkyBumper;
+  }
 
   /// {@macro sparky_bumper}
   SparkyBumper.a({

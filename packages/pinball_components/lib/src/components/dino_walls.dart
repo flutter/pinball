@@ -6,14 +6,14 @@ import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 import 'package:pinball_flame/pinball_flame.dart';
 
-/// {@template dinowalls}
-/// A [Blueprint] which creates walls for the [ChromeDino].
+/// {@template dino_walls}
+/// Walls near the [ChromeDino].
 /// {@endtemplate}
-class DinoWalls extends Blueprint {
-  /// {@macro dinowalls}
+class DinoWalls extends Component {
+  /// {@macro dino_walls}
   DinoWalls()
       : super(
-          components: [
+          children: [
             _DinoTopWall(),
             _DinoBottomWall(),
           ],
@@ -23,14 +23,15 @@ class DinoWalls extends Blueprint {
 /// {@template dino_top_wall}
 /// Wall segment located above [ChromeDino].
 /// {@endtemplate}
-class _DinoTopWall extends BodyComponent with InitialPosition {
+class _DinoTopWall extends BodyComponent with InitialPosition, ZIndex {
   ///{@macro dino_top_wall}
   _DinoTopWall()
       : super(
-          priority: RenderPriority.dinoTopWall,
           children: [_DinoTopWallSpriteComponent()],
           renderBody: false,
-        );
+        ) {
+    zIndex = ZIndexes.dinoTopWall;
+  }
 
   List<FixtureDef> _createFixtureDefs() {
     final topStraightShape = EdgeShape()
@@ -116,14 +117,15 @@ class _DinoTopWallSpriteComponent extends SpriteComponent with HasGameRef {
 /// {@template dino_bottom_wall}
 /// Wall segment located below [ChromeDino].
 /// {@endtemplate}
-class _DinoBottomWall extends BodyComponent with InitialPosition {
+class _DinoBottomWall extends BodyComponent with InitialPosition, ZIndex {
   ///{@macro dino_top_wall}
   _DinoBottomWall()
       : super(
-          priority: RenderPriority.dinoBottomWall,
           children: [_DinoBottomWallSpriteComponent()],
           renderBody: false,
-        );
+        ) {
+    zIndex = ZIndexes.dinoBottomWall;
+  }
 
   List<FixtureDef> _createFixtureDefs() {
     final topStraightShape = EdgeShape()
