@@ -70,10 +70,6 @@ class $AssetsImagesScoreGen {
 class $AssetsImagesSelectCharacterGen {
   const $AssetsImagesSelectCharacterGen();
 
-  /// File path: assets/images/select_character/pinball_button.png
-  AssetGenImage get pinballButton =>
-      const AssetGenImage('assets/images/select_character/pinball_button.png');
-
   /// File path: assets/images/select_character/star_a.png
   AssetGenImage get starA =>
       const AssetGenImage('assets/images/select_character/star_a.png');

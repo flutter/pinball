@@ -3,9 +3,9 @@ import 'package:flame/sprite.dart';
 import 'package:flutter/material.dart' hide Image;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/select_character/select_character.dart';
-import 'package:pinball/theme/theme.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart';
+import 'package:pinball_ui/pinball_ui.dart';
 
 /// {@template selected_character}
 /// Widget to display the selected character based on the [CharacterThemeCubit]
@@ -91,8 +91,8 @@ class _SelectedCharacterState extends State<SelectedCharacter>
           children: [
             Text(
               currentCharacter.name,
-              style: AppTextStyle.headline2.copyWith(
-                color: AppColors.white,
+              style: PinballTextStyle.headline2.copyWith(
+                color: PinballColors.white,
               ),
               textAlign: TextAlign.center,
             ),
