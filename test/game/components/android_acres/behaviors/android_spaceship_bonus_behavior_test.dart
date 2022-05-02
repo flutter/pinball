@@ -57,7 +57,7 @@ void main() {
 
     flameBlocTester.testGameWidget(
       'adds GameBonus.androidSpaceship to the game '
-      'when android spacehship is activated',
+      'when android spacehship has a bonus',
       setUp: (game, tester) async {
         final behavior = AndroidSpaceshipBonusBehavior();
         final parent = AndroidAcres.test();
@@ -67,7 +67,7 @@ void main() {
         await game.ensureAdd(parent);
         await parent.ensureAdd(behavior);
 
-        androidSpaceship.bloc.onEntered();
+        androidSpaceship.bloc.onBallEntered();
         await tester.pump();
 
         verify(

@@ -7,17 +7,17 @@ void main() {
     'AndroidSpaceshipCubit',
     () {
       blocTest<AndroidSpaceshipCubit, AndroidSpaceshipState>(
-        'onEntered emits activated',
+        'onBallEntered emits withBonus',
         build: AndroidSpaceshipCubit.new,
-        act: (bloc) => bloc.onEntered(),
-        expect: () => [AndroidSpaceshipState.activated],
+        act: (bloc) => bloc.onBallEntered(),
+        expect: () => [AndroidSpaceshipState.withBonus],
       );
 
       blocTest<AndroidSpaceshipCubit, AndroidSpaceshipState>(
-        'onBonusAwarded emits idle',
+        'onBonusAwarded emits withoutBonus',
         build: AndroidSpaceshipCubit.new,
         act: (bloc) => bloc.onBonusAwarded(),
-        expect: () => [AndroidSpaceshipState.idle],
+        expect: () => [AndroidSpaceshipState.withoutBonus],
       );
     },
   );

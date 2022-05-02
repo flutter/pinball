@@ -27,14 +27,14 @@ void main() {
       });
 
       flameTester.test(
-        'beginContact emits onEntered when entrance contacts with a ball',
+        'beginContact calls onBallEntered when entrance contacts with a ball',
         (game) async {
           final behavior = AndroidSpaceshipEntranceBallContactBehavior();
           final bloc = _MockAndroidSpaceshipCubit();
           whenListen(
             bloc,
             const Stream<AndroidSpaceshipState>.empty(),
-            initialState: AndroidSpaceshipState.idle,
+            initialState: AndroidSpaceshipState.withoutBonus,
           );
 
           final entrance = AndroidSpaceshipEntrance();
@@ -47,7 +47,7 @@ void main() {
 
           behavior.beginContact(MockBall(), MockContact());
 
-          verify(androidSpaceship.bloc.onEntered).called(1);
+          verify(androidSpaceship.bloc.onBallEntered).called(1);
         },
       );
     },

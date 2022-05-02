@@ -3,6 +3,6 @@
 part of 'android_spaceship_cubit.dart';
 
 enum AndroidSpaceshipState {
-  idle,
-  activated,
+  withoutBonus,
+  withBonus,
 }

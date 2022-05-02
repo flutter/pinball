@@ -11,6 +11,6 @@ class AndroidSpaceshipEntranceBallContactBehavior
     super.beginContact(other, contact);
     if (other is! Ball) return;
 
-    parent.parent.bloc.onEntered();
+    parent.parent.bloc.onBallEntered();
   }
 }

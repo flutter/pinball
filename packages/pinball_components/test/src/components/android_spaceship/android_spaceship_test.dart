@@ -41,6 +41,7 @@ void main() {
         await tester.pump();
       },
       verify: (game, tester) async {
+        const goldenFilePath = '../golden/android_spaceship/';
         final animationDuration = game
             .descendants()
             .whereType<SpriteAnimationComponent>()
@@ -50,21 +51,21 @@ void main() {
 
         await expectLater(
           find.byGame<TestGame>(),
-          matchesGoldenFile('../golden/android_spaceship/start.png'),
+          matchesGoldenFile('${goldenFilePath}start.png'),
         );
 
         game.update(animationDuration * 0.5);
         await tester.pump();
         await expectLater(
           find.byGame<TestGame>(),
-          matchesGoldenFile('../golden/android_spaceship/middle.png'),
+          matchesGoldenFile('${goldenFilePath}middle.png'),
         );
 
         game.update(animationDuration * 0.5);
         await tester.pump();
         await expectLater(
           find.byGame<TestGame>(),
-          matchesGoldenFile('../golden/android_spaceship/end.png'),
+          matchesGoldenFile('${goldenFilePath}end.png'),
         );
       },
     );
@@ -77,7 +78,7 @@ void main() {
       whenListen(
         bloc,
         const Stream<AndroidSpaceshipState>.empty(),
-        initialState: AndroidSpaceshipState.idle,
+        initialState: AndroidSpaceshipState.withoutBonus,
       );
       when(bloc.close).thenAnswer((_) async {});
       final androidSpaceship = AndroidSpaceship.test(bloc: bloc);

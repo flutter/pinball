@@ -5,9 +5,9 @@ import 'package:bloc/bloc.dart';
 part 'android_spaceship_state.dart';
 
 class AndroidSpaceshipCubit extends Cubit<AndroidSpaceshipState> {
-  AndroidSpaceshipCubit() : super(AndroidSpaceshipState.idle);
+  AndroidSpaceshipCubit() : super(AndroidSpaceshipState.withoutBonus);
 
-  void onEntered() => emit(AndroidSpaceshipState.activated);
+  void onBallEntered() => emit(AndroidSpaceshipState.withBonus);
 
-  void onBonusAwarded() => emit(AndroidSpaceshipState.idle);
+  void onBonusAwarded() => emit(AndroidSpaceshipState.withoutBonus);
 }
