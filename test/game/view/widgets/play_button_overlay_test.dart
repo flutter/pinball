@@ -1,8 +1,10 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame/flame.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/select_character/select_character.dart';
+import 'package:pinball_theme/pinball_theme.dart';
 
 import '../../../helpers/helpers.dart';
 
@@ -12,7 +14,12 @@ void main() {
     late GameFlowController gameFlowController;
     late CharacterThemeCubit characterThemeCubit;
 
-    setUp(() {
+    setUp(() async {
+      Flame.images.prefix = '';
+      await Flame.images.load(const DashTheme().animation.keyName);
+      await Flame.images.load(const AndroidTheme().animation.keyName);
+      await Flame.images.load(const DinoTheme().animation.keyName);
+      await Flame.images.load(const SparkyTheme().animation.keyName);
       game = MockPinballGame();
       gameFlowController = MockGameFlowController();
       characterThemeCubit = MockCharacterThemeCubit();
@@ -49,7 +56,7 @@ void main() {
         characterThemeCubit: characterThemeCubit,
       );
       await tester.tap(find.text('Play'));
-      await tester.pumpAndSettle();
+      await tester.pump();
       expect(find.byType(CharacterSelectionDialog), findsOneWidget);
     });
   });
