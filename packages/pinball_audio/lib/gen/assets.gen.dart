@@ -5,6 +5,12 @@
 
 import 'package:flutter/widgets.dart';
 
+class $AssetsMusicGen {
+  const $AssetsMusicGen();
+
+  String get background => 'assets/music/background.ogg';
+}
+
 class $AssetsSfxGen {
   const $AssetsSfxGen();
 
@@ -15,6 +21,7 @@ class $AssetsSfxGen {
 class Assets {
   Assets._();
 
+  static const $AssetsMusicGen music = $AssetsMusicGen();
   static const $AssetsSfxGen sfx = $AssetsSfxGen();
 }
 
