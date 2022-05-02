@@ -4,6 +4,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/src/components/bumping_behavior.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -14,8 +15,6 @@ void main() {
       Assets.images.slingshot.lower.keyName,
     ];
     final flameTester = FlameTester(() => TestGame(assets));
-    const length = 2.0;
-    const angle = 0.0;
 
     flameTester.test('loads correctly', (game) async {
       final component = Slingshots();
@@ -40,68 +39,12 @@ void main() {
       },
     );
 
-    flameTester.test(
-      'loads correctly',
-      (game) async {
-        final slingshot = Slingshot(
-          length: length,
-          angle: angle,
-          spritePath: assets.first,
-        );
-        await game.ensureAdd(slingshot);
-
-        expect(game.contains(slingshot), isTrue);
-      },
-    );
-
-    flameTester.test(
-      'body is static',
-      (game) async {
-        final slingshot = Slingshot(
-          length: length,
-          angle: angle,
-          spritePath: assets.first,
-        );
-        await game.ensureAdd(slingshot);
-
-        expect(slingshot.body.bodyType, equals(BodyType.static));
-      },
-    );
-
-    flameTester.test(
-      'has restitution',
-      (game) async {
-        final slingshot = Slingshot(
-          length: length,
-          angle: angle,
-          spritePath: assets.first,
-        );
-        await game.ensureAdd(slingshot);
-
-        final totalRestitution = slingshot.body.fixtures.fold<double>(
-          0,
-          (total, fixture) => total + fixture.restitution,
-        );
-        expect(totalRestitution, greaterThan(0));
-      },
-    );
-
-    flameTester.test(
-      'has no friction',
-      (game) async {
-        final slingshot = Slingshot(
-          length: length,
-          angle: angle,
-          spritePath: assets.first,
-        );
-        await game.ensureAdd(slingshot);
-
-        final totalFriction = slingshot.body.fixtures.fold<double>(
-          0,
-          (total, fixture) => total + fixture.friction,
-        );
-        expect(totalFriction, equals(0));
-      },
-    );
+    flameTester.test('adds BumpingBehavior', (game) async {
+      final slingshots = Slingshots();
+      await game.ensureAdd(slingshots);
+      for (final slingshot in slingshots.children) {
+        expect(slingshot.firstChild<BumpingBehavior>(), isNotNull);
+      }
+    });
   });
 }

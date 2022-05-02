@@ -87,13 +87,7 @@ class _DinoTopWall extends BodyComponent with InitialPosition, ZIndex {
     );
 
     final body = world.createBody(bodyDef);
-    _createFixtureDefs().forEach(
-      (fixture) => body.createFixture(
-        fixture
-          ..restitution = 0.1
-          ..friction = 0,
-      ),
-    );
+    _createFixtureDefs().forEach(body.createFixture);
 
     return body;
   }

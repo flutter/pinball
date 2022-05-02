@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/src/components/bumping_behavior.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template slingshots}
@@ -28,7 +29,7 @@ class Slingshots extends Component with ZIndex {
 }
 
 /// {@template slingshot}
-/// Elastic bumper that bounces the [Ball] off of its straight sides.
+/// Elastic bumper that bounces the [Ball] off of its sides.
 /// {@endtemplate}
 class Slingshot extends BodyComponent with InitialPosition {
   /// {@macro slingshot}
@@ -39,7 +40,10 @@ class Slingshot extends BodyComponent with InitialPosition {
   })  : _length = length,
         _angle = angle,
         super(
-          children: [_SlinghsotSpriteComponent(spritePath, angle: angle)],
+          children: [
+            _SlinghsotSpriteComponent(spritePath, angle: angle),
+            BumpingBehavior(strength: 20),
+          ],
           renderBody: false,
         );
 
@@ -52,37 +56,27 @@ class Slingshot extends BodyComponent with InitialPosition {
 
     final topCircleShape = CircleShape()..radius = circleRadius;
     topCircleShape.position.setValues(0, -_length / 2);
-    final topCircleFixtureDef = FixtureDef(topCircleShape);
 
     final bottomCircleShape = CircleShape()..radius = circleRadius;
     bottomCircleShape.position.setValues(0, _length / 2);
-    final bottomCircleFixtureDef = FixtureDef(bottomCircleShape);
 
     final leftEdgeShape = EdgeShape()
       ..set(
         Vector2(circleRadius, _length / 2),
         Vector2(circleRadius, -_length / 2),
       );
-    final leftEdgeShapeFixtureDef = FixtureDef(
-      leftEdgeShape,
-      restitution: 5,
-    );
 
     final rightEdgeShape = EdgeShape()
       ..set(
         Vector2(-circleRadius, _length / 2),
         Vector2(-circleRadius, -_length / 2),
       );
-    final rightEdgeShapeFixtureDef = FixtureDef(
-      rightEdgeShape,
-      restitution: 5,
-    );
 
     return [
-      topCircleFixtureDef,
-      bottomCircleFixtureDef,
-      leftEdgeShapeFixtureDef,
-      rightEdgeShapeFixtureDef,
+      FixtureDef(topCircleShape),
+      FixtureDef(bottomCircleShape),
+      FixtureDef(leftEdgeShape),
+      FixtureDef(rightEdgeShape),
     ];
   }
 
