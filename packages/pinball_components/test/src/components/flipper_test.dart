@@ -12,6 +12,7 @@ void main() {
   final assets = [
     Assets.images.flipper.left.keyName,
     Assets.images.flipper.right.keyName,
+    Assets.images.ball.ball.keyName,
   ];
   final flameTester = FlameTester(() => TestGame(assets));
 

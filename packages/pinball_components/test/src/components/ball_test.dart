@@ -5,12 +5,22 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_theme/pinball_theme.dart' as theme;
 
 import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(TestGame.new);
+  final assets = [
+    Assets.images.ball.ball.keyName,
+    Assets.images.ball.flameEffect.keyName,
+    theme.Assets.images.android.ball.keyName,
+    theme.Assets.images.dash.ball.keyName,
+    theme.Assets.images.dino.ball.keyName,
+    theme.Assets.images.sparky.ball.keyName,
+  ];
+
+  final flameTester = FlameTester(() => TestGame(assets));
 
   group('Ball', () {
     flameTester.test(
@@ -23,6 +33,121 @@ void main() {
         expect(game.contains(ball), isTrue);
       },
     );
+
+    group('renders correctly', () {
+      flameTester.testGameWidget(
+        'default',
+        setUp: (game, tester) async {
+          final ball = Ball()..initialPosition = Vector2.zero();
+          await game.ready();
+          await game.ensureAdd(ball);
+
+          await tester.pump();
+
+          game.camera
+            ..followVector2(Vector2.zero())
+            ..zoom = 8;
+        },
+        verify: (game, tester) async {
+          await expectLater(
+            find.byGame<TestGame>(),
+            matchesGoldenFile('golden/ball/default.png'),
+          );
+        },
+      );
+
+      flameTester.testGameWidget(
+        'android theme',
+        setUp: (game, tester) async {
+          final ball = Ball(
+            spriteAsset: theme.Assets.images.android.ball.keyName,
+          )..initialPosition = Vector2.zero();
+          await game.ready();
+          await game.ensureAdd(ball);
+
+          await tester.pump();
+
+          game.camera
+            ..followVector2(Vector2.zero())
+            ..zoom = 8;
+        },
+        verify: (game, tester) async {
+          await expectLater(
+            find.byGame<TestGame>(),
+            matchesGoldenFile('golden/ball/android.png'),
+          );
+        },
+      );
+
+      flameTester.testGameWidget(
+        'dash theme',
+        setUp: (game, tester) async {
+          final ball = Ball(
+            spriteAsset: theme.Assets.images.dash.ball.keyName,
+          )..initialPosition = Vector2.zero();
+          await game.ready();
+          await game.ensureAdd(ball);
+
+          await tester.pump();
+
+          game.camera
+            ..followVector2(Vector2.zero())
+            ..zoom = 8;
+        },
+        verify: (game, tester) async {
+          await expectLater(
+            find.byGame<TestGame>(),
+            matchesGoldenFile('golden/ball/dash.png'),
+          );
+        },
+      );
+
+      flameTester.testGameWidget(
+        'dino theme',
+        setUp: (game, tester) async {
+          final ball = Ball(
+            spriteAsset: theme.Assets.images.dino.ball.keyName,
+          )..initialPosition = Vector2.zero();
+          await game.ready();
+          await game.ensureAdd(ball);
+
+          await tester.pump();
+
+          game.camera
+            ..followVector2(Vector2.zero())
+            ..zoom = 8;
+        },
+        verify: (game, tester) async {
+          await expectLater(
+            find.byGame<TestGame>(),
+            matchesGoldenFile('golden/ball/dino.png'),
+          );
+        },
+      );
+
+      flameTester.testGameWidget(
+        'sparky theme',
+        setUp: (game, tester) async {
+          final ball = Ball(
+            spriteAsset: theme.Assets.images.sparky.ball.keyName,
+          )..initialPosition = Vector2.zero();
+          await game.ready();
+          await game.ensureAdd(ball);
+
+          await tester.pump();
+
+          game.camera
+            ..followVector2(Vector2.zero())
+            ..zoom = 8;
+        },
+        verify: (game, tester) async {
+          await expectLater(
+            find.byGame<TestGame>(),
+            matchesGoldenFile('golden/ball/sparky.png'),
+          );
+        },
+      );
+    });
 
     group('body', () {
       flameTester.test(

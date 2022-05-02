@@ -12,7 +12,10 @@ import '../../../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(TestGame.new);
+  final assets = [
+    Assets.images.ball.ball.keyName,
+  ];
+  final flameTester = FlameTester(() => TestGame(assets));
 
   group(
     'ChromeDinoChompingBehavior',
