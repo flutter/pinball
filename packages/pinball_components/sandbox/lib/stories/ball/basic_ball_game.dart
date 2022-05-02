@@ -11,7 +11,6 @@ class BallGame extends AssetsGame with TapDetector, Traceable {
     List<String>? imagesFileNames,
   }) : super(
           imagesFileNames: [
-            Assets.images.ball.ball.keyName,
             theme.Assets.images.android.ball.keyName,
             theme.Assets.images.dash.ball.keyName,
             theme.Assets.images.dino.ball.keyName,

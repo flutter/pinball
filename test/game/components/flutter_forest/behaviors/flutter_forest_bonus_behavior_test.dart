@@ -17,7 +17,7 @@ import '../../../../helpers/helpers.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
-    Assets.images.ball.ball.keyName,
+    theme.Assets.images.dash.ball.keyName,
     theme.Assets.images.dash.ball.keyName,
   ];
 

@@ -26,7 +26,6 @@ void main() {
     Assets.images.backboard.backboardGameOver.keyName,
     Assets.images.backboard.display.keyName,
     Assets.images.boardBackground.keyName,
-    Assets.images.ball.ball.keyName,
     theme.Assets.images.android.ball.keyName,
     theme.Assets.images.dash.ball.keyName,
     theme.Assets.images.dino.ball.keyName,

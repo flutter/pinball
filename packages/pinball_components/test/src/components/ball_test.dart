@@ -12,7 +12,6 @@ import '../../helpers/helpers.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
-    Assets.images.ball.ball.keyName,
     Assets.images.ball.flameEffect.keyName,
     theme.Assets.images.android.ball.keyName,
     theme.Assets.images.dash.ball.keyName,
@@ -35,27 +34,6 @@ void main() {
     );
 
     group('renders correctly', () {
-      flameTester.testGameWidget(
-        'default',
-        setUp: (game, tester) async {
-          final ball = Ball()..initialPosition = Vector2.zero();
-          await game.ready();
-          await game.ensureAdd(ball);
-
-          await tester.pump();
-
-          game.camera
-            ..followVector2(Vector2.zero())
-            ..zoom = 8;
-        },
-        verify: (game, tester) async {
-          await expectLater(
-            find.byGame<TestGame>(),
-            matchesGoldenFile('golden/ball/default.png'),
-          );
-        },
-      );
-
       flameTester.testGameWidget(
         'android theme',
         setUp: (game, tester) async {

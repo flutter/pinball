@@ -131,9 +131,7 @@ class _BallSpriteComponent extends SpriteComponent with HasGameRef {
       gameRef.images.fromCache(spriteAsset ?? Assets.images.ball.ball.keyName),
     );
     this.sprite = sprite;
-    // TODO(ruimiguel): temp fix cause final assets are bigger than default one.
-    final spriteScaleSize = (spriteAsset != null) ? 12.5 : 10.0;
-    size = sprite.originalSize / spriteScaleSize;
+    size = sprite.originalSize / 12.5;
   }
 }
 

@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_theme/pinball_theme.dart' as theme;
 
 import '../../helpers/helpers.dart';
 
@@ -24,7 +25,7 @@ class WrappedBallController extends BallController {
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
-    Assets.images.ball.ball.keyName,
+    theme.Assets.images.dash.ball.keyName,
     Assets.images.ball.flameEffect.keyName,
   ];
 

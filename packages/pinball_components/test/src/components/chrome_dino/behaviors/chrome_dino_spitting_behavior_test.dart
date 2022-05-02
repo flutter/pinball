@@ -9,13 +9,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_components/src/components/chrome_dino/behaviors/behaviors.dart';
+import 'package:pinball_theme/pinball_theme.dart' as theme;
 
 import '../../../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
-    Assets.images.ball.ball.keyName,
+    theme.Assets.images.dash.ball.keyName,
   ];
   final flameTester = FlameTester(() => TestGame(assets));
 

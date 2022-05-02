@@ -4,6 +4,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_theme/pinball_theme.dart' as theme;
 
 import '../../helpers/helpers.dart';
 
@@ -12,7 +13,7 @@ void main() {
   final assets = [
     Assets.images.flipper.left.keyName,
     Assets.images.flipper.right.keyName,
-    Assets.images.ball.ball.keyName,
+    theme.Assets.images.dash.ball.keyName,
   ];
   final flameTester = FlameTester(() => TestGame(assets));
 
