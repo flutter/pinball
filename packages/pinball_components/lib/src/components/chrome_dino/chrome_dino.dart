@@ -131,12 +131,10 @@ class ChromeDino extends BodyComponent
   @override
   Body createBody() {
     final bodyDef = BodyDef(
-      userData: this,
       position: initialPosition,
       type: BodyType.dynamic,
       gravityScale: Vector2.zero(),
     );
-
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
 
