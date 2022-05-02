@@ -4,6 +4,7 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 import '../../../helpers/helpers.dart';
 
@@ -31,8 +32,8 @@ void main() {
       'loads correctly',
       (game) async {
         final flutterForest = FlutterForest();
-        await game.ensureAdd(flutterForest);
-        expect(game.contains(flutterForest), isTrue);
+        await game.ensureAdd(ZCanvasComponent(children: [flutterForest]));
+        expect(game.descendants(), contains(flutterForest));
       },
     );
 
@@ -41,10 +42,9 @@ void main() {
         'a Signpost',
         (game) async {
           final flutterForest = FlutterForest();
-          await game.ensureAdd(flutterForest);
-
+          await game.ensureAdd(ZCanvasComponent(children: [flutterForest]));
           expect(
-            flutterForest.descendants().whereType<Signpost>().length,
+            game.descendants().whereType<Signpost>().length,
             equals(1),
           );
         },
@@ -54,11 +54,10 @@ void main() {
         'a DashAnimatronic',
         (game) async {
           final flutterForest = FlutterForest();
-          await game.ensureAdd(flutterForest);
-
+          await game.ensureAdd(ZCanvasComponent(children: [flutterForest]));
           expect(
-            flutterForest.firstChild<DashAnimatronic>(),
-            isNotNull,
+            game.descendants().whereType<DashAnimatronic>().length,
+            equals(1),
           );
         },
       );
@@ -67,10 +66,9 @@ void main() {
         'three DashNestBumper',
         (game) async {
           final flutterForest = FlutterForest();
-          await game.ensureAdd(flutterForest);
-
+          await game.ensureAdd(ZCanvasComponent(children: [flutterForest]));
           expect(
-            flutterForest.descendants().whereType<DashNestBumper>().length,
+            game.descendants().whereType<DashNestBumper>().length,
             equals(3),
           );
         },

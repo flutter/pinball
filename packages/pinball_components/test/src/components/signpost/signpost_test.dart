@@ -1,11 +1,15 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-import '../../helpers/helpers.dart';
+import '../../../helpers/helpers.dart';
+
+class _MockSignpostCubit extends Mock implements SignpostCubit {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -18,13 +22,13 @@ void main() {
   final flameTester = FlameTester(() => TestGame(assets));
 
   group('Signpost', () {
+    const goldenPath = '../golden/signpost/';
+
     flameTester.test(
       'loads correctly',
       (game) async {
         final signpost = Signpost();
-        await game.ready();
         await game.ensureAdd(signpost);
-
         expect(game.contains(signpost), isTrue);
       },
     );
@@ -39,8 +43,8 @@ void main() {
           await tester.pump();
 
           expect(
-            signpost.firstChild<SpriteGroupComponent>()!.current,
-            SignpostSpriteState.inactive,
+            signpost.bloc.state,
+            equals(SignpostState.inactive),
           );
 
           game.camera.followVector2(Vector2.zero());
@@ -48,7 +52,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/signpost/inactive.png'),
+            matchesGoldenFile('${goldenPath}inactive.png'),
           );
         },
       );
@@ -59,12 +63,12 @@ void main() {
           await game.images.loadAll(assets);
           final signpost = Signpost();
           await game.ensureAdd(signpost);
-          signpost.progress();
+          signpost.bloc.onProgressed();
           await tester.pump();
 
           expect(
-            signpost.firstChild<SpriteGroupComponent>()!.current,
-            SignpostSpriteState.active1,
+            signpost.bloc.state,
+            equals(SignpostState.active1),
           );
 
           game.camera.followVector2(Vector2.zero());
@@ -72,7 +76,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/signpost/active1.png'),
+            matchesGoldenFile('${goldenPath}active1.png'),
           );
         },
       );
@@ -83,14 +87,14 @@ void main() {
           await game.images.loadAll(assets);
           final signpost = Signpost();
           await game.ensureAdd(signpost);
-          signpost
-            ..progress()
-            ..progress();
+          signpost.bloc
+            ..onProgressed()
+            ..onProgressed();
           await tester.pump();
 
           expect(
-            signpost.firstChild<SpriteGroupComponent>()!.current,
-            SignpostSpriteState.active2,
+            signpost.bloc.state,
+            equals(SignpostState.active2),
           );
 
           game.camera.followVector2(Vector2.zero());
@@ -98,7 +102,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/signpost/active2.png'),
+            matchesGoldenFile('${goldenPath}active2.png'),
           );
         },
       );
@@ -109,15 +113,16 @@ void main() {
           await game.images.loadAll(assets);
           final signpost = Signpost();
           await game.ensureAdd(signpost);
-          signpost
-            ..progress()
-            ..progress()
-            ..progress();
+
+          signpost.bloc
+            ..onProgressed()
+            ..onProgressed()
+            ..onProgressed();
           await tester.pump();
 
           expect(
-            signpost.firstChild<SpriteGroupComponent>()!.current,
-            SignpostSpriteState.active3,
+            signpost.bloc.state,
+            equals(SignpostState.active3),
           );
 
           game.camera.followVector2(Vector2.zero());
@@ -125,32 +130,11 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/signpost/active3.png'),
+            matchesGoldenFile('${goldenPath}active3.png'),
           );
         },
       );
     });
-
-    flameTester.test(
-      'progress correctly cycles through all sprites',
-      (game) async {
-        final signpost = Signpost();
-        await game.ready();
-        await game.ensureAdd(signpost);
-
-        final spriteComponent = signpost.firstChild<SpriteGroupComponent>()!;
-
-        expect(spriteComponent.current, SignpostSpriteState.inactive);
-        signpost.progress();
-        expect(spriteComponent.current, SignpostSpriteState.active1);
-        signpost.progress();
-        expect(spriteComponent.current, SignpostSpriteState.active2);
-        signpost.progress();
-        expect(spriteComponent.current, SignpostSpriteState.active3);
-        signpost.progress();
-        expect(spriteComponent.current, SignpostSpriteState.inactive);
-      },
-    );
 
     flameTester.test('adds new children', (game) async {
       final component = Component();
@@ -159,6 +143,23 @@ void main() {
       );
       await game.ensureAdd(signpost);
       expect(signpost.children, contains(component));
+    });
+
+    flameTester.test('closes bloc when removed', (game) async {
+      final bloc = _MockSignpostCubit();
+      whenListen(
+        bloc,
+        const Stream<SignpostCubit>.empty(),
+        initialState: SignpostState.inactive,
+      );
+      when(bloc.close).thenAnswer((_) async {});
+      final component = Signpost.test(bloc: bloc);
+
+      await game.ensureAdd(component);
+      game.remove(component);
+      await game.ready();
+
+      verify(bloc.close).called(1);
     });
   });
 }

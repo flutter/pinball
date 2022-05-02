@@ -28,7 +28,7 @@ export 'plunger.dart';
 export 'rocket.dart';
 export 'score_component.dart';
 export 'shapes/shapes.dart';
-export 'signpost.dart';
+export 'signpost/signpost.dart';
 export 'slingshot.dart';
 export 'spaceship_rail.dart';
 export 'spaceship_ramp.dart';
