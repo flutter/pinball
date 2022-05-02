@@ -10,6 +10,7 @@ export 'flutter_forest/flutter_forest.dart';
 export 'game_flow_controller.dart';
 export 'google_word/google_word.dart';
 export 'launcher.dart';
+export 'multiballs/multiballs.dart';
 export 'multipliers/multipliers.dart';
 export 'scoring_behavior.dart';
 export 'sparky_scorch.dart';
