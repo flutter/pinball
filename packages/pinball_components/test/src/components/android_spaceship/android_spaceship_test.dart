@@ -90,7 +90,7 @@ void main() {
     });
 
     flameTester.test(
-        'AndroidSpaceshipEntrance has a '
+        'AndroidSpaceshipEntrance has an '
         'AndroidSpaceshipEntranceBallContactBehavior', (game) async {
       final androidSpaceship = AndroidSpaceship(position: Vector2.zero());
       await game.ensureAdd(androidSpaceship);
