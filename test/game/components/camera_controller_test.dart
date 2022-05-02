@@ -56,7 +56,7 @@ void main() {
 
         await future;
 
-        expect(game.camera.position, Vector2(-4, -108.8));
+        expect(game.camera.position, Vector2(-4, -120));
       });
     });
 
@@ -81,7 +81,7 @@ void main() {
 
         await future;
 
-        expect(game.camera.position, Vector2(-4.5, -109.8));
+        expect(game.camera.position, Vector2(-4.5, -121));
       });
     });
 
@@ -106,7 +106,7 @@ void main() {
 
         await future;
 
-        expect(game.camera.position, Vector2(-4.5, -109.8));
+        expect(game.camera.position, Vector2(-2.5, -117));
       });
     });
   });

@@ -65,7 +65,7 @@ void main() {
         () {
           gameFlowController.onNewState(
             GameState(
-              score: 10,
+              score: 0,
               multiplier: 1,
               rounds: 0,
               bonusHistory: const [],
@@ -79,7 +79,7 @@ void main() {
               onSubmit: any(named: 'onSubmit'),
             ),
           ).called(1);
-          verify(cameraController.focusOnWaitingBackbox).called(1);
+          verify(cameraController.focusOnGameOverBackbox).called(1);
         },
       );
 
