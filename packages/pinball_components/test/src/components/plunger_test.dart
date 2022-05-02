@@ -121,6 +121,33 @@ void main() {
       );
     });
 
+    group('pullFor', () {
+      late Plunger plunger;
+
+      setUp(() {
+        plunger = Plunger(
+          compressionDistance: compressionDistance,
+        );
+      });
+
+      flameTester.testGameWidget(
+        'moves downwards for given period when pullFor is called',
+        setUp: (game, tester) async {
+          await game.ensureAdd(plunger);
+        },
+        verify: (game, tester) async {
+          plunger.pullFor(2);
+          game.update(0);
+
+          expect(plunger.body.linearVelocity.y, isPositive);
+
+          await tester.pump(const Duration(seconds: 2));
+
+          expect(plunger.body.linearVelocity.y, isZero);
+        },
+      );
+    });
+
     group('pull', () {
       late Plunger plunger;
 
