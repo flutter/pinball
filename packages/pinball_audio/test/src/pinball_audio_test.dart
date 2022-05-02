@@ -91,11 +91,11 @@ void main() {
 
         verify(
           () => preCacheSingleAudio
-              .onCall('packages/pinball_audio/assets/sfx/google.ogg'),
+              .onCall('packages/pinball_audio/assets/sfx/google.mp3'),
         ).called(1);
         verify(
           () => preCacheSingleAudio
-              .onCall('packages/pinball_audio/assets/music/background.ogg'),
+              .onCall('packages/pinball_audio/assets/music/background.mp3'),
         ).called(1);
       });
     });
