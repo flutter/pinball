@@ -63,15 +63,6 @@ void main() {
     });
 
     group('adds', () {
-      flameTester.test('new children', (game) async {
-        final component = Component();
-        final sparkyBumper = SparkyBumper.a(
-          children: [component],
-        );
-        await game.ensureAdd(sparkyBumper);
-        expect(sparkyBumper.children, contains(component));
-      });
-
       flameTester.test('a SparkyBumperBallContactBehavior', (game) async {
         final sparkyBumper = SparkyBumper.a();
         await game.ensureAdd(sparkyBumper);
@@ -83,6 +74,28 @@ void main() {
         );
       });
 
+      flameTester.test('a SparkyBumperBlinkingBehavior', (game) async {
+        final sparkyBumper = SparkyBumper.a();
+        await game.ensureAdd(sparkyBumper);
+        expect(
+          sparkyBumper.children
+              .whereType<SparkyBumperBlinkingBehavior>()
+              .single,
+          isNotNull,
+        );
+      });
+    });
+
+    group("'a' adds", () {
+      flameTester.test('new children', (game) async {
+        final component = Component();
+        final sparkyBumper = SparkyBumper.a(
+          children: [component],
+        );
+        await game.ensureAdd(sparkyBumper);
+        expect(sparkyBumper.children, contains(component));
+      });
+
       flameTester.test('a BumpingBehavior', (game) async {
         final sparkyBumper = SparkyBumper.a();
         await game.ensureAdd(sparkyBumper);
@@ -90,6 +103,46 @@ void main() {
           sparkyBumper.children.whereType<BumpingBehavior>().single,
           isNotNull,
         );
+      });
+    });
+
+    group("'b' adds", () {
+      flameTester.test('new children', (game) async {
+        final component = Component();
+        final sparkyBumper = SparkyBumper.b(
+          children: [component],
+        );
+        await game.ensureAdd(sparkyBumper);
+        expect(sparkyBumper.children, contains(component));
+      });
+
+      flameTester.test('a BumpingBehavior', (game) async {
+        final sparkyBumper = SparkyBumper.b();
+        await game.ensureAdd(sparkyBumper);
+        expect(
+          sparkyBumper.children.whereType<BumpingBehavior>().single,
+          isNotNull,
+        );
+      });
+
+      group("'c' adds", () {
+        flameTester.test('new children', (game) async {
+          final component = Component();
+          final sparkyBumper = SparkyBumper.c(
+            children: [component],
+          );
+          await game.ensureAdd(sparkyBumper);
+          expect(sparkyBumper.children, contains(component));
+        });
+
+        flameTester.test('a BumpingBehavior', (game) async {
+          final sparkyBumper = SparkyBumper.c();
+          await game.ensureAdd(sparkyBumper);
+          expect(
+            sparkyBumper.children.whereType<BumpingBehavior>().single,
+            isNotNull,
+          );
+        });
       });
     });
   });
