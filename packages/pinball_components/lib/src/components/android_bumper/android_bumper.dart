@@ -12,7 +12,7 @@ export 'cubit/android_bumper_cubit.dart';
 /// {@template android_bumper}
 /// Bumper for area under the [AndroidSpaceship].
 /// {@endtemplate}
-class AndroidBumper extends BodyComponent with InitialPosition {
+class AndroidBumper extends BodyComponent with InitialPosition, ZIndex {
   /// {@macro android_bumper}
   AndroidBumper._({
     required double majorRadius,
@@ -25,7 +25,6 @@ class AndroidBumper extends BodyComponent with InitialPosition {
   })  : _majorRadius = majorRadius,
         _minorRadius = minorRadius,
         super(
-          priority: RenderPriority.androidBumper,
           renderBody: false,
           children: [
             AndroidBumperBallContactBehavior(),
@@ -38,7 +37,9 @@ class AndroidBumper extends BodyComponent with InitialPosition {
             ),
             ...?children,
           ],
-        );
+        ) {
+    zIndex = ZIndexes.androidBumper;
+  }
 
   /// {@macro android_bumper}
   AndroidBumper.a({

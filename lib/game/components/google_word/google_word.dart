@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:pinball/game/components/google_word/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template google_word}
 /// Loads all [GoogleLetter]s to compose a [GoogleWord].
 /// {@endtemplate}
-class GoogleWord extends Component {
+class GoogleWord extends Component with ZIndex {
   /// {@macro google_word}
   GoogleWord({
     required Vector2 position,
@@ -39,7 +40,9 @@ class GoogleWord extends Component {
             )..initialPosition = position + Vector2(12.92, 1.82),
             GoogleWordBonusBehavior(),
           ],
-        );
+        ) {
+    zIndex = ZIndexes.decal;
+  }
 
   /// Creates a [GoogleWord] without any children.
   ///

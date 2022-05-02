@@ -1,6 +1,5 @@
 import 'package:flame/extensions.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class BoundariesGame extends BallGame {
@@ -27,7 +26,7 @@ class BoundariesGame extends BallGame {
     camera
       ..followVector2(Vector2.zero())
       ..zoom = 6;
-    await addFromBlueprint(Boundaries());
+    await add(Boundaries());
     await ready();
     await traceAllBodies();
   }

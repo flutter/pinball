@@ -18,7 +18,7 @@ enum LayerEntranceOrientation {
 /// [BodyComponent] located at the entrance and exit of a [Layer].
 ///
 /// By default the base [layer] is set to [Layer.board] and the
-/// [outsidePriority] is set to the lowest possible [Layer].
+/// [_outsideZIndex] is set to [ZIndexes.ballOnBoard].
 /// {@endtemplate}
 abstract class LayerSensor extends BodyComponent
     with InitialPosition, Layered, ContactCallbacks {
@@ -26,32 +26,21 @@ abstract class LayerSensor extends BodyComponent
   LayerSensor({
     required Layer insideLayer,
     Layer? outsideLayer,
-    required int insidePriority,
-    int? outsidePriority,
+    required int insideZIndex,
+    int? outsideZIndex,
     required this.orientation,
   })  : _insideLayer = insideLayer,
         _outsideLayer = outsideLayer ?? Layer.board,
-        _insidePriority = insidePriority,
-        _outsidePriority = outsidePriority ?? RenderPriority.ballOnBoard,
+        _insideZIndex = insideZIndex,
+        _outsideZIndex = outsideZIndex ?? ZIndexes.ballOnBoard,
         super(renderBody: false) {
     layer = Layer.opening;
   }
+
   final Layer _insideLayer;
   final Layer _outsideLayer;
-  final int _insidePriority;
-  final int _outsidePriority;
-
-  /// Mask bits value for collisions on [Layer].
-  Layer get insideLayer => _insideLayer;
-
-  /// Mask bits value for collisions outside of [Layer].
-  Layer get outsideLayer => _outsideLayer;
-
-  /// Render priority for the [Ball] on [Layer].
-  int get insidePriority => _insidePriority;
-
-  /// Render priority for the [Ball] outside of [Layer].
-  int get outsidePriority => _outsidePriority;
+  final int _insideZIndex;
+  final int _outsideZIndex;
 
   /// The [Shape] of the [LayerSensor].
   Shape get shape;
@@ -80,7 +69,7 @@ abstract class LayerSensor extends BodyComponent
     super.beginContact(other, contact);
     if (other is! Ball) return;
 
-    if (other.layer != insideLayer) {
+    if (other.layer != _insideLayer) {
       final isBallEnteringOpening =
           (orientation == LayerEntranceOrientation.down &&
                   other.body.linearVelocity.y < 0) ||
@@ -89,15 +78,13 @@ abstract class LayerSensor extends BodyComponent
 
       if (isBallEnteringOpening) {
         other
-          ..layer = insideLayer
-          ..priority = insidePriority
-          ..reorderChildren();
+          ..layer = _insideLayer
+          ..zIndex = _insideZIndex;
       }
     } else {
       other
-        ..layer = outsideLayer
-        ..priority = outsidePriority
-        ..reorderChildren();
+        ..layer = _outsideLayer
+        ..zIndex = _outsideZIndex;
     }
   }
 }

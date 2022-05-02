@@ -8,11 +8,11 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template sparky_computer}
 /// A computer owned by Sparky.
 /// {@endtemplate}
-class SparkyComputer extends Blueprint {
+class SparkyComputer extends Component {
   /// {@macro sparky_computer}
   SparkyComputer()
       : super(
-          components: [
+          children: [
             _ComputerBase(),
             _ComputerTopSpriteComponent(),
             _ComputerGlowSpriteComponent(),
@@ -20,13 +20,14 @@ class SparkyComputer extends Blueprint {
         );
 }
 
-class _ComputerBase extends BodyComponent with InitialPosition {
+class _ComputerBase extends BodyComponent with InitialPosition, ZIndex {
   _ComputerBase()
       : super(
-          priority: RenderPriority.computerBase,
           renderBody: false,
           children: [_ComputerBaseSpriteComponent()],
-        );
+        ) {
+    zIndex = ZIndexes.computerBase;
+  }
 
   List<FixtureDef> _createFixtureDefs() {
     final leftEdge = EdgeShape()
@@ -83,13 +84,15 @@ class _ComputerBaseSpriteComponent extends SpriteComponent with HasGameRef {
   }
 }
 
-class _ComputerTopSpriteComponent extends SpriteComponent with HasGameRef {
+class _ComputerTopSpriteComponent extends SpriteComponent
+    with HasGameRef, ZIndex {
   _ComputerTopSpriteComponent()
       : super(
           anchor: Anchor.center,
           position: Vector2(-12.52, -49.37),
-          priority: RenderPriority.computerTop,
-        );
+        ) {
+    zIndex = ZIndexes.computerTop;
+  }
 
   @override
   Future<void> onLoad() async {
@@ -105,13 +108,15 @@ class _ComputerTopSpriteComponent extends SpriteComponent with HasGameRef {
   }
 }
 
-class _ComputerGlowSpriteComponent extends SpriteComponent with HasGameRef {
+class _ComputerGlowSpriteComponent extends SpriteComponent
+    with HasGameRef, ZIndex {
   _ComputerGlowSpriteComponent()
       : super(
           anchor: Anchor.center,
           position: Vector2(7.4, 10),
-          priority: RenderPriority.computerGlow,
-        );
+        ) {
+    zIndex = ZIndexes.computerGlow;
+  }
 
   @override
   Future<void> onLoad() async {

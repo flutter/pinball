@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template plunger}
 /// [Plunger] serves as a spring, that shoots the ball on the right side of the
@@ -8,16 +9,12 @@ import 'package:pinball_components/pinball_components.dart';
 ///
 /// [Plunger] ignores gravity so the player controls its downward [pull].
 /// {@endtemplate}
-class Plunger extends BodyComponent with InitialPosition, Layered {
+class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
   /// {@macro plunger}
   Plunger({
     required this.compressionDistance,
-    // TODO(ruimiguel): set to priority +1 over LaunchRamp once all priorities
-    // are fixed.
-  }) : super(
-          priority: RenderPriority.plunger,
-          renderBody: false,
-        ) {
+  }) : super(renderBody: false) {
+    zIndex = ZIndexes.plunger;
     layer = Layer.launcher;
   }
 

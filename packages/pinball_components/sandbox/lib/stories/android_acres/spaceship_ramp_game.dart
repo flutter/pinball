@@ -4,14 +4,13 @@ import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class SpaceshipRampGame extends BallGame with KeyboardEvents {
   SpaceshipRampGame()
       : super(
           color: Colors.blue,
-          ballPriority: RenderPriority.ballOnSpaceshipRamp,
+          ballPriority: ZIndexes.ballOnSpaceshipRamp,
           ballLayer: Layer.spaceshipEntranceRamp,
           imagesFileNames: [
             Assets.images.android.ramp.railingBackground.keyName,
@@ -42,7 +41,7 @@ class SpaceshipRampGame extends BallGame with KeyboardEvents {
     await super.onLoad();
 
     camera.followVector2(Vector2(-12, -50));
-    await addFromBlueprint(
+    await add(
       _spaceshipRamp = SpaceshipRamp(),
     );
     await traceAllBodies();

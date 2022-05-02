@@ -8,9 +8,6 @@ import 'package:flutter/material.dart';
 /// [BodyComponent]s with compatible [Layer]s can collide with each other,
 /// ignoring others. This compatibility depends on bit masking operation
 /// between layers. For more information read: https://en.wikipedia.org/wiki/Mask_(computing).
-///
-/// A parent [Layered] have priority against its children's layer. Them won't be
-/// changed but will be ignored.
 /// {@endtemplate}
 mixin Layered<T extends Forge2DGame> on BodyComponent<T> {
   Layer _layer = Layer.all;
