@@ -5,7 +5,7 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-import '../../helpers/helpers.dart';
+import '../../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +18,7 @@ void main() {
   final flameTester = FlameTester(() => TestGame(assets));
 
   group('Signpost', () {
-    const goldenPath = 'golden/signpost/';
+    const goldenPath = '../golden/signpost/';
 
     flameTester.test(
       'loads correctly',
@@ -40,7 +40,7 @@ void main() {
 
           expect(
             signpost.bloc.state,
-            equals(SignpostState.active1),
+            equals(SignpostState.inactive),
           );
 
           game.camera.followVector2(Vector2.zero());
