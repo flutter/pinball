@@ -3,7 +3,10 @@ import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
-/// When all [DashNestBumper]s are hit at least once, the [GameBonus.dashNest]
+/// Bonus obtained at the [FlutterForest].
+///
+/// When all [DashNestBumper]s are hit at least once three times, the [Signpost]
+/// progresses. When the [Signpost] fully progresses, the [GameBonus.dashNest]
 /// is awarded, and the [DashNestBumper.main] releases a new [Ball].
 class FlutterForestBonusBehavior extends Component
     with ParentIsA<FlutterForest>, HasGameRef<PinballGame> {
