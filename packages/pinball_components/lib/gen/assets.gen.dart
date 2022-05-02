@@ -28,6 +28,7 @@ class $AssetsImagesGen {
   $AssetsImagesKickerGen get kicker => const $AssetsImagesKickerGen();
   $AssetsImagesLaunchRampGen get launchRamp =>
       const $AssetsImagesLaunchRampGen();
+  $AssetsImagesMultiballGen get multiball => const $AssetsImagesMultiballGen();
   $AssetsImagesMultiplierGen get multiplier =>
       const $AssetsImagesMultiplierGen();
   $AssetsImagesPlungerGen get plunger => const $AssetsImagesPlungerGen();
@@ -178,6 +179,18 @@ class $AssetsImagesLaunchRampGen {
   /// File path: assets/images/launch_ramp/ramp.png
   AssetGenImage get ramp =>
       const AssetGenImage('assets/images/launch_ramp/ramp.png');
+}
+
+class $AssetsImagesMultiballGen {
+  const $AssetsImagesMultiballGen();
+
+  /// File path: assets/images/multiball/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/multiball/dimmed.png');
+
+  /// File path: assets/images/multiball/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/multiball/lit.png');
 }
 
 class $AssetsImagesMultiplierGen {

@@ -73,5 +73,25 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byType(HowToPlayDialog), findsNothing);
     });
+
+    testWidgets('can be dismissed', (tester) async {
+      await tester.pumpApp(
+        Builder(
+          builder: (context) {
+            return TextButton(
+              onPressed: () => showHowToPlayDialog(context),
+              child: const Text('test'),
+            );
+          },
+        ),
+      );
+      expect(find.byType(HowToPlayDialog), findsNothing);
+      await tester.tap(find.text('test'));
+      await tester.pumpAndSettle();
+
+      await tester.tapAt(Offset.zero);
+      await tester.pumpAndSettle();
+      expect(find.byType(HowToPlayDialog), findsNothing);
+    });
   });
 }
