@@ -24,7 +24,7 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   /// The speed required to move the [Flipper] to its highest position.
   ///
   /// The higher the value, the faster the [Flipper] will move.
-  static const double _speed = 60;
+  static const double _speed = 90;
 
   /// Whether the [Flipper] is on the left or right side of the board.
   ///

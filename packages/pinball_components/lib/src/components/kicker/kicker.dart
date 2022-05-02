@@ -36,7 +36,7 @@ class Kicker extends BodyComponent with InitialPosition {
   })  : _side = side,
         super(
           children: [
-            BumpingBehavior(strength: 15)..applyTo(['bouncy_edge']),
+            BumpingBehavior(strength: 20)..applyTo(['bouncy_edge']),
             KickerBallContactBehavior()..applyTo(['bouncy_edge']),
             KickerBlinkingBehavior(),
             _KickerSpriteGroupComponent(
