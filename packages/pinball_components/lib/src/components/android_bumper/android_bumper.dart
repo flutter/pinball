@@ -68,7 +68,10 @@ class AndroidBumper extends BodyComponent with InitialPosition, ZIndex {
           dimmedAssetPath: Assets.images.android.bumper.b.dimmed.keyName,
           spritePosition: Vector2(0, -0.1),
           bloc: AndroidBumperCubit(),
-          children: children,
+          children: [
+            ...?children,
+            BumpingBehavior(strength: 20),
+          ],
         );
 
   /// {@macro android_bumper}

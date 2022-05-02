@@ -7,6 +7,7 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_components/src/components/bumping_behavior.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 class AndroidSpaceship extends Component {
@@ -141,14 +142,9 @@ class _AndroidHead extends BodyComponent with InitialPosition, Layered, ZIndex {
       majorRadius: 3.1,
       minorRadius: 2,
     )..rotate(1.4);
-    // TODO(allisonryan0002): use bumping behavior.
-    final fixtureDef = FixtureDef(
-      shape,
-      restitution: 0.1,
-    );
     final bodyDef = BodyDef(position: initialPosition);
 
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
+    return world.createBody(bodyDef)..createFixtureFromShape(shape);
   }
 }
 

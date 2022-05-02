@@ -6,6 +6,7 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/src/components/bumping_behavior.dart';
 import 'package:pinball_components/src/components/dash_nest_bumper/behaviors/behaviors.dart';
 
 import '../../../helpers/helpers.dart';
@@ -80,6 +81,15 @@ void main() {
           dashNestBumper.children
               .whereType<DashNestBumperBallContactBehavior>()
               .single,
+          isNotNull,
+        );
+      });
+
+      flameTester.test('a BumpingBehavior', (game) async {
+        final dashNestBumper = DashNestBumper.a();
+        await game.ensureAdd(dashNestBumper);
+        expect(
+          dashNestBumper.children.whereType<BumpingBehavior>().single,
           isNotNull,
         );
       });
