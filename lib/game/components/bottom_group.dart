@@ -50,7 +50,6 @@ class _BottomGroupSide extends Component {
       );
     final kicker = Kicker(
       side: _side,
-      bloc: KickerCubit(),
       children: [
         ScoringBehavior(points: 5000)..applyTo(['bouncy_edge']),
       ],

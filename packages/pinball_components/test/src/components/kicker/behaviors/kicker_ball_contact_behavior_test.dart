@@ -34,7 +34,10 @@ void main() {
             initialState: KickerState.lit,
           );
 
-          final kicker = Kicker.test(bloc: bloc);
+          final kicker = Kicker.test(
+            side: BoardSide.left,
+            bloc: bloc,
+          );
           await kicker.add(behavior);
           await game.ensureAdd(kicker);
 

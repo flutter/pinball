@@ -27,9 +27,9 @@ class KickerGame extends BallGame {
     final center = screenToWorld(camera.viewport.canvasSize! / 2);
     await addAll(
       [
-        Kicker(side: BoardSide.left, bloc: KickerCubit())
+        Kicker(side: BoardSide.left)
           ..initialPosition = Vector2(center.x - 8.8, center.y),
-        Kicker(side: BoardSide.right, bloc: KickerCubit())
+        Kicker(side: BoardSide.right)
           ..initialPosition = Vector2(center.x + 8.8, center.y),
       ],
     );

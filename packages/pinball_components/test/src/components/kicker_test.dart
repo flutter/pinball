@@ -27,11 +27,11 @@ void main() {
         await game.images.loadAll(assets);
         final leftKicker = Kicker(
           side: BoardSide.left,
-          bloc: KickerCubit(),
-        )..initialPosition = Vector2(-20, 0);
+        )
+          ..initialPosition = Vector2(-20, 0)
+          ..renderBody = false;
         final rightKicker = Kicker(
           side: BoardSide.right,
-          bloc: KickerCubit(),
         )..initialPosition = Vector2(20, 0);
 
         await game.ensureAddAll([leftKicker, rightKicker]);
@@ -49,7 +49,7 @@ void main() {
     flameTester.test(
       'loads correctly',
       (game) async {
-        final kicker = Kicker(
+        final kicker = Kicker.test(
           side: BoardSide.left,
           bloc: KickerCubit(),
         );
@@ -70,7 +70,10 @@ void main() {
         initialState: KickerState.lit,
       );
       when(bloc.close).thenAnswer((_) async {});
-      final kicker = Kicker.test(bloc: bloc);
+      final kicker = Kicker.test(
+        side: BoardSide.left,
+        bloc: bloc,
+      );
 
       await game.ensureAdd(kicker);
       game.remove(kicker);
@@ -85,7 +88,6 @@ void main() {
         final kicker = Kicker(
           side: BoardSide.left,
           children: [component],
-          bloc: KickerCubit(),
         );
         await game.ensureAdd(kicker);
         expect(kicker.children, contains(component));
@@ -94,7 +96,6 @@ void main() {
       flameTester.test('a BumpingBehavior', (game) async {
         final kicker = Kicker(
           side: BoardSide.left,
-          bloc: KickerCubit(),
         );
         await game.ensureAdd(kicker);
         expect(
@@ -106,7 +107,6 @@ void main() {
       flameTester.test('a KickerBallContactBehavior', (game) async {
         final kicker = Kicker(
           side: BoardSide.left,
-          bloc: KickerCubit(),
         );
         await game.ensureAdd(kicker);
         expect(
@@ -118,7 +118,6 @@ void main() {
       flameTester.test('a KickerBlinkingBehavior', (game) async {
         final kicker = Kicker(
           side: BoardSide.left,
-          bloc: KickerCubit(),
         );
         await game.ensureAdd(kicker);
         expect(

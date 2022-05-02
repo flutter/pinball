@@ -22,6 +22,15 @@ class Kicker extends BodyComponent with InitialPosition {
   /// {@macro kicker}
   Kicker({
     required BoardSide side,
+    Iterable<Component>? children,
+  }) : this._(
+          side: side,
+          bloc: KickerCubit(),
+          children: children,
+        );
+
+  Kicker._({
+    required BoardSide side,
     required this.bloc,
     Iterable<Component>? children,
   })  : _side = side,
@@ -47,7 +56,8 @@ class Kicker extends BodyComponent with InitialPosition {
   @visibleForTesting
   Kicker.test({
     required this.bloc,
-  }) : _side = BoardSide.left;
+    required BoardSide side,
+  }) : _side = side;
 
   // TODO(alestiago): Consider refactoring once the following is merged:
   // https://github.com/flame-engine/flame/pull/1538
