@@ -5,6 +5,7 @@ import 'package:flame_forge2d/flame_forge2d.dart' hide Timer;
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_components/src/components/chrome_dino/behaviors/behaviors.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 export 'cubit/chrome_dino_cubit.dart';
 
@@ -14,12 +15,12 @@ export 'cubit/chrome_dino_cubit.dart';
 /// Upon eating a [Ball], the dino rotates and spits the [Ball] out in the
 /// opposite direction.
 /// {@endtemplate}
-class ChromeDino extends BodyComponent with InitialPosition, ContactCallbacks {
+class ChromeDino extends BodyComponent
+    with InitialPosition, ContactCallbacks, ZIndex {
   /// {@macro chrome_dino}
   ChromeDino({Iterable<Component>? children})
       : bloc = ChromeDinoCubit(),
         super(
-          priority: RenderPriority.dino,
           children: [
             _ChromeDinoMouthSprite(),
             _ChromeDinoHeadSprite(),
@@ -30,7 +31,9 @@ class ChromeDino extends BodyComponent with InitialPosition, ContactCallbacks {
             ...?children,
           ],
           renderBody: false,
-        );
+        ) {
+    zIndex = ZIndexes.dino;
+  }
 
   /// Creates a [ChromeDino] without any children.
   ///
