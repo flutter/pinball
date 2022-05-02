@@ -101,10 +101,10 @@ abstract class ZIndexes {
 
   static const androidBumper = _above + ballOnBoard;
 
-  // Score Text
+  // Score
 
-  static const scoreText = _above + spaceshipRampForegroundRailing;
+  static const score = _above + spaceshipRampForegroundRailing;
 
   // Debug information
-  static const debugInfo = _above + scoreText;
+  static const debugInfo = _above + score;
 }

@@ -51,7 +51,7 @@ class _BottomGroupSide extends Component {
     final kicker = Kicker(
       side: _side,
       children: [
-        ScoringBehavior(points: 5000)..applyTo(['bouncy_edge']),
+        ScoringBehavior(points: Points.fiveThousand)..applyTo(['bouncy_edge']),
       ],
     )..initialPosition = Vector2(
         (22.64 * direction) + centerXAdjustment,
