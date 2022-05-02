@@ -116,7 +116,7 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
       math.pow(defaultGravity, 2) - math.pow(positionalXForce, 2),
     );
 
-    body.gravityOverride = Vector2(-positionalXForce, positionalYForce);
+    body.gravityOverride = Vector2(positionalXForce, positionalYForce);
   }
 }
 
