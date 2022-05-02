@@ -64,12 +64,11 @@ class Signpost extends BodyComponent with InitialPosition {
   @override
   Body createBody() {
     final shape = CircleShape()..radius = 0.25;
-    final fixtureDef = FixtureDef(shape);
     final bodyDef = BodyDef(
       position: initialPosition,
     );
 
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
+    return world.createBody(bodyDef)..createFixtureFromShape(shape);
   }
 }
 
