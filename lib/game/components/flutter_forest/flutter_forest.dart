@@ -18,22 +18,22 @@ class FlutterForest extends Component with ZIndex {
           children: [
             Signpost(
               children: [
-                ScoringBehavior(points: 20),
+                ScoringBehavior(points: Points.fiveThousand),
               ],
             )..initialPosition = Vector2(8.35, -58.3),
             DashNestBumper.main(
               children: [
-                ScoringBehavior(points: 200000),
+                ScoringBehavior(points: Points.twoHundredThousand),
               ],
             )..initialPosition = Vector2(18.55, -59.35),
             DashNestBumper.a(
               children: [
-                ScoringBehavior(points: 20000),
+                ScoringBehavior(points: Points.twentyThousand),
               ],
             )..initialPosition = Vector2(8.95, -51.95),
             DashNestBumper.b(
               children: [
-                ScoringBehavior(points: 20000),
+                ScoringBehavior(points: Points.twentyThousand),
               ],
             )..initialPosition = Vector2(22.3, -46.75),
             DashAnimatronic()..position = Vector2(20, -66),

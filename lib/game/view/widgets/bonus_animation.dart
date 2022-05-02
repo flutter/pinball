@@ -126,7 +126,7 @@ class _BonusAnimationState extends State<BonusAnimation>
     );
     animation = spriteSheet.createAnimation(
       row: 0,
-      stepTime: 1 / 24,
+      stepTime: 1 / 12,
       to: spriteSheet.rows * spriteSheet.columns,
       loop: false,
     );

@@ -95,9 +95,7 @@ class MockAndroidBumper extends Mock implements AndroidBumper {}
 
 class MockSparkyBumper extends Mock implements SparkyBumper {}
 
-class MockMultiplier extends Mock implements Multiplier {}
-
-class MockMultipliersGroup extends Mock implements Multipliers {}
+class MockMultiballCubit extends Mock implements MultiballCubit {}
 
 class MockMultiplierCubit extends Mock implements MultiplierCubit {}
 

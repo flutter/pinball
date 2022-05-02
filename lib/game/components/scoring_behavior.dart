@@ -12,21 +12,21 @@ import 'package:pinball_flame/pinball_flame.dart';
 class ScoringBehavior extends ContactBehavior with HasGameRef<PinballGame> {
   /// {@macro scoring_behavior}
   ScoringBehavior({
-    required int points,
+    required Points points,
   }) : _points = points;
 
-  final int _points;
+  final Points _points;
 
   @override
   void beginContact(Object other, Contact contact) {
     super.beginContact(other, contact);
     if (other is! Ball) return;
 
-    gameRef.read<GameBloc>().add(Scored(points: _points));
+    gameRef.read<GameBloc>().add(Scored(points: _points.value));
     gameRef.audio.score();
     gameRef.firstChild<ZCanvasComponent>()!.add(
-          ScoreText(
-            text: _points.toString(),
+          ScoreComponent(
+            points: _points,
             position: other.body.position,
           ),
         );
