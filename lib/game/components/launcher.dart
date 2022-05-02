@@ -3,7 +3,8 @@ import 'package:pinball/game/components/components.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 
 /// {@template launcher}
-/// Section where the ball is launched from.
+/// Channel on the right side of the board containing the [LaunchRamp],
+/// [Plunger], and [RocketSpriteComponent].
 /// {@endtemplate}
 class Launcher extends Component {
   /// {@macro launcher}

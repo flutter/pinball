@@ -4,7 +4,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template boundaries}
-/// Pinball machine boundaring walls.
+/// Pinball machine walls.
 /// {@endtemplate}
 class Boundaries extends Component {
   /// {@macro boundaries}

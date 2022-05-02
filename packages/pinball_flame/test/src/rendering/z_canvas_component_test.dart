@@ -42,15 +42,12 @@ void main() {
     });
 
     flameTester.testGameWidget(
-      'red circle rendes behind blue circle',
+      'red circle renders behind blue circle',
       setUp: (game, tester) async {
-        final redSquare = _TestCircleComponent(Colors.red)..zIndex = 0;
-        final blueSquare = _TestCircleComponent(Colors.blue)..zIndex = 1;
-
         final canvas = ZCanvasComponent(
           children: [
-            blueSquare,
-            redSquare,
+            _TestCircleComponent(Colors.blue)..zIndex = 1,
+            _TestCircleComponent(Colors.red)..zIndex = 0,
           ],
         );
         await game.ensureAdd(canvas);
@@ -66,15 +63,12 @@ void main() {
     );
 
     flameTester.testGameWidget(
-      'blue circle rendes behind red circle',
+      'blue circle renders behind red circle',
       setUp: (game, tester) async {
-        final redSquare = _TestCircleComponent(Colors.red)..zIndex = 1;
-        final blueSquare = _TestCircleComponent(Colors.blue)..zIndex = 0;
-
         final canvas = ZCanvasComponent(
           children: [
-            blueSquare,
-            redSquare,
+            _TestCircleComponent(Colors.blue)..zIndex = 0,
+            _TestCircleComponent(Colors.red)..zIndex = 1
           ],
         );
         await game.ensureAdd(canvas);

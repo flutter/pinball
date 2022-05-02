@@ -52,10 +52,7 @@ class PinballGame extends Forge2DGame
     ];
     final decals = [
       GoogleWord(
-        position: Vector2(
-          BoardDimensions.bounds.center.dx - 4.1,
-          BoardDimensions.bounds.center.dy + 1.8,
-        ),
+        position: Vector2(-4.1, 1.8),
       ),
       Multipliers(),
     ];

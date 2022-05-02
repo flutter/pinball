@@ -6,11 +6,11 @@ import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 import 'package:pinball_flame/pinball_flame.dart';
 
-/// {@template dinowalls}
+/// {@template dino_walls}
 /// Walls near the [ChromeDino].
 /// {@endtemplate}
 class DinoWalls extends Component {
-  /// {@macro dinowalls}
+  /// {@macro dino_walls}
   DinoWalls()
       : super(
           children: [
