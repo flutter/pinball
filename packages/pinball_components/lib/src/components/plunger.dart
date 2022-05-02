@@ -95,11 +95,14 @@ class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
 
   @override
   void update(double dt) {
+    // Ensure that we only pull or release when the time is greater than zero.
     if (_pullingDownTime > 0) {
       _pullingDownTime -= dt;
-      pull();
-    } else {
-      release();
+      if (_pullingDownTime <= 0) {
+        release();
+      } else {
+        pull();
+      }
     }
     super.update(dt);
   }
