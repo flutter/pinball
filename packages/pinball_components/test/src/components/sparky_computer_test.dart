@@ -4,7 +4,6 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -18,20 +17,17 @@ void main() {
     ];
     final flameTester = FlameTester(() => TestGame(assets));
 
-    flameTester.test(
-      'loads correctly',
-      (game) async {
-        await game.addFromBlueprint(SparkyComputer());
-        await game.ready();
-      },
-    );
+    flameTester.test('loads correctly', (game) async {
+      final component = SparkyComputer();
+      await game.ensureAdd(component);
+      expect(game.contains(component), isTrue);
+    });
 
     flameTester.testGameWidget(
       'renders correctly',
       setUp: (game, tester) async {
         await game.images.loadAll(assets);
-        await game.addFromBlueprint(SparkyComputer());
-        await game.ready();
+        await game.ensureAdd(SparkyComputer());
         await tester.pump();
 
         game.camera

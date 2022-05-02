@@ -12,6 +12,20 @@ import '../../../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  final assets = [
+    Assets.images.googleWord.letter1.lit.keyName,
+    Assets.images.googleWord.letter1.dimmed.keyName,
+    Assets.images.googleWord.letter2.lit.keyName,
+    Assets.images.googleWord.letter2.dimmed.keyName,
+    Assets.images.googleWord.letter3.lit.keyName,
+    Assets.images.googleWord.letter3.dimmed.keyName,
+    Assets.images.googleWord.letter4.lit.keyName,
+    Assets.images.googleWord.letter4.dimmed.keyName,
+    Assets.images.googleWord.letter5.lit.keyName,
+    Assets.images.googleWord.letter5.dimmed.keyName,
+    Assets.images.googleWord.letter6.lit.keyName,
+    Assets.images.googleWord.letter6.dimmed.keyName,
+  ];
 
   group('GoogleWordBonusBehaviors', () {
     late GameBloc gameBloc;
@@ -28,6 +42,7 @@ void main() {
     final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
       gameBuilder: EmptyPinballTestGame.new,
       blocBuilder: () => gameBloc,
+      assets: assets,
     );
 
     flameBlocTester.testGameWidget(

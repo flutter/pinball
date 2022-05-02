@@ -17,17 +17,24 @@ void main() {
       Assets.images.boundary.outerBottom.keyName,
       Assets.images.boundary.bottom.keyName,
     ];
-    final flameTester = FlameTester(TestGame.new);
+    final flameTester = FlameTester(() => TestGame(assets));
+
+    flameTester.test('loads correctly', (game) async {
+      final component = Boundaries();
+      await game.ensureAdd(component);
+      expect(game.contains(component), isTrue);
+    });
 
     flameTester.testGameWidget(
       'render correctly',
       setUp: (game, tester) async {
         await game.images.loadAll(assets);
-        await game.addFromBlueprint(Boundaries());
-        await game.ready();
+        final canvas = ZCanvasComponent(children: [Boundaries()]);
+        await game.ensureAdd(canvas);
 
         game.camera.followVector2(Vector2.zero());
         game.camera.zoom = 3.2;
+        await tester.pump();
       },
       verify: (game, tester) async {
         await expectLater(

@@ -46,19 +46,19 @@
   },
   "select": "Select",
   "@select": {
-    "description": "Text displayed on the character selection page select button"
+    "description": "Text displayed on the character selection dialog - select button"
   },
   "space": "Space",
   "@space": {
     "description": "Text displayed on space control button"
   },
-  "characterSelectionTitle": "Choose your character!",
+  "characterSelectionTitle": "Select a Character",
   "@characterSelectionTitle": {
-    "description": "Title text displayed on the character selection page"
+    "description": "Title text displayed on the character selection dialog"
   },
-  "characterSelectionSubtitle": "There’s no wrong answer",
+  "characterSelectionSubtitle": "There’s no wrong choice!",
   "@characterSelectionSubtitle": {
-    "description": "Text displayed on the selecting character dialog at game beginning"
+    "description": "Subtitle text displayed on the character selection dialog"
   },
   "gameOver": "Game Over",
   "@gameOver": {

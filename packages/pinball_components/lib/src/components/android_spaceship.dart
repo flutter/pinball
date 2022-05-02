@@ -5,14 +5,13 @@ import 'dart:math' as math;
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:pinball_components/gen/assets.gen.dart';
-import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
-class AndroidSpaceship extends Blueprint {
+class AndroidSpaceship extends Component {
   AndroidSpaceship({required Vector2 position})
       : super(
-          components: [
+          children: [
             _SpaceshipSaucer()..initialPosition = position,
             _SpaceshipSaucerSpriteAnimationComponent()..position = position,
             _LightBeamSpriteComponent()..position = position + Vector2(2.5, 5),
@@ -20,11 +19,11 @@ class AndroidSpaceship extends Blueprint {
             _SpaceshipEntrance(),
             _SpaceshipHole(
               outsideLayer: Layer.spaceshipExitRail,
-              outsidePriority: RenderPriority.ballOnSpaceshipRail,
+              outsidePriority: ZIndexes.ballOnSpaceshipRail,
             )..initialPosition = position - Vector2(5.3, -5.4),
             _SpaceshipHole(
               outsideLayer: Layer.board,
-              outsidePriority: RenderPriority.ballOnBoard,
+              outsidePriority: ZIndexes.ballOnBoard,
             )..initialPosition = position - Vector2(-7.5, -1.1),
           ],
         );
@@ -66,12 +65,13 @@ class _SpaceshipSaucerShape extends ChainShape {
 }
 
 class _SpaceshipSaucerSpriteAnimationComponent extends SpriteAnimationComponent
-    with HasGameRef {
+    with HasGameRef, ZIndex {
   _SpaceshipSaucerSpriteAnimationComponent()
       : super(
           anchor: Anchor.center,
-          priority: RenderPriority.spaceshipSaucer,
-        );
+        ) {
+    zIndex = ZIndexes.spaceshipSaucer;
+  }
 
   @override
   Future<void> onLoad() async {
@@ -102,12 +102,14 @@ class _SpaceshipSaucerSpriteAnimationComponent extends SpriteAnimationComponent
 }
 
 // TODO(allisonryan0002): add pulsing behavior.
-class _LightBeamSpriteComponent extends SpriteComponent with HasGameRef {
+class _LightBeamSpriteComponent extends SpriteComponent
+    with HasGameRef, ZIndex {
   _LightBeamSpriteComponent()
       : super(
           anchor: Anchor.center,
-          priority: RenderPriority.spaceshipLightBeam,
-        );
+        ) {
+    zIndex = ZIndexes.spaceshipLightBeam;
+  }
 
   @override
   Future<void> onLoad() async {
@@ -122,14 +124,14 @@ class _LightBeamSpriteComponent extends SpriteComponent with HasGameRef {
   }
 }
 
-class _AndroidHead extends BodyComponent with InitialPosition, Layered {
+class _AndroidHead extends BodyComponent with InitialPosition, Layered, ZIndex {
   _AndroidHead()
       : super(
-          priority: RenderPriority.androidHead,
           children: [_AndroidHeadSpriteAnimationComponent()],
           renderBody: false,
         ) {
     layer = Layer.spaceship;
+    zIndex = ZIndexes.androidHead;
   }
 
   @override
@@ -139,14 +141,9 @@ class _AndroidHead extends BodyComponent with InitialPosition, Layered {
       majorRadius: 3.1,
       minorRadius: 2,
     )..rotate(1.4);
-    // TODO(allisonryan0002): use bumping behavior.
-    final fixtureDef = FixtureDef(
-      shape,
-      restitution: 0.1,
-    );
     final bodyDef = BodyDef(position: initialPosition);
 
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
+    return world.createBody(bodyDef)..createFixtureFromShape(shape);
   }
 }
 
@@ -216,8 +213,8 @@ class _SpaceshipHole extends LayerSensor {
           insideLayer: Layer.spaceship,
           outsideLayer: outsideLayer,
           orientation: LayerEntranceOrientation.down,
-          insidePriority: RenderPriority.ballOnSpaceship,
-          outsidePriority: outsidePriority,
+          insideZIndex: ZIndexes.ballOnSpaceship,
+          outsideZIndex: outsidePriority,
         ) {
     layer = Layer.spaceship;
   }

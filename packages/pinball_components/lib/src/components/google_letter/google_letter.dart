@@ -7,6 +7,33 @@ import 'package:pinball_flame/pinball_flame.dart';
 
 export 'cubit/google_letter_cubit.dart';
 
+final _spritePaths = <Map<GoogleLetterState, String>>[
+  {
+    GoogleLetterState.lit: Assets.images.googleWord.letter1.lit.keyName,
+    GoogleLetterState.dimmed: Assets.images.googleWord.letter1.dimmed.keyName,
+  },
+  {
+    GoogleLetterState.lit: Assets.images.googleWord.letter2.lit.keyName,
+    GoogleLetterState.dimmed: Assets.images.googleWord.letter2.dimmed.keyName,
+  },
+  {
+    GoogleLetterState.lit: Assets.images.googleWord.letter3.lit.keyName,
+    GoogleLetterState.dimmed: Assets.images.googleWord.letter3.dimmed.keyName,
+  },
+  {
+    GoogleLetterState.lit: Assets.images.googleWord.letter4.lit.keyName,
+    GoogleLetterState.dimmed: Assets.images.googleWord.letter4.dimmed.keyName,
+  },
+  {
+    GoogleLetterState.lit: Assets.images.googleWord.letter5.lit.keyName,
+    GoogleLetterState.dimmed: Assets.images.googleWord.letter5.dimmed.keyName,
+  },
+  {
+    GoogleLetterState.lit: Assets.images.googleWord.letter6.lit.keyName,
+    GoogleLetterState.dimmed: Assets.images.googleWord.letter6.dimmed.keyName,
+  },
+];
+
 /// {@template google_letter}
 /// Circular sensor that represents a letter in "GOOGLE" for a given index.
 /// {@endtemplate}
@@ -15,13 +42,27 @@ class GoogleLetter extends BodyComponent with InitialPosition {
   GoogleLetter(
     int index, {
     Iterable<Component>? children,
-  })  : bloc = GoogleLetterCubit(),
-        super(
+  }) : this._(
+          index,
+          bloc: GoogleLetterCubit(),
+          children: children,
+        );
+
+  GoogleLetter._(
+    int index, {
+    required this.bloc,
+    Iterable<Component>? children,
+  }) : super(
           children: [
+            _GoogleLetterSpriteGroupComponent(
+              litAssetPath: _spritePaths[index][GoogleLetterState.lit]!,
+              dimmedAssetPath: _spritePaths[index][GoogleLetterState.dimmed]!,
+              current: bloc.state,
+            ),
             GoogleLetterBallContactBehavior(),
-            _GoogleLetterSprite(_GoogleLetterSprite.spritePaths[index]),
             ...?children,
           ],
+          renderBody: false,
         );
 
   /// Creates a [GoogleLetter] without any children.
@@ -61,33 +102,37 @@ class GoogleLetter extends BodyComponent with InitialPosition {
   }
 }
 
-class _GoogleLetterSprite extends SpriteComponent
+class _GoogleLetterSpriteGroupComponent
+    extends SpriteGroupComponent<GoogleLetterState>
     with HasGameRef, ParentIsA<GoogleLetter> {
-  _GoogleLetterSprite(String path)
-      : _path = path,
-        super(anchor: Anchor.center);
+  _GoogleLetterSpriteGroupComponent({
+    required String litAssetPath,
+    required String dimmedAssetPath,
+    required GoogleLetterState current,
+  })  : _litAssetPath = litAssetPath,
+        _dimmedAssetPath = dimmedAssetPath,
+        super(
+          anchor: Anchor.center,
+          current: current,
+        );
 
-  static final spritePaths = [
-    Assets.images.googleWord.letter1.keyName,
-    Assets.images.googleWord.letter2.keyName,
-    Assets.images.googleWord.letter3.keyName,
-    Assets.images.googleWord.letter4.keyName,
-    Assets.images.googleWord.letter5.keyName,
-    Assets.images.googleWord.letter6.keyName,
-  ];
-
-  final String _path;
+  final String _litAssetPath;
+  final String _dimmedAssetPath;
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    // TODO(alisonryan2002): Make SpriteGroupComponent.
-    // parent.bloc.stream.listen();
+    parent.bloc.stream.listen((state) => current = state);
 
-    // TODO(alestiago): Used cached assets.
-    final sprite = await gameRef.loadSprite(_path);
-    this.sprite = sprite;
-    // TODO(alestiago): Size correctly once the assets are provided.
-    size = sprite.originalSize / 5;
+    final sprites = {
+      GoogleLetterState.lit: Sprite(
+        gameRef.images.fromCache(_litAssetPath),
+      ),
+      GoogleLetterState.dimmed: Sprite(
+        gameRef.images.fromCache(_dimmedAssetPath),
+      ),
+    };
+    this.sprites = sprites;
+    size = sprites[current]!.originalSize / 10;
   }
 }
