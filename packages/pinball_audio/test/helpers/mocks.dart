@@ -29,6 +29,19 @@ abstract class _PlaySingleAudioStub {
 
 class PlaySingleAudioStub extends Mock implements _PlaySingleAudioStub {}
 
+abstract class _LoopSingleAudioStub {
+  Future<void> onCall(String url);
+}
+
+class LoopSingleAudioStub extends Mock implements _LoopSingleAudioStub {}
+
+abstract class _PreCacheSingleAudioStub {
+  Future<void> onCall(String url);
+}
+
+class PreCacheSingleAudioStub extends Mock implements _PreCacheSingleAudioStub {
+}
+
 class MockAudioPool extends Mock implements AudioPool {}
 
 class MockAudioCache extends Mock implements AudioCache {}
