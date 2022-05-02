@@ -9,6 +9,8 @@ import 'package:pinball_components/src/components/kicker/behaviors/behaviors.dar
 
 import '../../../../helpers/helpers.dart';
 
+class _MockKickerCubit extends Mock implements KickerCubit {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final flameTester = FlameTester(TestGame.new);
@@ -20,7 +22,7 @@ void main() {
         'calls onBlinked after 0.05 seconds when dimmed',
         setUp: (game, tester) async {
           final behavior = KickerBlinkingBehavior();
-          final bloc = MockKickerCubit();
+          final bloc = _MockKickerCubit();
           final streamController = StreamController<KickerState>();
           whenListen(
             bloc,

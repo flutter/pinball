@@ -11,6 +11,8 @@ import 'package:pinball_components/src/components/kicker/behaviors/behaviors.dar
 
 import '../../helpers/helpers.dart';
 
+class _MockKickerCubit extends Mock implements KickerCubit {}
+
 void main() {
   group('Kicker', () {
     final assets = [
@@ -63,7 +65,7 @@ void main() {
     // https://github.com/flame-engine/flame/pull/1538
     // ignore: public_member_api_docs
     flameTester.test('closes bloc when removed', (game) async {
-      final bloc = MockKickerCubit();
+      final bloc = _MockKickerCubit();
       whenListen(
         bloc,
         const Stream<KickerState>.empty(),
