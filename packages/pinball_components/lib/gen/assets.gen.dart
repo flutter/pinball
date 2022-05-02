@@ -169,13 +169,8 @@ class $AssetsImagesGoogleWordGen {
 class $AssetsImagesKickerGen {
   const $AssetsImagesKickerGen();
 
-  /// File path: assets/images/kicker/left.png
-  AssetGenImage get left =>
-      const AssetGenImage('assets/images/kicker/left.png');
-
-  /// File path: assets/images/kicker/right.png
-  AssetGenImage get right =>
-      const AssetGenImage('assets/images/kicker/right.png');
+  $AssetsImagesKickerLeftGen get left => const $AssetsImagesKickerLeftGen();
+  $AssetsImagesKickerRightGen get right => const $AssetsImagesKickerRightGen();
 }
 
 class $AssetsImagesLaunchRampGen {
@@ -342,6 +337,30 @@ class $AssetsImagesDinoAnimatronicGen {
   /// File path: assets/images/dino/animatronic/mouth.png
   AssetGenImage get mouth =>
       const AssetGenImage('assets/images/dino/animatronic/mouth.png');
+}
+
+class $AssetsImagesKickerLeftGen {
+  const $AssetsImagesKickerLeftGen();
+
+  /// File path: assets/images/kicker/left/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/kicker/left/dimmed.png');
+
+  /// File path: assets/images/kicker/left/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/kicker/left/lit.png');
+}
+
+class $AssetsImagesKickerRightGen {
+  const $AssetsImagesKickerRightGen();
+
+  /// File path: assets/images/kicker/right/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/kicker/right/dimmed.png');
+
+  /// File path: assets/images/kicker/right/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/kicker/right/lit.png');
 }
 
 class $AssetsImagesMultiplierX2Gen {
