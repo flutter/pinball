@@ -17,27 +17,27 @@ class GoogleWord extends Component with ZIndex {
             GoogleLetter(
               0,
               children: [ScoringBehavior(points: 5000)],
-            )..initialPosition = position + Vector2(-12.92, 1.82),
+            )..initialPosition = position + Vector2(-13.1, 1.72),
             GoogleLetter(
               1,
               children: [ScoringBehavior(points: 5000)],
-            )..initialPosition = position + Vector2(-8.33, -0.65),
+            )..initialPosition = position + Vector2(-8.33, -0.75),
             GoogleLetter(
               2,
               children: [ScoringBehavior(points: 5000)],
-            )..initialPosition = position + Vector2(-2.88, -1.75),
+            )..initialPosition = position + Vector2(-2.88, -1.85),
             GoogleLetter(
               3,
               children: [ScoringBehavior(points: 5000)],
-            )..initialPosition = position + Vector2(2.88, -1.75),
+            )..initialPosition = position + Vector2(2.88, -1.85),
             GoogleLetter(
               4,
               children: [ScoringBehavior(points: 5000)],
-            )..initialPosition = position + Vector2(8.33, -0.65),
+            )..initialPosition = position + Vector2(8.33, -0.75),
             GoogleLetter(
               5,
               children: [ScoringBehavior(points: 5000)],
-            )..initialPosition = position + Vector2(12.92, 1.82),
+            )..initialPosition = position + Vector2(13.1, 1.72),
             GoogleWordBonusBehavior(),
           ],
         ) {

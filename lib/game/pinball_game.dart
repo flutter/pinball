@@ -51,9 +51,7 @@ class PinballGame extends Forge2DGame
       Backboard.waiting(position: Vector2(0, -88)),
     ];
     final decals = [
-      GoogleWord(
-        position: Vector2(-4.1, 1.8),
-      ),
+      GoogleWord(position: Vector2(-4.25, 1.8)),
       Multipliers(),
     ];
     final characterAreas = [
