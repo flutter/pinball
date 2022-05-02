@@ -3,19 +3,18 @@ import 'dart:async';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class LaunchRampGame extends BallGame {
   LaunchRampGame()
       : super(
           color: Colors.blue,
-          ballPriority: RenderPriority.ballOnLaunchRamp,
+          ballPriority: ZIndexes.ballOnLaunchRamp,
           ballLayer: Layer.launcher,
         );
 
   static const description = '''
-    Shows how LaunchRamp are rendered.
+    Shows how the LaunchRamp is rendered.
 
     - Activate the "trace" parameter to overlay the body.
     - Tap anywhere on the screen to spawn a ball into the game.
@@ -26,9 +25,9 @@ class LaunchRampGame extends BallGame {
     await super.onLoad();
 
     camera
-      ..followVector2(Vector2(0, 0))
+      ..followVector2(Vector2.zero())
       ..zoom = 7.5;
-    await addFromBlueprint(LaunchRamp());
+    await add(LaunchRamp());
     await ready();
     await traceAllBodies();
   }

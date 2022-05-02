@@ -4,11 +4,12 @@ import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template score_text}
 /// A [TextComponent] that spawns at a given [position] with a moving animation.
 /// {@endtemplate}
-class ScoreText extends TextComponent {
+class ScoreText extends TextComponent with ZIndex {
   /// {@macro score_text}
   ScoreText({
     required String text,
@@ -18,8 +19,9 @@ class ScoreText extends TextComponent {
           text: text,
           position: position,
           anchor: Anchor.center,
-          priority: RenderPriority.scoreText,
-        );
+        ) {
+    zIndex = ZIndexes.scoreText;
+  }
 
   late final Effect _effect;
 

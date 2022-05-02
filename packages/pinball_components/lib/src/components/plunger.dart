@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template plunger}
 /// [Plunger] serves as a spring, that shoots the ball on the right side of the
@@ -8,15 +9,13 @@ import 'package:pinball_components/pinball_components.dart';
 ///
 /// [Plunger] ignores gravity so the player controls its downward [pull].
 /// {@endtemplate}
-class Plunger extends BodyComponent with InitialPosition, Layered {
+class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
   /// {@macro plunger}
   Plunger({
     required this.compressionDistance,
-    // TODO(ruimiguel): set to priority +1 over LaunchRamp once all priorities
-    // are fixed.
-  }) : super(priority: RenderPriority.plunger) {
+  }) : super(renderBody: false) {
+    zIndex = ZIndexes.plunger;
     layer = Layer.launcher;
-    renderBody = false;
   }
 
   /// Distance the plunger can lower.
@@ -80,7 +79,7 @@ class Plunger extends BodyComponent with InitialPosition, Layered {
   /// The velocity's magnitude depends on how far the [Plunger] has been pulled
   /// from its original [initialPosition].
   void release() {
-    final velocity = (initialPosition.y - body.position.y) * 5;
+    final velocity = (initialPosition.y - body.position.y) * 7;
     body.linearVelocity = Vector2(0, velocity);
     _spriteComponent.release();
   }
@@ -219,7 +218,7 @@ class PlungerAnchorPrismaticJointDef extends PrismaticJointDef {
       plunger.body,
       anchor.body,
       plunger.body.position + anchor.body.position,
-      Vector2(18.6, BoardDimensions.bounds.height),
+      Vector2(16, BoardDimensions.bounds.height),
     );
     enableLimit = true;
     lowerTranslation = double.negativeInfinity;

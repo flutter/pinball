@@ -10,21 +10,16 @@ import '../../helpers/helpers.dart';
 class TestLayerSensor extends LayerSensor {
   TestLayerSensor({
     required LayerEntranceOrientation orientation,
-    required int insidePriority,
+    required int insideZIndex,
     required Layer insideLayer,
   }) : super(
           insideLayer: insideLayer,
-          insidePriority: insidePriority,
+          insideZIndex: insideZIndex,
           orientation: orientation,
         );
 
   @override
   Shape get shape => PolygonShape()..setAsBoxXY(1, 1);
-}
-
-class TestLayerSensorBallContactCallback
-    extends LayerSensorBallContactCallback<TestLayerSensor> {
-  TestLayerSensorBallContactCallback() : super();
 }
 
 void main() {
@@ -38,7 +33,7 @@ void main() {
       (game) async {
         final layerSensor = TestLayerSensor(
           orientation: LayerEntranceOrientation.down,
-          insidePriority: insidePriority,
+          insideZIndex: insidePriority,
           insideLayer: Layer.spaceshipEntranceRamp,
         );
         await game.ensureAdd(layerSensor);
@@ -53,7 +48,7 @@ void main() {
         (game) async {
           final layerSensor = TestLayerSensor(
             orientation: LayerEntranceOrientation.down,
-            insidePriority: insidePriority,
+            insideZIndex: insidePriority,
             insideLayer: Layer.spaceshipEntranceRamp,
           );
           await game.ensureAdd(layerSensor);
@@ -71,7 +66,7 @@ void main() {
           (game) async {
             final layerSensor = TestLayerSensor(
               orientation: LayerEntranceOrientation.down,
-              insidePriority: insidePriority,
+              insideZIndex: insidePriority,
               insideLayer: pathwayLayer,
             )..layer = openingLayer;
             await game.ensureAdd(layerSensor);
@@ -85,7 +80,7 @@ void main() {
           (game) async {
             final layerSensor = TestLayerSensor(
               orientation: LayerEntranceOrientation.down,
-              insidePriority: insidePriority,
+              insideZIndex: insidePriority,
               insideLayer: pathwayLayer,
             )..layer = openingLayer;
             await game.ensureAdd(layerSensor);
@@ -100,7 +95,7 @@ void main() {
           (game) async {
             final layerSensor = TestLayerSensor(
               orientation: LayerEntranceOrientation.down,
-              insidePriority: insidePriority,
+              insideZIndex: insidePriority,
               insideLayer: pathwayLayer,
             )..layer = openingLayer;
             await game.ensureAdd(layerSensor);
@@ -113,69 +108,66 @@ void main() {
     });
   });
 
-  group('LayerSensorBallContactCallback', () {
+  group('beginContact', () {
     late Ball ball;
     late Body body;
+    late int insideZIndex;
+    late Layer insideLayer;
 
     setUp(() {
       ball = MockBall();
       body = MockBody();
+      insideZIndex = 1;
+      insideLayer = Layer.spaceshipEntranceRamp;
 
       when(() => ball.body).thenReturn(body);
-      when(() => ball.priority).thenReturn(1);
       when(() => ball.layer).thenReturn(Layer.board);
     });
 
     flameTester.test(
-        'changes ball layer and priority '
+        'changes ball layer and zIndex '
         'when a ball enters and exits a downward oriented LayerSensor',
         (game) async {
       final sensor = TestLayerSensor(
         orientation: LayerEntranceOrientation.down,
-        insidePriority: insidePriority,
-        insideLayer: Layer.spaceshipEntranceRamp,
+        insideZIndex: insidePriority,
+        insideLayer: insideLayer,
       )..initialPosition = Vector2(0, 10);
-      final callback = TestLayerSensorBallContactCallback();
 
       when(() => body.linearVelocity).thenReturn(Vector2(0, -1));
 
-      callback.begin(ball, sensor, MockContact());
-      verify(() => ball.layer = sensor.insideLayer).called(1);
-      verify(() => ball.priority = sensor.insidePriority).called(1);
-      verify(ball.reorderChildren).called(1);
+      sensor.beginContact(ball, MockContact());
+      verify(() => ball.layer = insideLayer).called(1);
+      verify(() => ball.zIndex = insideZIndex).called(1);
 
-      when(() => ball.layer).thenReturn(sensor.insideLayer);
+      when(() => ball.layer).thenReturn(insideLayer);
 
-      callback.begin(ball, sensor, MockContact());
+      sensor.beginContact(ball, MockContact());
       verify(() => ball.layer = Layer.board);
-      verify(() => ball.priority = RenderPriority.ballOnBoard).called(1);
-      verify(ball.reorderChildren).called(1);
+      verify(() => ball.zIndex = ZIndexes.ballOnBoard).called(1);
     });
 
     flameTester.test(
-        'changes ball layer and priority '
+        'changes ball layer and zIndex '
         'when a ball enters and exits an upward oriented LayerSensor',
         (game) async {
       final sensor = TestLayerSensor(
         orientation: LayerEntranceOrientation.up,
-        insidePriority: insidePriority,
-        insideLayer: Layer.spaceshipEntranceRamp,
+        insideZIndex: insidePriority,
+        insideLayer: insideLayer,
       )..initialPosition = Vector2(0, 10);
-      final callback = TestLayerSensorBallContactCallback();
 
       when(() => body.linearVelocity).thenReturn(Vector2(0, 1));
 
-      callback.begin(ball, sensor, MockContact());
-      verify(() => ball.layer = sensor.insideLayer).called(1);
-      verify(() => ball.priority = sensor.insidePriority).called(1);
-      verify(ball.reorderChildren).called(1);
+      sensor.beginContact(ball, MockContact());
+      verify(() => ball.layer = insideLayer).called(1);
+      verify(() => ball.zIndex = insidePriority).called(1);
 
-      when(() => ball.layer).thenReturn(sensor.insideLayer);
+      when(() => ball.layer).thenReturn(insideLayer);
 
-      callback.begin(ball, sensor, MockContact());
+      sensor.beginContact(ball, MockContact());
       verify(() => ball.layer = Layer.board);
-      verify(() => ball.priority = RenderPriority.ballOnBoard).called(1);
-      verify(ball.reorderChildren).called(1);
+      verify(() => ball.zIndex = ZIndexes.ballOnBoard).called(1);
     });
   });
 }

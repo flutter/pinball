@@ -14,8 +14,10 @@ import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:mockingjay/mockingjay.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
-import 'package:pinball/theme/theme.dart';
+import 'package:pinball/select_character/select_character.dart';
+import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
+import 'package:pinball_ui/pinball_ui.dart';
 
 import 'helpers.dart';
 
@@ -51,8 +53,9 @@ extension PumpApp on WidgetTester {
     Widget widget, {
     MockNavigator? navigator,
     GameBloc? gameBloc,
+    StartGameBloc? startGameBloc,
     AssetsManagerCubit? assetsManagerCubit,
-    ThemeCubit? themeCubit,
+    CharacterThemeCubit? characterThemeCubit,
     LeaderboardRepository? leaderboardRepository,
     PinballAudio? pinballAudio,
   }) {
@@ -70,16 +73,20 @@ extension PumpApp on WidgetTester {
           child: MultiBlocProvider(
             providers: [
               BlocProvider.value(
-                value: themeCubit ?? MockThemeCubit(),
+                value: characterThemeCubit ?? MockCharacterThemeCubit(),
               ),
               BlocProvider.value(
                 value: gameBloc ?? MockGameBloc(),
+              ),
+              BlocProvider.value(
+                value: startGameBloc ?? MockStartGameBloc(),
               ),
               BlocProvider.value(
                 value: assetsManagerCubit ?? _buildDefaultAssetsManagerCubit(),
               ),
             ],
             child: MaterialApp(
+              theme: PinballTheme.standard,
               localizationsDelegates: const [
                 AppLocalizations.delegate,
                 GlobalMaterialLocalizations.delegate,

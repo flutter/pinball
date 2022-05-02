@@ -4,13 +4,13 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template boundaries}
-/// A [Blueprint] which creates the [_BottomBoundary] and [_OuterBoundary].
-///{@endtemplate boundaries}
-class Boundaries extends Blueprint {
+/// Pinball machine walls.
+/// {@endtemplate}
+class Boundaries extends Component {
   /// {@macro boundaries}
   Boundaries()
       : super(
-          components: [
+          children: [
             _BottomBoundary(),
             _OuterBoundary(),
             _OuterBottomBoundarySpriteComponent(),
@@ -22,14 +22,14 @@ class Boundaries extends Blueprint {
 /// Curved boundary at the bottom of the board where the [Ball] exits the field
 /// of play.
 /// {@endtemplate bottom_boundary}
-class _BottomBoundary extends BodyComponent with InitialPosition {
+class _BottomBoundary extends BodyComponent with InitialPosition, ZIndex {
   /// {@macro bottom_boundary}
   _BottomBoundary()
       : super(
-          priority: RenderPriority.bottomBoundary,
+          renderBody: false,
           children: [_BottomBoundarySpriteComponent()],
         ) {
-    renderBody = false;
+    zIndex = ZIndexes.bottomBoundary;
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -68,7 +68,7 @@ class _BottomBoundarySpriteComponent extends SpriteComponent with HasGameRef {
   _BottomBoundarySpriteComponent()
       : super(
           anchor: Anchor.center,
-          position: Vector2(-5.4, 55.6),
+          position: Vector2(-5, 55.6),
         );
 
   @override
@@ -85,19 +85,19 @@ class _BottomBoundarySpriteComponent extends SpriteComponent with HasGameRef {
 }
 
 /// {@template outer_boundary}
-/// Boundary enclosing the top and left side of the board. The right side of the
-/// board is closed by the barrier the [LaunchRamp] creates.
+/// Boundary enclosing the top and left side of the board.
+///
+/// The right side of the board is closed by the barrier the [LaunchRamp]
+/// creates.
 /// {@endtemplate outer_boundary}
-class _OuterBoundary extends BodyComponent with InitialPosition {
+class _OuterBoundary extends BodyComponent with InitialPosition, ZIndex {
   /// {@macro outer_boundary}
   _OuterBoundary()
       : super(
-          priority: RenderPriority.outerBoundary,
-          children: [
-            _OuterBoundarySpriteComponent(),
-          ],
+          renderBody: false,
+          children: [_OuterBoundarySpriteComponent()],
         ) {
-    renderBody = false;
+    zIndex = ZIndexes.outerBoundary;
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -106,28 +106,59 @@ class _OuterBoundary extends BodyComponent with InitialPosition {
         Vector2(3.6, -70.2),
         Vector2(-14.1, -70.2),
       );
-    final topWallFixtureDef = FixtureDef(topWall);
 
     final topLeftCurve = BezierCurveShape(
       controlPoints: [
-        Vector2(-32.3, -57.2),
+        topWall.vertex1,
         Vector2(-31.5, -69.9),
-        Vector2(-14.1, -70.2),
+        Vector2(-32.3, -57.2),
       ],
     );
-    final topLeftCurveFixtureDef = FixtureDef(topLeftCurve);
 
-    final leftWall = EdgeShape()
+    final topLeftWall = EdgeShape()
       ..set(
-        Vector2(-32.3, -57.2),
+        topLeftCurve.vertices.last,
+        Vector2(-33.5, -44),
+      );
+
+    final upperLeftWallCurve = BezierCurveShape(
+      controlPoints: [
+        topLeftWall.vertex1,
+        Vector2(-33.9, -40.7),
+        Vector2(-32.5, -39),
+      ],
+    );
+
+    final middleLeftWallCurve = BezierCurveShape(
+      controlPoints: [
+        upperLeftWallCurve.vertices.last,
+        Vector2(-23.2, -31.4),
+        Vector2(-33.9, -21.8),
+      ],
+    );
+
+    final lowerLeftWallCurve = BezierCurveShape(
+      controlPoints: [
+        middleLeftWallCurve.vertices.last,
+        Vector2(-32.4, -17.6),
+        Vector2(-37.3, -11),
+      ],
+    );
+
+    final bottomLeftWall = EdgeShape()
+      ..set(
+        lowerLeftWallCurve.vertices.last,
         Vector2(-43.9, 41.8),
       );
-    final leftWallFixtureDef = FixtureDef(leftWall);
 
     return [
-      topWallFixtureDef,
-      topLeftCurveFixtureDef,
-      leftWallFixtureDef,
+      FixtureDef(topWall),
+      FixtureDef(topLeftCurve),
+      FixtureDef(topLeftWall),
+      FixtureDef(upperLeftWallCurve),
+      FixtureDef(middleLeftWallCurve),
+      FixtureDef(lowerLeftWallCurve),
+      FixtureDef(bottomLeftWall),
     ];
   }
 
@@ -162,13 +193,14 @@ class _OuterBoundarySpriteComponent extends SpriteComponent with HasGameRef {
 }
 
 class _OuterBottomBoundarySpriteComponent extends SpriteComponent
-    with HasGameRef {
+    with HasGameRef, ZIndex {
   _OuterBottomBoundarySpriteComponent()
       : super(
-          priority: RenderPriority.outerBottomBoundary,
           anchor: Anchor.center,
           position: Vector2(0, 71),
-        );
+        ) {
+    zIndex = ZIndexes.outerBottomBoundary;
+  }
 
   @override
   Future<void> onLoad() async {

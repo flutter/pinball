@@ -7,12 +7,12 @@ abstract class GameEvent extends Equatable {
   const GameEvent();
 }
 
-/// {@template ball_lost_game_event}
-/// Event added when a user drops a ball off the screen.
+/// {@template round_lost_game_event}
+/// Event added when a user drops all balls off the screen and loses a round.
 /// {@endtemplate}
-class BallLost extends GameEvent {
-  /// {@macro ball_lost_game_event}
-  const BallLost();
+class RoundLost extends GameEvent {
+  /// {@macro round_lost_game_event}
+  const RoundLost();
 
   @override
   List<Object?> get props => [];
@@ -44,6 +44,17 @@ class BonusActivated extends GameEvent {
 
 class SparkyTurboChargeActivated extends GameEvent {
   const SparkyTurboChargeActivated();
+
+  @override
+  List<Object?> get props => [];
+}
+
+/// {@template multiplier_increased_game_event}
+/// Added when a multiplier is gained.
+/// {@endtemplate}
+class MultiplierIncreased extends GameEvent {
+  /// {@macro multiplier_increased_game_event}
+  const MultiplierIncreased();
 
   @override
   List<Object?> get props => [];

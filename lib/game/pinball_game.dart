@@ -6,21 +6,22 @@ import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball/gen/assets.gen.dart';
 import 'package:pinball_audio/pinball_audio.dart';
-import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
-import 'package:pinball_theme/pinball_theme.dart' hide Assets;
+import 'package:pinball_theme/pinball_theme.dart';
 
 class PinballGame extends Forge2DGame
     with
         FlameBloc,
         HasKeyboardHandlerComponents,
-        Controls<_GameBallsController> {
+        Controls<_GameBallsController>,
+        TapDetector {
   PinballGame({
-    required this.theme,
+    required this.characterTheme,
     required this.audio,
   }) {
     images.prefix = '';
@@ -33,7 +34,7 @@ class PinballGame extends Forge2DGame
   @override
   Color backgroundColor() => Colors.transparent;
 
-  final PinballTheme theme;
+  final CharacterTheme characterTheme;
 
   final PinballAudio audio;
 
@@ -41,162 +42,170 @@ class PinballGame extends Forge2DGame
 
   @override
   Future<void> onLoad() async {
-    _addContactCallbacks();
+    await add(gameFlowController = GameFlowController(this));
+    await add(CameraController(this));
 
-    unawaited(add(gameFlowController = GameFlowController(this)));
-    unawaited(add(CameraController(this)));
-    unawaited(add(Backboard.waiting(position: Vector2(0, -88))));
+    final machine = [
+      BoardBackgroundSpriteComponent(),
+      Boundaries(),
+      Backboard.waiting(position: Vector2(0, -88)),
+    ];
+    final decals = [
+      GoogleWord(
+        position: Vector2(-4.1, 1.8),
+      ),
+      Multipliers(),
+    ];
+    final characterAreas = [
+      AndroidAcres(),
+      DinoDesert(),
+      FlutterForest(),
+      SparkyScorch(),
+    ];
 
-    // TODO(allisonryan0002): banish Wall and Board classes in later PR.
-    await add(BottomWall());
-    unawaited(addFromBlueprint(Boundaries()));
-    unawaited(addFromBlueprint(LaunchRamp()));
-
-    final launcher = Launcher();
-    unawaited(addFromBlueprint(launcher));
-    unawaited(add(Board()));
-    unawaited(add(AlienZone()));
-    await addFromBlueprint(SparkyFireZone());
-    unawaited(addFromBlueprint(Slingshots()));
-    unawaited(addFromBlueprint(DinoWalls()));
-    unawaited(_addBonusWord());
-    unawaited(addFromBlueprint(SpaceshipRamp()));
-    unawaited(
-      addFromBlueprint(
-        Spaceship(
-          position: Vector2(-26.5, -28.5),
-        ),
+    await add(
+      ZCanvasComponent(
+        children: [
+          ...machine,
+          ...decals,
+          ...characterAreas,
+          Drain(),
+          BottomGroup(),
+          Launcher(),
+        ],
       ),
     );
-    unawaited(addFromBlueprint(SpaceshipRail()));
 
-    controller.attachTo(launcher.components.whereType<Plunger>().first);
     await super.onLoad();
   }
 
-  void _addContactCallbacks() {
-    addContactCallback(BallScorePointsCallback(this));
-    addContactCallback(BottomWallBallContactCallback());
+  BoardSide? focusedBoardSide;
+
+  @override
+  void onTapDown(TapDownInfo info) {
+    if (info.raw.kind == PointerDeviceKind.touch) {
+      final rocket = descendants().whereType<RocketSpriteComponent>().first;
+      final bounds = rocket.topLeftPosition & rocket.size;
+
+      // NOTE(wolfen): As long as Flame does not have https://github.com/flame-engine/flame/issues/1586 we need to check it at the highest level manually.
+      if (bounds.contains(info.eventPosition.game.toOffset())) {
+        descendants().whereType<Plunger>().single.pull();
+      } else {
+        final leftSide = info.eventPosition.widget.x < canvasSize.x / 2;
+        focusedBoardSide = leftSide ? BoardSide.left : BoardSide.right;
+        final flippers = descendants().whereType<Flipper>().where((flipper) {
+          return flipper.side == focusedBoardSide;
+        });
+        flippers.first.moveUp();
+      }
+    }
+
+    super.onTapDown(info);
   }
 
-  Future<void> _addBonusWord() async {
-    await add(
-      GoogleWord(
-        position: Vector2(
-          BoardDimensions.bounds.center.dx - 4.1,
-          BoardDimensions.bounds.center.dy + 1.8,
-        ),
-      ),
-    );
+  @override
+  void onTapUp(TapUpInfo info) {
+    final rocket = descendants().whereType<RocketSpriteComponent>().first;
+    final bounds = rocket.topLeftPosition & rocket.size;
+
+    if (bounds.contains(info.eventPosition.game.toOffset())) {
+      descendants().whereType<Plunger>().single.release();
+    } else {
+      _moveFlippersDown();
+    }
+    super.onTapUp(info);
+  }
+
+  @override
+  void onTapCancel() {
+    descendants().whereType<Plunger>().single.release();
+
+    _moveFlippersDown();
+    super.onTapCancel();
+  }
+
+  void _moveFlippersDown() {
+    if (focusedBoardSide != null) {
+      final flippers = descendants().whereType<Flipper>().where((flipper) {
+        return flipper.side == focusedBoardSide;
+      });
+      flippers.first.moveDown();
+      focusedBoardSide = null;
+    }
   }
 }
 
 class _GameBallsController extends ComponentController<PinballGame>
-    with BlocComponent<GameBloc, GameState>, HasGameRef<PinballGame> {
+    with BlocComponent<GameBloc, GameState> {
   _GameBallsController(PinballGame game) : super(game);
-
-  late final Plunger _plunger;
 
   @override
   bool listenWhen(GameState? previousState, GameState newState) {
     final noBallsLeft = component.descendants().whereType<Ball>().isEmpty;
-    final canBallRespawn = newState.balls > 0;
+    final notGameOver = !newState.isGameOver;
 
-    return noBallsLeft && canBallRespawn;
+    return noBallsLeft && notGameOver;
   }
 
   @override
   void onNewState(GameState state) {
     super.onNewState(state);
-    _spawnBall();
+    spawnBall();
   }
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    _spawnBall();
+    spawnBall();
   }
 
-  void _spawnBall() {
-    final ball = ControlledBall.launch(
-      theme: gameRef.theme,
-    )..initialPosition = Vector2(
-        _plunger.body.position.x,
-        _plunger.body.position.y - Ball.size.y,
-      );
-    component.add(ball);
-  }
-
-  /// Attaches the controller to the plunger.
-  // TODO(alestiago): Remove this method and use onLoad instead.
-  // ignore: use_setters_to_change_properties
-  void attachTo(Plunger plunger) {
-    _plunger = plunger;
+  void spawnBall() {
+    // TODO(alestiago): Refactor with behavioural pattern.
+    component.ready().whenComplete(() {
+      final plunger = parent!.descendants().whereType<Plunger>().single;
+      final ball = ControlledBall.launch(
+        characterTheme: component.characterTheme,
+      )..initialPosition = Vector2(
+          plunger.body.position.x,
+          plunger.body.position.y - Ball.size.y,
+        );
+      component.firstChild<ZCanvasComponent>()?.add(ball);
+    });
   }
 }
 
-class DebugPinballGame extends PinballGame with FPSCounter, TapDetector {
+class DebugPinballGame extends PinballGame with FPSCounter {
   DebugPinballGame({
-    required PinballTheme theme,
+    required CharacterTheme characterTheme,
     required PinballAudio audio,
   }) : super(
-          theme: theme,
+          characterTheme: characterTheme,
           audio: audio,
         ) {
-    controller = _DebugGameBallsController(this);
+    controller = _GameBallsController(this);
   }
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await _loadBackground();
     await add(_DebugInformation());
-  }
-
-  // TODO(alestiago): Move to PinballGame once we have the real background
-  // component.
-  Future<void> _loadBackground() async {
-    final sprite = await loadSprite(
-      Assets.images.components.background.path,
-    );
-    final spriteComponent = SpriteComponent(
-      sprite: sprite,
-      size: Vector2(120, 160),
-      anchor: Anchor.center,
-    )
-      ..position = Vector2(0, -7.8)
-      ..priority = RenderPriority.background;
-
-    await add(spriteComponent);
   }
 
   @override
   void onTapUp(TapUpInfo info) {
-    add(
-      ControlledBall.debug()..initialPosition = info.eventPosition.game,
-    );
+    super.onTapUp(info);
+
+    if (info.raw.kind == PointerDeviceKind.mouse) {
+      final ball = ControlledBall.debug()
+        ..initialPosition = info.eventPosition.game;
+      firstChild<ZCanvasComponent>()?.add(ball);
+    }
   }
 }
 
-class _DebugGameBallsController extends _GameBallsController {
-  _DebugGameBallsController(PinballGame game) : super(game);
-
-  @override
-  bool listenWhen(GameState? previousState, GameState newState) {
-    final noBallsLeft = component
-        .descendants()
-        .whereType<ControlledBall>()
-        .where((ball) => ball.controller is! DebugBallController)
-        .isEmpty;
-    final canBallRespawn = newState.balls > 0;
-
-    return noBallsLeft && canBallRespawn;
-  }
-}
-
+// TODO(wolfenrain): investigate this CI failure.
+// coverage:ignore-start
 class _DebugInformation extends Component with HasGameRef<DebugPinballGame> {
-  _DebugInformation() : super(priority: RenderPriority.debugInfo);
-
   @override
   PositionType get positionType => PositionType.widget;
 
@@ -225,3 +234,4 @@ class _DebugInformation extends Component with HasGameRef<DebugPinballGame> {
     _debugTextPaint.render(canvas, debugText, position);
   }
 }
+// coverage:ignore-end

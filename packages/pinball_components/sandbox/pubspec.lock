@@ -15,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.8.2"
+  bloc:
+    dependency: transitive
+    description:
+      name: bloc
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "8.0.3"
   boolean_selector:
     dependency: transitive
     description:
@@ -102,9 +109,11 @@ packages:
   flame_forge2d:
     dependency: "direct main"
     description:
-      name: flame_forge2d
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "packages/flame_forge2d"
+      ref: a50d4a1e7d9eaf66726ed1bb9894c9d495547d8f
+      resolved-ref: a50d4a1e7d9eaf66726ed1bb9894c9d495547d8f
+      url: "https://github.com/flame-engine/flame/"
+    source: git
     version: "0.11.0"
   flutter:
     dependency: "direct main"
