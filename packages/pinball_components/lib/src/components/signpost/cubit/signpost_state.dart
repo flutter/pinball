@@ -3,15 +3,15 @@
 part of 'signpost_cubit.dart';
 
 enum SignpostState {
-  /// Signpost with no active dashes.
+  /// Signpost with no active eggs.
   inactive,
 
-  /// Signpost with a single sign of lit up dashes.
+  /// Signpost with a single sign of lit up eggs.
   active1,
 
-  /// Signpost with two signs of lit up dashes.
+  /// Signpost with two signs of lit up eggs.
   active2,
 
-  /// Signpost with all signs of lit up dashes.
+  /// Signpost with all signs of lit up eggs.
   active3,
 }

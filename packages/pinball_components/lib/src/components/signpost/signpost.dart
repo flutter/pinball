@@ -33,7 +33,7 @@ class Signpost extends BodyComponent with InitialPosition {
           ],
         );
 
-  /// Creates an [Signpost] without any children.
+  /// Creates a [Signpost] without any children.
   ///
   /// This can be used for testing [Signpost]'s behaviors in isolation.
   // TODO(alestiago): Refactor injecting bloc once the following is merged:
