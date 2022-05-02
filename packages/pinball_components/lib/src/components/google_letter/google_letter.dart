@@ -127,14 +127,6 @@ class _GoogleLetterSpriteGroupComponent
     },
   ];
 
-  void activate() {
-    current = GoogleLetterState.active;
-  }
-
-  void deactivate() {
-    current = GoogleLetterState.inactive;
-  }
-
   @override
   Future<void> onLoad() async {
     await super.onLoad();
