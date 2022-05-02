@@ -3,7 +3,6 @@ import 'dart:math' as math;
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
@@ -132,7 +131,9 @@ class _BallSpriteComponent extends SpriteComponent with HasGameRef {
       gameRef.images.fromCache(spriteAsset ?? Assets.images.ball.ball.keyName),
     );
     this.sprite = sprite;
-    size = sprite.originalSize / 12.5;
+    // TODO(ruimiguel): temp fix cause final assets are bigger than default one.
+    final spriteScaleSize = (spriteAsset != null) ? 12.5 : 10.0;
+    size = sprite.originalSize / spriteScaleSize;
   }
 }
 
