@@ -12,7 +12,21 @@ import '../../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(TestGame.new);
+  final assets = [
+    Assets.images.googleWord.letter1.lit.keyName,
+    Assets.images.googleWord.letter1.dimmed.keyName,
+    Assets.images.googleWord.letter2.lit.keyName,
+    Assets.images.googleWord.letter2.dimmed.keyName,
+    Assets.images.googleWord.letter3.lit.keyName,
+    Assets.images.googleWord.letter3.dimmed.keyName,
+    Assets.images.googleWord.letter4.lit.keyName,
+    Assets.images.googleWord.letter4.dimmed.keyName,
+    Assets.images.googleWord.letter5.lit.keyName,
+    Assets.images.googleWord.letter5.dimmed.keyName,
+    Assets.images.googleWord.letter6.lit.keyName,
+    Assets.images.googleWord.letter6.dimmed.keyName,
+  ];
+  final flameTester = FlameTester(() => TestGame(assets));
 
   group('Google Letter', () {
     flameTester.test(
@@ -81,16 +95,6 @@ void main() {
       },
     );
 
-    flameTester.test('adds new children', (game) async {
-      final component = Component();
-      final googleLetter = GoogleLetter(
-        1,
-        children: [component],
-      );
-      await game.ensureAdd(googleLetter);
-      expect(googleLetter.children, contains(component));
-    });
-
     test('throws error when index out of range', () {
       expect(() => GoogleLetter(-1), throwsA(isA<RangeError>()));
       expect(() => GoogleLetter(6), throwsA(isA<RangeError>()));
@@ -104,7 +108,7 @@ void main() {
       whenListen(
         bloc,
         const Stream<GoogleLetterState>.empty(),
-        initialState: GoogleLetterState.active,
+        initialState: GoogleLetterState.lit,
       );
       when(bloc.close).thenAnswer((_) async {});
       final googleLetter = GoogleLetter.test(bloc: bloc);
@@ -116,15 +120,27 @@ void main() {
       verify(bloc.close).called(1);
     });
 
-    flameTester.test('adds a GoogleLetterBallContactBehavior', (game) async {
-      final googleLetter = GoogleLetter(0);
-      await game.ensureAdd(googleLetter);
-      expect(
-        googleLetter.children
-            .whereType<GoogleLetterBallContactBehavior>()
-            .single,
-        isNotNull,
-      );
+    group('adds', () {
+      flameTester.test('new children', (game) async {
+        final component = Component();
+        final googleLetter = GoogleLetter(
+          1,
+          children: [component],
+        );
+        await game.ensureAdd(googleLetter);
+        expect(googleLetter.children, contains(component));
+      });
+
+      flameTester.test('a GoogleLetterBallContactBehavior', (game) async {
+        final googleLetter = GoogleLetter(0);
+        await game.ensureAdd(googleLetter);
+        expect(
+          googleLetter.children
+              .whereType<GoogleLetterBallContactBehavior>()
+              .single,
+          isNotNull,
+        );
+      });
     });
   });
 }
