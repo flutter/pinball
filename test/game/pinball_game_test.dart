@@ -180,7 +180,7 @@ void main() {
           await game.ready();
 
           expect(
-            game.children.whereType<Multiballs>().length,
+            game.descendants().whereType<Multiballs>().length,
             equals(1),
           );
         },
