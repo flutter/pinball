@@ -29,7 +29,13 @@ class RampShotBehavior extends Component
   void onMount() {
     super.onMount();
 
-    final sensors = parent.children.whereType<RampSensor>();
+    final sensors = parent
+        .descendants()
+        .whereType<SpaceshipRamp>()
+        .first
+        .descendants()
+        .whereType<RampSensor>();
+
     for (final sensor in sensors) {
       sensor.bloc.stream.listen((state) {
         switch (state.type) {
@@ -58,7 +64,7 @@ class RampShotBehavior extends Component
   }
 
   void _shot() {
-    parent.spaceshipRamp.progress();
+    parent.descendants().whereType<SpaceshipRamp>().first.progress();
 
     gameRef.read<GameBloc>()
       ..add(const MultiplierIncreased())

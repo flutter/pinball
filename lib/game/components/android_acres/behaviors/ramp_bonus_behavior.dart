@@ -30,7 +30,13 @@ class RampBonusBehavior extends Component
   void onMount() {
     super.onMount();
 
-    final sensors = parent.children.whereType<RampSensor>();
+    final sensors = parent
+        .descendants()
+        .whereType<SpaceshipRamp>()
+        .first
+        .descendants()
+        .whereType<RampSensor>();
+
     for (final sensor in sensors) {
       sensor.bloc.stream.listen((state) {
         switch (state.type) {
