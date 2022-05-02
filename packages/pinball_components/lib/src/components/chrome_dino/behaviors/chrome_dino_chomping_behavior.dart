@@ -14,9 +14,7 @@ class ChromeDinoChompingBehavior extends ContactBehavior<ChromeDino> {
     super.beginContact(other, contact);
     if (other is! Ball) return;
 
-    if (parent.bloc.state.status != ChromeDinoStatus.chomping) {
-      other.firstChild<SpriteComponent>()!.setOpacity(0);
-      parent.bloc.onChomp(other);
-    }
+    other.firstChild<SpriteComponent>()!.setOpacity(0);
+    parent.bloc.onChomp(other);
   }
 }
