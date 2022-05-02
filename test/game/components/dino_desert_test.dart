@@ -4,7 +4,6 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -15,6 +14,8 @@ void main() {
     Assets.images.dino.animatronic.mouth.keyName,
     Assets.images.dino.topWall.keyName,
     Assets.images.dino.bottomWall.keyName,
+    Assets.images.slingshot.upper.keyName,
+    Assets.images.slingshot.lower.keyName,
   ];
 
   final flameTester = FlameTester(
@@ -23,17 +24,19 @@ void main() {
 
   group('DinoDesert', () {
     flameTester.test('loads correctly', (game) async {
-      await game.addFromBlueprint(DinoDesert());
-      await game.ready();
+      final component = DinoDesert();
+      await game.ensureAdd(component);
+      expect(game.contains(component), isTrue);
     });
 
     group('loads', () {
       flameTester.test(
         'a ChromeDino',
         (game) async {
+          await game.ensureAdd(DinoDesert());
           expect(
-            DinoDesert().components.whereType<ChromeDino>().single,
-            isNotNull,
+            game.descendants().whereType<ChromeDino>().length,
+            equals(1),
           );
         },
       );
@@ -41,9 +44,20 @@ void main() {
       flameTester.test(
         'DinoWalls',
         (game) async {
+          await game.ensureAdd(DinoDesert());
           expect(
-            DinoDesert().blueprints.whereType<DinoWalls>().single,
-            isNotNull,
+            game.descendants().whereType<DinoWalls>().length,
+            equals(1),
+          );
+        },
+      );
+      flameTester.test(
+        'Slingshots',
+        (game) async {
+          await game.ensureAdd(DinoDesert());
+          expect(
+            game.descendants().whereType<Slingshots>().length,
+            equals(1),
           );
         },
       );
@@ -52,8 +66,7 @@ void main() {
     flameTester.test(
       'adds ScoringBehavior to ChromeDino',
       (game) async {
-        await game.addFromBlueprint(DinoDesert());
-        await game.ready();
+        await game.ensureAdd(DinoDesert());
 
         final chromeDino = game.descendants().whereType<ChromeDino>().single;
         expect(
