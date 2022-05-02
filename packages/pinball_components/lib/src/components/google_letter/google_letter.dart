@@ -29,9 +29,9 @@ class GoogleLetter extends BodyComponent with InitialPosition {
           children: [
             _GoogleLetterSpriteGroupComponent(
               activeAssetPath: _GoogleLetterSpriteGroupComponent
-                  .spritePaths[index][GoogleLetterState.active]!,
+                  .spritePaths[index][GoogleLetterState.lit]!,
               inactiveAssetPath: _GoogleLetterSpriteGroupComponent
-                  .spritePaths[index][GoogleLetterState.inactive]!,
+                  .spritePaths[index][GoogleLetterState.dimmed]!,
               current: bloc.state,
             ),
             GoogleLetterBallContactBehavior(),
@@ -96,33 +96,33 @@ class _GoogleLetterSpriteGroupComponent
 
   static final spritePaths = <Map<GoogleLetterState, String>>[
     {
-      GoogleLetterState.active: Assets.images.googleWord.letter1.active.keyName,
-      GoogleLetterState.inactive:
+      GoogleLetterState.lit: Assets.images.googleWord.letter1.active.keyName,
+      GoogleLetterState.dimmed:
           Assets.images.googleWord.letter1.inactive.keyName,
     },
     {
-      GoogleLetterState.active: Assets.images.googleWord.letter2.active.keyName,
-      GoogleLetterState.inactive:
+      GoogleLetterState.lit: Assets.images.googleWord.letter2.active.keyName,
+      GoogleLetterState.dimmed:
           Assets.images.googleWord.letter2.inactive.keyName,
     },
     {
-      GoogleLetterState.active: Assets.images.googleWord.letter3.active.keyName,
-      GoogleLetterState.inactive:
+      GoogleLetterState.lit: Assets.images.googleWord.letter3.active.keyName,
+      GoogleLetterState.dimmed:
           Assets.images.googleWord.letter3.inactive.keyName,
     },
     {
-      GoogleLetterState.active: Assets.images.googleWord.letter4.active.keyName,
-      GoogleLetterState.inactive:
+      GoogleLetterState.lit: Assets.images.googleWord.letter4.active.keyName,
+      GoogleLetterState.dimmed:
           Assets.images.googleWord.letter4.inactive.keyName,
     },
     {
-      GoogleLetterState.active: Assets.images.googleWord.letter5.active.keyName,
-      GoogleLetterState.inactive:
+      GoogleLetterState.lit: Assets.images.googleWord.letter5.active.keyName,
+      GoogleLetterState.dimmed:
           Assets.images.googleWord.letter5.inactive.keyName,
     },
     {
-      GoogleLetterState.active: Assets.images.googleWord.letter6.active.keyName,
-      GoogleLetterState.inactive:
+      GoogleLetterState.lit: Assets.images.googleWord.letter6.active.keyName,
+      GoogleLetterState.dimmed:
           Assets.images.googleWord.letter6.inactive.keyName,
     },
   ];
@@ -133,10 +133,10 @@ class _GoogleLetterSpriteGroupComponent
     parent.bloc.stream.listen((state) => current = state);
 
     final sprites = {
-      GoogleLetterState.active: Sprite(
+      GoogleLetterState.lit: Sprite(
         gameRef.images.fromCache(_activeAssetPath),
       ),
-      GoogleLetterState.inactive: Sprite(
+      GoogleLetterState.dimmed: Sprite(
         gameRef.images.fromCache(_inactiveAssetPath),
       ),
     };

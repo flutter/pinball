@@ -108,7 +108,7 @@ void main() {
       whenListen(
         bloc,
         const Stream<GoogleLetterState>.empty(),
-        initialState: GoogleLetterState.active,
+        initialState: GoogleLetterState.lit,
       );
       when(bloc.close).thenAnswer((_) async {});
       final googleLetter = GoogleLetter.test(bloc: bloc);
