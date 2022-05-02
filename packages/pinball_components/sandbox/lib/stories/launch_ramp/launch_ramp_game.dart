@@ -3,14 +3,13 @@ import 'dart:async';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class LaunchRampGame extends BallGame {
   LaunchRampGame()
       : super(
           color: Colors.blue,
-          ballPriority: RenderPriority.ballOnLaunchRamp,
+          ballPriority: ZIndexes.ballOnLaunchRamp,
           ballLayer: Layer.launcher,
         );
 
@@ -28,7 +27,7 @@ class LaunchRampGame extends BallGame {
     camera
       ..followVector2(Vector2.zero())
       ..zoom = 7.5;
-    await addFromBlueprint(LaunchRamp());
+    await add(LaunchRamp());
     await ready();
     await traceAllBodies();
   }

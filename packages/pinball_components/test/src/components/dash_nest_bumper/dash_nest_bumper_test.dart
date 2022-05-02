@@ -6,6 +6,7 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/src/components/bumping_behavior.dart';
 import 'package:pinball_components/src/components/dash_nest_bumper/behaviors/behaviors.dart';
 
 import '../../../helpers/helpers.dart';
@@ -63,8 +64,39 @@ void main() {
       verify(bloc.close).called(1);
     });
 
-    group('adds', () {
-      flameTester.test('adds new children', (game) async {
+    flameTester.test('adds a DashNestBumperBallContactBehavior', (game) async {
+      final dashNestBumper = DashNestBumper.a();
+      await game.ensureAdd(dashNestBumper);
+      expect(
+        dashNestBumper.children
+            .whereType<DashNestBumperBallContactBehavior>()
+            .single,
+        isNotNull,
+      );
+    });
+
+    group("'main' adds", () {
+      flameTester.test('new children', (game) async {
+        final component = Component();
+        final dashNestBumper = DashNestBumper.main(
+          children: [component],
+        );
+        await game.ensureAdd(dashNestBumper);
+        expect(dashNestBumper.children, contains(component));
+      });
+
+      flameTester.test('a BumpingBehavior', (game) async {
+        final dashNestBumper = DashNestBumper.main();
+        await game.ensureAdd(dashNestBumper);
+        expect(
+          dashNestBumper.children.whereType<BumpingBehavior>().single,
+          isNotNull,
+        );
+      });
+    });
+
+    group("'a' adds", () {
+      flameTester.test('new children', (game) async {
         final component = Component();
         final dashNestBumper = DashNestBumper.a(
           children: [component],
@@ -73,13 +105,31 @@ void main() {
         expect(dashNestBumper.children, contains(component));
       });
 
-      flameTester.test('a DashNestBumperBallContactBehavior', (game) async {
+      flameTester.test('a BumpingBehavior', (game) async {
         final dashNestBumper = DashNestBumper.a();
         await game.ensureAdd(dashNestBumper);
         expect(
-          dashNestBumper.children
-              .whereType<DashNestBumperBallContactBehavior>()
-              .single,
+          dashNestBumper.children.whereType<BumpingBehavior>().single,
+          isNotNull,
+        );
+      });
+    });
+
+    group("'b' adds", () {
+      flameTester.test('new children', (game) async {
+        final component = Component();
+        final dashNestBumper = DashNestBumper.b(
+          children: [component],
+        );
+        await game.ensureAdd(dashNestBumper);
+        expect(dashNestBumper.children, contains(component));
+      });
+
+      flameTester.test('a BumpingBehavior', (game) async {
+        final dashNestBumper = DashNestBumper.b();
+        await game.ensureAdd(dashNestBumper);
+        expect(
+          dashNestBumper.children.whereType<BumpingBehavior>().single,
           isNotNull,
         );
       });

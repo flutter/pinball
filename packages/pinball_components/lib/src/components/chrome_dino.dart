@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart' hide Timer;
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template chrome_dino}
 /// Dino that swivels back and forth, opening its mouth to eat a [Ball].
@@ -10,13 +11,14 @@ import 'package:pinball_components/pinball_components.dart';
 /// Upon eating a [Ball], the dino rotates and spits the [Ball] out in a
 /// different direction.
 /// {@endtemplate}
-class ChromeDino extends BodyComponent with InitialPosition {
+class ChromeDino extends BodyComponent with InitialPosition, ZIndex {
   /// {@macro chrome_dino}
   ChromeDino()
       : super(
-          priority: RenderPriority.dino,
           renderBody: false,
-        );
+        ) {
+    zIndex = ZIndexes.dino;
+  }
 
   /// The size of the dinosaur mouth.
   static final size = Vector2(5.5, 5);

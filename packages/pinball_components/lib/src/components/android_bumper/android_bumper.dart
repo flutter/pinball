@@ -5,6 +5,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_components/src/components/android_bumper/behaviors/behaviors.dart';
+import 'package:pinball_components/src/components/bumping_behavior.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 export 'cubit/android_bumper_cubit.dart';
@@ -12,7 +13,7 @@ export 'cubit/android_bumper_cubit.dart';
 /// {@template android_bumper}
 /// Bumper for area under the [AndroidSpaceship].
 /// {@endtemplate}
-class AndroidBumper extends BodyComponent with InitialPosition {
+class AndroidBumper extends BodyComponent with InitialPosition, ZIndex {
   /// {@macro android_bumper}
   AndroidBumper._({
     required double majorRadius,
@@ -25,7 +26,6 @@ class AndroidBumper extends BodyComponent with InitialPosition {
   })  : _majorRadius = majorRadius,
         _minorRadius = minorRadius,
         super(
-          priority: RenderPriority.androidBumper,
           renderBody: false,
           children: [
             AndroidBumperBallContactBehavior(),
@@ -38,7 +38,9 @@ class AndroidBumper extends BodyComponent with InitialPosition {
             ),
             ...?children,
           ],
-        );
+        ) {
+    zIndex = ZIndexes.androidBumper;
+  }
 
   /// {@macro android_bumper}
   AndroidBumper.a({
@@ -50,7 +52,10 @@ class AndroidBumper extends BodyComponent with InitialPosition {
           dimmedAssetPath: Assets.images.android.bumper.a.dimmed.keyName,
           spritePosition: Vector2(0, -0.1),
           bloc: AndroidBumperCubit(),
-          children: children,
+          children: [
+            ...?children,
+            BumpingBehavior(strength: 20),
+          ],
         );
 
   /// {@macro android_bumper}
@@ -63,7 +68,10 @@ class AndroidBumper extends BodyComponent with InitialPosition {
           dimmedAssetPath: Assets.images.android.bumper.b.dimmed.keyName,
           spritePosition: Vector2(0, -0.1),
           bloc: AndroidBumperCubit(),
-          children: children,
+          children: [
+            ...?children,
+            BumpingBehavior(strength: 20),
+          ],
         );
 
   /// {@macro android_bumper}
@@ -76,7 +84,10 @@ class AndroidBumper extends BodyComponent with InitialPosition {
           dimmedAssetPath: Assets.images.android.bumper.cow.dimmed.keyName,
           spritePosition: Vector2(0, -0.68),
           bloc: AndroidBumperCubit(),
-          children: children,
+          children: [
+            ...?children,
+            BumpingBehavior(strength: 20),
+          ],
         );
 
   /// Creates an [AndroidBumper] without any children.
@@ -112,15 +123,11 @@ class AndroidBumper extends BodyComponent with InitialPosition {
       majorRadius: _majorRadius,
       minorRadius: _minorRadius,
     )..rotate(1.29);
-    final fixtureDef = FixtureDef(
-      shape,
-      restitution: 4,
-    );
     final bodyDef = BodyDef(
       position: initialPosition,
     );
 
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
+    return world.createBody(bodyDef)..createFixtureFromShape(shape);
   }
 }
 

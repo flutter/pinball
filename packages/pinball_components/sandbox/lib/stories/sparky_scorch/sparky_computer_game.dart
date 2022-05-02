@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flame/input.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class SparkyComputerGame extends BallGame {
@@ -24,7 +23,7 @@ class SparkyComputerGame extends BallGame {
     ]);
 
     camera.followVector2(Vector2(-10, -40));
-    await addFromBlueprint(SparkyComputer());
+    await add(SparkyComputer());
     await ready();
     await traceAllBodies();
   }

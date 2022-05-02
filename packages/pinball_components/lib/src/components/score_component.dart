@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 enum Points {
   fiveThousand,
@@ -17,7 +18,7 @@ enum Points {
 /// A [ScoreComponent] that spawns at a given [position] with a moving
 /// animation.
 /// {@endtemplate}
-class ScoreComponent extends SpriteComponent with HasGameRef {
+class ScoreComponent extends SpriteComponent with HasGameRef, ZIndex {
   /// {@macro score_component}
   ScoreComponent({
     required this.points,
@@ -25,8 +26,9 @@ class ScoreComponent extends SpriteComponent with HasGameRef {
   }) : super(
           position: position,
           anchor: Anchor.center,
-          priority: RenderPriority.score,
-        );
+        ) {
+    zIndex = ZIndexes.score;
+  }
 
   late final Effect _effect;
 

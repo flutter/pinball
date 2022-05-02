@@ -8,6 +8,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -67,7 +68,8 @@ void main() {
           const points = Points.oneMillion;
           final scoringBehavior = ScoringBehavior(points: points);
           await parent.add(scoringBehavior);
-          await game.ensureAdd(parent);
+          final canvas = ZCanvasComponent(children: [parent]);
+          await game.ensureAdd(canvas);
 
           scoringBehavior.beginContact(ball, MockContact());
 
@@ -84,7 +86,8 @@ void main() {
         setUp: (game, tester) async {
           final scoringBehavior = ScoringBehavior(points: Points.oneMillion);
           await parent.add(scoringBehavior);
-          await game.ensureAdd(parent);
+          final canvas = ZCanvasComponent(children: [parent]);
+          await game.ensureAdd(canvas);
 
           scoringBehavior.beginContact(ball, MockContact());
 
@@ -98,7 +101,8 @@ void main() {
           const points = Points.oneMillion;
           final scoringBehavior = ScoringBehavior(points: points);
           await parent.add(scoringBehavior);
-          await game.ensureAdd(parent);
+          final canvas = ZCanvasComponent(children: [parent]);
+          await game.ensureAdd(canvas);
 
           scoringBehavior.beginContact(ball, MockContact());
           await game.ready();
