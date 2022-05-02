@@ -64,7 +64,8 @@ flutter:
     - assets/images/android/bumper/a/
     - assets/images/android/bumper/b/
     - assets/images/android/bumper/cow/
-    - assets/images/kicker/
+    - assets/images/kicker/left/
+    - assets/images/kicker/right/
     - assets/images/plunger/
     - assets/images/slingshot/
     - assets/images/sparky/

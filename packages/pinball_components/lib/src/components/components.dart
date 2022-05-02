@@ -17,7 +17,7 @@ export 'flipper.dart';
 export 'google_letter/google_letter.dart';
 export 'initial_position.dart';
 export 'joint_anchor.dart';
-export 'kicker.dart';
+export 'kicker/kicker.dart';
 export 'launch_ramp.dart';
 export 'layer.dart';
 export 'layer_sensor.dart';

@@ -38,7 +38,7 @@ class _BottomGroupSide extends Component {
   @override
   Future<void> onLoad() async {
     final direction = _side.direction;
-    final centerXAdjustment = _side.isLeft ? 0 : -6.5;
+    final centerXAdjustment = _side.isLeft ? 0 : -6.66;
 
     final flipper = ControlledFlipper(
       side: _side,
@@ -46,16 +46,16 @@ class _BottomGroupSide extends Component {
     final baseboard = Baseboard(side: _side)
       ..initialPosition = Vector2(
         (25.58 * direction) + centerXAdjustment,
-        28.69,
+        28.71,
       );
     final kicker = Kicker(
       side: _side,
       children: [
-        ScoringBehavior(points: 5000),
+        ScoringBehavior(points: 5000)..applyTo(['bouncy_edge']),
       ],
     )..initialPosition = Vector2(
-        (22.4 * direction) + centerXAdjustment,
-        25,
+        (22.64 * direction) + centerXAdjustment,
+        25.1,
       );
 
     await addAll([flipper, baseboard, kicker]);
