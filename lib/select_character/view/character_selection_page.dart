@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/how_to_play/how_to_play.dart';
 import 'package:pinball/l10n/l10n.dart';
-import 'package:pinball/select_character/cubit/character_theme_cubit.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 import 'package:pinball_ui/pinball_ui.dart';
@@ -118,19 +117,7 @@ class _CharacterPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CharacterThemeCubit, CharacterThemeState>(
       builder: (context, state) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              state.characterTheme.name,
-              style: Theme.of(context).textTheme.headline2,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 10),
-            Expanded(child: state.characterTheme.icon.image()),
-          ],
-        );
+        return SelectedCharacter(currentCharacter: state.characterTheme);
       },
     );
   }
