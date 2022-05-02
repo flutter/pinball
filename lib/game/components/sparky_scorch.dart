@@ -29,7 +29,7 @@ class SparkyScorch extends Component {
                 ScoringBehavior(points: 20000),
               ],
             )..initialPosition = Vector2(-3.3, -52.55),
-            SparkyComputerSensor()..initialPosition = Vector2(-13, -49.8),
+            SparkyComputerSensor()..initialPosition = Vector2(-13, -49.9),
             SparkyAnimatronic()..position = Vector2(-13.8, -58.2),
             SparkyComputer(),
           ],
@@ -53,7 +53,13 @@ class SparkyComputerSensor extends BodyComponent
 
   @override
   Body createBody() {
-    final shape = CircleShape()..radius = 0.1;
+    final shape = PolygonShape()
+      ..setAsBox(
+        1,
+        0.1,
+        Vector2.zero(),
+        -0.18,
+      );
     final fixtureDef = FixtureDef(shape, isSensor: true);
     final bodyDef = BodyDef(
       position: initialPosition,

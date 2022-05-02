@@ -23,7 +23,7 @@ abstract class ZIndexes {
 
   // TODO(allisonryan0002): fix this magic zindex. Could bump all priorities so
   // there are no negatives.
-  static const boardBackground = 3 * _below + _base;
+  static const boardBackground = 5 * _below + _base;
 
   static const decal = _above + boardBackground;
 
@@ -61,7 +61,7 @@ abstract class ZIndexes {
 
   // Flutter Forest
 
-  static const flutterForest = _above + launchRampForegroundRailing;
+  static const flutterForest = _above + ballOnBoard;
 
   // Sparky Scorch
 
