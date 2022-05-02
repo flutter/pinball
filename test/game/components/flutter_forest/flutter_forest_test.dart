@@ -32,8 +32,8 @@ void main() {
       'loads correctly',
       (game) async {
         final flutterForest = FlutterForest();
-        await game.ensureAdd(flutterForest);
-        expect(game.contains(flutterForest), isTrue);
+        await game.ensureAdd(ZCanvasComponent(children: [flutterForest]));
+        expect(game.descendants(), contains(flutterForest));
       },
     );
 
