@@ -139,10 +139,10 @@ class _Character extends StatelessWidget {
       child: Opacity(
         opacity: isSelected ? 1 : 0.3,
         child: InkWell(
-          // coverage:ignore-start
+// coverage:ignore-start
           onTap: () =>
               context.read<CharacterThemeCubit>().characterSelected(character),
-          // coverage:ignore-end
+// coverage:ignore-end
           child: character.icon.image(fit: BoxFit.contain),
         ),
       ),
