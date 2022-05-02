@@ -12,27 +12,35 @@ class FlutterForestBonusBehavior extends Component
     super.onMount();
 
     final bumpers = parent.children.whereType<DashNestBumper>();
+    final signpost = parent.firstChild<Signpost>()!;
+    final animatronic = parent.firstChild<DashAnimatronic>()!;
+    final canvas = gameRef.firstChild<ZCanvasComponent>()!;
+
     for (final bumper in bumpers) {
       // TODO(alestiago): Refactor subscription management once the following is
       // merged:
       // https://github.com/flame-engine/flame/pull/1538
       bumper.bloc.stream.listen((state) {
-        final achievedBonus = bumpers.every(
+        final activatedAllBumpers = bumpers.every(
           (bumper) => bumper.bloc.state == DashNestBumperState.active,
         );
 
-        if (achievedBonus) {
-          gameRef
-              .read<GameBloc>()
-              .add(const BonusActivated(GameBonus.dashNest));
-          gameRef.firstChild<ZCanvasComponent>()!.add(
-                ControlledBall.bonus(characterTheme: gameRef.characterTheme)
-                  ..initialPosition = Vector2(17.2, -52.7),
-              );
-          parent.firstChild<DashAnimatronic>()?.playing = true;
-
+        if (activatedAllBumpers) {
+          signpost.bloc.onProgressed();
           for (final bumper in bumpers) {
             bumper.bloc.onReset();
+          }
+
+          if (signpost.bloc.state.isFullyLit()) {
+            gameRef
+                .read<GameBloc>()
+                .add(const BonusActivated(GameBonus.dashNest));
+            canvas.add(
+              ControlledBall.bonus(characterTheme: gameRef.characterTheme)
+                ..initialPosition = Vector2(17.2, -52.7),
+            );
+            animatronic.playing = true;
+            signpost.bloc.onProgressed();
           }
         }
       });

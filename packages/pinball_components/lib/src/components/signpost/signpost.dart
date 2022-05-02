@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 export 'cubit/signpost_cubit.dart';
 
@@ -48,7 +49,7 @@ class Signpost extends BodyComponent with InitialPosition {
 }
 
 class _SignpostSpriteComponent extends SpriteGroupComponent<SignpostState>
-    with HasGameRef {
+    with HasGameRef, ParentIsA<Signpost> {
   _SignpostSpriteComponent({
     required SignpostState current,
   }) : super(
@@ -60,6 +61,7 @@ class _SignpostSpriteComponent extends SpriteGroupComponent<SignpostState>
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    parent.bloc.stream.listen((state) => current = state);
 
     final sprites = <SignpostState, Sprite>{};
     this.sprites = sprites;
