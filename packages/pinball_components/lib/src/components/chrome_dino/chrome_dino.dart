@@ -50,9 +50,6 @@ class ChromeDino extends BodyComponent
   // ignore: public_member_api_docs
   final ChromeDinoCubit bloc;
 
-  /// The size of the dinosaur mouth.
-  static final size = Vector2(5.5, 6);
-
   /// Angle to rotate the dino up or down from the starting horizontal position.
   static const halfSweepingAngle = 0.1143;
 
@@ -64,6 +61,7 @@ class ChromeDino extends BodyComponent
 
   List<FixtureDef> _createFixtureDefs() {
     const mouthAngle = -(halfSweepingAngle + 0.28);
+    final size = Vector2(5.5, 6);
 
     final topEdge = PolygonShape()
       ..setAsBox(
