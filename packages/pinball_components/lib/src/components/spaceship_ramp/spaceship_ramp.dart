@@ -395,7 +395,6 @@ class _SpaceshipRampOpening extends LayerSensor {
 /// Small sensor body used to detect when a ball has entered the
 /// [SpaceshipRamp].
 /// {@endtemplate}
-@visibleForTesting
 class RampSensor extends BodyComponent
     with ParentIsA<SpaceshipRamp>, InitialPosition, Layered {
   /// {@macro ramp_sensor}
