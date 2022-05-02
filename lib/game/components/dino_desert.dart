@@ -14,7 +14,8 @@ class DinoDesert extends Component {
           children: [
             ChromeDino(
               children: [
-                ScoringBehavior(points: 200000)..applyTo(['inside_mouth']),
+                ScoringBehavior(points: Points.twoHundredThousand)
+                  ..applyTo(['inside_mouth']),
               ],
             )..initialPosition = Vector2(12.6, -6.9),
             _BarrierBehindDino(),

@@ -16,17 +16,17 @@ class SparkyScorch extends Component {
           children: [
             SparkyBumper.a(
               children: [
-                ScoringBehavior(points: 20000),
+                ScoringBehavior(points: Points.twentyThousand),
               ],
             )..initialPosition = Vector2(-22.9, -41.65),
             SparkyBumper.b(
               children: [
-                ScoringBehavior(points: 20000),
+                ScoringBehavior(points: Points.twentyThousand),
               ],
             )..initialPosition = Vector2(-21.25, -57.9),
             SparkyBumper.c(
               children: [
-                ScoringBehavior(points: 20000),
+                ScoringBehavior(points: Points.twentyThousand),
               ],
             )..initialPosition = Vector2(-3.3, -52.55),
             SparkyComputerSensor()..initialPosition = Vector2(-13, -49.9),
@@ -47,7 +47,7 @@ class SparkyComputerSensor extends BodyComponent
       : super(
           renderBody: false,
           children: [
-            ScoringBehavior(points: 200000),
+            ScoringBehavior(points: Points.twentyThousand),
           ],
         );
 

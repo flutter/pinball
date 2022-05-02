@@ -11,7 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
-import 'package:mockingjay/mockingjay.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/select_character/select_character.dart';
@@ -51,7 +51,6 @@ MockAssetsManagerCubit _buildDefaultAssetsManagerCubit() {
 extension PumpApp on WidgetTester {
   Future<void> pumpApp(
     Widget widget, {
-    MockNavigator? navigator,
     GameBloc? gameBloc,
     StartGameBloc? startGameBloc,
     AssetsManagerCubit? assetsManagerCubit,
@@ -92,9 +91,7 @@ extension PumpApp on WidgetTester {
                 GlobalMaterialLocalizations.delegate,
               ],
               supportedLocales: AppLocalizations.supportedLocales,
-              home: navigator != null
-                  ? MockNavigatorProvider(navigator: navigator, child: widget)
-                  : widget,
+              home: widget,
             ),
           ),
         ),

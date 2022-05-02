@@ -1,6 +1,5 @@
 import 'package:flame/input.dart';
-import 'package:flutter/material.dart';
-import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_components/pinball_components.dart' as components;
 import 'package:pinball_theme/pinball_theme.dart';
 import 'package:sandbox/common/common.dart';
 
@@ -8,7 +7,13 @@ class BackboardGameOverGame extends AssetsGame
     with HasKeyboardHandlerComponents {
   BackboardGameOverGame(this.score, this.character)
       : super(
-          imagesFileNames: characterIconPaths.values.toList(),
+          imagesFileNames: [
+            components.Assets.images.score.fiveThousand.keyName,
+            components.Assets.images.score.twentyThousand.keyName,
+            components.Assets.images.score.twoHundredThousand.keyName,
+            components.Assets.images.score.oneMillion.keyName,
+            ...characterIconPaths.values.toList(),
+          ],
         );
 
   static const description = '''
@@ -30,21 +35,23 @@ class BackboardGameOverGame extends AssetsGame
 
   @override
   Future<void> onLoad() async {
+    await super.onLoad();
+
     camera
       ..followVector2(Vector2.zero())
       ..zoom = 5;
 
     await add(
-      Backboard.gameOver(
+      components.Backboard.gameOver(
         position: Vector2(0, 20),
         score: score,
         characterIconPath: characterIconPaths[character]!,
         onSubmit: (initials) {
           add(
-            ScoreText(
-              text: 'User $initials made $score',
+            components.ScoreComponent(
+              points: components.Points.values
+                  .firstWhere((element) => element.value == score),
               position: Vector2(0, 50),
-              color: Colors.pink,
             ),
           );
         },
