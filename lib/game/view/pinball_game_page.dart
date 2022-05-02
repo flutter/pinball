@@ -140,7 +140,7 @@ class PinballGameLoadedView extends StatelessWidget {
         // TODO(arturplaczek): add Visibility to GameHud based on StartGameBloc
         // status
         Positioned(
-          top: 16,
+          top: 0,
           left: clampedMargin,
           child: const GameHud(),
         ),

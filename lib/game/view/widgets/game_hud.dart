@@ -23,11 +23,12 @@ class _GameHudState extends State<GameHud> {
 
   /// Ratio from sprite frame (width 500, height 144) w / h = ratio
   static const _ratio = 3.47;
-  static const _width = 265.0;
 
   @override
   Widget build(BuildContext context) {
     final isGameOver = context.select((GameBloc bloc) => bloc.state.isGameOver);
+    final gameWidgetWidth = MediaQuery.of(context).size.height * 9 / 16;
+    final _width = gameWidgetWidth / 1.6;
 
     return _ScoreViewDecoration(
       child: SizedBox(
@@ -37,17 +38,20 @@ class _GameHudState extends State<GameHud> {
           listenWhen: (previous, current) =>
               previous.bonusHistory.length != current.bonusHistory.length,
           listener: (_, __) => setState(() => showAnimation = true),
-          child: AnimatedSwitcher(
-            duration: kThemeAnimationDuration,
-            child: showAnimation && !isGameOver
-                ? _AnimationView(
-                    onComplete: () {
-                      if (mounted) {
-                        setState(() => showAnimation = false);
-                      }
-                    },
-                  )
-                : const ScoreView(),
+          child: FittedBox(
+            alignment: Alignment.centerLeft,
+            child: AnimatedSwitcher(
+              duration: kThemeAnimationDuration,
+              child: showAnimation && !isGameOver
+                  ? _AnimationView(
+                      onComplete: () {
+                        if (mounted) {
+                          setState(() => showAnimation = false);
+                        }
+                      },
+                    )
+                  : const ScoreView(),
+            ),
           ),
         ),
       ),
@@ -68,28 +72,25 @@ class _ScoreViewDecoration extends StatelessWidget {
     const radius = BorderRadius.all(Radius.circular(12));
     const borderWidth = 5.0;
 
-    return Opacity(
-      opacity: 0.7,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: radius,
-          border: Border.all(
-            color: PinballColors.white,
-            width: borderWidth,
-          ),
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: AssetImage(
-              Assets.images.score.miniScoreBackground.path,
-            ),
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: radius,
+        border: Border.all(
+          color: PinballColors.white,
+          width: borderWidth,
+        ),
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: AssetImage(
+            Assets.images.score.miniScoreBackground.path,
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(borderWidth - 1),
-          child: ClipRRect(
-            borderRadius: radius,
-            child: child,
-          ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(borderWidth - 1),
+        child: ClipRRect(
+          borderRadius: radius,
+          child: child,
         ),
       ),
     );
