@@ -1,5 +1,4 @@
 import 'package:pinball/game/game.dart';
-import 'package:pinball/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' as components;
 import 'package:pinball_theme/pinball_theme.dart' hide Assets;
 
@@ -134,7 +133,6 @@ extension PinballGameAssetsX on PinballGame {
       images.load(sparkyTheme.leaderboardIcon.keyName),
       images.load(androidTheme.leaderboardIcon.keyName),
       images.load(dinoTheme.leaderboardIcon.keyName),
-      images.load(Assets.images.components.background.path),
     ];
   }
 }
