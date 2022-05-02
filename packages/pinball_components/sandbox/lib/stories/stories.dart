@@ -10,6 +10,7 @@ export 'flutter_forest/stories.dart';
 export 'google_word/stories.dart';
 export 'launch_ramp/stories.dart';
 export 'layer/stories.dart';
+export 'multiball/stories.dart';
 export 'multipliers/stories.dart';
 export 'plunger/stories.dart';
 export 'score/stories.dart';

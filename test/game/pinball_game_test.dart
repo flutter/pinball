@@ -64,6 +64,8 @@ void main() {
     Assets.images.launchRamp.ramp.keyName,
     Assets.images.launchRamp.foregroundRailing.keyName,
     Assets.images.launchRamp.backgroundRailing.keyName,
+    Assets.images.multiball.lit.keyName,
+    Assets.images.multiball.dimmed.keyName,
     Assets.images.multiplier.x2.lit.keyName,
     Assets.images.multiplier.x2.dimmed.keyName,
     Assets.images.multiplier.x3.lit.keyName,
@@ -177,6 +179,18 @@ void main() {
           equals(1),
         );
       });
+
+      flameBlocTester.test(
+        'has only one Multiballs',
+        (game) async {
+          await game.ready();
+
+          expect(
+            game.descendants().whereType<Multiballs>().length,
+            equals(1),
+          );
+        },
+      );
 
       flameBlocTester.test(
         'one GoogleWord',
