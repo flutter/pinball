@@ -5,7 +5,7 @@ import 'dart:async';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockingjay/mockingjay.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/components/multipliers/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
