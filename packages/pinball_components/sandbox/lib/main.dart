@@ -19,7 +19,7 @@ void main() {
   addBottomGroupStories(dashbook);
   addPlungerStories(dashbook);
   addSlingshotStories(dashbook);
-  addSparkyBumperStories(dashbook);
+  addSparkyScorchStories(dashbook);
   addAndroidAcresStories(dashbook);
   addBoundariesStories(dashbook);
   addGoogleWordStories(dashbook);
@@ -27,6 +27,7 @@ void main() {
   addScoreTextStories(dashbook);
   addBackboardStories(dashbook);
   addDinoWallStories(dashbook);
+  addMultipliersStories(dashbook);
 
   runApp(dashbook);
 }

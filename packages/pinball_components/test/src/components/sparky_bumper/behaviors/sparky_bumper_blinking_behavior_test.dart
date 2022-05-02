@@ -17,7 +17,7 @@ void main() {
     'SparkyBumperBlinkingBehavior',
     () {
       flameTester.testGameWidget(
-        'calls onBlinked after 0.05 seconds when inactive',
+        'calls onBlinked after 0.05 seconds when dimmed',
         setUp: (game, tester) async {
           final behavior = SparkyBumperBlinkingBehavior();
           final bloc = MockSparkyBumperCubit();
@@ -25,14 +25,14 @@ void main() {
           whenListen(
             bloc,
             streamController.stream,
-            initialState: SparkyBumperState.active,
+            initialState: SparkyBumperState.lit,
           );
 
           final sparkyBumper = SparkyBumper.test(bloc: bloc);
           await sparkyBumper.add(behavior);
           await game.ensureAdd(sparkyBumper);
 
-          streamController.add(SparkyBumperState.inactive);
+          streamController.add(SparkyBumperState.dimmed);
           await tester.pump();
           game.update(0.05);
 

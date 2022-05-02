@@ -8,24 +8,26 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template sparky_computer}
 /// A computer owned by Sparky.
 /// {@endtemplate}
-class SparkyComputer extends Blueprint {
+class SparkyComputer extends Component {
   /// {@macro sparky_computer}
   SparkyComputer()
       : super(
-          components: [
+          children: [
             _ComputerBase(),
             _ComputerTopSpriteComponent(),
+            _ComputerGlowSpriteComponent(),
           ],
         );
 }
 
-class _ComputerBase extends BodyComponent with InitialPosition {
+class _ComputerBase extends BodyComponent with InitialPosition, ZIndex {
   _ComputerBase()
       : super(
-          priority: RenderPriority.computerBase,
           renderBody: false,
           children: [_ComputerBaseSpriteComponent()],
-        );
+        ) {
+    zIndex = ZIndexes.computerBase;
+  }
 
   List<FixtureDef> _createFixtureDefs() {
     final leftEdge = EdgeShape()
@@ -65,35 +67,65 @@ class _ComputerBaseSpriteComponent extends SpriteComponent with HasGameRef {
   _ComputerBaseSpriteComponent()
       : super(
           anchor: Anchor.center,
-          position: Vector2(-11.95, -48.35),
+          position: Vector2(-12.1, -48.15),
         );
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
 
-    final sprite = await gameRef.loadSprite(
-      Assets.images.sparky.computer.base.keyName,
+    final sprite = Sprite(
+      gameRef.images.fromCache(
+        Assets.images.sparky.computer.base.keyName,
+      ),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
   }
 }
 
-class _ComputerTopSpriteComponent extends SpriteComponent with HasGameRef {
+class _ComputerTopSpriteComponent extends SpriteComponent
+    with HasGameRef, ZIndex {
   _ComputerTopSpriteComponent()
       : super(
           anchor: Anchor.center,
-          position: Vector2(-12.45, -49.75),
-          priority: RenderPriority.computerTop,
-        );
+          position: Vector2(-12.52, -49.37),
+        ) {
+    zIndex = ZIndexes.computerTop;
+  }
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
 
-    final sprite = await gameRef.loadSprite(
-      Assets.images.sparky.computer.top.keyName,
+    final sprite = Sprite(
+      gameRef.images.fromCache(
+        Assets.images.sparky.computer.top.keyName,
+      ),
+    );
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
+  }
+}
+
+class _ComputerGlowSpriteComponent extends SpriteComponent
+    with HasGameRef, ZIndex {
+  _ComputerGlowSpriteComponent()
+      : super(
+          anchor: Anchor.center,
+          position: Vector2(7.4, 10),
+        ) {
+    zIndex = ZIndexes.computerGlow;
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+
+    final sprite = Sprite(
+      gameRef.images.fromCache(
+        Assets.images.sparky.computer.glow.keyName,
+      ),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;

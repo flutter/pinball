@@ -6,13 +6,13 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template spaceship_rail}
-/// A [Blueprint] for the rail exiting the [Spaceship].
+/// Rail exiting the [AndroidSpaceship].
 /// {@endtemplate}
-class SpaceshipRail extends Blueprint {
+class SpaceshipRail extends Component {
   /// {@macro spaceship_rail}
   SpaceshipRail()
       : super(
-          components: [
+          children: [
             _SpaceshipRail(),
             _SpaceshipRailExit(),
             _SpaceshipRailExitSpriteComponent()
@@ -20,14 +20,14 @@ class SpaceshipRail extends Blueprint {
         );
 }
 
-class _SpaceshipRail extends BodyComponent with Layered {
+class _SpaceshipRail extends BodyComponent with Layered, ZIndex {
   _SpaceshipRail()
       : super(
-          priority: RenderPriority.spaceshipRail,
           children: [_SpaceshipRailSpriteComponent()],
           renderBody: false,
         ) {
     layer = Layer.spaceshipExitRail;
+    zIndex = ZIndexes.spaceshipRail;
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -116,7 +116,7 @@ class _SpaceshipRailSpriteComponent extends SpriteComponent with HasGameRef {
 
     final sprite = Sprite(
       gameRef.images.fromCache(
-        Assets.images.spaceship.rail.main.keyName,
+        Assets.images.android.rail.main.keyName,
       ),
     );
     this.sprite = sprite;
@@ -125,13 +125,14 @@ class _SpaceshipRailSpriteComponent extends SpriteComponent with HasGameRef {
 }
 
 class _SpaceshipRailExitSpriteComponent extends SpriteComponent
-    with HasGameRef {
+    with HasGameRef, ZIndex {
   _SpaceshipRailExitSpriteComponent()
       : super(
           anchor: Anchor.center,
           position: Vector2(-28, 19.4),
-          priority: RenderPriority.spaceshipRailExit,
-        );
+        ) {
+    zIndex = ZIndexes.spaceshipRailExit;
+  }
 
   @override
   Future<void> onLoad() async {
@@ -139,7 +140,7 @@ class _SpaceshipRailExitSpriteComponent extends SpriteComponent
 
     final sprite = Sprite(
       gameRef.images.fromCache(
-        Assets.images.spaceship.rail.exit.keyName,
+        Assets.images.android.rail.exit.keyName,
       ),
     );
     this.sprite = sprite;
@@ -152,7 +153,7 @@ class _SpaceshipRailExit extends LayerSensor {
       : super(
           orientation: LayerEntranceOrientation.down,
           insideLayer: Layer.spaceshipExitRail,
-          insidePriority: RenderPriority.ballOnSpaceshipRail,
+          insideZIndex: ZIndexes.ballOnSpaceshipRail,
         ) {
     layer = Layer.spaceshipExitRail;
   }

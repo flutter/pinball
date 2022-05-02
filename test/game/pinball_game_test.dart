@@ -1,5 +1,6 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_test/flame_test.dart';
@@ -14,13 +15,16 @@ import '../helpers/helpers.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
-    Assets.images.androidBumper.a.lit.keyName,
-    Assets.images.androidBumper.a.dimmed.keyName,
-    Assets.images.androidBumper.b.lit.keyName,
-    Assets.images.androidBumper.b.dimmed.keyName,
+    Assets.images.android.bumper.a.lit.keyName,
+    Assets.images.android.bumper.a.dimmed.keyName,
+    Assets.images.android.bumper.b.lit.keyName,
+    Assets.images.android.bumper.b.dimmed.keyName,
+    Assets.images.android.bumper.cow.lit.keyName,
+    Assets.images.android.bumper.cow.dimmed.keyName,
     Assets.images.backboard.backboardScores.keyName,
     Assets.images.backboard.backboardGameOver.keyName,
     Assets.images.backboard.display.keyName,
+    Assets.images.boardBackground.keyName,
     Assets.images.ball.ball.keyName,
     Assets.images.ball.flameEffect.keyName,
     Assets.images.baseboard.left.keyName,
@@ -47,11 +51,23 @@ void main() {
     Assets.images.googleWord.letter4.keyName,
     Assets.images.googleWord.letter5.keyName,
     Assets.images.googleWord.letter6.keyName,
-    Assets.images.kicker.left.keyName,
-    Assets.images.kicker.right.keyName,
+    Assets.images.kicker.left.lit.keyName,
+    Assets.images.kicker.left.dimmed.keyName,
+    Assets.images.kicker.right.lit.keyName,
+    Assets.images.kicker.right.dimmed.keyName,
     Assets.images.launchRamp.ramp.keyName,
     Assets.images.launchRamp.foregroundRailing.keyName,
     Assets.images.launchRamp.backgroundRailing.keyName,
+    Assets.images.multiplier.x2.lit.keyName,
+    Assets.images.multiplier.x2.dimmed.keyName,
+    Assets.images.multiplier.x3.lit.keyName,
+    Assets.images.multiplier.x3.dimmed.keyName,
+    Assets.images.multiplier.x4.lit.keyName,
+    Assets.images.multiplier.x4.dimmed.keyName,
+    Assets.images.multiplier.x5.lit.keyName,
+    Assets.images.multiplier.x5.dimmed.keyName,
+    Assets.images.multiplier.x6.lit.keyName,
+    Assets.images.multiplier.x6.dimmed.keyName,
     Assets.images.plunger.plunger.keyName,
     Assets.images.plunger.rocket.keyName,
     Assets.images.signpost.inactive.keyName,
@@ -60,37 +76,44 @@ void main() {
     Assets.images.signpost.active3.keyName,
     Assets.images.slingshot.upper.keyName,
     Assets.images.slingshot.lower.keyName,
-    Assets.images.spaceship.saucer.keyName,
-    Assets.images.spaceship.bridge.keyName,
-    Assets.images.spaceship.ramp.boardOpening.keyName,
-    Assets.images.spaceship.ramp.railingForeground.keyName,
-    Assets.images.spaceship.ramp.railingBackground.keyName,
-    Assets.images.spaceship.ramp.main.keyName,
-    Assets.images.spaceship.ramp.arrow.inactive.keyName,
-    Assets.images.spaceship.ramp.arrow.active1.keyName,
-    Assets.images.spaceship.ramp.arrow.active2.keyName,
-    Assets.images.spaceship.ramp.arrow.active3.keyName,
-    Assets.images.spaceship.ramp.arrow.active4.keyName,
-    Assets.images.spaceship.ramp.arrow.active5.keyName,
-    Assets.images.spaceship.rail.main.keyName,
-    Assets.images.spaceship.rail.exit.keyName,
-    Assets.images.sparky.bumper.a.active.keyName,
-    Assets.images.sparky.bumper.a.inactive.keyName,
-    Assets.images.sparky.bumper.b.active.keyName,
-    Assets.images.sparky.bumper.b.inactive.keyName,
-    Assets.images.sparky.bumper.c.active.keyName,
-    Assets.images.sparky.bumper.c.inactive.keyName,
+    Assets.images.android.spaceship.saucer.keyName,
+    Assets.images.android.spaceship.animatronic.keyName,
+    Assets.images.android.spaceship.lightBeam.keyName,
+    Assets.images.android.ramp.boardOpening.keyName,
+    Assets.images.android.ramp.railingForeground.keyName,
+    Assets.images.android.ramp.railingBackground.keyName,
+    Assets.images.android.ramp.main.keyName,
+    Assets.images.android.ramp.arrow.inactive.keyName,
+    Assets.images.android.ramp.arrow.active1.keyName,
+    Assets.images.android.ramp.arrow.active2.keyName,
+    Assets.images.android.ramp.arrow.active3.keyName,
+    Assets.images.android.ramp.arrow.active4.keyName,
+    Assets.images.android.ramp.arrow.active5.keyName,
+    Assets.images.android.rail.main.keyName,
+    Assets.images.android.rail.exit.keyName,
     Assets.images.sparky.animatronic.keyName,
     Assets.images.sparky.computer.top.keyName,
     Assets.images.sparky.computer.base.keyName,
+    Assets.images.sparky.computer.glow.keyName,
     Assets.images.sparky.animatronic.keyName,
-    Assets.images.sparky.bumper.a.inactive.keyName,
-    Assets.images.sparky.bumper.a.active.keyName,
-    Assets.images.sparky.bumper.b.active.keyName,
-    Assets.images.sparky.bumper.b.inactive.keyName,
-    Assets.images.sparky.bumper.c.active.keyName,
-    Assets.images.sparky.bumper.c.inactive.keyName,
+    Assets.images.sparky.bumper.a.lit.keyName,
+    Assets.images.sparky.bumper.a.dimmed.keyName,
+    Assets.images.sparky.bumper.b.lit.keyName,
+    Assets.images.sparky.bumper.b.dimmed.keyName,
+    Assets.images.sparky.bumper.c.lit.keyName,
+    Assets.images.sparky.bumper.c.dimmed.keyName,
   ];
+
+  late GameBloc gameBloc;
+
+  setUp(() {
+    gameBloc = MockGameBloc();
+    whenListen(
+      gameBloc,
+      const Stream<GameState>.empty(),
+      initialState: const GameState.initial(),
+    );
+  });
 
   final flameTester = FlameTester(
     () => PinballTestGame(assets: assets),
@@ -99,57 +122,64 @@ void main() {
     () => DebugPinballTestGame(assets: assets),
   );
 
+  final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
+    gameBuilder: () => PinballTestGame(assets: assets),
+    blocBuilder: () => gameBloc,
+  );
+
   group('PinballGame', () {
     group('components', () {
       // TODO(alestiago): tests that Blueprints get added once the Blueprint
       // class is removed.
-      flameTester.test(
+      flameBlocTester.test(
         'has only one Drain',
         (game) async {
           await game.ready();
           expect(
-            game.children.whereType<Drain>().length,
+            game.descendants().whereType<Drain>().length,
             equals(1),
           );
         },
       );
 
-      flameTester.test(
+      flameBlocTester.test(
         'has only one BottomGroup',
         (game) async {
           await game.ready();
-
           expect(
-            game.children.whereType<BottomGroup>().length,
+            game.descendants().whereType<BottomGroup>().length,
             equals(1),
           );
         },
       );
 
-      flameTester.test(
-        'has only one Plunger',
+      flameBlocTester.test(
+        'has only one Launcher',
         (game) async {
           await game.ready();
           expect(
-            game.children.whereType<Plunger>().length,
+            game.descendants().whereType<Launcher>().length,
             equals(1),
           );
         },
       );
 
-      flameTester.test('has one FlutterForest', (game) async {
+      flameBlocTester.test('has one FlutterForest', (game) async {
         await game.ready();
         expect(
-          game.children.whereType<FlutterForest>().length,
+          game.descendants().whereType<FlutterForest>().length,
           equals(1),
         );
       });
 
-      flameTester.test(
+      flameBlocTester.test(
         'one GoogleWord',
         (game) async {
           await game.ready();
-          expect(game.children.whereType<GoogleWord>().length, equals(1));
+          expect(
+            game.descendants().whereType<GoogleWord>().length,
+            equals(1),
+          );
         },
       );
 
@@ -437,7 +467,7 @@ void main() {
         await game.ready();
 
         expect(
-          game.children.whereType<ControlledBall>().length,
+          game.descendants().whereType<ControlledBall>().length,
           equals(previousBalls.length + 1),
         );
       },

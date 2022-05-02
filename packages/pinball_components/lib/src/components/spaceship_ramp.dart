@@ -8,22 +8,22 @@ import 'package:pinball_components/pinball_components.dart' hide Assets;
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template spaceship_ramp}
-/// A [Blueprint] which creates the ramp leading into the [Spaceship].
+/// Ramp leading into the [AndroidSpaceship].
 /// {@endtemplate}
-class SpaceshipRamp extends Blueprint {
+class SpaceshipRamp extends Component {
   /// {@macro spaceship_ramp}
   SpaceshipRamp()
       : super(
-          components: [
+          children: [
             _SpaceshipRampOpening(
-              outsidePriority: RenderPriority.ballOnBoard,
+              outsidePriority: ZIndexes.ballOnBoard,
               rotation: math.pi,
             )
               ..initialPosition = Vector2(1.7, -19.8)
               ..layer = Layer.opening,
             _SpaceshipRampOpening(
               outsideLayer: Layer.spaceship,
-              outsidePriority: RenderPriority.ballOnSpaceship,
+              outsidePriority: ZIndexes.ballOnSpaceship,
               rotation: math.pi,
             )
               ..initialPosition = Vector2(-13.7, -18.6)
@@ -41,10 +41,8 @@ class SpaceshipRamp extends Blueprint {
   /// Forwards the sprite to the next [SpaceshipRampArrowSpriteState].
   ///
   /// If the current state is the last one it cycles back to the initial state.
-  void progress() => components
-      .whereType<_SpaceshipRampArrowSpriteComponent>()
-      .first
-      .progress();
+  void progress() =>
+      firstChild<_SpaceshipRampArrowSpriteComponent>()?.progress();
 }
 
 /// Indicates the state of the arrow on the [SpaceshipRamp].
@@ -73,17 +71,17 @@ extension on SpaceshipRampArrowSpriteState {
   String get path {
     switch (this) {
       case SpaceshipRampArrowSpriteState.inactive:
-        return Assets.images.spaceship.ramp.arrow.inactive.keyName;
+        return Assets.images.android.ramp.arrow.inactive.keyName;
       case SpaceshipRampArrowSpriteState.active1:
-        return Assets.images.spaceship.ramp.arrow.active1.keyName;
+        return Assets.images.android.ramp.arrow.active1.keyName;
       case SpaceshipRampArrowSpriteState.active2:
-        return Assets.images.spaceship.ramp.arrow.active2.keyName;
+        return Assets.images.android.ramp.arrow.active2.keyName;
       case SpaceshipRampArrowSpriteState.active3:
-        return Assets.images.spaceship.ramp.arrow.active3.keyName;
+        return Assets.images.android.ramp.arrow.active3.keyName;
       case SpaceshipRampArrowSpriteState.active4:
-        return Assets.images.spaceship.ramp.arrow.active4.keyName;
+        return Assets.images.android.ramp.arrow.active4.keyName;
       case SpaceshipRampArrowSpriteState.active5:
-        return Assets.images.spaceship.ramp.arrow.active5.keyName;
+        return Assets.images.android.ramp.arrow.active5.keyName;
     }
   }
 
@@ -94,16 +92,16 @@ extension on SpaceshipRampArrowSpriteState {
 }
 
 class _SpaceshipRampBackground extends BodyComponent
-    with InitialPosition, Layered {
+    with InitialPosition, Layered, ZIndex {
   _SpaceshipRampBackground()
       : super(
-          priority: RenderPriority.spaceshipRamp,
           renderBody: false,
           children: [
             _SpaceshipRampBackgroundRampSpriteComponent(),
           ],
         ) {
     layer = Layer.spaceshipEntranceRamp;
+    zIndex = ZIndexes.spaceshipRamp;
   }
 
   /// Width between walls of the ramp.
@@ -148,20 +146,21 @@ class _SpaceshipRampBackground extends BodyComponent
 }
 
 class _SpaceshipRampBackgroundRailingSpriteComponent extends SpriteComponent
-    with HasGameRef {
+    with HasGameRef, ZIndex {
   _SpaceshipRampBackgroundRailingSpriteComponent()
       : super(
           anchor: Anchor.center,
           position: Vector2(-11.7, -54.3),
-          priority: RenderPriority.spaceshipRampBackgroundRailing,
-        );
+        ) {
+    zIndex = ZIndexes.spaceshipRampBackgroundRailing;
+  }
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
     final sprite = Sprite(
       gameRef.images.fromCache(
-        Assets.images.spaceship.ramp.railingBackground.keyName,
+        Assets.images.android.ramp.railingBackground.keyName,
       ),
     );
     this.sprite = sprite;
@@ -182,7 +181,7 @@ class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
     await super.onLoad();
     final sprite = Sprite(
       gameRef.images.fromCache(
-        Assets.images.spaceship.ramp.main.keyName,
+        Assets.images.android.ramp.main.keyName,
       ),
     );
     this.sprite = sprite;
@@ -197,14 +196,15 @@ class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
 /// {@endtemplate}
 class _SpaceshipRampArrowSpriteComponent
     extends SpriteGroupComponent<SpaceshipRampArrowSpriteState>
-    with HasGameRef {
+    with HasGameRef, ZIndex {
   /// {@macro spaceship_ramp_arrow_sprite_component}
   _SpaceshipRampArrowSpriteComponent()
       : super(
           anchor: Anchor.center,
           position: Vector2(-3.9, -56.5),
-          priority: RenderPriority.spaceshipRampArrow,
-        );
+        ) {
+    zIndex = ZIndexes.spaceshipRampArrow;
+  }
 
   /// Changes arrow image to the next [Sprite].
   void progress() => current = current?.next;
@@ -226,15 +226,17 @@ class _SpaceshipRampArrowSpriteComponent
 }
 
 class _SpaceshipRampBoardOpeningSpriteComponent extends SpriteComponent
-    with HasGameRef {
-  _SpaceshipRampBoardOpeningSpriteComponent() : super(anchor: Anchor.center);
+    with HasGameRef, ZIndex {
+  _SpaceshipRampBoardOpeningSpriteComponent() : super(anchor: Anchor.center) {
+    zIndex = ZIndexes.spaceshipRampBoardOpening;
+  }
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
     final sprite = Sprite(
       gameRef.images.fromCache(
-        Assets.images.spaceship.ramp.boardOpening.keyName,
+        Assets.images.android.ramp.boardOpening.keyName,
       ),
     );
     this.sprite = sprite;
@@ -243,14 +245,14 @@ class _SpaceshipRampBoardOpeningSpriteComponent extends SpriteComponent
 }
 
 class _SpaceshipRampForegroundRailing extends BodyComponent
-    with InitialPosition, Layered {
+    with InitialPosition, Layered, ZIndex {
   _SpaceshipRampForegroundRailing()
       : super(
-          priority: RenderPriority.spaceshipRampForegroundRailing,
           renderBody: false,
           children: [_SpaceshipRampForegroundRailingSpriteComponent()],
         ) {
     layer = Layer.spaceshipEntranceRamp;
+    zIndex = ZIndexes.spaceshipRampForegroundRailing;
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -304,7 +306,7 @@ class _SpaceshipRampForegroundRailingSpriteComponent extends SpriteComponent
     await super.onLoad();
     final sprite = Sprite(
       gameRef.images.fromCache(
-        Assets.images.spaceship.ramp.railingForeground.keyName,
+        Assets.images.android.ramp.railingForeground.keyName,
       ),
     );
     this.sprite = sprite;
@@ -352,8 +354,8 @@ class _SpaceshipRampOpening extends LayerSensor {
           insideLayer: Layer.spaceshipEntranceRamp,
           outsideLayer: outsideLayer,
           orientation: LayerEntranceOrientation.down,
-          insidePriority: RenderPriority.ballOnSpaceshipRamp,
-          outsidePriority: outsidePriority,
+          insideZIndex: ZIndexes.ballOnSpaceshipRamp,
+          outsideZIndex: outsidePriority,
         );
 
   final double _rotation;

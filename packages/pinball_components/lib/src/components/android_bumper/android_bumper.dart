@@ -11,21 +11,21 @@ import 'package:pinball_flame/pinball_flame.dart';
 export 'cubit/android_bumper_cubit.dart';
 
 /// {@template android_bumper}
-/// Bumper for area under the [Spaceship].
+/// Bumper for area under the [AndroidSpaceship].
 /// {@endtemplate}
-class AndroidBumper extends BodyComponent with InitialPosition {
+class AndroidBumper extends BodyComponent with InitialPosition, ZIndex {
   /// {@macro android_bumper}
   AndroidBumper._({
     required double majorRadius,
     required double minorRadius,
     required String litAssetPath,
     required String dimmedAssetPath,
+    required Vector2 spritePosition,
     Iterable<Component>? children,
     required this.bloc,
   })  : _majorRadius = majorRadius,
         _minorRadius = minorRadius,
         super(
-          priority: RenderPriority.androidBumper,
           renderBody: false,
           children: [
             AndroidBumperBallContactBehavior(),
@@ -33,11 +33,14 @@ class AndroidBumper extends BodyComponent with InitialPosition {
             _AndroidBumperSpriteGroupComponent(
               dimmedAssetPath: dimmedAssetPath,
               litAssetPath: litAssetPath,
+              position: spritePosition,
               state: bloc.state,
             ),
             ...?children,
           ],
-        );
+        ) {
+    zIndex = ZIndexes.androidBumper;
+  }
 
   /// {@macro android_bumper}
   AndroidBumper.a({
@@ -45,8 +48,9 @@ class AndroidBumper extends BodyComponent with InitialPosition {
   }) : this._(
           majorRadius: 3.52,
           minorRadius: 2.97,
-          litAssetPath: Assets.images.androidBumper.a.lit.keyName,
-          dimmedAssetPath: Assets.images.androidBumper.a.dimmed.keyName,
+          litAssetPath: Assets.images.android.bumper.a.lit.keyName,
+          dimmedAssetPath: Assets.images.android.bumper.a.dimmed.keyName,
+          spritePosition: Vector2(0, -0.1),
           bloc: AndroidBumperCubit(),
           children: [
             ...?children,
@@ -60,8 +64,22 @@ class AndroidBumper extends BodyComponent with InitialPosition {
   }) : this._(
           majorRadius: 3.19,
           minorRadius: 2.79,
-          litAssetPath: Assets.images.androidBumper.b.lit.keyName,
-          dimmedAssetPath: Assets.images.androidBumper.b.dimmed.keyName,
+          litAssetPath: Assets.images.android.bumper.b.lit.keyName,
+          dimmedAssetPath: Assets.images.android.bumper.b.dimmed.keyName,
+          spritePosition: Vector2(0, -0.1),
+          bloc: AndroidBumperCubit(),
+          children: children,
+        );
+
+  /// {@macro android_bumper}
+  AndroidBumper.cow({
+    Iterable<Component>? children,
+  }) : this._(
+          majorRadius: 3.4,
+          minorRadius: 2.9,
+          litAssetPath: Assets.images.android.bumper.cow.lit.keyName,
+          dimmedAssetPath: Assets.images.android.bumper.cow.dimmed.keyName,
+          spritePosition: Vector2(0, -0.68),
           bloc: AndroidBumperCubit(),
           children: [
             ...?children,
@@ -116,12 +134,13 @@ class _AndroidBumperSpriteGroupComponent
   _AndroidBumperSpriteGroupComponent({
     required String litAssetPath,
     required String dimmedAssetPath,
+    required Vector2 position,
     required AndroidBumperState state,
   })  : _litAssetPath = litAssetPath,
         _dimmedAssetPath = dimmedAssetPath,
         super(
           anchor: Anchor.center,
-          position: Vector2(0, -0.1),
+          position: position,
           current: state,
         );
 

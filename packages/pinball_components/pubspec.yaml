@@ -57,15 +57,17 @@ flutter:
     - assets/images/dash/bumper/a/
     - assets/images/dash/bumper/b/
     - assets/images/dash/bumper/main/
-    - assets/images/spaceship/
-    - assets/images/spaceship/rail/
-    - assets/images/spaceship/ramp/
-    - assets/images/spaceship/ramp/arrow/
-    - assets/images/kicker/
+    - assets/images/android/spaceship/
+    - assets/images/android/rail/
+    - assets/images/android/ramp/
+    - assets/images/android/ramp/arrow/
+    - assets/images/android/bumper/a/
+    - assets/images/android/bumper/b/
+    - assets/images/android/bumper/cow/
+    - assets/images/kicker/left/
+    - assets/images/kicker/right/
     - assets/images/plunger/
     - assets/images/slingshot/
-    - assets/images/android_bumper/a/
-    - assets/images/android_bumper/b/
     - assets/images/sparky/
     - assets/images/sparky/computer/
     - assets/images/sparky/bumper/a/
@@ -74,6 +76,11 @@ flutter:
     - assets/images/backboard/
     - assets/images/google_word/
     - assets/images/signpost/
+    - assets/images/multiplier/x2/
+    - assets/images/multiplier/x3/
+    - assets/images/multiplier/x4/
+    - assets/images/multiplier/x5/
+    - assets/images/multiplier/x6/
 
 flutter_gen:
   line_length: 80

@@ -1,17 +1,20 @@
 import 'package:flame/components.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template sparky_animatronic}
 /// Animated Sparky that sits on top of the [SparkyComputer].
 /// {@endtemplate}
-class SparkyAnimatronic extends SpriteAnimationComponent with HasGameRef {
+class SparkyAnimatronic extends SpriteAnimationComponent
+    with HasGameRef, ZIndex {
   /// {@macro sparky_animatronic}
   SparkyAnimatronic()
       : super(
           anchor: Anchor.center,
           playing: false,
-          priority: RenderPriority.sparkyAnimatronic,
-        );
+        ) {
+    zIndex = ZIndexes.sparkyAnimatronic;
+  }
 
   @override
   Future<void> onLoad() async {

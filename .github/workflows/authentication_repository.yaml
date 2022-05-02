@@ -1,0 +1,22 @@
+name: authentication_repository
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    paths:
+      - "packages/authentication_repository/**"
+      - ".github/workflows/authentication_repository.yaml"
+
+  pull_request:
+    paths:
+      - "packages/authentication_repository/**"
+      - ".github/workflows/authentication_repository.yaml"
+
+jobs:
+  build:
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
+    with:
+      working_directory: packages/authentication_repository

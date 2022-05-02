@@ -9,19 +9,30 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  url_launcher: ^6.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  mocktail: ^0.3.0
   test: ^1.19.2
   very_good_analysis: ^2.4.0
 
 flutter:
   uses-material-design: true
   generate: true
-
   assets:
     - assets/images/dialog/
+    - assets/images/button/
+  fonts:
+    - family: PixeloidSans
+      fonts:
+        - asset: fonts/PixeloidSans-nR3g1.ttf
+        - asset: fonts/PixeloidSansBold-RpeJo.ttf
+          weight: 700
+    - family: PixeloidMono
+      fonts:
+        - asset: fonts/PixeloidMono-1G8ae.ttf
 
 flutter_gen:
   line_length: 80
