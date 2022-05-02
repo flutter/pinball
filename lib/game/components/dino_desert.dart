@@ -16,7 +16,7 @@ class DinoDesert extends Component {
               children: [
                 ScoringBehavior(points: 200000)..applyTo(['inside_mouth']),
               ],
-            )..initialPosition = Vector2(12.3, -6.9),
+            )..initialPosition = Vector2(12.6, -6.9),
             _BarrierBehindDino(),
             DinoWalls(),
             Slingshots(),
