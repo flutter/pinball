@@ -1,43 +1,8 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-/// Represents the [Signpost]'s current [Sprite] state.
-@visibleForTesting
-enum SignpostSpriteState {
-  /// Signpost with no active dashes.
-  inactive,
-
-  /// Signpost with a single sign of active dashes.
-  active1,
-
-  /// Signpost with two signs of active dashes.
-  active2,
-
-  /// Signpost with all signs of active dashes.
-  active3,
-}
-
-extension on SignpostSpriteState {
-  String get path {
-    switch (this) {
-      case SignpostSpriteState.inactive:
-        return Assets.images.signpost.inactive.keyName;
-      case SignpostSpriteState.active1:
-        return Assets.images.signpost.active1.keyName;
-      case SignpostSpriteState.active2:
-        return Assets.images.signpost.active2.keyName;
-      case SignpostSpriteState.active3:
-        return Assets.images.signpost.active3.keyName;
-    }
-  }
-
-  SignpostSpriteState get next {
-    return SignpostSpriteState
-        .values[(index + 1) % SignpostSpriteState.values.length];
-  }
-}
+export 'cubit/signpost_cubit.dart';
 
 /// {@template signpost}
 /// A sign, found in the Flutter Forest.
@@ -48,18 +13,28 @@ class Signpost extends BodyComponent with InitialPosition {
   /// {@macro signpost}
   Signpost({
     Iterable<Component>? children,
+  }) : this._(
+          children: children,
+          bloc: SignpostCubit(),
+        );
+
+  Signpost._({
+    Iterable<Component>? children,
+    required this.bloc,
   }) : super(
           renderBody: false,
           children: [
-            _SignpostSpriteComponent(),
+            _SignpostSpriteComponent(
+              current: bloc.state,
+            ),
             ...?children,
           ],
         );
 
-  /// Forwards the sprite to the next [SignpostSpriteState].
-  ///
-  /// If the current state is the last one it cycles back to the initial state.
-  void progress() => firstChild<_SignpostSpriteComponent>()!.progress();
+  // TODO(alestiago): Consider refactoring once the following is merged:
+  // https://github.com/flame-engine/flame/pull/1538
+  // ignore: public_member_api_docs
+  final SignpostCubit bloc;
 
   @override
   Body createBody() {
@@ -72,29 +47,44 @@ class Signpost extends BodyComponent with InitialPosition {
   }
 }
 
-class _SignpostSpriteComponent extends SpriteGroupComponent<SignpostSpriteState>
+class _SignpostSpriteComponent extends SpriteGroupComponent<SignpostState>
     with HasGameRef {
-  _SignpostSpriteComponent()
-      : super(
+  _SignpostSpriteComponent({
+    required SignpostState current,
+  }) : super(
           anchor: Anchor.bottomCenter,
           position: Vector2(0.65, 0.45),
+          current: current,
         );
-
-  void progress() => current = current?.next;
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
 
-    final sprites = <SignpostSpriteState, Sprite>{};
+    final sprites = <SignpostState, Sprite>{};
     this.sprites = sprites;
-    for (final spriteState in SignpostSpriteState.values) {
+    for (final spriteState in SignpostState.values) {
       sprites[spriteState] = Sprite(
         gameRef.images.fromCache(spriteState.path),
       );
     }
 
-    current = SignpostSpriteState.inactive;
+    current = SignpostState.inactive;
     size = sprites[current]!.originalSize / 10;
+  }
+}
+
+extension on SignpostState {
+  String get path {
+    switch (this) {
+      case SignpostState.inactive:
+        return Assets.images.signpost.inactive.keyName;
+      case SignpostState.active1:
+        return Assets.images.signpost.active1.keyName;
+      case SignpostState.active2:
+        return Assets.images.signpost.active2.keyName;
+      case SignpostState.active3:
+        return Assets.images.signpost.active3.keyName;
+    }
   }
 }
