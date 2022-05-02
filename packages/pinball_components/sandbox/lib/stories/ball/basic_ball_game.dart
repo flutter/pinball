@@ -1,6 +1,7 @@
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_theme/pinball_theme.dart' as theme;
 import 'package:sandbox/common/common.dart';
 
 class BallGame extends AssetsGame with TapDetector, Traceable {
@@ -13,10 +14,10 @@ class BallGame extends AssetsGame with TapDetector, Traceable {
   }) : super(
           imagesFileNames: [
             Assets.images.ball.ball.keyName,
-            Assets.images.ball.androidBall.keyName,
-            Assets.images.ball.dashBall.keyName,
-            Assets.images.ball.dinoBall.keyName,
-            Assets.images.ball.sparkyBall.keyName,
+            theme.Assets.images.android.ball.keyName,
+            theme.Assets.images.dash.ball.keyName,
+            theme.Assets.images.dino.ball.keyName,
+            theme.Assets.images.sparky.ball.keyName,
             if (imagesFileNames != null) ...imagesFileNames,
           ],
         );
@@ -28,10 +29,10 @@ class BallGame extends AssetsGame with TapDetector, Traceable {
 ''';
 
   static final characterBallPaths = <String, String>{
-    'Dash': Assets.images.ball.dashBall.keyName,
-    'Sparky': Assets.images.ball.sparkyBall.keyName,
-    'Android': Assets.images.ball.androidBall.keyName,
-    'Dino': Assets.images.ball.dinoBall.keyName,
+    'Dash': theme.Assets.images.dash.ball.keyName,
+    'Sparky': theme.Assets.images.sparky.ball.keyName,
+    'Android': theme.Assets.images.android.ball.keyName,
+    'Dino': theme.Assets.images.dino.ball.keyName,
   };
 
   final int ballPriority;

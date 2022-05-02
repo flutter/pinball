@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
 /// {@template android_theme}
@@ -12,7 +11,7 @@ class AndroidTheme extends CharacterTheme {
   String get name => 'Android';
 
   @override
-  Color get ballColor => Colors.green;
+  AssetGenImage get ball => Assets.images.android.ball;
 
   @override
   AssetGenImage get background => Assets.images.android.background;

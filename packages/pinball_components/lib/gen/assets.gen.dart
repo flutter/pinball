@@ -66,28 +66,12 @@ class $AssetsImagesBackboardGen {
 class $AssetsImagesBallGen {
   const $AssetsImagesBallGen();
 
-  /// File path: assets/images/ball/android_ball.png
-  AssetGenImage get androidBall =>
-      const AssetGenImage('assets/images/ball/android_ball.png');
-
   /// File path: assets/images/ball/ball.png
   AssetGenImage get ball => const AssetGenImage('assets/images/ball/ball.png');
-
-  /// File path: assets/images/ball/dash_ball.png
-  AssetGenImage get dashBall =>
-      const AssetGenImage('assets/images/ball/dash_ball.png');
-
-  /// File path: assets/images/ball/dino_ball.png
-  AssetGenImage get dinoBall =>
-      const AssetGenImage('assets/images/ball/dino_ball.png');
 
   /// File path: assets/images/ball/flame_effect.png
   AssetGenImage get flameEffect =>
       const AssetGenImage('assets/images/ball/flame_effect.png');
-
-  /// File path: assets/images/ball/sparky_ball.png
-  AssetGenImage get sparkyBall =>
-      const AssetGenImage('assets/images/ball/sparky_ball.png');
 }
 
 class $AssetsImagesBaseboardGen {

@@ -17,7 +17,7 @@ class ControlledBall extends Ball with Controls<BallController> {
   /// A [Ball] that launches from the [Plunger].
   ControlledBall.launch({
     required CharacterTheme characterTheme,
-  }) : super(baseColor: characterTheme.ballColor) {
+  }) : super(spriteAsset: characterTheme.ball.keyName) {
     controller = BallController(this);
     layer = Layer.launcher;
     zIndex = ZIndexes.ballOnLaunchRamp;
@@ -28,13 +28,13 @@ class ControlledBall extends Ball with Controls<BallController> {
   /// {@endtemplate}
   ControlledBall.bonus({
     required CharacterTheme characterTheme,
-  }) : super(baseColor: characterTheme.ballColor) {
+  }) : super(spriteAsset: characterTheme.ball.keyName) {
     controller = BallController(this);
     zIndex = ZIndexes.ballOnBoard;
   }
 
   /// [Ball] used in [DebugPinballGame].
-  ControlledBall.debug() : super(baseColor: const Color(0xFFFF0000)) {
+  ControlledBall.debug() : super() {
     controller = BallController(this);
     zIndex = ZIndexes.ballOnBoard;
   }

@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_theme/pinball_theme.dart' as theme;
 import 'package:sandbox/common/common.dart';
 
 class BallBoosterGame extends LineGame {
@@ -8,10 +9,10 @@ class BallBoosterGame extends LineGame {
       : super(
           imagesFileNames: [
             Assets.images.ball.ball.keyName,
-            Assets.images.ball.androidBall.keyName,
-            Assets.images.ball.dashBall.keyName,
-            Assets.images.ball.dinoBall.keyName,
-            Assets.images.ball.sparkyBall.keyName,
+            theme.Assets.images.android.ball.keyName,
+            theme.Assets.images.dash.ball.keyName,
+            theme.Assets.images.dino.ball.keyName,
+            theme.Assets.images.sparky.ball.keyName,
             Assets.images.ball.flameEffect.keyName,
           ],
         );
