@@ -29,11 +29,11 @@ class GameFlowController extends ComponentController<PinballGame>
   void initialsInput() {
     // TODO(erickzanardo): implement score submission and "navigate" to the
     // next page
-    component.firstChild<Backboard>()?.initialsInput(
+    component.firstChild<Backbox>()?.initialsInput(
           score: state?.score ?? 0,
           characterIconPath: component.characterTheme.leaderboardIcon.keyName,
         );
-    component.firstChild<CameraController>()?.focusOnGameOverBackboard();
+    component.firstChild<CameraController>()?.focusOnGameOverBackbox();
   }
 
   /// Puts the game in the playing state.

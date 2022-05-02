@@ -45,49 +45,49 @@ class CameraController extends ComponentController<FlameGame> {
   /// {@macro camera_controller}
   CameraController(FlameGame component) : super(component) {
     final gameZoom = component.size.y / 16;
-    final waitingBackboardZoom = component.size.y / 18;
-    final gameOverBackboardZoom = component.size.y / 10;
+    final waitingBackboxZoom = component.size.y / 18;
+    final gameOverBackboxZoom = component.size.y / 10;
 
     gameFocus = FocusData(
       zoom: gameZoom,
       position: Vector2(0, -7.8),
     );
-    waitingBackboardFocus = FocusData(
-      zoom: waitingBackboardZoom,
+    waitingBackboxFocus = FocusData(
+      zoom: waitingBackboxZoom,
       position: Vector2(0, -112),
     );
-    gameOverBackboardFocus = FocusData(
-      zoom: gameOverBackboardZoom,
+    gameOverBackboxFocus = FocusData(
+      zoom: gameOverBackboxZoom,
       position: Vector2(0, -111),
     );
 
-    // Game starts with the camera focused on the panel.
+    // Game starts with the camera focused on the [Backbox].
     component.camera
       ..speed = 70
-      ..snapToFocus(waitingBackboardFocus);
+      ..snapToFocus(waitingBackboxFocus);
   }
 
   /// Holds the data for the game focus point.
   late final FocusData gameFocus;
 
-  /// Holds the data for the waiting backboard focus point.
-  late final FocusData waitingBackboardFocus;
+  /// Holds the data for the waiting backbox focus point.
+  late final FocusData waitingBackboxFocus;
 
-  /// Holds the data for the game over backboard focus point.
-  late final FocusData gameOverBackboardFocus;
+  /// Holds the data for the game over backbox focus point.
+  late final FocusData gameOverBackboxFocus;
 
   /// Move the camera focus to the game board.
   void focusOnGame() {
     component.add(component.camera.focusToCameraZoom(gameFocus));
   }
 
-  /// Move the camera focus to the waiting backboard.
-  void focusOnWaitingBackboard() {
-    component.add(component.camera.focusToCameraZoom(waitingBackboardFocus));
+  /// Move the camera focus to the waiting backbox.
+  void focusOnWaitingBackbox() {
+    component.add(component.camera.focusToCameraZoom(waitingBackboxFocus));
   }
 
-  /// Move the camera focus to the game over backboard.
-  void focusOnGameOverBackboard() {
-    component.add(component.camera.focusToCameraZoom(gameOverBackboardFocus));
+  /// Move the camera focus to the game over backbox.
+  void focusOnGameOverBackbox() {
+    component.add(component.camera.focusToCameraZoom(gameOverBackboxFocus));
   }
 }

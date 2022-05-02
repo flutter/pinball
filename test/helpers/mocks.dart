@@ -82,7 +82,7 @@ class MockSparkyComputerSensor extends Mock implements SparkyComputerSensor {}
 
 class MockAssetsManagerCubit extends Mock implements AssetsManagerCubit {}
 
-class MockBackboard extends Mock implements Backboard {}
+class MockBackbox extends Mock implements Backbox {}
 
 class MockCameraController extends Mock implements CameraController {}
 

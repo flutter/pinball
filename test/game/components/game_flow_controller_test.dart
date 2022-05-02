@@ -29,38 +29,39 @@ void main() {
 
     group('onNewState', () {
       late PinballGame game;
-      late Backboard backboard;
+      late Backbox backbox;
       late CameraController cameraController;
       late GameFlowController gameFlowController;
       late ActiveOverlaysNotifier overlays;
 
       setUp(() {
         game = MockPinballGame();
-        backboard = MockBackboard();
+        backbox = MockBackbox();
         cameraController = MockCameraController();
         gameFlowController = GameFlowController(game);
         overlays = MockActiveOverlaysNotifier();
 
         when(
-          () => backboard.initialsInput(
+          () => backbox.initialsInput(
             score: any(named: 'score'),
             characterIconPath: any(named: 'characterIconPath'),
             onSubmit: any(named: 'onSubmit'),
           ),
         ).thenAnswer((_) async {});
-        when(cameraController.focusOnWaitingBackboard).thenAnswer((_) async {});
+        when(cameraController.focusOnWaitingBackbox).thenAnswer((_) async {});
         when(cameraController.focusOnGame).thenAnswer((_) async {});
 
         when(() => overlays.remove(any())).thenAnswer((_) => true);
 
-        when(game.firstChild<Backboard>).thenReturn(backboard);
+        when(game.firstChild<Backbox>).thenReturn(backbox);
         when(game.firstChild<CameraController>).thenReturn(cameraController);
         when(() => game.overlays).thenReturn(overlays);
         when(() => game.characterTheme).thenReturn(DashTheme());
       });
 
       test(
-        'changes the backboard and camera correctly when the game is over',
+        'changes the backbox display and camera correctly '
+        'when the game is over',
         () {
           gameFlowController.onNewState(
             GameState(
@@ -72,18 +73,18 @@ void main() {
           );
 
           verify(
-            () => backboard.initialsInput(
+            () => backbox.initialsInput(
               score: 0,
               characterIconPath: any(named: 'characterIconPath'),
               onSubmit: any(named: 'onSubmit'),
             ),
           ).called(1);
-          verify(cameraController.focusOnWaitingBackboard).called(1);
+          verify(cameraController.focusOnWaitingBackbox).called(1);
         },
       );
 
       test(
-        'changes the backboard and camera correctly when it is not a game over',
+        'changes the backbox and camera correctly when it is not a game over',
         () {
           gameFlowController.onNewState(GameState.initial());
 

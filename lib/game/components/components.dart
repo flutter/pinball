@@ -1,5 +1,5 @@
 export 'android_acres.dart';
-export 'backboard/backboard.dart';
+export 'backbox/backbox.dart';
 export 'bottom_group.dart';
 export 'camera_controller.dart';
 export 'controlled_ball.dart';

@@ -11,7 +11,7 @@ class $AssetsImagesGen {
   const $AssetsImagesGen();
 
   $AssetsImagesAndroidGen get android => const $AssetsImagesAndroidGen();
-  $AssetsImagesBackboardGen get backboard => const $AssetsImagesBackboardGen();
+  $AssetsImagesBackboxGen get backbox => const $AssetsImagesBackboxGen();
   $AssetsImagesBallGen get ball => const $AssetsImagesBallGen();
   $AssetsImagesBaseboardGen get baseboard => const $AssetsImagesBaseboardGen();
 
@@ -46,16 +46,16 @@ class $AssetsImagesAndroidGen {
       const $AssetsImagesAndroidSpaceshipGen();
 }
 
-class $AssetsImagesBackboardGen {
-  const $AssetsImagesBackboardGen();
+class $AssetsImagesBackboxGen {
+  const $AssetsImagesBackboxGen();
 
-  /// File path: assets/images/backboard/display-divider.png
+  /// File path: assets/images/backbox/display-divider.png
   AssetGenImage get displayDivider =>
-      const AssetGenImage('assets/images/backboard/display-divider.png');
+      const AssetGenImage('assets/images/backbox/display-divider.png');
 
-  /// File path: assets/images/backboard/marquee.png
+  /// File path: assets/images/backbox/marquee.png
   AssetGenImage get marquee =>
-      const AssetGenImage('assets/images/backboard/marquee.png');
+      const AssetGenImage('assets/images/backbox/marquee.png');
 }
 
 class $AssetsImagesBallGen {

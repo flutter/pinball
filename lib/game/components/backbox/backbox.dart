@@ -1,25 +1,26 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
-import 'package:pinball/game/components/backboard/displays/displays.dart';
+import 'package:pinball/game/components/backbox/displays/displays.dart';
+import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-/// {@template backboard}
-/// The [Backboard] of the pinball machine.
+/// {@template backbox}
+/// The [Backbox] of the pinball machine.
 /// {@endtemplate}
-class Backboard extends PositionComponent with HasGameRef {
-  /// {@macro backboard}
-  Backboard()
+class Backbox extends PositionComponent with HasGameRef {
+  /// {@macro backbox}
+  Backbox()
       : super(
           position: Vector2(0, -87),
           anchor: Anchor.bottomCenter,
           priority: RenderPriority.backboardMarquee,
           children: [
-            _BackboardSpriteComponent(),
+            _BackboxSpriteComponent(),
           ],
         );
 
-  /// Puts [InitialsInputDisplay] on the [Backboard].
+  /// Puts [InitialsInputDisplay] on the [Backbox].
   Future<void> initialsInput({
     required int score,
     required String characterIconPath,
@@ -36,8 +37,8 @@ class Backboard extends PositionComponent with HasGameRef {
   }
 }
 
-class _BackboardSpriteComponent extends SpriteComponent with HasGameRef {
-  _BackboardSpriteComponent() : super(anchor: Anchor.bottomCenter);
+class _BackboxSpriteComponent extends SpriteComponent with HasGameRef {
+  _BackboxSpriteComponent() : super(anchor: Anchor.bottomCenter);
 
   @override
   Future<void> onLoad() async {
@@ -45,10 +46,10 @@ class _BackboardSpriteComponent extends SpriteComponent with HasGameRef {
 
     final sprite = Sprite(
       gameRef.images.fromCache(
-        Assets.images.backboard.marquee.keyName,
+        Assets.images.backbox.marquee.keyName,
       ),
     );
     this.sprite = sprite;
-    size = sprite.originalSize / 10;
+    size = sprite.originalSize / 20;
   }
 }

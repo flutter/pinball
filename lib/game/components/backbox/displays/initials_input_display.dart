@@ -270,7 +270,7 @@ class _DividerSpriteComponent extends SpriteComponent with HasGameRef {
   Future<void> onLoad() async {
     await super.onLoad();
     final sprite = Sprite(
-      gameRef.images.fromCache(Assets.images.backboard.displayDivider.keyName),
+      gameRef.images.fromCache(Assets.images.backbox.displayDivider.keyName),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 20;
