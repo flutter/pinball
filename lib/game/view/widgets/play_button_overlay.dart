@@ -21,14 +21,12 @@ class PlayButtonOverlay extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return Center(
-      child: PinballButton(
-        text: l10n.play,
-        onTap: () async {
-          _game.gameFlowController.start();
-          await showCharacterSelectionDialog(context);
-        },
-      ),
+    return PinballButton(
+      text: l10n.play,
+      onTap: () async {
+        _game.gameFlowController.start();
+        await showCharacterSelectionDialog(context);
+      },
     );
   }
 }
