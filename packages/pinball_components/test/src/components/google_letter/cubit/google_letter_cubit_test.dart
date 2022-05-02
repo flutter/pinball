@@ -10,14 +10,14 @@ void main() {
         'onBallContacted emits active',
         build: GoogleLetterCubit.new,
         act: (bloc) => bloc.onBallContacted(),
-        expect: () => [GoogleLetterState.active],
+        expect: () => [GoogleLetterState.lit],
       );
 
       blocTest<GoogleLetterCubit, GoogleLetterState>(
         'onReset emits inactive',
         build: GoogleLetterCubit.new,
         act: (bloc) => bloc.onReset(),
-        expect: () => [GoogleLetterState.inactive],
+        expect: () => [GoogleLetterState.dimmed],
       );
     },
   );

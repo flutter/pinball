@@ -1,10 +1,8 @@
+// ignore_for_file: public_member_api_docs
+
 part of 'google_letter_cubit.dart';
 
-/// Indicates the [GoogleLetterCubit]'s current state.
 enum GoogleLetterState {
-  /// A lit up letter.
-  active,
-
-  /// A dimmed letter.
-  inactive,
+  lit,
+  dimmed,
 }

@@ -3,7 +3,13 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class GoogleLetterGame extends BallGame {
-  GoogleLetterGame() : super();
+  GoogleLetterGame()
+      : super(
+          imagesFileNames: [
+            Assets.images.googleWord.letter1.lit.keyName,
+            Assets.images.googleWord.letter1.dimmed.keyName,
+          ],
+        );
 
   static const description = '''
     Shows how a GoogleLetter is rendered.
