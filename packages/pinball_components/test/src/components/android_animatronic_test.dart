@@ -54,7 +54,6 @@ void main() {
       (game) async {
         final androidAnimatronic = AndroidAnimatronic();
         await game.ensureAdd(androidAnimatronic);
-
         expect(game.contains(androidAnimatronic), isTrue);
       },
     );
