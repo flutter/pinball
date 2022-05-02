@@ -29,7 +29,7 @@ export 'shapes/shapes.dart';
 export 'signpost.dart';
 export 'slingshot.dart';
 export 'spaceship_rail.dart';
-export 'spaceship_ramp.dart';
+export 'spaceship_ramp/spaceship_ramp.dart';
 export 'sparky_animatronic.dart';
 export 'sparky_bumper/sparky_bumper.dart';
 export 'sparky_computer.dart';

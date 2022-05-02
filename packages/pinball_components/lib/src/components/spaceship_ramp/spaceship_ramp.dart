@@ -5,7 +5,10 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_components/src/components/spaceship_ramp/behavior/behavior.dart';
 import 'package:pinball_flame/pinball_flame.dart';
+
+export 'cubit/ramp_sensor_cubit.dart';
 
 /// {@template spaceship_ramp}
 /// Ramp leading into the [AndroidSpaceship].
@@ -15,6 +18,12 @@ class SpaceshipRamp extends Component {
   SpaceshipRamp()
       : super(
           children: [
+            // TODO(ruimiguel): refactor RampSensor and RampOpening to be in
+            // only one sensor.
+            RampSensor(type: RampSensorType.door)
+              ..initialPosition = Vector2(1.7, -20.4),
+            RampSensor(type: RampSensorType.inside)
+              ..initialPosition = Vector2(1.7, -22),
             _SpaceshipRampOpening(
               outsidePriority: ZIndexes.ballOnBoard,
               rotation: math.pi,
@@ -371,5 +380,69 @@ class _SpaceshipRampOpening extends LayerSensor {
         initialPosition,
         _rotation,
       );
+  }
+}
+
+/// {@template ramp_sensor}
+/// Small sensor body used to detect when a ball has entered the
+/// [SpaceshipRamp].
+/// {@endtemplate}
+@visibleForTesting
+class RampSensor extends BodyComponent
+    with ParentIsA<SpaceshipRamp>, InitialPosition, Layered {
+  /// {@macro ramp_sensor}
+  RampSensor({required this.type})
+      : bloc = RampSensorCubit(),
+        super(
+          children: [
+            RampShotBehavior(),
+          ],
+          renderBody: true,
+        ) {
+    layer = Layer.spaceshipEntranceRamp;
+  }
+
+  /// Creates a [RampSensor] without any children.
+  ///
+  @visibleForTesting
+  RampSensor.test({
+    required this.type,
+    required this.bloc,
+  });
+
+  /// Type for the sensor, to know if it's the one at the door or inside ramp.
+  final RampSensorType type;
+
+  // TODO(alestiago): Consider refactoring once the following is merged:
+  // https://github.com/flame-engine/flame/pull/1538
+  // ignore: public_member_api_docs
+  final RampSensorCubit bloc;
+
+  @override
+  void onRemove() {
+    bloc.close();
+    super.onRemove();
+  }
+
+  @override
+  Body createBody() {
+    final shape = PolygonShape()
+      ..setAsBox(
+        2.6,
+        .5,
+        initialPosition,
+        -5 * math.pi / 180,
+      );
+
+    final fixtureDef = FixtureDef(
+      shape,
+      isSensor: true,
+    );
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
+
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
