@@ -57,7 +57,7 @@ class InitialsInputDisplay extends Component with HasGameRef {
   Future<void> onLoad() async {
     for (var i = 0; i < 3; i++) {
       await add(
-        _BackboardLetterPrompt(
+        _InitialsLetterPrompt(
           position: Vector2(
             11.4 + (2.3 * i),
             -20,
@@ -80,7 +80,7 @@ class InitialsInputDisplay extends Component with HasGameRef {
 
   /// Returns the current inputed initials
   String get initials => children
-      .whereType<_BackboardLetterPrompt>()
+      .whereType<_InitialsLetterPrompt>()
       .map((prompt) => prompt.char)
       .join();
 
@@ -90,7 +90,7 @@ class InitialsInputDisplay extends Component with HasGameRef {
   }
 
   bool _movePrompt(bool left) {
-    final prompts = children.whereType<_BackboardLetterPrompt>().toList();
+    final prompts = children.whereType<_InitialsLetterPrompt>().toList();
 
     final current = prompts.firstWhere((prompt) => prompt.hasFocus)
       ..hasFocus = false;
@@ -118,7 +118,7 @@ class _ScoreLabelTextComponent extends TextComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = gameRef.buildContext!.l10n.score;
+    text = AppLocalizations.of(gameRef.buildContext!).score;
   }
 }
 
@@ -147,7 +147,7 @@ class _NameLabelTextComponent extends TextComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = gameRef.buildContext!.l10n.name;
+    text = AppLocalizations.of(gameRef.buildContext!).name;
   }
 }
 
@@ -170,8 +170,8 @@ class _CharacterIconSpriteComponent extends SpriteComponent with HasGameRef {
   }
 }
 
-class _BackboardLetterPrompt extends PositionComponent {
-  _BackboardLetterPrompt({
+class _InitialsLetterPrompt extends PositionComponent {
+  _InitialsLetterPrompt({
     required Vector2 position,
     bool hasFocus = false,
   })  : _hasFocus = hasFocus,
@@ -303,7 +303,7 @@ class _EnterInitialsTextComponent extends TextComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = gameRef.buildContext!.l10n.enterInitials;
+    text = AppLocalizations.of(gameRef.buildContext!).enterInitials;
   }
 }
 
@@ -322,7 +322,7 @@ class _ArrowsTextComponent extends TextComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = gameRef.buildContext!.l10n.arrows;
+    text = AppLocalizations.of(gameRef.buildContext!).arrows;
   }
 }
 
@@ -337,7 +337,7 @@ class _AndPressTextComponent extends TextComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = gameRef.buildContext!.l10n.andPress;
+    text = AppLocalizations.of(gameRef.buildContext!).andPress;
   }
 }
 
@@ -356,7 +356,7 @@ class _EnterReturnTextComponent extends TextComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = gameRef.buildContext!.l10n.enterReturn;
+    text = AppLocalizations.of(gameRef.buildContext!).enterReturn;
   }
 }
 
@@ -371,6 +371,6 @@ class _ToSubmitTextComponent extends TextComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = gameRef.buildContext!.l10n.toSubmit;
+    text = AppLocalizations.of(gameRef.buildContext!).toSubmit;
   }
 }

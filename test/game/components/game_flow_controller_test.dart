@@ -4,7 +4,6 @@ import 'package:flame/game.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
 import '../../helpers/helpers.dart';
@@ -43,14 +42,13 @@ void main() {
         overlays = MockActiveOverlaysNotifier();
 
         when(
-          () => backboard.gameOverMode(
+          () => backboard.initialsInput(
             score: any(named: 'score'),
             characterIconPath: any(named: 'characterIconPath'),
             onSubmit: any(named: 'onSubmit'),
           ),
         ).thenAnswer((_) async {});
-        when(backboard.waitingMode).thenAnswer((_) async {});
-        when(cameraController.focusOnBackboard).thenAnswer((_) async {});
+        when(cameraController.focusOnWaitingBackboard).thenAnswer((_) async {});
         when(cameraController.focusOnGame).thenAnswer((_) async {});
 
         when(() => overlays.remove(any())).thenAnswer((_) => true);
@@ -62,7 +60,7 @@ void main() {
       });
 
       test(
-        'changes the backboard and camera correctly when it is a game over',
+        'changes the backboard and camera correctly when the game is over',
         () {
           gameFlowController.onNewState(
             GameState(
@@ -74,13 +72,13 @@ void main() {
           );
 
           verify(
-            () => backboard.gameOverMode(
+            () => backboard.initialsInput(
               score: 0,
               characterIconPath: any(named: 'characterIconPath'),
               onSubmit: any(named: 'onSubmit'),
             ),
           ).called(1);
-          verify(cameraController.focusOnBackboard).called(1);
+          verify(cameraController.focusOnWaitingBackboard).called(1);
         },
       );
 
@@ -89,7 +87,6 @@ void main() {
         () {
           gameFlowController.onNewState(GameState.initial());
 
-          verify(backboard.waitingMode).called(1);
           verify(cameraController.focusOnGame).called(1);
           verify(() => overlays.remove(PinballGame.playButtonOverlay))
               .called(1);

@@ -24,15 +24,18 @@ void main() {
 
     test('correctly calculates the zooms', () async {
       expect(controller.gameFocus.zoom.toInt(), equals(12));
-      expect(controller.backboardFocus.zoom.toInt(), equals(11));
+      expect(controller.waitingBackboardFocus.zoom.toInt(), equals(11));
     });
 
     test('correctly sets the initial zoom and position', () async {
-      expect(game.camera.zoom, equals(controller.backboardFocus.zoom));
-      expect(game.camera.follow, equals(controller.backboardFocus.position));
+      expect(game.camera.zoom, equals(controller.waitingBackboardFocus.zoom));
+      expect(
+        game.camera.follow,
+        equals(controller.waitingBackboardFocus.position),
+      );
     });
 
-    group('focusOnBoard', () {
+    group('focusOnGame', () {
       test('changes the zoom', () async {
         controller.focusOnGame();
 
@@ -57,18 +60,43 @@ void main() {
       });
     });
 
-    group('focusOnBackboard', () {
+    group('focusOnWaitingBackboard', () {
       test('changes the zoom', () async {
-        controller.focusOnBackboard();
+        controller.focusOnWaitingBackboard();
 
         await game.ready();
         final zoom = game.firstChild<CameraZoom>();
         expect(zoom, isNotNull);
-        expect(zoom?.value, equals(controller.backboardFocus.zoom));
+        expect(zoom?.value, equals(controller.waitingBackboardFocus.zoom));
       });
 
       test('moves the camera after the zoom is completed', () async {
-        controller.focusOnBackboard();
+        controller.focusOnWaitingBackboard();
+        await game.ready();
+        final cameraZoom = game.firstChild<CameraZoom>()!;
+        final future = cameraZoom.completed;
+
+        game.update(10);
+        game.update(0); // Ensure that the component was removed
+
+        await future;
+
+        expect(game.camera.position, Vector2(-4.5, -109.8));
+      });
+    });
+
+    group('focusOnGameOverBackboard', () {
+      test('changes the zoom', () async {
+        controller.focusOnGameOverBackboard();
+
+        await game.ready();
+        final zoom = game.firstChild<CameraZoom>();
+        expect(zoom, isNotNull);
+        expect(zoom?.value, equals(controller.gameOverBackboardFocus.zoom));
+      });
+
+      test('moves the camera after the zoom is completed', () async {
+        controller.focusOnGameOverBackboard();
         await game.ready();
         final cameraZoom = game.firstChild<CameraZoom>()!;
         final future = cameraZoom.completed;
