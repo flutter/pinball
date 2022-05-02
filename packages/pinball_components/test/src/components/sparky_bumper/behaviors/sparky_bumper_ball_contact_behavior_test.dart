@@ -31,7 +31,7 @@ void main() {
           whenListen(
             bloc,
             const Stream<SparkyBumperState>.empty(),
-            initialState: SparkyBumperState.active,
+            initialState: SparkyBumperState.lit,
           );
 
           final sparkyBumper = SparkyBumper.test(bloc: bloc);

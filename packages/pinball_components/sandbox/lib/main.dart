@@ -19,12 +19,12 @@ void main() {
   addBottomGroupStories(dashbook);
   addPlungerStories(dashbook);
   addSlingshotStories(dashbook);
-  addSparkyBumperStories(dashbook);
+  addSparkyScorchStories(dashbook);
   addAndroidAcresStories(dashbook);
   addBoundariesStories(dashbook);
   addGoogleWordStories(dashbook);
   addLaunchRampStories(dashbook);
-  addScoreTextStories(dashbook);
+  addScoreStories(dashbook);
   addBackboardStories(dashbook);
   addDinoWallStories(dashbook);
   addMultipliersStories(dashbook);

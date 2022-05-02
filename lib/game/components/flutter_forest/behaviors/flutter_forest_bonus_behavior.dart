@@ -25,10 +25,10 @@ class FlutterForestBonusBehavior extends Component
           gameRef
               .read<GameBloc>()
               .add(const BonusActivated(GameBonus.dashNest));
-          gameRef.add(
-            ControlledBall.bonus(characterTheme: gameRef.characterTheme)
-              ..initialPosition = Vector2(17.2, -52.7),
-          );
+          gameRef.firstChild<ZCanvasComponent>()!.add(
+                ControlledBall.bonus(characterTheme: gameRef.characterTheme)
+                  ..initialPosition = Vector2(17.2, -52.7),
+              );
           parent.firstChild<DashAnimatronic>()?.playing = true;
 
           for (final bumper in bumpers) {

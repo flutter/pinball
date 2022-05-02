@@ -8,6 +8,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -17,6 +18,14 @@ class _TestBodyComponent extends BodyComponent {
 }
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  final assets = [
+    Assets.images.score.fiveThousand.keyName,
+    Assets.images.score.twentyThousand.keyName,
+    Assets.images.score.twoHundredThousand.keyName,
+    Assets.images.score.oneMillion.keyName,
+  ];
+
   group('ScoringBehavior', () {
     group('beginContact', () {
       late GameBloc bloc;
@@ -50,21 +59,23 @@ void main() {
           whenListen(bloc, Stream.value(state), initialState: state);
           return bloc;
         },
+        assets: assets,
       );
 
       flameBlocTester.testGameWidget(
         'emits Scored event with points',
         setUp: (game, tester) async {
-          const points = 20;
+          const points = Points.oneMillion;
           final scoringBehavior = ScoringBehavior(points: points);
           await parent.add(scoringBehavior);
-          await game.ensureAdd(parent);
+          final canvas = ZCanvasComponent(children: [parent]);
+          await game.ensureAdd(canvas);
 
           scoringBehavior.beginContact(ball, MockContact());
 
           verify(
             () => bloc.add(
-              const Scored(points: points),
+              Scored(points: points.value),
             ),
           ).called(1);
         },
@@ -73,10 +84,10 @@ void main() {
       flameBlocTester.testGameWidget(
         'plays score sound',
         setUp: (game, tester) async {
-          const points = 20;
-          final scoringBehavior = ScoringBehavior(points: points);
+          final scoringBehavior = ScoringBehavior(points: Points.oneMillion);
           await parent.add(scoringBehavior);
-          await game.ensureAdd(parent);
+          final canvas = ZCanvasComponent(children: [parent]);
+          await game.ensureAdd(canvas);
 
           scoringBehavior.beginContact(ball, MockContact());
 
@@ -85,21 +96,22 @@ void main() {
       );
 
       flameBlocTester.testGameWidget(
-        "adds a ScoreText component at Ball's position with points",
+        "adds a ScoreComponent at Ball's position with points",
         setUp: (game, tester) async {
-          const points = 20;
+          const points = Points.oneMillion;
           final scoringBehavior = ScoringBehavior(points: points);
           await parent.add(scoringBehavior);
-          await game.ensureAdd(parent);
+          final canvas = ZCanvasComponent(children: [parent]);
+          await game.ensureAdd(canvas);
 
           scoringBehavior.beginContact(ball, MockContact());
           await game.ready();
 
-          final scoreText = game.descendants().whereType<ScoreText>();
+          final scoreText = game.descendants().whereType<ScoreComponent>();
           expect(scoreText.length, equals(1));
           expect(
-            scoreText.first.text,
-            equals(points.toString()),
+            scoreText.first.points,
+            equals(points),
           );
           expect(
             scoreText.first.position,

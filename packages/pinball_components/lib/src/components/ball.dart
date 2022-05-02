@@ -6,12 +6,13 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template ball}
 /// A solid, [BodyType.dynamic] sphere that rolls and bounces around.
 /// {@endtemplate}
 class Ball<T extends Forge2DGame> extends BodyComponent<T>
-    with Layered, InitialPosition {
+    with Layered, InitialPosition, ZIndex {
   /// {@macro ball}
   Ball({
     required this.baseColor,
@@ -67,7 +68,7 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   ///
   /// If previously [stop]ped, the previous ball's velocity is not kept.
   void resume() {
-    body.gravityScale = Vector2(0, 1);
+    body.gravityScale = Vector2(1, 1);
   }
 
   /// Applies a boost and [_TurboChargeSpriteAnimationComponent] on this [Ball].
@@ -133,13 +134,14 @@ class _BallSpriteComponent extends SpriteComponent with HasGameRef {
 }
 
 class _TurboChargeSpriteAnimationComponent extends SpriteAnimationComponent
-    with HasGameRef {
+    with HasGameRef, ZIndex {
   _TurboChargeSpriteAnimationComponent()
       : super(
           anchor: const Anchor(0.53, 0.72),
-          priority: RenderPriority.turboChargeFlame,
           removeOnFinish: true,
-        );
+        ) {
+    zIndex = ZIndexes.turboChargeFlame;
+  }
 
   late final Vector2 _textureSize;
 

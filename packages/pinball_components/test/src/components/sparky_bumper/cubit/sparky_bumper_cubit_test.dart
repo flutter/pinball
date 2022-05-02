@@ -7,17 +7,17 @@ void main() {
     'SparkyBumperCubit',
     () {
       blocTest<SparkyBumperCubit, SparkyBumperState>(
-        'onBallContacted emits inactive',
+        'onBallContacted emits dimmed',
         build: SparkyBumperCubit.new,
         act: (bloc) => bloc.onBallContacted(),
-        expect: () => [SparkyBumperState.inactive],
+        expect: () => [SparkyBumperState.dimmed],
       );
 
       blocTest<SparkyBumperCubit, SparkyBumperState>(
-        'onBlinked emits active',
+        'onBlinked emits lit',
         build: SparkyBumperCubit.new,
         act: (bloc) => bloc.onBlinked(),
-        expect: () => [SparkyBumperState.active],
+        expect: () => [SparkyBumperState.lit],
       );
     },
   );

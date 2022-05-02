@@ -10,7 +10,16 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  $AssetsImagesButtonGen get button => const $AssetsImagesButtonGen();
   $AssetsImagesDialogGen get dialog => const $AssetsImagesDialogGen();
+}
+
+class $AssetsImagesButtonGen {
+  const $AssetsImagesButtonGen();
+
+  /// File path: assets/images/button/pinball_button.png
+  AssetGenImage get pinballButton =>
+      const AssetGenImage('assets/images/button/pinball_button.png');
 }
 
 class $AssetsImagesDialogGen {

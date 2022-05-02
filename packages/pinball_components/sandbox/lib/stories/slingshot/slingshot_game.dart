@@ -1,6 +1,5 @@
 import 'package:flame/extensions.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class SlingshotGame extends BallGame {
@@ -24,7 +23,7 @@ class SlingshotGame extends BallGame {
     await super.onLoad();
 
     camera.followVector2(Vector2.zero());
-    await addFromBlueprint(Slingshots());
+    await add(Slingshots());
     await ready();
     await traceAllBodies();
   }

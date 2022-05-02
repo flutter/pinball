@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template bottom_group}
 /// Grouping of the board's symmetrical bottom [Component]s.
@@ -8,7 +9,7 @@ import 'package:pinball_components/pinball_components.dart';
 /// The [BottomGroup] consists of [Flipper]s, [Baseboard]s and [Kicker]s.
 /// {@endtemplate}
 // TODO(allisonryan0002): Consider renaming.
-class BottomGroup extends Component {
+class BottomGroup extends Component with ZIndex {
   /// {@macro bottom_group}
   BottomGroup()
       : super(
@@ -16,8 +17,9 @@ class BottomGroup extends Component {
             _BottomGroupSide(side: BoardSide.right),
             _BottomGroupSide(side: BoardSide.left),
           ],
-          priority: RenderPriority.bottomGroup,
-        );
+        ) {
+    zIndex = ZIndexes.bottomGroup;
+  }
 }
 
 /// {@template bottom_group_side}
@@ -36,7 +38,7 @@ class _BottomGroupSide extends Component {
   @override
   Future<void> onLoad() async {
     final direction = _side.direction;
-    final centerXAdjustment = _side.isLeft ? 0 : -6.5;
+    final centerXAdjustment = _side.isLeft ? 0 : -6.66;
 
     final flipper = ControlledFlipper(
       side: _side,
@@ -44,16 +46,16 @@ class _BottomGroupSide extends Component {
     final baseboard = Baseboard(side: _side)
       ..initialPosition = Vector2(
         (25.58 * direction) + centerXAdjustment,
-        28.69,
+        28.71,
       );
     final kicker = Kicker(
       side: _side,
       children: [
-        ScoringBehavior(points: 5000),
+        ScoringBehavior(points: Points.fiveThousand)..applyTo(['bouncy_edge']),
       ],
     )..initialPosition = Vector2(
-        (22.4 * direction) + centerXAdjustment,
-        25,
+        (22.64 * direction) + centerXAdjustment,
+        25.1,
       );
 
     await addAll([flipper, baseboard, kicker]);
