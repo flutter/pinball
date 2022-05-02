@@ -23,6 +23,7 @@ flutter:
   generate: true
   assets:
     - assets/images/dialog/
+    - assets/images/button/
   fonts:
     - family: PixeloidSans
       fonts:

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flame/input.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class DinoWallGame extends BallGame {
@@ -24,7 +23,7 @@ class DinoWallGame extends BallGame {
       Assets.images.dino.bottomWall.keyName,
     ]);
 
-    await addFromBlueprint(DinoWalls());
+    await add(DinoWalls());
     camera.followVector2(Vector2.zero());
     await traceAllBodies();
   }

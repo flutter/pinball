@@ -29,7 +29,7 @@ class PlungerGame extends BallGame with KeyboardEvents, Traceable {
     final center = screenToWorld(camera.viewport.canvasSize! / 2);
     await add(
       plunger = Plunger(compressionDistance: 29)
-        ..initialPosition = Vector2(center.x - (Kicker.size.x * 2), center.y),
+        ..initialPosition = Vector2(center.x - 8.8, center.y),
     );
     await traceAllBodies();
   }

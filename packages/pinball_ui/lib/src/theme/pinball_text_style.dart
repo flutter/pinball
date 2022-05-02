@@ -19,10 +19,11 @@ abstract class PinballTextStyle {
     fontSize: 24,
     package: _fontPackage,
     fontFamily: _primaryFontFamily,
+    color: PinballColors.white,
   );
 
   static const headline3 = TextStyle(
-    color: PinballColors.white,
+    color: PinballColors.darkBlue,
     fontSize: 20,
     package: _fontPackage,
     fontFamily: _primaryFontFamily,

@@ -4,7 +4,6 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -38,21 +37,20 @@ void main() {
   );
 
   group('AndroidAcres', () {
-    flameTester.test(
-      'loads correctly',
-      (game) async {
-        await game.addFromBlueprint(AndroidAcres());
-        await game.ready();
-      },
-    );
+    flameTester.test('loads correctly', (game) async {
+      final component = AndroidAcres();
+      await game.ensureAdd(component);
+      expect(game.contains(component), isTrue);
+    });
 
     group('loads', () {
       flameTester.test(
         'a Spaceship',
         (game) async {
+          await game.ensureAdd(AndroidAcres());
           expect(
-            AndroidAcres().blueprints.whereType<AndroidSpaceship>().single,
-            isNotNull,
+            game.descendants().whereType<AndroidSpaceship>().length,
+            equals(1),
           );
         },
       );
@@ -60,9 +58,10 @@ void main() {
       flameTester.test(
         'a SpaceshipRamp',
         (game) async {
+          await game.ensureAdd(AndroidAcres());
           expect(
-            AndroidAcres().blueprints.whereType<SpaceshipRamp>().single,
-            isNotNull,
+            game.descendants().whereType<SpaceshipRamp>().length,
+            equals(1),
           );
         },
       );
@@ -70,9 +69,10 @@ void main() {
       flameTester.test(
         'a SpaceshipRail',
         (game) async {
+          await game.ensureAdd(AndroidAcres());
           expect(
-            AndroidAcres().blueprints.whereType<SpaceshipRail>().single,
-            isNotNull,
+            game.descendants().whereType<SpaceshipRail>().length,
+            equals(1),
           );
         },
       );
@@ -80,10 +80,7 @@ void main() {
       flameTester.test(
         'three AndroidBumper',
         (game) async {
-          final androidZone = AndroidAcres();
-          await game.addFromBlueprint(androidZone);
-          await game.ready();
-
+          await game.ensureAdd(AndroidAcres());
           expect(
             game.descendants().whereType<AndroidBumper>().length,
             equals(3),

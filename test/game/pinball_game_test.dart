@@ -51,8 +51,10 @@ void main() {
     Assets.images.googleWord.letter4.keyName,
     Assets.images.googleWord.letter5.keyName,
     Assets.images.googleWord.letter6.keyName,
-    Assets.images.kicker.left.keyName,
-    Assets.images.kicker.right.keyName,
+    Assets.images.kicker.left.lit.keyName,
+    Assets.images.kicker.left.dimmed.keyName,
+    Assets.images.kicker.right.lit.keyName,
+    Assets.images.kicker.right.dimmed.keyName,
     Assets.images.launchRamp.ramp.keyName,
     Assets.images.launchRamp.foregroundRailing.keyName,
     Assets.images.launchRamp.backgroundRailing.keyName,
@@ -136,7 +138,7 @@ void main() {
         (game) async {
           await game.ready();
           expect(
-            game.children.whereType<Drain>().length,
+            game.descendants().whereType<Drain>().length,
             equals(1),
           );
         },
@@ -147,18 +149,18 @@ void main() {
         (game) async {
           await game.ready();
           expect(
-            game.children.whereType<BottomGroup>().length,
+            game.descendants().whereType<BottomGroup>().length,
             equals(1),
           );
         },
       );
 
       flameBlocTester.test(
-        'has only one Plunger',
+        'has only one Launcher',
         (game) async {
           await game.ready();
           expect(
-            game.children.whereType<Plunger>().length,
+            game.descendants().whereType<Launcher>().length,
             equals(1),
           );
         },
@@ -167,7 +169,7 @@ void main() {
       flameBlocTester.test('has one FlutterForest', (game) async {
         await game.ready();
         expect(
-          game.children.whereType<FlutterForest>().length,
+          game.descendants().whereType<FlutterForest>().length,
           equals(1),
         );
       });
@@ -188,7 +190,10 @@ void main() {
         'one GoogleWord',
         (game) async {
           await game.ready();
-          expect(game.children.whereType<GoogleWord>().length, equals(1));
+          expect(
+            game.descendants().whereType<GoogleWord>().length,
+            equals(1),
+          );
         },
       );
 
@@ -476,7 +481,7 @@ void main() {
         await game.ready();
 
         expect(
-          game.children.whereType<ControlledBall>().length,
+          game.descendants().whereType<ControlledBall>().length,
           equals(previousBalls.length + 1),
         );
       },
