@@ -1,6 +1,8 @@
 // ignore_for_file: avoid_renaming_method_parameters
 
 import 'package:flame/components.dart';
+import 'package:flutter/material.dart';
+import 'package:pinball/game/components/android_acres/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
@@ -31,6 +33,20 @@ class AndroidAcres extends Component {
                 ScoringBehavior(points: 20),
               ],
             )..initialPosition = Vector2(-20.5, -13.8),
+            RampShotBehavior(
+              points: 5000,
+              scorePosition: Vector2(0, -45),
+            ),
+            RampBonusBehavior(
+              points: 1000000,
+              scorePosition: Vector2(0, -60),
+            ),
           ],
         );
+
+  /// Creates a [AndroidAcres] without any children.
+  ///
+  /// This can be used for testing [AndroidAcres]'s behaviors in isolation.
+  @visibleForTesting
+  AndroidAcres.test();
 }
