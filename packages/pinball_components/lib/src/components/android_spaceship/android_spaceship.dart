@@ -5,17 +5,25 @@ import 'dart:math' as math;
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/src/components/android_spaceship/behaviors/behaviors.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
+export 'cubit/android_spaceship_cubit.dart';
+
 class AndroidSpaceship extends Component {
-  AndroidSpaceship({required Vector2 position})
-      : super(
+  AndroidSpaceship({
+    required Vector2 position,
+  })  : bloc = AndroidSpaceshipCubit(),
+        super(
           children: [
             _SpaceshipSaucer()..initialPosition = position,
             _SpaceshipSaucerSpriteAnimationComponent()..position = position,
             _LightBeamSpriteComponent()..position = position + Vector2(2.5, 5),
-            _AndroidHead()..initialPosition = position + Vector2(0.5, 0.25),
+            AndroidSpaceshipEntrance(
+              children: [AndroidSpaceshipEntranceBallContactBehavior()],
+            ),
             _SpaceshipHole(
               outsideLayer: Layer.spaceshipExitRail,
               outsidePriority: ZIndexes.ballOnSpaceshipRail,
@@ -26,6 +34,27 @@ class AndroidSpaceship extends Component {
             )..initialPosition = position - Vector2(-7.5, -1.1),
           ],
         );
+
+  /// Creates an [AndroidSpaceship] without any children.
+  ///
+  /// This can be used for testing [AndroidSpaceship]'s behaviors in isolation.
+  // TODO(alestiago): Refactor injecting bloc once the following is merged:
+  // https://github.com/flame-engine/flame/pull/1538
+  @visibleForTesting
+  AndroidSpaceship.test({
+    required this.bloc,
+    Iterable<Component>? children,
+  }) : super(children: children);
+
+  // TODO(alestiago): Consider refactoring once the following is merged:
+  // https://github.com/flame-engine/flame/pull/1538
+  final AndroidSpaceshipCubit bloc;
+
+  @override
+  void onRemove() {
+    bloc.close();
+    super.onRemove();
+  }
 }
 
 class _SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
@@ -123,62 +152,32 @@ class _LightBeamSpriteComponent extends SpriteComponent
   }
 }
 
-class _AndroidHead extends BodyComponent with InitialPosition, Layered, ZIndex {
-  _AndroidHead()
+class AndroidSpaceshipEntrance extends BodyComponent
+    with ParentIsA<AndroidSpaceship>, Layered {
+  AndroidSpaceshipEntrance({Iterable<Component>? children})
       : super(
-          children: [_AndroidHeadSpriteAnimationComponent()],
+          children: children,
           renderBody: false,
         ) {
     layer = Layer.spaceship;
-    zIndex = ZIndexes.androidHead;
   }
 
   @override
   Body createBody() {
-    final shape = EllipseShape(
-      center: Vector2.zero(),
-      majorRadius: 3.1,
-      minorRadius: 2,
-    )..rotate(1.4);
-    final bodyDef = BodyDef(position: initialPosition);
-
-    return world.createBody(bodyDef)..createFixtureFromShape(shape);
-  }
-}
-
-class _AndroidHeadSpriteAnimationComponent extends SpriteAnimationComponent
-    with HasGameRef {
-  _AndroidHeadSpriteAnimationComponent()
-      : super(
-          anchor: Anchor.center,
-          position: Vector2(-0.24, -2.6),
-        );
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-
-    final spriteSheet = gameRef.images.fromCache(
-      Assets.images.android.spaceship.animatronic.keyName,
+    final shape = PolygonShape()
+      ..setAsBox(
+        2,
+        0.1,
+        Vector2(-27.4, -37.2),
+        -0.12,
+      );
+    final fixtureDef = FixtureDef(
+      shape,
+      isSensor: true,
     );
+    final bodyDef = BodyDef();
 
-    const amountPerRow = 18;
-    const amountPerColumn = 4;
-    final textureSize = Vector2(
-      spriteSheet.width / amountPerRow,
-      spriteSheet.height / amountPerColumn,
-    );
-    size = textureSize / 10;
-
-    animation = SpriteAnimation.fromFrameData(
-      spriteSheet,
-      SpriteAnimationData.sequenced(
-        amount: amountPerRow * amountPerColumn,
-        amountPerRow: amountPerRow,
-        stepTime: 1 / 24,
-        textureSize: textureSize,
-      ),
-    );
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
 
