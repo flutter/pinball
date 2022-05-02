@@ -18,17 +18,17 @@ class AndroidAcres extends Component {
             AndroidSpaceship(position: Vector2(-26.5, -28.5)),
             AndroidBumper.a(
               children: [
-                ScoringBehavior(points: 20000),
+                ScoringBehavior(points: Points.twentyThousand),
               ],
             )..initialPosition = Vector2(-25, 1.3),
             AndroidBumper.b(
               children: [
-                ScoringBehavior(points: 20000),
+                ScoringBehavior(points: Points.twentyThousand),
               ],
             )..initialPosition = Vector2(-32.8, -9.2),
             AndroidBumper.cow(
               children: [
-                ScoringBehavior(points: 20),
+                ScoringBehavior(points: Points.twentyThousand),
               ],
             )..initialPosition = Vector2(-20.5, -13.8),
           ],

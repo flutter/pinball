@@ -28,9 +28,11 @@ class $AssetsImagesGen {
   $AssetsImagesKickerGen get kicker => const $AssetsImagesKickerGen();
   $AssetsImagesLaunchRampGen get launchRamp =>
       const $AssetsImagesLaunchRampGen();
+  $AssetsImagesMultiballGen get multiball => const $AssetsImagesMultiballGen();
   $AssetsImagesMultiplierGen get multiplier =>
       const $AssetsImagesMultiplierGen();
   $AssetsImagesPlungerGen get plunger => const $AssetsImagesPlungerGen();
+  $AssetsImagesScoreGen get score => const $AssetsImagesScoreGen();
   $AssetsImagesSignpostGen get signpost => const $AssetsImagesSignpostGen();
   $AssetsImagesSlingshotGen get slingshot => const $AssetsImagesSlingshotGen();
   $AssetsImagesSparkyGen get sparky => const $AssetsImagesSparkyGen();
@@ -179,6 +181,18 @@ class $AssetsImagesLaunchRampGen {
       const AssetGenImage('assets/images/launch_ramp/ramp.png');
 }
 
+class $AssetsImagesMultiballGen {
+  const $AssetsImagesMultiballGen();
+
+  /// File path: assets/images/multiball/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/multiball/dimmed.png');
+
+  /// File path: assets/images/multiball/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/multiball/lit.png');
+}
+
 class $AssetsImagesMultiplierGen {
   const $AssetsImagesMultiplierGen();
 
@@ -199,6 +213,26 @@ class $AssetsImagesPlungerGen {
   /// File path: assets/images/plunger/rocket.png
   AssetGenImage get rocket =>
       const AssetGenImage('assets/images/plunger/rocket.png');
+}
+
+class $AssetsImagesScoreGen {
+  const $AssetsImagesScoreGen();
+
+  /// File path: assets/images/score/five-thousand.png
+  AssetGenImage get fiveThousand =>
+      const AssetGenImage('assets/images/score/five-thousand.png');
+
+  /// File path: assets/images/score/one-million.png
+  AssetGenImage get oneMillion =>
+      const AssetGenImage('assets/images/score/one-million.png');
+
+  /// File path: assets/images/score/twenty-thousand.png
+  AssetGenImage get twentyThousand =>
+      const AssetGenImage('assets/images/score/twenty-thousand.png');
+
+  /// File path: assets/images/score/two-hundred-thousand.png
+  AssetGenImage get twoHundredThousand =>
+      const AssetGenImage('assets/images/score/two-hundred-thousand.png');
 }
 
 class $AssetsImagesSignpostGen {
