@@ -3,11 +3,12 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/components/multipliers/behaviors/behaviors.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template multipliers}
 /// A group for the multipliers on the board.
 /// {@endtemplate}
-class Multipliers extends Component {
+class Multipliers extends Component with ZIndex {
   /// {@macro multipliers}
   Multipliers()
       : super(
@@ -34,7 +35,9 @@ class Multipliers extends Component {
             ),
             MultipliersBehavior(),
           ],
-        );
+        ) {
+    zIndex = ZIndexes.decal;
+  }
 
   /// Creates [Multipliers] without any children.
   ///

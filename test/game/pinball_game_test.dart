@@ -134,7 +134,7 @@ void main() {
         (game) async {
           await game.ready();
           expect(
-            game.children.whereType<Drain>().length,
+            game.descendants().whereType<Drain>().length,
             equals(1),
           );
         },
@@ -145,18 +145,18 @@ void main() {
         (game) async {
           await game.ready();
           expect(
-            game.children.whereType<BottomGroup>().length,
+            game.descendants().whereType<BottomGroup>().length,
             equals(1),
           );
         },
       );
 
       flameBlocTester.test(
-        'has only one Plunger',
+        'has only one Launcher',
         (game) async {
           await game.ready();
           expect(
-            game.children.whereType<Plunger>().length,
+            game.descendants().whereType<Launcher>().length,
             equals(1),
           );
         },
@@ -165,7 +165,7 @@ void main() {
       flameBlocTester.test('has one FlutterForest', (game) async {
         await game.ready();
         expect(
-          game.children.whereType<FlutterForest>().length,
+          game.descendants().whereType<FlutterForest>().length,
           equals(1),
         );
       });
@@ -174,7 +174,10 @@ void main() {
         'one GoogleWord',
         (game) async {
           await game.ready();
-          expect(game.children.whereType<GoogleWord>().length, equals(1));
+          expect(
+            game.descendants().whereType<GoogleWord>().length,
+            equals(1),
+          );
         },
       );
 
@@ -462,7 +465,7 @@ void main() {
         await game.ready();
 
         expect(
-          game.children.whereType<ControlledBall>().length,
+          game.descendants().whereType<ControlledBall>().length,
           equals(previousBalls.length + 1),
         );
       },

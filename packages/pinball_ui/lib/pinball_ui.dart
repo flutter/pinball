@@ -6,3 +6,4 @@ export 'package:url_launcher_platform_interface/url_launcher_platform_interface.
 export 'src/dialog/dialog.dart';
 export 'src/external_links/external_links.dart';
 export 'src/theme/theme.dart';
+export 'src/widgets/widgets.dart';

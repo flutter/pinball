@@ -5,7 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -30,17 +29,19 @@ void main() {
 
   group('SparkyScorch', () {
     flameTester.test('loads correctly', (game) async {
-      await game.addFromBlueprint(SparkyScorch());
-      await game.ready();
+      final component = SparkyScorch();
+      await game.ensureAdd(component);
+      expect(game.contains(component), isTrue);
     });
 
     group('loads', () {
       flameTester.test(
         'a SparkyComputer',
         (game) async {
+          await game.ensureAdd(SparkyScorch());
           expect(
-            SparkyScorch().blueprints.whereType<SparkyComputer>().single,
-            isNotNull,
+            game.descendants().whereType<SparkyComputer>().length,
+            equals(1),
           );
         },
       );
@@ -48,13 +49,10 @@ void main() {
       flameTester.test(
         'a SparkyAnimatronic',
         (game) async {
-          final sparkysScorch = SparkyScorch();
-          await game.addFromBlueprint(sparkysScorch);
-          await game.ready();
-
+          await game.ensureAdd(SparkyScorch());
           expect(
-            game.descendants().whereType<SparkyAnimatronic>().single,
-            isNotNull,
+            game.descendants().whereType<SparkyAnimatronic>().length,
+            equals(1),
           );
         },
       );
@@ -62,10 +60,7 @@ void main() {
       flameTester.test(
         'three SparkyBumper',
         (game) async {
-          final sparkysScorch = SparkyScorch();
-          await game.addFromBlueprint(sparkysScorch);
-          await game.ready();
-
+          await game.ensureAdd(SparkyScorch());
           expect(
             game.descendants().whereType<SparkyBumper>().length,
             equals(3),

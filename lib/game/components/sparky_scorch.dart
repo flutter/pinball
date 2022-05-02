@@ -1,19 +1,19 @@
 // ignore_for_file: avoid_renaming_method_parameters
 
+import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template sparky_scorch}
 /// Area positioned at the top left of the board containing the
 /// [SparkyComputer], [SparkyAnimatronic], and [SparkyBumper]s.
 /// {@endtemplate}
-class SparkyScorch extends Blueprint {
+class SparkyScorch extends Component {
   /// {@macro sparky_scorch}
   SparkyScorch()
       : super(
-          components: [
+          children: [
             SparkyBumper.a(
               children: [
                 ScoringBehavior(points: 20000),
@@ -31,8 +31,6 @@ class SparkyScorch extends Blueprint {
             )..initialPosition = Vector2(-3.3, -52.55),
             SparkyComputerSensor()..initialPosition = Vector2(-13, -49.8),
             SparkyAnimatronic()..position = Vector2(-13.8, -58.2),
-          ],
-          blueprints: [
             SparkyComputer(),
           ],
         );
