@@ -18,13 +18,13 @@ void main() {
   final flameTester = FlameTester(() => TestGame(assets));
 
   group('Signpost', () {
+    const goldenPath = 'golden/signpost/';
+
     flameTester.test(
       'loads correctly',
       (game) async {
         final signpost = Signpost();
-        await game.ready();
         await game.ensureAdd(signpost);
-
         expect(game.contains(signpost), isTrue);
       },
     );
@@ -39,8 +39,8 @@ void main() {
           await tester.pump();
 
           expect(
-            signpost.firstChild<SpriteGroupComponent>()!.current,
-            SignpostSpriteState.inactive,
+            signpost.bloc.state,
+            equals(SignpostState.active1),
           );
 
           game.camera.followVector2(Vector2.zero());
@@ -48,7 +48,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/signpost/inactive.png'),
+            matchesGoldenFile('${goldenPath}inactive.png'),
           );
         },
       );
@@ -59,12 +59,12 @@ void main() {
           await game.images.loadAll(assets);
           final signpost = Signpost();
           await game.ensureAdd(signpost);
-          signpost.progress();
+          signpost.bloc.onProgressed();
           await tester.pump();
 
           expect(
-            signpost.firstChild<SpriteGroupComponent>()!.current,
-            SignpostSpriteState.active1,
+            signpost.bloc.state,
+            equals(SignpostState.active1),
           );
 
           game.camera.followVector2(Vector2.zero());
@@ -72,7 +72,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/signpost/active1.png'),
+            matchesGoldenFile('${goldenPath}active1.png'),
           );
         },
       );
@@ -83,14 +83,14 @@ void main() {
           await game.images.loadAll(assets);
           final signpost = Signpost();
           await game.ensureAdd(signpost);
-          signpost
-            ..progress()
-            ..progress();
+          signpost.bloc
+            ..onProgressed()
+            ..onProgressed();
           await tester.pump();
 
           expect(
-            signpost.firstChild<SpriteGroupComponent>()!.current,
-            SignpostSpriteState.active2,
+            signpost.bloc.state,
+            equals(SignpostState.active2),
           );
 
           game.camera.followVector2(Vector2.zero());
@@ -98,7 +98,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/signpost/active2.png'),
+            matchesGoldenFile('${goldenPath}active2.png'),
           );
         },
       );
@@ -109,15 +109,16 @@ void main() {
           await game.images.loadAll(assets);
           final signpost = Signpost();
           await game.ensureAdd(signpost);
-          signpost
-            ..progress()
-            ..progress()
-            ..progress();
+
+          signpost.bloc
+            ..onProgressed()
+            ..onProgressed()
+            ..onProgressed();
           await tester.pump();
 
           expect(
-            signpost.firstChild<SpriteGroupComponent>()!.current,
-            SignpostSpriteState.active3,
+            signpost.bloc.state,
+            equals(SignpostState.active3),
           );
 
           game.camera.followVector2(Vector2.zero());
@@ -125,32 +126,11 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/signpost/active3.png'),
+            matchesGoldenFile('${goldenPath}active3.png'),
           );
         },
       );
     });
-
-    flameTester.test(
-      'progress correctly cycles through all sprites',
-      (game) async {
-        final signpost = Signpost();
-        await game.ready();
-        await game.ensureAdd(signpost);
-
-        final spriteComponent = signpost.firstChild<SpriteGroupComponent>()!;
-
-        expect(spriteComponent.current, SignpostSpriteState.inactive);
-        signpost.progress();
-        expect(spriteComponent.current, SignpostSpriteState.active1);
-        signpost.progress();
-        expect(spriteComponent.current, SignpostSpriteState.active2);
-        signpost.progress();
-        expect(spriteComponent.current, SignpostSpriteState.active3);
-        signpost.progress();
-        expect(spriteComponent.current, SignpostSpriteState.inactive);
-      },
-    );
 
     flameTester.test('adds new children', (game) async {
       final component = Component();
