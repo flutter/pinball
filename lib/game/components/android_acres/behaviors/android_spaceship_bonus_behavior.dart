@@ -9,9 +9,7 @@ class AndroidSpaceshipBonusBehavior extends Component
   @override
   void onMount() {
     super.onMount();
-
-    final androidSpaceship =
-        parent.children.whereType<AndroidSpaceship>().single;
+    final androidSpaceship = parent.firstChild<AndroidSpaceship>()!;
 
     // TODO(alestiago): Refactor subscription management once the following is
     // merged:
