@@ -95,7 +95,7 @@ void main() {
         ).called(1);
         verify(
           () => preCacheSingleAudio
-              .onCall('packages/pinball_audio/assets/music/background.wav'),
+              .onCall('packages/pinball_audio/assets/music/background.ogg'),
         ).called(1);
       });
     });

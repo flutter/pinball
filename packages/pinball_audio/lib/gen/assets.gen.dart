@@ -8,7 +8,7 @@ import 'package:flutter/widgets.dart';
 class $AssetsMusicGen {
   const $AssetsMusicGen();
 
-  String get background => 'assets/music/background.wav';
+  String get background => 'assets/music/background.ogg';
 }
 
 class $AssetsSfxGen {
