@@ -12,6 +12,6 @@ export 'launch_ramp/stories.dart';
 export 'layer/stories.dart';
 export 'multipliers/stories.dart';
 export 'plunger/stories.dart';
-export 'score_text/stories.dart';
+export 'score/stories.dart';
 export 'slingshot/stories.dart';
 export 'sparky_scorch/stories.dart';
