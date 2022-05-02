@@ -39,8 +39,6 @@ class GameFlowController extends ComponentController<PinballGame>
 
   /// Puts the game on a playing state
   void start() {
-    /// TODO(erickzanardo): Confirm if the music will start on game start
-    /// or if it will start playing before, after the loading is done
     component.audio.backgroundMusic();
     component.firstChild<Backboard>()?.waitingMode();
     component.firstChild<CameraController>()?.focusOnGame();
