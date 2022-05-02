@@ -43,8 +43,7 @@ class AndroidSpaceship extends Component {
   @visibleForTesting
   AndroidSpaceship.test({
     required this.bloc,
-    Iterable<Component>? children,
-  }) : super(children: children);
+  });
 
   // TODO(alestiago): Consider refactoring once the following is merged:
   // https://github.com/flame-engine/flame/pull/1538
