@@ -1,5 +1,6 @@
+export 'android_animatronic.dart';
 export 'android_bumper/android_bumper.dart';
-export 'android_spaceship.dart';
+export 'android_spaceship/android_spaceship.dart';
 export 'backboard/backboard.dart';
 export 'ball.dart';
 export 'baseboard.dart';
