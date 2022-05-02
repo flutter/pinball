@@ -7,7 +7,7 @@ import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockingjay/mockingjay.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/components/android_acres/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -17,9 +17,6 @@ import '../../../../helpers/helpers.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
-    Assets.images.android.spaceship.saucer.keyName,
-    Assets.images.android.spaceship.animatronic.keyName,
-    Assets.images.android.spaceship.lightBeam.keyName,
     Assets.images.android.ramp.boardOpening.keyName,
     Assets.images.android.ramp.railingForeground.keyName,
     Assets.images.android.ramp.railingBackground.keyName,
@@ -32,16 +29,11 @@ void main() {
     Assets.images.android.ramp.arrow.active5.keyName,
     Assets.images.android.rail.main.keyName,
     Assets.images.android.rail.exit.keyName,
-    Assets.images.android.bumper.a.lit.keyName,
-    Assets.images.android.bumper.a.dimmed.keyName,
-    Assets.images.android.bumper.b.lit.keyName,
-    Assets.images.android.bumper.b.dimmed.keyName,
-    Assets.images.android.bumper.cow.lit.keyName,
-    Assets.images.android.bumper.cow.dimmed.keyName,
+    Assets.images.score.oneMillion.keyName,
   ];
 
   group('RampBonusBehavior', () {
-    const bonusPoints = 1000000;
+    const bonusPoints = Points.oneMillion;
 
     late GameBloc gameBloc;
 
@@ -68,7 +60,7 @@ void main() {
           points: bonusPoints,
           scorePosition: Vector2.zero(),
         );
-        final parent = AndroidAcres.test();
+        final parent = SpaceshipRamp.test();
         final sensors = [
           RampSensor.test(
             type: RampSensorType.door,
@@ -85,10 +77,10 @@ void main() {
         }
         await tester.pump();
 
-        final scores = game.descendants().whereType<ScoreText>();
+        final scores = game.descendants().whereType<ScoreComponent>();
         await game.ready();
 
-        verifyNever(() => gameBloc.add(Scored(points: bonusPoints)));
+        verifyNever(() => gameBloc.add(Scored(points: bonusPoints.value)));
         expect(scores.length, 0);
       },
     );
@@ -103,7 +95,7 @@ void main() {
           points: bonusPoints,
           scorePosition: Vector2.zero(),
         );
-        final parent = AndroidAcres.test();
+        final parent = SpaceshipRamp.test();
         final doorSensor = RampSensor.test(
           type: RampSensorType.door,
           bloc: RampSensorCubit(),
@@ -121,10 +113,10 @@ void main() {
 
         await tester.pump();
 
-        final scores = game.descendants().whereType<ScoreText>();
+        final scores = game.descendants().whereType<ScoreComponent>();
         await game.ready();
 
-        verifyNever(() => gameBloc.add(Scored(points: bonusPoints)));
+        verifyNever(() => gameBloc.add(Scored(points: bonusPoints.value)));
         expect(scores.length, 0);
       },
     );
@@ -134,12 +126,11 @@ void main() {
       "less than 10 times doesn't add any score neither shows score points",
       setUp: (game, tester) async {
         final ball = Ball(baseColor: Colors.red);
-        const bonusPoints = 1000000;
         final behavior = RampBonusBehavior(
           points: bonusPoints,
           scorePosition: Vector2.zero(),
         );
-        final parent = AndroidAcres.test();
+        final parent = SpaceshipRamp.test();
         final doorSensor = RampSensor.test(
           type: RampSensorType.door,
           bloc: RampSensorCubit(),
@@ -158,10 +149,10 @@ void main() {
 
         await tester.pump();
 
-        final scores = game.descendants().whereType<ScoreText>();
+        final scores = game.descendants().whereType<ScoreComponent>();
         await game.ready();
 
-        verifyNever(() => gameBloc.add(Scored(points: bonusPoints)));
+        verifyNever(() => gameBloc.add(Scored(points: bonusPoints.value)));
         expect(scores.length, 0);
       },
     );
@@ -171,12 +162,11 @@ void main() {
       '10 times add score and show score point',
       setUp: (game, tester) async {
         final ball = Ball(baseColor: Colors.red);
-        const bonusPoints = 1000000;
         final behavior = RampBonusBehavior(
           points: bonusPoints,
           scorePosition: Vector2.zero(),
         );
-        final parent = AndroidAcres.test();
+        final parent = SpaceshipRamp.test();
         final doorSensor = RampSensor.test(
           type: RampSensorType.door,
           bloc: RampSensorCubit(),
@@ -197,10 +187,10 @@ void main() {
 
         await tester.pump();
 
-        final scores = game.descendants().whereType<ScoreText>();
+        final scores = game.descendants().whereType<ScoreComponent>();
         await game.ready();
 
-        verify(() => gameBloc.add(Scored(points: bonusPoints))).called(1);
+        verify(() => gameBloc.add(Scored(points: bonusPoints.value))).called(1);
         expect(scores.length, 1);
       },
     );

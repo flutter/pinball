@@ -10,17 +10,17 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// When a [Ball] shot inside the [SpaceshipRamp] 10 times increases score.
 /// {@endtemplate}
 class RampBonusBehavior extends Component
-    with ParentIsA<AndroidAcres>, HasGameRef<PinballGame> {
+    with ParentIsA<SpaceshipRamp>, HasGameRef<PinballGame> {
   /// {@macro ramp_bonus_behavior}
   RampBonusBehavior({
-    required int points,
+    required Points points,
     required Vector2 scorePosition,
   })  : _points = points,
         _scorePosition = scorePosition,
         super();
 
   final int _oneMillionPointsTimes = 10;
-  final int _points;
+  final Points _points;
   final Vector2 _scorePosition;
 
   final Set<Ball> _balls = HashSet();
@@ -30,12 +30,7 @@ class RampBonusBehavior extends Component
   void onMount() {
     super.onMount();
 
-    final sensors = parent
-        .descendants()
-        .whereType<SpaceshipRamp>()
-        .first
-        .descendants()
-        .whereType<RampSensor>();
+    final sensors = parent.descendants().whereType<RampSensor>();
 
     for (final sensor in sensors) {
       sensor.bloc.stream.listen((state) {
@@ -69,10 +64,10 @@ class RampBonusBehavior extends Component
   /// current game, like multipliers or score.
   void _shot(int currentHits) {
     if (currentHits % _oneMillionPointsTimes == 0) {
-      gameRef.read<GameBloc>().add(Scored(points: _points));
+      gameRef.read<GameBloc>().add(Scored(points: _points.value));
       gameRef.add(
-        ScoreText(
-          text: _points.toString(),
+        ScoreComponent(
+          points: _points,
           position: _getRandomPosition,
         ),
       );

@@ -15,8 +15,9 @@ export 'cubit/ramp_sensor_cubit.dart';
 /// {@endtemplate}
 class SpaceshipRamp extends Component {
   /// {@macro spaceship_ramp}
-  SpaceshipRamp()
-      : super(
+  SpaceshipRamp({
+    Iterable<Component>? children,
+  }) : super(
           children: [
             // TODO(ruimiguel): refactor RampSensor and RampOpening to be in
             // only one sensor.
@@ -44,8 +45,15 @@ class SpaceshipRamp extends Component {
             _SpaceshipRampBase()..initialPosition = Vector2(1.7, -20),
             _SpaceshipRampBackgroundRailingSpriteComponent(),
             _SpaceshipRampArrowSpriteComponent(),
+            ...?children,
           ],
         );
+
+  /// Creates a [SpaceshipRamp] without any children.
+  ///
+  /// This can be used for testing [SpaceshipRamp]'s behaviors in isolation.
+  @visibleForTesting
+  SpaceshipRamp.test();
 
   /// Forwards the sprite to the next [SpaceshipRampArrowSpriteState].
   ///

@@ -15,7 +15,18 @@ class AndroidAcres extends Component {
   AndroidAcres()
       : super(
           children: [
-            SpaceshipRamp(),
+            SpaceshipRamp(
+              children: [
+                RampShotBehavior(
+                  points: Points.fiveThousand,
+                  scorePosition: Vector2(0, -45),
+                ),
+                RampBonusBehavior(
+                  points: Points.oneMillion,
+                  scorePosition: Vector2(0, -60),
+                ),
+              ],
+            ),
             SpaceshipRail(),
             AndroidSpaceship(position: Vector2(-26.5, -28.5)),
             AndroidBumper.a(
@@ -33,20 +44,6 @@ class AndroidAcres extends Component {
                 ScoringBehavior(points: Points.twentyThousand),
               ],
             )..initialPosition = Vector2(-20.5, -13.8),
-            RampShotBehavior(
-              points: 5000,
-              scorePosition: Vector2(0, -45),
-            ),
-            RampBonusBehavior(
-              points: 1000000,
-              scorePosition: Vector2(0, -60),
-            ),
           ],
         );
-
-  /// Creates a [AndroidAcres] without any children.
-  ///
-  /// This can be used for testing [AndroidAcres]'s behaviors in isolation.
-  @visibleForTesting
-  AndroidAcres.test();
 }

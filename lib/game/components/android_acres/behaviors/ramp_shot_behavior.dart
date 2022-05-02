@@ -11,16 +11,16 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// the current game, like multipliers or score.
 /// {@endtemplate}
 class RampShotBehavior extends Component
-    with ParentIsA<AndroidAcres>, HasGameRef<PinballGame> {
+    with ParentIsA<SpaceshipRamp>, HasGameRef<PinballGame> {
   /// {@macro ramp_shot_behavior}
   RampShotBehavior({
-    required int points,
+    required Points points,
     required Vector2 scorePosition,
   })  : _points = points,
         _scorePosition = scorePosition,
         super();
 
-  final int _points;
+  final Points _points;
   final Vector2 _scorePosition;
 
   final Set<Ball> _balls = HashSet();
@@ -29,12 +29,7 @@ class RampShotBehavior extends Component
   void onMount() {
     super.onMount();
 
-    final sensors = parent
-        .descendants()
-        .whereType<SpaceshipRamp>()
-        .first
-        .descendants()
-        .whereType<RampSensor>();
+    final sensors = parent.descendants().whereType<RampSensor>();
 
     for (final sensor in sensors) {
       sensor.bloc.stream.listen((state) {
@@ -64,14 +59,14 @@ class RampShotBehavior extends Component
   }
 
   void _shot() {
-    parent.descendants().whereType<SpaceshipRamp>().first.progress();
+    parent.progress();
 
     gameRef.read<GameBloc>()
       ..add(const MultiplierIncreased())
-      ..add(Scored(points: _points));
+      ..add(Scored(points: _points.value));
     gameRef.add(
-      ScoreText(
-        text: _points.toString(),
+      ScoreComponent(
+        points: _points,
         position: _getRandomPosition,
       ),
     );
