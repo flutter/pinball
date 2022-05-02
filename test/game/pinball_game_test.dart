@@ -64,6 +64,8 @@ void main() {
     Assets.images.launchRamp.ramp.keyName,
     Assets.images.launchRamp.foregroundRailing.keyName,
     Assets.images.launchRamp.backgroundRailing.keyName,
+    Assets.images.multiball.lit.keyName,
+    Assets.images.multiball.dimmed.keyName,
     Assets.images.multiplier.x2.lit.keyName,
     Assets.images.multiplier.x2.dimmed.keyName,
     Assets.images.multiplier.x3.lit.keyName,
@@ -177,6 +179,18 @@ void main() {
           equals(1),
         );
       });
+
+      flameBlocTester.test(
+        'has only one Multiballs',
+        (game) async {
+          await game.ready();
+
+          expect(
+            game.descendants().whereType<Multiballs>().length,
+            equals(1),
+          );
+        },
+      );
 
       flameBlocTester.test(
         'one GoogleWord',
@@ -400,54 +414,9 @@ void main() {
 
         game.onTapDown(tapDownEvent);
 
-        expect(plunger.body.linearVelocity.y, equals(7));
-      });
+        game.update(1);
 
-      flameTester.test('tap up releases plunger', (game) async {
-        final eventPosition = MockEventPosition();
-        when(() => eventPosition.game).thenReturn(Vector2(40, 60));
-
-        final raw = MockTapDownDetails();
-        when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
-
-        final tapDownEvent = MockTapDownInfo();
-        when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
-        when(() => tapDownEvent.raw).thenReturn(raw);
-
-        final plunger = game.descendants().whereType<Plunger>().first;
-        game.onTapDown(tapDownEvent);
-
-        expect(plunger.body.linearVelocity.y, equals(7));
-
-        final tapUpEvent = MockTapUpInfo();
-        when(() => tapUpEvent.eventPosition).thenReturn(eventPosition);
-
-        game.onTapUp(tapUpEvent);
-
-        expect(plunger.body.linearVelocity.y, equals(0));
-      });
-
-      flameTester.test('tap cancel releases plunger', (game) async {
-        await game.ready();
-
-        final eventPosition = MockEventPosition();
-        when(() => eventPosition.game).thenReturn(Vector2(40, 60));
-
-        final raw = MockTapDownDetails();
-        when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
-
-        final tapDownEvent = MockTapDownInfo();
-        when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
-        when(() => tapDownEvent.raw).thenReturn(raw);
-
-        final plunger = game.descendants().whereType<Plunger>().first;
-        game.onTapDown(tapDownEvent);
-
-        expect(plunger.body.linearVelocity.y, equals(7));
-
-        game.onTapCancel();
-
-        expect(plunger.body.linearVelocity.y, equals(0));
+        expect(plunger.body.linearVelocity.y, isPositive);
       });
     });
   });

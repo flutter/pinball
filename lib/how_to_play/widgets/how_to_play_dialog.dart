@@ -52,7 +52,6 @@ extension on Control {
 Future<void> showHowToPlayDialog(BuildContext context) {
   return showDialog<void>(
     context: context,
-    barrierDismissible: false,
     builder: (_) => HowToPlayDialog(),
   );
 }

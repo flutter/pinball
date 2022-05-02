@@ -401,13 +401,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
-  mockingjay:
-    dependency: "direct dev"
-    description:
-      name: mockingjay
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.3.0"
   mocktail:
     dependency: "direct dev"
     description:
