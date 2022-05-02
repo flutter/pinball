@@ -22,6 +22,11 @@ class ChromeDinoCubit extends Cubit<ChromeDinoState> {
   }
 
   void onSpit() {
-    emit(state.copyWith(status: ChromeDinoStatus.idle));
+    emit(
+      ChromeDinoState(
+        status: ChromeDinoStatus.idle,
+        isMouthOpen: state.isMouthOpen,
+      ),
+    );
   }
 }

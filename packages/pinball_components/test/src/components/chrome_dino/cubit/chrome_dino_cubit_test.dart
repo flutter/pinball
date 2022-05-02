@@ -55,7 +55,7 @@ void main() {
       );
 
       blocTest<ChromeDinoCubit, ChromeDinoState>(
-        'onSpit emits ChromeDinoStatus.idle',
+        'onSpit emits ChromeDinoStatus.idle and removes ball',
         build: ChromeDinoCubit.new,
         act: (bloc) => bloc.onSpit(),
         expect: () => [
@@ -63,7 +63,11 @@ void main() {
             (state) => state.status,
             'status',
             ChromeDinoStatus.idle,
-          )
+          )..having(
+              (state) => state.ball,
+              'ball',
+              null,
+            )
         ],
       );
     },
