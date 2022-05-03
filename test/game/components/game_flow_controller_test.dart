@@ -8,7 +8,16 @@ import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
-import '../../helpers/helpers.dart';
+class _MockPinballGame extends Mock implements PinballGame {}
+
+class _MockBackboard extends Mock implements Backboard {}
+
+class _MockCameraController extends Mock implements CameraController {}
+
+class _MockActiveOverlaysNotifier extends Mock
+    implements ActiveOverlaysNotifier {}
+
+class _MockPinballAudio extends Mock implements PinballAudio {}
 
 void main() {
   group('GameFlowController', () {
@@ -23,7 +32,7 @@ void main() {
 
         final previous = GameState.initial();
         expect(
-          GameFlowController(MockPinballGame()).listenWhen(previous, state),
+          GameFlowController(_MockPinballGame()).listenWhen(previous, state),
           isTrue,
         );
       });
@@ -38,12 +47,12 @@ void main() {
       late ActiveOverlaysNotifier overlays;
 
       setUp(() {
-        game = MockPinballGame();
-        backboard = MockBackboard();
-        cameraController = MockCameraController();
+        game = _MockPinballGame();
+        backboard = _MockBackboard();
+        cameraController = _MockCameraController();
         gameFlowController = GameFlowController(game);
-        overlays = MockActiveOverlaysNotifier();
-        pinballAudio = MockPinballAudio();
+        overlays = _MockActiveOverlaysNotifier();
+        pinballAudio = _MockPinballAudio();
 
         when(
           () => backboard.gameOverMode(

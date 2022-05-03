@@ -7,7 +7,7 @@ import 'package:platform_helper/platform_helper.dart';
 
 import '../helpers/helpers.dart';
 
-class MockPlatformHelper extends Mock implements PlatformHelper {}
+class _MockPlatformHelper extends Mock implements PlatformHelper {}
 
 void main() {
   group('HowToPlayDialog', () {
@@ -16,7 +16,7 @@ void main() {
 
     setUp(() async {
       l10n = await AppLocalizations.delegate.load(const Locale('en'));
-      platformHelper = MockPlatformHelper();
+      platformHelper = _MockPlatformHelper();
     });
 
     testWidgets(

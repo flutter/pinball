@@ -10,6 +10,8 @@ import 'package:pinball_components/src/components/google_letter/behaviors/behavi
 
 import '../../../helpers/helpers.dart';
 
+class _MockGoogleLetterCubit extends Mock implements GoogleLetterCubit {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
@@ -104,7 +106,7 @@ void main() {
     // https://github.com/flame-engine/flame/pull/1538
     // ignore: public_member_api_docs
     flameTester.test('closes bloc when removed', (game) async {
-      final bloc = MockGoogleLetterCubit();
+      final bloc = _MockGoogleLetterCubit();
       whenListen(
         bloc,
         const Stream<GoogleLetterState>.empty(),

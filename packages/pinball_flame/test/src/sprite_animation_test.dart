@@ -3,12 +3,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
-class MockSpriteAnimationController extends Mock
+class _MockSpriteAnimationController extends Mock
     implements SpriteAnimationController {}
 
-class MockSpriteAnimation extends Mock implements SpriteAnimation {}
+class _MockSpriteAnimation extends Mock implements SpriteAnimation {}
 
-class MockSprite extends Mock implements Sprite {}
+class _MockSprite extends Mock implements Sprite {}
 
 // TODO(arturplaczek): Remove when this PR will be merged.
 // https://github.com/flame-engine/flame/pull/1552
@@ -20,9 +20,9 @@ void main() {
     late Sprite sprite;
 
     setUp(() {
-      controller = MockSpriteAnimationController();
-      animation = MockSpriteAnimation();
-      sprite = MockSprite();
+      controller = _MockSpriteAnimationController();
+      animation = _MockSpriteAnimation();
+      sprite = _MockSprite();
 
       when(() => controller.animation).thenAnswer((_) => animation);
 

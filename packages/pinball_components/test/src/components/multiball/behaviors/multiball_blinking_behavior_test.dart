@@ -11,6 +11,8 @@ import 'package:pinball_components/src/components/multiball/behaviors/behaviors.
 
 import '../../../../helpers/helpers.dart';
 
+class _MockMultiballCubit extends Mock implements MultiballCubit {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final flameTester = FlameTester(TestGame.new);
@@ -22,7 +24,7 @@ void main() {
         'calls onBlink every 0.1 seconds when animation state is animated',
         setUp: (game, tester) async {
           final behavior = MultiballBlinkingBehavior();
-          final bloc = MockMultiballCubit();
+          final bloc = _MockMultiballCubit();
           final streamController = StreamController<MultiballState>();
           whenListen(
             bloc,
@@ -57,7 +59,7 @@ void main() {
         'calls onStop when animation state is stopped',
         setUp: (game, tester) async {
           final behavior = MultiballBlinkingBehavior();
-          final bloc = MockMultiballCubit();
+          final bloc = _MockMultiballCubit();
           final streamController = StreamController<MultiballState>();
           whenListen(
             bloc,
@@ -94,7 +96,7 @@ void main() {
         'onTick stops when there is no animation',
         setUp: (game, tester) async {
           final behavior = MultiballBlinkingBehavior();
-          final bloc = MockMultiballCubit();
+          final bloc = _MockMultiballCubit();
           final streamController = StreamController<MultiballState>();
           whenListen(
             bloc,
@@ -125,7 +127,7 @@ void main() {
         'onTick stops after 10 blinks repetitions',
         setUp: (game, tester) async {
           final behavior = MultiballBlinkingBehavior();
-          final bloc = MockMultiballCubit();
+          final bloc = _MockMultiballCubit();
           final streamController = StreamController<MultiballState>();
           whenListen(
             bloc,

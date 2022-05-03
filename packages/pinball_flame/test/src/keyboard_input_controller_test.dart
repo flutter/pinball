@@ -6,13 +6,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
-abstract class _KeyCallStub {
+abstract class _KeyCall {
   bool onCall();
 }
 
-class KeyCallStub extends Mock implements _KeyCallStub {}
+class _MockKeyCall extends Mock implements _KeyCall {}
 
-class MockRawKeyUpEvent extends Mock implements RawKeyUpEvent {
+class _MockRawKeyUpEvent extends Mock implements RawKeyUpEvent {
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return super.toString();
@@ -20,7 +20,7 @@ class MockRawKeyUpEvent extends Mock implements RawKeyUpEvent {
 }
 
 RawKeyUpEvent _mockKeyUp(LogicalKeyboardKey key) {
-  final event = MockRawKeyUpEvent();
+  final event = _MockRawKeyUpEvent();
   when(() => event.logicalKey).thenReturn(key);
   return event;
 }
@@ -28,7 +28,7 @@ RawKeyUpEvent _mockKeyUp(LogicalKeyboardKey key) {
 void main() {
   group('KeyboardInputController', () {
     test('calls registered handlers', () {
-      final stub = KeyCallStub();
+      final stub = _MockKeyCall();
       when(stub.onCall).thenReturn(true);
 
       final input = KeyboardInputController(
@@ -44,7 +44,7 @@ void main() {
     test(
       'returns false the handler return value',
       () {
-        final stub = KeyCallStub();
+        final stub = _MockKeyCall();
         when(stub.onCall).thenReturn(false);
 
         final input = KeyboardInputController(
@@ -63,7 +63,7 @@ void main() {
     test(
       'returns true (allowing event to bubble) when no handler is registered',
       () {
-        final stub = KeyCallStub();
+        final stub = _MockKeyCall();
         when(stub.onCall).thenReturn(true);
 
         final input = KeyboardInputController();
