@@ -35,17 +35,6 @@ void main() {
       );
     });
 
-    flameTester.test('can be loaded', (game) async {
-      final ball = Ball.test(baseColor: baseColor);
-      final behavior = BallScalingBehavior();
-      await ball.add(behavior);
-      await game.ensureAdd(ball);
-      expect(
-        ball.firstChild<BallScalingBehavior>(),
-        equals(behavior),
-      );
-    });
-
     flameTester.test('scales the shape radius', (game) async {
       final ball1 = Ball.test(baseColor: baseColor)
         ..initialPosition = Vector2(0, 10);
@@ -66,9 +55,9 @@ void main() {
       );
     });
 
-    flameTester.testGameWidget(
+    flameTester.test(
       'scales the sprite',
-      setUp: (game, tester) async {
+      (game) async {
         final ball1 = Ball.test(baseColor: baseColor)
           ..initialPosition = Vector2(0, 10);
         await ball1.add(BallScalingBehavior());
@@ -79,9 +68,6 @@ void main() {
 
         await game.ensureAddAll([ball1, ball2]);
         game.update(1);
-
-        await tester.pump();
-        await game.ready();
 
         final sprite1 = ball1.firstChild<SpriteComponent>()!;
         final sprite2 = ball2.firstChild<SpriteComponent>()!;
