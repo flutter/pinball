@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -11,6 +12,12 @@ import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 import '../../../../helpers/helpers.dart';
+
+class _MockGameBloc extends Mock implements GameBloc {}
+
+class _MockComponent extends Mock implements Component {}
+
+class _MockMultiplierCubit extends Mock implements MultiplierCubit {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -31,8 +38,8 @@ void main() {
     late GameBloc gameBloc;
 
     setUp(() {
-      registerFallbackValue(MockComponent());
-      gameBloc = MockGameBloc();
+      registerFallbackValue(_MockComponent());
+      gameBloc = _MockGameBloc();
       whenListen(
         gameBloc,
         const Stream<GameState>.empty(),
@@ -84,8 +91,8 @@ void main() {
         setUp: (game, tester) async {
           final behavior = MultipliersBehavior();
           final parent = Multipliers.test();
-          final multiplierX2Cubit = MockMultiplierCubit();
-          final multiplierX3Cubit = MockMultiplierCubit();
+          final multiplierX2Cubit = _MockMultiplierCubit();
+          final multiplierX3Cubit = _MockMultiplierCubit();
           final multipliers = [
             Multiplier.test(
               value: MultiplierValue.x2,

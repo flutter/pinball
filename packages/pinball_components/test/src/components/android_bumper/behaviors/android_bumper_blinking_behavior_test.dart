@@ -9,6 +9,8 @@ import 'package:pinball_components/src/components/android_bumper/behaviors/behav
 
 import '../../../../helpers/helpers.dart';
 
+class _MockAndroidBumperCubit extends Mock implements AndroidBumperCubit {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final flameTester = FlameTester(TestGame.new);
@@ -20,7 +22,7 @@ void main() {
         'calls onBlinked after 0.05 seconds when dimmed',
         setUp: (game, tester) async {
           final behavior = AndroidBumperBlinkingBehavior();
-          final bloc = MockAndroidBumperCubit();
+          final bloc = _MockAndroidBumperCubit();
           final streamController = StreamController<AndroidBumperState>();
           whenListen(
             bloc,
