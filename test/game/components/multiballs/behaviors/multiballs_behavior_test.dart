@@ -12,6 +12,10 @@ import 'package:pinball_components/pinball_components.dart';
 
 import '../../../../helpers/helpers.dart';
 
+class _MockGameBloc extends Mock implements GameBloc {}
+
+class _MockMultiballCubit extends Mock implements MultiballCubit {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
@@ -23,7 +27,7 @@ void main() {
     late GameBloc gameBloc;
 
     setUp(() {
-      gameBloc = MockGameBloc();
+      gameBloc = _MockGameBloc();
       whenListen(
         gameBloc,
         const Stream<GameState>.empty(),
@@ -89,8 +93,8 @@ void main() {
         setUp: (game, tester) async {
           final behavior = MultiballsBehavior();
           final parent = Multiballs.test();
-          final multiballCubit = MockMultiballCubit();
-          final otherMultiballCubit = MockMultiballCubit();
+          final multiballCubit = _MockMultiballCubit();
+          final otherMultiballCubit = _MockMultiballCubit();
           final multiballs = [
             Multiball.test(
               bloc: multiballCubit,

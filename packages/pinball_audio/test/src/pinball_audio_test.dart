@@ -1,49 +1,77 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, one_member_abstracts
+import 'package:audioplayers/audioplayers.dart';
+import 'package:flame_audio/audio_pool.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_audio/gen/assets.gen.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 
-import '../helpers/helpers.dart';
+class _MockAudioPool extends Mock implements AudioPool {}
+
+class _MockAudioCache extends Mock implements AudioCache {}
+
+class _MockCreateAudioPool extends Mock {
+  Future<AudioPool> onCall(
+    String sound, {
+    bool? repeating,
+    int? maxPlayers,
+    int? minPlayers,
+    String? prefix,
+  });
+}
+
+class _MockConfigureAudioCache extends Mock {
+  void onCall(AudioCache cache);
+}
+
+class _MockPlaySingleAudio extends Mock {
+  Future<void> onCall(String url);
+}
+
+class _MockLoopSingleAudio extends Mock {
+  Future<void> onCall(String url);
+}
+
+abstract class _PreCacheSingleAudio {
+  Future<void> onCall(String url);
+}
+
+class _MockPreCacheSingleAudio extends Mock implements _PreCacheSingleAudio {}
 
 void main() {
   group('PinballAudio', () {
-    test('can be instantiated', () {
-      expect(PinballAudio(), isNotNull);
-    });
-
-    late CreateAudioPoolStub createAudioPool;
-    late ConfigureAudioCacheStub configureAudioCache;
-    late PlaySingleAudioStub playSingleAudio;
-    late LoopSingleAudioStub loopSingleAudio;
-    late PreCacheSingleAudioStub preCacheSingleAudio;
+    late _MockCreateAudioPool createAudioPool;
+    late _MockConfigureAudioCache configureAudioCache;
+    late _MockPlaySingleAudio playSingleAudio;
+    late _MockLoopSingleAudio loopSingleAudio;
+    late _PreCacheSingleAudio preCacheSingleAudio;
     late PinballAudio audio;
 
     setUpAll(() {
-      registerFallbackValue(MockAudioCache());
+      registerFallbackValue(_MockAudioCache());
     });
 
     setUp(() {
-      createAudioPool = CreateAudioPoolStub();
+      createAudioPool = _MockCreateAudioPool();
       when(
         () => createAudioPool.onCall(
           any(),
           maxPlayers: any(named: 'maxPlayers'),
           prefix: any(named: 'prefix'),
         ),
-      ).thenAnswer((_) async => MockAudioPool());
+      ).thenAnswer((_) async => _MockAudioPool());
 
-      configureAudioCache = ConfigureAudioCacheStub();
+      configureAudioCache = _MockConfigureAudioCache();
       when(() => configureAudioCache.onCall(any())).thenAnswer((_) {});
 
-      playSingleAudio = PlaySingleAudioStub();
+      playSingleAudio = _MockPlaySingleAudio();
       when(() => playSingleAudio.onCall(any())).thenAnswer((_) async {});
 
-      loopSingleAudio = LoopSingleAudioStub();
+      loopSingleAudio = _MockLoopSingleAudio();
       when(() => loopSingleAudio.onCall(any())).thenAnswer((_) async {});
 
-      preCacheSingleAudio = PreCacheSingleAudioStub();
+      preCacheSingleAudio = _MockPreCacheSingleAudio();
       when(() => preCacheSingleAudio.onCall(any())).thenAnswer((_) async {});
 
       audio = PinballAudio(
@@ -53,6 +81,10 @@ void main() {
         loopSingleAudio: loopSingleAudio.onCall,
         preCacheSingleAudio: preCacheSingleAudio.onCall,
       );
+    });
+
+    test('can be instantiated', () {
+      expect(PinballAudio(), isNotNull);
     });
 
     group('load', () {
@@ -102,7 +134,7 @@ void main() {
 
     group('score', () {
       test('plays the score sound pool', () async {
-        final audioPool = MockAudioPool();
+        final audioPool = _MockAudioPool();
         when(audioPool.start).thenAnswer((_) async => () {});
         when(
           () => createAudioPool.onCall(
