@@ -11,9 +11,9 @@ import 'package:pinball_components/src/components/spaceship_ramp/behavior/behavi
 
 import '../../../../helpers/helpers.dart';
 
-class MockContact extends Mock implements Contact {}
+class _MockSpaceshipRampCubit extends Mock implements SpaceshipRampCubit {}
 
-class MockRampSensorCubit extends Mock implements RampSensorCubit {}
+class _MockContact extends Mock implements Contact {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -47,27 +47,25 @@ void main() {
         (game) async {
           final ball = Ball(baseColor: Colors.red);
           final behavior = RampContactBehavior();
-          final bloc = MockRampSensorCubit();
+          final bloc = _MockSpaceshipRampCubit();
           whenListen(
             bloc,
-            const Stream<RampSensorState>.empty(),
-            initialState: RampSensorState(
-              type: RampSensorType.door,
-              ball: ball,
-            ),
+            const Stream<SpaceshipRampState>.empty(),
+            initialState: SpaceshipRampState.initial(),
           );
 
           final rampSensor = RampSensor.test(
             type: RampSensorType.door,
+          );
+          final spaceshipRamp = SpaceshipRamp.test(
             bloc: bloc,
           );
-          final spaceshipRamp = SpaceshipRamp();
 
           await spaceshipRamp.add(rampSensor);
           await game.ensureAddAll([spaceshipRamp, ball]);
           await rampSensor.add(behavior);
 
-          behavior.beginContact(ball, MockContact());
+          behavior.beginContact(ball, _MockContact());
 
           verify(() => bloc.onDoor(ball)).called(1);
         },
@@ -78,27 +76,25 @@ void main() {
         (game) async {
           final ball = Ball(baseColor: Colors.red);
           final behavior = RampContactBehavior();
-          final bloc = MockRampSensorCubit();
+          final bloc = _MockSpaceshipRampCubit();
           whenListen(
             bloc,
-            const Stream<RampSensorState>.empty(),
-            initialState: RampSensorState(
-              type: RampSensorType.inside,
-              ball: ball,
-            ),
+            const Stream<SpaceshipRampState>.empty(),
+            initialState: SpaceshipRampState.initial(),
           );
 
           final rampSensor = RampSensor.test(
             type: RampSensorType.inside,
+          );
+          final spaceshipRamp = SpaceshipRamp.test(
             bloc: bloc,
           );
-          final spaceshipRamp = SpaceshipRamp();
 
           await spaceshipRamp.add(rampSensor);
           await game.ensureAddAll([spaceshipRamp, ball]);
           await rampSensor.add(behavior);
 
-          behavior.beginContact(ball, MockContact());
+          behavior.beginContact(ball, _MockContact());
 
           verify(() => bloc.onInside(ball)).called(1);
         },

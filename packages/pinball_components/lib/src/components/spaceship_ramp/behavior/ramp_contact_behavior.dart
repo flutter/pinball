@@ -18,10 +18,10 @@ class RampContactBehavior extends ContactBehavior<RampSensor> {
     if (other is! Ball) return;
     switch (parent.type) {
       case RampSensorType.door:
-        parent.bloc.onDoor(other);
+        parent.parent.bloc.onDoor(other);
         break;
       case RampSensorType.inside:
-        parent.bloc.onInside(other);
+        parent.parent.bloc.onInside(other);
         break;
     }
   }
