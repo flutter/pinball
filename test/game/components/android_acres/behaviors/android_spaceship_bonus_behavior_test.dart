@@ -11,6 +11,8 @@ import 'package:pinball_components/pinball_components.dart';
 
 import '../../../../helpers/helpers.dart';
 
+class _MockGameBloc extends Mock implements GameBloc {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
@@ -41,7 +43,7 @@ void main() {
     late GameBloc gameBloc;
 
     setUp(() {
-      gameBloc = MockGameBloc();
+      gameBloc = _MockGameBloc();
       whenListen(
         gameBloc,
         const Stream<GameState>.empty(),
