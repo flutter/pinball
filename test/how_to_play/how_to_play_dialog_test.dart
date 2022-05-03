@@ -3,9 +3,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/how_to_play/how_to_play.dart';
 import 'package:pinball/l10n/l10n.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 import 'package:platform_helper/platform_helper.dart';
 
 import '../helpers/helpers.dart';
+
+class _MockPinballAudio extends Mock implements PinballAudio {}
 
 class _MockPlatformHelper extends Mock implements PlatformHelper {}
 
@@ -97,7 +100,7 @@ void main() {
     testWidgets(
       'plays the start screen select music on dismiss',
       (tester) async {
-        final audio = MockPinballAudio();
+        final audio = _MockPinballAudio();
         await tester.pumpApp(
           Builder(
             builder: (context) {
