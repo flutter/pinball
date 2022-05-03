@@ -2,10 +2,11 @@
 
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pinball/game/components/dino_desert/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-import '../../helpers/helpers.dart';
+import '../../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -63,17 +64,28 @@ void main() {
       );
     });
 
-    flameTester.test(
-      'adds ScoringBehavior to ChromeDino',
-      (game) async {
-        await game.ensureAdd(DinoDesert());
+    group('adds', () {
+      flameTester.test(
+        'ScoringBehavior to ChromeDino',
+        (game) async {
+          await game.ensureAdd(DinoDesert());
 
-        final chromeDino = game.descendants().whereType<ChromeDino>().single;
+          final chromeDino = game.descendants().whereType<ChromeDino>().single;
+          expect(
+            chromeDino.firstChild<ScoringBehavior>(),
+            isNotNull,
+          );
+        },
+      );
+
+      flameTester.test('a ChromeDinoBonusBehavior', (game) async {
+        final dinoDesert = DinoDesert();
+        await game.ensureAdd(dinoDesert);
         expect(
-          chromeDino.firstChild<ScoringBehavior>(),
+          dinoDesert.children.whereType<ChromeDinoBonusBehavior>().single,
           isNotNull,
         );
-      },
-    );
+      });
+    });
   });
 }

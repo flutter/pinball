@@ -18,10 +18,17 @@ class ChromeDinoCubit extends Cubit<ChromeDinoState> {
   }
 
   void onChomp(Ball ball) {
-    emit(state.copyWith(status: ChromeDinoStatus.chomping, ball: ball));
+    if (ball != state.ball) {
+      emit(state.copyWith(status: ChromeDinoStatus.chomping, ball: ball));
+    }
   }
 
   void onSpit() {
-    emit(state.copyWith(status: ChromeDinoStatus.idle));
+    emit(
+      ChromeDinoState(
+        status: ChromeDinoStatus.idle,
+        isMouthOpen: state.isMouthOpen,
+      ),
+    );
   }
 }
