@@ -26,6 +26,7 @@ void main() {
     flameTester.testGameWidget(
       'renders correctly',
       setUp: (game, tester) async {
+        await game.images.loadAll(assets);
         await game.ensureAdd(LaunchRamp());
         game.camera.followVector2(Vector2.zero());
         game.camera.zoom = 4.1;
