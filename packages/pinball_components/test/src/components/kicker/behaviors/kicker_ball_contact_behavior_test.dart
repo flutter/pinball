@@ -1,6 +1,7 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -10,6 +11,10 @@ import 'package:pinball_components/src/components/kicker/behaviors/behaviors.dar
 import '../../../../helpers/helpers.dart';
 
 class _MockKickerCubit extends Mock implements KickerCubit {}
+
+class _MockBall extends Mock implements Ball {}
+
+class _MockContact extends Mock implements Contact {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -43,7 +48,7 @@ void main() {
           await kicker.add(behavior);
           await game.ensureAdd(kicker);
 
-          behavior.beginContact(MockBall(), MockContact());
+          behavior.beginContact(_MockBall(), _MockContact());
 
           verify(kicker.bloc.onBallContacted).called(1);
         },

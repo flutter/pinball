@@ -1,7 +1,6 @@
 // ignore_for_file: invalid_use_of_protected_member
 
 import 'dart:typed_data';
-import 'dart:ui' as ui;
 
 import 'package:flame/assets.dart';
 import 'package:flame/flame.dart';
@@ -14,11 +13,9 @@ import 'package:pinball_flame/pinball_flame.dart';
 
 import '../../../helpers/helpers.dart';
 
-class MockImages extends Mock implements Images {}
+class _MockImages extends Mock implements Images {}
 
-class MockImage extends Mock implements ui.Image {}
-
-class MockCallback extends Mock {
+class _MockCallback extends Mock {
   void call();
 }
 
@@ -30,7 +27,7 @@ void main() {
     // TODO(arturplaczek): need to find for a better solution for loading image
     // or use original images from BonusAnimation.loadAssets()
     final image = await decodeImageFromList(Uint8List.fromList(fakeImage));
-    final images = MockImages();
+    final images = _MockImages();
     when(() => images.fromCache(any())).thenReturn(image);
     when(() => images.load(any())).thenAnswer((_) => Future.value(image));
     Flame.images = images;
@@ -88,7 +85,7 @@ void main() {
   // https://github.com/flame-engine/flame/issues/1543
   testWidgets('called onCompleted callback at the end of animation ',
       (tester) async {
-    final callback = MockCallback();
+    final callback = _MockCallback();
 
     await tester.runAsync(() async {
       await tester.pumpWidget(
@@ -112,7 +109,7 @@ void main() {
   });
 
   testWidgets('called onCompleted once when animation changed', (tester) async {
-    final callback = MockCallback();
+    final callback = _MockCallback();
     final secondAnimation = BonusAnimation.sparkyTurboCharge(
       onCompleted: callback.call,
     );

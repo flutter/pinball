@@ -9,6 +9,8 @@ import 'package:pinball_components/src/components/sparky_bumper/behaviors/behavi
 
 import '../../../../helpers/helpers.dart';
 
+class _MockSparkyBumperCubit extends Mock implements SparkyBumperCubit {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final flameTester = FlameTester(TestGame.new);
@@ -20,7 +22,7 @@ void main() {
         'calls onBlinked after 0.05 seconds when dimmed',
         setUp: (game, tester) async {
           final behavior = SparkyBumperBlinkingBehavior();
-          final bloc = MockSparkyBumperCubit();
+          final bloc = _MockSparkyBumperCubit();
           final streamController = StreamController<SparkyBumperState>();
           whenListen(
             bloc,

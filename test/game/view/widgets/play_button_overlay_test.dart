@@ -8,6 +8,12 @@ import 'package:pinball_theme/pinball_theme.dart';
 
 import '../../../helpers/helpers.dart';
 
+class _MockPinballGame extends Mock implements PinballGame {}
+
+class _MockGameFlowController extends Mock implements GameFlowController {}
+
+class _MockCharacterThemeCubit extends Mock implements CharacterThemeCubit {}
+
 void main() {
   group('PlayButtonOverlay', () {
     late PinballGame game;
@@ -20,9 +26,9 @@ void main() {
       await Flame.images.load(const AndroidTheme().animation.keyName);
       await Flame.images.load(const DinoTheme().animation.keyName);
       await Flame.images.load(const SparkyTheme().animation.keyName);
-      game = MockPinballGame();
-      gameFlowController = MockGameFlowController();
-      characterThemeCubit = MockCharacterThemeCubit();
+      game = _MockPinballGame();
+      gameFlowController = _MockGameFlowController();
+      characterThemeCubit = _MockCharacterThemeCubit();
       whenListen(
         characterThemeCubit,
         const Stream<CharacterThemeState>.empty(),

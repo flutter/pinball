@@ -17,6 +17,16 @@ class _TestBodyComponent extends BodyComponent {
   Body createBody() => world.createBody(BodyDef());
 }
 
+class _MockPinballAudio extends Mock implements PinballAudio {}
+
+class _MockBall extends Mock implements Ball {}
+
+class _MockBody extends Mock implements Body {}
+
+class _MockGameBloc extends Mock implements GameBloc {}
+
+class _MockContact extends Mock implements Contact {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
@@ -34,10 +44,9 @@ void main() {
       late BodyComponent parent;
 
       setUp(() {
-        audio = MockPinballAudio();
-
-        ball = MockBall();
-        final ballBody = MockBody();
+        audio = _MockPinballAudio();
+        ball = _MockBall();
+        final ballBody = _MockBody();
         when(() => ball.body).thenReturn(ballBody);
         when(() => ballBody.position).thenReturn(Vector2.all(4));
 
@@ -49,7 +58,7 @@ void main() {
           audio: audio,
         ),
         blocBuilder: () {
-          bloc = MockGameBloc();
+          bloc = _MockGameBloc();
           const state = GameState(
             score: 0,
             multiplier: 1,
@@ -71,7 +80,7 @@ void main() {
           final canvas = ZCanvasComponent(children: [parent]);
           await game.ensureAdd(canvas);
 
-          scoringBehavior.beginContact(ball, MockContact());
+          scoringBehavior.beginContact(ball, _MockContact());
 
           verify(
             () => bloc.add(
@@ -89,7 +98,7 @@ void main() {
           final canvas = ZCanvasComponent(children: [parent]);
           await game.ensureAdd(canvas);
 
-          scoringBehavior.beginContact(ball, MockContact());
+          scoringBehavior.beginContact(ball, _MockContact());
 
           verify(audio.score).called(1);
         },
@@ -104,7 +113,7 @@ void main() {
           final canvas = ZCanvasComponent(children: [parent]);
           await game.ensureAdd(canvas);
 
-          scoringBehavior.beginContact(ball, MockContact());
+          scoringBehavior.beginContact(ball, _MockContact());
           await game.ready();
 
           final scoreText = game.descendants().whereType<ScoreComponent>();
