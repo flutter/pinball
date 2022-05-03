@@ -5,7 +5,6 @@ import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
-import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
@@ -14,7 +13,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
-class PinballGame extends Forge2DGame
+class PinballGame extends PinballForge2DGame
     with
         FlameBloc,
         HasKeyboardHandlerComponents,
