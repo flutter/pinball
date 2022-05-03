@@ -95,6 +95,10 @@ void main() {
         ).called(1);
         verify(
           () => preCacheSingleAudio
+              .onCall('packages/pinball_audio/assets/sfx/start_screen_select.mp3'),
+        ).called(1);
+        verify(
+          () => preCacheSingleAudio
               .onCall('packages/pinball_audio/assets/music/background.mp3'),
         ).called(1);
       });
@@ -127,6 +131,18 @@ void main() {
         verify(
           () => playSingleAudio
               .onCall('packages/pinball_audio/${Assets.sfx.google}'),
+        ).called(1);
+      });
+    });
+
+    group('startScreenSelect', () {
+      test('plays the correct file', () async {
+        await audio.load();
+        audio.startScreenSelect();
+
+        verify(
+          () => playSingleAudio
+              .onCall('packages/pinball_audio/${Assets.sfx.startScreenSelect}'),
         ).called(1);
       });
     });

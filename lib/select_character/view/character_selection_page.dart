@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/how_to_play/how_to_play.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/select_character/select_character.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 

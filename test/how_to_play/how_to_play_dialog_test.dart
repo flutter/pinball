@@ -93,5 +93,30 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byType(HowToPlayDialog), findsNothing);
     });
+
+    testWidgets(
+      'plays the start screen select music on dismiss',
+      (tester) async {
+        final audio = MockPinballAudio();
+        await tester.pumpApp(
+          Builder(
+            builder: (context) {
+              return TextButton(
+                onPressed: () => showHowToPlayDialog(context),
+                child: const Text('test'),
+              );
+            },
+          ),
+          pinballAudio: audio,
+        );
+        expect(find.byType(HowToPlayDialog), findsNothing);
+        await tester.tap(find.text('test'));
+        await tester.pumpAndSettle();
+
+        await tester.tapAt(Offset.zero);
+        await tester.pumpAndSettle();
+        verify(audio.startScreenSelect).called(1);
+      },
+    );
   });
 }
