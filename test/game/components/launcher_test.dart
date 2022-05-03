@@ -41,8 +41,9 @@ void main() {
           final launcher = Launcher();
           await game.ensureAdd(launcher);
 
-          final launchRamp = launcher.firstChild<LaunchRamp>();
-          expect(launchRamp, isNotNull);
+          final descendantsQuery =
+              launcher.descendants().whereType<LaunchRamp>();
+          expect(descendantsQuery.length, equals(1));
         },
       );
 
@@ -52,8 +53,8 @@ void main() {
           final launcher = Launcher();
           await game.ensureAdd(launcher);
 
-          final flapper = launcher.firstChild<Flapper>();
-          expect(flapper, isNotNull);
+          final descendantsQuery = launcher.descendants().whereType<Flapper>();
+          expect(descendantsQuery.length, equals(1));
         },
       );
 
@@ -63,8 +64,8 @@ void main() {
           final launcher = Launcher();
           await game.ensureAdd(launcher);
 
-          final plunger = launcher.firstChild<Plunger>();
-          expect(plunger, isNotNull);
+          final descendantsQuery = launcher.descendants().whereType<Plunger>();
+          expect(descendantsQuery.length, equals(1));
         },
       );
 
@@ -74,8 +75,9 @@ void main() {
           final launcher = Launcher();
           await game.ensureAdd(launcher);
 
-          final rocket = launcher.firstChild<RocketSpriteComponent>();
-          expect(rocket, isNotNull);
+          final descendantsQuery =
+              launcher.descendants().whereType<RocketSpriteComponent>();
+          expect(descendantsQuery.length, equals(1));
         },
       );
     });
