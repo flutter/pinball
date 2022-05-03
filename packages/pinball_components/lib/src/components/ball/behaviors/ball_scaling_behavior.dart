@@ -2,7 +2,7 @@ import 'package:flame/components.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
-/// Scales the ball body and sprite accordingly to the board's perspective.
+/// Scales the ball's body and sprite according to its position on the board.
 class BallScalingBehavior extends Component with ParentIsA<Ball> {
   @override
   void update(double dt) {
