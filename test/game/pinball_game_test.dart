@@ -48,6 +48,7 @@ void main() {
     Assets.images.dino.animatronic.mouth.keyName,
     Assets.images.dino.animatronic.head.keyName,
     Assets.images.dino.topWall.keyName,
+    Assets.images.dino.topWallTunnel.keyName,
     Assets.images.dino.bottomWall.keyName,
     Assets.images.dash.animatronic.keyName,
     Assets.images.dash.bumper.a.active.keyName,

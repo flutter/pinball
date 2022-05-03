@@ -53,6 +53,8 @@ abstract class ZIndexes {
 
   static const dinoTopWall = _above + ballOnBoard;
 
+  static const dinoTopWallTunnel = _below + ballOnBoard;
+
   static const dino = _above + dinoTopWall;
 
   static const dinoBottomWall = _above + dino;
