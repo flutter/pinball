@@ -5,7 +5,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template ball_turbo_charging_behavior}
-/// Sets the [Ball] in flames and [_impulse]s it.
+/// Puts the [Ball] in flames and [_impulse]s it.
 /// {@endtemplate}
 class BallTurboChargingBehavior extends TimerComponent with ParentIsA<Ball> {
   /// {@macro ball_turbo_charging_behavior}
