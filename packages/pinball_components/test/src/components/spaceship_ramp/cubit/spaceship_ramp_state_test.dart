@@ -10,16 +10,10 @@ void main() {
       expect(
         SpaceshipRampState(
           hits: 0,
-          balls: const {},
-          shot: false,
-          status: SpaceshipRampStatus.withoutBonus,
         ),
         equals(
           SpaceshipRampState(
             hits: 0,
-            balls: const {},
-            shot: false,
-            status: SpaceshipRampStatus.withoutBonus,
           ),
         ),
       );
@@ -30,9 +24,6 @@ void main() {
         expect(
           SpaceshipRampState(
             hits: 0,
-            balls: const {},
-            shot: false,
-            status: SpaceshipRampStatus.withoutBonus,
           ),
           isNotNull,
         );
@@ -46,9 +37,6 @@ void main() {
         expect(
           () => SpaceshipRampState(
             hits: -1,
-            balls: const {},
-            shot: false,
-            status: SpaceshipRampStatus.withoutBonus,
           ),
           throwsAssertionError,
         );
@@ -62,9 +50,6 @@ void main() {
         () {
           const rampState = SpaceshipRampState(
             hits: 0,
-            balls: {},
-            shot: false,
-            status: SpaceshipRampStatus.withoutBonus,
           );
           expect(
             () => rampState.copyWith(hits: rampState.hits - 1),
@@ -79,9 +64,6 @@ void main() {
         () {
           const rampState = SpaceshipRampState(
             hits: 0,
-            balls: {},
-            shot: false,
-            status: SpaceshipRampStatus.withoutBonus,
           );
           expect(
             rampState.copyWith(),
@@ -98,24 +80,15 @@ void main() {
 
           const rampState = SpaceshipRampState(
             hits: 0,
-            balls: {},
-            shot: false,
-            status: SpaceshipRampStatus.withoutBonus,
           );
           final otherRampState = SpaceshipRampState(
             hits: rampState.hits + 1,
-            balls: {ball},
-            shot: true,
-            status: SpaceshipRampStatus.withBonus,
           );
           expect(rampState, isNot(equals(otherRampState)));
 
           expect(
             rampState.copyWith(
               hits: rampState.hits + 1,
-              balls: {ball},
-              shot: true,
-              status: SpaceshipRampStatus.withBonus,
             ),
             equals(otherRampState),
           );

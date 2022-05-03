@@ -19,11 +19,9 @@ class AndroidAcres extends Component {
               children: [
                 RampShotBehavior(
                   points: Points.fiveThousand,
-                  scorePosition: Vector2(0, -45),
                 ),
                 RampBonusBehavior(
                   points: Points.oneMillion,
-                  scorePosition: Vector2(0, -60),
                 ),
               ],
             ),

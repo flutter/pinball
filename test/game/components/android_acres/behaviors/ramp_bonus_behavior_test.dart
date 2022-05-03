@@ -3,7 +3,6 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -32,7 +31,7 @@ void main() {
     Assets.images.android.ramp.arrow.active5.keyName,
     Assets.images.android.rail.main.keyName,
     Assets.images.android.rail.exit.keyName,
-    Assets.images.score.fiveThousand.keyName,
+    Assets.images.score.oneMillion.keyName,
   ];
 
   group('RampBonusBehavior', () {
@@ -56,17 +55,18 @@ void main() {
     );
 
     flameBlocTester.testGameWidget(
-      "when withoutBonus doesn't add any score or show any score points",
+      'when hits are multiples of 10 times '
+      'add score and show score points',
       setUp: (game, tester) async {
         final bloc = _MockSpaceshipRampCubit();
+        final streamController = StreamController<SpaceshipRampState>();
         whenListen(
           bloc,
-          const Stream<SpaceshipRampState>.empty(),
-          initialState: SpaceshipRampState.initial(),
+          streamController.stream,
+          initialState: SpaceshipRampState(hits: 9),
         );
-        final behavior = RampShotBehavior(
+        final behavior = RampBonusBehavior(
           points: shotPoints,
-          scorePosition: Vector2.zero(),
         );
         final parent = SpaceshipRamp.test(
           bloc: bloc,
@@ -75,30 +75,29 @@ void main() {
         await game.ensureAdd(parent);
         await parent.ensureAdd(behavior);
 
-        await tester.pump();
+        streamController.add(SpaceshipRampState(hits: 10));
 
         final scores = game.descendants().whereType<ScoreComponent>();
         await game.ready();
 
-        verifyNever(() => gameBloc.add(Scored(points: shotPoints.value)));
-        expect(scores.length, 0);
+        verify(() => gameBloc.add(Scored(points: shotPoints.value))).called(1);
+        expect(scores.length, 1);
       },
     );
 
     flameBlocTester.testGameWidget(
-      'when withBonus add score and show score points',
+      'when hits are not multiple of 10 times '
+      "doesn't add score neither show score points",
       setUp: (game, tester) async {
         final bloc = _MockSpaceshipRampCubit();
+        final streamController = StreamController<SpaceshipRampState>();
         whenListen(
           bloc,
-          const Stream<SpaceshipRampState>.empty(),
-          initialState: SpaceshipRampState.initial().copyWith(
-            status: SpaceshipRampStatus.withBonus,
-          ),
+          streamController.stream,
+          initialState: SpaceshipRampState.initial(),
         );
-        final behavior = RampShotBehavior(
+        final behavior = RampBonusBehavior(
           points: shotPoints,
-          scorePosition: Vector2.zero(),
         );
         final parent = SpaceshipRamp.test(
           bloc: bloc,
@@ -107,12 +106,11 @@ void main() {
         await game.ensureAdd(parent);
         await parent.ensureAdd(behavior);
 
-        await tester.pump();
+        streamController.add(SpaceshipRampState(hits: 1));
 
         final scores = game.descendants().whereType<ScoreComponent>();
         await game.ready();
 
-        verifyNever(() => gameBloc.add(MultiplierIncreased()));
         verifyNever(() => gameBloc.add(Scored(points: shotPoints.value)));
         expect(scores.length, 0);
       },

@@ -3,7 +3,6 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -56,18 +55,18 @@ void main() {
     );
 
     flameBlocTester.testGameWidget(
-      "when not shot doesn't increase multiplier "
-      'neither add any score or show any score points',
+      'when hits are not multiple of 10 times '
+      'increase multiplier, add score and show score points',
       setUp: (game, tester) async {
         final bloc = _MockSpaceshipRampCubit();
+        final streamController = StreamController<SpaceshipRampState>();
         whenListen(
           bloc,
-          const Stream<SpaceshipRampState>.empty(),
+          streamController.stream,
           initialState: SpaceshipRampState.initial(),
         );
         final behavior = RampShotBehavior(
           points: shotPoints,
-          scorePosition: Vector2.zero(),
         );
         final parent = SpaceshipRamp.test(
           bloc: bloc,
@@ -76,31 +75,30 @@ void main() {
         await game.ensureAdd(parent);
         await parent.ensureAdd(behavior);
 
-        await tester.pump();
+        streamController.add(SpaceshipRampState(hits: 1));
 
         final scores = game.descendants().whereType<ScoreComponent>();
         await game.ready();
 
-        verifyNever(() => gameBloc.add(MultiplierIncreased()));
-        verifyNever(() => gameBloc.add(Scored(points: shotPoints.value)));
-        expect(scores.length, 0);
+        verify(() => gameBloc.add(MultiplierIncreased())).called(1);
+        verify(() => gameBloc.add(Scored(points: shotPoints.value))).called(1);
+        expect(scores.length, 1);
       },
     );
 
     flameBlocTester.testGameWidget(
-      'when shot increase multiplier add score and show score points',
+      'when hits multiple of 10 times '
+      "doesn't increase multiplier, neither add score or show score points",
       setUp: (game, tester) async {
         final bloc = _MockSpaceshipRampCubit();
+        final streamController = StreamController<SpaceshipRampState>();
         whenListen(
           bloc,
-          const Stream<SpaceshipRampState>.empty(),
-          initialState: SpaceshipRampState.initial().copyWith(
-            shot: false,
-          ),
+          streamController.stream,
+          initialState: SpaceshipRampState(hits: 9),
         );
         final behavior = RampShotBehavior(
           points: shotPoints,
-          scorePosition: Vector2.zero(),
         );
         final parent = SpaceshipRamp.test(
           bloc: bloc,
@@ -109,7 +107,7 @@ void main() {
         await game.ensureAdd(parent);
         await parent.ensureAdd(behavior);
 
-        await tester.pump();
+        streamController.add(SpaceshipRampState(hits: 10));
 
         final scores = game.descendants().whereType<ScoreComponent>();
         await game.ready();

@@ -22,18 +22,11 @@ class SpaceshipRamp extends Component {
           children: [
             // TODO(ruimiguel): refactor RampSensor and RampOpening to be in
             // only one sensor.
-            RampSensor(
-              type: RampSensorType.door,
+            RampScoringSensor(
               children: [
                 RampContactBehavior(),
               ],
             )..initialPosition = Vector2(1.7, -20.4),
-            RampSensor(
-              type: RampSensorType.inside,
-              children: [
-                RampContactBehavior(),
-              ],
-            )..initialPosition = Vector2(1.7, -22),
             _SpaceshipRampOpening(
               outsidePriority: ZIndexes.ballOnBoard,
               rotation: math.pi,
@@ -414,15 +407,14 @@ class _SpaceshipRampOpening extends LayerSensor {
   }
 }
 
-/// {@template ramp_sensor}
+/// {@template ramp_scoring_sensor}
 /// Small sensor body used to detect when a ball has entered the
 /// [SpaceshipRamp].
 /// {@endtemplate}
-class RampSensor extends BodyComponent
+class RampScoringSensor extends BodyComponent
     with ParentIsA<SpaceshipRamp>, InitialPosition, Layered {
-  /// {@macro ramp_sensor}
-  RampSensor({
-    required this.type,
+  /// {@macro ramp_scoring_sensor}
+  RampScoringSensor({
     Iterable<Component>? children,
   }) : super(
           children: children,
@@ -431,15 +423,10 @@ class RampSensor extends BodyComponent
     layer = Layer.spaceshipEntranceRamp;
   }
 
-  /// Creates a [RampSensor] without any children.
+  /// Creates a [RampScoringSensor] without any children.
   ///
   @visibleForTesting
-  RampSensor.test({
-    required this.type,
-  });
-
-  /// Type for the sensor, to know if it's the one at the door or inside ramp.
-  final RampSensorType type;
+  RampScoringSensor.test();
 
   @override
   Body createBody() {

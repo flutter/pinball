@@ -4,32 +4,33 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template ramp_bonus_behavior}
-/// When a [Ball] shot inside the [SpaceshipRamp] 10 times increases score.
+/// Increases the score when a [Ball] is shot 10 times into the [SpaceshipRamp].
 /// {@endtemplate}
 class RampBonusBehavior extends Component
     with ParentIsA<SpaceshipRamp>, HasGameRef<PinballGame> {
   /// {@macro ramp_bonus_behavior}
   RampBonusBehavior({
     required Points points,
-    required Vector2 scorePosition,
   })  : _points = points,
-        _scorePosition = scorePosition,
         super();
 
   final Points _points;
-  final Vector2 _scorePosition;
 
   @override
   void onMount() {
     super.onMount();
 
     parent.bloc.stream.listen((state) {
-      if (state.status == SpaceshipRampStatus.withBonus) {
+      print("state.hits ${state.hits}");
+      final achievedOneMillionPoints = state.hits % 10 == 0;
+
+      if (achievedOneMillionPoints) {
+        print("achievedOneMillionPoints");
         gameRef.read<GameBloc>().add(Scored(points: _points.value));
         gameRef.add(
           ScoreComponent(
             points: _points,
-            position: _scorePosition,
+            position: Vector2(0, -60),
           ),
         );
       }
