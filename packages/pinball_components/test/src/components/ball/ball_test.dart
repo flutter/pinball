@@ -6,8 +6,9 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/src/components/ball/behaviors/behaviors.dart';
 
-import '../../helpers/helpers.dart';
+import '../../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +25,15 @@ void main() {
         expect(game.contains(ball), isTrue);
       },
     );
+
+    flameTester.test('add a BallScalingBehavior', (game) async {
+      final ball = Ball(baseColor: Colors.blue);
+      await game.ensureAdd(ball);
+      expect(
+        ball.descendants().whereType<BallScalingBehavior>().length,
+        equals(1),
+      );
+    });
 
     group('body', () {
       flameTester.test(
@@ -116,19 +126,6 @@ void main() {
           expect(ball.body.position, equals(ball.initialPosition));
         });
       });
-
-      // TODO(allisonryan0002): delete or retest this if/when solution is added
-      // to prevent forces on a ball while stopped.
-
-      // flameTester.test('by applying velocity', (game) async {
-      //   final ball = Ball(baseColor: Colors.blue);
-      //   await game.ensureAdd(ball);
-      //   ball.stop();
-
-      //   ball.body.linearVelocity.setValues(10, 10);
-      //   game.update(1);
-      //   expect(ball.body.position, equals(ball.initialPosition));
-      // });
     });
 
     group('resume', () {

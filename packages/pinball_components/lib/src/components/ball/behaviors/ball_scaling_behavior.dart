@@ -16,6 +16,8 @@ class BallScalingBehavior extends Component with ParentIsA<Ball> {
 
     parent.body.fixtures.first.shape.radius = (Ball.size.x / 2) * scaleFactor;
 
-    parent.firstChild<SpriteComponent>()!.scale = Vector2.all(scaleFactor);
+    parent.firstChild<SpriteComponent>()!.scale.setFrom(
+          Vector2.all(scaleFactor),
+        );
   }
 }

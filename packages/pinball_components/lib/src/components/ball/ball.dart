@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math' as math;
-import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
@@ -31,6 +30,16 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
     // bumper, it will need to explicit change layer to Layer.board then.
     layer = Layer.board;
   }
+
+  /// Creates a [Ball] without any behaviors.
+  ///
+  /// This can be used for testing [Ball]'s behaviors in isolation.
+  @visibleForTesting
+  Ball.test()
+      : baseColor = const Color(0xFFFFFFFF),
+        super(
+          children: [_BallSpriteComponent()],
+        );
 
   /// The size of the [Ball].
   static final Vector2 size = Vector2.all(4.13);
