@@ -5,6 +5,7 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pinball/assets_manager/assets_manager.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
@@ -66,7 +67,6 @@ void main() {
           Stream.value(initialAssetsState),
           initialState: initialAssetsState,
         );
-
         await tester.pumpApp(
           PinballGameView(
             game: game,
@@ -74,14 +74,7 @@ void main() {
           assetsManagerCubit: assetsManagerCubit,
           characterThemeCubit: characterThemeCubit,
         );
-
-        expect(
-          find.byWidgetPredicate(
-            (widget) =>
-                widget is LinearProgressIndicator && widget.value == 0.0,
-          ),
-          findsOneWidget,
-        );
+        expect(find.byType(AssetsLoadingPage), findsOneWidget);
       },
     );
 
