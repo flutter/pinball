@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pinball/game/game.dart';
+import 'package:pinball/assets_manager/assets_manager.dart';
 
 void main() {
   group('AssetsManagerCubit', () {
