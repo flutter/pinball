@@ -35,7 +35,8 @@ void main() {
       );
 
       blocTest<ChromeDinoCubit, ChromeDinoState>(
-        'onChomp emits ChromeDinoStatus.chomping and chomped ball',
+        'onChomp emits ChromeDinoStatus.chomping and chomped ball '
+        'when the ball is not in the mouth',
         build: ChromeDinoCubit.new,
         act: (bloc) => bloc.onChomp(ball),
         expect: () => [
@@ -54,7 +55,15 @@ void main() {
       );
 
       blocTest<ChromeDinoCubit, ChromeDinoState>(
-        'onSpit emits ChromeDinoStatus.idle',
+        'onChomp emits nothing when the ball is already in the mouth',
+        build: ChromeDinoCubit.new,
+        seed: () => const ChromeDinoState.inital().copyWith(ball: ball),
+        act: (bloc) => bloc.onChomp(ball),
+        expect: () => <ChromeDinoState>[],
+      );
+
+      blocTest<ChromeDinoCubit, ChromeDinoState>(
+        'onSpit emits ChromeDinoStatus.idle and removes ball',
         build: ChromeDinoCubit.new,
         act: (bloc) => bloc.onSpit(),
         expect: () => [
@@ -62,7 +71,11 @@ void main() {
             (state) => state.status,
             'status',
             ChromeDinoStatus.idle,
-          )
+          )..having(
+              (state) => state.ball,
+              'ball',
+              null,
+            )
         ],
       );
     },

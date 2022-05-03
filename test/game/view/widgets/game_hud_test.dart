@@ -2,7 +2,6 @@
 
 import 'dart:async';
 import 'dart:typed_data';
-import 'dart:ui' as ui;
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/assets.dart';
@@ -19,9 +18,9 @@ import 'package:pinball_ui/pinball_ui.dart';
 
 import '../../../helpers/helpers.dart';
 
-class MockImages extends Mock implements Images {}
+class _MockImages extends Mock implements Images {}
 
-class MockImage extends Mock implements ui.Image {}
+class _MockGameBloc extends Mock implements GameBloc {}
 
 void main() {
   group('GameHud', () {
@@ -35,12 +34,12 @@ void main() {
     );
 
     setUp(() async {
-      gameBloc = MockGameBloc();
+      gameBloc = _MockGameBloc();
 
       // TODO(arturplaczek): need to find for a better solution for loading
       // image or use original images from BonusAnimation.loadAssets()
       final image = await decodeImageFromList(Uint8List.fromList(fakeImage));
-      final images = MockImages();
+      final images = _MockImages();
       when(() => images.fromCache(any())).thenReturn(image);
       when(() => images.load(any())).thenAnswer((_) => Future.value(image));
       Flame.images = images;

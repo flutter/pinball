@@ -53,6 +53,7 @@ class PinballGame extends Forge2DGame
     final decals = [
       GoogleWord(position: Vector2(-4.25, 1.8)),
       Multipliers(),
+      Multiballs(),
     ];
     final characterAreas = [
       AndroidAcres(),
@@ -87,7 +88,7 @@ class PinballGame extends Forge2DGame
 
       // NOTE(wolfen): As long as Flame does not have https://github.com/flame-engine/flame/issues/1586 we need to check it at the highest level manually.
       if (bounds.contains(info.eventPosition.game.toOffset())) {
-        descendants().whereType<Plunger>().single.pull();
+        descendants().whereType<Plunger>().single.pullFor(2);
       } else {
         final leftSide = info.eventPosition.widget.x < canvasSize.x / 2;
         focusedBoardSide = leftSide ? BoardSide.left : BoardSide.right;
@@ -103,21 +104,12 @@ class PinballGame extends Forge2DGame
 
   @override
   void onTapUp(TapUpInfo info) {
-    final rocket = descendants().whereType<RocketSpriteComponent>().first;
-    final bounds = rocket.topLeftPosition & rocket.size;
-
-    if (bounds.contains(info.eventPosition.game.toOffset())) {
-      descendants().whereType<Plunger>().single.release();
-    } else {
-      _moveFlippersDown();
-    }
+    _moveFlippersDown();
     super.onTapUp(info);
   }
 
   @override
   void onTapCancel() {
-    descendants().whereType<Plunger>().single.release();
-
     _moveFlippersDown();
     super.onTapCancel();
   }

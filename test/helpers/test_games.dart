@@ -4,11 +4,12 @@ import 'dart:async';
 
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
-import 'helpers.dart';
+class _MockPinballAudio extends Mock implements PinballAudio {}
 
 class TestGame extends Forge2DGame with FlameBloc {
   TestGame() {
@@ -23,7 +24,7 @@ class PinballTestGame extends PinballGame {
     CharacterTheme? theme,
   })  : _assets = assets,
         super(
-          audio: audio ?? MockPinballAudio(),
+          audio: audio ?? _MockPinballAudio(),
           characterTheme: theme ?? const DashTheme(),
         );
   final List<String>? _assets;
@@ -44,7 +45,7 @@ class DebugPinballTestGame extends DebugPinballGame {
     CharacterTheme? theme,
   })  : _assets = assets,
         super(
-          audio: audio ?? MockPinballAudio(),
+          audio: audio ?? _MockPinballAudio(),
           characterTheme: theme ?? const DashTheme(),
         );
 

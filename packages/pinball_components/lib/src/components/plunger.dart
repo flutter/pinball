@@ -68,6 +68,14 @@ class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
     return body;
   }
 
+  var _pullingDownTime = 0.0;
+
+  /// Pulls the plunger down for the given amount of [seconds].
+  // ignore: use_setters_to_change_properties
+  void pullFor(double seconds) {
+    _pullingDownTime = seconds;
+  }
+
   /// Set a constant downward velocity on the [Plunger].
   void pull() {
     body.linearVelocity = Vector2(0, 7);
@@ -79,9 +87,24 @@ class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
   /// The velocity's magnitude depends on how far the [Plunger] has been pulled
   /// from its original [initialPosition].
   void release() {
+    _pullingDownTime = 0;
     final velocity = (initialPosition.y - body.position.y) * 11;
     body.linearVelocity = Vector2(0, velocity);
     _spriteComponent.release();
+  }
+
+  @override
+  void update(double dt) {
+    // Ensure that we only pull or release when the time is greater than zero.
+    if (_pullingDownTime > 0) {
+      _pullingDownTime -= dt;
+      if (_pullingDownTime <= 0) {
+        release();
+      } else {
+        pull();
+      }
+    }
+    super.update(dt);
   }
 
   /// Anchors the [Plunger] to the [PrismaticJoint] that controls its vertical

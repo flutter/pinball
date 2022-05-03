@@ -13,14 +13,22 @@ import '../../helpers/helpers.dart';
 
 // TODO(allisonryan0002): remove once
 // https://github.com/flame-engine/flame/pull/1520 is merged
-class WrappedBallController extends BallController {
-  WrappedBallController(Ball<Forge2DGame> ball, this._gameRef) : super(ball);
+class _WrappedBallController extends BallController {
+  _WrappedBallController(Ball<Forge2DGame> ball, this._gameRef) : super(ball);
 
   final PinballGame _gameRef;
 
   @override
   PinballGame get gameRef => _gameRef;
 }
+
+class _MockGameBloc extends Mock implements GameBloc {}
+
+class _MockPinballGame extends Mock implements PinballGame {}
+
+class _MockControlledBall extends Mock implements ControlledBall {}
+
+class _MockBall extends Mock implements Ball {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -35,7 +43,7 @@ void main() {
 
     setUp(() {
       ball = Ball();
-      gameBloc = MockGameBloc();
+      gameBloc = _MockGameBloc();
       whenListen(
         gameBloc,
         const Stream<GameState>.empty(),
@@ -51,7 +59,7 @@ void main() {
 
     test('can be instantiated', () {
       expect(
-        BallController(MockBall()),
+        BallController(_MockBall()),
         isA<BallController>(),
       );
     });
@@ -117,9 +125,9 @@ void main() {
       flameBlocTester.test(
         'initially stops the ball',
         (game) async {
-          final gameRef = MockPinballGame();
-          final ball = MockControlledBall();
-          final controller = WrappedBallController(ball, gameRef);
+          final gameRef = _MockPinballGame();
+          final ball = _MockControlledBall();
+          final controller = _WrappedBallController(ball, gameRef);
           when(() => gameRef.read<GameBloc>()).thenReturn(gameBloc);
           when(() => ball.controller).thenReturn(controller);
           when(() => ball.boost(any())).thenAnswer((_) async {});
@@ -133,9 +141,9 @@ void main() {
       flameBlocTester.test(
         'resumes the ball',
         (game) async {
-          final gameRef = MockPinballGame();
-          final ball = MockControlledBall();
-          final controller = WrappedBallController(ball, gameRef);
+          final gameRef = _MockPinballGame();
+          final ball = _MockControlledBall();
+          final controller = _WrappedBallController(ball, gameRef);
           when(() => gameRef.read<GameBloc>()).thenReturn(gameBloc);
           when(() => ball.controller).thenReturn(controller);
           when(() => ball.boost(any())).thenAnswer((_) async {});
@@ -149,9 +157,9 @@ void main() {
       flameBlocTester.test(
         'boosts the ball',
         (game) async {
-          final gameRef = MockPinballGame();
-          final ball = MockControlledBall();
-          final controller = WrappedBallController(ball, gameRef);
+          final gameRef = _MockPinballGame();
+          final ball = _MockControlledBall();
+          final controller = _WrappedBallController(ball, gameRef);
           when(() => gameRef.read<GameBloc>()).thenReturn(gameBloc);
           when(() => ball.controller).thenReturn(controller);
           when(() => ball.boost(any())).thenAnswer((_) async {});

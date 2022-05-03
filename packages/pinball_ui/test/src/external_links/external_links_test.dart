@@ -3,7 +3,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-class MockUrlLauncher extends Mock
+class _MockUrlLauncher extends Mock
     with MockPlatformInterfaceMixin
     implements UrlLauncherPlatform {}
 
@@ -11,7 +11,7 @@ void main() {
   late UrlLauncherPlatform urlLauncher;
 
   setUp(() {
-    urlLauncher = MockUrlLauncher();
+    urlLauncher = _MockUrlLauncher();
     UrlLauncherPlatform.instance = urlLauncher;
   });
 

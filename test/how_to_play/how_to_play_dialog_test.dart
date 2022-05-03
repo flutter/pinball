@@ -7,7 +7,7 @@ import 'package:platform_helper/platform_helper.dart';
 
 import '../helpers/helpers.dart';
 
-class MockPlatformHelper extends Mock implements PlatformHelper {}
+class _MockPlatformHelper extends Mock implements PlatformHelper {}
 
 void main() {
   group('HowToPlayDialog', () {
@@ -16,7 +16,7 @@ void main() {
 
     setUp(() async {
       l10n = await AppLocalizations.delegate.load(const Locale('en'));
-      platformHelper = MockPlatformHelper();
+      platformHelper = _MockPlatformHelper();
     });
 
     testWidgets(
@@ -70,6 +70,26 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byType(HowToPlayDialog), findsOneWidget);
       await tester.pump(const Duration(seconds: 4));
+      await tester.pumpAndSettle();
+      expect(find.byType(HowToPlayDialog), findsNothing);
+    });
+
+    testWidgets('can be dismissed', (tester) async {
+      await tester.pumpApp(
+        Builder(
+          builder: (context) {
+            return TextButton(
+              onPressed: () => showHowToPlayDialog(context),
+              child: const Text('test'),
+            );
+          },
+        ),
+      );
+      expect(find.byType(HowToPlayDialog), findsNothing);
+      await tester.tap(find.text('test'));
+      await tester.pumpAndSettle();
+
+      await tester.tapAt(Offset.zero);
       await tester.pumpAndSettle();
       expect(find.byType(HowToPlayDialog), findsNothing);
     });

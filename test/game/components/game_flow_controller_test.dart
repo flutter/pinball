@@ -4,10 +4,20 @@ import 'package:flame/game.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
-import '../../helpers/helpers.dart';
+class _MockPinballGame extends Mock implements PinballGame {}
+
+class _MockBackboard extends Mock implements Backboard {}
+
+class _MockCameraController extends Mock implements CameraController {}
+
+class _MockActiveOverlaysNotifier extends Mock
+    implements ActiveOverlaysNotifier {}
+
+class _MockPinballAudio extends Mock implements PinballAudio {}
 
 void main() {
   group('GameFlowController', () {
@@ -22,7 +32,7 @@ void main() {
 
         final previous = GameState.initial();
         expect(
-          GameFlowController(MockPinballGame()).listenWhen(previous, state),
+          GameFlowController(_MockPinballGame()).listenWhen(previous, state),
           isTrue,
         );
       });
@@ -33,14 +43,16 @@ void main() {
       late Backboard backboard;
       late CameraController cameraController;
       late GameFlowController gameFlowController;
+      late PinballAudio pinballAudio;
       late ActiveOverlaysNotifier overlays;
 
       setUp(() {
-        game = MockPinballGame();
-        backboard = MockBackboard();
-        cameraController = MockCameraController();
+        game = _MockPinballGame();
+        backboard = _MockBackboard();
+        cameraController = _MockCameraController();
         gameFlowController = GameFlowController(game);
-        overlays = MockActiveOverlaysNotifier();
+        overlays = _MockActiveOverlaysNotifier();
+        pinballAudio = _MockPinballAudio();
 
         when(
           () => backboard.gameOverMode(
@@ -59,6 +71,7 @@ void main() {
         when(game.firstChild<CameraController>).thenReturn(cameraController);
         when(() => game.overlays).thenReturn(overlays);
         when(() => game.characterTheme).thenReturn(DashTheme());
+        when(() => game.audio).thenReturn(pinballAudio);
       });
 
       test(
@@ -93,6 +106,15 @@ void main() {
           verify(cameraController.focusOnGame).called(1);
           verify(() => overlays.remove(PinballGame.playButtonOverlay))
               .called(1);
+        },
+      );
+
+      test(
+        'plays the background music on start',
+        () {
+          gameFlowController.onNewState(GameState.initial());
+
+          verify(pinballAudio.backgroundMusic).called(1);
         },
       );
     });

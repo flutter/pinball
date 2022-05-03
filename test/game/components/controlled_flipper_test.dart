@@ -4,10 +4,13 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 import '../../helpers/helpers.dart';
+
+class _MockGameBloc extends Mock implements GameBloc {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +25,7 @@ void main() {
   final flameBlocTester = FlameBlocTester<EmptyPinballTestGame, GameBloc>(
     gameBuilder: EmptyPinballTestGame.new,
     blocBuilder: () {
-      final bloc = MockGameBloc();
+      final bloc = _MockGameBloc();
       const state = GameState(
         score: 0,
         multiplier: 1,

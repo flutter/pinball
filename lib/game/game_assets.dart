@@ -1,5 +1,4 @@
 import 'package:pinball/game/game.dart';
-import 'package:pinball/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' as components;
 import 'package:pinball_theme/pinball_theme.dart' hide Assets;
 
@@ -113,6 +112,8 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.googleWord.letter6.lit.keyName),
       images.load(components.Assets.images.googleWord.letter6.dimmed.keyName),
       images.load(components.Assets.images.backboard.display.keyName),
+      images.load(components.Assets.images.multiball.lit.keyName),
+      images.load(components.Assets.images.multiball.dimmed.keyName),
       images.load(components.Assets.images.multiplier.x2.lit.keyName),
       images.load(components.Assets.images.multiplier.x2.dimmed.keyName),
       images.load(components.Assets.images.multiplier.x3.lit.keyName),
@@ -135,7 +136,6 @@ extension PinballGameAssetsX on PinballGame {
       images.load(dashTheme.ball.keyName),
       images.load(dinoTheme.ball.keyName),
       images.load(sparkyTheme.ball.keyName),
-      images.load(Assets.images.components.background.path),
     ];
   }
 }
