@@ -1,14 +1,18 @@
-import 'dart:async';
-
-import 'package:flame/input.dart';
+import 'package:flame/extensions.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class DinoWallGame extends BallGame {
-  DinoWallGame() : super();
+class SlingshotsGame extends BallGame {
+  SlingshotsGame()
+      : super(
+          imagesFileNames: [
+            Assets.images.slingshot.upper.keyName,
+            Assets.images.slingshot.lower.keyName,
+          ],
+        );
 
   static const description = '''
-    Shows how DinoWalls are rendered.
+    Shows how Slingshots are rendered.
 
     - Activate the "trace" parameter to overlay the body.
     - Tap anywhere on the screen to spawn a ball into the game.
@@ -18,13 +22,9 @@ class DinoWallGame extends BallGame {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    await images.loadAll([
-      Assets.images.dino.topWall.keyName,
-      Assets.images.dino.bottomWall.keyName,
-    ]);
-
-    await add(DinoWalls());
     camera.followVector2(Vector2.zero());
+    await add(Slingshots());
+    await ready();
     await traceAllBodies();
   }
 }
