@@ -13,6 +13,8 @@ import 'package:pinball_components/src/components/chrome_dino/behaviors/behavior
 
 import '../../../../helpers/helpers.dart';
 
+class _MockChromeDinoCubit extends Mock implements ChromeDinoCubit {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final flameTester = FlameTester(TestGame.new);
@@ -33,7 +35,7 @@ void main() {
           (game) async {
             final ball = Ball(baseColor: Colors.red);
             final behavior = ChromeDinoSpittingBehavior();
-            final bloc = MockChromeDinoCubit();
+            final bloc = _MockChromeDinoCubit();
             final streamController = StreamController<ChromeDinoState>();
             final chompingState = ChromeDinoState(
               status: ChromeDinoStatus.chomping,
@@ -71,7 +73,7 @@ void main() {
           (game) async {
             final ball = Ball(baseColor: Colors.red);
             final behavior = ChromeDinoSpittingBehavior();
-            final bloc = MockChromeDinoCubit();
+            final bloc = _MockChromeDinoCubit();
             final streamController = StreamController<ChromeDinoState>();
             final chompingState = ChromeDinoState(
               status: ChromeDinoStatus.chomping,

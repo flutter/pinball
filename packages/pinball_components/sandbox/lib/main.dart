@@ -14,19 +14,17 @@ void main() {
   addBallStories(dashbook);
   addLayerStories(dashbook);
   addEffectsStories(dashbook);
-  addChromeDinoStories(dashbook);
   addFlutterForestStories(dashbook);
-  addBottomGroupStories(dashbook);
-  addPlungerStories(dashbook);
-  addSlingshotStories(dashbook);
   addSparkyScorchStories(dashbook);
   addAndroidAcresStories(dashbook);
+  addDinoDesertStories(dashbook);
+  addBottomGroupStories(dashbook);
+  addPlungerStories(dashbook);
   addBoundariesStories(dashbook);
   addGoogleWordStories(dashbook);
   addLaunchRampStories(dashbook);
   addScoreStories(dashbook);
   addBackboardStories(dashbook);
-  addDinoWallStories(dashbook);
   addMultiballStories(dashbook);
   addMultipliersStories(dashbook);
 

@@ -1,8 +1,21 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 import 'package:mocktail/mocktail.dart';
 
-import 'helpers.dart';
+class _MockRawKeyDownEvent extends Mock implements RawKeyDownEvent {
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return super.toString();
+  }
+}
+
+class _MockRawKeyUpEvent extends Mock implements RawKeyUpEvent {
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return super.toString();
+  }
+}
 
 @isTest
 void testRawKeyUpEvents(
@@ -15,7 +28,7 @@ void testRawKeyUpEvents(
 }
 
 RawKeyUpEvent _mockKeyUpEvent(LogicalKeyboardKey key) {
-  final event = MockRawKeyUpEvent();
+  final event = _MockRawKeyUpEvent();
   when(() => event.logicalKey).thenReturn(key);
   return event;
 }
@@ -31,7 +44,7 @@ void testRawKeyDownEvents(
 }
 
 RawKeyDownEvent _mockKeyDownEvent(LogicalKeyboardKey key) {
-  final event = MockRawKeyDownEvent();
+  final event = _MockRawKeyDownEvent();
   when(() => event.logicalKey).thenReturn(key);
   return event;
 }

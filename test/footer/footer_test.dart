@@ -3,15 +3,20 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/footer/footer.dart';
 import 'package:pinball_ui/pinball_ui.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import '../helpers/helpers.dart';
+
+class _MockUrlLauncher extends Mock
+    with MockPlatformInterfaceMixin
+    implements UrlLauncherPlatform {}
 
 void main() {
   group('Footer', () {
     late UrlLauncherPlatform urlLauncher;
 
     setUp(() async {
-      urlLauncher = MockUrlLauncher();
+      urlLauncher = _MockUrlLauncher();
       UrlLauncherPlatform.instance = urlLauncher;
     });
     testWidgets('renders "Made with..." and "Google I/O"', (tester) async {

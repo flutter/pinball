@@ -1,5 +1,6 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -7,6 +8,12 @@ import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 import '../../helpers/helpers.dart';
+
+class _MockControlledBall extends Mock implements ControlledBall {}
+
+class _MockBallController extends Mock implements BallController {}
+
+class _MockContact extends Mock implements Contact {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -73,8 +80,8 @@ void main() {
   group('SparkyComputerSensor', () {
     flameTester.test('calls turboCharge', (game) async {
       final sensor = SparkyComputerSensor();
-      final ball = MockControlledBall();
-      final controller = MockBallController();
+      final ball = _MockControlledBall();
+      final controller = _MockBallController();
       when(() => ball.controller).thenReturn(controller);
       when(controller.turboCharge).thenAnswer((_) async {});
 
@@ -83,7 +90,7 @@ void main() {
         SparkyAnimatronic(),
       ]);
 
-      sensor.beginContact(ball, MockContact());
+      sensor.beginContact(ball, _MockContact());
 
       verify(() => ball.controller.turboCharge()).called(1);
     });
@@ -91,8 +98,8 @@ void main() {
     flameTester.test('plays SparkyAnimatronic', (game) async {
       final sensor = SparkyComputerSensor();
       final sparkyAnimatronic = SparkyAnimatronic();
-      final ball = MockControlledBall();
-      final controller = MockBallController();
+      final ball = _MockControlledBall();
+      final controller = _MockBallController();
       when(() => ball.controller).thenReturn(controller);
       when(controller.turboCharge).thenAnswer((_) async {});
       await game.ensureAddAll([
@@ -101,7 +108,7 @@ void main() {
       ]);
 
       expect(sparkyAnimatronic.playing, isFalse);
-      sensor.beginContact(ball, MockContact());
+      sensor.beginContact(ball, _MockContact());
       expect(sparkyAnimatronic.playing, isTrue);
     });
   });

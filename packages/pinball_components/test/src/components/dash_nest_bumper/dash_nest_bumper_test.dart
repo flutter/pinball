@@ -11,6 +11,8 @@ import 'package:pinball_components/src/components/dash_nest_bumper/behaviors/beh
 
 import '../../../helpers/helpers.dart';
 
+class _MockDashNestBumperCubit extends Mock implements DashNestBumperCubit {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -48,7 +50,7 @@ void main() {
     // https://github.com/flame-engine/flame/pull/1538
     // ignore: public_member_api_docs
     flameTester.test('closes bloc when removed', (game) async {
-      final bloc = MockDashNestBumperCubit();
+      final bloc = _MockDashNestBumperCubit();
       whenListen(
         bloc,
         const Stream<DashNestBumperState>.empty(),

@@ -38,6 +38,7 @@ extension PinballGameAssetsX on PinballGame {
       ),
       images.load(components.Assets.images.dino.bottomWall.keyName),
       images.load(components.Assets.images.dino.topWall.keyName),
+      images.load(components.Assets.images.dino.topWallTunnel.keyName),
       images.load(components.Assets.images.dino.animatronic.head.keyName),
       images.load(components.Assets.images.dino.animatronic.mouth.keyName),
       images.load(components.Assets.images.dash.animatronic.keyName),

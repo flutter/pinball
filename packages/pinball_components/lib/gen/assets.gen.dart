@@ -124,6 +124,10 @@ class $AssetsImagesDinoGen {
   AssetGenImage get bottomWall =>
       const AssetGenImage('assets/images/dino/bottom-wall.png');
 
+  /// File path: assets/images/dino/top-wall-tunnel.png
+  AssetGenImage get topWallTunnel =>
+      const AssetGenImage('assets/images/dino/top-wall-tunnel.png');
+
   /// File path: assets/images/dino/top-wall.png
   AssetGenImage get topWall =>
       const AssetGenImage('assets/images/dino/top-wall.png');

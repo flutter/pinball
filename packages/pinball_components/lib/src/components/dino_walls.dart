@@ -23,59 +23,70 @@ class DinoWalls extends Component {
 /// {@template dino_top_wall}
 /// Wall segment located above [ChromeDino].
 /// {@endtemplate}
-class _DinoTopWall extends BodyComponent with InitialPosition, ZIndex {
+class _DinoTopWall extends BodyComponent with InitialPosition {
   ///{@macro dino_top_wall}
   _DinoTopWall()
       : super(
-          children: [_DinoTopWallSpriteComponent()],
+          children: [
+            _DinoTopWallSpriteComponent(),
+            _DinoTopWallTunnelSpriteComponent(),
+          ],
           renderBody: false,
-        ) {
-    zIndex = ZIndexes.dinoTopWall;
-  }
+        );
 
   List<FixtureDef> _createFixtureDefs() {
-    final topStraightShape = EdgeShape()
+    final topEdgeShape = EdgeShape()
       ..set(
-        Vector2(28.65, -34.3),
-        Vector2(29.5, -34.3),
+        Vector2(29.25, -35.27),
+        Vector2(28.4, -34.77),
       );
 
     final topCurveShape = BezierCurveShape(
       controlPoints: [
-        topStraightShape.vertex1,
-        Vector2(18.8, -26.2),
-        Vector2(26.6, -20.2),
+        topEdgeShape.vertex2,
+        Vector2(21.35, -28.72),
+        Vector2(23.45, -24.62),
       ],
     );
 
-    final middleCurveShape = BezierCurveShape(
-      controlPoints: [
-        topCurveShape.vertices.last,
-        Vector2(27.8, -19.3),
-        Vector2(26.8, -18.7),
-      ],
-    );
-
-    final bottomCurveShape = BezierCurveShape(
-      controlPoints: [
-        middleCurveShape.vertices.last,
-        Vector2(23, -14.2),
-        Vector2(27, -14.2),
-      ],
-    );
-
-    final bottomStraightShape = EdgeShape()
+    final tunnelTopEdgeShape = EdgeShape()
       ..set(
-        bottomCurveShape.vertices.last,
-        Vector2(31, -13.7),
+        topCurveShape.vertices.last,
+        Vector2(30.35, -27.32),
+      );
+
+    final tunnelBottomEdgeShape = EdgeShape()
+      ..set(
+        Vector2(30.75, -23.17),
+        Vector2(25.45, -21.22),
+      );
+
+    final middleEdgeShape = EdgeShape()
+      ..set(
+        tunnelBottomEdgeShape.vertex2,
+        Vector2(27.45, -19.32),
+      );
+
+    final bottomEdgeShape = EdgeShape()
+      ..set(
+        middleEdgeShape.vertex2,
+        Vector2(24.65, -15.02),
+      );
+
+    final undersideEdgeShape = EdgeShape()
+      ..set(
+        bottomEdgeShape.vertex2,
+        Vector2(31.75, -13.77),
       );
 
     return [
-      FixtureDef(topStraightShape),
+      FixtureDef(topEdgeShape),
       FixtureDef(topCurveShape),
-      FixtureDef(middleCurveShape),
-      FixtureDef(bottomCurveShape),
-      FixtureDef(bottomStraightShape),
+      FixtureDef(tunnelTopEdgeShape),
+      FixtureDef(tunnelBottomEdgeShape),
+      FixtureDef(middleEdgeShape),
+      FixtureDef(bottomEdgeShape),
+      FixtureDef(undersideEdgeShape),
     ];
   }
 
@@ -93,7 +104,15 @@ class _DinoTopWall extends BodyComponent with InitialPosition, ZIndex {
   }
 }
 
-class _DinoTopWallSpriteComponent extends SpriteComponent with HasGameRef {
+class _DinoTopWallSpriteComponent extends SpriteComponent
+    with HasGameRef, ZIndex {
+  _DinoTopWallSpriteComponent()
+      : super(
+          position: Vector2(22.75, -38.07),
+        ) {
+    zIndex = ZIndexes.dinoTopWall;
+  }
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -104,7 +123,26 @@ class _DinoTopWallSpriteComponent extends SpriteComponent with HasGameRef {
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
-    position = Vector2(22.8, -38.1);
+  }
+}
+
+class _DinoTopWallTunnelSpriteComponent extends SpriteComponent
+    with HasGameRef, ZIndex {
+  _DinoTopWallTunnelSpriteComponent()
+      : super(position: Vector2(23.31, -26.01)) {
+    zIndex = ZIndexes.dinoTopWallTunnel;
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    final sprite = Sprite(
+      gameRef.images.fromCache(
+        Assets.images.dino.topWallTunnel.keyName,
+      ),
+    );
+    this.sprite = sprite;
+    size = sprite.originalSize / 10;
   }
 }
 
@@ -122,7 +160,7 @@ class _DinoBottomWall extends BodyComponent with InitialPosition, ZIndex {
   }
 
   List<FixtureDef> _createFixtureDefs() {
-    final topStraightShape = EdgeShape()
+    final topEdgeShape = EdgeShape()
       ..set(
         Vector2(32.4, -8.8),
         Vector2(25, -7.7),
@@ -130,29 +168,29 @@ class _DinoBottomWall extends BodyComponent with InitialPosition, ZIndex {
 
     final topLeftCurveShape = BezierCurveShape(
       controlPoints: [
-        topStraightShape.vertex2,
+        topEdgeShape.vertex2,
         Vector2(21.8, -7),
         Vector2(29.8, 13.8),
       ],
     );
 
-    final bottomLeftStraightShape = EdgeShape()
+    final bottomLeftEdgeShape = EdgeShape()
       ..set(
         topLeftCurveShape.vertices.last,
         Vector2(31.9, 44.1),
       );
 
-    final bottomStraightShape = EdgeShape()
+    final bottomEdgeShape = EdgeShape()
       ..set(
-        bottomLeftStraightShape.vertex2,
+        bottomLeftEdgeShape.vertex2,
         Vector2(37.8, 44.1),
       );
 
     return [
-      FixtureDef(topStraightShape),
+      FixtureDef(topEdgeShape),
       FixtureDef(topLeftCurveShape),
-      FixtureDef(bottomLeftStraightShape),
-      FixtureDef(bottomStraightShape),
+      FixtureDef(bottomLeftEdgeShape),
+      FixtureDef(bottomEdgeShape),
     ];
   }
 
