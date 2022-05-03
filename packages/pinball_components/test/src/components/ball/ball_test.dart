@@ -24,6 +24,7 @@ void main() {
         expect(Ball.test(baseColor: baseColor), isA<Ball>());
       },
     );
+
     flameTester.test(
       'loads correctly',
       (game) async {
