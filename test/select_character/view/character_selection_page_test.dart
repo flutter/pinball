@@ -10,6 +10,8 @@ import 'package:pinball_ui/pinball_ui.dart';
 
 import '../../helpers/helpers.dart';
 
+class _MockCharacterThemeCubit extends Mock implements CharacterThemeCubit {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   late CharacterThemeCubit characterThemeCubit;
@@ -20,7 +22,7 @@ void main() {
     await Flame.images.load(const AndroidTheme().animation.keyName);
     await Flame.images.load(const DinoTheme().animation.keyName);
     await Flame.images.load(const SparkyTheme().animation.keyName);
-    characterThemeCubit = MockCharacterThemeCubit();
+    characterThemeCubit = _MockCharacterThemeCubit();
     whenListen(
       characterThemeCubit,
       const Stream<CharacterThemeState>.empty(),

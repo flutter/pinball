@@ -9,9 +9,9 @@ import 'package:pinball_components/pinball_components.dart';
 
 import '../../../helpers/helpers.dart';
 
-void main() {
-  final bloc = MockMultiplierCubit();
+class _MockMultiplierCubit extends Mock implements MultiplierCubit {}
 
+void main() {
   group('Multiplier', () {
     TestWidgetsFlutterBinding.ensureInitialized();
     final assets = [
@@ -27,6 +27,11 @@ void main() {
       Assets.images.multiplier.x6.dimmed.keyName,
     ];
     final flameTester = FlameTester(() => TestGame(assets));
+    late MultiplierCubit bloc;
+
+    setUp(() {
+      bloc = _MockMultiplierCubit();
+    });
 
     flameTester.test('"x2" loads correctly', (game) async {
       final multiplier = Multiplier.x2(

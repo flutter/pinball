@@ -10,6 +10,10 @@ import 'package:pinball_components/pinball_components.dart';
 
 import '../../../../helpers/helpers.dart';
 
+class _MockGameBloc extends Mock implements GameBloc {}
+
+class _MockBall extends Mock implements Ball {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
@@ -25,7 +29,7 @@ void main() {
     late GameBloc gameBloc;
 
     setUp(() {
-      gameBloc = MockGameBloc();
+      gameBloc = _MockGameBloc();
       whenListen(
         gameBloc,
         const Stream<GameState>.empty(),
@@ -51,7 +55,7 @@ void main() {
         await game.ensureAdd(parent);
         await parent.ensureAdd(behavior);
 
-        chromeDino.bloc.onChomp(MockBall());
+        chromeDino.bloc.onChomp(_MockBall());
         await tester.pump();
 
         verify(

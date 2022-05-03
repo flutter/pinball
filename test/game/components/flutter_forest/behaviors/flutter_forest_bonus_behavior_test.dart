@@ -13,13 +13,15 @@ import 'package:pinball_flame/pinball_flame.dart';
 
 import '../../../../helpers/helpers.dart';
 
+class _MockGameBloc extends Mock implements GameBloc {}
+
 void main() {
   group('FlutterForestBonusBehavior', () {
     late GameBloc gameBloc;
     final assets = [Assets.images.dash.animatronic.keyName];
 
     setUp(() {
-      gameBloc = MockGameBloc();
+      gameBloc = _MockGameBloc();
       whenListen(
         gameBloc,
         const Stream<GameState>.empty(),

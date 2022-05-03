@@ -10,6 +10,8 @@ import 'package:pinball_components/src/components/chrome_dino/behaviors/behavior
 
 import '../../../helpers/helpers.dart';
 
+class _MockChromeDinoCubit extends Mock implements ChromeDinoCubit {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
@@ -73,7 +75,7 @@ void main() {
     // https://github.com/flame-engine/flame/pull/1538
     // ignore: public_member_api_docs
     flameTester.test('closes bloc when removed', (game) async {
-      final bloc = MockChromeDinoCubit();
+      final bloc = _MockChromeDinoCubit();
       whenListen(
         bloc,
         const Stream<ChromeDinoState>.empty(),
