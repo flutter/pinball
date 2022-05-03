@@ -72,7 +72,7 @@ void main() {
               bloc: bloc,
             );
 
-            when(() => body.linearVelocity).thenReturn(Vector2(0, 1));
+            when(() => body.linearVelocity).thenReturn(Vector2(0, -1));
 
             await spaceshipRamp.add(rampSensor);
             await game.ensureAddAll([spaceshipRamp, ball]);
@@ -100,7 +100,7 @@ void main() {
               bloc: bloc,
             );
 
-            when(() => body.linearVelocity).thenReturn(Vector2(0, -1));
+            when(() => body.linearVelocity).thenReturn(Vector2(0, 1));
 
             await spaceshipRamp.add(rampSensor);
             await game.ensureAddAll([spaceshipRamp, ball]);
