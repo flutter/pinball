@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pinball/game/game.dart';
+import 'package:pinball/assets_manager/assets_manager.dart';
 
 void main() {
   group('AssetsManagerState', () {

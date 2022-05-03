@@ -123,5 +123,9 @@
   "footerGoogleIOText": "Google I/O",
   "@footerGoogleIOText": {
     "description": "Text shown on the footer which mentions Google I/O"
+  },
+  "loading": "Loading",
+  "@loading": {
+    "description": "Text shown to indicate loading times"
   }
 }
