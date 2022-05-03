@@ -4,7 +4,7 @@ service cloud.firestore {
     match /leaderboard/{userId} {
 
       function prohibited(initials) {
-        let prohibitedInitials = get(/databases/$(database)/documents/prohibitedInitials/list);
+        let prohibitedInitials = get(/databases/$(database)/documents/prohibitedInitials/list).data.prohibitedInitials;
         return initials in prohibitedInitials;
       }
       
