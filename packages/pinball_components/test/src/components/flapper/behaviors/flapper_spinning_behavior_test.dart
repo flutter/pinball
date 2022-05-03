@@ -36,10 +36,10 @@ void main() {
         'beginContact plays the flapper animation',
         (game) async {
           final behavior = FlapperSpinningBehavior();
-
           final entrance = FlapperEntrance();
           final flap = FlapSpriteAnimationComponent();
-          final flapper = Flapper.test(children: [entrance, flap]);
+          final flapper = Flapper.test();
+          await flapper.addAll([entrance, flap]);
           await entrance.add(behavior);
           await game.ensureAdd(flapper);
 

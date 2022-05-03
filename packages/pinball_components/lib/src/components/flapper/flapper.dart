@@ -31,9 +31,7 @@ class Flapper extends Component {
   ///
   /// This can be used for testing [Flapper]'s behaviors in isolation.
   @visibleForTesting
-  Flapper.test({
-    Iterable<Component>? children,
-  }) : super(children: children);
+  Flapper.test();
 }
 
 /// {@template flapper_entrance}
