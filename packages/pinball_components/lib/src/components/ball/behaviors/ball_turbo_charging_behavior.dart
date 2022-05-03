@@ -5,14 +5,14 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template ball_turbo_charging_behavior}
-/// Sets the [Ball] in flames and impulses it
+/// Sets the [Ball] in flames and [_impulse]s it.
 /// {@endtemplate}
 class BallTurboChargingBehavior extends TimerComponent with ParentIsA<Ball> {
   /// {@macro ball_turbo_charging_behavior}
   BallTurboChargingBehavior({
     required Vector2 impulse,
   })  : _impulse = impulse,
-        super(period: 2, removeOnFinish: true);
+        super(period: 5, removeOnFinish: true);
 
   final Vector2 _impulse;
 
