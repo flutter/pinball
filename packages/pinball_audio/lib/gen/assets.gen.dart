@@ -14,9 +14,10 @@ class $AssetsMusicGen {
 class $AssetsSfxGen {
   const $AssetsSfxGen();
 
+  String get bumperA => 'assets/sfx/bumper_a.mp3';
+  String get bumperB => 'assets/sfx/bumper_b.mp3';
   String get google => 'assets/sfx/google.mp3';
   String get ioPinballVoiceOver => 'assets/sfx/io_pinball_voice_over.mp3';
-  String get plim => 'assets/sfx/plim.mp3';
 }
 
 class Assets {

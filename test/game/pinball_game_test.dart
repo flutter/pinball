@@ -326,7 +326,7 @@ void main() {
               (flipper) => flipper.side == BoardSide.left,
             );
 
-        game.onTapDown(tapDownEvent);
+        game.onTapDown(0, tapDownEvent);
 
         expect(flippers.first.body.linearVelocity.y, isNegative);
       });
@@ -349,7 +349,7 @@ void main() {
               (flipper) => flipper.side == BoardSide.right,
             );
 
-        game.onTapDown(tapDownEvent);
+        game.onTapDown(0, tapDownEvent);
 
         expect(flippers.first.body.linearVelocity.y, isNegative);
       });
@@ -372,14 +372,14 @@ void main() {
               (flipper) => flipper.side == BoardSide.left,
             );
 
-        game.onTapDown(tapDownEvent);
+        game.onTapDown(0, tapDownEvent);
 
         expect(flippers.first.body.linearVelocity.y, isNegative);
 
         final tapUpEvent = _MockTapUpInfo();
         when(() => tapUpEvent.eventPosition).thenReturn(eventPosition);
 
-        game.onTapUp(tapUpEvent);
+        game.onTapUp(0, tapUpEvent);
         await game.ready();
 
         expect(flippers.first.body.linearVelocity.y, isPositive);
@@ -403,11 +403,11 @@ void main() {
               (flipper) => flipper.side == BoardSide.left,
             );
 
-        game.onTapDown(tapDownEvent);
+        game.onTapDown(0, tapDownEvent);
 
         expect(flippers.first.body.linearVelocity.y, isNegative);
 
-        game.onTapCancel();
+        game.onTapCancel(0);
 
         expect(flippers.first.body.linearVelocity.y, isPositive);
       });
@@ -429,7 +429,7 @@ void main() {
 
         final plunger = game.descendants().whereType<Plunger>().first;
 
-        game.onTapDown(tapDownEvent);
+        game.onTapDown(0, tapDownEvent);
 
         game.update(1);
 
@@ -455,7 +455,7 @@ void main() {
         final previousBalls =
             game.descendants().whereType<ControlledBall>().toList();
 
-        game.onTapUp(tapUpEvent);
+        game.onTapUp(0, tapUpEvent);
         await game.ready();
 
         expect(
