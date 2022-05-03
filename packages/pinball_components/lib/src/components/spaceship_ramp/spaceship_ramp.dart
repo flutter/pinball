@@ -8,7 +8,7 @@ import 'package:pinball_components/pinball_components.dart' hide Assets;
 import 'package:pinball_components/src/components/spaceship_ramp/behavior/behavior.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
-export 'cubit/ramp_sensor_cubit.dart';
+export 'cubit/spaceship_ramp_cubit.dart';
 
 /// {@template spaceship_ramp}
 /// Ramp leading into the [AndroidSpaceship].
@@ -17,14 +17,23 @@ class SpaceshipRamp extends Component {
   /// {@macro spaceship_ramp}
   SpaceshipRamp({
     Iterable<Component>? children,
-  }) : super(
+  })  : bloc = SpaceshipRampCubit(),
+        super(
           children: [
             // TODO(ruimiguel): refactor RampSensor and RampOpening to be in
             // only one sensor.
-            RampSensor(type: RampSensorType.door)
-              ..initialPosition = Vector2(1.7, -20.4),
-            RampSensor(type: RampSensorType.inside)
-              ..initialPosition = Vector2(1.7, -22),
+            RampSensor(
+              type: RampSensorType.door,
+              children: [
+                RampContactBehavior(),
+              ],
+            )..initialPosition = Vector2(1.7, -20.4),
+            RampSensor(
+              type: RampSensorType.inside,
+              children: [
+                RampContactBehavior(),
+              ],
+            )..initialPosition = Vector2(1.7, -22),
             _SpaceshipRampOpening(
               outsidePriority: ZIndexes.ballOnBoard,
               rotation: math.pi,
@@ -53,7 +62,21 @@ class SpaceshipRamp extends Component {
   ///
   /// This can be used for testing [SpaceshipRamp]'s behaviors in isolation.
   @visibleForTesting
-  SpaceshipRamp.test();
+  SpaceshipRamp.test({
+    required this.bloc,
+    Iterable<Component>? children,
+  }) : super(children: children);
+
+// TODO(alestiago): Consider refactoring once the following is merged:
+  // https://github.com/flame-engine/flame/pull/1538
+  // ignore: public_member_api_docs
+  final SpaceshipRampCubit bloc;
+
+  @override
+  void onRemove() {
+    bloc.close();
+    super.onRemove();
+  }
 
   /// Forwards the sprite to the next [SpaceshipRampArrowSpriteState].
   ///
@@ -398,13 +421,12 @@ class _SpaceshipRampOpening extends LayerSensor {
 class RampSensor extends BodyComponent
     with ParentIsA<SpaceshipRamp>, InitialPosition, Layered {
   /// {@macro ramp_sensor}
-  RampSensor({required this.type})
-      : bloc = RampSensorCubit(),
-        super(
-          children: [
-            RampContactBehavior(),
-          ],
-          renderBody: true,
+  RampSensor({
+    required this.type,
+    Iterable<Component>? children,
+  }) : super(
+          children: children,
+          renderBody: false,
         ) {
     layer = Layer.spaceshipEntranceRamp;
   }
@@ -414,22 +436,10 @@ class RampSensor extends BodyComponent
   @visibleForTesting
   RampSensor.test({
     required this.type,
-    required this.bloc,
   });
 
   /// Type for the sensor, to know if it's the one at the door or inside ramp.
   final RampSensorType type;
-
-  // TODO(alestiago): Consider refactoring once the following is merged:
-  // https://github.com/flame-engine/flame/pull/1538
-  // ignore: public_member_api_docs
-  final RampSensorCubit bloc;
-
-  @override
-  void onRemove() {
-    bloc.close();
-    super.onRemove();
-  }
 
   @override
   Body createBody() {

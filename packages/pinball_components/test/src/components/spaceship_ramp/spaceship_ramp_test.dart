@@ -8,7 +8,7 @@ import 'package:pinball_components/pinball_components.dart';
 
 import '../../../helpers/helpers.dart';
 
-class MockRampSensorCubit extends Mock implements RampSensorCubit {}
+class _MockSpaceshipRampCubit extends Mock implements SpaceshipRampCubit {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -22,27 +22,23 @@ void main() {
   ];
   final flameTester = FlameTester(() => TestGame(assets));
 
-  group('RampSensor', () {
-    flameTester.test('closes bloc when removed', (game) async {
-      final bloc = MockRampSensorCubit();
-      whenListen(
-        bloc,
-        const Stream<RampSensorState>.empty(),
-        initialState: const RampSensorState.initial(),
-      );
-      when(bloc.close).thenAnswer((_) async {});
-      final rampSensor = RampSensor.test(
-        type: RampSensorType.door,
-        bloc: bloc,
-      );
-      final parent = SpaceshipRamp.test();
+  flameTester.test('closes bloc when removed', (game) async {
+    final bloc = _MockSpaceshipRampCubit();
+    whenListen(
+      bloc,
+      const Stream<SpaceshipRampState>.empty(),
+      initialState: SpaceshipRampState.initial(),
+    );
+    when(bloc.close).thenAnswer((_) async {});
 
-      await game.ensureAdd(parent);
-      await parent.ensureAdd(rampSensor);
-      parent.remove(rampSensor);
-      await game.ready();
+    final ramp = SpaceshipRamp.test(
+      bloc: bloc,
+    );
 
-      verify(bloc.close).called(1);
-    });
+    await game.ensureAdd(ramp);
+    game.remove(ramp);
+    await game.ready();
+
+    verify(bloc.close).called(1);
   });
 }
