@@ -114,12 +114,11 @@ class _FlapperExit extends LayerSensor {
     );
 }
 
-@visibleForTesting
-
 /// {@template flap_sprite_animation_component}
 /// Flap suspended between supports that animates to let the [Ball] exit the
 /// [LaunchRamp].
 /// {@endtemplate}
+@visibleForTesting
 class FlapSpriteAnimationComponent extends SpriteAnimationComponent
     with HasGameRef, ZIndex {
   /// {@macro flap_sprite_animation_component}
