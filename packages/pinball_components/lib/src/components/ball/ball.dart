@@ -5,6 +5,7 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/src/components/ball/behaviors/ball_gravitating_behavior.dart';
 import 'package:pinball_components/src/components/ball/behaviors/ball_scaling_behavior.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
@@ -21,6 +22,7 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
           children: [
             _BallSpriteComponent()..tint(baseColor.withOpacity(0.5)),
             BallScalingBehavior(),
+            BallGravitatingBehavior(),
           ],
         ) {
     // TODO(ruimiguel): while developing Ball can be launched by clicking mouse,

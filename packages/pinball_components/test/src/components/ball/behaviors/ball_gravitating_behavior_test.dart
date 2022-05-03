@@ -15,7 +15,7 @@ void main() {
   final asset = Assets.images.ball.ball.keyName;
   final flameTester = FlameTester(() => TestGame([asset]));
 
-  group('BallScalingBehavior', () {
+  group('BallGravitatingBehavior', () {
     const baseColor = Color(0xFFFFFFFF);
     test('can be instantiated', () {
       expect(
@@ -26,58 +26,36 @@ void main() {
 
     flameTester.test('can be loaded', (game) async {
       final ball = Ball.test(baseColor: baseColor);
-      final behavior = BallScalingBehavior();
+      final behavior = BallGravitatingBehavior();
       await ball.add(behavior);
       await game.ensureAdd(ball);
       expect(
-        ball.firstChild<BallScalingBehavior>(),
+        ball.firstChild<BallGravitatingBehavior>(),
         equals(behavior),
       );
     });
 
-    flameTester.test('scales the shape radius', (game) async {
-      final ball1 = Ball.test(baseColor: baseColor)
-        ..initialPosition = Vector2(0, 10);
-      await ball1.add(BallScalingBehavior());
-
-      final ball2 = Ball.test(baseColor: baseColor)
-        ..initialPosition = Vector2(0, -10);
-      await ball2.add(BallScalingBehavior());
-
-      await game.ensureAddAll([ball1, ball2]);
-      game.update(1);
-
-      final shape1 = ball1.body.fixtures.first.shape;
-      final shape2 = ball2.body.fixtures.first.shape;
-      expect(
-        shape1.radius,
-        greaterThan(shape2.radius),
-      );
-    });
-
     flameTester.test(
-      'scales the sprite',
+      "overrides the body's horizontal gravity symmetrically",
       (game) async {
         final ball1 = Ball.test(baseColor: baseColor)
-          ..initialPosition = Vector2(0, 10);
-        await ball1.add(BallScalingBehavior());
+          ..initialPosition = Vector2(10, 0);
+        await ball1.add(BallGravitatingBehavior());
 
         final ball2 = Ball.test(baseColor: baseColor)
-          ..initialPosition = Vector2(0, -10);
-        await ball2.add(BallScalingBehavior());
+          ..initialPosition = Vector2(-10, 0);
+        await ball2.add(BallGravitatingBehavior());
 
         await game.ensureAddAll([ball1, ball2]);
         game.update(1);
 
-        final sprite1 = ball1.firstChild<SpriteComponent>()!;
-        final sprite2 = ball2.firstChild<SpriteComponent>()!;
         expect(
-          sprite1.scale.x,
-          greaterThan(sprite2.scale.x),
+          ball1.body.gravityOverride!.x,
+          equals(-ball2.body.gravityOverride!.x),
         );
         expect(
-          sprite1.scale.y,
-          greaterThan(sprite2.scale.y),
+          ball1.body.gravityOverride!.y,
+          equals(ball2.body.gravityOverride!.y),
         );
       },
     );

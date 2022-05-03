@@ -36,13 +36,24 @@ void main() {
       },
     );
 
-    flameTester.test('add a BallScalingBehavior', (game) async {
-      final ball = Ball(baseColor: baseColor);
-      await game.ensureAdd(ball);
-      expect(
-        ball.descendants().whereType<BallScalingBehavior>().length,
-        equals(1),
-      );
+    group('adds', () {
+      flameTester.test('a BallScalingBehavior', (game) async {
+        final ball = Ball(baseColor: baseColor);
+        await game.ensureAdd(ball);
+        expect(
+          ball.descendants().whereType<BallScalingBehavior>().length,
+          equals(1),
+        );
+      });
+
+      flameTester.test('a BallGravitatingBehavior', (game) async {
+        final ball = Ball(baseColor: baseColor);
+        await game.ensureAdd(ball);
+        expect(
+          ball.descendants().whereType<BallGravitatingBehavior>().length,
+          equals(1),
+        );
+      });
     });
 
     group('body', () {
