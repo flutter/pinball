@@ -18,14 +18,14 @@ class _MockGameBloc extends Mock implements GameBloc {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final assets = [
-    theme.Assets.images.dash.ball.keyName,
-    theme.Assets.images.dash.ball.keyName,
-  ];
 
   group('FlutterForestBonusBehavior', () {
     late GameBloc gameBloc;
-    final assets = [Assets.images.dash.animatronic.keyName];
+    final assets = [
+      Assets.images.dash.animatronic.keyName,
+      theme.Assets.images.dash.ball.keyName,
+      theme.Assets.images.dash.ball.keyName,
+    ];
 
     setUp(() {
       gameBloc = _MockGameBloc();
