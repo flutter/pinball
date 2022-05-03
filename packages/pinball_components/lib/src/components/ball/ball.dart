@@ -3,22 +3,26 @@ import 'dart:math' as math;
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/src/components/ball/behaviors/ball_gravitating_behavior.dart';
+import 'package:pinball_components/src/components/ball/behaviors/ball_scaling_behavior.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart' as theme;
 
 /// {@template ball}
 /// A solid, [BodyType.dynamic] sphere that rolls and bounces around.
 /// {@endtemplate}
-class Ball<T extends Forge2DGame> extends BodyComponent<T>
-    with Layered, InitialPosition, ZIndex {
+class Ball extends BodyComponent with Layered, InitialPosition, ZIndex {
   /// {@macro ball}
   Ball({
     String? spriteAsset,
   }) : super(
           renderBody: false,
           children: [
-            _BallSpriteComponent(spriteAsset),
+            _BallSpriteComponent(spriteAsset: spriteAsset),
+            BallScalingBehavior(),
+            BallGravitatingBehavior(),
           ],
         ) {
     // TODO(ruimiguel): while developing Ball can be launched by clicking mouse,
@@ -28,6 +32,15 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
     // bumper, it will need to explicit change layer to Layer.board then.
     layer = Layer.board;
   }
+
+  /// Creates a [Ball] without any behaviors.
+  ///
+  /// This can be used for testing [Ball]'s behaviors in isolation.
+  @visibleForTesting
+  Ball.test()
+      : super(
+          children: [_BallSpriteComponent()],
+        );
 
   /// The size of the [Ball].
   static final Vector2 size = Vector2.all(4.13);
@@ -72,54 +85,12 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
     body.linearVelocity = impulse;
     await add(_TurboChargeSpriteAnimationComponent());
   }
-
-  @override
-  void update(double dt) {
-    super.update(dt);
-
-    _rescaleSize();
-    _setPositionalGravity();
-  }
-
-  void _rescaleSize() {
-    final boardHeight = BoardDimensions.bounds.height;
-    const maxShrinkValue = BoardDimensions.perspectiveShrinkFactor;
-
-    final standardizedYPosition = body.position.y + (boardHeight / 2);
-
-    final scaleFactor = maxShrinkValue +
-        ((standardizedYPosition / boardHeight) * (1 - maxShrinkValue));
-
-    body.fixtures.first.shape.radius = (size.x / 2) * scaleFactor;
-
-    // TODO(alestiago): Revisit and see if there's a better way to do this.
-    final spriteComponent = firstChild<_BallSpriteComponent>();
-    spriteComponent?.scale = Vector2.all(scaleFactor);
-  }
-
-  void _setPositionalGravity() {
-    final defaultGravity = gameRef.world.gravity.y;
-    final maxXDeviationFromCenter = BoardDimensions.bounds.width / 2;
-    const maxXGravityPercentage =
-        (1 - BoardDimensions.perspectiveShrinkFactor) / 2;
-    final xDeviationFromCenter = body.position.x;
-
-    final positionalXForce = ((xDeviationFromCenter / maxXDeviationFromCenter) *
-            maxXGravityPercentage) *
-        defaultGravity;
-
-    final positionalYForce = math.sqrt(
-      math.pow(defaultGravity, 2) - math.pow(positionalXForce, 2),
-    );
-
-    body.gravityOverride = Vector2(positionalXForce, positionalYForce);
-  }
 }
 
 class _BallSpriteComponent extends SpriteComponent with HasGameRef {
-  _BallSpriteComponent(
+  _BallSpriteComponent({
     this.spriteAsset,
-  ) : super(
+  }) : super(
           anchor: Anchor.center,
         );
 

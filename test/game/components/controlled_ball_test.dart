@@ -1,6 +1,7 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,7 +15,7 @@ import '../../helpers/helpers.dart';
 // TODO(allisonryan0002): remove once
 // https://github.com/flame-engine/flame/pull/1520 is merged
 class _WrappedBallController extends BallController {
-  _WrappedBallController(Ball<Forge2DGame> ball, this._gameRef) : super(ball);
+  _WrappedBallController(Ball ball, this._gameRef) : super(ball);
 
   final PinballGame _gameRef;
 

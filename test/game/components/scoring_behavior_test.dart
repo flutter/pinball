@@ -91,20 +91,6 @@ void main() {
       );
 
       flameBlocTester.testGameWidget(
-        'plays score sound',
-        setUp: (game, tester) async {
-          final scoringBehavior = ScoringBehavior(points: Points.oneMillion);
-          await parent.add(scoringBehavior);
-          final canvas = ZCanvasComponent(children: [parent]);
-          await game.ensureAdd(canvas);
-
-          scoringBehavior.beginContact(ball, _MockContact());
-
-          verify(audio.score).called(1);
-        },
-      );
-
-      flameBlocTester.testGameWidget(
         "adds a ScoreComponent at Ball's position with points",
         setUp: (game, tester) async {
           const points = Points.oneMillion;
@@ -126,6 +112,59 @@ void main() {
             scoreText.first.position,
             equals(ball.body.position),
           );
+        },
+      );
+    });
+  });
+
+  group('BumperScoringBehavior', () {
+    group('beginContact', () {
+      late GameBloc bloc;
+      late PinballAudio audio;
+      late Ball ball;
+      late BodyComponent parent;
+
+      setUp(() {
+        audio = _MockPinballAudio();
+        ball = _MockBall();
+        final ballBody = _MockBody();
+        when(() => ball.body).thenReturn(ballBody);
+        when(() => ballBody.position).thenReturn(Vector2.all(4));
+
+        parent = _TestBodyComponent();
+      });
+
+      final flameBlocTester = FlameBlocTester<EmptyPinballTestGame, GameBloc>(
+        gameBuilder: () => EmptyPinballTestGame(
+          audio: audio,
+        ),
+        blocBuilder: () {
+          bloc = _MockGameBloc();
+          const state = GameState(
+            score: 0,
+            multiplier: 1,
+            rounds: 3,
+            bonusHistory: [],
+          );
+          whenListen(bloc, Stream.value(state), initialState: state);
+          return bloc;
+        },
+        assets: assets,
+      );
+
+      flameBlocTester.testGameWidget(
+        'plays bumper sound',
+        setUp: (game, tester) async {
+          final scoringBehavior = BumperScoringBehavior(
+            points: Points.oneMillion,
+          );
+          await parent.add(scoringBehavior);
+          final canvas = ZCanvasComponent(children: [parent]);
+          await game.ensureAdd(canvas);
+
+          scoringBehavior.beginContact(ball, _MockContact());
+
+          verify(audio.bumper).called(1);
         },
       );
     });
