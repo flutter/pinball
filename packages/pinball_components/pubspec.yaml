@@ -88,6 +88,7 @@ flutter:
     - assets/images/multiplier/x5/
     - assets/images/multiplier/x6/
     - assets/images/score/
+    - assets/images/flapper/
 
 flutter_gen:
   line_length: 80
