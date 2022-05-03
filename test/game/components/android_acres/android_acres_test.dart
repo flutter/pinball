@@ -2,10 +2,11 @@
 
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pinball/game/components/android_acres/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-import '../../helpers/helpers.dart';
+import '../../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -45,11 +46,22 @@ void main() {
 
     group('loads', () {
       flameTester.test(
-        'a Spaceship',
+        'an  AndroidSpaceship',
         (game) async {
           await game.ensureAdd(AndroidAcres());
           expect(
             game.descendants().whereType<AndroidSpaceship>().length,
+            equals(1),
+          );
+        },
+      );
+
+      flameTester.test(
+        'an AndroidAnimatronic',
+        (game) async {
+          await game.ensureAdd(AndroidAcres());
+          expect(
+            game.descendants().whereType<AndroidAnimatronic>().length,
             equals(1),
           );
         },
@@ -86,6 +98,15 @@ void main() {
             equals(3),
           );
         },
+      );
+    });
+
+    flameTester.test('adds an AndroidSpaceshipBonusBehavior', (game) async {
+      final androidAcres = AndroidAcres();
+      await game.ensureAdd(androidAcres);
+      expect(
+        androidAcres.children.whereType<AndroidSpaceshipBonusBehavior>().single,
+        isNotNull,
       );
     });
   });
