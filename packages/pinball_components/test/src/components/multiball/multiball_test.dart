@@ -10,6 +10,8 @@ import 'package:pinball_components/src/components/multiball/behaviors/behaviors.
 
 import '../../../helpers/helpers.dart';
 
+class _MockMultiballCubit extends Mock implements MultiballCubit {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
@@ -50,7 +52,7 @@ void main() {
     flameTester.test(
       'closes bloc when removed',
       (game) async {
-        final bloc = MockMultiballCubit();
+        final bloc = _MockMultiballCubit();
         whenListen(
           bloc,
           const Stream<MultiballLightState>.empty(),

@@ -8,6 +8,12 @@ import 'package:pinball/game/game.dart';
 
 import '../../helpers/helpers.dart';
 
+class _MockControlledBall extends Mock implements ControlledBall {}
+
+class _MockBallController extends Mock implements BallController {}
+
+class _MockContact extends Mock implements Contact {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final flameTester = FlameTester(TestGame.new);
@@ -18,7 +24,6 @@ void main() {
       (game) async {
         final drain = Drain();
         await game.ensureAdd(drain);
-
         expect(game.contains(drain), isTrue);
       },
     );
@@ -28,7 +33,6 @@ void main() {
       (game) async {
         final drain = Drain();
         await game.ensureAdd(drain);
-
         expect(drain.body.bodyType, equals(BodyType.static));
       },
     );
@@ -38,7 +42,6 @@ void main() {
       (game) async {
         final drain = Drain();
         await game.ensureAdd(drain);
-
         expect(drain.body.fixtures.first.isSensor, isTrue);
       },
     );
@@ -47,11 +50,11 @@ void main() {
       'calls lost on contact with ball',
       () async {
         final drain = Drain();
-        final ball = MockControlledBall();
-        final controller = MockBallController();
+        final ball = _MockControlledBall();
+        final controller = _MockBallController();
         when(() => ball.controller).thenReturn(controller);
 
-        drain.beginContact(ball, MockContact());
+        drain.beginContact(ball, _MockContact());
 
         verify(controller.lost).called(1);
       },
