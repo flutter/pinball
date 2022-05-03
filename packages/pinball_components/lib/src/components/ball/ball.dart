@@ -35,9 +35,8 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   ///
   /// This can be used for testing [Ball]'s behaviors in isolation.
   @visibleForTesting
-  Ball.test()
-      : baseColor = const Color(0xFFFFFFFF),
-        super(
+  Ball.test({required this.baseColor})
+      : super(
           children: [_BallSpriteComponent()],
         );
 
