@@ -106,7 +106,10 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
 
 class _DinoTopWallSpriteComponent extends SpriteComponent
     with HasGameRef, ZIndex {
-  _DinoTopWallSpriteComponent() : super(position: Vector2(22.75, -38.07)) {
+  _DinoTopWallSpriteComponent()
+      : super(
+          position: Vector2(22.75, -38.07),
+        ) {
     zIndex = ZIndexes.dinoTopWall;
   }
 
