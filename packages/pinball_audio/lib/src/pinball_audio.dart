@@ -88,6 +88,7 @@ class PinballAudio {
 
     await Future.wait([
       _preCacheSingleAudio(_prefixFile(Assets.sfx.google)),
+      _preCacheSingleAudio(_prefixFile(Assets.sfx.ioPinballVoiceOver)),
       _preCacheSingleAudio(_prefixFile(Assets.music.background)),
     ]);
   }
@@ -100,6 +101,11 @@ class PinballAudio {
   /// Plays the google word bonus
   void googleBonus() {
     _playSingleAudio(_prefixFile(Assets.sfx.google));
+  }
+
+  /// Plays the I/O Pinball voice over audio.
+  void ioPinballVoiceOver() {
+    _playSingleAudio(_prefixFile(Assets.sfx.ioPinballVoiceOver));
   }
 
   /// Plays the background music
