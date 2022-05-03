@@ -15,6 +15,7 @@ class $AssetsSfxGen {
   const $AssetsSfxGen();
 
   String get google => 'assets/sfx/google.mp3';
+  String get ioPinballVoiceOver => 'assets/sfx/io_pinball_voice_over.mp3';
   String get plim => 'assets/sfx/plim.mp3';
 }
 
