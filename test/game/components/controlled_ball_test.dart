@@ -1,6 +1,7 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -99,6 +100,7 @@ void main() {
     group('turboCharge', () {
       setUpAll(() {
         registerFallbackValue(Vector2.zero());
+        registerFallbackValue(Component());
       });
 
       flameBlocTester.testGameWidget(
@@ -124,7 +126,7 @@ void main() {
           final controller = _WrappedBallController(ball, gameRef);
           when(() => gameRef.read<GameBloc>()).thenReturn(gameBloc);
           when(() => ball.controller).thenReturn(controller);
-          when(() => ball.boost(any())).thenAnswer((_) async {});
+          when(() => ball.add(any())).thenAnswer((_) async {});
 
           await controller.turboCharge();
 
@@ -140,27 +142,11 @@ void main() {
           final controller = _WrappedBallController(ball, gameRef);
           when(() => gameRef.read<GameBloc>()).thenReturn(gameBloc);
           when(() => ball.controller).thenReturn(controller);
-          when(() => ball.boost(any())).thenAnswer((_) async {});
+          when(() => ball.add(any())).thenAnswer((_) async {});
 
           await controller.turboCharge();
 
           verify(ball.resume).called(1);
-        },
-      );
-
-      flameBlocTester.test(
-        'boosts the ball',
-        (game) async {
-          final gameRef = _MockPinballGame();
-          final ball = _MockControlledBall();
-          final controller = _WrappedBallController(ball, gameRef);
-          when(() => gameRef.read<GameBloc>()).thenReturn(gameBloc);
-          when(() => ball.controller).thenReturn(controller);
-          when(() => ball.boost(any())).thenAnswer((_) async {});
-
-          await controller.turboCharge();
-
-          verify(() => ball.boost(any())).called(1);
         },
       );
     });

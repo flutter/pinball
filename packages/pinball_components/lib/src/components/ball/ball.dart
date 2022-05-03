@@ -1,13 +1,12 @@
 import 'dart:async';
-import 'dart:math' as math;
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_components/src/components/ball/behaviors/ball_gravitating_behavior.dart';
-import 'package:pinball_components/src/components/ball/behaviors/ball_scaling_behavior.dart';
 import 'package:pinball_flame/pinball_flame.dart';
+
+export 'behaviors/behaviors.dart';
 
 /// {@template ball}
 /// A solid, [BodyType.dynamic] sphere that rolls and bounces around.
@@ -81,12 +80,6 @@ class Ball extends BodyComponent with Layered, InitialPosition, ZIndex {
   void resume() {
     body.gravityScale = Vector2(1, 1);
   }
-
-  /// Applies a boost and [_TurboChargeSpriteAnimationComponent] on this [Ball].
-  Future<void> boost(Vector2 impulse) async {
-    body.linearVelocity = impulse;
-    await add(_TurboChargeSpriteAnimationComponent());
-  }
 }
 
 class _BallSpriteComponent extends SpriteComponent with HasGameRef {
@@ -99,57 +92,5 @@ class _BallSpriteComponent extends SpriteComponent with HasGameRef {
     this.sprite = sprite;
     size = sprite.originalSize / 10;
     anchor = Anchor.center;
-  }
-}
-
-class _TurboChargeSpriteAnimationComponent extends SpriteAnimationComponent
-    with HasGameRef, ZIndex {
-  _TurboChargeSpriteAnimationComponent()
-      : super(
-          anchor: const Anchor(0.53, 0.72),
-          removeOnFinish: true,
-        ) {
-    zIndex = ZIndexes.turboChargeFlame;
-  }
-
-  late final Vector2 _textureSize;
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-
-    final spriteSheet = await gameRef.images.load(
-      Assets.images.ball.flameEffect.keyName,
-    );
-
-    const amountPerRow = 8;
-    const amountPerColumn = 4;
-    _textureSize = Vector2(
-      spriteSheet.width / amountPerRow,
-      spriteSheet.height / amountPerColumn,
-    );
-
-    animation = SpriteAnimation.fromFrameData(
-      spriteSheet,
-      SpriteAnimationData.sequenced(
-        amount: amountPerRow * amountPerColumn,
-        amountPerRow: amountPerRow,
-        stepTime: 1 / 24,
-        textureSize: _textureSize,
-        loop: false,
-      ),
-    );
-  }
-
-  @override
-  void update(double dt) {
-    super.update(dt);
-
-    if (parent != null) {
-      final body = (parent! as BodyComponent).body;
-      final direction = -body.linearVelocity.normalized();
-      angle = math.atan2(direction.x, -direction.y);
-      size = (_textureSize / 45) * body.fixtures.first.shape.radius;
-    }
   }
 }
