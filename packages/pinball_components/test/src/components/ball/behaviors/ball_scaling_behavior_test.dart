@@ -35,17 +35,6 @@ void main() {
       );
     });
 
-    flameTester.test('can be loaded', (game) async {
-      final ball = Ball.test(baseColor: baseColor);
-      final behavior = BallScalingBehavior();
-      await ball.add(behavior);
-      await game.ensureAdd(ball);
-      expect(
-        ball.firstChild<BallScalingBehavior>(),
-        equals(behavior),
-      );
-    });
-
     flameTester.test('scales the shape radius', (game) async {
       final ball1 = Ball.test(baseColor: baseColor)
         ..initialPosition = Vector2(0, 10);
