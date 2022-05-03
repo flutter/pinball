@@ -3,9 +3,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/how_to_play/how_to_play.dart';
 import 'package:pinball/l10n/l10n.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 import 'package:platform_helper/platform_helper.dart';
 
 import '../helpers/helpers.dart';
+
+class _MockPinballAudio extends Mock implements PinballAudio {}
 
 class _MockPlatformHelper extends Mock implements PlatformHelper {}
 
@@ -93,5 +96,30 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byType(HowToPlayDialog), findsNothing);
     });
+
+    testWidgets(
+      'plays the I/O Pinball voice over audio on dismiss',
+      (tester) async {
+        final audio = _MockPinballAudio();
+        await tester.pumpApp(
+          Builder(
+            builder: (context) {
+              return TextButton(
+                onPressed: () => showHowToPlayDialog(context),
+                child: const Text('test'),
+              );
+            },
+          ),
+          pinballAudio: audio,
+        );
+        expect(find.byType(HowToPlayDialog), findsNothing);
+        await tester.tap(find.text('test'));
+        await tester.pumpAndSettle();
+
+        await tester.tapAt(Offset.zero);
+        await tester.pumpAndSettle();
+        verify(audio.ioPinballVoiceOver).called(1);
+      },
+    );
   });
 }

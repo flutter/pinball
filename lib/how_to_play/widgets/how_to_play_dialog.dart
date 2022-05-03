@@ -3,8 +3,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/gen/gen.dart';
 import 'package:pinball/l10n/l10n.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 import 'package:platform_helper/platform_helper.dart';
 
@@ -50,10 +52,13 @@ extension on Control {
 }
 
 Future<void> showHowToPlayDialog(BuildContext context) {
+  final audio = context.read<PinballAudio>();
   return showDialog<void>(
     context: context,
     builder: (_) => HowToPlayDialog(),
-  );
+  ).then((_) {
+    audio.ioPinballVoiceOver();
+  });
 }
 
 class HowToPlayDialog extends StatefulWidget {

@@ -126,6 +126,11 @@ void main() {
               .onCall('packages/pinball_audio/assets/sfx/google.mp3'),
         ).called(1);
         verify(
+          () => preCacheSingleAudio.onCall(
+            'packages/pinball_audio/assets/sfx/io_pinball_voice_over.mp3',
+          ),
+        ).called(1);
+        verify(
           () => preCacheSingleAudio
               .onCall('packages/pinball_audio/assets/music/background.mp3'),
         ).called(1);
@@ -159,6 +164,19 @@ void main() {
         verify(
           () => playSingleAudio
               .onCall('packages/pinball_audio/${Assets.sfx.google}'),
+        ).called(1);
+      });
+    });
+
+    group('ioPinballVoiceOver', () {
+      test('plays the correct file', () async {
+        await audio.load();
+        audio.ioPinballVoiceOver();
+
+        verify(
+          () => playSingleAudio.onCall(
+            'packages/pinball_audio/${Assets.sfx.ioPinballVoiceOver}',
+          ),
         ).called(1);
       });
     });
