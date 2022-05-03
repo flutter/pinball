@@ -1,5 +1,6 @@
+export 'android_animatronic.dart';
 export 'android_bumper/android_bumper.dart';
-export 'android_spaceship.dart';
+export 'android_spaceship/android_spaceship.dart';
 export 'backboard/backboard.dart';
 export 'ball.dart';
 export 'baseboard.dart';
@@ -27,7 +28,7 @@ export 'plunger.dart';
 export 'rocket.dart';
 export 'score_component.dart';
 export 'shapes/shapes.dart';
-export 'signpost.dart';
+export 'signpost/signpost.dart';
 export 'slingshot.dart';
 export 'spaceship_rail.dart';
 export 'spaceship_ramp.dart';

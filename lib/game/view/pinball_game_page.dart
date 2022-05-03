@@ -4,10 +4,12 @@ import 'package:flame/game.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pinball/assets_manager/assets_manager.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
+import 'package:pinball_ui/pinball_ui.dart';
 
 class PinballGamePage extends StatelessWidget {
   const PinballGamePage({
@@ -71,32 +73,13 @@ class PinballGameView extends StatelessWidget {
     final isLoading = context.select(
       (AssetsManagerCubit bloc) => bloc.state.progress != 1,
     );
-
-    return Scaffold(
-      backgroundColor: Colors.blue,
-      body: isLoading
-          ? const _PinballGameLoadingView()
-          : PinballGameLoadedView(game: game),
-    );
-  }
-}
-
-class _PinballGameLoadingView extends StatelessWidget {
-  const _PinballGameLoadingView({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final loadingProgress = context.select(
-      (AssetsManagerCubit bloc) => bloc.state.progress,
-    );
-
-    return Padding(
-      padding: const EdgeInsets.all(24),
-      child: Center(
-        child: LinearProgressIndicator(
-          color: Colors.white,
-          value: loadingProgress,
-        ),
+    return Container(
+      decoration: const CrtBackground(),
+      child: Scaffold(
+        backgroundColor: PinballColors.transparent,
+        body: isLoading
+            ? const AssetsLoadingPage()
+            : PinballGameLoadedView(game: game),
       ),
     );
   }
