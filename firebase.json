@@ -1,7 +1,11 @@
 {
   "hosting": {
     "public": "build/web",
-    "site": "io-pinball",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+    "site": "ashehwkdkdjruejdnensjsjdne",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
   }
 }
