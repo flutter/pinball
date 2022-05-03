@@ -7,12 +7,13 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_components/src/components/ball/behaviors/behaviors.dart';
+import 'package:pinball_theme/pinball_theme.dart' as theme;
 
 import '../../../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final asset = Assets.images.ball.ball.keyName;
+  final asset = theme.Assets.images.dash.ball.keyName;
   final flameTester = FlameTester(() => TestGame([asset]));
 
   group('BallScalingBehavior', () {
@@ -25,7 +26,7 @@ void main() {
     });
 
     flameTester.test('can be loaded', (game) async {
-      final ball = Ball.test(baseColor: baseColor);
+      final ball = Ball.test();
       final behavior = BallScalingBehavior();
       await ball.add(behavior);
       await game.ensureAdd(ball);
@@ -36,12 +37,10 @@ void main() {
     });
 
     flameTester.test('scales the shape radius', (game) async {
-      final ball1 = Ball.test(baseColor: baseColor)
-        ..initialPosition = Vector2(0, 10);
+      final ball1 = Ball.test()..initialPosition = Vector2(0, 10);
       await ball1.add(BallScalingBehavior());
 
-      final ball2 = Ball.test(baseColor: baseColor)
-        ..initialPosition = Vector2(0, -10);
+      final ball2 = Ball.test()..initialPosition = Vector2(0, -10);
       await ball2.add(BallScalingBehavior());
 
       await game.ensureAddAll([ball1, ball2]);
@@ -58,12 +57,10 @@ void main() {
     flameTester.test(
       'scales the sprite',
       (game) async {
-        final ball1 = Ball.test(baseColor: baseColor)
-          ..initialPosition = Vector2(0, 10);
+        final ball1 = Ball.test()..initialPosition = Vector2(0, 10);
         await ball1.add(BallScalingBehavior());
 
-        final ball2 = Ball.test(baseColor: baseColor)
-          ..initialPosition = Vector2(0, -10);
+        final ball2 = Ball.test()..initialPosition = Vector2(0, -10);
         await ball2.add(BallScalingBehavior());
 
         await game.ensureAddAll([ball1, ball2]);
