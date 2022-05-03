@@ -1,9 +1,12 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pinball/assets_manager/cubit/assets_manager_cubit.dart';
-import 'package:pinball/assets_manager/views/assets_loading_page.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:pinball/assets_manager/assets_manager.dart';
 import 'package:pinball_ui/pinball_ui.dart';
+
 import '../../helpers/helpers.dart';
+
+class _MockAssetsManagerCubit extends Mock implements AssetsManagerCubit {}
 
 void main() {
   late AssetsManagerCubit assetsManagerCubit;
@@ -13,7 +16,7 @@ void main() {
       loadables: [Future<void>.value()],
       loaded: const [],
     );
-    assetsManagerCubit = MockAssetsManagerCubit();
+    assetsManagerCubit = _MockAssetsManagerCubit();
     whenListen(
       assetsManagerCubit,
       Stream.value(initialAssetsState),
