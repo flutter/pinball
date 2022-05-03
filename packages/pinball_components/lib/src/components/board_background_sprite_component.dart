@@ -2,14 +2,17 @@
 
 import 'package:flame/components.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
-class BoardBackgroundSpriteComponent extends SpriteComponent with HasGameRef {
+class BoardBackgroundSpriteComponent extends SpriteComponent
+    with HasGameRef, ZIndex {
   BoardBackgroundSpriteComponent()
       : super(
           anchor: Anchor.center,
-          priority: RenderPriority.boardBackground,
           position: Vector2(0, -1),
-        );
+        ) {
+    zIndex = ZIndexes.boardBackground;
+  }
 
   @override
   Future<void> onLoad() async {

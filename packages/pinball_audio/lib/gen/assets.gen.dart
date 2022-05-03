@@ -5,16 +5,24 @@
 
 import 'package:flutter/widgets.dart';
 
+class $AssetsMusicGen {
+  const $AssetsMusicGen();
+
+  String get background => 'assets/music/background.mp3';
+}
+
 class $AssetsSfxGen {
   const $AssetsSfxGen();
 
-  String get google => 'assets/sfx/google.ogg';
-  String get plim => 'assets/sfx/plim.ogg';
+  String get google => 'assets/sfx/google.mp3';
+  String get ioPinballVoiceOver => 'assets/sfx/io_pinball_voice_over.mp3';
+  String get plim => 'assets/sfx/plim.mp3';
 }
 
 class Assets {
   Assets._();
 
+  static const $AssetsMusicGen music = $AssetsMusicGen();
   static const $AssetsSfxGen sfx = $AssetsSfxGen();
 }
 

@@ -3,21 +3,23 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:pinball/game/components/backbox/displays/displays.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template backbox}
 /// The [Backbox] of the pinball machine.
 /// {@endtemplate}
-class Backbox extends PositionComponent with HasGameRef {
+class Backbox extends PositionComponent with HasGameRef, ZIndex {
   /// {@macro backbox}
   Backbox()
       : super(
           position: Vector2(0, -87),
           anchor: Anchor.bottomCenter,
-          priority: RenderPriority.backboardMarquee,
           children: [
             _BackboxSpriteComponent(),
           ],
-        );
+        ) {
+    zIndex = ZIndexes.backboardMarquee;
+  }
 
   /// Puts [InitialsInputDisplay] on the [Backbox].
   Future<void> initialsInput({

@@ -3,21 +3,37 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockingjay/mockingjay.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/components/google_word/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 import '../../../../helpers/helpers.dart';
 
+class _MockGameBloc extends Mock implements GameBloc {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  final assets = [
+    Assets.images.googleWord.letter1.lit.keyName,
+    Assets.images.googleWord.letter1.dimmed.keyName,
+    Assets.images.googleWord.letter2.lit.keyName,
+    Assets.images.googleWord.letter2.dimmed.keyName,
+    Assets.images.googleWord.letter3.lit.keyName,
+    Assets.images.googleWord.letter3.dimmed.keyName,
+    Assets.images.googleWord.letter4.lit.keyName,
+    Assets.images.googleWord.letter4.dimmed.keyName,
+    Assets.images.googleWord.letter5.lit.keyName,
+    Assets.images.googleWord.letter5.dimmed.keyName,
+    Assets.images.googleWord.letter6.lit.keyName,
+    Assets.images.googleWord.letter6.dimmed.keyName,
+  ];
 
   group('GoogleWordBonusBehaviors', () {
     late GameBloc gameBloc;
 
     setUp(() {
-      gameBloc = MockGameBloc();
+      gameBloc = _MockGameBloc();
       whenListen(
         gameBloc,
         const Stream<GameState>.empty(),
@@ -28,6 +44,7 @@ void main() {
     final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
       gameBuilder: EmptyPinballTestGame.new,
       blocBuilder: () => gameBloc,
+      assets: assets,
     );
 
     flameBlocTester.testGameWidget(

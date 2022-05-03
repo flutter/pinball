@@ -34,6 +34,6 @@ class SignpostGame extends BallGame {
   @override
   void onTap() {
     super.onTap();
-    firstChild<Signpost>()!.progress();
+    firstChild<Signpost>()!.bloc.onProgressed();
   }
 }

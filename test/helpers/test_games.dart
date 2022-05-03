@@ -10,7 +10,7 @@ import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
-import 'helpers.dart';
+class _MockPinballAudio extends Mock implements PinballAudio {}
 
 class _MockAppLocalizations extends Mock implements AppLocalizations {}
 
@@ -28,7 +28,7 @@ class PinballTestGame extends PinballGame {
     AppLocalizations? l10n,
   })  : _assets = assets,
         super(
-          audio: audio ?? MockPinballAudio(),
+          audio: audio ?? _MockPinballAudio(),
           characterTheme: theme ?? const DashTheme(),
           l10n: l10n ?? _MockAppLocalizations(),
         );
@@ -51,7 +51,7 @@ class DebugPinballTestGame extends DebugPinballGame {
     AppLocalizations? l10n,
   })  : _assets = assets,
         super(
-          audio: audio ?? MockPinballAudio(),
+          audio: audio ?? _MockPinballAudio(),
           characterTheme: theme ?? const DashTheme(),
           l10n: l10n ?? _MockAppLocalizations(),
         );

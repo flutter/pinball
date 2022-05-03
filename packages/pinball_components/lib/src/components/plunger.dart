@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template plunger}
 /// [Plunger] serves as a spring, that shoots the ball on the right side of the
@@ -8,16 +9,12 @@ import 'package:pinball_components/pinball_components.dart';
 ///
 /// [Plunger] ignores gravity so the player controls its downward [pull].
 /// {@endtemplate}
-class Plunger extends BodyComponent with InitialPosition, Layered {
+class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
   /// {@macro plunger}
   Plunger({
     required this.compressionDistance,
-    // TODO(ruimiguel): set to priority +1 over LaunchRamp once all priorities
-    // are fixed.
-  }) : super(
-          priority: RenderPriority.plunger,
-          renderBody: false,
-        ) {
+  }) : super(renderBody: false) {
+    zIndex = ZIndexes.plunger;
     layer = Layer.launcher;
   }
 
@@ -71,6 +68,14 @@ class Plunger extends BodyComponent with InitialPosition, Layered {
     return body;
   }
 
+  var _pullingDownTime = 0.0;
+
+  /// Pulls the plunger down for the given amount of [seconds].
+  // ignore: use_setters_to_change_properties
+  void pullFor(double seconds) {
+    _pullingDownTime = seconds;
+  }
+
   /// Set a constant downward velocity on the [Plunger].
   void pull() {
     body.linearVelocity = Vector2(0, 7);
@@ -82,9 +87,24 @@ class Plunger extends BodyComponent with InitialPosition, Layered {
   /// The velocity's magnitude depends on how far the [Plunger] has been pulled
   /// from its original [initialPosition].
   void release() {
-    final velocity = (initialPosition.y - body.position.y) * 7;
+    _pullingDownTime = 0;
+    final velocity = (initialPosition.y - body.position.y) * 11;
     body.linearVelocity = Vector2(0, velocity);
     _spriteComponent.release();
+  }
+
+  @override
+  void update(double dt) {
+    // Ensure that we only pull or release when the time is greater than zero.
+    if (_pullingDownTime > 0) {
+      _pullingDownTime -= dt;
+      if (_pullingDownTime <= 0) {
+        release();
+      } else {
+        pull();
+      }
+    }
+    super.update(dt);
   }
 
   /// Anchors the [Plunger] to the [PrismaticJoint] that controls its vertical

@@ -17,7 +17,7 @@ class GoogleWordBonusBehavior extends Component
       // https://github.com/flame-engine/flame/pull/1538
       letter.bloc.stream.listen((_) {
         final achievedBonus = googleLetters
-            .every((letter) => letter.bloc.state == GoogleLetterState.active);
+            .every((letter) => letter.bloc.state == GoogleLetterState.lit);
 
         if (achievedBonus) {
           gameRef.audio.googleBonus();
