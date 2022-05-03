@@ -18,7 +18,7 @@ class PinballGame extends PinballForge2DGame
         FlameBloc,
         HasKeyboardHandlerComponents,
         Controls<_GameBallsController>,
-        TapDetector {
+        MultiTouchTapDetector {
   PinballGame({
     required this.characterTheme,
     required this.audio,
@@ -80,7 +80,7 @@ class PinballGame extends PinballForge2DGame
   BoardSide? focusedBoardSide;
 
   @override
-  void onTapDown(TapDownInfo info) {
+  void onTapDown(int pointerId, TapDownInfo info) {
     if (info.raw.kind == PointerDeviceKind.touch) {
       final rocket = descendants().whereType<RocketSpriteComponent>().first;
       final bounds = rocket.topLeftPosition & rocket.size;
@@ -98,19 +98,19 @@ class PinballGame extends PinballForge2DGame
       }
     }
 
-    super.onTapDown(info);
+    super.onTapDown(pointerId, info);
   }
 
   @override
-  void onTapUp(TapUpInfo info) {
+  void onTapUp(int pointerId, TapUpInfo info) {
     _moveFlippersDown();
-    super.onTapUp(info);
+    super.onTapUp(pointerId, info);
   }
 
   @override
-  void onTapCancel() {
+  void onTapCancel(int pointerId) {
     _moveFlippersDown();
-    super.onTapCancel();
+    super.onTapCancel(pointerId);
   }
 
   void _moveFlippersDown() {
@@ -181,8 +181,8 @@ class DebugPinballGame extends PinballGame with FPSCounter {
   }
 
   @override
-  void onTapUp(TapUpInfo info) {
-    super.onTapUp(info);
+  void onTapUp(int pointerId, TapUpInfo info) {
+    super.onTapUp(pointerId, info);
 
     if (info.raw.kind == PointerDeviceKind.mouse) {
       final ball = ControlledBall.debug()
