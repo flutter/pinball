@@ -18,7 +18,10 @@ enum PinballAudio {
   backgroundMusic,
 
   /// IO Pinball voice over
-  ioPinballVoiceOver
+  ioPinballVoiceOver,
+
+  /// Game over
+  gameOverVoiceOver,
 }
 
 /// Defines the contract of the creation of an [AudioPool].
