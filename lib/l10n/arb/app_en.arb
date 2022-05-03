@@ -123,5 +123,13 @@
   "footerGoogleIOText": "Google I/O",
   "@footerGoogleIOText": {
     "description": "Text shown on the footer which mentions Google I/O"
+  },
+  "loading": "Loading",
+  "@loading": {
+    "description": "Text shown to indicate loading times"
+  },
+  "ioPinball": "I/O Pinball",
+  "@ioPinball": {
+    "description": "I/O Pinball - Name of the game"
   }
 }
