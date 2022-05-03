@@ -93,7 +93,7 @@ class PinballAudio {
     ]);
   }
 
-  /// Plays a the sfx for bumpers
+  /// Plays a random bumper sfx.
   void bumper() {
     (_seed.nextBool() ? _bumperAPool : _bumperBPool).start(volume: 0.6);
   }
