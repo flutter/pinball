@@ -22,6 +22,7 @@ class $AssetsImagesGen {
   $AssetsImagesBoundaryGen get boundary => const $AssetsImagesBoundaryGen();
   $AssetsImagesDashGen get dash => const $AssetsImagesDashGen();
   $AssetsImagesDinoGen get dino => const $AssetsImagesDinoGen();
+  $AssetsImagesFlapperGen get flapper => const $AssetsImagesFlapperGen();
   $AssetsImagesFlipperGen get flipper => const $AssetsImagesFlipperGen();
   $AssetsImagesGoogleWordGen get googleWord =>
       const $AssetsImagesGoogleWordGen();
@@ -131,6 +132,22 @@ class $AssetsImagesDinoGen {
   /// File path: assets/images/dino/top-wall.png
   AssetGenImage get topWall =>
       const AssetGenImage('assets/images/dino/top-wall.png');
+}
+
+class $AssetsImagesFlapperGen {
+  const $AssetsImagesFlapperGen();
+
+  /// File path: assets/images/flapper/back-support.png
+  AssetGenImage get backSupport =>
+      const AssetGenImage('assets/images/flapper/back-support.png');
+
+  /// File path: assets/images/flapper/flap.png
+  AssetGenImage get flap =>
+      const AssetGenImage('assets/images/flapper/flap.png');
+
+  /// File path: assets/images/flapper/front-support.png
+  AssetGenImage get frontSupport =>
+      const AssetGenImage('assets/images/flapper/front-support.png');
 }
 
 class $AssetsImagesFlipperGen {

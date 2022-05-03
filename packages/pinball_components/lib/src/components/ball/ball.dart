@@ -11,8 +11,7 @@ export 'behaviors/behaviors.dart';
 /// {@template ball}
 /// A solid, [BodyType.dynamic] sphere that rolls and bounces around.
 /// {@endtemplate}
-class Ball<T extends Forge2DGame> extends BodyComponent<T>
-    with Layered, InitialPosition, ZIndex {
+class Ball extends BodyComponent with Layered, InitialPosition, ZIndex {
   /// {@macro ball}
   Ball({
     required this.baseColor,

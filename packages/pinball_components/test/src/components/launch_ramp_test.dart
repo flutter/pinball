@@ -9,7 +9,13 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('LaunchRamp', () {
-    final flameTester = FlameTester(TestGame.new);
+    TestWidgetsFlutterBinding.ensureInitialized();
+    final assets = [
+      Assets.images.launchRamp.ramp.keyName,
+      Assets.images.launchRamp.backgroundRailing.keyName,
+      Assets.images.launchRamp.foregroundRailing.keyName,
+    ];
+    final flameTester = FlameTester(() => TestGame(assets));
 
     flameTester.test('loads correctly', (game) async {
       final component = LaunchRamp();
@@ -20,9 +26,12 @@ void main() {
     flameTester.testGameWidget(
       'renders correctly',
       setUp: (game, tester) async {
+        await game.images.loadAll(assets);
         await game.ensureAdd(LaunchRamp());
         game.camera.followVector2(Vector2.zero());
         game.camera.zoom = 4.1;
+        await game.ready();
+        await tester.pump();
       },
       verify: (game, tester) async {
         await expectLater(

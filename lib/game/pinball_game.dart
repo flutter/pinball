@@ -5,7 +5,6 @@ import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
-import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
@@ -14,12 +13,12 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
-class PinballGame extends Forge2DGame
+class PinballGame extends PinballForge2DGame
     with
         FlameBloc,
         HasKeyboardHandlerComponents,
         Controls<_GameBallsController>,
-        TapDetector {
+        MultiTouchTapDetector {
   PinballGame({
     required this.characterTheme,
     required this.audio,
@@ -81,7 +80,7 @@ class PinballGame extends Forge2DGame
   BoardSide? focusedBoardSide;
 
   @override
-  void onTapDown(TapDownInfo info) {
+  void onTapDown(int pointerId, TapDownInfo info) {
     if (info.raw.kind == PointerDeviceKind.touch) {
       final rocket = descendants().whereType<RocketSpriteComponent>().first;
       final bounds = rocket.topLeftPosition & rocket.size;
@@ -99,19 +98,19 @@ class PinballGame extends Forge2DGame
       }
     }
 
-    super.onTapDown(info);
+    super.onTapDown(pointerId, info);
   }
 
   @override
-  void onTapUp(TapUpInfo info) {
+  void onTapUp(int pointerId, TapUpInfo info) {
     _moveFlippersDown();
-    super.onTapUp(info);
+    super.onTapUp(pointerId, info);
   }
 
   @override
-  void onTapCancel() {
+  void onTapCancel(int pointerId) {
     _moveFlippersDown();
-    super.onTapCancel();
+    super.onTapCancel(pointerId);
   }
 
   void _moveFlippersDown() {
@@ -182,8 +181,8 @@ class DebugPinballGame extends PinballGame with FPSCounter {
   }
 
   @override
-  void onTapUp(TapUpInfo info) {
-    super.onTapUp(info);
+  void onTapUp(int pointerId, TapUpInfo info) {
+    super.onTapUp(pointerId, info);
 
     if (info.raw.kind == PointerDeviceKind.mouse) {
       final ball = ControlledBall.debug()
