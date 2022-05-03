@@ -78,5 +78,23 @@ void main() {
         isNotNull,
       );
     });
+
+    flameTester.test(
+      'flap stops animating after animation completes',
+      (game) async {
+        final flapper = Flapper();
+        await game.ensureAdd(flapper);
+
+        final flapSpriteAnimationComponent =
+            flapper.firstChild<FlapSpriteAnimationComponent>()!;
+
+        flapSpriteAnimationComponent.playing = true;
+        game.update(
+          flapSpriteAnimationComponent.animation!.totalDuration() + 0.1,
+        );
+
+        expect(flapSpriteAnimationComponent.playing, isFalse);
+      },
+    );
   });
 }
