@@ -175,7 +175,8 @@ void main() {
 
         verify(
           () => playSingleAudio.onCall(
-              'packages/pinball_audio/${Assets.sfx.ioPinballVoiceOver}'),
+            'packages/pinball_audio/${Assets.sfx.ioPinballVoiceOver}',
+          ),
         ).called(1);
       });
     });
