@@ -20,7 +20,7 @@
   "@flipperControls": {
     "description": "Text displayed on the how to play dialog with the flipper controls"
   },
-  "tapAndHoldRocket": "Tap & Hold Rocket",
+  "tapAndHoldRocket": "Tap Rocket",
   "@tapAndHoldRocket": {
     "description": "Text displayed on the how to launch on mobile"
   },
