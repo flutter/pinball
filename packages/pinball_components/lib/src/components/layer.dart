@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 /// ignoring others. This compatibility depends on bit masking operation
 /// between layers. For more information read: https://en.wikipedia.org/wiki/Mask_(computing).
 /// {@endtemplate}
-mixin Layered<T extends Forge2DGame> on BodyComponent<T> {
+mixin Layered on BodyComponent {
   Layer _layer = Layer.all;
 
   /// {@macro layered}
