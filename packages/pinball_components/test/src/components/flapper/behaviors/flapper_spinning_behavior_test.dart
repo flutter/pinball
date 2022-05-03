@@ -1,11 +1,17 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_components/src/components/flapper/behaviors/behaviors.dart';
 
 import '../../../../helpers/helpers.dart';
+
+class _MockBall extends Mock implements Ball {}
+
+class _MockContact extends Mock implements Contact {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +43,7 @@ void main() {
           await entrance.add(behavior);
           await game.ensureAdd(flapper);
 
-          behavior.beginContact(MockBall(), MockContact());
+          behavior.beginContact(_MockBall(), _MockContact());
 
           expect(flap.playing, isTrue);
         },
