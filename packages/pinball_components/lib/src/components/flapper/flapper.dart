@@ -53,9 +53,16 @@ class FlapperEntrance extends BodyComponent with InitialPosition, Layered {
 
   @override
   Body createBody() {
-    final shape = EdgeShape()..set(Vector2.zero(), Vector2(0, 3.2));
-    final fixtureDef = FixtureDef(shape, isSensor: true);
-    final bodyDef = BodyDef(position: initialPosition, userData: this);
+    final shape = EdgeShape()
+      ..set(
+        Vector2.zero(),
+        Vector2(0, 3.2),
+      );
+    final fixtureDef = FixtureDef(
+      shape,
+      isSensor: true,
+    );
+    final bodyDef = BodyDef(position: initialPosition);
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
