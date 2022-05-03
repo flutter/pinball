@@ -7,7 +7,11 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pinball_audio/gen/assets.gen.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 
-abstract class _CreateAudioPool {
+class _MockAudioPool extends Mock implements AudioPool {}
+
+class _MockAudioCache extends Mock implements AudioCache {}
+
+class _MockCreateAudioPool extends Mock {
   Future<AudioPool> onCall(
     String sound, {
     bool? repeating,
@@ -17,29 +21,17 @@ abstract class _CreateAudioPool {
   });
 }
 
-class _MockCreateAudioPool extends Mock implements _CreateAudioPool {}
-
-abstract class _ConfigureAudioCache {
+class _MockConfigureAudioCache extends Mock {
   void onCall(AudioCache cache);
 }
 
-class _MockConfigureAudioCache extends Mock implements _ConfigureAudioCache {}
-
-abstract class _PlaySingleAudio {
+class _MockPlaySingleAudio extends Mock {
   Future<void> onCall(String url);
 }
 
-class _MockPlaySingleAudio extends Mock implements _PlaySingleAudio {}
-
-class _MockAudioPool extends Mock implements AudioPool {}
-
-class _MockAudioCache extends Mock implements AudioCache {}
-
-abstract class _LoopSingleAudio {
+class _MockLoopSingleAudio extends Mock {
   Future<void> onCall(String url);
 }
-
-class _MockLoopSingleAudio extends Mock implements _LoopSingleAudio {}
 
 abstract class _PreCacheSingleAudio {
   Future<void> onCall(String url);
@@ -49,14 +41,10 @@ class _MockPreCacheSingleAudio extends Mock implements _PreCacheSingleAudio {}
 
 void main() {
   group('PinballAudio', () {
-    test('can be instantiated', () {
-      expect(PinballAudio(), isNotNull);
-    });
-
-    late _CreateAudioPool createAudioPool;
-    late _ConfigureAudioCache configureAudioCache;
-    late _PlaySingleAudio playSingleAudio;
-    late _LoopSingleAudio loopSingleAudio;
+    late _MockCreateAudioPool createAudioPool;
+    late _MockConfigureAudioCache configureAudioCache;
+    late _MockPlaySingleAudio playSingleAudio;
+    late _MockLoopSingleAudio loopSingleAudio;
     late _PreCacheSingleAudio preCacheSingleAudio;
     late PinballAudio audio;
 
@@ -93,6 +81,10 @@ void main() {
         loopSingleAudio: loopSingleAudio.onCall,
         preCacheSingleAudio: preCacheSingleAudio.onCall,
       );
+    });
+
+    test('can be instantiated', () {
+      expect(PinballAudio(), isNotNull);
     });
 
     group('load', () {
