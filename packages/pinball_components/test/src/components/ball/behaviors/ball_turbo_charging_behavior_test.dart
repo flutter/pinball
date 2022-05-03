@@ -20,6 +20,24 @@ void main() {
       final flameTester = FlameTester(() => TestGame(assets));
       const baseColor = Color(0xFFFFFFFF);
 
+      test('can be instantiated', () {
+        expect(
+          BallTurboChargingBehavior(impulse: Vector2.zero()),
+          isA<BallTurboChargingBehavior>(),
+        );
+      });
+
+      flameTester.test('can be loaded', (game) async {
+        final ball = Ball.test(baseColor: baseColor);
+        final behavior = BallTurboChargingBehavior(impulse: Vector2.zero());
+        await ball.add(behavior);
+        await game.ensureAdd(ball);
+        expect(
+          ball.firstChild<BallTurboChargingBehavior>(),
+          equals(behavior),
+        );
+      });
+
       flameTester.test(
         'impulses the ball velocity when loaded',
         (game) async {
