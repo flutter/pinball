@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/src/components/components.dart';
 
@@ -76,8 +75,6 @@ void main() {
         'copies correctly '
         'when all arguments specified',
         () {
-          final ball = Ball(baseColor: Colors.black);
-
           const rampState = SpaceshipRampState(
             hits: 0,
           );

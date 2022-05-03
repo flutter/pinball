@@ -21,11 +21,9 @@ class RampBonusBehavior extends Component
     super.onMount();
 
     parent.bloc.stream.listen((state) {
-      print("state.hits ${state.hits}");
       final achievedOneMillionPoints = state.hits % 10 == 0;
 
       if (achievedOneMillionPoints) {
-        print("achievedOneMillionPoints");
         gameRef.read<GameBloc>().add(Scored(points: _points.value));
         gameRef.add(
           ScoreComponent(

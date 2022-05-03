@@ -214,7 +214,7 @@ void main() {
       whenListen(
         bloc,
         const Stream<SpaceshipRampState>.empty(),
-        initialState: SpaceshipRampState.initial(),
+        initialState: const SpaceshipRampState.initial(),
       );
       when(bloc.close).thenAnswer((_) async {});
 

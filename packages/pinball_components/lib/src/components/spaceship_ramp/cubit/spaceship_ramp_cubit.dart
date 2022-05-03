@@ -6,7 +6,7 @@ import 'package:equatable/equatable.dart';
 part 'spaceship_ramp_state.dart';
 
 class SpaceshipRampCubit extends Cubit<SpaceshipRampState> {
-  SpaceshipRampCubit() : super(SpaceshipRampState.initial());
+  SpaceshipRampCubit() : super(const SpaceshipRampState.initial());
 
   void onInside() {
     emit(

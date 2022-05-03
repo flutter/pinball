@@ -7,7 +7,7 @@ class SpaceshipRampState extends Equatable {
     required this.hits,
   }) : assert(hits >= 0, "Hits can't be negative");
 
-  SpaceshipRampState.initial() : this(hits: 0);
+  const SpaceshipRampState.initial() : this(hits: 0);
 
   final int hits;
 

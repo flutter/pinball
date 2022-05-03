@@ -64,7 +64,7 @@ void main() {
             whenListen(
               bloc,
               const Stream<SpaceshipRampState>.empty(),
-              initialState: SpaceshipRampState.initial(),
+              initialState: const SpaceshipRampState.initial(),
             );
 
             final rampSensor = RampScoringSensor.test();
@@ -92,7 +92,7 @@ void main() {
             whenListen(
               bloc,
               const Stream<SpaceshipRampState>.empty(),
-              initialState: SpaceshipRampState.initial(),
+              initialState: const SpaceshipRampState.initial(),
             );
 
             final rampSensor = RampScoringSensor.test();
