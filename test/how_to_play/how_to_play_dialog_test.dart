@@ -118,7 +118,7 @@ void main() {
 
         await tester.tapAt(Offset.zero);
         await tester.pumpAndSettle();
-        verify(audio.startScreenSelect).called(1);
+        verify(audio.ioPinballVoiceOver).called(1);
       },
     );
   });

@@ -74,7 +74,7 @@ class PinballAudio {
 
     await Future.wait([
       _preCacheSingleAudio(_prefixFile(Assets.sfx.google)),
-      _preCacheSingleAudio(_prefixFile(Assets.sfx.startScreenSelect)),
+      _preCacheSingleAudio(_prefixFile(Assets.sfx.ioPinballVoiceOver)),
       _preCacheSingleAudio(_prefixFile(Assets.music.background)),
     ]);
   }
@@ -90,8 +90,8 @@ class PinballAudio {
   }
 
   /// Plays the select screen sound effect
-  void startScreenSelect() {
-    _playSingleAudio(_prefixFile(Assets.sfx.startScreenSelect));
+  void ioPinballVoiceOver() {
+    _playSingleAudio(_prefixFile(Assets.sfx.ioPinballVoiceOver));
   }
 
   /// Plays the background music

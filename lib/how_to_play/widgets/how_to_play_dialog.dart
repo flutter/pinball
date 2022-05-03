@@ -57,7 +57,7 @@ Future<void> showHowToPlayDialog(BuildContext context) {
     context: context,
     builder: (_) => HowToPlayDialog(),
   ).then((_) {
-    audio.startScreenSelect();
+    audio.ioPinballVoiceOver();
   });
 }
 
