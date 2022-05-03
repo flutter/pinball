@@ -21,7 +21,7 @@ class AssetsLoadingPage extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'I/O Pinball',
+            l10n.ioPinball,
             style: headline1!.copyWith(fontSize: 80),
             textAlign: TextAlign.center,
           ),
