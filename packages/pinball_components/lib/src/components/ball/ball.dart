@@ -88,31 +88,6 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
     body.linearVelocity = impulse;
     await add(_TurboChargeSpriteAnimationComponent());
   }
-
-  @override
-  void update(double dt) {
-    super.update(dt);
-
-    _setPositionalGravity();
-  }
-
-  void _setPositionalGravity() {
-    final defaultGravity = gameRef.world.gravity.y;
-    final maxXDeviationFromCenter = BoardDimensions.bounds.width / 2;
-    const maxXGravityPercentage =
-        (1 - BoardDimensions.perspectiveShrinkFactor) / 2;
-    final xDeviationFromCenter = body.position.x;
-
-    final positionalXForce = ((xDeviationFromCenter / maxXDeviationFromCenter) *
-            maxXGravityPercentage) *
-        defaultGravity;
-
-    final positionalYForce = math.sqrt(
-      math.pow(defaultGravity, 2) - math.pow(positionalXForce, 2),
-    );
-
-    body.gravityOverride = Vector2(positionalXForce, positionalYForce);
-  }
 }
 
 class _BallSpriteComponent extends SpriteComponent with HasGameRef {
