@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pinball/l10n/l10n.dart';
+import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_ui/pinball_ui.dart';
@@ -57,7 +57,7 @@ class InitialsInputDisplay extends Component with HasGameRef {
   Future<void> onLoad() async {
     for (var i = 0; i < 3; i++) {
       await add(
-        _InitialsLetterPrompt(
+        InitialsLetterPrompt(
           position: Vector2(
             11.4 + (2.3 * i),
             -20,
@@ -80,7 +80,7 @@ class InitialsInputDisplay extends Component with HasGameRef {
 
   /// Returns the current inputed initials
   String get initials => children
-      .whereType<_InitialsLetterPrompt>()
+      .whereType<InitialsLetterPrompt>()
       .map((prompt) => prompt.char)
       .join();
 
@@ -90,7 +90,7 @@ class InitialsInputDisplay extends Component with HasGameRef {
   }
 
   bool _movePrompt(bool left) {
-    final prompts = children.whereType<_InitialsLetterPrompt>().toList();
+    final prompts = children.whereType<InitialsLetterPrompt>().toList();
 
     final current = prompts.firstWhere((prompt) => prompt.hasFocus)
       ..hasFocus = false;
@@ -103,7 +103,8 @@ class InitialsInputDisplay extends Component with HasGameRef {
   }
 }
 
-class _ScoreLabelTextComponent extends TextComponent with HasGameRef {
+class _ScoreLabelTextComponent extends TextComponent
+    with HasGameRef<PinballGame> {
   _ScoreLabelTextComponent()
       : super(
           anchor: Anchor.centerLeft,
@@ -118,7 +119,7 @@ class _ScoreLabelTextComponent extends TextComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = AppLocalizations.of(gameRef.buildContext!).score;
+    text = gameRef.l10n.score;
   }
 }
 
@@ -132,7 +133,8 @@ class _ScoreTextComponent extends TextComponent {
         );
 }
 
-class _NameLabelTextComponent extends TextComponent with HasGameRef {
+class _NameLabelTextComponent extends TextComponent
+    with HasGameRef<PinballGame> {
   _NameLabelTextComponent()
       : super(
           anchor: Anchor.center,
@@ -147,7 +149,7 @@ class _NameLabelTextComponent extends TextComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = AppLocalizations.of(gameRef.buildContext!).name;
+    text = gameRef.l10n.name;
   }
 }
 
@@ -170,8 +172,13 @@ class _CharacterIconSpriteComponent extends SpriteComponent with HasGameRef {
   }
 }
 
-class _InitialsLetterPrompt extends PositionComponent {
-  _InitialsLetterPrompt({
+/// {@template initials_input_display}
+/// Display that handles the user input on the game over view.
+/// {@endtemplate}
+@visibleForTesting
+class InitialsLetterPrompt extends PositionComponent {
+  /// {@macro initials_input_display}
+  InitialsLetterPrompt({
     required Vector2 position,
     bool hasFocus = false,
   })  : _hasFocus = hasFocus,
@@ -292,7 +299,8 @@ class _InstructionsComponent extends PositionComponent with HasGameRef {
         );
 }
 
-class _EnterInitialsTextComponent extends TextComponent with HasGameRef {
+class _EnterInitialsTextComponent extends TextComponent
+    with HasGameRef<PinballGame> {
   _EnterInitialsTextComponent()
       : super(
           anchor: Anchor.center,
@@ -303,11 +311,11 @@ class _EnterInitialsTextComponent extends TextComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = AppLocalizations.of(gameRef.buildContext!).enterInitials;
+    text = gameRef.l10n.enterInitials;
   }
 }
 
-class _ArrowsTextComponent extends TextComponent with HasGameRef {
+class _ArrowsTextComponent extends TextComponent with HasGameRef<PinballGame> {
   _ArrowsTextComponent()
       : super(
           anchor: Anchor.center,
@@ -322,11 +330,12 @@ class _ArrowsTextComponent extends TextComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = AppLocalizations.of(gameRef.buildContext!).arrows;
+    text = gameRef.l10n.arrows;
   }
 }
 
-class _AndPressTextComponent extends TextComponent with HasGameRef {
+class _AndPressTextComponent extends TextComponent
+    with HasGameRef<PinballGame> {
   _AndPressTextComponent()
       : super(
           anchor: Anchor.center,
@@ -337,11 +346,12 @@ class _AndPressTextComponent extends TextComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = AppLocalizations.of(gameRef.buildContext!).andPress;
+    text = gameRef.l10n.andPress;
   }
 }
 
-class _EnterReturnTextComponent extends TextComponent with HasGameRef {
+class _EnterReturnTextComponent extends TextComponent
+    with HasGameRef<PinballGame> {
   _EnterReturnTextComponent()
       : super(
           anchor: Anchor.center,
@@ -356,11 +366,12 @@ class _EnterReturnTextComponent extends TextComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = AppLocalizations.of(gameRef.buildContext!).enterReturn;
+    text = gameRef.l10n.enterReturn;
   }
 }
 
-class _ToSubmitTextComponent extends TextComponent with HasGameRef {
+class _ToSubmitTextComponent extends TextComponent
+    with HasGameRef<PinballGame> {
   _ToSubmitTextComponent()
       : super(
           anchor: Anchor.center,
@@ -371,6 +382,6 @@ class _ToSubmitTextComponent extends TextComponent with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = AppLocalizations.of(gameRef.buildContext!).toSubmit;
+    text = gameRef.l10n.toSubmit;
   }
 }

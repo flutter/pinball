@@ -9,6 +9,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
@@ -23,6 +24,7 @@ class PinballGame extends Forge2DGame
   PinballGame({
     required this.characterTheme,
     required this.audio,
+    required this.l10n,
   }) {
     images.prefix = '';
     controller = _GameBallsController(this);
@@ -37,6 +39,8 @@ class PinballGame extends Forge2DGame
   final CharacterTheme characterTheme;
 
   final PinballAudio audio;
+
+  final AppLocalizations l10n;
 
   late final GameFlowController gameFlowController;
 
@@ -175,9 +179,11 @@ class DebugPinballGame extends PinballGame with FPSCounter {
   DebugPinballGame({
     required CharacterTheme characterTheme,
     required PinballAudio audio,
+    required AppLocalizations l10n,
   }) : super(
           characterTheme: characterTheme,
           audio: audio,
+          l10n: l10n,
         ) {
     controller = _DebugGameBallsController(this);
   }

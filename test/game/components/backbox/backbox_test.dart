@@ -3,6 +3,7 @@
 import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pinball/game/components/backbox/displays/initials_input_display.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_theme/pinball_theme.dart' as theme;
@@ -48,5 +49,21 @@ void main() {
         },
       );
     });
+
+    tester.test(
+      'initialsInput adds InitialsInputDisplay',
+      (game) async {
+        final backbox = Backbox();
+        await game.ensureAdd(backbox);
+        await backbox.initialsInput(
+          score: 0,
+          characterIconPath: characterIconPath,
+          onSubmit: (_) {},
+        );
+        await game.ready();
+
+        expect(backbox.firstChild<InitialsInputDisplay>(), isNotNull);
+      },
+    );
   });
 }
