@@ -63,7 +63,7 @@ class CameraController extends ComponentController<FlameGame> {
 
     // Game starts with the camera focused on the [Backbox].
     component.camera
-      ..speed = 70
+      ..speed = 100
       ..snapToFocus(waitingBackboxFocus);
   }
 
