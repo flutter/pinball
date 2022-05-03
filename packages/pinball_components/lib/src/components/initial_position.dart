@@ -5,7 +5,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 ///
 /// Note: If the [initialPosition] is set after the [BodyComponent] has been
 /// loaded it will have no effect; defaulting to [Vector2.zero].
-mixin InitialPosition<T extends Forge2DGame> on BodyComponent<T> {
+mixin InitialPosition on BodyComponent {
   final Vector2 _initialPosition = Vector2.zero();
 
   set initialPosition(Vector2 value) {
