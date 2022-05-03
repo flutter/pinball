@@ -6,6 +6,7 @@ import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_audio/gen/assets.gen.dart';
 
+<<<<<<< HEAD
 /// Sounds available for play
 enum PinballAudio {
   /// Google
@@ -24,6 +25,8 @@ enum PinballAudio {
   gameOverVoiceOver,
 }
 
+=======
+>>>>>>> e6fa2ea (docs nits)
 /// Defines the contract of the creation of an [AudioPool].
 typedef CreateAudioPool = Future<AudioPool> Function(
   String sound, {
@@ -33,20 +36,16 @@ typedef CreateAudioPool = Future<AudioPool> Function(
   String? prefix,
 });
 
-/// Function that defines the contract for playing a single
-/// audio
+/// Defines the contract for playing a single audio.
 typedef PlaySingleAudio = Future<void> Function(String);
 
-/// Function that defines the contract for looping a single
-/// audio
+/// Defines the contract for looping a single audio.
 typedef LoopSingleAudio = Future<void> Function(String);
 
-/// Function that defines the contract for pre fetching an
-/// audio
+/// Defines the contract for pre fetching an audio.
 typedef PreCacheSingleAudio = Future<void> Function(String);
 
-/// Function that defines the contract for configuring
-/// an [AudioCache] instance
+/// Defines the contract for configuring an [AudioCache] instance.
 typedef ConfigureAudioCache = void Function(AudioCache);
 
 abstract class _Audio {
