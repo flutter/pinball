@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:mocktail/mocktail.dart';
@@ -69,6 +70,28 @@ class DebugPinballTestGame extends DebugPinballGame {
 
 class EmptyPinballTestGame extends PinballTestGame {
   EmptyPinballTestGame({
+    List<String>? assets,
+    PinballAudio? audio,
+    CharacterTheme? theme,
+    AppLocalizations? l10n,
+  }) : super(
+          assets: assets,
+          audio: audio,
+          theme: theme,
+          l10n: l10n ?? _MockAppLocalizations(),
+        );
+
+  @override
+  Future<void> onLoad() async {
+    if (_assets != null) {
+      await images.loadAll(_assets!);
+    }
+  }
+}
+
+class EmptyKeyboardPinballTestGame extends PinballTestGame
+    with HasKeyboardHandlerComponents {
+  EmptyKeyboardPinballTestGame({
     List<String>? assets,
     PinballAudio? audio,
     CharacterTheme? theme,

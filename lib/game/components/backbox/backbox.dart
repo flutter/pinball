@@ -18,7 +18,7 @@ class Backbox extends PositionComponent with HasGameRef, ZIndex {
             _BackboxSpriteComponent(),
           ],
         ) {
-    zIndex = ZIndexes.backboardMarquee;
+    zIndex = ZIndexes.backbox;
   }
 
   /// Puts [InitialsInputDisplay] on the [Backbox].
@@ -27,7 +27,7 @@ class Backbox extends PositionComponent with HasGameRef, ZIndex {
     required String characterIconPath,
     InitialsOnSubmit? onSubmit,
   }) async {
-    removeAll(children);
+    removeAll(children.where((child) => child is! _BackboxSpriteComponent));
     await add(
       InitialsInputDisplay(
         score: score,

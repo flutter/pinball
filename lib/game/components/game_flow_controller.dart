@@ -29,7 +29,7 @@ class GameFlowController extends ComponentController<PinballGame>
   void initialsInput() {
     // TODO(erickzanardo): implement score submission and "navigate" to the
     // next page
-    component.firstChild<Backbox>()?.initialsInput(
+    component.descendants().whereType<Backbox>().first.initialsInput(
           score: state?.score ?? 0,
           characterIconPath: component.characterTheme.leaderboardIcon.keyName,
         );

@@ -65,7 +65,8 @@ void main() {
 
         when(() => overlays.remove(any())).thenAnswer((_) => true);
 
-        when(game.firstChild<Backbox>).thenReturn(backbox);
+        when(() => game.descendants().whereType<Backbox>())
+            .thenReturn([backbox]);
         when(game.firstChild<CameraController>).thenReturn(cameraController);
         when(() => game.overlays).thenReturn(overlays);
         when(() => game.characterTheme).thenReturn(DashTheme());

@@ -111,7 +111,7 @@ abstract class ZIndexes {
 
   static const debugInfo = _above + score;
 
-  // Backboard
+  // Backbox
 
-  static const backboardMarquee = _below + outerBoundary;
+  static const backbox = _below + outerBoundary;
 }
