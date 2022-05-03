@@ -126,8 +126,8 @@ void main() {
               .onCall('packages/pinball_audio/assets/sfx/google.mp3'),
         ).called(1);
         verify(
-          () => preCacheSingleAudio
-              .onCall('packages/pinball_audio/assets/sfx/start_screen_select.mp3'),
+          () => preCacheSingleAudio.onCall(
+              'packages/pinball_audio/assets/sfx/start_screen_select.mp3'),
         ).called(1);
         verify(
           () => preCacheSingleAudio
