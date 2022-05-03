@@ -1,6 +1,7 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -8,6 +9,12 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_components/src/components/dash_nest_bumper/behaviors/behaviors.dart';
 
 import '../../../../helpers/helpers.dart';
+
+class _MockDashNestBumperCubit extends Mock implements DashNestBumperCubit {}
+
+class _MockBall extends Mock implements Ball {}
+
+class _MockContact extends Mock implements Contact {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +34,7 @@ void main() {
         'beginContact emits onBallContacted when contacts with a ball',
         (game) async {
           final behavior = DashNestBumperBallContactBehavior();
-          final bloc = MockDashNestBumperCubit();
+          final bloc = _MockDashNestBumperCubit();
           whenListen(
             bloc,
             const Stream<DashNestBumperState>.empty(),
@@ -38,7 +45,7 @@ void main() {
           await dashNestBumper.add(behavior);
           await game.ensureAdd(dashNestBumper);
 
-          behavior.beginContact(MockBall(), MockContact());
+          behavior.beginContact(_MockBall(), _MockContact());
 
           verify(dashNestBumper.bloc.onBallContacted).called(1);
         },

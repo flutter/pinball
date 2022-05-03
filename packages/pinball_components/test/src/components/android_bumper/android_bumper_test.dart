@@ -11,6 +11,8 @@ import 'package:pinball_components/src/components/bumping_behavior.dart';
 
 import '../../../helpers/helpers.dart';
 
+class _MockAndroidBumperCubit extends Mock implements AndroidBumperCubit {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
@@ -46,7 +48,7 @@ void main() {
     // https://github.com/flame-engine/flame/pull/1538
     // ignore: public_member_api_docs
     flameTester.test('closes bloc when removed', (game) async {
-      final bloc = MockAndroidBumperCubit();
+      final bloc = _MockAndroidBumperCubit();
       whenListen(
         bloc,
         const Stream<AndroidBumperState>.empty(),

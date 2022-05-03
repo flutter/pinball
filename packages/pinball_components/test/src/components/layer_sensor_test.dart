@@ -7,6 +7,12 @@ import 'package:pinball_components/pinball_components.dart';
 
 import '../../helpers/helpers.dart';
 
+class _MockBall extends Mock implements Ball {}
+
+class _MockBody extends Mock implements Body {}
+
+class _MockContact extends Mock implements Contact {}
+
 class TestLayerSensor extends LayerSensor {
   TestLayerSensor({
     required LayerEntranceOrientation orientation,
@@ -115,8 +121,8 @@ void main() {
     late Layer insideLayer;
 
     setUp(() {
-      ball = MockBall();
-      body = MockBody();
+      ball = _MockBall();
+      body = _MockBody();
       insideZIndex = 1;
       insideLayer = Layer.spaceshipEntranceRamp;
 
@@ -136,13 +142,13 @@ void main() {
 
       when(() => body.linearVelocity).thenReturn(Vector2(0, -1));
 
-      sensor.beginContact(ball, MockContact());
+      sensor.beginContact(ball, _MockContact());
       verify(() => ball.layer = insideLayer).called(1);
       verify(() => ball.zIndex = insideZIndex).called(1);
 
       when(() => ball.layer).thenReturn(insideLayer);
 
-      sensor.beginContact(ball, MockContact());
+      sensor.beginContact(ball, _MockContact());
       verify(() => ball.layer = Layer.board);
       verify(() => ball.zIndex = ZIndexes.ballOnBoard).called(1);
     });
@@ -159,13 +165,13 @@ void main() {
 
       when(() => body.linearVelocity).thenReturn(Vector2(0, 1));
 
-      sensor.beginContact(ball, MockContact());
+      sensor.beginContact(ball, _MockContact());
       verify(() => ball.layer = insideLayer).called(1);
       verify(() => ball.zIndex = insidePriority).called(1);
 
       when(() => ball.layer).thenReturn(insideLayer);
 
-      sensor.beginContact(ball, MockContact());
+      sensor.beginContact(ball, _MockContact());
       verify(() => ball.layer = Layer.board);
       verify(() => ball.zIndex = ZIndexes.ballOnBoard).called(1);
     });

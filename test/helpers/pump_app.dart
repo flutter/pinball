@@ -19,26 +19,31 @@ import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 
-import 'helpers.dart';
+class _MockAssetsManagerCubit extends Mock implements AssetsManagerCubit {}
+
+class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
+}
+
+class _MockCharacterThemeCubit extends Mock implements CharacterThemeCubit {}
+
+class _MockGameBloc extends Mock implements GameBloc {}
+
+class _MockStartGameBloc extends Mock implements StartGameBloc {}
+
+class _MockPinballAudio extends Mock implements PinballAudio {}
 
 PinballAudio _buildDefaultPinballAudio() {
-  final audio = MockPinballAudio();
-
+  final audio = _MockPinballAudio();
   when(audio.load).thenAnswer((_) => Future.value());
-
   return audio;
 }
 
-MockAssetsManagerCubit _buildDefaultAssetsManagerCubit() {
-  final cubit = MockAssetsManagerCubit();
-
+AssetsManagerCubit _buildDefaultAssetsManagerCubit() {
+  final cubit = _MockAssetsManagerCubit();
   final state = AssetsManagerState(
     loadables: [Future<void>.value()],
-    loaded: [
-      Future<void>.value(),
-    ],
+    loaded: [Future<void>.value()],
   );
-
   whenListen(
     cubit,
     Stream.value(state),
@@ -63,7 +68,7 @@ extension PumpApp on WidgetTester {
         MultiRepositoryProvider(
           providers: [
             RepositoryProvider.value(
-              value: leaderboardRepository ?? MockLeaderboardRepository(),
+              value: leaderboardRepository ?? _MockLeaderboardRepository(),
             ),
             RepositoryProvider.value(
               value: pinballAudio ?? _buildDefaultPinballAudio(),
@@ -72,13 +77,13 @@ extension PumpApp on WidgetTester {
           child: MultiBlocProvider(
             providers: [
               BlocProvider.value(
-                value: characterThemeCubit ?? MockCharacterThemeCubit(),
+                value: characterThemeCubit ?? _MockCharacterThemeCubit(),
               ),
               BlocProvider.value(
-                value: gameBloc ?? MockGameBloc(),
+                value: gameBloc ?? _MockGameBloc(),
               ),
               BlocProvider.value(
-                value: startGameBloc ?? MockStartGameBloc(),
+                value: startGameBloc ?? _MockStartGameBloc(),
               ),
               BlocProvider.value(
                 value: assetsManagerCubit ?? _buildDefaultAssetsManagerCubit(),

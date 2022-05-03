@@ -4,18 +4,20 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/start_game/bloc/start_game_bloc.dart';
 
-import '../../helpers/helpers.dart';
+class _MockPinballGame extends Mock implements PinballGame {}
+
+class _MockGameFlowController extends Mock implements GameFlowController {}
 
 void main() {
   late PinballGame pinballGame;
 
   setUp(() {
-    pinballGame = MockPinballGame();
+    pinballGame = _MockPinballGame();
 
     when(
       () => pinballGame.gameFlowController,
     ).thenReturn(
-      MockGameFlowController(),
+      _MockGameFlowController(),
     );
   });
 

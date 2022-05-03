@@ -8,6 +8,8 @@ import 'package:pinball_components/pinball_components.dart';
 
 import '../../../helpers/helpers.dart';
 
+class MockRampSensorCubit extends Mock implements RampSensorCubit {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
