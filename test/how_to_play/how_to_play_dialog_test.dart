@@ -98,7 +98,7 @@ void main() {
     });
 
     testWidgets(
-      'plays the start screen select music on dismiss',
+      'plays the I/O Pinball voice over audio on dismiss',
       (tester) async {
         final audio = _MockPinballAudio();
         await tester.pumpApp(

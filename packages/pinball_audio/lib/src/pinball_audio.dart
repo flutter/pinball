@@ -89,7 +89,7 @@ class PinballAudio {
     _playSingleAudio(_prefixFile(Assets.sfx.google));
   }
 
-  /// Plays the select screen sound effect
+  /// Plays the I/O Pinball voice over audio.
   void ioPinballVoiceOver() {
     _playSingleAudio(_prefixFile(Assets.sfx.ioPinballVoiceOver));
   }
