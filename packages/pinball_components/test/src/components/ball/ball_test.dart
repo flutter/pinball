@@ -6,18 +6,29 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/src/components/ball/behaviors/behaviors.dart';
 
-import '../../helpers/helpers.dart';
+import '../../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final flameTester = FlameTester(TestGame.new);
 
   group('Ball', () {
+    const baseColor = Color(0xFFFFFFFF);
+
+    test(
+      'can be instantiated',
+      () {
+        expect(Ball(baseColor: baseColor), isA<Ball>());
+        expect(Ball.test(baseColor: baseColor), isA<Ball>());
+      },
+    );
+
     flameTester.test(
       'loads correctly',
       (game) async {
-        final ball = Ball(baseColor: Colors.blue);
+        final ball = Ball(baseColor: baseColor);
         await game.ready();
         await game.ensureAdd(ball);
 
@@ -25,11 +36,20 @@ void main() {
       },
     );
 
+    flameTester.test('add a BallScalingBehavior', (game) async {
+      final ball = Ball(baseColor: baseColor);
+      await game.ensureAdd(ball);
+      expect(
+        ball.descendants().whereType<BallScalingBehavior>().length,
+        equals(1),
+      );
+    });
+
     group('body', () {
       flameTester.test(
         'is dynamic',
         (game) async {
-          final ball = Ball(baseColor: Colors.blue);
+          final ball = Ball(baseColor: baseColor);
           await game.ensureAdd(ball);
 
           expect(ball.body.bodyType, equals(BodyType.dynamic));
@@ -38,7 +58,7 @@ void main() {
 
       group('can be moved', () {
         flameTester.test('by its weight', (game) async {
-          final ball = Ball(baseColor: Colors.blue);
+          final ball = Ball(baseColor: baseColor);
           await game.ensureAdd(ball);
 
           game.update(1);
@@ -46,7 +66,7 @@ void main() {
         });
 
         flameTester.test('by applying velocity', (game) async {
-          final ball = Ball(baseColor: Colors.blue);
+          final ball = Ball(baseColor: baseColor);
           await game.ensureAdd(ball);
 
           ball.body.gravityScale = Vector2.zero();
@@ -61,7 +81,7 @@ void main() {
       flameTester.test(
         'exists',
         (game) async {
-          final ball = Ball(baseColor: Colors.blue);
+          final ball = Ball(baseColor: baseColor);
           await game.ensureAdd(ball);
 
           expect(ball.body.fixtures[0], isA<Fixture>());
@@ -71,7 +91,7 @@ void main() {
       flameTester.test(
         'is dense',
         (game) async {
-          final ball = Ball(baseColor: Colors.blue);
+          final ball = Ball(baseColor: baseColor);
           await game.ensureAdd(ball);
 
           final fixture = ball.body.fixtures[0];
@@ -82,7 +102,7 @@ void main() {
       flameTester.test(
         'shape is circular',
         (game) async {
-          final ball = Ball(baseColor: Colors.blue);
+          final ball = Ball(baseColor: baseColor);
           await game.ensureAdd(ball);
 
           final fixture = ball.body.fixtures[0];
@@ -94,7 +114,7 @@ void main() {
       flameTester.test(
         'has Layer.all as default filter maskBits',
         (game) async {
-          final ball = Ball(baseColor: Colors.blue);
+          final ball = Ball(baseColor: baseColor);
           await game.ready();
           await game.ensureAdd(ball);
           await game.ready();
@@ -108,7 +128,7 @@ void main() {
     group('stop', () {
       group("can't be moved", () {
         flameTester.test('by its weight', (game) async {
-          final ball = Ball(baseColor: Colors.blue);
+          final ball = Ball(baseColor: baseColor);
           await game.ensureAdd(ball);
           ball.stop();
 
@@ -116,19 +136,6 @@ void main() {
           expect(ball.body.position, equals(ball.initialPosition));
         });
       });
-
-      // TODO(allisonryan0002): delete or retest this if/when solution is added
-      // to prevent forces on a ball while stopped.
-
-      // flameTester.test('by applying velocity', (game) async {
-      //   final ball = Ball(baseColor: Colors.blue);
-      //   await game.ensureAdd(ball);
-      //   ball.stop();
-
-      //   ball.body.linearVelocity.setValues(10, 10);
-      //   game.update(1);
-      //   expect(ball.body.position, equals(ball.initialPosition));
-      // });
     });
 
     group('resume', () {
@@ -136,7 +143,7 @@ void main() {
         flameTester.test(
           'by its weight when previously stopped',
           (game) async {
-            final ball = Ball(baseColor: Colors.blue);
+            final ball = Ball(baseColor: baseColor);
             await game.ensureAdd(ball);
             ball.stop();
             ball.resume();
@@ -149,7 +156,7 @@ void main() {
         flameTester.test(
           'by applying velocity when previously stopped',
           (game) async {
-            final ball = Ball(baseColor: Colors.blue);
+            final ball = Ball(baseColor: baseColor);
             await game.ensureAdd(ball);
             ball.stop();
             ball.resume();
@@ -165,7 +172,7 @@ void main() {
 
     group('boost', () {
       flameTester.test('applies an impulse to the ball', (game) async {
-        final ball = Ball(baseColor: Colors.blue);
+        final ball = Ball(baseColor: baseColor);
         await game.ensureAdd(ball);
 
         expect(ball.body.linearVelocity, equals(Vector2.zero()));
@@ -176,7 +183,7 @@ void main() {
       });
 
       flameTester.test('adds TurboChargeSpriteAnimation', (game) async {
-        final ball = Ball(baseColor: Colors.blue);
+        final ball = Ball(baseColor: baseColor);
         await game.ensureAdd(ball);
 
         await ball.boost(Vector2.all(10));
@@ -190,7 +197,7 @@ void main() {
 
       flameTester.test('removes TurboChargeSpriteAnimation after it finishes',
           (game) async {
-        final ball = Ball(baseColor: Colors.blue);
+        final ball = Ball(baseColor: baseColor);
         await game.ensureAdd(ball);
 
         await ball.boost(Vector2.all(10));
