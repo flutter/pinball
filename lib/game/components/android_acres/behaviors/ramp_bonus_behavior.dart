@@ -36,11 +36,9 @@ class RampBonusBehavior extends Component
       sensor.bloc.stream.listen((state) {
         switch (state.type) {
           case RampSensorType.door:
-            _handleOnDoor(state.ball!);
-            break;
+            return _handleOnDoor(state.ball!);
           case RampSensorType.inside:
-            _handleOnInside(state.ball!);
-            break;
+            return _handleOnInside(state.ball!);
         }
       });
     }
