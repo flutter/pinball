@@ -19,8 +19,8 @@ void main() {
     const baseColor = Color(0xFFFFFFFF);
     test('can be instantiated', () {
       expect(
-        BallScalingBehavior(),
-        isA<BallScalingBehavior>(),
+        BallGravitatingBehavior(),
+        isA<BallGravitatingBehavior>(),
       );
     });
 
