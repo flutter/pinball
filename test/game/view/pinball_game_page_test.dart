@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:ui';
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
@@ -236,6 +238,27 @@ void main() {
         find.byType(GameHud),
         findsOneWidget,
       );
+    });
+
+    testWidgets('keep focus on game when mouse hovers over it', (tester) async {
+      await tester.pumpApp(
+        PinballGameView(game: game),
+        gameBloc: gameBloc,
+        startGameBloc: startGameBloc,
+      );
+
+      game.focusNode.unfocus();
+      await tester.pump();
+
+      expect(game.focusNode.hasFocus, isFalse);
+
+      final gesture = await tester.createGesture(kind: PointerDeviceKind.mouse);
+      await gesture.addPointer(location: Offset.zero);
+      addTearDown(gesture.removePointer);
+      await gesture.moveTo((game.size / 2).toOffset());
+      await tester.pump();
+
+      expect(game.focusNode.hasFocus, isTrue);
     });
   });
 }

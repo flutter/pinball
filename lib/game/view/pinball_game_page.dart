@@ -120,19 +120,27 @@ class PinballGameLoadedView extends StatelessWidget {
     return Stack(
       children: [
         Positioned.fill(
-          child: GameWidget<PinballGame>(
-            game: game,
-            initialActiveOverlays: const [PinballGame.playButtonOverlay],
-            overlayBuilderMap: {
-              PinballGame.playButtonOverlay: (context, game) {
-                return Positioned(
-                  bottom: 20,
-                  right: 0,
-                  left: 0,
-                  child: PlayButtonOverlay(game: game),
-                );
-              },
+          child: MouseRegion(
+            onHover: (_) {
+              if (!game.focusNode.hasFocus) {
+                game.focusNode.requestFocus();
+              }
             },
+            child: GameWidget<PinballGame>(
+              game: game,
+              initialActiveOverlays: const [PinballGame.playButtonOverlay],
+              focusNode: game.focusNode,
+              overlayBuilderMap: {
+                PinballGame.playButtonOverlay: (context, game) {
+                  return Positioned(
+                    bottom: 20,
+                    right: 0,
+                    left: 0,
+                    child: PlayButtonOverlay(game: game),
+                  );
+                },
+              },
+            ),
           ),
         ),
         // TODO(arturplaczek): add Visibility to GameHud based on StartGameBloc

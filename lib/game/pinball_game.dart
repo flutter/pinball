@@ -23,7 +23,8 @@ class PinballGame extends Forge2DGame
   PinballGame({
     required this.characterTheme,
     required this.audio,
-  }) : super(gravity: Vector2(0, 30)) {
+  })  : focusNode = FocusNode(),
+        super(gravity: Vector2(0, 30)) {
     images.prefix = '';
     controller = _GameBallsController(this);
   }
@@ -37,6 +38,8 @@ class PinballGame extends Forge2DGame
   final CharacterTheme characterTheme;
 
   final PinballAudio audio;
+
+  final FocusNode focusNode;
 
   late final GameFlowController gameFlowController;
 
