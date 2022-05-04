@@ -60,7 +60,7 @@ class SpaceshipRamp extends Component {
     Iterable<Component>? children,
   }) : super(children: children);
 
-// TODO(alestiago): Consider refactoring once the following is merged:
+  // TODO(alestiago): Consider refactoring once the following is merged:
   // https://github.com/flame-engine/flame/pull/1538
   // ignore: public_member_api_docs
   final SpaceshipRampCubit bloc;
