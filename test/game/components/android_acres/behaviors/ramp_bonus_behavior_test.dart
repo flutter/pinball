@@ -1,7 +1,6 @@
 // ignore_for_file: cascade_invocations, prefer_const_constructors
 
 import 'dart:async';
-import 'dart:io';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flame_test/flame_test.dart';
