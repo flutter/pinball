@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -99,7 +97,7 @@ class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
   void update(double dt) {
     // Ensure that we only pull or release when the time is greater than zero.
     if (_pullingDownTime > 0) {
-      _pullingDownTime -= min(dt, 1 / 60);
+      _pullingDownTime -= PinballForge2DGame.clampDt(dt);
       if (_pullingDownTime <= 0) {
         release();
       } else {
