@@ -19,7 +19,7 @@ class Ball extends BodyComponent with Layered, InitialPosition, ZIndex {
   }) : super(
           renderBody: false,
           children: [
-            _BallSpriteComponent(spriteAsset: assetPath),
+            _BallSpriteComponent(assetPath: assetPath),
             BallScalingBehavior(),
             BallGravitatingBehavior(),
           ],
@@ -78,19 +78,19 @@ class Ball extends BodyComponent with Layered, InitialPosition, ZIndex {
 
 class _BallSpriteComponent extends SpriteComponent with HasGameRef {
   _BallSpriteComponent({
-    this.spriteAsset,
+    this.assetPath,
   }) : super(
           anchor: Anchor.center,
         );
 
-  final String? spriteAsset;
+  final String? assetPath;
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
     final sprite = Sprite(
       gameRef.images
-          .fromCache(spriteAsset ?? theme.Assets.images.dash.ball.keyName),
+          .fromCache(assetPath ?? theme.Assets.images.dash.ball.keyName),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 12.5;
