@@ -65,36 +65,40 @@ class _CharacterGrid extends StatelessWidget {
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Column(
-              children: [
-                _Character(
-                  key: const Key('sparky_character_selection'),
-                  character: const SparkyTheme(),
-                  isSelected: state.isSparkySelected,
-                ),
-                const SizedBox(height: 6),
-                _Character(
-                  key: const Key('android_character_selection'),
-                  character: const AndroidTheme(),
-                  isSelected: state.isAndroidSelected,
-                ),
-              ],
+            Expanded(
+              child: Column(
+                children: [
+                  _Character(
+                    key: const Key('sparky_character_selection'),
+                    character: const SparkyTheme(),
+                    isSelected: state.isSparkySelected,
+                  ),
+                  const SizedBox(height: 6),
+                  _Character(
+                    key: const Key('android_character_selection'),
+                    character: const AndroidTheme(),
+                    isSelected: state.isAndroidSelected,
+                  ),
+                ],
+              ),
             ),
             const SizedBox(width: 6),
-            Column(
-              children: [
-                _Character(
-                  key: const Key('dash_character_selection'),
-                  character: const DashTheme(),
-                  isSelected: state.isDashSelected,
-                ),
-                const SizedBox(height: 6),
-                _Character(
-                  key: const Key('dino_character_selection'),
-                  character: const DinoTheme(),
-                  isSelected: state.isDinoSelected,
-                ),
-              ],
+            Expanded(
+              child: Column(
+                children: [
+                  _Character(
+                    key: const Key('dash_character_selection'),
+                    character: const DashTheme(),
+                    isSelected: state.isDashSelected,
+                  ),
+                  const SizedBox(height: 6),
+                  _Character(
+                    key: const Key('dino_character_selection'),
+                    character: const DinoTheme(),
+                    isSelected: state.isDinoSelected,
+                  ),
+                ],
+              ),
             ),
           ],
         );
