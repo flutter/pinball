@@ -1,11 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flame/assets.dart';
-import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -17,8 +14,6 @@ import 'package:pinball_components/pinball_components.dart' hide Assets;
 import 'package:pinball_ui/pinball_ui.dart';
 
 import '../../../helpers/helpers.dart';
-
-class _MockImages extends Mock implements Images {}
 
 class _MockGameBloc extends Mock implements GameBloc {}
 
@@ -34,15 +29,9 @@ void main() {
     );
 
     setUp(() async {
-      gameBloc = _MockGameBloc();
+      await mockFlameImages();
 
-      // TODO(arturplaczek): need to find for a better solution for loading
-      // image or use original images from BonusAnimation.loadAssets()
-      final image = await decodeImageFromList(Uint8List.fromList(fakeImage));
-      final images = _MockImages();
-      when(() => images.fromCache(any())).thenReturn(image);
-      when(() => images.load(any())).thenAnswer((_) => Future.value(image));
-      Flame.images = images;
+      gameBloc = _MockGameBloc();
 
       whenListen(
         gameBloc,
