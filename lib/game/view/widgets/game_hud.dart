@@ -27,35 +27,43 @@ class _GameHudState extends State<GameHud> {
   @override
   Widget build(BuildContext context) {
     final isGameOver = context.select((GameBloc bloc) => bloc.state.isGameOver);
-    final gameWidgetWidth = MediaQuery.of(context).size.height * 9 / 16;
-    final _width = gameWidgetWidth / 1.6;
+
+    final height = _calculateHeight(context);
 
     return _ScoreViewDecoration(
       child: SizedBox(
-        height: _width / _ratio,
-        width: _width,
+        height: height,
+        width: height * _ratio,
         child: BlocListener<GameBloc, GameState>(
           listenWhen: (previous, current) =>
               previous.bonusHistory.length != current.bonusHistory.length,
           listener: (_, __) => setState(() => showAnimation = true),
-          child: FittedBox(
-            alignment: Alignment.centerLeft,
-            child: AnimatedSwitcher(
-              duration: kThemeAnimationDuration,
-              child: showAnimation && !isGameOver
-                  ? _AnimationView(
-                      onComplete: () {
-                        if (mounted) {
-                          setState(() => showAnimation = false);
-                        }
-                      },
-                    )
-                  : const ScoreView(),
-            ),
+          child: AnimatedSwitcher(
+            duration: kThemeAnimationDuration,
+            child: showAnimation && !isGameOver
+                ? _AnimationView(
+                    onComplete: () {
+                      if (mounted) {
+                        setState(() => showAnimation = false);
+                      }
+                    },
+                  )
+                : const ScoreView(),
           ),
         ),
       ),
     );
+  }
+
+  double _calculateHeight(BuildContext context) {
+    final height = MediaQuery.of(context).size.height * 0.09;
+    if (height > 90) {
+      return 90;
+    } else if (height < 60) {
+      return 60;
+    } else {
+      return height;
+    }
   }
 }
 
