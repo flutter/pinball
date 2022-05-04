@@ -1,8 +1,7 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flame/components.dart';
-import 'package:flame/game.dart';
+import 'package:flame/input.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,6 +10,20 @@ import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 import '../helpers/helpers.dart';
+
+class _MockGameBloc extends Mock implements GameBloc {}
+
+class _MockGameState extends Mock implements GameState {}
+
+class _MockEventPosition extends Mock implements EventPosition {}
+
+class _MockTapDownDetails extends Mock implements TapDownDetails {}
+
+class _MockTapDownInfo extends Mock implements TapDownInfo {}
+
+class _MockTapUpDetails extends Mock implements TapUpDetails {}
+
+class _MockTapUpInfo extends Mock implements TapUpInfo {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -35,6 +48,7 @@ void main() {
     Assets.images.dino.animatronic.mouth.keyName,
     Assets.images.dino.animatronic.head.keyName,
     Assets.images.dino.topWall.keyName,
+    Assets.images.dino.topWallTunnel.keyName,
     Assets.images.dino.bottomWall.keyName,
     Assets.images.dash.animatronic.keyName,
     Assets.images.dash.bumper.a.active.keyName,
@@ -64,6 +78,8 @@ void main() {
     Assets.images.launchRamp.ramp.keyName,
     Assets.images.launchRamp.foregroundRailing.keyName,
     Assets.images.launchRamp.backgroundRailing.keyName,
+    Assets.images.multiball.lit.keyName,
+    Assets.images.multiball.dimmed.keyName,
     Assets.images.multiplier.x2.lit.keyName,
     Assets.images.multiplier.x2.dimmed.keyName,
     Assets.images.multiplier.x3.lit.keyName,
@@ -108,12 +124,15 @@ void main() {
     Assets.images.sparky.bumper.b.dimmed.keyName,
     Assets.images.sparky.bumper.c.lit.keyName,
     Assets.images.sparky.bumper.c.dimmed.keyName,
+    Assets.images.flapper.flap.keyName,
+    Assets.images.flapper.backSupport.keyName,
+    Assets.images.flapper.frontSupport.keyName,
   ];
 
   late GameBloc gameBloc;
 
   setUp(() {
-    gameBloc = MockGameBloc();
+    gameBloc = _MockGameBloc();
     whenListen(
       gameBloc,
       const Stream<GameState>.empty(),
@@ -179,6 +198,18 @@ void main() {
       });
 
       flameBlocTester.test(
+        'has only one Multiballs',
+        (game) async {
+          await game.ready();
+
+          expect(
+            game.descendants().whereType<Multiballs>().length,
+            equals(1),
+          );
+        },
+      );
+
+      flameBlocTester.test(
         'one GoogleWord',
         (game) async {
           await game.ready();
@@ -196,7 +227,7 @@ void main() {
             setUp: (game, tester) async {
               // TODO(ruimiguel): check why testGameWidget doesn't add any ball
               // to the game. Test needs to have no balls, so fortunately works.
-              final newState = MockGameState();
+              final newState = _MockGameState();
               when(() => newState.isGameOver).thenReturn(false);
               game.descendants().whereType<ControlledBall>().forEach(
                     (ball) => ball.controller.lost(),
@@ -204,7 +235,7 @@ void main() {
               await game.ready();
 
               expect(
-                game.controller.listenWhen(MockGameState(), newState),
+                game.controller.listenWhen(_MockGameState(), newState),
                 isTrue,
               );
             },
@@ -213,7 +244,7 @@ void main() {
           flameTester.test(
             "doesn't listen when some balls are left",
             (game) async {
-              final newState = MockGameState();
+              final newState = _MockGameState();
               when(() => newState.isGameOver).thenReturn(false);
 
               expect(
@@ -221,7 +252,7 @@ void main() {
                 greaterThan(0),
               );
               expect(
-                game.controller.listenWhen(MockGameState(), newState),
+                game.controller.listenWhen(_MockGameState(), newState),
                 isFalse,
               );
             },
@@ -232,7 +263,7 @@ void main() {
             setUp: (game, tester) async {
               // TODO(ruimiguel): check why testGameWidget doesn't add any ball
               // to the game. Test needs to have no balls, so fortunately works.
-              final newState = MockGameState();
+              final newState = _MockGameState();
               when(() => newState.isGameOver).thenReturn(true);
               game.descendants().whereType<ControlledBall>().forEach(
                     (ball) => ball.controller.lost(),
@@ -244,7 +275,7 @@ void main() {
                 isTrue,
               );
               expect(
-                game.controller.listenWhen(MockGameState(), newState),
+                game.controller.listenWhen(_MockGameState(), newState),
                 isFalse,
               );
             },
@@ -260,7 +291,7 @@ void main() {
                 final previousBalls =
                     game.descendants().whereType<ControlledBall>().toList();
 
-                game.controller.onNewState(MockGameState());
+                game.controller.onNewState(_MockGameState());
                 await game.ready();
                 final currentBalls =
                     game.descendants().whereType<ControlledBall>().toList();
@@ -280,14 +311,14 @@ void main() {
       flameTester.test('tap down moves left flipper up', (game) async {
         await game.ready();
 
-        final eventPosition = MockEventPosition();
+        final eventPosition = _MockEventPosition();
         when(() => eventPosition.game).thenReturn(Vector2.zero());
         when(() => eventPosition.widget).thenReturn(Vector2.zero());
 
-        final raw = MockTapDownDetails();
+        final raw = _MockTapDownDetails();
         when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
 
-        final tapDownEvent = MockTapDownInfo();
+        final tapDownEvent = _MockTapDownInfo();
         when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
         when(() => tapDownEvent.raw).thenReturn(raw);
 
@@ -295,7 +326,7 @@ void main() {
               (flipper) => flipper.side == BoardSide.left,
             );
 
-        game.onTapDown(tapDownEvent);
+        game.onTapDown(0, tapDownEvent);
 
         expect(flippers.first.body.linearVelocity.y, isNegative);
       });
@@ -303,14 +334,14 @@ void main() {
       flameTester.test('tap down moves right flipper up', (game) async {
         await game.ready();
 
-        final eventPosition = MockEventPosition();
+        final eventPosition = _MockEventPosition();
         when(() => eventPosition.game).thenReturn(Vector2.zero());
         when(() => eventPosition.widget).thenReturn(game.canvasSize);
 
-        final raw = MockTapDownDetails();
+        final raw = _MockTapDownDetails();
         when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
 
-        final tapDownEvent = MockTapDownInfo();
+        final tapDownEvent = _MockTapDownInfo();
         when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
         when(() => tapDownEvent.raw).thenReturn(raw);
 
@@ -318,7 +349,7 @@ void main() {
               (flipper) => flipper.side == BoardSide.right,
             );
 
-        game.onTapDown(tapDownEvent);
+        game.onTapDown(0, tapDownEvent);
 
         expect(flippers.first.body.linearVelocity.y, isNegative);
       });
@@ -326,14 +357,14 @@ void main() {
       flameTester.test('tap up moves flipper down', (game) async {
         await game.ready();
 
-        final eventPosition = MockEventPosition();
+        final eventPosition = _MockEventPosition();
         when(() => eventPosition.game).thenReturn(Vector2.zero());
         when(() => eventPosition.widget).thenReturn(Vector2.zero());
 
-        final raw = MockTapDownDetails();
+        final raw = _MockTapDownDetails();
         when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
 
-        final tapDownEvent = MockTapDownInfo();
+        final tapDownEvent = _MockTapDownInfo();
         when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
         when(() => tapDownEvent.raw).thenReturn(raw);
 
@@ -341,14 +372,14 @@ void main() {
               (flipper) => flipper.side == BoardSide.left,
             );
 
-        game.onTapDown(tapDownEvent);
+        game.onTapDown(0, tapDownEvent);
 
         expect(flippers.first.body.linearVelocity.y, isNegative);
 
-        final tapUpEvent = MockTapUpInfo();
+        final tapUpEvent = _MockTapUpInfo();
         when(() => tapUpEvent.eventPosition).thenReturn(eventPosition);
 
-        game.onTapUp(tapUpEvent);
+        game.onTapUp(0, tapUpEvent);
         await game.ready();
 
         expect(flippers.first.body.linearVelocity.y, isPositive);
@@ -357,14 +388,14 @@ void main() {
       flameTester.test('tap cancel moves flipper down', (game) async {
         await game.ready();
 
-        final eventPosition = MockEventPosition();
+        final eventPosition = _MockEventPosition();
         when(() => eventPosition.game).thenReturn(Vector2.zero());
         when(() => eventPosition.widget).thenReturn(Vector2.zero());
 
-        final raw = MockTapDownDetails();
+        final raw = _MockTapDownDetails();
         when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
 
-        final tapDownEvent = MockTapDownInfo();
+        final tapDownEvent = _MockTapDownInfo();
         when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
         when(() => tapDownEvent.raw).thenReturn(raw);
 
@@ -372,11 +403,11 @@ void main() {
               (flipper) => flipper.side == BoardSide.left,
             );
 
-        game.onTapDown(tapDownEvent);
+        game.onTapDown(0, tapDownEvent);
 
         expect(flippers.first.body.linearVelocity.y, isNegative);
 
-        game.onTapCancel();
+        game.onTapCancel(0);
 
         expect(flippers.first.body.linearVelocity.y, isPositive);
       });
@@ -386,68 +417,23 @@ void main() {
       flameTester.test('tap down moves plunger down', (game) async {
         await game.ready();
 
-        final eventPosition = MockEventPosition();
+        final eventPosition = _MockEventPosition();
         when(() => eventPosition.game).thenReturn(Vector2(40, 60));
 
-        final raw = MockTapDownDetails();
+        final raw = _MockTapDownDetails();
         when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
 
-        final tapDownEvent = MockTapDownInfo();
+        final tapDownEvent = _MockTapDownInfo();
         when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
         when(() => tapDownEvent.raw).thenReturn(raw);
 
         final plunger = game.descendants().whereType<Plunger>().first;
 
-        game.onTapDown(tapDownEvent);
+        game.onTapDown(0, tapDownEvent);
 
-        expect(plunger.body.linearVelocity.y, equals(7));
-      });
+        game.update(1);
 
-      flameTester.test('tap up releases plunger', (game) async {
-        final eventPosition = MockEventPosition();
-        when(() => eventPosition.game).thenReturn(Vector2(40, 60));
-
-        final raw = MockTapDownDetails();
-        when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
-
-        final tapDownEvent = MockTapDownInfo();
-        when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
-        when(() => tapDownEvent.raw).thenReturn(raw);
-
-        final plunger = game.descendants().whereType<Plunger>().first;
-        game.onTapDown(tapDownEvent);
-
-        expect(plunger.body.linearVelocity.y, equals(7));
-
-        final tapUpEvent = MockTapUpInfo();
-        when(() => tapUpEvent.eventPosition).thenReturn(eventPosition);
-
-        game.onTapUp(tapUpEvent);
-
-        expect(plunger.body.linearVelocity.y, equals(0));
-      });
-
-      flameTester.test('tap cancel releases plunger', (game) async {
-        await game.ready();
-
-        final eventPosition = MockEventPosition();
-        when(() => eventPosition.game).thenReturn(Vector2(40, 60));
-
-        final raw = MockTapDownDetails();
-        when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
-
-        final tapDownEvent = MockTapDownInfo();
-        when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
-        when(() => tapDownEvent.raw).thenReturn(raw);
-
-        final plunger = game.descendants().whereType<Plunger>().first;
-        game.onTapDown(tapDownEvent);
-
-        expect(plunger.body.linearVelocity.y, equals(7));
-
-        game.onTapCancel();
-
-        expect(plunger.body.linearVelocity.y, equals(0));
+        expect(plunger.body.linearVelocity.y, isPositive);
       });
     });
   });
@@ -456,20 +442,20 @@ void main() {
     debugModeFlameTester.test(
       'adds a ball on tap up',
       (game) async {
-        final eventPosition = MockEventPosition();
+        final eventPosition = _MockEventPosition();
         when(() => eventPosition.game).thenReturn(Vector2.all(10));
 
-        final raw = MockTapUpDetails();
+        final raw = _MockTapUpDetails();
         when(() => raw.kind).thenReturn(PointerDeviceKind.mouse);
 
-        final tapUpEvent = MockTapUpInfo();
+        final tapUpEvent = _MockTapUpInfo();
         when(() => tapUpEvent.eventPosition).thenReturn(eventPosition);
         when(() => tapUpEvent.raw).thenReturn(raw);
 
         final previousBalls =
             game.descendants().whereType<ControlledBall>().toList();
 
-        game.onTapUp(tapUpEvent);
+        game.onTapUp(0, tapUpEvent);
         await game.ready();
 
         expect(

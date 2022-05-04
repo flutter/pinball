@@ -1,4 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -9,11 +10,19 @@ import 'package:pinball_ui/pinball_ui.dart';
 
 import '../../helpers/helpers.dart';
 
+class _MockCharacterThemeCubit extends Mock implements CharacterThemeCubit {}
+
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   late CharacterThemeCubit characterThemeCubit;
 
-  setUp(() {
-    characterThemeCubit = MockCharacterThemeCubit();
+  setUp(() async {
+    Flame.images.prefix = '';
+    await Flame.images.load(const DashTheme().animation.keyName);
+    await Flame.images.load(const AndroidTheme().animation.keyName);
+    await Flame.images.load(const DinoTheme().animation.keyName);
+    await Flame.images.load(const SparkyTheme().animation.keyName);
+    characterThemeCubit = _MockCharacterThemeCubit();
     whenListen(
       characterThemeCubit,
       const Stream<CharacterThemeState>.empty(),
@@ -38,7 +47,7 @@ void main() {
           characterThemeCubit: characterThemeCubit,
         );
         await tester.tap(find.text('test'));
-        await tester.pumpAndSettle();
+        await tester.pump();
         expect(find.byType(CharacterSelectionDialog), findsOneWidget);
       });
     });
@@ -50,7 +59,7 @@ void main() {
         characterThemeCubit: characterThemeCubit,
       );
       await tester.tap(find.byKey(const Key('sparky_character_selection')));
-      await tester.pumpAndSettle();
+      await tester.pump();
       verify(
         () => characterThemeCubit.characterSelected(const SparkyTheme()),
       ).called(1);
@@ -68,5 +77,47 @@ void main() {
       expect(find.byType(CharacterSelectionDialog), findsNothing);
       expect(find.byType(HowToPlayDialog), findsOneWidget);
     });
+
+    testWidgets('updating the selected character updates the preview',
+        (tester) async {
+      await tester.pumpApp(_TestCharacterPreview());
+      expect(find.text('Dash'), findsOneWidget);
+      await tester.tap(find.text('test'));
+      await tester.pump();
+      expect(find.text('Android'), findsOneWidget);
+    });
   });
+}
+
+class _TestCharacterPreview extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _TestCharacterPreviewState();
+}
+
+class _TestCharacterPreviewState extends State<_TestCharacterPreview> {
+  late CharacterTheme currentCharacter;
+
+  @override
+  void initState() {
+    super.initState();
+    currentCharacter = const DashTheme();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Expanded(child: SelectedCharacter(currentCharacter: currentCharacter)),
+        TextButton(
+          onPressed: () {
+            setState(() {
+              currentCharacter = const AndroidTheme();
+            });
+          },
+          child: const Text('test'),
+        )
+      ],
+    );
+  }
 }

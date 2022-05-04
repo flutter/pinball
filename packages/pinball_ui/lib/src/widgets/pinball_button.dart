@@ -21,26 +21,29 @@ class PinballButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(Assets.images.button.pinballButton.keyName),
+    return Material(
+      color: PinballColors.transparent,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(Assets.images.button.pinballButton.keyName),
+          ),
         ),
-      ),
-      child: Center(
-        child: InkWell(
-          onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 32,
-              vertical: 16,
-            ),
-            child: Text(
-              text,
-              style: Theme.of(context)
-                  .textTheme
-                  .headline3!
-                  .copyWith(color: PinballColors.white),
+        child: Center(
+          child: InkWell(
+            onTap: onTap,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 32,
+                vertical: 16,
+              ),
+              child: Text(
+                text,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline3!
+                    .copyWith(color: PinballColors.white),
+              ),
             ),
           ),
         ),

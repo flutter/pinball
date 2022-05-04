@@ -5,23 +5,23 @@ import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
-class MockFirebaseFirestore extends Mock implements FirebaseFirestore {}
+class _MockFirebaseFirestore extends Mock implements FirebaseFirestore {}
 
-class MockCollectionReference extends Mock
+class _MockCollectionReference extends Mock
     implements CollectionReference<Map<String, dynamic>> {}
 
-class MockQuery extends Mock implements Query<Map<String, dynamic>> {}
+class _MockQuery extends Mock implements Query<Map<String, dynamic>> {}
 
-class MockQuerySnapshot extends Mock
+class _MockQuerySnapshot extends Mock
     implements QuerySnapshot<Map<String, dynamic>> {}
 
-class MockQueryDocumentSnapshot extends Mock
+class _MockQueryDocumentSnapshot extends Mock
     implements QueryDocumentSnapshot<Map<String, dynamic>> {}
 
-class MockDocumentReference extends Mock
+class _MockDocumentReference extends Mock
     implements DocumentReference<Map<String, dynamic>> {}
 
-class MockDocumentSnapshot extends Mock
+class _MockDocumentSnapshot extends Mock
     implements DocumentSnapshot<Map<String, dynamic>> {}
 
 void main() {
@@ -29,7 +29,7 @@ void main() {
     late FirebaseFirestore firestore;
 
     setUp(() {
-      firestore = MockFirebaseFirestore();
+      firestore = _MockFirebaseFirestore();
     });
 
     test('can be instantiated', () {
@@ -70,11 +70,11 @@ void main() {
 
       setUp(() {
         leaderboardRepository = LeaderboardRepository(firestore);
-        collectionReference = MockCollectionReference();
-        query = MockQuery();
-        querySnapshot = MockQuerySnapshot();
+        collectionReference = _MockCollectionReference();
+        query = _MockQuery();
+        querySnapshot = _MockQuerySnapshot();
         queryDocumentSnapshots = top10Scores.map((score) {
-          final queryDocumentSnapshot = MockQueryDocumentSnapshot();
+          final queryDocumentSnapshot = _MockQueryDocumentSnapshot();
           when(queryDocumentSnapshot.data).thenReturn(<String, dynamic>{
             'character': 'dash',
             'playerInitials': 'user$score',
@@ -119,7 +119,7 @@ void main() {
           'playerInitials': 'ABC',
           'score': 1500,
         };
-        final queryDocumentSnapshot = MockQueryDocumentSnapshot();
+        final queryDocumentSnapshot = _MockQueryDocumentSnapshot();
         when(() => querySnapshot.docs).thenReturn([queryDocumentSnapshot]);
         when(queryDocumentSnapshot.data)
             .thenReturn(top10LeaderboardDataMalformed);
@@ -156,12 +156,12 @@ void main() {
 
       setUp(() {
         leaderboardRepository = LeaderboardRepository(firestore);
-        collectionReference = MockCollectionReference();
-        documentReference = MockDocumentReference();
-        query = MockQuery();
-        querySnapshot = MockQuerySnapshot();
+        collectionReference = _MockCollectionReference();
+        documentReference = _MockDocumentReference();
+        query = _MockQuery();
+        querySnapshot = _MockQuerySnapshot();
         queryDocumentSnapshots = leaderboardScores.map((score) {
-          final queryDocumentSnapshot = MockQueryDocumentSnapshot();
+          final queryDocumentSnapshot = _MockQueryDocumentSnapshot();
           when(queryDocumentSnapshot.data).thenReturn(<String, dynamic>{
             'character': 'dash',
             'playerInitials': 'AAA',
@@ -228,7 +228,7 @@ void main() {
           5000
         ];
         final queryDocumentSnapshots = leaderboardScores.map((score) {
-          final queryDocumentSnapshot = MockQueryDocumentSnapshot();
+          final queryDocumentSnapshot = _MockQueryDocumentSnapshot();
           when(queryDocumentSnapshot.data).thenReturn(<String, dynamic>{
             'character': 'dash',
             'playerInitials': 'AAA',
@@ -248,8 +248,8 @@ void main() {
       test(
           'throws DeleteLeaderboardException '
           'when deleting scores outside the top 10 fails', () async {
-        final deleteQuery = MockQuery();
-        final deleteQuerySnapshot = MockQuerySnapshot();
+        final deleteQuery = _MockQuery();
+        final deleteQuerySnapshot = _MockQuerySnapshot();
         final newScore = LeaderboardEntryData(
           playerInitials: 'ABC',
           score: 15000,
@@ -269,7 +269,7 @@ void main() {
           5000,
         ];
         final deleteDocumentSnapshots = [5500, 5000].map((score) {
-          final queryDocumentSnapshot = MockQueryDocumentSnapshot();
+          final queryDocumentSnapshot = _MockQueryDocumentSnapshot();
           when(queryDocumentSnapshot.data).thenReturn(<String, dynamic>{
             'character': 'dash',
             'playerInitials': 'AAA',
@@ -284,7 +284,7 @@ void main() {
         when(() => deleteQuerySnapshot.docs)
             .thenReturn(deleteDocumentSnapshots);
         final queryDocumentSnapshots = leaderboardScores.map((score) {
-          final queryDocumentSnapshot = MockQueryDocumentSnapshot();
+          final queryDocumentSnapshot = _MockQueryDocumentSnapshot();
           when(queryDocumentSnapshot.data).thenReturn(<String, dynamic>{
             'character': 'dash',
             'playerInitials': 'AAA',
@@ -310,8 +310,8 @@ void main() {
           'saves the new score when there are more than 10 scores in the '
           'leaderboard and the new score is higher than the lowest top 10, and '
           'deletes the scores that are not in the top 10 anymore', () async {
-        final deleteQuery = MockQuery();
-        final deleteQuerySnapshot = MockQuerySnapshot();
+        final deleteQuery = _MockQuery();
+        final deleteQuerySnapshot = _MockQuerySnapshot();
         final newScore = LeaderboardEntryData(
           playerInitials: 'ABC',
           score: 15000,
@@ -331,7 +331,7 @@ void main() {
           5000,
         ];
         final deleteDocumentSnapshots = [5500, 5000].map((score) {
-          final queryDocumentSnapshot = MockQueryDocumentSnapshot();
+          final queryDocumentSnapshot = _MockQueryDocumentSnapshot();
           when(queryDocumentSnapshot.data).thenReturn(<String, dynamic>{
             'character': 'dash',
             'playerInitials': 'AAA',
@@ -346,7 +346,7 @@ void main() {
         when(() => deleteQuerySnapshot.docs)
             .thenReturn(deleteDocumentSnapshots);
         final queryDocumentSnapshots = leaderboardScores.map((score) {
-          final queryDocumentSnapshot = MockQueryDocumentSnapshot();
+          final queryDocumentSnapshot = _MockQueryDocumentSnapshot();
           when(queryDocumentSnapshot.data).thenReturn(<String, dynamic>{
             'character': 'dash',
             'playerInitials': 'AAA',
@@ -376,9 +376,9 @@ void main() {
       late DocumentSnapshot<Map<String, dynamic>> documentSnapshot;
 
       setUp(() async {
-        collectionReference = MockCollectionReference();
-        documentReference = MockDocumentReference();
-        documentSnapshot = MockDocumentSnapshot();
+        collectionReference = _MockCollectionReference();
+        documentReference = _MockDocumentReference();
+        documentSnapshot = _MockDocumentSnapshot();
         leaderboardRepository = LeaderboardRepository(firestore);
 
         when(() => firestore.collection('prohibitedInitials'))

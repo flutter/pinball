@@ -10,6 +10,8 @@ import 'package:pinball_components/src/components/chrome_dino/behaviors/behavior
 
 import '../../../../helpers/helpers.dart';
 
+class _MockChromeDinoCubit extends Mock implements ChromeDinoCubit {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final flameTester = FlameTester(TestGame.new);
@@ -30,7 +32,7 @@ void main() {
         'creates a RevoluteJoint',
         (game) async {
           final behavior = ChromeDinoSwivelingBehavior();
-          final bloc = MockChromeDinoCubit();
+          final bloc = _MockChromeDinoCubit();
           whenListen(
             bloc,
             const Stream<ChromeDinoState>.empty(),
@@ -52,7 +54,7 @@ void main() {
         'reverses swivel direction on each timer tick',
         (game) async {
           final behavior = ChromeDinoSwivelingBehavior();
-          final bloc = MockChromeDinoCubit();
+          final bloc = _MockChromeDinoCubit();
           whenListen(
             bloc,
             const Stream<ChromeDinoState>.empty(),
@@ -84,7 +86,7 @@ void main() {
           'and mouth is open',
           setUp: (game, tester) async {
             final behavior = ChromeDinoSwivelingBehavior();
-            final bloc = MockChromeDinoCubit();
+            final bloc = _MockChromeDinoCubit();
             whenListen(
               bloc,
               const Stream<ChromeDinoState>.empty(),
@@ -113,7 +115,7 @@ void main() {
           'and mouth is closed',
           setUp: (game, tester) async {
             final behavior = ChromeDinoSwivelingBehavior();
-            final bloc = MockChromeDinoCubit();
+            final bloc = _MockChromeDinoCubit();
             whenListen(
               bloc,
               const Stream<ChromeDinoState>.empty(),
@@ -141,7 +143,7 @@ void main() {
           'and mouth is closed',
           setUp: (game, tester) async {
             final behavior = ChromeDinoSwivelingBehavior();
-            final bloc = MockChromeDinoCubit();
+            final bloc = _MockChromeDinoCubit();
             whenListen(
               bloc,
               const Stream<ChromeDinoState>.empty(),

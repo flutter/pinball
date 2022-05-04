@@ -45,6 +45,12 @@ abstract class ZIndexes {
 
   static const launchRampForegroundRailing = _above + ballOnLaunchRamp;
 
+  static const flapperBack = _above + outerBoundary;
+
+  static const flapperFront = _above + flapper;
+
+  static const flapper = _above + ballOnLaunchRamp;
+
   static const plunger = _above + launchRamp;
 
   static const rocket = _below + bottomBoundary;
@@ -52,6 +58,8 @@ abstract class ZIndexes {
   // Dino Desert
 
   static const dinoTopWall = _above + ballOnBoard;
+
+  static const dinoTopWallTunnel = _below + ballOnBoard;
 
   static const dino = _above + dinoTopWall;
 
@@ -101,10 +109,10 @@ abstract class ZIndexes {
 
   static const androidBumper = _above + ballOnBoard;
 
-  // Score Text
+  // Score
 
-  static const scoreText = _above + spaceshipRampForegroundRailing;
+  static const score = _above + spaceshipRampForegroundRailing;
 
   // Debug information
-  static const debugInfo = _above + scoreText;
+  static const debugInfo = _above + score;
 }

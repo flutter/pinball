@@ -22,15 +22,18 @@ class $AssetsImagesGen {
   $AssetsImagesBoundaryGen get boundary => const $AssetsImagesBoundaryGen();
   $AssetsImagesDashGen get dash => const $AssetsImagesDashGen();
   $AssetsImagesDinoGen get dino => const $AssetsImagesDinoGen();
+  $AssetsImagesFlapperGen get flapper => const $AssetsImagesFlapperGen();
   $AssetsImagesFlipperGen get flipper => const $AssetsImagesFlipperGen();
   $AssetsImagesGoogleWordGen get googleWord =>
       const $AssetsImagesGoogleWordGen();
   $AssetsImagesKickerGen get kicker => const $AssetsImagesKickerGen();
   $AssetsImagesLaunchRampGen get launchRamp =>
       const $AssetsImagesLaunchRampGen();
+  $AssetsImagesMultiballGen get multiball => const $AssetsImagesMultiballGen();
   $AssetsImagesMultiplierGen get multiplier =>
       const $AssetsImagesMultiplierGen();
   $AssetsImagesPlungerGen get plunger => const $AssetsImagesPlungerGen();
+  $AssetsImagesScoreGen get score => const $AssetsImagesScoreGen();
   $AssetsImagesSignpostGen get signpost => const $AssetsImagesSignpostGen();
   $AssetsImagesSlingshotGen get slingshot => const $AssetsImagesSlingshotGen();
   $AssetsImagesSparkyGen get sparky => const $AssetsImagesSparkyGen();
@@ -122,9 +125,29 @@ class $AssetsImagesDinoGen {
   AssetGenImage get bottomWall =>
       const AssetGenImage('assets/images/dino/bottom-wall.png');
 
+  /// File path: assets/images/dino/top-wall-tunnel.png
+  AssetGenImage get topWallTunnel =>
+      const AssetGenImage('assets/images/dino/top-wall-tunnel.png');
+
   /// File path: assets/images/dino/top-wall.png
   AssetGenImage get topWall =>
       const AssetGenImage('assets/images/dino/top-wall.png');
+}
+
+class $AssetsImagesFlapperGen {
+  const $AssetsImagesFlapperGen();
+
+  /// File path: assets/images/flapper/back-support.png
+  AssetGenImage get backSupport =>
+      const AssetGenImage('assets/images/flapper/back-support.png');
+
+  /// File path: assets/images/flapper/flap.png
+  AssetGenImage get flap =>
+      const AssetGenImage('assets/images/flapper/flap.png');
+
+  /// File path: assets/images/flapper/front-support.png
+  AssetGenImage get frontSupport =>
+      const AssetGenImage('assets/images/flapper/front-support.png');
 }
 
 class $AssetsImagesFlipperGen {
@@ -179,6 +202,18 @@ class $AssetsImagesLaunchRampGen {
       const AssetGenImage('assets/images/launch_ramp/ramp.png');
 }
 
+class $AssetsImagesMultiballGen {
+  const $AssetsImagesMultiballGen();
+
+  /// File path: assets/images/multiball/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/multiball/dimmed.png');
+
+  /// File path: assets/images/multiball/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/multiball/lit.png');
+}
+
 class $AssetsImagesMultiplierGen {
   const $AssetsImagesMultiplierGen();
 
@@ -199,6 +234,26 @@ class $AssetsImagesPlungerGen {
   /// File path: assets/images/plunger/rocket.png
   AssetGenImage get rocket =>
       const AssetGenImage('assets/images/plunger/rocket.png');
+}
+
+class $AssetsImagesScoreGen {
+  const $AssetsImagesScoreGen();
+
+  /// File path: assets/images/score/five-thousand.png
+  AssetGenImage get fiveThousand =>
+      const AssetGenImage('assets/images/score/five-thousand.png');
+
+  /// File path: assets/images/score/one-million.png
+  AssetGenImage get oneMillion =>
+      const AssetGenImage('assets/images/score/one-million.png');
+
+  /// File path: assets/images/score/twenty-thousand.png
+  AssetGenImage get twentyThousand =>
+      const AssetGenImage('assets/images/score/twenty-thousand.png');
+
+  /// File path: assets/images/score/two-hundred-thousand.png
+  AssetGenImage get twoHundredThousand =>
+      const AssetGenImage('assets/images/score/two-hundred-thousand.png');
 }
 
 class $AssetsImagesSignpostGen {

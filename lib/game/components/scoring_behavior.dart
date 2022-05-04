@@ -12,23 +12,42 @@ import 'package:pinball_flame/pinball_flame.dart';
 class ScoringBehavior extends ContactBehavior with HasGameRef<PinballGame> {
   /// {@macro scoring_behavior}
   ScoringBehavior({
-    required int points,
+    required Points points,
   }) : _points = points;
 
-  final int _points;
+  final Points _points;
 
   @override
   void beginContact(Object other, Contact contact) {
     super.beginContact(other, contact);
     if (other is! Ball) return;
 
-    gameRef.read<GameBloc>().add(Scored(points: _points));
-    gameRef.audio.score();
+    gameRef.read<GameBloc>().add(Scored(points: _points.value));
     gameRef.firstChild<ZCanvasComponent>()!.add(
-          ScoreText(
-            text: _points.toString(),
+          ScoreComponent(
+            points: _points,
             position: other.body.position,
           ),
         );
+  }
+}
+
+/// {@template bumper_scoring_behavior}
+/// A specific [ScoringBehavior] used for Bumpers.
+/// In addition to its parent logic, also plays the
+/// SFX for bumpers
+/// {@endtemplate}
+class BumperScoringBehavior extends ScoringBehavior {
+  /// {@macro bumper_scoring_behavior}
+  BumperScoringBehavior({
+    required Points points,
+  }) : super(points: points);
+
+  @override
+  void beginContact(Object other, Contact contact) {
+    super.beginContact(other, contact);
+    if (other is! Ball) return;
+
+    gameRef.audio.bumper();
   }
 }

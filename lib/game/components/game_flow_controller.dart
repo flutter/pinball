@@ -39,6 +39,7 @@ class GameFlowController extends ComponentController<PinballGame>
 
   /// Puts the game on a playing state
   void start() {
+    component.audio.backgroundMusic();
     component.firstChild<Backboard>()?.waitingMode();
     component.firstChild<CameraController>()?.focusOnGame();
     component.overlays.remove(PinballGame.playButtonOverlay);
