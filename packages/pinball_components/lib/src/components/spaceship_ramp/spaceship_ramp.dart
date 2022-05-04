@@ -5,16 +5,35 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
+import 'package:pinball_components/src/components/spaceship_ramp/behavior/behavior.dart';
 import 'package:pinball_flame/pinball_flame.dart';
+
+export 'cubit/spaceship_ramp_cubit.dart';
 
 /// {@template spaceship_ramp}
 /// Ramp leading into the [AndroidSpaceship].
 /// {@endtemplate}
 class SpaceshipRamp extends Component {
   /// {@macro spaceship_ramp}
-  SpaceshipRamp()
-      : super(
+  SpaceshipRamp({
+    Iterable<Component>? children,
+  }) : this._(
+          children: children,
+          bloc: SpaceshipRampCubit(),
+        );
+
+  SpaceshipRamp._({
+    Iterable<Component>? children,
+    required this.bloc,
+  }) : super(
           children: [
+            // TODO(ruimiguel): refactor RampScoringSensor and
+            // _SpaceshipRampOpening to be in only one sensor if possible.
+            RampScoringSensor(
+              children: [
+                RampBallAscendingContactBehavior(),
+              ],
+            )..initialPosition = Vector2(1.7, -20.4),
             _SpaceshipRampOpening(
               outsidePriority: ZIndexes.ballOnBoard,
               rotation: math.pi,
@@ -34,60 +53,30 @@ class SpaceshipRamp extends Component {
             _SpaceshipRampForegroundRailing(),
             _SpaceshipRampBase()..initialPosition = Vector2(1.7, -20),
             _SpaceshipRampBackgroundRailingSpriteComponent(),
-            _SpaceshipRampArrowSpriteComponent(),
+            SpaceshipRampArrowSpriteComponent(
+              current: bloc.state.hits,
+            ),
+            ...?children,
           ],
         );
 
-  /// Forwards the sprite to the next [SpaceshipRampArrowSpriteState].
+  /// Creates a [SpaceshipRamp] without any children.
   ///
-  /// If the current state is the last one it cycles back to the initial state.
-  void progress() =>
-      firstChild<_SpaceshipRampArrowSpriteComponent>()?.progress();
-}
+  /// This can be used for testing [SpaceshipRamp]'s behaviors in isolation.
+  @visibleForTesting
+  SpaceshipRamp.test({
+    required this.bloc,
+  }) : super();
 
-/// Indicates the state of the arrow on the [SpaceshipRamp].
-@visibleForTesting
-enum SpaceshipRampArrowSpriteState {
-  /// Arrow with no dashes lit up.
-  inactive,
+  // TODO(alestiago): Consider refactoring once the following is merged:
+  // https://github.com/flame-engine/flame/pull/1538
+  // ignore: public_member_api_docs
+  final SpaceshipRampCubit bloc;
 
-  /// Arrow with 1 light lit up.
-  active1,
-
-  /// Arrow with 2 lights lit up.
-  active2,
-
-  /// Arrow with 3 lights lit up.
-  active3,
-
-  /// Arrow with 4 lights lit up.
-  active4,
-
-  /// Arrow with all 5 lights lit up.
-  active5,
-}
-
-extension on SpaceshipRampArrowSpriteState {
-  String get path {
-    switch (this) {
-      case SpaceshipRampArrowSpriteState.inactive:
-        return Assets.images.android.ramp.arrow.inactive.keyName;
-      case SpaceshipRampArrowSpriteState.active1:
-        return Assets.images.android.ramp.arrow.active1.keyName;
-      case SpaceshipRampArrowSpriteState.active2:
-        return Assets.images.android.ramp.arrow.active2.keyName;
-      case SpaceshipRampArrowSpriteState.active3:
-        return Assets.images.android.ramp.arrow.active3.keyName;
-      case SpaceshipRampArrowSpriteState.active4:
-        return Assets.images.android.ramp.arrow.active4.keyName;
-      case SpaceshipRampArrowSpriteState.active5:
-        return Assets.images.android.ramp.arrow.active5.keyName;
-    }
-  }
-
-  SpaceshipRampArrowSpriteState get next {
-    return SpaceshipRampArrowSpriteState
-        .values[(index + 1) % SpaceshipRampArrowSpriteState.values.length];
+  @override
+  void onRemove() {
+    bloc.close();
+    super.onRemove();
   }
 }
 
@@ -194,34 +183,78 @@ class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
 ///
 /// Lights progressively whenever a [Ball] gets into [SpaceshipRamp].
 /// {@endtemplate}
-class _SpaceshipRampArrowSpriteComponent
-    extends SpriteGroupComponent<SpaceshipRampArrowSpriteState>
-    with HasGameRef, ZIndex {
+@visibleForTesting
+class SpaceshipRampArrowSpriteComponent extends SpriteGroupComponent<int>
+    with HasGameRef, ParentIsA<SpaceshipRamp>, ZIndex {
   /// {@macro spaceship_ramp_arrow_sprite_component}
-  _SpaceshipRampArrowSpriteComponent()
-      : super(
+  SpaceshipRampArrowSpriteComponent({
+    required int current,
+  }) : super(
           anchor: Anchor.center,
           position: Vector2(-3.9, -56.5),
+          current: current,
         ) {
     zIndex = ZIndexes.spaceshipRampArrow;
   }
 
-  /// Changes arrow image to the next [Sprite].
-  void progress() => current = current?.next;
-
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final sprites = <SpaceshipRampArrowSpriteState, Sprite>{};
+    parent.bloc.stream.listen((state) {
+      current = state.hits % SpaceshipRampArrowSpriteState.values.length;
+    });
+
+    final sprites = <int, Sprite>{};
     this.sprites = sprites;
     for (final spriteState in SpaceshipRampArrowSpriteState.values) {
-      sprites[spriteState] = Sprite(
+      sprites[spriteState.index] = Sprite(
         gameRef.images.fromCache(spriteState.path),
       );
     }
 
-    current = SpaceshipRampArrowSpriteState.inactive;
+    current = 0;
     size = sprites[current]!.originalSize / 10;
+  }
+}
+
+/// Indicates the state of the arrow on the [SpaceshipRamp].
+@visibleForTesting
+enum SpaceshipRampArrowSpriteState {
+  /// Arrow with no dashes lit up.
+  inactive,
+
+  /// Arrow with 1 light lit up.
+  active1,
+
+  /// Arrow with 2 lights lit up.
+  active2,
+
+  /// Arrow with 3 lights lit up.
+  active3,
+
+  /// Arrow with 4 lights lit up.
+  active4,
+
+  /// Arrow with all 5 lights lit up.
+  active5,
+}
+
+extension on SpaceshipRampArrowSpriteState {
+  String get path {
+    switch (this) {
+      case SpaceshipRampArrowSpriteState.inactive:
+        return Assets.images.android.ramp.arrow.inactive.keyName;
+      case SpaceshipRampArrowSpriteState.active1:
+        return Assets.images.android.ramp.arrow.active1.keyName;
+      case SpaceshipRampArrowSpriteState.active2:
+        return Assets.images.android.ramp.arrow.active2.keyName;
+      case SpaceshipRampArrowSpriteState.active3:
+        return Assets.images.android.ramp.arrow.active3.keyName;
+      case SpaceshipRampArrowSpriteState.active4:
+        return Assets.images.android.ramp.arrow.active4.keyName;
+      case SpaceshipRampArrowSpriteState.active5:
+        return Assets.images.android.ramp.arrow.active5.keyName;
+    }
   }
 }
 
@@ -371,5 +404,49 @@ class _SpaceshipRampOpening extends LayerSensor {
         initialPosition,
         _rotation,
       );
+  }
+}
+
+/// {@template ramp_scoring_sensor}
+/// Small sensor body used to detect when a ball has entered the
+/// [SpaceshipRamp].
+/// {@endtemplate}
+class RampScoringSensor extends BodyComponent
+    with ParentIsA<SpaceshipRamp>, InitialPosition, Layered {
+  /// {@macro ramp_scoring_sensor}
+  RampScoringSensor({
+    Iterable<Component>? children,
+  }) : super(
+          children: children,
+          renderBody: false,
+        ) {
+    layer = Layer.spaceshipEntranceRamp;
+  }
+
+  /// Creates a [RampScoringSensor] without any children.
+  ///
+  @visibleForTesting
+  RampScoringSensor.test();
+
+  @override
+  Body createBody() {
+    final shape = PolygonShape()
+      ..setAsBox(
+        2.6,
+        .5,
+        initialPosition,
+        -5 * math.pi / 180,
+      );
+
+    final fixtureDef = FixtureDef(
+      shape,
+      isSensor: true,
+    );
+    final bodyDef = BodyDef(
+      position: initialPosition,
+      userData: this,
+    );
+
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
