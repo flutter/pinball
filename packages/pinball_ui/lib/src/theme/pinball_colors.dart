@@ -6,6 +6,7 @@ abstract class PinballColors {
   static const Color darkBlue = Color(0xFF0C32A4);
   static const Color yellow = Color(0xFFFFEE02);
   static const Color orange = Color(0xFFE5AB05);
+  static const Color red = Color(0xFFF03939);
   static const Color blue = Color(0xFF4B94F6);
   static const Color transparent = Color(0x00000000);
   static const Color loadingDarkRed = Color(0xFFE33B2D);
