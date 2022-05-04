@@ -7,8 +7,8 @@ import 'package:pinball_ui/pinball_ui.dart';
 /// {@template game_hud}
 /// Overlay on the [PinballGame].
 ///
-/// Displays the current [GameState.score], [GameState.rounds] and animates when
-/// the player gets a [GameBonus].
+/// Displays the current [GameState.displayScore], [GameState.rounds] and
+/// animates when the player gets a [GameBonus].
 /// {@endtemplate}
 class GameHud extends StatefulWidget {
   /// {@macro game_hud}

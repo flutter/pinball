@@ -1,19 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pinball/how_to_play/how_to_play.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/select_character/select_character.dart';
+import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 import 'package:pinball_ui/pinball_ui.dart';
-
-/// Inflates [CharacterSelectionDialog] using [showDialog].
-Future<void> showCharacterSelectionDialog(BuildContext context) {
-  return showDialog<void>(
-    context: context,
-    barrierDismissible: false,
-    builder: (_) => const CharacterSelectionDialog(),
-  );
-}
 
 /// {@template character_selection_dialog}
 /// Dialog used to select the playing character of the game.
@@ -59,7 +50,7 @@ class _SelectCharacterButton extends StatelessWidget {
     return PinballButton(
       onTap: () async {
         Navigator.of(context).pop();
-        await showHowToPlayDialog(context);
+        context.read<StartGameBloc>().add(const CharacterSelected());
       },
       text: l10n.select,
     );
