@@ -20,24 +20,24 @@ class AndroidAcres extends Component {
             AndroidSpaceship(position: Vector2(-26.5, -28.5)),
             AndroidAnimatronic(
               children: [
-                ScoringBehavior(points: Points.twoHundredThousand),
+                ScoringContactBehavior(points: Points.twoHundredThousand),
               ],
             )..initialPosition = Vector2(-26, -28.25),
             AndroidBumper.a(
               children: [
-                ScoringBehavior(points: Points.twentyThousand),
+                ScoringContactBehavior(points: Points.twentyThousand),
                 BumperNoisyBehavior(),
               ],
             )..initialPosition = Vector2(-25, 1.3),
             AndroidBumper.b(
               children: [
-                ScoringBehavior(points: Points.twentyThousand),
+                ScoringContactBehavior(points: Points.twentyThousand),
                 BumperNoisyBehavior(),
               ],
             )..initialPosition = Vector2(-32.8, -9.2),
             AndroidBumper.cow(
               children: [
-                ScoringBehavior(points: Points.twentyThousand),
+                ScoringContactBehavior(points: Points.twentyThousand),
                 BumperNoisyBehavior(),
               ],
             )..initialPosition = Vector2(-20.5, -13.8),

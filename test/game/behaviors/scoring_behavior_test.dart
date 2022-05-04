@@ -34,7 +34,7 @@ void main() {
     Assets.images.score.oneMillion.keyName,
   ];
 
-  group('ScoringBehavior', () {
+  group('ScoringContactBehavior', () {
     group('beginContact', () {
       late GameBloc bloc;
       late Ball ball;
@@ -69,12 +69,12 @@ void main() {
         'emits Scored event with points',
         setUp: (game, tester) async {
           const points = Points.oneMillion;
-          final scoringBehavior = ScoringBehavior(points: points);
-          await parent.add(scoringBehavior);
+          final behavior = ScoringContactBehavior(points: points);
+          await parent.add(behavior);
           final canvas = ZCanvasComponent(children: [parent]);
           await game.ensureAdd(canvas);
 
-          scoringBehavior.beginContact(ball, _MockContact());
+          behavior.beginContact(ball, _MockContact());
 
           verify(
             () => bloc.add(
@@ -88,12 +88,12 @@ void main() {
         "adds a ScoreComponent at Ball's position with points",
         setUp: (game, tester) async {
           const points = Points.oneMillion;
-          final scoringBehavior = ScoringBehavior(points: points);
-          await parent.add(scoringBehavior);
+          final behavior = ScoringContactBehavior(points: points);
+          await parent.add(behavior);
           final canvas = ZCanvasComponent(children: [parent]);
           await game.ensureAdd(canvas);
 
-          scoringBehavior.beginContact(ball, _MockContact());
+          behavior.beginContact(ball, _MockContact());
           await game.ready();
 
           final scoreText = game.descendants().whereType<ScoreComponent>();
