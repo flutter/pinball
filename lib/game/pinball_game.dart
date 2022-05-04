@@ -81,7 +81,7 @@ class PinballGame extends PinballForge2DGame
     await super.onLoad();
   }
 
-  BoardSide? focusedBoardSide;
+  final focusedBoardSide = <int, BoardSide>{};
 
   @override
   void onTapDown(int pointerId, TapDownInfo info) {
@@ -94,9 +94,10 @@ class PinballGame extends PinballForge2DGame
         descendants().whereType<Plunger>().single.pullFor(2);
       } else {
         final leftSide = info.eventPosition.widget.x < canvasSize.x / 2;
-        focusedBoardSide = leftSide ? BoardSide.left : BoardSide.right;
+        focusedBoardSide[pointerId] =
+            leftSide ? BoardSide.left : BoardSide.right;
         final flippers = descendants().whereType<Flipper>().where((flipper) {
-          return flipper.side == focusedBoardSide;
+          return flipper.side == focusedBoardSide[pointerId];
         });
         flippers.first.moveUp();
       }
@@ -107,23 +108,23 @@ class PinballGame extends PinballForge2DGame
 
   @override
   void onTapUp(int pointerId, TapUpInfo info) {
-    _moveFlippersDown();
+    _moveFlippersDown(pointerId);
     super.onTapUp(pointerId, info);
   }
 
   @override
   void onTapCancel(int pointerId) {
-    _moveFlippersDown();
+    _moveFlippersDown(pointerId);
     super.onTapCancel(pointerId);
   }
 
-  void _moveFlippersDown() {
-    if (focusedBoardSide != null) {
+  void _moveFlippersDown(int pointerId) {
+    if (focusedBoardSide[pointerId] != null) {
       final flippers = descendants().whereType<Flipper>().where((flipper) {
-        return flipper.side == focusedBoardSide;
+        return flipper.side == focusedBoardSide[pointerId];
       });
       flippers.first.moveDown();
-      focusedBoardSide = null;
+      focusedBoardSide.remove(pointerId);
     }
   }
 }
