@@ -83,7 +83,9 @@ void main() {
           );
 
           expect(
-              find.text(initialState.roundScore.formatScore()), findsOneWidget);
+            find.text(initialState.roundScore.formatScore()),
+            findsOneWidget,
+          );
         },
       );
 
