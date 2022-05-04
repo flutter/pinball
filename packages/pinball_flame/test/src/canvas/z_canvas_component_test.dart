@@ -17,10 +17,18 @@ class _TestCircleComponent extends CircleComponent with ZIndex {
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(FlameGame.new);
-  const goldenPrefix = 'golden/rendering/';
 
   group('ZCanvasComponent', () {
+    final flameTester = FlameTester(FlameGame.new);
+    const goldensFilePath = '../goldens/rendering/';
+
+    test('can be instantiated', () {
+      expect(
+        ZCanvasComponent(),
+        isA<ZCanvasComponent>(),
+      );
+    });
+
     flameTester.test('loads correctly', (game) async {
       final component = ZCanvasComponent();
       await game.ensureAdd(component);
@@ -43,7 +51,7 @@ void main() {
       verify: (game, tester) async {
         await expectLater(
           find.byGame<FlameGame>(),
-          matchesGoldenFile('${goldenPrefix}red_blue.png'),
+          matchesGoldenFile('${goldensFilePath}red_blue.png'),
         );
       },
     );
@@ -64,7 +72,7 @@ void main() {
       verify: (game, tester) async {
         await expectLater(
           find.byGame<FlameGame>(),
-          matchesGoldenFile('${goldenPrefix}blue_red.png'),
+          matchesGoldenFile('${goldensFilePath}blue_red.png'),
         );
       },
     );

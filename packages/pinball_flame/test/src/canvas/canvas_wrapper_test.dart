@@ -286,10 +286,11 @@ void main() {
       });
 
       test("getSaveCount calls Canvas's getSaveCount", () {
-        final canvasWrapper = CanvasWrapper().canvas = canvas;
+        final canvasWrapper = CanvasWrapper()..canvas = canvas;
         when(() => canvas.getSaveCount()).thenReturn(1);
         canvasWrapper.getSaveCount();
         verify(() => canvas.getSaveCount()).called(1);
+        expect(canvasWrapper.getSaveCount(), 1);
       });
 
       test("restore calls Canvas's restore", () {

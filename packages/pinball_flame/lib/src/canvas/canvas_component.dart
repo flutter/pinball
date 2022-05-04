@@ -11,13 +11,16 @@ typedef PaintFunction = void Function(Paint)?;
 
 /// {@template canvas}
 /// Allows listening before the rendering of [Sprite]s.
+///
+/// The existance of this is class is to hack around the fact that Flame doesn't
+/// privide a way to modify the default [Paint] before drawing a [Sprite].
 /// {@endtemplate}
 class CanvasComponent extends Component {
   /// {@macro canvas}
-  CanvasComponent(
-    PaintFunction? beforePainting,
+  CanvasComponent({
+    PaintFunction? onSpritePainted,
     Iterable<Component>? children,
-  )   : _canvas = _Canvas(beforePainting: beforePainting),
+  })  : _canvas = _Canvas(onSpritePainted: onSpritePainted),
         super(children: children);
 
   final _Canvas _canvas;
@@ -30,13 +33,13 @@ class CanvasComponent extends Component {
 }
 
 class _Canvas extends CanvasWrapper {
-  _Canvas({PaintFunction beforePainting}) : _beforePainting = beforePainting;
+  _Canvas({PaintFunction onSpritePainted}) : _onSpritePainted = onSpritePainted;
 
-  final PaintFunction _beforePainting;
+  final PaintFunction _onSpritePainted;
 
   @override
   void drawImageRect(Image image, Rect src, Rect dst, Paint paint) {
-    _beforePainting?.call(paint);
+    _onSpritePainted?.call(paint);
     super.drawImageRect(image, src, dst, paint);
   }
 }

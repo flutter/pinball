@@ -1,6 +1,9 @@
 // ignore_for_file: cascade_invocations
 
+import 'dart:ui';
+
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/gestures.dart';
@@ -281,26 +284,34 @@ void main() {
           );
         });
 
-        group(
-          'onNewState',
-          () {
-            flameTester.test(
-              'spawns a ball',
-              (game) async {
-                final previousBalls =
-                    game.descendants().whereType<ControlledBall>().toList();
+        group('onNewState', () {
+          flameTester.test(
+            'spawns a ball',
+            (game) async {
+              final previousBalls =
+                  game.descendants().whereType<ControlledBall>().toList();
 
-                game.controller.onNewState(_MockGameState());
-                await game.ready();
-                final currentBalls =
-                    game.descendants().whereType<ControlledBall>().toList();
+              game.controller.onNewState(_MockGameState());
+              await game.ready();
+              final currentBalls =
+                  game.descendants().whereType<ControlledBall>().toList();
 
-                expect(
-                  currentBalls.length,
-                  equals(previousBalls.length + 1),
-                );
-              },
-            );
+              expect(
+                currentBalls.length,
+                equals(previousBalls.length + 1),
+              );
+            },
+          );
+        });
+
+        flameTester.testGameWidget(
+          'sets FilterQuality.high to all components',
+          setUp: (game, tester) async {
+            await game.ready();
+            await tester.pump();
+            game.descendants().whereType<HasPaint>().forEach((component) {
+              expect(component.paint.filterQuality, equals(FilterQuality.high));
+            });
           },
         );
       });

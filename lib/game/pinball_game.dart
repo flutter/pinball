@@ -62,14 +62,23 @@ class PinballGame extends PinballForge2DGame
     ];
 
     await add(
-      ZCanvasComponent(
+      CanvasComponent(
+        onSpritePainted: (paint) {
+          if (paint.filterQuality != FilterQuality.high) {
+            paint.filterQuality = FilterQuality.high;
+          }
+        },
         children: [
-          ...machine,
-          ...decals,
-          ...characterAreas,
-          Drain(),
-          BottomGroup(),
-          Launcher(),
+          ZCanvasComponent(
+            children: [
+              ...machine,
+              ...decals,
+              ...characterAreas,
+              Drain(),
+              BottomGroup(),
+              Launcher(),
+            ],
+          ),
         ],
       ),
     );
@@ -158,7 +167,7 @@ class _GameBallsController extends ComponentController<PinballGame>
           plunger.body.position.x,
           plunger.body.position.y - Ball.size.y,
         );
-      component.firstChild<ZCanvasComponent>()?.add(ball);
+      component.descendants().whereType<ZCanvasComponent>().single.add(ball);
     });
   }
 }
@@ -185,9 +194,10 @@ class DebugPinballGame extends PinballGame with FPSCounter {
     super.onTapUp(pointerId, info);
 
     if (info.raw.kind == PointerDeviceKind.mouse) {
+      final canvas = descendants().whereType<ZCanvasComponent>().single;
       final ball = ControlledBall.debug()
         ..initialPosition = info.eventPosition.game;
-      firstChild<ZCanvasComponent>()?.add(ball);
+      canvas.add(ball);
     }
   }
 }
