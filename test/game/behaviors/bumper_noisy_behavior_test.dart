@@ -6,7 +6,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball_audio/pinball_audio.dart';
-import 'package:pinball_components/pinball_components.dart';
 
 import '../../helpers/helpers.dart';
 
