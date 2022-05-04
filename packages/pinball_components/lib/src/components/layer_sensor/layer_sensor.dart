@@ -1,7 +1,8 @@
-// ignore_for_file: avoid_renaming_method_parameters
+// ignore_for_file: avoid_renaming_method_parameters, public_member_api_docs
 
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/src/components/layer_sensor/behaviors/layer_filtering_behavior.dart';
 
 /// {@template layer_entrance_orientation}
 /// Determines if a layer entrance is oriented [up] or [down] on the board.
@@ -18,29 +19,33 @@ enum LayerEntranceOrientation {
 /// [BodyComponent] located at the entrance and exit of a [Layer].
 ///
 /// By default the base [layer] is set to [Layer.board] and the
-/// [_outsideZIndex] is set to [ZIndexes.ballOnBoard].
+/// [outsideZIndex] is set to [ZIndexes.ballOnBoard].
 /// {@endtemplate}
 abstract class LayerSensor extends BodyComponent
     with InitialPosition, Layered, ContactCallbacks {
   /// {@macro layer_sensor}
   LayerSensor({
-    required Layer insideLayer,
+    required this.insideLayer,
     Layer? outsideLayer,
-    required int insideZIndex,
+    required this.insideZIndex,
     int? outsideZIndex,
     required this.orientation,
-  })  : _insideLayer = insideLayer,
-        _outsideLayer = outsideLayer ?? Layer.board,
-        _insideZIndex = insideZIndex,
-        _outsideZIndex = outsideZIndex ?? ZIndexes.ballOnBoard,
-        super(renderBody: false) {
+  })  : outsideLayer = outsideLayer ?? Layer.board,
+        outsideZIndex = outsideZIndex ?? ZIndexes.ballOnBoard,
+        super(
+          renderBody: false,
+          children: [LayerFilteringBehavior()],
+        ) {
     layer = Layer.opening;
   }
 
-  final Layer _insideLayer;
-  final Layer _outsideLayer;
-  final int _insideZIndex;
-  final int _outsideZIndex;
+  final Layer insideLayer;
+
+  final Layer outsideLayer;
+
+  final int insideZIndex;
+
+  final int outsideZIndex;
 
   /// The [Shape] of the [LayerSensor].
   Shape get shape;
@@ -58,33 +63,7 @@ abstract class LayerSensor extends BodyComponent
     );
     final bodyDef = BodyDef(
       position: initialPosition,
-      userData: this,
     );
-
     return world.createBody(bodyDef)..createFixture(fixtureDef);
-  }
-
-  @override
-  void beginContact(Object other, Contact contact) {
-    super.beginContact(other, contact);
-    if (other is! Ball) return;
-
-    if (other.layer != _insideLayer) {
-      final isBallEnteringOpening =
-          (orientation == LayerEntranceOrientation.down &&
-                  other.body.linearVelocity.y < 0) ||
-              (orientation == LayerEntranceOrientation.up &&
-                  other.body.linearVelocity.y > 0);
-
-      if (isBallEnteringOpening) {
-        other
-          ..layer = _insideLayer
-          ..zIndex = _insideZIndex;
-      }
-    } else {
-      other
-        ..layer = _outsideLayer
-        ..zIndex = _outsideZIndex;
-    }
   }
 }
