@@ -20,6 +20,10 @@ void main() {
       expect(PinballColors.orange, const Color(0xFFE5AB05));
     });
 
+    test('red is 0xFFF03939', () {
+      expect(PinballColors.red, const Color(0xFFF03939));
+    });
+
     test('blue is 0xFF4B94F6', () {
       expect(PinballColors.blue, const Color(0xFF4B94F6));
     });
