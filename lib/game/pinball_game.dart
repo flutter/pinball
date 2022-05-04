@@ -163,7 +163,6 @@ class _GameBallsController extends ComponentController<PinballGame>
   }
 }
 
-// coverage:ignore-start
 class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
   DebugPinballGame({
     required CharacterTheme characterTheme,
@@ -181,7 +180,7 @@ class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await add(_PreviewLine());
+    await add(PreviewLine());
 
     await add(_DebugInformation());
   }
@@ -211,23 +210,22 @@ class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
   void onPanEnd(DragEndInfo info) {
     if (lineEnd != null) {
       final line = lineEnd! - lineStart!;
-      onLine(line);
+      _turboChargeBall(line);
       lineEnd = null;
       lineStart = null;
     }
   }
 
-  void onLine(Vector2 line) {
+  void _turboChargeBall(Vector2 line) {
     final ball = ControlledBall.debug()..initialPosition = lineStart!;
     final impulse = line * -1 * 10;
     ball.add(BallTurboChargingBehavior(impulse: impulse));
     firstChild<ZCanvasComponent>()?.add(ball);
   }
 }
-// coverage:ignore-end
 
 // coverage:ignore-start
-class _PreviewLine extends PositionComponent with HasGameRef<DebugPinballGame> {
+class PreviewLine extends PositionComponent with HasGameRef<DebugPinballGame> {
   static final _previewLinePaint = Paint()
     ..color = Colors.pink
     ..strokeWidth = 0.4
@@ -246,10 +244,8 @@ class _PreviewLine extends PositionComponent with HasGameRef<DebugPinballGame> {
     }
   }
 }
-// coverage:ignore-end
 
 // TODO(wolfenrain): investigate this CI failure.
-// coverage:ignore-start
 class _DebugInformation extends Component with HasGameRef<DebugPinballGame> {
   @override
   PositionType get positionType => PositionType.widget;
