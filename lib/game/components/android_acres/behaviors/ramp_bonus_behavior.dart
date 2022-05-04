@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -17,32 +18,45 @@ class RampBonusBehavior extends Component
   })  : _points = points,
         super();
 
+  /// Creates a [RampBonusBehavior].
+  ///
+  /// This can be used for testing [RampBonusBehavior] in isolation.
+  @visibleForTesting
+  RampBonusBehavior.test({
+    required Points points,
+    required this.subscription,
+  })  : _points = points,
+        super();
+
   final Points _points;
 
-  StreamSubscription? _subscription;
+  /// Subscription to [SpaceshipRampState] at [SpaceshipRamp].
+  @visibleForTesting
+  StreamSubscription? subscription;
 
   @override
   void onMount() {
     super.onMount();
 
-    _subscription = parent.bloc.stream.listen((state) {
-      final achievedOneMillionPoints = state.hits % 10 == 0;
+    subscription = subscription ??
+        parent.bloc.stream.listen((state) {
+          final achievedOneMillionPoints = state.hits % 10 == 0;
 
-      if (achievedOneMillionPoints) {
-        parent.add(
-          ScoringBehavior(
-            points: _points,
-            position: Vector2(0, -60),
-            duration: 2,
-          ),
-        );
-      }
-    });
+          if (achievedOneMillionPoints) {
+            parent.add(
+              ScoringBehavior(
+                points: _points,
+                position: Vector2(0, -60),
+                duration: 2,
+              ),
+            );
+          }
+        });
   }
 
   @override
   void onRemove() {
-    _subscription?.cancel();
+    subscription?.cancel();
     super.onRemove();
   }
 }

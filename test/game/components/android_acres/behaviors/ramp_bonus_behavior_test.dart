@@ -1,6 +1,7 @@
 // ignore_for_file: cascade_invocations, prefer_const_constructors
 
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flame_test/flame_test.dart';
@@ -17,6 +18,9 @@ import '../../../../helpers/helpers.dart';
 class _MockGameBloc extends Mock implements GameBloc {}
 
 class _MockSpaceshipRampCubit extends Mock implements SpaceshipRampCubit {}
+
+class _MockStreamSubscription extends Mock
+    implements StreamSubscription<SpaceshipRampState> {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -57,8 +61,7 @@ void main() {
     );
 
     flameBlocTester.testGameWidget(
-      'when hits are multiples of 10 times '
-      'add score and show score points',
+      'when hits are multiples of 10 times adds a ScoringBehavior',
       setUp: (game, tester) async {
         final bloc = _MockSpaceshipRampCubit();
         final streamController = StreamController<SpaceshipRampState>();
@@ -87,8 +90,7 @@ void main() {
     );
 
     flameBlocTester.testGameWidget(
-      'when hits are not multiple of 10 times '
-      "doesn't add score neither show score points",
+      "when hits are not multiple of 10 times doesn't add any ScoringBehavior",
       setUp: (game, tester) async {
         final bloc = _MockSpaceshipRampCubit();
         final streamController = StreamController<SpaceshipRampState>();
@@ -113,6 +115,38 @@ void main() {
         await game.ready();
 
         expect(scores.length, 0);
+      },
+    );
+
+    flameBlocTester.testGameWidget(
+      'closes subscription when removed',
+      setUp: (game, tester) async {
+        final bloc = _MockSpaceshipRampCubit();
+        whenListen(
+          bloc,
+          const Stream<SpaceshipRampState>.empty(),
+          initialState: SpaceshipRampState.initial(),
+        );
+        when(bloc.close).thenAnswer((_) async {});
+
+        final subscription = _MockStreamSubscription();
+        when(subscription.cancel).thenAnswer((_) async {});
+
+        final behavior = RampBonusBehavior.test(
+          points: shotPoints,
+          subscription: subscription,
+        );
+        final parent = SpaceshipRamp.test(
+          bloc: bloc,
+        );
+
+        await game.ensureAdd(ZCanvasComponent(children: [parent]));
+        await parent.ensureAdd(behavior);
+
+        parent.remove(behavior);
+        await game.ready();
+
+        verify(subscription.cancel).called(1);
       },
     );
   });
