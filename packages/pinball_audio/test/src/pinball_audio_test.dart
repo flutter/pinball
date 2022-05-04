@@ -97,7 +97,7 @@ void main() {
 
     group('load', () {
       test('creates the bumpers pools', () async {
-        await audio.load();
+        await Future.wait(audio.load());
 
         verify(
           () => createAudioPool.onCall(
@@ -117,7 +117,7 @@ void main() {
       });
 
       test('configures the audio cache instance', () async {
-        await audio.load();
+        await Future.wait(audio.load());
 
         verify(() => configureAudioCache.onCall(FlameAudio.audioCache))
             .called(1);
@@ -129,13 +129,13 @@ void main() {
           playSingleAudio: playSingleAudio.onCall,
           preCacheSingleAudio: preCacheSingleAudio.onCall,
         );
-        await audio.load();
+        await Future.wait(audio.load());
 
         expect(FlameAudio.audioCache.prefix, equals(''));
       });
 
       test('pre cache the assets', () async {
-        await audio.load();
+        await Future.wait(audio.load());
 
         verify(
           () => preCacheSingleAudio
@@ -184,7 +184,7 @@ void main() {
       group('when seed is true', () {
         test('plays the bumper A sound pool', () async {
           when(seed.nextBool).thenReturn(true);
-          await audio.load();
+          await Future.wait(audio.load());
           audio.bumper();
 
           verify(() => bumperAPool.start(volume: 0.6)).called(1);
@@ -194,7 +194,7 @@ void main() {
       group('when seed is false', () {
         test('plays the bumper B sound pool', () async {
           when(seed.nextBool).thenReturn(false);
-          await audio.load();
+          await Future.wait(audio.load());
           audio.bumper();
 
           verify(() => bumperBPool.start(volume: 0.6)).called(1);
@@ -204,7 +204,7 @@ void main() {
 
     group('googleBonus', () {
       test('plays the correct file', () async {
-        await audio.load();
+        await Future.wait(audio.load());
         audio.googleBonus();
 
         verify(
@@ -216,7 +216,7 @@ void main() {
 
     group('ioPinballVoiceOver', () {
       test('plays the correct file', () async {
-        await audio.load();
+        await Future.wait(audio.load());
         audio.ioPinballVoiceOver();
 
         verify(
@@ -229,7 +229,7 @@ void main() {
 
     group('backgroundMusic', () {
       test('plays the correct file', () async {
-        await audio.load();
+        await Future.wait(audio.load());
         audio.backgroundMusic();
 
         verify(

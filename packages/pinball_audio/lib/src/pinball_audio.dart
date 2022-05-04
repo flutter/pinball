@@ -71,26 +71,36 @@ class PinballAudio {
   late AudioPool _bumperBPool;
 
   /// Loads the sounds effects into the memory
-  Future<void> load() async {
+  List<Future<void>> load() {
     _configureAudioCache(FlameAudio.audioCache);
 
-    _bumperAPool = await _createAudioPool(
-      _prefixFile(Assets.sfx.bumperA),
-      maxPlayers: 4,
-      prefix: '',
-    );
-
-    _bumperBPool = await _createAudioPool(
-      _prefixFile(Assets.sfx.bumperB),
-      maxPlayers: 4,
-      prefix: '',
-    );
-
-    await Future.wait([
+    return [
+      _poolFactory(Assets.sfx.bumperA).then((pool) => _bumperAPool = pool),
+      _poolFactory(Assets.sfx.bumperB).then((pool) => _bumperBPool = pool),
       _preCacheSingleAudio(_prefixFile(Assets.sfx.google)),
       _preCacheSingleAudio(_prefixFile(Assets.sfx.ioPinballVoiceOver)),
       _preCacheSingleAudio(_prefixFile(Assets.music.background)),
-    ]);
+    ];
+  }
+
+  String _prefixFile(String file) {
+    return 'packages/pinball_audio/$file';
+  }
+
+  Future<AudioPool> _poolFactory(String file, {int maxPlayers = 4}) {
+    return _createAudioPool(
+      _prefixFile(file),
+      maxPlayers: maxPlayers,
+      prefix: '',
+    );
+  }
+
+  void _play(String file) {
+    _playSingleAudio(_prefixFile(file));
+  }
+
+  void _loop(String file) {
+    _loopSingleAudio(_prefixFile(file));
   }
 
   /// Plays a random bumper sfx.
@@ -99,21 +109,11 @@ class PinballAudio {
   }
 
   /// Plays the google word bonus
-  void googleBonus() {
-    _playSingleAudio(_prefixFile(Assets.sfx.google));
-  }
+  void googleBonus() => _play(Assets.sfx.google);
 
   /// Plays the I/O Pinball voice over audio.
-  void ioPinballVoiceOver() {
-    _playSingleAudio(_prefixFile(Assets.sfx.ioPinballVoiceOver));
-  }
+  void ioPinballVoiceOver() => _play(Assets.sfx.ioPinballVoiceOver);
 
   /// Plays the background music
-  void backgroundMusic() {
-    _loopSingleAudio(_prefixFile(Assets.music.background));
-  }
-
-  String _prefixFile(String file) {
-    return 'packages/pinball_audio/$file';
-  }
+  void backgroundMusic() => _loop(Assets.music.background);
 }

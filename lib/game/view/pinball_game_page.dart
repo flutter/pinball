@@ -53,7 +53,7 @@ class PinballGamePage extends StatelessWidget {
 
     final loadables = [
       ...game.preLoadAssets(),
-      pinballAudio.load(),
+      ...pinballAudio.load(),
       ...BonusAnimation.loadAssets(),
       ...SelectedCharacter.loadAssets(),
     ];
