@@ -54,7 +54,7 @@ class SpaceshipRamp extends Component {
             _SpaceshipRampBase()..initialPosition = Vector2(1.7, -20),
             _SpaceshipRampBackgroundRailingSpriteComponent(),
             _SpaceshipRampArrowSpriteComponent(
-              current: bloc.state.arrowState,
+              current: bloc.state.hits,
             ),
             ...?children,
           ],
@@ -77,25 +77,6 @@ class SpaceshipRamp extends Component {
   void onRemove() {
     bloc.close();
     super.onRemove();
-  }
-}
-
-extension on SpaceshipRampArrowSpriteState {
-  String get path {
-    switch (this) {
-      case SpaceshipRampArrowSpriteState.inactive:
-        return Assets.images.android.ramp.arrow.inactive.keyName;
-      case SpaceshipRampArrowSpriteState.active1:
-        return Assets.images.android.ramp.arrow.active1.keyName;
-      case SpaceshipRampArrowSpriteState.active2:
-        return Assets.images.android.ramp.arrow.active2.keyName;
-      case SpaceshipRampArrowSpriteState.active3:
-        return Assets.images.android.ramp.arrow.active3.keyName;
-      case SpaceshipRampArrowSpriteState.active4:
-        return Assets.images.android.ramp.arrow.active4.keyName;
-      case SpaceshipRampArrowSpriteState.active5:
-        return Assets.images.android.ramp.arrow.active5.keyName;
-    }
   }
 }
 
@@ -202,12 +183,11 @@ class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
 ///
 /// Lights progressively whenever a [Ball] gets into [SpaceshipRamp].
 /// {@endtemplate}
-class _SpaceshipRampArrowSpriteComponent
-    extends SpriteGroupComponent<SpaceshipRampArrowSpriteState>
+class _SpaceshipRampArrowSpriteComponent extends SpriteGroupComponent<int>
     with HasGameRef, ParentIsA<SpaceshipRamp>, ZIndex {
   /// {@macro spaceship_ramp_arrow_sprite_component}
   _SpaceshipRampArrowSpriteComponent({
-    required SpaceshipRampArrowSpriteState current,
+    required int current,
   }) : super(
           anchor: Anchor.center,
           position: Vector2(-3.9, -56.5),
@@ -219,18 +199,61 @@ class _SpaceshipRampArrowSpriteComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    parent.bloc.stream.listen((state) => current = state.arrowState);
+    parent.bloc.stream.listen((state) {
+      current = state.hits % SpaceshipRampArrowSpriteState.values.length;
+    });
 
-    final sprites = <SpaceshipRampArrowSpriteState, Sprite>{};
+    final sprites = <int, Sprite>{};
     this.sprites = sprites;
     for (final spriteState in SpaceshipRampArrowSpriteState.values) {
-      sprites[spriteState] = Sprite(
+      sprites[spriteState.index] = Sprite(
         gameRef.images.fromCache(spriteState.path),
       );
     }
 
-    current = SpaceshipRampArrowSpriteState.inactive;
+    current = 0;
     size = sprites[current]!.originalSize / 10;
+  }
+}
+
+/// Indicates the state of the arrow on the [SpaceshipRamp].
+@visibleForTesting
+enum SpaceshipRampArrowSpriteState {
+  /// Arrow with no dashes lit up.
+  inactive,
+
+  /// Arrow with 1 light lit up.
+  active1,
+
+  /// Arrow with 2 lights lit up.
+  active2,
+
+  /// Arrow with 3 lights lit up.
+  active3,
+
+  /// Arrow with 4 lights lit up.
+  active4,
+
+  /// Arrow with all 5 lights lit up.
+  active5,
+}
+
+extension on SpaceshipRampArrowSpriteState {
+  String get path {
+    switch (this) {
+      case SpaceshipRampArrowSpriteState.inactive:
+        return Assets.images.android.ramp.arrow.inactive.keyName;
+      case SpaceshipRampArrowSpriteState.active1:
+        return Assets.images.android.ramp.arrow.active1.keyName;
+      case SpaceshipRampArrowSpriteState.active2:
+        return Assets.images.android.ramp.arrow.active2.keyName;
+      case SpaceshipRampArrowSpriteState.active3:
+        return Assets.images.android.ramp.arrow.active3.keyName;
+      case SpaceshipRampArrowSpriteState.active4:
+        return Assets.images.android.ramp.arrow.active4.keyName;
+      case SpaceshipRampArrowSpriteState.active5:
+        return Assets.images.android.ramp.arrow.active5.keyName;
+    }
   }
 }
 

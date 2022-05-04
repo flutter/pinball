@@ -7,15 +7,9 @@ void main() {
   group('SpaceshipRampState', () {
     test('supports value equality', () {
       expect(
-        SpaceshipRampState(
-          hits: 0,
-          arrowState: SpaceshipRampArrowSpriteState.inactive,
-        ),
+        SpaceshipRampState(hits: 0),
         equals(
-          SpaceshipRampState(
-            hits: 0,
-            arrowState: SpaceshipRampArrowSpriteState.inactive,
-          ),
+          SpaceshipRampState(hits: 0),
         ),
       );
     });
@@ -23,10 +17,7 @@ void main() {
     group('constructor', () {
       test('can be instantiated', () {
         expect(
-          SpaceshipRampState(
-            hits: 0,
-            arrowState: SpaceshipRampArrowSpriteState.inactive,
-          ),
+          SpaceshipRampState(hits: 0),
           isNotNull,
         );
       });
@@ -37,10 +28,7 @@ void main() {
       'when hits is negative',
       () {
         expect(
-          () => SpaceshipRampState(
-            hits: -1,
-            arrowState: SpaceshipRampArrowSpriteState.inactive,
-          ),
+          () => SpaceshipRampState(hits: -1),
           throwsAssertionError,
         );
       },
@@ -51,10 +39,7 @@ void main() {
         'throws AssertionError '
         'when hits is decreased',
         () {
-          const rampState = SpaceshipRampState(
-            hits: 0,
-            arrowState: SpaceshipRampArrowSpriteState.inactive,
-          );
+          const rampState = SpaceshipRampState(hits: 0);
           expect(
             () => rampState.copyWith(hits: rampState.hits - 1),
             throwsAssertionError,
@@ -66,10 +51,7 @@ void main() {
         'copies correctly '
         'when no argument specified',
         () {
-          const rampState = SpaceshipRampState(
-            hits: 0,
-            arrowState: SpaceshipRampArrowSpriteState.inactive,
-          );
+          const rampState = SpaceshipRampState(hits: 0);
           expect(
             rampState.copyWith(),
             equals(rampState),
@@ -81,21 +63,12 @@ void main() {
         'copies correctly '
         'when all arguments specified',
         () {
-          const rampState = SpaceshipRampState(
-            hits: 0,
-            arrowState: SpaceshipRampArrowSpriteState.inactive,
-          );
-          final otherRampState = SpaceshipRampState(
-            hits: rampState.hits + 1,
-            arrowState: SpaceshipRampArrowSpriteState.active1,
-          );
+          const rampState = SpaceshipRampState(hits: 0);
+          final otherRampState = SpaceshipRampState(hits: rampState.hits + 1);
           expect(rampState, isNot(equals(otherRampState)));
 
           expect(
-            rampState.copyWith(
-              hits: rampState.hits + 1,
-              arrowState: SpaceshipRampArrowSpriteState.active1,
-            ),
+            rampState.copyWith(hits: rampState.hits + 1),
             equals(otherRampState),
           );
         },

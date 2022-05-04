@@ -106,7 +106,9 @@ void main() {
         await game.ensureAdd(parent);
         await parent.ensureAdd(behavior);
 
-        streamController.add(SpaceshipRampState(hits: 1));
+        streamController.add(
+          SpaceshipRampState(hits: 1),
+        );
 
         final scores = game.descendants().whereType<ScoreComponent>();
         await game.ready();
