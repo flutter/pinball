@@ -52,12 +52,7 @@ mixin ZIndex on Component {
 /// The [ZCanvas] allows to postpone the rendering of [ZIndex] components.
 ///
 /// You should not use this class directly.
-class ZCanvas implements Canvas {
-  /// The [Canvas] to render to.
-  ///
-  /// This is set by [ZCanvasComponent] when rendering.
-  late Canvas canvas;
-
+class ZCanvas extends _CanvasWrapper {
   final List<ZIndex> _zBuffer = [];
 
   /// Postpones the rendering of [ZIndex] component and its children.
@@ -79,6 +74,21 @@ class ZCanvas implements Canvas {
     ..clear();
 
   void _render(Component component) => component.renderTree(canvas);
+}
+
+// ignore: public_member_api_docs
+class HighFilterQualityCanvas extends _CanvasWrapper {
+  @override
+  void drawImageRect(Image image, Rect src, Rect dst, Paint paint) {
+    if (paint.filterQuality != FilterQuality.high) {
+      paint.filterQuality = FilterQuality.high;
+    }
+    super.drawImageRect(image, src, dst, paint);
+  }
+}
+
+class _CanvasWrapper implements Canvas {
+  late Canvas canvas;
 
   @override
   void clipPath(Path path, {bool doAntiAlias = true}) =>
@@ -151,7 +161,12 @@ class ZCanvas implements Canvas {
 
   @override
   void drawImageRect(Image image, Rect src, Rect dst, Paint paint) =>
-      canvas.drawImageRect(image, src, dst, paint);
+      canvas.drawImageRect(
+        image,
+        src,
+        dst,
+        paint,
+      );
 
   @override
   void drawLine(Offset p1, Offset p2, Paint paint) =>

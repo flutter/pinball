@@ -101,6 +101,14 @@ class PinballGame extends PinballForge2DGame
     super.onTapDown(pointerId, info);
   }
 
+  final HighFilterQualityCanvas _canvas = HighFilterQualityCanvas();
+
+  @override
+  void renderTree(Canvas canvas) {
+    _canvas.canvas = canvas;
+    super.renderTree(_canvas);
+  }
+
   @override
   void onTapUp(int pointerId, TapUpInfo info) {
     _moveFlippersDown();
