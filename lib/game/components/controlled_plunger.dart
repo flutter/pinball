@@ -36,7 +36,6 @@ class PlungerNoisyBehavior extends Component with HasGameRef<PinballGame> {
   @override
   void update(double dt) {
     super.update(dt);
-
     removeFromParent();
   }
 }
