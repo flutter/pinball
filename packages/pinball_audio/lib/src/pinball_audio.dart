@@ -20,8 +20,7 @@ enum PinballAudio {
   ioPinballVoiceOver
 }
 
-/// Function that defines the contract of the creation
-/// of an [AudioPool]
+/// Defines the contract of the creation of an [AudioPool].
 typedef CreateAudioPool = Future<AudioPool> Function(
   String sound, {
   bool? repeating,
