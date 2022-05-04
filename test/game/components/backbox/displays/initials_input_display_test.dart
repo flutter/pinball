@@ -54,7 +54,6 @@ void main() {
     flameTester.test(
       'loads correctly',
       (game) async {
-        await game.images.loadAll(assets);
         final initialsInputDisplay = InitialsInputDisplay(
           score: 0,
           characterIconPath: characterIconPath,
@@ -69,6 +68,7 @@ void main() {
     flameTester.testGameWidget(
       'can change the initials',
       setUp: (game, tester) async {
+        await game.images.loadAll(assets);
         final initialsInputDisplay = InitialsInputDisplay(
           score: 1000,
           characterIconPath: characterIconPath,
@@ -110,6 +110,7 @@ void main() {
     flameTester.testGameWidget(
       'submits the initials',
       setUp: (game, tester) async {
+        await game.images.loadAll(assets);
         final initialsInputDisplay = InitialsInputDisplay(
           score: 1000,
           characterIconPath: characterIconPath,
@@ -131,6 +132,7 @@ void main() {
       flameTester.testGameWidget(
         'cycles the char up and down when it has focus',
         setUp: (game, tester) async {
+          await game.images.loadAll(assets);
           await game.ensureAdd(
             InitialsLetterPrompt(hasFocus: true, position: Vector2.zero()),
           );
@@ -152,6 +154,7 @@ void main() {
       flameTester.testGameWidget(
         "does nothing when it doesn't have focus",
         setUp: (game, tester) async {
+          await game.images.loadAll(assets);
           await game.ensureAdd(
             InitialsLetterPrompt(position: Vector2.zero()),
           );
@@ -167,6 +170,7 @@ void main() {
       flameTester.testGameWidget(
         'blinks the prompt when it has the focus',
         setUp: (game, tester) async {
+          await game.images.loadAll(assets);
           await game.ensureAdd(
             InitialsLetterPrompt(position: Vector2.zero(), hasFocus: true),
           );
