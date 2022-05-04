@@ -139,19 +139,16 @@ void main() {
     );
   });
 
-  final flameTester = FlameTester(
-    () => PinballTestGame(assets: assets),
-  );
-  final debugModeFlameTester = FlameTester(
-    () => DebugPinballTestGame(assets: assets),
-  );
-
-  final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
-    gameBuilder: () => PinballTestGame(assets: assets),
-    blocBuilder: () => gameBloc,
-  );
-
   group('PinballGame', () {
+    final flameTester = FlameTester(
+      () => PinballTestGame(assets: assets),
+    );
+
+    final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
+      gameBuilder: () => PinballTestGame(assets: assets),
+      blocBuilder: () => gameBloc,
+    );
+
     group('components', () {
       // TODO(alestiago): tests that Blueprints get added once the Blueprint
       // class is removed.
@@ -245,6 +242,8 @@ void main() {
             (game) async {
               final newState = _MockGameState();
               when(() => newState.isGameOver).thenReturn(false);
+
+              await game.ready();
 
               expect(
                 game.descendants().whereType<ControlledBall>().length,
@@ -438,6 +437,10 @@ void main() {
   });
 
   group('DebugPinballGame', () {
+    final debugModeFlameTester = FlameTester(
+      () => DebugPinballTestGame(assets: assets),
+    );
+
     debugModeFlameTester.test(
       'adds a ball on tap up',
       (game) async {
@@ -451,6 +454,7 @@ void main() {
         when(() => tapUpEvent.eventPosition).thenReturn(eventPosition);
         when(() => tapUpEvent.raw).thenReturn(raw);
 
+        await game.ready();
         final previousBalls =
             game.descendants().whereType<ControlledBall>().toList();
 

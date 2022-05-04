@@ -1,12 +1,10 @@
 // ignore_for_file: cascade_invocations
 
-import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_components/src/components/ball/behaviors/behaviors.dart';
 
 import '../../../helpers/helpers.dart';
 
@@ -178,51 +176,6 @@ void main() {
             expect(ball.body.position, isNot(equals(ball.initialPosition)));
           },
         );
-      });
-    });
-
-    group('boost', () {
-      flameTester.test('applies an impulse to the ball', (game) async {
-        final ball = Ball(baseColor: baseColor);
-        await game.ensureAdd(ball);
-
-        expect(ball.body.linearVelocity, equals(Vector2.zero()));
-
-        await ball.boost(Vector2.all(10));
-        expect(ball.body.linearVelocity.x, greaterThan(0));
-        expect(ball.body.linearVelocity.y, greaterThan(0));
-      });
-
-      flameTester.test('adds TurboChargeSpriteAnimation', (game) async {
-        final ball = Ball(baseColor: baseColor);
-        await game.ensureAdd(ball);
-
-        await ball.boost(Vector2.all(10));
-        game.update(0);
-
-        expect(
-          ball.children.whereType<SpriteAnimationComponent>().single,
-          isNotNull,
-        );
-      });
-
-      flameTester.test('removes TurboChargeSpriteAnimation after it finishes',
-          (game) async {
-        final ball = Ball(baseColor: baseColor);
-        await game.ensureAdd(ball);
-
-        await ball.boost(Vector2.all(10));
-        game.update(0);
-
-        final turboChargeSpriteAnimation =
-            ball.children.whereType<SpriteAnimationComponent>().single;
-
-        expect(ball.contains(turboChargeSpriteAnimation), isTrue);
-
-        game.update(turboChargeSpriteAnimation.animation!.totalDuration());
-        game.update(0.1);
-
-        expect(ball.contains(turboChargeSpriteAnimation), isFalse);
       });
     });
   });
