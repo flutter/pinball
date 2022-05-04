@@ -269,8 +269,7 @@ void main() {
     group('adds', () {
       flameTester.test('new children', (game) async {
         final component = Component();
-        final ramp = SpaceshipRamp();
-        await ramp.addAll([component]);
+        final ramp = SpaceshipRamp(children: [component]);
         await game.ensureAdd(ramp);
         expect(ramp.children, contains(component));
       });
