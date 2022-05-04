@@ -1,3 +1,4 @@
+import 'package:flame/effects.dart';
 import 'package:flame/input.dart';
 import 'package:pinball_components/pinball_components.dart' as components;
 import 'package:pinball_theme/pinball_theme.dart';
@@ -52,6 +53,7 @@ class BackboardGameOverGame extends AssetsGame
               points: components.Points.values
                   .firstWhere((element) => element.value == score),
               position: Vector2(0, 50),
+              effectController: EffectController(duration: 1),
             ),
           );
         },
