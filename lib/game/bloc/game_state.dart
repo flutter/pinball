@@ -26,22 +26,32 @@ enum GameBonus {
 class GameState extends Equatable {
   /// {@macro game_state}
   const GameState({
-    required this.score,
+    required this.totalScore,
+    required this.roundScore,
     required this.multiplier,
     required this.rounds,
     required this.bonusHistory,
-  })  : assert(score >= 0, "Score can't be negative"),
+  })  : assert(totalScore >= 0, "TotalScore can't be negative"),
+        assert(roundScore >= 0, "Round score can't be negative"),
         assert(multiplier > 0, 'Multiplier must be greater than zero'),
         assert(rounds >= 0, "Number of rounds can't be negative");
 
   const GameState.initial()
-      : score = 0,
+      : totalScore = 0,
+        roundScore = 0,
         multiplier = 1,
         rounds = 3,
         bonusHistory = const [];
 
-  /// The current score of the game.
-  final int score;
+  /// The score for the current round of the game.
+  ///
+  /// Multipliers are only applied to the score for the current round once is
+  /// lost. Then the [roundScore] is added to the [totalScore] and reset to 0
+  /// for the next round.
+  final int roundScore;
+
+  /// The total score of the game.
+  final int totalScore;
 
   /// The current multiplier for the score.
   final int multiplier;
@@ -58,20 +68,25 @@ class GameState extends Equatable {
   /// Determines when the game is over.
   bool get isGameOver => rounds == 0;
 
+  /// The score displayed at the game.
+  int get displayScore => roundScore + totalScore;
+
   GameState copyWith({
-    int? score,
+    int? totalScore,
+    int? roundScore,
     int? multiplier,
     int? balls,
     int? rounds,
     List<GameBonus>? bonusHistory,
   }) {
     assert(
-      score == null || score >= this.score,
-      "Score can't be decreased",
+      totalScore == null || totalScore >= this.totalScore,
+      "Total score can't be decreased",
     );
 
     return GameState(
-      score: score ?? this.score,
+      totalScore: totalScore ?? this.totalScore,
+      roundScore: roundScore ?? this.roundScore,
       multiplier: multiplier ?? this.multiplier,
       rounds: rounds ?? this.rounds,
       bonusHistory: bonusHistory ?? this.bonusHistory,
@@ -80,7 +95,8 @@ class GameState extends Equatable {
 
   @override
   List<Object?> get props => [
-        score,
+        totalScore,
+        roundScore,
         multiplier,
         rounds,
         bonusHistory,

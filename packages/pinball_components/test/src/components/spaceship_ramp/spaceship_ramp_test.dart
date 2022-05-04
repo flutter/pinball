@@ -1,12 +1,16 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
-import '../../helpers/helpers.dart';
+import '../../../helpers/helpers.dart';
+
+class _MockSpaceshipRampCubit extends Mock implements SpaceshipRampCubit {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -25,28 +29,35 @@ void main() {
   final flameTester = FlameTester(() => TestGame(assets));
 
   group('SpaceshipRamp', () {
-    flameTester.test('loads correctly', (game) async {
-      final component = SpaceshipRamp();
-      await game.ensureAdd(component);
-      expect(game.contains(component), isTrue);
-    });
+    flameTester.test(
+      'loads correctly',
+      (game) async {
+        final spaceshipRamp = SpaceshipRamp();
+        await game.ensureAdd(spaceshipRamp);
+        expect(game.children, contains(spaceshipRamp));
+      },
+    );
 
     group('renders correctly', () {
-      const goldenFilePath = 'golden/spaceship_ramp/';
+      const goldenFilePath = '../golden/spaceship_ramp/';
       final centerForSpaceshipRamp = Vector2(-13, -55);
 
       flameTester.testGameWidget(
         'inactive sprite',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          final component = SpaceshipRamp();
-          final canvas = ZCanvasComponent(children: [component]);
+          final ramp = SpaceshipRamp();
+          final canvas = ZCanvasComponent(children: [ramp]);
           await game.ensureAdd(canvas);
 
           await tester.pump();
 
+          final index = ramp.children
+              .whereType<SpaceshipRampArrowSpriteComponent>()
+              .first
+              .current;
           expect(
-            component.children.whereType<SpriteGroupComponent>().first.current,
+            SpaceshipRampArrowSpriteState.values[index!],
             SpaceshipRampArrowSpriteState.inactive,
           );
 
@@ -64,15 +75,21 @@ void main() {
         'active1 sprite',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          final component = SpaceshipRamp();
-          final canvas = ZCanvasComponent(children: [component]);
+          final ramp = SpaceshipRamp();
+          final canvas = ZCanvasComponent(children: [ramp]);
           await game.ensureAdd(canvas);
 
-          component.progress();
+          ramp.bloc.onAscendingBallEntered();
+
+          await game.ready();
           await tester.pump();
 
+          final index = ramp.children
+              .whereType<SpaceshipRampArrowSpriteComponent>()
+              .first
+              .current;
           expect(
-            component.children.whereType<SpriteGroupComponent>().first.current,
+            SpaceshipRampArrowSpriteState.values[index!],
             SpaceshipRampArrowSpriteState.active1,
           );
 
@@ -90,17 +107,23 @@ void main() {
         'active2 sprite',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          final component = SpaceshipRamp();
-          final canvas = ZCanvasComponent(children: [component]);
+          final ramp = SpaceshipRamp();
+          final canvas = ZCanvasComponent(children: [ramp]);
           await game.ensureAdd(canvas);
 
-          component
-            ..progress()
-            ..progress();
+          ramp.bloc
+            ..onAscendingBallEntered()
+            ..onAscendingBallEntered();
+
+          await game.ready();
           await tester.pump();
 
+          final index = ramp.children
+              .whereType<SpaceshipRampArrowSpriteComponent>()
+              .first
+              .current;
           expect(
-            component.children.whereType<SpriteGroupComponent>().first.current,
+            SpaceshipRampArrowSpriteState.values[index!],
             SpaceshipRampArrowSpriteState.active2,
           );
 
@@ -118,18 +141,24 @@ void main() {
         'active3 sprite',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          final component = SpaceshipRamp();
-          final canvas = ZCanvasComponent(children: [component]);
+          final ramp = SpaceshipRamp();
+          final canvas = ZCanvasComponent(children: [ramp]);
           await game.ensureAdd(canvas);
 
-          component
-            ..progress()
-            ..progress()
-            ..progress();
+          ramp.bloc
+            ..onAscendingBallEntered()
+            ..onAscendingBallEntered()
+            ..onAscendingBallEntered();
+
+          await game.ready();
           await tester.pump();
 
+          final index = ramp.children
+              .whereType<SpaceshipRampArrowSpriteComponent>()
+              .first
+              .current;
           expect(
-            component.children.whereType<SpriteGroupComponent>().first.current,
+            SpaceshipRampArrowSpriteState.values[index!],
             SpaceshipRampArrowSpriteState.active3,
           );
 
@@ -147,19 +176,25 @@ void main() {
         'active4 sprite',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          final component = SpaceshipRamp();
-          final canvas = ZCanvasComponent(children: [component]);
+          final ramp = SpaceshipRamp();
+          final canvas = ZCanvasComponent(children: [ramp]);
           await game.ensureAdd(canvas);
 
-          component
-            ..progress()
-            ..progress()
-            ..progress()
-            ..progress();
+          ramp.bloc
+            ..onAscendingBallEntered()
+            ..onAscendingBallEntered()
+            ..onAscendingBallEntered()
+            ..onAscendingBallEntered();
+
+          await game.ready();
           await tester.pump();
 
+          final index = ramp.children
+              .whereType<SpaceshipRampArrowSpriteComponent>()
+              .first
+              .current;
           expect(
-            component.children.whereType<SpriteGroupComponent>().first.current,
+            SpaceshipRampArrowSpriteState.values[index!],
             SpaceshipRampArrowSpriteState.active4,
           );
 
@@ -177,20 +212,26 @@ void main() {
         'active5 sprite',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          final component = SpaceshipRamp();
-          final canvas = ZCanvasComponent(children: [component]);
+          final ramp = SpaceshipRamp();
+          final canvas = ZCanvasComponent(children: [ramp]);
           await game.ensureAdd(canvas);
 
-          component
-            ..progress()
-            ..progress()
-            ..progress()
-            ..progress()
-            ..progress();
+          ramp.bloc
+            ..onAscendingBallEntered()
+            ..onAscendingBallEntered()
+            ..onAscendingBallEntered()
+            ..onAscendingBallEntered()
+            ..onAscendingBallEntered();
+
+          await game.ready();
           await tester.pump();
 
+          final index = ramp.children
+              .whereType<SpaceshipRampArrowSpriteComponent>()
+              .first
+              .current;
           expect(
-            component.children.whereType<SpriteGroupComponent>().first.current,
+            SpaceshipRampArrowSpriteState.values[index!],
             SpaceshipRampArrowSpriteState.active5,
           );
 
@@ -203,6 +244,35 @@ void main() {
           );
         },
       );
+    });
+
+    flameTester.test('closes bloc when removed', (game) async {
+      final bloc = _MockSpaceshipRampCubit();
+      whenListen(
+        bloc,
+        const Stream<SpaceshipRampState>.empty(),
+        initialState: const SpaceshipRampState.initial(),
+      );
+      when(bloc.close).thenAnswer((_) async {});
+
+      final ramp = SpaceshipRamp.test(
+        bloc: bloc,
+      );
+
+      await game.ensureAdd(ramp);
+      game.remove(ramp);
+      await game.ready();
+
+      verify(bloc.close).called(1);
+    });
+
+    group('adds', () {
+      flameTester.test('new children', (game) async {
+        final component = Component();
+        final ramp = SpaceshipRamp(children: [component]);
+        await game.ensureAdd(ramp);
+        expect(ramp.children, contains(component));
+      });
     });
   });
 }

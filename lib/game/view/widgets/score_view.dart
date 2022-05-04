@@ -69,7 +69,7 @@ class _ScoreText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final score = context.select((GameBloc bloc) => bloc.state.score);
+    final score = context.select((GameBloc bloc) => bloc.state.displayScore);
 
     return Text(
       score.formatScore(),

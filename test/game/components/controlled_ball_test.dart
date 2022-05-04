@@ -2,13 +2,12 @@
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/components.dart';
-import 'package:flame/extensions.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
-
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_theme/pinball_theme.dart' as theme;
 
 import '../../helpers/helpers.dart';
 
@@ -33,13 +32,16 @@ class _MockBall extends Mock implements Ball {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  final assets = [
+    theme.Assets.images.dash.ball.keyName,
+  ];
 
   group('BallController', () {
     late Ball ball;
     late GameBloc gameBloc;
 
     setUp(() {
-      ball = Ball(baseColor: const Color(0xFF00FFFF));
+      ball = Ball();
       gameBloc = _MockGameBloc();
       whenListen(
         gameBloc,
@@ -51,6 +53,7 @@ void main() {
     final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
       gameBuilder: EmptyPinballTestGame.new,
       blocBuilder: () => gameBloc,
+      assets: assets,
     );
 
     test('can be instantiated', () {
@@ -68,7 +71,7 @@ void main() {
         await ball.add(controller);
         await game.ensureAdd(ball);
 
-        final otherBall = Ball(baseColor: const Color(0xFF00FFFF));
+        final otherBall = Ball();
         final otherController = BallController(otherBall);
         await otherBall.add(otherController);
         await game.ensureAdd(otherBall);
@@ -106,6 +109,7 @@ void main() {
       flameBlocTester.testGameWidget(
         'adds TurboChargeActivated',
         setUp: (game, tester) async {
+          await game.images.loadAll(assets);
           final controller = BallController(ball);
           await ball.add(controller);
           await game.ensureAdd(ball);

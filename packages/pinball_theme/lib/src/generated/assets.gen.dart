@@ -36,9 +36,9 @@ class $AssetsImagesAndroidGen {
   AssetGenImage get background =>
       const AssetGenImage('assets/images/android/background.png');
 
-  /// File path: assets/images/android/character.png
-  AssetGenImage get character =>
-      const AssetGenImage('assets/images/android/character.png');
+  /// File path: assets/images/android/ball.png
+  AssetGenImage get ball =>
+      const AssetGenImage('assets/images/android/ball.png');
 
   /// File path: assets/images/android/icon.png
   AssetGenImage get icon =>
@@ -60,9 +60,8 @@ class $AssetsImagesDashGen {
   AssetGenImage get background =>
       const AssetGenImage('assets/images/dash/background.png');
 
-  /// File path: assets/images/dash/character.png
-  AssetGenImage get character =>
-      const AssetGenImage('assets/images/dash/character.png');
+  /// File path: assets/images/dash/ball.png
+  AssetGenImage get ball => const AssetGenImage('assets/images/dash/ball.png');
 
   /// File path: assets/images/dash/icon.png
   AssetGenImage get icon => const AssetGenImage('assets/images/dash/icon.png');
@@ -83,9 +82,8 @@ class $AssetsImagesDinoGen {
   AssetGenImage get background =>
       const AssetGenImage('assets/images/dino/background.png');
 
-  /// File path: assets/images/dino/character.png
-  AssetGenImage get character =>
-      const AssetGenImage('assets/images/dino/character.png');
+  /// File path: assets/images/dino/ball.png
+  AssetGenImage get ball => const AssetGenImage('assets/images/dino/ball.png');
 
   /// File path: assets/images/dino/icon.png
   AssetGenImage get icon => const AssetGenImage('assets/images/dino/icon.png');
@@ -106,9 +104,9 @@ class $AssetsImagesSparkyGen {
   AssetGenImage get background =>
       const AssetGenImage('assets/images/sparky/background.png');
 
-  /// File path: assets/images/sparky/character.png
-  AssetGenImage get character =>
-      const AssetGenImage('assets/images/sparky/character.png');
+  /// File path: assets/images/sparky/ball.png
+  AssetGenImage get ball =>
+      const AssetGenImage('assets/images/sparky/ball.png');
 
   /// File path: assets/images/sparky/icon.png
   AssetGenImage get icon =>
