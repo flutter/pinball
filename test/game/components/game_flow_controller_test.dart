@@ -23,7 +23,8 @@ void main() {
     group('listenWhen', () {
       test('is true when the game over state has changed', () {
         final state = GameState(
-          score: 10,
+          totalScore: 0,
+          roundScore: 10,
           multiplier: 1,
           rounds: 0,
           bonusHistory: const [],
@@ -79,7 +80,8 @@ void main() {
         () {
           gameFlowController.onNewState(
             GameState(
-              score: 0,
+              totalScore: 0,
+              roundScore: 10,
               multiplier: 1,
               rounds: 0,
               bonusHistory: const [],

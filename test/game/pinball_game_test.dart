@@ -415,6 +415,51 @@ void main() {
 
         expect(flippers.first.body.linearVelocity.y, isPositive);
       });
+
+      flameTester.test(
+        'multiple touches control both flippers',
+        (game) async {
+          await game.ready();
+
+          final raw = _MockTapDownDetails();
+          when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
+
+          final leftEventPosition = _MockEventPosition();
+          when(() => leftEventPosition.game).thenReturn(Vector2.zero());
+          when(() => leftEventPosition.widget).thenReturn(Vector2.zero());
+
+          final rightEventPosition = _MockEventPosition();
+          when(() => rightEventPosition.game).thenReturn(Vector2.zero());
+          when(() => rightEventPosition.widget).thenReturn(game.canvasSize);
+
+          final leftTapDownEvent = _MockTapDownInfo();
+          when(() => leftTapDownEvent.eventPosition)
+              .thenReturn(leftEventPosition);
+          when(() => leftTapDownEvent.raw).thenReturn(raw);
+
+          final rightTapDownEvent = _MockTapDownInfo();
+          when(() => rightTapDownEvent.eventPosition)
+              .thenReturn(rightEventPosition);
+          when(() => rightTapDownEvent.raw).thenReturn(raw);
+
+          final flippers = game.descendants().whereType<Flipper>();
+          final rightFlipper = flippers.elementAt(0);
+          final leftFlipper = flippers.elementAt(1);
+
+          game.onTapDown(0, leftTapDownEvent);
+          game.onTapDown(1, rightTapDownEvent);
+
+          expect(leftFlipper.body.linearVelocity.y, isNegative);
+          expect(leftFlipper.side, equals(BoardSide.left));
+          expect(rightFlipper.body.linearVelocity.y, isNegative);
+          expect(rightFlipper.side, equals(BoardSide.right));
+
+          expect(
+            game.focusedBoardSide,
+            equals({0: BoardSide.left, 1: BoardSide.right}),
+          );
+        },
+      );
     });
 
     group('plunger control', () {
