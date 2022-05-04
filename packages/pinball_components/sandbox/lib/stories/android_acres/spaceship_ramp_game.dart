@@ -53,7 +53,7 @@ class SpaceshipRampGame extends BallGame with KeyboardEvents {
   ) {
     if (event is RawKeyDownEvent &&
         event.logicalKey == LogicalKeyboardKey.space) {
-      _spaceshipRamp.progress();
+      _spaceshipRamp.bloc.onAscendingBallEntered();
       return KeyEventResult.handled;
     }
 

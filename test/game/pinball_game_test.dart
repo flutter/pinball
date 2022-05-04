@@ -517,8 +517,11 @@ void main() {
         game.onTapUp(0, tapUpEvent);
         await game.ready();
 
+        final currentBalls =
+            game.descendants().whereType<ControlledBall>().toList();
+
         expect(
-          game.descendants().whereType<ControlledBall>().length,
+          currentBalls.length,
           equals(previousBalls.length + 1),
         );
       },
