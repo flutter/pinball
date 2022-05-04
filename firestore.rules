@@ -13,7 +13,7 @@ service cloud.firestore {
       }
       
       function isAuthedUser(auth) {
-      	return request.auth.uid != null; && auth.token.firebase.sign_in_provider == "anonymous"
+      	return request.auth.uid != null && auth.token.firebase.sign_in_provider == "anonymous"
       }
    
       // Leaderboard can be read if it doesn't contain any prohibited initials
