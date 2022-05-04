@@ -36,12 +36,12 @@ void main() {
   final flameTester = FlameTester(() => TestGame(assets));
 
   group(
-    'RampContactBehavior',
+    'RampBallContactBehavior',
     () {
       test('can be instantiated', () {
         expect(
-          RampContactBehavior(),
-          isA<RampContactBehavior>(),
+          RampBallContactBehavior(),
+          isA<RampBallContactBehavior>(),
         );
       });
 
@@ -57,9 +57,9 @@ void main() {
         });
 
         flameTester.test(
-          "calls 'onInside' when a ball enters into the ramp",
+          "calls 'onBallInside' when a ball enters into the ramp",
           (game) async {
-            final behavior = RampContactBehavior();
+            final behavior = RampBallContactBehavior();
             final bloc = _MockSpaceshipRampCubit();
             whenListen(
               bloc,
@@ -80,14 +80,14 @@ void main() {
 
             behavior.beginContact(ball, _MockContact());
 
-            verify(bloc.onInside).called(1);
+            verify(bloc.onBallInside).called(1);
           },
         );
 
         flameTester.test(
-          "doesn't call 'onInside' when a ball goes out the ramp",
+          "doesn't call 'onBallInside' when a ball goes out the ramp",
           (game) async {
-            final behavior = RampContactBehavior();
+            final behavior = RampBallContactBehavior();
             final bloc = _MockSpaceshipRampCubit();
             whenListen(
               bloc,
@@ -108,7 +108,7 @@ void main() {
 
             behavior.beginContact(ball, _MockContact());
 
-            verifyNever(bloc.onInside);
+            verifyNever(bloc.onBallInside);
           },
         );
       });

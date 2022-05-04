@@ -6,14 +6,14 @@ import 'package:pinball_components/pinball_components.dart';
 
 void main() {
   group('SpaceshipRampCubit', () {
-    group('onInside', () {
+    group('onBallInside', () {
       blocTest<SpaceshipRampCubit, SpaceshipRampState>(
         'emits hits incremented',
         build: SpaceshipRampCubit.new,
         act: (bloc) => bloc
-          ..onInside()
-          ..onInside()
-          ..onInside(),
+          ..onBallInside()
+          ..onBallInside()
+          ..onBallInside(),
         expect: () => [
           SpaceshipRampState(hits: 1),
           SpaceshipRampState(hits: 2),

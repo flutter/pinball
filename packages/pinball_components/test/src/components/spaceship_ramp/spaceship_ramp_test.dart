@@ -6,6 +6,7 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 import '../../../helpers/helpers.dart';
 
@@ -33,9 +34,183 @@ void main() {
       (game) async {
         final spaceshipRamp = SpaceshipRamp();
         await game.ensureAdd(spaceshipRamp);
-        expect(game.descendants(), contains(spaceshipRamp));
+        expect(game.children, contains(spaceshipRamp));
       },
     );
+
+    group('renders correctly', () {
+      const goldenFilePath = '../golden/spaceship_ramp/';
+      final centerForSpaceshipRamp = Vector2(-13, -55);
+
+      flameTester.testGameWidget(
+        'inactive sprite',
+        setUp: (game, tester) async {
+          await game.images.loadAll(assets);
+          final component = SpaceshipRamp();
+          final canvas = ZCanvasComponent(children: [component]);
+          await game.ensureAdd(canvas);
+
+          await tester.pump();
+
+          expect(
+            component.children.whereType<SpriteGroupComponent>().first.current,
+            SpaceshipRampArrowSpriteState.inactive,
+          );
+
+          game.camera.followVector2(centerForSpaceshipRamp);
+        },
+        verify: (game, tester) async {
+          await expectLater(
+            find.byGame<TestGame>(),
+            matchesGoldenFile('${goldenFilePath}inactive.png'),
+          );
+        },
+      );
+
+      flameTester.testGameWidget(
+        'active1 sprite',
+        setUp: (game, tester) async {
+          await game.images.loadAll(assets);
+          final component = SpaceshipRamp();
+          final canvas = ZCanvasComponent(children: [component]);
+          await game.ensureAdd(canvas);
+
+          component.progress();
+          await tester.pump();
+
+          expect(
+            component.children.whereType<SpriteGroupComponent>().first.current,
+            SpaceshipRampArrowSpriteState.active1,
+          );
+
+          game.camera.followVector2(centerForSpaceshipRamp);
+        },
+        verify: (game, tester) async {
+          await expectLater(
+            find.byGame<TestGame>(),
+            matchesGoldenFile('${goldenFilePath}active1.png'),
+          );
+        },
+      );
+
+      flameTester.testGameWidget(
+        'active2 sprite',
+        setUp: (game, tester) async {
+          await game.images.loadAll(assets);
+          final component = SpaceshipRamp();
+          final canvas = ZCanvasComponent(children: [component]);
+          await game.ensureAdd(canvas);
+
+          component
+            ..progress()
+            ..progress();
+          await tester.pump();
+
+          expect(
+            component.children.whereType<SpriteGroupComponent>().first.current,
+            SpaceshipRampArrowSpriteState.active2,
+          );
+
+          game.camera.followVector2(centerForSpaceshipRamp);
+        },
+        verify: (game, tester) async {
+          await expectLater(
+            find.byGame<TestGame>(),
+            matchesGoldenFile('${goldenFilePath}active2.png'),
+          );
+        },
+      );
+
+      flameTester.testGameWidget(
+        'active3 sprite',
+        setUp: (game, tester) async {
+          await game.images.loadAll(assets);
+          final component = SpaceshipRamp();
+          final canvas = ZCanvasComponent(children: [component]);
+          await game.ensureAdd(canvas);
+
+          component
+            ..progress()
+            ..progress()
+            ..progress();
+          await tester.pump();
+
+          expect(
+            component.children.whereType<SpriteGroupComponent>().first.current,
+            SpaceshipRampArrowSpriteState.active3,
+          );
+
+          game.camera.followVector2(centerForSpaceshipRamp);
+        },
+        verify: (game, tester) async {
+          await expectLater(
+            find.byGame<TestGame>(),
+            matchesGoldenFile('${goldenFilePath}active3.png'),
+          );
+        },
+      );
+
+      flameTester.testGameWidget(
+        'active4 sprite',
+        setUp: (game, tester) async {
+          await game.images.loadAll(assets);
+          final component = SpaceshipRamp();
+          final canvas = ZCanvasComponent(children: [component]);
+          await game.ensureAdd(canvas);
+
+          component
+            ..progress()
+            ..progress()
+            ..progress()
+            ..progress();
+          await tester.pump();
+
+          expect(
+            component.children.whereType<SpriteGroupComponent>().first.current,
+            SpaceshipRampArrowSpriteState.active4,
+          );
+
+          game.camera.followVector2(centerForSpaceshipRamp);
+        },
+        verify: (game, tester) async {
+          await expectLater(
+            find.byGame<TestGame>(),
+            matchesGoldenFile('${goldenFilePath}active4.png'),
+          );
+        },
+      );
+
+      flameTester.testGameWidget(
+        'active5 sprite',
+        setUp: (game, tester) async {
+          await game.images.loadAll(assets);
+          final component = SpaceshipRamp();
+          final canvas = ZCanvasComponent(children: [component]);
+          await game.ensureAdd(canvas);
+
+          component
+            ..progress()
+            ..progress()
+            ..progress()
+            ..progress()
+            ..progress();
+          await tester.pump();
+
+          expect(
+            component.children.whereType<SpriteGroupComponent>().first.current,
+            SpaceshipRampArrowSpriteState.active5,
+          );
+
+          game.camera.followVector2(centerForSpaceshipRamp);
+        },
+        verify: (game, tester) async {
+          await expectLater(
+            find.byGame<TestGame>(),
+            matchesGoldenFile('${goldenFilePath}active5.png'),
+          );
+        },
+      );
+    });
 
     flameTester.test('closes bloc when removed', (game) async {
       final bloc = _MockSpaceshipRampCubit();
@@ -60,11 +235,12 @@ void main() {
     group('adds', () {
       flameTester.test('new children', (game) async {
         final component = Component();
-        final spaceshipRamp = SpaceshipRamp(
-          children: [component],
+        final ramp = SpaceshipRamp.test(
+          bloc: _MockSpaceshipRampCubit(),
         );
-        await game.ensureAdd(spaceshipRamp);
-        expect(spaceshipRamp.children, contains(component));
+        await ramp.addAll([component]);
+        await game.ensureAdd(ramp);
+        expect(ramp.children, contains(component));
       });
     });
   });

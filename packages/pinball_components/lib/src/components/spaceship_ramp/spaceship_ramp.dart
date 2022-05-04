@@ -24,7 +24,7 @@ class SpaceshipRamp extends Component {
             // only one sensor.
             RampScoringSensor(
               children: [
-                RampContactBehavior(),
+                RampBallContactBehavior(),
               ],
             )..initialPosition = Vector2(1.7, -20.4),
             _SpaceshipRampOpening(
@@ -57,8 +57,7 @@ class SpaceshipRamp extends Component {
   @visibleForTesting
   SpaceshipRamp.test({
     required this.bloc,
-    Iterable<Component>? children,
-  }) : super(children: children);
+  }) : super();
 
   // TODO(alestiago): Consider refactoring once the following is merged:
   // https://github.com/flame-engine/flame/pull/1538

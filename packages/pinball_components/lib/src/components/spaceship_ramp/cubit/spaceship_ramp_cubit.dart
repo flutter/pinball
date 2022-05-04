@@ -8,7 +8,7 @@ part 'spaceship_ramp_state.dart';
 class SpaceshipRampCubit extends Cubit<SpaceshipRampState> {
   SpaceshipRampCubit() : super(const SpaceshipRampState.initial());
 
-  void onInside() {
+  void onBallInside() {
     emit(
       state.copyWith(
         hits: state.hits + 1,
