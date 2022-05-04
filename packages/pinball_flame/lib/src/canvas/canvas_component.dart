@@ -6,14 +6,15 @@ import 'package:pinball_flame/src/canvas/canvas_wrapper.dart';
 /// Called right before [Canvas.drawImageRect] is called.
 ///
 /// This is useful since [Sprite.render] uses [Canvas.drawImageRect] to draw
-/// the sprite.
+/// the [Sprite].
 typedef PaintFunction = void Function(Paint)?;
 
 /// {@template canvas}
 /// Allows listening before the rendering of [Sprite]s.
 ///
-/// The existance of this is class is to hack around the fact that Flame doesn't
-/// privide a way to modify the default [Paint] before drawing a [Sprite].
+/// The existance of this class is to hack around the fact that Flame doesn't
+/// provide a global way to modify the default [Paint] before rendering a
+/// [Sprite].
 /// {@endtemplate}
 class CanvasComponent extends Component {
   /// {@macro canvas}
