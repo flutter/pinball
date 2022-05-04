@@ -27,11 +27,11 @@ class SpaceshipRamp extends Component {
     required this.bloc,
   }) : super(
           children: [
-            // TODO(ruimiguel): refactor RampSensor and RampOpening to be in
-            // only one sensor.
+            // TODO(ruimiguel): refactor RampScoringSensor and
+            // _SpaceshipRampOpening to be in only one sensor if possible.
             RampScoringSensor(
               children: [
-                RampBallContactBehavior(),
+                RampBallAscendingContactBehavior(),
               ],
             )..initialPosition = Vector2(1.7, -20.4),
             _SpaceshipRampOpening(

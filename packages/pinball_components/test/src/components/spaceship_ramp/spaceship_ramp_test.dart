@@ -79,7 +79,7 @@ void main() {
           final canvas = ZCanvasComponent(children: [ramp]);
           await game.ensureAdd(canvas);
 
-          ramp.bloc.onBallInside();
+          ramp.bloc.onAscendingBallEntered();
 
           await game.ready();
           await tester.pump();
@@ -112,8 +112,8 @@ void main() {
           await game.ensureAdd(canvas);
 
           ramp.bloc
-            ..onBallInside()
-            ..onBallInside();
+            ..onAscendingBallEntered()
+            ..onAscendingBallEntered();
 
           await game.ready();
           await tester.pump();
@@ -146,9 +146,9 @@ void main() {
           await game.ensureAdd(canvas);
 
           ramp.bloc
-            ..onBallInside()
-            ..onBallInside()
-            ..onBallInside();
+            ..onAscendingBallEntered()
+            ..onAscendingBallEntered()
+            ..onAscendingBallEntered();
 
           await game.ready();
           await tester.pump();
@@ -181,10 +181,10 @@ void main() {
           await game.ensureAdd(canvas);
 
           ramp.bloc
-            ..onBallInside()
-            ..onBallInside()
-            ..onBallInside()
-            ..onBallInside();
+            ..onAscendingBallEntered()
+            ..onAscendingBallEntered()
+            ..onAscendingBallEntered()
+            ..onAscendingBallEntered();
 
           await game.ready();
           await tester.pump();
@@ -217,11 +217,11 @@ void main() {
           await game.ensureAdd(canvas);
 
           ramp.bloc
-            ..onBallInside()
-            ..onBallInside()
-            ..onBallInside()
-            ..onBallInside()
-            ..onBallInside();
+            ..onAscendingBallEntered()
+            ..onAscendingBallEntered()
+            ..onAscendingBallEntered()
+            ..onAscendingBallEntered()
+            ..onAscendingBallEntered();
 
           await game.ready();
           await tester.pump();
