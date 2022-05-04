@@ -45,9 +45,9 @@ class GameState extends Equatable {
 
   /// The score for the current round of the game.
   ///
-  /// All game improvements like multipliers, are only applied to the score for
-  /// the current round once is lost. Then the [roundScore] is added to
-  /// the [totalScore] and reset to 0 for the next round.
+  /// Multipliers are only applied to the score for the current round once is
+  /// lost. Then the [roundScore] is added to the [totalScore] and reset to 0
+  /// for the next round.
   final int roundScore;
 
   /// The total score of the game.
@@ -68,7 +68,7 @@ class GameState extends Equatable {
   /// Determines when the game is over.
   bool get isGameOver => rounds == 0;
 
-  /// The score to be displayed at the game.
+  /// The score displayed at the game.
   int get displayScore => roundScore + totalScore;
 
   GameState copyWith({
