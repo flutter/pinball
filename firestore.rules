@@ -1,0 +1,29 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {    
+    match /leaderboard/{userId} {
+
+      function prohibited(initials) {
+        let prohibitedInitials = get(/databases/$(database)/documents/prohibitedInitials/list).data.prohibitedInitials;
+        return initials in prohibitedInitials;
+      }
+      
+      function inCharLimit(initials) {
+        return initials.size() < 4;
+      }
+      
+      function isAuthedUser(auth) {
+      	return request.auth.uid != null; && auth.token.firebase.sign_in_provider == "anonymous"
+      }
+   
+      // Leaderboard can be read if it doesn't contain any prohibited initials
+      allow read: if !prohibited(resource.data.playerInitials);
+      
+      // A leaderboard entry can be created if the user is authenticated,
+      // it's 3 characters long, and not a prohibited combination.
+      allow create: if isAuthedUser(request.auth) &&
+                       inCharLimit(request.resource.data.playerInitials) && 
+                       !prohibited(request.resource.data.playerInitials);
+    }
+  }
+}

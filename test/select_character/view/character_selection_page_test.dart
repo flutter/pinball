@@ -2,8 +2,8 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pinball/how_to_play/how_to_play.dart';
 import 'package:pinball/select_character/select_character.dart';
+import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 
@@ -11,14 +11,19 @@ import '../../helpers/helpers.dart';
 
 class _MockCharacterThemeCubit extends Mock implements CharacterThemeCubit {}
 
+class _MockStartGameBloc extends Mock implements StartGameBloc {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   late CharacterThemeCubit characterThemeCubit;
+  late StartGameBloc startGameBloc;
 
   setUp(() async {
     await mockFlameImages();
 
     characterThemeCubit = _MockCharacterThemeCubit();
+    startGameBloc = _MockStartGameBloc();
+
     whenListen(
       characterThemeCubit,
       const Stream<CharacterThemeState>.empty(),
@@ -29,25 +34,6 @@ void main() {
   });
 
   group('CharacterSelectionDialog', () {
-    group('showCharacterSelectionDialog', () {
-      testWidgets('inflates the dialog', (tester) async {
-        await tester.pumpApp(
-          Builder(
-            builder: (context) {
-              return TextButton(
-                onPressed: () => showCharacterSelectionDialog(context),
-                child: const Text('test'),
-              );
-            },
-          ),
-          characterThemeCubit: characterThemeCubit,
-        );
-        await tester.tap(find.text('test'));
-        await tester.pump();
-        expect(find.byType(CharacterSelectionDialog), findsOneWidget);
-      });
-    });
-
     testWidgets('selecting a new character calls characterSelected on cubit',
         (tester) async {
       await tester.pumpApp(
@@ -63,15 +49,22 @@ void main() {
 
     testWidgets(
         'tapping the select button dismisses the character '
-        'dialog and shows the how to play dialog', (tester) async {
+        'dialog and calls CharacterSelected event to the bloc', (tester) async {
+      whenListen(
+        startGameBloc,
+        const Stream<StartGameState>.empty(),
+        initialState: const StartGameState.initial(),
+      );
+
       await tester.pumpApp(
         const CharacterSelectionDialog(),
         characterThemeCubit: characterThemeCubit,
+        startGameBloc: startGameBloc,
       );
       await tester.tap(find.byType(PinballButton));
       await tester.pumpAndSettle();
       expect(find.byType(CharacterSelectionDialog), findsNothing);
-      expect(find.byType(HowToPlayDialog), findsOneWidget);
+      verify(() => startGameBloc.add(const CharacterSelected())).called(1);
     });
 
     testWidgets('updating the selected character updates the preview',

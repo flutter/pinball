@@ -2,31 +2,36 @@
 
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_theme/pinball_theme.dart' as theme;
 
 import '../../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(TestGame.new);
+  final assets = [
+    theme.Assets.images.android.ball.keyName,
+    theme.Assets.images.dash.ball.keyName,
+    theme.Assets.images.dino.ball.keyName,
+    theme.Assets.images.sparky.ball.keyName,
+  ];
+
+  final flameTester = FlameTester(() => TestGame(assets));
 
   group('Ball', () {
-    const baseColor = Color(0xFFFFFFFF);
-
     test(
       'can be instantiated',
       () {
-        expect(Ball(baseColor: baseColor), isA<Ball>());
-        expect(Ball.test(baseColor: baseColor), isA<Ball>());
+        expect(Ball(), isA<Ball>());
+        expect(Ball.test(), isA<Ball>());
       },
     );
 
     flameTester.test(
       'loads correctly',
       (game) async {
-        final ball = Ball(baseColor: baseColor);
+        final ball = Ball();
         await game.ready();
         await game.ensureAdd(ball);
 
@@ -36,7 +41,7 @@ void main() {
 
     group('adds', () {
       flameTester.test('a BallScalingBehavior', (game) async {
-        final ball = Ball(baseColor: baseColor);
+        final ball = Ball();
         await game.ensureAdd(ball);
         expect(
           ball.descendants().whereType<BallScalingBehavior>().length,
@@ -45,7 +50,7 @@ void main() {
       });
 
       flameTester.test('a BallGravitatingBehavior', (game) async {
-        final ball = Ball(baseColor: baseColor);
+        final ball = Ball();
         await game.ensureAdd(ball);
         expect(
           ball.descendants().whereType<BallGravitatingBehavior>().length,
@@ -58,7 +63,7 @@ void main() {
       flameTester.test(
         'is dynamic',
         (game) async {
-          final ball = Ball(baseColor: baseColor);
+          final ball = Ball();
           await game.ensureAdd(ball);
 
           expect(ball.body.bodyType, equals(BodyType.dynamic));
@@ -67,7 +72,7 @@ void main() {
 
       group('can be moved', () {
         flameTester.test('by its weight', (game) async {
-          final ball = Ball(baseColor: baseColor);
+          final ball = Ball();
           await game.ensureAdd(ball);
 
           game.update(1);
@@ -75,7 +80,7 @@ void main() {
         });
 
         flameTester.test('by applying velocity', (game) async {
-          final ball = Ball(baseColor: baseColor);
+          final ball = Ball();
           await game.ensureAdd(ball);
 
           ball.body.gravityScale = Vector2.zero();
@@ -90,7 +95,7 @@ void main() {
       flameTester.test(
         'exists',
         (game) async {
-          final ball = Ball(baseColor: baseColor);
+          final ball = Ball();
           await game.ensureAdd(ball);
 
           expect(ball.body.fixtures[0], isA<Fixture>());
@@ -100,7 +105,7 @@ void main() {
       flameTester.test(
         'is dense',
         (game) async {
-          final ball = Ball(baseColor: baseColor);
+          final ball = Ball();
           await game.ensureAdd(ball);
 
           final fixture = ball.body.fixtures[0];
@@ -111,7 +116,7 @@ void main() {
       flameTester.test(
         'shape is circular',
         (game) async {
-          final ball = Ball(baseColor: baseColor);
+          final ball = Ball();
           await game.ensureAdd(ball);
 
           final fixture = ball.body.fixtures[0];
@@ -123,7 +128,7 @@ void main() {
       flameTester.test(
         'has Layer.all as default filter maskBits',
         (game) async {
-          final ball = Ball(baseColor: baseColor);
+          final ball = Ball();
           await game.ready();
           await game.ensureAdd(ball);
           await game.ready();
@@ -137,7 +142,7 @@ void main() {
     group('stop', () {
       group("can't be moved", () {
         flameTester.test('by its weight', (game) async {
-          final ball = Ball(baseColor: baseColor);
+          final ball = Ball();
           await game.ensureAdd(ball);
           ball.stop();
 
@@ -152,7 +157,7 @@ void main() {
         flameTester.test(
           'by its weight when previously stopped',
           (game) async {
-            final ball = Ball(baseColor: baseColor);
+            final ball = Ball();
             await game.ensureAdd(ball);
             ball.stop();
             ball.resume();
@@ -165,7 +170,7 @@ void main() {
         flameTester.test(
           'by applying velocity when previously stopped',
           (game) async {
-            final ball = Ball(baseColor: baseColor);
+            final ball = Ball();
             await game.ensureAdd(ball);
             ball.stop();
             ball.resume();
