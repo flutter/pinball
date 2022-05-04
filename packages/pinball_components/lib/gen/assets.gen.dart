@@ -11,7 +11,7 @@ class $AssetsImagesGen {
   const $AssetsImagesGen();
 
   $AssetsImagesAndroidGen get android => const $AssetsImagesAndroidGen();
-  $AssetsImagesBackboardGen get backboard => const $AssetsImagesBackboardGen();
+  $AssetsImagesBackboxGen get backbox => const $AssetsImagesBackboxGen();
   $AssetsImagesBallGen get ball => const $AssetsImagesBallGen();
   $AssetsImagesBaseboardGen get baseboard => const $AssetsImagesBaseboardGen();
 
@@ -22,6 +22,7 @@ class $AssetsImagesGen {
   $AssetsImagesBoundaryGen get boundary => const $AssetsImagesBoundaryGen();
   $AssetsImagesDashGen get dash => const $AssetsImagesDashGen();
   $AssetsImagesDinoGen get dino => const $AssetsImagesDinoGen();
+  $AssetsImagesFlapperGen get flapper => const $AssetsImagesFlapperGen();
   $AssetsImagesFlipperGen get flipper => const $AssetsImagesFlipperGen();
   $AssetsImagesGoogleWordGen get googleWord =>
       const $AssetsImagesGoogleWordGen();
@@ -49,20 +50,16 @@ class $AssetsImagesAndroidGen {
       const $AssetsImagesAndroidSpaceshipGen();
 }
 
-class $AssetsImagesBackboardGen {
-  const $AssetsImagesBackboardGen();
+class $AssetsImagesBackboxGen {
+  const $AssetsImagesBackboxGen();
 
-  /// File path: assets/images/backboard/backboard_game_over.png
-  AssetGenImage get backboardGameOver =>
-      const AssetGenImage('assets/images/backboard/backboard_game_over.png');
+  /// File path: assets/images/backbox/display-divider.png
+  AssetGenImage get displayDivider =>
+      const AssetGenImage('assets/images/backbox/display-divider.png');
 
-  /// File path: assets/images/backboard/backboard_scores.png
-  AssetGenImage get backboardScores =>
-      const AssetGenImage('assets/images/backboard/backboard_scores.png');
-
-  /// File path: assets/images/backboard/display.png
-  AssetGenImage get display =>
-      const AssetGenImage('assets/images/backboard/display.png');
+  /// File path: assets/images/backbox/marquee.png
+  AssetGenImage get marquee =>
+      const AssetGenImage('assets/images/backbox/marquee.png');
 }
 
 class $AssetsImagesBallGen {
@@ -131,6 +128,22 @@ class $AssetsImagesDinoGen {
   /// File path: assets/images/dino/top-wall.png
   AssetGenImage get topWall =>
       const AssetGenImage('assets/images/dino/top-wall.png');
+}
+
+class $AssetsImagesFlapperGen {
+  const $AssetsImagesFlapperGen();
+
+  /// File path: assets/images/flapper/back-support.png
+  AssetGenImage get backSupport =>
+      const AssetGenImage('assets/images/flapper/back-support.png');
+
+  /// File path: assets/images/flapper/flap.png
+  AssetGenImage get flap =>
+      const AssetGenImage('assets/images/flapper/flap.png');
+
+  /// File path: assets/images/flapper/front-support.png
+  AssetGenImage get frontSupport =>
+      const AssetGenImage('assets/images/flapper/front-support.png');
 }
 
 class $AssetsImagesFlipperGen {

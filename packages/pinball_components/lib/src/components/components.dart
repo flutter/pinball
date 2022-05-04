@@ -1,8 +1,7 @@
 export 'android_animatronic.dart';
 export 'android_bumper/android_bumper.dart';
 export 'android_spaceship/android_spaceship.dart';
-export 'backboard/backboard.dart';
-export 'ball.dart';
+export 'ball/ball.dart';
 export 'baseboard.dart';
 export 'board_background_sprite_component.dart';
 export 'board_dimensions.dart';
@@ -14,6 +13,7 @@ export 'dash_animatronic.dart';
 export 'dash_nest_bumper/dash_nest_bumper.dart';
 export 'dino_walls.dart';
 export 'fire_effect.dart';
+export 'flapper/flapper.dart';
 export 'flipper.dart';
 export 'google_letter/google_letter.dart';
 export 'initial_position.dart';

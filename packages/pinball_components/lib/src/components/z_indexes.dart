@@ -45,6 +45,12 @@ abstract class ZIndexes {
 
   static const launchRampForegroundRailing = _above + ballOnLaunchRamp;
 
+  static const flapperBack = _above + outerBoundary;
+
+  static const flapperFront = _above + flapper;
+
+  static const flapper = _above + ballOnLaunchRamp;
+
   static const plunger = _above + launchRamp;
 
   static const rocket = _below + bottomBoundary;
@@ -108,5 +114,10 @@ abstract class ZIndexes {
   static const score = _above + spaceshipRampForegroundRailing;
 
   // Debug information
+
   static const debugInfo = _above + score;
+
+  // Backbox
+
+  static const backbox = _below + outerBoundary;
 }

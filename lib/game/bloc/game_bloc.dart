@@ -17,12 +17,13 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   void _onRoundLost(RoundLost event, Emitter emit) {
-    final score = state.score * state.multiplier;
+    final score = state.totalScore + state.roundScore * state.multiplier;
     final roundsLeft = math.max(state.rounds - 1, 0);
 
     emit(
       state.copyWith(
-        score: score,
+        totalScore: score,
+        roundScore: 0,
         multiplier: 1,
         rounds: roundsLeft,
       ),
@@ -32,7 +33,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   void _onScored(Scored event, Emitter emit) {
     if (!state.isGameOver) {
       emit(
-        state.copyWith(score: state.score + event.points),
+        state.copyWith(roundScore: state.roundScore + event.points),
       );
     }
   }

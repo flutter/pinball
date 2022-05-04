@@ -74,7 +74,8 @@ void main() {
       test('is false when the bonusHistory state is the same', () {
         final previous = GameState.initial();
         final state = GameState(
-          score: 10,
+          totalScore: 0,
+          roundScore: 10,
           multiplier: 1,
           rounds: 0,
           bonusHistory: const [],

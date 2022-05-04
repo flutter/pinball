@@ -13,7 +13,8 @@ void main() {
   group('RoundCountDisplay renders', () {
     late GameBloc gameBloc;
     const initialState = GameState(
-      score: 0,
+      totalScore: 0,
+      roundScore: 0,
       multiplier: 1,
       rounds: 3,
       bonusHistory: [],

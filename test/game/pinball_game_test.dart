@@ -25,6 +25,12 @@ class _MockTapUpDetails extends Mock implements TapUpDetails {}
 
 class _MockTapUpInfo extends Mock implements TapUpInfo {}
 
+class _MockDragStartInfo extends Mock implements DragStartInfo {}
+
+class _MockDragUpdateInfo extends Mock implements DragUpdateInfo {}
+
+class _MockDragEndInfo extends Mock implements DragEndInfo {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
@@ -34,9 +40,8 @@ void main() {
     Assets.images.android.bumper.b.dimmed.keyName,
     Assets.images.android.bumper.cow.lit.keyName,
     Assets.images.android.bumper.cow.dimmed.keyName,
-    Assets.images.backboard.backboardScores.keyName,
-    Assets.images.backboard.backboardGameOver.keyName,
-    Assets.images.backboard.display.keyName,
+    Assets.images.backbox.marquee.keyName,
+    Assets.images.backbox.displayDivider.keyName,
     Assets.images.boardBackground.keyName,
     Assets.images.ball.ball.keyName,
     Assets.images.ball.flameEffect.keyName,
@@ -124,6 +129,9 @@ void main() {
     Assets.images.sparky.bumper.b.dimmed.keyName,
     Assets.images.sparky.bumper.c.lit.keyName,
     Assets.images.sparky.bumper.c.dimmed.keyName,
+    Assets.images.flapper.flap.keyName,
+    Assets.images.flapper.backSupport.keyName,
+    Assets.images.flapper.frontSupport.keyName,
   ];
 
   late GameBloc gameBloc;
@@ -137,19 +145,16 @@ void main() {
     );
   });
 
-  final flameTester = FlameTester(
-    () => PinballTestGame(assets: assets),
-  );
-  final debugModeFlameTester = FlameTester(
-    () => DebugPinballTestGame(assets: assets),
-  );
-
-  final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
-    gameBuilder: () => PinballTestGame(assets: assets),
-    blocBuilder: () => gameBloc,
-  );
-
   group('PinballGame', () {
+    final flameTester = FlameTester(
+      () => PinballTestGame(assets: assets),
+    );
+
+    final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
+      gameBuilder: () => PinballTestGame(assets: assets),
+      blocBuilder: () => gameBloc,
+    );
+
     group('components', () {
       // TODO(alestiago): tests that Blueprints get added once the Blueprint
       // class is removed.
@@ -244,6 +249,8 @@ void main() {
               final newState = _MockGameState();
               when(() => newState.isGameOver).thenReturn(false);
 
+              await game.ready();
+
               expect(
                 game.descendants().whereType<ControlledBall>().length,
                 greaterThan(0),
@@ -323,7 +330,7 @@ void main() {
               (flipper) => flipper.side == BoardSide.left,
             );
 
-        game.onTapDown(tapDownEvent);
+        game.onTapDown(0, tapDownEvent);
 
         expect(flippers.first.body.linearVelocity.y, isNegative);
       });
@@ -346,7 +353,7 @@ void main() {
               (flipper) => flipper.side == BoardSide.right,
             );
 
-        game.onTapDown(tapDownEvent);
+        game.onTapDown(0, tapDownEvent);
 
         expect(flippers.first.body.linearVelocity.y, isNegative);
       });
@@ -369,14 +376,14 @@ void main() {
               (flipper) => flipper.side == BoardSide.left,
             );
 
-        game.onTapDown(tapDownEvent);
+        game.onTapDown(0, tapDownEvent);
 
         expect(flippers.first.body.linearVelocity.y, isNegative);
 
         final tapUpEvent = _MockTapUpInfo();
         when(() => tapUpEvent.eventPosition).thenReturn(eventPosition);
 
-        game.onTapUp(tapUpEvent);
+        game.onTapUp(0, tapUpEvent);
         await game.ready();
 
         expect(flippers.first.body.linearVelocity.y, isPositive);
@@ -400,14 +407,59 @@ void main() {
               (flipper) => flipper.side == BoardSide.left,
             );
 
-        game.onTapDown(tapDownEvent);
+        game.onTapDown(0, tapDownEvent);
 
         expect(flippers.first.body.linearVelocity.y, isNegative);
 
-        game.onTapCancel();
+        game.onTapCancel(0);
 
         expect(flippers.first.body.linearVelocity.y, isPositive);
       });
+
+      flameTester.test(
+        'multiple touches control both flippers',
+        (game) async {
+          await game.ready();
+
+          final raw = _MockTapDownDetails();
+          when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
+
+          final leftEventPosition = _MockEventPosition();
+          when(() => leftEventPosition.game).thenReturn(Vector2.zero());
+          when(() => leftEventPosition.widget).thenReturn(Vector2.zero());
+
+          final rightEventPosition = _MockEventPosition();
+          when(() => rightEventPosition.game).thenReturn(Vector2.zero());
+          when(() => rightEventPosition.widget).thenReturn(game.canvasSize);
+
+          final leftTapDownEvent = _MockTapDownInfo();
+          when(() => leftTapDownEvent.eventPosition)
+              .thenReturn(leftEventPosition);
+          when(() => leftTapDownEvent.raw).thenReturn(raw);
+
+          final rightTapDownEvent = _MockTapDownInfo();
+          when(() => rightTapDownEvent.eventPosition)
+              .thenReturn(rightEventPosition);
+          when(() => rightTapDownEvent.raw).thenReturn(raw);
+
+          final flippers = game.descendants().whereType<Flipper>();
+          final rightFlipper = flippers.elementAt(0);
+          final leftFlipper = flippers.elementAt(1);
+
+          game.onTapDown(0, leftTapDownEvent);
+          game.onTapDown(1, rightTapDownEvent);
+
+          expect(leftFlipper.body.linearVelocity.y, isNegative);
+          expect(leftFlipper.side, equals(BoardSide.left));
+          expect(rightFlipper.body.linearVelocity.y, isNegative);
+          expect(rightFlipper.side, equals(BoardSide.right));
+
+          expect(
+            game.focusedBoardSide,
+            equals({0: BoardSide.left, 1: BoardSide.right}),
+          );
+        },
+      );
     });
 
     group('plunger control', () {
@@ -426,7 +478,7 @@ void main() {
 
         final plunger = game.descendants().whereType<Plunger>().first;
 
-        game.onTapDown(tapDownEvent);
+        game.onTapDown(0, tapDownEvent);
 
         game.update(1);
 
@@ -436,6 +488,11 @@ void main() {
   });
 
   group('DebugPinballGame', () {
+    final debugAssets = [Assets.images.ball.flameEffect.keyName, ...assets];
+    final debugModeFlameTester = FlameTester(
+      () => DebugPinballTestGame(assets: debugAssets),
+    );
+
     debugModeFlameTester.test(
       'adds a ball on tap up',
       (game) async {
@@ -449,10 +506,74 @@ void main() {
         when(() => tapUpEvent.eventPosition).thenReturn(eventPosition);
         when(() => tapUpEvent.raw).thenReturn(raw);
 
+        await game.ready();
         final previousBalls =
             game.descendants().whereType<ControlledBall>().toList();
 
-        game.onTapUp(tapUpEvent);
+        game.onTapUp(0, tapUpEvent);
+        await game.ready();
+
+        expect(
+          game.descendants().whereType<ControlledBall>().length,
+          equals(previousBalls.length + 1),
+        );
+      },
+    );
+
+    debugModeFlameTester.test(
+      'set lineStart on pan start',
+      (game) async {
+        final startPosition = Vector2.all(10);
+        final eventPosition = _MockEventPosition();
+        when(() => eventPosition.game).thenReturn(startPosition);
+
+        final dragStartInfo = _MockDragStartInfo();
+        when(() => dragStartInfo.eventPosition).thenReturn(eventPosition);
+
+        game.onPanStart(dragStartInfo);
+        await game.ready();
+
+        expect(
+          game.lineStart,
+          equals(startPosition),
+        );
+      },
+    );
+
+    debugModeFlameTester.test(
+      'set lineEnd on pan update',
+      (game) async {
+        final endPosition = Vector2.all(10);
+        final eventPosition = _MockEventPosition();
+        when(() => eventPosition.game).thenReturn(endPosition);
+
+        final dragUpdateInfo = _MockDragUpdateInfo();
+        when(() => dragUpdateInfo.eventPosition).thenReturn(eventPosition);
+
+        game.onPanUpdate(dragUpdateInfo);
+        await game.ready();
+
+        expect(
+          game.lineEnd,
+          equals(endPosition),
+        );
+      },
+    );
+
+    debugModeFlameTester.test(
+      'launch ball on pan end',
+      (game) async {
+        final startPosition = Vector2.zero();
+        final endPosition = Vector2.all(10);
+
+        game.lineStart = startPosition;
+        game.lineEnd = endPosition;
+
+        await game.ready();
+        final previousBalls =
+            game.descendants().whereType<ControlledBall>().toList();
+
+        game.onPanEnd(_MockDragEndInfo());
         await game.ready();
 
         expect(
