@@ -34,11 +34,12 @@ void main() {
     Assets.images.android.bumper.cow.lit.keyName,
     Assets.images.android.bumper.cow.dimmed.keyName,
   ];
-  final flameTester = FlameTester(
-    () => EmptyPinballTestGame(assets: assets),
-  );
 
   group('AndroidAcres', () {
+    final flameTester = FlameTester(
+      () => EmptyPinballTestGame(assets: assets),
+    );
+
     flameTester.test('loads correctly', (game) async {
       final component = AndroidAcres();
       await game.ensureAdd(component);

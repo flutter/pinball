@@ -49,17 +49,13 @@ class Ball extends BodyComponent with Layered, InitialPosition, ZIndex {
   @override
   Body createBody() {
     final shape = CircleShape()..radius = size.x / 2;
-    final fixtureDef = FixtureDef(
-      shape,
-      density: 1,
-    );
     final bodyDef = BodyDef(
       position: initialPosition,
-      userData: this,
       type: BodyType.dynamic,
+      userData: this,
     );
 
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
+    return world.createBody(bodyDef)..createFixtureFromShape(shape, 1);
   }
 
   /// Immediatly and completly [stop]s the ball.
