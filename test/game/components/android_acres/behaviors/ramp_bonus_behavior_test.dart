@@ -6,9 +6,11 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/components/android_acres/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 import '../../../../helpers/helpers.dart';
 
@@ -72,15 +74,14 @@ void main() {
           bloc: bloc,
         );
 
-        await game.ensureAdd(parent);
+        await game.ensureAdd(ZCanvasComponent(children: [parent]));
         await parent.ensureAdd(behavior);
 
         streamController.add(SpaceshipRampState(hits: 10));
 
-        final scores = game.descendants().whereType<ScoreComponent>();
+        final scores = game.descendants().whereType<ScoringBehavior>();
         await game.ready();
 
-        verify(() => gameBloc.add(Scored(points: shotPoints.value))).called(1);
         expect(scores.length, 1);
       },
     );
@@ -103,17 +104,14 @@ void main() {
           bloc: bloc,
         );
 
-        await game.ensureAdd(parent);
+        await game.ensureAdd(ZCanvasComponent(children: [parent]));
         await parent.ensureAdd(behavior);
 
-        streamController.add(
-          SpaceshipRampState(hits: 1),
-        );
+        streamController.add(SpaceshipRampState(hits: 1));
 
-        final scores = game.descendants().whereType<ScoreComponent>();
+        final scores = game.descendants().whereType<ScoringBehavior>();
         await game.ready();
 
-        verifyNever(() => gameBloc.add(Scored(points: shotPoints.value)));
         expect(scores.length, 0);
       },
     );

@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flame/components.dart';
+import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
@@ -16,22 +19,30 @@ class RampBonusBehavior extends Component
 
   final Points _points;
 
+  StreamSubscription? _subscription;
+
   @override
   void onMount() {
     super.onMount();
 
-    parent.bloc.stream.listen((state) {
+    _subscription = parent.bloc.stream.listen((state) {
       final achievedOneMillionPoints = state.hits % 10 == 0;
 
       if (achievedOneMillionPoints) {
-        gameRef.read<GameBloc>().add(Scored(points: _points.value));
-        gameRef.add(
-          ScoreComponent(
+        parent.add(
+          ScoringBehavior(
             points: _points,
             position: Vector2(0, -60),
+            duration: 2,
           ),
         );
       }
     });
+  }
+
+  @override
+  void onRemove() {
+    _subscription?.cancel();
+    super.onRemove();
   }
 }
