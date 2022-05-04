@@ -19,21 +19,21 @@ class GameFlowController extends ComponentController<PinballGame>
   @override
   void onNewState(GameState state) {
     if (state.isGameOver) {
-      initialsInput();
+      _initialsInput();
     } else {
       start();
     }
   }
 
   /// Puts the game in the initials input state.
-  void initialsInput() {
+  void _initialsInput() {
     // TODO(erickzanardo): implement score submission and "navigate" to the
     // next page
     component.descendants().whereType<Backbox>().first.initialsInput(
           score: state?.score ?? 0,
           characterIconPath: component.characterTheme.leaderboardIcon.keyName,
         );
-    component.firstChild<CameraController>()?.focusOnGameOverBackbox();
+    component.firstChild<CameraController>()!.focusOnGameOverBackbox();
   }
 
   /// Puts the game in the playing state.

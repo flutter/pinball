@@ -61,25 +61,22 @@ void main() {
       },
     );
 
-    group('renders correctly', () {
-      flameTester.testGameWidget(
-        'empty',
-        setUp: (game, tester) async {
-          await game.images.loadAll(assets);
-          game.camera.zoom = 6;
-          game.camera.followVector2(Vector2(0, -130));
-          await game.ensureAdd(Backbox());
-          await game.ready();
-          await tester.pump();
-        },
-        verify: (game, tester) async {
-          await expectLater(
-            find.byGame<EmptyPinballTestGame>(),
-            matchesGoldenFile('../golden/backbox/empty.png'),
-          );
-        },
-      );
-    });
+    flameTester.testGameWidget(
+      'renders correctly',
+      setUp: (game, tester) async {
+        await game.images.loadAll(assets);
+        game.camera.zoom = 6;
+        game.camera.followVector2(Vector2(0, -130));
+        await game.ensureAdd(Backbox());
+        await tester.pump();
+      },
+      verify: (game, tester) async {
+        await expectLater(
+          find.byGame<EmptyPinballTestGame>(),
+          matchesGoldenFile('../golden/backbox.png'),
+        );
+      },
+    );
 
     flameTester.test(
       'initialsInput adds InitialsInputDisplay',
