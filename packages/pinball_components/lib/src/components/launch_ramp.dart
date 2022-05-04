@@ -1,7 +1,5 @@
 // ignore_for_file: avoid_renaming_method_parameters
 
-import 'dart:math' as math;
-
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -17,8 +15,6 @@ class LaunchRamp extends Component {
           children: [
             _LaunchRampBase(),
             _LaunchRampForegroundRailing(),
-            _LaunchRampExit()..initialPosition = Vector2(0.6, -34),
-            _LaunchRampCloseWall()..initialPosition = Vector2(4, -69.5),
           ],
         );
 }
@@ -109,8 +105,10 @@ class _LaunchRampBaseSpriteComponent extends SpriteComponent with HasGameRef {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    final sprite = await gameRef.loadSprite(
-      Assets.images.launchRamp.ramp.keyName,
+    final sprite = Sprite(
+      gameRef.images.fromCache(
+        Assets.images.launchRamp.ramp.keyName,
+      ),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
@@ -125,8 +123,10 @@ class _LaunchRampBackgroundRailingSpriteComponent extends SpriteComponent
   Future<void> onLoad() async {
     await super.onLoad();
 
-    final sprite = await gameRef.loadSprite(
-      Assets.images.launchRamp.backgroundRailing.keyName,
+    final sprite = Sprite(
+      gameRef.images.fromCache(
+        Assets.images.launchRamp.backgroundRailing.keyName,
+      ),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
@@ -190,60 +190,14 @@ class _LaunchRampForegroundRailingSpriteComponent extends SpriteComponent
   Future<void> onLoad() async {
     await super.onLoad();
 
-    final sprite = await gameRef.loadSprite(
-      Assets.images.launchRamp.foregroundRailing.keyName,
+    final sprite = Sprite(
+      gameRef.images.fromCache(
+        Assets.images.launchRamp.foregroundRailing.keyName,
+      ),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
     anchor = Anchor.center;
     position = Vector2(22.8, 0.5);
   }
-}
-
-class _LaunchRampCloseWall extends BodyComponent with InitialPosition, Layered {
-  _LaunchRampCloseWall() : super(renderBody: false) {
-    layer = Layer.board;
-  }
-
-  @override
-  Body createBody() {
-    final shape = EdgeShape()..set(Vector2.zero(), Vector2(0, 3));
-
-    final fixtureDef = FixtureDef(shape);
-
-    final bodyDef = BodyDef()
-      ..userData = this
-      ..position = initialPosition;
-
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
-  }
-}
-
-/// {@template launch_ramp_exit}
-/// [LayerSensor] with [Layer.launcher] to filter [Ball]s exiting the
-/// [LaunchRamp].
-/// {@endtemplate}
-class _LaunchRampExit extends LayerSensor {
-  /// {@macro launch_ramp_exit}
-  _LaunchRampExit()
-      : super(
-          insideLayer: Layer.launcher,
-          outsideLayer: Layer.board,
-          orientation: LayerEntranceOrientation.down,
-          insideZIndex: ZIndexes.ballOnLaunchRamp,
-          outsideZIndex: ZIndexes.ballOnBoard,
-        ) {
-    layer = Layer.launcher;
-  }
-
-  static final Vector2 _size = Vector2(1.6, 0.1);
-
-  @override
-  Shape get shape => PolygonShape()
-    ..setAsBox(
-      _size.x,
-      _size.y,
-      initialPosition,
-      math.pi / 2,
-    );
 }

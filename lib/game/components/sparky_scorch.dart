@@ -2,7 +2,8 @@
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:pinball/game/game.dart';
+import 'package:pinball/game/behaviors/behaviors.dart';
+import 'package:pinball/game/components/components.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template sparky_scorch}
@@ -16,17 +17,20 @@ class SparkyScorch extends Component {
           children: [
             SparkyBumper.a(
               children: [
-                BumperScoringBehavior(points: Points.twentyThousand),
+                ScoringBehavior(points: Points.twentyThousand),
+                BumperNoisyBehavior(),
               ],
             )..initialPosition = Vector2(-22.9, -41.65),
             SparkyBumper.b(
               children: [
-                BumperScoringBehavior(points: Points.twentyThousand),
+                ScoringBehavior(points: Points.twentyThousand),
+                BumperNoisyBehavior(),
               ],
             )..initialPosition = Vector2(-21.25, -57.9),
             SparkyBumper.c(
               children: [
-                BumperScoringBehavior(points: Points.twentyThousand),
+                ScoringBehavior(points: Points.twentyThousand),
+                BumperNoisyBehavior(),
               ],
             )..initialPosition = Vector2(-3.3, -52.55),
             SparkyComputerSensor()..initialPosition = Vector2(-13, -49.9),

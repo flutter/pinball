@@ -7,7 +7,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template scoring_behavior}
-/// Adds points to the score when the ball contacts the [parent].
+/// Adds points to the score when the [Ball] contacts the [parent].
 /// {@endtemplate}
 class ScoringBehavior extends ContactBehavior with HasGameRef<PinballGame> {
   /// {@macro scoring_behavior}
@@ -29,25 +29,5 @@ class ScoringBehavior extends ContactBehavior with HasGameRef<PinballGame> {
             position: other.body.position,
           ),
         );
-  }
-}
-
-/// {@template bumper_scoring_behavior}
-/// A specific [ScoringBehavior] used for Bumpers.
-/// In addition to its parent logic, also plays the
-/// SFX for bumpers
-/// {@endtemplate}
-class BumperScoringBehavior extends ScoringBehavior {
-  /// {@macro bumper_scoring_behavior}
-  BumperScoringBehavior({
-    required Points points,
-  }) : super(points: points);
-
-  @override
-  void beginContact(Object other, Contact contact) {
-    super.beginContact(other, contact);
-    if (other is! Ball) return;
-
-    gameRef.audio.bumper();
   }
 }

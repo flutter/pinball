@@ -5,8 +5,8 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
@@ -16,8 +16,6 @@ class _TestBodyComponent extends BodyComponent {
   @override
   Body createBody() => world.createBody(BodyDef());
 }
-
-class _MockPinballAudio extends Mock implements PinballAudio {}
 
 class _MockBall extends Mock implements Ball {}
 
@@ -39,12 +37,10 @@ void main() {
   group('ScoringBehavior', () {
     group('beginContact', () {
       late GameBloc bloc;
-      late PinballAudio audio;
       late Ball ball;
       late BodyComponent parent;
 
       setUp(() {
-        audio = _MockPinballAudio();
         ball = _MockBall();
         final ballBody = _MockBody();
         when(() => ball.body).thenReturn(ballBody);
@@ -54,9 +50,7 @@ void main() {
       });
 
       final flameBlocTester = FlameBlocTester<EmptyPinballTestGame, GameBloc>(
-        gameBuilder: () => EmptyPinballTestGame(
-          audio: audio,
-        ),
+        gameBuilder: EmptyPinballTestGame.new,
         blocBuilder: () {
           bloc = _MockGameBloc();
           const state = GameState(
@@ -112,59 +106,6 @@ void main() {
             scoreText.first.position,
             equals(ball.body.position),
           );
-        },
-      );
-    });
-  });
-
-  group('BumperScoringBehavior', () {
-    group('beginContact', () {
-      late GameBloc bloc;
-      late PinballAudio audio;
-      late Ball ball;
-      late BodyComponent parent;
-
-      setUp(() {
-        audio = _MockPinballAudio();
-        ball = _MockBall();
-        final ballBody = _MockBody();
-        when(() => ball.body).thenReturn(ballBody);
-        when(() => ballBody.position).thenReturn(Vector2.all(4));
-
-        parent = _TestBodyComponent();
-      });
-
-      final flameBlocTester = FlameBlocTester<EmptyPinballTestGame, GameBloc>(
-        gameBuilder: () => EmptyPinballTestGame(
-          audio: audio,
-        ),
-        blocBuilder: () {
-          bloc = _MockGameBloc();
-          const state = GameState(
-            score: 0,
-            multiplier: 1,
-            rounds: 3,
-            bonusHistory: [],
-          );
-          whenListen(bloc, Stream.value(state), initialState: state);
-          return bloc;
-        },
-        assets: assets,
-      );
-
-      flameBlocTester.testGameWidget(
-        'plays bumper sound',
-        setUp: (game, tester) async {
-          final scoringBehavior = BumperScoringBehavior(
-            points: Points.oneMillion,
-          );
-          await parent.add(scoringBehavior);
-          final canvas = ZCanvasComponent(children: [parent]);
-          await game.ensureAdd(canvas);
-
-          scoringBehavior.beginContact(ball, _MockContact());
-
-          verify(audio.bumper).called(1);
         },
       );
     });

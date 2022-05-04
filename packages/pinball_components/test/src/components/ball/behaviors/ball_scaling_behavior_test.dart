@@ -1,12 +1,9 @@
 // ignore_for_file: cascade_invocations
 
-import 'dart:ui';
-
 import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_components/src/components/ball/behaviors/behaviors.dart';
 import 'package:pinball_theme/pinball_theme.dart' as theme;
 
 import '../../../../helpers/helpers.dart';
@@ -17,7 +14,6 @@ void main() {
   final flameTester = FlameTester(() => TestGame([asset]));
 
   group('BallScalingBehavior', () {
-    const baseColor = Color(0xFFFFFFFF);
     test('can be instantiated', () {
       expect(
         BallScalingBehavior(),

@@ -128,6 +128,9 @@ void main() {
     Assets.images.sparky.bumper.b.dimmed.keyName,
     Assets.images.sparky.bumper.c.lit.keyName,
     Assets.images.sparky.bumper.c.dimmed.keyName,
+    Assets.images.flapper.flap.keyName,
+    Assets.images.flapper.backSupport.keyName,
+    Assets.images.flapper.frontSupport.keyName,
   ];
 
   late GameBloc gameBloc;
@@ -141,19 +144,16 @@ void main() {
     );
   });
 
-  final flameTester = FlameTester(
-    () => PinballTestGame(assets: assets),
-  );
-  final debugModeFlameTester = FlameTester(
-    () => DebugPinballTestGame(assets: assets),
-  );
-
-  final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
-    gameBuilder: () => PinballTestGame(assets: assets),
-    blocBuilder: () => gameBloc,
-  );
-
   group('PinballGame', () {
+    final flameTester = FlameTester(
+      () => PinballTestGame(assets: assets),
+    );
+
+    final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
+      gameBuilder: () => PinballTestGame(assets: assets),
+      blocBuilder: () => gameBloc,
+    );
+
     group('components', () {
       // TODO(alestiago): tests that Blueprints get added once the Blueprint
       // class is removed.
@@ -248,6 +248,8 @@ void main() {
               final newState = _MockGameState();
               when(() => newState.isGameOver).thenReturn(false);
 
+              await game.ready();
+
               expect(
                 game.descendants().whereType<ControlledBall>().length,
                 greaterThan(0),
@@ -327,7 +329,7 @@ void main() {
               (flipper) => flipper.side == BoardSide.left,
             );
 
-        game.onTapDown(tapDownEvent);
+        game.onTapDown(0, tapDownEvent);
 
         expect(flippers.first.body.linearVelocity.y, isNegative);
       });
@@ -350,7 +352,7 @@ void main() {
               (flipper) => flipper.side == BoardSide.right,
             );
 
-        game.onTapDown(tapDownEvent);
+        game.onTapDown(0, tapDownEvent);
 
         expect(flippers.first.body.linearVelocity.y, isNegative);
       });
@@ -373,14 +375,14 @@ void main() {
               (flipper) => flipper.side == BoardSide.left,
             );
 
-        game.onTapDown(tapDownEvent);
+        game.onTapDown(0, tapDownEvent);
 
         expect(flippers.first.body.linearVelocity.y, isNegative);
 
         final tapUpEvent = _MockTapUpInfo();
         when(() => tapUpEvent.eventPosition).thenReturn(eventPosition);
 
-        game.onTapUp(tapUpEvent);
+        game.onTapUp(0, tapUpEvent);
         await game.ready();
 
         expect(flippers.first.body.linearVelocity.y, isPositive);
@@ -404,11 +406,11 @@ void main() {
               (flipper) => flipper.side == BoardSide.left,
             );
 
-        game.onTapDown(tapDownEvent);
+        game.onTapDown(0, tapDownEvent);
 
         expect(flippers.first.body.linearVelocity.y, isNegative);
 
-        game.onTapCancel();
+        game.onTapCancel(0);
 
         expect(flippers.first.body.linearVelocity.y, isPositive);
       });
@@ -430,7 +432,7 @@ void main() {
 
         final plunger = game.descendants().whereType<Plunger>().first;
 
-        game.onTapDown(tapDownEvent);
+        game.onTapDown(0, tapDownEvent);
 
         game.update(1);
 
@@ -440,6 +442,10 @@ void main() {
   });
 
   group('DebugPinballGame', () {
+    final debugModeFlameTester = FlameTester(
+      () => DebugPinballTestGame(assets: assets),
+    );
+
     debugModeFlameTester.test(
       'adds a ball on tap up',
       (game) async {
@@ -453,10 +459,11 @@ void main() {
         when(() => tapUpEvent.eventPosition).thenReturn(eventPosition);
         when(() => tapUpEvent.raw).thenReturn(raw);
 
+        await game.ready();
         final previousBalls =
             game.descendants().whereType<ControlledBall>().toList();
 
-        game.onTapUp(tapUpEvent);
+        game.onTapUp(0, tapUpEvent);
         await game.ready();
 
         expect(
