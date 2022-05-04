@@ -15,9 +15,11 @@ class _MockGameBloc extends Mock implements GameBloc {}
 void main() {
   late GameBloc gameBloc;
   late StreamController<GameState> stateController;
-  const score = 123456789;
+  const totalScore = 123456789;
+  const roundScore = 1234;
   const initialState = GameState(
-    score: score,
+    totalScore: totalScore,
+    roundScore: roundScore,
     multiplier: 1,
     rounds: 1,
     bonusHistory: [],
@@ -42,7 +44,10 @@ void main() {
       );
       await tester.pump();
 
-      expect(find.text(score.formatScore()), findsOneWidget);
+      expect(
+        find.text(initialState.displayScore.formatScore()),
+        findsOneWidget,
+      );
     });
 
     testWidgets('renders game over', (tester) async {
@@ -69,17 +74,23 @@ void main() {
         gameBloc: gameBloc,
       );
 
-      expect(find.text(score.formatScore()), findsOneWidget);
+      expect(
+        find.text(initialState.displayScore.formatScore()),
+        findsOneWidget,
+      );
 
       final newState = initialState.copyWith(
-        score: 987654321,
+        roundScore: 5678,
       );
 
       stateController.add(newState);
 
       await tester.pump();
 
-      expect(find.text(newState.score.formatScore()), findsOneWidget);
+      expect(
+        find.text(newState.displayScore.formatScore()),
+        findsOneWidget,
+      );
     });
   });
 }

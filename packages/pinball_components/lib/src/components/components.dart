@@ -1,7 +1,6 @@
 export 'android_animatronic.dart';
 export 'android_bumper/android_bumper.dart';
 export 'android_spaceship/android_spaceship.dart';
-export 'backboard/backboard.dart';
 export 'ball/ball.dart';
 export 'baseboard.dart';
 export 'board_background_sprite_component.dart';
@@ -32,7 +31,7 @@ export 'shapes/shapes.dart';
 export 'signpost/signpost.dart';
 export 'slingshot.dart';
 export 'spaceship_rail.dart';
-export 'spaceship_ramp.dart';
+export 'spaceship_ramp/spaceship_ramp.dart';
 export 'sparky_animatronic.dart';
 export 'sparky_bumper/sparky_bumper.dart';
 export 'sparky_computer.dart';

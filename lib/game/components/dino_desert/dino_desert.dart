@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
+import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/components/dino_desert/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -16,7 +17,7 @@ class DinoDesert extends Component {
           children: [
             ChromeDino(
               children: [
-                ScoringBehavior(points: Points.twoHundredThousand)
+                ScoringContactBehavior(points: Points.twoHundredThousand)
                   ..applyTo(['inside_mouth']),
               ],
             )..initialPosition = Vector2(12.6, -6.9),

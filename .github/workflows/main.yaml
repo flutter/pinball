@@ -13,3 +13,4 @@ jobs:
       flutter_channel: stable
       flutter_version: 2.10.0
       coverage_excludes: "lib/gen/*.dart"
+      test_optimization: false
