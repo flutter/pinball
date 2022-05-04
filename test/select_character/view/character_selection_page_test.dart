@@ -1,5 +1,4 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -17,11 +16,8 @@ void main() {
   late CharacterThemeCubit characterThemeCubit;
 
   setUp(() async {
-    Flame.images.prefix = '';
-    await Flame.images.load(const DashTheme().animation.keyName);
-    await Flame.images.load(const AndroidTheme().animation.keyName);
-    await Flame.images.load(const DinoTheme().animation.keyName);
-    await Flame.images.load(const SparkyTheme().animation.keyName);
+    await mockFlameImages();
+
     characterThemeCubit = _MockCharacterThemeCubit();
     whenListen(
       characterThemeCubit,
