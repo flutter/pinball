@@ -2,6 +2,7 @@
 
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pinball/game/behaviors/bumper_noisy_behavior.dart';
 import 'package:pinball/game/components/android_acres/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -97,6 +98,20 @@ void main() {
             game.descendants().whereType<AndroidBumper>().length,
             equals(3),
           );
+        },
+      );
+
+      flameTester.test(
+        'three AndroidBumpers with BumperNoisyBehavior',
+        (game) async {
+          await game.ensureAdd(AndroidAcres());
+          final bumpers = game.descendants().whereType<AndroidBumper>();
+          for (final bumper in bumpers) {
+            expect(
+              bumper.firstChild<BumperNoisyBehavior>(),
+              isNotNull,
+            );
+          }
         },
       );
     });

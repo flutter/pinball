@@ -2,6 +2,7 @@
 
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
@@ -63,7 +64,7 @@ void main() {
       );
 
       flameTester.test(
-        'three DashNestBumper',
+        'three DashNestBumper with BumperNoisyBehaviors',
         (game) async {
           final flutterForest = FlutterForest();
           await game.ensureAdd(ZCanvasComponent(children: [flutterForest]));
@@ -71,6 +72,20 @@ void main() {
             game.descendants().whereType<DashNestBumper>().length,
             equals(3),
           );
+        },
+      );
+
+      flameTester.test(
+        'three DashNestBumpers with BumperNoisyBehavior',
+        (game) async {
+          await game.ensureAdd(FlutterForest());
+          final bumpers = game.descendants().whereType<DashNestBumper>();
+          for (final bumper in bumpers) {
+            expect(
+              bumper.firstChild<BumperNoisyBehavior>(),
+              isNotNull,
+            );
+          }
         },
       );
     });
