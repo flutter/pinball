@@ -24,6 +24,7 @@ class SparkyScorch extends Component {
             SparkyBumper.b(
               children: [
                 ScoringBehavior(points: Points.twentyThousand),
+                BumperNoisyBehavior(),
               ],
             )..initialPosition = Vector2(-21.25, -57.9),
             SparkyBumper.c(
