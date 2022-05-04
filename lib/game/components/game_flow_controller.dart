@@ -1,7 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template game_flow_controller}
@@ -20,27 +19,26 @@ class GameFlowController extends ComponentController<PinballGame>
   @override
   void onNewState(GameState state) {
     if (state.isGameOver) {
-      gameOver();
+      _initialsInput();
     } else {
       start();
     }
   }
 
-  /// Puts the game on a game over state
-  void gameOver() {
+  /// Puts the game in the initials input state.
+  void _initialsInput() {
     // TODO(erickzanardo): implement score submission and "navigate" to the
     // next page
-    component.firstChild<Backboard>()?.gameOverMode(
+    component.descendants().whereType<Backbox>().first.initialsInput(
           score: state?.score ?? 0,
           characterIconPath: component.characterTheme.leaderboardIcon.keyName,
         );
-    component.firstChild<CameraController>()?.focusOnBackboard();
+    component.firstChild<CameraController>()!.focusOnGameOverBackbox();
   }
 
-  /// Puts the game on a playing state
+  /// Puts the game in the playing state.
   void start() {
     component.audio.backgroundMusic();
-    component.firstChild<Backboard>()?.waitingMode();
     component.firstChild<CameraController>()?.focusOnGame();
     component.overlays.remove(PinballGame.playButtonOverlay);
   }

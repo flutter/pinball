@@ -8,6 +8,7 @@ import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
@@ -22,6 +23,7 @@ class PinballGame extends PinballForge2DGame
   PinballGame({
     required this.characterTheme,
     required this.audio,
+    required this.l10n,
   }) : super(gravity: Vector2(0, 30)) {
     images.prefix = '';
     controller = _GameBallsController(this);
@@ -37,6 +39,8 @@ class PinballGame extends PinballForge2DGame
 
   final PinballAudio audio;
 
+  final AppLocalizations l10n;
+
   late final GameFlowController gameFlowController;
 
   @override
@@ -47,7 +51,7 @@ class PinballGame extends PinballForge2DGame
     final machine = [
       BoardBackgroundSpriteComponent(),
       Boundaries(),
-      Backboard.waiting(position: Vector2(0, -88)),
+      Backbox(),
     ];
     final decals = [
       GoogleWord(position: Vector2(-4.25, 1.8)),
@@ -167,9 +171,11 @@ class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
   DebugPinballGame({
     required CharacterTheme characterTheme,
     required PinballAudio audio,
+    required AppLocalizations l10n,
   }) : super(
           characterTheme: characterTheme,
           audio: audio,
+          l10n: l10n,
         ) {
     controller = _GameBallsController(this);
   }
