@@ -73,7 +73,6 @@ flutter:
     - assets/images/sparky/bumper/a/
     - assets/images/sparky/bumper/b/
     - assets/images/sparky/bumper/c/
-    - assets/images/backboard/
     - assets/images/google_word/letter1/
     - assets/images/google_word/letter2/
     - assets/images/google_word/letter3/
@@ -88,6 +87,7 @@ flutter:
     - assets/images/multiplier/x5/
     - assets/images/multiplier/x6/
     - assets/images/score/
+    - assets/images/backbox/
     - assets/images/flapper/
 
 flutter_gen:

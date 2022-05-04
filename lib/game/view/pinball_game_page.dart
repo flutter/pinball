@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/assets_manager/assets_manager.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
@@ -39,8 +40,16 @@ class PinballGamePage extends StatelessWidget {
     final pinballAudio = context.read<PinballAudio>();
 
     final game = isDebugMode
-        ? DebugPinballGame(characterTheme: characterTheme, audio: audio)
-        : PinballGame(characterTheme: characterTheme, audio: audio);
+        ? DebugPinballGame(
+            characterTheme: characterTheme,
+            audio: audio,
+            l10n: context.l10n,
+          )
+        : PinballGame(
+            characterTheme: characterTheme,
+            audio: audio,
+            l10n: context.l10n,
+          );
 
     final loadables = [
       ...game.preLoadAssets(),
