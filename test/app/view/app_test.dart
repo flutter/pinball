@@ -24,7 +24,7 @@ void main() {
       authenticationRepository = _MockAuthenticationRepository();
       leaderboardRepository = _MockLeaderboardRepository();
       pinballAudio = _MockPinballAudio();
-      when(pinballAudio.load).thenAnswer((_) => Future.value());
+      when(pinballAudio.load).thenAnswer((_) => [Future.value()]);
     });
 
     testWidgets('renders PinballGamePage', (tester) async {

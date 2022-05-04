@@ -28,7 +28,7 @@ class _MockPinballAudio extends Mock implements PinballAudio {}
 
 PinballAudio _buildDefaultPinballAudio() {
   final audio = _MockPinballAudio();
-  when(audio.load).thenAnswer((_) => Future.value());
+  when(audio.load).thenAnswer((_) => [Future.value()]);
   return audio;
 }
 
