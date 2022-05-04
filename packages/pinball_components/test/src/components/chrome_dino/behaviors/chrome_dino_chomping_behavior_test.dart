@@ -4,11 +4,11 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_components/src/components/chrome_dino/behaviors/behaviors.dart';
+import 'package:pinball_theme/pinball_theme.dart' as theme;
 
 import '../../../../helpers/helpers.dart';
 
@@ -20,7 +20,10 @@ class _MockFixture extends Mock implements Fixture {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(TestGame.new);
+  final assets = [
+    theme.Assets.images.dash.ball.keyName,
+  ];
+  final flameTester = FlameTester(() => TestGame(assets));
 
   group(
     'ChromeDinoChompingBehavior',
@@ -35,7 +38,7 @@ void main() {
       flameTester.test(
         'beginContact sets ball sprite to be invisible and calls onChomp',
         (game) async {
-          final ball = Ball(baseColor: Colors.red);
+          final ball = Ball();
           final behavior = ChromeDinoChompingBehavior();
           final bloc = _MockChromeDinoCubit();
           whenListen(

@@ -8,6 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_theme/pinball_theme.dart' as theme;
 
 import '../helpers/helpers.dart';
 
@@ -43,7 +44,10 @@ void main() {
     Assets.images.backbox.marquee.keyName,
     Assets.images.backbox.displayDivider.keyName,
     Assets.images.boardBackground.keyName,
-    Assets.images.ball.ball.keyName,
+    theme.Assets.images.android.ball.keyName,
+    theme.Assets.images.dash.ball.keyName,
+    theme.Assets.images.dino.ball.keyName,
+    theme.Assets.images.sparky.ball.keyName,
     Assets.images.ball.flameEffect.keyName,
     Assets.images.baseboard.left.keyName,
     Assets.images.baseboard.right.keyName,

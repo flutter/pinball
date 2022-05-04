@@ -7,7 +7,6 @@ import 'package:sandbox/stories/ball/basic_ball_game.dart';
 class AndroidBumperAGame extends BallGame {
   AndroidBumperAGame()
       : super(
-          color: const Color(0xFF0000FF),
           imagesFileNames: [
             Assets.images.android.bumper.a.lit.keyName,
             Assets.images.android.bumper.a.dimmed.keyName,

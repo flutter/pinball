@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
 /// {@template dash_theme}
@@ -12,7 +11,7 @@ class DashTheme extends CharacterTheme {
   String get name => 'Dash';
 
   @override
-  Color get ballColor => Colors.blue;
+  AssetGenImage get ball => Assets.images.dash.ball;
 
   @override
   AssetGenImage get background => Assets.images.dash.background;
