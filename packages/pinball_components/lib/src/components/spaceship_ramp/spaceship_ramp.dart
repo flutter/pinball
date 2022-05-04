@@ -53,7 +53,7 @@ class SpaceshipRamp extends Component {
             _SpaceshipRampForegroundRailing(),
             _SpaceshipRampBase()..initialPosition = Vector2(1.7, -20),
             _SpaceshipRampBackgroundRailingSpriteComponent(),
-            _SpaceshipRampArrowSpriteComponent(
+            SpaceshipRampArrowSpriteComponent(
               current: bloc.state.hits,
             ),
             ...?children,
@@ -183,10 +183,11 @@ class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
 ///
 /// Lights progressively whenever a [Ball] gets into [SpaceshipRamp].
 /// {@endtemplate}
-class _SpaceshipRampArrowSpriteComponent extends SpriteGroupComponent<int>
+@visibleForTesting
+class SpaceshipRampArrowSpriteComponent extends SpriteGroupComponent<int>
     with HasGameRef, ParentIsA<SpaceshipRamp>, ZIndex {
   /// {@macro spaceship_ramp_arrow_sprite_component}
-  _SpaceshipRampArrowSpriteComponent({
+  SpaceshipRampArrowSpriteComponent({
     required int current,
   }) : super(
           anchor: Anchor.center,

@@ -52,8 +52,12 @@ void main() {
 
           await tester.pump();
 
+          final index = ramp.children
+              .whereType<SpaceshipRampArrowSpriteComponent>()
+              .first
+              .current;
           expect(
-            ramp.children.whereType<SpriteGroupComponent>().first.current,
+            SpaceshipRampArrowSpriteState.values[index!],
             SpaceshipRampArrowSpriteState.inactive,
           );
 
@@ -76,10 +80,16 @@ void main() {
           await game.ensureAdd(canvas);
 
           ramp.bloc.onBallInside();
+
+          await game.ready();
           await tester.pump();
 
+          final index = ramp.children
+              .whereType<SpaceshipRampArrowSpriteComponent>()
+              .first
+              .current;
           expect(
-            ramp.children.whereType<SpriteGroupComponent>().first.current,
+            SpaceshipRampArrowSpriteState.values[index!],
             SpaceshipRampArrowSpriteState.active1,
           );
 
@@ -105,10 +115,15 @@ void main() {
             ..onBallInside()
             ..onBallInside();
 
+          await game.ready();
           await tester.pump();
 
+          final index = ramp.children
+              .whereType<SpaceshipRampArrowSpriteComponent>()
+              .first
+              .current;
           expect(
-            ramp.children.whereType<SpriteGroupComponent>().first.current,
+            SpaceshipRampArrowSpriteState.values[index!],
             SpaceshipRampArrowSpriteState.active2,
           );
 
@@ -135,10 +150,15 @@ void main() {
             ..onBallInside()
             ..onBallInside();
 
+          await game.ready();
           await tester.pump();
 
+          final index = ramp.children
+              .whereType<SpaceshipRampArrowSpriteComponent>()
+              .first
+              .current;
           expect(
-            ramp.children.whereType<SpriteGroupComponent>().first.current,
+            SpaceshipRampArrowSpriteState.values[index!],
             SpaceshipRampArrowSpriteState.active3,
           );
 
@@ -166,10 +186,15 @@ void main() {
             ..onBallInside()
             ..onBallInside();
 
+          await game.ready();
           await tester.pump();
 
+          final index = ramp.children
+              .whereType<SpaceshipRampArrowSpriteComponent>()
+              .first
+              .current;
           expect(
-            ramp.children.whereType<SpriteGroupComponent>().first.current,
+            SpaceshipRampArrowSpriteState.values[index!],
             SpaceshipRampArrowSpriteState.active4,
           );
 
@@ -198,10 +223,15 @@ void main() {
             ..onBallInside()
             ..onBallInside();
 
+          await game.ready();
           await tester.pump();
 
+          final index = ramp.children
+              .whereType<SpaceshipRampArrowSpriteComponent>()
+              .first
+              .current;
           expect(
-            ramp.children.whereType<SpriteGroupComponent>().first.current,
+            SpaceshipRampArrowSpriteState.values[index!],
             SpaceshipRampArrowSpriteState.active5,
           );
 
