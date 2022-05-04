@@ -224,6 +224,7 @@ class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
     firstChild<ZCanvasComponent>()?.add(ball);
   }
 }
+// coverage:ignore-end
 
 // coverage:ignore-start
 class _PreviewLine extends PositionComponent with HasGameRef<DebugPinballGame> {
@@ -245,6 +246,7 @@ class _PreviewLine extends PositionComponent with HasGameRef<DebugPinballGame> {
     }
   }
 }
+// coverage:ignore-end
 
 // TODO(wolfenrain): investigate this CI failure.
 // coverage:ignore-start

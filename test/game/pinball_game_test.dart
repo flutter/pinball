@@ -438,8 +438,9 @@ void main() {
   });
 
   group('DebugPinballGame', () {
+    final debugAssets = [Assets.images.ball.flameEffect.keyName, ...assets];
     final debugModeFlameTester = FlameTester(
-      () => DebugPinballTestGame(assets: assets),
+      () => DebugPinballTestGame(assets: debugAssets),
     );
 
     debugModeFlameTester.test(
