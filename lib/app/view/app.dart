@@ -17,15 +17,15 @@ class App extends StatelessWidget {
     Key? key,
     required AuthenticationRepository authenticationRepository,
     required LeaderboardRepository leaderboardRepository,
-    required PinballAudio pinballAudio,
+    required PinballPlayer pinballPlayer,
   })  : _authenticationRepository = authenticationRepository,
         _leaderboardRepository = leaderboardRepository,
-        _pinballAudio = pinballAudio,
+        _pinballPlayer = pinballPlayer,
         super(key: key);
 
   final AuthenticationRepository _authenticationRepository;
   final LeaderboardRepository _leaderboardRepository;
-  final PinballAudio _pinballAudio;
+  final PinballPlayer _pinballPlayer;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class App extends StatelessWidget {
       providers: [
         RepositoryProvider.value(value: _authenticationRepository),
         RepositoryProvider.value(value: _leaderboardRepository),
-        RepositoryProvider.value(value: _pinballAudio),
+        RepositoryProvider.value(value: _pinballPlayer),
       ],
       child: MultiBlocProvider(
         providers: [

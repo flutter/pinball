@@ -3,8 +3,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/gen/gen.dart';
 import 'package:pinball/l10n/l10n.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 import 'package:platform_helper/platform_helper.dart';
 
@@ -91,6 +93,7 @@ class _HowToPlayDialogState extends State<HowToPlayDialog> {
     return WillPopScope(
       onWillPop: () {
         widget.onDismissCallback.call();
+        context.read<PinballPlayer>().play(PinballAudio.ioPinballVoiceOver);
         return Future.value(true);
       },
       child: PinballDialog(

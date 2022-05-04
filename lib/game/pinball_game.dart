@@ -23,8 +23,8 @@ class PinballGame extends PinballForge2DGame
         MultiTouchTapDetector {
   PinballGame({
     required this.characterTheme,
-    required this.audio,
     required this.l10n,
+    required this.player,
   }) : super(gravity: Vector2(0, 30)) {
     images.prefix = '';
     controller = _GameBallsController(this);
@@ -38,7 +38,7 @@ class PinballGame extends PinballForge2DGame
 
   final CharacterTheme characterTheme;
 
-  final PinballAudio audio;
+  final PinballPlayer player;
 
   final AppLocalizations l10n;
 
@@ -186,11 +186,11 @@ class _GameBallsController extends ComponentController<PinballGame>
 class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
   DebugPinballGame({
     required CharacterTheme characterTheme,
-    required PinballAudio audio,
     required AppLocalizations l10n,
+    required PinballPlayer player,
   }) : super(
           characterTheme: characterTheme,
-          audio: audio,
+          player: player,
           l10n: l10n,
         ) {
     controller = _GameBallsController(this);
