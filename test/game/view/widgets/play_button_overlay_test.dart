@@ -1,10 +1,8 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flame/flame.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/select_character/select_character.dart';
-import 'package:pinball_theme/pinball_theme.dart';
 
 import '../../../helpers/helpers.dart';
 
@@ -21,14 +19,12 @@ void main() {
     late CharacterThemeCubit characterThemeCubit;
 
     setUp(() async {
-      Flame.images.prefix = '';
-      await Flame.images.load(const DashTheme().animation.keyName);
-      await Flame.images.load(const AndroidTheme().animation.keyName);
-      await Flame.images.load(const DinoTheme().animation.keyName);
-      await Flame.images.load(const SparkyTheme().animation.keyName);
+      await mockFlameImages();
+
       game = _MockPinballGame();
       gameFlowController = _MockGameFlowController();
       characterThemeCubit = _MockCharacterThemeCubit();
+
       whenListen(
         characterThemeCubit,
         const Stream<CharacterThemeState>.empty(),

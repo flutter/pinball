@@ -18,7 +18,6 @@ void main() {
   addGoogleWordStories(dashbook);
   addLaunchRampStories(dashbook);
   addScoreStories(dashbook);
-  addBackboardStories(dashbook);
   addMultiballStories(dashbook);
   addMultipliersStories(dashbook);
 
