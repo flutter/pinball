@@ -23,16 +23,20 @@ class ScoreComponent extends SpriteComponent with HasGameRef, ZIndex {
   ScoreComponent({
     required this.points,
     required Vector2 position,
-  }) : super(
+    required EffectController effectController,
+  })  : _effectController = effectController,
+        super(
           position: position,
           anchor: Anchor.center,
         ) {
     zIndex = ZIndexes.score;
   }
 
+  late Points points;
+
   late final Effect _effect;
 
-  late Points points;
+  final EffectController _effectController;
 
   @override
   Future<void> onLoad() async {
@@ -46,7 +50,7 @@ class ScoreComponent extends SpriteComponent with HasGameRef, ZIndex {
     await add(
       _effect = MoveEffect.by(
         Vector2(0, -5),
-        EffectController(duration: 1),
+        _effectController,
       ),
     );
   }

@@ -68,13 +68,13 @@ void main() {
 
     group('adds', () {
       flameTester.test(
-        'ScoringBehavior to ChromeDino',
+        'ScoringContactBehavior to ChromeDino',
         (game) async {
           await game.ensureAdd(DinoDesert());
 
           final chromeDino = game.descendants().whereType<ChromeDino>().single;
           expect(
-            chromeDino.firstChild<ScoringBehavior>(),
+            chromeDino.firstChild<ScoringContactBehavior>(),
             isNotNull,
           );
         },
