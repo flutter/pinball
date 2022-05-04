@@ -10,7 +10,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template scoring_behavior}
 /// Adds [_points] to the score and shows a text effect.
 ///
-/// The behavior removes itself after the effect is completed.
+/// The behavior removes itself after the duration.
 /// {@endtemplate}
 class ScoringBehavior extends Component with HasGameRef<PinballGame> {
   /// {@macto scoring_behavior}
