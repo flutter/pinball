@@ -9,7 +9,7 @@ import 'package:pinball_flame/src/canvas/canvas_wrapper.dart';
 /// the [Sprite].
 typedef PaintFunction = void Function(Paint)?;
 
-/// {@template canvas}
+/// {@template canvas_component}
 /// Allows listening before the rendering of [Sprite]s.
 ///
 /// The existance of this class is to hack around the fact that Flame doesn't
@@ -17,7 +17,7 @@ typedef PaintFunction = void Function(Paint)?;
 /// [Sprite].
 /// {@endtemplate}
 class CanvasComponent extends Component {
-  /// {@macro canvas}
+  /// {@macro canvas_component}
   CanvasComponent({
     PaintFunction? onSpritePainted,
     Iterable<Component>? children,
