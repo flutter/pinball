@@ -163,7 +163,8 @@ class _GameBallsController extends ComponentController<PinballGame>
   }
 }
 
-class DebugPinballGame extends PinballGame with FPSCounter {
+// coverage:ignore-start
+class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
   DebugPinballGame({
     required CharacterTheme characterTheme,
     required PinballAudio audio,
@@ -174,9 +175,14 @@ class DebugPinballGame extends PinballGame with FPSCounter {
     controller = _GameBallsController(this);
   }
 
+  Vector2? lineStart;
+  Vector2? lineEnd;
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    await add(_PreviewLine());
+
     await add(_DebugInformation());
   }
 
@@ -188,6 +194,54 @@ class DebugPinballGame extends PinballGame with FPSCounter {
       final ball = ControlledBall.debug()
         ..initialPosition = info.eventPosition.game;
       firstChild<ZCanvasComponent>()?.add(ball);
+    }
+  }
+
+  @override
+  void onPanStart(DragStartInfo info) {
+    lineStart = info.eventPosition.game;
+  }
+
+  @override
+  void onPanUpdate(DragUpdateInfo info) {
+    lineEnd = info.eventPosition.game;
+  }
+
+  @override
+  void onPanEnd(DragEndInfo info) {
+    if (lineEnd != null) {
+      final line = lineEnd! - lineStart!;
+      onLine(line);
+      lineEnd = null;
+      lineStart = null;
+    }
+  }
+
+  void onLine(Vector2 line) {
+    final ball = ControlledBall.debug()..initialPosition = lineStart!;
+    final impulse = line * -1 * 10;
+    ball.add(BallTurboChargingBehavior(impulse: impulse));
+    firstChild<ZCanvasComponent>()?.add(ball);
+  }
+}
+
+// coverage:ignore-start
+class _PreviewLine extends PositionComponent with HasGameRef<DebugPinballGame> {
+  static final _previewLinePaint = Paint()
+    ..color = Colors.pink
+    ..strokeWidth = 0.4
+    ..style = PaintingStyle.stroke;
+
+  @override
+  void render(Canvas canvas) {
+    super.render(canvas);
+
+    if (gameRef.lineEnd != null) {
+      canvas.drawLine(
+        gameRef.lineStart!.toOffset(),
+        gameRef.lineEnd!.toOffset(),
+        _previewLinePaint,
+      );
     }
   }
 }
