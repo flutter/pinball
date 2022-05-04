@@ -13,8 +13,9 @@ class BallBoosterGame extends LineGame {
   @override
   void onLine(Vector2 line) {
     final ball = Ball(baseColor: Colors.transparent);
-    add(ball);
+    final impulse = line * -1 * 20;
+    ball.add(BallTurboChargingBehavior(impulse: impulse));
 
-    ball.mounted.then((value) => ball.boost(line * -1 * 20));
+    add(ball);
   }
 }

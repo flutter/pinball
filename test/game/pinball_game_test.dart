@@ -124,6 +124,9 @@ void main() {
     Assets.images.sparky.bumper.b.dimmed.keyName,
     Assets.images.sparky.bumper.c.lit.keyName,
     Assets.images.sparky.bumper.c.dimmed.keyName,
+    Assets.images.flapper.flap.keyName,
+    Assets.images.flapper.backSupport.keyName,
+    Assets.images.flapper.frontSupport.keyName,
   ];
 
   late GameBloc gameBloc;

@@ -67,7 +67,9 @@ class BallController extends ComponentController<Ball>
       const Duration(milliseconds: 2583),
     );
     component.resume();
-    await component.boost(Vector2(40, 110));
+    await component.add(
+      BallTurboChargingBehavior(impulse: Vector2(40, 110)),
+    );
   }
 
   @override

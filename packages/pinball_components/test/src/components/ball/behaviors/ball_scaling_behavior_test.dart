@@ -6,7 +6,6 @@ import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_components/src/components/ball/behaviors/behaviors.dart';
 
 import '../../../../helpers/helpers.dart';
 
