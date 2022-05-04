@@ -8,6 +8,7 @@ import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
@@ -22,6 +23,7 @@ class PinballGame extends PinballForge2DGame
   PinballGame({
     required this.characterTheme,
     required this.audio,
+    required this.l10n,
   }) : super(gravity: Vector2(0, 30)) {
     images.prefix = '';
     controller = _GameBallsController(this);
@@ -37,6 +39,8 @@ class PinballGame extends PinballForge2DGame
 
   final PinballAudio audio;
 
+  final AppLocalizations l10n;
+
   late final GameFlowController gameFlowController;
 
   @override
@@ -47,7 +51,7 @@ class PinballGame extends PinballForge2DGame
     final machine = [
       BoardBackgroundSpriteComponent(),
       Boundaries(),
-      Backboard.waiting(position: Vector2(0, -88)),
+      Backbox(),
     ];
     final decals = [
       GoogleWord(position: Vector2(-4.25, 1.8)),
@@ -163,20 +167,27 @@ class _GameBallsController extends ComponentController<PinballGame>
   }
 }
 
-class DebugPinballGame extends PinballGame with FPSCounter {
+class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
   DebugPinballGame({
     required CharacterTheme characterTheme,
     required PinballAudio audio,
+    required AppLocalizations l10n,
   }) : super(
           characterTheme: characterTheme,
           audio: audio,
+          l10n: l10n,
         ) {
     controller = _GameBallsController(this);
   }
 
+  Vector2? lineStart;
+  Vector2? lineEnd;
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    await add(PreviewLine());
+
     await add(_DebugInformation());
   }
 
@@ -190,10 +201,57 @@ class DebugPinballGame extends PinballGame with FPSCounter {
       firstChild<ZCanvasComponent>()?.add(ball);
     }
   }
+
+  @override
+  void onPanStart(DragStartInfo info) {
+    lineStart = info.eventPosition.game;
+  }
+
+  @override
+  void onPanUpdate(DragUpdateInfo info) {
+    lineEnd = info.eventPosition.game;
+  }
+
+  @override
+  void onPanEnd(DragEndInfo info) {
+    if (lineEnd != null) {
+      final line = lineEnd! - lineStart!;
+      _turboChargeBall(line);
+      lineEnd = null;
+      lineStart = null;
+    }
+  }
+
+  void _turboChargeBall(Vector2 line) {
+    final ball = ControlledBall.debug()..initialPosition = lineStart!;
+    final impulse = line * -1 * 10;
+    ball.add(BallTurboChargingBehavior(impulse: impulse));
+    firstChild<ZCanvasComponent>()?.add(ball);
+  }
+}
+
+// coverage:ignore-start
+class PreviewLine extends PositionComponent with HasGameRef<DebugPinballGame> {
+  static final _previewLinePaint = Paint()
+    ..color = Colors.pink
+    ..strokeWidth = 0.4
+    ..style = PaintingStyle.stroke;
+
+  @override
+  void render(Canvas canvas) {
+    super.render(canvas);
+
+    if (gameRef.lineEnd != null) {
+      canvas.drawLine(
+        gameRef.lineStart!.toOffset(),
+        gameRef.lineEnd!.toOffset(),
+        _previewLinePaint,
+      );
+    }
+  }
 }
 
 // TODO(wolfenrain): investigate this CI failure.
-// coverage:ignore-start
 class _DebugInformation extends Component with HasGameRef<DebugPinballGame> {
   @override
   PositionType get positionType => PositionType.widget;

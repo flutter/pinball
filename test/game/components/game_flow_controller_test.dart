@@ -5,12 +5,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
-import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
 class _MockPinballGame extends Mock implements PinballGame {}
 
-class _MockBackboard extends Mock implements Backboard {}
+class _MockBackbox extends Mock implements Backbox {}
 
 class _MockCameraController extends Mock implements CameraController {}
 
@@ -40,7 +39,7 @@ void main() {
 
     group('onNewState', () {
       late PinballGame game;
-      late Backboard backboard;
+      late Backbox backbox;
       late CameraController cameraController;
       late GameFlowController gameFlowController;
       late PinballAudio pinballAudio;
@@ -48,26 +47,26 @@ void main() {
 
       setUp(() {
         game = _MockPinballGame();
-        backboard = _MockBackboard();
+        backbox = _MockBackbox();
         cameraController = _MockCameraController();
         gameFlowController = GameFlowController(game);
         overlays = _MockActiveOverlaysNotifier();
         pinballAudio = _MockPinballAudio();
 
         when(
-          () => backboard.gameOverMode(
+          () => backbox.initialsInput(
             score: any(named: 'score'),
             characterIconPath: any(named: 'characterIconPath'),
             onSubmit: any(named: 'onSubmit'),
           ),
         ).thenAnswer((_) async {});
-        when(backboard.waitingMode).thenAnswer((_) async {});
-        when(cameraController.focusOnBackboard).thenAnswer((_) async {});
+        when(cameraController.focusOnWaitingBackbox).thenAnswer((_) async {});
         when(cameraController.focusOnGame).thenAnswer((_) async {});
 
         when(() => overlays.remove(any())).thenAnswer((_) => true);
 
-        when(game.firstChild<Backboard>).thenReturn(backboard);
+        when(() => game.descendants().whereType<Backbox>())
+            .thenReturn([backbox]);
         when(game.firstChild<CameraController>).thenReturn(cameraController);
         when(() => game.overlays).thenReturn(overlays);
         when(() => game.characterTheme).thenReturn(DashTheme());
@@ -75,11 +74,12 @@ void main() {
       });
 
       test(
-        'changes the backboard and camera correctly when it is a game over',
+        'changes the backbox display and camera correctly '
+        'when the game is over',
         () {
           gameFlowController.onNewState(
             GameState(
-              score: 10,
+              score: 0,
               multiplier: 1,
               rounds: 0,
               bonusHistory: const [],
@@ -87,22 +87,21 @@ void main() {
           );
 
           verify(
-            () => backboard.gameOverMode(
+            () => backbox.initialsInput(
               score: 0,
               characterIconPath: any(named: 'characterIconPath'),
               onSubmit: any(named: 'onSubmit'),
             ),
           ).called(1);
-          verify(cameraController.focusOnBackboard).called(1);
+          verify(cameraController.focusOnGameOverBackbox).called(1);
         },
       );
 
       test(
-        'changes the backboard and camera correctly when it is not a game over',
+        'changes the backbox and camera correctly when it is not a game over',
         () {
           gameFlowController.onNewState(GameState.initial());
 
-          verify(backboard.waitingMode).called(1);
           verify(cameraController.focusOnGame).called(1);
           verify(() => overlays.remove(PinballGame.playButtonOverlay))
               .called(1);
