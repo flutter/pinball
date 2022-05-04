@@ -9,10 +9,12 @@ void main() {
       expect(
         SpaceshipRampState(
           hits: 0,
+          arrowState: SpaceshipRampArrowSpriteState.inactive,
         ),
         equals(
           SpaceshipRampState(
             hits: 0,
+            arrowState: SpaceshipRampArrowSpriteState.inactive,
           ),
         ),
       );
@@ -23,6 +25,7 @@ void main() {
         expect(
           SpaceshipRampState(
             hits: 0,
+            arrowState: SpaceshipRampArrowSpriteState.inactive,
           ),
           isNotNull,
         );
@@ -36,6 +39,7 @@ void main() {
         expect(
           () => SpaceshipRampState(
             hits: -1,
+            arrowState: SpaceshipRampArrowSpriteState.inactive,
           ),
           throwsAssertionError,
         );
@@ -49,6 +53,7 @@ void main() {
         () {
           const rampState = SpaceshipRampState(
             hits: 0,
+            arrowState: SpaceshipRampArrowSpriteState.inactive,
           );
           expect(
             () => rampState.copyWith(hits: rampState.hits - 1),
@@ -63,6 +68,7 @@ void main() {
         () {
           const rampState = SpaceshipRampState(
             hits: 0,
+            arrowState: SpaceshipRampArrowSpriteState.inactive,
           );
           expect(
             rampState.copyWith(),
@@ -77,15 +83,18 @@ void main() {
         () {
           const rampState = SpaceshipRampState(
             hits: 0,
+            arrowState: SpaceshipRampArrowSpriteState.inactive,
           );
           final otherRampState = SpaceshipRampState(
             hits: rampState.hits + 1,
+            arrowState: SpaceshipRampArrowSpriteState.active1,
           );
           expect(rampState, isNot(equals(otherRampState)));
 
           expect(
             rampState.copyWith(
               hits: rampState.hits + 1,
+              arrowState: SpaceshipRampArrowSpriteState.active1,
             ),
             equals(otherRampState),
           );

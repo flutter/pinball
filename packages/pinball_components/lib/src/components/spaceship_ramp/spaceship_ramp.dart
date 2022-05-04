@@ -17,8 +17,15 @@ class SpaceshipRamp extends Component {
   /// {@macro spaceship_ramp}
   SpaceshipRamp({
     Iterable<Component>? children,
-  })  : bloc = SpaceshipRampCubit(),
-        super(
+  }) : this._(
+          children: children,
+          bloc: SpaceshipRampCubit(),
+        );
+
+  SpaceshipRamp._({
+    Iterable<Component>? children,
+    required this.bloc,
+  }) : super(
           children: [
             // TODO(ruimiguel): refactor RampSensor and RampOpening to be in
             // only one sensor.
@@ -46,7 +53,9 @@ class SpaceshipRamp extends Component {
             _SpaceshipRampForegroundRailing(),
             _SpaceshipRampBase()..initialPosition = Vector2(1.7, -20),
             _SpaceshipRampBackgroundRailingSpriteComponent(),
-            _SpaceshipRampArrowSpriteComponent(),
+            _SpaceshipRampArrowSpriteComponent(
+              current: bloc.state.arrowState,
+            ),
             ...?children,
           ],
         );
@@ -69,34 +78,6 @@ class SpaceshipRamp extends Component {
     bloc.close();
     super.onRemove();
   }
-
-  /// Forwards the sprite to the next [SpaceshipRampArrowSpriteState].
-  ///
-  /// If the current state is the last one it cycles back to the initial state.
-  void progress() =>
-      firstChild<_SpaceshipRampArrowSpriteComponent>()?.progress();
-}
-
-/// Indicates the state of the arrow on the [SpaceshipRamp].
-@visibleForTesting
-enum SpaceshipRampArrowSpriteState {
-  /// Arrow with no dashes lit up.
-  inactive,
-
-  /// Arrow with 1 light lit up.
-  active1,
-
-  /// Arrow with 2 lights lit up.
-  active2,
-
-  /// Arrow with 3 lights lit up.
-  active3,
-
-  /// Arrow with 4 lights lit up.
-  active4,
-
-  /// Arrow with all 5 lights lit up.
-  active5,
 }
 
 extension on SpaceshipRampArrowSpriteState {
@@ -115,11 +96,6 @@ extension on SpaceshipRampArrowSpriteState {
       case SpaceshipRampArrowSpriteState.active5:
         return Assets.images.android.ramp.arrow.active5.keyName;
     }
-  }
-
-  SpaceshipRampArrowSpriteState get next {
-    return SpaceshipRampArrowSpriteState
-        .values[(index + 1) % SpaceshipRampArrowSpriteState.values.length];
   }
 }
 
@@ -228,22 +204,23 @@ class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
 /// {@endtemplate}
 class _SpaceshipRampArrowSpriteComponent
     extends SpriteGroupComponent<SpaceshipRampArrowSpriteState>
-    with HasGameRef, ZIndex {
+    with HasGameRef, ParentIsA<SpaceshipRamp>, ZIndex {
   /// {@macro spaceship_ramp_arrow_sprite_component}
-  _SpaceshipRampArrowSpriteComponent()
-      : super(
+  _SpaceshipRampArrowSpriteComponent({
+    required SpaceshipRampArrowSpriteState current,
+  }) : super(
           anchor: Anchor.center,
           position: Vector2(-3.9, -56.5),
+          current: current,
         ) {
     zIndex = ZIndexes.spaceshipRampArrow;
   }
 
-  /// Changes arrow image to the next [Sprite].
-  void progress() => current = current?.next;
-
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    parent.bloc.stream.listen((state) => current = state.arrowState);
+
     final sprites = <SpaceshipRampArrowSpriteState, Sprite>{};
     this.sprites = sprites;
     for (final spriteState in SpaceshipRampArrowSpriteState.values) {

@@ -46,14 +46,14 @@ void main() {
         'inactive sprite',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          final component = SpaceshipRamp();
-          final canvas = ZCanvasComponent(children: [component]);
+          final ramp = SpaceshipRamp();
+          final canvas = ZCanvasComponent(children: [ramp]);
           await game.ensureAdd(canvas);
 
           await tester.pump();
 
           expect(
-            component.children.whereType<SpriteGroupComponent>().first.current,
+            ramp.children.whereType<SpriteGroupComponent>().first.current,
             SpaceshipRampArrowSpriteState.inactive,
           );
 
@@ -71,15 +71,15 @@ void main() {
         'active1 sprite',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          final component = SpaceshipRamp();
-          final canvas = ZCanvasComponent(children: [component]);
+          final ramp = SpaceshipRamp();
+          final canvas = ZCanvasComponent(children: [ramp]);
           await game.ensureAdd(canvas);
 
-          component.progress();
+          ramp.bloc.onBallInside();
           await tester.pump();
 
           expect(
-            component.children.whereType<SpriteGroupComponent>().first.current,
+            ramp.children.whereType<SpriteGroupComponent>().first.current,
             SpaceshipRampArrowSpriteState.active1,
           );
 
@@ -97,17 +97,18 @@ void main() {
         'active2 sprite',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          final component = SpaceshipRamp();
-          final canvas = ZCanvasComponent(children: [component]);
+          final ramp = SpaceshipRamp();
+          final canvas = ZCanvasComponent(children: [ramp]);
           await game.ensureAdd(canvas);
 
-          component
-            ..progress()
-            ..progress();
+          ramp.bloc
+            ..onBallInside()
+            ..onBallInside();
+
           await tester.pump();
 
           expect(
-            component.children.whereType<SpriteGroupComponent>().first.current,
+            ramp.children.whereType<SpriteGroupComponent>().first.current,
             SpaceshipRampArrowSpriteState.active2,
           );
 
@@ -125,18 +126,19 @@ void main() {
         'active3 sprite',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          final component = SpaceshipRamp();
-          final canvas = ZCanvasComponent(children: [component]);
+          final ramp = SpaceshipRamp();
+          final canvas = ZCanvasComponent(children: [ramp]);
           await game.ensureAdd(canvas);
 
-          component
-            ..progress()
-            ..progress()
-            ..progress();
+          ramp.bloc
+            ..onBallInside()
+            ..onBallInside()
+            ..onBallInside();
+
           await tester.pump();
 
           expect(
-            component.children.whereType<SpriteGroupComponent>().first.current,
+            ramp.children.whereType<SpriteGroupComponent>().first.current,
             SpaceshipRampArrowSpriteState.active3,
           );
 
@@ -154,19 +156,20 @@ void main() {
         'active4 sprite',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          final component = SpaceshipRamp();
-          final canvas = ZCanvasComponent(children: [component]);
+          final ramp = SpaceshipRamp();
+          final canvas = ZCanvasComponent(children: [ramp]);
           await game.ensureAdd(canvas);
 
-          component
-            ..progress()
-            ..progress()
-            ..progress()
-            ..progress();
+          ramp.bloc
+            ..onBallInside()
+            ..onBallInside()
+            ..onBallInside()
+            ..onBallInside();
+
           await tester.pump();
 
           expect(
-            component.children.whereType<SpriteGroupComponent>().first.current,
+            ramp.children.whereType<SpriteGroupComponent>().first.current,
             SpaceshipRampArrowSpriteState.active4,
           );
 
@@ -184,20 +187,21 @@ void main() {
         'active5 sprite',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          final component = SpaceshipRamp();
-          final canvas = ZCanvasComponent(children: [component]);
+          final ramp = SpaceshipRamp();
+          final canvas = ZCanvasComponent(children: [ramp]);
           await game.ensureAdd(canvas);
 
-          component
-            ..progress()
-            ..progress()
-            ..progress()
-            ..progress()
-            ..progress();
+          ramp.bloc
+            ..onBallInside()
+            ..onBallInside()
+            ..onBallInside()
+            ..onBallInside()
+            ..onBallInside();
+
           await tester.pump();
 
           expect(
-            component.children.whereType<SpriteGroupComponent>().first.current,
+            ramp.children.whereType<SpriteGroupComponent>().first.current,
             SpaceshipRampArrowSpriteState.active5,
           );
 

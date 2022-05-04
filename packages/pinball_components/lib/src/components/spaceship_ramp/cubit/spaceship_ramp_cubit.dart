@@ -9,9 +9,14 @@ class SpaceshipRampCubit extends Cubit<SpaceshipRampState> {
   SpaceshipRampCubit() : super(const SpaceshipRampState.initial());
 
   void onBallInside() {
+    final index =
+        SpaceshipRampArrowSpriteState.values.indexOf(state.arrowState);
+
     emit(
       state.copyWith(
         hits: state.hits + 1,
+        arrowState: SpaceshipRampArrowSpriteState
+            .values[(index + 1) % SpaceshipRampArrowSpriteState.values.length],
       ),
     );
   }

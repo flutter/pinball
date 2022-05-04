@@ -21,8 +21,6 @@ class RampShotBehavior extends Component
     super.onMount();
 
     parent.bloc.stream.listen((state) {
-      parent.progress();
-
       final achievedOneMillionPoints = state.hits % 10 == 0;
 
       if (!achievedOneMillionPoints) {
