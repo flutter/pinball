@@ -65,8 +65,9 @@ void main() {
       'renders correctly',
       setUp: (game, tester) async {
         await game.images.loadAll(assets);
-        game.camera.zoom = 6;
-        game.camera.followVector2(Vector2(0, -130));
+        game.camera
+          ..followVector2(Vector2(0, -130))
+          ..zoom = 6;
         await game.ensureAdd(Backbox());
         await tester.pump();
       },
