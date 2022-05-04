@@ -234,10 +234,11 @@ class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
   }
 
   void _turboChargeBall(Vector2 line) {
+    final canvas = descendants().whereType<ZCanvasComponent>().single;
     final ball = ControlledBall.debug()..initialPosition = lineStart!;
     final impulse = line * -1 * 10;
     ball.add(BallTurboChargingBehavior(impulse: impulse));
-    firstChild<ZCanvasComponent>()?.add(ball);
+    canvas.add(ball);
   }
 }
 
