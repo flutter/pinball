@@ -81,8 +81,10 @@ class HighFilterQualityCanvas extends _CanvasWrapper {
   @override
   void drawImageRect(Image image, Rect src, Rect dst, Paint paint) {
     if (paint.filterQuality != FilterQuality.high) {
+      print('changed');
       paint.filterQuality = FilterQuality.high;
     }
+    print('rendered');
     super.drawImageRect(image, src, dst, paint);
   }
 }
@@ -161,12 +163,7 @@ class _CanvasWrapper implements Canvas {
 
   @override
   void drawImageRect(Image image, Rect src, Rect dst, Paint paint) =>
-      canvas.drawImageRect(
-        image,
-        src,
-        dst,
-        paint,
-      );
+      canvas.drawImageRect(image, src, dst, paint);
 
   @override
   void drawLine(Offset p1, Offset p2, Paint paint) =>
