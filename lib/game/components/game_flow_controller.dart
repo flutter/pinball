@@ -31,7 +31,7 @@ class GameFlowController extends ComponentController<PinballGame>
     // TODO(erickzanardo): implement score submission and "navigate" to the
     // next page
     component.firstChild<Backboard>()?.gameOverMode(
-          score: state?.score ?? 0,
+          score: state?.roundScore ?? 0,
           characterIconPath: component.characterTheme.leaderboardIcon.keyName,
         );
     component.firstChild<CameraController>()?.focusOnBackboard();
