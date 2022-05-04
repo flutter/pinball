@@ -1,9 +1,5 @@
 // ignore_for_file: invalid_use_of_protected_member
 
-import 'dart:typed_data';
-
-import 'package:flame/assets.dart';
-import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -12,8 +8,6 @@ import 'package:pinball/game/view/widgets/bonus_animation.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 import '../../../helpers/helpers.dart';
-
-class _MockImages extends Mock implements Images {}
 
 class _MockCallback extends Mock {
   void call();
@@ -24,13 +18,7 @@ void main() {
   const animationDuration = 6;
 
   setUp(() async {
-    // TODO(arturplaczek): need to find for a better solution for loading image
-    // or use original images from BonusAnimation.loadAssets()
-    final image = await decodeImageFromList(Uint8List.fromList(fakeImage));
-    final images = _MockImages();
-    when(() => images.fromCache(any())).thenReturn(image);
-    when(() => images.load(any())).thenAnswer((_) => Future.value(image));
-    Flame.images = images;
+    await mockFlameImages();
   });
 
   group('loads SpriteAnimationWidget correctly for', () {
