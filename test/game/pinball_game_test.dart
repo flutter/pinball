@@ -132,6 +132,10 @@ void main() {
     Assets.images.flapper.flap.keyName,
     Assets.images.flapper.backSupport.keyName,
     Assets.images.flapper.frontSupport.keyName,
+    Assets.images.skillShot.decal.keyName,
+    Assets.images.skillShot.pin.keyName,
+    Assets.images.skillShot.lit.keyName,
+    Assets.images.skillShot.dimmed.keyName,
   ];
 
   late GameBloc gameBloc;
@@ -191,13 +195,16 @@ void main() {
         },
       );
 
-      flameBlocTester.test('has one FlutterForest', (game) async {
-        await game.ready();
-        expect(
-          game.descendants().whereType<FlutterForest>().length,
-          equals(1),
-        );
-      });
+      flameBlocTester.test(
+        'has one FlutterForest',
+        (game) async {
+          await game.ready();
+          expect(
+            game.descendants().whereType<FlutterForest>().length,
+            equals(1),
+          );
+        },
+      );
 
       flameBlocTester.test(
         'has only one Multiballs',
@@ -217,6 +224,17 @@ void main() {
           await game.ready();
           expect(
             game.descendants().whereType<GoogleWord>().length,
+            equals(1),
+          );
+        },
+      );
+
+      flameBlocTester.test(
+        'one SkillShot',
+        (game) async {
+          await game.ready();
+          expect(
+            game.descendants().whereType<SkillShot>().length,
             equals(1),
           );
         },

@@ -7,6 +7,7 @@ import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_audio/pinball_audio.dart';
@@ -57,6 +58,11 @@ class PinballGame extends PinballForge2DGame
       GoogleWord(position: Vector2(-4.25, 1.8)),
       Multipliers(),
       Multiballs(),
+      SkillShot(
+        children: [
+          ScoringContactBehavior(points: Points.oneMillion),
+        ],
+      ),
     ];
     final characterAreas = [
       AndroidAcres(),
