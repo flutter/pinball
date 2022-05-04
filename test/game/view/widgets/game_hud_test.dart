@@ -22,7 +22,8 @@ void main() {
     late GameBloc gameBloc;
 
     const initialState = GameState(
-      score: 1000,
+      totalScore: 0,
+      roundScore: 1000,
       multiplier: 1,
       rounds: 1,
       bonusHistory: [],
@@ -70,7 +71,10 @@ void main() {
             gameBloc: gameBloc,
           );
 
-          expect(find.text(initialState.score.formatScore()), findsOneWidget);
+          expect(
+            find.text(initialState.roundScore.formatScore()),
+            findsOneWidget,
+          );
         },
       );
 
