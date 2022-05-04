@@ -11,7 +11,6 @@ import '../../../helpers/helpers.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
-    Assets.images.ball.flameEffect.keyName,
     theme.Assets.images.android.ball.keyName,
     theme.Assets.images.dash.ball.keyName,
     theme.Assets.images.dino.ball.keyName,

@@ -16,7 +16,7 @@ class ControlledBall extends Ball with Controls<BallController> {
   /// A [Ball] that launches from the [Plunger].
   ControlledBall.launch({
     required CharacterTheme characterTheme,
-  }) : super(spriteAsset: characterTheme.ball.keyName) {
+  }) : super(assetPath: characterTheme.ball.keyName) {
     controller = BallController(this);
     layer = Layer.launcher;
     zIndex = ZIndexes.ballOnLaunchRamp;
@@ -27,7 +27,7 @@ class ControlledBall extends Ball with Controls<BallController> {
   /// {@endtemplate}
   ControlledBall.bonus({
     required CharacterTheme characterTheme,
-  }) : super(spriteAsset: characterTheme.ball.keyName) {
+  }) : super(assetPath: characterTheme.ball.keyName) {
     controller = BallController(this);
     zIndex = ZIndexes.ballOnBoard;
   }

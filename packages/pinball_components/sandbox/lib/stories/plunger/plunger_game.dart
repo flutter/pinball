@@ -6,8 +6,6 @@ import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class PlungerGame extends BallGame with KeyboardEvents, Traceable {
-  PlungerGame() : super();
-
   static const description = '''
     Shows how Plunger is rendered.
 

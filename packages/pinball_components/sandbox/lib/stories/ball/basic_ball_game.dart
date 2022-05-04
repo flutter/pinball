@@ -40,7 +40,7 @@ class BallGame extends AssetsGame with TapDetector, Traceable {
   void onTapUp(TapUpInfo info) {
     add(
       Ball(
-        spriteAsset: characterBallPaths[character],
+        assetPath: characterBallPaths[character],
       )
         ..initialPosition = info.eventPosition.game
         ..layer = ballLayer

@@ -34,7 +34,6 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
     theme.Assets.images.dash.ball.keyName,
-    Assets.images.ball.flameEffect.keyName,
   ];
 
   group('BallController', () {

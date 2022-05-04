@@ -15,11 +15,11 @@ export 'behaviors/behaviors.dart';
 class Ball extends BodyComponent with Layered, InitialPosition, ZIndex {
   /// {@macro ball}
   Ball({
-    String? spriteAsset,
+    String? assetPath,
   }) : super(
           renderBody: false,
           children: [
-            _BallSpriteComponent(spriteAsset: spriteAsset),
+            _BallSpriteComponent(spriteAsset: assetPath),
             BallScalingBehavior(),
             BallGravitatingBehavior(),
           ],

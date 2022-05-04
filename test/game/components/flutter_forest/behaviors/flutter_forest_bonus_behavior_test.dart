@@ -24,7 +24,6 @@ void main() {
     final assets = [
       Assets.images.dash.animatronic.keyName,
       theme.Assets.images.dash.ball.keyName,
-      theme.Assets.images.dash.ball.keyName,
     ];
 
     setUp(() {
