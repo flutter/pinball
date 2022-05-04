@@ -25,6 +25,12 @@ class _MockTapUpDetails extends Mock implements TapUpDetails {}
 
 class _MockTapUpInfo extends Mock implements TapUpInfo {}
 
+class _MockDragStartInfo extends Mock implements DragStartInfo {}
+
+class _MockDragUpdateInfo extends Mock implements DragUpdateInfo {}
+
+class _MockDragEndInfo extends Mock implements DragEndInfo {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final assets = [
@@ -438,8 +444,9 @@ void main() {
   });
 
   group('DebugPinballGame', () {
+    final debugAssets = [Assets.images.ball.flameEffect.keyName, ...assets];
     final debugModeFlameTester = FlameTester(
-      () => DebugPinballTestGame(assets: assets),
+      () => DebugPinballTestGame(assets: debugAssets),
     );
 
     debugModeFlameTester.test(
@@ -460,6 +467,69 @@ void main() {
             game.descendants().whereType<ControlledBall>().toList();
 
         game.onTapUp(0, tapUpEvent);
+        await game.ready();
+
+        expect(
+          game.descendants().whereType<ControlledBall>().length,
+          equals(previousBalls.length + 1),
+        );
+      },
+    );
+
+    debugModeFlameTester.test(
+      'set lineStart on pan start',
+      (game) async {
+        final startPosition = Vector2.all(10);
+        final eventPosition = _MockEventPosition();
+        when(() => eventPosition.game).thenReturn(startPosition);
+
+        final dragStartInfo = _MockDragStartInfo();
+        when(() => dragStartInfo.eventPosition).thenReturn(eventPosition);
+
+        game.onPanStart(dragStartInfo);
+        await game.ready();
+
+        expect(
+          game.lineStart,
+          equals(startPosition),
+        );
+      },
+    );
+
+    debugModeFlameTester.test(
+      'set lineEnd on pan update',
+      (game) async {
+        final endPosition = Vector2.all(10);
+        final eventPosition = _MockEventPosition();
+        when(() => eventPosition.game).thenReturn(endPosition);
+
+        final dragUpdateInfo = _MockDragUpdateInfo();
+        when(() => dragUpdateInfo.eventPosition).thenReturn(eventPosition);
+
+        game.onPanUpdate(dragUpdateInfo);
+        await game.ready();
+
+        expect(
+          game.lineEnd,
+          equals(endPosition),
+        );
+      },
+    );
+
+    debugModeFlameTester.test(
+      'launch ball on pan end',
+      (game) async {
+        final startPosition = Vector2.zero();
+        final endPosition = Vector2.all(10);
+
+        game.lineStart = startPosition;
+        game.lineEnd = endPosition;
+
+        await game.ready();
+        final previousBalls =
+            game.descendants().whereType<ControlledBall>().toList();
+
+        game.onPanEnd(_MockDragEndInfo());
         await game.ready();
 
         expect(
