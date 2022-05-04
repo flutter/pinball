@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/game/game.dart';
@@ -9,7 +7,14 @@ import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 
+/// {@template start_game_listener}
+/// Listener that manages the display of dialogs for [StartGameStatus].
+///
+/// It's responsible for starting the game after pressing play button
+/// and playing a sound after the 'how to play' dialog.
+/// {@endtemplate}
 class StartGameListener extends StatelessWidget {
+  /// {@macro start_game_listener}
   const StartGameListener({
     Key? key,
     required Widget child,
