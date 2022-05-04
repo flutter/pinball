@@ -2,7 +2,6 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pinball/how_to_play/how_to_play.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_theme/pinball_theme.dart';
@@ -50,7 +49,13 @@ void main() {
 
     testWidgets(
         'tapping the select button dismisses the character '
-        'dialog and shows the how to play dialog', (tester) async {
+        'dialog and calls CharacterSelected event to the bloc', (tester) async {
+      whenListen(
+        startGameBloc,
+        const Stream<StartGameState>.empty(),
+        initialState: const StartGameState.initial(),
+      );
+
       await tester.pumpApp(
         const CharacterSelectionDialog(),
         characterThemeCubit: characterThemeCubit,
@@ -59,7 +64,7 @@ void main() {
       await tester.tap(find.byType(PinballButton));
       await tester.pumpAndSettle();
       expect(find.byType(CharacterSelectionDialog), findsNothing);
-      expect(find.byType(HowToPlayDialog), findsOneWidget);
+      verify(() => startGameBloc.add(const CharacterSelected())).called(1);
     });
 
     testWidgets('updating the selected character updates the preview',

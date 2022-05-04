@@ -1,5 +1,4 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -8,7 +7,6 @@ import 'package:pinball/how_to_play/how_to_play.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
-import 'package:pinball_theme/pinball_theme.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -30,11 +28,7 @@ void main() {
 
   group('StartGameListener', () {
     setUp(() async {
-      Flame.images.prefix = '';
-      await Flame.images.load(const DashTheme().animation.keyName);
-      await Flame.images.load(const AndroidTheme().animation.keyName);
-      await Flame.images.load(const DinoTheme().animation.keyName);
-      await Flame.images.load(const SparkyTheme().animation.keyName);
+      await mockFlameImages();
 
       startGameBloc = _MockStartGameBloc();
       pinballGame = _MockPinballGame();

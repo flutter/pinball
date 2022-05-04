@@ -14,7 +14,6 @@ void main() {
 
     setUp(() async {
       await mockFlameImages();
-
       startGameBloc = _MockStartGameBloc();
 
       whenListen(
