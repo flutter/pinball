@@ -7,6 +7,7 @@ import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
@@ -203,6 +204,18 @@ class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
     await add(PreviewLine());
 
     await add(_DebugInformation());
+    await add(
+      KeyboardInputController(
+        keyUp: {
+          LogicalKeyboardKey.escape: () {
+            read<GameBloc>().add(const RoundLost());
+            read<GameBloc>().add(const RoundLost());
+            read<GameBloc>().add(const RoundLost());
+            return true;
+          },
+        },
+      ),
+    );
   }
 
   @override
