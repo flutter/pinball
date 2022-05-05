@@ -121,7 +121,7 @@ void main() {
 
           group("doesn't move when", () {
             flameTester.test(
-              'left awrrow is pressed',
+              'left arrow is pressed',
               (game) async {
                 await game.ensureAdd(rightFlipper);
                 final behavior = FlipperKeyControllingBehavior();
@@ -277,7 +277,7 @@ void main() {
 
           group("doesn't move when", () {
             flameTester.test(
-              'right awrrow is pressed',
+              'right arrow is pressed',
               (game) async {
                 await game.ensureAdd(leftFlipper);
                 final behavior = FlipperKeyControllingBehavior();
