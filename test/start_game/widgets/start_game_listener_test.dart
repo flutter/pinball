@@ -18,12 +18,12 @@ class _MockPinballGame extends Mock implements PinballGame {}
 
 class _MockGameFlowController extends Mock implements GameFlowController {}
 
-class _MockPinballAudio extends Mock implements PinballAudio {}
+class _MockPinballPlayer extends Mock implements PinballPlayer {}
 
 void main() {
   late StartGameBloc startGameBloc;
   late PinballGame pinballGame;
-  late PinballAudio pinballAudio;
+  late PinballPlayer pinballPlayer;
   late CharacterThemeCubit characterThemeCubit;
 
   group('StartGameListener', () {
@@ -32,7 +32,7 @@ void main() {
 
       startGameBloc = _MockStartGameBloc();
       pinballGame = _MockPinballGame();
-      pinballAudio = _MockPinballAudio();
+      pinballPlayer = _MockPinballPlayer();
       characterThemeCubit = _MockCharacterThemeCubit();
     });
 
@@ -244,7 +244,7 @@ void main() {
               child: const SizedBox.shrink(),
             ),
             startGameBloc: startGameBloc,
-            pinballAudio: pinballAudio,
+            pinballPlayer: pinballPlayer,
           );
           await tester.pumpAndSettle();
 
@@ -261,7 +261,8 @@ void main() {
           );
           await tester.pumpAndSettle();
 
-          verify(pinballAudio.ioPinballVoiceOver).called(1);
+          verify(() => pinballPlayer.play(PinballAudio.ioPinballVoiceOver))
+              .called(1);
         },
       );
     });
