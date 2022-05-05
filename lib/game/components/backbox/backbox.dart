@@ -1,38 +1,90 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
+import 'package:flutter/material.dart';
+import 'package:leaderboard_repository/leaderboard_repository.dart';
+import 'package:pinball/game/components/backbox/bloc/backbox_bloc.dart';
 import 'package:pinball/game/components/backbox/displays/displays.dart';
+import 'package:pinball/game/pinball_game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
+import 'package:pinball_theme/pinball_theme.dart' hide Assets;
 
 /// {@template backbox}
 /// The [Backbox] of the pinball machine.
 /// {@endtemplate}
-class Backbox extends PositionComponent with HasGameRef, ZIndex {
+class Backbox extends PositionComponent with HasGameRef<PinballGame>, ZIndex {
   /// {@macro backbox}
-  Backbox()
-      : super(
-          position: Vector2(0, -87),
-          anchor: Anchor.bottomCenter,
-          children: [
-            _BackboxSpriteComponent(),
-          ],
-        ) {
+  Backbox({
+    required LeaderboardRepository leaderboardRepository,
+  }) : _bloc = BackboxBloc(leaderboardRepository: leaderboardRepository);
+
+  /// {@macro backbox}
+  @visibleForTesting
+  Backbox.test({
+    required BackboxBloc bloc,
+  }) : _bloc = bloc;
+
+  late final Component _display;
+  final BackboxBloc _bloc;
+  late StreamSubscription<BackboxState> _subscription;
+
+  @override
+  Future<void> onLoad() async {
+    position = Vector2(0, -87);
+    anchor = Anchor.bottomCenter;
     zIndex = ZIndexes.backbox;
+
+    await add(_BackboxSpriteComponent());
+    await add(_display = Component());
+
+    _subscription = _bloc.stream.listen((state) {
+      _display.children.removeWhere((_) => true);
+      _build(state);
+    });
+  }
+
+  @override
+  void onRemove() {
+    super.onRemove();
+    _subscription.cancel();
+  }
+
+  void _build(BackboxState state) {
+    if (state is LoadingState) {
+      _display.add(LoadingDisplay());
+    } else if (state is InitialsFormState) {
+      _display.add(
+        InitialsInputDisplay(
+          score: state.score,
+          characterIconPath: state.character.leaderboardIcon.keyName,
+          onSubmit: (initials) {
+            _bloc.add(
+              PlayerInitialsSubmitted(
+                score: state.score,
+                initials: initials,
+                character: state.character,
+              ),
+            );
+          },
+        ),
+      );
+    } else if (state is InitialsSuccessState) {
+      _display.add(InitialsSubmissionSuccessDisplay());
+    } else if (state is InitialsFailureState) {
+      _display.add(InitialsSubmissionFailureDisplay());
+    }
   }
 
   /// Puts [InitialsInputDisplay] on the [Backbox].
-  Future<void> initialsInput({
+  void requestInitials({
     required int score,
-    required String characterIconPath,
-    InitialsOnSubmit? onSubmit,
-  }) async {
-    removeAll(children.where((child) => child is! _BackboxSpriteComponent));
-    await add(
-      InitialsInputDisplay(
+    required CharacterTheme character,
+  }) {
+    _bloc.add(
+      PlayerInitialsRequested(
         score: score,
-        characterIconPath: characterIconPath,
-        onSubmit: onSubmit,
+        character: character,
       ),
     );
   }

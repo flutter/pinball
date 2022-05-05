@@ -22,9 +22,9 @@ class GameBlocStatusListener extends Component
         gameRef.overlays.remove(PinballGame.playButtonOverlay);
         break;
       case GameStatus.gameOver:
-        gameRef.descendants().whereType<Backbox>().first.initialsInput(
+        gameRef.descendants().whereType<Backbox>().first.requestInitials(
               score: state.displayScore,
-              characterIconPath: gameRef.characterTheme.leaderboardIcon.keyName,
+              character: gameRef.characterTheme,
             );
         gameRef.firstChild<CameraController>()!.focusOnGameOverBackbox();
         break;
