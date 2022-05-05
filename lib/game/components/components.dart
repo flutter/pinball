@@ -8,7 +8,7 @@ export 'controlled_plunger.dart';
 export 'dino_desert/dino_desert.dart';
 export 'drain.dart';
 export 'flutter_forest/flutter_forest.dart';
-export 'game_flow_controller.dart';
+export 'game_bloc_status_listener.dart';
 export 'google_word/google_word.dart';
 export 'launcher.dart';
 export 'multiballs/multiballs.dart';

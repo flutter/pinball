@@ -13,7 +13,8 @@ class ScoreView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isGameOver = context.select((GameBloc bloc) => bloc.state.isGameOver);
+    final isGameOver =
+        context.select((GameBloc bloc) => bloc.state.status.isGameOver);
 
     return Padding(
       padding: const EdgeInsets.symmetric(

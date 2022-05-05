@@ -19,7 +19,7 @@ class _MockActiveOverlaysNotifier extends Mock
 class _MockPinballAudio extends Mock implements PinballAudio {}
 
 void main() {
-  group('GameFlowController', () {
+  group('GameBlocStatusListener', () {
     group('listenWhen', () {
       test('is true when the game over state has changed', () {
         final state = GameState(
@@ -28,11 +28,12 @@ void main() {
           multiplier: 1,
           rounds: 0,
           bonusHistory: const [],
+          status: GameStatus.playing,
         );
 
         final previous = GameState.initial();
         expect(
-          GameFlowController(_MockPinballGame()).listenWhen(previous, state),
+          GameBlocStatusListener().listenWhen(previous, state),
           isTrue,
         );
       });
@@ -42,7 +43,7 @@ void main() {
       late PinballGame game;
       late Backbox backbox;
       late CameraController cameraController;
-      late GameFlowController gameFlowController;
+      late GameBlocStatusListener gameFlowController;
       late PinballAudio pinballAudio;
       late ActiveOverlaysNotifier overlays;
 
@@ -50,7 +51,7 @@ void main() {
         game = _MockPinballGame();
         backbox = _MockBackbox();
         cameraController = _MockCameraController();
-        gameFlowController = GameFlowController(game);
+        gameFlowController = GameBlocStatusListener();
         overlays = _MockActiveOverlaysNotifier();
         pinballAudio = _MockPinballAudio();
 
@@ -85,6 +86,7 @@ void main() {
               multiplier: 1,
               rounds: 0,
               bonusHistory: const [],
+              status: GameStatus.gameOver,
             ),
           );
 
@@ -103,7 +105,6 @@ void main() {
         'changes the backbox and camera correctly when it is not a game over',
         () {
           gameFlowController.onNewState(GameState.initial());
-
           verify(cameraController.focusOnGame).called(1);
           verify(() => overlays.remove(PinballGame.playButtonOverlay))
               .called(1);
@@ -114,7 +115,6 @@ void main() {
         'plays the background music on start',
         () {
           gameFlowController.onNewState(GameState.initial());
-
           verify(pinballAudio.backgroundMusic).called(1);
         },
       );

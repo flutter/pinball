@@ -41,11 +41,8 @@ class PinballGame extends PinballForge2DGame
 
   final AppLocalizations l10n;
 
-  late final GameFlowController gameFlowController;
-
   @override
   Future<void> onLoad() async {
-    await add(gameFlowController = GameFlowController(this));
     await add(CameraController(this));
 
     final machine = [
@@ -65,17 +62,20 @@ class PinballGame extends PinballForge2DGame
       SparkyScorch(),
     ];
 
-    await add(
-      ZCanvasComponent(
-        children: [
-          ...machine,
-          ...decals,
-          ...characterAreas,
-          Drain(),
-          BottomGroup(),
-          Launcher(),
-        ],
-      ),
+    await addAll(
+      [
+        GameBlocStatusListener(),
+        ZCanvasComponent(
+          children: [
+            ...machine,
+            ...decals,
+            ...characterAreas,
+            Drain(),
+            BottomGroup(),
+            Launcher(),
+          ],
+        ),
+      ],
     );
 
     await super.onLoad();
@@ -136,9 +136,7 @@ class _GameBallsController extends ComponentController<PinballGame>
   @override
   bool listenWhen(GameState? previousState, GameState newState) {
     final noBallsLeft = component.descendants().whereType<Ball>().isEmpty;
-    final notGameOver = !newState.isGameOver;
-
-    return noBallsLeft && notGameOver;
+    return noBallsLeft && newState.status.isPlaying;
   }
 
   @override

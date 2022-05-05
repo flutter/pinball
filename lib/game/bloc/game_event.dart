@@ -59,3 +59,17 @@ class MultiplierIncreased extends GameEvent {
   @override
   List<Object?> get props => [];
 }
+
+class GameStarted extends GameEvent {
+  const GameStarted();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class GameOver extends GameEvent {
+  const GameOver();
+
+  @override
+  List<Object?> get props => [];
+}

@@ -112,7 +112,6 @@ class PinballGameLoadedView extends StatelessWidget {
     final leftMargin = (screenWidth / 2) - (gameWidgetWidth / 1.8);
 
     return StartGameListener(
-      game: game,
       child: Stack(
         children: [
           Positioned.fill(
