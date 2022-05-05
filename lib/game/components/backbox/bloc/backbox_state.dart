@@ -58,7 +58,7 @@ class InitialsSuccessState extends BackboxState {
   List<Object?> get props => [];
 }
 
-/// State when the leaderboard was successfully loaded
+/// State when the leaderboard was successfully loaded.
 class InitialsFailureState extends BackboxState {
   @override
   List<Object?> get props => [];
