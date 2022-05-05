@@ -14,12 +14,6 @@ class LoadingState extends BackboxState {
   List<Object?> get props => [];
 }
 
-/// Failure state for the backbox.
-class FailureState extends BackboxState {
-  @override
-  List<Object?> get props => [];
-}
-
 /// State when the leaderboard was successfully loaded.
 class LeaderboardSuccessState extends BackboxState {
   @override

@@ -16,16 +16,6 @@ void main() {
       });
     });
 
-    group('FailureState', () {
-      test('can be instantiated', () {
-        expect(FailureState(), isNotNull);
-      });
-
-      test('supports value comparison', () {
-        expect(FailureState(), equals(FailureState()));
-      });
-    });
-
     group('LeaderboardSuccessState', () {
       test('can be instantiated', () {
         expect(LeaderboardSuccessState(), isNotNull);
