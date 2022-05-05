@@ -21,6 +21,7 @@ class GameBlocStatusListener extends Component
         gameRef.overlays.remove(PinballGame.playButtonOverlay);
         break;
       case GameStatus.gameOver:
+        gameRef.player.play(PinballAudio.gameOverVoiceOver);
         gameRef.descendants().whereType<Backbox>().first.requestInitials(
               score: state.displayScore,
               character: gameRef.characterTheme,
