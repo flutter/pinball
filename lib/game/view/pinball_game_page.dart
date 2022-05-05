@@ -110,6 +110,7 @@ class PinballGameLoadedView extends StatelessWidget {
     final gameWidgetWidth = MediaQuery.of(context).size.height * 9 / 16;
     final screenWidth = MediaQuery.of(context).size.width;
     final leftMargin = (screenWidth / 2) - (gameWidgetWidth / 1.8);
+    final clampedMargin = leftMargin > 0 ? leftMargin : 0.0;
 
     return StartGameListener(
       game: game,
@@ -132,8 +133,8 @@ class PinballGameLoadedView extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 16,
-            left: leftMargin,
+            top: 0,
+            left: clampedMargin,
             child: Visibility(
               visible: isPlaying,
               child: const GameHud(),
