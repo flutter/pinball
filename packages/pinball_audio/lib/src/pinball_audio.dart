@@ -190,6 +190,7 @@ class PinballPlayer {
 
   /// Registered audios on the Player
   @visibleForTesting
+  // ignore: library_private_types_in_public_api
   late final Map<PinballAudio, _Audio> audios;
 
   /// Loads the sounds effects into the memory
