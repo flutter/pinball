@@ -10,15 +10,21 @@ import 'package:pinball/game/components/flutter_forest/behaviors/behaviors.dart'
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
+import 'package:pinball_theme/pinball_theme.dart' as theme;
 
 import '../../../../helpers/helpers.dart';
 
 class _MockGameBloc extends Mock implements GameBloc {}
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   group('FlutterForestBonusBehavior', () {
     late GameBloc gameBloc;
-    final assets = [Assets.images.dash.animatronic.keyName];
+    final assets = [
+      Assets.images.dash.animatronic.keyName,
+      theme.Assets.images.dash.ball.keyName,
+    ];
 
     setUp(() {
       gameBloc = _MockGameBloc();
@@ -32,6 +38,7 @@ void main() {
     final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
       gameBuilder: EmptyPinballTestGame.new,
       blocBuilder: () => gameBloc,
+      assets: assets,
     );
 
     void _contactedBumper(DashNestBumper bumper) =>

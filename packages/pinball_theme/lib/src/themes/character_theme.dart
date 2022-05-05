@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
 /// {@template character_theme}
@@ -15,8 +14,8 @@ abstract class CharacterTheme extends Equatable {
   /// Name of character.
   String get name;
 
-  /// Ball color for this theme.
-  Color get ballColor;
+  /// Asset for the ball.
+  AssetGenImage get ball;
 
   /// Asset for the background.
   AssetGenImage get background;
@@ -33,7 +32,7 @@ abstract class CharacterTheme extends Equatable {
   @override
   List<Object?> get props => [
         name,
-        ballColor,
+        ball,
         background,
         icon,
         leaderboardIcon,

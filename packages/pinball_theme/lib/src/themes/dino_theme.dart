@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
 /// {@template dino_theme}
@@ -12,7 +11,7 @@ class DinoTheme extends CharacterTheme {
   String get name => 'Dino';
 
   @override
-  Color get ballColor => Colors.grey;
+  AssetGenImage get ball => Assets.images.dino.ball;
 
   @override
   AssetGenImage get background => Assets.images.dino.background;

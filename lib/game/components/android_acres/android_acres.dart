@@ -15,7 +15,16 @@ class AndroidAcres extends Component {
   AndroidAcres()
       : super(
           children: [
-            SpaceshipRamp(),
+            SpaceshipRamp(
+              children: [
+                RampShotBehavior(
+                  points: Points.fiveThousand,
+                ),
+                RampBonusBehavior(
+                  points: Points.oneMillion,
+                ),
+              ],
+            ),
             SpaceshipRail(),
             AndroidSpaceship(position: Vector2(-26.5, -28.5)),
             AndroidAnimatronic(
