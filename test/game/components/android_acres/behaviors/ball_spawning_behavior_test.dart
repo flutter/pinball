@@ -27,7 +27,7 @@ void main() {
       });
 
       flameTester.test(
-        'laods',
+        'loads',
         (game) async {
           final behavior = BallSpawningBehavior();
           await game.ensureAdd(behavior);

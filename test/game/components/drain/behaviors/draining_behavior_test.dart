@@ -29,7 +29,7 @@ void main() {
       });
 
       flameTester.test(
-        'laods',
+        'loads',
         (game) async {
           final parent = Drain.test();
           final behavior = DrainingBehavior();
