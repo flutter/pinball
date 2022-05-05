@@ -54,7 +54,7 @@ class PinballGame extends PinballForge2DGame
       Backbox(leaderboardRepository: leaderboardRepository),
     ];
     final decals = [
-      GoogleWord(position: Vector2(-4.25, 1.8)),
+      GoogleWord(position: Vector2(-4.45, 1.8)),
       Multipliers(),
       Multiballs(),
       SkillShot(

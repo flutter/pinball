@@ -37,46 +37,46 @@ class _DinoTopWall extends BodyComponent with InitialPosition {
   List<FixtureDef> _createFixtureDefs() {
     final topEdgeShape = EdgeShape()
       ..set(
-        Vector2(29.25, -35.27),
-        Vector2(28.4, -34.77),
+        Vector2(29.05, -35.27),
+        Vector2(28.2, -34.77),
       );
 
     final topCurveShape = BezierCurveShape(
       controlPoints: [
         topEdgeShape.vertex2,
-        Vector2(21.35, -28.72),
-        Vector2(23.45, -24.62),
+        Vector2(21.15, -28.72),
+        Vector2(23.25, -24.62),
       ],
     );
 
     final tunnelTopEdgeShape = EdgeShape()
       ..set(
         topCurveShape.vertices.last,
-        Vector2(30.35, -27.32),
+        Vector2(30.15, -27.32),
       );
 
     final tunnelBottomEdgeShape = EdgeShape()
       ..set(
-        Vector2(30.75, -23.17),
-        Vector2(25.45, -21.22),
+        Vector2(30.55, -23.17),
+        Vector2(25.25, -21.22),
       );
 
     final middleEdgeShape = EdgeShape()
       ..set(
         tunnelBottomEdgeShape.vertex2,
-        Vector2(27.45, -19.32),
+        Vector2(27.25, -19.32),
       );
 
     final bottomEdgeShape = EdgeShape()
       ..set(
         middleEdgeShape.vertex2,
-        Vector2(24.65, -15.02),
+        Vector2(24.45, -15.02),
       );
 
     final undersideEdgeShape = EdgeShape()
       ..set(
         bottomEdgeShape.vertex2,
-        Vector2(31.75, -13.77),
+        Vector2(31.55, -13.77),
       );
 
     return [
@@ -108,7 +108,7 @@ class _DinoTopWallSpriteComponent extends SpriteComponent
     with HasGameRef, ZIndex {
   _DinoTopWallSpriteComponent()
       : super(
-          position: Vector2(22.75, -38.07),
+          position: Vector2(22.55, -38.07),
         ) {
     zIndex = ZIndexes.dinoTopWall;
   }
@@ -129,7 +129,7 @@ class _DinoTopWallSpriteComponent extends SpriteComponent
 class _DinoTopWallTunnelSpriteComponent extends SpriteComponent
     with HasGameRef, ZIndex {
   _DinoTopWallTunnelSpriteComponent()
-      : super(position: Vector2(23.31, -26.01)) {
+      : super(position: Vector2(23.11, -26.01)) {
     zIndex = ZIndexes.dinoTopWallTunnel;
   }
 
@@ -162,28 +162,28 @@ class _DinoBottomWall extends BodyComponent with InitialPosition, ZIndex {
   List<FixtureDef> _createFixtureDefs() {
     final topEdgeShape = EdgeShape()
       ..set(
-        Vector2(32.4, -8.8),
-        Vector2(25, -7.7),
+        Vector2(32.2, -8.8),
+        Vector2(24.8, -7.7),
       );
 
     final topLeftCurveShape = BezierCurveShape(
       controlPoints: [
         topEdgeShape.vertex2,
-        Vector2(21.8, -7),
-        Vector2(29.8, 13.8),
+        Vector2(21.6, -7),
+        Vector2(29.6, 13.8),
       ],
     );
 
     final bottomLeftEdgeShape = EdgeShape()
       ..set(
         topLeftCurveShape.vertices.last,
-        Vector2(31.9, 44.1),
+        Vector2(31.7, 44.1),
       );
 
     final bottomEdgeShape = EdgeShape()
       ..set(
         bottomLeftEdgeShape.vertex2,
-        Vector2(37.8, 44.1),
+        Vector2(37.6, 44.1),
       );
 
     return [
@@ -219,6 +219,6 @@ class _DinoBottomWallSpriteComponent extends SpriteComponent with HasGameRef {
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
-    position = Vector2(23.8, -9.5);
+    position = Vector2(23.6, -9.5);
   }
 }

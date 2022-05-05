@@ -15,11 +15,11 @@ class Slingshots extends Component with ZIndex {
             Slingshot(
               angle: -0.017,
               spritePath: Assets.images.slingshot.upper.keyName,
-            )..initialPosition = Vector2(22.7, -0.1),
+            )..initialPosition = Vector2(22.7, -0.3),
             Slingshot(
               angle: -0.468,
               spritePath: Assets.images.slingshot.lower.keyName,
-            )..initialPosition = Vector2(24.7, 6.2),
+            )..initialPosition = Vector2(24.6, 6.1),
           ],
         ) {
     zIndex = ZIndexes.slingshots;

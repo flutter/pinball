@@ -77,7 +77,7 @@ abstract class ZIndexes {
 
   static const computerTop = _above + ballOnBoard;
 
-  static const computerGlow = _above + ballOnBoard;
+  static const computerGlow = _above + computerTop;
 
   static const sparkyAnimatronic = _above + spaceshipRampForegroundRailing;
 
