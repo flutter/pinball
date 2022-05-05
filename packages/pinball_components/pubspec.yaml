@@ -89,6 +89,7 @@ flutter:
     - assets/images/score/
     - assets/images/backbox/
     - assets/images/flapper/
+    - assets/images/skill_shot/
 
 flutter_gen:
   line_length: 80
