@@ -22,6 +22,7 @@ class SkillShot extends BodyComponent with ZIndex {
     Iterable<Component>? children,
     required this.bloc,
   }) : super(
+          renderBody: false,
           children: [
             SkillShotBallContactBehavior(),
             SkillShotBlinkingBehavior(),
@@ -30,7 +31,6 @@ class SkillShot extends BodyComponent with ZIndex {
             _TextDecalSpriteGroupComponent(state: bloc.state.spriteState),
             ...?children,
           ],
-          renderBody: false,
         ) {
     zIndex = ZIndexes.decal;
   }
