@@ -35,8 +35,11 @@ class Backbox extends PositionComponent with HasGameRef<PinballGame>, ZIndex {
     anchor = Anchor.bottomCenter;
     zIndex = ZIndexes.backbox;
 
+    _bloc.add(LeaderboardRequested());
+
     await add(_BackboxSpriteComponent());
     await add(_display = Component());
+    _build(_bloc.state);
 
     _subscription = _bloc.stream.listen((state) {
       _display.children.removeWhere((_) => true);
@@ -53,6 +56,8 @@ class Backbox extends PositionComponent with HasGameRef<PinballGame>, ZIndex {
   void _build(BackboxState state) {
     if (state is LoadingState) {
       _display.add(LoadingDisplay());
+    } else if (state is LeaderboardSuccessState) {
+      _display.add(LeaderboardDisplay(entries: state.entries));
     } else if (state is InitialsFormState) {
       _display.add(
         InitialsInputDisplay(
