@@ -76,14 +76,14 @@ void main() {
       );
 
       flameTester.test(
-        'three DashNestBumpers with BumperNoisyBehavior',
+        'three DashNestBumpers with BumperNoiseBehavior',
         (game) async {
           final flutterForest = FlutterForest();
           await game.ensureAdd(ZCanvasComponent(children: [flutterForest]));
           final bumpers = game.descendants().whereType<DashNestBumper>();
           for (final bumper in bumpers) {
             expect(
-              bumper.firstChild<BumperNoisyBehavior>(),
+              bumper.firstChild<BumperNoiseBehavior>(),
               isNotNull,
             );
           }

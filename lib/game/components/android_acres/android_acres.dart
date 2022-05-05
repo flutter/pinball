@@ -35,19 +35,19 @@ class AndroidAcres extends Component {
             AndroidBumper.a(
               children: [
                 ScoringContactBehavior(points: Points.twentyThousand),
-                BumperNoisyBehavior(),
+                BumperNoiseBehavior(),
               ],
             )..initialPosition = Vector2(-25, 1.3),
             AndroidBumper.b(
               children: [
                 ScoringContactBehavior(points: Points.twentyThousand),
-                BumperNoisyBehavior(),
+                BumperNoiseBehavior(),
               ],
             )..initialPosition = Vector2(-32.8, -9.2),
             AndroidBumper.cow(
               children: [
                 ScoringContactBehavior(points: Points.twentyThousand),
-                BumperNoisyBehavior(),
+                BumperNoiseBehavior(),
               ],
             )..initialPosition = Vector2(-20.5, -13.8),
             AndroidSpaceshipBonusBehavior(),
