@@ -17,11 +17,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
 class PinballGame extends PinballForge2DGame
-    with
-        FlameBloc,
-        HasKeyboardHandlerComponents,
-        Controls<_GameBallsController>,
-        MultiTouchTapDetector {
+    with FlameBloc, HasKeyboardHandlerComponents, MultiTouchTapDetector {
   PinballGame({
     required this.characterTheme,
     required this.leaderboardRepository,
@@ -29,7 +25,6 @@ class PinballGame extends PinballForge2DGame
     required this.player,
   }) : super(gravity: Vector2(0, 30)) {
     images.prefix = '';
-    controller = _GameBallsController(this);
   }
 
   /// Identifier of the play button overlay
@@ -73,6 +68,7 @@ class PinballGame extends PinballForge2DGame
     await addAll(
       [
         GameBlocStatusListener(),
+        BallSpawningBehavior(),
         CameraFocusingBehavior(),
         CanvasComponent(
           onSpritePainted: (paint) {
@@ -147,43 +143,6 @@ class PinballGame extends PinballForge2DGame
   }
 }
 
-class _GameBallsController extends ComponentController<PinballGame>
-    with BlocComponent<GameBloc, GameState> {
-  _GameBallsController(PinballGame game) : super(game);
-
-  @override
-  bool listenWhen(GameState? previousState, GameState newState) {
-    final noBallsLeft = component.descendants().whereType<Ball>().isEmpty;
-    return noBallsLeft && newState.status.isPlaying;
-  }
-
-  @override
-  void onNewState(GameState state) {
-    super.onNewState(state);
-    spawnBall();
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    spawnBall();
-  }
-
-  void spawnBall() {
-    // TODO(alestiago): Refactor with behavioural pattern.
-    component.ready().whenComplete(() {
-      final plunger = parent!.descendants().whereType<Plunger>().single;
-      final ball = ControlledBall.launch(
-        characterTheme: component.characterTheme,
-      )..initialPosition = Vector2(
-          plunger.body.position.x,
-          plunger.body.position.y - Ball.size.y,
-        );
-      component.descendants().whereType<ZCanvasComponent>().single.add(ball);
-    });
-  }
-}
-
 class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
   DebugPinballGame({
     required CharacterTheme characterTheme,
@@ -195,9 +154,7 @@ class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
           player: player,
           leaderboardRepository: leaderboardRepository,
           l10n: l10n,
-        ) {
-    controller = _GameBallsController(this);
-  }
+        );
 
   Vector2? lineStart;
   Vector2? lineEnd;

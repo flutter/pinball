@@ -50,17 +50,19 @@ class _ScoreDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Text(
-          l10n.score.toLowerCase(),
-          style: Theme.of(context).textTheme.subtitle1,
-        ),
-        const _ScoreText(),
-        const RoundCountDisplay(),
-      ],
+    return FittedBox(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Text(
+            l10n.score.toLowerCase(),
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
+          const _ScoreText(),
+          const RoundCountDisplay(),
+        ],
+      ),
     );
   }
 }
@@ -72,11 +74,9 @@ class _ScoreText extends StatelessWidget {
   Widget build(BuildContext context) {
     final score = context.select((GameBloc bloc) => bloc.state.displayScore);
 
-    return FittedBox(
-      child: Text(
-        score.formatScore(),
-        style: Theme.of(context).textTheme.headline2,
-      ),
+    return Text(
+      score.formatScore(),
+      style: Theme.of(context).textTheme.headline1,
     );
   }
 }
