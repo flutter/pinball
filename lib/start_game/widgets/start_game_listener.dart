@@ -4,7 +4,6 @@ import 'package:pinball/game/game.dart';
 import 'package:pinball/how_to_play/how_to_play.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
-import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 
 /// {@template start_game_listener}
@@ -57,14 +56,11 @@ class StartGameListener extends StatelessWidget {
   }
 
   void _onHowToPlay(BuildContext context) {
-    final audio = context.read<PinballAudio>();
-
     _showPinballDialog(
       context: context,
       child: HowToPlayDialog(
         onDismissCallback: () {
           context.read<StartGameBloc>().add(const HowToPlayFinished());
-          audio.ioPinballVoiceOver();
         },
       ),
     );

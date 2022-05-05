@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template game_flow_controller}
@@ -38,7 +39,7 @@ class GameFlowController extends ComponentController<PinballGame>
 
   /// Puts the game in the playing state.
   void start() {
-    component.audio.backgroundMusic();
+    component.player.play(PinballAudio.backgroundMusic);
     component.firstChild<CameraController>()?.focusOnGame();
     component.overlays.remove(PinballGame.playButtonOverlay);
   }
