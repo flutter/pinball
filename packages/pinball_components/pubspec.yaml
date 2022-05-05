@@ -23,6 +23,8 @@ dependencies:
     path: ../pinball_flame
   pinball_theme:
     path: ../pinball_theme
+  pinball_ui:
+    path: ../pinball_ui
 
 dev_dependencies:
   bloc_test: ^9.0.3
