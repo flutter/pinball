@@ -76,11 +76,11 @@ void main() {
         );
         await game.ensureAdd(initialsInputDisplay);
 
-        // Focus is already on the first letter
+        // Focus is on the first letter
         await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
         await tester.pump();
 
-        // Move to the next an press up again
+        // Move to the next an press down again
         await tester.sendKeyEvent(LogicalKeyboardKey.arrowRight);
         await tester.pump();
         await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
@@ -92,7 +92,7 @@ void main() {
         await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
         await tester.pump();
 
-        // Back to the previous and increase one more
+        // Back to the previous and press down again
         await tester.sendKeyEvent(LogicalKeyboardKey.arrowLeft);
         await tester.pump();
         await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
