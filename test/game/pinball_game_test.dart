@@ -9,6 +9,7 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_theme/pinball_theme.dart' as theme;
@@ -16,8 +17,6 @@ import 'package:pinball_theme/pinball_theme.dart' as theme;
 import '../helpers/helpers.dart';
 
 class _MockGameBloc extends Mock implements GameBloc {}
-
-class _MockGameState extends Mock implements GameState {}
 
 class _MockEventPosition extends Mock implements EventPosition {}
 
@@ -167,8 +166,17 @@ void main() {
     );
 
     group('components', () {
-      // TODO(alestiago): tests that Blueprints get added once the Blueprint
-      // class is removed.
+      flameBlocTester.test(
+        'has only one BallSpawningBehavior',
+        (game) async {
+          await game.ready();
+          expect(
+            game.descendants().whereType<BallSpawningBehavior>().length,
+            equals(1),
+          );
+        },
+      );
+
       flameBlocTester.test(
         'has only one Drain',
         (game) async {
@@ -272,91 +280,6 @@ void main() {
           }
         },
       );
-
-      group('controller', () {
-        group('listenWhen', () {
-          flameTester.testGameWidget(
-            'listens when all balls are lost and there are more than 0 rounds',
-            setUp: (game, tester) async {
-              // TODO(ruimiguel): check why testGameWidget doesn't add any ball
-              // to the game. Test needs to have no balls, so fortunately works.
-              final newState = _MockGameState();
-              when(() => newState.status).thenReturn(GameStatus.playing);
-              game.descendants().whereType<ControlledBall>().forEach(
-                    (ball) => ball.controller.lost(),
-                  );
-              await game.ready();
-
-              expect(
-                game.controller.listenWhen(_MockGameState(), newState),
-                isTrue,
-              );
-            },
-          );
-
-          flameTester.test(
-            "doesn't listen when some balls are left",
-            (game) async {
-              final newState = _MockGameState();
-              when(() => newState.status).thenReturn(GameStatus.playing);
-
-              await game.ready();
-
-              expect(
-                game.descendants().whereType<ControlledBall>().length,
-                greaterThan(0),
-              );
-              expect(
-                game.controller.listenWhen(_MockGameState(), newState),
-                isFalse,
-              );
-            },
-          );
-
-          flameTester.testGameWidget(
-            "doesn't listen when game is over",
-            setUp: (game, tester) async {
-              // TODO(ruimiguel): check why testGameWidget doesn't add any ball
-              // to the game. Test needs to have no balls, so fortunately works.
-              final newState = _MockGameState();
-              when(() => newState.status).thenReturn(GameStatus.gameOver);
-              game.descendants().whereType<ControlledBall>().forEach(
-                    (ball) => ball.controller.lost(),
-                  );
-              await game.ready();
-
-              expect(
-                game.descendants().whereType<ControlledBall>().isEmpty,
-                isTrue,
-              );
-              expect(
-                game.controller.listenWhen(_MockGameState(), newState),
-                isFalse,
-              );
-            },
-          );
-        });
-
-        group('onNewState', () {
-          flameTester.test(
-            'spawns a ball',
-            (game) async {
-              final previousBalls =
-                  game.descendants().whereType<ControlledBall>().toList();
-
-              game.controller.onNewState(_MockGameState());
-              await game.ready();
-              final currentBalls =
-                  game.descendants().whereType<ControlledBall>().toList();
-
-              expect(
-                currentBalls.length,
-                equals(previousBalls.length + 1),
-              );
-            },
-          );
-        });
-      });
     });
 
     group('flipper control', () {

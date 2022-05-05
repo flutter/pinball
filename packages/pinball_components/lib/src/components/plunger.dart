@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
@@ -13,10 +14,19 @@ class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
   /// {@macro plunger}
   Plunger({
     required this.compressionDistance,
-  }) : super(renderBody: false) {
+  }) : super(
+          renderBody: false,
+          children: [_PlungerSpriteAnimationGroupComponent()],
+        ) {
     zIndex = ZIndexes.plunger;
     layer = Layer.launcher;
   }
+
+  /// Creates a [Plunger] without any children.
+  ///
+  /// This can be used for testing [Plunger]'s behaviors in isolation.
+  @visibleForTesting
+  Plunger.test({required this.compressionDistance});
 
   /// Distance the plunger can lower.
   final double compressionDistance;
