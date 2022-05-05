@@ -1,7 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 
@@ -18,9 +17,7 @@ final _bodyTextPaint = TextPaint(
 /// {@endtemplate}
 class LoadingDisplay extends TextComponent with HasGameRef<PinballGame> {
   /// {@template loading_display}
-  LoadingDisplay({AppLocalizations? l10n}) : _l10n = l10n;
-
-  final AppLocalizations? _l10n;
+  LoadingDisplay();
 
   late final String _label;
 
@@ -30,7 +27,7 @@ class LoadingDisplay extends TextComponent with HasGameRef<PinballGame> {
 
     position = Vector2(0, -10);
     anchor = Anchor.center;
-    text = _label = (_l10n ?? gameRef.l10n).loading;
+    text = _label = gameRef.l10n.loading;
     textRenderer = _bodyTextPaint;
 
     await add(
