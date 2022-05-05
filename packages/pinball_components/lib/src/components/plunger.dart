@@ -97,7 +97,7 @@ class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
   void update(double dt) {
     // Ensure that we only pull or release when the time is greater than zero.
     if (_pullingDownTime > 0) {
-      _pullingDownTime -= dt;
+      _pullingDownTime -= PinballForge2DGame.clampDt(dt);
       if (_pullingDownTime <= 0) {
         release();
       } else {
