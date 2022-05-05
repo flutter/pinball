@@ -314,12 +314,15 @@ void main() {
         });
 
         flameTester.testGameWidget(
-          'sets FilterQuality.high to all components',
+          'sets FilterQuality.medium to all components',
           setUp: (game, tester) async {
             await game.ready();
             await tester.pump();
             game.descendants().whereType<HasPaint>().forEach((component) {
-              expect(component.paint.filterQuality, equals(FilterQuality.high));
+              expect(
+                component.paint.filterQuality,
+                equals(FilterQuality.medium),
+              );
             });
           },
         );
