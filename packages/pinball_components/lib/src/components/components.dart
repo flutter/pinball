@@ -14,7 +14,7 @@ export 'dash_nest_bumper/dash_nest_bumper.dart';
 export 'dino_walls.dart';
 export 'fire_effect.dart';
 export 'flapper/flapper.dart';
-export 'flipper.dart';
+export 'flipper/flipper.dart';
 export 'google_letter/google_letter.dart';
 export 'initial_position.dart';
 export 'joint_anchor.dart';
