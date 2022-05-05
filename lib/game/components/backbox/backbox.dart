@@ -36,6 +36,22 @@ class Backbox extends PositionComponent with HasGameRef, ZIndex {
       ),
     );
   }
+
+  /// Puts [InfoDisplay] on the [Backbox].
+  Future<void> infoScreen({
+    required int score,
+    required String characterIconPath,
+    ScoreOnShared? onShared,
+  }) async {
+    removeAll(children.where((child) => child is! _BackboxSpriteComponent));
+    await add(
+      InfoDisplay(
+        score: score,
+        characterIconPath: characterIconPath,
+        onShared: onShared,
+      ),
+    );
+  }
 }
 
 class _BackboxSpriteComponent extends SpriteComponent with HasGameRef {

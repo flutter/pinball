@@ -18,6 +18,7 @@ class GameFlowController extends ComponentController<PinballGame>
 
   @override
   void onNewState(GameState state) {
+    print("START $state");
     if (state.isGameOver) {
       _initialsInput();
     } else {
@@ -29,7 +30,7 @@ class GameFlowController extends ComponentController<PinballGame>
   void _initialsInput() {
     // TODO(erickzanardo): implement score submission and "navigate" to the
     // next page
-    component.descendants().whereType<Backbox>().first.initialsInput(
+    component.descendants().whereType<Backbox>().first.infoScreen(
           score: state?.displayScore ?? 0,
           characterIconPath: component.characterTheme.leaderboardIcon.keyName,
         );
@@ -38,8 +39,10 @@ class GameFlowController extends ComponentController<PinballGame>
 
   /// Puts the game in the playing state.
   void start() {
+    _initialsInput();
+    /*
     component.audio.backgroundMusic();
     component.firstChild<CameraController>()?.focusOnGame();
-    component.overlays.remove(PinballGame.playButtonOverlay);
+    component.overlays.remove(PinballGame.playButtonOverlay);*/
   }
 }
