@@ -122,7 +122,7 @@ void main() {
       test(
         'plays the game over voice over when it is game over',
         () {
-          gameFlowController.onNewState(
+          gameBlocStatusListener.onNewState(
             GameState.initial().copyWith(status: GameStatus.gameOver),
           );
 
