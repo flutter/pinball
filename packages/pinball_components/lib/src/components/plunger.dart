@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
@@ -13,15 +14,22 @@ class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
   /// {@macro plunger}
   Plunger({
     required this.compressionDistance,
-  }) : super(renderBody: false) {
+  }) : super(
+          renderBody: false,
+          children: [_PlungerSpriteAnimationGroupComponent()],
+        ) {
     zIndex = ZIndexes.plunger;
     layer = Layer.launcher;
   }
 
+  /// Creates a [Plunger] without any children.
+  ///
+  /// This can be used for testing [Plunger]'s behaviors in isolation.
+  @visibleForTesting
+  Plunger.test({required this.compressionDistance});
+
   /// Distance the plunger can lower.
   final double compressionDistance;
-
-  late final _PlungerSpriteAnimationGroupComponent _spriteComponent;
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
@@ -78,8 +86,10 @@ class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
 
   /// Set a constant downward velocity on the [Plunger].
   void pull() {
+    final sprite = firstChild<_PlungerSpriteAnimationGroupComponent>()!;
+
     body.linearVelocity = Vector2(0, 7);
-    _spriteComponent.pull();
+    sprite.pull();
   }
 
   /// Set an upward velocity on the [Plunger].
@@ -87,10 +97,12 @@ class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
   /// The velocity's magnitude depends on how far the [Plunger] has been pulled
   /// from its original [initialPosition].
   void release() {
+    final sprite = firstChild<_PlungerSpriteAnimationGroupComponent>()!;
+
     _pullingDownTime = 0;
     final velocity = (initialPosition.y - body.position.y) * 11;
     body.linearVelocity = Vector2(0, velocity);
-    _spriteComponent.release();
+    sprite.release();
   }
 
   @override
@@ -127,9 +139,6 @@ class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
   Future<void> onLoad() async {
     await super.onLoad();
     await _anchorToJoint();
-
-    _spriteComponent = _PlungerSpriteAnimationGroupComponent();
-    await add(_spriteComponent);
   }
 }
 
