@@ -24,7 +24,7 @@ class PlayerInitialsRequested extends BackboxEvent {
   final CharacterTheme character;
 
   @override
-  List<Object?> get props => [props, character];
+  List<Object?> get props => [score, character];
 }
 
 /// {@template player_initials_submited}
@@ -46,5 +46,5 @@ class PlayerInitialsSubmited extends BackboxEvent {
   final CharacterTheme character;
 
   @override
-  List<Object?> get props => [props, initials, character];
+  List<Object?> get props => [score, initials, character];
 }

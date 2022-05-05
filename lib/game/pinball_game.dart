@@ -7,8 +7,9 @@ import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/game/behaviors/behaviors.dart';
+import 'package:pinball/game/components/backbox/bloc/backbox_bloc.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_audio/pinball_audio.dart';
@@ -24,6 +25,7 @@ class PinballGame extends PinballForge2DGame
         MultiTouchTapDetector {
   PinballGame({
     required this.characterTheme,
+    required this.leaderboardRepository,
     required this.l10n,
     required this.player,
   }) : super(gravity: Vector2(0, 30)) {
@@ -41,6 +43,8 @@ class PinballGame extends PinballForge2DGame
 
   final PinballPlayer player;
 
+  final LeaderboardRepository leaderboardRepository;
+
   final AppLocalizations l10n;
 
   @override
@@ -50,7 +54,7 @@ class PinballGame extends PinballForge2DGame
     final machine = [
       BoardBackgroundSpriteComponent(),
       Boundaries(),
-      Backbox(),
+      Backbox(bloc: BackboxBloc(leaderboardRepository: leaderboardRepository)),
     ];
     final decals = [
       GoogleWord(position: Vector2(-4.25, 1.8)),
@@ -185,11 +189,13 @@ class _GameBallsController extends ComponentController<PinballGame>
 class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
   DebugPinballGame({
     required CharacterTheme characterTheme,
+    required LeaderboardRepository leaderboardRepository,
     required AppLocalizations l10n,
     required PinballPlayer player,
   }) : super(
           characterTheme: characterTheme,
           player: player,
+          leaderboardRepository: leaderboardRepository,
           l10n: l10n,
         ) {
     controller = _GameBallsController(this);
@@ -204,18 +210,6 @@ class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
     await add(PreviewLine());
 
     await add(_DebugInformation());
-    await add(
-      KeyboardInputController(
-        keyUp: {
-          LogicalKeyboardKey.escape: () {
-            read<GameBloc>().add(const RoundLost());
-            read<GameBloc>().add(const RoundLost());
-            read<GameBloc>().add(const RoundLost());
-            return true;
-          },
-        },
-      ),
-    );
   }
 
   @override

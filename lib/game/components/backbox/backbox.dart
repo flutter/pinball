@@ -1,10 +1,9 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/game/components/backbox/bloc/backbox_bloc.dart';
 import 'package:pinball/game/components/backbox/displays/displays.dart';
+import 'package:pinball/game/pinball_game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart' hide Assets;
@@ -12,11 +11,11 @@ import 'package:pinball_theme/pinball_theme.dart' hide Assets;
 /// {@template backbox}
 /// The [Backbox] of the pinball machine.
 /// {@endtemplate}
-class Backbox extends PositionComponent with HasGameRef, ZIndex {
+class Backbox extends PositionComponent with HasGameRef<PinballGame>, ZIndex {
   /// {@macro backbox}
   Backbox({
-    LeaderboardRepository? leaderboardRepository,
-  })  : _leaderboardRepository = leaderboardRepository,
+    required BackboxBloc bloc,
+  })  : _bloc = bloc,
         super(
           position: Vector2(0, -87),
           anchor: Anchor.bottomCenter,
@@ -29,16 +28,12 @@ class Backbox extends PositionComponent with HasGameRef, ZIndex {
   }
 
   late final Component _display;
-  late final LeaderboardRepository? _leaderboardRepository;
-  late BackboxBloc _bloc;
+  final BackboxBloc _bloc;
   late StreamSubscription<BackboxState> _subscription;
 
   @override
   Future<void> onLoad() async {
-    final repository = _leaderboardRepository ??
-        gameRef.buildContext!.read<LeaderboardRepository>();
-    _bloc = BackboxBloc(leaderboardRepository: repository);
-    _bloc.stream.listen((state) {
+    _subscription = _bloc.stream.listen((state) {
       _display.children.removeWhere((_) => true);
       _build(state);
     });

@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
@@ -14,6 +15,9 @@ import 'package:pinball_theme/pinball_theme.dart';
 class _MockPinballPlayer extends Mock implements PinballPlayer {}
 
 class _MockAppLocalizations extends Mock implements AppLocalizations {}
+
+class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
+}
 
 class TestGame extends Forge2DGame with FlameBloc {
   TestGame() {
@@ -25,11 +29,14 @@ class PinballTestGame extends PinballGame {
   PinballTestGame({
     List<String>? assets,
     PinballPlayer? player,
+    LeaderboardRepository? leaderboardRepository,
     CharacterTheme? theme,
     AppLocalizations? l10n,
   })  : _assets = assets,
         super(
           player: player ?? _MockPinballPlayer(),
+          leaderboardRepository:
+              leaderboardRepository ?? _MockLeaderboardRepository(),
           characterTheme: theme ?? const DashTheme(),
           l10n: l10n ?? _MockAppLocalizations(),
         );
@@ -48,11 +55,14 @@ class DebugPinballTestGame extends DebugPinballGame {
   DebugPinballTestGame({
     List<String>? assets,
     PinballPlayer? player,
+    LeaderboardRepository? leaderboardRepository,
     CharacterTheme? theme,
     AppLocalizations? l10n,
   })  : _assets = assets,
         super(
           player: player ?? _MockPinballPlayer(),
+          leaderboardRepository:
+              leaderboardRepository ?? _MockLeaderboardRepository(),
           characterTheme: theme ?? const DashTheme(),
           l10n: l10n ?? _MockAppLocalizations(),
         );
