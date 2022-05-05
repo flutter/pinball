@@ -6,7 +6,7 @@ import 'package:pinball/leaderboard/models/leader_board_entry.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 
-final _title = TextPaint(
+final _titleTextPaint = TextPaint(
   style: const TextStyle(
     fontSize: 2,
     color: PinballColors.red,
@@ -54,6 +54,7 @@ class LeaderboardDisplay extends PositionComponent
   Future<void> onLoad() async {
     position = Vector2(0, -30);
 
+    final l10n = gameRef.l10n;
     final ranking = _entries.take(5).toList();
     await add(
       PositionComponent(
@@ -62,20 +63,20 @@ class LeaderboardDisplay extends PositionComponent
           PositionComponent(
             children: [
               TextComponent(
-                text: gameRef.l10n.rank,
-                textRenderer: _title,
+                text: l10n.rank,
+                textRenderer: _titleTextPaint,
                 position: Vector2(_columns[0], 0),
                 anchor: Anchor.center,
               ),
               TextComponent(
-                text: gameRef.l10n.score,
-                textRenderer: _title,
+                text: l10n.score,
+                textRenderer: _titleTextPaint,
                 position: Vector2(_columns[1], 0),
                 anchor: Anchor.center,
               ),
               TextComponent(
-                text: gameRef.l10n.name,
-                textRenderer: _title,
+                text: l10n.name,
+                textRenderer: _titleTextPaint,
                 position: Vector2(_columns[2], 0),
                 anchor: Anchor.center,
               ),
