@@ -20,7 +20,6 @@ class _MockPinballPlayer extends Mock implements PinballPlayer {}
 
 void main() {
   group('GameBlocStatusListener', () {
-
     setUpAll(() {
       registerFallbackValue(AndroidTheme());
     });
