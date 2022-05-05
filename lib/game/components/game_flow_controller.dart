@@ -33,13 +33,11 @@ class GameFlowController extends ComponentController<PinballGame>
           score: state?.displayScore ?? 0,
           characterIconPath: component.characterTheme.leaderboardIcon.keyName,
         );
-    component.firstChild<CameraController>()!.focusOnGameOverBackbox();
   }
 
   /// Puts the game in the playing state.
   void start() {
     component.audio.backgroundMusic();
-    component.firstChild<CameraController>()?.focusOnGame();
     component.overlays.remove(PinballGame.playButtonOverlay);
   }
 }

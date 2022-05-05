@@ -7,6 +7,7 @@ import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_audio/pinball_audio.dart';
@@ -43,11 +44,10 @@ class PinballGame extends PinballForge2DGame
 
   late final GameFlowController gameFlowController;
 
+  late final CameraFocusingBehavior cameraFocusingBehavior;
+
   @override
   Future<void> onLoad() async {
-    await add(gameFlowController = GameFlowController(this));
-    await add(CameraController(this));
-
     final machine = [
       BoardBackgroundSpriteComponent(),
       Boundaries(),
@@ -64,18 +64,21 @@ class PinballGame extends PinballForge2DGame
       FlutterForest(),
       SparkyScorch(),
     ];
-
-    await add(
-      ZCanvasComponent(
-        children: [
-          ...machine,
-          ...decals,
-          ...characterAreas,
-          Drain(),
-          BottomGroup(),
-          Launcher(),
-        ],
-      ),
+    await addAll(
+      [
+        gameFlowController = GameFlowController(this),
+        CameraFocusingBehavior(),
+        ZCanvasComponent(
+          children: [
+            ...machine,
+            ...decals,
+            ...characterAreas,
+            Drain(),
+            BottomGroup(),
+            Launcher(),
+          ],
+        ),
+      ],
     );
 
     await super.onLoad();
