@@ -141,7 +141,11 @@ void main() {
 
           expect(plunger.body.linearVelocity.y, isPositive);
 
-          await tester.pump(const Duration(seconds: 2));
+          // Call game update at 120 FPS, so that the plunger will act as if it
+          // was pulled for 2 seconds.
+          for (var i = 0.0; i < 2; i += 1 / 120) {
+            game.update(1 / 20);
+          }
 
           expect(plunger.body.linearVelocity.y, isZero);
         },
