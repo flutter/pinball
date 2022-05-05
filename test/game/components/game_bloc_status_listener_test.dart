@@ -128,6 +128,18 @@ void main() {
               .called(1);
         },
       );
+
+      test(
+        'plays the game over voice over when it is game over',
+        () {
+          gameFlowController.onNewState(
+            GameState.initial().copyWith(status: GameStatus.gameOver),
+          );
+
+          verify(() => pinballPlayer.play(PinballAudio.gameOverVoiceOver))
+              .called(1);
+        },
+      );
     });
   });
 }

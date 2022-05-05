@@ -18,7 +18,10 @@ enum PinballAudio {
   backgroundMusic,
 
   /// IO Pinball voice over
-  ioPinballVoiceOver
+  ioPinballVoiceOver,
+
+  /// Game over
+  gameOverVoiceOver,
 }
 
 /// Defines the contract of the creation of an [AudioPool].
@@ -30,20 +33,16 @@ typedef CreateAudioPool = Future<AudioPool> Function(
   String? prefix,
 });
 
-/// Function that defines the contract for playing a single
-/// audio
+/// Defines the contract for playing a single audio.
 typedef PlaySingleAudio = Future<void> Function(String);
 
-/// Function that defines the contract for looping a single
-/// audio
+/// Defines the contract for looping a single audio.
 typedef LoopSingleAudio = Future<void> Function(String);
 
-/// Function that defines the contract for pre fetching an
-/// audio
+/// Defines the contract for pre fetching an audio.
 typedef PreCacheSingleAudio = Future<void> Function(String);
 
-/// Function that defines the contract for configuring
-/// an [AudioCache] instance
+/// Defines the contract for configuring an [AudioCache] instance.
 typedef ConfigureAudioCache = void Function(AudioCache);
 
 abstract class _Audio {
@@ -163,6 +162,11 @@ class PinballPlayer {
         preCacheSingleAudio: _preCacheSingleAudio,
         playSingleAudio: _playSingleAudio,
         path: Assets.sfx.ioPinballVoiceOver,
+      ),
+      PinballAudio.gameOverVoiceOver: _SimplePlayAudio(
+        preCacheSingleAudio: _preCacheSingleAudio,
+        playSingleAudio: _playSingleAudio,
+        path: Assets.sfx.gameOverVoiceOver,
       ),
       PinballAudio.bumper: _BumperAudio(
         createAudioPool: _createAudioPool,
