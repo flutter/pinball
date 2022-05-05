@@ -72,14 +72,23 @@ class PinballGame extends PinballForge2DGame
     ];
 
     await add(
-      ZCanvasComponent(
+      CanvasComponent(
+        onSpritePainted: (paint) {
+          if (paint.filterQuality != FilterQuality.medium) {
+            paint.filterQuality = FilterQuality.medium;
+          }
+        },
         children: [
-          ...machine,
-          ...decals,
-          ...characterAreas,
-          Drain(),
-          BottomGroup(),
-          Launcher(),
+          ZCanvasComponent(
+            children: [
+              ...machine,
+              ...decals,
+              ...characterAreas,
+              Drain(),
+              BottomGroup(),
+              Launcher(),
+            ],
+          ),
         ],
       ),
     );
@@ -169,7 +178,7 @@ class _GameBallsController extends ComponentController<PinballGame>
           plunger.body.position.x,
           plunger.body.position.y - Ball.size.y,
         );
-      component.firstChild<ZCanvasComponent>()?.add(ball);
+      component.descendants().whereType<ZCanvasComponent>().single.add(ball);
     });
   }
 }
@@ -203,9 +212,10 @@ class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
     super.onTapUp(pointerId, info);
 
     if (info.raw.kind == PointerDeviceKind.mouse) {
+      final canvas = descendants().whereType<ZCanvasComponent>().single;
       final ball = ControlledBall.debug()
         ..initialPosition = info.eventPosition.game;
-      firstChild<ZCanvasComponent>()?.add(ball);
+      canvas.add(ball);
     }
   }
 
@@ -230,10 +240,11 @@ class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
   }
 
   void _turboChargeBall(Vector2 line) {
+    final canvas = descendants().whereType<ZCanvasComponent>().single;
     final ball = ControlledBall.debug()..initialPosition = lineStart!;
     final impulse = line * -1 * 10;
     ball.add(BallTurboChargingBehavior(impulse: impulse));
-    firstChild<ZCanvasComponent>()?.add(ball);
+    canvas.add(ball);
   }
 }
 
