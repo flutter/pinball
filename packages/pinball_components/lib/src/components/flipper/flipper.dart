@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/foundation.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 export 'behaviors/behaviors.dart';
@@ -20,9 +21,15 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
           children: [
             _FlipperSpriteComponent(side: side),
             FlipperJointingBehavior(),
-            FlipperKeyListeningBehavior(),
+            FlipperKeyControllingBehavior(),
           ],
         );
+
+  /// Creates a [Flipper] without any children.
+  ///
+  /// This can be used for testing [Flipper]'s behaviors in isolation.
+  @visibleForTesting
+  Flipper.test({required this.side});
 
   /// The size of the [Flipper].
   static final size = Vector2(13.5, 4.3);

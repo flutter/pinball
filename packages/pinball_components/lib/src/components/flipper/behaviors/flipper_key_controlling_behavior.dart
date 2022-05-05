@@ -4,7 +4,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// Allows controlling the [Flipper]'s movement with keyboard input.
-class FlipperKeyListeningBehavior extends Component
+class FlipperKeyControllingBehavior extends Component
     with KeyboardHandler, ParentIsA<Flipper> {
   /// The [LogicalKeyboardKey]s that will control the [Flipper].
   ///
