@@ -122,7 +122,7 @@ class _SpaceshipSaucerSpriteAnimationComponent extends SpriteAnimationComponent
       SpriteAnimationData.sequenced(
         amount: amountPerRow * amountPerColumn,
         amountPerRow: amountPerRow,
-        stepTime: 1 / 24,
+        stepTime: 1 / 12,
         textureSize: textureSize,
       ),
     );
