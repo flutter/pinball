@@ -94,7 +94,7 @@ void main() {
         );
 
         flameTester.test(
-          'zooms when lost',
+          'zooms when game is over',
           (game) async {
             final playing = const GameState.initial().copyWith(
               status: GameStatus.gameOver,
