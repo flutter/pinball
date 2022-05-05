@@ -21,8 +21,7 @@ enum LayerEntranceOrientation {
 /// By default the base [layer] is set to [Layer.board] and the
 /// [outsideZIndex] is set to [ZIndexes.ballOnBoard].
 /// {@endtemplate}
-abstract class LayerSensor extends BodyComponent
-    with InitialPosition, Layered, ContactCallbacks {
+abstract class LayerSensor extends BodyComponent with InitialPosition, Layered {
   /// {@macro layer_sensor}
   LayerSensor({
     required this.insideLayer,
@@ -61,9 +60,7 @@ abstract class LayerSensor extends BodyComponent
       shape,
       isSensor: true,
     );
-    final bodyDef = BodyDef(
-      position: initialPosition,
-    );
+    final bodyDef = BodyDef(position: initialPosition);
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
