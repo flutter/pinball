@@ -25,7 +25,7 @@ class FocusData {
 /// Changes the game focus when the [GameBloc] status changes.
 class CameraFocusingBehavior extends Component
     with ParentIsA<FlameGame>, BlocComponent<GameBloc, GameState> {
-  final Map<String, FocusData> _foci = {};
+  late final Map<String, FocusData> _foci;
 
   @override
   bool listenWhen(GameState? previousState, GameState newState) {
@@ -49,18 +49,20 @@ class CameraFocusingBehavior extends Component
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    _foci['game'] = FocusData(
-      zoom: parent.size.y / 16,
-      position: Vector2(0, -7.8),
-    );
-    _foci['waiting'] = FocusData(
-      zoom: parent.size.y / 18,
-      position: Vector2(0, -112),
-    );
-    _foci['backbox'] = FocusData(
-      zoom: parent.size.y / 10,
-      position: Vector2(0, -111),
-    );
+    _foci = {
+      'game': FocusData(
+        zoom: parent.size.y / 16,
+        position: Vector2(0, -7.8),
+      ),
+      'waiting': FocusData(
+        zoom: parent.size.y / 18,
+        position: Vector2(0, -112),
+      ),
+      'gameOver': FocusData(
+        zoom: parent.size.y / 10,
+        position: Vector2(0, -111),
+      ),
+    };
 
     _snap(_foci['waiting']!);
   }
