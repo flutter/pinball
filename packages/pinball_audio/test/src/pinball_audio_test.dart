@@ -157,10 +157,6 @@ void main() {
         ).called(1);
         verify(
           () => preCacheSingleAudio
-              .onCall('packages/pinball_audio/assets/sfx/after_launch.mp3'),
-        ).called(1);
-        verify(
-          () => preCacheSingleAudio
               .onCall('packages/pinball_audio/assets/music/background.mp3'),
         ).called(1);
       });
@@ -229,24 +225,12 @@ void main() {
 
     group('launcher', () {
       test('plays the correct file', () async {
-        await audio.load();
-        audio.launcher();
+        await Future.wait(player.load());
+        player.play(PinballAudio.launcher);
 
         verify(
           () => playSingleAudio
               .onCall('packages/pinball_audio/${Assets.sfx.launcher}'),
-        ).called(1);
-      });
-    });
-
-    group('launcherRoll', () {
-      test('plays the correct file', () async {
-        await audio.load();
-        audio.launcherRoll();
-
-        verify(
-          () => playSingleAudio
-              .onCall('packages/pinball_audio/${Assets.sfx.afterLaunch}'),
         ).called(1);
       });
     });
