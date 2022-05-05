@@ -45,7 +45,7 @@ void main() {
     group('PlayerInitialsSubmitted', () {
       test('can be instantiated', () {
         expect(
-          PlayerInitialsSubmited(
+          PlayerInitialsSubmitted(
             score: 0,
             initials: 'AAA',
             character: AndroidTheme(),
@@ -56,13 +56,13 @@ void main() {
 
       test('supports value comparison', () {
         expect(
-          PlayerInitialsSubmited(
+          PlayerInitialsSubmitted(
             score: 0,
             initials: 'AAA',
             character: AndroidTheme(),
           ),
           equals(
-            PlayerInitialsSubmited(
+            PlayerInitialsSubmitted(
               score: 0,
               initials: 'AAA',
               character: AndroidTheme(),
@@ -71,14 +71,14 @@ void main() {
         );
 
         expect(
-          PlayerInitialsSubmited(
+          PlayerInitialsSubmitted(
             score: 0,
             initials: 'AAA',
             character: AndroidTheme(),
           ),
           isNot(
             equals(
-              PlayerInitialsSubmited(
+              PlayerInitialsSubmitted(
                 score: 1,
                 initials: 'AAA',
                 character: AndroidTheme(),
@@ -88,14 +88,14 @@ void main() {
         );
 
         expect(
-          PlayerInitialsSubmited(
+          PlayerInitialsSubmitted(
             score: 0,
             initials: 'AAA',
             character: AndroidTheme(),
           ),
           isNot(
             equals(
-              PlayerInitialsSubmited(
+              PlayerInitialsSubmitted(
                 score: 0,
                 initials: 'AAA',
                 character: SparkyTheme(),
@@ -105,14 +105,14 @@ void main() {
         );
 
         expect(
-          PlayerInitialsSubmited(
+          PlayerInitialsSubmitted(
             score: 0,
             initials: 'AAA',
             character: AndroidTheme(),
           ),
           isNot(
             equals(
-              PlayerInitialsSubmited(
+              PlayerInitialsSubmitted(
                 score: 0,
                 initials: 'BBB',
                 character: AndroidTheme(),

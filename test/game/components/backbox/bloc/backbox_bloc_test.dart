@@ -48,7 +48,7 @@ void main() {
         },
         build: () => BackboxBloc(leaderboardRepository: leaderboardRepository),
         act: (bloc) => bloc.add(
-          PlayerInitialsSubmited(
+          PlayerInitialsSubmitted(
             score: 10,
             initials: 'AAA',
             character: DashTheme(),
@@ -76,7 +76,7 @@ void main() {
         },
         build: () => BackboxBloc(leaderboardRepository: leaderboardRepository),
         act: (bloc) => bloc.add(
-          PlayerInitialsSubmited(
+          PlayerInitialsSubmitted(
             score: 10,
             initials: 'AAA',
             character: DashTheme(),

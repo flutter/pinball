@@ -60,7 +60,7 @@ class Backbox extends PositionComponent with HasGameRef<PinballGame>, ZIndex {
           characterIconPath: state.character.leaderboardIcon.keyName,
           onSubmit: (initials) {
             _bloc.add(
-              PlayerInitialsSubmited(
+              PlayerInitialsSubmitted(
                 score: state.score,
                 initials: initials,
                 character: state.character,

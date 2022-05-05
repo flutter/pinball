@@ -143,7 +143,7 @@ void main() {
     );
 
     flameTester.test(
-      'adds PlayerInitialsSubmited when initials are submitted',
+      'adds PlayerInitialsSubmitted when initials are submitted',
       (game) async {
         final bloc = _MockBackboxBloc();
         final state = InitialsFormState(
@@ -161,7 +161,7 @@ void main() {
         game.onKeyEvent(_mockKeyUp(LogicalKeyboardKey.enter), {});
         verify(
           () => bloc.add(
-            PlayerInitialsSubmited(
+            PlayerInitialsSubmitted(
               score: 10,
               initials: 'AAA',
               character: theme.AndroidTheme(),

@@ -33,7 +33,7 @@ class PlayerInitialsRequested extends BackboxEvent {
 /// {@endtemplate}
 class PlayerInitialsSubmitted extends BackboxEvent {
   /// {@macro player_initials_submitted}
-  const PlayerInitialsSubmited({
+  const PlayerInitialsSubmitted({
     required this.score,
     required this.initials,
     required this.character,
