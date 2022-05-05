@@ -2,7 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:pinball/game/game.dart';
 
-/// Listns to the [GameBloc] and updates the game accoringly.
+/// Listens to the [GameBloc] and updates the game accordingly.
 class GameBlocStatusListener extends Component
     with BlocComponent<GameBloc, GameState>, HasGameRef<PinballGame> {
   @override
