@@ -36,7 +36,7 @@ void main() {
           whenListen(
             bloc,
             const Stream<ChromeDinoState>.empty(),
-            initialState: const ChromeDinoState.inital(),
+            initialState: const ChromeDinoState.initial(),
           );
 
           final chromeDino = ChromeDino.test(bloc: bloc);
@@ -58,7 +58,7 @@ void main() {
           whenListen(
             bloc,
             const Stream<ChromeDinoState>.empty(),
-            initialState: const ChromeDinoState.inital(),
+            initialState: const ChromeDinoState.initial(),
           );
 
           final chromeDino = ChromeDino.test(bloc: bloc);
@@ -91,7 +91,7 @@ void main() {
               bloc,
               const Stream<ChromeDinoState>.empty(),
               initialState:
-                  const ChromeDinoState.inital().copyWith(isMouthOpen: true),
+                  const ChromeDinoState.initial().copyWith(isMouthOpen: true),
             );
 
             final chromeDino = ChromeDino.test(bloc: bloc);
@@ -120,7 +120,7 @@ void main() {
               bloc,
               const Stream<ChromeDinoState>.empty(),
               initialState:
-                  const ChromeDinoState.inital().copyWith(isMouthOpen: false),
+                  const ChromeDinoState.initial().copyWith(isMouthOpen: false),
             );
 
             final chromeDino = ChromeDino.test(bloc: bloc);
@@ -148,7 +148,7 @@ void main() {
               bloc,
               const Stream<ChromeDinoState>.empty(),
               initialState:
-                  const ChromeDinoState.inital().copyWith(isMouthOpen: false),
+                  const ChromeDinoState.initial().copyWith(isMouthOpen: false),
             );
 
             final chromeDino = ChromeDino.test(bloc: bloc);

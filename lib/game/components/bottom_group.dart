@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
@@ -51,7 +52,8 @@ class _BottomGroupSide extends Component {
     final kicker = Kicker(
       side: _side,
       children: [
-        ScoringBehavior(points: Points.fiveThousand)..applyTo(['bouncy_edge']),
+        ScoringContactBehavior(points: Points.fiveThousand)
+          ..applyTo(['bouncy_edge']),
       ],
     )..initialPosition = Vector2(
         (22.64 * direction) + centerXAdjustment,

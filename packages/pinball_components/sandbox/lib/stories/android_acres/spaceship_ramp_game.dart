@@ -9,7 +9,6 @@ import 'package:sandbox/stories/ball/basic_ball_game.dart';
 class SpaceshipRampGame extends BallGame with KeyboardEvents {
   SpaceshipRampGame()
       : super(
-          color: Colors.blue,
           ballPriority: ZIndexes.ballOnSpaceshipRamp,
           ballLayer: Layer.spaceshipEntranceRamp,
           imagesFileNames: [
@@ -54,7 +53,7 @@ class SpaceshipRampGame extends BallGame with KeyboardEvents {
   ) {
     if (event is RawKeyDownEvent &&
         event.logicalKey == LogicalKeyboardKey.space) {
-      _spaceshipRamp.progress();
+      _spaceshipRamp.bloc.onAscendingBallEntered();
       return KeyEventResult.handled;
     }
 

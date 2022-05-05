@@ -7,8 +7,8 @@ import 'package:pinball_ui/pinball_ui.dart';
 /// {@template game_hud}
 /// Overlay on the [PinballGame].
 ///
-/// Displays the current [GameState.score], [GameState.rounds] and animates when
-/// the player gets a [GameBonus].
+/// Displays the current [GameState.displayScore], [GameState.rounds] and
+/// animates when the player gets a [GameBonus].
 /// {@endtemplate}
 class GameHud extends StatefulWidget {
   /// {@macro game_hud}
@@ -23,16 +23,17 @@ class _GameHudState extends State<GameHud> {
 
   /// Ratio from sprite frame (width 500, height 144) w / h = ratio
   static const _ratio = 3.47;
-  static const _width = 265.0;
 
   @override
   Widget build(BuildContext context) {
     final isGameOver = context.select((GameBloc bloc) => bloc.state.isGameOver);
 
+    final height = _calculateHeight(context);
+
     return _ScoreViewDecoration(
       child: SizedBox(
-        height: _width / _ratio,
-        width: _width,
+        height: height,
+        width: height * _ratio,
         child: BlocListener<GameBloc, GameState>(
           listenWhen: (previous, current) =>
               previous.bonusHistory.length != current.bonusHistory.length,
@@ -52,6 +53,17 @@ class _GameHudState extends State<GameHud> {
         ),
       ),
     );
+  }
+
+  double _calculateHeight(BuildContext context) {
+    final height = MediaQuery.of(context).size.height * 0.09;
+    if (height > 90) {
+      return 90;
+    } else if (height < 60) {
+      return 60;
+    } else {
+      return height;
+    }
   }
 }
 
