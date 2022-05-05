@@ -77,13 +77,13 @@ void main() {
       );
 
       flameTester.test(
-        'three SparkyBumpers with BumperNoisyBehavior',
+        'three SparkyBumpers with BumperNoiseBehavior',
         (game) async {
           await game.ensureAdd(SparkyScorch());
           final bumpers = game.descendants().whereType<SparkyBumper>();
           for (final bumper in bumpers) {
             expect(
-              bumper.firstChild<BumperNoisyBehavior>(),
+              bumper.firstChild<BumperNoiseBehavior>(),
               isNotNull,
             );
           }

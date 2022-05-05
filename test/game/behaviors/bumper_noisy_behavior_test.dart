@@ -23,7 +23,7 @@ class _MockContact extends Mock implements Contact {}
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  group('BumperNoisyBehavior', () {});
+  group('BumperNoiseBehavior', () {});
 
   late PinballPlayer player;
   final flameTester = FlameTester(
@@ -37,7 +37,7 @@ void main() {
   flameTester.testGameWidget(
     'plays bumper sound',
     setUp: (game, _) async {
-      final behavior = BumperNoisyBehavior();
+      final behavior = BumperNoiseBehavior();
       final parent = _TestBodyComponent();
       await game.ensureAdd(parent);
       await parent.ensureAdd(behavior);

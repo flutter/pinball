@@ -6,7 +6,7 @@ import 'package:pinball/game/pinball_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
-class BumperNoisyBehavior extends ContactBehavior with HasGameRef<PinballGame> {
+class BumperNoiseBehavior extends ContactBehavior with HasGameRef<PinballGame> {
   @override
   void beginContact(Object other, Contact contact) {
     super.beginContact(other, contact);

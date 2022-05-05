@@ -14,6 +14,17 @@ void main() {
   group('Plunger', () {
     const compressionDistance = 0.0;
 
+    test('can be instantiated', () {
+      expect(
+        Plunger(compressionDistance: compressionDistance),
+        isA<Plunger>(),
+      );
+      expect(
+        Plunger.test(compressionDistance: compressionDistance),
+        isA<Plunger>(),
+      );
+    });
+
     flameTester.testGameWidget(
       'renders correctly',
       setUp: (game, tester) async {
