@@ -9,7 +9,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/game/behaviors/behaviors.dart';
-import 'package:pinball/game/components/backbox/bloc/backbox_bloc.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_audio/pinball_audio.dart';
@@ -54,7 +53,7 @@ class PinballGame extends PinballForge2DGame
     final machine = [
       BoardBackgroundSpriteComponent(),
       Boundaries(),
-      Backbox(bloc: BackboxBloc(leaderboardRepository: leaderboardRepository)),
+      Backbox(leaderboardRepository: leaderboardRepository),
     ];
     final decals = [
       GoogleWord(position: Vector2(-4.25, 1.8)),

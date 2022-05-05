@@ -91,7 +91,7 @@ void main() {
     flameTester.test(
       'loads correctly',
       (game) async {
-        final backbox = Backbox(bloc: bloc);
+        final backbox = Backbox.test(bloc: bloc);
         await game.ensureAdd(backbox);
 
         expect(game.children, contains(backbox));
@@ -106,7 +106,7 @@ void main() {
           ..followVector2(Vector2(0, -130))
           ..zoom = 6;
         await game.ensureAdd(
-          Backbox(bloc: bloc),
+          Backbox.test(bloc: bloc),
         );
         await tester.pump();
       },
@@ -121,7 +121,7 @@ void main() {
     flameTester.test(
       'requestInitials adds InitialsInputDisplay',
       (game) async {
-        final backbox = Backbox(
+        final backbox = Backbox.test(
           bloc: BackboxBloc(
             leaderboardRepository: _MockLeaderboardRepository(),
           ),
@@ -153,7 +153,7 @@ void main() {
           Stream.value(state),
           initialState: state,
         );
-        final backbox = Backbox(bloc: bloc);
+        final backbox = Backbox.test(bloc: bloc);
         await game.ensureAdd(backbox);
 
         game.onKeyEvent(_mockKeyUp(LogicalKeyboardKey.enter), {});
@@ -177,7 +177,7 @@ void main() {
           Stream.value(InitialsSuccessState()),
           initialState: InitialsSuccessState(),
         );
-        final backbox = Backbox(bloc: bloc);
+        final backbox = Backbox.test(bloc: bloc);
         await game.ensureAdd(backbox);
 
         expect(
@@ -198,7 +198,7 @@ void main() {
           Stream.value(InitialsFailureState()),
           initialState: InitialsFailureState(),
         );
-        final backbox = Backbox(bloc: bloc);
+        final backbox = Backbox.test(bloc: bloc);
         await game.ensureAdd(backbox);
 
         expect(
@@ -214,7 +214,7 @@ void main() {
     flameTester.test(
       'closes the subscription when it is removed',
       (game) async {
-        final backbox = Backbox(bloc: bloc);
+        final backbox = Backbox.test(bloc: bloc);
         await game.ensureAdd(backbox);
 
         backbox.removeFromParent();

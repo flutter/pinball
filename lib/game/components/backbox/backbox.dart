@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
+import 'package:flutter/material.dart';
+import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/game/components/backbox/bloc/backbox_bloc.dart';
 import 'package:pinball/game/components/backbox/displays/displays.dart';
 import 'package:pinball/game/pinball_game.dart';
@@ -14,18 +16,14 @@ import 'package:pinball_theme/pinball_theme.dart' hide Assets;
 class Backbox extends PositionComponent with HasGameRef<PinballGame>, ZIndex {
   /// {@macro backbox}
   Backbox({
+    required LeaderboardRepository leaderboardRepository,
+  }) : _bloc = BackboxBloc(leaderboardRepository: leaderboardRepository);
+
+  /// {@macro backbox}
+  @visibleForTesting
+  Backbox.test({
     required BackboxBloc bloc,
-  })  : _bloc = bloc,
-        super(
-          position: Vector2(0, -87),
-          anchor: Anchor.bottomCenter,
-          children: [
-            _BackboxSpriteComponent(),
-          ],
-        ) {
-    zIndex = ZIndexes.backbox;
-    add(_display = Component());
-  }
+  }) : _bloc = bloc;
 
   late final Component _display;
   final BackboxBloc _bloc;
@@ -33,6 +31,13 @@ class Backbox extends PositionComponent with HasGameRef<PinballGame>, ZIndex {
 
   @override
   Future<void> onLoad() async {
+    position = Vector2(0, -87);
+    anchor = Anchor.bottomCenter;
+    zIndex = ZIndexes.backbox;
+
+    await add(_BackboxSpriteComponent());
+    await add(_display = Component());
+
     _subscription = _bloc.stream.listen((state) {
       _display.children.removeWhere((_) => true);
       _build(state);
