@@ -76,7 +76,7 @@ class EmptyPinballTestGame extends PinballTestGame {
     AppLocalizations? l10n,
   }) : super(
           assets: assets,
-          audio: audio,
+          player: player,
           theme: theme,
           l10n: l10n ?? _MockAppLocalizations(),
         );
@@ -93,7 +93,7 @@ class EmptyKeyboardPinballTestGame extends PinballTestGame
     with HasKeyboardHandlerComponents {
   EmptyKeyboardPinballTestGame({
     List<String>? assets,
-    PinballAudio? audio,
+    PinballPlayer? player,
     CharacterTheme? theme,
     AppLocalizations? l10n,
   }) : super(
