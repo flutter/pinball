@@ -50,19 +50,23 @@ class _ScoreDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return FittedBox(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Text(
-            l10n.score.toLowerCase(),
-            style: Theme.of(context).textTheme.subtitle1,
+    return Row(
+      children: [
+        FittedBox(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                l10n.score.toLowerCase(),
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+              const _ScoreText(),
+              const RoundCountDisplay(),
+            ],
           ),
-          const _ScoreText(),
-          const RoundCountDisplay(),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
