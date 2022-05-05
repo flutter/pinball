@@ -135,7 +135,7 @@ void main() {
     });
 
     flameTester.test(
-      'adds the PlungerNoisyBehavior plunger is released',
+      'adds the PlungerNoiseBehavior plunger is released',
       (game) async {
         await game.ensureAdd(plunger);
         plunger.body.setTransform(Vector2(0, 1), 0);
@@ -143,23 +143,23 @@ void main() {
 
         await game.ready();
         final count =
-            game.descendants().whereType<PlungerNoisyBehavior>().length;
+            game.descendants().whereType<PlungerNoiseBehavior>().length;
         expect(count, equals(1));
       },
     );
   });
 
-  group('PlungerNoisyBehavior', () {
+  group('PlungerNoiseBehavior', () {
     late PinballGame game;
     late PinballPlayer player;
-    late PlungerNoisyBehavior behavior;
+    late PlungerNoiseBehavior behavior;
 
     setUp(() {
       game = _MockPinballGame();
       player = _MockPinballPlayer();
 
       when(() => game.player).thenReturn(player);
-      behavior = PlungerNoisyBehavior();
+      behavior = PlungerNoiseBehavior();
       behavior.mockGameRef(game);
     });
 
