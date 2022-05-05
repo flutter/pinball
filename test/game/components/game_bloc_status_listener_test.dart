@@ -56,6 +56,7 @@ void main() {
         pinballAudio = _MockPinballAudio();
 
         gameFlowController.mockGameRef(game);
+
         when(
           () => backbox.initialsInput(
             score: any(named: 'score'),
