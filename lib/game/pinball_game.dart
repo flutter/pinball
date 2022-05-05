@@ -43,8 +43,6 @@ class PinballGame extends PinballForge2DGame
 
   @override
   Future<void> onLoad() async {
-    await add(CameraController(this));
-
     final machine = [
       BoardBackgroundSpriteComponent(),
       Boundaries(),
@@ -71,6 +69,7 @@ class PinballGame extends PinballForge2DGame
       [
         GameBlocStatusListener(),
         BallSpawningBehavior(),
+        CameraFocusingBehavior(),
         CanvasComponent(
           onSpritePainted: (paint) {
             if (paint.filterQuality != FilterQuality.medium) {
