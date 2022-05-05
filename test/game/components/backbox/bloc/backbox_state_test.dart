@@ -47,7 +47,7 @@ void main() {
     });
 
     group('InitialsFormState', () {
-      test('can be InitialsFormState', () {
+      test('can be instantiated', () {
         expect(
           InitialsFormState(
             score: 0,

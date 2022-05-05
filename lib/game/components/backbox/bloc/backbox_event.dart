@@ -12,7 +12,7 @@ abstract class BackboxEvent extends Equatable {
 /// Event that triggers the user initials display.
 /// {@endtemplate}
 class PlayerInitialsRequested extends BackboxEvent {
-  /// {@template player_initials_requested}
+  /// {@macro player_initials_requested}
   const PlayerInitialsRequested({
     required this.score,
     required this.character,
@@ -28,11 +28,11 @@ class PlayerInitialsRequested extends BackboxEvent {
   List<Object?> get props => [score, character];
 }
 
-/// {@template player_initials_submited}
+/// {@template player_initials_submitted}
 /// Event that submits the user score and initials.
 /// {@endtemplate}
-class PlayerInitialsSubmited extends BackboxEvent {
-  /// {@template player_initials_requested}
+class PlayerInitialsSubmitted extends BackboxEvent {
+  /// {@macro player_initials_submitted}
   const PlayerInitialsSubmited({
     required this.score,
     required this.initials,

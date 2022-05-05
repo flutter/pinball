@@ -13,7 +13,7 @@ final _bodyTextPaint = TextPaint(
 );
 
 /// {@template initials_submission_failure_display}
-/// Display when the initials failed to submitted.
+/// [Backbox] display for when a failure occurs during initials submission.
 /// {@endtemplate}
 class InitialsSubmissionFailureDisplay extends TextComponent
     with HasGameRef<PinballGame> {

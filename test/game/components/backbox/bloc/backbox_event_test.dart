@@ -42,7 +42,7 @@ void main() {
       });
     });
 
-    group('PlayerInitialsSubmited', () {
+    group('PlayerInitialsSubmitted', () {
       test('can be instantiated', () {
         expect(
           PlayerInitialsSubmited(

@@ -31,9 +31,9 @@ void main() {
       ],
     );
 
-    group('PlayerInitialsSubmited', () {
+    group('PlayerInitialsSubmitted', () {
       blocTest<BackboxBloc, BackboxState>(
-        'adds [LoadingState, InitialsSuccessState] when submission works',
+        'adds [LoadingState, InitialsSuccessState] when submission succeeds',
         setUp: () {
           leaderboardRepository = _MockLeaderboardRepository();
           when(
@@ -61,7 +61,7 @@ void main() {
       );
 
       blocTest<BackboxBloc, BackboxState>(
-        'adds [LoadingState, InitialsSuccessState] when submission works',
+        'adds [LoadingState, InitialsFailureState] when submission fails',
         setUp: () {
           leaderboardRepository = _MockLeaderboardRepository();
           when(
