@@ -63,43 +63,6 @@ void main() {
       );
     });
 
-    flameBlocTester.testGameWidget(
-      "lost doesn't adds RoundLost to GameBloc "
-      'when there are balls left',
-      setUp: (game, tester) async {
-        final controller = BallController(ball);
-        await ball.add(controller);
-        await game.ensureAdd(ball);
-
-        final otherBall = Ball();
-        final otherController = BallController(otherBall);
-        await otherBall.add(otherController);
-        await game.ensureAdd(otherBall);
-
-        controller.lost();
-        await game.ready();
-      },
-      verify: (game, tester) async {
-        verifyNever(() => gameBloc.add(const RoundLost()));
-      },
-    );
-
-    flameBlocTester.testGameWidget(
-      'lost adds RoundLost to GameBloc '
-      'when there are no balls left',
-      setUp: (game, tester) async {
-        final controller = BallController(ball);
-        await ball.add(controller);
-        await game.ensureAdd(ball);
-
-        controller.lost();
-        await game.ready();
-      },
-      verify: (game, tester) async {
-        verify(() => gameBloc.add(const RoundLost())).called(1);
-      },
-    );
-
     group('turboCharge', () {
       setUpAll(() {
         registerFallbackValue(Vector2.zero());

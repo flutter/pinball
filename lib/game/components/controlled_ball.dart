@@ -22,9 +22,7 @@ class ControlledBall extends Ball with Controls<BallController> {
     zIndex = ZIndexes.ballOnLaunchRamp;
   }
 
-  /// {@template bonus_ball}
   /// {@macro controlled_ball}
-  /// {@endtemplate}
   ControlledBall.bonus({
     required CharacterTheme characterTheme,
   }) : super(assetPath: characterTheme.ball.keyName) {
@@ -47,12 +45,6 @@ class BallController extends ComponentController<Ball>
   /// {@macro ball_controller}
   BallController(Ball ball) : super(ball);
 
-  /// Event triggered when the ball is lost.
-  // TODO(alestiago): Refactor using behaviors.
-  void lost() {
-    component.shouldRemove = true;
-  }
-
   /// Stops the [Ball] inside of the [SparkyComputer] while the turbo charge
   /// sequence runs, then boosts the ball out of the computer.
   Future<void> turboCharge() async {
@@ -69,14 +61,5 @@ class BallController extends ComponentController<Ball>
     await component.add(
       BallTurboChargingBehavior(impulse: Vector2(40, 110)),
     );
-  }
-
-  @override
-  void onRemove() {
-    super.onRemove();
-    final noBallsLeft = gameRef.descendants().whereType<Ball>().isEmpty;
-    if (noBallsLeft) {
-      gameRef.read<GameBloc>().add(const RoundLost());
-    }
   }
 }
