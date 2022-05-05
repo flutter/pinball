@@ -32,18 +32,18 @@ class _ComputerBase extends BodyComponent with InitialPosition, ZIndex {
   List<FixtureDef> _createFixtureDefs() {
     final leftEdge = EdgeShape()
       ..set(
-        Vector2(-14.9, -46),
-        Vector2(-15.3, -49.6),
+        Vector2(-15.1, -45.9),
+        Vector2(-15.5, -49.5),
       );
     final topEdge = EdgeShape()
       ..set(
-        Vector2(-15.3, -49.6),
-        Vector2(-10.7, -50.6),
+        leftEdge.vertex2,
+        Vector2(-10.9, -50.5),
       );
     final rightEdge = EdgeShape()
       ..set(
-        Vector2(-10.7, -50.6),
-        Vector2(-9, -47.2),
+        topEdge.vertex2,
+        Vector2(-9.2, -47.1),
       );
 
     return [
@@ -67,7 +67,7 @@ class _ComputerBaseSpriteComponent extends SpriteComponent with HasGameRef {
   _ComputerBaseSpriteComponent()
       : super(
           anchor: Anchor.center,
-          position: Vector2(-12.1, -48.15),
+          position: Vector2(-12.24, -48.15),
         );
 
   @override
@@ -89,7 +89,7 @@ class _ComputerTopSpriteComponent extends SpriteComponent
   _ComputerTopSpriteComponent()
       : super(
           anchor: Anchor.center,
-          position: Vector2(-12.52, -49.37),
+          position: Vector2(-12.66, -49.37),
         ) {
     zIndex = ZIndexes.computerTop;
   }
@@ -113,9 +113,9 @@ class _ComputerGlowSpriteComponent extends SpriteComponent
   _ComputerGlowSpriteComponent()
       : super(
           anchor: Anchor.center,
-          position: Vector2(7.4, 10),
+          position: Vector2(4.2, 11),
         ) {
-    zIndex = ZIndexes.computerGlow;
+    zIndex = ZIndexes.computerGlow + 4;
   }
 
   @override

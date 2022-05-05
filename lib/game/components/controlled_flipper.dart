@@ -37,7 +37,7 @@ class FlipperController extends ComponentController<Flipper>
     RawKeyEvent event,
     Set<LogicalKeyboardKey> keysPressed,
   ) {
-    if (state?.isGameOver ?? false) return true;
+    if (state?.status.isGameOver ?? false) return true;
     if (!_keys.contains(event.logicalKey)) return true;
 
     if (event is RawKeyDownEvent) {

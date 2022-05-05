@@ -13,12 +13,13 @@ class ScoreView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isGameOver = context.select((GameBloc bloc) => bloc.state.isGameOver);
+    final isGameOver =
+        context.select((GameBloc bloc) => bloc.state.status.isGameOver);
 
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
-        vertical: 8,
+        vertical: 2,
       ),
       child: AnimatedSwitcher(
         duration: kThemeAnimationDuration,
@@ -71,9 +72,11 @@ class _ScoreText extends StatelessWidget {
   Widget build(BuildContext context) {
     final score = context.select((GameBloc bloc) => bloc.state.displayScore);
 
-    return Text(
-      score.formatScore(),
-      style: Theme.of(context).textTheme.headline1,
+    return FittedBox(
+      child: Text(
+        score.formatScore(),
+        style: Theme.of(context).textTheme.headline2,
+      ),
     );
   }
 }

@@ -3,12 +3,13 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/pinball_game.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 class BumperNoisyBehavior extends ContactBehavior with HasGameRef<PinballGame> {
   @override
   void beginContact(Object other, Contact contact) {
     super.beginContact(other, contact);
-    gameRef.audio.bumper();
+    gameRef.player.play(PinballAudio.bumper);
   }
 }

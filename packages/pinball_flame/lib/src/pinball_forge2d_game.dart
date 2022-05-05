@@ -24,7 +24,7 @@ class PinballForge2DGame extends FlameGame implements Forge2DGame {
   @override
   void update(double dt) {
     super.update(dt);
-    world.stepDt(min(dt, 1 / 60));
+    world.stepDt(clampDt(dt));
   }
 
   @override
@@ -40,5 +40,15 @@ class PinballForge2DGame extends FlameGame implements Forge2DGame {
   @override
   Vector2 worldToScreen(Vector2 position) {
     throw UnimplementedError();
+  }
+
+  /// Clamp the [dt] in such a way that it would never exceed the minimal of
+  /// 1/60th of a second.
+  ///
+  /// Note: this is a static method because composing this class as a generic
+  /// on `BodyComponent` and mixins for that class will crash the Dart analyzer
+  /// server.
+  static double clampDt(double dt) {
+    return min(dt, 1 / 60);
   }
 }
