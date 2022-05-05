@@ -238,5 +238,15 @@ void main() {
         ).called(1);
       });
     });
+
+    test(
+      'throws assertions error when playing an unregistered audio',
+      () async {
+        player.audios.remove(PinballAudio.google);
+        await Future.wait(player.load());
+
+        expect(() => player.play(PinballAudio.google), throwsAssertionError);
+      },
+    );
   });
 }

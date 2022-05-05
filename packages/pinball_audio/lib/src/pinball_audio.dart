@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flame_audio/audio_pool.dart';
 import 'package:flame_audio/flame_audio.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball_audio/gen/assets.gen.dart';
 
 /// Sounds available for play
@@ -152,7 +153,7 @@ class PinballPlayer {
               a.prefix = '';
             }),
         _seed = seed ?? Random() {
-    _audios = {
+    audios = {
       PinballAudio.google: _SimplePlayAudio(
         preCacheSingleAudio: _preCacheSingleAudio,
         playSingleAudio: _playSingleAudio,
@@ -187,21 +188,23 @@ class PinballPlayer {
 
   final Random _seed;
 
-  late final Map<PinballAudio, _Audio> _audios;
+  /// Registered audios on the Player
+  @visibleForTesting
+  late final Map<PinballAudio, _Audio> audios;
 
   /// Loads the sounds effects into the memory
   List<Future<void>> load() {
     _configureAudioCache(FlameAudio.audioCache);
 
-    return _audios.values.map((a) => a.load()).toList();
+    return audios.values.map((a) => a.load()).toList();
   }
 
   /// Plays the received auido
   void play(PinballAudio audio) {
     assert(
-      _audios.containsKey(audio),
+      audios.containsKey(audio),
       'Tried to play unregistered audio $audio',
     );
-    _audios[audio]?.play();
+    audios[audio]?.play();
   }
 }
