@@ -16,7 +16,7 @@ class _MockCameraController extends Mock implements CameraController {}
 class _MockActiveOverlaysNotifier extends Mock
     implements ActiveOverlaysNotifier {}
 
-class _MockPinballAudio extends Mock implements PinballAudio {}
+class _MockPinballPlayer extends Mock implements PinballPlayer {}
 
 void main() {
   group('GameBlocStatusListener', () {
@@ -44,7 +44,7 @@ void main() {
       late Backbox backbox;
       late CameraController cameraController;
       late GameBlocStatusListener gameFlowController;
-      late PinballAudio pinballAudio;
+      late PinballPlayer pinballPlayer;
       late ActiveOverlaysNotifier overlays;
 
       setUp(() {
@@ -53,7 +53,7 @@ void main() {
         cameraController = _MockCameraController();
         gameFlowController = GameBlocStatusListener();
         overlays = _MockActiveOverlaysNotifier();
-        pinballAudio = _MockPinballAudio();
+        pinballPlayer = _MockPinballPlayer();
 
         gameFlowController.mockGameRef(game);
 
@@ -74,7 +74,7 @@ void main() {
         when(game.firstChild<CameraController>).thenReturn(cameraController);
         when(() => game.overlays).thenReturn(overlays);
         when(() => game.characterTheme).thenReturn(DashTheme());
-        when(() => game.audio).thenReturn(pinballAudio);
+        when(() => game.player).thenReturn(pinballPlayer);
       });
 
       test(
@@ -122,7 +122,8 @@ void main() {
             GameState.initial().copyWith(status: GameStatus.playing),
           );
 
-          verify(pinballAudio.backgroundMusic).called(1);
+          verify(() => pinballPlayer.play(PinballAudio.backgroundMusic))
+              .called(1);
         },
       );
     });

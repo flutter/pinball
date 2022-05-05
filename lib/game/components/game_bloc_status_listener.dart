@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 
 /// Listens to the [GameBloc] and updates the game accordingly.
 class GameBlocStatusListener extends Component
@@ -16,7 +17,7 @@ class GameBlocStatusListener extends Component
       case GameStatus.waiting:
         break;
       case GameStatus.playing:
-        gameRef.audio.backgroundMusic();
+        gameRef.player.play(PinballAudio.backgroundMusic);
         gameRef.firstChild<CameraController>()?.focusOnGame();
         gameRef.overlays.remove(PinballGame.playButtonOverlay);
         break;

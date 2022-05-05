@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
@@ -20,7 +21,7 @@ class GoogleWordBonusBehavior extends Component
             .every((letter) => letter.bloc.state == GoogleLetterState.lit);
 
         if (achievedBonus) {
-          gameRef.audio.googleBonus();
+          gameRef.player.play(PinballAudio.google);
           gameRef
               .read<GameBloc>()
               .add(const BonusActivated(GameBonus.googleWord));
