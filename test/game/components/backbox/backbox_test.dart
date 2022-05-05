@@ -1,5 +1,7 @@
 // ignore_for_file: cascade_invocations, prefer_const_constructors
 
+import 'dart:async';
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
@@ -214,17 +216,21 @@ void main() {
     flameTester.test(
       'closes the subscription when it is removed',
       (game) async {
+        final streamController = StreamController<BackboxState>();
+        whenListen(
+          bloc,
+          streamController.stream,
+          initialState: LoadingState(),
+        );
+
         final backbox = Backbox.test(bloc: bloc);
         await game.ensureAdd(backbox);
 
         backbox.removeFromParent();
         await game.ready();
 
-        whenListen(
-          bloc,
-          Stream.value(InitialsFailureState()),
-          initialState: InitialsFailureState(),
-        );
+        streamController.add(InitialsFailureState());
+        await game.ready();
 
         expect(
           backbox
