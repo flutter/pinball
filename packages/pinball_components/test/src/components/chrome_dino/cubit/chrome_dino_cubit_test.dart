@@ -57,7 +57,7 @@ void main() {
       blocTest<ChromeDinoCubit, ChromeDinoState>(
         'onChomp emits nothing when the ball is already in the mouth',
         build: ChromeDinoCubit.new,
-        seed: () => const ChromeDinoState.inital().copyWith(ball: ball),
+        seed: () => const ChromeDinoState.initial().copyWith(ball: ball),
         act: (bloc) => bloc.onChomp(ball),
         expect: () => <ChromeDinoState>[],
       );

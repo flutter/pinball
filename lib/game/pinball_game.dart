@@ -7,6 +7,7 @@ import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_audio/pinball_audio.dart';
@@ -54,6 +55,11 @@ class PinballGame extends PinballForge2DGame
       GoogleWord(position: Vector2(-4.25, 1.8)),
       Multipliers(),
       Multiballs(),
+      SkillShot(
+        children: [
+          ScoringContactBehavior(points: Points.oneMillion),
+        ],
+      ),
     ];
     final characterAreas = [
       AndroidAcres(),
@@ -65,14 +71,23 @@ class PinballGame extends PinballForge2DGame
     await addAll(
       [
         GameBlocStatusListener(),
-        ZCanvasComponent(
+        CanvasComponent(
+          onSpritePainted: (paint) {
+            if (paint.filterQuality != FilterQuality.medium) {
+              paint.filterQuality = FilterQuality.medium;
+            }
+          },
           children: [
-            ...machine,
-            ...decals,
-            ...characterAreas,
-            Drain(),
-            BottomGroup(),
-            Launcher(),
+            ZCanvasComponent(
+              children: [
+                ...machine,
+                ...decals,
+                ...characterAreas,
+                Drain(),
+                BottomGroup(),
+                Launcher(),
+              ],
+            ),
           ],
         ),
       ],
@@ -161,7 +176,7 @@ class _GameBallsController extends ComponentController<PinballGame>
           plunger.body.position.x,
           plunger.body.position.y - Ball.size.y,
         );
-      component.firstChild<ZCanvasComponent>()?.add(ball);
+      component.descendants().whereType<ZCanvasComponent>().single.add(ball);
     });
   }
 }
@@ -195,9 +210,10 @@ class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
     super.onTapUp(pointerId, info);
 
     if (info.raw.kind == PointerDeviceKind.mouse) {
+      final canvas = descendants().whereType<ZCanvasComponent>().single;
       final ball = ControlledBall.debug()
         ..initialPosition = info.eventPosition.game;
-      firstChild<ZCanvasComponent>()?.add(ball);
+      canvas.add(ball);
     }
   }
 
@@ -222,10 +238,11 @@ class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
   }
 
   void _turboChargeBall(Vector2 line) {
+    final canvas = descendants().whereType<ZCanvasComponent>().single;
     final ball = ControlledBall.debug()..initialPosition = lineStart!;
     final impulse = line * -1 * 10;
     ball.add(BallTurboChargingBehavior(impulse: impulse));
-    firstChild<ZCanvasComponent>()?.add(ball);
+    canvas.add(ball);
   }
 }
 

@@ -1,6 +1,9 @@
 // ignore_for_file: cascade_invocations
 
+import 'dart:ui';
+
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/gestures.dart';
@@ -136,6 +139,10 @@ void main() {
     Assets.images.flapper.flap.keyName,
     Assets.images.flapper.backSupport.keyName,
     Assets.images.flapper.frontSupport.keyName,
+    Assets.images.skillShot.decal.keyName,
+    Assets.images.skillShot.pin.keyName,
+    Assets.images.skillShot.lit.keyName,
+    Assets.images.skillShot.dimmed.keyName,
   ];
 
   late GameBloc gameBloc;
@@ -195,13 +202,16 @@ void main() {
         },
       );
 
-      flameBlocTester.test('has one FlutterForest', (game) async {
-        await game.ready();
-        expect(
-          game.descendants().whereType<FlutterForest>().length,
-          equals(1),
-        );
-      });
+      flameBlocTester.test(
+        'has one FlutterForest',
+        (game) async {
+          await game.ready();
+          expect(
+            game.descendants().whereType<FlutterForest>().length,
+            equals(1),
+          );
+        },
+      );
 
       flameBlocTester.test(
         'has only one Multiballs',
@@ -223,6 +233,43 @@ void main() {
             game.descendants().whereType<GoogleWord>().length,
             equals(1),
           );
+        },
+      );
+
+      flameBlocTester.test('one SkillShot', (game) async {
+        await game.ready();
+        expect(
+          game.descendants().whereType<SkillShot>().length,
+          equals(1),
+        );
+      });
+
+      flameBlocTester.testGameWidget(
+        'paints sprites with FilterQuality.medium',
+        setUp: (game, tester) async {
+          await game.images.loadAll(assets);
+          await game.ready();
+
+          final descendants = game.descendants();
+          final components = [
+            ...descendants.whereType<SpriteComponent>(),
+            ...descendants.whereType<SpriteGroupComponent>(),
+          ];
+          expect(components, isNotEmpty);
+          expect(
+            components.whereType<HasPaint>().length,
+            equals(components.length),
+          );
+
+          await tester.pump();
+
+          for (final component in components) {
+            if (component is! HasPaint) return;
+            expect(
+              component.paint.filterQuality,
+              equals(FilterQuality.medium),
+            );
+          }
         },
       );
 
@@ -290,28 +337,25 @@ void main() {
           );
         });
 
-        group(
-          'onNewState',
-          () {
-            flameTester.test(
-              'spawns a ball',
-              (game) async {
-                final previousBalls =
-                    game.descendants().whereType<ControlledBall>().toList();
+        group('onNewState', () {
+          flameTester.test(
+            'spawns a ball',
+            (game) async {
+              final previousBalls =
+                  game.descendants().whereType<ControlledBall>().toList();
 
-                game.controller.onNewState(_MockGameState());
-                await game.ready();
-                final currentBalls =
-                    game.descendants().whereType<ControlledBall>().toList();
+              game.controller.onNewState(_MockGameState());
+              await game.ready();
+              final currentBalls =
+                  game.descendants().whereType<ControlledBall>().toList();
 
-                expect(
-                  currentBalls.length,
-                  equals(previousBalls.length + 1),
-                );
-              },
-            );
-          },
-        );
+              expect(
+                currentBalls.length,
+                equals(previousBalls.length + 1),
+              );
+            },
+          );
+        });
       });
     });
 

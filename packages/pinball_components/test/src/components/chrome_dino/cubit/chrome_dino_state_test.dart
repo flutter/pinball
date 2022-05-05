@@ -36,7 +36,7 @@ void main() {
           status: ChromeDinoStatus.idle,
           isMouthOpen: false,
         );
-        expect(ChromeDinoState.inital(), equals(initialState));
+        expect(ChromeDinoState.initial(), equals(initialState));
       });
     });
 
