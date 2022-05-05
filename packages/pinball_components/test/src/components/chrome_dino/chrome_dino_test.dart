@@ -79,7 +79,7 @@ void main() {
       whenListen(
         bloc,
         const Stream<ChromeDinoState>.empty(),
-        initialState: const ChromeDinoState.inital(),
+        initialState: const ChromeDinoState.initial(),
       );
       when(bloc.close).thenAnswer((_) async {});
       final chromeDino = ChromeDino.test(bloc: bloc);
