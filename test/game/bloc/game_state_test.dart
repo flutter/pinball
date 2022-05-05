@@ -8,17 +8,21 @@ void main() {
     test('supports value equality', () {
       expect(
         GameState(
-          score: 0,
+          totalScore: 0,
+          roundScore: 0,
           multiplier: 1,
           rounds: 3,
           bonusHistory: const [],
+          status: GameStatus.waiting,
         ),
         equals(
           const GameState(
-            score: 0,
+            totalScore: 0,
+            roundScore: 0,
             multiplier: 1,
             rounds: 3,
             bonusHistory: [],
+            status: GameStatus.waiting,
           ),
         ),
       );
@@ -28,10 +32,12 @@ void main() {
       test('can be instantiated', () {
         expect(
           const GameState(
-            score: 0,
+            totalScore: 0,
+            roundScore: 0,
             multiplier: 1,
             rounds: 3,
             bonusHistory: [],
+            status: GameStatus.waiting,
           ),
           isNotNull,
         );
@@ -40,14 +46,34 @@ void main() {
 
     test(
       'throws AssertionError '
-      'when score is negative',
+      'when totalScore is negative',
       () {
         expect(
           () => GameState(
-            score: -1,
+            totalScore: -1,
+            roundScore: 0,
             multiplier: 1,
             rounds: 3,
             bonusHistory: const [],
+            status: GameStatus.waiting,
+          ),
+          throwsAssertionError,
+        );
+      },
+    );
+
+    test(
+      'throws AssertionError '
+      'when roundScore is negative',
+      () {
+        expect(
+          () => GameState(
+            totalScore: 0,
+            roundScore: -1,
+            multiplier: 1,
+            rounds: 3,
+            bonusHistory: const [],
+            status: GameStatus.waiting,
           ),
           throwsAssertionError,
         );
@@ -60,10 +86,12 @@ void main() {
       () {
         expect(
           () => GameState(
-            score: 1,
+            totalScore: 0,
+            roundScore: 1,
             multiplier: 0,
             rounds: 3,
             bonusHistory: const [],
+            status: GameStatus.waiting,
           ),
           throwsAssertionError,
         );
@@ -76,55 +104,33 @@ void main() {
       () {
         expect(
           () => GameState(
-            score: 1,
+            totalScore: 0,
+            roundScore: 1,
             multiplier: 1,
             rounds: -1,
             bonusHistory: const [],
+            status: GameStatus.waiting,
           ),
           throwsAssertionError,
         );
       },
     );
 
-    group('isGameOver', () {
-      test(
-          'is true '
-          'when no rounds are left', () {
-        const gameState = GameState(
-          score: 0,
-          multiplier: 1,
-          rounds: 0,
-          bonusHistory: [],
-        );
-        expect(gameState.isGameOver, isTrue);
-      });
-
-      test(
-          'is false '
-          'when one 1 round left', () {
-        const gameState = GameState(
-          score: 0,
-          multiplier: 1,
-          rounds: 1,
-          bonusHistory: [],
-        );
-        expect(gameState.isGameOver, isFalse);
-      });
-    });
-
     group('copyWith', () {
       test(
         'throws AssertionError '
-        'when scored is decreased',
+        'when totalScore is decreased',
         () {
           const gameState = GameState(
-            score: 2,
+            totalScore: 2,
+            roundScore: 2,
             multiplier: 1,
             rounds: 3,
             bonusHistory: [],
+            status: GameStatus.waiting,
           );
           expect(
-            () => gameState.copyWith(score: gameState.score - 1),
+            () => gameState.copyWith(totalScore: gameState.totalScore - 1),
             throwsAssertionError,
           );
         },
@@ -135,10 +141,12 @@ void main() {
         'when no argument specified',
         () {
           const gameState = GameState(
-            score: 2,
+            totalScore: 0,
+            roundScore: 2,
             multiplier: 1,
             rounds: 3,
             bonusHistory: [],
+            status: GameStatus.waiting,
           );
           expect(
             gameState.copyWith(),
@@ -152,25 +160,31 @@ void main() {
         'when all arguments specified',
         () {
           const gameState = GameState(
-            score: 2,
+            totalScore: 0,
+            roundScore: 2,
             multiplier: 1,
             rounds: 3,
             bonusHistory: [],
+            status: GameStatus.waiting,
           );
           final otherGameState = GameState(
-            score: gameState.score + 1,
+            totalScore: gameState.totalScore + 1,
+            roundScore: gameState.roundScore + 1,
             multiplier: gameState.multiplier + 1,
             rounds: gameState.rounds + 1,
             bonusHistory: const [GameBonus.googleWord],
+            status: GameStatus.playing,
           );
           expect(gameState, isNot(equals(otherGameState)));
 
           expect(
             gameState.copyWith(
-              score: otherGameState.score,
+              totalScore: otherGameState.totalScore,
+              roundScore: otherGameState.roundScore,
               multiplier: otherGameState.multiplier,
               rounds: otherGameState.rounds,
               bonusHistory: otherGameState.bonusHistory,
+              status: otherGameState.status,
             ),
             equals(otherGameState),
           );

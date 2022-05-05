@@ -56,9 +56,11 @@ void main() {
     group('listenWhen', () {
       test('is true when the multiplier has changed', () {
         final state = GameState(
-          score: 10,
+          totalScore: 0,
+          roundScore: 10,
           multiplier: 2,
           rounds: 0,
+          status: GameStatus.playing,
           bonusHistory: const [],
         );
 
@@ -71,9 +73,11 @@ void main() {
 
       test('is false when the multiplier state is the same', () {
         final state = GameState(
-          score: 10,
+          totalScore: 0,
+          roundScore: 10,
           multiplier: 1,
           rounds: 0,
+          status: GameStatus.playing,
           bonusHistory: const [],
         );
 

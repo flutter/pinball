@@ -5,11 +5,11 @@ import 'dart:async';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_components/src/components/chrome_dino/behaviors/behaviors.dart';
+import 'package:pinball_theme/pinball_theme.dart' as theme;
 
 import '../../../../helpers/helpers.dart';
 
@@ -17,7 +17,10 @@ class _MockChromeDinoCubit extends Mock implements ChromeDinoCubit {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(TestGame.new);
+  final assets = [
+    theme.Assets.images.dash.ball.keyName,
+  ];
+  final flameTester = FlameTester(() => TestGame(assets));
 
   group(
     'ChromeDinoSpittingBehavior',
@@ -33,7 +36,7 @@ void main() {
         flameTester.test(
           'sets ball sprite to visible and sets a linear velocity',
           (game) async {
-            final ball = Ball(baseColor: Colors.red);
+            final ball = Ball();
             final behavior = ChromeDinoSpittingBehavior();
             final bloc = _MockChromeDinoCubit();
             final streamController = StreamController<ChromeDinoState>();
@@ -71,7 +74,7 @@ void main() {
         flameTester.test(
           'calls onSpit',
           (game) async {
-            final ball = Ball(baseColor: Colors.red);
+            final ball = Ball();
             final behavior = ChromeDinoSpittingBehavior();
             final bloc = _MockChromeDinoCubit();
             final streamController = StreamController<ChromeDinoState>();

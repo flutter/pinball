@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
 /// {@template sparky_theme}
@@ -9,7 +8,7 @@ class SparkyTheme extends CharacterTheme {
   const SparkyTheme();
 
   @override
-  Color get ballColor => Colors.orange;
+  AssetGenImage get ball => Assets.images.sparky.ball;
 
   @override
   String get name => 'Sparky';

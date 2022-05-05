@@ -2,14 +2,22 @@
 
 import 'dart:async';
 
+import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
-class _MockPinballAudio extends Mock implements PinballAudio {}
+class _MockPinballPlayer extends Mock implements PinballPlayer {}
+
+class _MockAppLocalizations extends Mock implements AppLocalizations {}
+
+class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
+}
 
 class TestGame extends Forge2DGame with FlameBloc {
   TestGame() {
@@ -20,12 +28,17 @@ class TestGame extends Forge2DGame with FlameBloc {
 class PinballTestGame extends PinballGame {
   PinballTestGame({
     List<String>? assets,
-    PinballAudio? audio,
+    PinballPlayer? player,
+    LeaderboardRepository? leaderboardRepository,
     CharacterTheme? theme,
+    AppLocalizations? l10n,
   })  : _assets = assets,
         super(
-          audio: audio ?? _MockPinballAudio(),
+          player: player ?? _MockPinballPlayer(),
+          leaderboardRepository:
+              leaderboardRepository ?? _MockLeaderboardRepository(),
           characterTheme: theme ?? const DashTheme(),
+          l10n: l10n ?? _MockAppLocalizations(),
         );
   final List<String>? _assets;
 
@@ -41,12 +54,17 @@ class PinballTestGame extends PinballGame {
 class DebugPinballTestGame extends DebugPinballGame {
   DebugPinballTestGame({
     List<String>? assets,
-    PinballAudio? audio,
+    PinballPlayer? player,
+    LeaderboardRepository? leaderboardRepository,
     CharacterTheme? theme,
+    AppLocalizations? l10n,
   })  : _assets = assets,
         super(
-          audio: audio ?? _MockPinballAudio(),
+          player: player ?? _MockPinballPlayer(),
+          leaderboardRepository:
+              leaderboardRepository ?? _MockLeaderboardRepository(),
           characterTheme: theme ?? const DashTheme(),
+          l10n: l10n ?? _MockAppLocalizations(),
         );
 
   final List<String>? _assets;
@@ -63,12 +81,36 @@ class DebugPinballTestGame extends DebugPinballGame {
 class EmptyPinballTestGame extends PinballTestGame {
   EmptyPinballTestGame({
     List<String>? assets,
-    PinballAudio? audio,
+    PinballPlayer? player,
     CharacterTheme? theme,
+    AppLocalizations? l10n,
   }) : super(
           assets: assets,
-          audio: audio,
+          player: player,
           theme: theme,
+          l10n: l10n ?? _MockAppLocalizations(),
+        );
+
+  @override
+  Future<void> onLoad() async {
+    if (_assets != null) {
+      await images.loadAll(_assets!);
+    }
+  }
+}
+
+class EmptyKeyboardPinballTestGame extends PinballTestGame
+    with HasKeyboardHandlerComponents {
+  EmptyKeyboardPinballTestGame({
+    List<String>? assets,
+    PinballPlayer? player,
+    CharacterTheme? theme,
+    AppLocalizations? l10n,
+  }) : super(
+          assets: assets,
+          player: player,
+          theme: theme,
+          l10n: l10n ?? _MockAppLocalizations(),
         );
 
   @override

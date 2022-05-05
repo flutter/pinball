@@ -45,7 +45,7 @@ abstract class PinballTextStyle {
   );
 
   static const subtitle1 = TextStyle(
-    fontSize: 10,
+    fontSize: 12,
     fontFamily: _primaryFontFamily,
     package: _fontPackage,
     color: PinballColors.yellow,

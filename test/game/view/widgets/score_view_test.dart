@@ -15,12 +15,15 @@ class _MockGameBloc extends Mock implements GameBloc {}
 void main() {
   late GameBloc gameBloc;
   late StreamController<GameState> stateController;
-  const score = 123456789;
+  const totalScore = 123456789;
+  const roundScore = 1234;
   const initialState = GameState(
-    score: score,
+    totalScore: totalScore,
+    roundScore: roundScore,
     multiplier: 1,
     rounds: 1,
     bonusHistory: [],
+    status: GameStatus.playing,
   );
 
   setUp(() {
@@ -42,16 +45,17 @@ void main() {
       );
       await tester.pump();
 
-      expect(find.text(score.formatScore()), findsOneWidget);
+      expect(
+        find.text(initialState.displayScore.formatScore()),
+        findsOneWidget,
+      );
     });
 
     testWidgets('renders game over', (tester) async {
       final l10n = await AppLocalizations.delegate.load(const Locale('en'));
 
       stateController.add(
-        initialState.copyWith(
-          rounds: 0,
-        ),
+        initialState.copyWith(status: GameStatus.gameOver),
       );
 
       await tester.pumpApp(
@@ -69,17 +73,23 @@ void main() {
         gameBloc: gameBloc,
       );
 
-      expect(find.text(score.formatScore()), findsOneWidget);
+      expect(
+        find.text(initialState.displayScore.formatScore()),
+        findsOneWidget,
+      );
 
       final newState = initialState.copyWith(
-        score: 987654321,
+        roundScore: 5678,
       );
 
       stateController.add(newState);
 
       await tester.pump();
 
-      expect(find.text(newState.score.formatScore()), findsOneWidget);
+      expect(
+        find.text(newState.displayScore.formatScore()),
+        findsOneWidget,
+      );
     });
   });
 }

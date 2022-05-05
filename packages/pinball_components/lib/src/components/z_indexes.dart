@@ -114,5 +114,10 @@ abstract class ZIndexes {
   static const score = _above + spaceshipRampForegroundRailing;
 
   // Debug information
+
   static const debugInfo = _above + score;
+
+  // Backbox
+
+  static const backbox = _below + outerBoundary;
 }

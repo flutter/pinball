@@ -60,10 +60,10 @@ class DashNestBumper extends BodyComponent with InitialPosition {
     Iterable<Component>? children,
   }) : this._(
           majorRadius: 3,
-          minorRadius: 2.5,
+          minorRadius: 2.2,
           activeAssetPath: Assets.images.dash.bumper.a.active.keyName,
           inactiveAssetPath: Assets.images.dash.bumper.a.inactive.keyName,
-          spritePosition: Vector2(0.35, -1.2),
+          spritePosition: Vector2(0.3, -1.3),
           bloc: DashNestBumperCubit(),
           children: [
             ...?children,
@@ -75,11 +75,11 @@ class DashNestBumper extends BodyComponent with InitialPosition {
   DashNestBumper.b({
     Iterable<Component>? children,
   }) : this._(
-          majorRadius: 3,
-          minorRadius: 2.5,
+          majorRadius: 3.1,
+          minorRadius: 2.2,
           activeAssetPath: Assets.images.dash.bumper.b.active.keyName,
           inactiveAssetPath: Assets.images.dash.bumper.b.inactive.keyName,
-          spritePosition: Vector2(0.35, -1.2),
+          spritePosition: Vector2(0.4, -1.2),
           bloc: DashNestBumperCubit(),
           children: [
             ...?children,

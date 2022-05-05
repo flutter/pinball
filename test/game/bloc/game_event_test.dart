@@ -72,6 +72,32 @@ void main() {
     });
   });
 
+  group('GameStarted', () {
+    test('can be instantiated', () {
+      expect(const GameStarted(), isNotNull);
+    });
+
+    test('supports value equality', () {
+      expect(
+        GameStarted(),
+        equals(const GameStarted()),
+      );
+    });
+  });
+
+  group('GameOver', () {
+    test('can be instantiated', () {
+      expect(const GameOver(), isNotNull);
+    });
+
+    test('supports value equality', () {
+      expect(
+        GameOver(),
+        equals(const GameOver()),
+      );
+    });
+  });
+
   group('SparkyTurboChargeActivated', () {
     test('can be instantiated', () {
       expect(const SparkyTurboChargeActivated(), isNotNull);

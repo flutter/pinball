@@ -16,7 +16,7 @@ class _TestBodyComponent extends BodyComponent {
   }
 }
 
-class _MockPinballAudio extends Mock implements PinballAudio {}
+class _MockPinballPlayer extends Mock implements PinballPlayer {}
 
 class _MockContact extends Mock implements Contact {}
 
@@ -25,13 +25,13 @@ void main() {
 
   group('BumperNoisyBehavior', () {});
 
-  late PinballAudio audio;
+  late PinballPlayer player;
   final flameTester = FlameTester(
-    () => EmptyPinballTestGame(audio: audio),
+    () => EmptyPinballTestGame(player: player),
   );
 
   setUp(() {
-    audio = _MockPinballAudio();
+    player = _MockPinballPlayer();
   });
 
   flameTester.testGameWidget(
@@ -44,7 +44,7 @@ void main() {
       behavior.beginContact(Object(), _MockContact());
     },
     verify: (_, __) async {
-      verify(audio.bumper).called(1);
+      verify(() => player.play(PinballAudio.bumper)).called(1);
     },
   );
 }
