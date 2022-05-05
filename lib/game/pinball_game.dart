@@ -68,8 +68,8 @@ class PinballGame extends PinballForge2DGame
     await add(
       CanvasComponent(
         onSpritePainted: (paint) {
-          if (paint.filterQuality != FilterQuality.high) {
-            paint.filterQuality = FilterQuality.high;
+          if (paint.filterQuality != FilterQuality.medium) {
+            paint.filterQuality = FilterQuality.medium;
           }
         },
         children: [
