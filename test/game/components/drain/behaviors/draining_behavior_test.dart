@@ -76,7 +76,7 @@ void main() {
         );
 
         flameBlocTester.testGameWidget(
-          "doesn't add RoundLost when no balls left",
+          "doesn't add RoundLost when there are balls left",
           setUp: (game, tester) async {
             await game.images.load(asset);
 
