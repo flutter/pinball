@@ -1,5 +1,4 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
 
@@ -7,7 +6,7 @@ void main() {
   group(
     'ChromeDinoCubit',
     () {
-      final ball = Ball(baseColor: Colors.red);
+      final ball = Ball();
 
       blocTest<ChromeDinoCubit, ChromeDinoState>(
         'onOpenMouth emits true',
@@ -58,7 +57,7 @@ void main() {
       blocTest<ChromeDinoCubit, ChromeDinoState>(
         'onChomp emits nothing when the ball is already in the mouth',
         build: ChromeDinoCubit.new,
-        seed: () => const ChromeDinoState.inital().copyWith(ball: ball),
+        seed: () => const ChromeDinoState.initial().copyWith(ball: ball),
         act: (bloc) => bloc.onChomp(ball),
         expect: () => <ChromeDinoState>[],
       );

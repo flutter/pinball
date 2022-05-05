@@ -36,31 +36,30 @@ class PinballGamePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final characterTheme =
         context.read<CharacterThemeCubit>().state.characterTheme;
-    final audio = context.read<PinballAudio>();
-    final pinballAudio = context.read<PinballAudio>();
+    final player = context.read<PinballPlayer>();
+    final pinballAudio = context.read<PinballPlayer>();
 
     final game = isDebugMode
         ? DebugPinballGame(
             characterTheme: characterTheme,
-            audio: audio,
+            player: player,
             l10n: context.l10n,
           )
         : PinballGame(
             characterTheme: characterTheme,
-            audio: audio,
+            player: player,
             l10n: context.l10n,
           );
 
     final loadables = [
       ...game.preLoadAssets(),
-      pinballAudio.load(),
+      ...pinballAudio.load(),
       ...BonusAnimation.loadAssets(),
       ...SelectedCharacter.loadAssets(),
     ];
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => StartGameBloc(game: game)),
         BlocProvider(create: (_) => GameBloc()),
         BlocProvider(create: (_) => AssetsManagerCubit(loadables)..load()),
       ],
@@ -105,36 +104,43 @@ class PinballGameLoadedView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isPlaying = context.select(
+      (StartGameBloc bloc) => bloc.state.status == StartGameStatus.play,
+    );
     final gameWidgetWidth = MediaQuery.of(context).size.height * 9 / 16;
     final screenWidth = MediaQuery.of(context).size.width;
     final leftMargin = (screenWidth / 2) - (gameWidgetWidth / 1.8);
+    final clampedMargin = leftMargin > 0 ? leftMargin : 0.0;
 
-    return Stack(
-      children: [
-        Positioned.fill(
-          child: GameWidget<PinballGame>(
-            game: game,
-            initialActiveOverlays: const [PinballGame.playButtonOverlay],
-            overlayBuilderMap: {
-              PinballGame.playButtonOverlay: (context, game) {
-                return Positioned(
-                  bottom: 20,
-                  right: 0,
-                  left: 0,
-                  child: PlayButtonOverlay(game: game),
-                );
+    return StartGameListener(
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: GameWidget<PinballGame>(
+              game: game,
+              initialActiveOverlays: const [PinballGame.playButtonOverlay],
+              overlayBuilderMap: {
+                PinballGame.playButtonOverlay: (context, game) {
+                  return const Positioned(
+                    bottom: 20,
+                    right: 0,
+                    left: 0,
+                    child: PlayButtonOverlay(),
+                  );
+                },
               },
-            },
+            ),
           ),
-        ),
-        // TODO(arturplaczek): add Visibility to GameHud based on StartGameBloc
-        // status
-        Positioned(
-          top: 16,
-          left: leftMargin,
-          child: const GameHud(),
-        ),
-      ],
+          Positioned(
+            top: 0,
+            left: clampedMargin,
+            child: Visibility(
+              visible: isPlaying,
+              child: const GameHud(),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

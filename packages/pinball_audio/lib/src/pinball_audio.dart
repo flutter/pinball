@@ -3,10 +3,25 @@ import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flame_audio/audio_pool.dart';
 import 'package:flame_audio/flame_audio.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball_audio/gen/assets.gen.dart';
 
-/// Function that defines the contract of the creation
-/// of an [AudioPool]
+/// Sounds available for play
+enum PinballAudio {
+  /// Google
+  google,
+
+  /// Bumper
+  bumper,
+
+  /// Background music
+  backgroundMusic,
+
+  /// IO Pinball voice over
+  ioPinballVoiceOver
+}
+
+/// Defines the contract of the creation of an [AudioPool].
 typedef CreateAudioPool = Future<AudioPool> Function(
   String sound, {
   bool? repeating,
@@ -31,12 +46,97 @@ typedef PreCacheSingleAudio = Future<void> Function(String);
 /// an [AudioCache] instance
 typedef ConfigureAudioCache = void Function(AudioCache);
 
-/// {@template pinball_audio}
+abstract class _Audio {
+  void play();
+  Future<void> load();
+
+  String prefixFile(String file) {
+    return 'packages/pinball_audio/$file';
+  }
+}
+
+class _SimplePlayAudio extends _Audio {
+  _SimplePlayAudio({
+    required this.preCacheSingleAudio,
+    required this.playSingleAudio,
+    required this.path,
+  });
+
+  final PreCacheSingleAudio preCacheSingleAudio;
+  final PlaySingleAudio playSingleAudio;
+  final String path;
+
+  @override
+  Future<void> load() => preCacheSingleAudio(prefixFile(path));
+
+  @override
+  void play() {
+    playSingleAudio(prefixFile(path));
+  }
+}
+
+class _LoopAudio extends _Audio {
+  _LoopAudio({
+    required this.preCacheSingleAudio,
+    required this.loopSingleAudio,
+    required this.path,
+  });
+
+  final PreCacheSingleAudio preCacheSingleAudio;
+  final LoopSingleAudio loopSingleAudio;
+  final String path;
+
+  @override
+  Future<void> load() => preCacheSingleAudio(prefixFile(path));
+
+  @override
+  void play() {
+    loopSingleAudio(prefixFile(path));
+  }
+}
+
+class _BumperAudio extends _Audio {
+  _BumperAudio({
+    required this.createAudioPool,
+    required this.seed,
+  });
+
+  final CreateAudioPool createAudioPool;
+  final Random seed;
+
+  late AudioPool bumperA;
+  late AudioPool bumperB;
+
+  @override
+  Future<void> load() async {
+    await Future.wait(
+      [
+        createAudioPool(
+          prefixFile(Assets.sfx.bumperA),
+          maxPlayers: 4,
+          prefix: '',
+        ).then((pool) => bumperA = pool),
+        createAudioPool(
+          prefixFile(Assets.sfx.bumperB),
+          maxPlayers: 4,
+          prefix: '',
+        ).then((pool) => bumperB = pool),
+      ],
+    );
+  }
+
+  @override
+  void play() {
+    (seed.nextBool() ? bumperA : bumperB).start(volume: 0.6);
+  }
+}
+
+/// {@template pinball_player}
 /// Sound manager for the pinball game
 /// {@endtemplate}
-class PinballAudio {
-  /// {@macro pinball_audio}
-  PinballAudio({
+class PinballPlayer {
+  /// {@macro pinball_player}
+  PinballPlayer({
     CreateAudioPool? createAudioPool,
     PlaySingleAudio? playSingleAudio,
     LoopSingleAudio? loopSingleAudio,
@@ -52,7 +152,29 @@ class PinballAudio {
             ((AudioCache a) {
               a.prefix = '';
             }),
-        _seed = seed ?? Random();
+        _seed = seed ?? Random() {
+    audios = {
+      PinballAudio.google: _SimplePlayAudio(
+        preCacheSingleAudio: _preCacheSingleAudio,
+        playSingleAudio: _playSingleAudio,
+        path: Assets.sfx.google,
+      ),
+      PinballAudio.ioPinballVoiceOver: _SimplePlayAudio(
+        preCacheSingleAudio: _preCacheSingleAudio,
+        playSingleAudio: _playSingleAudio,
+        path: Assets.sfx.ioPinballVoiceOver,
+      ),
+      PinballAudio.bumper: _BumperAudio(
+        createAudioPool: _createAudioPool,
+        seed: _seed,
+      ),
+      PinballAudio.backgroundMusic: _LoopAudio(
+        preCacheSingleAudio: _preCacheSingleAudio,
+        loopSingleAudio: _loopSingleAudio,
+        path: Assets.music.background,
+      ),
+    };
+  }
 
   final CreateAudioPool _createAudioPool;
 
@@ -66,54 +188,24 @@ class PinballAudio {
 
   final Random _seed;
 
-  late AudioPool _bumperAPool;
-
-  late AudioPool _bumperBPool;
+  /// Registered audios on the Player
+  @visibleForTesting
+  // ignore: library_private_types_in_public_api
+  late final Map<PinballAudio, _Audio> audios;
 
   /// Loads the sounds effects into the memory
-  Future<void> load() async {
+  List<Future<void>> load() {
     _configureAudioCache(FlameAudio.audioCache);
 
-    _bumperAPool = await _createAudioPool(
-      _prefixFile(Assets.sfx.bumperA),
-      maxPlayers: 4,
-      prefix: '',
+    return audios.values.map((a) => a.load()).toList();
+  }
+
+  /// Plays the received auido
+  void play(PinballAudio audio) {
+    assert(
+      audios.containsKey(audio),
+      'Tried to play unregistered audio $audio',
     );
-
-    _bumperBPool = await _createAudioPool(
-      _prefixFile(Assets.sfx.bumperB),
-      maxPlayers: 4,
-      prefix: '',
-    );
-
-    await Future.wait([
-      _preCacheSingleAudio(_prefixFile(Assets.sfx.google)),
-      _preCacheSingleAudio(_prefixFile(Assets.sfx.ioPinballVoiceOver)),
-      _preCacheSingleAudio(_prefixFile(Assets.music.background)),
-    ]);
-  }
-
-  /// Plays a random bumper sfx.
-  void bumper() {
-    (_seed.nextBool() ? _bumperAPool : _bumperBPool).start(volume: 0.6);
-  }
-
-  /// Plays the google word bonus
-  void googleBonus() {
-    _playSingleAudio(_prefixFile(Assets.sfx.google));
-  }
-
-  /// Plays the I/O Pinball voice over audio.
-  void ioPinballVoiceOver() {
-    _playSingleAudio(_prefixFile(Assets.sfx.ioPinballVoiceOver));
-  }
-
-  /// Plays the background music
-  void backgroundMusic() {
-    _loopSingleAudio(_prefixFile(Assets.music.background));
-  }
-
-  String _prefixFile(String file) {
-    return 'packages/pinball_audio/$file';
+    audios[audio]?.play();
   }
 }

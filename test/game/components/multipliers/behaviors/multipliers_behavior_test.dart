@@ -60,6 +60,7 @@ void main() {
           roundScore: 10,
           multiplier: 2,
           rounds: 0,
+          status: GameStatus.playing,
           bonusHistory: const [],
         );
 
@@ -76,6 +77,7 @@ void main() {
           roundScore: 10,
           multiplier: 1,
           rounds: 0,
+          status: GameStatus.playing,
           bonusHistory: const [],
         );
 

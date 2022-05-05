@@ -10,6 +10,34 @@ void main() {
       expect(gameBloc.state.rounds, equals(3));
     });
 
+    blocTest<GameBloc, GameState>(
+      'GameStarted starts the game',
+      build: GameBloc.new,
+      act: (bloc) => bloc.add(const GameStarted()),
+      expect: () => [
+        isA<GameState>()
+          ..having(
+            (state) => state.status,
+            'status',
+            GameStatus.playing,
+          ),
+      ],
+    );
+
+    blocTest<GameBloc, GameState>(
+      'GameOver finishes the game',
+      build: GameBloc.new,
+      act: (bloc) => bloc.add(const GameOver()),
+      expect: () => [
+        isA<GameState>()
+          ..having(
+            (state) => state.status,
+            'status',
+            GameStatus.gameOver,
+          ),
+      ],
+    );
+
     group('RoundLost', () {
       blocTest<GameBloc, GameState>(
         'decreases number of rounds '
@@ -24,6 +52,24 @@ void main() {
       );
 
       blocTest<GameBloc, GameState>(
+        'sets game over when there are no more rounds',
+        build: GameBloc.new,
+        act: (bloc) {
+          bloc
+            ..add(const RoundLost())
+            ..add(const RoundLost())
+            ..add(const RoundLost());
+        },
+        expect: () => [
+          isA<GameState>()..having((state) => state.rounds, 'rounds', 2),
+          isA<GameState>()..having((state) => state.rounds, 'rounds', 1),
+          isA<GameState>()
+            ..having((state) => state.rounds, 'rounds', 0)
+            ..having((state) => state.status, 'status', GameStatus.gameOver),
+        ],
+      );
+
+      blocTest<GameBloc, GameState>(
         'apply multiplier to roundScore and add it to totalScore '
         'when round is lost',
         build: GameBloc.new,
@@ -33,6 +79,7 @@ void main() {
           multiplier: 3,
           rounds: 2,
           bonusHistory: [],
+          status: GameStatus.playing,
         ),
         act: (bloc) {
           bloc.add(const RoundLost());
@@ -45,8 +92,7 @@ void main() {
       );
 
       blocTest<GameBloc, GameState>(
-        'resets multiplier '
-        'when round is lost',
+        'resets multiplier when round is lost',
         build: GameBloc.new,
         seed: () => const GameState(
           totalScore: 10,
@@ -54,6 +100,7 @@ void main() {
           multiplier: 3,
           rounds: 2,
           bonusHistory: [],
+          status: GameStatus.playing,
         ),
         act: (bloc) {
           bloc.add(const RoundLost());
@@ -66,25 +113,26 @@ void main() {
 
     group('Scored', () {
       blocTest<GameBloc, GameState>(
-        'increases score '
-        'when game is not over',
+        'increases score when playing',
         build: GameBloc.new,
         act: (bloc) => bloc
+          ..add(const GameStarted())
           ..add(const Scored(points: 2))
           ..add(const Scored(points: 3)),
         expect: () => [
           isA<GameState>()
+            ..having((state) => state.status, 'status', GameStatus.playing),
+          isA<GameState>()
             ..having((state) => state.roundScore, 'roundScore', 2)
-            ..having((state) => state.isGameOver, 'isGameOver', false),
+            ..having((state) => state.status, 'status', GameStatus.playing),
           isA<GameState>()
             ..having((state) => state.roundScore, 'roundScore', 5)
-            ..having((state) => state.isGameOver, 'isGameOver', false),
+            ..having((state) => state.status, 'status', GameStatus.playing),
         ],
       );
 
       blocTest<GameBloc, GameState>(
-        "doesn't increase score "
-        'when game is over',
+        "doesn't increase score when game is over",
         build: GameBloc.new,
         act: (bloc) {
           for (var i = 0; i < bloc.state.rounds; i++) {
@@ -96,15 +144,27 @@ void main() {
           isA<GameState>()
             ..having((state) => state.roundScore, 'roundScore', 0)
             ..having((state) => state.rounds, 'rounds', 2)
-            ..having((state) => state.isGameOver, 'isGameOver', false),
+            ..having(
+              (state) => state.status,
+              'status',
+              GameStatus.gameOver,
+            ),
           isA<GameState>()
             ..having((state) => state.roundScore, 'roundScore', 0)
             ..having((state) => state.rounds, 'rounds', 1)
-            ..having((state) => state.isGameOver, 'isGameOver', false),
+            ..having(
+              (state) => state.status,
+              'status',
+              GameStatus.gameOver,
+            ),
           isA<GameState>()
             ..having((state) => state.roundScore, 'roundScore', 0)
             ..having((state) => state.rounds, 'rounds', 0)
-            ..having((state) => state.isGameOver, 'isGameOver', true),
+            ..having(
+              (state) => state.status,
+              'status',
+              GameStatus.gameOver,
+            ),
         ],
       );
     });
@@ -115,15 +175,26 @@ void main() {
         'when multiplier is below 6 and game is not over',
         build: GameBloc.new,
         act: (bloc) => bloc
+          ..add(const GameStarted())
           ..add(const MultiplierIncreased())
           ..add(const MultiplierIncreased()),
         expect: () => [
           isA<GameState>()
+            ..having((state) => state.status, 'status', GameStatus.playing),
+          isA<GameState>()
             ..having((state) => state.multiplier, 'multiplier', 2)
-            ..having((state) => state.isGameOver, 'isGameOver', false),
+            ..having(
+              (state) => state.status,
+              'status',
+              GameStatus.gameOver,
+            ),
           isA<GameState>()
             ..having((state) => state.multiplier, 'multiplier', 3)
-            ..having((state) => state.isGameOver, 'isGameOver', false),
+            ..having(
+              (state) => state.status,
+              'status',
+              GameStatus.gameOver,
+            ),
         ],
       );
 
@@ -137,6 +208,7 @@ void main() {
           multiplier: 6,
           rounds: 3,
           bonusHistory: [],
+          status: GameStatus.playing,
         ),
         act: (bloc) => bloc..add(const MultiplierIncreased()),
         expect: () => const <GameState>[],
@@ -147,6 +219,7 @@ void main() {
         'when game is over',
         build: GameBloc.new,
         act: (bloc) {
+          bloc.add(const GameStarted());
           for (var i = 0; i < bloc.state.rounds; i++) {
             bloc.add(const RoundLost());
           }
@@ -154,14 +227,28 @@ void main() {
         },
         expect: () => [
           isA<GameState>()
-            ..having((state) => state.multiplier, 'multiplier', 1)
-            ..having((state) => state.isGameOver, 'isGameOver', false),
+            ..having((state) => state.status, 'status', GameStatus.playing),
           isA<GameState>()
             ..having((state) => state.multiplier, 'multiplier', 1)
-            ..having((state) => state.isGameOver, 'isGameOver', false),
+            ..having(
+              (state) => state.status,
+              'status',
+              GameStatus.gameOver,
+            ),
           isA<GameState>()
             ..having((state) => state.multiplier, 'multiplier', 1)
-            ..having((state) => state.isGameOver, 'isGameOver', true),
+            ..having(
+              (state) => state.status,
+              'status',
+              GameStatus.gameOver,
+            ),
+          isA<GameState>()
+            ..having((state) => state.multiplier, 'multiplier', 1)
+            ..having(
+              (state) => state.status,
+              'status',
+              GameStatus.gameOver,
+            ),
         ],
       );
     });

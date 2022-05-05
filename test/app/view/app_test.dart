@@ -9,7 +9,7 @@ import 'package:pinball_audio/pinball_audio.dart';
 class _MockAuthenticationRepository extends Mock
     implements AuthenticationRepository {}
 
-class _MockPinballAudio extends Mock implements PinballAudio {}
+class _MockPinballPlayer extends Mock implements PinballPlayer {}
 
 class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
 }
@@ -18,13 +18,13 @@ void main() {
   group('App', () {
     late AuthenticationRepository authenticationRepository;
     late LeaderboardRepository leaderboardRepository;
-    late PinballAudio pinballAudio;
+    late PinballPlayer pinballPlayer;
 
     setUp(() {
       authenticationRepository = _MockAuthenticationRepository();
       leaderboardRepository = _MockLeaderboardRepository();
-      pinballAudio = _MockPinballAudio();
-      when(pinballAudio.load).thenAnswer((_) => Future.value());
+      pinballPlayer = _MockPinballPlayer();
+      when(pinballPlayer.load).thenAnswer((_) => [Future.value()]);
     });
 
     testWidgets('renders PinballGamePage', (tester) async {
@@ -32,7 +32,7 @@ void main() {
         App(
           authenticationRepository: authenticationRepository,
           leaderboardRepository: leaderboardRepository,
-          pinballAudio: pinballAudio,
+          pinballPlayer: pinballPlayer,
         ),
       );
       expect(find.byType(PinballGamePage), findsOneWidget);

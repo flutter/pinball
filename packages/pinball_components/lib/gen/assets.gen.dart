@@ -35,6 +35,7 @@ class $AssetsImagesGen {
   $AssetsImagesPlungerGen get plunger => const $AssetsImagesPlungerGen();
   $AssetsImagesScoreGen get score => const $AssetsImagesScoreGen();
   $AssetsImagesSignpostGen get signpost => const $AssetsImagesSignpostGen();
+  $AssetsImagesSkillShotGen get skillShot => const $AssetsImagesSkillShotGen();
   $AssetsImagesSlingshotGen get slingshot => const $AssetsImagesSlingshotGen();
   $AssetsImagesSparkyGen get sparky => const $AssetsImagesSparkyGen();
 }
@@ -270,6 +271,26 @@ class $AssetsImagesSignpostGen {
   /// File path: assets/images/signpost/inactive.png
   AssetGenImage get inactive =>
       const AssetGenImage('assets/images/signpost/inactive.png');
+}
+
+class $AssetsImagesSkillShotGen {
+  const $AssetsImagesSkillShotGen();
+
+  /// File path: assets/images/skill_shot/decal.png
+  AssetGenImage get decal =>
+      const AssetGenImage('assets/images/skill_shot/decal.png');
+
+  /// File path: assets/images/skill_shot/dimmed.png
+  AssetGenImage get dimmed =>
+      const AssetGenImage('assets/images/skill_shot/dimmed.png');
+
+  /// File path: assets/images/skill_shot/lit.png
+  AssetGenImage get lit =>
+      const AssetGenImage('assets/images/skill_shot/lit.png');
+
+  /// File path: assets/images/skill_shot/pin.png
+  AssetGenImage get pin =>
+      const AssetGenImage('assets/images/skill_shot/pin.png');
 }
 
 class $AssetsImagesSlingshotGen {

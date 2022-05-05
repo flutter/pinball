@@ -13,7 +13,6 @@ extension PinballGameAssetsX on PinballGame {
 
     return [
       images.load(components.Assets.images.boardBackground.keyName),
-      images.load(components.Assets.images.ball.ball.keyName),
       images.load(components.Assets.images.ball.flameEffect.keyName),
       images.load(components.Assets.images.signpost.inactive.keyName),
       images.load(components.Assets.images.signpost.active1.keyName),
@@ -132,10 +131,18 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.flapper.backSupport.keyName),
       images.load(components.Assets.images.flapper.frontSupport.keyName),
       images.load(components.Assets.images.flapper.flap.keyName),
+      images.load(components.Assets.images.skillShot.decal.keyName),
+      images.load(components.Assets.images.skillShot.pin.keyName),
+      images.load(components.Assets.images.skillShot.lit.keyName),
+      images.load(components.Assets.images.skillShot.dimmed.keyName),
       images.load(dashTheme.leaderboardIcon.keyName),
       images.load(sparkyTheme.leaderboardIcon.keyName),
       images.load(androidTheme.leaderboardIcon.keyName),
       images.load(dinoTheme.leaderboardIcon.keyName),
+      images.load(androidTheme.ball.keyName),
+      images.load(dashTheme.ball.keyName),
+      images.load(dinoTheme.ball.keyName),
+      images.load(sparkyTheme.ball.keyName),
     ];
   }
 }

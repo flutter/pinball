@@ -20,6 +20,17 @@ enum GameBonus {
   androidSpaceship,
 }
 
+enum GameStatus {
+  waiting,
+  playing,
+  gameOver,
+}
+
+extension GameStatusX on GameStatus {
+  bool get isPlaying => this == GameStatus.playing;
+  bool get isGameOver => this == GameStatus.gameOver;
+}
+
 /// {@template game_state}
 /// Represents the state of the pinball game.
 /// {@endtemplate}
@@ -31,13 +42,15 @@ class GameState extends Equatable {
     required this.multiplier,
     required this.rounds,
     required this.bonusHistory,
+    required this.status,
   })  : assert(totalScore >= 0, "TotalScore can't be negative"),
         assert(roundScore >= 0, "Round score can't be negative"),
         assert(multiplier > 0, 'Multiplier must be greater than zero'),
         assert(rounds >= 0, "Number of rounds can't be negative");
 
   const GameState.initial()
-      : totalScore = 0,
+      : status = GameStatus.waiting,
+        totalScore = 0,
         roundScore = 0,
         multiplier = 1,
         rounds = 3,
@@ -65,8 +78,7 @@ class GameState extends Equatable {
   /// PinballGame.
   final List<GameBonus> bonusHistory;
 
-  /// Determines when the game is over.
-  bool get isGameOver => rounds == 0;
+  final GameStatus status;
 
   /// The score displayed at the game.
   int get displayScore => roundScore + totalScore;
@@ -78,6 +90,7 @@ class GameState extends Equatable {
     int? balls,
     int? rounds,
     List<GameBonus>? bonusHistory,
+    GameStatus? status,
   }) {
     assert(
       totalScore == null || totalScore >= this.totalScore,
@@ -90,6 +103,7 @@ class GameState extends Equatable {
       multiplier: multiplier ?? this.multiplier,
       rounds: rounds ?? this.rounds,
       bonusHistory: bonusHistory ?? this.bonusHistory,
+      status: status ?? this.status,
     );
   }
 
@@ -100,5 +114,6 @@ class GameState extends Equatable {
         multiplier,
         rounds,
         bonusHistory,
+        status,
       ];
 }

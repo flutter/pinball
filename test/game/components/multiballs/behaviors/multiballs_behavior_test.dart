@@ -79,6 +79,7 @@ void main() {
           multiplier: 1,
           rounds: 0,
           bonusHistory: const [],
+          status: GameStatus.playing,
         );
 
         expect(

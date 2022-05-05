@@ -51,24 +51,16 @@ extension on Control {
   }
 }
 
-Future<void> showHowToPlayDialog(BuildContext context) {
-  final audio = context.read<PinballAudio>();
-  return showDialog<void>(
-    context: context,
-    builder: (_) => HowToPlayDialog(),
-  ).then((_) {
-    audio.ioPinballVoiceOver();
-  });
-}
-
 class HowToPlayDialog extends StatefulWidget {
   HowToPlayDialog({
     Key? key,
+    required this.onDismissCallback,
     @visibleForTesting PlatformHelper? platformHelper,
   })  : platformHelper = platformHelper ?? PlatformHelper(),
         super(key: key);
 
   final PlatformHelper platformHelper;
+  final VoidCallback onDismissCallback;
 
   @override
   State<HowToPlayDialog> createState() => _HowToPlayDialogState();
@@ -82,6 +74,7 @@ class _HowToPlayDialogState extends State<HowToPlayDialog> {
     closeTimer = Timer(const Duration(seconds: 3), () {
       if (mounted) {
         Navigator.of(context).pop();
+        widget.onDismissCallback.call();
       }
     });
   }
@@ -96,10 +89,20 @@ class _HowToPlayDialogState extends State<HowToPlayDialog> {
   Widget build(BuildContext context) {
     final isMobile = widget.platformHelper.isMobile;
     final l10n = context.l10n;
-    return PinballDialog(
-      title: l10n.howToPlay,
-      subtitle: l10n.tipsForFlips,
-      child: isMobile ? const _MobileBody() : const _DesktopBody(),
+
+    return WillPopScope(
+      onWillPop: () {
+        widget.onDismissCallback.call();
+        context.read<PinballPlayer>().play(PinballAudio.ioPinballVoiceOver);
+        return Future.value(true);
+      },
+      child: PinballDialog(
+        title: l10n.howToPlay,
+        subtitle: l10n.tipsForFlips,
+        child: FittedBox(
+          child: isMobile ? const _MobileBody() : const _DesktopBody(),
+        ),
+      ),
     );
   }
 }
@@ -111,18 +114,16 @@ class _MobileBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final paddingWidth = MediaQuery.of(context).size.width * 0.15;
     final paddingHeight = MediaQuery.of(context).size.height * 0.075;
-    return FittedBox(
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: paddingWidth,
-        ),
-        child: Column(
-          children: [
-            const _MobileLaunchControls(),
-            SizedBox(height: paddingHeight),
-            const _MobileFlipperControls(),
-          ],
-        ),
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: paddingWidth,
+      ),
+      child: Column(
+        children: [
+          const _MobileLaunchControls(),
+          SizedBox(height: paddingHeight),
+          const _MobileFlipperControls(),
+        ],
       ),
     );
   }
@@ -191,13 +192,15 @@ class _DesktopBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: const [
-        SizedBox(height: 16),
-        _DesktopLaunchControls(),
-        SizedBox(height: 16),
-        _DesktopFlipperControls(),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: const [
+          _DesktopLaunchControls(),
+          SizedBox(height: 16),
+          _DesktopFlipperControls(),
+        ],
+      ),
     );
   }
 }

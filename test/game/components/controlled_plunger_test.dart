@@ -17,23 +17,18 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final flameTester = FlameTester(EmptyPinballTestGame.new);
 
-  final flameBlocTester = FlameBlocTester<EmptyPinballTestGame, GameBloc>(
-    gameBuilder: EmptyPinballTestGame.new,
-    blocBuilder: () {
-      final bloc = _MockGameBloc();
-      const state = GameState(
-        totalScore: 0,
-        roundScore: 0,
-        multiplier: 1,
-        rounds: 0,
-        bonusHistory: [],
-      );
-      whenListen(bloc, Stream.value(state), initialState: state);
-      return bloc;
-    },
-  );
-
   group('PlungerController', () {
+    late GameBloc gameBloc;
+
+    setUp(() {
+      gameBloc = _MockGameBloc();
+    });
+
+    final flameBlocTester = FlameBlocTester<EmptyPinballTestGame, GameBloc>(
+      gameBuilder: EmptyPinballTestGame.new,
+      blocBuilder: () => gameBloc,
+    );
+
     group('onKeyEvent', () {
       final downKeys = UnmodifiableListView([
         LogicalKeyboardKey.arrowDown,
@@ -55,6 +50,12 @@ void main() {
           'moves down '
           'when ${event.logicalKey.keyLabel} is pressed',
           (game) async {
+            whenListen(
+              gameBloc,
+              const Stream<GameState>.empty(),
+              initialState: const GameState.initial(),
+            );
+
             await game.ensureAdd(plunger);
             controller.onKeyEvent(event, {});
 
@@ -70,6 +71,12 @@ void main() {
           'when ${event.logicalKey.keyLabel} is released '
           'and plunger is below its starting position',
           (game) async {
+            whenListen(
+              gameBloc,
+              const Stream<GameState>.empty(),
+              initialState: const GameState.initial(),
+            );
+
             await game.ensureAdd(plunger);
             plunger.body.setTransform(Vector2(0, 1), 0);
             controller.onKeyEvent(event, {});
@@ -85,6 +92,12 @@ void main() {
           'does not move when ${event.logicalKey.keyLabel} is released '
           'and plunger is in its starting position',
           (game) async {
+            whenListen(
+              gameBloc,
+              const Stream<GameState>.empty(),
+              initialState: const GameState.initial(),
+            );
+
             await game.ensureAdd(plunger);
             controller.onKeyEvent(event, {});
 
@@ -98,6 +111,14 @@ void main() {
         flameBlocTester.testGameWidget(
           'does nothing when is game over',
           setUp: (game, tester) async {
+            whenListen(
+              gameBloc,
+              const Stream<GameState>.empty(),
+              initialState: const GameState.initial().copyWith(
+                status: GameStatus.gameOver,
+              ),
+            );
+
             await game.ensureAdd(plunger);
             controller.onKeyEvent(event, {});
           },
