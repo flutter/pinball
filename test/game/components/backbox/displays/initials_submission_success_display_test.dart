@@ -9,7 +9,7 @@ import '../../../../helpers/helpers.dart';
 
 void main() {
   group('InitialsSubmissionSuccessDisplay', () {
-  final flameTester = FlameTester(EmptyKeyboardPinballTestGame.new);
+    final flameTester = FlameTester(EmptyKeyboardPinballTestGame.new);
 
     flameTester.test('renders correctly', (game) async {
       await game.ensureAdd(InitialsSubmissionSuccessDisplay());

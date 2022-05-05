@@ -16,7 +16,7 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {
 
 void main() {
   group('LoadingDisplay', () {
-  final flameTester = FlameTester(EmptyKeyboardPinballTestGame.new);
+    final flameTester = FlameTester(EmptyKeyboardPinballTestGame.new);
 
     flameTester.test('renders correctly', (game) async {
       await game.ensureAdd(LoadingDisplay(l10n: _MockAppLocalizations()));
@@ -36,13 +36,13 @@ void main() {
 
       timer?.update(1.1);
       expect(component?.text, equals('Loading.'));
-      
+
       timer?.update(1.1);
       expect(component?.text, equals('Loading..'));
-      
+
       timer?.update(1.1);
       expect(component?.text, equals('Loading...'));
-      
+
       timer?.update(1.1);
       expect(component?.text, equals('Loading'));
     });

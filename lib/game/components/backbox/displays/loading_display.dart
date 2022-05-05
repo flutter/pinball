@@ -18,7 +18,7 @@ final _bodyTextPaint = TextPaint(
 /// {@endtemplate}
 class LoadingDisplay extends TextComponent with HasGameRef<PinballGame> {
   /// {@template loading_display
-  LoadingDisplay({ AppLocalizations? l10n }) : _l10n = l10n;
+  LoadingDisplay({AppLocalizations? l10n}) : _l10n = l10n;
 
   final AppLocalizations? _l10n;
 

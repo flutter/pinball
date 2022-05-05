@@ -20,6 +20,7 @@ class PlayerInitialsRequested extends BackboxEvent {
 
   /// Player's score
   final int score;
+
   /// Player's character
   final CharacterTheme character;
 
@@ -40,8 +41,10 @@ class PlayerInitialsSubmited extends BackboxEvent {
 
   /// Player's score
   final int score;
+
   /// Player's initials
   final String initials;
+
   /// Player's character
   final CharacterTheme character;
 
