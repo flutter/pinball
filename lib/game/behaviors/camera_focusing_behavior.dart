@@ -58,7 +58,7 @@ class CameraFocusingBehavior extends Component
         zoom: parent.size.y / 18,
         position: Vector2(0, -112),
       ),
-      'gameOver': FocusData(
+      'backbox': FocusData(
         zoom: parent.size.y / 10,
         position: Vector2(0, -111),
       ),
