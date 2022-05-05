@@ -40,13 +40,14 @@ class ScoringBehavior extends Component with HasGameRef<PinballGame> {
   @override
   Future<void> onLoad() async {
     gameRef.read<GameBloc>().add(Scored(points: _points.value));
-    await gameRef.firstChild<ZCanvasComponent>()!.add(
-          ScoreComponent(
-            points: _points,
-            position: _position,
-            effectController: _effectController,
-          ),
-        );
+    final canvas = gameRef.descendants().whereType<ZCanvasComponent>().single;
+    await canvas.add(
+      ScoreComponent(
+        points: _points,
+        position: _position,
+        effectController: _effectController,
+      ),
+    );
   }
 }
 

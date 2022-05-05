@@ -17,7 +17,7 @@ class FlutterForestBonusBehavior extends Component
     final bumpers = parent.children.whereType<DashNestBumper>();
     final signpost = parent.firstChild<Signpost>()!;
     final animatronic = parent.firstChild<DashAnimatronic>()!;
-    final canvas = gameRef.firstChild<ZCanvasComponent>()!;
+    final canvas = gameRef.descendants().whereType<ZCanvasComponent>().single;
 
     for (final bumper in bumpers) {
       // TODO(alestiago): Refactor subscription management once the following is
