@@ -234,8 +234,8 @@ void main() {
 
     group('gameOverVoiceOver', () {
       test('plays the correct file', () async {
-        await audio.load();
-        audio.gameOverVoiceOver();
+        await Future.wait(player.load());
+        player.play(PinballAudio.gameOverVoiceOver);
 
         verify(
           () => playSingleAudio.onCall(

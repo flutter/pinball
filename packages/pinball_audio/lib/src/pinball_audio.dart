@@ -6,7 +6,6 @@ import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_audio/gen/assets.gen.dart';
 
-<<<<<<< HEAD
 /// Sounds available for play
 enum PinballAudio {
   /// Google
@@ -25,8 +24,6 @@ enum PinballAudio {
   gameOverVoiceOver,
 }
 
-=======
->>>>>>> e6fa2ea (docs nits)
 /// Defines the contract of the creation of an [AudioPool].
 typedef CreateAudioPool = Future<AudioPool> Function(
   String sound, {
@@ -165,6 +162,11 @@ class PinballPlayer {
         preCacheSingleAudio: _preCacheSingleAudio,
         playSingleAudio: _playSingleAudio,
         path: Assets.sfx.ioPinballVoiceOver,
+      ),
+      PinballAudio.gameOverVoiceOver: _SimplePlayAudio(
+        preCacheSingleAudio: _preCacheSingleAudio,
+        playSingleAudio: _playSingleAudio,
+        path: Assets.sfx.gameOverVoiceOver,
       ),
       PinballAudio.bumper: _BumperAudio(
         createAudioPool: _createAudioPool,
