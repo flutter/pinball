@@ -2,6 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
@@ -13,6 +14,29 @@ class ControlledPlunger extends Plunger with Controls<PlungerController> {
   ControlledPlunger({required double compressionDistance})
       : super(compressionDistance: compressionDistance) {
     controller = PlungerController(this);
+  }
+
+  @override
+  void release() {
+    super.release();
+
+    add(PlungerNoisyBehavior());
+  }
+}
+
+/// A behavior attached to the plunger when it launches the ball
+/// which plays the related sound effects.
+class PlungerNoisyBehavior extends Component with HasGameRef<PinballGame> {
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    gameRef.player.play(PinballAudio.launcher);
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    removeFromParent();
   }
 }
 

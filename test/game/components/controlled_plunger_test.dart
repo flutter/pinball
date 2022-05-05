@@ -1,17 +1,24 @@
+// ignore_for_file: cascade_invocations
+
 import 'dart:collection';
 
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 import '../../helpers/helpers.dart';
 
 class _MockGameBloc extends Mock implements GameBloc {}
+
+class _MockPinballPlayer extends Mock implements PinballPlayer {}
+
+class _MockPinballGame extends Mock implements PinballGame {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -20,14 +27,20 @@ void main() {
   group('PlungerController', () {
     late GameBloc gameBloc;
 
-    setUp(() {
-      gameBloc = _MockGameBloc();
-    });
-
     final flameBlocTester = FlameBlocTester<EmptyPinballTestGame, GameBloc>(
       gameBuilder: EmptyPinballTestGame.new,
       blocBuilder: () => gameBloc,
     );
+
+    late Plunger plunger;
+    late PlungerController controller;
+
+    setUp(() {
+      gameBloc = _MockGameBloc();
+      plunger = ControlledPlunger(compressionDistance: 10);
+      controller = PlungerController(plunger);
+      plunger.add(controller);
+    });
 
     group('onKeyEvent', () {
       final downKeys = UnmodifiableListView([
@@ -35,15 +48,6 @@ void main() {
         LogicalKeyboardKey.space,
         LogicalKeyboardKey.keyS,
       ]);
-
-      late Plunger plunger;
-      late PlungerController controller;
-
-      setUp(() {
-        plunger = Plunger(compressionDistance: 10);
-        controller = PlungerController(plunger);
-        plunger.add(controller);
-      });
 
       testRawKeyDownEvents(downKeys, (event) {
         flameTester.test(
@@ -128,6 +132,51 @@ void main() {
           },
         );
       });
+    });
+
+    flameTester.test(
+      'adds the PlungerNoisyBehavior plunger is released',
+      (game) async {
+        await game.ensureAdd(plunger);
+        plunger.body.setTransform(Vector2(0, 1), 0);
+        plunger.release();
+
+        await game.ready();
+        final count =
+            game.descendants().whereType<PlungerNoisyBehavior>().length;
+        expect(count, equals(1));
+      },
+    );
+  });
+
+  group('PlungerNoisyBehavior', () {
+    late PinballGame game;
+    late PinballPlayer player;
+    late PlungerNoisyBehavior behavior;
+
+    setUp(() {
+      game = _MockPinballGame();
+      player = _MockPinballPlayer();
+
+      when(() => game.player).thenReturn(player);
+      behavior = PlungerNoisyBehavior();
+      behavior.mockGameRef(game);
+    });
+
+    test('plays the correct sound on load', () async {
+      await behavior.onLoad();
+
+      verify(() => player.play(PinballAudio.launcher)).called(1);
+    });
+
+    test('is removed on the first update', () {
+      final parent = Component();
+      parent.add(behavior);
+      parent.update(0); // Run a tick to ensure it is added
+
+      behavior.update(0); // Run its own update where the removal happens
+
+      expect(behavior.shouldRemove, isTrue);
     });
   });
 }
