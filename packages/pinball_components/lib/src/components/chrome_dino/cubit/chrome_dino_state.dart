@@ -14,7 +14,7 @@ class ChromeDinoState extends Equatable {
     this.ball,
   });
 
-  const ChromeDinoState.inital()
+  const ChromeDinoState.initial()
       : this(
           status: ChromeDinoStatus.idle,
           isMouthOpen: false,
