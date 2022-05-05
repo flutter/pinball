@@ -7,7 +7,7 @@ import 'package:pinball_flame/src/canvas/canvas_wrapper.dart';
 ///
 /// This is useful since [Sprite.render] uses [Canvas.drawImageRect] to draw
 /// the [Sprite].
-typedef PaintFunction = void Function(Paint)?;
+typedef PaintFunction = void Function(Paint);
 
 /// {@template canvas_component}
 /// Allows listening before the rendering of [Sprite]s.
@@ -34,9 +34,10 @@ class CanvasComponent extends Component {
 }
 
 class _Canvas extends CanvasWrapper {
-  _Canvas({PaintFunction onSpritePainted}) : _onSpritePainted = onSpritePainted;
+  _Canvas({PaintFunction? onSpritePainted})
+      : _onSpritePainted = onSpritePainted;
 
-  final PaintFunction _onSpritePainted;
+  final PaintFunction? _onSpritePainted;
 
   @override
   void drawImageRect(Image image, Rect src, Rect dst, Paint paint) {
