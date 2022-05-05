@@ -57,14 +57,11 @@ class StartGameListener extends StatelessWidget {
   }
 
   void _onHowToPlay(BuildContext context) {
-    final player = context.read<PinballPlayer>();
-
     _showPinballDialog(
       context: context,
       child: HowToPlayDialog(
         onDismissCallback: () {
           context.read<StartGameBloc>().add(const HowToPlayFinished());
-          player.play(PinballAudio.ioPinballVoiceOver);
         },
       ),
     );
