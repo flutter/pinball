@@ -13,7 +13,7 @@ final _bodyTextPaint = TextPaint(
 );
 
 /// {@template initials_submission_success_display}
-/// Display when the initials were successfully submitted
+/// Display when the initials were successfully submitted.
 /// {@endtemplate}
 class InitialsSubmissionSuccessDisplay extends TextComponent
     with HasGameRef<PinballGame> {

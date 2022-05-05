@@ -1,7 +1,7 @@
 part of 'backbox_bloc.dart';
 
 /// {@template backbox_event}
-/// Base class for backbox events
+/// Base class for backbox events.
 /// {@endtemplate}
 abstract class BackboxEvent extends Equatable {
   /// {@macro backbox_event}
@@ -9,7 +9,7 @@ abstract class BackboxEvent extends Equatable {
 }
 
 /// {@template player_initials_requested}
-/// Event that triggers the user initials display
+/// Event that triggers the user initials display.
 /// {@endtemplate}
 class PlayerInitialsRequested extends BackboxEvent {
   /// {@template player_initials_requested}
@@ -18,10 +18,10 @@ class PlayerInitialsRequested extends BackboxEvent {
     required this.character,
   });
 
-  /// Player's score
+  /// Player's score.
   final int score;
 
-  /// Player's character
+  /// Player's character.
   final CharacterTheme character;
 
   @override
@@ -29,7 +29,7 @@ class PlayerInitialsRequested extends BackboxEvent {
 }
 
 /// {@template player_initials_submited}
-/// Event that submits the user score and initials
+/// Event that submits the user score and initials.
 /// {@endtemplate}
 class PlayerInitialsSubmited extends BackboxEvent {
   /// {@template player_initials_requested}
@@ -39,13 +39,13 @@ class PlayerInitialsSubmited extends BackboxEvent {
     required this.character,
   });
 
-  /// Player's score
+  /// Player's score.
   final int score;
 
-  /// Player's initials
+  /// Player's initials.
   final String initials;
 
-  /// Player's character
+  /// Player's character.
   final CharacterTheme character;
 
   @override

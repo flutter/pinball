@@ -14,10 +14,10 @@ final _bodyTextPaint = TextPaint(
 );
 
 /// {@template loading_display}
-/// Display used to show the loading animation
+/// Display used to show the loading animation.
 /// {@endtemplate}
 class LoadingDisplay extends TextComponent with HasGameRef<PinballGame> {
-  /// {@template loading_display
+  /// {@template loading_display}
   LoadingDisplay({AppLocalizations? l10n}) : _l10n = l10n;
 
   final AppLocalizations? _l10n;
