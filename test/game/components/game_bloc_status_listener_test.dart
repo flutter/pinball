@@ -20,6 +20,10 @@ class _MockPinballPlayer extends Mock implements PinballPlayer {}
 
 void main() {
   group('GameBlocStatusListener', () {
+    setUpAll(() {
+      registerFallbackValue(AndroidTheme());
+    });
+
     group('listenWhen', () {
       test('is true when the game over state has changed', () {
         final state = GameState(
@@ -58,10 +62,9 @@ void main() {
         gameFlowController.mockGameRef(game);
 
         when(
-          () => backbox.initialsInput(
+          () => backbox.requestInitials(
             score: any(named: 'score'),
-            characterIconPath: any(named: 'characterIconPath'),
-            onSubmit: any(named: 'onSubmit'),
+            character: any(named: 'character'),
           ),
         ).thenAnswer((_) async {});
         when(cameraController.focusOnWaitingBackbox).thenAnswer((_) async {});
@@ -92,10 +95,9 @@ void main() {
           gameFlowController.onNewState(state);
 
           verify(
-            () => backbox.initialsInput(
-              score: state.displayScore,
-              characterIconPath: any(named: 'characterIconPath'),
-              onSubmit: any(named: 'onSubmit'),
+            () => backbox.requestInitials(
+              score: any(named: 'score'),
+              character: any(named: 'character'),
             ),
           ).called(1);
           verify(cameraController.focusOnGameOverBackbox).called(1);
