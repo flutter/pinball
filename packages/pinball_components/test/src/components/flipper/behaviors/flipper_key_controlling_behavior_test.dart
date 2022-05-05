@@ -1,7 +1,5 @@
 // ignore_for_file: cascade_invocations
 
-import 'dart:collection';
-
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
