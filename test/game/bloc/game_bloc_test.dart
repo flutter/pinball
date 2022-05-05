@@ -24,6 +24,20 @@ void main() {
       ],
     );
 
+    blocTest<GameBloc, GameState>(
+      'GameOver finishes the game',
+      build: GameBloc.new,
+      act: (bloc) => bloc.add(const GameOver()),
+      expect: () => [
+        isA<GameState>()
+          ..having(
+            (state) => state.status,
+            'status',
+            GameStatus.gameOver,
+          ),
+      ],
+    );
+
     group('RoundLost', () {
       blocTest<GameBloc, GameState>(
         'decreases number of rounds '

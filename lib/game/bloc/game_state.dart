@@ -27,7 +27,6 @@ enum GameStatus {
 }
 
 extension GameStatusX on GameStatus {
-  bool get isWaiting => this == GameStatus.waiting;
   bool get isPlaying => this == GameStatus.playing;
   bool get isGameOver => this == GameStatus.gameOver;
 }
