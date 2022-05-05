@@ -57,6 +57,7 @@ void main() {
         multiplier: 1,
         rounds: 3,
         bonusHistory: [],
+        status: GameStatus.playing,
       );
       whenListen(bloc, Stream.value(state), initialState: state);
       return bloc;

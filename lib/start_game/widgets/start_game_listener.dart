@@ -17,13 +17,10 @@ class StartGameListener extends StatelessWidget {
   const StartGameListener({
     Key? key,
     required Widget child,
-    required PinballGame game,
   })  : _child = child,
-        _game = game,
         super(key: key);
 
   final Widget _child;
-  final PinballGame _game;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +31,7 @@ class StartGameListener extends StatelessWidget {
             break;
           case StartGameStatus.selectCharacter:
             _onSelectCharacter(context);
-            _game.gameFlowController.start();
+            context.read<GameBloc>().add(const GameStarted());
             break;
           case StartGameStatus.howToPlay:
             _onHowToPlay(context);

@@ -26,7 +26,8 @@ class _GameHudState extends State<GameHud> {
 
   @override
   Widget build(BuildContext context) {
-    final isGameOver = context.select((GameBloc bloc) => bloc.state.isGameOver);
+    final isGameOver =
+        context.select((GameBloc bloc) => bloc.state.status.isGameOver);
 
     final height = _calculateHeight(context);
 

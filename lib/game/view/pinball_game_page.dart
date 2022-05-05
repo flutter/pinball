@@ -113,7 +113,6 @@ class PinballGameLoadedView extends StatelessWidget {
     final clampedMargin = leftMargin > 0 ? leftMargin : 0.0;
 
     return StartGameListener(
-      game: game,
       child: Stack(
         children: [
           Positioned.fill(

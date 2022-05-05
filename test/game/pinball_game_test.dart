@@ -281,7 +281,7 @@ void main() {
               // TODO(ruimiguel): check why testGameWidget doesn't add any ball
               // to the game. Test needs to have no balls, so fortunately works.
               final newState = _MockGameState();
-              when(() => newState.isGameOver).thenReturn(false);
+              when(() => newState.status).thenReturn(GameStatus.playing);
               game.descendants().whereType<ControlledBall>().forEach(
                     (ball) => ball.controller.lost(),
                   );
@@ -298,7 +298,7 @@ void main() {
             "doesn't listen when some balls are left",
             (game) async {
               final newState = _MockGameState();
-              when(() => newState.isGameOver).thenReturn(false);
+              when(() => newState.status).thenReturn(GameStatus.playing);
 
               await game.ready();
 
@@ -319,7 +319,7 @@ void main() {
               // TODO(ruimiguel): check why testGameWidget doesn't add any ball
               // to the game. Test needs to have no balls, so fortunately works.
               final newState = _MockGameState();
-              when(() => newState.isGameOver).thenReturn(true);
+              when(() => newState.status).thenReturn(GameStatus.gameOver);
               game.descendants().whereType<ControlledBall>().forEach(
                     (ball) => ball.controller.lost(),
                   );

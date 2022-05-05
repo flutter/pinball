@@ -12,17 +12,14 @@ import '../../helpers/helpers.dart';
 
 class _MockStartGameBloc extends Mock implements StartGameBloc {}
 
+class _MockGameBloc extends Mock implements GameBloc {}
+
 class _MockCharacterThemeCubit extends Mock implements CharacterThemeCubit {}
-
-class _MockPinballGame extends Mock implements PinballGame {}
-
-class _MockGameFlowController extends Mock implements GameFlowController {}
 
 class _MockPinballPlayer extends Mock implements PinballPlayer {}
 
 void main() {
   late StartGameBloc startGameBloc;
-  late PinballGame pinballGame;
   late PinballPlayer pinballPlayer;
   late CharacterThemeCubit characterThemeCubit;
 
@@ -31,14 +28,25 @@ void main() {
       await mockFlameImages();
 
       startGameBloc = _MockStartGameBloc();
-      pinballGame = _MockPinballGame();
       pinballPlayer = _MockPinballPlayer();
       characterThemeCubit = _MockCharacterThemeCubit();
     });
 
     group('on selectCharacter status', () {
+      late GameBloc gameBloc;
+
+      setUp(() {
+        gameBloc = _MockGameBloc();
+
+        whenListen(
+          gameBloc,
+          const Stream<GameState>.empty(),
+          initialState: const GameState.initial(),
+        );
+      });
+
       testWidgets(
-        'calls start on the game controller',
+        'calls onGameStarted event',
         (tester) async {
           whenListen(
             startGameBloc,
@@ -47,19 +55,16 @@ void main() {
             ),
             initialState: const StartGameState.initial(),
           );
-          final gameController = _MockGameFlowController();
-          when(() => pinballGame.gameFlowController)
-              .thenAnswer((_) => gameController);
 
           await tester.pumpApp(
-            StartGameListener(
-              game: pinballGame,
-              child: const SizedBox.shrink(),
+            const StartGameListener(
+              child: SizedBox.shrink(),
             ),
+            gameBloc: gameBloc,
             startGameBloc: startGameBloc,
           );
 
-          verify(gameController.start).called(1);
+          verify(() => gameBloc.add(const GameStarted())).called(1);
         },
       );
 
@@ -78,15 +83,12 @@ void main() {
             Stream.value(const CharacterThemeState.initial()),
             initialState: const CharacterThemeState.initial(),
           );
-          final gameController = _MockGameFlowController();
-          when(() => pinballGame.gameFlowController)
-              .thenAnswer((_) => gameController);
 
           await tester.pumpApp(
-            StartGameListener(
-              game: pinballGame,
-              child: const SizedBox.shrink(),
+            const StartGameListener(
+              child: SizedBox.shrink(),
             ),
+            gameBloc: gameBloc,
             startGameBloc: startGameBloc,
             characterThemeCubit: characterThemeCubit,
           );
@@ -113,9 +115,8 @@ void main() {
         );
 
         await tester.pumpApp(
-          StartGameListener(
-            game: pinballGame,
-            child: const SizedBox.shrink(),
+          const StartGameListener(
+            child: SizedBox.shrink(),
           ),
           startGameBloc: startGameBloc,
         );
@@ -141,9 +142,8 @@ void main() {
         );
 
         await tester.pumpApp(
-          StartGameListener(
-            game: pinballGame,
-            child: const SizedBox.shrink(),
+          const StartGameListener(
+            child: SizedBox.shrink(),
           ),
           startGameBloc: startGameBloc,
         );
@@ -173,9 +173,8 @@ void main() {
         );
 
         await tester.pumpApp(
-          StartGameListener(
-            game: pinballGame,
-            child: const SizedBox.shrink(),
+          const StartGameListener(
+            child: SizedBox.shrink(),
           ),
           startGameBloc: startGameBloc,
         );
@@ -208,9 +207,8 @@ void main() {
         'adds HowToPlayFinished event',
         (tester) async {
           await tester.pumpApp(
-            StartGameListener(
-              game: pinballGame,
-              child: const SizedBox.shrink(),
+            const StartGameListener(
+              child: SizedBox.shrink(),
             ),
             startGameBloc: startGameBloc,
           );
@@ -239,9 +237,8 @@ void main() {
         'plays the I/O Pinball voice over audio',
         (tester) async {
           await tester.pumpApp(
-            StartGameListener(
-              game: pinballGame,
-              child: const SizedBox.shrink(),
+            const StartGameListener(
+              child: SizedBox.shrink(),
             ),
             startGameBloc: startGameBloc,
             pinballPlayer: pinballPlayer,
