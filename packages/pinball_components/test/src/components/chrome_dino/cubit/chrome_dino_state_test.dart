@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
 
@@ -61,7 +60,7 @@ void main() {
         'copies correctly '
         'when all arguments specified',
         () {
-          final ball = Ball(baseColor: Colors.red);
+          final ball = Ball();
           const chromeDinoState = ChromeDinoState(
             status: ChromeDinoStatus.chomping,
             isMouthOpen: true,

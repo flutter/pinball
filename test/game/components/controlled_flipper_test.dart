@@ -27,7 +27,8 @@ void main() {
     blocBuilder: () {
       final bloc = _MockGameBloc();
       const state = GameState(
-        score: 0,
+        totalScore: 0,
+        roundScore: 0,
         multiplier: 1,
         rounds: 0,
         bonusHistory: [],

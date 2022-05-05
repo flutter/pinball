@@ -2,9 +2,9 @@
 
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_theme/pinball_theme.dart' as theme;
 
 import '../../helpers/helpers.dart';
 
@@ -13,6 +13,7 @@ void main() {
   final assets = [
     Assets.images.flipper.left.keyName,
     Assets.images.flipper.right.keyName,
+    theme.Assets.images.dash.ball.keyName,
   ];
   final flameTester = FlameTester(() => TestGame(assets));
 
@@ -89,7 +90,7 @@ void main() {
         'has greater mass than Ball',
         (game) async {
           final flipper = Flipper(side: BoardSide.left);
-          final ball = Ball(baseColor: Colors.white);
+          final ball = Ball();
 
           await game.ready();
           await game.ensureAddAll([flipper, ball]);

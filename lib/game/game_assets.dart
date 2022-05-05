@@ -13,7 +13,6 @@ extension PinballGameAssetsX on PinballGame {
 
     return [
       images.load(components.Assets.images.boardBackground.keyName),
-      images.load(components.Assets.images.ball.ball.keyName),
       images.load(components.Assets.images.ball.flameEffect.keyName),
       images.load(components.Assets.images.signpost.inactive.keyName),
       images.load(components.Assets.images.signpost.active1.keyName),
@@ -99,8 +98,8 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.sparky.bumper.b.dimmed.keyName),
       images.load(components.Assets.images.sparky.bumper.c.lit.keyName),
       images.load(components.Assets.images.sparky.bumper.c.dimmed.keyName),
-      images.load(components.Assets.images.backboard.backboardScores.keyName),
-      images.load(components.Assets.images.backboard.backboardGameOver.keyName),
+      images.load(components.Assets.images.backbox.marquee.keyName),
+      images.load(components.Assets.images.backbox.displayDivider.keyName),
       images.load(components.Assets.images.googleWord.letter1.lit.keyName),
       images.load(components.Assets.images.googleWord.letter1.dimmed.keyName),
       images.load(components.Assets.images.googleWord.letter2.lit.keyName),
@@ -113,7 +112,6 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.googleWord.letter5.dimmed.keyName),
       images.load(components.Assets.images.googleWord.letter6.lit.keyName),
       images.load(components.Assets.images.googleWord.letter6.dimmed.keyName),
-      images.load(components.Assets.images.backboard.display.keyName),
       images.load(components.Assets.images.multiball.lit.keyName),
       images.load(components.Assets.images.multiball.dimmed.keyName),
       images.load(components.Assets.images.multiplier.x2.lit.keyName),
@@ -137,6 +135,10 @@ extension PinballGameAssetsX on PinballGame {
       images.load(sparkyTheme.leaderboardIcon.keyName),
       images.load(androidTheme.leaderboardIcon.keyName),
       images.load(dinoTheme.leaderboardIcon.keyName),
+      images.load(androidTheme.ball.keyName),
+      images.load(dashTheme.ball.keyName),
+      images.load(dinoTheme.ball.keyName),
+      images.load(sparkyTheme.ball.keyName),
     ];
   }
 }

@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
+import 'package:pinball_theme/pinball_theme.dart' as theme;
 
 export 'behaviors/behaviors.dart';
 
@@ -14,11 +15,11 @@ export 'behaviors/behaviors.dart';
 class Ball extends BodyComponent with Layered, InitialPosition, ZIndex {
   /// {@macro ball}
   Ball({
-    required this.baseColor,
+    String? assetPath,
   }) : super(
           renderBody: false,
           children: [
-            _BallSpriteComponent()..tint(baseColor.withOpacity(0.5)),
+            _BallSpriteComponent(assetPath: assetPath),
             BallScalingBehavior(),
             BallGravitatingBehavior(),
           ],
@@ -35,16 +36,13 @@ class Ball extends BodyComponent with Layered, InitialPosition, ZIndex {
   ///
   /// This can be used for testing [Ball]'s behaviors in isolation.
   @visibleForTesting
-  Ball.test({required this.baseColor})
+  Ball.test()
       : super(
           children: [_BallSpriteComponent()],
         );
 
   /// The size of the [Ball].
   static final Vector2 size = Vector2.all(4.13);
-
-  /// The base [Color] used to tint this [Ball].
-  final Color baseColor;
 
   @override
   Body createBody() {
@@ -79,14 +77,22 @@ class Ball extends BodyComponent with Layered, InitialPosition, ZIndex {
 }
 
 class _BallSpriteComponent extends SpriteComponent with HasGameRef {
+  _BallSpriteComponent({
+    this.assetPath,
+  }) : super(
+          anchor: Anchor.center,
+        );
+
+  final String? assetPath;
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final sprite = await gameRef.loadSprite(
-      Assets.images.ball.ball.keyName,
+    final sprite = Sprite(
+      gameRef.images
+          .fromCache(assetPath ?? theme.Assets.images.dash.ball.keyName),
     );
     this.sprite = sprite;
-    size = sprite.originalSize / 10;
-    anchor = Anchor.center;
+    size = sprite.originalSize / 12.5;
   }
 }

@@ -36,12 +36,14 @@ class DinoDesert extends Component {
 }
 
 class _BarrierBehindDino extends BodyComponent {
+  _BarrierBehindDino() : super(renderBody: false);
+
   @override
   Body createBody() {
     final shape = EdgeShape()
       ..set(
-        Vector2(25, -14.2),
-        Vector2(25, -7.7),
+        Vector2(25.3, -14.2),
+        Vector2(25.3, -7.7),
       );
 
     return world.createBody(BodyDef())..createFixtureFromShape(shape);
