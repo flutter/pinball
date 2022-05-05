@@ -76,26 +76,26 @@ void main() {
         );
         await game.ensureAdd(initialsInputDisplay);
 
-        // Focus is already on the first letter
-        await tester.sendKeyEvent(LogicalKeyboardKey.arrowUp);
+        // Focus is on the first letter
+        await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
         await tester.pump();
 
-        // Move to the next an press up again
+        // Move to the next an press down again
         await tester.sendKeyEvent(LogicalKeyboardKey.arrowRight);
         await tester.pump();
-        await tester.sendKeyEvent(LogicalKeyboardKey.arrowUp);
+        await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
         await tester.pump();
 
         // One more time
         await tester.sendKeyEvent(LogicalKeyboardKey.arrowRight);
         await tester.pump();
-        await tester.sendKeyEvent(LogicalKeyboardKey.arrowUp);
+        await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
         await tester.pump();
 
-        // Back to the previous and increase one more
+        // Back to the previous and press down again
         await tester.sendKeyEvent(LogicalKeyboardKey.arrowLeft);
         await tester.pump();
-        await tester.sendKeyEvent(LogicalKeyboardKey.arrowUp);
+        await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
         await tester.pump();
       },
       verify: (game, tester) async {
@@ -136,13 +136,13 @@ void main() {
           await game.ensureAdd(
             InitialsLetterPrompt(hasFocus: true, position: Vector2.zero()),
           );
-          await tester.sendKeyEvent(LogicalKeyboardKey.arrowUp);
-          await tester.pump();
-          await tester.sendKeyEvent(LogicalKeyboardKey.arrowUp);
-          await tester.pump();
-          await tester.sendKeyEvent(LogicalKeyboardKey.arrowUp);
+          await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
           await tester.pump();
           await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
+          await tester.pump();
+          await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
+          await tester.pump();
+          await tester.sendKeyEvent(LogicalKeyboardKey.arrowUp);
           await tester.pump();
         },
         verify: (game, tester) async {

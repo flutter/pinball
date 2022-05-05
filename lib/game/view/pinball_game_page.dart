@@ -4,6 +4,7 @@ import 'package:flame/game.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/assets_manager/assets_manager.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
@@ -37,23 +38,25 @@ class PinballGamePage extends StatelessWidget {
     final characterTheme =
         context.read<CharacterThemeCubit>().state.characterTheme;
     final player = context.read<PinballPlayer>();
-    final pinballAudio = context.read<PinballPlayer>();
+    final leaderboardRepository = context.read<LeaderboardRepository>();
 
     final game = isDebugMode
         ? DebugPinballGame(
             characterTheme: characterTheme,
             player: player,
+            leaderboardRepository: leaderboardRepository,
             l10n: context.l10n,
           )
         : PinballGame(
             characterTheme: characterTheme,
             player: player,
+            leaderboardRepository: leaderboardRepository,
             l10n: context.l10n,
           );
 
     final loadables = [
       ...game.preLoadAssets(),
-      ...pinballAudio.load(),
+      ...player.load(),
       ...BonusAnimation.loadAssets(),
       ...SelectedCharacter.loadAssets(),
     ];

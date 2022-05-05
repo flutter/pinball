@@ -59,7 +59,7 @@ class InitialsInputDisplay extends Component with HasGameRef {
       await add(
         InitialsLetterPrompt(
           position: Vector2(
-            11.4 + (2.3 * i),
+            10.8 + (2.5 * i),
             -20,
           ),
           hasFocus: i == 0,
@@ -138,7 +138,7 @@ class _NameLabelTextComponent extends TextComponent
   _NameLabelTextComponent()
       : super(
           anchor: Anchor.center,
-          position: Vector2(11.4, -24),
+          position: Vector2(10.8, -24),
           textRenderer: _bodyTextPaint.copyWith(
             (style) => style.copyWith(
               color: PinballColors.red,
@@ -158,7 +158,7 @@ class _CharacterIconSpriteComponent extends SpriteComponent with HasGameRef {
       : _characterIconPath = characterIconPath,
         super(
           anchor: Anchor.center,
-          position: Vector2(8.4, -20),
+          position: Vector2(7.6, -20),
         );
 
   final String _characterIconPath;
@@ -241,8 +241,9 @@ class InitialsLetterPrompt extends PositionComponent {
 
   bool _cycle(bool up) {
     if (_hasFocus) {
-      final newCharCode =
-          min(max(_charIndex + (up ? 1 : -1), 0), _alphabetLength);
+      var newCharCode = _charIndex + (up ? -1 : 1);
+      if (newCharCode < 0) newCharCode = _alphabetLength;
+      if (newCharCode > _alphabetLength) newCharCode = 0;
       _input.text = String.fromCharCode(_alphabetCode + newCharCode);
       _charIndex = newCharCode;
 
