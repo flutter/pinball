@@ -85,7 +85,9 @@ void main() {
 
             final zoom = behavior.children.whereType<CameraZoom>().single;
             game.update(zoom.controller.duration!);
+            game.update(0);
 
+            expect(zoom.controller.completed, isTrue);
             expect(
               game.camera.position,
               isNot(equals(previousPosition)),
@@ -109,7 +111,9 @@ void main() {
 
             final zoom = behavior.children.whereType<CameraZoom>().single;
             game.update(zoom.controller.duration!);
+            game.update(0);
 
+            expect(zoom.controller.completed, isTrue);
             expect(
               game.camera.position,
               isNot(equals(previousPosition)),
