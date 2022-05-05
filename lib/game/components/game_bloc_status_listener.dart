@@ -18,7 +18,6 @@ class GameBlocStatusListener extends Component
         break;
       case GameStatus.playing:
         gameRef.player.play(PinballAudio.backgroundMusic);
-        gameRef.firstChild<CameraController>()?.focusOnGame();
         gameRef.overlays.remove(PinballGame.playButtonOverlay);
         break;
       case GameStatus.gameOver:
@@ -26,7 +25,6 @@ class GameBlocStatusListener extends Component
               score: state.displayScore,
               characterIconPath: gameRef.characterTheme.leaderboardIcon.keyName,
             );
-        gameRef.firstChild<CameraController>()!.focusOnGameOverBackbox();
         break;
     }
   }

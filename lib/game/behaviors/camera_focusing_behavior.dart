@@ -6,7 +6,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template focus_data}
-/// Model class that defines a focus point of the camera.
+/// Defines a [Camera] focus point.
 /// {@endtemplate}
 class FocusData {
   /// {@template focus_data}
@@ -22,31 +22,33 @@ class FocusData {
   final Vector2 position;
 }
 
-///
+/// Changes the game focus when the [GameBloc] status changes.
 class CameraFocusingBehavior extends Component
     with ParentIsA<FlameGame>, BlocComponent<GameBloc, GameState> {
   final Map<String, FocusData> _focuses = {};
 
-  // @override
-  // bool listenWhen(GameState? previousState, GameState newState) {
-  //   print('listen');
-  //   return true;
-  //   return previousState?.isGameOver != newState.isGameOver;
-  // }
+  @override
+  bool listenWhen(GameState? previousState, GameState newState) {
+    return previousState?.status != newState.status;
+  }
 
   @override
   void onNewState(GameState state) {
-    print(state);
-    if (state.isGameOver) {
-      _zoom(_focuses['backbox']!);
-    } else {
-      _zoom(_focuses['game']!);
+    switch (state.status) {
+      case GameStatus.waiting:
+        break;
+      case GameStatus.playing:
+        _zoom(_focuses['game']!);
+        break;
+      case GameStatus.gameOver:
+        _zoom(_focuses['backbox']!);
+        break;
     }
   }
 
   @override
-  void onGameResize(Vector2 size) {
-    super.onGameResize(size);
+  Future<void> onLoad() async {
+    await super.onLoad();
     _focuses['game'] = FocusData(
       zoom: parent.size.y / 16,
       position: Vector2(0, -7.8),
@@ -59,11 +61,7 @@ class CameraFocusingBehavior extends Component
       zoom: parent.size.y / 10,
       position: Vector2(0, -111),
     );
-  }
 
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
     _snap(_focuses['waiting']!);
   }
 
@@ -79,6 +77,6 @@ class CameraFocusingBehavior extends Component
     zoom.completed.then((_) {
       parent.camera.moveTo(data.position);
     });
-    parent.add(zoom);
+    add(zoom);
   }
 }

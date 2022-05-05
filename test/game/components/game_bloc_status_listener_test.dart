@@ -11,8 +11,6 @@ class _MockPinballGame extends Mock implements PinballGame {}
 
 class _MockBackbox extends Mock implements Backbox {}
 
-class _MockCameraController extends Mock implements CameraController {}
-
 class _MockActiveOverlaysNotifier extends Mock
     implements ActiveOverlaysNotifier {}
 
@@ -42,20 +40,18 @@ void main() {
     group('onNewState', () {
       late PinballGame game;
       late Backbox backbox;
-      late CameraController cameraController;
-      late GameBlocStatusListener gameFlowController;
+      late GameBlocStatusListener gameBlocStatusListener;
       late PinballPlayer pinballPlayer;
       late ActiveOverlaysNotifier overlays;
 
       setUp(() {
         game = _MockPinballGame();
         backbox = _MockBackbox();
-        cameraController = _MockCameraController();
-        gameFlowController = GameBlocStatusListener();
+        gameBlocStatusListener = GameBlocStatusListener();
         overlays = _MockActiveOverlaysNotifier();
         pinballPlayer = _MockPinballPlayer();
 
-        gameFlowController.mockGameRef(game);
+        gameBlocStatusListener.mockGameRef(game);
 
         when(
           () => backbox.initialsInput(
@@ -64,22 +60,18 @@ void main() {
             onSubmit: any(named: 'onSubmit'),
           ),
         ).thenAnswer((_) async {});
-        when(cameraController.focusOnWaitingBackbox).thenAnswer((_) async {});
-        when(cameraController.focusOnGame).thenAnswer((_) async {});
 
         when(() => overlays.remove(any())).thenAnswer((_) => true);
 
         when(() => game.descendants().whereType<Backbox>())
             .thenReturn([backbox]);
-        when(game.firstChild<CameraController>).thenReturn(cameraController);
         when(() => game.overlays).thenReturn(overlays);
         when(() => game.characterTheme).thenReturn(DashTheme());
         when(() => game.player).thenReturn(pinballPlayer);
       });
 
       test(
-        'changes the backbox display and camera correctly '
-        'when the game is over',
+        'changes the backbox display when the game is over',
         () {
           final state = GameState(
             totalScore: 0,
@@ -89,7 +81,7 @@ void main() {
             bonusHistory: const [],
             status: GameStatus.gameOver,
           );
-          gameFlowController.onNewState(state);
+          gameBlocStatusListener.onNewState(state);
 
           verify(
             () => backbox.initialsInput(
@@ -98,18 +90,16 @@ void main() {
               onSubmit: any(named: 'onSubmit'),
             ),
           ).called(1);
-          verify(cameraController.focusOnGameOverBackbox).called(1);
         },
       );
 
       test(
-        'changes the backbox and camera correctly when it is not a game over',
+        'changes the backbox when it is not a game over',
         () {
-          gameFlowController.onNewState(
+          gameBlocStatusListener.onNewState(
             GameState.initial().copyWith(status: GameStatus.playing),
           );
 
-          verify(cameraController.focusOnGame).called(1);
           verify(() => overlays.remove(PinballGame.playButtonOverlay))
               .called(1);
         },
@@ -118,7 +108,7 @@ void main() {
       test(
         'plays the background music on start',
         () {
-          gameFlowController.onNewState(
+          gameBlocStatusListener.onNewState(
             GameState.initial().copyWith(status: GameStatus.playing),
           );
 
