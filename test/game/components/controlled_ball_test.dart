@@ -1,21 +1,20 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flame/extensions.dart';
-import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
-
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_theme/pinball_theme.dart' as theme;
 
 import '../../helpers/helpers.dart';
 
 // TODO(allisonryan0002): remove once
 // https://github.com/flame-engine/flame/pull/1520 is merged
 class _WrappedBallController extends BallController {
-  _WrappedBallController(Ball<Forge2DGame> ball, this._gameRef) : super(ball);
+  _WrappedBallController(Ball ball, this._gameRef) : super(ball);
 
   final PinballGame _gameRef;
 
@@ -33,13 +32,16 @@ class _MockBall extends Mock implements Ball {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  final assets = [
+    theme.Assets.images.dash.ball.keyName,
+  ];
 
   group('BallController', () {
     late Ball ball;
     late GameBloc gameBloc;
 
     setUp(() {
-      ball = Ball(baseColor: const Color(0xFF00FFFF));
+      ball = Ball();
       gameBloc = _MockGameBloc();
       whenListen(
         gameBloc,
@@ -51,6 +53,7 @@ void main() {
     final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
       gameBuilder: EmptyPinballTestGame.new,
       blocBuilder: () => gameBloc,
+      assets: assets,
     );
 
     test('can be instantiated', () {
@@ -68,7 +71,7 @@ void main() {
         await ball.add(controller);
         await game.ensureAdd(ball);
 
-        final otherBall = Ball(baseColor: const Color(0xFF00FFFF));
+        final otherBall = Ball();
         final otherController = BallController(otherBall);
         await otherBall.add(otherController);
         await game.ensureAdd(otherBall);
@@ -100,11 +103,13 @@ void main() {
     group('turboCharge', () {
       setUpAll(() {
         registerFallbackValue(Vector2.zero());
+        registerFallbackValue(Component());
       });
 
       flameBlocTester.testGameWidget(
         'adds TurboChargeActivated',
         setUp: (game, tester) async {
+          await game.images.loadAll(assets);
           final controller = BallController(ball);
           await ball.add(controller);
           await game.ensureAdd(ball);
@@ -125,7 +130,7 @@ void main() {
           final controller = _WrappedBallController(ball, gameRef);
           when(() => gameRef.read<GameBloc>()).thenReturn(gameBloc);
           when(() => ball.controller).thenReturn(controller);
-          when(() => ball.boost(any())).thenAnswer((_) async {});
+          when(() => ball.add(any())).thenAnswer((_) async {});
 
           await controller.turboCharge();
 
@@ -141,27 +146,11 @@ void main() {
           final controller = _WrappedBallController(ball, gameRef);
           when(() => gameRef.read<GameBloc>()).thenReturn(gameBloc);
           when(() => ball.controller).thenReturn(controller);
-          when(() => ball.boost(any())).thenAnswer((_) async {});
+          when(() => ball.add(any())).thenAnswer((_) async {});
 
           await controller.turboCharge();
 
           verify(ball.resume).called(1);
-        },
-      );
-
-      flameBlocTester.test(
-        'boosts the ball',
-        (game) async {
-          final gameRef = _MockPinballGame();
-          final ball = _MockControlledBall();
-          final controller = _WrappedBallController(ball, gameRef);
-          when(() => gameRef.read<GameBloc>()).thenReturn(gameBloc);
-          when(() => ball.controller).thenReturn(controller);
-          when(() => ball.boost(any())).thenAnswer((_) async {});
-
-          await controller.turboCharge();
-
-          verify(() => ball.boost(any())).called(1);
         },
       );
     });

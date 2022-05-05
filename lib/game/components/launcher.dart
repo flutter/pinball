@@ -12,6 +12,7 @@ class Launcher extends Component {
       : super(
           children: [
             LaunchRamp(),
+            Flapper(),
             ControlledPlunger(compressionDistance: 9.2)
               ..initialPosition = Vector2(41.2, 43.7),
             RocketSpriteComponent()..position = Vector2(43, 62.3),

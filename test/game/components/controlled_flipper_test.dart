@@ -22,23 +22,19 @@ void main() {
     () => EmptyPinballTestGame(assets: assets),
   );
 
-  final flameBlocTester = FlameBlocTester<EmptyPinballTestGame, GameBloc>(
-    gameBuilder: EmptyPinballTestGame.new,
-    blocBuilder: () {
-      final bloc = _MockGameBloc();
-      const state = GameState(
-        score: 0,
-        multiplier: 1,
-        rounds: 0,
-        bonusHistory: [],
-      );
-      whenListen(bloc, Stream.value(state), initialState: state);
-      return bloc;
-    },
-    assets: assets,
-  );
-
   group('FlipperController', () {
+    late GameBloc gameBloc;
+
+    setUp(() {
+      gameBloc = _MockGameBloc();
+    });
+
+    final flameBlocTester = FlameBlocTester<EmptyPinballTestGame, GameBloc>(
+      gameBuilder: EmptyPinballTestGame.new,
+      blocBuilder: () => gameBloc,
+      assets: assets,
+    );
+
     group('onKeyEvent', () {
       final leftKeys = UnmodifiableListView([
         LogicalKeyboardKey.arrowLeft,
@@ -64,6 +60,12 @@ void main() {
             'moves upwards '
             'when ${event.logicalKey.keyLabel} is pressed',
             (game) async {
+              whenListen(
+                gameBloc,
+                const Stream<GameState>.empty(),
+                initialState: const GameState.initial(),
+              );
+
               await game.ready();
               await game.add(flipper);
               controller.onKeyEvent(event, {});
@@ -78,6 +80,14 @@ void main() {
           flameBlocTester.testGameWidget(
             'does nothing when is game over',
             setUp: (game, tester) async {
+              whenListen(
+                gameBloc,
+                const Stream<GameState>.empty(),
+                initialState: const GameState.initial().copyWith(
+                  status: GameStatus.gameOver,
+                ),
+              );
+
               await game.ensureAdd(flipper);
               controller.onKeyEvent(event, {});
             },
@@ -93,6 +103,12 @@ void main() {
             'moves downwards '
             'when ${event.logicalKey.keyLabel} is released',
             (game) async {
+              whenListen(
+                gameBloc,
+                const Stream<GameState>.empty(),
+                initialState: const GameState.initial(),
+              );
+
               await game.ready();
               await game.add(flipper);
               controller.onKeyEvent(event, {});
@@ -108,6 +124,12 @@ void main() {
             'does nothing '
             'when ${event.logicalKey.keyLabel} is released',
             (game) async {
+              whenListen(
+                gameBloc,
+                const Stream<GameState>.empty(),
+                initialState: const GameState.initial(),
+              );
+
               await game.ready();
               await game.add(flipper);
               controller.onKeyEvent(event, {});
@@ -134,6 +156,12 @@ void main() {
             'moves upwards '
             'when ${event.logicalKey.keyLabel} is pressed',
             (game) async {
+              whenListen(
+                gameBloc,
+                const Stream<GameState>.empty(),
+                initialState: const GameState.initial(),
+              );
+
               await game.ready();
               await game.add(flipper);
               controller.onKeyEvent(event, {});
@@ -149,6 +177,12 @@ void main() {
             'moves downwards '
             'when ${event.logicalKey.keyLabel} is released',
             (game) async {
+              whenListen(
+                gameBloc,
+                const Stream<GameState>.empty(),
+                initialState: const GameState.initial(),
+              );
+
               await game.ready();
               await game.add(flipper);
               controller.onKeyEvent(event, {});
@@ -163,6 +197,14 @@ void main() {
           flameBlocTester.testGameWidget(
             'does nothing when is game over',
             setUp: (game, tester) async {
+              whenListen(
+                gameBloc,
+                const Stream<GameState>.empty(),
+                initialState: const GameState.initial().copyWith(
+                  status: GameStatus.gameOver,
+                ),
+              );
+
               await game.ensureAdd(flipper);
               controller.onKeyEvent(event, {});
             },
