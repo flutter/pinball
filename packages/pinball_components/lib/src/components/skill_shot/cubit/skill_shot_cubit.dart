@@ -17,12 +17,15 @@ class SkillShotCubit extends Cubit<SkillShotState> {
     );
   }
 
-  void onBlinkedOff() {
-    emit(state.copyWith(spriteState: SkillShotSpriteState.lit));
-  }
-
-  void onBlinkedOn() {
-    emit(state.copyWith(spriteState: SkillShotSpriteState.dimmed));
+  void switched() {
+    switch (state.spriteState) {
+      case SkillShotSpriteState.lit:
+        emit(state.copyWith(spriteState: SkillShotSpriteState.dimmed));
+        break;
+      case SkillShotSpriteState.dimmed:
+        emit(state.copyWith(spriteState: SkillShotSpriteState.lit));
+        break;
+    }
   }
 
   void onBlinkingFinished() {

@@ -21,9 +21,9 @@ void main() {
       );
 
       blocTest<SkillShotCubit, SkillShotState>(
-        'onBlinkedOff emits lit',
+        'switched emits lit when dimmed',
         build: SkillShotCubit.new,
-        act: (bloc) => bloc.onBlinkedOff(),
+        act: (bloc) => bloc.switched(),
         expect: () => [
           isA<SkillShotState>().having(
             (state) => state.spriteState,
@@ -34,9 +34,13 @@ void main() {
       );
 
       blocTest<SkillShotCubit, SkillShotState>(
-        'onBlinkedOn emits dimmed',
+        'switched emits dimmed when lit',
         build: SkillShotCubit.new,
-        act: (bloc) => bloc.onBlinkedOn(),
+        seed: () => SkillShotState(
+          spriteState: SkillShotSpriteState.lit,
+          isBlinking: false,
+        ),
+        act: (bloc) => bloc.switched(),
         expect: () => [
           isA<SkillShotState>().having(
             (state) => state.spriteState,

@@ -21,7 +21,7 @@ void main() {
     'SkillShotBlinkingBehavior',
     () {
       flameTester.testGameWidget(
-        'calls onBlinkedOn after 0.15 seconds when isBlinking and lit',
+        'calls switched after 0.15 seconds when isBlinking and lit',
         setUp: (game, tester) async {
           final behavior = SkillShotBlinkingBehavior();
           final bloc = _MockSkillShotCubit();
@@ -46,12 +46,12 @@ void main() {
           game.update(0.15);
 
           await streamController.close();
-          verify(bloc.onBlinkedOn).called(1);
+          verify(bloc.switched).called(1);
         },
       );
 
       flameTester.testGameWidget(
-        'calls onBlinkedOff after 0.15 seconds when isBlinking and dimmed',
+        'calls switched after 0.15 seconds when isBlinking and dimmed',
         setUp: (game, tester) async {
           final behavior = SkillShotBlinkingBehavior();
           final bloc = _MockSkillShotCubit();
@@ -76,7 +76,7 @@ void main() {
           game.update(0.15);
 
           await streamController.close();
-          verify(bloc.onBlinkedOff).called(1);
+          verify(bloc.switched).called(1);
         },
       );
 

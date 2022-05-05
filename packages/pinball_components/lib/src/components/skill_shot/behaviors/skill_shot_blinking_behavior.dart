@@ -33,11 +33,7 @@ class SkillShotBlinkingBehavior extends TimerComponent
   void onTick() {
     super.onTick();
     if (_blinks != _maxBlinks * 2) {
-      if (parent.bloc.state.spriteState == SkillShotSpriteState.lit) {
-        parent.bloc.onBlinkedOn();
-      } else {
-        parent.bloc.onBlinkedOff();
-      }
+      parent.bloc.switched();
       _blinks++;
     } else {
       _blinks = 0;
