@@ -17,7 +17,7 @@ dependencies:
   flame: ^1.1.1
   flame_bloc: ^1.4.0
   flame_forge2d:
-    git: 
+    git:
       url: https://github.com/flame-engine/flame/
       path: packages/flame_forge2d/
       ref: a50d4a1e7d9eaf66726ed1bb9894c9d495547d8f
@@ -60,6 +60,7 @@ flutter:
     - assets/images/components/
     - assets/images/bonus_animation/
     - assets/images/score/
+    - assets/images/link_box/
 
 flutter_gen:
   line_length: 80

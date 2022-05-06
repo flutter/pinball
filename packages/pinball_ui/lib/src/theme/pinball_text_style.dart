@@ -37,6 +37,13 @@ abstract class PinballTextStyle {
     fontFamily: _primaryFontFamily,
   );
 
+  static const headline5 = TextStyle(
+    color: PinballColors.white,
+    fontSize: 14,
+    package: _fontPackage,
+    fontFamily: _primaryFontFamily,
+  );
+
   static const subtitle2 = TextStyle(
     color: PinballColors.white,
     fontSize: 16,
