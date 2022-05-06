@@ -122,5 +122,86 @@ void main() {
         );
       });
     });
+
+    group('ScoreShareRequested', () {
+      test('can be instantiated', () {
+        expect(
+          ScoreShareRequested(
+            score: 0,
+            initials: 'AAA',
+            character: AndroidTheme(),
+          ),
+          isNotNull,
+        );
+      });
+
+      test('supports value comparison', () {
+        expect(
+          ScoreShareRequested(
+            score: 0,
+            initials: 'AAA',
+            character: AndroidTheme(),
+          ),
+          equals(
+            ScoreShareRequested(
+              score: 0,
+              initials: 'AAA',
+              character: AndroidTheme(),
+            ),
+          ),
+        );
+
+        expect(
+          ScoreShareRequested(
+            score: 0,
+            initials: 'AAA',
+            character: AndroidTheme(),
+          ),
+          isNot(
+            equals(
+              ScoreShareRequested(
+                score: 1,
+                initials: 'AAA',
+                character: AndroidTheme(),
+              ),
+            ),
+          ),
+        );
+
+        expect(
+          ScoreShareRequested(
+            score: 0,
+            initials: 'AAA',
+            character: AndroidTheme(),
+          ),
+          isNot(
+            equals(
+              ScoreShareRequested(
+                score: 0,
+                initials: 'AAA',
+                character: SparkyTheme(),
+              ),
+            ),
+          ),
+        );
+
+        expect(
+          ScoreShareRequested(
+            score: 0,
+            initials: 'AAA',
+            character: AndroidTheme(),
+          ),
+          isNot(
+            equals(
+              ScoreShareRequested(
+                score: 0,
+                initials: 'BBB',
+                character: AndroidTheme(),
+              ),
+            ),
+          ),
+        );
+      });
+    });
   });
 }

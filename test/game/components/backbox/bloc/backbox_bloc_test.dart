@@ -56,7 +56,11 @@ void main() {
         ),
         expect: () => [
           LoadingState(),
-          InitialsSuccessState(),
+          InitialsSuccessState(
+            score: 10,
+            initials: 'AAA',
+            character: DashTheme(),
+          ),
         ],
       );
 
@@ -88,5 +92,27 @@ void main() {
         ],
       );
     });
+
+    blocTest<BackboxBloc, BackboxState>(
+      'adds ShareState on ScoreShareRequested',
+      setUp: () {
+        leaderboardRepository = _MockLeaderboardRepository();
+      },
+      build: () => BackboxBloc(leaderboardRepository: leaderboardRepository),
+      act: (bloc) => bloc.add(
+        ScoreShareRequested(
+          score: 100,
+          initials: 'AAA',
+          character: AndroidTheme(),
+        ),
+      ),
+      expect: () => [
+        ShareState(
+          score: 100,
+          initials: 'AAA',
+          character: AndroidTheme(),
+        ),
+      ],
+    );
   });
 }

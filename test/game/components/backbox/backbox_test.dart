@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
@@ -20,7 +21,8 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart' as theme;
 
-class _TestGame extends Forge2DGame with HasKeyboardHandlerComponents {
+class _TestGame extends Forge2DGame
+    with HasKeyboardHandlerComponents, HasTappables {
   final character = theme.DashTheme();
 
   @override
@@ -33,6 +35,7 @@ class _TestGame extends Forge2DGame with HasKeyboardHandlerComponents {
       character.leaderboardIcon.keyName,
       Assets.images.backbox.marquee.keyName,
       Assets.images.backbox.displayDivider.keyName,
+      Assets.images.backbox.button.share.keyName,
     ]);
   }
 
@@ -93,6 +96,24 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {
 
   @override
   String get loading => '';
+
+  @override
+  String get shareYourScore => '';
+
+  @override
+  String get andChallengeYourFriends => '';
+
+  @override
+  String get share => '';
+
+  @override
+  String get gotoIO => '';
+
+  @override
+  String get learnMore => '';
+
+  @override
+  String get firebaseOrOpenSource => '';
 }
 
 void main() {
@@ -193,21 +214,23 @@ void main() {
     );
 
     flameTester.test(
-      'adds InitialsSubmissionSuccessDisplay on InitialsSuccessState',
+      'adds InfoDisplay on InitialsSuccessState',
       (game) async {
+        final state = InitialsSuccessState(
+          score: 100,
+          initials: 'AAA',
+          character: theme.AndroidTheme(),
+        );
         whenListen(
           bloc,
-          Stream.value(InitialsSuccessState()),
-          initialState: InitialsSuccessState(),
+          Stream.value(state),
+          initialState: state,
         );
         final backbox = Backbox.test(bloc: bloc);
         await game.pump(backbox);
 
         expect(
-          game
-              .descendants()
-              .whereType<InitialsSubmissionSuccessDisplay>()
-              .length,
+          game.descendants().whereType<InfoDisplay>().length,
           equals(1),
         );
       },

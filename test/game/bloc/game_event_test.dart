@@ -98,6 +98,19 @@ void main() {
     });
   });
 
+  group('GameRestarted', () {
+    test('can be instantiated', () {
+      expect(const GameRestarted(), isNotNull);
+    });
+
+    test('supports value equality', () {
+      expect(
+        GameRestarted(),
+        equals(const GameRestarted()),
+      );
+    });
+  });
+
   group('SparkyTurboChargeActivated', () {
     test('can be instantiated', () {
       expect(const SparkyTurboChargeActivated(), isNotNull);
