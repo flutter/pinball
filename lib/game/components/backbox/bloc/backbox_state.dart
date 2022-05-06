@@ -14,10 +14,18 @@ class LoadingState extends BackboxState {
   List<Object?> get props => [];
 }
 
+/// {@template leaderboard_success_state}
 /// State when the leaderboard was successfully loaded.
+/// {@endtemplate}
 class LeaderboardSuccessState extends BackboxState {
+  /// {@macro leaderboard_success_state}
+  const LeaderboardSuccessState({required this.entries});
+
+  /// Current entries
+  final List<LeaderboardEntryData> entries;
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [entries];
 }
 
 /// State when the leaderboard failed to load.

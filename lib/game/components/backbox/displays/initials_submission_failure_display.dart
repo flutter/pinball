@@ -15,8 +15,7 @@ final _bodyTextPaint = TextPaint(
 /// {@template initials_submission_failure_display}
 /// [Backbox] display for when a failure occurs during initials submission.
 /// {@endtemplate}
-class InitialsSubmissionFailureDisplay extends TextComponent
-    with HasGameRef<PinballGame> {
+class InitialsSubmissionFailureDisplay extends TextComponent {
   @override
   Future<void> onLoad() async {
     await super.onLoad();

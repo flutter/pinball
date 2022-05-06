@@ -3,6 +3,8 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame_bloc/flame_bloc.dart';
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -10,7 +12,25 @@ import 'package:pinball/game/components/multiballs/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-import '../../../../helpers/helpers.dart';
+class _TestGame extends Forge2DGame {
+  @override
+  Future<void> onLoad() async {
+    images.prefix = '';
+    await images.loadAll([
+      Assets.images.multiball.lit.keyName,
+      Assets.images.multiball.dimmed.keyName,
+    ]);
+  }
+
+  Future<void> pump(Multiballs child, {GameBloc? gameBloc}) {
+    return ensureAdd(
+      FlameBlocProvider<GameBloc, GameState>.value(
+        value: gameBloc ?? GameBloc(),
+        children: [child],
+      ),
+    );
+  }
+}
 
 class _MockGameBloc extends Mock implements GameBloc {}
 
@@ -18,43 +38,44 @@ class _MockMultiballCubit extends Mock implements MultiballCubit {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final assets = [
-    Assets.images.multiball.lit.keyName,
-    Assets.images.multiball.dimmed.keyName,
-  ];
 
   group('MultiballsBehavior', () {
-    late GameBloc gameBloc;
+    final flameTester = FlameTester(_TestGame.new);
 
-    setUp(() {
-      gameBloc = _MockGameBloc();
-      whenListen(
-        gameBloc,
-        const Stream<GameState>.empty(),
-        initialState: const GameState.initial(),
+    test('can be instantiated', () {
+      expect(
+        MultiballsBehavior(),
+        isA<MultiballsBehavior>(),
       );
     });
 
-    final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
-      gameBuilder: EmptyPinballTestGame.new,
-      blocBuilder: () => gameBloc,
-      assets: assets,
+    flameTester.test(
+      'can be loaded',
+      (game) async {
+        final parent = Multiballs.test();
+        final behavior = MultiballsBehavior();
+        await game.pump(parent);
+        await parent.ensureAdd(behavior);
+        expect(parent.children, contains(behavior));
+      },
     );
 
     group('listenWhen', () {
       test(
-          'is true when the bonusHistory has changed '
-          'with a new GameBonus.dashNest', () {
-        final previous = GameState.initial();
-        final state = previous.copyWith(
-          bonusHistory: [GameBonus.dashNest],
-        );
+        'is true when the bonusHistory has changed '
+        'with a new GameBonus.dashNest',
+        () {
+          final previous = GameState.initial();
+          final state = previous.copyWith(
+            bonusHistory: [GameBonus.dashNest],
+          );
 
-        expect(
-          MultiballsBehavior().listenWhen(previous, state),
-          isTrue,
-        );
-      });
+          expect(
+            MultiballsBehavior().listenWhen(previous, state),
+            isTrue,
+          );
+        },
+      );
 
       test(
           'is false when the bonusHistory has changed '
@@ -90,7 +111,18 @@ void main() {
     });
 
     group('onNewState', () {
-      flameBlocTester.testGameWidget(
+      late GameBloc gameBloc;
+
+      setUp(() {
+        gameBloc = _MockGameBloc();
+        whenListen(
+          gameBloc,
+          Stream<GameState>.empty(),
+          initialState: GameState.initial(),
+        );
+      });
+
+      flameTester.testGameWidget(
         "calls 'onAnimate' once for every multiball",
         setUp: (game, tester) async {
           final behavior = MultiballsBehavior();
@@ -121,7 +153,7 @@ void main() {
           when(otherMultiballCubit.onAnimate).thenAnswer((_) async {});
 
           await parent.addAll(multiballs);
-          await game.ensureAdd(parent);
+          await game.pump(parent, gameBloc: gameBloc);
           await parent.ensureAdd(behavior);
 
           await tester.pump();

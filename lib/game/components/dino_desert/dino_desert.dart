@@ -20,7 +20,7 @@ class DinoDesert extends Component {
                 ScoringContactBehavior(points: Points.twoHundredThousand)
                   ..applyTo(['inside_mouth']),
               ],
-            )..initialPosition = Vector2(12.6, -6.9),
+            )..initialPosition = Vector2(12.2, -6.9),
             _BarrierBehindDino(),
             DinoWalls(),
             Slingshots(),

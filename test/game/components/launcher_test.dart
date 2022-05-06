@@ -1,36 +1,49 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:flame_bloc/flame_bloc.dart';
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-import '../../helpers/helpers.dart';
+class _TestGame extends Forge2DGame {
+  @override
+  Future<void> onLoad() async {
+    images.prefix = '';
+    await images.loadAll([
+      Assets.images.launchRamp.ramp.keyName,
+      Assets.images.launchRamp.backgroundRailing.keyName,
+      Assets.images.launchRamp.foregroundRailing.keyName,
+      Assets.images.flapper.backSupport.keyName,
+      Assets.images.flapper.frontSupport.keyName,
+      Assets.images.flapper.flap.keyName,
+      Assets.images.plunger.plunger.keyName,
+      Assets.images.plunger.rocket.keyName,
+    ]);
+  }
+
+  Future<void> pump(Launcher launchRamp) {
+    return ensureAdd(
+      FlameBlocProvider<GameBloc, GameState>.value(
+        value: GameBloc(),
+        children: [launchRamp],
+      ),
+    );
+  }
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final assets = [
-    Assets.images.launchRamp.ramp.keyName,
-    Assets.images.launchRamp.backgroundRailing.keyName,
-    Assets.images.launchRamp.foregroundRailing.keyName,
-    Assets.images.flapper.backSupport.keyName,
-    Assets.images.flapper.frontSupport.keyName,
-    Assets.images.flapper.flap.keyName,
-    Assets.images.plunger.plunger.keyName,
-    Assets.images.plunger.rocket.keyName,
-  ];
-  final flameTester = FlameTester(
-    () => EmptyPinballTestGame(assets: assets),
-  );
+  final flameTester = FlameTester(_TestGame.new);
 
   group('Launcher', () {
     flameTester.test(
       'loads correctly',
       (game) async {
-        final launcher = Launcher();
-        await game.ensureAdd(launcher);
-
-        expect(game.contains(launcher), isTrue);
+        final component = Launcher();
+        await game.pump(component);
+        expect(game.descendants(), contains(component));
       },
     );
 
@@ -38,11 +51,11 @@ void main() {
       flameTester.test(
         'a LaunchRamp',
         (game) async {
-          final launcher = Launcher();
-          await game.ensureAdd(launcher);
+          final component = Launcher();
+          await game.pump(component);
 
           final descendantsQuery =
-              launcher.descendants().whereType<LaunchRamp>();
+              component.descendants().whereType<LaunchRamp>();
           expect(descendantsQuery.length, equals(1));
         },
       );
@@ -50,10 +63,10 @@ void main() {
       flameTester.test(
         'a Flapper',
         (game) async {
-          final launcher = Launcher();
-          await game.ensureAdd(launcher);
+          final component = Launcher();
+          await game.pump(component);
 
-          final descendantsQuery = launcher.descendants().whereType<Flapper>();
+          final descendantsQuery = component.descendants().whereType<Flapper>();
           expect(descendantsQuery.length, equals(1));
         },
       );
@@ -61,10 +74,10 @@ void main() {
       flameTester.test(
         'a Plunger',
         (game) async {
-          final launcher = Launcher();
-          await game.ensureAdd(launcher);
+          final component = Launcher();
+          await game.pump(component);
 
-          final descendantsQuery = launcher.descendants().whereType<Plunger>();
+          final descendantsQuery = component.descendants().whereType<Plunger>();
           expect(descendantsQuery.length, equals(1));
         },
       );
@@ -72,11 +85,11 @@ void main() {
       flameTester.test(
         'a RocketSpriteComponent',
         (game) async {
-          final launcher = Launcher();
-          await game.ensureAdd(launcher);
+          final component = Launcher();
+          await game.pump(component);
 
           final descendantsQuery =
-              launcher.descendants().whereType<RocketSpriteComponent>();
+              component.descendants().whereType<RocketSpriteComponent>();
           expect(descendantsQuery.length, equals(1));
         },
       );

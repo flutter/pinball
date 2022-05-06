@@ -6,14 +6,24 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball_audio/pinball_audio.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
-import '../../helpers/helpers.dart';
+class _TestGame extends Forge2DGame {
+  Future<void> pump(_TestBodyComponent child, {required PinballPlayer player}) {
+    return ensureAdd(
+      FlameProvider<PinballPlayer>.value(
+        player,
+        children: [
+          child,
+        ],
+      ),
+    );
+  }
+}
 
 class _TestBodyComponent extends BodyComponent {
   @override
-  Body createBody() {
-    return world.createBody(BodyDef());
-  }
+  Body createBody() => world.createBody(BodyDef());
 }
 
 class _MockPinballPlayer extends Mock implements PinballPlayer {}
@@ -26,9 +36,7 @@ void main() {
   group('BumperNoiseBehavior', () {});
 
   late PinballPlayer player;
-  final flameTester = FlameTester(
-    () => EmptyPinballTestGame(player: player),
-  );
+  final flameTester = FlameTester(_TestGame.new);
 
   setUp(() {
     player = _MockPinballPlayer();
@@ -39,7 +47,7 @@ void main() {
     setUp: (game, _) async {
       final behavior = BumperNoiseBehavior();
       final parent = _TestBodyComponent();
-      await game.ensureAdd(parent);
+      await game.pump(parent, player: player);
       await parent.ensureAdd(behavior);
       behavior.beginContact(Object(), _MockContact());
     },

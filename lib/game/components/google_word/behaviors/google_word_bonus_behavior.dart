@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -6,7 +7,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 
 /// Adds a [GameBonus.googleWord] when all [GoogleLetter]s are activated.
 class GoogleWordBonusBehavior extends Component
-    with HasGameRef<PinballGame>, ParentIsA<GoogleWord> {
+    with ParentIsA<GoogleWord>, FlameBlocReader<GameBloc, GameState> {
   @override
   void onMount() {
     super.onMount();
@@ -21,10 +22,8 @@ class GoogleWordBonusBehavior extends Component
             .every((letter) => letter.bloc.state == GoogleLetterState.lit);
 
         if (achievedBonus) {
-          gameRef.player.play(PinballAudio.google);
-          gameRef
-              .read<GameBloc>()
-              .add(const BonusActivated(GameBonus.googleWord));
+          readProvider<PinballPlayer>().play(PinballAudio.google);
+          bloc.add(const BonusActivated(GameBonus.googleWord));
           for (final letter in googleLetters) {
             letter.bloc.onReset();
           }

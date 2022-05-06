@@ -26,6 +26,7 @@ class ContactBehavior<T extends BodyComponent> extends Component
 
   @override
   Future<void> onLoad() async {
+    await super.onLoad();
     if (_fixturesUserData.isNotEmpty) {
       for (final fixture in _targetedFixtures) {
         fixture.userData = _UserData.fromFixture(fixture)..add(this);
