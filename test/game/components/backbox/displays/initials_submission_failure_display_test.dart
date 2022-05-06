@@ -7,11 +7,9 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/components/backbox/displays/initials_submission_failure_display.dart';
 
-class _TestGame extends Forge2DGame with HasKeyboardHandlerComponents {}
-
 void main() {
   group('InitialsSubmissionFailureDisplay', () {
-    final flameTester = FlameTester(_TestGame.new);
+    final flameTester = FlameTester(Forge2DGame.new);
 
     flameTester.test('renders correctly', (game) async {
       await game.ensureAdd(InitialsSubmissionFailureDisplay());
