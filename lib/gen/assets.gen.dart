@@ -57,13 +57,9 @@ class $AssetsImagesComponentsGen {
 class $AssetsImagesLinkBoxGen {
   const $AssetsImagesLinkBoxGen();
 
-  /// File path: assets/images/link_box/background.png
-  AssetGenImage get background =>
-      const AssetGenImage('assets/images/link_box/background.png');
-
-  /// File path: assets/images/link_box/info.png
-  AssetGenImage get info =>
-      const AssetGenImage('assets/images/link_box/info.png');
+  /// File path: assets/images/link_box/info_icon.png
+  AssetGenImage get infoIcon =>
+      const AssetGenImage('assets/images/link_box/info_icon.png');
 }
 
 class $AssetsImagesScoreGen {
