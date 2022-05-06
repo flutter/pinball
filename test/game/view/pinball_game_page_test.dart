@@ -12,14 +12,13 @@ import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
-import 'package:pinball_theme/pinball_theme.dart' as theme;
 
 import '../../helpers/helpers.dart';
 
 class _TestPinballGame extends PinballGame {
   _TestPinballGame()
       : super(
-          characterTheme: const theme.DashTheme(),
+          characterThemeBloc: _MockCharacterThemeCubit(),
           leaderboardRepository: _MockLeaderboardRepository(),
           gameBloc: GameBloc(),
           l10n: _MockAppLocalizations(),

@@ -8,10 +8,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
-import 'package:pinball_theme/pinball_theme.dart' as theme;
 
 class _TestGame extends Forge2DGame {
   @override
@@ -33,8 +33,8 @@ class _TestGame extends Forge2DGame {
               FlameProvider<PinballPlayer>.value(
                 pinballPlayer ?? _MockPinballPlayer(),
               ),
-              FlameProvider<theme.CharacterTheme>.value(
-                const theme.DashTheme(),
+              FlameProvider<CharacterThemeCubit>.value(
+                CharacterThemeCubit(),
               ),
             ],
             children: children,

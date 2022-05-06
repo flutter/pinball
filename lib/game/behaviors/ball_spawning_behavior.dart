@@ -1,9 +1,9 @@
 import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
-import 'package:pinball_theme/pinball_theme.dart';
 
 /// Spawns a new [Ball] into the game when all balls are lost and still
 /// [GameStatus.playing].
@@ -23,9 +23,10 @@ class BallSpawningBehavior extends Component
   void onNewState(GameState state) {
     final plunger = gameRef.descendants().whereType<Plunger>().single;
     final canvas = gameRef.descendants().whereType<ZCanvasComponent>().single;
-    final characterTheme = readProvider<CharacterTheme>();
-    final ball = ControlledBall.launch(characterTheme: characterTheme)
-      ..initialPosition = Vector2(
+    final characterThemeBloc = readProvider<CharacterThemeCubit>();
+    final ball = ControlledBall.launch(
+      characterTheme: characterThemeBloc.state.characterTheme,
+    )..initialPosition = Vector2(
         plunger.body.position.x,
         plunger.body.position.y - Ball.size.y,
       );

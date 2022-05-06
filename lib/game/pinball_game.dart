@@ -11,22 +11,22 @@ import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
+import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
-import 'package:pinball_theme/pinball_theme.dart';
 
 class PinballGame extends PinballForge2DGame
     with HasKeyboardHandlerComponents, MultiTouchTapDetector {
   PinballGame({
-    required CharacterTheme characterTheme,
+    required CharacterThemeCubit characterThemeBloc,
     required this.leaderboardRepository,
     required GameBloc gameBloc,
     required AppLocalizations l10n,
     required PinballPlayer player,
   })  : _gameBloc = gameBloc,
         _player = player,
-        _characterTheme = characterTheme,
+        _characterThemeBloc = characterThemeBloc,
         _l10n = l10n,
         super(
           gravity: Vector2(0, 30),
@@ -40,7 +40,7 @@ class PinballGame extends PinballForge2DGame
   @override
   Color backgroundColor() => Colors.transparent;
 
-  final CharacterTheme _characterTheme;
+  final CharacterThemeCubit _characterThemeBloc;
 
   final PinballPlayer _player;
 
@@ -53,19 +53,27 @@ class PinballGame extends PinballForge2DGame
   @override
   Future<void> onLoad() async {
     await add(
-      FlameBlocProvider<GameBloc, GameState>.value(
-        value: _gameBloc,
+      FlameMultiBlocProvider(
+        providers: [
+          FlameBlocProvider<GameBloc, GameState>.value(
+            value: _gameBloc,
+          ),
+          FlameBlocProvider<CharacterThemeCubit, CharacterThemeState>.value(
+            value: _characterThemeBloc,
+          ),
+        ],
         children: [
           MultiFlameProvider(
             providers: [
               FlameProvider<PinballPlayer>.value(_player),
-              FlameProvider<CharacterTheme>.value(_characterTheme),
+              FlameProvider<CharacterThemeCubit>.value(_characterThemeBloc),
               FlameProvider<LeaderboardRepository>.value(leaderboardRepository),
               FlameProvider<AppLocalizations>.value(_l10n),
             ],
             children: [
               GameBlocStatusListener(),
               BallSpawningBehavior(),
+              BallThemingBehavior(),
               CameraFocusingBehavior(),
               CanvasComponent(
                 onSpritePainted: (paint) {
@@ -157,13 +165,13 @@ class PinballGame extends PinballForge2DGame
 
 class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
   DebugPinballGame({
-    required CharacterTheme characterTheme,
+    required CharacterThemeCubit characterThemeBloc,
     required LeaderboardRepository leaderboardRepository,
     required AppLocalizations l10n,
     required PinballPlayer player,
     required GameBloc gameBloc,
   }) : super(
-          characterTheme: characterTheme,
+          characterThemeBloc: characterThemeBloc,
           player: player,
           leaderboardRepository: leaderboardRepository,
           l10n: l10n,
