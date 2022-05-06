@@ -1,7 +1,7 @@
 // ignore_for_file: cascade_invocations
 
-import 'package:bloc_test/bloc_test.dart';
-import 'package:flame/components.dart';
+import 'package:flame_bloc/flame_bloc.dart';
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -9,32 +9,29 @@ import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_theme/pinball_theme.dart' as theme;
 
-import '../../helpers/helpers.dart';
-
-// TODO(allisonryan0002): remove once
-// https://github.com/flame-engine/flame/pull/1520 is merged
-class _WrappedBallController extends BallController {
-  _WrappedBallController(Ball ball, this._gameRef) : super(ball);
-
-  final PinballGame _gameRef;
-
+class _TestGame extends Forge2DGame {
   @override
-  PinballGame get gameRef => _gameRef;
+  Future<void> onLoad() async {
+    images.prefix = '';
+    await images.load(theme.Assets.images.dash.ball.keyName);
+  }
+
+  Future<void> pump(Ball child, {required GameBloc gameBloc}) async {
+    await ensureAdd(
+      FlameBlocProvider<GameBloc, GameState>.value(
+        value: gameBloc,
+        children: [child],
+      ),
+    );
+  }
 }
 
 class _MockGameBloc extends Mock implements GameBloc {}
-
-class _MockPinballGame extends Mock implements PinballGame {}
-
-class _MockControlledBall extends Mock implements ControlledBall {}
 
 class _MockBall extends Mock implements Ball {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final assets = [
-    theme.Assets.images.dash.ball.keyName,
-  ];
 
   group('BallController', () {
     late Ball ball;
@@ -43,18 +40,9 @@ void main() {
     setUp(() {
       ball = Ball();
       gameBloc = _MockGameBloc();
-      whenListen(
-        gameBloc,
-        const Stream<GameState>.empty(),
-        initialState: const GameState.initial(),
-      );
     });
 
-    final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
-      gameBuilder: EmptyPinballTestGame.new,
-      blocBuilder: () => gameBloc,
-      assets: assets,
-    );
+    final flameBlocTester = FlameTester(_TestGame.new);
 
     test('can be instantiated', () {
       expect(
@@ -63,59 +51,21 @@ void main() {
       );
     });
 
-    group('turboCharge', () {
-      setUpAll(() {
-        registerFallbackValue(Vector2.zero());
-        registerFallbackValue(Component());
-      });
+    flameBlocTester.testGameWidget(
+      'turboCharge adds TurboChargeActivated',
+      setUp: (game, tester) async {
+        await game.onLoad();
 
-      flameBlocTester.testGameWidget(
-        'adds TurboChargeActivated',
-        setUp: (game, tester) async {
-          await game.images.loadAll(assets);
-          final controller = BallController(ball);
-          await ball.add(controller);
-          await game.ensureAdd(ball);
+        final controller = BallController(ball);
+        await ball.add(controller);
+        await game.pump(ball, gameBloc: gameBloc);
 
-          await controller.turboCharge();
-        },
-        verify: (game, tester) async {
-          verify(() => gameBloc.add(const SparkyTurboChargeActivated()))
-              .called(1);
-        },
-      );
-
-      flameBlocTester.test(
-        'initially stops the ball',
-        (game) async {
-          final gameRef = _MockPinballGame();
-          final ball = _MockControlledBall();
-          final controller = _WrappedBallController(ball, gameRef);
-          when(() => gameRef.read<GameBloc>()).thenReturn(gameBloc);
-          when(() => ball.controller).thenReturn(controller);
-          when(() => ball.add(any())).thenAnswer((_) async {});
-
-          await controller.turboCharge();
-
-          verify(ball.stop).called(1);
-        },
-      );
-
-      flameBlocTester.test(
-        'resumes the ball',
-        (game) async {
-          final gameRef = _MockPinballGame();
-          final ball = _MockControlledBall();
-          final controller = _WrappedBallController(ball, gameRef);
-          when(() => gameRef.read<GameBloc>()).thenReturn(gameBloc);
-          when(() => ball.controller).thenReturn(controller);
-          when(() => ball.add(any())).thenAnswer((_) async {});
-
-          await controller.turboCharge();
-
-          verify(ball.resume).called(1);
-        },
-      );
-    });
+        await controller.turboCharge();
+      },
+      verify: (game, tester) async {
+        verify(() => gameBloc.add(const SparkyTurboChargeActivated()))
+            .called(1);
+      },
+    );
   });
 }
