@@ -1,6 +1,5 @@
 import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
-import 'package:pinball/game/game.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
@@ -18,11 +17,13 @@ class BallThemingBehavior extends Component
     }
     final plunger = gameRef.descendants().whereType<Plunger>().single;
     final canvas = gameRef.descendants().whereType<ZCanvasComponent>().single;
-    final ball = ControlledBall.launch(characterTheme: state.characterTheme)
+    final ball = Ball(assetPath: state.characterTheme.ball.keyName)
       ..initialPosition = Vector2(
         plunger.body.position.x,
         plunger.body.position.y - Ball.size.y + 1.1,
-      );
+      )
+      ..layer = Layer.launcher
+      ..zIndex = ZIndexes.ballOnLaunchRamp;
 
     canvas.add(ball);
   }
