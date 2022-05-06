@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -6,6 +7,21 @@ import 'package:pinball_ui/pinball_ui.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import '../helpers/helpers.dart';
+
+bool _tapTextSpan(RichText richText, String text) {
+  final isTapped = !richText.text.visitChildren(
+    (visitor) => _findTextAndTap(visitor, text),
+  );
+  return isTapped;
+}
+
+bool _findTextAndTap(InlineSpan visitor, String text) {
+  if (visitor is TextSpan && visitor.text == text) {
+    (visitor.recognizer as TapGestureRecognizer?)?.onTap?.call();
+    return false;
+  }
+  return true;
+}
 
 class _MockUrlLauncher extends Mock
     with MockPlatformInterfaceMixin
@@ -49,7 +65,7 @@ void main() {
         ).thenAnswer((_) async => true);
         await tester.pumpApp(const Footer());
         final flutterTextFinder = find.byWidgetPredicate(
-          (widget) => widget is RichText && tapTextSpan(widget, 'Flutter'),
+          (widget) => widget is RichText && _tapTextSpan(widget, 'Flutter'),
         );
         await tester.tap(flutterTextFinder);
         await tester.pumpAndSettle();
@@ -84,7 +100,7 @@ void main() {
         ).thenAnswer((_) async => true);
         await tester.pumpApp(const Footer());
         final firebaseTextFinder = find.byWidgetPredicate(
-          (widget) => widget is RichText && tapTextSpan(widget, 'Firebase'),
+          (widget) => widget is RichText && _tapTextSpan(widget, 'Firebase'),
         );
         await tester.tap(firebaseTextFinder);
         await tester.pumpAndSettle();
