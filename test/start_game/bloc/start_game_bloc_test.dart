@@ -5,7 +5,7 @@ import 'package:pinball/start_game/bloc/start_game_bloc.dart';
 void main() {
   group('StartGameBloc', () {
     blocTest<StartGameBloc, StartGameState>(
-      'on PlayTapped changes status to selectCharacter and restarted false',
+      'on PlayTapped changes status to selectCharacter',
       build: StartGameBloc.new,
       act: (bloc) => bloc.add(const PlayTapped()),
       expect: () => [
