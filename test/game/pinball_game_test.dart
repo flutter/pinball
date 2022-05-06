@@ -36,8 +36,8 @@ class _TestPinballGame extends PinballGame {
   }
 }
 
-class _DebugPinballGame extends DebugPinballGame {
-  _DebugPinballGame()
+class _TestDebugPinballGame extends DebugPinballGame {
+  _TestDebugPinballGame()
       : super(
           characterTheme: const theme.DashTheme(),
           leaderboardRepository: _MockLeaderboardRepository(),
@@ -393,7 +393,7 @@ void main() {
   });
 
   group('DebugPinballGame', () {
-    final flameTester = FlameTester(_DebugPinballGame.new);
+    final flameTester = FlameTester(_TestDebugPinballGame.new);
 
     flameTester.test(
       'adds a ball on tap up',
