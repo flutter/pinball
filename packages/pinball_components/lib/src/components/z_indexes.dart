@@ -33,7 +33,7 @@ abstract class ZIndexes {
 
   static const outerBoundary = _above + boardBackground;
 
-  static const outerBottomBoundary = _above + rocket;
+  static const outerBottomBoundary = _above + bottomBoundary;
 
   // Bottom Group
 

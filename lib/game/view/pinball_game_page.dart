@@ -40,33 +40,40 @@ class PinballGamePage extends StatelessWidget {
     final player = context.read<PinballPlayer>();
     final leaderboardRepository = context.read<LeaderboardRepository>();
 
-    final game = isDebugMode
-        ? DebugPinballGame(
-            characterTheme: characterTheme,
-            player: player,
-            leaderboardRepository: leaderboardRepository,
-            l10n: context.l10n,
-          )
-        : PinballGame(
-            characterTheme: characterTheme,
-            player: player,
-            leaderboardRepository: leaderboardRepository,
-            l10n: context.l10n,
+    return BlocProvider(
+      create: (_) => GameBloc(),
+      child: Builder(
+        builder: (context) {
+          final gameBloc = context.read<GameBloc>();
+          final game = isDebugMode
+              ? DebugPinballGame(
+                  characterTheme: characterTheme,
+                  player: player,
+                  leaderboardRepository: leaderboardRepository,
+                  l10n: context.l10n,
+                  gameBloc: gameBloc,
+                )
+              : PinballGame(
+                  characterTheme: characterTheme,
+                  player: player,
+                  leaderboardRepository: leaderboardRepository,
+                  l10n: context.l10n,
+                  gameBloc: gameBloc,
+                );
+
+          final loadables = [
+            ...game.preLoadAssets(),
+            ...player.load(),
+            ...BonusAnimation.loadAssets(),
+            ...SelectedCharacter.loadAssets(),
+          ];
+
+          return BlocProvider(
+            create: (_) => AssetsManagerCubit(loadables)..load(),
+            child: PinballGameView(game: game),
           );
-
-    final loadables = [
-      ...game.preLoadAssets(),
-      ...player.load(),
-      ...BonusAnimation.loadAssets(),
-      ...SelectedCharacter.loadAssets(),
-    ];
-
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => GameBloc()),
-        BlocProvider(create: (_) => AssetsManagerCubit(loadables)..load()),
-      ],
-      child: PinballGameView(game: game),
+        },
+      ),
     );
   }
 }

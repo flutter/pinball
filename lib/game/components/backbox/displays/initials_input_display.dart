@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pinball/game/game.dart';
+import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_ui/pinball_ui.dart';
@@ -103,8 +103,7 @@ class InitialsInputDisplay extends Component with HasGameRef {
   }
 }
 
-class _ScoreLabelTextComponent extends TextComponent
-    with HasGameRef<PinballGame> {
+class _ScoreLabelTextComponent extends TextComponent {
   _ScoreLabelTextComponent()
       : super(
           anchor: Anchor.centerLeft,
@@ -119,7 +118,7 @@ class _ScoreLabelTextComponent extends TextComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = gameRef.l10n.score;
+    text = readProvider<AppLocalizations>().score;
   }
 }
 
@@ -133,8 +132,7 @@ class _ScoreTextComponent extends TextComponent {
         );
 }
 
-class _NameLabelTextComponent extends TextComponent
-    with HasGameRef<PinballGame> {
+class _NameLabelTextComponent extends TextComponent {
   _NameLabelTextComponent()
       : super(
           anchor: Anchor.center,
@@ -149,7 +147,7 @@ class _NameLabelTextComponent extends TextComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = gameRef.l10n.name;
+    text = readProvider<AppLocalizations>().name;
   }
 }
 
@@ -300,8 +298,7 @@ class _InstructionsComponent extends PositionComponent with HasGameRef {
         );
 }
 
-class _EnterInitialsTextComponent extends TextComponent
-    with HasGameRef<PinballGame> {
+class _EnterInitialsTextComponent extends TextComponent {
   _EnterInitialsTextComponent()
       : super(
           anchor: Anchor.center,
@@ -312,11 +309,11 @@ class _EnterInitialsTextComponent extends TextComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = gameRef.l10n.enterInitials;
+    text = readProvider<AppLocalizations>().enterInitials;
   }
 }
 
-class _ArrowsTextComponent extends TextComponent with HasGameRef<PinballGame> {
+class _ArrowsTextComponent extends TextComponent {
   _ArrowsTextComponent()
       : super(
           anchor: Anchor.center,
@@ -331,12 +328,11 @@ class _ArrowsTextComponent extends TextComponent with HasGameRef<PinballGame> {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = gameRef.l10n.arrows;
+    text = readProvider<AppLocalizations>().arrows;
   }
 }
 
-class _AndPressTextComponent extends TextComponent
-    with HasGameRef<PinballGame> {
+class _AndPressTextComponent extends TextComponent {
   _AndPressTextComponent()
       : super(
           anchor: Anchor.center,
@@ -347,12 +343,11 @@ class _AndPressTextComponent extends TextComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = gameRef.l10n.andPress;
+    text = readProvider<AppLocalizations>().andPress;
   }
 }
 
-class _EnterReturnTextComponent extends TextComponent
-    with HasGameRef<PinballGame> {
+class _EnterReturnTextComponent extends TextComponent {
   _EnterReturnTextComponent()
       : super(
           anchor: Anchor.center,
@@ -367,12 +362,11 @@ class _EnterReturnTextComponent extends TextComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = gameRef.l10n.enterReturn;
+    text = readProvider<AppLocalizations>().enterReturn;
   }
 }
 
-class _ToSubmitTextComponent extends TextComponent
-    with HasGameRef<PinballGame> {
+class _ToSubmitTextComponent extends TextComponent {
   _ToSubmitTextComponent()
       : super(
           anchor: Anchor.center,
@@ -383,6 +377,6 @@ class _ToSubmitTextComponent extends TextComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = gameRef.l10n.toSubmit;
+    text = readProvider<AppLocalizations>().toSubmit;
   }
 }

@@ -3,7 +3,6 @@ import 'package:flame/game.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template focus_data}
 /// Defines a [Camera] focus point.
@@ -24,7 +23,7 @@ class FocusData {
 
 /// Changes the game focus when the [GameBloc] status changes.
 class CameraFocusingBehavior extends Component
-    with ParentIsA<FlameGame>, BlocComponent<GameBloc, GameState> {
+    with FlameBlocListenable<GameBloc, GameState>, HasGameRef {
   late final Map<String, FocusData> _foci;
 
   @override
@@ -51,15 +50,15 @@ class CameraFocusingBehavior extends Component
     await super.onLoad();
     _foci = {
       'game': FocusData(
-        zoom: parent.size.y / 16,
+        zoom: gameRef.size.y / 16,
         position: Vector2(0, -7.8),
       ),
       'waiting': FocusData(
-        zoom: parent.size.y / 18,
+        zoom: gameRef.size.y / 18,
         position: Vector2(0, -112),
       ),
       'backbox': FocusData(
-        zoom: parent.size.y / 10,
+        zoom: gameRef.size.y / 10,
         position: Vector2(0, -111),
       ),
     };
@@ -68,7 +67,7 @@ class CameraFocusingBehavior extends Component
   }
 
   void _snap(FocusData data) {
-    parent.camera
+    gameRef.camera
       ..speed = 100
       ..followVector2(data.position)
       ..zoom = data.zoom;
@@ -77,7 +76,7 @@ class CameraFocusingBehavior extends Component
   void _zoom(FocusData data) {
     final zoom = CameraZoom(value: data.zoom);
     zoom.completed.then((_) {
-      parent.camera.moveTo(data.position);
+      gameRef.camera.moveTo(data.position);
     });
     add(zoom);
   }
