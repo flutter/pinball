@@ -58,6 +58,7 @@ void main() {
       'adds GameBonus.dinoChomp to the game '
       'when ChromeDinoStatus.chomping is emitted',
       setUp: (game, tester) async {
+        await game.onLoad();
         final behavior = ChromeDinoBonusBehavior();
         final parent = DinoDesert.test();
         final chromeDino = ChromeDino();
