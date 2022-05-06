@@ -1,10 +1,14 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:bloc/bloc.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_flame/pinball_flame.dart';
+
+class _FakeCubit extends Fake implements Cubit<Object> {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -94,6 +98,35 @@ void main() {
 
           expect(
             () => component.readProvider<bool>(),
+            throwsAssertionError,
+          );
+        },
+      );
+    },
+  );
+
+  group(
+    'ReadFlameBlocProvider',
+    () {
+      flameTester.test('loads provider', (game) async {
+        final component = Component();
+        final bloc = _FakeCubit();
+        final provider = FlameBlocProvider<_FakeCubit, Object>.value(
+          value: bloc,
+          children: [component],
+        );
+        await game.ensureAdd(provider);
+        expect(component.readBloc<_FakeCubit, Object>(), equals(bloc));
+      });
+
+      flameTester.test(
+        'throws assertionError when no provider is found',
+        (game) async {
+          final component = Component();
+          await game.ensureAdd(component);
+
+          expect(
+            () => component.readBloc<_FakeCubit, Object>(),
             throwsAssertionError,
           );
         },

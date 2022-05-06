@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs
 
+import 'package:bloc/bloc.dart';
 import 'package:flame/components.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 
 class FlameProvider<T> extends Component {
   FlameProvider.value(
@@ -61,5 +63,17 @@ extension ReadFlameProvider on Component {
     );
 
     return providers.first.provider;
+  }
+}
+
+extension ReadFlameBlocProvider on Component {
+  B readBloc<B extends BlocBase<S>, S>() {
+    final providers = ancestors().whereType<FlameBlocProvider<B, S>>();
+    assert(
+      providers.isNotEmpty,
+      'No FlameBlocProvider<$B, $S> available on the component tree',
+    );
+
+    return providers.first.bloc;
   }
 }
