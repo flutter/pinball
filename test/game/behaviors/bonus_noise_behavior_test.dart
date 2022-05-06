@@ -51,8 +51,7 @@ void main() {
 
     setUp(() {
       player = _MockPinballPlayer();
-      when(() => player.play(any()))
-          .thenAnswer((_) { });
+      when(() => player.play(any())).thenAnswer((_) {});
       bloc = _MockGameBloc();
     });
 
