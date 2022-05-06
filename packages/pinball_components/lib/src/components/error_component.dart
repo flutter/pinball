@@ -75,9 +75,9 @@ class ErrorComponent extends SpriteComponent with HasGameRef {
 
     final lines = _splitInLines();
 
-    /// Based on how many lines we have, their size and a small
-    /// offset due to the centering, this calculates where the lines
-    /// should start on the y axis to be centered
+    // Calculates vertical offset based on the number of lines of text to be
+    // displayed. This offset is used to keep the middle of the multi-line text
+    // at the center of the [ErrorComponent].
     final yOffset = ((size.y / 2.2) / lines.length) * 1.5;
 
     for (var i = 0; i < lines.length; i++) {
