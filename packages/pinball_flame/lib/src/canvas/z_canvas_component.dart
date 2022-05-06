@@ -56,7 +56,9 @@ class _ZCanvas extends CanvasWrapper {
   final List<ZIndex> _zBuffer = [];
 
   /// Postpones the rendering of [ZIndex] component and its children.
-  void buffer(ZIndex component) => _zBuffer.add(component);
+  void buffer(ZIndex component) => _zBuffer
+    ..add(component)
+    ..sort((a, b) => a.zIndex.compareTo(b.zIndex));
 
   /// Renders all [ZIndex] components and their children.
   ///
@@ -69,8 +71,7 @@ class _ZCanvas extends CanvasWrapper {
   /// before the second one.
   /// {@endtemplate}
   void render() => _zBuffer
-    ..sort((a, b) => a.zIndex.compareTo(b.zIndex))
-    ..whereType<Component>().forEach(_render)
+    ..forEach(_render)
     ..clear();
 
   void _render(Component component) => component.renderTree(canvas);
