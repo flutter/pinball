@@ -53,7 +53,7 @@ final _descriptionTextPaint = TextPaint(
 );
 
 /// {@template info_display}
-/// Display that handles the user input on the game over view.
+/// Display that handles shows to the user share or goto IO website.
 /// {@endtemplate}
 class InfoDisplay extends Component with HasGameRef {
   /// {@macro info_display}
