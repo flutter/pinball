@@ -142,7 +142,7 @@
   },
   "share": "SHARE",
   "@share": {
-    "description": "Text for share link at info screen."
+    "description": "Text for share link on info screen."
   },
   "gotoIO": "GO TO I/O",
   "@gotoIO": {
