@@ -1,6 +1,7 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:flame/game.dart';
+import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
@@ -59,6 +60,8 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {
   String get firebaseOrOpenSource => '';
 }
 
+class _MockTapDownInfo extends Mock implements TapDownInfo {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -71,6 +74,46 @@ void main() {
         final component = InfoDisplay();
         await game.pump(component);
         expect(game.descendants(), contains(component));
+      },
+    );
+
+    flameTester.testGameWidget(
+      'calls onShare when tap on Share link',
+      setUp: (game, tester) async {
+        var tapped = false;
+
+        final tapDownInfo = _MockTapDownInfo();
+        final component = InfoDisplay(
+          onShare: () => tapped = true,
+        );
+        await game.pump(component);
+
+        final shareLink =
+            component.descendants().whereType<ShareLinkComponent>().first;
+
+        shareLink.onTapDown(tapDownInfo);
+
+        expect(tapped, isTrue);
+      },
+    );
+
+    flameTester.testGameWidget(
+      'calls onNavigate when tap on Goto IO link',
+      setUp: (game, tester) async {
+        var tapped = false;
+
+        final tapDownInfo = _MockTapDownInfo();
+        final component = InfoDisplay(
+          onNavigate: () => tapped = true,
+        );
+        await game.pump(component);
+
+        final gotoLink =
+            component.descendants().whereType<GotoIOLinkComponent>().first;
+
+        gotoLink.onTapDown(tapDownInfo);
+
+        expect(tapped, isTrue);
       },
     );
   });

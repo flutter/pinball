@@ -72,6 +72,8 @@ class _MockBackboxBloc extends Mock implements BackboxBloc {}
 class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
 }
 
+class _MockTapDownInfo extends Mock implements TapDownInfo {}
+
 class _MockAppLocalizations extends Mock implements AppLocalizations {
   @override
   String get score => '';
@@ -233,6 +235,38 @@ void main() {
           game.descendants().whereType<InfoDisplay>().length,
           equals(1),
         );
+      },
+    );
+
+    flameTester.test(
+      'calls ScoreShareRequested when share on InfoDisplay',
+      (game) async {
+        final state = InitialsSuccessState(
+          score: 100,
+          initials: 'AAA',
+          character: theme.AndroidTheme(),
+        );
+        whenListen(
+          bloc,
+          Stream.value(state),
+          initialState: state,
+        );
+        final backbox = Backbox.test(bloc: bloc);
+        await game.pump(backbox);
+
+        final shareLink =
+            game.descendants().whereType<ShareLinkComponent>().first;
+        shareLink.onTapDown(_MockTapDownInfo());
+
+        verify(
+          () => bloc.add(
+            ScoreShareRequested(
+              score: state.score,
+              initials: state.initials,
+              character: state.character,
+            ),
+          ),
+        ).called(1);
       },
     );
 

@@ -140,6 +140,42 @@ void main() {
           verify(() => player.play(PinballAudio.gameOverVoiceOver)).called(1);
         },
       );
+
+      flameTester.test(
+        'removes Play button on start',
+        (game) async {
+          final player = _MockPinballPlayer();
+          final component = GameBlocStatusListener();
+
+          await game.pump([component], pinballPlayer: player);
+
+          component.onNewState(
+            const GameState.initial().copyWith(status: GameStatus.playing),
+          );
+          await game.ready();
+
+          expect(game.overlays.isActive(PinballGame.playButtonOverlay), false);
+        },
+      );
+
+      flameTester.test(
+        'removes Replay button on replay',
+        (game) async {
+          final player = _MockPinballPlayer();
+          final component = GameBlocStatusListener();
+
+          await game.pump([component], pinballPlayer: player);
+
+          component.onNewState(
+            const GameState.initial().copyWith(status: GameStatus.replaying),
+          );
+
+          expect(
+            game.overlays.isActive(PinballGame.replayButtonOverlay),
+            false,
+          );
+        },
+      );
     });
   });
 }
