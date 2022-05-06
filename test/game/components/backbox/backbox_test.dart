@@ -239,7 +239,7 @@ void main() {
     );
 
     flameTester.test(
-      'calls ScoreShareRequested when share on InfoDisplay',
+      'adds ScoreShareRequested when share is tapped on InfoDisplay',
       (game) async {
         final state = InitialsSuccessState(
           score: 100,
