@@ -172,6 +172,7 @@ void main() {
     flameBlocTester.testGameWidget(
       'beginContact adds a ScoringBehavior',
       setUp: (game, tester) async {
+        await game.onLoad();
         await game.pump(parent);
 
         final behavior = ScoringContactBehavior(points: Points.oneMillion);
@@ -190,6 +191,7 @@ void main() {
     flameBlocTester.testGameWidget(
       "beginContact positions text at contact's position",
       setUp: (game, tester) async {
+        await game.onLoad();
         await game.pump(parent);
 
         final behavior = ScoringContactBehavior(points: Points.oneMillion);
