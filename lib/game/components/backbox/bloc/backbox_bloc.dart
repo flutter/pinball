@@ -18,7 +18,7 @@ class BackboxBloc extends Bloc<BackboxEvent, BackboxState> {
         super(LoadingState()) {
     on<PlayerInitialsRequested>(_onPlayerInitialsRequested);
     on<PlayerInitialsSubmitted>(_onPlayerInitialsSubmitted);
-    on<ScoreShareRequested>(_onScoreShareRequested);
+    on<ShareScoreRequested>(_onScoreShareRequested);
   }
 
   final LeaderboardRepository _leaderboardRepository;
@@ -62,7 +62,7 @@ class BackboxBloc extends Bloc<BackboxEvent, BackboxState> {
   }
 
   Future<void> _onScoreShareRequested(
-    ScoreShareRequested event,
+    ShareScoreRequested event,
     Emitter<BackboxState> emit,
   ) async {
     emit(

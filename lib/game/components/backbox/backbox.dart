@@ -73,7 +73,7 @@ class Backbox extends PositionComponent with ZIndex {
         InfoDisplay(
           onShare: () {
             _bloc.add(
-              ScoreShareRequested(
+              ShareScoreRequested(
                 score: state.score,
                 initials: state.initials,
                 character: state.character,

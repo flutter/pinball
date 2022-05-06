@@ -100,7 +100,7 @@ void main() {
       },
       build: () => BackboxBloc(leaderboardRepository: leaderboardRepository),
       act: (bloc) => bloc.add(
-        ScoreShareRequested(
+        ShareScoreRequested(
           score: 100,
           initials: 'AAA',
           character: AndroidTheme(),

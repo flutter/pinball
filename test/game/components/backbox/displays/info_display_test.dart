@@ -98,7 +98,7 @@ void main() {
     );
 
     flameTester.testGameWidget(
-      'calls onNavigate when Go to IO link is tapped',
+      'calls onNavigate when go to IO link is tapped',
       setUp: (game, tester) async {
         var tapped = false;
 
@@ -108,10 +108,10 @@ void main() {
         );
         await game.pump(component);
 
-        final gotoLink =
-            component.descendants().whereType<GotoIOLinkComponent>().first;
+        final googleLink =
+            component.descendants().whereType<GoogleIOLinkComponent>().first;
 
-        gotoLink.onTapDown(tapDownInfo);
+        googleLink.onTapDown(tapDownInfo);
 
         expect(tapped, isTrue);
       },

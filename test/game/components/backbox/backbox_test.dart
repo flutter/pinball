@@ -260,7 +260,7 @@ void main() {
 
         verify(
           () => bloc.add(
-            ScoreShareRequested(
+            ShareScoreRequested(
               score: state.score,
               initials: state.initials,
               character: state.character,
