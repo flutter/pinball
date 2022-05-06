@@ -41,15 +41,15 @@ class CameraFocusingBehavior extends Component
     _foci.addAll(
       {
         GameStatus.waiting: _FocusData(
-          zoom: size.y / 175, // 16
+          zoom: size.y / 175,
           position: Vector2(0, -112),
         ),
         GameStatus.playing: _FocusData(
-          zoom: size.y / 165, // 18
+          zoom: size.y / 165,
           position: Vector2(0, -7.8),
         ),
         GameStatus.gameOver: _FocusData(
-          zoom: size.y / 109, // 10
+          zoom: size.y / 100,
           position: Vector2(0, -111),
         ),
       },
