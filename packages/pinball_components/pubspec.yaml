@@ -35,6 +35,7 @@ dev_dependencies:
   very_good_analysis: ^2.4.0
 
 flutter:
+  uses-material-design: true
   generate: true
   fonts:
     - family: PixeloidSans
