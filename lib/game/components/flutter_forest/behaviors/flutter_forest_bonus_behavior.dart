@@ -41,11 +41,12 @@ class FlutterForestBonusBehavior extends Component
 
           if (signpost.bloc.isFullyProgressed()) {
             bloc.add(const BonusActivated(GameBonus.dashNest));
+            final characterTheme =
+                readProvider<CharacterThemeCubit>().state.characterTheme;
             canvas.add(
-              ControlledBall.bonus(
-                characterTheme:
-                    readProvider<CharacterThemeCubit>().state.characterTheme,
-              )..initialPosition = Vector2(29.2, -24.5),
+              Ball(assetPath: characterTheme.ball.keyName)
+                ..initialPosition = Vector2(29.2, -24.5)
+                ..zIndex = ZIndexes.ballOnBoard,
             );
             animatronic.playing = true;
             signpost.bloc.onProgressed();

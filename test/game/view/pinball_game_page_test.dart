@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:ui';
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +10,9 @@ import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/assets_manager/assets_manager.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/gen/gen.dart';
 import 'package:pinball/l10n/l10n.dart';
+import 'package:pinball/more_information/more_information.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
@@ -79,6 +83,7 @@ void main() {
       await tester.pumpApp(
         PinballGamePage(),
         characterThemeCubit: characterThemeCubit,
+        gameBloc: gameBloc,
       );
 
       expect(find.byType(PinballGameView), findsOneWidget);
@@ -167,6 +172,7 @@ void main() {
             ),
           ),
           characterThemeCubit: characterThemeCubit,
+          gameBloc: gameBloc,
         );
 
         await tester.tap(find.text('Tap me'));
@@ -289,6 +295,91 @@ void main() {
         find.byType(GameHud),
         findsNothing,
       );
+    });
+
+    testWidgets('keep focus on game when mouse hovers over it', (tester) async {
+      final startGameState = StartGameState.initial().copyWith(
+        status: StartGameStatus.play,
+      );
+      final gameState = GameState.initial().copyWith(
+        status: GameStatus.gameOver,
+      );
+
+      whenListen(
+        startGameBloc,
+        Stream.value(startGameState),
+        initialState: startGameState,
+      );
+      whenListen(
+        gameBloc,
+        Stream.value(gameState),
+        initialState: gameState,
+      );
+      await tester.pumpApp(
+        PinballGameView(game: game),
+        gameBloc: gameBloc,
+        startGameBloc: startGameBloc,
+      );
+
+      game.focusNode.unfocus();
+      await tester.pump();
+
+      expect(game.focusNode.hasFocus, isFalse);
+
+      final gesture = await tester.createGesture(kind: PointerDeviceKind.mouse);
+      await gesture.addPointer(location: Offset.zero);
+      addTearDown(gesture.removePointer);
+      await gesture.moveTo((game.size / 2).toOffset());
+      await tester.pump();
+
+      expect(game.focusNode.hasFocus, isTrue);
+    });
+
+    group('info icon', () {
+      testWidgets('renders on game over', (tester) async {
+        final gameState = GameState.initial().copyWith(
+          status: GameStatus.gameOver,
+        );
+
+        whenListen(
+          gameBloc,
+          Stream.value(gameState),
+          initialState: gameState,
+        );
+
+        await tester.pumpApp(
+          PinballGameView(game: game),
+          gameBloc: gameBloc,
+          startGameBloc: startGameBloc,
+        );
+
+        expect(
+          find.image(Assets.images.linkBox.infoIcon),
+          findsOneWidget,
+        );
+      });
+
+      testWidgets('opens MoreInformationDialog when tapped', (tester) async {
+        final gameState = GameState.initial().copyWith(
+          status: GameStatus.gameOver,
+        );
+        whenListen(
+          gameBloc,
+          Stream.value(gameState),
+          initialState: gameState,
+        );
+        await tester.pumpApp(
+          PinballGameView(game: game),
+          gameBloc: gameBloc,
+          startGameBloc: startGameBloc,
+        );
+        await tester.tap(find.byType(IconButton));
+        await tester.pump();
+        expect(
+          find.byType(MoreInformationDialog),
+          findsOneWidget,
+        );
+      });
     });
   });
 }

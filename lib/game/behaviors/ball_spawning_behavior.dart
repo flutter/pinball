@@ -23,13 +23,15 @@ class BallSpawningBehavior extends Component
   void onNewState(GameState state) {
     final plunger = gameRef.descendants().whereType<Plunger>().single;
     final canvas = gameRef.descendants().whereType<ZCanvasComponent>().single;
-    final characterThemeBloc = readProvider<CharacterThemeCubit>();
-    final ball = ControlledBall.launch(
-      characterTheme: characterThemeBloc.state.characterTheme,
-    )..initialPosition = Vector2(
+    final characterTheme =
+        readProvider<CharacterThemeCubit>().state.characterTheme;
+    final ball = Ball(assetPath: characterTheme.ball.keyName)
+      ..initialPosition = Vector2(
         plunger.body.position.x,
         plunger.body.position.y - Ball.size.y,
-      );
+      )
+      ..layer = Layer.launcher
+      ..zIndex = ZIndexes.ballOnLaunchRamp;
 
     canvas.add(ball);
   }
