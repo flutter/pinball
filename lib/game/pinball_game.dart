@@ -24,7 +24,8 @@ class PinballGame extends PinballForge2DGame
     required GameBloc gameBloc,
     required AppLocalizations l10n,
     required PinballPlayer player,
-  })  : _gameBloc = gameBloc,
+  })  : focusNode = FocusNode(),
+        _gameBloc = gameBloc,
         _player = player,
         _characterTheme = characterTheme,
         _l10n = l10n,
@@ -39,6 +40,8 @@ class PinballGame extends PinballForge2DGame
 
   @override
   Color backgroundColor() => Colors.transparent;
+
+  final FocusNode focusNode;
 
   final CharacterTheme _characterTheme;
 
