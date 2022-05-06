@@ -7,7 +7,7 @@ import 'package:pinball_components/pinball_components.dart';
 
 import '../../helpers/helpers.dart';
 
-extension IterableX on Iterable<Component> {
+extension _IterableX on Iterable<Component> {
   int countTexts(String value) {
     return where(
       (component) => component is TextComponent && component.text == value,
@@ -45,9 +45,9 @@ void main() {
       });
     });
 
-    group('when using the stronger font', () {
+    group('when using the bold font', () {
       flameTester.test('renders correctly', (game) async {
-        await game.ensureAdd(ErrorComponent.strong(label: 'Error Message'));
+        await game.ensureAdd(ErrorComponent.bold(label: 'Error Message'));
         final count = game.descendants().countTexts('Error Message');
 
         expect(count, equals(1));

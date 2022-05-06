@@ -16,7 +16,7 @@ class ErrorComponentGame extends AssetsGame {
 
     await add(ErrorComponent(label: text));
     await add(
-      ErrorComponent.strong(
+      ErrorComponent.bold(
         label: text,
         position: Vector2(0, 10),
       ),

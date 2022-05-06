@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 
-final _labelStrongTextPaint = TextPaint(
+final _boldLabelTextPaint = TextPaint(
   style: const TextStyle(
     fontSize: 1.8,
     color: PinballColors.white,
@@ -33,8 +33,8 @@ class ErrorComponent extends SpriteComponent with HasGameRef {
         );
 
   /// {@macro error_component}
-  ErrorComponent.strong({required this.label, Vector2? position})
-      : _textPaint = _labelStrongTextPaint,
+  ErrorComponent.bold({required this.label, Vector2? position})
+      : _textPaint = _boldLabelTextPaint,
         super(
           position: position,
         );
@@ -43,16 +43,7 @@ class ErrorComponent extends SpriteComponent with HasGameRef {
   final String label;
   final TextPaint _textPaint;
 
-  @override
-  Future<void> onLoad() async {
-    anchor = Anchor.center;
-    final sprite = await gameRef.loadSprite(
-      Assets.images.errorBackground.keyName,
-    );
-
-    size = sprite.originalSize / 20;
-    this.sprite = sprite;
-
+  List<String> _splitInLines() {
     final maxWidth = size.x - 8;
     final lines = <String>[];
     var currentLine = '';
@@ -69,6 +60,20 @@ class ErrorComponent extends SpriteComponent with HasGameRef {
     }
 
     lines.add(currentLine);
+    return lines;
+  }
+
+  @override
+  Future<void> onLoad() async {
+    anchor = Anchor.center;
+    final sprite = await gameRef.loadSprite(
+      Assets.images.errorBackground.keyName,
+    );
+
+    size = sprite.originalSize / 20;
+    this.sprite = sprite;
+
+    final lines = _splitInLines();
 
     /// Based on how many lines we have, their size and a small
     /// offset due to the centering, this calculates where the lines
