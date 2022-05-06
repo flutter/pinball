@@ -46,8 +46,6 @@ void main() {
       expect(game.contains(bumper), isTrue);
     });
 
-    // TODO(alestiago): Consider refactoring once the following is merged:
-    // https://github.com/flame-engine/flame/pull/1538
     // ignore: public_member_api_docs
     flameTester.test('closes bloc when removed', (game) async {
       final bloc = _MockDashNestBumperCubit();

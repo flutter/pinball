@@ -93,8 +93,6 @@ class AndroidBumper extends BodyComponent with InitialPosition, ZIndex {
   /// Creates an [AndroidBumper] without any children.
   ///
   /// This can be used for testing [AndroidBumper]'s behaviors in isolation.
-  // TODO(alestiago): Refactor injecting bloc once the following is merged:
-  // https://github.com/flame-engine/flame/pull/1538
   @visibleForTesting
   AndroidBumper.test({
     required this.bloc,
@@ -105,8 +103,6 @@ class AndroidBumper extends BodyComponent with InitialPosition, ZIndex {
 
   final double _minorRadius;
 
-  // TODO(alestiago): Consider refactoring once the following is merged:
-  // https://github.com/flame-engine/flame/pull/1538
   // ignore: public_member_api_docs
   final AndroidBumperCubit bloc;
 

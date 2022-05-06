@@ -24,11 +24,6 @@ class Ball extends BodyComponent with Layered, InitialPosition, ZIndex {
             BallGravitatingBehavior(),
           ],
         ) {
-    // TODO(ruimiguel): while developing Ball can be launched by clicking mouse,
-    // and default  layer is Layer.all. But on final game Ball will be always be
-    // be launched from Plunger and LauncherRamp will modify it to Layer.board.
-    // We need to see what happens if Ball appears from other place like nest
-    // bumper, it will need to explicit change layer to Layer.board then.
     layer = Layer.board;
   }
 
@@ -60,7 +55,6 @@ class Ball extends BodyComponent with Layered, InitialPosition, ZIndex {
   ///
   /// The [Ball] will no longer be affected by any forces, including it's
   /// weight and those emitted from collisions.
-  // TODO(allisonryan0002): prevent motion from contact with other balls.
   void stop() {
     body
       ..gravityScale = Vector2.zero()

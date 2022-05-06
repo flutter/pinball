@@ -178,26 +178,16 @@ class _PlungerSpriteAnimationGroupComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-
-    // TODO(alestiago): Used cached images.
     final spriteSheet = await gameRef.images.load(
       Assets.images.plunger.plunger.keyName,
     );
-
     const amountPerRow = 20;
     const amountPerColumn = 1;
-
     final textureSize = Vector2(
       spriteSheet.width / amountPerRow,
       spriteSheet.height / amountPerColumn,
     );
     size = textureSize / 10;
-
-    // TODO(ruimiguel): we only need plunger pull animation, and release is just
-    // to reverse it, so we need to divide by 2 while we don't have only half of
-    // the animation (but amountPerRow and amountPerColumn needs to be correct
-    // in order of calculate textureSize correctly).
-
     final pullAnimation = SpriteAnimation.fromFrameData(
       spriteSheet,
       SpriteAnimationData.sequenced(
@@ -209,7 +199,6 @@ class _PlungerSpriteAnimationGroupComponent
         loop: false,
       ),
     );
-
     animations = {
       _PlungerAnimationState.release: pullAnimation.reversed(),
       _PlungerAnimationState.pull: pullAnimation,

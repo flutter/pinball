@@ -11,10 +11,6 @@ class ChromeDinoBonusBehavior extends Component
   void onMount() {
     super.onMount();
     final chromeDino = parent.firstChild<ChromeDino>()!;
-
-    // TODO(alestiago): Refactor subscription management once the following is
-    // merged:
-    // https://github.com/flame-engine/flame/pull/1538
     chromeDino.bloc.stream.listen((state) {
       final listenWhen = state.status == ChromeDinoStatus.chomping;
       if (!listenWhen) return;

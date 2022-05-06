@@ -5,7 +5,6 @@ import 'package:flame/extensions.dart';
 /// {@template board_dimensions}
 /// Contains various board properties and dimensions for global use.
 /// {@endtemplate}
-// TODO(allisonryan0002): consider alternatives for global dimensions.
 class BoardDimensions {
   /// Width and height of the board.
   static final size = Vector2(101.6, 143.8);

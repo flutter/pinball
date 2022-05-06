@@ -100,8 +100,8 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
     final trapezium = PolygonShape()..set(trapeziumVertices);
     final trapeziumFixtureDef = FixtureDef(
       trapezium,
-      density: 50, // TODO(alestiago): Use a proper density.
-      friction: .1, // TODO(alestiago): Use a proper friction.
+      density: 50,
+      friction: .1,
     );
 
     return [
