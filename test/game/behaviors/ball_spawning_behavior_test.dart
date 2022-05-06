@@ -19,18 +19,20 @@ class _TestGame extends Forge2DGame {
   }
 
   Future<void> pump(
-    Iterable<Component> children, {
+    List<Component> children, {
     GameBloc? gameBloc,
   }) async {
     await ensureAdd(
-      FlameBlocProvider<GameBloc, GameState>.value(
-        value: gameBloc ?? GameBloc(),
-        children: [
-          FlameProvider<CharacterThemeCubit>.value(
-            CharacterThemeCubit(),
-            children: children,
+      FlameMultiBlocProvider(
+        providers: [
+          FlameBlocProvider<GameBloc, GameState>.value(
+            value: gameBloc ?? GameBloc(),
+          ),
+          FlameBlocProvider<CharacterThemeCubit, CharacterThemeState>.value(
+            value: CharacterThemeCubit(),
           ),
         ],
+        children: children,
       ),
     );
   }

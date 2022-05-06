@@ -26,8 +26,9 @@ class GameBlocStatusListener extends Component
         readProvider<PinballPlayer>().play(PinballAudio.gameOverVoiceOver);
         gameRef.descendants().whereType<Backbox>().first.requestInitials(
               score: state.displayScore,
-              character:
-                  readProvider<CharacterThemeCubit>().state.characterTheme,
+              character: readBloc<CharacterThemeCubit, CharacterThemeState>()
+                  .state
+                  .characterTheme,
             );
         break;
     }

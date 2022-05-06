@@ -22,7 +22,7 @@ import '../../helpers/helpers.dart';
 class _TestPinballGame extends PinballGame {
   _TestPinballGame()
       : super(
-          characterThemeBloc: _MockCharacterThemeCubit(),
+          characterThemeBloc: CharacterThemeCubit(),
           leaderboardRepository: _MockLeaderboardRepository(),
           gameBloc: GameBloc(),
           l10n: _MockAppLocalizations(),

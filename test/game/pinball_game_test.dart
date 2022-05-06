@@ -20,7 +20,7 @@ import 'package:pinball_components/pinball_components.dart';
 class _TestPinballGame extends PinballGame {
   _TestPinballGame()
       : super(
-          characterThemeBloc: _MockCharacterThemeCubit(),
+          characterThemeBloc: CharacterThemeCubit(),
           leaderboardRepository: _MockLeaderboardRepository(),
           gameBloc: GameBloc(),
           l10n: _MockAppLocalizations(),
@@ -39,7 +39,7 @@ class _TestPinballGame extends PinballGame {
 class _TestDebugPinballGame extends DebugPinballGame {
   _TestDebugPinballGame()
       : super(
-          characterThemeBloc: _MockCharacterThemeCubit(),
+          characterThemeBloc: CharacterThemeCubit(),
           leaderboardRepository: _MockLeaderboardRepository(),
           gameBloc: GameBloc(),
           l10n: _MockAppLocalizations(),
@@ -56,12 +56,6 @@ class _TestDebugPinballGame extends DebugPinballGame {
 }
 
 class _MockGameBloc extends Mock implements GameBloc {}
-
-class _MockCharacterThemeCubit extends Mock implements CharacterThemeCubit {
-  @override
-  Stream<CharacterThemeState> get stream =>
-      const Stream<CharacterThemeState>.empty();
-}
 
 class _MockAppLocalizations extends Mock implements AppLocalizations {}
 

@@ -25,18 +25,18 @@ class _TestGame extends Forge2DGame {
     PinballPlayer? pinballPlayer,
   }) async {
     return ensureAdd(
-      FlameBlocProvider<GameBloc, GameState>.value(
-        value: GameBloc(),
+      FlameMultiBlocProvider(
+        providers: [
+          FlameBlocProvider<GameBloc, GameState>.value(
+            value: GameBloc(),
+          ),
+          FlameBlocProvider<CharacterThemeCubit, CharacterThemeState>.value(
+            value: CharacterThemeCubit(),
+          ),
+        ],
         children: [
-          MultiFlameProvider(
-            providers: [
-              FlameProvider<PinballPlayer>.value(
-                pinballPlayer ?? _MockPinballPlayer(),
-              ),
-              FlameProvider<CharacterThemeCubit>.value(
-                CharacterThemeCubit(),
-              ),
-            ],
+          FlameProvider<PinballPlayer>.value(
+            pinballPlayer ?? _MockPinballPlayer(),
             children: children,
           ),
         ],

@@ -69,7 +69,6 @@ class PinballGame extends PinballForge2DGame
           MultiFlameProvider(
             providers: [
               FlameProvider<PinballPlayer>.value(_player),
-              FlameProvider<CharacterThemeCubit>.value(_characterThemeBloc),
               FlameProvider<LeaderboardRepository>.value(leaderboardRepository),
               FlameProvider<AppLocalizations>.value(_l10n),
             ],

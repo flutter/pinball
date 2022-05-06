@@ -27,16 +27,16 @@ class _TestGame extends Forge2DGame {
     required GameBloc gameBloc,
   }) async {
     await ensureAdd(
-      FlameBlocProvider<GameBloc, GameState>.value(
-        value: gameBloc,
+      FlameMultiBlocProvider(
+        providers: [
+          FlameBlocProvider<GameBloc, GameState>.value(value: gameBloc),
+          FlameBlocProvider<CharacterThemeCubit, CharacterThemeState>.value(
+            value: CharacterThemeCubit(),
+          ),
+        ],
         children: [
-          FlameProvider<CharacterThemeCubit>.value(
-            CharacterThemeCubit(),
-            children: [
-              ZCanvasComponent(
-                children: [child],
-              ),
-            ],
+          ZCanvasComponent(
+            children: [child],
           ),
         ],
       ),

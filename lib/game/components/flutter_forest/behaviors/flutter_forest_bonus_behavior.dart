@@ -42,7 +42,9 @@ class FlutterForestBonusBehavior extends Component
           if (signpost.bloc.isFullyProgressed()) {
             bloc.add(const BonusActivated(GameBonus.dashNest));
             final characterTheme =
-                readProvider<CharacterThemeCubit>().state.characterTheme;
+                readBloc<CharacterThemeCubit, CharacterThemeState>()
+                    .state
+                    .characterTheme;
             canvas.add(
               Ball(assetPath: characterTheme.ball.keyName)
                 ..initialPosition = Vector2(29.2, -24.5)
