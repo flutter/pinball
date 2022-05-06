@@ -5,7 +5,7 @@ import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 
 /// {@template replay_button_overlay}
-/// [Widget] that renders the button responsible to restart the game
+/// [Widget] that renders the button responsible for restarting the game.
 /// {@endtemplate}
 class ReplayButtonOverlay extends StatelessWidget {
   /// {@macro replay_button_overlay}
