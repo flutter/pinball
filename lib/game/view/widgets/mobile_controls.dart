@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/l10n/l10n.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 
 /// {@template mobile_controls}
@@ -7,43 +10,35 @@ import 'package:pinball_ui/pinball_ui.dart';
 /// {@endtemplate}
 class MobileControls extends StatelessWidget {
   /// {@macro mobile_controls}
-  const MobileControls({Key? key,
-    required this.onTapUp,
-    required this.onTapDown,
-    required this.onTapLeft,
-    required this.onTapRight,
-    required this.onTapEnter,
+  const MobileControls({
+    Key? key,
+    required this.game,
   }) : super(key: key);
 
-  /// Called when dpad up is pressed
-  final VoidCallback onTapUp;
-
-  /// Called when dpad down is pressed
-  final VoidCallback onTapDown;
-
-  /// Called when dpad left is pressed
-  final VoidCallback onTapLeft;
-
-  /// Called when dpad right is pressed
-  final VoidCallback onTapRight;
-
-  /// Called when enter is pressed
-  final VoidCallback onTapEnter;
+  /// Game instance
+  final PinballGame game;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         MobileDpad(
-            onTapUp: onTapUp,
-            onTapDown: onTapUp,
-            onTapLeft: onTapLeft,
-            onTapRight: onTapRight,
+          onTapUp: () => game.triggerVirtualKeyUp(LogicalKeyboardKey.arrowUp),
+          onTapDown: () => game.triggerVirtualKeyUp(
+            LogicalKeyboardKey.arrowDown,
+          ),
+          onTapLeft: () => game.triggerVirtualKeyUp(
+            LogicalKeyboardKey.arrowLeft,
+          ),
+          onTapRight: () => game.triggerVirtualKeyUp(
+            LogicalKeyboardKey.arrowRight,
+          ),
         ),
         PinballButton(
-          text: 'Enter', // TODO l10n
-          onTap: onTapEnter,
+          text: l10n.enter,
+          onTap: () => game.triggerVirtualKeyUp(LogicalKeyboardKey.enter),
         ),
       ],
     );

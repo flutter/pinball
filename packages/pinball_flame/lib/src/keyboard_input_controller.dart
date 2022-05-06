@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flame/game.dart';
 import 'package:flutter/services.dart';
 
 /// The signature for a key handle function
@@ -42,5 +43,20 @@ class KeyboardInputController extends Component with KeyboardHandler {
     }
 
     return true;
+  }
+}
+
+/// Add the ability to virtually trigger key events to a [FlameGame]'s
+/// [KeyboardInputController].
+extension VirtualKeyEvents on FlameGame {
+  /// Trigger a key up
+  void triggerVirtualKeyUp(LogicalKeyboardKey key) {
+    final keyControllers = descendants().whereType<KeyboardInputController>();
+
+    for (final controller in keyControllers) {
+      if (!controller.onVirtualKeyUp(key)) {
+        break;
+      }
+    }
   }
 }

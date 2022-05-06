@@ -8,7 +8,6 @@ import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
@@ -116,16 +115,6 @@ class PinballGame extends PinballForge2DGame
   }
 
   final focusedBoardSide = <int, BoardSide>{};
-
-  void triggerVirtualKeyUp(LogicalKeyboardKey key) {
-    final keyControllers = descendants().whereType<KeyboardInputController>();
-
-    for (final controller in keyControllers) {
-      if (!controller.onVirtualKeyUp(key)) {
-        break;
-      }
-    }
-  }
 
   @override
   void onTapDown(int pointerId, TapDownInfo info) {

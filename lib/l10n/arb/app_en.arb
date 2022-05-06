@@ -167,5 +167,9 @@
   "ioPinball": "I/O Pinball",
   "@ioPinball": {
     "description": "I/O Pinball - Name of the game"
+  },
+  "enter": "Enter",
+  "@enter": {
+    "description": "Enter show on the mobile controls button"
   }
 }

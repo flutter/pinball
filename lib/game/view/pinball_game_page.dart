@@ -12,6 +12,7 @@ import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 
 class PinballGamePage extends StatelessWidget {
@@ -143,29 +144,7 @@ class PinballGameLoadedView extends StatelessWidget {
                       bottom: 0,
                       left: 0,
                       right: 0,
-                      child: MobileControls(
-                        onTapUp: () {
-                          game.triggerVirtualKeyUp(LogicalKeyboardKey.arrowUp);
-                        },
-                        onTapDown: () {
-                          game.triggerVirtualKeyUp(
-                            LogicalKeyboardKey.arrowDown,
-                          );
-                        },
-                        onTapLeft: () {
-                          game.triggerVirtualKeyUp(
-                            LogicalKeyboardKey.arrowLeft,
-                          );
-                        },
-                        onTapRight: () {
-                          game.triggerVirtualKeyUp(
-                            LogicalKeyboardKey.arrowRight,
-                          );
-                        },
-                        onTapEnter: () {
-                          game.triggerVirtualKeyUp(LogicalKeyboardKey.enter);
-                        },
-                      ),
+                      child: MobileControls(game: game),
                     );
                   },
                 },

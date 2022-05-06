@@ -49,17 +49,17 @@ class _VoidCallbackStub extends Mock implements _VoidCallbackStubBase {}
 
 void main() {
   group('PinballDpadButton', () {
-      testWidgets('can be tapped', (tester) async {
-        final stub = _VoidCallbackStub();
-        await tester.pumpButton(
-          direction: PinballDpadDirection.up,
-          onTap: stub.onCall,
-        );
+    testWidgets('can be tapped', (tester) async {
+      final stub = _VoidCallbackStub();
+      await tester.pumpButton(
+        direction: PinballDpadDirection.up,
+        onTap: stub.onCall,
+      );
 
-        await tester.tap(find.byType(Image));
+      await tester.tap(find.byType(Image));
 
-        verify(stub.onCall).called(1);
-      });
+      verify(stub.onCall).called(1);
+    });
 
     group('when it is up', () {
       testWidgets('renders the correct image', (tester) async {

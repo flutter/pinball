@@ -6,8 +6,7 @@ import 'package:flutter/foundation.dart';
 class PlatformHelper {
   /// {@macro platform_helper}
   bool get isMobile {
-    return true;
-    //return defaultTargetPlatform == TargetPlatform.iOS ||
-    //    defaultTargetPlatform == TargetPlatform.android;
+    return defaultTargetPlatform == TargetPlatform.iOS ||
+        defaultTargetPlatform == TargetPlatform.android;
   }
 }
