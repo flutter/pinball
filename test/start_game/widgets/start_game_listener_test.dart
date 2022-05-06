@@ -46,7 +46,7 @@ void main() {
       });
 
       testWidgets(
-        'calls only GameStarted event on play',
+        'calls GameStarted event only on play',
         (tester) async {
           whenListen(
             startGameBloc,
