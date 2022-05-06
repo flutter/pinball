@@ -90,9 +90,9 @@ void main() {
         });
 
         testRawKeyDownEvents(leftKeys, (event) {
-          flameTester.testGameWidget(
+          flameTester.test(
             'does nothing when is game over',
-            setUp: (game, tester) async {
+            (game) async {
               whenListen(
                 gameBloc,
                 const Stream<GameState>.empty(),
@@ -103,8 +103,7 @@ void main() {
 
               await game.pump(flipper, gameBloc: gameBloc);
               controller.onKeyEvent(event, {});
-            },
-            verify: (game, tester) async {
+
               expect(flipper.body.linearVelocity.y, isZero);
               expect(flipper.body.linearVelocity.x, isZero);
             },
@@ -213,9 +212,9 @@ void main() {
         });
 
         testRawKeyDownEvents(rightKeys, (event) {
-          flameTester.testGameWidget(
+          flameTester.test(
             'does nothing when is game over',
-            setUp: (game, tester) async {
+            (game) async {
               whenListen(
                 gameBloc,
                 const Stream<GameState>.empty(),
@@ -226,8 +225,7 @@ void main() {
 
               await game.pump(flipper, gameBloc: gameBloc);
               controller.onKeyEvent(event, {});
-            },
-            verify: (game, tester) async {
+
               expect(flipper.body.linearVelocity.y, isZero);
               expect(flipper.body.linearVelocity.x, isZero);
             },
