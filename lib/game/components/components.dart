@@ -12,4 +12,4 @@ export 'google_word/google_word.dart';
 export 'launcher.dart';
 export 'multiballs/multiballs.dart';
 export 'multipliers/multipliers.dart';
-export 'sparky_scorch/sparky_scorch.dart';
+export 'sparky_scorch.dart';

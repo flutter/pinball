@@ -64,6 +64,7 @@ class PinballGame extends PinballForge2DGame
               FlameProvider<AppLocalizations>.value(_l10n),
             ],
             children: [
+              BonusNoiseBehavior(),
               GameBlocStatusListener(),
               BallSpawningBehavior(),
               CameraFocusingBehavior(),
