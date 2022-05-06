@@ -23,10 +23,10 @@ class _TestGame extends Forge2DGame with HasKeyboardHandlerComponents {
     ]);
   }
 
-  Future<void> pump(Flipper flipper, {GameBloc? gameBloc}) {
+  Future<void> pump(Flipper flipper, {required GameBloc gameBloc}) {
     return ensureAdd(
       FlameBlocProvider<GameBloc, GameState>.value(
-        value: gameBloc ?? (GameBloc()..add(const GameStarted())),
+        value: gameBloc,
         children: [flipper],
       ),
     );
@@ -74,11 +74,13 @@ void main() {
               whenListen(
                 gameBloc,
                 const Stream<GameState>.empty(),
-                initialState: const GameState.initial(),
+                initialState: const GameState.initial().copyWith(
+                  status: GameStatus.playing,
+                ),
               );
 
               await game.ready();
-              await game.pump(flipper);
+              await game.pump(flipper, gameBloc: gameBloc);
               controller.onKeyEvent(event, {});
 
               expect(flipper.body.linearVelocity.y, isNegative);
@@ -114,8 +116,16 @@ void main() {
             'moves downwards '
             'when ${event.logicalKey.keyLabel} is released',
             (game) async {
+              whenListen(
+                gameBloc,
+                const Stream<GameState>.empty(),
+                initialState: const GameState.initial().copyWith(
+                  status: GameStatus.playing,
+                ),
+              );
+
               await game.ready();
-              await game.pump(flipper);
+              await game.pump(flipper, gameBloc: gameBloc);
               controller.onKeyEvent(event, {});
 
               expect(flipper.body.linearVelocity.y, isPositive);
@@ -136,7 +146,7 @@ void main() {
               );
 
               await game.ready();
-              await game.pump(flipper);
+              await game.pump(flipper, gameBloc: gameBloc);
               controller.onKeyEvent(event, {});
 
               expect(flipper.body.linearVelocity.y, isZero);
@@ -164,11 +174,13 @@ void main() {
               whenListen(
                 gameBloc,
                 const Stream<GameState>.empty(),
-                initialState: const GameState.initial(),
+                initialState: const GameState.initial().copyWith(
+                  status: GameStatus.playing,
+                ),
               );
 
               await game.ready();
-              await game.pump(flipper);
+              await game.pump(flipper, gameBloc: gameBloc);
               controller.onKeyEvent(event, {});
 
               expect(flipper.body.linearVelocity.y, isNegative);
@@ -185,11 +197,13 @@ void main() {
               whenListen(
                 gameBloc,
                 const Stream<GameState>.empty(),
-                initialState: const GameState.initial(),
+                initialState: const GameState.initial().copyWith(
+                  status: GameStatus.playing,
+                ),
               );
 
               await game.ready();
-              await game.pump(flipper);
+              await game.pump(flipper, gameBloc: gameBloc);
               controller.onKeyEvent(event, {});
 
               expect(flipper.body.linearVelocity.y, isPositive);
@@ -225,8 +239,16 @@ void main() {
             'does nothing '
             'when ${event.logicalKey.keyLabel} is released',
             (game) async {
+              whenListen(
+                gameBloc,
+                const Stream<GameState>.empty(),
+                initialState: const GameState.initial().copyWith(
+                  status: GameStatus.playing,
+                ),
+              );
+
               await game.ready();
-              await game.pump(flipper);
+              await game.pump(flipper, gameBloc: gameBloc);
               controller.onKeyEvent(event, {});
 
               expect(flipper.body.linearVelocity.y, isZero);
