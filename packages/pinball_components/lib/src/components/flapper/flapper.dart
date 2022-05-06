@@ -18,9 +18,9 @@ class Flapper extends Component {
               children: [
                 FlapperSpinningBehavior(),
               ],
-            )..initialPosition = Vector2(4, -69.3),
+            )..initialPosition = Vector2(3.8, -69.3),
             _FlapperStructure(),
-            _FlapperExit()..initialPosition = Vector2(-0.6, -33.8),
+            _FlapperExit()..initialPosition = Vector2(-0.8, -33.8),
             _BackSupportSpriteComponent(),
             _FrontSupportSpriteComponent(),
             FlapSpriteAnimationComponent(),
@@ -73,14 +73,14 @@ class _FlapperStructure extends BodyComponent with Layered {
   List<FixtureDef> _createFixtureDefs() {
     final leftEdgeShape = EdgeShape()
       ..set(
-        Vector2(1.9, -69.3),
-        Vector2(1.9, -66),
+        Vector2(1.7, -69.3),
+        Vector2(1.7, -66),
       );
 
     final bottomEdgeShape = EdgeShape()
       ..set(
         leftEdgeShape.vertex2,
-        Vector2(3.9, -66),
+        Vector2(3.7, -66),
       );
 
     return [
@@ -130,7 +130,7 @@ class FlapSpriteAnimationComponent extends SpriteAnimationComponent
   FlapSpriteAnimationComponent()
       : super(
           anchor: Anchor.center,
-          position: Vector2(2.8, -70.7),
+          position: Vector2(2.6, -70.7),
           playing: false,
         ) {
     zIndex = ZIndexes.flapper;
@@ -173,7 +173,7 @@ class _BackSupportSpriteComponent extends SpriteComponent
   _BackSupportSpriteComponent()
       : super(
           anchor: Anchor.center,
-          position: Vector2(2.95, -70.6),
+          position: Vector2(2.75, -70.6),
         ) {
     zIndex = ZIndexes.flapperBack;
   }
@@ -196,7 +196,7 @@ class _FrontSupportSpriteComponent extends SpriteComponent
   _FrontSupportSpriteComponent()
       : super(
           anchor: Anchor.center,
-          position: Vector2(2.9, -67.6),
+          position: Vector2(2.7, -67.7),
         ) {
     zIndex = ZIndexes.flapperFront;
   }
