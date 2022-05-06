@@ -23,11 +23,11 @@ Future<void> showMoreInformationDialog(BuildContext context) {
   );
 }
 
-/// {@template link_box_dialog}
+/// {@template more_information_dialog}
 /// Dialog used to show informational links
 /// {@endtemplate}
 class MoreInformationDialog extends StatelessWidget {
-  /// {@macro link_box_dialog}
+  /// {@macro more_information_dialog}
   const MoreInformationDialog({Key? key}) : super(key: key);
 
   @override

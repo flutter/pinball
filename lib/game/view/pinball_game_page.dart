@@ -190,8 +190,7 @@ class _PositionedInfoIcon extends StatelessWidget {
       child: BlocBuilder<GameBloc, GameState>(
         builder: (context, state) {
           return Visibility(
-            // visible: state.status.isGameOver,
-            visible: true,
+            visible: state.status.isGameOver,
             child: IconButton(
               iconSize: 50,
               icon: Assets.images.linkBox.infoIcon.image(),
