@@ -7,9 +7,9 @@ import 'package:pinball_components/pinball_components.dart';
 /// {@template focus_data}
 /// Defines a [Camera] focus point.
 /// {@endtemplate}
-class FocusData {
-  /// {@template focus_data}
-  FocusData({
+class _FocusData {
+  /// {@macro focus_data}
+  const _FocusData({
     required this.zoom,
     required this.position,
   });
@@ -24,7 +24,9 @@ class FocusData {
 /// Changes the game focus when the [GameBloc] status changes.
 class CameraFocusingBehavior extends Component
     with FlameBlocListenable<GameBloc, GameState>, HasGameRef {
-  late final Map<String, FocusData> _foci;
+  final Map<GameStatus, _FocusData> _foci = {};
+
+  GameStatus? _activeFocus;
 
   @override
   bool listenWhen(GameState? previousState, GameState newState) {
@@ -32,51 +34,57 @@ class CameraFocusingBehavior extends Component
   }
 
   @override
-  void onNewState(GameState state) {
-    switch (state.status) {
-      case GameStatus.waiting:
-        break;
-      case GameStatus.playing:
-        _zoom(_foci['game']!);
-        break;
-      case GameStatus.gameOver:
-        _zoom(_foci['backbox']!);
-        break;
+  void onNewState(GameState state) => _zoomTo(state.status);
+
+  @override
+  void onGameResize(Vector2 size) {
+    _foci.addAll(
+      {
+        GameStatus.waiting: _FocusData(
+          zoom: size.y / 175, // 16
+          position: Vector2(0, -112),
+        ),
+        GameStatus.playing: _FocusData(
+          zoom: size.y / 165, // 18
+          position: Vector2(0, -7.8),
+        ),
+        GameStatus.gameOver: _FocusData(
+          zoom: size.y / 109, // 10
+          position: Vector2(0, -111),
+        ),
+      },
+    );
+
+    if (_activeFocus != null) {
+      _zoomTo(_activeFocus!);
     }
+
+    super.onGameResize(size);
   }
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    _foci = {
-      'game': FocusData(
-        zoom: gameRef.size.y / 16,
-        position: Vector2(0, -7.8),
-      ),
-      'waiting': FocusData(
-        zoom: gameRef.size.y / 18,
-        position: Vector2(0, -112),
-      ),
-      'backbox': FocusData(
-        zoom: gameRef.size.y / 10,
-        position: Vector2(0, -111),
-      ),
-    };
-
-    _snap(_foci['waiting']!);
+    _snap(GameStatus.waiting);
   }
 
-  void _snap(FocusData data) {
+  void _snap(GameStatus focusKey) {
+    _activeFocus = focusKey;
+    final focusData = _foci[_activeFocus]!;
+
     gameRef.camera
       ..speed = 100
-      ..followVector2(data.position)
-      ..zoom = data.zoom;
+      ..followVector2(focusData.position)
+      ..zoom = focusData.zoom;
   }
 
-  void _zoom(FocusData data) {
-    final zoom = CameraZoom(value: data.zoom);
+  void _zoomTo(GameStatus focusKey) {
+    _activeFocus = focusKey;
+    final focusData = _foci[_activeFocus]!;
+
+    final zoom = CameraZoom(value: focusData.zoom);
     zoom.completed.then((_) {
-      gameRef.camera.moveTo(data.position);
+      gameRef.camera.moveTo(focusData.position);
     });
     add(zoom);
   }
