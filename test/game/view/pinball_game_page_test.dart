@@ -84,6 +84,7 @@ void main() {
       await tester.pumpApp(
         PinballGamePage(),
         characterThemeCubit: characterThemeCubit,
+        gameBloc: gameBloc,
       );
 
       expect(find.byType(PinballGameView), findsOneWidget);
@@ -172,6 +173,7 @@ void main() {
             ),
           ),
           characterThemeCubit: characterThemeCubit,
+          gameBloc: gameBloc,
         );
 
         await tester.tap(find.text('Tap me'));
