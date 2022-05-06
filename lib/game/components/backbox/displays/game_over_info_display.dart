@@ -40,7 +40,6 @@ final _linkTextPaint = TextPaint(
     color: PinballColors.orange,
     fontFamily: PinballFonts.pixeloidSans,
     fontWeight: FontWeight.bold,
-    decorationThickness: 1,
   ),
 );
 
@@ -194,6 +193,15 @@ class ShareLinkComponent extends TextComponent with HasGameRef, Tappable {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    await add(
+      RectangleComponent(
+        size: Vector2(6.4, 0.2),
+        paint: Paint()..color = PinballColors.orange,
+        anchor: Anchor.center,
+        position: Vector2(3.2, 2.3),
+      ),
+    );
+
     text = readProvider<AppLocalizations>().share;
   }
 }
@@ -223,6 +231,15 @@ class GoogleIOLinkComponent extends TextComponent with HasGameRef, Tappable {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    await add(
+      RectangleComponent(
+        size: Vector2(10.2, 0.2),
+        paint: Paint()..color = PinballColors.orange,
+        anchor: Anchor.center,
+        position: Vector2(5.1, 2.3),
+      ),
+    );
+
     text = readProvider<AppLocalizations>().gotoIO;
   }
 }
