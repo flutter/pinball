@@ -138,6 +138,14 @@ class PinballGameLoadedView extends StatelessWidget {
                     child: PlayButtonOverlay(),
                   );
                 },
+                PinballGame.replayButtonOverlay: (context, game) {
+                  return const Positioned(
+                    bottom: 20,
+                    right: 0,
+                    left: 0,
+                    child: ReplayButtonOverlay(),
+                  );
+                },
               },
             ),
           ),

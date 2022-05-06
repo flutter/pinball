@@ -37,6 +37,9 @@ class PinballGame extends PinballForge2DGame
   /// Identifier of the play button overlay
   static const playButtonOverlay = 'play_button';
 
+  /// Identifier of the replay button overlay
+  static const replayButtonOverlay = 'replay_button';
+
   @override
   Color backgroundColor() => Colors.transparent;
 
