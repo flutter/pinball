@@ -23,6 +23,8 @@ dependencies:
     path: ../pinball_flame
   pinball_theme:
     path: ../pinball_theme
+  pinball_ui:
+    path: ../pinball_ui
 
 dev_dependencies:
   bloc_test: ^9.0.3
@@ -33,6 +35,7 @@ dev_dependencies:
   very_good_analysis: ^2.4.0
 
 flutter:
+  uses-material-design: true
   generate: true
   fonts:
     - family: PixeloidSans

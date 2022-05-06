@@ -260,5 +260,36 @@ void main() {
         findsOneWidget,
       );
     });
+
+    testWidgets('hide a hud on game over', (tester) async {
+      final startGameState = StartGameState.initial().copyWith(
+        status: StartGameStatus.play,
+      );
+      final gameState = GameState.initial().copyWith(
+        status: GameStatus.gameOver,
+      );
+
+      whenListen(
+        startGameBloc,
+        Stream.value(startGameState),
+        initialState: startGameState,
+      );
+      whenListen(
+        gameBloc,
+        Stream.value(gameState),
+        initialState: gameState,
+      );
+
+      await tester.pumpApp(
+        PinballGameView(game: game),
+        gameBloc: gameBloc,
+        startGameBloc: startGameBloc,
+      );
+
+      expect(
+        find.byType(GameHud),
+        findsNothing,
+      );
+    });
   });
 }
