@@ -49,26 +49,6 @@ class LeaderboardRepository {
     }
   }
 
-  /// Determines if the given [initials] are allowed.
-  Future<bool> areInitialsAllowed({required String initials}) async {
-    // Initials can only be three uppercase A-Z letters
-    final initialsRegex = RegExp(r'^[A-Z]{3}$');
-    if (!initialsRegex.hasMatch(initials)) {
-      return false;
-    }
-    try {
-      final document = await _firebaseFirestore
-          .collection('prohibitedInitials')
-          .doc('list')
-          .get();
-      final prohibitedInitials =
-          document.get('prohibitedInitials') as List<String>;
-      return !prohibitedInitials.contains(initials);
-    } on Exception catch (error, stackTrace) {
-      throw FetchProhibitedInitialsException(error, stackTrace);
-    }
-  }
-
   Future<List<LeaderboardEntryData>> _fetchLeaderboardSortedByScore() async {
     try {
       final querySnapshot = await _firebaseFirestore
