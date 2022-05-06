@@ -25,6 +25,9 @@ enum PinballAudio {
 
   /// Launcher
   launcher,
+
+  /// Sparky
+  sparky,
 }
 
 /// Defines the contract of the creation of an [AudioPool].
@@ -160,6 +163,11 @@ class PinballPlayer {
         preCacheSingleAudio: _preCacheSingleAudio,
         playSingleAudio: _playSingleAudio,
         path: Assets.sfx.google,
+      ),
+      PinballAudio.sparky: _SimplePlayAudio(
+        preCacheSingleAudio: _preCacheSingleAudio,
+        playSingleAudio: _playSingleAudio,
+        path: Assets.sfx.sparky,
       ),
       PinballAudio.launcher: _SimplePlayAudio(
         preCacheSingleAudio: _preCacheSingleAudio,

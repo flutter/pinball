@@ -7,7 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/assets_manager/assets_manager.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/gen/gen.dart';
 import 'package:pinball/l10n/l10n.dart';
+import 'package:pinball/more_information/more_information.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
@@ -118,22 +120,31 @@ class PinballGameLoadedView extends StatelessWidget {
       child: Stack(
         children: [
           Positioned.fill(
-            child: GameWidget<PinballGame>(
-              game: game,
-              initialActiveOverlays: const [PinballGame.playButtonOverlay],
-              overlayBuilderMap: {
-                PinballGame.playButtonOverlay: (context, game) {
-                  return const Positioned(
-                    bottom: 20,
-                    right: 0,
-                    left: 0,
-                    child: PlayButtonOverlay(),
-                  );
-                },
+            child: MouseRegion(
+              onHover: (_) {
+                if (!game.focusNode.hasFocus) {
+                  game.focusNode.requestFocus();
+                }
               },
+              child: GameWidget<PinballGame>(
+                game: game,
+                focusNode: game.focusNode,
+                initialActiveOverlays: const [PinballGame.playButtonOverlay],
+                overlayBuilderMap: {
+                  PinballGame.playButtonOverlay: (context, game) {
+                    return const Positioned(
+                      bottom: 20,
+                      right: 0,
+                      left: 0,
+                      child: PlayButtonOverlay(),
+                    );
+                  },
+                },
+              ),
             ),
           ),
           const _PositionedGameHud(),
+          const _PositionedInfoIcon(),
         ],
       ),
     );
@@ -151,6 +162,7 @@ class _PositionedGameHud extends StatelessWidget {
     final isGameOver = context.select(
       (GameBloc bloc) => bloc.state.status.isGameOver,
     );
+
     final gameWidgetWidth = MediaQuery.of(context).size.height * 9 / 16;
     final screenWidth = MediaQuery.of(context).size.width;
     final leftMargin = (screenWidth / 2) - (gameWidgetWidth / 1.8);
@@ -162,6 +174,30 @@ class _PositionedGameHud extends StatelessWidget {
       child: Visibility(
         visible: isPlaying && !isGameOver,
         child: const GameHud(),
+      ),
+    );
+  }
+}
+
+class _PositionedInfoIcon extends StatelessWidget {
+  const _PositionedInfoIcon({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: 0,
+      left: 0,
+      child: BlocBuilder<GameBloc, GameState>(
+        builder: (context, state) {
+          return Visibility(
+            visible: state.status.isGameOver,
+            child: IconButton(
+              iconSize: 50,
+              icon: Assets.images.linkBox.infoIcon.image(),
+              onPressed: () => showMoreInformationDialog(context),
+            ),
+          );
+        },
       ),
     );
   }
