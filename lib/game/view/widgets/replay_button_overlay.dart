@@ -18,7 +18,7 @@ class ReplayButtonOverlay extends StatelessWidget {
     return PinballButton(
       text: l10n.replay,
       onTap: () {
-        context.read<StartGameBloc>().add(const PlayTapped());
+        context.read<StartGameBloc>().add(const ReplayTapped());
       },
     );
   }

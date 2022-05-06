@@ -37,6 +37,7 @@ class CameraFocusingBehavior extends Component
       case GameStatus.waiting:
         break;
       case GameStatus.playing:
+      case GameStatus.replaying:
         _zoom(_foci['game']!);
         break;
       case GameStatus.gameOver:

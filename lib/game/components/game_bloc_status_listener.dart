@@ -22,6 +22,9 @@ class GameBlocStatusListener extends Component
         readProvider<PinballPlayer>().play(PinballAudio.backgroundMusic);
         gameRef.overlays.remove(PinballGame.playButtonOverlay);
         break;
+      case GameStatus.replaying:
+        gameRef.overlays.remove(PinballGame.replayButtonOverlay);
+        break;
       case GameStatus.gameOver:
         readProvider<PinballPlayer>().play(PinballAudio.gameOverVoiceOver);
         gameRef.descendants().whereType<Backbox>().first.requestInitials(
