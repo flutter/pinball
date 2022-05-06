@@ -22,6 +22,11 @@ class $AssetsImagesGen {
   $AssetsImagesBoundaryGen get boundary => const $AssetsImagesBoundaryGen();
   $AssetsImagesDashGen get dash => const $AssetsImagesDashGen();
   $AssetsImagesDinoGen get dino => const $AssetsImagesDinoGen();
+
+  /// File path: assets/images/error_background.png
+  AssetGenImage get errorBackground =>
+      const AssetGenImage('assets/images/error_background.png');
+
   $AssetsImagesFlapperGen get flapper => const $AssetsImagesFlapperGen();
   $AssetsImagesFlipperGen get flipper => const $AssetsImagesFlipperGen();
   $AssetsImagesGoogleWordGen get googleWord =>
