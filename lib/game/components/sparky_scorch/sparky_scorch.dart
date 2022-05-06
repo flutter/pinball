@@ -4,7 +4,10 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/components/components.dart';
+import 'package:pinball/game/components/sparky_scorch/sparky_scorch_noise_behavior.dart';
 import 'package:pinball_components/pinball_components.dart';
+
+export 'sparky_scorch_noise_behavior.dart';
 
 /// {@template sparky_scorch}
 /// Area positioned at the top left of the board containing the
@@ -52,6 +55,7 @@ class SparkyComputerSensor extends BodyComponent
           renderBody: false,
           children: [
             ScoringContactBehavior(points: Points.twentyThousand),
+            SparkyScorchNoiseBehavior(),
           ],
         );
 
