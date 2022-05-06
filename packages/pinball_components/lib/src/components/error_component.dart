@@ -39,7 +39,7 @@ class ErrorComponent extends SpriteComponent with HasGameRef {
           position: position,
         );
 
-  /// Label text that will be show on as the error message.
+  /// Text shown on the error message.
   final String label;
   final TextPaint _textPaint;
 
