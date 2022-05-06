@@ -13,8 +13,8 @@ import 'package:pinball_ui/pinball_ui.dart';
 /// from the [InfoDisplay].
 typedef OnShareTap = void Function();
 
-/// Signature for the callback called when the used tries to navigate to the
-/// Google IO site on the [InfoDisplay].
+/// Signature for the callback called when the user tries to navigate to the
+/// Google IO site from the [InfoDisplay].
 typedef OnNavigateTap = void Function();
 
 final _titleTextPaint = TextPaint(
