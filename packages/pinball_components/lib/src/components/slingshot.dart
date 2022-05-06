@@ -13,15 +13,13 @@ class Slingshots extends Component with ZIndex {
       : super(
           children: [
             Slingshot(
-              length: 5.64,
               angle: -0.017,
               spritePath: Assets.images.slingshot.upper.keyName,
-            )..initialPosition = Vector2(22.3, -1.58),
+            )..initialPosition = Vector2(22.7, -0.3),
             Slingshot(
-              length: 3.46,
               angle: -0.468,
               spritePath: Assets.images.slingshot.lower.keyName,
-            )..initialPosition = Vector2(24.7, 6.2),
+            )..initialPosition = Vector2(24.6, 6.1),
           ],
         ) {
     zIndex = ZIndexes.slingshots;
@@ -34,11 +32,9 @@ class Slingshots extends Component with ZIndex {
 class Slingshot extends BodyComponent with InitialPosition {
   /// {@macro slingshot}
   Slingshot({
-    required double length,
     required double angle,
     required String spritePath,
-  })  : _length = length,
-        _angle = angle,
+  })  : _angle = angle,
         super(
           children: [
             _SlinghsotSpriteComponent(spritePath, angle: angle),
@@ -47,29 +43,28 @@ class Slingshot extends BodyComponent with InitialPosition {
           renderBody: false,
         );
 
-  final double _length;
-
   final double _angle;
 
   List<FixtureDef> _createFixtureDefs() {
+    const length = 3.46;
     const circleRadius = 1.55;
 
     final topCircleShape = CircleShape()..radius = circleRadius;
-    topCircleShape.position.setValues(0, -_length / 2);
+    topCircleShape.position.setValues(0, -length / 2);
 
     final bottomCircleShape = CircleShape()..radius = circleRadius;
-    bottomCircleShape.position.setValues(0, _length / 2);
+    bottomCircleShape.position.setValues(0, length / 2);
 
     final leftEdgeShape = EdgeShape()
       ..set(
-        Vector2(circleRadius, _length / 2),
-        Vector2(circleRadius, -_length / 2),
+        Vector2(circleRadius, length / 2),
+        Vector2(circleRadius, -length / 2),
       );
 
     final rightEdgeShape = EdgeShape()
       ..set(
-        Vector2(-circleRadius, _length / 2),
-        Vector2(-circleRadius, -_length / 2),
+        Vector2(-circleRadius, length / 2),
+        Vector2(-circleRadius, -length / 2),
       );
 
     return [

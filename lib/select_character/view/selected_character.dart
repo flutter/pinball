@@ -91,7 +91,7 @@ class _SelectedCharacterState extends State<SelectedCharacter>
     );
     final animation = spriteSheet.createAnimation(
       row: 0,
-      stepTime: 1 / 24,
+      stepTime: 1 / 12,
       to: spriteSheet.rows * spriteSheet.columns,
     );
     if (_controller != null) _controller?.dispose();

@@ -4,13 +4,37 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/assets_manager/assets_manager.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
+import 'package:pinball_audio/pinball_audio.dart';
+import 'package:pinball_theme/pinball_theme.dart' as theme;
 
 import '../../helpers/helpers.dart';
+
+class _TestPinballGame extends PinballGame {
+  _TestPinballGame()
+      : super(
+          characterTheme: const theme.DashTheme(),
+          leaderboardRepository: _MockLeaderboardRepository(),
+          gameBloc: GameBloc(),
+          l10n: _MockAppLocalizations(),
+          player: _MockPinballPlayer(),
+        );
+
+  @override
+  Future<void> onLoad() async {
+    images.prefix = '';
+    final futures = preLoadAssets();
+    await Future.wait<void>(futures);
+
+    return super.onLoad();
+  }
+}
 
 class _MockGameBloc extends Mock implements GameBloc {}
 
@@ -20,8 +44,15 @@ class _MockAssetsManagerCubit extends Mock implements AssetsManagerCubit {}
 
 class _MockStartGameBloc extends Mock implements StartGameBloc {}
 
+class _MockAppLocalizations extends Mock implements AppLocalizations {}
+
+class _MockPinballPlayer extends Mock implements PinballPlayer {}
+
+class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
+}
+
 void main() {
-  final game = PinballTestGame();
+  final game = _TestPinballGame();
 
   group('PinballGamePage', () {
     late CharacterThemeCubit characterThemeCubit;

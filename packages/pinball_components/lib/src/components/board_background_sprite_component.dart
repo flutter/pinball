@@ -9,7 +9,7 @@ class BoardBackgroundSpriteComponent extends SpriteComponent
   BoardBackgroundSpriteComponent()
       : super(
           anchor: Anchor.center,
-          position: Vector2(0, -1),
+          position: Vector2(-0.2, 0.1),
         ) {
     zIndex = ZIndexes.boardBackground;
   }
