@@ -78,7 +78,7 @@ void main() {
     );
 
     flameTester.testGameWidget(
-      'calls onShare when tap on Share link',
+      'calls onShare when Share link is tapped',
       setUp: (game, tester) async {
         var tapped = false;
 
