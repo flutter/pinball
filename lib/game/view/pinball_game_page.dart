@@ -134,6 +134,7 @@ class PinballGameLoadedView extends StatelessWidget {
               },
               child: GameWidget<PinballGame>(
                 game: game,
+                focusNode: game.focusNode,
                 initialActiveOverlays: const [PinballGame.playButtonOverlay],
                 overlayBuilderMap: {
                   PinballGame.playButtonOverlay: (context, game) {
