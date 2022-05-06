@@ -46,14 +46,56 @@ class InitialsFormState extends BackboxState {
   List<Object?> get props => [score, character];
 }
 
+/// {@template initials_form_state}
 /// State when the leaderboard was successfully loaded.
+/// {@endtemplate}
 class InitialsSuccessState extends BackboxState {
+  /// {@macro initials_success_state}
+  const InitialsSuccessState({
+    required this.score,
+    required this.initials,
+    required this.character,
+  }) : super();
+
+  /// Player's score.
+  final int score;
+
+  /// Player's initials.
+  final String initials;
+
+  /// Player's character.
+  final CharacterTheme character;
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [score, initials, character];
 }
 
 /// State when the initials submission failed.
 class InitialsFailureState extends BackboxState {
   @override
   List<Object?> get props => [];
+}
+
+/// {@template initials_form_state}
+/// State when the user is sharing the score.
+/// {@endtemplate}
+class ShareState extends BackboxState {
+  /// {@macro share_state}
+  const ShareState({
+    required this.score,
+    required this.initials,
+    required this.character,
+  }) : super();
+
+  /// Player's score.
+  final int score;
+
+  /// Player's initials.
+  final String initials;
+
+  /// Player's character.
+  final CharacterTheme character;
+
+  @override
+  List<Object?> get props => [score, initials, character];
 }

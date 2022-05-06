@@ -18,6 +18,7 @@ class BackboxBloc extends Bloc<BackboxEvent, BackboxState> {
         super(LoadingState()) {
     on<PlayerInitialsRequested>(_onPlayerInitialsRequested);
     on<PlayerInitialsSubmitted>(_onPlayerInitialsSubmitted);
+    on<ScoreShareRequested>(_onScoreShareRequested);
   }
 
   final LeaderboardRepository _leaderboardRepository;
@@ -47,10 +48,29 @@ class BackboxBloc extends Bloc<BackboxEvent, BackboxState> {
           character: event.character.toType,
         ),
       );
-      emit(InitialsSuccessState());
+      emit(
+        InitialsSuccessState(
+          initials: event.initials,
+          score: event.score,
+          character: event.character,
+        ),
+      );
     } catch (error, stackTrace) {
       addError(error, stackTrace);
       emit(InitialsFailureState());
     }
+  }
+
+  Future<void> _onScoreShareRequested(
+    ScoreShareRequested event,
+    Emitter<BackboxState> emit,
+  ) async {
+    emit(
+      ShareState(
+        initials: event.initials,
+        score: event.score,
+        character: event.character,
+      ),
+    );
   }
 }

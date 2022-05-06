@@ -54,14 +54,6 @@ class Backbox extends PositionComponent with ZIndex {
       _display.add(LoadingDisplay());
     } else if (state is InitialsFormState) {
       _display.add(
-        InfoDisplay(
-          onShared: () {
-            //_bloc.add(ScoreShared());
-          },
-        ),
-      );
-      /*
-      _display.add(
         InitialsInputDisplay(
           score: state.score,
           characterIconPath: state.character.leaderboardIcon.keyName,
@@ -76,9 +68,20 @@ class Backbox extends PositionComponent with ZIndex {
           },
         ),
       );
-      */
     } else if (state is InitialsSuccessState) {
-      _display.add(InitialsSubmissionSuccessDisplay());
+      _display.add(
+        InfoDisplay(
+          onShare: () {
+            _bloc.add(
+              ScoreShareRequested(
+                score: state.score,
+                initials: state.initials,
+                character: state.character,
+              ),
+            );
+          },
+        ),
+      );
     } else if (state is InitialsFailureState) {
       _display.add(InitialsSubmissionFailureDisplay());
     }
