@@ -114,14 +114,6 @@ class PinballGameLoadedView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isPlaying = context.select(
-      (StartGameBloc bloc) => bloc.state.status == StartGameStatus.play,
-    );
-    final gameWidgetWidth = MediaQuery.of(context).size.height * 9 / 16;
-    final screenWidth = MediaQuery.of(context).size.width;
-    final leftMargin = (screenWidth / 2) - (gameWidgetWidth / 1.8);
-    final clampedMargin = leftMargin > 0 ? leftMargin : 0.0;
-
     return StartGameListener(
       child: Stack(
         children: [
@@ -141,15 +133,35 @@ class PinballGameLoadedView extends StatelessWidget {
               },
             ),
           ),
-          Positioned(
-            top: 0,
-            left: clampedMargin,
-            child: Visibility(
-              visible: isPlaying,
-              child: const GameHud(),
-            ),
-          ),
+          const _PositionedGameHud(),
         ],
+      ),
+    );
+  }
+}
+
+class _PositionedGameHud extends StatelessWidget {
+  const _PositionedGameHud({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final isPlaying = context.select(
+      (StartGameBloc bloc) => bloc.state.status == StartGameStatus.play,
+    );
+    final isGameOver = context.select(
+      (GameBloc bloc) => bloc.state.status.isGameOver,
+    );
+    final gameWidgetWidth = MediaQuery.of(context).size.height * 9 / 16;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final leftMargin = (screenWidth / 2) - (gameWidgetWidth / 1.8);
+    final clampedMargin = leftMargin > 0 ? leftMargin : 0.0;
+
+    return Positioned(
+      top: 0,
+      left: clampedMargin,
+      child: Visibility(
+        visible: isPlaying && !isGameOver,
+        child: const GameHud(),
       ),
     );
   }
