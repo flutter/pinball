@@ -11,6 +11,6 @@ jobs:
     uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
     with:
       flutter_channel: stable
-      flutter_version: 2.10.0
+      flutter_version: 2.10.5
       coverage_excludes: "lib/gen/*.dart"
       test_optimization: false
