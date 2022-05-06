@@ -26,7 +26,7 @@ enum PinballAudio {
   /// Launcher
   launcher,
 
-  /// Google
+  /// Sparky
   sparky,
 }
 
