@@ -1,7 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
-import 'package:pinball/game/pinball_game.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/leaderboard/models/leader_board_entry.dart';
 import 'package:pinball_components/pinball_components.dart';
