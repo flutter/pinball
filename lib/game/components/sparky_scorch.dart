@@ -33,8 +33,8 @@ class SparkyScorch extends Component {
                 BumperNoiseBehavior(),
               ],
             )..initialPosition = Vector2(-3.3, -52.55),
-            SparkyComputerSensor()..initialPosition = Vector2(-13, -49.9),
-            SparkyAnimatronic()..position = Vector2(-13.8, -58.2),
+            SparkyComputerSensor()..initialPosition = Vector2(-13.2, -49.9),
+            SparkyAnimatronic()..position = Vector2(-14, -58.2),
             SparkyComputer(),
           ],
         );

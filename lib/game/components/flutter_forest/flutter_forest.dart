@@ -21,7 +21,7 @@ class FlutterForest extends Component with ZIndex {
                 ScoringContactBehavior(points: Points.fiveThousand),
                 BumperNoiseBehavior(),
               ],
-            )..initialPosition = Vector2(8.35, -58.3),
+            )..initialPosition = Vector2(7.95, -58.35),
             DashNestBumper.main(
               children: [
                 ScoringContactBehavior(points: Points.twoHundredThousand),
@@ -39,7 +39,7 @@ class FlutterForest extends Component with ZIndex {
                 ScoringContactBehavior(points: Points.twentyThousand),
                 BumperNoiseBehavior(),
               ],
-            )..initialPosition = Vector2(22.3, -46.75),
+            )..initialPosition = Vector2(21.8, -46.75),
             DashAnimatronic()..position = Vector2(20, -66),
             FlutterForestBonusBehavior(),
           ],
