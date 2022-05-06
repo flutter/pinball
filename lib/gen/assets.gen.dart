@@ -14,6 +14,7 @@ class $AssetsImagesGen {
       const $AssetsImagesBonusAnimationGen();
   $AssetsImagesComponentsGen get components =>
       const $AssetsImagesComponentsGen();
+  $AssetsImagesLinkBoxGen get linkBox => const $AssetsImagesLinkBoxGen();
   $AssetsImagesScoreGen get score => const $AssetsImagesScoreGen();
 }
 
@@ -51,6 +52,18 @@ class $AssetsImagesComponentsGen {
   /// File path: assets/images/components/space.png
   AssetGenImage get space =>
       const AssetGenImage('assets/images/components/space.png');
+}
+
+class $AssetsImagesLinkBoxGen {
+  const $AssetsImagesLinkBoxGen();
+
+  /// File path: assets/images/link_box/background.png
+  AssetGenImage get background =>
+      const AssetGenImage('assets/images/link_box/background.png');
+
+  /// File path: assets/images/link_box/info.png
+  AssetGenImage get info =>
+      const AssetGenImage('assets/images/link_box/info.png');
 }
 
 class $AssetsImagesScoreGen {
