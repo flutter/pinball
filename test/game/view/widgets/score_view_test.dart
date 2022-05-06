@@ -23,6 +23,7 @@ void main() {
     multiplier: 1,
     rounds: 1,
     bonusHistory: [],
+    status: GameStatus.playing,
   );
 
   setUp(() {
@@ -54,9 +55,7 @@ void main() {
       final l10n = await AppLocalizations.delegate.load(const Locale('en'));
 
       stateController.add(
-        initialState.copyWith(
-          rounds: 0,
-        ),
+        initialState.copyWith(status: GameStatus.gameOver),
       );
 
       await tester.pumpApp(

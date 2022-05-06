@@ -18,6 +18,7 @@ void main() {
       multiplier: 1,
       rounds: 3,
       bonusHistory: [],
+      status: GameStatus.playing,
     );
 
     setUp(() {

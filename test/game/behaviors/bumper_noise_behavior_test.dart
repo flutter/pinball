@@ -6,45 +6,53 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball_audio/pinball_audio.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
-import '../../helpers/helpers.dart';
-
-class _TestBodyComponent extends BodyComponent {
-  @override
-  Body createBody() {
-    return world.createBody(BodyDef());
+class _TestGame extends Forge2DGame {
+  Future<void> pump(_TestBodyComponent child, {required PinballPlayer player}) {
+    return ensureAdd(
+      FlameProvider<PinballPlayer>.value(
+        player,
+        children: [
+          child,
+        ],
+      ),
+    );
   }
 }
 
-class _MockPinballAudio extends Mock implements PinballAudio {}
+class _TestBodyComponent extends BodyComponent {
+  @override
+  Body createBody() => world.createBody(BodyDef());
+}
+
+class _MockPinballPlayer extends Mock implements PinballPlayer {}
 
 class _MockContact extends Mock implements Contact {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  group('BumperNoisyBehavior', () {});
+  group('BumperNoiseBehavior', () {});
 
-  late PinballAudio audio;
-  final flameTester = FlameTester(
-    () => EmptyPinballTestGame(audio: audio),
-  );
+  late PinballPlayer player;
+  final flameTester = FlameTester(_TestGame.new);
 
   setUp(() {
-    audio = _MockPinballAudio();
+    player = _MockPinballPlayer();
   });
 
   flameTester.testGameWidget(
     'plays bumper sound',
     setUp: (game, _) async {
-      final behavior = BumperNoisyBehavior();
+      final behavior = BumperNoiseBehavior();
       final parent = _TestBodyComponent();
-      await game.ensureAdd(parent);
+      await game.pump(parent, player: player);
       await parent.ensureAdd(behavior);
       behavior.beginContact(Object(), _MockContact());
     },
     verify: (_, __) async {
-      verify(audio.bumper).called(1);
+      verify(() => player.play(PinballAudio.bumper)).called(1);
     },
   );
 }

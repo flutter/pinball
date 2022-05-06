@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
@@ -6,9 +7,9 @@ import 'package:pinball_theme/pinball_theme.dart';
 /// player's initials, score, and chosen character.
 ///
 /// {@endtemplate}
-class LeaderboardEntry {
+class LeaderboardEntry extends Equatable {
   /// {@macro leaderboard_entry}
-  LeaderboardEntry({
+  const LeaderboardEntry({
     required this.rank,
     required this.playerInitials,
     required this.score,
@@ -26,6 +27,9 @@ class LeaderboardEntry {
 
   /// [CharacterTheme] for [LeaderboardEntry].
   final AssetGenImage character;
+
+  @override
+  List<Object?> get props => [rank, playerInitials, score, character];
 }
 
 /// Converts [LeaderboardEntryData] from repository to [LeaderboardEntry].

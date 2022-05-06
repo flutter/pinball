@@ -24,12 +24,12 @@ class _MockGameBloc extends Mock implements GameBloc {}
 
 class _MockStartGameBloc extends Mock implements StartGameBloc {}
 
-class _MockPinballAudio extends Mock implements PinballAudio {}
+class _MockPinballPlayer extends Mock implements PinballPlayer {}
 
-PinballAudio _buildDefaultPinballAudio() {
-  final audio = _MockPinballAudio();
-  when(audio.load).thenAnswer((_) => Future.value());
-  return audio;
+PinballPlayer _buildDefaultPinballPlayer() {
+  final player = _MockPinballPlayer();
+  when(player.load).thenAnswer((_) => [Future.value()]);
+  return player;
 }
 
 AssetsManagerCubit _buildDefaultAssetsManagerCubit() {
@@ -55,7 +55,7 @@ extension PumpApp on WidgetTester {
     AssetsManagerCubit? assetsManagerCubit,
     CharacterThemeCubit? characterThemeCubit,
     LeaderboardRepository? leaderboardRepository,
-    PinballAudio? pinballAudio,
+    PinballPlayer? pinballPlayer,
   }) {
     return runAsync(() {
       return pumpWidget(
@@ -65,7 +65,7 @@ extension PumpApp on WidgetTester {
               value: leaderboardRepository ?? _MockLeaderboardRepository(),
             ),
             RepositoryProvider.value(
-              value: pinballAudio ?? _buildDefaultPinballAudio(),
+              value: pinballPlayer ?? _buildDefaultPinballPlayer(),
             ),
           ],
           child: MultiBlocProvider(

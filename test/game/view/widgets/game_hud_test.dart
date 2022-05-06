@@ -27,6 +27,7 @@ void main() {
       multiplier: 1,
       rounds: 1,
       bonusHistory: [],
+      status: GameStatus.playing,
     );
 
     setUp(() async {
