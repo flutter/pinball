@@ -9,8 +9,8 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 
-/// Signature for the callback called when the used tries to share the score
-/// on the [InfoDisplay].
+/// Signature for the callback called when the user tries to share their score
+/// from the [InfoDisplay].
 typedef OnShareTap = void Function();
 
 /// Signature for the callback called when the used tries to navigate to the
