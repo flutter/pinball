@@ -29,7 +29,7 @@ void main() {
       expect(find.text('Replay'), findsOneWidget);
     });
 
-    testWidgets('adds ReplayTapped event to StartGameBloc when taped',
+    testWidgets('adds ReplayTapped event to StartGameBloc when tapped',
         (tester) async {
       await tester.pumpApp(
         const ReplayButtonOverlay(),
