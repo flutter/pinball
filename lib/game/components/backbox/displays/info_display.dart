@@ -199,7 +199,7 @@ class ShareLinkComponent extends TextComponent with HasGameRef, Tappable {
 }
 
 /// {@template goto_io_link_component}
-/// Link button for navigate to Google I/O site.
+/// Link button to navigate to Google I/O site.
 /// {@endtemplate}
 class GotoIOLinkComponent extends TextComponent with HasGameRef, Tappable {
   /// {@macro goto_io_link_component}
