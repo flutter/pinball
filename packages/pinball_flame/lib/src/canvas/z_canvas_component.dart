@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:collection/collection.dart' as collection;
 
 import 'package:flame/components.dart';
 import 'package:pinball_flame/src/canvas/canvas_wrapper.dart';
@@ -56,9 +57,14 @@ class _ZCanvas extends CanvasWrapper {
   final List<ZIndex> _zBuffer = [];
 
   /// Postpones the rendering of [ZIndex] component and its children.
-  void buffer(ZIndex component) => _zBuffer
-    ..add(component)
-    ..sort((a, b) => a.zIndex.compareTo(b.zIndex));
+  void buffer(ZIndex component) {
+    final lowerBound = collection.lowerBound<ZIndex>(
+      _zBuffer,
+      component,
+      compare: (a, b) => a.zIndex.compareTo(b.zIndex),
+    );
+    _zBuffer.insert(lowerBound, component);
+  }
 
   /// Renders all [ZIndex] components and their children.
   ///
