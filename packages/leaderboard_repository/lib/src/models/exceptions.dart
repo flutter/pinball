@@ -40,16 +40,6 @@ class FetchLeaderboardException extends LeaderboardException {
       : super(error, stackTrace);
 }
 
-/// {@template delete_leaderboard_exception}
-/// Exception thrown when failure occurs while deleting the leaderboard under
-/// the tenth position.
-/// {@endtemplate}
-class DeleteLeaderboardException extends LeaderboardException {
-  /// {@macro fetch_top_10_leaderboard_exception}
-  const DeleteLeaderboardException(Object error, StackTrace stackTrace)
-      : super(error, stackTrace);
-}
-
 /// {@template add_leaderboard_entry_exception}
 /// Exception thrown when failure occurs while adding entry to leaderboard.
 /// {@endtemplate}
