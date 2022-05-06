@@ -5,6 +5,7 @@ publish_to: none
 
 environment:
   sdk: ">=2.16.0 <3.0.0"
+  flutter: 2.10.5
 
 dependencies:
   authentication_repository:
