@@ -32,8 +32,7 @@ class _TestPinballGame extends PinballGame {
     images.prefix = '';
     final futures = preLoadAssets();
     await Future.wait<void>(futures);
-
-    return super.onLoad();
+    await super.onLoad();
   }
 }
 
@@ -52,8 +51,7 @@ class _DebugPinballGame extends DebugPinballGame {
     images.prefix = '';
     final futures = preLoadAssets();
     await Future.wait<void>(futures);
-
-    return super.onLoad();
+    await super.onLoad();
   }
 }
 
@@ -159,7 +157,6 @@ void main() {
         'has only one Multiballs',
         (game) async {
           await game.ready();
-
           expect(
             game.descendants().whereType<Multiballs>().length,
             equals(1),
@@ -189,7 +186,10 @@ void main() {
       flameTester.testGameWidget(
         'paints sprites with FilterQuality.medium',
         setUp: (game, tester) async {
-          await game.onLoad();
+          game.images.prefix = '';
+          final futures = game.preLoadAssets();
+          await Future.wait<void>(futures);
+
           await game.ready();
 
           final descendants = game.descendants();

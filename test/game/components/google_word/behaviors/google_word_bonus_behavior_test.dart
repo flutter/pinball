@@ -65,6 +65,7 @@ void main() {
     flameTester.testGameWidget(
       'adds GameBonus.googleWord to the game when all letters are activated',
       setUp: (game, tester) async {
+        await game.onLoad();
         final behavior = GoogleWordBonusBehavior();
         final parent = GoogleWord.test();
         final letters = [

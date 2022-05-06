@@ -42,9 +42,9 @@ void main() {
       },
     );
 
-    flameBlocTester.testGameWidget(
+    flameBlocTester.test(
       'loads four Multiball',
-      setUp: (game, tester) async {
+      (game) async {
         final multiballs = Multiballs();
         await game.pump(multiballs);
         expect(

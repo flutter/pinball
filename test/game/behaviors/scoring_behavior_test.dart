@@ -77,9 +77,9 @@ void main() {
       );
     });
 
-    flameBlocTester.testGameWidget(
+    flameBlocTester.test(
       'can be loaded',
-      setUp: (game, tester) async {
+      (game) async {
         await game.pump(parent);
 
         final behavior = ScoringBehavior(
@@ -95,9 +95,9 @@ void main() {
       },
     );
 
-    flameBlocTester.testGameWidget(
+    flameBlocTester.test(
       'emits Scored event with points when added',
-      setUp: (game, tester) async {
+      (game) async {
         await game.pump(parent, gameBloc: bloc);
 
         const points = Points.oneMillion;
@@ -115,9 +115,9 @@ void main() {
       },
     );
 
-    flameBlocTester.testGameWidget(
+    flameBlocTester.test(
       'correctly renders text',
-      setUp: (game, tester) async {
+      (game) async {
         await game.pump(parent);
 
         const points = Points.oneMillion;
@@ -144,6 +144,7 @@ void main() {
     flameBlocTester.testGameWidget(
       'is removed after duration',
       setUp: (game, tester) async {
+        await game.onLoad();
         await game.pump(parent);
 
         const duration = 2.0;

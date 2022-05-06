@@ -26,8 +26,7 @@ class _TestGame extends Forge2DGame with HasKeyboardHandlerComponents {
   Future<void> pump(Flipper flipper, {GameBloc? gameBloc}) {
     return ensureAdd(
       FlameBlocProvider<GameBloc, GameState>.value(
-        value: gameBloc ?? GameBloc()
-          ..add(const GameStarted()),
+        value: gameBloc ?? (GameBloc()..add(const GameStarted())),
         children: [flipper],
       ),
     );

@@ -14,6 +14,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -24,12 +25,21 @@ class _TestGame extends Forge2DGame with HasKeyboardHandlerComponents {
     await images.load(Assets.images.plunger.plunger.keyName);
   }
 
-  Future<void> pump(Plunger child, {GameBloc? gameBloc}) {
+  Future<void> pump(
+    Plunger child, {
+    GameBloc? gameBloc,
+    PinballPlayer? pinballPlayer,
+  }) {
     return ensureAdd(
       FlameBlocProvider<GameBloc, GameState>.value(
         value: gameBloc ?? GameBloc()
           ..add(const GameStarted()),
-        children: [child],
+        children: [
+          FlameProvider<PinballPlayer>.value(
+            pinballPlayer ?? _MockPinballPlayer(),
+            children: [child],
+          )
+        ],
       ),
     );
   }
@@ -149,20 +159,21 @@ void main() {
 
   group('PlungerNoisyBehavior', () {
     late PinballPlayer player;
-    late PlungerNoisyBehavior behavior;
 
     setUp(() {
       player = _MockPinballPlayer();
-      behavior = PlungerNoisyBehavior();
     });
 
-    test('plays the correct sound on load', () async {
-      await behavior.onLoad();
+    flameTester.test('plays the correct sound on load', (game) async {
+      final parent = ControlledPlunger(compressionDistance: 10);
+      await game.pump(parent, pinballPlayer: player);
+      await parent.ensureAdd(PlungerNoisyBehavior());
       verify(() => player.play(PinballAudio.launcher)).called(1);
     });
 
     test('is removed on the first update', () {
       final parent = Component();
+      final behavior = PlungerNoisyBehavior();
       parent.add(behavior);
       parent.update(0); // Run a tick to ensure it is added
 
