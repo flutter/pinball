@@ -82,6 +82,9 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {
   String get name => '';
 
   @override
+  String get rank => '';
+
+  @override
   String get enterInitials => '';
 
   @override
@@ -129,7 +132,7 @@ void main() {
     bloc = _MockBackboxBloc();
     whenListen(
       bloc,
-      Stream.value(LoadingState()),
+      Stream<BackboxState>.empty(),
       initialState: LoadingState(),
     );
   });
@@ -141,6 +144,16 @@ void main() {
         final backbox = Backbox.test(bloc: bloc);
         await game.pump(backbox);
         expect(game.descendants(), contains(backbox));
+      },
+    );
+
+    flameTester.test(
+      'adds LeaderboardRequested when loaded',
+      (game) async {
+        final backbox = Backbox.test(bloc: bloc);
+        await game.pump(backbox);
+
+        verify(() => bloc.add(LeaderboardRequested())).called(1);
       },
     );
 
@@ -196,7 +209,7 @@ void main() {
         );
         whenListen(
           bloc,
-          Stream.value(state),
+          Stream<BackboxState>.empty(),
           initialState: state,
         );
         final backbox = Backbox.test(bloc: bloc);
@@ -216,7 +229,7 @@ void main() {
     );
 
     flameTester.test(
-      'adds InfoDisplay on InitialsSuccessState',
+      'adds GameOverInfoDisplay on InitialsSuccessState',
       (game) async {
         final state = InitialsSuccessState(
           score: 100,
@@ -225,7 +238,7 @@ void main() {
         );
         whenListen(
           bloc,
-          Stream.value(state),
+          const Stream<InitialsSuccessState>.empty(),
           initialState: state,
         );
         final backbox = Backbox.test(bloc: bloc);
@@ -275,7 +288,7 @@ void main() {
       (game) async {
         whenListen(
           bloc,
-          Stream.value(InitialsFailureState()),
+          Stream<BackboxState>.empty(),
           initialState: InitialsFailureState(),
         );
         final backbox = Backbox.test(bloc: bloc);
@@ -286,6 +299,25 @@ void main() {
               .descendants()
               .whereType<InitialsSubmissionFailureDisplay>()
               .length,
+          equals(1),
+        );
+      },
+    );
+
+    flameTester.test(
+      'adds LeaderboardDisplay on LeaderboardSuccessState',
+      (game) async {
+        whenListen(
+          bloc,
+          Stream<BackboxState>.empty(),
+          initialState: LeaderboardSuccessState(entries: const []),
+        );
+
+        final backbox = Backbox.test(bloc: bloc);
+        await game.pump(backbox);
+
+        expect(
+          game.descendants().whereType<LeaderboardDisplay>().length,
           equals(1),
         );
       },

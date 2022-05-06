@@ -19,6 +19,7 @@ class BackboxBloc extends Bloc<BackboxEvent, BackboxState> {
     on<PlayerInitialsRequested>(_onPlayerInitialsRequested);
     on<PlayerInitialsSubmitted>(_onPlayerInitialsSubmitted);
     on<ShareScoreRequested>(_onScoreShareRequested);
+    on<LeaderboardRequested>(_onLeaderboardRequested);
   }
 
   final LeaderboardRepository _leaderboardRepository;
@@ -72,5 +73,21 @@ class BackboxBloc extends Bloc<BackboxEvent, BackboxState> {
         character: event.character,
       ),
     );
+  }
+
+  Future<void> _onLeaderboardRequested(
+    LeaderboardRequested event,
+    Emitter<BackboxState> emit,
+  ) async {
+    try {
+      emit(LoadingState());
+
+      final entries = await _leaderboardRepository.fetchTop10Leaderboard();
+
+      emit(LeaderboardSuccessState(entries: entries));
+    } catch (error, stackTrace) {
+      addError(error, stackTrace);
+      emit(LeaderboardFailureState());
+    }
   }
 }

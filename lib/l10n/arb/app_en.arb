@@ -120,6 +120,46 @@
   "@footerGoogleIOText": {
     "description": "Text shown on the footer which mentions Google I/O"
   },
+  "linkBoxTitle": "Resources",
+  "@linkBoxTitle": {
+    "description": "Text shown on the link box title section."
+  },
+  "linkBoxMadeWithText": "Made with ",
+  "@linkBoxMadeWithText": {
+    "description": "Text shown on the link box which mentions technologies used to build the app."
+  },
+  "linkBoxFlutterLinkText": "Flutter",
+  "@linkBoxFlutterLinkText": {
+    "description": "Text on the link shown on the link box which navigates to the Flutter page"
+  },
+  "linkBoxFirebaseLinkText": "Firebase",
+  "@linkBoxFirebaseLinkText": {
+    "description": "Text on the link shown on the link box which navigates to the Firebase page"
+  },
+  "linkBoxOpenSourceCode": "Open Source Code",
+  "@linkBoxOpenSourceCode": {
+    "description": "Text shown on the link box which redirects to github project"
+  },
+  "linkBoxGoogleIOText": "Google I/O",
+  "@linkBoxGoogleIOText": {
+    "description": "Text shown on the link box which mentions Google I/O"
+  },
+  "linkBoxFlutterGames": "Flutter Games",
+  "@linkBoxFlutterGames": {
+    "description": "Text shown on the link box which redirects to flutter games article"
+  },
+  "linkBoxHowItsMade": "How it’s made",
+  "@linkBoxHowItsMade": {
+    "description": "Text shown on the link box which redirects to Very Good Blog article"
+  },
+  "linkBoxTermsOfService": "Terms of Service",
+  "@linkBoxTermsOfService": {
+    "description": "Text shown on the link box which redirect to terms of service"
+  },
+  "linkBoxPrivacyPolicy": "Privacy Policy",
+  "@linkBoxPrivacyPolicy": {
+    "description": "Text shown on the link box which redirect to privacy policy"
+  },
   "loading": "Loading",
   "@loading": {
     "description": "Text shown to indicate loading times"

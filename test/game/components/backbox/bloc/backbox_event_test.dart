@@ -203,5 +203,15 @@ void main() {
         );
       });
     });
+
+    group('LeaderboardRequested', () {
+      test('can be instantiated', () {
+        expect(LeaderboardRequested(), isNotNull);
+      });
+
+      test('supports value comparison', () {
+        expect(LeaderboardRequested(), equals(LeaderboardRequested()));
+      });
+    });
   });
 }
