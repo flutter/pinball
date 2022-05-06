@@ -2,10 +2,12 @@ import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
+import 'package:pinball_flame/pinball_flame.dart';
+import 'package:pinball_theme/pinball_theme.dart';
 
 /// Listens to the [GameBloc] and updates the game accordingly.
 class GameBlocStatusListener extends Component
-    with BlocComponent<GameBloc, GameState>, HasGameRef<PinballGame> {
+    with FlameBlocListenable<GameBloc, GameState>, HasGameRef {
   @override
   bool listenWhen(GameState? previousState, GameState newState) {
     return previousState?.status != newState.status;
@@ -17,14 +19,14 @@ class GameBlocStatusListener extends Component
       case GameStatus.waiting:
         break;
       case GameStatus.playing:
-        gameRef.player.play(PinballAudio.backgroundMusic);
+        readProvider<PinballPlayer>().play(PinballAudio.backgroundMusic);
         gameRef.overlays.remove(PinballGame.playButtonOverlay);
         break;
       case GameStatus.gameOver:
-        gameRef.player.play(PinballAudio.gameOverVoiceOver);
+        readProvider<PinballPlayer>().play(PinballAudio.gameOverVoiceOver);
         gameRef.descendants().whereType<Backbox>().first.requestInitials(
               score: state.displayScore,
-              character: gameRef.characterTheme,
+              character: readProvider<CharacterTheme>(),
             );
         break;
     }

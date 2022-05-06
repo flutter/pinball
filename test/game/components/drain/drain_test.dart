@@ -6,11 +6,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:pinball/game/game.dart';
 
-import '../../../helpers/helpers.dart';
-
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(TestGame.new);
+  final flameTester = FlameTester(Forge2DGame.new);
 
   group('Drain', () {
     flameTester.test(

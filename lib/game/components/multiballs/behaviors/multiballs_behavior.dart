@@ -6,10 +6,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 
 /// Toggle each [Multiball] when there is a bonus ball.
 class MultiballsBehavior extends Component
-    with
-        HasGameRef<PinballGame>,
-        ParentIsA<Multiballs>,
-        BlocComponent<GameBloc, GameState> {
+    with ParentIsA<Multiballs>, FlameBlocListenable<GameBloc, GameState> {
   @override
   bool listenWhen(GameState? previousState, GameState newState) {
     final hasChanged = previousState?.bonusHistory != newState.bonusHistory;

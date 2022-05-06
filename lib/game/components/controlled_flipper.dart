@@ -21,7 +21,7 @@ class ControlledFlipper extends Flipper with Controls<FlipperController> {
 /// A [ComponentController] that controls a [Flipper]s movement.
 /// {@endtemplate}
 class FlipperController extends ComponentController<Flipper>
-    with KeyboardHandler, BlocComponent<GameBloc, GameState> {
+    with KeyboardHandler, FlameBlocReader<GameBloc, GameState> {
   /// {@macro flipper_controller}
   FlipperController(Flipper flipper)
       : _keys = flipper.side.flipperKeys,
@@ -37,7 +37,7 @@ class FlipperController extends ComponentController<Flipper>
     RawKeyEvent event,
     Set<LogicalKeyboardKey> keysPressed,
   ) {
-    if (state?.status.isGameOver ?? false) return true;
+    if (!bloc.state.status.isPlaying) return true;
     if (!_keys.contains(event.logicalKey)) return true;
 
     if (event is RawKeyDownEvent) {

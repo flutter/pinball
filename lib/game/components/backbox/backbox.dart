@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/game/components/backbox/bloc/backbox_bloc.dart';
 import 'package:pinball/game/components/backbox/displays/displays.dart';
-import 'package:pinball/game/pinball_game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart' hide Assets;
@@ -13,7 +12,7 @@ import 'package:pinball_theme/pinball_theme.dart' hide Assets;
 /// {@template backbox}
 /// The [Backbox] of the pinball machine.
 /// {@endtemplate}
-class Backbox extends PositionComponent with HasGameRef<PinballGame>, ZIndex {
+class Backbox extends PositionComponent with ZIndex {
   /// {@macro backbox}
   Backbox({
     required LeaderboardRepository leaderboardRepository,
