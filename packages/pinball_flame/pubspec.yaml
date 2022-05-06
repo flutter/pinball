@@ -10,7 +10,7 @@ dependencies:
   flame: ^1.1.1
   flame_forge2d:
     git: 
-      url: https://github.com/flame-engine/flame/
+      url: https://github.com/flame-engine/flame
       path: packages/flame_forge2d/
       ref: a50d4a1e7d9eaf66726ed1bb9894c9d495547d8f
   flutter:
