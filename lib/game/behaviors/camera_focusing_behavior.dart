@@ -28,6 +28,8 @@ class CameraFocusingBehavior extends Component
 
   GameStatus? _activeFocus;
 
+  Vector2? _previousSize;
+
   @override
   bool listenWhen(GameState? previousState, GameState newState) {
     return previousState?.status != newState.status;
@@ -38,6 +40,10 @@ class CameraFocusingBehavior extends Component
 
   @override
   void onGameResize(Vector2 size) {
+    super.onGameResize(size);
+    if (size == _previousSize) return;
+    _previousSize = size;
+
     _foci.addAll(
       {
         GameStatus.waiting: _FocusData(
@@ -56,10 +62,8 @@ class CameraFocusingBehavior extends Component
     );
 
     if (_activeFocus != null) {
-      _zoomTo(_activeFocus!);
+      _snap(_activeFocus!);
     }
-
-    super.onGameResize(size);
   }
 
   @override
@@ -69,8 +73,7 @@ class CameraFocusingBehavior extends Component
   }
 
   void _snap(GameStatus focusKey) {
-    _activeFocus = focusKey;
-    final focusData = _foci[_activeFocus]!;
+    final focusData = _foci[_activeFocus = focusKey]!;
 
     gameRef.camera
       ..speed = 100
@@ -79,8 +82,7 @@ class CameraFocusingBehavior extends Component
   }
 
   void _zoomTo(GameStatus focusKey) {
-    _activeFocus = focusKey;
-    final focusData = _foci[_activeFocus]!;
+    final focusData = _foci[_activeFocus = focusKey]!;
 
     final zoom = CameraZoom(value: focusData.zoom);
     zoom.completed.then((_) {
