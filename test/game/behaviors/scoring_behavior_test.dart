@@ -1,6 +1,6 @@
 // ignore_for_file: cascade_invocations
 
-import 'package:bloc_test/bloc_test.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -10,7 +10,29 @@ import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
-import '../../helpers/helpers.dart';
+class _TestGame extends Forge2DGame {
+  @override
+  Future<void> onLoad() async {
+    images.prefix = '';
+    await images.loadAll([
+      Assets.images.score.fiveThousand.keyName,
+      Assets.images.score.twentyThousand.keyName,
+      Assets.images.score.twoHundredThousand.keyName,
+      Assets.images.score.oneMillion.keyName,
+    ]);
+  }
+
+  Future<void> pump(BodyComponent child, {GameBloc? gameBloc}) {
+    return ensureAdd(
+      FlameBlocProvider<GameBloc, GameState>.value(
+        value: gameBloc ?? GameBloc(),
+        children: [
+          ZCanvasComponent(children: [child])
+        ],
+      ),
+    );
+  }
+}
 
 class _TestBodyComponent extends BodyComponent {
   @override
@@ -27,18 +49,13 @@ class _MockContact extends Mock implements Contact {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final assets = [
-    Assets.images.score.fiveThousand.keyName,
-    Assets.images.score.twentyThousand.keyName,
-    Assets.images.score.twoHundredThousand.keyName,
-    Assets.images.score.oneMillion.keyName,
-  ];
 
   late GameBloc bloc;
   late Ball ball;
   late BodyComponent parent;
 
   setUp(() {
+    bloc = _MockGameBloc();
     ball = _MockBall();
     final ballBody = _MockBody();
     when(() => ball.body).thenReturn(ballBody);
@@ -47,23 +64,7 @@ void main() {
     parent = _TestBodyComponent();
   });
 
-  final flameBlocTester = FlameBlocTester<EmptyPinballTestGame, GameBloc>(
-    gameBuilder: EmptyPinballTestGame.new,
-    blocBuilder: () {
-      bloc = _MockGameBloc();
-      const state = GameState(
-        totalScore: 0,
-        roundScore: 0,
-        multiplier: 1,
-        rounds: 3,
-        bonusHistory: [],
-        status: GameStatus.playing,
-      );
-      whenListen(bloc, Stream.value(state), initialState: state);
-      return bloc;
-    },
-    assets: assets,
-  );
+  final flameBlocTester = FlameTester(_TestGame.new);
 
   group('ScoringBehavior', () {
     test('can be instantiated', () {
@@ -76,16 +77,16 @@ void main() {
       );
     });
 
-    flameBlocTester.testGameWidget(
+    flameBlocTester.test(
       'can be loaded',
-      setUp: (game, tester) async {
-        final canvas = ZCanvasComponent(children: [parent]);
+      (game) async {
+        await game.pump(parent);
+
         final behavior = ScoringBehavior(
           points: Points.fiveThousand,
           position: Vector2.zero(),
         );
-        await parent.add(behavior);
-        await game.ensureAdd(canvas);
+        await parent.ensureAdd(behavior);
 
         expect(
           parent.firstChild<ScoringBehavior>(),
@@ -94,13 +95,12 @@ void main() {
       },
     );
 
-    flameBlocTester.testGameWidget(
+    flameBlocTester.test(
       'emits Scored event with points when added',
-      setUp: (game, tester) async {
-        const points = Points.oneMillion;
-        final canvas = ZCanvasComponent(children: [parent]);
-        await game.ensureAdd(canvas);
+      (game) async {
+        await game.pump(parent, gameBloc: bloc);
 
+        const points = Points.oneMillion;
         final behavior = ScoringBehavior(
           points: points,
           position: Vector2(0, 0),
@@ -115,11 +115,10 @@ void main() {
       },
     );
 
-    flameBlocTester.testGameWidget(
+    flameBlocTester.test(
       'correctly renders text',
-      setUp: (game, tester) async {
-        final canvas = ZCanvasComponent(children: [parent]);
-        await game.ensureAdd(canvas);
+      (game) async {
+        await game.pump(parent);
 
         const points = Points.oneMillion;
         final position = Vector2.all(1);
@@ -145,8 +144,8 @@ void main() {
     flameBlocTester.testGameWidget(
       'is removed after duration',
       setUp: (game, tester) async {
-        final canvas = ZCanvasComponent(children: [parent]);
-        await game.ensureAdd(canvas);
+        await game.onLoad();
+        await game.pump(parent);
 
         const duration = 2.0;
         final behavior = ScoringBehavior(
@@ -173,8 +172,8 @@ void main() {
     flameBlocTester.testGameWidget(
       'beginContact adds a ScoringBehavior',
       setUp: (game, tester) async {
-        final canvas = ZCanvasComponent(children: [parent]);
-        await game.ensureAdd(canvas);
+        await game.onLoad();
+        await game.pump(parent);
 
         final behavior = ScoringContactBehavior(points: Points.oneMillion);
         await parent.ensureAdd(behavior);
@@ -192,8 +191,8 @@ void main() {
     flameBlocTester.testGameWidget(
       "beginContact positions text at contact's position",
       setUp: (game, tester) async {
-        final canvas = ZCanvasComponent(children: [parent]);
-        await game.ensureAdd(canvas);
+        await game.onLoad();
+        await game.pump(parent);
 
         final behavior = ScoringContactBehavior(points: Points.oneMillion);
         await parent.ensureAdd(behavior);

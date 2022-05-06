@@ -7,16 +7,57 @@ import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:leaderboard_repository/src/leaderboard_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_audio/src/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_theme/pinball_theme.dart' as theme;
 
-import '../helpers/helpers.dart';
+class _TestPinballGame extends PinballGame {
+  _TestPinballGame()
+      : super(
+          characterTheme: const theme.DashTheme(),
+          leaderboardRepository: _MockLeaderboardRepository(),
+          gameBloc: GameBloc(),
+          l10n: _MockAppLocalizations(),
+          player: _MockPinballPlayer(),
+        );
+
+  @override
+  Future<void> onLoad() async {
+    images.prefix = '';
+    final futures = preLoadAssets();
+    await Future.wait<void>(futures);
+    await super.onLoad();
+  }
+}
+
+class _TestDebugPinballGame extends DebugPinballGame {
+  _TestDebugPinballGame()
+      : super(
+          characterTheme: const theme.DashTheme(),
+          leaderboardRepository: _MockLeaderboardRepository(),
+          gameBloc: GameBloc(),
+          l10n: _MockAppLocalizations(),
+          player: _MockPinballPlayer(),
+        );
+
+  @override
+  Future<void> onLoad() async {
+    images.prefix = '';
+    final futures = preLoadAssets();
+    await Future.wait<void>(futures);
+    await super.onLoad();
+  }
+}
 
 class _MockGameBloc extends Mock implements GameBloc {}
+
+class _MockAppLocalizations extends Mock implements AppLocalizations {}
 
 class _MockEventPosition extends Mock implements EventPosition {}
 
@@ -34,115 +75,13 @@ class _MockDragUpdateInfo extends Mock implements DragUpdateInfo {}
 
 class _MockDragEndInfo extends Mock implements DragEndInfo {}
 
+class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
+}
+
+class _MockPinballPlayer extends Mock implements PinballPlayer {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final assets = [
-    Assets.images.android.bumper.a.lit.keyName,
-    Assets.images.android.bumper.a.dimmed.keyName,
-    Assets.images.android.bumper.b.lit.keyName,
-    Assets.images.android.bumper.b.dimmed.keyName,
-    Assets.images.android.bumper.cow.lit.keyName,
-    Assets.images.android.bumper.cow.dimmed.keyName,
-    Assets.images.backbox.marquee.keyName,
-    Assets.images.backbox.displayDivider.keyName,
-    Assets.images.boardBackground.keyName,
-    theme.Assets.images.android.ball.keyName,
-    theme.Assets.images.dash.ball.keyName,
-    theme.Assets.images.dino.ball.keyName,
-    theme.Assets.images.sparky.ball.keyName,
-    Assets.images.ball.flameEffect.keyName,
-    Assets.images.baseboard.left.keyName,
-    Assets.images.baseboard.right.keyName,
-    Assets.images.boundary.bottom.keyName,
-    Assets.images.boundary.outer.keyName,
-    Assets.images.boundary.outerBottom.keyName,
-    Assets.images.dino.animatronic.mouth.keyName,
-    Assets.images.dino.animatronic.head.keyName,
-    Assets.images.dino.topWall.keyName,
-    Assets.images.dino.topWallTunnel.keyName,
-    Assets.images.dino.bottomWall.keyName,
-    Assets.images.dash.animatronic.keyName,
-    Assets.images.dash.bumper.a.active.keyName,
-    Assets.images.dash.bumper.a.inactive.keyName,
-    Assets.images.dash.bumper.b.active.keyName,
-    Assets.images.dash.bumper.b.inactive.keyName,
-    Assets.images.dash.bumper.main.active.keyName,
-    Assets.images.dash.bumper.main.inactive.keyName,
-    Assets.images.flipper.left.keyName,
-    Assets.images.flipper.right.keyName,
-    Assets.images.googleWord.letter1.lit.keyName,
-    Assets.images.googleWord.letter1.dimmed.keyName,
-    Assets.images.googleWord.letter2.lit.keyName,
-    Assets.images.googleWord.letter2.dimmed.keyName,
-    Assets.images.googleWord.letter3.lit.keyName,
-    Assets.images.googleWord.letter3.dimmed.keyName,
-    Assets.images.googleWord.letter4.lit.keyName,
-    Assets.images.googleWord.letter4.dimmed.keyName,
-    Assets.images.googleWord.letter5.lit.keyName,
-    Assets.images.googleWord.letter5.dimmed.keyName,
-    Assets.images.googleWord.letter6.lit.keyName,
-    Assets.images.googleWord.letter6.dimmed.keyName,
-    Assets.images.kicker.left.lit.keyName,
-    Assets.images.kicker.left.dimmed.keyName,
-    Assets.images.kicker.right.lit.keyName,
-    Assets.images.kicker.right.dimmed.keyName,
-    Assets.images.launchRamp.ramp.keyName,
-    Assets.images.launchRamp.foregroundRailing.keyName,
-    Assets.images.launchRamp.backgroundRailing.keyName,
-    Assets.images.multiball.lit.keyName,
-    Assets.images.multiball.dimmed.keyName,
-    Assets.images.multiplier.x2.lit.keyName,
-    Assets.images.multiplier.x2.dimmed.keyName,
-    Assets.images.multiplier.x3.lit.keyName,
-    Assets.images.multiplier.x3.dimmed.keyName,
-    Assets.images.multiplier.x4.lit.keyName,
-    Assets.images.multiplier.x4.dimmed.keyName,
-    Assets.images.multiplier.x5.lit.keyName,
-    Assets.images.multiplier.x5.dimmed.keyName,
-    Assets.images.multiplier.x6.lit.keyName,
-    Assets.images.multiplier.x6.dimmed.keyName,
-    Assets.images.plunger.plunger.keyName,
-    Assets.images.plunger.rocket.keyName,
-    Assets.images.signpost.inactive.keyName,
-    Assets.images.signpost.active1.keyName,
-    Assets.images.signpost.active2.keyName,
-    Assets.images.signpost.active3.keyName,
-    Assets.images.slingshot.upper.keyName,
-    Assets.images.slingshot.lower.keyName,
-    Assets.images.android.spaceship.saucer.keyName,
-    Assets.images.android.spaceship.animatronic.keyName,
-    Assets.images.android.spaceship.lightBeam.keyName,
-    Assets.images.android.ramp.boardOpening.keyName,
-    Assets.images.android.ramp.railingForeground.keyName,
-    Assets.images.android.ramp.railingBackground.keyName,
-    Assets.images.android.ramp.main.keyName,
-    Assets.images.android.ramp.arrow.inactive.keyName,
-    Assets.images.android.ramp.arrow.active1.keyName,
-    Assets.images.android.ramp.arrow.active2.keyName,
-    Assets.images.android.ramp.arrow.active3.keyName,
-    Assets.images.android.ramp.arrow.active4.keyName,
-    Assets.images.android.ramp.arrow.active5.keyName,
-    Assets.images.android.rail.main.keyName,
-    Assets.images.android.rail.exit.keyName,
-    Assets.images.sparky.animatronic.keyName,
-    Assets.images.sparky.computer.top.keyName,
-    Assets.images.sparky.computer.base.keyName,
-    Assets.images.sparky.computer.glow.keyName,
-    Assets.images.sparky.animatronic.keyName,
-    Assets.images.sparky.bumper.a.lit.keyName,
-    Assets.images.sparky.bumper.a.dimmed.keyName,
-    Assets.images.sparky.bumper.b.lit.keyName,
-    Assets.images.sparky.bumper.b.dimmed.keyName,
-    Assets.images.sparky.bumper.c.lit.keyName,
-    Assets.images.sparky.bumper.c.dimmed.keyName,
-    Assets.images.flapper.flap.keyName,
-    Assets.images.flapper.backSupport.keyName,
-    Assets.images.flapper.frontSupport.keyName,
-    Assets.images.skillShot.decal.keyName,
-    Assets.images.skillShot.pin.keyName,
-    Assets.images.skillShot.lit.keyName,
-    Assets.images.skillShot.dimmed.keyName,
-  ];
 
   late GameBloc gameBloc;
 
@@ -156,17 +95,10 @@ void main() {
   });
 
   group('PinballGame', () {
-    final flameTester = FlameTester(
-      () => PinballTestGame(assets: assets),
-    );
-
-    final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
-      gameBuilder: () => PinballTestGame(assets: assets),
-      blocBuilder: () => gameBloc,
-    );
+    final flameTester = FlameTester(_TestPinballGame.new);
 
     group('components', () {
-      flameBlocTester.test(
+      flameTester.test(
         'has only one BallSpawningBehavior',
         (game) async {
           await game.ready();
@@ -177,7 +109,7 @@ void main() {
         },
       );
 
-      flameBlocTester.test(
+      flameTester.test(
         'has only one Drain',
         (game) async {
           await game.ready();
@@ -188,7 +120,7 @@ void main() {
         },
       );
 
-      flameBlocTester.test(
+      flameTester.test(
         'has only one BottomGroup',
         (game) async {
           await game.ready();
@@ -199,7 +131,7 @@ void main() {
         },
       );
 
-      flameBlocTester.test(
+      flameTester.test(
         'has only one Launcher',
         (game) async {
           await game.ready();
@@ -210,7 +142,7 @@ void main() {
         },
       );
 
-      flameBlocTester.test(
+      flameTester.test(
         'has one FlutterForest',
         (game) async {
           await game.ready();
@@ -221,11 +153,10 @@ void main() {
         },
       );
 
-      flameBlocTester.test(
+      flameTester.test(
         'has only one Multiballs',
         (game) async {
           await game.ready();
-
           expect(
             game.descendants().whereType<Multiballs>().length,
             equals(1),
@@ -233,7 +164,7 @@ void main() {
         },
       );
 
-      flameBlocTester.test(
+      flameTester.test(
         'one GoogleWord',
         (game) async {
           await game.ready();
@@ -244,7 +175,7 @@ void main() {
         },
       );
 
-      flameBlocTester.test('one SkillShot', (game) async {
+      flameTester.test('one SkillShot', (game) async {
         await game.ready();
         expect(
           game.descendants().whereType<SkillShot>().length,
@@ -252,10 +183,13 @@ void main() {
         );
       });
 
-      flameBlocTester.testGameWidget(
+      flameTester.testGameWidget(
         'paints sprites with FilterQuality.medium',
         setUp: (game, tester) async {
-          await game.images.loadAll(assets);
+          game.images.prefix = '';
+          final futures = game.preLoadAssets();
+          await Future.wait<void>(futures);
+
           await game.ready();
 
           final descendants = game.descendants();
@@ -459,12 +393,9 @@ void main() {
   });
 
   group('DebugPinballGame', () {
-    final debugAssets = [Assets.images.ball.flameEffect.keyName, ...assets];
-    final debugModeFlameTester = FlameTester(
-      () => DebugPinballTestGame(assets: debugAssets),
-    );
+    final flameTester = FlameTester(_TestDebugPinballGame.new);
 
-    debugModeFlameTester.test(
+    flameTester.test(
       'adds a ball on tap up',
       (game) async {
         final eventPosition = _MockEventPosition();
@@ -494,7 +425,7 @@ void main() {
       },
     );
 
-    debugModeFlameTester.test(
+    flameTester.test(
       'set lineStart on pan start',
       (game) async {
         final startPosition = Vector2.all(10);
@@ -514,7 +445,7 @@ void main() {
       },
     );
 
-    debugModeFlameTester.test(
+    flameTester.test(
       'set lineEnd on pan update',
       (game) async {
         final endPosition = Vector2.all(10);
@@ -534,7 +465,7 @@ void main() {
       },
     );
 
-    debugModeFlameTester.test(
+    flameTester.test(
       'launch ball on pan end',
       (game) async {
         final startPosition = Vector2.zero();

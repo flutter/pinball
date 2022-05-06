@@ -3,7 +3,9 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flame/components.dart';
+import 'package:flame/input.dart';
+import 'package:flame_bloc/flame_bloc.dart';
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,9 +17,39 @@ import 'package:pinball/game/components/backbox/displays/displays.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart' as theme;
 
-import '../../../helpers/helpers.dart';
+class _TestGame extends Forge2DGame with HasKeyboardHandlerComponents {
+  final character = theme.DashTheme();
+
+  @override
+  Color backgroundColor() => Colors.transparent;
+
+  @override
+  Future<void> onLoad() async {
+    images.prefix = '';
+    await images.loadAll([
+      character.leaderboardIcon.keyName,
+      Assets.images.backbox.marquee.keyName,
+      Assets.images.backbox.displayDivider.keyName,
+    ]);
+  }
+
+  Future<void> pump(Backbox component) {
+    return ensureAdd(
+      FlameBlocProvider<GameBloc, GameState>.value(
+        value: GameBloc(),
+        children: [
+          FlameProvider.value(
+            _MockAppLocalizations(),
+            children: [component],
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class _MockRawKeyUpEvent extends Mock implements RawKeyUpEvent {
   @override
@@ -65,18 +97,8 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  const character = theme.AndroidTheme();
-  final assets = [
-    character.leaderboardIcon.keyName,
-    Assets.images.backbox.marquee.keyName,
-    Assets.images.backbox.displayDivider.keyName,
-  ];
-  final flameTester = FlameTester(
-    () => EmptyPinballTestGame(
-      assets: assets,
-      l10n: _MockAppLocalizations(),
-    ),
-  );
+
+  final flameTester = FlameTester(_TestGame.new);
 
   late BackboxBloc bloc;
 
@@ -94,27 +116,26 @@ void main() {
       'loads correctly',
       (game) async {
         final backbox = Backbox.test(bloc: bloc);
-        await game.ensureAdd(backbox);
-
-        expect(game.children, contains(backbox));
+        await game.pump(backbox);
+        expect(game.descendants(), contains(backbox));
       },
     );
 
     flameTester.testGameWidget(
       'renders correctly',
       setUp: (game, tester) async {
-        await game.images.loadAll(assets);
+        await game.onLoad();
         game.camera
           ..followVector2(Vector2(0, -130))
           ..zoom = 6;
-        await game.ensureAdd(
+        await game.pump(
           Backbox.test(bloc: bloc),
         );
         await tester.pump();
       },
       verify: (game, tester) async {
         await expectLater(
-          find.byGame<EmptyPinballTestGame>(),
+          find.byGame<_TestGame>(),
           matchesGoldenFile('../golden/backbox.png'),
         );
       },
@@ -128,10 +149,10 @@ void main() {
             leaderboardRepository: _MockLeaderboardRepository(),
           ),
         );
-        await game.ensureAdd(backbox);
+        await game.pump(backbox);
         backbox.requestInitials(
           score: 0,
-          character: character,
+          character: game.character,
         );
         await game.ready();
 
@@ -148,7 +169,7 @@ void main() {
         final bloc = _MockBackboxBloc();
         final state = InitialsFormState(
           score: 10,
-          character: theme.AndroidTheme(),
+          character: game.character,
         );
         whenListen(
           bloc,
@@ -156,7 +177,7 @@ void main() {
           initialState: state,
         );
         final backbox = Backbox.test(bloc: bloc);
-        await game.ensureAdd(backbox);
+        await game.pump(backbox);
 
         game.onKeyEvent(_mockKeyUp(LogicalKeyboardKey.enter), {});
         verify(
@@ -164,7 +185,7 @@ void main() {
             PlayerInitialsSubmitted(
               score: 10,
               initials: 'AAA',
-              character: theme.AndroidTheme(),
+              character: game.character,
             ),
           ),
         ).called(1);
@@ -180,7 +201,7 @@ void main() {
           initialState: InitialsSuccessState(),
         );
         final backbox = Backbox.test(bloc: bloc);
-        await game.ensureAdd(backbox);
+        await game.pump(backbox);
 
         expect(
           game
@@ -201,7 +222,7 @@ void main() {
           initialState: InitialsFailureState(),
         );
         final backbox = Backbox.test(bloc: bloc);
-        await game.ensureAdd(backbox);
+        await game.pump(backbox);
 
         expect(
           game
@@ -224,7 +245,7 @@ void main() {
         );
 
         final backbox = Backbox.test(bloc: bloc);
-        await game.ensureAdd(backbox);
+        await game.pump(backbox);
 
         backbox.removeFromParent();
         await game.ready();

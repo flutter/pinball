@@ -22,6 +22,9 @@ enum PinballAudio {
 
   /// Game over
   gameOverVoiceOver,
+
+  /// Launcher
+  launcher,
 }
 
 /// Defines the contract of the creation of an [AudioPool].
@@ -157,6 +160,11 @@ class PinballPlayer {
         preCacheSingleAudio: _preCacheSingleAudio,
         playSingleAudio: _playSingleAudio,
         path: Assets.sfx.google,
+      ),
+      PinballAudio.launcher: _SimplePlayAudio(
+        preCacheSingleAudio: _preCacheSingleAudio,
+        playSingleAudio: _playSingleAudio,
+        path: Assets.sfx.launcher,
       ),
       PinballAudio.ioPinballVoiceOver: _SimplePlayAudio(
         preCacheSingleAudio: _preCacheSingleAudio,
