@@ -128,4 +128,17 @@
   "@ioPinball": {
     "description": "I/O Pinball - Name of the game"
   }
+  ,
+  "letEveryone": "Let everyone know about I/O Pinball",
+  "@letEveryone": {
+    "description": "Text displayed on share screen for description"
+  },
+  "bySharingYourScore": "by sharing your score to your preferred",
+  "@bySharingYourScore": {
+    "description": "Text displayed on share screen for description"
+  },
+  "socialMediaAccount": "social media account!",
+  "@socialMediaAccount": {
+    "description": "Text displayed on share screen for description"
+  }
 }

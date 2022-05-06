@@ -576,6 +576,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.1"
+  share_repository:
+    dependency: "direct main"
+    description:
+      path: "packages/share_repository"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   shelf:
     dependency: transitive
     description:
