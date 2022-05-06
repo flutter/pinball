@@ -76,7 +76,7 @@ class InitialsFailureState extends BackboxState {
   List<Object?> get props => [];
 }
 
-/// {@template initials_form_state}
+/// {@template share_state}
 /// State when the user is sharing the score.
 /// {@endtemplate}
 class ShareState extends BackboxState {
