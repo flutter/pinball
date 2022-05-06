@@ -6,7 +6,7 @@ class ErrorComponentGame extends AssetsGame {
   ErrorComponentGame({required this.text});
 
   static const description =
-      'Static example showing how error components looks like.';
+      'Shows how ErrorComponents are rendered.';
 
   final String text;
 
