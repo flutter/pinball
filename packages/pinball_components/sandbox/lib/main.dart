@@ -8,6 +8,7 @@ void main() {
   addBallStories(dashbook);
   addLayerStories(dashbook);
   addEffectsStories(dashbook);
+  addErrorComponentStories(dashbook);
   addFlutterForestStories(dashbook);
   addSparkyScorchStories(dashbook);
   addAndroidAcresStories(dashbook);

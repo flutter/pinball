@@ -112,7 +112,7 @@ packages:
       path: "packages/flame_forge2d"
       ref: a50d4a1e7d9eaf66726ed1bb9894c9d495547d8f
       resolved-ref: a50d4a1e7d9eaf66726ed1bb9894c9d495547d8f
-      url: "https://github.com/flame-engine/flame/"
+      url: "https://github.com/flame-engine/flame"
     source: git
     version: "0.11.0"
   flutter:
@@ -270,6 +270,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0+1"
+  pinball_ui:
+    dependency: transitive
+    description:
+      path: "../../pinball_ui"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   platform:
     dependency: transitive
     description:
@@ -407,7 +414,7 @@ packages:
       name: url_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.20"
+    version: "6.1.0"
   url_launcher_android:
     dependency: transitive
     description:
