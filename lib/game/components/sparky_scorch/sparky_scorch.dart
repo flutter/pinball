@@ -4,7 +4,6 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/components/components.dart';
-import 'package:pinball/game/components/sparky_scorch/sparky_scorch_noise_behavior.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 export 'sparky_scorch_noise_behavior.dart';
