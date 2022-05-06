@@ -7,14 +7,14 @@ void main() {
     'SparkyComputerCubit',
     () {
       blocTest<SparkyComputerCubit, SparkyComputerState>(
-        'onBallEntered emits dimmed',
+        'onBallEntered emits withBall',
         build: SparkyComputerCubit.new,
         act: (bloc) => bloc.onBallEntered(),
         expect: () => [SparkyComputerState.withBall],
       );
 
       blocTest<SparkyComputerCubit, SparkyComputerState>(
-        'onBallTurboCharged emits lit',
+        'onBallTurboCharged emits withoutBall',
         build: SparkyComputerCubit.new,
         act: (bloc) => bloc.onBallTurboCharged(),
         expect: () => [SparkyComputerState.withoutBall],
