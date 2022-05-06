@@ -5,18 +5,22 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// Adds a [GameBonus.androidSpaceship] when [AndroidSpaceship] has a bonus.
-class AndroidSpaceshipBonusBehavior extends Component
-    with ParentIsA<AndroidAcres>, FlameBlocReader<GameBloc, GameState> {
+class AndroidSpaceshipBonusBehavior extends Component {
   @override
-  void onMount() {
-    super.onMount();
-    final androidSpaceship = parent.firstChild<AndroidSpaceship>()!;
-    androidSpaceship.bloc.stream.listen((state) {
-      final listenWhen = state == AndroidSpaceshipState.withBonus;
-      if (!listenWhen) return;
-
-      bloc.add(const BonusActivated(GameBonus.androidSpaceship));
-      androidSpaceship.bloc.onBonusAwarded();
-    });
+  Future<void> onLoad() async {
+    await super.onLoad();
+    final androidSpaceshipCubit =
+        readBloc<AndroidSpaceshipCubit, AndroidSpaceshipState>();
+    await add(
+      FlameBlocListener<AndroidSpaceshipCubit, AndroidSpaceshipState>(
+        listenWhen: (_, state) => state == AndroidSpaceshipState.withBonus,
+        onNewState: (state) {
+          readBloc<GameBloc, GameState>().add(
+            const BonusActivated(GameBonus.androidSpaceship),
+          );
+          androidSpaceshipCubit.onBonusAwarded();
+        },
+      ),
+    );
   }
 }
