@@ -94,7 +94,7 @@ void main() {
     });
 
     blocTest<BackboxBloc, BackboxState>(
-      'adds ShareState on ScoreShareRequested',
+      'emits ShareState on ScoreShareRequested',
       setUp: () {
         leaderboardRepository = _MockLeaderboardRepository();
       },
