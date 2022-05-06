@@ -50,7 +50,7 @@ void main() {
     });
 
     flameTester.test(
-      'can be laoded',
+      'can be loaded',
       (game) async {
         final parent = Multiballs.test();
         final behavior = MultiballsBehavior();
@@ -62,18 +62,20 @@ void main() {
 
     group('listenWhen', () {
       test(
-          'is true when the bonusHistory has changed '
-          'with a new GameBonus.dashNest', () {
-        final previous = GameState.initial();
-        final state = previous.copyWith(
-          bonusHistory: [GameBonus.dashNest],
-        );
+        'is true when the bonusHistory has changed '
+        'with a new GameBonus.dashNest',
+        () {
+          final previous = GameState.initial();
+          final state = previous.copyWith(
+            bonusHistory: [GameBonus.dashNest],
+          );
 
-        expect(
-          MultiballsBehavior().listenWhen(previous, state),
-          isTrue,
-        );
-      });
+          expect(
+            MultiballsBehavior().listenWhen(previous, state),
+            isTrue,
+          );
+        },
+      );
 
       test(
           'is false when the bonusHistory has changed '
