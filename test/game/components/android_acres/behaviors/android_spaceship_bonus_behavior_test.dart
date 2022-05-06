@@ -69,6 +69,7 @@ void main() {
       'adds GameBonus.androidSpaceship to the game '
       'when android spacehship has a bonus',
       setUp: (game, tester) async {
+        await game.onLoad();
         final behavior = AndroidSpaceshipBonusBehavior();
         final parent = AndroidAcres.test();
         final androidSpaceship = AndroidSpaceship(position: Vector2.zero());
