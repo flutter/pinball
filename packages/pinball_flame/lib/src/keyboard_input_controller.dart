@@ -18,6 +18,18 @@ class KeyboardInputController extends Component with KeyboardHandler {
   final Map<LogicalKeyboardKey, KeyHandlerCallback> _keyUp;
   final Map<LogicalKeyboardKey, KeyHandlerCallback> _keyDown;
 
+  /// Trigger a virtual key up, can be used to simulate a key up event, without
+  /// having a real physical event happening.
+  bool onVirtualKeyUp(LogicalKeyboardKey key) {
+    final handler = _keyUp[key];
+
+    if (handler != null) {
+      return handler();
+    }
+
+    return true;
+  }
+
   @override
   bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
     final isUp = event is RawKeyUpEvent;

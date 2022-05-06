@@ -3,6 +3,7 @@
 import 'package:flame/game.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/assets_manager/assets_manager.dart';
@@ -135,6 +136,36 @@ class PinballGameLoadedView extends StatelessWidget {
                       right: 0,
                       left: 0,
                       child: PlayButtonOverlay(),
+                    );
+                  },
+                  PinballGame.mobileControlsOverlay: (context, game) {
+                    return Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: MobileControls(
+                        onTapUp: () {
+                          game.triggerVirtualKeyUp(LogicalKeyboardKey.arrowUp);
+                        },
+                        onTapDown: () {
+                          game.triggerVirtualKeyUp(
+                            LogicalKeyboardKey.arrowDown,
+                          );
+                        },
+                        onTapLeft: () {
+                          game.triggerVirtualKeyUp(
+                            LogicalKeyboardKey.arrowLeft,
+                          );
+                        },
+                        onTapRight: () {
+                          game.triggerVirtualKeyUp(
+                            LogicalKeyboardKey.arrowRight,
+                          );
+                        },
+                        onTapEnter: () {
+                          game.triggerVirtualKeyUp(LogicalKeyboardKey.enter);
+                        },
+                      ),
                     );
                   },
                 },
