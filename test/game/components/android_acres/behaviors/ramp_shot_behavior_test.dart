@@ -3,6 +3,8 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame_bloc/flame_bloc.dart';
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -12,7 +14,41 @@ import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
-import '../../../../helpers/helpers.dart';
+class _TestGame extends Forge2DGame {
+  @override
+  Future<void> onLoad() async {
+    images.prefix = '';
+    await images.loadAll([
+      Assets.images.android.ramp.boardOpening.keyName,
+      Assets.images.android.ramp.railingForeground.keyName,
+      Assets.images.android.ramp.railingBackground.keyName,
+      Assets.images.android.ramp.main.keyName,
+      Assets.images.android.ramp.arrow.inactive.keyName,
+      Assets.images.android.ramp.arrow.active1.keyName,
+      Assets.images.android.ramp.arrow.active2.keyName,
+      Assets.images.android.ramp.arrow.active3.keyName,
+      Assets.images.android.ramp.arrow.active4.keyName,
+      Assets.images.android.ramp.arrow.active5.keyName,
+      Assets.images.android.rail.main.keyName,
+      Assets.images.android.rail.exit.keyName,
+      Assets.images.score.fiveThousand.keyName,
+    ]);
+  }
+
+  Future<void> pump(
+    SpaceshipRamp child, {
+    required GameBloc gameBloc,
+  }) async {
+    await ensureAdd(
+      FlameBlocProvider<GameBloc, GameState>.value(
+        value: gameBloc,
+        children: [
+          ZCanvasComponent(children: [child]),
+        ],
+      ),
+    );
+  }
+}
 
 class _MockGameBloc extends Mock implements GameBloc {}
 
@@ -23,21 +59,6 @@ class _MockStreamSubscription extends Mock
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final assets = [
-    Assets.images.android.ramp.boardOpening.keyName,
-    Assets.images.android.ramp.railingForeground.keyName,
-    Assets.images.android.ramp.railingBackground.keyName,
-    Assets.images.android.ramp.main.keyName,
-    Assets.images.android.ramp.arrow.inactive.keyName,
-    Assets.images.android.ramp.arrow.active1.keyName,
-    Assets.images.android.ramp.arrow.active2.keyName,
-    Assets.images.android.ramp.arrow.active3.keyName,
-    Assets.images.android.ramp.arrow.active4.keyName,
-    Assets.images.android.ramp.arrow.active5.keyName,
-    Assets.images.android.rail.main.keyName,
-    Assets.images.android.rail.exit.keyName,
-    Assets.images.score.fiveThousand.keyName,
-  ];
 
   group('RampShotBehavior', () {
     const shotPoints = Points.fiveThousand;
@@ -46,23 +67,14 @@ void main() {
 
     setUp(() {
       gameBloc = _MockGameBloc();
-      whenListen(
-        gameBloc,
-        const Stream<GameState>.empty(),
-        initialState: const GameState.initial(),
-      );
     });
 
-    final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
-      gameBuilder: EmptyPinballTestGame.new,
-      blocBuilder: () => gameBloc,
-      assets: assets,
-    );
+    final flameBlocTester = FlameTester(_TestGame.new);
 
-    flameBlocTester.testGameWidget(
+    flameBlocTester.test(
       'when hits are not multiple of 10 times '
       'increases multiplier and adds a ScoringBehavior',
-      setUp: (game, tester) async {
+      (game) async {
         final bloc = _MockSpaceshipRampCubit();
         final streamController = StreamController<SpaceshipRampState>();
         whenListen(
@@ -70,14 +82,13 @@ void main() {
           streamController.stream,
           initialState: SpaceshipRampState.initial(),
         );
-        final behavior = RampShotBehavior(
-          points: shotPoints,
-        );
-        final parent = SpaceshipRamp.test(
-          bloc: bloc,
-        );
+        final behavior = RampShotBehavior(points: shotPoints);
+        final parent = SpaceshipRamp.test(bloc: bloc);
 
-        await game.ensureAdd(ZCanvasComponent(children: [parent]));
+        await game.pump(
+          parent,
+          gameBloc: gameBloc,
+        );
         await parent.ensureAdd(behavior);
 
         streamController.add(SpaceshipRampState(hits: 1));
@@ -90,10 +101,10 @@ void main() {
       },
     );
 
-    flameBlocTester.testGameWidget(
+    flameBlocTester.test(
       'when hits multiple of 10 times '
       "doesn't increase multiplier, neither ScoringBehavior",
-      setUp: (game, tester) async {
+      (game) async {
         final bloc = _MockSpaceshipRampCubit();
         final streamController = StreamController<SpaceshipRampState>();
         whenListen(
@@ -108,7 +119,10 @@ void main() {
           bloc: bloc,
         );
 
-        await game.ensureAdd(ZCanvasComponent(children: [parent]));
+        await game.pump(
+          parent,
+          gameBloc: gameBloc,
+        );
         await parent.ensureAdd(behavior);
 
         streamController.add(SpaceshipRampState(hits: 10));
@@ -121,9 +135,9 @@ void main() {
       },
     );
 
-    flameBlocTester.testGameWidget(
+    flameBlocTester.test(
       'closes subscription when removed',
-      setUp: (game, tester) async {
+      (game) async {
         final bloc = _MockSpaceshipRampCubit();
         whenListen(
           bloc,
@@ -143,7 +157,10 @@ void main() {
           bloc: bloc,
         );
 
-        await game.ensureAdd(ZCanvasComponent(children: [parent]));
+        await game.pump(
+          parent,
+          gameBloc: gameBloc,
+        );
         await parent.ensureAdd(behavior);
 
         parent.remove(behavior);

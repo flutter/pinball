@@ -147,6 +147,15 @@ void main() {
           ),
         ).called(1);
         verify(
+          () => preCacheSingleAudio.onCall(
+            'packages/pinball_audio/assets/sfx/game_over_voice_over.mp3',
+          ),
+        ).called(1);
+        verify(
+          () => preCacheSingleAudio
+              .onCall('packages/pinball_audio/assets/sfx/launcher.mp3'),
+        ).called(1);
+        verify(
           () => preCacheSingleAudio
               .onCall('packages/pinball_audio/assets/music/background.mp3'),
         ).called(1);
@@ -214,6 +223,18 @@ void main() {
       });
     });
 
+    group('launcher', () {
+      test('plays the correct file', () async {
+        await Future.wait(player.load());
+        player.play(PinballAudio.launcher);
+
+        verify(
+          () => playSingleAudio
+              .onCall('packages/pinball_audio/${Assets.sfx.launcher}'),
+        ).called(1);
+      });
+    });
+
     group('ioPinballVoiceOver', () {
       test('plays the correct file', () async {
         await Future.wait(player.load());
@@ -222,6 +243,19 @@ void main() {
         verify(
           () => playSingleAudio.onCall(
             'packages/pinball_audio/${Assets.sfx.ioPinballVoiceOver}',
+          ),
+        ).called(1);
+      });
+    });
+
+    group('gameOverVoiceOver', () {
+      test('plays the correct file', () async {
+        await Future.wait(player.load());
+        player.play(PinballAudio.gameOverVoiceOver);
+
+        verify(
+          () => playSingleAudio.onCall(
+            'packages/pinball_audio/${Assets.sfx.gameOverVoiceOver}',
           ),
         ).called(1);
       });

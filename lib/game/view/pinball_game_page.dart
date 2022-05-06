@@ -40,33 +40,40 @@ class PinballGamePage extends StatelessWidget {
     final player = context.read<PinballPlayer>();
     final leaderboardRepository = context.read<LeaderboardRepository>();
 
-    final game = isDebugMode
-        ? DebugPinballGame(
-            characterTheme: characterTheme,
-            player: player,
-            leaderboardRepository: leaderboardRepository,
-            l10n: context.l10n,
-          )
-        : PinballGame(
-            characterTheme: characterTheme,
-            player: player,
-            leaderboardRepository: leaderboardRepository,
-            l10n: context.l10n,
+    return BlocProvider(
+      create: (_) => GameBloc(),
+      child: Builder(
+        builder: (context) {
+          final gameBloc = context.read<GameBloc>();
+          final game = isDebugMode
+              ? DebugPinballGame(
+                  characterTheme: characterTheme,
+                  player: player,
+                  leaderboardRepository: leaderboardRepository,
+                  l10n: context.l10n,
+                  gameBloc: gameBloc,
+                )
+              : PinballGame(
+                  characterTheme: characterTheme,
+                  player: player,
+                  leaderboardRepository: leaderboardRepository,
+                  l10n: context.l10n,
+                  gameBloc: gameBloc,
+                );
+
+          final loadables = [
+            ...game.preLoadAssets(),
+            ...player.load(),
+            ...BonusAnimation.loadAssets(),
+            ...SelectedCharacter.loadAssets(),
+          ];
+
+          return BlocProvider(
+            create: (_) => AssetsManagerCubit(loadables)..load(),
+            child: PinballGameView(game: game),
           );
-
-    final loadables = [
-      ...game.preLoadAssets(),
-      ...player.load(),
-      ...BonusAnimation.loadAssets(),
-      ...SelectedCharacter.loadAssets(),
-    ];
-
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => GameBloc()),
-        BlocProvider(create: (_) => AssetsManagerCubit(loadables)..load()),
-      ],
-      child: PinballGameView(game: game),
+        },
+      ),
     );
   }
 }
@@ -107,14 +114,6 @@ class PinballGameLoadedView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isPlaying = context.select(
-      (StartGameBloc bloc) => bloc.state.status == StartGameStatus.play,
-    );
-    final gameWidgetWidth = MediaQuery.of(context).size.height * 9 / 16;
-    final screenWidth = MediaQuery.of(context).size.width;
-    final leftMargin = (screenWidth / 2) - (gameWidgetWidth / 1.8);
-    final clampedMargin = leftMargin > 0 ? leftMargin : 0.0;
-
     return StartGameListener(
       child: Stack(
         children: [
@@ -134,15 +133,35 @@ class PinballGameLoadedView extends StatelessWidget {
               },
             ),
           ),
-          Positioned(
-            top: 0,
-            left: clampedMargin,
-            child: Visibility(
-              visible: isPlaying,
-              child: const GameHud(),
-            ),
-          ),
+          const _PositionedGameHud(),
         ],
+      ),
+    );
+  }
+}
+
+class _PositionedGameHud extends StatelessWidget {
+  const _PositionedGameHud({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final isPlaying = context.select(
+      (StartGameBloc bloc) => bloc.state.status == StartGameStatus.play,
+    );
+    final isGameOver = context.select(
+      (GameBloc bloc) => bloc.state.status.isGameOver,
+    );
+    final gameWidgetWidth = MediaQuery.of(context).size.height * 9 / 16;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final leftMargin = (screenWidth / 2) - (gameWidgetWidth / 1.8);
+    final clampedMargin = leftMargin > 0 ? leftMargin : 0.0;
+
+    return Positioned(
+      top: 0,
+      left: clampedMargin,
+      child: Visibility(
+        visible: isPlaying && !isGameOver,
+        child: const GameHud(),
       ),
     );
   }

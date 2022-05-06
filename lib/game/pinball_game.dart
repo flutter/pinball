@@ -17,19 +17,21 @@ import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
 class PinballGame extends PinballForge2DGame
-    with
-        FlameBloc,
-        HasKeyboardHandlerComponents,
-        Controls<_GameBallsController>,
-        MultiTouchTapDetector {
+    with HasKeyboardHandlerComponents, MultiTouchTapDetector {
   PinballGame({
-    required this.characterTheme,
+    required CharacterTheme characterTheme,
     required this.leaderboardRepository,
-    required this.l10n,
-    required this.player,
-  }) : super(gravity: Vector2(0, 30)) {
+    required GameBloc gameBloc,
+    required AppLocalizations l10n,
+    required PinballPlayer player,
+  })  : _gameBloc = gameBloc,
+        _player = player,
+        _characterTheme = characterTheme,
+        _l10n = l10n,
+        super(
+          gravity: Vector2(0, 30),
+        ) {
     images.prefix = '';
-    controller = _GameBallsController(this);
   }
 
   /// Identifier of the play button overlay
@@ -38,63 +40,68 @@ class PinballGame extends PinballForge2DGame
   @override
   Color backgroundColor() => Colors.transparent;
 
-  final CharacterTheme characterTheme;
+  final CharacterTheme _characterTheme;
 
-  final PinballPlayer player;
+  final PinballPlayer _player;
 
   final LeaderboardRepository leaderboardRepository;
 
-  final AppLocalizations l10n;
+  final AppLocalizations _l10n;
+
+  final GameBloc _gameBloc;
 
   @override
   Future<void> onLoad() async {
-    await add(CameraController(this));
-
-    final machine = [
-      BoardBackgroundSpriteComponent(),
-      Boundaries(),
-      Backbox(leaderboardRepository: leaderboardRepository),
-    ];
-    final decals = [
-      GoogleWord(position: Vector2(-4.25, 1.8)),
-      Multipliers(),
-      Multiballs(),
-      SkillShot(
+    await add(
+      FlameBlocProvider<GameBloc, GameState>.value(
+        value: _gameBloc,
         children: [
-          ScoringContactBehavior(points: Points.oneMillion),
+          MultiFlameProvider(
+            providers: [
+              FlameProvider<PinballPlayer>.value(_player),
+              FlameProvider<CharacterTheme>.value(_characterTheme),
+              FlameProvider<LeaderboardRepository>.value(leaderboardRepository),
+              FlameProvider<AppLocalizations>.value(_l10n),
+            ],
+            children: [
+              GameBlocStatusListener(),
+              BallSpawningBehavior(),
+              CameraFocusingBehavior(),
+              CanvasComponent(
+                onSpritePainted: (paint) {
+                  if (paint.filterQuality != FilterQuality.medium) {
+                    paint.filterQuality = FilterQuality.medium;
+                  }
+                },
+                children: [
+                  ZCanvasComponent(
+                    children: [
+                      BoardBackgroundSpriteComponent(),
+                      Boundaries(),
+                      Backbox(leaderboardRepository: leaderboardRepository),
+                      GoogleWord(position: Vector2(-4.45, 1.8)),
+                      Multipliers(),
+                      Multiballs(),
+                      SkillShot(
+                        children: [
+                          ScoringContactBehavior(points: Points.oneMillion),
+                        ],
+                      ),
+                      AndroidAcres(),
+                      DinoDesert(),
+                      FlutterForest(),
+                      SparkyScorch(),
+                      Drain(),
+                      BottomGroup(),
+                      Launcher(),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ],
       ),
-    ];
-    final characterAreas = [
-      AndroidAcres(),
-      DinoDesert(),
-      FlutterForest(),
-      SparkyScorch(),
-    ];
-
-    await addAll(
-      [
-        GameBlocStatusListener(),
-        CanvasComponent(
-          onSpritePainted: (paint) {
-            if (paint.filterQuality != FilterQuality.medium) {
-              paint.filterQuality = FilterQuality.medium;
-            }
-          },
-          children: [
-            ZCanvasComponent(
-              children: [
-                ...machine,
-                ...decals,
-                ...characterAreas,
-                Drain(),
-                BottomGroup(),
-                Launcher(),
-              ],
-            ),
-          ],
-        ),
-      ],
     );
 
     await super.onLoad();
@@ -148,57 +155,20 @@ class PinballGame extends PinballForge2DGame
   }
 }
 
-class _GameBallsController extends ComponentController<PinballGame>
-    with BlocComponent<GameBloc, GameState> {
-  _GameBallsController(PinballGame game) : super(game);
-
-  @override
-  bool listenWhen(GameState? previousState, GameState newState) {
-    final noBallsLeft = component.descendants().whereType<Ball>().isEmpty;
-    return noBallsLeft && newState.status.isPlaying;
-  }
-
-  @override
-  void onNewState(GameState state) {
-    super.onNewState(state);
-    spawnBall();
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    spawnBall();
-  }
-
-  void spawnBall() {
-    // TODO(alestiago): Refactor with behavioural pattern.
-    component.ready().whenComplete(() {
-      final plunger = parent!.descendants().whereType<Plunger>().single;
-      final ball = ControlledBall.launch(
-        characterTheme: component.characterTheme,
-      )..initialPosition = Vector2(
-          plunger.body.position.x,
-          plunger.body.position.y - Ball.size.y,
-        );
-      component.descendants().whereType<ZCanvasComponent>().single.add(ball);
-    });
-  }
-}
-
 class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
   DebugPinballGame({
     required CharacterTheme characterTheme,
     required LeaderboardRepository leaderboardRepository,
     required AppLocalizations l10n,
     required PinballPlayer player,
+    required GameBloc gameBloc,
   }) : super(
           characterTheme: characterTheme,
           player: player,
           leaderboardRepository: leaderboardRepository,
           l10n: l10n,
-        ) {
-    controller = _GameBallsController(this);
-  }
+          gameBloc: gameBloc,
+        );
 
   Vector2? lineStart;
   Vector2? lineEnd;

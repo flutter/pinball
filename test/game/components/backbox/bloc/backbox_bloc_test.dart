@@ -88,5 +88,41 @@ void main() {
         ],
       );
     });
+
+    group('LeaderboardRequested', () {
+      blocTest<BackboxBloc, BackboxState>(
+        'adds [LoadingState, LeaderboardSuccessState] when request succeeds',
+        setUp: () {
+          leaderboardRepository = _MockLeaderboardRepository();
+          when(
+            () => leaderboardRepository.fetchTop10Leaderboard(),
+          ).thenAnswer(
+            (_) async => [LeaderboardEntryData.empty],
+          );
+        },
+        build: () => BackboxBloc(leaderboardRepository: leaderboardRepository),
+        act: (bloc) => bloc.add(LeaderboardRequested()),
+        expect: () => [
+          LoadingState(),
+          LeaderboardSuccessState(entries: const [LeaderboardEntryData.empty]),
+        ],
+      );
+
+      blocTest<BackboxBloc, BackboxState>(
+        'adds [LoadingState, LeaderboardFailureState] when request fails',
+        setUp: () {
+          leaderboardRepository = _MockLeaderboardRepository();
+          when(
+            () => leaderboardRepository.fetchTop10Leaderboard(),
+          ).thenThrow(Exception('Error'));
+        },
+        build: () => BackboxBloc(leaderboardRepository: leaderboardRepository),
+        act: (bloc) => bloc.add(LeaderboardRequested()),
+        expect: () => [
+          LoadingState(),
+          LeaderboardFailureState(),
+        ],
+      );
+    });
   });
 }
