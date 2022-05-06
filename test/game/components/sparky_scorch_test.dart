@@ -4,10 +4,28 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-import '../../helpers/helpers.dart';
+class _TestGame extends Forge2DGame {
+  @override
+  Future<void> onLoad() async {
+    images.prefix = '';
+    await images.loadAll([
+      Assets.images.sparky.computer.top.keyName,
+      Assets.images.sparky.computer.base.keyName,
+      Assets.images.sparky.computer.glow.keyName,
+      Assets.images.sparky.animatronic.keyName,
+      Assets.images.sparky.bumper.a.lit.keyName,
+      Assets.images.sparky.bumper.a.dimmed.keyName,
+      Assets.images.sparky.bumper.b.lit.keyName,
+      Assets.images.sparky.bumper.b.dimmed.keyName,
+      Assets.images.sparky.bumper.c.lit.keyName,
+      Assets.images.sparky.bumper.c.dimmed.keyName,
+    ]);
+  }
+}
 
 class _MockControlledBall extends Mock implements ControlledBall {}
 
@@ -17,22 +35,8 @@ class _MockContact extends Mock implements Contact {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final assets = [
-    Assets.images.sparky.computer.top.keyName,
-    Assets.images.sparky.computer.base.keyName,
-    Assets.images.sparky.computer.glow.keyName,
-    Assets.images.sparky.animatronic.keyName,
-    Assets.images.sparky.bumper.a.lit.keyName,
-    Assets.images.sparky.bumper.a.dimmed.keyName,
-    Assets.images.sparky.bumper.b.lit.keyName,
-    Assets.images.sparky.bumper.b.dimmed.keyName,
-    Assets.images.sparky.bumper.c.lit.keyName,
-    Assets.images.sparky.bumper.c.dimmed.keyName,
-  ];
 
-  final flameTester = FlameTester(
-    () => EmptyPinballTestGame(assets: assets),
-  );
+  final flameTester = FlameTester(_TestGame.new);
 
   group('SparkyScorch', () {
     flameTester.test('loads correctly', (game) async {
@@ -72,6 +76,20 @@ void main() {
             game.descendants().whereType<SparkyBumper>().length,
             equals(3),
           );
+        },
+      );
+
+      flameTester.test(
+        'three SparkyBumpers with BumperNoiseBehavior',
+        (game) async {
+          await game.ensureAdd(SparkyScorch());
+          final bumpers = game.descendants().whereType<SparkyBumper>();
+          for (final bumper in bumpers) {
+            expect(
+              bumper.firstChild<BumperNoiseBehavior>(),
+              isNotNull,
+            );
+          }
         },
       );
     });

@@ -1,26 +1,25 @@
 import 'dart:async';
-import 'dart:math' as math;
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_components/src/components/ball/behaviors/ball_gravitating_behavior.dart';
-import 'package:pinball_components/src/components/ball/behaviors/ball_scaling_behavior.dart';
 import 'package:pinball_flame/pinball_flame.dart';
+import 'package:pinball_theme/pinball_theme.dart' as theme;
+
+export 'behaviors/behaviors.dart';
 
 /// {@template ball}
 /// A solid, [BodyType.dynamic] sphere that rolls and bounces around.
 /// {@endtemplate}
-class Ball<T extends Forge2DGame> extends BodyComponent<T>
-    with Layered, InitialPosition, ZIndex {
+class Ball extends BodyComponent with Layered, InitialPosition, ZIndex {
   /// {@macro ball}
   Ball({
-    required this.baseColor,
+    String? assetPath,
   }) : super(
           renderBody: false,
           children: [
-            _BallSpriteComponent()..tint(baseColor.withOpacity(0.5)),
+            _BallSpriteComponent(assetPath: assetPath),
             BallScalingBehavior(),
             BallGravitatingBehavior(),
           ],
@@ -37,7 +36,7 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   ///
   /// This can be used for testing [Ball]'s behaviors in isolation.
   @visibleForTesting
-  Ball.test({required this.baseColor})
+  Ball.test()
       : super(
           children: [_BallSpriteComponent()],
         );
@@ -45,23 +44,16 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   /// The size of the [Ball].
   static final Vector2 size = Vector2.all(4.13);
 
-  /// The base [Color] used to tint this [Ball].
-  final Color baseColor;
-
   @override
   Body createBody() {
     final shape = CircleShape()..radius = size.x / 2;
-    final fixtureDef = FixtureDef(
-      shape,
-      density: 1,
-    );
     final bodyDef = BodyDef(
       position: initialPosition,
-      userData: this,
       type: BodyType.dynamic,
+      userData: this,
     );
 
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
+    return world.createBody(bodyDef)..createFixtureFromShape(shape, 1);
   }
 
   /// Immediatly and completly [stop]s the ball.
@@ -82,75 +74,25 @@ class Ball<T extends Forge2DGame> extends BodyComponent<T>
   void resume() {
     body.gravityScale = Vector2(1, 1);
   }
-
-  /// Applies a boost and [_TurboChargeSpriteAnimationComponent] on this [Ball].
-  Future<void> boost(Vector2 impulse) async {
-    body.linearVelocity = impulse;
-    await add(_TurboChargeSpriteAnimationComponent());
-  }
 }
 
 class _BallSpriteComponent extends SpriteComponent with HasGameRef {
+  _BallSpriteComponent({
+    this.assetPath,
+  }) : super(
+          anchor: Anchor.center,
+        );
+
+  final String? assetPath;
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final sprite = await gameRef.loadSprite(
-      Assets.images.ball.ball.keyName,
+    final sprite = Sprite(
+      gameRef.images
+          .fromCache(assetPath ?? theme.Assets.images.dash.ball.keyName),
     );
     this.sprite = sprite;
-    size = sprite.originalSize / 10;
-    anchor = Anchor.center;
-  }
-}
-
-class _TurboChargeSpriteAnimationComponent extends SpriteAnimationComponent
-    with HasGameRef, ZIndex {
-  _TurboChargeSpriteAnimationComponent()
-      : super(
-          anchor: const Anchor(0.53, 0.72),
-          removeOnFinish: true,
-        ) {
-    zIndex = ZIndexes.turboChargeFlame;
-  }
-
-  late final Vector2 _textureSize;
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-
-    final spriteSheet = await gameRef.images.load(
-      Assets.images.ball.flameEffect.keyName,
-    );
-
-    const amountPerRow = 8;
-    const amountPerColumn = 4;
-    _textureSize = Vector2(
-      spriteSheet.width / amountPerRow,
-      spriteSheet.height / amountPerColumn,
-    );
-
-    animation = SpriteAnimation.fromFrameData(
-      spriteSheet,
-      SpriteAnimationData.sequenced(
-        amount: amountPerRow * amountPerColumn,
-        amountPerRow: amountPerRow,
-        stepTime: 1 / 24,
-        textureSize: _textureSize,
-        loop: false,
-      ),
-    );
-  }
-
-  @override
-  void update(double dt) {
-    super.update(dt);
-
-    if (parent != null) {
-      final body = (parent! as BodyComponent).body;
-      final direction = -body.linearVelocity.normalized();
-      angle = math.atan2(direction.x, -direction.y);
-      size = (_textureSize / 45) * body.fixtures.first.shape.radius;
-    }
+    size = sprite.originalSize / 12.5;
   }
 }

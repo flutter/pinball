@@ -1,6 +1,9 @@
 import 'dart:collection';
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame/input.dart';
+import 'package:flame_bloc/flame_bloc.dart';
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -10,35 +13,39 @@ import 'package:pinball_components/pinball_components.dart';
 
 import '../../helpers/helpers.dart';
 
+class _TestGame extends Forge2DGame with HasKeyboardHandlerComponents {
+  @override
+  Future<void> onLoad() async {
+    images.prefix = '';
+    await images.loadAll([
+      Assets.images.flipper.left.keyName,
+      Assets.images.flipper.right.keyName,
+    ]);
+  }
+
+  Future<void> pump(Flipper flipper, {required GameBloc gameBloc}) {
+    return ensureAdd(
+      FlameBlocProvider<GameBloc, GameState>.value(
+        value: gameBloc,
+        children: [flipper],
+      ),
+    );
+  }
+}
+
 class _MockGameBloc extends Mock implements GameBloc {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final assets = [
-    Assets.images.flipper.left.keyName,
-    Assets.images.flipper.right.keyName,
-  ];
-  final flameTester = FlameTester(
-    () => EmptyPinballTestGame(assets: assets),
-  );
-
-  final flameBlocTester = FlameBlocTester<EmptyPinballTestGame, GameBloc>(
-    gameBuilder: EmptyPinballTestGame.new,
-    blocBuilder: () {
-      final bloc = _MockGameBloc();
-      const state = GameState(
-        score: 0,
-        multiplier: 1,
-        rounds: 0,
-        bonusHistory: [],
-      );
-      whenListen(bloc, Stream.value(state), initialState: state);
-      return bloc;
-    },
-    assets: assets,
-  );
+  final flameTester = FlameTester(_TestGame.new);
 
   group('FlipperController', () {
+    late GameBloc gameBloc;
+
+    setUp(() {
+      gameBloc = _MockGameBloc();
+    });
+
     group('onKeyEvent', () {
       final leftKeys = UnmodifiableListView([
         LogicalKeyboardKey.arrowLeft,
@@ -64,8 +71,16 @@ void main() {
             'moves upwards '
             'when ${event.logicalKey.keyLabel} is pressed',
             (game) async {
+              whenListen(
+                gameBloc,
+                const Stream<GameState>.empty(),
+                initialState: const GameState.initial().copyWith(
+                  status: GameStatus.playing,
+                ),
+              );
+
               await game.ready();
-              await game.add(flipper);
+              await game.pump(flipper, gameBloc: gameBloc);
               controller.onKeyEvent(event, {});
 
               expect(flipper.body.linearVelocity.y, isNegative);
@@ -75,13 +90,20 @@ void main() {
         });
 
         testRawKeyDownEvents(leftKeys, (event) {
-          flameBlocTester.testGameWidget(
+          flameTester.test(
             'does nothing when is game over',
-            setUp: (game, tester) async {
-              await game.ensureAdd(flipper);
+            (game) async {
+              whenListen(
+                gameBloc,
+                const Stream<GameState>.empty(),
+                initialState: const GameState.initial().copyWith(
+                  status: GameStatus.gameOver,
+                ),
+              );
+
+              await game.pump(flipper, gameBloc: gameBloc);
               controller.onKeyEvent(event, {});
-            },
-            verify: (game, tester) async {
+
               expect(flipper.body.linearVelocity.y, isZero);
               expect(flipper.body.linearVelocity.x, isZero);
             },
@@ -93,8 +115,16 @@ void main() {
             'moves downwards '
             'when ${event.logicalKey.keyLabel} is released',
             (game) async {
+              whenListen(
+                gameBloc,
+                const Stream<GameState>.empty(),
+                initialState: const GameState.initial().copyWith(
+                  status: GameStatus.playing,
+                ),
+              );
+
               await game.ready();
-              await game.add(flipper);
+              await game.pump(flipper, gameBloc: gameBloc);
               controller.onKeyEvent(event, {});
 
               expect(flipper.body.linearVelocity.y, isPositive);
@@ -108,8 +138,14 @@ void main() {
             'does nothing '
             'when ${event.logicalKey.keyLabel} is released',
             (game) async {
+              whenListen(
+                gameBloc,
+                const Stream<GameState>.empty(),
+                initialState: const GameState.initial(),
+              );
+
               await game.ready();
-              await game.add(flipper);
+              await game.pump(flipper, gameBloc: gameBloc);
               controller.onKeyEvent(event, {});
 
               expect(flipper.body.linearVelocity.y, isZero);
@@ -134,8 +170,16 @@ void main() {
             'moves upwards '
             'when ${event.logicalKey.keyLabel} is pressed',
             (game) async {
+              whenListen(
+                gameBloc,
+                const Stream<GameState>.empty(),
+                initialState: const GameState.initial().copyWith(
+                  status: GameStatus.playing,
+                ),
+              );
+
               await game.ready();
-              await game.add(flipper);
+              await game.pump(flipper, gameBloc: gameBloc);
               controller.onKeyEvent(event, {});
 
               expect(flipper.body.linearVelocity.y, isNegative);
@@ -149,8 +193,16 @@ void main() {
             'moves downwards '
             'when ${event.logicalKey.keyLabel} is released',
             (game) async {
+              whenListen(
+                gameBloc,
+                const Stream<GameState>.empty(),
+                initialState: const GameState.initial().copyWith(
+                  status: GameStatus.playing,
+                ),
+              );
+
               await game.ready();
-              await game.add(flipper);
+              await game.pump(flipper, gameBloc: gameBloc);
               controller.onKeyEvent(event, {});
 
               expect(flipper.body.linearVelocity.y, isPositive);
@@ -160,13 +212,20 @@ void main() {
         });
 
         testRawKeyDownEvents(rightKeys, (event) {
-          flameBlocTester.testGameWidget(
+          flameTester.test(
             'does nothing when is game over',
-            setUp: (game, tester) async {
-              await game.ensureAdd(flipper);
+            (game) async {
+              whenListen(
+                gameBloc,
+                const Stream<GameState>.empty(),
+                initialState: const GameState.initial().copyWith(
+                  status: GameStatus.gameOver,
+                ),
+              );
+
+              await game.pump(flipper, gameBloc: gameBloc);
               controller.onKeyEvent(event, {});
-            },
-            verify: (game, tester) async {
+
               expect(flipper.body.linearVelocity.y, isZero);
               expect(flipper.body.linearVelocity.x, isZero);
             },
@@ -178,8 +237,16 @@ void main() {
             'does nothing '
             'when ${event.logicalKey.keyLabel} is released',
             (game) async {
+              whenListen(
+                gameBloc,
+                const Stream<GameState>.empty(),
+                initialState: const GameState.initial().copyWith(
+                  status: GameStatus.playing,
+                ),
+              );
+
               await game.ready();
-              await game.add(flipper);
+              await game.pump(flipper, gameBloc: gameBloc);
               controller.onKeyEvent(event, {});
 
               expect(flipper.body.linearVelocity.y, isZero);

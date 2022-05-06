@@ -6,10 +6,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 
 /// Toggle each [Multiplier] when GameState.multiplier changes.
 class MultipliersBehavior extends Component
-    with
-        HasGameRef<PinballGame>,
-        ParentIsA<Multipliers>,
-        BlocComponent<GameBloc, GameState> {
+    with ParentIsA<Multipliers>, FlameBlocListenable<GameBloc, GameState> {
   @override
   bool listenWhen(GameState? previousState, GameState newState) {
     return previousState?.multiplier != newState.multiplier;

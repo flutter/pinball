@@ -1,19 +1,63 @@
 // ignore_for_file: cascade_invocations
 
+import 'dart:ui';
+
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:leaderboard_repository/src/leaderboard_repository.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball_audio/src/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_theme/pinball_theme.dart' as theme;
 
-import '../helpers/helpers.dart';
+class _TestPinballGame extends PinballGame {
+  _TestPinballGame()
+      : super(
+          characterTheme: const theme.DashTheme(),
+          leaderboardRepository: _MockLeaderboardRepository(),
+          gameBloc: GameBloc(),
+          l10n: _MockAppLocalizations(),
+          player: _MockPinballPlayer(),
+        );
+
+  @override
+  Future<void> onLoad() async {
+    images.prefix = '';
+    final futures = preLoadAssets();
+    await Future.wait<void>(futures);
+    await super.onLoad();
+  }
+}
+
+class _TestDebugPinballGame extends DebugPinballGame {
+  _TestDebugPinballGame()
+      : super(
+          characterTheme: const theme.DashTheme(),
+          leaderboardRepository: _MockLeaderboardRepository(),
+          gameBloc: GameBloc(),
+          l10n: _MockAppLocalizations(),
+          player: _MockPinballPlayer(),
+        );
+
+  @override
+  Future<void> onLoad() async {
+    images.prefix = '';
+    final futures = preLoadAssets();
+    await Future.wait<void>(futures);
+    await super.onLoad();
+  }
+}
 
 class _MockGameBloc extends Mock implements GameBloc {}
 
-class _MockGameState extends Mock implements GameState {}
+class _MockAppLocalizations extends Mock implements AppLocalizations {}
 
 class _MockEventPosition extends Mock implements EventPosition {}
 
@@ -25,106 +69,19 @@ class _MockTapUpDetails extends Mock implements TapUpDetails {}
 
 class _MockTapUpInfo extends Mock implements TapUpInfo {}
 
+class _MockDragStartInfo extends Mock implements DragStartInfo {}
+
+class _MockDragUpdateInfo extends Mock implements DragUpdateInfo {}
+
+class _MockDragEndInfo extends Mock implements DragEndInfo {}
+
+class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
+}
+
+class _MockPinballPlayer extends Mock implements PinballPlayer {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final assets = [
-    Assets.images.android.bumper.a.lit.keyName,
-    Assets.images.android.bumper.a.dimmed.keyName,
-    Assets.images.android.bumper.b.lit.keyName,
-    Assets.images.android.bumper.b.dimmed.keyName,
-    Assets.images.android.bumper.cow.lit.keyName,
-    Assets.images.android.bumper.cow.dimmed.keyName,
-    Assets.images.backboard.backboardScores.keyName,
-    Assets.images.backboard.backboardGameOver.keyName,
-    Assets.images.backboard.display.keyName,
-    Assets.images.boardBackground.keyName,
-    Assets.images.ball.ball.keyName,
-    Assets.images.ball.flameEffect.keyName,
-    Assets.images.baseboard.left.keyName,
-    Assets.images.baseboard.right.keyName,
-    Assets.images.boundary.bottom.keyName,
-    Assets.images.boundary.outer.keyName,
-    Assets.images.boundary.outerBottom.keyName,
-    Assets.images.dino.animatronic.mouth.keyName,
-    Assets.images.dino.animatronic.head.keyName,
-    Assets.images.dino.topWall.keyName,
-    Assets.images.dino.topWallTunnel.keyName,
-    Assets.images.dino.bottomWall.keyName,
-    Assets.images.dash.animatronic.keyName,
-    Assets.images.dash.bumper.a.active.keyName,
-    Assets.images.dash.bumper.a.inactive.keyName,
-    Assets.images.dash.bumper.b.active.keyName,
-    Assets.images.dash.bumper.b.inactive.keyName,
-    Assets.images.dash.bumper.main.active.keyName,
-    Assets.images.dash.bumper.main.inactive.keyName,
-    Assets.images.flipper.left.keyName,
-    Assets.images.flipper.right.keyName,
-    Assets.images.googleWord.letter1.lit.keyName,
-    Assets.images.googleWord.letter1.dimmed.keyName,
-    Assets.images.googleWord.letter2.lit.keyName,
-    Assets.images.googleWord.letter2.dimmed.keyName,
-    Assets.images.googleWord.letter3.lit.keyName,
-    Assets.images.googleWord.letter3.dimmed.keyName,
-    Assets.images.googleWord.letter4.lit.keyName,
-    Assets.images.googleWord.letter4.dimmed.keyName,
-    Assets.images.googleWord.letter5.lit.keyName,
-    Assets.images.googleWord.letter5.dimmed.keyName,
-    Assets.images.googleWord.letter6.lit.keyName,
-    Assets.images.googleWord.letter6.dimmed.keyName,
-    Assets.images.kicker.left.lit.keyName,
-    Assets.images.kicker.left.dimmed.keyName,
-    Assets.images.kicker.right.lit.keyName,
-    Assets.images.kicker.right.dimmed.keyName,
-    Assets.images.launchRamp.ramp.keyName,
-    Assets.images.launchRamp.foregroundRailing.keyName,
-    Assets.images.launchRamp.backgroundRailing.keyName,
-    Assets.images.multiball.lit.keyName,
-    Assets.images.multiball.dimmed.keyName,
-    Assets.images.multiplier.x2.lit.keyName,
-    Assets.images.multiplier.x2.dimmed.keyName,
-    Assets.images.multiplier.x3.lit.keyName,
-    Assets.images.multiplier.x3.dimmed.keyName,
-    Assets.images.multiplier.x4.lit.keyName,
-    Assets.images.multiplier.x4.dimmed.keyName,
-    Assets.images.multiplier.x5.lit.keyName,
-    Assets.images.multiplier.x5.dimmed.keyName,
-    Assets.images.multiplier.x6.lit.keyName,
-    Assets.images.multiplier.x6.dimmed.keyName,
-    Assets.images.plunger.plunger.keyName,
-    Assets.images.plunger.rocket.keyName,
-    Assets.images.signpost.inactive.keyName,
-    Assets.images.signpost.active1.keyName,
-    Assets.images.signpost.active2.keyName,
-    Assets.images.signpost.active3.keyName,
-    Assets.images.slingshot.upper.keyName,
-    Assets.images.slingshot.lower.keyName,
-    Assets.images.android.spaceship.saucer.keyName,
-    Assets.images.android.spaceship.animatronic.keyName,
-    Assets.images.android.spaceship.lightBeam.keyName,
-    Assets.images.android.ramp.boardOpening.keyName,
-    Assets.images.android.ramp.railingForeground.keyName,
-    Assets.images.android.ramp.railingBackground.keyName,
-    Assets.images.android.ramp.main.keyName,
-    Assets.images.android.ramp.arrow.inactive.keyName,
-    Assets.images.android.ramp.arrow.active1.keyName,
-    Assets.images.android.ramp.arrow.active2.keyName,
-    Assets.images.android.ramp.arrow.active3.keyName,
-    Assets.images.android.ramp.arrow.active4.keyName,
-    Assets.images.android.ramp.arrow.active5.keyName,
-    Assets.images.android.rail.main.keyName,
-    Assets.images.android.rail.exit.keyName,
-    Assets.images.sparky.animatronic.keyName,
-    Assets.images.sparky.computer.top.keyName,
-    Assets.images.sparky.computer.base.keyName,
-    Assets.images.sparky.computer.glow.keyName,
-    Assets.images.sparky.animatronic.keyName,
-    Assets.images.sparky.bumper.a.lit.keyName,
-    Assets.images.sparky.bumper.a.dimmed.keyName,
-    Assets.images.sparky.bumper.b.lit.keyName,
-    Assets.images.sparky.bumper.b.dimmed.keyName,
-    Assets.images.sparky.bumper.c.lit.keyName,
-    Assets.images.sparky.bumper.c.dimmed.keyName,
-  ];
 
   late GameBloc gameBloc;
 
@@ -137,23 +94,22 @@ void main() {
     );
   });
 
-  final flameTester = FlameTester(
-    () => PinballTestGame(assets: assets),
-  );
-  final debugModeFlameTester = FlameTester(
-    () => DebugPinballTestGame(assets: assets),
-  );
-
-  final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
-    gameBuilder: () => PinballTestGame(assets: assets),
-    blocBuilder: () => gameBloc,
-  );
-
   group('PinballGame', () {
+    final flameTester = FlameTester(_TestPinballGame.new);
+
     group('components', () {
-      // TODO(alestiago): tests that Blueprints get added once the Blueprint
-      // class is removed.
-      flameBlocTester.test(
+      flameTester.test(
+        'has only one BallSpawningBehavior',
+        (game) async {
+          await game.ready();
+          expect(
+            game.descendants().whereType<BallSpawningBehavior>().length,
+            equals(1),
+          );
+        },
+      );
+
+      flameTester.test(
         'has only one Drain',
         (game) async {
           await game.ready();
@@ -164,7 +120,7 @@ void main() {
         },
       );
 
-      flameBlocTester.test(
+      flameTester.test(
         'has only one BottomGroup',
         (game) async {
           await game.ready();
@@ -175,7 +131,7 @@ void main() {
         },
       );
 
-      flameBlocTester.test(
+      flameTester.test(
         'has only one Launcher',
         (game) async {
           await game.ready();
@@ -186,19 +142,21 @@ void main() {
         },
       );
 
-      flameBlocTester.test('has one FlutterForest', (game) async {
-        await game.ready();
-        expect(
-          game.descendants().whereType<FlutterForest>().length,
-          equals(1),
-        );
-      });
+      flameTester.test(
+        'has one FlutterForest',
+        (game) async {
+          await game.ready();
+          expect(
+            game.descendants().whereType<FlutterForest>().length,
+            equals(1),
+          );
+        },
+      );
 
-      flameBlocTester.test(
+      flameTester.test(
         'has only one Multiballs',
         (game) async {
           await game.ready();
-
           expect(
             game.descendants().whereType<Multiballs>().length,
             equals(1),
@@ -206,7 +164,7 @@ void main() {
         },
       );
 
-      flameBlocTester.test(
+      flameTester.test(
         'one GoogleWord',
         (game) async {
           await game.ready();
@@ -217,91 +175,45 @@ void main() {
         },
       );
 
-      group('controller', () {
-        group('listenWhen', () {
-          flameTester.testGameWidget(
-            'listens when all balls are lost and there are more than 0 rounds',
-            setUp: (game, tester) async {
-              // TODO(ruimiguel): check why testGameWidget doesn't add any ball
-              // to the game. Test needs to have no balls, so fortunately works.
-              final newState = _MockGameState();
-              when(() => newState.isGameOver).thenReturn(false);
-              game.descendants().whereType<ControlledBall>().forEach(
-                    (ball) => ball.controller.lost(),
-                  );
-              await game.ready();
-
-              expect(
-                game.controller.listenWhen(_MockGameState(), newState),
-                isTrue,
-              );
-            },
-          );
-
-          flameTester.test(
-            "doesn't listen when some balls are left",
-            (game) async {
-              final newState = _MockGameState();
-              when(() => newState.isGameOver).thenReturn(false);
-
-              expect(
-                game.descendants().whereType<ControlledBall>().length,
-                greaterThan(0),
-              );
-              expect(
-                game.controller.listenWhen(_MockGameState(), newState),
-                isFalse,
-              );
-            },
-          );
-
-          flameTester.testGameWidget(
-            "doesn't listen when game is over",
-            setUp: (game, tester) async {
-              // TODO(ruimiguel): check why testGameWidget doesn't add any ball
-              // to the game. Test needs to have no balls, so fortunately works.
-              final newState = _MockGameState();
-              when(() => newState.isGameOver).thenReturn(true);
-              game.descendants().whereType<ControlledBall>().forEach(
-                    (ball) => ball.controller.lost(),
-                  );
-              await game.ready();
-
-              expect(
-                game.descendants().whereType<ControlledBall>().isEmpty,
-                isTrue,
-              );
-              expect(
-                game.controller.listenWhen(_MockGameState(), newState),
-                isFalse,
-              );
-            },
-          );
-        });
-
-        group(
-          'onNewState',
-          () {
-            flameTester.test(
-              'spawns a ball',
-              (game) async {
-                final previousBalls =
-                    game.descendants().whereType<ControlledBall>().toList();
-
-                game.controller.onNewState(_MockGameState());
-                await game.ready();
-                final currentBalls =
-                    game.descendants().whereType<ControlledBall>().toList();
-
-                expect(
-                  currentBalls.length,
-                  equals(previousBalls.length + 1),
-                );
-              },
-            );
-          },
+      flameTester.test('one SkillShot', (game) async {
+        await game.ready();
+        expect(
+          game.descendants().whereType<SkillShot>().length,
+          equals(1),
         );
       });
+
+      flameTester.testGameWidget(
+        'paints sprites with FilterQuality.medium',
+        setUp: (game, tester) async {
+          game.images.prefix = '';
+          final futures = game.preLoadAssets();
+          await Future.wait<void>(futures);
+
+          await game.ready();
+
+          final descendants = game.descendants();
+          final components = [
+            ...descendants.whereType<SpriteComponent>(),
+            ...descendants.whereType<SpriteGroupComponent>(),
+          ];
+          expect(components, isNotEmpty);
+          expect(
+            components.whereType<HasPaint>().length,
+            equals(components.length),
+          );
+
+          await tester.pump();
+
+          for (final component in components) {
+            if (component is! HasPaint) return;
+            expect(
+              component.paint.filterQuality,
+              equals(FilterQuality.medium),
+            );
+          }
+        },
+      );
     });
 
     group('flipper control', () {
@@ -323,7 +235,7 @@ void main() {
               (flipper) => flipper.side == BoardSide.left,
             );
 
-        game.onTapDown(tapDownEvent);
+        game.onTapDown(0, tapDownEvent);
 
         expect(flippers.first.body.linearVelocity.y, isNegative);
       });
@@ -346,7 +258,7 @@ void main() {
               (flipper) => flipper.side == BoardSide.right,
             );
 
-        game.onTapDown(tapDownEvent);
+        game.onTapDown(0, tapDownEvent);
 
         expect(flippers.first.body.linearVelocity.y, isNegative);
       });
@@ -369,14 +281,14 @@ void main() {
               (flipper) => flipper.side == BoardSide.left,
             );
 
-        game.onTapDown(tapDownEvent);
+        game.onTapDown(0, tapDownEvent);
 
         expect(flippers.first.body.linearVelocity.y, isNegative);
 
         final tapUpEvent = _MockTapUpInfo();
         when(() => tapUpEvent.eventPosition).thenReturn(eventPosition);
 
-        game.onTapUp(tapUpEvent);
+        game.onTapUp(0, tapUpEvent);
         await game.ready();
 
         expect(flippers.first.body.linearVelocity.y, isPositive);
@@ -400,14 +312,59 @@ void main() {
               (flipper) => flipper.side == BoardSide.left,
             );
 
-        game.onTapDown(tapDownEvent);
+        game.onTapDown(0, tapDownEvent);
 
         expect(flippers.first.body.linearVelocity.y, isNegative);
 
-        game.onTapCancel();
+        game.onTapCancel(0);
 
         expect(flippers.first.body.linearVelocity.y, isPositive);
       });
+
+      flameTester.test(
+        'multiple touches control both flippers',
+        (game) async {
+          await game.ready();
+
+          final raw = _MockTapDownDetails();
+          when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
+
+          final leftEventPosition = _MockEventPosition();
+          when(() => leftEventPosition.game).thenReturn(Vector2.zero());
+          when(() => leftEventPosition.widget).thenReturn(Vector2.zero());
+
+          final rightEventPosition = _MockEventPosition();
+          when(() => rightEventPosition.game).thenReturn(Vector2.zero());
+          when(() => rightEventPosition.widget).thenReturn(game.canvasSize);
+
+          final leftTapDownEvent = _MockTapDownInfo();
+          when(() => leftTapDownEvent.eventPosition)
+              .thenReturn(leftEventPosition);
+          when(() => leftTapDownEvent.raw).thenReturn(raw);
+
+          final rightTapDownEvent = _MockTapDownInfo();
+          when(() => rightTapDownEvent.eventPosition)
+              .thenReturn(rightEventPosition);
+          when(() => rightTapDownEvent.raw).thenReturn(raw);
+
+          final flippers = game.descendants().whereType<Flipper>();
+          final rightFlipper = flippers.elementAt(0);
+          final leftFlipper = flippers.elementAt(1);
+
+          game.onTapDown(0, leftTapDownEvent);
+          game.onTapDown(1, rightTapDownEvent);
+
+          expect(leftFlipper.body.linearVelocity.y, isNegative);
+          expect(leftFlipper.side, equals(BoardSide.left));
+          expect(rightFlipper.body.linearVelocity.y, isNegative);
+          expect(rightFlipper.side, equals(BoardSide.right));
+
+          expect(
+            game.focusedBoardSide,
+            equals({0: BoardSide.left, 1: BoardSide.right}),
+          );
+        },
+      );
     });
 
     group('plunger control', () {
@@ -426,7 +383,7 @@ void main() {
 
         final plunger = game.descendants().whereType<Plunger>().first;
 
-        game.onTapDown(tapDownEvent);
+        game.onTapDown(0, tapDownEvent);
 
         game.update(1);
 
@@ -436,7 +393,9 @@ void main() {
   });
 
   group('DebugPinballGame', () {
-    debugModeFlameTester.test(
+    final flameTester = FlameTester(_TestDebugPinballGame.new);
+
+    flameTester.test(
       'adds a ball on tap up',
       (game) async {
         final eventPosition = _MockEventPosition();
@@ -449,10 +408,77 @@ void main() {
         when(() => tapUpEvent.eventPosition).thenReturn(eventPosition);
         when(() => tapUpEvent.raw).thenReturn(raw);
 
+        await game.ready();
         final previousBalls =
             game.descendants().whereType<ControlledBall>().toList();
 
-        game.onTapUp(tapUpEvent);
+        game.onTapUp(0, tapUpEvent);
+        await game.ready();
+
+        final currentBalls =
+            game.descendants().whereType<ControlledBall>().toList();
+
+        expect(
+          currentBalls.length,
+          equals(previousBalls.length + 1),
+        );
+      },
+    );
+
+    flameTester.test(
+      'set lineStart on pan start',
+      (game) async {
+        final startPosition = Vector2.all(10);
+        final eventPosition = _MockEventPosition();
+        when(() => eventPosition.game).thenReturn(startPosition);
+
+        final dragStartInfo = _MockDragStartInfo();
+        when(() => dragStartInfo.eventPosition).thenReturn(eventPosition);
+
+        game.onPanStart(dragStartInfo);
+        await game.ready();
+
+        expect(
+          game.lineStart,
+          equals(startPosition),
+        );
+      },
+    );
+
+    flameTester.test(
+      'set lineEnd on pan update',
+      (game) async {
+        final endPosition = Vector2.all(10);
+        final eventPosition = _MockEventPosition();
+        when(() => eventPosition.game).thenReturn(endPosition);
+
+        final dragUpdateInfo = _MockDragUpdateInfo();
+        when(() => dragUpdateInfo.eventPosition).thenReturn(eventPosition);
+
+        game.onPanUpdate(dragUpdateInfo);
+        await game.ready();
+
+        expect(
+          game.lineEnd,
+          equals(endPosition),
+        );
+      },
+    );
+
+    flameTester.test(
+      'launch ball on pan end',
+      (game) async {
+        final startPosition = Vector2.zero();
+        final endPosition = Vector2.all(10);
+
+        game.lineStart = startPosition;
+        game.lineEnd = endPosition;
+
+        await game.ready();
+        final previousBalls =
+            game.descendants().whereType<ControlledBall>().toList();
+
+        game.onPanEnd(_MockDragEndInfo());
         await game.ready();
 
         expect(

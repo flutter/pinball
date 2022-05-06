@@ -1,7 +1,9 @@
 import 'package:flame/components.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
+import 'package:pinball_theme/pinball_theme.dart';
 
 /// Bonus obtained at the [FlutterForest].
 ///
@@ -9,7 +11,10 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// progresses. When the [Signpost] fully progresses, the [GameBonus.dashNest]
 /// is awarded, and the [DashNestBumper.main] releases a new [Ball].
 class FlutterForestBonusBehavior extends Component
-    with ParentIsA<FlutterForest>, HasGameRef<PinballGame> {
+    with
+        ParentIsA<FlutterForest>,
+        HasGameRef,
+        FlameBlocReader<GameBloc, GameState> {
   @override
   void onMount() {
     super.onMount();
@@ -17,7 +22,7 @@ class FlutterForestBonusBehavior extends Component
     final bumpers = parent.children.whereType<DashNestBumper>();
     final signpost = parent.firstChild<Signpost>()!;
     final animatronic = parent.firstChild<DashAnimatronic>()!;
-    final canvas = gameRef.firstChild<ZCanvasComponent>()!;
+    final canvas = gameRef.descendants().whereType<ZCanvasComponent>().single;
 
     for (final bumper in bumpers) {
       // TODO(alestiago): Refactor subscription management once the following is
@@ -35,12 +40,11 @@ class FlutterForestBonusBehavior extends Component
           }
 
           if (signpost.bloc.isFullyProgressed()) {
-            gameRef
-                .read<GameBloc>()
-                .add(const BonusActivated(GameBonus.dashNest));
+            bloc.add(const BonusActivated(GameBonus.dashNest));
             canvas.add(
-              ControlledBall.bonus(characterTheme: gameRef.characterTheme)
-                ..initialPosition = Vector2(29.5, -24.5),
+              ControlledBall.bonus(
+                characterTheme: readProvider<CharacterTheme>(),
+              )..initialPosition = Vector2(29.2, -24.5),
             );
             animatronic.playing = true;
             signpost.bloc.onProgressed();

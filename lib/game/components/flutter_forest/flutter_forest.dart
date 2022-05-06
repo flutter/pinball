@@ -2,8 +2,8 @@
 
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
+import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/components/flutter_forest/behaviors/behaviors.dart';
-import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
@@ -18,24 +18,28 @@ class FlutterForest extends Component with ZIndex {
           children: [
             Signpost(
               children: [
-                ScoringBehavior(points: Points.fiveThousand),
+                ScoringContactBehavior(points: Points.fiveThousand),
+                BumperNoiseBehavior(),
               ],
-            )..initialPosition = Vector2(8.35, -58.3),
+            )..initialPosition = Vector2(7.95, -58.35),
             DashNestBumper.main(
               children: [
-                ScoringBehavior(points: Points.twoHundredThousand),
+                ScoringContactBehavior(points: Points.twoHundredThousand),
+                BumperNoiseBehavior(),
               ],
             )..initialPosition = Vector2(18.55, -59.35),
             DashNestBumper.a(
               children: [
-                ScoringBehavior(points: Points.twentyThousand),
+                ScoringContactBehavior(points: Points.twentyThousand),
+                BumperNoiseBehavior(),
               ],
             )..initialPosition = Vector2(8.95, -51.95),
             DashNestBumper.b(
               children: [
-                ScoringBehavior(points: Points.twentyThousand),
+                ScoringContactBehavior(points: Points.twentyThousand),
+                BumperNoiseBehavior(),
               ],
-            )..initialPosition = Vector2(22.3, -46.75),
+            )..initialPosition = Vector2(21.8, -46.75),
             DashAnimatronic()..position = Vector2(20, -66),
             FlutterForestBonusBehavior(),
           ],

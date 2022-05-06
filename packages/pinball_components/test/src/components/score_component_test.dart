@@ -28,6 +28,7 @@ void main() {
           ScoreComponent(
             points: Points.oneMillion,
             position: Vector2.zero(),
+            effectController: EffectController(duration: 1),
           ),
         );
       },
@@ -46,6 +47,7 @@ void main() {
           ScoreComponent(
             points: Points.oneMillion,
             position: Vector2.zero(),
+            effectController: EffectController(duration: 1),
           ),
         );
 
@@ -67,6 +69,7 @@ void main() {
           ScoreComponent(
             points: Points.oneMillion,
             position: Vector2.zero(),
+            effectController: EffectController(duration: 1),
           ),
         );
 
@@ -88,6 +91,7 @@ void main() {
             ScoreComponent(
               points: Points.fiveThousand,
               position: Vector2.zero(),
+              effectController: EffectController(duration: 1),
             ),
           );
 
@@ -113,6 +117,7 @@ void main() {
             ScoreComponent(
               points: Points.twentyThousand,
               position: Vector2.zero(),
+              effectController: EffectController(duration: 1),
             ),
           );
 
@@ -138,6 +143,7 @@ void main() {
             ScoreComponent(
               points: Points.twoHundredThousand,
               position: Vector2.zero(),
+              effectController: EffectController(duration: 1),
             ),
           );
 
@@ -163,6 +169,7 @@ void main() {
             ScoreComponent(
               points: Points.oneMillion,
               position: Vector2.zero(),
+              effectController: EffectController(duration: 1),
             ),
           );
 

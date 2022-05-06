@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flame/effects.dart';
 import 'package:flame/input.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
@@ -38,6 +39,7 @@ class ScoreGame extends AssetsGame with TapDetector {
       ScoreComponent(
         points: score,
         position: info.eventPosition.game..multiply(Vector2(1, -1)),
+        effectController: EffectController(duration: 1),
       ),
     );
   }

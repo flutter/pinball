@@ -33,7 +33,7 @@ abstract class ZIndexes {
 
   static const outerBoundary = _above + boardBackground;
 
-  static const outerBottomBoundary = _above + rocket;
+  static const outerBottomBoundary = _above + bottomBoundary;
 
   // Bottom Group
 
@@ -44,6 +44,12 @@ abstract class ZIndexes {
   static const launchRamp = _above + outerBoundary;
 
   static const launchRampForegroundRailing = _above + ballOnLaunchRamp;
+
+  static const flapperBack = _above + outerBoundary;
+
+  static const flapperFront = _above + flapper;
+
+  static const flapper = _above + ballOnLaunchRamp;
 
   static const plunger = _above + launchRamp;
 
@@ -71,7 +77,7 @@ abstract class ZIndexes {
 
   static const computerTop = _above + ballOnBoard;
 
-  static const computerGlow = _above + ballOnBoard;
+  static const computerGlow = _above + computerTop;
 
   static const sparkyAnimatronic = _above + spaceshipRampForegroundRailing;
 
@@ -108,5 +114,10 @@ abstract class ZIndexes {
   static const score = _above + spaceshipRampForegroundRailing;
 
   // Debug information
+
   static const debugInfo = _above + score;
+
+  // Backbox
+
+  static const backbox = _below + outerBoundary;
 }

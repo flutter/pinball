@@ -2,8 +2,8 @@
 
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
+import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/components/android_acres/behaviors/behaviors.dart';
-import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template android_acres}
@@ -15,29 +15,41 @@ class AndroidAcres extends Component {
   AndroidAcres()
       : super(
           children: [
-            SpaceshipRamp(),
+            SpaceshipRamp(
+              children: [
+                RampShotBehavior(
+                  points: Points.fiveThousand,
+                ),
+                RampBonusBehavior(
+                  points: Points.oneMillion,
+                ),
+              ],
+            ),
             SpaceshipRail(),
             AndroidSpaceship(position: Vector2(-26.5, -28.5)),
             AndroidAnimatronic(
               children: [
-                ScoringBehavior(points: Points.twoHundredThousand),
+                ScoringContactBehavior(points: Points.twoHundredThousand),
               ],
             )..initialPosition = Vector2(-26, -28.25),
             AndroidBumper.a(
               children: [
-                ScoringBehavior(points: Points.twentyThousand),
+                ScoringContactBehavior(points: Points.twentyThousand),
+                BumperNoiseBehavior(),
               ],
-            )..initialPosition = Vector2(-25, 1.3),
+            )..initialPosition = Vector2(-25.2, 1.5),
             AndroidBumper.b(
               children: [
-                ScoringBehavior(points: Points.twentyThousand),
+                ScoringContactBehavior(points: Points.twentyThousand),
+                BumperNoiseBehavior(),
               ],
-            )..initialPosition = Vector2(-32.8, -9.2),
+            )..initialPosition = Vector2(-32.9, -9.3),
             AndroidBumper.cow(
               children: [
-                ScoringBehavior(points: Points.twentyThousand),
+                ScoringContactBehavior(points: Points.twentyThousand),
+                BumperNoiseBehavior(),
               ],
-            )..initialPosition = Vector2(-20.5, -13.8),
+            )..initialPosition = Vector2(-20.7, -13),
             AndroidSpaceshipBonusBehavior(),
           ],
         );
