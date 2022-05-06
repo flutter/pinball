@@ -72,7 +72,7 @@ void main() {
       );
 
       testWidgets(
-        'calls only GameRestarted event on replay',
+        'calls GameRestarted event only on replay',
         (tester) async {
           whenListen(
             startGameBloc,
