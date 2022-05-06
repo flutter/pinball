@@ -9,7 +9,7 @@ void addErrorComponentStories(Dashbook dashbook) {
         gameBuilder: (context) => ErrorComponentGame(
           text: context.textProperty(
             'label',
-            'Oh no, something not worked!',
+            'Oh no, something went wrong!',
           ),
         ),
       );
