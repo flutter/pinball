@@ -17,8 +17,11 @@ class _TestGame extends Forge2DGame {
     ]);
   }
 
-  Future<void> pump(Multiballs child, {GameBloc? gameBloc}) {
-    return ensureAdd(
+  Future<void> pump(Multiballs child, {GameBloc? gameBloc}) async {
+    // Not needed once https://github.com/flame-engine/flame/issues/1607
+    // is fixed
+    await onLoad();
+    await ensureAdd(
       FlameBlocProvider<GameBloc, GameState>.value(
         value: gameBloc ?? GameBloc(),
         children: [child],
@@ -38,7 +41,9 @@ void main() {
       setUp: (game, tester) async {
         final multiballs = Multiballs();
         await game.pump(multiballs);
-        expect(game.descendants(), contains(multiballs));
+      },
+      verify: (game, tester) async {
+        expect(game.descendants().whereType<Multiballs>().length, equals(1));
       },
     );
 
