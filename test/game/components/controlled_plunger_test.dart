@@ -143,7 +143,7 @@ void main() {
     });
 
     flameTester.test(
-      'adds the PlungerNoisyBehavior plunger is released',
+      'adds the PlungerNoiseBehavior plunger is released',
       (game) async {
         await game.pump(plunger);
         plunger.body.setTransform(Vector2(0, 1), 0);
@@ -151,13 +151,13 @@ void main() {
 
         await game.ready();
         final count =
-            game.descendants().whereType<PlungerNoisyBehavior>().length;
+            game.descendants().whereType<PlungerNoiseBehavior>().length;
         expect(count, equals(1));
       },
     );
   });
 
-  group('PlungerNoisyBehavior', () {
+  group('PlungerNoiseBehavior', () {
     late PinballPlayer player;
 
     setUp(() {
@@ -167,13 +167,13 @@ void main() {
     flameTester.test('plays the correct sound on load', (game) async {
       final parent = ControlledPlunger(compressionDistance: 10);
       await game.pump(parent, pinballPlayer: player);
-      await parent.ensureAdd(PlungerNoisyBehavior());
+      await parent.ensureAdd(PlungerNoiseBehavior());
       verify(() => player.play(PinballAudio.launcher)).called(1);
     });
 
     test('is removed on the first update', () {
       final parent = Component();
-      final behavior = PlungerNoisyBehavior();
+      final behavior = PlungerNoiseBehavior();
       parent.add(behavior);
       parent.update(0); // Run a tick to ensure it is added
 

@@ -4,7 +4,7 @@ import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pinball/game/behaviors/bumper_noisy_behavior.dart';
+import 'package:pinball/game/behaviors/bumper_noise_behavior.dart';
 import 'package:pinball/game/components/android_acres/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -117,13 +117,13 @@ void main() {
       );
 
       flameTester.test(
-        'three AndroidBumpers with BumperNoisyBehavior',
+        'three AndroidBumpers with BumperNoiseBehavior',
         (game) async {
           await game.pump(AndroidAcres());
           final bumpers = game.descendants().whereType<AndroidBumper>();
           for (final bumper in bumpers) {
             expect(
-              bumper.firstChild<BumperNoisyBehavior>(),
+              bumper.firstChild<BumperNoiseBehavior>(),
               isNotNull,
             );
           }

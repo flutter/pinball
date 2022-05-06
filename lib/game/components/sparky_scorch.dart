@@ -18,19 +18,19 @@ class SparkyScorch extends Component {
             SparkyBumper.a(
               children: [
                 ScoringContactBehavior(points: Points.twentyThousand),
-                BumperNoisyBehavior(),
+                BumperNoiseBehavior(),
               ],
             )..initialPosition = Vector2(-22.9, -41.65),
             SparkyBumper.b(
               children: [
                 ScoringContactBehavior(points: Points.twentyThousand),
-                BumperNoisyBehavior(),
+                BumperNoiseBehavior(),
               ],
             )..initialPosition = Vector2(-21.25, -57.9),
             SparkyBumper.c(
               children: [
                 ScoringContactBehavior(points: Points.twentyThousand),
-                BumperNoisyBehavior(),
+                BumperNoiseBehavior(),
               ],
             )..initialPosition = Vector2(-3.3, -52.55),
             SparkyComputerSensor()..initialPosition = Vector2(-13, -49.9),

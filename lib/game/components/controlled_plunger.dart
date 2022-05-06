@@ -20,13 +20,13 @@ class ControlledPlunger extends Plunger with Controls<PlungerController> {
   void release() {
     super.release();
 
-    add(PlungerNoisyBehavior());
+    add(PlungerNoiseBehavior());
   }
 }
 
 /// A behavior attached to the plunger when it launches the ball which plays the
 /// related sound effects.
-class PlungerNoisyBehavior extends Component {
+class PlungerNoiseBehavior extends Component {
   @override
   Future<void> onLoad() async {
     await super.onLoad();

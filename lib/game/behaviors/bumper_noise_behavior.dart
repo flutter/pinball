@@ -4,7 +4,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
-class BumperNoisyBehavior extends ContactBehavior {
+class BumperNoiseBehavior extends ContactBehavior {
   @override
   void beginContact(Object other, Contact contact) {
     super.beginContact(other, contact);
