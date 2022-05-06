@@ -46,7 +46,7 @@ class InitialsFormState extends BackboxState {
   List<Object?> get props => [score, character];
 }
 
-/// {@template initials_form_state}
+/// {@template initials_success_state}
 /// State when the leaderboard was successfully loaded.
 /// {@endtemplate}
 class InitialsSuccessState extends BackboxState {
