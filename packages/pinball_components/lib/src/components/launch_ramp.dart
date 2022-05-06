@@ -40,22 +40,22 @@ class _LaunchRampBase extends BodyComponent with Layered, ZIndex {
 
     final rightStraightShape = EdgeShape()
       ..set(
-        Vector2(31.4, -61.4),
-        Vector2(46.5, 68.4),
+        Vector2(31, -61.4),
+        Vector2(46.1, 68.4),
       );
     final rightStraightFixtureDef = FixtureDef(rightStraightShape);
     fixturesDef.add(rightStraightFixtureDef);
 
     final leftStraightShape = EdgeShape()
       ..set(
-        Vector2(27.8, -61.4),
-        Vector2(41.5, 68.4),
+        Vector2(27.4, -61.4),
+        Vector2(41.1, 68.4),
       );
     final leftStraightFixtureDef = FixtureDef(leftStraightShape);
     fixturesDef.add(leftStraightFixtureDef);
 
     final topCurveShape = ArcShape(
-      center: Vector2(20.5, -61.1),
+      center: Vector2(20.1, -61.1),
       arcRadius: 11,
       angle: 1.6,
       rotation: 0.1,
@@ -64,7 +64,7 @@ class _LaunchRampBase extends BodyComponent with Layered, ZIndex {
     fixturesDef.add(topCurveFixtureDef);
 
     final bottomCurveShape = ArcShape(
-      center: Vector2(19.3, -60.3),
+      center: Vector2(18.9, -60.3),
       arcRadius: 8.5,
       angle: 1.48,
       rotation: 0.1,
@@ -74,16 +74,16 @@ class _LaunchRampBase extends BodyComponent with Layered, ZIndex {
 
     final topStraightShape = EdgeShape()
       ..set(
-        Vector2(3.7, -70.1),
-        Vector2(19.1, -72.1),
+        Vector2(3.3, -70.1),
+        Vector2(18.7, -72.1),
       );
     final topStraightFixtureDef = FixtureDef(topStraightShape);
     fixturesDef.add(topStraightFixtureDef);
 
     final bottomStraightShape = EdgeShape()
       ..set(
-        Vector2(3.7, -66.9),
-        Vector2(19.1, -68.8),
+        Vector2(3.3, -66.9),
+        Vector2(18.7, -68.8),
       );
     final bottomStraightFixtureDef = FixtureDef(bottomStraightShape);
     fixturesDef.add(bottomStraightFixtureDef);
@@ -113,7 +113,7 @@ class _LaunchRampBaseSpriteComponent extends SpriteComponent with HasGameRef {
     this.sprite = sprite;
     size = sprite.originalSize / 10;
     anchor = Anchor.center;
-    position = Vector2(25.65, 0.7);
+    position = Vector2(25.25, 0.7);
   }
 }
 
@@ -131,7 +131,7 @@ class _LaunchRampBackgroundRailingSpriteComponent extends SpriteComponent
     this.sprite = sprite;
     size = sprite.originalSize / 10;
     anchor = Anchor.center;
-    position = Vector2(25.6, -1.3);
+    position = Vector2(25.2, -1.3);
   }
 }
 
@@ -149,14 +149,14 @@ class _LaunchRampForegroundRailing extends BodyComponent with ZIndex {
 
     final rightStraightShape = EdgeShape()
       ..set(
-        Vector2(27.6, -57.9),
-        Vector2(38.1, 42.6),
+        Vector2(27.2, -57.9),
+        Vector2(37.7, 42.6),
       );
     final rightStraightFixtureDef = FixtureDef(rightStraightShape);
     fixturesDef.add(rightStraightFixtureDef);
 
     final curveShape = ArcShape(
-      center: Vector2(20.1, -59.3),
+      center: Vector2(19.7, -59.3),
       arcRadius: 7.5,
       angle: 1.8,
       rotation: -0.13,
@@ -166,8 +166,8 @@ class _LaunchRampForegroundRailing extends BodyComponent with ZIndex {
 
     final topStraightShape = EdgeShape()
       ..set(
-        Vector2(3.7, -66.8),
-        Vector2(19.7, -66.8),
+        Vector2(3.3, -66.8),
+        Vector2(19.3, -66.8),
       );
     final topStraightFixtureDef = FixtureDef(topStraightShape);
     fixturesDef.add(topStraightFixtureDef);
@@ -198,6 +198,6 @@ class _LaunchRampForegroundRailingSpriteComponent extends SpriteComponent
     this.sprite = sprite;
     size = sprite.originalSize / 10;
     anchor = Anchor.center;
-    position = Vector2(22.8, 0.5);
+    position = Vector2(22.4, 0.5);
   }
 }

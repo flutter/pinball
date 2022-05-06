@@ -1,3 +1,6 @@
+import 'package:flame/components.dart';
+import 'package:flame_bloc/flame_bloc.dart';
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -7,7 +10,30 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart' as theme;
 
-import '../../../../helpers/test_games.dart';
+class _TestGame extends Forge2DGame {
+  @override
+  Future<void> onLoad() async {
+    images.prefix = '';
+    await images.load(theme.Assets.images.dash.ball.keyName);
+  }
+
+  Future<void> pump(
+    Iterable<Component> children, {
+    GameBloc? gameBloc,
+  }) async {
+    await ensureAdd(
+      FlameBlocProvider<GameBloc, GameState>.value(
+        value: gameBloc ?? GameBloc(),
+        children: [
+          FlameProvider<theme.CharacterTheme>.value(
+            const theme.DashTheme(),
+            children: children,
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class _MockGameState extends Mock implements GameState {}
 
@@ -17,7 +43,7 @@ void main() {
   group(
     'BallSpawningBehavior',
     () {
-      final flameTester = FlameTester(EmptyPinballTestGame.new);
+      final flameTester = FlameTester(_TestGame.new);
 
       test('can be instantiated', () {
         expect(
@@ -30,8 +56,8 @@ void main() {
         'loads',
         (game) async {
           final behavior = BallSpawningBehavior();
-          await game.ensureAdd(behavior);
-          expect(game.contains(behavior), isTrue);
+          await game.pump([behavior]);
+          expect(game.descendants(), contains(behavior));
         },
       );
 
@@ -97,9 +123,8 @@ void main() {
       flameTester.test(
         'onNewState adds a ball',
         (game) async {
-          await game.images.load(theme.Assets.images.dash.ball.keyName);
           final behavior = BallSpawningBehavior();
-          await game.ensureAddAll([
+          await game.pump([
             behavior,
             ZCanvasComponent(),
             Plunger.test(compressionDistance: 10),
