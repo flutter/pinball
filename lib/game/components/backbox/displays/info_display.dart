@@ -170,7 +170,7 @@ class _LinksComponent extends PositionComponent with HasGameRef {
 }
 
 /// {@template share_link_component}
-/// Link button for navigate to sharing score screen.
+/// Link button to navigate to sharing score display.
 /// {@endtemplate}
 class ShareLinkComponent extends TextComponent with HasGameRef, Tappable {
   /// {@macro share_link_component}
