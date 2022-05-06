@@ -73,17 +73,16 @@ class SparkyComputer extends BodyComponent {
         Vector2(-13.2, -49.9),
         -0.18,
       );
-    final turboChargeSensorFixtureDef = FixtureDef(
-      turboChargeSensor,
-      isSensor: true,
-      userData: 'turbo_charge_sensor',
-    );
 
     return [
       FixtureDef(leftEdge),
       FixtureDef(topEdge),
       FixtureDef(rightEdge),
-      turboChargeSensorFixtureDef,
+      FixtureDef(
+        turboChargeSensor,
+        isSensor: true,
+        userData: 'turbo_charge_sensor',
+      ),
     ];
   }
 

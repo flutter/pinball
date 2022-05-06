@@ -19,17 +19,16 @@ class SparkyComputerSensorBallContactBehavior
     await parent.add(
       TimerComponent(
         period: 1.5,
-        onTick: () {
-          other
-            ..resume()
-            ..add(
-              BallTurboChargingBehavior(
-                impulse: Vector2(40, 110),
-              ),
-            );
+        removeOnFinish: true,
+        onTick: () async {
+          other.resume();
+          await other.add(
+            BallTurboChargingBehavior(
+              impulse: Vector2(40, 110),
+            ),
+          );
           parent.bloc.onBallTurboCharged();
         },
-        removeOnFinish: true,
       ),
     );
   }

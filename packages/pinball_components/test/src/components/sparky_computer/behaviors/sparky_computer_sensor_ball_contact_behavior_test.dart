@@ -126,7 +126,9 @@ void main() {
             final ball = _MockBall();
             await behavior.beginContact(ball, _MockContact());
             await game.ready();
-            game.update(2);
+            game.update(
+              sparkyComputer.firstChild<TimerComponent>()!.timer.limit,
+            );
             await game.ready();
 
             verify(ball.resume).called(1);
