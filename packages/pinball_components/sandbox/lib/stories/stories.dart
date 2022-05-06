@@ -4,6 +4,7 @@ export 'bottom_group/stories.dart';
 export 'boundaries/stories.dart';
 export 'dino_desert/stories.dart';
 export 'effects/stories.dart';
+export 'error_component/stories.dart';
 export 'flutter_forest/stories.dart';
 export 'google_word/stories.dart';
 export 'launch_ramp/stories.dart';
