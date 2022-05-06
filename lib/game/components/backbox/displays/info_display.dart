@@ -234,7 +234,7 @@ class _DescriptionComponent extends PositionComponent with HasGameRef {
           position: Vector2(0, 13),
           children: [
             _LearnMoreTextComponent(),
-            _LearnMore2TextComponent(),
+            _FirebaseOrOpenSourceTextComponent(),
           ],
         );
 }
@@ -254,8 +254,8 @@ class _LearnMoreTextComponent extends TextComponent with HasGameRef {
   }
 }
 
-class _LearnMore2TextComponent extends TextComponent with HasGameRef {
-  _LearnMore2TextComponent()
+class _FirebaseOrOpenSourceTextComponent extends TextComponent with HasGameRef {
+  _FirebaseOrOpenSourceTextComponent()
       : super(
           anchor: Anchor.center,
           position: Vector2(0, 2.5),
