@@ -21,9 +21,6 @@ class _MockQueryDocumentSnapshot extends Mock
 class _MockDocumentReference extends Mock
     implements DocumentReference<Map<String, dynamic>> {}
 
-class _MockDocumentSnapshot extends Mock
-    implements DocumentSnapshot<Map<String, dynamic>> {}
-
 void main() {
   group('LeaderboardRepository', () {
     late FirebaseFirestore firestore;
