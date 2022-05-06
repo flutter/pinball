@@ -33,9 +33,9 @@ void main() {
   final flameBlocTester = FlameTester(_TestGame.new);
 
   group('Multiballs', () {
-    flameBlocTester.testGameWidget(
+    flameBlocTester.test(
       'loads correctly',
-      setUp: (game, tester) async {
+      (game) async {
         final multiballs = Multiballs();
         await game.pump(multiballs);
         expect(game.descendants(), contains(multiballs));
