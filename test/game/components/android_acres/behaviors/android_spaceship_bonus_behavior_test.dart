@@ -42,6 +42,9 @@ class _TestGame extends Forge2DGame {
     AndroidAcres child, {
     required GameBloc gameBloc,
   }) async {
+    // Not needed once https://github.com/flame-engine/flame/issues/1607
+    // is fixed
+    await onLoad();
     await ensureAdd(
       FlameBlocProvider<GameBloc, GameState>.value(
         value: gameBloc,
