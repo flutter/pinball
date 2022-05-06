@@ -4,6 +4,9 @@ import 'dart:collection';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/components.dart';
+import 'package:flame/input.dart';
+import 'package:flame_bloc/flame_bloc.dart';
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,23 +17,36 @@ import 'package:pinball_components/pinball_components.dart';
 
 import '../../helpers/helpers.dart';
 
+class _TestGame extends Forge2DGame with HasKeyboardHandlerComponents {
+  @override
+  Future<void> onLoad() async {
+    images.prefix = '';
+    await images.load(Assets.images.plunger.plunger.keyName);
+  }
+
+  Future<void> pump(Plunger child, {GameBloc? gameBloc}) {
+    return ensureAdd(
+      FlameBlocProvider<GameBloc, GameState>.value(
+        value: gameBloc ?? GameBloc()
+          ..add(const GameStarted()),
+        children: [child],
+      ),
+    );
+  }
+}
+
 class _MockGameBloc extends Mock implements GameBloc {}
 
 class _MockPinballPlayer extends Mock implements PinballPlayer {}
 
-class _MockPinballGame extends Mock implements PinballGame {}
-
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(EmptyPinballTestGame.new);
+  final flameTester = FlameTester(_TestGame.new);
 
   group('PlungerController', () {
     late GameBloc gameBloc;
 
-    final flameBlocTester = FlameBlocTester<EmptyPinballTestGame, GameBloc>(
-      gameBuilder: EmptyPinballTestGame.new,
-      blocBuilder: () => gameBloc,
-    );
+    final flameBlocTester = FlameTester(_TestGame.new);
 
     late Plunger plunger;
     late PlungerController controller;
@@ -54,13 +70,7 @@ void main() {
           'moves down '
           'when ${event.logicalKey.keyLabel} is pressed',
           (game) async {
-            whenListen(
-              gameBloc,
-              const Stream<GameState>.empty(),
-              initialState: const GameState.initial(),
-            );
-
-            await game.ensureAdd(plunger);
+            await game.pump(plunger);
             controller.onKeyEvent(event, {});
 
             expect(plunger.body.linearVelocity.y, isPositive);
@@ -75,13 +85,7 @@ void main() {
           'when ${event.logicalKey.keyLabel} is released '
           'and plunger is below its starting position',
           (game) async {
-            whenListen(
-              gameBloc,
-              const Stream<GameState>.empty(),
-              initialState: const GameState.initial(),
-            );
-
-            await game.ensureAdd(plunger);
+            await game.pump(plunger);
             plunger.body.setTransform(Vector2(0, 1), 0);
             controller.onKeyEvent(event, {});
 
@@ -96,13 +100,7 @@ void main() {
           'does not move when ${event.logicalKey.keyLabel} is released '
           'and plunger is in its starting position',
           (game) async {
-            whenListen(
-              gameBloc,
-              const Stream<GameState>.empty(),
-              initialState: const GameState.initial(),
-            );
-
-            await game.ensureAdd(plunger);
+            await game.pump(plunger);
             controller.onKeyEvent(event, {});
 
             expect(plunger.body.linearVelocity.y, isZero);
@@ -123,7 +121,7 @@ void main() {
               ),
             );
 
-            await game.ensureAdd(plunger);
+            await game.pump(plunger, gameBloc: gameBloc);
             controller.onKeyEvent(event, {});
           },
           verify: (game, tester) async {
@@ -137,7 +135,7 @@ void main() {
     flameTester.test(
       'adds the PlungerNoisyBehavior plunger is released',
       (game) async {
-        await game.ensureAdd(plunger);
+        await game.pump(plunger);
         plunger.body.setTransform(Vector2(0, 1), 0);
         plunger.release();
 
@@ -150,22 +148,16 @@ void main() {
   });
 
   group('PlungerNoisyBehavior', () {
-    late PinballGame game;
     late PinballPlayer player;
     late PlungerNoisyBehavior behavior;
 
     setUp(() {
-      game = _MockPinballGame();
       player = _MockPinballPlayer();
-
-      when(() => game.player).thenReturn(player);
       behavior = PlungerNoisyBehavior();
-      behavior.mockGameRef(game);
     });
 
     test('plays the correct sound on load', () async {
       await behavior.onLoad();
-
       verify(() => player.play(PinballAudio.launcher)).called(1);
     });
 

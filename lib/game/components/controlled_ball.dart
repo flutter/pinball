@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_renaming_method_parameters
 
 import 'package:flame/components.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
@@ -41,14 +42,14 @@ class ControlledBall extends Ball with Controls<BallController> {
 /// Controller attached to a [Ball] that handles its game related logic.
 /// {@endtemplate}
 class BallController extends ComponentController<Ball>
-    with HasGameRef<PinballGame> {
+    with FlameBlocReader<GameBloc, GameState> {
   /// {@macro ball_controller}
   BallController(Ball ball) : super(ball);
 
   /// Stops the [Ball] inside of the [SparkyComputer] while the turbo charge
   /// sequence runs, then boosts the ball out of the computer.
   Future<void> turboCharge() async {
-    gameRef.read<GameBloc>().add(const SparkyTurboChargeActivated());
+    bloc.add(const SparkyTurboChargeActivated());
 
     component.stop();
     // TODO(alestiago): Refactor this hard coded duration once the following is

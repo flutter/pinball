@@ -1,8 +1,7 @@
 // ignore_for_file: cascade_invocations
 
-import 'dart:async';
-
-import 'package:bloc_test/bloc_test.dart';
+import 'package:flame_bloc/flame_bloc.dart';
+import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -12,7 +11,37 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart' as theme;
 
-import '../../../../helpers/helpers.dart';
+class _TestGame extends Forge2DGame {
+  @override
+  Future<void> onLoad() async {
+    images.prefix = '';
+    await images.loadAll([
+      Assets.images.dash.animatronic.keyName,
+      theme.Assets.images.dash.ball.keyName,
+    ]);
+  }
+
+  Future<void> pump(
+    FlutterForest child, {
+    required GameBloc gameBloc,
+  }) async {
+    await ensureAdd(
+      FlameBlocProvider<GameBloc, GameState>.value(
+        value: gameBloc,
+        children: [
+          FlameProvider<theme.CharacterTheme>.value(
+            const theme.DashTheme(),
+            children: [
+              ZCanvasComponent(
+                children: [child],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class _MockGameBloc extends Mock implements GameBloc {}
 
@@ -21,34 +50,21 @@ void main() {
 
   group('FlutterForestBonusBehavior', () {
     late GameBloc gameBloc;
-    final assets = [
-      Assets.images.dash.animatronic.keyName,
-      theme.Assets.images.dash.ball.keyName,
-    ];
 
     setUp(() {
       gameBloc = _MockGameBloc();
-      whenListen(
-        gameBloc,
-        const Stream<GameState>.empty(),
-        initialState: const GameState.initial(),
-      );
     });
 
-    final flameBlocTester = FlameBlocTester<PinballGame, GameBloc>(
-      gameBuilder: EmptyPinballTestGame.new,
-      blocBuilder: () => gameBloc,
-      assets: assets,
-    );
+    final flameTester = FlameTester(_TestGame.new);
 
     void _contactedBumper(DashNestBumper bumper) =>
         bumper.bloc.onBallContacted();
 
-    flameBlocTester.testGameWidget(
+    flameTester.testGameWidget(
       'adds GameBonus.dashNest to the game '
       'when bumpers are activated three times',
       setUp: (game, tester) async {
-        await game.images.loadAll(assets);
+        await game.onLoad();
         final behavior = FlutterForestBonusBehavior();
         final parent = FlutterForest.test();
         final bumpers = [
@@ -58,7 +74,7 @@ void main() {
         ];
         final animatronic = DashAnimatronic();
         final signpost = Signpost.test(bloc: SignpostCubit());
-        await game.ensureAdd(ZCanvasComponent(children: [parent]));
+        await game.pump(parent, gameBloc: gameBloc);
         await parent.ensureAddAll([...bumpers, animatronic, signpost]);
         await parent.ensureAdd(behavior);
 
@@ -76,11 +92,11 @@ void main() {
       },
     );
 
-    flameBlocTester.testGameWidget(
+    flameTester.testGameWidget(
       'adds a new Ball to the game '
       'when bumpers are activated three times',
       setUp: (game, tester) async {
-        await game.images.loadAll(assets);
+        await game.onLoad();
         final behavior = FlutterForestBonusBehavior();
         final parent = FlutterForest.test();
         final bumpers = [
@@ -90,7 +106,7 @@ void main() {
         ];
         final animatronic = DashAnimatronic();
         final signpost = Signpost.test(bloc: SignpostCubit());
-        await game.ensureAdd(ZCanvasComponent(children: [parent]));
+        await game.pump(parent, gameBloc: gameBloc);
         await parent.ensureAddAll([...bumpers, animatronic, signpost]);
         await parent.ensureAdd(behavior);
 
@@ -110,11 +126,11 @@ void main() {
       },
     );
 
-    flameBlocTester.testGameWidget(
+    flameTester.testGameWidget(
       'progress the signpost '
       'when bumpers are activated',
       setUp: (game, tester) async {
-        await game.images.loadAll(assets);
+        await game.onLoad();
         final behavior = FlutterForestBonusBehavior();
         final parent = FlutterForest.test();
         final bumpers = [
@@ -124,7 +140,7 @@ void main() {
         ];
         final animatronic = DashAnimatronic();
         final signpost = Signpost.test(bloc: SignpostCubit());
-        await game.ensureAdd(ZCanvasComponent(children: [parent]));
+        await game.pump(parent, gameBloc: gameBloc);
         await parent.ensureAddAll([...bumpers, animatronic, signpost]);
         await parent.ensureAdd(behavior);
 

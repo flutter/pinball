@@ -15,8 +15,7 @@ final _bodyTextPaint = TextPaint(
 /// {@template initials_submission_success_display}
 /// [Backbox] display for initials successfully submitted.
 /// {@endtemplate}
-class InitialsSubmissionSuccessDisplay extends TextComponent
-    with HasGameRef<PinballGame> {
+class InitialsSubmissionSuccessDisplay extends TextComponent {
   @override
   Future<void> onLoad() async {
     await super.onLoad();

@@ -1,12 +1,12 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:flame/game.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball/game/behaviors/camera_focusing_behavior.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
-
-import '../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -14,9 +14,7 @@ void main() {
   group(
     'CameraFocusingBehavior',
     () {
-      final flameTester = FlameTester(
-        EmptyPinballTestGame.new,
-      );
+      final flameTester = FlameTester(FlameGame.new);
 
       test('can be instantiated', () {
         expect(
@@ -26,9 +24,14 @@ void main() {
       });
 
       flameTester.test('loads', (game) async {
-        final behavior = CameraFocusingBehavior();
-        await game.ensureAdd(behavior);
-        expect(game.contains(behavior), isTrue);
+        late final behavior = CameraFocusingBehavior();
+        await game.ensureAdd(
+          FlameBlocProvider<GameBloc, GameState>.value(
+            value: GameBloc(),
+            children: [behavior],
+          ),
+        );
+        expect(game.descendants(), contains(behavior));
       });
 
       flameTester.test(
@@ -38,7 +41,12 @@ void main() {
           final previousZoom = game.camera.zoom;
           expect(game.camera.follow, isNull);
 
-          await game.ensureAdd(behavior);
+          await game.ensureAdd(
+            FlameBlocProvider<GameBloc, GameState>.value(
+              value: GameBloc(),
+              children: [behavior],
+            ),
+          );
 
           expect(game.camera.follow, isNotNull);
           expect(game.camera.zoom, isNot(equals(previousZoom)));
@@ -77,8 +85,12 @@ void main() {
                 const GameState.initial().copyWith(status: GameStatus.playing);
 
             final behavior = CameraFocusingBehavior();
-            await game.ensureAdd(behavior);
-
+            await game.ensureAdd(
+              FlameBlocProvider<GameBloc, GameState>.value(
+                value: GameBloc(),
+                children: [behavior],
+              ),
+            );
             behavior.onNewState(playing);
             final previousPosition = game.camera.position.clone();
             await game.ready();
@@ -103,7 +115,12 @@ void main() {
             );
 
             final behavior = CameraFocusingBehavior();
-            await game.ensureAdd(behavior);
+            await game.ensureAdd(
+              FlameBlocProvider<GameBloc, GameState>.value(
+                value: GameBloc(),
+                children: [behavior],
+              ),
+            );
 
             behavior.onNewState(playing);
             final previousPosition = game.camera.position.clone();

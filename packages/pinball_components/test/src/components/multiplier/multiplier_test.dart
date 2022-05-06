@@ -1,20 +1,17 @@
 // ignore_for_file: cascade_invocations, prefer_const_constructors
 
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flame/components.dart';
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-import '../../../helpers/helpers.dart';
-
-class _MockMultiplierCubit extends Mock implements MultiplierCubit {}
-
-void main() {
-  group('Multiplier', () {
-    TestWidgetsFlutterBinding.ensureInitialized();
-    final assets = [
+class _TestGame extends Forge2DGame {
+  @override
+  Future<void> onLoad() async {
+    images.prefix = '';
+    await images.loadAll([
       Assets.images.multiplier.x2.lit.keyName,
       Assets.images.multiplier.x2.dimmed.keyName,
       Assets.images.multiplier.x3.lit.keyName,
@@ -25,8 +22,16 @@ void main() {
       Assets.images.multiplier.x5.dimmed.keyName,
       Assets.images.multiplier.x6.lit.keyName,
       Assets.images.multiplier.x6.dimmed.keyName,
-    ];
-    final flameTester = FlameTester(() => TestGame(assets));
+    ]);
+  }
+}
+
+class _MockMultiplierCubit extends Mock implements MultiplierCubit {}
+
+void main() {
+  group('Multiplier', () {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    final flameTester = FlameTester(_TestGame.new);
     late MultiplierCubit bloc;
 
     setUp(() {
@@ -85,7 +90,7 @@ void main() {
         flameTester.testGameWidget(
           'lit when bloc state is lit',
           setUp: (game, tester) async {
-            await game.images.loadAll(assets);
+            await game.onLoad();
 
             whenListen(
               bloc,
@@ -116,7 +121,7 @@ void main() {
             );
 
             await expectLater(
-              find.byGame<TestGame>(),
+              find.byGame<_TestGame>(),
               matchesGoldenFile('../golden/multipliers/x2-lit.png'),
             );
           },
@@ -125,7 +130,7 @@ void main() {
         flameTester.testGameWidget(
           'dimmed when bloc state is dimmed',
           setUp: (game, tester) async {
-            await game.images.loadAll(assets);
+            await game.onLoad();
 
             whenListen(
               bloc,
@@ -156,7 +161,7 @@ void main() {
             );
 
             await expectLater(
-              find.byGame<TestGame>(),
+              find.byGame<_TestGame>(),
               matchesGoldenFile('../golden/multipliers/x2-dimmed.png'),
             );
           },
@@ -169,7 +174,7 @@ void main() {
         flameTester.testGameWidget(
           'lit when bloc state is lit',
           setUp: (game, tester) async {
-            await game.images.loadAll(assets);
+            await game.onLoad();
 
             whenListen(
               bloc,
@@ -200,7 +205,7 @@ void main() {
             );
 
             await expectLater(
-              find.byGame<TestGame>(),
+              find.byGame<_TestGame>(),
               matchesGoldenFile('../golden/multipliers/x3-lit.png'),
             );
           },
@@ -209,7 +214,7 @@ void main() {
         flameTester.testGameWidget(
           'dimmed when bloc state is dimmed',
           setUp: (game, tester) async {
-            await game.images.loadAll(assets);
+            await game.onLoad();
 
             whenListen(
               bloc,
@@ -240,7 +245,7 @@ void main() {
             );
 
             await expectLater(
-              find.byGame<TestGame>(),
+              find.byGame<_TestGame>(),
               matchesGoldenFile('../golden/multipliers/x3-dimmed.png'),
             );
           },
@@ -253,7 +258,7 @@ void main() {
         flameTester.testGameWidget(
           'lit when bloc state is lit',
           setUp: (game, tester) async {
-            await game.images.loadAll(assets);
+            await game.onLoad();
 
             whenListen(
               bloc,
@@ -284,7 +289,7 @@ void main() {
             );
 
             await expectLater(
-              find.byGame<TestGame>(),
+              find.byGame<_TestGame>(),
               matchesGoldenFile('../golden/multipliers/x4-lit.png'),
             );
           },
@@ -293,7 +298,7 @@ void main() {
         flameTester.testGameWidget(
           'dimmed when bloc state is dimmed',
           setUp: (game, tester) async {
-            await game.images.loadAll(assets);
+            await game.onLoad();
 
             whenListen(
               bloc,
@@ -324,7 +329,7 @@ void main() {
             );
 
             await expectLater(
-              find.byGame<TestGame>(),
+              find.byGame<_TestGame>(),
               matchesGoldenFile('../golden/multipliers/x4-dimmed.png'),
             );
           },
@@ -337,7 +342,7 @@ void main() {
         flameTester.testGameWidget(
           'lit when bloc state is lit',
           setUp: (game, tester) async {
-            await game.images.loadAll(assets);
+            await game.onLoad();
 
             whenListen(
               bloc,
@@ -368,7 +373,7 @@ void main() {
             );
 
             await expectLater(
-              find.byGame<TestGame>(),
+              find.byGame<_TestGame>(),
               matchesGoldenFile('../golden/multipliers/x5-lit.png'),
             );
           },
@@ -377,7 +382,7 @@ void main() {
         flameTester.testGameWidget(
           'dimmed when bloc state is dimmed',
           setUp: (game, tester) async {
-            await game.images.loadAll(assets);
+            await game.onLoad();
 
             whenListen(
               bloc,
@@ -408,7 +413,7 @@ void main() {
             );
 
             await expectLater(
-              find.byGame<TestGame>(),
+              find.byGame<_TestGame>(),
               matchesGoldenFile('../golden/multipliers/x5-dimmed.png'),
             );
           },
@@ -421,7 +426,7 @@ void main() {
         flameTester.testGameWidget(
           'lit when bloc state is lit',
           setUp: (game, tester) async {
-            await game.images.loadAll(assets);
+            await game.onLoad();
 
             whenListen(
               bloc,
@@ -452,7 +457,7 @@ void main() {
             );
 
             await expectLater(
-              find.byGame<TestGame>(),
+              find.byGame<_TestGame>(),
               matchesGoldenFile('../golden/multipliers/x6-lit.png'),
             );
           },
@@ -461,7 +466,7 @@ void main() {
         flameTester.testGameWidget(
           'dimmed when bloc state is dimmed',
           setUp: (game, tester) async {
-            await game.images.loadAll(assets);
+            await game.onLoad();
 
             whenListen(
               bloc,
@@ -492,7 +497,7 @@ void main() {
             );
 
             await expectLater(
-              find.byGame<TestGame>(),
+              find.byGame<_TestGame>(),
               matchesGoldenFile('../golden/multipliers/x6-dimmed.png'),
             );
           },
