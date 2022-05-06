@@ -3,12 +3,14 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 
 /// Signature for the callback called when the used has
 /// shared score on the [InfoDisplay].
-typedef ScoreOnShared = void Function(String);
+typedef ScoreOnShared = void Function();
 
 final _titleTextPaint = TextPaint(
   style: const TextStyle(
@@ -52,8 +54,6 @@ final _descriptionTextPaint = TextPaint(
 class InfoDisplay extends Component with HasGameRef {
   /// {@macro info_display}
   InfoDisplay({
-    required int score,
-    required String characterIconPath,
     ScoreOnShared? onShared,
   })  : _onShared = onShared,
         super(
@@ -65,8 +65,14 @@ class InfoDisplay extends Component with HasGameRef {
   final ScoreOnShared? _onShared;
 
   bool _share() {
-    _onShared?.call('');
+    _onShared?.call();
     return true;
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    gameRef.overlays.add(PinballGame.replayButtonOverlay);
   }
 }
 
@@ -108,8 +114,7 @@ class _ShareScoreTextComponent extends TextComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = 'Share your score';
-    //gameRef.l10n.shareYourScore;
+    text = readProvider<AppLocalizations>().shareYourScore;
   }
 }
 
@@ -125,8 +130,7 @@ class _ChallengeFriendsTextComponent extends TextComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = 'AND CHALLENGE YOUR FRIENDS';
-    //gameRef.l10n.challengeYourFriends;
+    text = readProvider<AppLocalizations>().andChallengeYourFriends;
   }
 }
 
@@ -171,7 +175,7 @@ class _ShareLinkComponent extends TextComponent with HasGameRef<PinballGame> {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = 'SHARE'; //gameRef.l10n.share;
+    text = readProvider<AppLocalizations>().share;
   }
 }
 
@@ -186,7 +190,7 @@ class _GotoIOLinkComponent extends TextComponent with HasGameRef<PinballGame> {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = 'GO TO I/O'; //gameRef.l10n.gotoIO;
+    text = readProvider<AppLocalizations>().gotoIO;
   }
 }
 
@@ -215,8 +219,7 @@ class _LearnMoreTextComponent extends TextComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = 'Learn more about building games in Flutter with';
-    //gameRef.l10n.learnMore;
+    text = readProvider<AppLocalizations>().learnMore;
   }
 }
 
@@ -232,7 +235,6 @@ class _LearnMore2TextComponent extends TextComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = 'Firebase or dive right into the open source code.';
-    //gameRef.l10n.learnMore2;
+    text = readProvider<AppLocalizations>().firebaseOrOpenSource;
   }
 }

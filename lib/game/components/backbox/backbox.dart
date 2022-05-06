@@ -54,6 +54,14 @@ class Backbox extends PositionComponent with ZIndex {
       _display.add(LoadingDisplay());
     } else if (state is InitialsFormState) {
       _display.add(
+        InfoDisplay(
+          onShared: () {
+            //_bloc.add(ScoreShared());
+          },
+        ),
+      );
+      /*
+      _display.add(
         InitialsInputDisplay(
           score: state.score,
           characterIconPath: state.character.leaderboardIcon.keyName,
@@ -68,6 +76,7 @@ class Backbox extends PositionComponent with ZIndex {
           },
         ),
       );
+      */
     } else if (state is InitialsSuccessState) {
       _display.add(InitialsSubmissionSuccessDisplay());
     } else if (state is InitialsFailureState) {
@@ -84,22 +93,6 @@ class Backbox extends PositionComponent with ZIndex {
       PlayerInitialsRequested(
         score: score,
         character: character,
-      ),
-    );
-  }
-
-  /// Puts [InfoDisplay] on the [Backbox].
-  Future<void> infoScreen({
-    required int score,
-    required String characterIconPath,
-    ScoreOnShared? onShared,
-  }) async {
-    removeAll(children.where((child) => child is! _BackboxSpriteComponent));
-    await add(
-      InfoDisplay(
-        score: score,
-        characterIconPath: characterIconPath,
-        onShared: onShared,
       ),
     );
   }

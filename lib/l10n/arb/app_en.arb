@@ -124,8 +124,36 @@
   "@loading": {
     "description": "Text shown to indicate loading times"
   },
+  "replay": "Replay",
+  "@replay": {
+    "description": "Text displayed on the share page for replay button"
+  },
   "ioPinball": "I/O Pinball",
   "@ioPinball": {
     "description": "I/O Pinball - Name of the game"
+  },
+  "shareYourScore": "Share your score",
+  "@shareYourScore": {
+    "description": "Text shown on title of info screen"
+  },
+  "andChallengeYourFriends": "AND CHALLENGE YOUR FRIENDS",
+  "@challengeYourFriends": {
+    "description": "Text shown on title of info screen"
+  },
+  "share": "SHARE",
+  "@share": {
+    "description": "Text for share link at info screen."
+  },
+  "gotoIO": "GO TO I/O",
+  "@gotoIO": {
+    "description": "Text for going to I/O site link at info screen."
+  },
+  "learnMore": "Learn more about building games in Flutter with",
+  "@learnMore": {
+    "description": "Text shown on description of info screen"
+  },
+  "firebaseOrOpenSource": "Firebase or dive right into the open source code.",
+  "@firebaseOrOpenSource": {
+    "description": "Text shown on description of info screen"
   }
 }
