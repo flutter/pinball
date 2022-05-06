@@ -21,9 +21,6 @@ class _MockQueryDocumentSnapshot extends Mock
 class _MockDocumentReference extends Mock
     implements DocumentReference<Map<String, dynamic>> {}
 
-class _MockDocumentSnapshot extends Mock
-    implements DocumentSnapshot<Map<String, dynamic>> {}
-
 void main() {
   group('LeaderboardRepository', () {
     late FirebaseFirestore firestore;
@@ -367,95 +364,6 @@ void main() {
         verify(() => collectionReference.add(newScore.toJson())).called(1);
         verify(() => documentReference.delete()).called(2);
       });
-    });
-
-    group('areInitialsAllowed', () {
-      late LeaderboardRepository leaderboardRepository;
-      late CollectionReference<Map<String, dynamic>> collectionReference;
-      late DocumentReference<Map<String, dynamic>> documentReference;
-      late DocumentSnapshot<Map<String, dynamic>> documentSnapshot;
-
-      setUp(() async {
-        collectionReference = _MockCollectionReference();
-        documentReference = _MockDocumentReference();
-        documentSnapshot = _MockDocumentSnapshot();
-        leaderboardRepository = LeaderboardRepository(firestore);
-
-        when(() => firestore.collection('prohibitedInitials'))
-            .thenReturn(collectionReference);
-        when(() => collectionReference.doc('list'))
-            .thenReturn(documentReference);
-        when(() => documentReference.get())
-            .thenAnswer((_) async => documentSnapshot);
-        when<dynamic>(() => documentSnapshot.get('prohibitedInitials'))
-            .thenReturn(['BAD']);
-      });
-
-      test('returns true if initials are three letters and allowed', () async {
-        final isUsernameAllowedResponse =
-            await leaderboardRepository.areInitialsAllowed(
-          initials: 'ABC',
-        );
-        expect(
-          isUsernameAllowedResponse,
-          isTrue,
-        );
-      });
-
-      test(
-        'returns false if initials are shorter than 3 characters',
-        () async {
-          final areInitialsAllowedResponse =
-              await leaderboardRepository.areInitialsAllowed(initials: 'AB');
-          expect(areInitialsAllowedResponse, isFalse);
-        },
-      );
-
-      test(
-        'returns false if initials are longer than 3 characters',
-        () async {
-          final areInitialsAllowedResponse =
-              await leaderboardRepository.areInitialsAllowed(initials: 'ABCD');
-          expect(areInitialsAllowedResponse, isFalse);
-        },
-      );
-
-      test(
-        'returns false if initials contain a lowercase letter',
-        () async {
-          final areInitialsAllowedResponse =
-              await leaderboardRepository.areInitialsAllowed(initials: 'AbC');
-          expect(areInitialsAllowedResponse, isFalse);
-        },
-      );
-
-      test(
-        'returns false if initials contain a special character',
-        () async {
-          final areInitialsAllowedResponse =
-              await leaderboardRepository.areInitialsAllowed(initials: 'A@C');
-          expect(areInitialsAllowedResponse, isFalse);
-        },
-      );
-
-      test('returns false if initials are forbidden', () async {
-        final areInitialsAllowedResponse =
-            await leaderboardRepository.areInitialsAllowed(initials: 'BAD');
-        expect(areInitialsAllowedResponse, isFalse);
-      });
-
-      test(
-        'throws FetchProhibitedInitialsException when Exception occurs '
-        'when trying to retrieve information from firestore',
-        () async {
-          when(() => firestore.collection('prohibitedInitials'))
-              .thenThrow(Exception('oops'));
-          expect(
-            () => leaderboardRepository.areInitialsAllowed(initials: 'ABC'),
-            throwsA(isA<FetchProhibitedInitialsException>()),
-          );
-        },
-      );
     });
   });
 }
