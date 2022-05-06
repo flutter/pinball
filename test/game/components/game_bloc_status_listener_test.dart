@@ -167,7 +167,7 @@ void main() {
           await game.pump([component], pinballPlayer: player);
 
           component.onNewState(
-            const GameState.initial().copyWith(status: GameStatus.replaying),
+            const GameState.initial().copyWith(status: GameStatus.playing),
           );
 
           expect(

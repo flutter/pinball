@@ -10,11 +10,11 @@ import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 
 /// Signature for the callback called when the user tries to share their score
-/// from the [InfoDisplay].
+/// from the [GameOverInfoDisplay].
 typedef OnShareTap = void Function();
 
 /// Signature for the callback called when the user tries to navigate to the
-/// Google IO site from the [InfoDisplay].
+/// Google IO site from the [GameOverInfoDisplay].
 typedef OnNavigateTap = void Function();
 
 final _titleTextPaint = TextPaint(
@@ -52,12 +52,12 @@ final _descriptionTextPaint = TextPaint(
   ),
 );
 
-/// {@template info_display}
+/// {@template game_over_info_display}
 /// Display that handles shows to the user share or goto IO website.
 /// {@endtemplate}
-class InfoDisplay extends Component with HasGameRef {
-  /// {@macro info_display}
-  InfoDisplay({
+class GameOverInfoDisplay extends Component with HasGameRef {
+  /// {@macro game_over_info_display}
+  GameOverInfoDisplay({
     OnShareTap? onShare,
     OnNavigateTap? onNavigate,
   }) : super(
@@ -72,7 +72,7 @@ class InfoDisplay extends Component with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    gameRef.overlays.add(PinballGame.replayButtonOverlay);
+    //gameRef.overlays.add(PinballGame.replayButtonOverlay);
   }
 }
 
@@ -164,7 +164,7 @@ class _LinksComponent extends PositionComponent with HasGameRef {
           position: Vector2(0, 9.2),
           children: [
             ShareLinkComponent(onTap: onShare),
-            GotoIOLinkComponent(onTap: onNavigate),
+            GoogleIOLinkComponent(onTap: onNavigate),
           ],
         );
 }
@@ -198,12 +198,12 @@ class ShareLinkComponent extends TextComponent with HasGameRef, Tappable {
   }
 }
 
-/// {@template goto_io_link_component}
+/// {@template google_io_link_component}
 /// Link button to navigate to Google I/O site.
 /// {@endtemplate}
-class GotoIOLinkComponent extends TextComponent with HasGameRef, Tappable {
-  /// {@macro goto_io_link_component}
-  GotoIOLinkComponent({
+class GoogleIOLinkComponent extends TextComponent with HasGameRef, Tappable {
+  /// {@macro google_io_link_component}
+  GoogleIOLinkComponent({
     OnNavigateTap? onTap,
   })  : _onTap = onTap,
         super(

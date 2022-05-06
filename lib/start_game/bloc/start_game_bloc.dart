@@ -34,7 +34,6 @@ class StartGameBloc extends Bloc<StartGameEvent, StartGameState> {
     emit(
       state.copyWith(
         status: StartGameStatus.selectCharacter,
-        restarted: true,
       ),
     );
   }

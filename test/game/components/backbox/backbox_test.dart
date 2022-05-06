@@ -232,7 +232,7 @@ void main() {
         await game.pump(backbox);
 
         expect(
-          game.descendants().whereType<InfoDisplay>().length,
+          game.descendants().whereType<GameOverInfoDisplay>().length,
           equals(1),
         );
       },

@@ -70,7 +70,7 @@ class Backbox extends PositionComponent with ZIndex {
       );
     } else if (state is InitialsSuccessState) {
       _display.add(
-        InfoDisplay(
+        GameOverInfoDisplay(
           onShare: () {
             _bloc.add(
               ShareScoreRequested(

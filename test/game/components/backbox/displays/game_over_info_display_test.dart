@@ -8,7 +8,7 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/bloc/game_bloc.dart';
-import 'package:pinball/game/components/backbox/displays/info_display.dart';
+import 'package:pinball/game/components/backbox/displays/game_over_info_display.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
@@ -25,7 +25,7 @@ class _TestGame extends Forge2DGame with HasTappables {
     );
   }
 
-  Future<void> pump(InfoDisplay component) {
+  Future<void> pump(GameOverInfoDisplay component) {
     return ensureAdd(
       FlameBlocProvider<GameBloc, GameState>.value(
         value: GameBloc(),
@@ -71,7 +71,7 @@ void main() {
     flameTester.test(
       'loads correctly',
       (game) async {
-        final component = InfoDisplay();
+        final component = GameOverInfoDisplay();
         await game.pump(component);
         expect(game.descendants(), contains(component));
       },
@@ -83,7 +83,7 @@ void main() {
         var tapped = false;
 
         final tapDownInfo = _MockTapDownInfo();
-        final component = InfoDisplay(
+        final component = GameOverInfoDisplay(
           onShare: () => tapped = true,
         );
         await game.pump(component);
@@ -103,7 +103,7 @@ void main() {
         var tapped = false;
 
         final tapDownInfo = _MockTapDownInfo();
-        final component = InfoDisplay(
+        final component = GameOverInfoDisplay(
           onNavigate: () => tapped = true,
         );
         await game.pump(component);

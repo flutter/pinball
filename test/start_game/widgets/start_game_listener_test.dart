@@ -46,7 +46,7 @@ void main() {
       });
 
       testWidgets(
-        'calls GameStarted event only on play',
+        'calls GameStarted event',
         (tester) async {
           whenListen(
             startGameBloc,
@@ -66,35 +66,7 @@ void main() {
             startGameBloc: startGameBloc,
           );
 
-          verifyNever(() => gameBloc.add(const GameRestarted()));
           verify(() => gameBloc.add(const GameStarted())).called(1);
-        },
-      );
-
-      testWidgets(
-        'calls GameRestarted event only on replay',
-        (tester) async {
-          whenListen(
-            startGameBloc,
-            Stream.value(
-              const StartGameState(
-                status: StartGameStatus.selectCharacter,
-                restarted: true,
-              ),
-            ),
-            initialState: const StartGameState.initial(),
-          );
-
-          await tester.pumpApp(
-            const StartGameListener(
-              child: SizedBox.shrink(),
-            ),
-            gameBloc: gameBloc,
-            startGameBloc: startGameBloc,
-          );
-
-          verifyNever(() => gameBloc.add(const GameStarted()));
-          verify(() => gameBloc.add(const GameRestarted())).called(1);
         },
       );
 

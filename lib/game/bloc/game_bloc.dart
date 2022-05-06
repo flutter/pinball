@@ -16,15 +16,10 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     on<SparkyTurboChargeActivated>(_onSparkyTurboChargeActivated);
     on<GameOver>(_onGameOver);
     on<GameStarted>(_onGameStarted);
-    on<GameRestarted>(_onGameRestarted);
   }
 
   void _onGameStarted(GameStarted _, Emitter emit) {
     emit(state.copyWith(status: GameStatus.playing));
-  }
-
-  void _onGameRestarted(GameRestarted _, Emitter emit) {
-    emit(const GameState.initial().copyWith(status: GameStatus.replaying));
   }
 
   void _onGameOver(GameOver _, Emitter emit) {

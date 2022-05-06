@@ -16,13 +16,12 @@ void main() {
     );
 
     blocTest<StartGameBloc, StartGameState>(
-      'on ReplayTapped changes status to selectCharacter and restarted enabled',
+      'on ReplayTapped changes status to selectCharacter',
       build: StartGameBloc.new,
       act: (bloc) => bloc.add(const ReplayTapped()),
       expect: () => [
         const StartGameState(
           status: StartGameStatus.selectCharacter,
-          restarted: true,
         )
       ],
     );

@@ -67,13 +67,6 @@ class GameStarted extends GameEvent {
   List<Object?> get props => [];
 }
 
-class GameRestarted extends GameEvent {
-  const GameRestarted();
-
-  @override
-  List<Object?> get props => [];
-}
-
 class GameOver extends GameEvent {
   const GameOver();
 

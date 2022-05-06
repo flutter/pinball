@@ -38,20 +38,6 @@ void main() {
       ],
     );
 
-    blocTest<GameBloc, GameState>(
-      'GameRestarted restarts the game',
-      build: GameBloc.new,
-      act: (bloc) => bloc.add(const GameRestarted()),
-      expect: () => [
-        isA<GameState>()
-          ..having(
-            (state) => state.status,
-            'status',
-            GameStatus.replaying,
-          ),
-      ],
-    );
-
     group('RoundLost', () {
       blocTest<GameBloc, GameState>(
         'decreases number of rounds '

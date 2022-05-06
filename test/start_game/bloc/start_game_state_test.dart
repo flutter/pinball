@@ -49,14 +49,12 @@ void main() {
           );
           final otherState = StartGameState(
             status: StartGameStatus.play,
-            restarted: true,
           );
           expect(state, isNot(equals(otherState)));
 
           expect(
             state.copyWith(
               status: otherState.status,
-              restarted: otherState.restarted,
             ),
             equals(otherState),
           );
@@ -69,7 +67,6 @@ void main() {
         testState.props,
         equals([
           StartGameStatus.selectCharacter,
-          false,
         ]),
       );
     });
