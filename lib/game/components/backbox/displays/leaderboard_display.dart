@@ -2,8 +2,10 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/game/pinball_game.dart';
+import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/leaderboard/models/leader_board_entry.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 
 final _titleTextPaint = TextPaint(
@@ -25,8 +27,7 @@ final _bodyTextPaint = TextPaint(
 /// {@template leaderboard_display}
 /// Component that builds the leaderboard list of the Backbox.
 /// {@endtemplate}
-class LeaderboardDisplay extends PositionComponent
-    with HasGameRef<PinballGame> {
+class LeaderboardDisplay extends PositionComponent with HasGameRef {
   /// {@macro leaderboard_display}
   LeaderboardDisplay({required List<LeaderboardEntryData> entries})
       : _entries = entries;
@@ -54,7 +55,7 @@ class LeaderboardDisplay extends PositionComponent
   Future<void> onLoad() async {
     position = Vector2(0, -30);
 
-    final l10n = gameRef.l10n;
+    final l10n = readProvider<AppLocalizations>();
     final ranking = _entries.take(5).toList();
     await add(
       PositionComponent(

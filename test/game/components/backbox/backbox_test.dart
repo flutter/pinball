@@ -128,7 +128,7 @@ void main() {
       'adds LeaderboardRequested when loaded',
       (game) async {
         final backbox = Backbox.test(bloc: bloc);
-        await game.ensureAdd(backbox);
+        await game.pump(backbox);
 
         verify(() => bloc.add(LeaderboardRequested())).called(1);
       },
@@ -257,7 +257,7 @@ void main() {
         );
 
         final backbox = Backbox.test(bloc: bloc);
-        await game.ensureAdd(backbox);
+        await game.pump(backbox);
 
         expect(
           game.descendants().whereType<LeaderboardDisplay>().length,

@@ -1,15 +1,15 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:flame/components.dart';
+import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/components/backbox/displays/leaderboard_display.dart';
 import 'package:pinball/l10n/l10n.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart';
-
-import '../../../../helpers/helpers.dart';
 
 class _MockAppLocalizations extends Mock implements AppLocalizations {
   @override
@@ -22,21 +22,32 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {
   String get name => 'name';
 }
 
+class _TestGame extends Forge2DGame {
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    images.prefix = '';
+    await images.load(const AndroidTheme().leaderboardIcon.keyName);
+  }
+
+  Future<void> pump(LeaderboardDisplay component) {
+    return ensureAdd(
+      FlameProvider.value(
+        _MockAppLocalizations(),
+        children: [component],
+      ),
+    );
+  }
+}
+
 void main() {
   group('LeaderboardDisplay', () {
     TestWidgetsFlutterBinding.ensureInitialized();
 
-    final flameTester = FlameTester(
-      () => EmptyPinballTestGame(
-        l10n: _MockAppLocalizations(),
-        assets: [
-          const AndroidTheme().leaderboardIcon.keyName,
-        ],
-      ),
-    );
+    final flameTester = FlameTester(_TestGame.new);
 
     flameTester.test('renders the titles', (game) async {
-      await game.ensureAdd(LeaderboardDisplay(entries: const []));
+      await game.pump(LeaderboardDisplay(entries: const []));
 
       final textComponents =
           game.descendants().whereType<TextComponent>().toList();
@@ -47,7 +58,7 @@ void main() {
     });
 
     flameTester.test('renders the entries', (game) async {
-      await game.ensureAdd(
+      await game.pump(
         LeaderboardDisplay(
           entries: const [
             LeaderboardEntryData(
