@@ -77,7 +77,7 @@ class InitialsFailureState extends BackboxState {
 }
 
 /// {@template share_state}
-/// State when the user is sharing the score.
+/// State when the user is sharing their score.
 /// {@endtemplate}
 class ShareState extends BackboxState {
   /// {@macro share_state}
