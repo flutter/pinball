@@ -58,12 +58,3 @@ class AddLeaderboardEntryException extends LeaderboardException {
   const AddLeaderboardEntryException(Object error, StackTrace stackTrace)
       : super(error, stackTrace);
 }
-
-/// {@template fetch_prohibited_initials_exception}
-/// Exception thrown when failure occurs while fetching prohibited initials.
-/// {@endtemplate}
-class FetchProhibitedInitialsException extends LeaderboardException {
-  /// {@macro fetch_prohibited_initials_exception}
-  const FetchProhibitedInitialsException(Object error, StackTrace stackTrace)
-      : super(error, stackTrace);
-}
