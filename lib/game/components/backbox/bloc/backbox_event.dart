@@ -51,3 +51,9 @@ class PlayerInitialsSubmitted extends BackboxEvent {
   @override
   List<Object?> get props => [score, initials, character];
 }
+
+/// Event that triggers the fetching of the leaderboard
+class LeaderboardRequested extends BackboxEvent {
+  @override
+  List<Object?> get props => [];
+}

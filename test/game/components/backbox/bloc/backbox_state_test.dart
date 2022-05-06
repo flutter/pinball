@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/game/components/backbox/bloc/backbox_bloc.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
@@ -18,11 +19,30 @@ void main() {
 
     group('LeaderboardSuccessState', () {
       test('can be instantiated', () {
-        expect(LeaderboardSuccessState(), isNotNull);
+        expect(
+          LeaderboardSuccessState(entries: const []),
+          isNotNull,
+        );
       });
 
       test('supports value comparison', () {
-        expect(LeaderboardSuccessState(), equals(LeaderboardSuccessState()));
+        expect(
+          LeaderboardSuccessState(entries: const []),
+          equals(
+            LeaderboardSuccessState(entries: const []),
+          ),
+        );
+
+        expect(
+          LeaderboardSuccessState(entries: const []),
+          isNot(
+            equals(
+              LeaderboardSuccessState(
+                entries: const [LeaderboardEntryData.empty],
+              ),
+            ),
+          ),
+        );
       });
     });
 
