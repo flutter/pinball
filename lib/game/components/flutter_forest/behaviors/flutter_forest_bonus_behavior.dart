@@ -1,9 +1,9 @@
 import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
-import 'package:pinball_theme/pinball_theme.dart';
 
 /// Bonus obtained at the [FlutterForest].
 ///
@@ -41,11 +41,12 @@ class FlutterForestBonusBehavior extends Component
 
           if (signpost.bloc.isFullyProgressed()) {
             bloc.add(const BonusActivated(GameBonus.dashNest));
-            final characterTheme = readProvider<CharacterTheme>();
+            final characterTheme =
+                readBloc<CharacterThemeCubit, CharacterThemeState>()
+                    .state
+                    .characterTheme;
             canvas.add(
-              Ball(
-                assetPath: characterTheme.ball.keyName,
-              )
+              Ball(assetPath: characterTheme.ball.keyName)
                 ..initialPosition = Vector2(29.2, -24.5)
                 ..zIndex = ZIndexes.ballOnBoard,
             );
