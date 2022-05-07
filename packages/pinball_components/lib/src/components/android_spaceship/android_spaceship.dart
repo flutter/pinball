@@ -11,10 +11,8 @@ import 'package:pinball_flame/pinball_flame.dart';
 export 'cubit/android_spaceship_cubit.dart';
 
 class AndroidSpaceship extends Component {
-  AndroidSpaceship({
-    required Vector2 position,
-  })  : bloc = AndroidSpaceshipCubit(),
-        super(
+  AndroidSpaceship({required Vector2 position})
+      : super(
           children: [
             _SpaceshipSaucer()..initialPosition = position,
             _SpaceshipSaucerSpriteAnimationComponent()..position = position,
@@ -38,17 +36,8 @@ class AndroidSpaceship extends Component {
   /// This can be used for testing [AndroidSpaceship]'s behaviors in isolation.
   @visibleForTesting
   AndroidSpaceship.test({
-    required this.bloc,
     Iterable<Component>? children,
   }) : super(children: children);
-
-  final AndroidSpaceshipCubit bloc;
-
-  @override
-  void onRemove() {
-    bloc.close();
-    super.onRemove();
-  }
 }
 
 class _SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
