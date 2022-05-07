@@ -14,14 +14,14 @@ import 'package:pinball_flame/pinball_flame.dart';
 class _TestGame extends Forge2DGame {
   Future<void> pump(
     BonusNoiseBehavior child, {
-    required PinballPlayer player,
+    required PinballAudioPlayer player,
     required GameBloc bloc,
   }) {
     return ensureAdd(
       FlameBlocProvider<GameBloc, GameState>.value(
         value: bloc,
         children: [
-          FlameProvider<PinballPlayer>.value(
+          FlameProvider<PinballAudioPlayer>.value(
             player,
             children: [
               child,
@@ -33,7 +33,7 @@ class _TestGame extends Forge2DGame {
   }
 }
 
-class _MockPinballPlayer extends Mock implements PinballPlayer {}
+class _MockPinballAudioPlayer extends Mock implements PinballAudioPlayer {}
 
 class _MockGameBloc extends Mock implements GameBloc {}
 
@@ -41,7 +41,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('BonusNoiseBehavior', () {
-    late PinballPlayer player;
+    late PinballAudioPlayer player;
     late GameBloc bloc;
     final flameTester = FlameTester(_TestGame.new);
 
@@ -50,7 +50,7 @@ void main() {
     });
 
     setUp(() {
-      player = _MockPinballPlayer();
+      player = _MockPinballAudioPlayer();
       when(() => player.play(any())).thenAnswer((_) {});
       bloc = _MockGameBloc();
     });

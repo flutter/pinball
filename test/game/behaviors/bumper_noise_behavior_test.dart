@@ -9,9 +9,10 @@ import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 class _TestGame extends Forge2DGame {
-  Future<void> pump(_TestBodyComponent child, {required PinballPlayer player}) {
+  Future<void> pump(_TestBodyComponent child,
+      {required PinballAudioPlayer player}) {
     return ensureAdd(
-      FlameProvider<PinballPlayer>.value(
+      FlameProvider<PinballAudioPlayer>.value(
         player,
         children: [
           child,
@@ -26,7 +27,7 @@ class _TestBodyComponent extends BodyComponent {
   Body createBody() => world.createBody(BodyDef());
 }
 
-class _MockPinballPlayer extends Mock implements PinballPlayer {}
+class _MockPinballAudioPlayer extends Mock implements PinballAudioPlayer {}
 
 class _MockContact extends Mock implements Contact {}
 
@@ -35,11 +36,11 @@ void main() {
 
   group('BumperNoiseBehavior', () {});
 
-  late PinballPlayer player;
+  late PinballAudioPlayer player;
   final flameTester = FlameTester(_TestGame.new);
 
   setUp(() {
-    player = _MockPinballPlayer();
+    player = _MockPinballAudioPlayer();
   });
 
   flameTester.testGameWidget(

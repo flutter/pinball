@@ -11,7 +11,7 @@ void main() {
   bootstrap((firestore, firebaseAuth) async {
     final leaderboardRepository = LeaderboardRepository(firestore);
     final authenticationRepository = AuthenticationRepository(firebaseAuth);
-    final pinballPlayer = PinballPlayer();
+    final pinballPlayer = PinballAudioPlayer();
     unawaited(
       Firebase.initializeApp().then(
         (_) => authenticationRepository.authenticateAnonymously(),

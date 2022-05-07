@@ -30,7 +30,7 @@ class _TestGame extends Forge2DGame {
 
   Future<void> pump(
     Iterable<Component> children, {
-    PinballPlayer? pinballPlayer,
+    PinballAudioPlayer? pinballPlayer,
   }) async {
     return ensureAdd(
       FlameMultiBlocProvider(
@@ -45,8 +45,8 @@ class _TestGame extends Forge2DGame {
         children: [
           MultiFlameProvider(
             providers: [
-              FlameProvider<PinballPlayer>.value(
-                pinballPlayer ?? _MockPinballPlayer(),
+              FlameProvider<PinballAudioPlayer>.value(
+                pinballPlayer ?? _MockPinballAudioPlayer(),
               ),
               FlameProvider<AppLocalizations>.value(
                 _MockAppLocalizations(),
@@ -60,7 +60,7 @@ class _TestGame extends Forge2DGame {
   }
 }
 
-class _MockPinballPlayer extends Mock implements PinballPlayer {}
+class _MockPinballAudioPlayer extends Mock implements PinballAudioPlayer {}
 
 class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
 }
@@ -191,7 +191,7 @@ void main() {
         flameTester.test(
           'plays the game over voice over',
           (game) async {
-            final player = _MockPinballPlayer();
+            final player = _MockPinballAudioPlayer();
             final component = GameBlocStatusListener();
             final repository = _MockLeaderboardRepository();
             final backbox = Backbox(
@@ -219,7 +219,7 @@ void main() {
         flameTester.test(
           'plays the background music on start',
           (game) async {
-            final player = _MockPinballPlayer();
+            final player = _MockPinballAudioPlayer();
             final component = GameBlocStatusListener();
             await game.pump([component], pinballPlayer: player);
 

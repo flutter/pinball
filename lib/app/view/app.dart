@@ -15,7 +15,7 @@ class App extends StatelessWidget {
     Key? key,
     required AuthenticationRepository authenticationRepository,
     required LeaderboardRepository leaderboardRepository,
-    required PinballPlayer pinballPlayer,
+    required PinballAudioPlayer pinballPlayer,
   })  : _authenticationRepository = authenticationRepository,
         _leaderboardRepository = leaderboardRepository,
         _pinballPlayer = pinballPlayer,
@@ -23,7 +23,7 @@ class App extends StatelessWidget {
 
   final AuthenticationRepository _authenticationRepository;
   final LeaderboardRepository _leaderboardRepository;
-  final PinballPlayer _pinballPlayer;
+  final PinballAudioPlayer _pinballPlayer;
 
   @override
   Widget build(BuildContext context) {

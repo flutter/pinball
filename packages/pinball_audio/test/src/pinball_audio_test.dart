@@ -51,7 +51,7 @@ void main() {
     late _MockLoopSingleAudio loopSingleAudio;
     late _PreCacheSingleAudio preCacheSingleAudio;
     late Random seed;
-    late PinballPlayer player;
+    late PinballAudioPlayer player;
 
     setUpAll(() {
       registerFallbackValue(_MockAudioCache());
@@ -81,7 +81,7 @@ void main() {
 
       seed = _MockRandom();
 
-      player = PinballPlayer(
+      player = PinballAudioPlayer(
         configureAudioCache: configureAudioCache.onCall,
         createAudioPool: createAudioPool.onCall,
         playSingleAudio: playSingleAudio.onCall,
@@ -92,7 +92,7 @@ void main() {
     });
 
     test('can be instantiated', () {
-      expect(PinballPlayer(), isNotNull);
+      expect(PinballAudioPlayer(), isNotNull);
     });
 
     group('load', () {
@@ -124,7 +124,7 @@ void main() {
       });
 
       test('sets the correct prefix', () async {
-        player = PinballPlayer(
+        player = PinballAudioPlayer(
           createAudioPool: createAudioPool.onCall,
           playSingleAudio: playSingleAudio.onCall,
           preCacheSingleAudio: preCacheSingleAudio.onCall,

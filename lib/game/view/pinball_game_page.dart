@@ -30,20 +30,20 @@ class PinballGamePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final characterThemeBloc = context.read<CharacterThemeCubit>();
-    final player = context.read<PinballPlayer>();
+    final audioPlayer = context.read<PinballAudioPlayer>();
     final leaderboardRepository = context.read<LeaderboardRepository>();
     final gameBloc = context.read<GameBloc>();
     final game = isDebugMode
         ? DebugPinballGame(
             characterThemeBloc: characterThemeBloc,
-            player: player,
+            audioPlayer: audioPlayer,
             leaderboardRepository: leaderboardRepository,
             l10n: context.l10n,
             gameBloc: gameBloc,
           )
         : PinballGame(
             characterThemeBloc: characterThemeBloc,
-            player: player,
+            audioPlayer: audioPlayer,
             leaderboardRepository: leaderboardRepository,
             l10n: context.l10n,
             gameBloc: gameBloc,
@@ -52,7 +52,7 @@ class PinballGamePage extends StatelessWidget {
     final loadables = [
       game.preFetchLeaderboard(),
       ...game.preLoadAssets(),
-      ...player.load(),
+      ...audioPlayer.load(),
       ...BonusAnimation.loadAssets(),
       ...SelectedCharacter.loadAssets(),
     ];
