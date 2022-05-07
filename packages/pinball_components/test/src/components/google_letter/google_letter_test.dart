@@ -102,7 +102,6 @@ void main() {
       expect(() => GoogleLetter(6), throwsA(isA<RangeError>()));
     });
 
-    // ignore: public_member_api_docs
     flameTester.test('closes bloc when removed', (game) async {
       final bloc = _MockGoogleLetterCubit();
       whenListen(

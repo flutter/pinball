@@ -43,7 +43,6 @@ class SkillShot extends BodyComponent with ZIndex {
     required this.bloc,
   });
 
-  // ignore: public_member_api_docs
   final SkillShotCubit bloc;
 
   @override

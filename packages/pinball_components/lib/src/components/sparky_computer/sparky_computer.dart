@@ -37,7 +37,6 @@ class SparkyComputer extends BodyComponent {
     Iterable<Component>? children,
   }) : super(children: children);
 
-  // ignore: public_member_api_docs
   final SparkyComputerCubit bloc;
 
   @override

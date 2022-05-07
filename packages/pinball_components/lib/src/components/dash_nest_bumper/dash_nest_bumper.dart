@@ -98,7 +98,6 @@ class DashNestBumper extends BodyComponent with InitialPosition {
   final double _majorRadius;
   final double _minorRadius;
 
-  // ignore: public_member_api_docs
   final DashNestBumperCubit bloc;
 
   @override
