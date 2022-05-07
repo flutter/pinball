@@ -124,11 +124,56 @@ void main() {
 
       group('InitialsFailureState', () {
         test('can be instantiated', () {
-          expect(InitialsFailureState(), isNotNull);
+          expect(
+            InitialsFailureState(
+              score: 10,
+              character: AndroidTheme(),
+            ),
+            isNotNull,
+          );
         });
 
         test('supports value comparison', () {
-          expect(InitialsFailureState(), equals(InitialsFailureState()));
+          expect(
+            InitialsFailureState(
+              score: 10,
+              character: AndroidTheme(),
+            ),
+            equals(
+              InitialsFailureState(
+                score: 10,
+                character: AndroidTheme(),
+              ),
+            ),
+          );
+          expect(
+            InitialsFailureState(
+              score: 10,
+              character: AndroidTheme(),
+            ),
+            isNot(
+              equals(
+                InitialsFailureState(
+                  score: 12,
+                  character: AndroidTheme(),
+                ),
+              ),
+            ),
+          );
+          expect(
+            InitialsFailureState(
+              score: 10,
+              character: AndroidTheme(),
+            ),
+            isNot(
+              equals(
+                InitialsFailureState(
+                  score: 10,
+                  character: DashTheme(),
+                ),
+              ),
+            ),
+          );
         });
       });
     });
