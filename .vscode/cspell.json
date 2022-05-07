@@ -18,6 +18,7 @@
         "goldens",
         "leaderboard",
         "loadables",
+        "mixins",
         "mocktail",
         "multiball",
         "multiballs",
@@ -27,8 +28,10 @@
         "rects",
         "rrect",
         "serializable",
+        "sparky's",
         "theming",
         "unawaited",
+        "unfocus",
         "unlayered",
         "vsync"
     ],
