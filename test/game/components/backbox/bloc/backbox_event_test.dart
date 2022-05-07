@@ -147,24 +147,6 @@ void main() {
             ),
           ),
         );
-
-        expect(
-          ShareScoreRequested(score: 0),
-          isNot(
-            equals(
-              ShareScoreRequested(score: 0),
-            ),
-          ),
-        );
-
-        expect(
-          ShareScoreRequested(score: 0),
-          isNot(
-            equals(
-              ShareScoreRequested(score: 0),
-            ),
-          ),
-        );
       });
     });
 
