@@ -245,7 +245,7 @@ packages:
       path: "packages/flame_forge2d"
       ref: a50d4a1e7d9eaf66726ed1bb9894c9d495547d8f
       resolved-ref: a50d4a1e7d9eaf66726ed1bb9894c9d495547d8f
-      url: "https://github.com/flame-engine/flame/"
+      url: "https://github.com/flame-engine/flame"
     source: git
     version: "0.11.0"
   flame_test:
@@ -821,4 +821,4 @@ packages:
     version: "3.1.0"
 sdks:
   dart: ">=2.16.0 <3.0.0"
-  flutter: ">=2.10.0"
+  flutter: ">=2.10.5"

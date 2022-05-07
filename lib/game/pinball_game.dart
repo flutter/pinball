@@ -24,7 +24,8 @@ class PinballGame extends PinballForge2DGame
     required GameBloc gameBloc,
     required AppLocalizations l10n,
     required PinballPlayer player,
-  })  : _gameBloc = gameBloc,
+  })  : focusNode = FocusNode(),
+        _gameBloc = gameBloc,
         _player = player,
         _characterTheme = characterTheme,
         _l10n = l10n,
@@ -39,6 +40,8 @@ class PinballGame extends PinballForge2DGame
 
   @override
   Color backgroundColor() => Colors.transparent;
+
+  final FocusNode focusNode;
 
   final CharacterTheme _characterTheme;
 
@@ -64,6 +67,7 @@ class PinballGame extends PinballForge2DGame
               FlameProvider<AppLocalizations>.value(_l10n),
             ],
             children: [
+              BonusNoiseBehavior(),
               GameBlocStatusListener(),
               BallSpawningBehavior(),
               CameraFocusingBehavior(),
@@ -187,8 +191,7 @@ class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
 
     if (info.raw.kind == PointerDeviceKind.mouse) {
       final canvas = descendants().whereType<ZCanvasComponent>().single;
-      final ball = ControlledBall.debug()
-        ..initialPosition = info.eventPosition.game;
+      final ball = Ball()..initialPosition = info.eventPosition.game;
       canvas.add(ball);
     }
   }
@@ -215,7 +218,7 @@ class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
 
   void _turboChargeBall(Vector2 line) {
     final canvas = descendants().whereType<ZCanvasComponent>().single;
-    final ball = ControlledBall.debug()..initialPosition = lineStart!;
+    final ball = Ball()..initialPosition = lineStart!;
     final impulse = line * -1 * 10;
     ball.add(BallTurboChargingBehavior(impulse: impulse));
     canvas.add(ball);
@@ -261,7 +264,7 @@ class _DebugInformation extends Component with HasGameRef<DebugPinballGame> {
   void render(Canvas canvas) {
     final debugText = [
       'FPS: ${gameRef.fps().toStringAsFixed(1)}',
-      'BALLS: ${gameRef.descendants().whereType<ControlledBall>().length}',
+      'BALLS: ${gameRef.descendants().whereType<Ball>().length}',
     ].join(' | ');
 
     final height = _debugTextPaint.measureTextHeight(debugText);
