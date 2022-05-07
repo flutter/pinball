@@ -24,19 +24,9 @@ void main() {
         );
       });
 
-      flameTester.test('can be loaded', (game) async {
-        final ball = Ball.test();
-        final behavior = BallImpulsingBehavior(impulse: Vector2.zero());
-        await ball.add(behavior);
-        await game.ensureAdd(ball);
-        expect(
-          ball.firstChild<BallImpulsingBehavior>(),
-          equals(behavior),
-        );
-      });
-
       flameTester.test(
-        'impulses the ball with the given velocity when loaded',
+        'impulses the ball with the given velocity when loaded '
+        'and then removes itself',
         (game) async {
           final ball = Ball.test();
           await game.ensureAdd(ball);
@@ -51,6 +41,10 @@ void main() {
           expect(
             ball.body.linearVelocity.y,
             equals(impulse.y),
+          );
+          expect(
+            game.descendants().whereType<BallImpulsingBehavior>().isEmpty,
+            isTrue,
           );
         },
       );

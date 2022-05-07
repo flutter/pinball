@@ -17,7 +17,6 @@ class BonusBallSpawningBehavior extends TimerComponent with HasGameRef {
 
   @override
   void onTick() {
-    super.onTick();
     final characterTheme = readBloc<CharacterThemeCubit, CharacterThemeState>()
         .state
         .characterTheme;
