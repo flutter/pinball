@@ -357,7 +357,7 @@ void main() {
     );
 
     flameTester.test(
-      'goes back to PlayerInitialsSubmitted when the timer is finished',
+      'adds PlayerInitialsSubmitted when the timer is finished',
       (game) async {
         final initialState = InitialsFailureState(
           score: 10,
