@@ -40,6 +40,8 @@ class DashBumper extends BodyComponent with InitialPosition {
         );
 
   /// {@macro dash_bumper}
+  ///
+  /// [DashBumper.main] displays a Dash on top of it.
   DashBumper.main({
     Iterable<Component>? children,
   }) : this._(
@@ -56,6 +58,9 @@ class DashBumper extends BodyComponent with InitialPosition {
         );
 
   /// {@macro dash_bumper}
+  ///
+  /// [DashBumper.b] is positioned at the right side of the [DashBumper.main] in
+  /// the flutter forest.
   DashBumper.a({
     Iterable<Component>? children,
   }) : this._(
@@ -72,6 +77,9 @@ class DashBumper extends BodyComponent with InitialPosition {
         );
 
   /// {@macro dash_bumper}
+  ///
+  /// [DashBumper.b] is positioned at the left side of the [DashBumper.main] in
+  /// the flutter forest.
   DashBumper.b({
     Iterable<Component>? children,
   }) : this._(
@@ -87,7 +95,7 @@ class DashBumper extends BodyComponent with InitialPosition {
           ],
         );
 
-  /// Creates an [DashBumper] without any children.
+  /// Creates a [DashBumper] without any children.
   ///
   /// This can be used for testing [DashBumper]'s behaviors in isolation.
   @visibleForTesting
