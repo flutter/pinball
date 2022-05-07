@@ -4,7 +4,7 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
   
-on: [pull_request, push]
+on: [pull_request]
 
 jobs:
   build:
@@ -14,5 +14,5 @@ jobs:
       - name: Check spelling
         uses: zwaldowski/cspell-action@v1
         with:
-          paths: "**/*.{md,html}"
+          paths: "**/*.*"
           config: .vscode/cspell.json
