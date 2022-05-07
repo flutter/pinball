@@ -27,11 +27,6 @@ class SpaceshipRamp extends Component {
     required this.bloc,
   }) : super(
           children: [
-            RampScoringSensor(
-              children: [
-                RampBallAscendingContactBehavior(),
-              ],
-            )..initialPosition = Vector2(1.7, -20.4),
             _SpaceshipRampOpening(
               outsideLayer: Layer.spaceship,
               outsidePriority: ZIndexes.ballOnSpaceship,
@@ -40,7 +35,7 @@ class SpaceshipRamp extends Component {
               ..initialPosition = Vector2(-13.7, -18.6)
               ..layer = Layer.spaceshipEntranceRamp,
             _SpaceshipRampBackground(),
-            _SpaceshipRampBoardOpening()..initialPosition = Vector2(3.4, -39.5),
+            SpaceshipRampBoardOpening()..initialPosition = Vector2(3.4, -39.5),
             _SpaceshipRampForegroundRailing(),
             SpaceshipRampBase()..initialPosition = Vector2(3.4, -42.5),
             _SpaceshipRampBackgroundRailingSpriteComponent(),
@@ -246,13 +241,14 @@ extension on SpaceshipRampArrowSpriteState {
   }
 }
 
-class _SpaceshipRampBoardOpening extends BodyComponent
-    with Layered, ZIndex, InitialPosition {
-  _SpaceshipRampBoardOpening()
+class SpaceshipRampBoardOpening extends BodyComponent
+    with Layered, ZIndex, InitialPosition, ParentIsA<SpaceshipRamp> {
+  SpaceshipRampBoardOpening()
       : super(
           renderBody: false,
           children: [
             _SpaceshipRampBoardOpeningSpriteComponent(),
+            RampBallAscendingContactBehavior()..applyTo(['inside']),
             LayerContactBehavior(layer: Layer.spaceshipEntranceRamp)
               ..applyTo(['inside']),
             LayerContactBehavior(
@@ -270,6 +266,13 @@ class _SpaceshipRampBoardOpening extends BodyComponent
     zIndex = ZIndexes.spaceshipRampBoardOpening;
     layer = Layer.opening;
   }
+
+  /// Creates a [SpaceshipRampBoardOpening] without any children.
+  ///
+  /// This can be used for testing [SpaceshipRampBoardOpening]'s behaviors in
+  /// isolation.
+  @visibleForTesting
+  SpaceshipRampBoardOpening.test();
 
   List<FixtureDef> _createFixtureDefs() {
     final topEdge = EdgeShape()
@@ -493,48 +496,5 @@ class _SpaceshipRampOpening extends LayerSensor {
         initialPosition,
         _rotation,
       );
-  }
-}
-
-/// {@template ramp_scoring_sensor}
-/// Small sensor body used to detect when a ball has entered the
-/// [SpaceshipRamp].
-/// {@endtemplate}
-class RampScoringSensor extends BodyComponent
-    with ParentIsA<SpaceshipRamp>, InitialPosition, Layered {
-  /// {@macro ramp_scoring_sensor}
-  RampScoringSensor({
-    Iterable<Component>? children,
-  }) : super(
-          children: children,
-          renderBody: false,
-        ) {
-    layer = Layer.spaceshipEntranceRamp;
-  }
-
-  /// Creates a [RampScoringSensor] without any children.
-  @visibleForTesting
-  RampScoringSensor.test();
-
-  @override
-  Body createBody() {
-    final shape = PolygonShape()
-      ..setAsBox(
-        2.6,
-        .5,
-        initialPosition,
-        -5 * math.pi / 180,
-      );
-
-    final fixtureDef = FixtureDef(
-      shape,
-      isSensor: true,
-    );
-    final bodyDef = BodyDef(
-      position: initialPosition,
-      userData: this,
-    );
-
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }

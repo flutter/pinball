@@ -148,10 +148,6 @@
   "@loading": {
     "description": "Text shown to indicate loading times"
   },
-  "ioPinball": "I/O Pinball",
-  "@ioPinball": {
-    "description": "I/O Pinball - Name of the game"
-  },
   "enter": "Enter",
   "@enter": {
     "description": "Text shown on the mobile controls enter button"

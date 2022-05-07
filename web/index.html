@@ -76,6 +76,10 @@
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
   <script>
+    fetch("assets/assets/images/loading_game/io_pinball.png").catch(function (e) {
+      console.warn(e);
+    });
+
     var serviceWorkerVersion = null;
     var scriptLoaded = false;
     function loadMainDartJs() {
