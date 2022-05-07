@@ -2,31 +2,52 @@
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/src/components/sparky_computer/behaviors/behaviors.dart';
 import 'package:pinball_flame/pinball_flame.dart';
+
+export 'cubit/sparky_computer_cubit.dart';
 
 /// {@template sparky_computer}
 /// A computer owned by Sparky.
 /// {@endtemplate}
-class SparkyComputer extends Component {
+class SparkyComputer extends BodyComponent {
   /// {@macro sparky_computer}
-  SparkyComputer()
-      : super(
+  SparkyComputer({Iterable<Component>? children})
+      : bloc = SparkyComputerCubit(),
+        super(
+          renderBody: false,
           children: [
-            _ComputerBase(),
+            SparkyComputerSensorBallContactBehavior()
+              ..applyTo(['turbo_charge_sensor']),
+            _ComputerBaseSpriteComponent(),
             _ComputerTopSpriteComponent(),
             _ComputerGlowSpriteComponent(),
+            ...?children,
           ],
         );
-}
 
-class _ComputerBase extends BodyComponent with InitialPosition, ZIndex {
-  _ComputerBase()
-      : super(
-          renderBody: false,
-          children: [_ComputerBaseSpriteComponent()],
-        ) {
-    zIndex = ZIndexes.computerBase;
+  /// Creates a [SparkyComputer] without any children.
+  ///
+  /// This can be used for testing [SparkyComputer]'s behaviors in isolation.
+  // TODO(alestiago): Refactor injecting bloc once the following is merged:
+  // https://github.com/flame-engine/flame/pull/1538
+  @visibleForTesting
+  SparkyComputer.test({
+    required this.bloc,
+    Iterable<Component>? children,
+  }) : super(children: children);
+
+  // TODO(alestiago): Consider refactoring once the following is merged:
+  // https://github.com/flame-engine/flame/pull/1538
+  // ignore: public_member_api_docs
+  final SparkyComputerCubit bloc;
+
+  @override
+  void onRemove() {
+    bloc.close();
+    super.onRemove();
   }
 
   List<FixtureDef> _createFixtureDefs() {
@@ -45,30 +66,44 @@ class _ComputerBase extends BodyComponent with InitialPosition, ZIndex {
         topEdge.vertex2,
         Vector2(-9.4, -47.1),
       );
+    final turboChargeSensor = PolygonShape()
+      ..setAsBox(
+        1,
+        0.1,
+        Vector2(-13.2, -49.9),
+        -0.18,
+      );
 
     return [
       FixtureDef(leftEdge),
       FixtureDef(topEdge),
       FixtureDef(rightEdge),
+      FixtureDef(
+        turboChargeSensor,
+        isSensor: true,
+        userData: 'turbo_charge_sensor',
+      ),
     ];
   }
 
   @override
   Body createBody() {
-    final bodyDef = BodyDef(position: initialPosition);
-    final body = world.createBody(bodyDef);
+    final body = world.createBody(BodyDef());
     _createFixtureDefs().forEach(body.createFixture);
 
     return body;
   }
 }
 
-class _ComputerBaseSpriteComponent extends SpriteComponent with HasGameRef {
+class _ComputerBaseSpriteComponent extends SpriteComponent
+    with HasGameRef, ZIndex {
   _ComputerBaseSpriteComponent()
       : super(
           anchor: Anchor.center,
           position: Vector2(-12.44, -48.15),
-        );
+        ) {
+    zIndex = ZIndexes.computerBase;
+  }
 
   @override
   Future<void> onLoad() async {
