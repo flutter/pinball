@@ -61,7 +61,12 @@ class BackboxBloc extends Bloc<BackboxEvent, BackboxState> {
       );
     } catch (error, stackTrace) {
       addError(error, stackTrace);
-      emit(InitialsFailureState());
+      emit(
+        InitialsFailureState(
+          score: event.score,
+          character: event.character,
+        ),
+      );
     }
   }
 
