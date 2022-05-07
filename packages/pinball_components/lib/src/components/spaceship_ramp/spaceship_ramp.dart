@@ -33,12 +33,6 @@ class SpaceshipRamp extends Component {
               ],
             )..initialPosition = Vector2(1.7, -20.4),
             _SpaceshipRampOpening(
-              outsidePriority: ZIndexes.ballOnBoard,
-              rotation: math.pi,
-            )
-              ..initialPosition = Vector2(1.7, -19.8)
-              ..layer = Layer.opening,
-            _SpaceshipRampOpening(
               outsideLayer: Layer.spaceship,
               outsidePriority: ZIndexes.ballOnSpaceship,
               rotation: math.pi,
@@ -46,10 +40,9 @@ class SpaceshipRamp extends Component {
               ..initialPosition = Vector2(-13.7, -18.6)
               ..layer = Layer.spaceshipEntranceRamp,
             _SpaceshipRampBackground(),
-            _SpaceshipRampBoardOpeningSpriteComponent()
-              ..position = Vector2(3.4, -39.5),
+            _SpaceshipRampBoardOpening()..initialPosition = Vector2(3.4, -39.5),
             _SpaceshipRampForegroundRailing(),
-            _SpaceshipRampBase()..initialPosition = Vector2(1.7, -20),
+            _SpaceshipRampBase()..initialPosition = Vector2(3.4, -42.5),
             _SpaceshipRampBackgroundRailingSpriteComponent(),
             SpaceshipRampArrowSpriteComponent(
               current: bloc.state.hits,
@@ -253,11 +246,102 @@ extension on SpaceshipRampArrowSpriteState {
   }
 }
 
-class _SpaceshipRampBoardOpeningSpriteComponent extends SpriteComponent
-    with HasGameRef, ZIndex {
-  _SpaceshipRampBoardOpeningSpriteComponent() : super(anchor: Anchor.center) {
+class _SpaceshipRampBoardOpening extends BodyComponent
+    with Layered, ZIndex, InitialPosition {
+  _SpaceshipRampBoardOpening()
+      : super(
+          renderBody: false,
+          children: [
+            _SpaceshipRampBoardOpeningSpriteComponent(),
+            LayerContactBehavior(layer: Layer.spaceshipEntranceRamp)
+              ..applyTo(['inside']),
+            LayerContactBehavior(layer: Layer.board)..applyTo(['outside']),
+            ZIndexContactBehavior(zIndex: ZIndexes.ballOnBoard)
+              ..applyTo(['outside']),
+            ZIndexContactBehavior(zIndex: ZIndexes.ballOnSpaceshipRamp)
+              ..applyTo(['middle', 'inside']),
+          ],
+        ) {
     zIndex = ZIndexes.spaceshipRampBoardOpening;
+    layer = Layer.opening;
   }
+
+  List<FixtureDef> _createFixtureDefs() {
+    final topEdge = EdgeShape()
+      ..set(
+        Vector2(-3.4, -1.2),
+        Vector2(3.4, -1.6),
+      );
+    final bottomEdge = EdgeShape()
+      ..set(
+        Vector2(-6.2, 1.5),
+        Vector2(6.2, 1.5),
+      );
+    final middleCurve = BezierCurveShape(
+      controlPoints: [
+        topEdge.vertex1,
+        Vector2(0, 2.3),
+        Vector2(7.5, 2.3),
+        topEdge.vertex2,
+      ],
+    );
+    final leftCurve = BezierCurveShape(
+      controlPoints: [
+        Vector2(-4.4, -1.2),
+        Vector2(-4.65, 0),
+        bottomEdge.vertex1,
+      ],
+    );
+    final rightCurve = BezierCurveShape(
+      controlPoints: [
+        Vector2(4.4, -1.6),
+        Vector2(4.65, 0),
+        bottomEdge.vertex2,
+      ],
+    );
+
+    const outsideKey = 'outside';
+    return [
+      FixtureDef(
+        topEdge,
+        isSensor: true,
+        userData: 'inside',
+      ),
+      FixtureDef(
+        bottomEdge,
+        isSensor: true,
+        userData: outsideKey,
+      ),
+      FixtureDef(
+        middleCurve,
+        isSensor: true,
+        userData: 'middle',
+      ),
+      FixtureDef(
+        leftCurve,
+        isSensor: true,
+        userData: outsideKey,
+      ),
+      FixtureDef(
+        rightCurve,
+        isSensor: true,
+        userData: outsideKey,
+      ),
+    ];
+  }
+
+  @override
+  Body createBody() {
+    final bodyDef = BodyDef(position: initialPosition);
+    final body = world.createBody(bodyDef);
+    _createFixtureDefs().forEach(body.createFixture);
+    return body;
+  }
+}
+
+class _SpaceshipRampBoardOpeningSpriteComponent extends SpriteComponent
+    with HasGameRef {
+  _SpaceshipRampBoardOpeningSpriteComponent() : super(anchor: Anchor.center);
 
   @override
   Future<void> onLoad() async {
@@ -342,28 +426,23 @@ class _SpaceshipRampForegroundRailingSpriteComponent extends SpriteComponent
   }
 }
 
-class _SpaceshipRampBase extends BodyComponent with InitialPosition, Layered {
+class _SpaceshipRampBase extends BodyComponent with Layered, InitialPosition {
   _SpaceshipRampBase() : super(renderBody: false) {
     layer = Layer.board;
   }
 
   @override
   Body createBody() {
-    const baseWidth = 9;
-    final baseShape = BezierCurveShape(
+    final shape = BezierCurveShape(
       controlPoints: [
-        Vector2(initialPosition.x - baseWidth / 2, initialPosition.y),
-        Vector2(initialPosition.x - baseWidth / 2, initialPosition.y) +
-            Vector2(2, -5),
-        Vector2(initialPosition.x + baseWidth / 2, initialPosition.y) +
-            Vector2(-2, -5),
-        Vector2(initialPosition.x + baseWidth / 2, initialPosition.y)
+        Vector2(-4.25, 1.75),
+        Vector2(-2, -2.1),
+        Vector2(2, -2.3),
+        Vector2(4.1, 1.5),
       ],
     );
-    final fixtureDef = FixtureDef(baseShape);
     final bodyDef = BodyDef(position: initialPosition);
-
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
+    return world.createBody(bodyDef)..createFixtureFromShape(shape);
   }
 }
 
@@ -419,7 +498,6 @@ class RampScoringSensor extends BodyComponent
   }
 
   /// Creates a [RampScoringSensor] without any children.
-  ///
   @visibleForTesting
   RampScoringSensor.test();
 

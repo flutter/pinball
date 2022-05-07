@@ -21,7 +21,6 @@ export 'initial_position.dart';
 export 'joint_anchor.dart';
 export 'kicker/kicker.dart';
 export 'launch_ramp.dart';
-export 'layer.dart';
 export 'layer_sensor/layer_sensor.dart';
 export 'multiball/multiball.dart';
 export 'multiplier/multiplier.dart';
