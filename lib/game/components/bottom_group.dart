@@ -1,6 +1,5 @@
 import 'package:flame/components.dart';
 import 'package:pinball/game/behaviors/behaviors.dart';
-import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
@@ -40,7 +39,7 @@ class _BottomGroupSide extends Component {
     final direction = _side.direction;
     final centerXAdjustment = _side.isLeft ? -0.45 : -6.8;
 
-    final flipper = ControlledFlipper(
+    final flipper = Flipper(
       side: _side,
     )..initialPosition = Vector2((11.6 * direction) + centerXAdjustment, 43.6);
     final baseboard = Baseboard(side: _side)

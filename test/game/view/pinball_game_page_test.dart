@@ -32,7 +32,10 @@ class _TestPinballGame extends PinballGame {
   @override
   Future<void> onLoad() async {
     images.prefix = '';
-    final futures = preLoadAssets();
+    final futures = [
+      ...preLoadAssets(),
+      preFetchLeaderboard(),
+    ];
     await Future.wait<void>(futures);
 
     return super.onLoad();
@@ -333,6 +336,20 @@ void main() {
       await tester.pump();
 
       expect(game.focusNode.hasFocus, isTrue);
+    });
+
+    testWidgets('mobile controls when the overlay is added', (tester) async {
+      await tester.pumpApp(
+        PinballGameView(game: game),
+        gameBloc: gameBloc,
+        startGameBloc: startGameBloc,
+      );
+
+      game.overlays.add(PinballGame.mobileControlsOverlay);
+
+      await tester.pump();
+
+      expect(find.byType(MobileControls), findsOneWidget);
     });
 
     group('info icon', () {

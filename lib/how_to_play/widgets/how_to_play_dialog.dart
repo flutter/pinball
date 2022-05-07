@@ -240,7 +240,7 @@ class _DesktopFlipperControls extends StatelessWidget {
       children: [
         Text(
           l10n.flipperControls,
-          style: Theme.of(context).textTheme.subtitle2,
+          style: Theme.of(context).textTheme.headline4,
         ),
         const SizedBox(height: 10),
         Column(
