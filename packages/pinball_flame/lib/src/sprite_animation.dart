@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs
-
 import 'dart:math';
 
 import 'package:flame/components.dart';
@@ -20,6 +18,7 @@ class SpriteAnimationWidget extends StatelessWidget {
   /// The positioning [Anchor].
   final Anchor anchor;
 
+  /// Controller in charge of the sprite animations
   final SpriteAnimationController controller;
 
   @override
@@ -38,7 +37,11 @@ class SpriteAnimationWidget extends StatelessWidget {
   }
 }
 
+/// {@template sprite_animation_controller}
+/// Custom [AnimationController] that manages sprite assets
+/// {@endtemplate}
 class SpriteAnimationController extends AnimationController {
+  /// {@macro sprite_animation_controller}
   SpriteAnimationController({
     required TickerProvider vsync,
     required this.animation,
@@ -46,6 +49,7 @@ class SpriteAnimationController extends AnimationController {
     duration = Duration(seconds: animation.totalDuration().ceil());
   }
 
+  /// [SpriteAnimation] associated to this controller
   final SpriteAnimation animation;
 
   double? _lastUpdated;
@@ -61,7 +65,11 @@ class SpriteAnimationController extends AnimationController {
   }
 }
 
+/// {@template sprite_painter}
+/// [CustomPainter] specialized in [Sprite] assets.
+/// {@endtemplate}
 class SpritePainter extends CustomPainter {
+  /// {@macro sprite_painter}
   SpritePainter(
     this._sprite,
     this._anchor, {
