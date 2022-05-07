@@ -3,9 +3,11 @@
     "enabled": true,
     "language": "en",
     "words": [
-        "leaderboard"
+        "firestore",
+        "leaderboard",
+        "unawaited"
     ],
     "ignorePaths": [
-      ".github/workflows/**"
+        ".github/workflows/**"
     ]
-  }
+}
