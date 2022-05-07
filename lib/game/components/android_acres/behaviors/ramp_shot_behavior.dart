@@ -44,8 +44,6 @@ class RampShotBehavior extends Component
           final achievedOneMillionPoints = state.hits % 10 == 0;
 
           if (!achievedOneMillionPoints) {
-            bloc.add(const MultiplierIncreased());
-
             parent.add(
               ScoringBehavior(
                 points: _points,

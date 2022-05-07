@@ -31,29 +31,33 @@ class RampProgressBehavior extends Component
   void onMount() {
     super.onMount();
 
-    final spaceshipRamp = parent.children.whereType<SpaceshipRamp>().first;
-
     var previousState = const SpaceshipRampState.initial();
 
     subscription = subscription ??
         parent.bloc.stream.listen((state) {
+          print("STATE $state");
           final listenWhen =
               previousState.hits != state.hits && state.hits != 0;
           if (listenWhen) {
-            var fullArrowLit = spaceshipRamp.bloc.isFullyProgressed();
+            var fullArrowLit = parent.bloc.isFullyProgressed();
             var isMaxMultiplier = bloc.state.multiplier == 6;
             final canProgress =
                 !isMaxMultiplier || (isMaxMultiplier && !fullArrowLit);
 
+            print("fullArrowLit $fullArrowLit");
+            print("isMaxMultiplier $isMaxMultiplier");
+            print("canProgress $canProgress");
             if (canProgress) {
-              spaceshipRamp.bloc.onProgressed();
+              print("onProgressed");
+              parent.bloc.onProgressed();
             }
 
-            fullArrowLit = spaceshipRamp.bloc.isFullyProgressed();
+            fullArrowLit = parent.bloc.isFullyProgressed();
             isMaxMultiplier = bloc.state.multiplier == 6;
 
             if (fullArrowLit && !isMaxMultiplier) {
-              spaceshipRamp.bloc.onAnimate();
+              print("onAnimate");
+              parent.bloc.onAnimate();
             }
 
             previousState = state;

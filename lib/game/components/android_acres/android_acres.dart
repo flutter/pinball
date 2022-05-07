@@ -23,6 +23,8 @@ class AndroidAcres extends Component {
                   children: [
                     RampShotBehavior(points: Points.fiveThousand),
                     RampBonusBehavior(points: Points.oneMillion),
+                    RampProgressBehavior(),
+                    RampMultiplierBehavior(),
                   ],
                 ),
                 SpaceshipRail(),
