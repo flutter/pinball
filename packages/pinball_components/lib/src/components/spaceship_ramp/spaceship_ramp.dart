@@ -255,9 +255,14 @@ class _SpaceshipRampBoardOpening extends BodyComponent
             _SpaceshipRampBoardOpeningSpriteComponent(),
             LayerContactBehavior(layer: Layer.spaceshipEntranceRamp)
               ..applyTo(['inside']),
-            LayerContactBehavior(layer: Layer.board)..applyTo(['outside']),
-            ZIndexContactBehavior(zIndex: ZIndexes.ballOnBoard)
-              ..applyTo(['outside']),
+            LayerContactBehavior(
+              layer: Layer.board,
+              onBegin: false,
+            )..applyTo(['outside']),
+            ZIndexContactBehavior(
+              zIndex: ZIndexes.ballOnBoard,
+              onBegin: false,
+            )..applyTo(['outside']),
             ZIndexContactBehavior(zIndex: ZIndexes.ballOnSpaceshipRamp)
               ..applyTo(['middle', 'inside']),
           ],
@@ -426,9 +431,18 @@ class _SpaceshipRampForegroundRailingSpriteComponent extends SpriteComponent
   }
 }
 
-class _SpaceshipRampBase extends BodyComponent with Layered, InitialPosition {
-  _SpaceshipRampBase() : super(renderBody: false) {
-    layer = Layer.board;
+class _SpaceshipRampBase extends BodyComponent
+    with InitialPosition, ContactCallbacks {
+  _SpaceshipRampBase() : super(renderBody: false);
+
+  @override
+  void preSolve(Object other, Contact contact, Manifold oldManifold) {
+    super.preSolve(other, contact, oldManifold);
+    if (other is! Layered) return;
+    // Although, the Layer should already be taking care of the contact
+    // filtering, this is to ensure the ball doesn't callide with the board
+    // when the filtering is considered on different time steps.
+    contact.setEnabled(other.layer == Layer.board);
   }
 
   @override
@@ -441,7 +455,7 @@ class _SpaceshipRampBase extends BodyComponent with Layered, InitialPosition {
         Vector2(4.1, 1.5),
       ],
     );
-    final bodyDef = BodyDef(position: initialPosition);
+    final bodyDef = BodyDef(position: initialPosition, userData: this);
     return world.createBody(bodyDef)..createFixtureFromShape(shape);
   }
 }
