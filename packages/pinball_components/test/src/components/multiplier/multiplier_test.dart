@@ -498,7 +498,7 @@ void main() {
 
             await expectLater(
               find.byGame<_TestGame>(),
-              matchesGoldenFile('../golden/multipliers/x6dimmed.png'),
+              matchesGoldenFile('../golden/multipliers/x6_dimmed.png'),
             );
           },
         );
