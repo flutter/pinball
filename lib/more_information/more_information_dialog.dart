@@ -55,8 +55,6 @@ class _LinkBoxHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final indent = MediaQuery.of(context).size.width / 5;
-
     return Column(
       children: [
         Text(
@@ -68,11 +66,9 @@ class _LinkBoxHeader extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
         const SizedBox(height: 12),
-        Divider(
-          color: PinballColors.white,
-          endIndent: indent,
-          indent: indent,
-          thickness: 2,
+        const SizedBox(
+          width: 200,
+          child: Divider(color: PinballColors.white, thickness: 2),
         ),
       ],
     );
