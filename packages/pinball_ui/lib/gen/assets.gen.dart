@@ -3,8 +3,6 @@
 ///  FlutterGen
 /// *****************************************************
 
-// ignore_for_file: directives_ordering,unnecessary_import
-
 import 'package:flutter/widgets.dart';
 
 class $AssetsImagesGen {
@@ -17,7 +15,14 @@ class $AssetsImagesGen {
 class $AssetsImagesButtonGen {
   const $AssetsImagesButtonGen();
 
-  /// File path: assets/images/button/pinball_button.png
+  AssetGenImage get dpadDown =>
+      const AssetGenImage('assets/images/button/dpad_down.png');
+  AssetGenImage get dpadLeft =>
+      const AssetGenImage('assets/images/button/dpad_left.png');
+  AssetGenImage get dpadRight =>
+      const AssetGenImage('assets/images/button/dpad_right.png');
+  AssetGenImage get dpadUp =>
+      const AssetGenImage('assets/images/button/dpad_up.png');
   AssetGenImage get pinballButton =>
       const AssetGenImage('assets/images/button/pinball_button.png');
 }
@@ -25,7 +30,6 @@ class $AssetsImagesButtonGen {
 class $AssetsImagesDialogGen {
   const $AssetsImagesDialogGen();
 
-  /// File path: assets/images/dialog/background.png
   AssetGenImage get background =>
       const AssetGenImage('assets/images/dialog/background.png');
 }
