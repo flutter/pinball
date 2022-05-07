@@ -16,11 +16,11 @@ class _MockGameBloc extends Mock implements GameBloc {}
 
 class _MockCharacterThemeCubit extends Mock implements CharacterThemeCubit {}
 
-class _MockPinballPlayer extends Mock implements PinballPlayer {}
+class _MockPinballAudioPlayer extends Mock implements PinballAudioPlayer {}
 
 void main() {
   late StartGameBloc startGameBloc;
-  late PinballPlayer pinballPlayer;
+  late PinballAudioPlayer pinballAudioPlayer;
   late CharacterThemeCubit characterThemeCubit;
 
   group('StartGameListener', () {
@@ -28,7 +28,7 @@ void main() {
       await mockFlameImages();
 
       startGameBloc = _MockStartGameBloc();
-      pinballPlayer = _MockPinballPlayer();
+      pinballAudioPlayer = _MockPinballAudioPlayer();
       characterThemeCubit = _MockCharacterThemeCubit();
     });
 
@@ -243,7 +243,7 @@ void main() {
               child: SizedBox.shrink(),
             ),
             startGameBloc: startGameBloc,
-            pinballPlayer: pinballPlayer,
+            pinballAudioPlayer: pinballAudioPlayer,
           );
           await tester.pumpAndSettle();
 
@@ -260,7 +260,7 @@ void main() {
           );
           await tester.pumpAndSettle();
 
-          verify(() => pinballPlayer.play(PinballAudio.ioPinballVoiceOver))
+          verify(() => pinballAudioPlayer.play(PinballAudio.ioPinballVoiceOver))
               .called(1);
         },
       );

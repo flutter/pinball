@@ -36,8 +36,8 @@ class _TestGame extends Forge2DGame {
       FlameBlocProvider<GameBloc, GameState>.value(
         value: gameBloc,
         children: [
-          FlameProvider<PinballPlayer>.value(
-            _MockPinballPlayer(),
+          FlameProvider<PinballAudioPlayer>.value(
+            _MockPinballAudioPlayer(),
             children: [child],
           )
         ],
@@ -48,7 +48,7 @@ class _TestGame extends Forge2DGame {
 
 class _MockGameBloc extends Mock implements GameBloc {}
 
-class _MockPinballPlayer extends Mock implements PinballPlayer {}
+class _MockPinballAudioPlayer extends Mock implements PinballAudioPlayer {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

@@ -6,6 +6,6 @@ class BumperNoiseBehavior extends ContactBehavior {
   @override
   void beginContact(Object other, Contact contact) {
     super.beginContact(other, contact);
-    readProvider<PinballPlayer>().play(PinballAudio.bumper);
+    readProvider<PinballAudioPlayer>().play(PinballAudio.bumper);
   }
 }
