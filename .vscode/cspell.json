@@ -3,7 +3,7 @@
     "enabled": true,
     "language": "en",
     "words": [
-
+        "leaderboard"
     ],
     "ignorePaths": [
       ".github/workflows/**"
