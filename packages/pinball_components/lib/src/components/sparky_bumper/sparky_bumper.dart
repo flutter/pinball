@@ -93,8 +93,6 @@ class SparkyBumper extends BodyComponent with InitialPosition, ZIndex {
   /// Creates an [SparkyBumper] without any children.
   ///
   /// This can be used for testing [SparkyBumper]'s behaviors in isolation.
-  // TODO(alestiago): Refactor injecting bloc once the following is merged:
-  // https://github.com/flame-engine/flame/pull/1538
   @visibleForTesting
   SparkyBumper.test({
     required this.bloc,
@@ -104,8 +102,6 @@ class SparkyBumper extends BodyComponent with InitialPosition, ZIndex {
   final double _majorRadius;
   final double _minorRadius;
 
-  // TODO(alestiago): Consider refactoring once the following is merged:
-  // https://github.com/flame-engine/flame/pull/1538
   // ignore: public_member_api_docs
   final SparkyBumperCubit bloc;
 
@@ -152,8 +148,6 @@ class _SparkyBumperSpriteGroupComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    // TODO(alestiago): Consider refactoring once the following is merged:
-    // https://github.com/flame-engine/flame/pull/1538
     // ignore: public_member_api_docs
     parent.bloc.stream.listen((state) => current = state);
 

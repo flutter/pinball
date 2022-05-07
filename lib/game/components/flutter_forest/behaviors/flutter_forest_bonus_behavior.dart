@@ -1,9 +1,9 @@
 import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
-import 'package:pinball_theme/pinball_theme.dart';
 
 /// Bonus obtained at the [FlutterForest].
 ///
@@ -25,9 +25,6 @@ class FlutterForestBonusBehavior extends Component
     final canvas = gameRef.descendants().whereType<ZCanvasComponent>().single;
 
     for (final bumper in bumpers) {
-      // TODO(alestiago): Refactor subscription management once the following is
-      // merged:
-      // https://github.com/flame-engine/flame/pull/1538
       bumper.bloc.stream.listen((state) {
         final activatedAllBumpers = bumpers.every(
           (bumper) => bumper.bloc.state == DashNestBumperState.active,
@@ -41,10 +38,14 @@ class FlutterForestBonusBehavior extends Component
 
           if (signpost.bloc.isFullyProgressed()) {
             bloc.add(const BonusActivated(GameBonus.dashNest));
+            final characterTheme =
+                readBloc<CharacterThemeCubit, CharacterThemeState>()
+                    .state
+                    .characterTheme;
             canvas.add(
-              ControlledBall.bonus(
-                characterTheme: readProvider<CharacterTheme>(),
-              )..initialPosition = Vector2(29.2, -24.5),
+              Ball(assetPath: characterTheme.ball.keyName)
+                ..initialPosition = Vector2(29.2, -24.5)
+                ..zIndex = ZIndexes.ballOnBoard,
             );
             animatronic.playing = true;
             signpost.bloc.onProgressed();
