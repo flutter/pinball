@@ -12,6 +12,9 @@ import 'package:pinball/game/components/backbox/displays/game_over_info_display.
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
+import 'package:pinball_ui/pinball_ui.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+import 'package:share_repository/share_repository.dart';
 
 class _TestGame extends Forge2DGame with HasTappables {
   @override
@@ -57,15 +60,29 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {
   String get learnMore => '';
 
   @override
-  String get firebaseOrOpenSource => '';
+  String get firebaseOr => '';
+
+  @override
+  String get openSourceCode => '';
 }
 
 class _MockTapDownInfo extends Mock implements TapDownInfo {}
+
+class _MockUrlLauncher extends Mock
+    with MockPlatformInterfaceMixin
+    implements UrlLauncherPlatform {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   final flameTester = FlameTester(_TestGame.new);
+
+  late UrlLauncherPlatform urlLauncher;
+
+  setUp(() async {
+    urlLauncher = _MockUrlLauncher();
+    UrlLauncherPlatform.instance = urlLauncher;
+  });
 
   group('InfoDisplay', () {
     flameTester.test(
@@ -98,22 +115,80 @@ void main() {
     );
 
     flameTester.test(
-      'calls onNavigate when go to Google IO link is tapped',
+      'open Google IO Event url when navigating',
       (game) async {
-        var tapped = false;
+        when(() => urlLauncher.canLaunch(any())).thenAnswer((_) async => true);
+        when(
+          () => urlLauncher.launch(
+            any(),
+            useSafariVC: any(named: 'useSafariVC'),
+            useWebView: any(named: 'useWebView'),
+            enableJavaScript: any(named: 'enableJavaScript'),
+            enableDomStorage: any(named: 'enableDomStorage'),
+            universalLinksOnly: any(named: 'universalLinksOnly'),
+            headers: any(named: 'headers'),
+          ),
+        ).thenAnswer((_) async => true);
 
-        final tapDownInfo = _MockTapDownInfo();
-        final component = GameOverInfoDisplay(
-          onNavigate: () => tapped = true,
-        );
+        final component = GameOverInfoDisplay();
         await game.pump(component);
 
         final googleLink =
             component.descendants().whereType<GoogleIOLinkComponent>().first;
+        googleLink.onTapDown(_MockTapDownInfo());
 
-        googleLink.onTapDown(tapDownInfo);
+        await game.ready();
 
-        expect(tapped, isTrue);
+        verify(
+          () => urlLauncher.launch(
+            ShareRepository.googleIOEvent,
+            useSafariVC: any(named: 'useSafariVC'),
+            useWebView: any(named: 'useWebView'),
+            enableJavaScript: any(named: 'enableJavaScript'),
+            enableDomStorage: any(named: 'enableDomStorage'),
+            universalLinksOnly: any(named: 'universalLinksOnly'),
+            headers: any(named: 'headers'),
+          ),
+        );
+      },
+    );
+
+    flameTester.test(
+      'open OpenSource url when navigating',
+      (game) async {
+        when(() => urlLauncher.canLaunch(any())).thenAnswer((_) async => true);
+        when(
+          () => urlLauncher.launch(
+            any(),
+            useSafariVC: any(named: 'useSafariVC'),
+            useWebView: any(named: 'useWebView'),
+            enableJavaScript: any(named: 'enableJavaScript'),
+            enableDomStorage: any(named: 'enableDomStorage'),
+            universalLinksOnly: any(named: 'universalLinksOnly'),
+            headers: any(named: 'headers'),
+          ),
+        ).thenAnswer((_) async => true);
+
+        final component = GameOverInfoDisplay();
+        await game.pump(component);
+
+        final openSourceLink =
+            component.descendants().whereType<OpenSourceTextComponent>().first;
+        openSourceLink.onTapDown(_MockTapDownInfo());
+
+        await game.ready();
+
+        verify(
+          () => urlLauncher.launch(
+            ShareRepository.openSourceCode,
+            useSafariVC: any(named: 'useSafariVC'),
+            useWebView: any(named: 'useWebView'),
+            enableJavaScript: any(named: 'enableJavaScript'),
+            enableDomStorage: any(named: 'enableDomStorage'),
+            universalLinksOnly: any(named: 'universalLinksOnly'),
+            headers: any(named: 'headers'),
+          ),
+        );
       },
     );
   });

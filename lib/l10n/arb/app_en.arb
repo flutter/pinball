@@ -176,8 +176,12 @@
   "@learnMore": {
     "description": "Text shown on description of info screen"
   },
-  "firebaseOrOpenSource": "Firebase or dive right into the open source code.",
-  "@firebaseOrOpenSource": {
+  "firebaseOr": "Firebase or dive right into the",
+  "@firebaseOr": {
+    "description": "Text shown on description of info screen"
+  },
+  "openSourceCode": "open source code.",
+  "@openSourceCode": {
     "description": "Text shown on description of info screen"
   }
 }

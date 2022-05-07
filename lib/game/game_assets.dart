@@ -101,7 +101,8 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.backbox.marquee.keyName),
       images.load(components.Assets.images.backbox.displayDivider.keyName),
       images.load(
-          components.Assets.images.backbox.displayTitleDecoration.keyName),
+        components.Assets.images.backbox.displayTitleDecoration.keyName,
+      ),
       images.load(components.Assets.images.googleWord.letter1.lit.keyName),
       images.load(components.Assets.images.googleWord.letter1.dimmed.keyName),
       images.load(components.Assets.images.googleWord.letter2.lit.keyName),

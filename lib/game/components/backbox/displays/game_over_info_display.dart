@@ -7,14 +7,11 @@ import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_ui/pinball_ui.dart';
+import 'package:share_repository/share_repository.dart';
 
 /// Signature for the callback called when the user tries to share their score
 /// from the [GameOverInfoDisplay].
 typedef OnShareTap = void Function();
-
-/// Signature for the callback called when the user tries to navigate to the
-/// Google IO site from the [GameOverInfoDisplay].
-typedef OnNavigateTap = void Function();
 
 final _titleTextPaint = TextPaint(
   style: const TextStyle(
@@ -57,12 +54,10 @@ class GameOverInfoDisplay extends Component with HasGameRef {
   /// {@macro game_over_info_display}
   GameOverInfoDisplay({
     OnShareTap? onShare,
-    OnNavigateTap? onNavigate,
   }) : super(
           children: [
             _InstructionsComponent(
               onShare: onShare,
-              onNavigate: onNavigate,
             ),
           ],
         );
@@ -71,7 +66,6 @@ class GameOverInfoDisplay extends Component with HasGameRef {
 class _InstructionsComponent extends PositionComponent with HasGameRef {
   _InstructionsComponent({
     OnShareTap? onShare,
-    OnNavigateTap? onNavigate,
   }) : super(
           anchor: Anchor.center,
           position: Vector2(0, -25),
@@ -79,7 +73,6 @@ class _InstructionsComponent extends PositionComponent with HasGameRef {
             _TitleComponent(),
             _LinksComponent(
               onShare: onShare,
-              onNavigate: onNavigate,
             ),
             _DescriptionComponent(),
           ],
@@ -151,13 +144,12 @@ class _TitleBackgroundSpriteComponent extends SpriteComponent with HasGameRef {
 class _LinksComponent extends PositionComponent with HasGameRef {
   _LinksComponent({
     OnShareTap? onShare,
-    OnNavigateTap? onNavigate,
   }) : super(
           anchor: Anchor.center,
           position: Vector2(0, 9.2),
           children: [
             ShareLinkComponent(onTap: onShare),
-            GoogleIOLinkComponent(onTap: onNavigate),
+            GoogleIOLinkComponent(),
           ],
         );
 }
@@ -205,20 +197,16 @@ class ShareLinkComponent extends TextComponent with HasGameRef, Tappable {
 /// {@endtemplate}
 class GoogleIOLinkComponent extends TextComponent with HasGameRef, Tappable {
   /// {@macro google_io_link_component}
-  GoogleIOLinkComponent({
-    OnNavigateTap? onTap,
-  })  : _onTap = onTap,
-        super(
+  GoogleIOLinkComponent()
+      : super(
           anchor: Anchor.center,
           position: Vector2(6, 0),
           textRenderer: _linkTextPaint,
         );
 
-  final OnNavigateTap? _onTap;
-
   @override
   bool onTapDown(TapDownInfo info) {
-    _onTap?.call();
+    openLink(ShareRepository.googleIOEvent);
     return true;
   }
 
@@ -245,7 +233,8 @@ class _DescriptionComponent extends PositionComponent with HasGameRef {
           position: Vector2(0, 13),
           children: [
             _LearnMoreTextComponent(),
-            _FirebaseOrOpenSourceTextComponent(),
+            _FirebaseTextComponent(),
+            OpenSourceTextComponent(),
           ],
         );
 }
@@ -265,17 +254,51 @@ class _LearnMoreTextComponent extends TextComponent with HasGameRef {
   }
 }
 
-class _FirebaseOrOpenSourceTextComponent extends TextComponent with HasGameRef {
-  _FirebaseOrOpenSourceTextComponent()
+class _FirebaseTextComponent extends TextComponent with HasGameRef {
+  _FirebaseTextComponent()
       : super(
           anchor: Anchor.center,
-          position: Vector2(0, 2.5),
+          position: Vector2(-8.5, 2.5),
           textRenderer: _descriptionTextPaint,
         );
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    text = readProvider<AppLocalizations>().firebaseOrOpenSource;
+    text = readProvider<AppLocalizations>().firebaseOr;
+  }
+}
+
+/// {@template open_source_link_component}
+/// Link text to navigate to Open Source site.
+/// {@endtemplate}
+@visibleForTesting
+class OpenSourceTextComponent extends TextComponent with HasGameRef, Tappable {
+  /// {@macro open_source_link_component}
+  OpenSourceTextComponent()
+      : super(
+          anchor: Anchor.center,
+          position: Vector2(13.5, 2.5),
+          textRenderer: _descriptionTextPaint,
+        );
+
+  @override
+  bool onTapDown(TapDownInfo info) {
+    openLink(ShareRepository.openSourceCode);
+    return true;
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    await add(
+      RectangleComponent(
+        size: Vector2(16, 0.2),
+        paint: Paint()..color = PinballColors.white,
+        anchor: Anchor.center,
+        position: Vector2(8, 2.3),
+      ),
+    );
+    text = readProvider<AppLocalizations>().openSourceCode;
   }
 }

@@ -20,9 +20,6 @@ import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart' as theme;
-import 'package:pinball_ui/pinball_ui.dart';
-import 'package:plugin_platform_interface/plugin_platform_interface.dart';
-import 'package:share_repository/share_repository.dart';
 
 class _TestGame extends Forge2DGame
     with HasKeyboardHandlerComponents, HasTappables {
@@ -77,10 +74,6 @@ class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
 
 class _MockTapDownInfo extends Mock implements TapDownInfo {}
 
-class _MockUrlLauncher extends Mock
-    with MockPlatformInterfaceMixin
-    implements UrlLauncherPlatform {}
-
 class _MockAppLocalizations extends Mock implements AppLocalizations {
   @override
   String get score => '';
@@ -125,7 +118,10 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {
   String get learnMore => '';
 
   @override
-  String get firebaseOrOpenSource => '';
+  String get firebaseOr => '';
+
+  @override
+  String get openSourceCode => '';
 }
 
 void main() {
@@ -235,169 +231,48 @@ void main() {
       },
     );
 
-    group('GameOverInfoDisplay', () {
-      late UrlLauncherPlatform urlLauncher;
+    flameTester.test(
+      'added GameOverInfoDisplay on InitialsSuccessState',
+      (game) async {
+        final state = InitialsSuccessState(score: 100);
+        whenListen(
+          bloc,
+          const Stream<InitialsSuccessState>.empty(),
+          initialState: state,
+        );
+        final backbox = Backbox.test(bloc: bloc);
+        await game.pump(backbox);
 
-      setUp(() async {
-        urlLauncher = _MockUrlLauncher();
-        UrlLauncherPlatform.instance = urlLauncher;
-      });
+        expect(
+          game.descendants().whereType<GameOverInfoDisplay>().length,
+          equals(1),
+        );
+      },
+    );
 
-      flameTester.test(
-        'added on InitialsSuccessState',
-        (game) async {
-          final state = InitialsSuccessState(
-            score: 100,
-            initials: 'AAA',
-            character: theme.AndroidTheme(),
-          );
-          whenListen(
-            bloc,
-            const Stream<InitialsSuccessState>.empty(),
-            initialState: state,
-          );
-          final backbox = Backbox.test(bloc: bloc);
-          await game.pump(backbox);
+    flameTester.test(
+      'adds ShareScoreRequested event when sharing',
+      (game) async {
+        final state = InitialsSuccessState(score: 100);
+        whenListen(
+          bloc,
+          Stream.value(state),
+          initialState: state,
+        );
+        final backbox = Backbox.test(bloc: bloc);
+        await game.pump(backbox);
 
-          expect(
-            game.descendants().whereType<GameOverInfoDisplay>().length,
-            equals(1),
-          );
-        },
-      );
+        final shareLink =
+            game.descendants().whereType<ShareLinkComponent>().first;
+        shareLink.onTapDown(_MockTapDownInfo());
 
-      flameTester.test(
-        'adds ShareScoreRequested event when sharing',
-        (game) async {
-          final state = InitialsSuccessState(
-            score: 100,
-            initials: 'AAA',
-            character: theme.AndroidTheme(),
-          );
-          whenListen(
-            bloc,
-            Stream.value(state),
-            initialState: state,
-          );
-          final backbox = Backbox.test(bloc: bloc);
-          await game.pump(backbox);
-
-          final shareLink =
-              game.descendants().whereType<ShareLinkComponent>().first;
-          shareLink.onTapDown(_MockTapDownInfo());
-
-          verify(
-            () => bloc.add(
-              ShareScoreRequested(
-                score: state.score,
-                initials: state.initials,
-                character: state.character,
-              ),
-            ),
-          ).called(1);
-        },
-      );
-
-      flameTester.test(
-        'open Google IO Event url when navigating',
-        (game) async {
-          when(() => urlLauncher.canLaunch(any()))
-              .thenAnswer((_) async => true);
-          when(
-            () => urlLauncher.launch(
-              any(),
-              useSafariVC: any(named: 'useSafariVC'),
-              useWebView: any(named: 'useWebView'),
-              enableJavaScript: any(named: 'enableJavaScript'),
-              enableDomStorage: any(named: 'enableDomStorage'),
-              universalLinksOnly: any(named: 'universalLinksOnly'),
-              headers: any(named: 'headers'),
-            ),
-          ).thenAnswer((_) async => true);
-
-          final state = InitialsSuccessState(
-            score: 100,
-            initials: 'AAA',
-            character: theme.AndroidTheme(),
-          );
-          whenListen(
-            bloc,
-            Stream.value(state),
-            initialState: state,
-          );
-          final backbox = Backbox.test(bloc: bloc);
-          await game.pump(backbox);
-
-          final shareLink =
-              game.descendants().whereType<GoogleIOLinkComponent>().first;
-          shareLink.onTapDown(_MockTapDownInfo());
-
-          await game.ready();
-
-          verify(
-            () => urlLauncher.launch(
-              ShareRepository.googleIOEvent,
-              useSafariVC: any(named: 'useSafariVC'),
-              useWebView: any(named: 'useWebView'),
-              enableJavaScript: any(named: 'enableJavaScript'),
-              enableDomStorage: any(named: 'enableDomStorage'),
-              universalLinksOnly: any(named: 'universalLinksOnly'),
-              headers: any(named: 'headers'),
-            ),
-          );
-        },
-      );
-
-      flameTester.test(
-        'open OpenSource url when navigating',
-        (game) async {
-          when(() => urlLauncher.canLaunch(any()))
-              .thenAnswer((_) async => true);
-          when(
-            () => urlLauncher.launch(
-              any(),
-              useSafariVC: any(named: 'useSafariVC'),
-              useWebView: any(named: 'useWebView'),
-              enableJavaScript: any(named: 'enableJavaScript'),
-              enableDomStorage: any(named: 'enableDomStorage'),
-              universalLinksOnly: any(named: 'universalLinksOnly'),
-              headers: any(named: 'headers'),
-            ),
-          ).thenAnswer((_) async => true);
-
-          final state = InitialsSuccessState(
-            score: 100,
-            initials: 'AAA',
-            character: theme.AndroidTheme(),
-          );
-          whenListen(
-            bloc,
-            Stream.value(state),
-            initialState: state,
-          );
-          final backbox = Backbox.test(bloc: bloc);
-          await game.pump(backbox);
-
-          final shareLink =
-              game.descendants().whereType<GoogleIOLinkComponent>().first;
-          shareLink.onTapDown(_MockTapDownInfo());
-
-          await game.ready();
-
-          verify(
-            () => urlLauncher.launch(
-              ShareRepository.openSourceCode,
-              useSafariVC: any(named: 'useSafariVC'),
-              useWebView: any(named: 'useWebView'),
-              enableJavaScript: any(named: 'enableJavaScript'),
-              enableDomStorage: any(named: 'enableDomStorage'),
-              universalLinksOnly: any(named: 'universalLinksOnly'),
-              headers: any(named: 'headers'),
-            ),
-          );
-        },
-      );
-    });
+        verify(
+          () => bloc.add(
+            ShareScoreRequested(score: state.score),
+          ),
+        ).called(1);
+      },
+    );
 
     flameTester.test(
       'adds InitialsSubmissionFailureDisplay on InitialsFailureState',

@@ -8,8 +8,6 @@ import 'package:pinball/game/components/backbox/displays/displays.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart' hide Assets;
-import 'package:pinball_ui/pinball_ui.dart';
-import 'package:share_repository/share_repository.dart';
 
 /// {@template backbox}
 /// The [Backbox] of the pinball machine.
@@ -79,12 +77,7 @@ class Backbox extends PositionComponent with ZIndex {
       _display.add(
         GameOverInfoDisplay(
           onShare: () {
-            _bloc.add(
-              ShareScoreRequested(score: state.score),
-            );
-          },
-          onNavigate: () {
-            openLink(ShareRepository.googleIOEvent);
+            _bloc.add(ShareScoreRequested(score: state.score));
           },
         ),
       );
