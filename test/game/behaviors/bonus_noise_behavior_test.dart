@@ -14,15 +14,15 @@ import 'package:pinball_flame/pinball_flame.dart';
 class _TestGame extends Forge2DGame {
   Future<void> pump(
     BonusNoiseBehavior child, {
-    required PinballPlayer player,
+    required PinballAudioPlayer audioPlayer,
     required GameBloc bloc,
   }) {
     return ensureAdd(
       FlameBlocProvider<GameBloc, GameState>.value(
         value: bloc,
         children: [
-          FlameProvider<PinballPlayer>.value(
-            player,
+          FlameProvider<PinballAudioPlayer>.value(
+            audioPlayer,
             children: [
               child,
             ],
@@ -33,7 +33,7 @@ class _TestGame extends Forge2DGame {
   }
 }
 
-class _MockPinballPlayer extends Mock implements PinballPlayer {}
+class _MockPinballAudioPlayer extends Mock implements PinballAudioPlayer {}
 
 class _MockGameBloc extends Mock implements GameBloc {}
 
@@ -41,7 +41,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('BonusNoiseBehavior', () {
-    late PinballPlayer player;
+    late PinballAudioPlayer audioPlayer;
     late GameBloc bloc;
     final flameTester = FlameTester(_TestGame.new);
 
@@ -50,8 +50,8 @@ void main() {
     });
 
     setUp(() {
-      player = _MockPinballPlayer();
-      when(() => player.play(any())).thenAnswer((_) {});
+      audioPlayer = _MockPinballAudioPlayer();
+      when(() => audioPlayer.play(any())).thenAnswer((_) {});
       bloc = _MockGameBloc();
     });
 
@@ -73,10 +73,10 @@ void main() {
           initialState: initialState,
         );
         final behavior = BonusNoiseBehavior();
-        await game.pump(behavior, player: player, bloc: bloc);
+        await game.pump(behavior, audioPlayer: audioPlayer, bloc: bloc);
       },
       verify: (_, __) async {
-        verify(() => player.play(PinballAudio.google)).called(1);
+        verify(() => audioPlayer.play(PinballAudio.google)).called(1);
       },
     );
 
@@ -98,10 +98,10 @@ void main() {
           initialState: initialState,
         );
         final behavior = BonusNoiseBehavior();
-        await game.pump(behavior, player: player, bloc: bloc);
+        await game.pump(behavior, audioPlayer: audioPlayer, bloc: bloc);
       },
       verify: (_, __) async {
-        verify(() => player.play(PinballAudio.sparky)).called(1);
+        verify(() => audioPlayer.play(PinballAudio.sparky)).called(1);
       },
     );
 
@@ -123,10 +123,10 @@ void main() {
           initialState: initialState,
         );
         final behavior = BonusNoiseBehavior();
-        await game.pump(behavior, player: player, bloc: bloc);
+        await game.pump(behavior, audioPlayer: audioPlayer, bloc: bloc);
       },
       verify: (_, __) async {
-        verify(() => player.play(PinballAudio.dino)).called(1);
+        verify(() => audioPlayer.play(PinballAudio.dino)).called(1);
       },
     );
 
@@ -148,10 +148,10 @@ void main() {
           initialState: initialState,
         );
         final behavior = BonusNoiseBehavior();
-        await game.pump(behavior, player: player, bloc: bloc);
+        await game.pump(behavior, audioPlayer: audioPlayer, bloc: bloc);
       },
       verify: (_, __) async {
-        verify(() => player.play(PinballAudio.android)).called(1);
+        verify(() => audioPlayer.play(PinballAudio.android)).called(1);
       },
     );
 
@@ -173,10 +173,10 @@ void main() {
           initialState: initialState,
         );
         final behavior = BonusNoiseBehavior();
-        await game.pump(behavior, player: player, bloc: bloc);
+        await game.pump(behavior, audioPlayer: audioPlayer, bloc: bloc);
       },
       verify: (_, __) async {
-        verify(() => player.play(PinballAudio.dash)).called(1);
+        verify(() => audioPlayer.play(PinballAudio.dash)).called(1);
       },
     );
   });

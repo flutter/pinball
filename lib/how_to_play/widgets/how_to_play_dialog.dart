@@ -91,7 +91,9 @@ class _HowToPlayDialogState extends State<HowToPlayDialog> {
     return WillPopScope(
       onWillPop: () {
         widget.onDismissCallback.call();
-        context.read<PinballPlayer>().play(PinballAudio.ioPinballVoiceOver);
+        context
+            .read<PinballAudioPlayer>()
+            .play(PinballAudio.ioPinballVoiceOver);
         return Future.value(true);
       },
       child: PinballDialog(

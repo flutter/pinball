@@ -7,11 +7,11 @@ import 'package:pinball_audio/pinball_audio.dart';
 part 'assets_manager_state.dart';
 
 class AssetsManagerCubit extends Cubit<AssetsManagerState> {
-  AssetsManagerCubit(this._game, this._player)
+  AssetsManagerCubit(this._game, this._audioPlayer)
       : super(const AssetsManagerState.initial());
 
   final PinballGame _game;
-  final PinballPlayer _player;
+  final PinballAudioPlayer _audioPlayer;
 
   Future<void> load() async {
     /// Assigning loadables is a very expensive operation. With this purposeful
@@ -24,7 +24,7 @@ class AssetsManagerCubit extends Cubit<AssetsManagerState> {
         loadables: [
           _game.preFetchLeaderboard(),
           ..._game.preLoadAssets(),
-          ..._player.load(),
+          ..._audioPlayer.load(),
           ...BonusAnimation.loadAssets(),
           ...SelectedCharacter.loadAssets(),
         ],

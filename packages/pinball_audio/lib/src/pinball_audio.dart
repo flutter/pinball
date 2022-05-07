@@ -145,12 +145,12 @@ class _BumperAudio extends _Audio {
   }
 }
 
-/// {@template pinball_player}
+/// {@template pinball_audio_player}
 /// Sound manager for the pinball game
 /// {@endtemplate}
-class PinballPlayer {
-  /// {@macro pinball_player}
-  PinballPlayer({
+class PinballAudioPlayer {
+  /// {@macro pinball_audio_player}
+  PinballAudioPlayer({
     CreateAudioPool? createAudioPool,
     PlaySingleAudio? playSingleAudio,
     LoopSingleAudio? loopSingleAudio,
