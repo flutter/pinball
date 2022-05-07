@@ -41,7 +41,8 @@ class DashBumper extends BodyComponent with InitialPosition {
 
   /// {@macro dash_bumper}
   ///
-  /// [DashBumper.main] displays a Dash on top of it.
+  /// [DashBumper.main], usually positioned with a [DashAnimatronic] on top of
+  /// it.
   DashBumper.main({
     Iterable<Component>? children,
   }) : this._(
@@ -59,7 +60,7 @@ class DashBumper extends BodyComponent with InitialPosition {
 
   /// {@macro dash_bumper}
   ///
-  /// [DashBumper.b] is positioned at the right side of the [DashBumper.main] in
+  /// [DashBumper.a] is positioned at the right side of the [DashBumper.main] in
   /// the flutter forest.
   DashBumper.a({
     Iterable<Component>? children,
