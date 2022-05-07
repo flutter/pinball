@@ -38,9 +38,9 @@ void main() {
         final component = Component();
         final controller = TestComponentController(component);
 
-        final anotherComponet = Component();
+        final anotherComponent = Component();
         await expectLater(
-          () async => await anotherComponet.add(controller),
+          () async => await anotherComponent.add(controller),
           throwsAssertionError,
         );
       },

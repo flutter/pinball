@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pinball_ui/gen/gen.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 
-/// Enum with all possibile directions of a [PinballDpadButton].
+/// Enum with all possible directions of a [PinballDpadButton].
 enum PinballDpadDirection {
   /// Up
   up,

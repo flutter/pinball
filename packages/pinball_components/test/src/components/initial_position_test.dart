@@ -54,7 +54,7 @@ void main() {
     );
 
     flameTester.test(
-      'deafaults to zero '
+      'defaults to zero '
       'when no initialPosition is given',
       (game) async {
         final component = TestBodyComponent();

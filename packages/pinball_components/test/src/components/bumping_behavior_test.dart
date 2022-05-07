@@ -32,7 +32,7 @@ void main() {
     });
 
     flameTester.testGameWidget(
-      'the bump is greater when the strengh is greater',
+      'the bump is greater when the strength is greater',
       setUp: (game, tester) async {
         final component1 = _TestBodyComponent();
         final behavior1 = BumpingBehavior(strength: 1)

@@ -1,0 +1,21 @@
+name: spell_check
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+  
+on: [pull_request]
+
+jobs:
+  build:
+    name: Spell Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Check spelling
+        uses: zwaldowski/cspell-action@v1
+        with:
+          paths: '**/*.{dart,arb}'
+          config: .vscode/cspell.json

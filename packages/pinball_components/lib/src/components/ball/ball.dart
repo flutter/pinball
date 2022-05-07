@@ -68,7 +68,7 @@ class Ball extends BodyComponent with Layered, InitialPosition, ZIndex {
     return world.createBody(bodyDef)..createFixtureFromShape(shape, 1);
   }
 
-  /// Immediatly and completly [stop]s the ball.
+  /// Immediately and completely [stop]s the ball.
   ///
   /// The [Ball] will no longer be affected by any forces, including it's
   /// weight and those emitted from collisions.

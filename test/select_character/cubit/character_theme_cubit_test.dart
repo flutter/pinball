@@ -14,7 +14,7 @@ void main() {
     });
 
     blocTest<CharacterThemeCubit, CharacterThemeState>(
-      'charcterSelected emits selected character theme',
+      'characterSelected emits selected character theme',
       build: CharacterThemeCubit.new,
       act: (bloc) => bloc.characterSelected(const SparkyTheme()),
       expect: () => [

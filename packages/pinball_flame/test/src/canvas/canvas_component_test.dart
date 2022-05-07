@@ -50,7 +50,7 @@ void main() {
     );
 
     flameTester.testGameWidget(
-      'calls onSpritePainted when paiting a sprite',
+      'calls onSpritePainted when painting a sprite',
       setUp: (game, tester) async {
         final spriteComponent = _TestSpriteComponent();
 
