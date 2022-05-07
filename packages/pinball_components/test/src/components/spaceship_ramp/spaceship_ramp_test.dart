@@ -7,6 +7,7 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/src/components/spaceship_ramp/behavior/behavior.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 import '../../../helpers/helpers.dart';
@@ -323,5 +324,30 @@ void main() {
         verify(() => contact.setEnabled(true)).called(1);
       },
     );
+  });
+
+  group('SpaceshipRampBoardOpening', () {
+    test('can be instantiated', () {
+      expect(SpaceshipRampBoardOpening(), isA<SpaceshipRampBoardOpening>());
+    });
+
+    flameTester.test('can be loaded', (game) async {
+      final parent = SpaceshipRamp.test(bloc: _MockSpaceshipRampCubit());
+      final component = SpaceshipRampBoardOpening();
+      await game.ensureAdd(parent);
+      await parent.ensureAdd(component);
+      expect(parent.children, contains(component));
+    });
+
+    flameTester.test('adds a RampBallAscendingContactBehavior', (game) async {
+      final parent = SpaceshipRamp.test(bloc: _MockSpaceshipRampCubit());
+      final component = SpaceshipRampBoardOpening();
+      await game.ensureAdd(parent);
+      await parent.ensureAdd(component);
+      expect(
+        component.children.whereType<RampBallAscendingContactBehavior>().length,
+        equals(1),
+      );
+    });
   });
 }
