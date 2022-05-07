@@ -12,6 +12,7 @@ import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
+import 'package:share_repository/share_repository.dart';
 
 class _TestGame extends Forge2DGame {
   @override
@@ -49,6 +50,8 @@ class _MockPinballPlayer extends Mock implements PinballPlayer {}
 
 class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
 }
+
+class _MockShareRepository extends Mock implements ShareRepository {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -96,8 +99,12 @@ void main() {
         'changes the backbox display when the game is over',
         (game) async {
           final component = GameBlocStatusListener();
-          final repository = _MockLeaderboardRepository();
-          final backbox = Backbox(leaderboardRepository: repository);
+          final leaderboardRepository = _MockLeaderboardRepository();
+          final shareRepository = _MockShareRepository();
+          final backbox = Backbox(
+            leaderboardRepository: leaderboardRepository,
+            shareRepository: shareRepository,
+          );
           final state = const GameState.initial()
             ..copyWith(
               status: GameStatus.gameOver,
@@ -129,8 +136,12 @@ void main() {
         (game) async {
           final player = _MockPinballPlayer();
           final component = GameBlocStatusListener();
-          final repository = _MockLeaderboardRepository();
-          final backbox = Backbox(leaderboardRepository: repository);
+          final leaderboardRepository = _MockLeaderboardRepository();
+          final shareRepository = _MockShareRepository();
+          final backbox = Backbox(
+            leaderboardRepository: leaderboardRepository,
+            shareRepository: shareRepository,
+          );
           await game.pump([component, backbox], pinballPlayer: player);
 
           component.onNewState(
