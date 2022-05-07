@@ -99,6 +99,15 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {
 
   @override
   String get loading => '';
+
+  @override
+  String get initialsErrorTitle => '';
+
+  @override
+  String get initialsErrorMessage => '';
+
+  @override
+  String get leaderboardErrorMessage => '';
 }
 
 void main() {
@@ -270,7 +279,10 @@ void main() {
         whenListen(
           bloc,
           Stream<BackboxState>.empty(),
-          initialState: InitialsFailureState(),
+          initialState: InitialsFailureState(
+            score: 0,
+            character: theme.DashTheme(),
+          ),
         );
         final backbox = Backbox.test(
           bloc: bloc,
@@ -311,6 +323,28 @@ void main() {
     );
 
     flameTester.test(
+      'adds LeaderboardFailureDisplay on LeaderboardFailureState',
+      (game) async {
+        whenListen(
+          bloc,
+          Stream<BackboxState>.empty(),
+          initialState: LeaderboardFailureState(),
+        );
+
+        final backbox = Backbox.test(
+          bloc: bloc,
+          platformHelper: platformHelper,
+        );
+        await game.pump(backbox);
+
+        expect(
+          game.descendants().whereType<LeaderboardFailureDisplay>().length,
+          equals(1),
+        );
+      },
+    );
+
+    flameTester.test(
       'closes the subscription when it is removed',
       (game) async {
         final streamController = StreamController<BackboxState>();
@@ -329,7 +363,12 @@ void main() {
         backbox.removeFromParent();
         await game.ready();
 
-        streamController.add(InitialsFailureState());
+        streamController.add(
+          InitialsFailureState(
+            score: 10,
+            character: theme.DashTheme(),
+          ),
+        );
         await game.ready();
 
         expect(
@@ -339,6 +378,37 @@ void main() {
               .isEmpty,
           isTrue,
         );
+      },
+    );
+
+    flameTester.test(
+      'adds PlayerInitialsSubmitted when the timer is finished',
+      (game) async {
+        final initialState = InitialsFailureState(
+          score: 10,
+          character: theme.DashTheme(),
+        );
+        whenListen(
+          bloc,
+          Stream<BackboxState>.fromIterable([]),
+          initialState: initialState,
+        );
+
+        final backbox = Backbox.test(
+          bloc: bloc,
+          platformHelper: platformHelper,
+        );
+        await game.pump(backbox);
+        game.update(4);
+
+        verify(
+          () => bloc.add(
+            PlayerInitialsRequested(
+              score: 10,
+              character: theme.DashTheme(),
+            ),
+          ),
+        ).called(1);
       },
     );
   });

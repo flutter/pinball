@@ -5,7 +5,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pinball/game/components/backbox/displays/initials_submission_failure_display.dart';
+import 'package:pinball/game/components/backbox/displays/displays.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_flame/pinball_flame.dart';
@@ -22,7 +22,7 @@ class _TestGame extends Forge2DGame {
     );
   }
 
-  Future<void> pump(InitialsSubmissionFailureDisplay component) {
+  Future<void> pump(LeaderboardFailureDisplay component) {
     return ensureAdd(
       FlameProvider.value(
         _MockAppLocalizations(),
@@ -34,34 +34,17 @@ class _TestGame extends Forge2DGame {
 
 class _MockAppLocalizations extends Mock implements AppLocalizations {
   @override
-  String get initialsErrorTitle => 'Title';
-
-  @override
-  String get initialsErrorMessage => 'Message';
+  String get leaderboardErrorMessage => 'Message';
 }
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  group('InitialsSubmissionFailureDisplay', () {
+  group('LeaderboardFailureDisplay', () {
     final flameTester = FlameTester(_TestGame.new);
 
     flameTester.test('renders correctly', (game) async {
-      await game.pump(
-        InitialsSubmissionFailureDisplay(
-          onDismissed: () {},
-        ),
-      );
+      await game.pump(LeaderboardFailureDisplay());
 
-      expect(
-        game
-            .descendants()
-            .where(
-              (component) =>
-                  component is TextComponent && component.text == 'Title',
-            )
-            .length,
-        equals(1),
-      );
       expect(
         game
             .descendants()
