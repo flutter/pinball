@@ -115,6 +115,8 @@ void main() {
     );
 
     group('renders correctly', () {
+      const goldensPath = '../golden/score/';
+
       flameTester.testGameWidget(
         '5000 points',
         setUp: (game, tester) async {
@@ -136,7 +138,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/score/5k.png'),
+            matchesGoldenFile('${goldensPath}5k.png'),
           );
         },
       );
@@ -162,7 +164,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/score/20k.png'),
+            matchesGoldenFile('${goldensPath}20k.png'),
           );
         },
       );
@@ -188,7 +190,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/score/200k.png'),
+            matchesGoldenFile('${goldensPath}200k.png'),
           );
         },
       );
@@ -214,7 +216,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/score/1m.png'),
+            matchesGoldenFile('${goldensPath}1m.png'),
           );
         },
       );
