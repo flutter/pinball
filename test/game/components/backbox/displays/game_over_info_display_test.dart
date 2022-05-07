@@ -77,9 +77,9 @@ void main() {
       },
     );
 
-    flameTester.testGameWidget(
+    flameTester.test(
       'calls onShare when Share link is tapped',
-      setUp: (game, tester) async {
+      (game) async {
         var tapped = false;
 
         final tapDownInfo = _MockTapDownInfo();
@@ -97,9 +97,9 @@ void main() {
       },
     );
 
-    flameTester.testGameWidget(
+    flameTester.test(
       'calls onNavigate when go to Google IO link is tapped',
-      setUp: (game, tester) async {
+      (game) async {
         var tapped = false;
 
         final tapDownInfo = _MockTapDownInfo();
