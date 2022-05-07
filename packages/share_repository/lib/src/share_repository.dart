@@ -11,6 +11,9 @@ class ShareRepository {
 
   final String _appUrl;
 
+  /// Google IO event url for share.
+  static const googleIOEvent = 'https://events.google.com/io/';
+
   /// Returns a url to share the [value] on the given [platform].
   ///
   /// The returned url can be opened using the [url_launcher](https://pub.dev/packages/url_launcher) package.
