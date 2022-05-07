@@ -255,9 +255,14 @@ class _SpaceshipRampBoardOpening extends BodyComponent
             _SpaceshipRampBoardOpeningSpriteComponent(),
             LayerContactBehavior(layer: Layer.spaceshipEntranceRamp)
               ..applyTo(['inside']),
-            LayerContactBehavior(layer: Layer.board)..applyTo(['outside']),
-            ZIndexContactBehavior(zIndex: ZIndexes.ballOnBoard)
-              ..applyTo(['outside']),
+            LayerContactBehavior(
+              layer: Layer.board,
+              onBegin: false,
+            )..applyTo(['outside']),
+            ZIndexContactBehavior(
+              zIndex: ZIndexes.ballOnBoard,
+              onBegin: false,
+            )..applyTo(['outside']),
             ZIndexContactBehavior(zIndex: ZIndexes.ballOnSpaceshipRamp)
               ..applyTo(['middle', 'inside']),
           ],
@@ -426,9 +431,20 @@ class _SpaceshipRampForegroundRailingSpriteComponent extends SpriteComponent
   }
 }
 
-class _SpaceshipRampBase extends BodyComponent with Layered, InitialPosition {
+class _SpaceshipRampBase extends BodyComponent
+    with Layered, InitialPosition, ContactCallbacks {
   _SpaceshipRampBase() : super(renderBody: false) {
     layer = Layer.board;
+  }
+
+  @override
+  void preSolve(Object other, Contact contact, Manifold oldManifold) {
+    super.preSolve(other, contact, oldManifold);
+    if (other is! Layered) return;
+    // Although the layer already alters the filtering, this is added to ensure
+    // that when the filtering takes place on different time steps the ball
+    // doesn't bump into the base.
+    contact.setEnabled(other.layer == Layer.board);
   }
 
   @override
@@ -441,7 +457,7 @@ class _SpaceshipRampBase extends BodyComponent with Layered, InitialPosition {
         Vector2(4.1, 1.5),
       ],
     );
-    final bodyDef = BodyDef(position: initialPosition);
+    final bodyDef = BodyDef(position: initialPosition, userData: this);
     return world.createBody(bodyDef)..createFixtureFromShape(shape);
   }
 }
