@@ -67,7 +67,7 @@ void main() {
 
       final component = _TestZIndexBodyComponent(zIndex: oldIndex);
 
-      behavior.beginContact(component, _MockContact());
+      behavior.endContact(component, _MockContact());
 
       expect(component.zIndex, newIndex);
     });

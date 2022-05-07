@@ -62,6 +62,7 @@ void main() {
       const newLayer = Layer.board;
       final behavior = LayerContactBehavior(
         layer: newLayer,
+        onBegin: false,
       );
       final parent = _TestBodyComponent();
       await game.ensureAdd(parent);
