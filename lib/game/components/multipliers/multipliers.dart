@@ -14,23 +14,23 @@ class Multipliers extends Component with ZIndex {
       : super(
           children: [
             Multiplier.x2(
-              position: Vector2(-19.5, -2),
+              position: Vector2(-19.6, -2),
               angle: -15 * math.pi / 180,
             ),
             Multiplier.x3(
-              position: Vector2(13, -9.4),
+              position: Vector2(12.8, -9.4),
               angle: 15 * math.pi / 180,
             ),
             Multiplier.x4(
-              position: Vector2(0, -21.2),
-              angle: 0,
+              position: Vector2(-0.3, -21.2),
+              angle: 3 * math.pi / 180,
             ),
             Multiplier.x5(
-              position: Vector2(-8.5, -28),
+              position: Vector2(-8.9, -28),
               angle: -3 * math.pi / 180,
             ),
             Multiplier.x6(
-              position: Vector2(10, -30.7),
+              position: Vector2(9.8, -30.7),
               angle: 8 * math.pi / 180,
             ),
             MultipliersBehavior(),

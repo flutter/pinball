@@ -44,28 +44,7 @@ class LeaderboardRepository {
       final tenthPositionScore = leaderboard[9].score;
       if (entry.score > tenthPositionScore) {
         await _saveScore(entry);
-        await _deleteScoresUnder(tenthPositionScore);
       }
-    }
-  }
-
-  /// Determines if the given [initials] are allowed.
-  Future<bool> areInitialsAllowed({required String initials}) async {
-    // Initials can only be three uppercase A-Z letters
-    final initialsRegex = RegExp(r'^[A-Z]{3}$');
-    if (!initialsRegex.hasMatch(initials)) {
-      return false;
-    }
-    try {
-      final document = await _firebaseFirestore
-          .collection('prohibitedInitials')
-          .doc('list')
-          .get();
-      final prohibitedInitials =
-          document.get('prohibitedInitials') as List<String>;
-      return !prohibitedInitials.contains(initials);
-    } on Exception catch (error, stackTrace) {
-      throw FetchProhibitedInitialsException(error, stackTrace);
     }
   }
 
@@ -89,23 +68,6 @@ class LeaderboardRepository {
           .add(entry.toJson());
     } on Exception catch (error, stackTrace) {
       throw AddLeaderboardEntryException(error, stackTrace);
-    }
-  }
-
-  Future<void> _deleteScoresUnder(int score) async {
-    try {
-      final querySnapshot = await _firebaseFirestore
-          .collection(_leaderboardCollectionName)
-          .where(_scoreFieldName, isLessThanOrEqualTo: score)
-          .get();
-      final documents = querySnapshot.docs;
-      for (final document in documents) {
-        await document.reference.delete();
-      }
-    } on LeaderboardDeserializationException {
-      rethrow;
-    } on Exception catch (error, stackTrace) {
-      throw DeleteLeaderboardException(error, stackTrace);
     }
   }
 }

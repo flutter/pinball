@@ -8,7 +8,6 @@ import 'package:pinball_flame/pinball_flame.dart';
 ///
 /// The [BottomGroup] consists of [Flipper]s, [Baseboard]s and [Kicker]s.
 /// {@endtemplate}
-// TODO(allisonryan0002): Consider renaming.
 class BottomGroup extends Component with ZIndex {
   /// {@macro bottom_group}
   BottomGroup()
@@ -38,14 +37,14 @@ class _BottomGroupSide extends Component {
   @override
   Future<void> onLoad() async {
     final direction = _side.direction;
-    final centerXAdjustment = _side.isLeft ? 0 : -6.66;
+    final centerXAdjustment = _side.isLeft ? -0.45 : -6.8;
 
     final flipper = Flipper(
       side: _side,
-    )..initialPosition = Vector2((11.8 * direction) + centerXAdjustment, 43.6);
+    )..initialPosition = Vector2((11.6 * direction) + centerXAdjustment, 43.6);
     final baseboard = Baseboard(side: _side)
       ..initialPosition = Vector2(
-        (25.58 * direction) + centerXAdjustment,
+        (25.38 * direction) + centerXAdjustment,
         28.71,
       );
     final kicker = Kicker(
@@ -55,7 +54,7 @@ class _BottomGroupSide extends Component {
           ..applyTo(['bouncy_edge']),
       ],
     )..initialPosition = Vector2(
-        (22.64 * direction) + centerXAdjustment,
+        (22.44 * direction) + centerXAdjustment,
         25.1,
       );
 

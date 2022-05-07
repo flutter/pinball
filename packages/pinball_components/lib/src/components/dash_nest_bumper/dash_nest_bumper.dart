@@ -60,10 +60,10 @@ class DashNestBumper extends BodyComponent with InitialPosition {
     Iterable<Component>? children,
   }) : this._(
           majorRadius: 3,
-          minorRadius: 2.5,
+          minorRadius: 2.2,
           activeAssetPath: Assets.images.dash.bumper.a.active.keyName,
           inactiveAssetPath: Assets.images.dash.bumper.a.inactive.keyName,
-          spritePosition: Vector2(0.35, -1.2),
+          spritePosition: Vector2(0.3, -1.3),
           bloc: DashNestBumperCubit(),
           children: [
             ...?children,
@@ -75,11 +75,11 @@ class DashNestBumper extends BodyComponent with InitialPosition {
   DashNestBumper.b({
     Iterable<Component>? children,
   }) : this._(
-          majorRadius: 3,
-          minorRadius: 2.5,
+          majorRadius: 3.1,
+          minorRadius: 2.2,
           activeAssetPath: Assets.images.dash.bumper.b.active.keyName,
           inactiveAssetPath: Assets.images.dash.bumper.b.inactive.keyName,
-          spritePosition: Vector2(0.35, -1.2),
+          spritePosition: Vector2(0.4, -1.2),
           bloc: DashNestBumperCubit(),
           children: [
             ...?children,
@@ -90,8 +90,6 @@ class DashNestBumper extends BodyComponent with InitialPosition {
   /// Creates an [DashNestBumper] without any children.
   ///
   /// This can be used for testing [DashNestBumper]'s behaviors in isolation.
-  // TODO(alestiago): Refactor injecting bloc once the following is merged:
-  // https://github.com/flame-engine/flame/pull/1538
   @visibleForTesting
   DashNestBumper.test({required this.bloc})
       : _majorRadius = 3,
@@ -100,8 +98,6 @@ class DashNestBumper extends BodyComponent with InitialPosition {
   final double _majorRadius;
   final double _minorRadius;
 
-  // TODO(alestiago): Consider refactoring once the following is merged:
-  // https://github.com/flame-engine/flame/pull/1538
   // ignore: public_member_api_docs
   final DashNestBumperCubit bloc;
 

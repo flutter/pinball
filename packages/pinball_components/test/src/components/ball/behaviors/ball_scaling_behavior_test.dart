@@ -62,8 +62,8 @@ void main() {
         await game.ensureAddAll([ball1, ball2]);
         game.update(1);
 
-        final sprite1 = ball1.firstChild<SpriteComponent>()!;
-        final sprite2 = ball2.firstChild<SpriteComponent>()!;
+        final sprite1 = ball1.descendants().whereType<SpriteComponent>().single;
+        final sprite2 = ball2.descendants().whereType<SpriteComponent>().single;
         expect(
           sprite1.scale.x,
           greaterThan(sprite2.scale.x),

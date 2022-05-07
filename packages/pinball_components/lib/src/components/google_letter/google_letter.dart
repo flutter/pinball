@@ -68,15 +68,11 @@ class GoogleLetter extends BodyComponent with InitialPosition {
   /// Creates a [GoogleLetter] without any children.
   ///
   /// This can be used for testing [GoogleLetter]'s behaviors in isolation.
-  // TODO(alestiago): Refactor injecting bloc once the following is merged:
-  // https://github.com/flame-engine/flame/pull/1538
   @visibleForTesting
   GoogleLetter.test({
     required this.bloc,
   });
 
-  // TODO(alestiago): Consider refactoring once the following is merged:
-  // https://github.com/flame-engine/flame/pull/1538
   // ignore: public_member_api_docs
   final GoogleLetterCubit bloc;
 

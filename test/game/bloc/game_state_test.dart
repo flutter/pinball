@@ -13,6 +13,7 @@ void main() {
           multiplier: 1,
           rounds: 3,
           bonusHistory: const [],
+          status: GameStatus.waiting,
         ),
         equals(
           const GameState(
@@ -21,6 +22,7 @@ void main() {
             multiplier: 1,
             rounds: 3,
             bonusHistory: [],
+            status: GameStatus.waiting,
           ),
         ),
       );
@@ -35,6 +37,7 @@ void main() {
             multiplier: 1,
             rounds: 3,
             bonusHistory: [],
+            status: GameStatus.waiting,
           ),
           isNotNull,
         );
@@ -52,6 +55,7 @@ void main() {
             multiplier: 1,
             rounds: 3,
             bonusHistory: const [],
+            status: GameStatus.waiting,
           ),
           throwsAssertionError,
         );
@@ -69,6 +73,7 @@ void main() {
             multiplier: 1,
             rounds: 3,
             bonusHistory: const [],
+            status: GameStatus.waiting,
           ),
           throwsAssertionError,
         );
@@ -86,6 +91,7 @@ void main() {
             multiplier: 0,
             rounds: 3,
             bonusHistory: const [],
+            status: GameStatus.waiting,
           ),
           throwsAssertionError,
         );
@@ -103,39 +109,12 @@ void main() {
             multiplier: 1,
             rounds: -1,
             bonusHistory: const [],
+            status: GameStatus.waiting,
           ),
           throwsAssertionError,
         );
       },
     );
-
-    group('isGameOver', () {
-      test(
-          'is true '
-          'when no rounds are left', () {
-        const gameState = GameState(
-          totalScore: 0,
-          roundScore: 0,
-          multiplier: 1,
-          rounds: 0,
-          bonusHistory: [],
-        );
-        expect(gameState.isGameOver, isTrue);
-      });
-
-      test(
-          'is false '
-          'when one 1 round left', () {
-        const gameState = GameState(
-          totalScore: 0,
-          roundScore: 0,
-          multiplier: 1,
-          rounds: 1,
-          bonusHistory: [],
-        );
-        expect(gameState.isGameOver, isFalse);
-      });
-    });
 
     group('copyWith', () {
       test(
@@ -148,6 +127,7 @@ void main() {
             multiplier: 1,
             rounds: 3,
             bonusHistory: [],
+            status: GameStatus.waiting,
           );
           expect(
             () => gameState.copyWith(totalScore: gameState.totalScore - 1),
@@ -166,6 +146,7 @@ void main() {
             multiplier: 1,
             rounds: 3,
             bonusHistory: [],
+            status: GameStatus.waiting,
           );
           expect(
             gameState.copyWith(),
@@ -184,6 +165,7 @@ void main() {
             multiplier: 1,
             rounds: 3,
             bonusHistory: [],
+            status: GameStatus.waiting,
           );
           final otherGameState = GameState(
             totalScore: gameState.totalScore + 1,
@@ -191,6 +173,7 @@ void main() {
             multiplier: gameState.multiplier + 1,
             rounds: gameState.rounds + 1,
             bonusHistory: const [GameBonus.googleWord],
+            status: GameStatus.playing,
           );
           expect(gameState, isNot(equals(otherGameState)));
 
@@ -201,6 +184,7 @@ void main() {
               multiplier: otherGameState.multiplier,
               rounds: otherGameState.rounds,
               bonusHistory: otherGameState.bonusHistory,
+              status: otherGameState.status,
             ),
             equals(otherGameState),
           );

@@ -50,8 +50,6 @@ abstract class LayerSensor extends BodyComponent with InitialPosition, Layered {
   Shape get shape;
 
   /// {@macro layer_entrance_orientation}
-  // TODO(ruimiguel): Try to remove the need of [LayerEntranceOrientation] for
-  // collision calculations.
   final LayerEntranceOrientation orientation;
 
   @override

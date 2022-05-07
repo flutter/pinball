@@ -74,7 +74,6 @@ extension LayerMaskBits on Layer {
   /// {@macro layer_mask_bits}
   @visibleForTesting
   int get maskBits {
-    // TODO(ruialonso): test bit groups once final design is implemented.
     switch (this) {
       case Layer.all:
         return 0xFFFF;

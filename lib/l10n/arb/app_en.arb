@@ -104,21 +104,45 @@
   "@toSubmit": {
     "description": "Ending text displayed on initials input screen informational text span"
   },
-  "footerMadeWithText": "Made with ",
-  "@footerMadeWithText": {
-    "description": "Text shown on the footer which mentions technologies used to build the app."
+  "linkBoxTitle": "Resources",
+  "@linkBoxTitle": {
+    "description": "Text shown on the link box title section."
   },
-  "footerFlutterLinkText": "Flutter",
-  "@footerFlutterLinkText": {
-    "description": "Text on the link shown on the footer which navigates to the Flutter page"
+  "linkBoxMadeWithText": "Made with ",
+  "@linkBoxMadeWithText": {
+    "description": "Text shown on the link box which mentions technologies used to build the app."
   },
-  "footerFirebaseLinkText": "Firebase",
-  "@footerFirebaseLinkText": {
-    "description": "Text on the link shown on the footer which navigates to the Firebase page"
+  "linkBoxFlutterLinkText": "Flutter",
+  "@linkBoxFlutterLinkText": {
+    "description": "Text on the link shown on the link box which navigates to the Flutter page"
   },
-  "footerGoogleIOText": "Google I/O",
-  "@footerGoogleIOText": {
-    "description": "Text shown on the footer which mentions Google I/O"
+  "linkBoxFirebaseLinkText": "Firebase",
+  "@linkBoxFirebaseLinkText": {
+    "description": "Text on the link shown on the link box which navigates to the Firebase page"
+  },
+  "linkBoxOpenSourceCode": "Open Source Code",
+  "@linkBoxOpenSourceCode": {
+    "description": "Text shown on the link box which redirects to github project"
+  },
+  "linkBoxGoogleIOText": "Google I/O",
+  "@linkBoxGoogleIOText": {
+    "description": "Text shown on the link box which mentions Google I/O"
+  },
+  "linkBoxFlutterGames": "Flutter Games",
+  "@linkBoxFlutterGames": {
+    "description": "Text shown on the link box which redirects to flutter games article"
+  },
+  "linkBoxHowItsMade": "How it’s made",
+  "@linkBoxHowItsMade": {
+    "description": "Text shown on the link box which redirects to Very Good Blog article"
+  },
+  "linkBoxTermsOfService": "Terms of Service",
+  "@linkBoxTermsOfService": {
+    "description": "Text shown on the link box which redirect to terms of service"
+  },
+  "linkBoxPrivacyPolicy": "Privacy Policy",
+  "@linkBoxPrivacyPolicy": {
+    "description": "Text shown on the link box which redirect to privacy policy"
   },
   "loading": "Loading",
   "@loading": {

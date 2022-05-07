@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
@@ -13,15 +14,22 @@ class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
   /// {@macro plunger}
   Plunger({
     required this.compressionDistance,
-  }) : super(renderBody: false) {
+  }) : super(
+          renderBody: false,
+          children: [_PlungerSpriteAnimationGroupComponent()],
+        ) {
     zIndex = ZIndexes.plunger;
     layer = Layer.launcher;
   }
 
+  /// Creates a [Plunger] without any children.
+  ///
+  /// This can be used for testing [Plunger]'s behaviors in isolation.
+  @visibleForTesting
+  Plunger.test({required this.compressionDistance});
+
   /// Distance the plunger can lower.
   final double compressionDistance;
-
-  late final _PlungerSpriteAnimationGroupComponent _spriteComponent;
 
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
@@ -78,8 +86,10 @@ class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
 
   /// Set a constant downward velocity on the [Plunger].
   void pull() {
+    final sprite = firstChild<_PlungerSpriteAnimationGroupComponent>()!;
+
     body.linearVelocity = Vector2(0, 7);
-    _spriteComponent.pull();
+    sprite.pull();
   }
 
   /// Set an upward velocity on the [Plunger].
@@ -87,17 +97,19 @@ class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
   /// The velocity's magnitude depends on how far the [Plunger] has been pulled
   /// from its original [initialPosition].
   void release() {
+    final sprite = firstChild<_PlungerSpriteAnimationGroupComponent>()!;
+
     _pullingDownTime = 0;
     final velocity = (initialPosition.y - body.position.y) * 11;
     body.linearVelocity = Vector2(0, velocity);
-    _spriteComponent.release();
+    sprite.release();
   }
 
   @override
   void update(double dt) {
     // Ensure that we only pull or release when the time is greater than zero.
     if (_pullingDownTime > 0) {
-      _pullingDownTime -= dt;
+      _pullingDownTime -= PinballForge2DGame.clampDt(dt);
       if (_pullingDownTime <= 0) {
         release();
       } else {
@@ -127,9 +139,6 @@ class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
   Future<void> onLoad() async {
     await super.onLoad();
     await _anchorToJoint();
-
-    _spriteComponent = _PlungerSpriteAnimationGroupComponent();
-    await add(_spriteComponent);
   }
 }
 
@@ -169,26 +178,16 @@ class _PlungerSpriteAnimationGroupComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-
-    // TODO(alestiago): Used cached images.
     final spriteSheet = await gameRef.images.load(
       Assets.images.plunger.plunger.keyName,
     );
-
     const amountPerRow = 20;
     const amountPerColumn = 1;
-
     final textureSize = Vector2(
       spriteSheet.width / amountPerRow,
       spriteSheet.height / amountPerColumn,
     );
     size = textureSize / 10;
-
-    // TODO(ruimiguel): we only need plunger pull animation, and release is just
-    // to reverse it, so we need to divide by 2 while we don't have only half of
-    // the animation (but amountPerRow and amountPerColumn needs to be correct
-    // in order of calculate textureSize correctly).
-
     final pullAnimation = SpriteAnimation.fromFrameData(
       spriteSheet,
       SpriteAnimationData.sequenced(
@@ -200,7 +199,6 @@ class _PlungerSpriteAnimationGroupComponent
         loop: false,
       ),
     );
-
     animations = {
       _PlungerAnimationState.release: pullAnimation.reversed(),
       _PlungerAnimationState.pull: pullAnimation,

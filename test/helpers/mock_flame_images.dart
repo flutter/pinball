@@ -14,8 +14,6 @@ class _MockImages extends Mock implements Images {}
 /// Using real images blocks the tests, for this reason we need fake image
 /// everywhere we use [Images.fromCache] or [Images.load].
 /// {@endtemplate}
-// TODO(arturplaczek): need to find for a better solution for loading image
-// or use original images.
 Future<void> mockFlameImages() async {
   final image = await decodeImageFromList(Uint8List.fromList(_fakeImage));
   final images = _MockImages();

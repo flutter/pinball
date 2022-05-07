@@ -9,9 +9,10 @@ environment:
 dependencies:
   bloc: ^8.0.3
   flame: ^1.1.1
+  flame_bloc: ^1.4.0
   flame_forge2d:
     git:
-      url: https://github.com/flame-engine/flame/
+      url: https://github.com/flame-engine/flame
       path: packages/flame_forge2d/
       ref: a50d4a1e7d9eaf66726ed1bb9894c9d495547d8f
   flutter:
@@ -23,6 +24,8 @@ dependencies:
     path: ../pinball_flame
   pinball_theme:
     path: ../pinball_theme
+  pinball_ui:
+    path: ../pinball_ui
 
 dev_dependencies:
   bloc_test: ^9.0.3
@@ -33,6 +36,7 @@ dev_dependencies:
   very_good_analysis: ^2.4.0
 
 flutter:
+  uses-material-design: true
   generate: true
   fonts:
     - family: PixeloidSans

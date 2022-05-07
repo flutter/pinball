@@ -28,7 +28,6 @@ class ArcShape extends ChainShape {
   final Vector2 center;
 
   /// The radius of the arc.
-  // TODO(alestiago): Check if modifying the parent radius makes sense.
   final double arcRadius;
 
   /// Specifies the size of the arc, in radians.

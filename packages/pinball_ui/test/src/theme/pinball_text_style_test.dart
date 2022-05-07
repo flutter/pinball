@@ -26,9 +26,9 @@ void main() {
       expect(style.color, PinballColors.white);
     });
 
-    test('subtitle1 has fontSize 10 and yellow color', () {
+    test('subtitle1 has fontSize 12 and yellow color', () {
       const style = PinballTextStyle.subtitle1;
-      expect(style.fontSize, 10);
+      expect(style.fontSize, 12);
       expect(style.color, PinballColors.yellow);
     });
 

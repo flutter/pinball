@@ -24,8 +24,6 @@ mixin InitialPosition on BodyComponent {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    // TODO(alestiago): Investiagate why body.position.setFrom(initialPosition)
-    // works for some components and not others.
     assert(
       body.position == initialPosition,
       'Body position does not match initialPosition.',

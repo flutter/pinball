@@ -2,6 +2,7 @@
 
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -12,7 +13,8 @@ import 'package:pinball_flame/pinball_flame.dart';
 ///
 /// The behavior removes itself after the duration.
 /// {@endtemplate}
-class ScoringBehavior extends Component with HasGameRef<PinballGame> {
+class ScoringBehavior extends Component
+    with HasGameRef, FlameBlocReader<GameBloc, GameState> {
   /// {@macto scoring_behavior}
   ScoringBehavior({
     required Points points,
@@ -39,22 +41,23 @@ class ScoringBehavior extends Component with HasGameRef<PinballGame> {
 
   @override
   Future<void> onLoad() async {
-    gameRef.read<GameBloc>().add(Scored(points: _points.value));
-    await gameRef.firstChild<ZCanvasComponent>()!.add(
-          ScoreComponent(
-            points: _points,
-            position: _position,
-            effectController: _effectController,
-          ),
-        );
+    await super.onLoad();
+    bloc.add(Scored(points: _points.value));
+    final canvas = gameRef.descendants().whereType<ZCanvasComponent>().single;
+    await canvas.add(
+      ScoreComponent(
+        points: _points,
+        position: _position,
+        effectController: _effectController,
+      ),
+    );
   }
 }
 
 /// {@template scoring_contact_behavior}
 /// Adds points to the score when the [Ball] contacts the [parent].
 /// {@endtemplate}
-class ScoringContactBehavior extends ContactBehavior
-    with HasGameRef<PinballGame> {
+class ScoringContactBehavior extends ContactBehavior {
   /// {@macro scoring_contact_behavior}
   ScoringContactBehavior({
     required Points points,

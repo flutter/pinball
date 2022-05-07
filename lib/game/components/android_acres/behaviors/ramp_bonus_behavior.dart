@@ -3,15 +3,13 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/behaviors/behaviors.dart';
-import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template ramp_bonus_behavior}
 /// Increases the score when a [Ball] is shot 10 times into the [SpaceshipRamp].
 /// {@endtemplate}
-class RampBonusBehavior extends Component
-    with ParentIsA<SpaceshipRamp>, HasGameRef<PinballGame> {
+class RampBonusBehavior extends Component with ParentIsA<SpaceshipRamp> {
   /// {@macro ramp_bonus_behavior}
   RampBonusBehavior({
     required Points points,

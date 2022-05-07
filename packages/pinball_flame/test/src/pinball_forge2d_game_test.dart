@@ -47,5 +47,17 @@ void main() {
         );
       },
     );
+
+    group('clampDt', () {
+      test('returns dt', () {
+        const dt = 0.0001;
+        expect(PinballForge2DGame.clampDt(dt), equals(dt));
+      });
+
+      test('returns result of 1/60 as dt is to high', () {
+        const dt = 1.0;
+        expect(PinballForge2DGame.clampDt(dt), equals(1 / 60));
+      });
+    });
   });
 }

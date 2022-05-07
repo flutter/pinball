@@ -4,9 +4,12 @@ import 'package:flame/game.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/assets_manager/assets_manager.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/gen/gen.dart';
 import 'package:pinball/l10n/l10n.dart';
+import 'package:pinball/more_information/more_information.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
@@ -20,49 +23,43 @@ class PinballGamePage extends StatelessWidget {
 
   final bool isDebugMode;
 
-  static Route route({
-    bool isDebugMode = kDebugMode,
-  }) {
+  static Route route({bool isDebugMode = kDebugMode}) {
     return MaterialPageRoute<void>(
-      builder: (context) {
-        return PinballGamePage(
-          isDebugMode: isDebugMode,
-        );
-      },
+      builder: (_) => PinballGamePage(isDebugMode: isDebugMode),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final characterTheme =
-        context.read<CharacterThemeCubit>().state.characterTheme;
-    final audio = context.read<PinballAudio>();
-    final pinballAudio = context.read<PinballAudio>();
-
+    final characterThemeBloc = context.read<CharacterThemeCubit>();
+    final player = context.read<PinballPlayer>();
+    final leaderboardRepository = context.read<LeaderboardRepository>();
+    final gameBloc = context.read<GameBloc>();
     final game = isDebugMode
         ? DebugPinballGame(
-            characterTheme: characterTheme,
-            audio: audio,
+            characterThemeBloc: characterThemeBloc,
+            player: player,
+            leaderboardRepository: leaderboardRepository,
             l10n: context.l10n,
+            gameBloc: gameBloc,
           )
         : PinballGame(
-            characterTheme: characterTheme,
-            audio: audio,
+            characterThemeBloc: characterThemeBloc,
+            player: player,
+            leaderboardRepository: leaderboardRepository,
             l10n: context.l10n,
+            gameBloc: gameBloc,
           );
 
     final loadables = [
       ...game.preLoadAssets(),
-      pinballAudio.load(),
+      ...player.load(),
       ...BonusAnimation.loadAssets(),
       ...SelectedCharacter.loadAssets(),
     ];
 
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => GameBloc()),
-        BlocProvider(create: (_) => AssetsManagerCubit(loadables)..load()),
-      ],
+    return BlocProvider(
+      create: (_) => AssetsManagerCubit(loadables)..load(),
       child: PinballGameView(game: game),
     );
   }
@@ -104,42 +101,88 @@ class PinballGameLoadedView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isPlaying = context.select(
-      (StartGameBloc bloc) => bloc.state.status == StartGameStatus.play,
-    );
-    final gameWidgetWidth = MediaQuery.of(context).size.height * 9 / 16;
-    final screenWidth = MediaQuery.of(context).size.width;
-    final leftMargin = (screenWidth / 2) - (gameWidgetWidth / 1.8);
-
     return StartGameListener(
-      game: game,
       child: Stack(
         children: [
           Positioned.fill(
-            child: GameWidget<PinballGame>(
-              game: game,
-              initialActiveOverlays: const [PinballGame.playButtonOverlay],
-              overlayBuilderMap: {
-                PinballGame.playButtonOverlay: (context, game) {
-                  return const Positioned(
-                    bottom: 20,
-                    right: 0,
-                    left: 0,
-                    child: PlayButtonOverlay(),
-                  );
-                },
+            child: MouseRegion(
+              onHover: (_) {
+                if (!game.focusNode.hasFocus) {
+                  game.focusNode.requestFocus();
+                }
               },
+              child: GameWidget<PinballGame>(
+                game: game,
+                focusNode: game.focusNode,
+                initialActiveOverlays: const [PinballGame.playButtonOverlay],
+                overlayBuilderMap: {
+                  PinballGame.playButtonOverlay: (context, game) {
+                    return const Positioned(
+                      bottom: 20,
+                      right: 0,
+                      left: 0,
+                      child: PlayButtonOverlay(),
+                    );
+                  },
+                },
+              ),
             ),
           ),
-          Positioned(
-            top: 16,
-            left: leftMargin,
-            child: Visibility(
-              visible: isPlaying,
-              child: const GameHud(),
-            ),
-          ),
+          const _PositionedGameHud(),
+          const _PositionedInfoIcon(),
         ],
+      ),
+    );
+  }
+}
+
+class _PositionedGameHud extends StatelessWidget {
+  const _PositionedGameHud({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final isPlaying = context.select(
+      (StartGameBloc bloc) => bloc.state.status == StartGameStatus.play,
+    );
+    final isGameOver = context.select(
+      (GameBloc bloc) => bloc.state.status.isGameOver,
+    );
+
+    final gameWidgetWidth = MediaQuery.of(context).size.height * 9 / 16;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final leftMargin = (screenWidth / 2) - (gameWidgetWidth / 1.8);
+    final clampedMargin = leftMargin > 0 ? leftMargin : 0.0;
+
+    return Positioned(
+      top: 0,
+      left: clampedMargin,
+      child: Visibility(
+        visible: isPlaying && !isGameOver,
+        child: const GameHud(),
+      ),
+    );
+  }
+}
+
+class _PositionedInfoIcon extends StatelessWidget {
+  const _PositionedInfoIcon({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: 0,
+      left: 0,
+      child: BlocBuilder<GameBloc, GameState>(
+        builder: (context, state) {
+          return Visibility(
+            visible: state.status.isGameOver,
+            child: IconButton(
+              iconSize: 50,
+              icon: Assets.images.linkBox.infoIcon.image(),
+              onPressed: () => showMoreInformationDialog(context),
+            ),
+          );
+        },
       ),
     );
   }
