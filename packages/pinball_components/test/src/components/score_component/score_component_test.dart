@@ -5,24 +5,37 @@ import 'package:flame/effects.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/src/components/score_component/behaviors/behaviors.dart';
 
-import '../../helpers/helpers.dart';
+import '../../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final assets = [
-    Assets.images.score.fiveThousand.keyName,
-    Assets.images.score.twentyThousand.keyName,
-    Assets.images.score.twoHundredThousand.keyName,
-    Assets.images.score.oneMillion.keyName,
-  ];
-  final flameTester = FlameTester(() => TestGame(assets));
+  final flameTester = FlameTester(
+    () => TestGame([
+      Assets.images.score.fiveThousand.keyName,
+      Assets.images.score.twentyThousand.keyName,
+      Assets.images.score.twoHundredThousand.keyName,
+      Assets.images.score.oneMillion.keyName,
+    ]),
+  );
 
   group('ScoreComponent', () {
+    test('can be instantiated', () {
+      expect(
+        ScoreComponent(
+          points: Points.fiveThousand,
+          position: Vector2.zero(),
+          effectController: EffectController(duration: 1),
+        ),
+        isA<ScoreComponent>(),
+      );
+    });
+
     flameTester.testGameWidget(
       'loads correctly',
       setUp: (game, tester) async {
-        await game.images.loadAll(assets);
+        await game.onLoad();
         game.camera.followVector2(Vector2.zero());
         await game.ensureAdd(
           ScoreComponent(
@@ -38,13 +51,32 @@ void main() {
       },
     );
 
+    flameTester.test(
+      'adds a ScoreComponentScalingBehavior',
+      (game) async {
+        await game.onLoad();
+        game.camera.followVector2(Vector2.zero());
+        final component = ScoreComponent(
+          points: Points.oneMillion,
+          position: Vector2.zero(),
+          effectController: EffectController(duration: 1),
+        );
+        await game.ensureAdd(component);
+
+        expect(
+          component.children.whereType<ScoreComponentScalingBehavior>().length,
+          equals(1),
+        );
+      },
+    );
+
     flameTester.testGameWidget(
       'has a movement effect',
       setUp: (game, tester) async {
-        await game.images.loadAll(assets);
+        await game.onLoad();
         game.camera.followVector2(Vector2.zero());
         await game.ensureAdd(
-          ScoreComponent(
+          ScoreComponent.test(
             points: Points.oneMillion,
             position: Vector2.zero(),
             effectController: EffectController(duration: 1),
@@ -63,10 +95,10 @@ void main() {
     flameTester.testGameWidget(
       'is removed once finished',
       setUp: (game, tester) async {
-        await game.images.loadAll(assets);
+        await game.onLoad();
         game.camera.followVector2(Vector2.zero());
         await game.ensureAdd(
-          ScoreComponent(
+          ScoreComponent.test(
             points: Points.oneMillion,
             position: Vector2.zero(),
             effectController: EffectController(duration: 1),
@@ -83,12 +115,14 @@ void main() {
     );
 
     group('renders correctly', () {
+      const goldensPath = '../golden/score/';
+
       flameTester.testGameWidget(
         '5000 points',
         setUp: (game, tester) async {
-          await game.images.loadAll(assets);
+          await game.onLoad();
           await game.ensureAdd(
-            ScoreComponent(
+            ScoreComponent.test(
               points: Points.fiveThousand,
               position: Vector2.zero(),
               effectController: EffectController(duration: 1),
@@ -104,7 +138,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/score/5k.png'),
+            matchesGoldenFile('${goldensPath}5k.png'),
           );
         },
       );
@@ -112,9 +146,9 @@ void main() {
       flameTester.testGameWidget(
         '20000 points',
         setUp: (game, tester) async {
-          await game.images.loadAll(assets);
+          await game.onLoad();
           await game.ensureAdd(
-            ScoreComponent(
+            ScoreComponent.test(
               points: Points.twentyThousand,
               position: Vector2.zero(),
               effectController: EffectController(duration: 1),
@@ -130,7 +164,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/score/20k.png'),
+            matchesGoldenFile('${goldensPath}20k.png'),
           );
         },
       );
@@ -138,9 +172,9 @@ void main() {
       flameTester.testGameWidget(
         '200000 points',
         setUp: (game, tester) async {
-          await game.images.loadAll(assets);
+          await game.onLoad();
           await game.ensureAdd(
-            ScoreComponent(
+            ScoreComponent.test(
               points: Points.twoHundredThousand,
               position: Vector2.zero(),
               effectController: EffectController(duration: 1),
@@ -156,7 +190,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/score/200k.png'),
+            matchesGoldenFile('${goldensPath}200k.png'),
           );
         },
       );
@@ -164,9 +198,9 @@ void main() {
       flameTester.testGameWidget(
         '1000000 points',
         setUp: (game, tester) async {
-          await game.images.loadAll(assets);
+          await game.onLoad();
           await game.ensureAdd(
-            ScoreComponent(
+            ScoreComponent.test(
               points: Points.oneMillion,
               position: Vector2.zero(),
               effectController: EffectController(duration: 1),
@@ -182,7 +216,7 @@ void main() {
         verify: (game, tester) async {
           await expectLater(
             find.byGame<TestGame>(),
-            matchesGoldenFile('golden/score/1m.png'),
+            matchesGoldenFile('${goldensPath}1m.png'),
           );
         },
       );

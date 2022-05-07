@@ -26,7 +26,7 @@ export 'multiball/multiball.dart';
 export 'multiplier/multiplier.dart';
 export 'plunger.dart';
 export 'rocket.dart';
-export 'score_component.dart';
+export 'score_component/score_component.dart';
 export 'shapes/shapes.dart';
 export 'signpost/signpost.dart';
 export 'skill_shot/skill_shot.dart';
