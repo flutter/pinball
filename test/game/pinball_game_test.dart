@@ -13,14 +13,14 @@ import 'package:leaderboard_repository/src/leaderboard_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_audio/src/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_theme/pinball_theme.dart' as theme;
 
 class _TestPinballGame extends PinballGame {
   _TestPinballGame()
       : super(
-          characterTheme: const theme.DashTheme(),
+          characterThemeBloc: CharacterThemeCubit(),
           leaderboardRepository: _MockLeaderboardRepository(),
           gameBloc: GameBloc(),
           l10n: _MockAppLocalizations(),
@@ -39,7 +39,7 @@ class _TestPinballGame extends PinballGame {
 class _TestDebugPinballGame extends DebugPinballGame {
   _TestDebugPinballGame()
       : super(
-          characterTheme: const theme.DashTheme(),
+          characterThemeBloc: CharacterThemeCubit(),
           leaderboardRepository: _MockLeaderboardRepository(),
           gameBloc: GameBloc(),
           l10n: _MockAppLocalizations(),
@@ -104,6 +104,17 @@ void main() {
           await game.ready();
           expect(
             game.descendants().whereType<BallSpawningBehavior>().length,
+            equals(1),
+          );
+        },
+      );
+
+      flameTester.test(
+        'has only one BallThemingBehavior',
+        (game) async {
+          await game.ready();
+          expect(
+            game.descendants().whereType<BallThemingBehavior>().length,
             equals(1),
           );
         },
