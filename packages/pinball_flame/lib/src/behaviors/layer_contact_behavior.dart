@@ -1,5 +1,4 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template layer_contact_behavior}
