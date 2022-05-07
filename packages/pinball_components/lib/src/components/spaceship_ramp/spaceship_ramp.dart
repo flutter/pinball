@@ -443,7 +443,7 @@ class _SpaceshipRampBase extends BodyComponent
     if (other is! Layered) return;
     // Although the layer already alters the filtering, this is added to ensure
     // that when the filtering takes place on different time steps the ball
-    // doesn't bump into the base.
+    // doesn't bump into the base when on the ramp.
     contact.setEnabled(other.layer == Layer.board);
   }
 
