@@ -78,21 +78,6 @@ void main() {
           PinballTextStyle.subtitle1.fontFamily,
         );
       });
-
-      test('subtitle2 matches PinballTextStyle#subtitle2', () {
-        expect(
-          PinballTheme.standard.textTheme.subtitle2!.fontSize,
-          PinballTextStyle.subtitle2.fontSize,
-        );
-        expect(
-          PinballTheme.standard.textTheme.subtitle2!.color,
-          PinballTextStyle.subtitle2.color,
-        );
-        expect(
-          PinballTheme.standard.textTheme.subtitle2!.fontFamily,
-          PinballTextStyle.subtitle2.fontFamily,
-        );
-      });
     });
   });
 }

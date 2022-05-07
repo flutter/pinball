@@ -73,7 +73,6 @@ class GoogleLetter extends BodyComponent with InitialPosition {
     required this.bloc,
   });
 
-  // ignore: public_member_api_docs
   final GoogleLetterCubit bloc;
 
   @override
