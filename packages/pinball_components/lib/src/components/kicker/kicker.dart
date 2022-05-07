@@ -57,7 +57,6 @@ class Kicker extends BodyComponent with InitialPosition {
     required BoardSide side,
   }) : _side = side;
 
-  // ignore: public_member_api_docs
   final KickerCubit bloc;
 
   @override
@@ -172,7 +171,6 @@ class _KickerSpriteGroupComponent extends SpriteGroupComponent<KickerState>
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    // ignore: public_member_api_docs
     parent.bloc.stream.listen((state) => current = state);
 
     final sprites = {

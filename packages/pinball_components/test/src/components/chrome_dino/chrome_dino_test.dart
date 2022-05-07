@@ -71,7 +71,6 @@ void main() {
       },
     );
 
-    // ignore: public_member_api_docs
     flameTester.test('closes bloc when removed', (game) async {
       final bloc = _MockChromeDinoCubit();
       whenListen(

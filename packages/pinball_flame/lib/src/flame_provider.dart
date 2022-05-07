@@ -1,21 +1,28 @@
-// ignore_for_file: public_member_api_docs
-
 import 'package:bloc/bloc.dart';
 import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 
+/// {@template flame_provider}
+/// Provider-style component, similar to Provider in Flutter, but used to
+/// retrieve [Component] objects previously provided
+/// {@endtemplate}
 class FlameProvider<T> extends Component {
+  //// {@macro flame_provider}
   FlameProvider.value(
     this.provider, {
     Iterable<Component>? children,
-  }) : super(
-          children: children,
-        );
+  }) : super(children: children);
 
+  /// The object that needs to be provided
   final T provider;
 }
 
+//// {@template multi_flame_provider}
+/// MultiProvider-style component, similar to MultiProvider in Flutter,
+/// but used to retrieve more than one [Component] object previously provided
+/// {@endtemplate}
 class MultiFlameProvider extends Component {
+  /// {@macro multi_flame_provider}
   MultiFlameProvider({
     required List<FlameProvider<dynamic>> providers,
     Iterable<Component>? children,
@@ -54,7 +61,9 @@ class MultiFlameProvider extends Component {
   }
 }
 
+/// Extended API on [Component]
 extension ReadFlameProvider on Component {
+  /// Retrieve an object of type [T] that was previously provided
   T readProvider<T>() {
     final providers = ancestors().whereType<FlameProvider<T>>();
     assert(
@@ -64,9 +73,8 @@ extension ReadFlameProvider on Component {
 
     return providers.first.provider;
   }
-}
 
-extension ReadFlameBlocProvider on Component {
+  /// Retrieve a bloc [B] with state [S] previously provided
   B readBloc<B extends BlocBase<S>, S>() {
     final providers = ancestors().whereType<FlameBlocProvider<B, S>>();
     assert(

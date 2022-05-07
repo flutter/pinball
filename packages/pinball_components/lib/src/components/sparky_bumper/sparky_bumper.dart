@@ -102,7 +102,6 @@ class SparkyBumper extends BodyComponent with InitialPosition, ZIndex {
   final double _majorRadius;
   final double _minorRadius;
 
-  // ignore: public_member_api_docs
   final SparkyBumperCubit bloc;
 
   @override
@@ -148,7 +147,6 @@ class _SparkyBumperSpriteGroupComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    // ignore: public_member_api_docs
     parent.bloc.stream.listen((state) => current = state);
 
     final sprites = {

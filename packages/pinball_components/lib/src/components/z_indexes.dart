@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs
-
 /// Z-Indexes for the component rendering order in the pinball game.
 abstract class ZIndexes {
   static const _base = 0;

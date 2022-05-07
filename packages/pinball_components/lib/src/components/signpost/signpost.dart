@@ -41,7 +41,6 @@ class Signpost extends BodyComponent with InitialPosition {
     required this.bloc,
   });
 
-  // ignore: public_member_api_docs
   final SignpostCubit bloc;
 
   @override
