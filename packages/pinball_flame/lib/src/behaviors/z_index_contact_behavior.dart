@@ -6,15 +6,20 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@endtemplate}
 class ZIndexContactBehavior extends ContactBehavior<BodyComponent> {
   /// {@macro layer_contact_behavior}
-  ZIndexContactBehavior({required int zIndex}) : _zIndex = zIndex;
+  ZIndexContactBehavior({
+    required int zIndex,
+    bool onBegin = true,
+  }) {
+    if (onBegin) {
+      onBeginContact = (other, _) => _changeZIndex(other, zIndex);
+    } else {
+      onEndContact = (other, _) => _changeZIndex(other, zIndex);
+    }
+  }
 
-  final int _zIndex;
-
-  @override
-  void beginContact(Object other, Contact contact) {
-    super.beginContact(other, contact);
+  void _changeZIndex(Object other, int zIndex) {
     if (other is! ZIndex) return;
-    if (other.zIndex == _zIndex) return;
-    other.zIndex = _zIndex;
+    if (other.zIndex == zIndex) return;
+    other.zIndex = zIndex;
   }
 }

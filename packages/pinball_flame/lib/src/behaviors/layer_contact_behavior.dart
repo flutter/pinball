@@ -6,15 +6,20 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@endtemplate}
 class LayerContactBehavior extends ContactBehavior<BodyComponent> {
   /// {@macro layer_contact_behavior}
-  LayerContactBehavior({required Layer layer}) : _layer = layer;
+  LayerContactBehavior({
+    required Layer layer,
+    bool onBegin = true,
+  }) {
+    if (onBegin) {
+      onBeginContact = (other, _) => _changeLayer(other, layer);
+    } else {
+      onEndContact = (other, _) => _changeLayer(other, layer);
+    }
+  }
 
-  final Layer _layer;
-
-  @override
-  void beginContact(Object other, Contact contact) {
-    super.beginContact(other, contact);
+  void _changeLayer(Object other, Layer layer) {
     if (other is! Layered) return;
-    if (other.layer == _layer) return;
-    other.layer = _layer;
+    if (other.layer == layer) return;
+    other.layer = layer;
   }
 }
