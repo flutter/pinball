@@ -25,9 +25,6 @@ class FlutterForestBonusBehavior extends Component
     final canvas = gameRef.descendants().whereType<ZCanvasComponent>().single;
 
     for (final bumper in bumpers) {
-      // TODO(alestiago): Refactor subscription management once the following is
-      // merged:
-      // https://github.com/flame-engine/flame/pull/1538
       bumper.bloc.stream.listen((state) {
         final activatedAllBumpers = bumpers.every(
           (bumper) => bumper.bloc.state == DashNestBumperState.active,

@@ -25,13 +25,10 @@ class BonusNoiseBehavior extends Component {
               audioPlayer.play(PinballAudio.sparky);
               break;
             case GameBonus.dinoChomp:
-              // TODO(erickzanardo): Add sound
               break;
             case GameBonus.androidSpaceship:
-              // TODO(erickzanardo): Add sound
               break;
             case GameBonus.dashNest:
-              // TODO(erickzanardo): Add sound
               break;
           }
         },

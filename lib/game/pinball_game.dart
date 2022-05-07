@@ -253,7 +253,6 @@ class PreviewLine extends PositionComponent with HasGameRef<DebugPinballGame> {
   }
 }
 
-// TODO(wolfenrain): investigate this CI failure.
 class _DebugInformation extends Component with HasGameRef<DebugPinballGame> {
   @override
   PositionType get positionType => PositionType.widget;

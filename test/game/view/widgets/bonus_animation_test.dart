@@ -68,9 +68,6 @@ void main() {
     });
   });
 
-  // TODO(arturplaczek): refactor this test when there is a new version of the
-  // flame with an onComplete callback in SpriteAnimationWidget
-  // https://github.com/flame-engine/flame/issues/1543
   testWidgets('called onCompleted callback at the end of animation ',
       (tester) async {
     final callback = _MockCallback();
