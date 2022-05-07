@@ -21,7 +21,6 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
           children: [
             _FlipperSpriteComponent(side: side),
             FlipperJointingBehavior(),
-            FlipperKeyControllingBehavior(),
           ],
         );
 
