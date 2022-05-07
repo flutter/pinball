@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 
 /// {@template mobile_dpad}
-/// Widget that renders a 4 direction dpad.
+/// Widget rendering 4 directional input arrows.
 /// {@endtemplate}
 class MobileDpad extends StatelessWidget {
   /// {@template mobile_dpad}

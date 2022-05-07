@@ -63,7 +63,7 @@ void main() {
       verify(stub.onCall).called(1);
     });
 
-    group('when it is up', () {
+    group('up', () {
       testWidgets('renders the correct image', (tester) async {
         await tester.pumpButton(
           direction: PinballDpadDirection.up,

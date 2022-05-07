@@ -154,6 +154,6 @@
   },
   "enter": "Enter",
   "@enter": {
-    "description": "Enter show on the mobile controls button"
+    "description": "Text shown on the mobile controls enter button"
   }
 }

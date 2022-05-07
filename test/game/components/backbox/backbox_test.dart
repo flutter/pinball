@@ -225,7 +225,7 @@ void main() {
     );
 
     flameTester.test(
-      'adds the mobile controls overlay when it is mobile',
+      'adds the mobile controls overlay when platform is mobile',
       (game) async {
         final bloc = _MockBackboxBloc();
         final platformHelper = _MockPlatformHelper();
