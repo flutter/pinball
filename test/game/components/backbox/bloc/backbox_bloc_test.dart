@@ -113,7 +113,7 @@ void main() {
         ),
         expect: () => [
           LoadingState(),
-          InitialsFailureState(),
+          InitialsFailureState(score: 10, character: DashTheme()),
         ],
       );
     });
