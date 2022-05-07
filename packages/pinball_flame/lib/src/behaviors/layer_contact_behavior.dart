@@ -14,6 +14,7 @@ class LayerContactBehavior extends ContactBehavior<BodyComponent> {
   void beginContact(Object other, Contact contact) {
     super.beginContact(other, contact);
     if (other is! Layered) return;
+    if (other.layer == _layer) return;
     other.layer = _layer;
   }
 }
