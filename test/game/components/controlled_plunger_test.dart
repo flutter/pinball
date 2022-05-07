@@ -28,7 +28,7 @@ class _TestGame extends Forge2DGame with HasKeyboardHandlerComponents {
   Future<void> pump(
     Plunger child, {
     GameBloc? gameBloc,
-    PinballAudioPlayer? pinballPlayer,
+    PinballAudioPlayer? pinballAudioPlayer,
   }) {
     return ensureAdd(
       FlameBlocProvider<GameBloc, GameState>.value(
@@ -36,7 +36,7 @@ class _TestGame extends Forge2DGame with HasKeyboardHandlerComponents {
           ..add(const GameStarted()),
         children: [
           FlameProvider<PinballAudioPlayer>.value(
-            pinballPlayer ?? _MockPinballAudioPlayer(),
+            pinballAudioPlayer ?? _MockPinballAudioPlayer(),
             children: [child],
           )
         ],
@@ -166,7 +166,7 @@ void main() {
 
     flameTester.test('plays the correct sound on load', (game) async {
       final parent = ControlledPlunger(compressionDistance: 10);
-      await game.pump(parent, pinballPlayer: player);
+      await game.pump(parent, pinballAudioPlayer: player);
       await parent.ensureAdd(PlungerNoiseBehavior());
       verify(() => player.play(PinballAudio.launcher)).called(1);
     });

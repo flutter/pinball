@@ -18,13 +18,13 @@ void main() {
   group('App', () {
     late AuthenticationRepository authenticationRepository;
     late LeaderboardRepository leaderboardRepository;
-    late PinballAudioPlayer pinballPlayer;
+    late PinballAudioPlayer pinballAudioPlayer;
 
     setUp(() {
       authenticationRepository = _MockAuthenticationRepository();
       leaderboardRepository = _MockLeaderboardRepository();
-      pinballPlayer = _MockPinballAudioPlayer();
-      when(pinballPlayer.load).thenAnswer((_) => [Future.value()]);
+      pinballAudioPlayer = _MockPinballAudioPlayer();
+      when(pinballAudioPlayer.load).thenAnswer((_) => [Future.value()]);
     });
 
     testWidgets('renders PinballGamePage', (tester) async {
@@ -32,7 +32,7 @@ void main() {
         App(
           authenticationRepository: authenticationRepository,
           leaderboardRepository: leaderboardRepository,
-          pinballPlayer: pinballPlayer,
+          pinballAudioPlayer: pinballAudioPlayer,
         ),
       );
       await tester.pump(const Duration(milliseconds: 400));

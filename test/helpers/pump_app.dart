@@ -55,7 +55,7 @@ extension PumpApp on WidgetTester {
     AssetsManagerCubit? assetsManagerCubit,
     CharacterThemeCubit? characterThemeCubit,
     LeaderboardRepository? leaderboardRepository,
-    PinballAudioPlayer? pinballPlayer,
+    PinballAudioPlayer? pinballAudioPlayer,
   }) {
     return runAsync(() {
       return pumpWidget(
@@ -65,7 +65,7 @@ extension PumpApp on WidgetTester {
               value: leaderboardRepository ?? _MockLeaderboardRepository(),
             ),
             RepositoryProvider.value(
-              value: pinballPlayer ?? _buildDefaultPinballAudioPlayer(),
+              value: pinballAudioPlayer ?? _buildDefaultPinballAudioPlayer(),
             ),
           ],
           child: MultiBlocProvider(

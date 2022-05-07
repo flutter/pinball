@@ -241,7 +241,7 @@ void main() {
               child: SizedBox.shrink(),
             ),
             startGameBloc: startGameBloc,
-            pinballPlayer: pinballAudioPlayer,
+            pinballAudioPlayer: pinballAudioPlayer,
           );
           await tester.pumpAndSettle();
 
