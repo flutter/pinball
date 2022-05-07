@@ -1,5 +1,6 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -36,6 +37,41 @@ void main() {
         await game.ensureAdd(ball);
 
         expect(game.contains(ball), isTrue);
+      },
+    );
+
+    flameTester.test(
+      'has only one SpriteComponent',
+      (game) async {
+        final ball = Ball();
+        await game.ready();
+        await game.ensureAdd(ball);
+
+        expect(
+          ball.descendants().whereType<SpriteComponent>().length,
+          equals(1),
+        );
+      },
+    );
+
+    flameTester.test(
+      'BallSpriteComponent changes sprite onNewState',
+      (game) async {
+        final ball = Ball();
+        await game.ready();
+        await game.ensureAdd(ball);
+
+        final ballSprite =
+            ball.descendants().whereType<BallSpriteComponent>().single;
+        final originalSprite = ballSprite.sprite;
+
+        ballSprite.onNewState(
+          const BallState(characterTheme: theme.DinoTheme()),
+        );
+        await game.ready();
+
+        final newSprite = ballSprite.sprite;
+        expect(newSprite != originalSprite, isTrue);
       },
     );
 
