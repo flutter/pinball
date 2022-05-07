@@ -11,7 +11,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 export 'cubit/dash_bumper_cubit.dart';
 
 /// {@template dash_bumper}
-/// Bumper with a nest appearance.
+/// Bumper for the flutter forest.
 /// {@endtemplate}
 class DashBumper extends BodyComponent with InitialPosition {
   /// {@macro dash_bumper}

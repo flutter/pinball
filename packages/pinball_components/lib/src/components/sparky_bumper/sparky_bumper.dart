@@ -11,7 +11,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 export 'cubit/sparky_bumper_cubit.dart';
 
 /// {@template sparky_bumper}
-/// Bumper for Sparky area.
+/// Bumper for the Sparky Scorch.
 /// {@endtemplate}
 class SparkyBumper extends BodyComponent with InitialPosition, ZIndex {
   /// {@macro sparky_bumper}
