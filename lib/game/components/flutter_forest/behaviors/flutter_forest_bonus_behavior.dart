@@ -1,7 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
+import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
@@ -22,7 +22,6 @@ class FlutterForestBonusBehavior extends Component
     final bumpers = parent.children.whereType<DashNestBumper>();
     final signpost = parent.firstChild<Signpost>()!;
     final animatronic = parent.firstChild<DashAnimatronic>()!;
-    final canvas = gameRef.descendants().whereType<ZCanvasComponent>().single;
 
     for (final bumper in bumpers) {
       bumper.bloc.stream.listen((state) {
@@ -38,15 +37,7 @@ class FlutterForestBonusBehavior extends Component
 
           if (signpost.bloc.isFullyProgressed()) {
             bloc.add(const BonusActivated(GameBonus.dashNest));
-            final characterTheme =
-                readBloc<CharacterThemeCubit, CharacterThemeState>()
-                    .state
-                    .characterTheme;
-            canvas.add(
-              Ball(assetPath: characterTheme.ball.keyName)
-                ..initialPosition = Vector2(29.2, -24.5)
-                ..zIndex = ZIndexes.ballOnBoard,
-            );
+            add(BonusBallSpawningBehavior());
             animatronic.playing = true;
             signpost.bloc.onProgressed();
           }
