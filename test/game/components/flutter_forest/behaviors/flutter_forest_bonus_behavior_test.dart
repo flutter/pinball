@@ -61,7 +61,7 @@ void main() {
     void _contactedBumper(DashBumper bumper) => bumper.bloc.onBallContacted();
 
     flameTester.testGameWidget(
-      'adds GameBonus.DashBumper to the game '
+      'adds GameBonus.dashNest to the game '
       'when bumpers are activated three times',
       setUp: (game, tester) async {
         await game.onLoad();

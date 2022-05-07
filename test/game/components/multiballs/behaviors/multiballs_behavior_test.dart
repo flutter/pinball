@@ -63,7 +63,7 @@ void main() {
     group('listenWhen', () {
       test(
         'is true when the bonusHistory has changed '
-        'with a new GameBonus.DashBumper',
+        'with a new GameBonus.dashNest',
         () {
           final previous = GameState.initial();
           final state = previous.copyWith(
@@ -79,7 +79,7 @@ void main() {
 
       test(
           'is false when the bonusHistory has changed '
-          'with a bonus different than GameBonus.DashBumper', () {
+          'with a bonus different than GameBonus.dashNest', () {
         final previous =
             GameState.initial().copyWith(bonusHistory: [GameBonus.dashNest]);
         final state = previous.copyWith(
