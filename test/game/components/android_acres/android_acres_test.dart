@@ -131,7 +131,7 @@ void main() {
       );
     });
 
-    flameTester.test('adds an FlameBlocProvider', (game) async {
+    flameTester.test('adds a FlameBlocProvider', (game) async {
       final androidAcres = AndroidAcres();
       await game.pump(androidAcres);
       expect(
