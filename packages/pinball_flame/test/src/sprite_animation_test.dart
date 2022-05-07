@@ -10,9 +10,6 @@ class _MockSpriteAnimation extends Mock implements SpriteAnimation {}
 
 class _MockSprite extends Mock implements Sprite {}
 
-// TODO(arturplaczek): Remove when this PR will be merged.
-// https://github.com/flame-engine/flame/pull/1552
-
 void main() {
   group('PinballSpriteAnimationWidget', () {
     late SpriteAnimationController controller;

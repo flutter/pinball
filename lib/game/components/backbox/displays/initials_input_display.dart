@@ -32,7 +32,6 @@ final _subtitleTextPaint = TextPaint(
 /// {@template initials_input_display}
 /// Display that handles the user input on the game over view.
 /// {@endtemplate}
-// TODO(allisonryan0002): add mobile input buttons.
 class InitialsInputDisplay extends Component with HasGameRef {
   /// {@macro initials_input_display}
   InitialsInputDisplay({

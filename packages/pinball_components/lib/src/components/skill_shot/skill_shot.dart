@@ -38,15 +38,11 @@ class SkillShot extends BodyComponent with ZIndex {
   /// Creates a [SkillShot] without any children.
   ///
   /// This can be used for testing [SkillShot]'s behaviors in isolation.
-  // TODO(alestiago): Refactor injecting bloc once the following is merged:
-  // https://github.com/flame-engine/flame/pull/1538
   @visibleForTesting
   SkillShot.test({
     required this.bloc,
   });
 
-  // TODO(alestiago): Consider refactoring once the following is merged:
-  // https://github.com/flame-engine/flame/pull/1538
   // ignore: public_member_api_docs
   final SkillShotCubit bloc;
 
