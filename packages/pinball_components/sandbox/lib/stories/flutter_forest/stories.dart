@@ -1,9 +1,9 @@
 import 'package:dashbook/dashbook.dart';
 import 'package:sandbox/common/common.dart';
-import 'package:sandbox/stories/flutter_forest/big_dash_nest_bumper_game.dart';
+import 'package:sandbox/stories/flutter_forest/dash_bumper_a_game.dart';
+import 'package:sandbox/stories/flutter_forest/dash_bumper_b_game.dart';
+import 'package:sandbox/stories/flutter_forest/dash_bumper_main_game.dart';
 import 'package:sandbox/stories/flutter_forest/signpost_game.dart';
-import 'package:sandbox/stories/flutter_forest/small_dash_nest_bumper_a_game.dart';
-import 'package:sandbox/stories/flutter_forest/small_dash_nest_bumper_b_game.dart';
 
 void addFlutterForestStories(Dashbook dashbook) {
   dashbook.storiesOf('Flutter Forest')
@@ -13,18 +13,18 @@ void addFlutterForestStories(Dashbook dashbook) {
       gameBuilder: (_) => SignpostGame(),
     )
     ..addGame(
-      title: 'Big Dash Nest Bumper',
-      description: BigDashNestBumperGame.description,
-      gameBuilder: (_) => BigDashNestBumperGame(),
+      title: 'Main Dash Bumper',
+      description: DashBumperMainGame.description,
+      gameBuilder: (_) => DashBumperMainGame(),
     )
     ..addGame(
-      title: 'Small Dash Nest Bumper A',
-      description: SmallDashNestBumperAGame.description,
-      gameBuilder: (_) => SmallDashNestBumperAGame(),
+      title: 'Dash Bumper A',
+      description: DashBumperAGame.description,
+      gameBuilder: (_) => DashBumperAGame(),
     )
     ..addGame(
-      title: 'Small Dash Nest Bumper B',
-      description: SmallDashNestBumperBGame.description,
-      gameBuilder: (_) => SmallDashNestBumperBGame(),
+      title: 'Dash Bumper B',
+      description: DashBumperBGame.description,
+      gameBuilder: (_) => DashBumperBGame(),
     );
 }
