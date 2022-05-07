@@ -40,8 +40,9 @@ class SpaceshipRamp extends Component {
             SpaceshipRampBase()..initialPosition = Vector2(3.4, -42.5),
             _SpaceshipRampBackgroundRailingSpriteComponent(),
             SpaceshipRampArrowSpriteComponent(
-              current: bloc.state.hits,
+              current: bloc.state.lightState,
             ),
+            RampArrowBlinkingBehavior(),
             ...?children,
           ],
         );
@@ -167,11 +168,12 @@ class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
 /// Lights progressively whenever a [Ball] gets into [SpaceshipRamp].
 /// {@endtemplate}
 @visibleForTesting
-class SpaceshipRampArrowSpriteComponent extends SpriteGroupComponent<int>
+class SpaceshipRampArrowSpriteComponent
+    extends SpriteGroupComponent<ArrowLightState>
     with HasGameRef, ParentIsA<SpaceshipRamp>, ZIndex {
   /// {@macro spaceship_ramp_arrow_sprite_component}
   SpaceshipRampArrowSpriteComponent({
-    required int current,
+    required ArrowLightState current,
   }) : super(
           anchor: Anchor.center,
           position: Vector2(-3.9, -56.5),
@@ -184,58 +186,38 @@ class SpaceshipRampArrowSpriteComponent extends SpriteGroupComponent<int>
   Future<void> onLoad() async {
     await super.onLoad();
     parent.bloc.stream.listen((state) {
-      current = state.hits % SpaceshipRampArrowSpriteState.values.length;
+      print("STATE $state");
+      current = state.lightState;
     });
 
-    final sprites = <int, Sprite>{};
+    final sprites = <ArrowLightState, Sprite>{};
     this.sprites = sprites;
-    for (final spriteState in SpaceshipRampArrowSpriteState.values) {
-      sprites[spriteState.index] = Sprite(
+    for (final spriteState in ArrowLightState.values) {
+      print("SPRITE $spriteState");
+      sprites[spriteState] = Sprite(
         gameRef.images.fromCache(spriteState.path),
       );
     }
 
-    current = 0;
+    current = ArrowLightState.inactive;
     size = sprites[current]!.originalSize / 10;
   }
 }
 
-/// Indicates the state of the arrow on the [SpaceshipRamp].
-@visibleForTesting
-enum SpaceshipRampArrowSpriteState {
-  /// Arrow with no dashes lit up.
-  inactive,
-
-  /// Arrow with 1 light lit up.
-  active1,
-
-  /// Arrow with 2 lights lit up.
-  active2,
-
-  /// Arrow with 3 lights lit up.
-  active3,
-
-  /// Arrow with 4 lights lit up.
-  active4,
-
-  /// Arrow with all 5 lights lit up.
-  active5,
-}
-
-extension on SpaceshipRampArrowSpriteState {
+extension on ArrowLightState {
   String get path {
     switch (this) {
-      case SpaceshipRampArrowSpriteState.inactive:
+      case ArrowLightState.inactive:
         return Assets.images.android.ramp.arrow.inactive.keyName;
-      case SpaceshipRampArrowSpriteState.active1:
+      case ArrowLightState.active1:
         return Assets.images.android.ramp.arrow.active1.keyName;
-      case SpaceshipRampArrowSpriteState.active2:
+      case ArrowLightState.active2:
         return Assets.images.android.ramp.arrow.active2.keyName;
-      case SpaceshipRampArrowSpriteState.active3:
+      case ArrowLightState.active3:
         return Assets.images.android.ramp.arrow.active3.keyName;
-      case SpaceshipRampArrowSpriteState.active4:
+      case ArrowLightState.active4:
         return Assets.images.android.ramp.arrow.active4.keyName;
-      case SpaceshipRampArrowSpriteState.active5:
+      case ArrowLightState.active5:
         return Assets.images.android.ramp.arrow.active5.keyName;
     }
   }
