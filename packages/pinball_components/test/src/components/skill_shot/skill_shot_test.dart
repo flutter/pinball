@@ -29,7 +29,6 @@ void main() {
       expect(game.contains(skillShot), isTrue);
     });
 
-    // ignore: public_member_api_docs
     flameTester.test('closes bloc when removed', (game) async {
       final bloc = _MockSkillShotCubit();
       whenListen(

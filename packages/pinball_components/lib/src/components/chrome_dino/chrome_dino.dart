@@ -43,7 +43,6 @@ class ChromeDino extends BodyComponent
     required this.bloc,
   });
 
-  // ignore: public_member_api_docs
   final ChromeDinoCubit bloc;
 
   /// Angle to rotate the dino up or down from the starting horizontal position.

@@ -18,7 +18,6 @@ class PinballTheme {
       headline4: PinballTextStyle.headline4,
       headline5: PinballTextStyle.headline5,
       subtitle1: PinballTextStyle.subtitle1,
-      subtitle2: PinballTextStyle.subtitle2,
     );
   }
 }
