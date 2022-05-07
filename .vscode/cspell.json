@@ -20,9 +20,12 @@
         "mocktail",
         "multiball",
         "multiballs",
+        "pixeloid",
+        "serializable",
         "theming",
         "unawaited",
-        "unlayered"
+        "unlayered",
+        "vsync"
     ],
     "ignorePaths": [
         ".github/workflows/**"
