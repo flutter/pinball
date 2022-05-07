@@ -3,11 +3,16 @@
     "enabled": true,
     "language": "en",
     "words": [
+        "backbox",
+        "cupertino",
+        "deserialization",
         "endtemplate",
         "firestore",
         "leaderboard",
         "loadables",
         "mocktail",
+        "multiball",
+        "multiballs",
         "theming",
         "unawaited"
     ],
