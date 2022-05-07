@@ -55,7 +55,7 @@ class InitialsFormState extends BackboxState {
 }
 
 /// {@template initials_success_state}
-/// State when the score was successfully sended.
+/// State when the score and initials were successfully submitted.
 /// {@endtemplate}
 class InitialsSuccessState extends BackboxState {
   /// {@macro initials_success_state}
