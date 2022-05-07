@@ -137,7 +137,7 @@ Widget build(BuildContext context) {
 [flutter_link]: https://flutter.dev
 [flutter_localizations_link]: https://api.flutter.dev/flutter/flutter_localizations/flutter_localizations-library.html
 [google_io_link]: https://events.google.com/io/
-[blog_link]: TODO
+[blog_link]: https://medium.com/flutter/i-o-pinball-powered-by-flutter-and-firebase-d22423f3f5d
 [internationalization_link]: https://flutter.dev/docs/development/accessibility-and-localization/internationalization
 [license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
 [license_link]: https://opensource.org/licenses/MIT
