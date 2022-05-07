@@ -8,6 +8,7 @@ import 'package:pinball/game/components/backbox/displays/displays.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart' hide Assets;
+import 'package:share_repository/share_repository.dart';
 
 /// {@template backbox}
 /// The [Backbox] of the pinball machine.
@@ -16,6 +17,7 @@ class Backbox extends PositionComponent with ZIndex {
   /// {@macro backbox}
   Backbox({
     required LeaderboardRepository leaderboardRepository,
+    required ShareRepository shareRepository,
   }) : _bloc = BackboxBloc(leaderboardRepository: leaderboardRepository);
 
   /// {@macro backbox}
