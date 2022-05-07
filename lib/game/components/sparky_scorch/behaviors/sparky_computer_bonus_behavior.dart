@@ -13,10 +13,6 @@ class SparkyComputerBonusBehavior extends Component
     super.onMount();
     final sparkyComputer = parent.firstChild<SparkyComputer>()!;
     final animatronic = parent.firstChild<SparkyAnimatronic>()!;
-
-    // TODO(alestiago): Refactor subscription management once the following is
-    // merged:
-    // https://github.com/flame-engine/flame/pull/1538
     sparkyComputer.bloc.stream.listen((state) async {
       final listenWhen = state == SparkyComputerState.withBall;
       if (!listenWhen) return;

@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs
-
 import 'package:flame/game.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -31,21 +29,20 @@ class PinballGamePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final characterTheme =
-        context.read<CharacterThemeCubit>().state.characterTheme;
+    final characterThemeBloc = context.read<CharacterThemeCubit>();
     final player = context.read<PinballPlayer>();
     final leaderboardRepository = context.read<LeaderboardRepository>();
     final gameBloc = context.read<GameBloc>();
     final game = isDebugMode
         ? DebugPinballGame(
-            characterTheme: characterTheme,
+            characterThemeBloc: characterThemeBloc,
             player: player,
             leaderboardRepository: leaderboardRepository,
             l10n: context.l10n,
             gameBloc: gameBloc,
           )
         : PinballGame(
-            characterTheme: characterTheme,
+            characterThemeBloc: characterThemeBloc,
             player: player,
             leaderboardRepository: leaderboardRepository,
             l10n: context.l10n,

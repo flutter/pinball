@@ -66,7 +66,14 @@ void main() {
                 .timer
                 .onTick!();
 
-            expect(ball.firstChild<SpriteComponent>()!.getOpacity(), equals(1));
+            expect(
+              ball
+                  .descendants()
+                  .whereType<SpriteComponent>()
+                  .single
+                  .getOpacity(),
+              equals(1),
+            );
             expect(ball.body.linearVelocity, equals(Vector2(-50, 0)));
           },
         );

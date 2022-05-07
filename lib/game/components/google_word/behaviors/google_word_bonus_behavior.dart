@@ -13,9 +13,6 @@ class GoogleWordBonusBehavior extends Component
 
     final googleLetters = parent.children.whereType<GoogleLetter>();
     for (final letter in googleLetters) {
-      // TODO(alestiago): Refactor subscription management once the following is
-      // merged:
-      // https://github.com/flame-engine/flame/pull/1538
       letter.bloc.stream.listen((_) {
         final achievedBonus = googleLetters
             .every((letter) => letter.bloc.state == GoogleLetterState.lit);

@@ -4,6 +4,7 @@ import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
 class SpaceshipRampGame extends BallGame with KeyboardEvents {
@@ -32,6 +33,9 @@ class SpaceshipRampGame extends BallGame with KeyboardEvents {
     - Tap anywhere on the screen to spawn a ball into the game.
     - Press space to progress arrow sprites.
 ''';
+
+  @override
+  Color backgroundColor() => Colors.white;
 
   late final SpaceshipRamp _spaceshipRamp;
 

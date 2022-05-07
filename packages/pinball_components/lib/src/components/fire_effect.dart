@@ -8,14 +8,6 @@ import 'package:flutter/material.dart';
 
 const _particleRadius = 0.25;
 
-// TODO(erickzanardo): This component could just be a ParticleComponet,
-/// unfortunately there is a Particle Component is not a PositionComponent,
-/// which makes it hard to be used since we have camera transformations and on
-// top of that, PositionComponent has a bug inside forge 2d games
-///
-/// https://github.com/flame-engine/flame/issues/1484
-/// https://github.com/flame-engine/flame/issues/1484
-
 /// {@template fire_effect}
 /// A [BodyComponent] which creates a fire trail effect using the given
 /// parameters

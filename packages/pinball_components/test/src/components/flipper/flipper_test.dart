@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_theme/pinball_theme.dart' as theme;
 
-import '../../helpers/helpers.dart';
+import '../../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -18,8 +18,6 @@ void main() {
   final flameTester = FlameTester(() => TestGame(assets));
 
   group('Flipper', () {
-    // TODO(alestiago): Consider testing always both left and right Flipper.
-
     flameTester.testGameWidget(
       'renders correctly',
       setUp: (game, tester) async {
@@ -38,7 +36,7 @@ void main() {
       verify: (game, tester) async {
         await expectLater(
           find.byGame<TestGame>(),
-          matchesGoldenFile('golden/flipper.png'),
+          matchesGoldenFile('../golden/flipper.png'),
         );
       },
     );

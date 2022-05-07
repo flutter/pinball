@@ -1,49 +1,33 @@
 import 'package:flame/components.dart';
-import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/services.dart';
-import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
-/// {@template controlled_flipper}
-/// A [Flipper] with a [FlipperController] attached.
-/// {@endtemplate}
-class ControlledFlipper extends Flipper with Controls<FlipperController> {
-  /// {@macro controlled_flipper}
-  ControlledFlipper({
-    required BoardSide side,
-  }) : super(side: side) {
-    controller = FlipperController(this);
-  }
-}
-
-/// {@template flipper_controller}
-/// A [ComponentController] that controls a [Flipper]s movement.
-/// {@endtemplate}
-class FlipperController extends ComponentController<Flipper>
-    with KeyboardHandler, FlameBlocReader<GameBloc, GameState> {
-  /// {@macro flipper_controller}
-  FlipperController(Flipper flipper)
-      : _keys = flipper.side.flipperKeys,
-        super(flipper);
-
+/// Allows controlling the [Flipper]'s movement with keyboard input.
+class FlipperKeyControllingBehavior extends Component
+    with KeyboardHandler, ParentIsA<Flipper> {
   /// The [LogicalKeyboardKey]s that will control the [Flipper].
   ///
   /// [onKeyEvent] method listens to when one of these keys is pressed.
-  final List<LogicalKeyboardKey> _keys;
+  late final List<LogicalKeyboardKey> _keys;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    _keys = parent.side.flipperKeys;
+  }
 
   @override
   bool onKeyEvent(
     RawKeyEvent event,
     Set<LogicalKeyboardKey> keysPressed,
   ) {
-    if (!bloc.state.status.isPlaying) return true;
     if (!_keys.contains(event.logicalKey)) return true;
 
     if (event is RawKeyDownEvent) {
-      component.moveUp();
+      parent.moveUp();
     } else if (event is RawKeyUpEvent) {
-      component.moveDown();
+      parent.moveDown();
     }
 
     return false;

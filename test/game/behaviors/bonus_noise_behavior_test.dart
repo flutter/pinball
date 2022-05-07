@@ -126,7 +126,6 @@ void main() {
         await game.pump(behavior, player: player, bloc: bloc);
       },
       verify: (_, __) async {
-        // TODO(erickzanardo): Change when the sound is implemented
         verifyNever(() => player.play(any()));
       },
     );
@@ -152,7 +151,6 @@ void main() {
         await game.pump(behavior, player: player, bloc: bloc);
       },
       verify: (_, __) async {
-        // TODO(erickzanardo): Change when the sound is implemented
         verifyNever(() => player.play(any()));
       },
     );
@@ -178,7 +176,6 @@ void main() {
         await game.pump(behavior, player: player, bloc: bloc);
       },
       verify: (_, __) async {
-        // TODO(erickzanardo): Change when the sound is implemented
         verifyNever(() => player.play(any()));
       },
     );
