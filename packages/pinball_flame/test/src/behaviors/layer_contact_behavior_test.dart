@@ -56,5 +56,23 @@ void main() {
 
       expect(component.layer, newLayer);
     });
+
+    flameTester.test('endContact changes layer', (game) async {
+      const oldLayer = Layer.all;
+      const newLayer = Layer.board;
+      final behavior = LayerContactBehavior(
+        layer: newLayer,
+        onBegin: false,
+      );
+      final parent = _TestBodyComponent();
+      await game.ensureAdd(parent);
+      await parent.ensureAdd(behavior);
+
+      final component = _TestLayeredBodyComponent(layer: oldLayer);
+
+      behavior.endContact(component, _MockContact());
+
+      expect(component.layer, newLayer);
+    });
   });
 }

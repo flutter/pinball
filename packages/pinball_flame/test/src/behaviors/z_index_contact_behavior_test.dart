@@ -56,5 +56,20 @@ void main() {
 
       expect(component.zIndex, newIndex);
     });
+
+    flameTester.test('endContact changes zIndex', (game) async {
+      const oldIndex = 0;
+      const newIndex = 1;
+      final behavior = ZIndexContactBehavior(zIndex: newIndex, onBegin: false);
+      final parent = _TestBodyComponent();
+      await game.ensureAdd(parent);
+      await parent.ensureAdd(behavior);
+
+      final component = _TestZIndexBodyComponent(zIndex: oldIndex);
+
+      behavior.endContact(component, _MockContact());
+
+      expect(component.zIndex, newIndex);
+    });
   });
 }
