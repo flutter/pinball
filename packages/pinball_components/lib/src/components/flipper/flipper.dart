@@ -101,8 +101,8 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
       FixtureDef(smallCircleShape),
       FixtureDef(
         trapezium,
-        density: 50, // TODO(alestiago): Use a proper density.
-        friction: .1, // TODO(alestiago): Use a proper friction.
+        density: 50,
+        friction: .1,
       ),
     ];
   }
