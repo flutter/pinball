@@ -35,6 +35,7 @@ void main() {
           pinballPlayer: pinballPlayer,
         ),
       );
+      await tester.pump(const Duration(milliseconds: 400));
       expect(find.byType(PinballGamePage), findsOneWidget);
     });
   });

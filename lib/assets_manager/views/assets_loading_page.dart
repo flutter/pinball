@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinball/assets_manager/assets_manager.dart';
+import 'package:pinball/gen/gen.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 
@@ -20,10 +21,9 @@ class AssetsLoadingPage extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            l10n.ioPinball,
-            style: headline1!.copyWith(fontSize: 80),
-            textAlign: TextAlign.center,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Assets.images.loadingGame.ioPinball.image(),
           ),
           const SizedBox(height: 40),
           AnimatedEllipsisText(
