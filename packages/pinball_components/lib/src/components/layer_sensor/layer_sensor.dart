@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_renaming_method_parameters, public_member_api_docs
-
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_components/src/components/layer_sensor/behaviors/layer_filtering_behavior.dart';
@@ -50,8 +48,6 @@ abstract class LayerSensor extends BodyComponent with InitialPosition, Layered {
   Shape get shape;
 
   /// {@macro layer_entrance_orientation}
-  // TODO(ruimiguel): Try to remove the need of [LayerEntranceOrientation] for
-  // collision calculations.
   final LayerEntranceOrientation orientation;
 
   @override

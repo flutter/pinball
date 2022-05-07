@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs
-
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:geometry/geometry.dart';
 
@@ -28,7 +26,6 @@ class ArcShape extends ChainShape {
   final Vector2 center;
 
   /// The radius of the arc.
-  // TODO(alestiago): Check if modifying the parent radius makes sense.
   final double arcRadius;
 
   /// Specifies the size of the arc, in radians.

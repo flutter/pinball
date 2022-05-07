@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs
 import 'dart:async';
 
 import 'package:flame/components.dart';
@@ -253,7 +252,6 @@ class PreviewLine extends PositionComponent with HasGameRef<DebugPinballGame> {
   }
 }
 
-// TODO(wolfenrain): investigate this CI failure.
 class _DebugInformation extends Component with HasGameRef<DebugPinballGame> {
   @override
   PositionType get positionType => PositionType.widget;

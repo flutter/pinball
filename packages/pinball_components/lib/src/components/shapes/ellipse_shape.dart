@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs
-
 import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:geometry/geometry.dart';
@@ -26,7 +24,6 @@ class EllipseShape extends ChainShape {
   /// The top left corner of the ellipse.
   ///
   /// Where the initial painting begins.
-  // TODO(ruialonso): Change to use appropiate center.
   final Vector2 center;
 
   /// Major radius is specified by [majorRadius].
