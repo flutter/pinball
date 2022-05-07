@@ -62,6 +62,17 @@ class InitialsSuccessState extends BackboxState {
 
 /// State when the initials submission failed.
 class InitialsFailureState extends BackboxState {
+  const InitialsFailureState({
+    required this.score,
+    required this.character,
+  });
+
+  /// Player's score.
+  final int score;
+
+  /// Player's character.
+  final CharacterTheme character;
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [score, character];
 }

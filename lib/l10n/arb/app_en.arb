@@ -152,6 +152,14 @@
   "@enter": {
     "description": "Text shown on the mobile controls enter button"
   },
+  "initialsErrorTitle": "Uh-oh... well, that didn’t work",
+  "@enter": {
+    "description": "Title shown when the initials submission fails"
+  },
+  "initialsErrorMessage": "Please try a different combination of letters",
+  "@initialsErrorMessage": {
+    "description": "Message on shown when the initials submission fails"
+  },
   "leaderboardErrorMessage": "No connection. Leaderboard and sharing functionality is unavailable.",
   "@leaderboardErrorMessage": {
     "description": "Text shown when the leaderboard had an error while loading"
