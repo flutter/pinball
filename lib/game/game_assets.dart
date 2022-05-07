@@ -1,3 +1,4 @@
+import 'package:flame/extensions.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart' as components;
 import 'package:pinball_theme/pinball_theme.dart' hide Assets;
@@ -5,7 +6,7 @@ import 'package:pinball_theme/pinball_theme.dart' hide Assets;
 /// Add methods to help loading and caching game assets.
 extension PinballGameAssetsX on PinballGame {
   /// Returns a list of assets to be loaded
-  List<Future> preLoadAssets() {
+  List<Future<Image>> preLoadAssets() {
     const dashTheme = DashTheme();
     const sparkyTheme = SparkyTheme();
     const androidTheme = AndroidTheme();

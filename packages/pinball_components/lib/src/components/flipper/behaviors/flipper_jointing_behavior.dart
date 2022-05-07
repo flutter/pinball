@@ -6,8 +6,6 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// Joints the [Flipper] to allow pivoting around one end.
 class FlipperJointingBehavior extends Component
     with ParentIsA<Flipper>, HasGameRef {
-  late final RevoluteJoint _joint;
-
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -19,15 +17,7 @@ class FlipperJointingBehavior extends Component
       flipper: parent,
       anchor: anchor,
     );
-    _joint = _FlipperJoint(jointDef);
-    parent.world.createJoint(_joint);
-  }
-
-  @override
-  void onMount() {
-    gameRef.ready().whenComplete(
-          () => parent.body.joints.whereType<_FlipperJoint>().first.unlock(),
-        );
+    parent.world.createJoint(RevoluteJoint(jointDef));
   }
 }
 
@@ -58,46 +48,15 @@ class _FlipperAnchorRevoluteJointDef extends RevoluteJointDef {
   _FlipperAnchorRevoluteJointDef({
     required Flipper flipper,
     required _FlipperAnchor anchor,
-  }) : side = flipper.side {
-    enableLimit = true;
+  }) {
     initialize(
       flipper.body,
       anchor.body,
       flipper.body.position + anchor.body.position,
     );
-  }
 
-  final BoardSide side;
-}
-
-/// {@template flipper_joint}
-/// [RevoluteJoint] that controls the pivoting motion of a [Flipper].
-/// {@endtemplate}
-class _FlipperJoint extends RevoluteJoint {
-  /// {@macro flipper_joint}
-  _FlipperJoint(_FlipperAnchorRevoluteJointDef def)
-      : side = def.side,
-        super(def) {
-    lock();
-  }
-
-  /// Half the angle of the arc motion.
-  static const _halfSweepingAngle = 0.611;
-
-  final BoardSide side;
-
-  /// Locks the [Flipper] to its resting position.
-  ///
-  /// The joint is locked when initialized in order to force the [Flipper]
-  /// at its resting position.
-  void lock() {
-    final angle = _halfSweepingAngle * side.direction;
-    setLimits(angle, angle);
-  }
-
-  /// Unlocks the [Flipper] from its resting position.
-  void unlock() {
-    const angle = _halfSweepingAngle;
-    setLimits(-angle, angle);
+    enableLimit = true;
+    upperAngle = 0.611;
+    lowerAngle = -upperAngle;
   }
 }
