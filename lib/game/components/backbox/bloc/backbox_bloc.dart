@@ -42,14 +42,13 @@ class BackboxBloc extends Bloc<BackboxEvent, BackboxState> {
   ) async {
     try {
       emit(LoadingState());
-      /*await _leaderboardRepository.addLeaderboardEntry(
+      await _leaderboardRepository.addLeaderboardEntry(
         LeaderboardEntryData(
           playerInitials: event.initials,
           score: event.score,
           character: event.character.toType,
         ),
-      );*/
-      await Future<void>.delayed(Duration(seconds: 2));
+      );
       emit(
         InitialsSuccessState(
           initials: event.initials,
