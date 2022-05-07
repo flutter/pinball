@@ -36,7 +36,7 @@ void main() {
       );
       final behavior = ScoreComponentScalingBehavior();
       await game.ensureAdd(parent);
-      await parent.add(behavior);
+      await parent.ensureAdd(behavior);
 
       expect(parent.children, contains(behavior));
     });
