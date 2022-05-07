@@ -9,8 +9,6 @@ class AndroidSpaceshipBonusBehavior extends Component {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final androidSpaceshipCubit =
-        readBloc<AndroidSpaceshipCubit, AndroidSpaceshipState>();
     await add(
       FlameBlocListener<AndroidSpaceshipCubit, AndroidSpaceshipState>(
         listenWhen: (_, state) => state == AndroidSpaceshipState.withBonus,
@@ -18,7 +16,8 @@ class AndroidSpaceshipBonusBehavior extends Component {
           readBloc<GameBloc, GameState>().add(
             const BonusActivated(GameBonus.androidSpaceship),
           );
-          androidSpaceshipCubit.onBonusAwarded();
+          readBloc<AndroidSpaceshipCubit, AndroidSpaceshipState>()
+              .onBonusAwarded();
         },
       ),
     );
