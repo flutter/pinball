@@ -26,7 +26,7 @@ class _TestPinballGame extends PinballGame {
           leaderboardRepository: _MockLeaderboardRepository(),
           gameBloc: GameBloc(),
           l10n: _MockAppLocalizations(),
-          player: _MockPinballPlayer(),
+          audioPlayer: _MockPinballAudioPlayer(),
         );
 
   @override
@@ -55,7 +55,7 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {
   String get leaderboardErrorMessage => '';
 }
 
-class _MockPinballPlayer extends Mock implements PinballPlayer {}
+class _MockPinballAudioPlayer extends Mock implements PinballAudioPlayer {}
 
 class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
 }

@@ -20,7 +20,7 @@ class GameBlocStatusListener extends Component
       case GameStatus.waiting:
         break;
       case GameStatus.playing:
-        readProvider<PinballPlayer>().play(PinballAudio.backgroundMusic);
+        readProvider<PinballAudioPlayer>().play(PinballAudio.backgroundMusic);
         gameRef
             .descendants()
             .whereType<Flipper>()
@@ -29,7 +29,7 @@ class GameBlocStatusListener extends Component
         gameRef.overlays.remove(PinballGame.playButtonOverlay);
         break;
       case GameStatus.gameOver:
-        readProvider<PinballPlayer>().play(PinballAudio.gameOverVoiceOver);
+        readProvider<PinballAudioPlayer>().play(PinballAudio.gameOverVoiceOver);
         gameRef.descendants().whereType<Backbox>().first.requestInitials(
               score: state.displayScore,
               character: readBloc<CharacterThemeCubit, CharacterThemeState>()

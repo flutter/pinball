@@ -15,7 +15,7 @@ class BonusNoiseBehavior extends Component {
         },
         onNewState: (state) {
           final bonus = state.bonusHistory.last;
-          final audioPlayer = readProvider<PinballPlayer>();
+          final audioPlayer = readProvider<PinballAudioPlayer>();
 
           switch (bonus) {
             case GameBonus.googleWord:

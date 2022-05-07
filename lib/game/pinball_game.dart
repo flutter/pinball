@@ -22,10 +22,10 @@ class PinballGame extends PinballForge2DGame
     required this.leaderboardRepository,
     required GameBloc gameBloc,
     required AppLocalizations l10n,
-    required PinballPlayer player,
+    required PinballAudioPlayer audioPlayer,
   })  : focusNode = FocusNode(),
         _gameBloc = gameBloc,
-        _player = player,
+        _audioPlayer = audioPlayer,
         _characterThemeBloc = characterThemeBloc,
         _l10n = l10n,
         super(
@@ -47,7 +47,7 @@ class PinballGame extends PinballForge2DGame
 
   final CharacterThemeCubit _characterThemeBloc;
 
-  final PinballPlayer _player;
+  final PinballAudioPlayer _audioPlayer;
 
   final LeaderboardRepository leaderboardRepository;
 
@@ -82,7 +82,7 @@ class PinballGame extends PinballForge2DGame
         children: [
           MultiFlameProvider(
             providers: [
-              FlameProvider<PinballPlayer>.value(_player),
+              FlameProvider<PinballAudioPlayer>.value(_audioPlayer),
               FlameProvider<LeaderboardRepository>.value(leaderboardRepository),
               FlameProvider<AppLocalizations>.value(_l10n),
             ],
@@ -188,11 +188,11 @@ class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
     required CharacterThemeCubit characterThemeBloc,
     required LeaderboardRepository leaderboardRepository,
     required AppLocalizations l10n,
-    required PinballPlayer player,
+    required PinballAudioPlayer audioPlayer,
     required GameBloc gameBloc,
   }) : super(
           characterThemeBloc: characterThemeBloc,
-          player: player,
+          audioPlayer: audioPlayer,
           leaderboardRepository: leaderboardRepository,
           l10n: l10n,
           gameBloc: gameBloc,
