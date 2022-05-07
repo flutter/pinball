@@ -9,7 +9,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// the [SpaceshipRamp].
 /// {@endtemplate}
 class RampBallAscendingContactBehavior
-    extends ContactBehavior<RampScoringSensor> {
+    extends ContactBehavior<SpaceshipRampBoardOpening> {
   @override
   void beginContact(Object other, Contact contact) {
     super.beginContact(other, contact);
