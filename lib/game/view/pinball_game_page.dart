@@ -48,7 +48,7 @@ class PinballGamePage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: PinballColors.transparent,
         body: BlocProvider(
-          create: (_) => AssetsManagerCubit(game, player)..load(),
+          create: (_) => AssetsManagerCubit(game, audioPlayer)..load(),
           child: PinballGameView(game),
         ),
       ),
