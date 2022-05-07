@@ -51,7 +51,7 @@ final _descriptionTextPaint = TextPaint(
 );
 
 /// {@template game_over_info_display}
-/// Display that handles shows to the user share or goto IO website.
+/// Display with links to share your score or go to the IO webpage.
 /// {@endtemplate}
 class GameOverInfoDisplay extends Component with HasGameRef {
   /// {@macro game_over_info_display}
