@@ -61,13 +61,13 @@ class ChromeDino extends BodyComponent
 
   List<FixtureDef> _createFixtureDefs() {
     const mouthAngle = -(halfSweepingAngle + 0.28);
-    final size = Vector2(5.5, 6);
+    final size = Vector2(6, 6);
 
     final topEdge = PolygonShape()
       ..setAsBox(
         size.x / 2,
         0.1,
-        initialPosition + Vector2(-4.2, -1.4),
+        initialPosition + Vector2(-4, -1.4),
         mouthAngle,
       );
     final topEdgeFixtureDef = FixtureDef(topEdge, density: 100);
@@ -76,7 +76,7 @@ class ChromeDino extends BodyComponent
       ..setAsBox(
         0.1,
         size.y / 2,
-        initialPosition + Vector2(-1.3, 0.5),
+        initialPosition + Vector2(-1, 0.5),
         -halfSweepingAngle,
       );
     final backEdgeFixtureDef = FixtureDef(backEdge, density: 100);
@@ -85,7 +85,7 @@ class ChromeDino extends BodyComponent
       ..setAsBox(
         size.x / 2,
         0.1,
-        initialPosition + Vector2(-3.5, 4.7),
+        initialPosition + Vector2(-3.3, 4.7),
         mouthAngle,
       );
     final bottomEdgeFixtureDef = FixtureDef(
@@ -110,7 +110,7 @@ class ChromeDino extends BodyComponent
       ..setAsBox(
         0.2,
         0.2,
-        initialPosition + Vector2(-3.5, 1.5),
+        initialPosition + Vector2(-3, 1.5),
         0,
       );
     final insideSensorFixtureDef = FixtureDef(

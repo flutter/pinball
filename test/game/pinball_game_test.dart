@@ -409,14 +409,12 @@ void main() {
         when(() => tapUpEvent.raw).thenReturn(raw);
 
         await game.ready();
-        final previousBalls =
-            game.descendants().whereType<ControlledBall>().toList();
+        final previousBalls = game.descendants().whereType<Ball>().toList();
 
         game.onTapUp(0, tapUpEvent);
         await game.ready();
 
-        final currentBalls =
-            game.descendants().whereType<ControlledBall>().toList();
+        final currentBalls = game.descendants().whereType<Ball>().toList();
 
         expect(
           currentBalls.length,
@@ -475,14 +473,13 @@ void main() {
         game.lineEnd = endPosition;
 
         await game.ready();
-        final previousBalls =
-            game.descendants().whereType<ControlledBall>().toList();
+        final previousBalls = game.descendants().whereType<Ball>().toList();
 
         game.onPanEnd(_MockDragEndInfo());
         await game.ready();
 
         expect(
-          game.descendants().whereType<ControlledBall>().length,
+          game.descendants().whereType<Ball>().length,
           equals(previousBalls.length + 1),
         );
       },

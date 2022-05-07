@@ -39,6 +39,7 @@ class App extends StatelessWidget {
         providers: [
           BlocProvider(create: (_) => CharacterThemeCubit()),
           BlocProvider(create: (_) => StartGameBloc()),
+          BlocProvider(create: (_) => GameBloc()),
         ],
         child: MaterialApp(
           title: 'I/O Pinball',
