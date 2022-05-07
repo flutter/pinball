@@ -50,6 +50,7 @@ class PinballGamePage extends StatelessWidget {
           );
 
     final loadables = [
+      game.preFetchLeaderboard(),
       ...game.preLoadAssets(),
       ...player.load(),
       ...BonusAnimation.loadAssets(),

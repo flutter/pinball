@@ -150,7 +150,10 @@ void main() {
           (game) async {
             final component = GameBlocStatusListener();
             final repository = _MockLeaderboardRepository();
-            final backbox = Backbox(leaderboardRepository: repository);
+            final backbox = Backbox(
+              leaderboardRepository: repository,
+              entries: const [],
+            );
 
             await game.pump([component, backbox]);
 
@@ -163,7 +166,10 @@ void main() {
           (game) async {
             final component = GameBlocStatusListener();
             final repository = _MockLeaderboardRepository();
-            final backbox = Backbox(leaderboardRepository: repository);
+            final backbox = Backbox(
+              leaderboardRepository: repository,
+              entries: const [],
+            );
             final flipper = Flipper.test(side: BoardSide.left);
             final behavior = FlipperKeyControllingBehavior();
 
@@ -188,7 +194,10 @@ void main() {
             final player = _MockPinballPlayer();
             final component = GameBlocStatusListener();
             final repository = _MockLeaderboardRepository();
-            final backbox = Backbox(leaderboardRepository: repository);
+            final backbox = Backbox(
+              leaderboardRepository: repository,
+              entries: const [],
+            );
             await game.pump([component, backbox], pinballPlayer: player);
 
             component.onNewState(state);
@@ -226,7 +235,10 @@ void main() {
           (game) async {
             final component = GameBlocStatusListener();
             final repository = _MockLeaderboardRepository();
-            final backbox = Backbox(leaderboardRepository: repository);
+            final backbox = Backbox(
+              leaderboardRepository: repository,
+              entries: const [],
+            );
             final flipper = Flipper.test(side: BoardSide.left);
 
             await game.pump([component, backbox, flipper]);

@@ -12,14 +12,37 @@ class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
 
 void main() {
   late LeaderboardRepository leaderboardRepository;
+  const emptyEntries = <LeaderboardEntryData>[];
+  const filledEntries = [LeaderboardEntryData.empty];
 
   group('BackboxBloc', () {
+    test('inits state with LeaderboardSuccessState when has entries', () {
+      leaderboardRepository = _MockLeaderboardRepository();
+      final bloc = BackboxBloc(
+        leaderboardRepository: leaderboardRepository,
+        initialEntries: filledEntries,
+      );
+      expect(bloc.state, isA<LeaderboardSuccessState>());
+    });
+
+    test('inits state with LeaderboardFailureState when has no entries', () {
+      leaderboardRepository = _MockLeaderboardRepository();
+      final bloc = BackboxBloc(
+        leaderboardRepository: leaderboardRepository,
+        initialEntries: null,
+      );
+      expect(bloc.state, isA<LeaderboardFailureState>());
+    });
+
     blocTest<BackboxBloc, BackboxState>(
       'adds InitialsFormState on PlayerInitialsRequested',
       setUp: () {
         leaderboardRepository = _MockLeaderboardRepository();
       },
-      build: () => BackboxBloc(leaderboardRepository: leaderboardRepository),
+      build: () => BackboxBloc(
+        leaderboardRepository: leaderboardRepository,
+        initialEntries: emptyEntries,
+      ),
       act: (bloc) => bloc.add(
         PlayerInitialsRequested(
           score: 100,
@@ -46,7 +69,10 @@ void main() {
             ),
           ).thenAnswer((_) async {});
         },
-        build: () => BackboxBloc(leaderboardRepository: leaderboardRepository),
+        build: () => BackboxBloc(
+          leaderboardRepository: leaderboardRepository,
+          initialEntries: emptyEntries,
+        ),
         act: (bloc) => bloc.add(
           PlayerInitialsSubmitted(
             score: 10,
@@ -74,7 +100,10 @@ void main() {
             ),
           ).thenThrow(Exception('Error'));
         },
-        build: () => BackboxBloc(leaderboardRepository: leaderboardRepository),
+        build: () => BackboxBloc(
+          leaderboardRepository: leaderboardRepository,
+          initialEntries: emptyEntries,
+        ),
         act: (bloc) => bloc.add(
           PlayerInitialsSubmitted(
             score: 10,
@@ -100,7 +129,10 @@ void main() {
             (_) async => [LeaderboardEntryData.empty],
           );
         },
-        build: () => BackboxBloc(leaderboardRepository: leaderboardRepository),
+        build: () => BackboxBloc(
+          leaderboardRepository: leaderboardRepository,
+          initialEntries: emptyEntries,
+        ),
         act: (bloc) => bloc.add(LeaderboardRequested()),
         expect: () => [
           LoadingState(),
@@ -116,7 +148,10 @@ void main() {
             () => leaderboardRepository.fetchTop10Leaderboard(),
           ).thenThrow(Exception('Error'));
         },
-        build: () => BackboxBloc(leaderboardRepository: leaderboardRepository),
+        build: () => BackboxBloc(
+          leaderboardRepository: leaderboardRepository,
+          initialEntries: emptyEntries,
+        ),
         act: (bloc) => bloc.add(LeaderboardRequested()),
         expect: () => [
           LoadingState(),
