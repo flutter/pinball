@@ -65,3 +65,27 @@ class InitialsFailureState extends BackboxState {
   @override
   List<Object?> get props => [];
 }
+
+/// {@template share_state}
+/// State when the user is sharing their score.
+/// {@endtemplate}
+class ShareState extends BackboxState {
+  /// {@macro share_state}
+  const ShareState({
+    required this.score,
+    required this.initials,
+    required this.character,
+  }) : super();
+
+  /// Player's score.
+  final int score;
+
+  /// Player's initials.
+  final String initials;
+
+  /// Player's character.
+  final CharacterTheme character;
+
+  @override
+  List<Object?> get props => [score, initials, character];
+}

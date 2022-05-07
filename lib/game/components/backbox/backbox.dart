@@ -8,6 +8,7 @@ import 'package:pinball/game/components/backbox/displays/displays.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart' hide Assets;
+import 'package:pinball_ui/pinball_ui.dart';
 import 'package:share_repository/share_repository.dart';
 
 /// {@template backbox}
@@ -18,14 +19,18 @@ class Backbox extends PositionComponent with ZIndex {
   Backbox({
     required LeaderboardRepository leaderboardRepository,
     required ShareRepository shareRepository,
-  }) : _bloc = BackboxBloc(leaderboardRepository: leaderboardRepository);
+  })  : _shareRepository = shareRepository,
+        _bloc = BackboxBloc(leaderboardRepository: leaderboardRepository);
 
   /// {@macro backbox}
   @visibleForTesting
   Backbox.test({
     required BackboxBloc bloc,
-  }) : _bloc = bloc;
+    required ShareRepository shareRepository,
+  })  : _bloc = bloc,
+        _shareRepository = shareRepository;
 
+  final ShareRepository _shareRepository;
   late final Component _display;
   final BackboxBloc _bloc;
   late StreamSubscription<BackboxState> _subscription;
@@ -77,6 +82,18 @@ class Backbox extends PositionComponent with ZIndex {
       );
     } else if (state is InitialsSuccessState) {
       _display.add(InitialsSubmissionSuccessDisplay());
+    } else if (state is ShareState) {
+      _display.add(
+        ShareDisplay(
+          onShare: (platform) {
+            final url = _shareRepository.shareText(
+              value: state.score.toString(),
+              platform: platform,
+            );
+            openLink(url);
+          },
+        ),
+      );
     } else if (state is InitialsFailureState) {
       _display.add(InitialsSubmissionFailureDisplay());
     }

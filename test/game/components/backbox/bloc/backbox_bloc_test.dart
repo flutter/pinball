@@ -89,6 +89,30 @@ void main() {
       );
     });
 
+    group('ShareScoreRequested', () {
+      blocTest<BackboxBloc, BackboxState>(
+        'emits ShareState',
+        setUp: () {
+          leaderboardRepository = _MockLeaderboardRepository();
+        },
+        build: () => BackboxBloc(leaderboardRepository: leaderboardRepository),
+        act: (bloc) => bloc.add(
+          ShareScoreRequested(
+            score: 100,
+            initials: 'AAA',
+            character: AndroidTheme(),
+          ),
+        ),
+        expect: () => [
+          ShareState(
+            score: 100,
+            initials: 'AAA',
+            character: AndroidTheme(),
+          ),
+        ],
+      );
+    });
+
     group('LeaderboardRequested', () {
       blocTest<BackboxBloc, BackboxState>(
         'adds [LoadingState, LeaderboardSuccessState] when request succeeds',

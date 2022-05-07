@@ -132,5 +132,35 @@ void main() {
         });
       });
     });
+
+    group('ShareState', () {
+      test('can be instantiated', () {
+        expect(
+          ShareState(
+            score: 0,
+            initials: 'AAA',
+            character: AndroidTheme(),
+          ),
+          isNotNull,
+        );
+      });
+
+      test('supports value comparison', () {
+        expect(
+          ShareState(
+            score: 0,
+            initials: 'AAA',
+            character: AndroidTheme(),
+          ),
+          equals(
+            ShareState(
+              score: 0,
+              initials: 'AAA',
+              character: AndroidTheme(),
+            ),
+          ),
+        );
+      });
+    });
   });
 }

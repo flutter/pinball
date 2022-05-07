@@ -123,6 +123,87 @@ void main() {
       });
     });
 
+    group('ScoreShareRequested', () {
+      test('can be instantiated', () {
+        expect(
+          ShareScoreRequested(
+            score: 0,
+            initials: 'AAA',
+            character: AndroidTheme(),
+          ),
+          isNotNull,
+        );
+      });
+
+      test('supports value comparison', () {
+        expect(
+          ShareScoreRequested(
+            score: 0,
+            initials: 'AAA',
+            character: AndroidTheme(),
+          ),
+          equals(
+            ShareScoreRequested(
+              score: 0,
+              initials: 'AAA',
+              character: AndroidTheme(),
+            ),
+          ),
+        );
+
+        expect(
+          ShareScoreRequested(
+            score: 0,
+            initials: 'AAA',
+            character: AndroidTheme(),
+          ),
+          isNot(
+            equals(
+              ShareScoreRequested(
+                score: 1,
+                initials: 'AAA',
+                character: AndroidTheme(),
+              ),
+            ),
+          ),
+        );
+
+        expect(
+          ShareScoreRequested(
+            score: 0,
+            initials: 'AAA',
+            character: AndroidTheme(),
+          ),
+          isNot(
+            equals(
+              ShareScoreRequested(
+                score: 0,
+                initials: 'AAA',
+                character: SparkyTheme(),
+              ),
+            ),
+          ),
+        );
+
+        expect(
+          ShareScoreRequested(
+            score: 0,
+            initials: 'AAA',
+            character: AndroidTheme(),
+          ),
+          isNot(
+            equals(
+              ShareScoreRequested(
+                score: 0,
+                initials: 'BBB',
+                character: AndroidTheme(),
+              ),
+            ),
+          ),
+        );
+      });
+    });
+
     group('LeaderboardRequested', () {
       test('can be instantiated', () {
         expect(LeaderboardRequested(), isNotNull);

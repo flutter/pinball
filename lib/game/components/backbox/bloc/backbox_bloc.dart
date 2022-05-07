@@ -18,6 +18,7 @@ class BackboxBloc extends Bloc<BackboxEvent, BackboxState> {
         super(LoadingState()) {
     on<PlayerInitialsRequested>(_onPlayerInitialsRequested);
     on<PlayerInitialsSubmitted>(_onPlayerInitialsSubmitted);
+    on<ShareScoreRequested>(_onScoreShareRequested);
     on<LeaderboardRequested>(_onLeaderboardRequested);
   }
 
@@ -53,6 +54,19 @@ class BackboxBloc extends Bloc<BackboxEvent, BackboxState> {
       addError(error, stackTrace);
       emit(InitialsFailureState());
     }
+  }
+
+  Future<void> _onScoreShareRequested(
+    ShareScoreRequested event,
+    Emitter<BackboxState> emit,
+  ) async {
+    emit(
+      ShareState(
+        initials: event.initials,
+        score: event.score,
+        character: event.character,
+      ),
+    );
   }
 
   Future<void> _onLeaderboardRequested(
