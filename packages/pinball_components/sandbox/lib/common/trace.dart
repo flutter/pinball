@@ -36,7 +36,7 @@ mixin Traceable on Forge2DGame {
 
       descendants()
           .whereType<HasPaint>()
-          .forEach((sprite) => sprite.setOpacity(0.5));
+          .forEach((sprite) => sprite.setOpacity(0.2));
     }
   }
 }

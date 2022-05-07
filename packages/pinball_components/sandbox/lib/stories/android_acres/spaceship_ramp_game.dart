@@ -33,6 +33,9 @@ class SpaceshipRampGame extends BallGame with KeyboardEvents {
     - Press space to progress arrow sprites.
 ''';
 
+  @override
+  Color backgroundColor() => Colors.white;
+
   late final SpaceshipRamp _spaceshipRamp;
 
   @override
