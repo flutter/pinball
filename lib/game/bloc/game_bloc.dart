@@ -12,7 +12,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     on<Scored>(_onScored);
     on<MultiplierIncreased>(_onIncreasedMultiplier);
     on<BonusActivated>(_onBonusActivated);
-    on<SparkyTurboChargeActivated>(_onSparkyTurboChargeActivated);
     on<GameOver>(_onGameOver);
     on<GameStarted>(_onGameStarted);
   }
@@ -62,20 +61,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     emit(
       state.copyWith(
         bonusHistory: [...state.bonusHistory, event.bonus],
-      ),
-    );
-  }
-
-  Future<void> _onSparkyTurboChargeActivated(
-    SparkyTurboChargeActivated event,
-    Emitter emit,
-  ) async {
-    emit(
-      state.copyWith(
-        bonusHistory: [
-          ...state.bonusHistory,
-          GameBonus.sparkyTurboCharge,
-        ],
       ),
     );
   }
