@@ -5,7 +5,7 @@ enum GameBonus {
   /// Bonus achieved when the ball activates all Google letters.
   googleWord,
 
-  /// Bonus achieved when the user activates all dash nest bumpers.
+  /// Bonus achieved when the user activates all dash bumpers.
   dashNest,
 
   /// Bonus achieved when a ball enters Sparky's computer.

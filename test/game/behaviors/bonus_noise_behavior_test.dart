@@ -126,7 +126,7 @@ void main() {
         await game.pump(behavior, player: player, bloc: bloc);
       },
       verify: (_, __) async {
-        verifyNever(() => player.play(any()));
+        verify(() => player.play(PinballAudio.dino)).called(1);
       },
     );
 
@@ -151,7 +151,7 @@ void main() {
         await game.pump(behavior, player: player, bloc: bloc);
       },
       verify: (_, __) async {
-        verifyNever(() => player.play(any()));
+        verify(() => player.play(PinballAudio.android)).called(1);
       },
     );
 
@@ -176,7 +176,7 @@ void main() {
         await game.pump(behavior, player: player, bloc: bloc);
       },
       verify: (_, __) async {
-        verifyNever(() => player.play(any()));
+        verify(() => player.play(PinballAudio.dash)).called(1);
       },
     );
   });
