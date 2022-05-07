@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/src/components/score_component/behaviors/score_component_scaling_behavior.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 enum Points {
@@ -26,9 +28,24 @@ class ScoreComponent extends SpriteComponent with HasGameRef, ZIndex {
         super(
           position: position,
           anchor: Anchor.center,
+          children: [ScoreComponentScalingBehavior()],
         ) {
     zIndex = ZIndexes.score;
   }
+
+  /// Creates a [ScoreComponent] without any children.
+  ///
+  /// This can be used for testing [ScoreComponent]'s behaviors in isolation.
+  @visibleForTesting
+  ScoreComponent.test({
+    required this.points,
+    required Vector2 position,
+    required EffectController effectController,
+  })  : _effectController = effectController,
+        super(
+          position: position,
+          anchor: Anchor.center,
+        );
 
   late Points points;
 
