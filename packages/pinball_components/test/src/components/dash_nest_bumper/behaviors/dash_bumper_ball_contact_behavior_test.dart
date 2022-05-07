@@ -6,11 +6,11 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_components/src/components/dash_nest_bumper/behaviors/behaviors.dart';
+import 'package:pinball_components/src/components/dash_bumper/behaviors/behaviors.dart';
 
 import '../../../../helpers/helpers.dart';
 
-class _MockDashNestBumperCubit extends Mock implements DashNestBumperCubit {}
+class _MockDashBumperCubit extends Mock implements DashBumperCubit {}
 
 class _MockBall extends Mock implements Ball {}
 
@@ -21,33 +21,33 @@ void main() {
   final flameTester = FlameTester(TestGame.new);
 
   group(
-    'DashNestBumperBallContactBehavior',
+    'DashBumperBallContactBehavior',
     () {
       test('can be instantiated', () {
         expect(
-          DashNestBumperBallContactBehavior(),
-          isA<DashNestBumperBallContactBehavior>(),
+          DashBumperBallContactBehavior(),
+          isA<DashBumperBallContactBehavior>(),
         );
       });
 
       flameTester.test(
         'beginContact emits onBallContacted when contacts with a ball',
         (game) async {
-          final behavior = DashNestBumperBallContactBehavior();
-          final bloc = _MockDashNestBumperCubit();
+          final behavior = DashBumperBallContactBehavior();
+          final bloc = _MockDashBumperCubit();
           whenListen(
             bloc,
-            const Stream<DashNestBumperState>.empty(),
-            initialState: DashNestBumperState.active,
+            const Stream<DashBumperState>.empty(),
+            initialState: DashBumperState.active,
           );
 
-          final dashNestBumper = DashNestBumper.test(bloc: bloc);
-          await dashNestBumper.add(behavior);
-          await game.ensureAdd(dashNestBumper);
+          final bumper = DashBumper.test(bloc: bloc);
+          await bumper.add(behavior);
+          await game.ensureAdd(bumper);
 
           behavior.beginContact(_MockBall(), _MockContact());
 
-          verify(dashNestBumper.bloc.onBallContacted).called(1);
+          verify(bumper.bloc.onBallContacted).called(1);
         },
       );
     },

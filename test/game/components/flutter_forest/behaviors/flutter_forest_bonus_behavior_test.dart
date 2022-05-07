@@ -53,8 +53,7 @@ void main() {
 
     final flameTester = FlameTester(_TestGame.new);
 
-    void _contactedBumper(DashNestBumper bumper) =>
-        bumper.bloc.onBallContacted();
+    void _contactedBumper(DashBumper bumper) => bumper.bloc.onBallContacted();
 
     flameTester.testGameWidget(
       'adds GameBonus.dashNest to the game '
@@ -64,9 +63,9 @@ void main() {
         final behavior = FlutterForestBonusBehavior();
         final parent = FlutterForest.test();
         final bumpers = [
-          DashNestBumper.test(bloc: DashNestBumperCubit()),
-          DashNestBumper.test(bloc: DashNestBumperCubit()),
-          DashNestBumper.test(bloc: DashNestBumperCubit()),
+          DashBumper.test(bloc: DashBumperCubit()),
+          DashBumper.test(bloc: DashBumperCubit()),
+          DashBumper.test(bloc: DashBumperCubit()),
         ];
         final animatronic = DashAnimatronic();
         final signpost = Signpost.test(bloc: SignpostCubit());
@@ -74,7 +73,7 @@ void main() {
         await parent.ensureAddAll([...bumpers, animatronic, signpost]);
         await parent.ensureAdd(behavior);
 
-        expect(game.descendants().whereType<DashNestBumper>(), equals(bumpers));
+        expect(game.descendants().whereType<DashBumper>(), equals(bumpers));
         bumpers.forEach(_contactedBumper);
         await tester.pump();
         bumpers.forEach(_contactedBumper);
@@ -96,9 +95,9 @@ void main() {
         final behavior = FlutterForestBonusBehavior();
         final parent = FlutterForest.test();
         final bumpers = [
-          DashNestBumper.test(bloc: DashNestBumperCubit()),
-          DashNestBumper.test(bloc: DashNestBumperCubit()),
-          DashNestBumper.test(bloc: DashNestBumperCubit()),
+          DashBumper.test(bloc: DashBumperCubit()),
+          DashBumper.test(bloc: DashBumperCubit()),
+          DashBumper.test(bloc: DashBumperCubit()),
         ];
         final animatronic = DashAnimatronic();
         final signpost = Signpost.test(bloc: SignpostCubit());
@@ -106,7 +105,7 @@ void main() {
         await parent.ensureAddAll([...bumpers, animatronic, signpost]);
         await parent.ensureAdd(behavior);
 
-        expect(game.descendants().whereType<DashNestBumper>(), equals(bumpers));
+        expect(game.descendants().whereType<DashBumper>(), equals(bumpers));
         bumpers.forEach(_contactedBumper);
         await tester.pump();
         bumpers.forEach(_contactedBumper);
@@ -130,9 +129,9 @@ void main() {
         final behavior = FlutterForestBonusBehavior();
         final parent = FlutterForest.test();
         final bumpers = [
-          DashNestBumper.test(bloc: DashNestBumperCubit()),
-          DashNestBumper.test(bloc: DashNestBumperCubit()),
-          DashNestBumper.test(bloc: DashNestBumperCubit()),
+          DashBumper.test(bloc: DashBumperCubit()),
+          DashBumper.test(bloc: DashBumperCubit()),
+          DashBumper.test(bloc: DashBumperCubit()),
         ];
         final animatronic = DashAnimatronic();
         final signpost = Signpost.test(bloc: SignpostCubit());
@@ -140,7 +139,7 @@ void main() {
         await parent.ensureAddAll([...bumpers, animatronic, signpost]);
         await parent.ensureAdd(behavior);
 
-        expect(game.descendants().whereType<DashNestBumper>(), equals(bumpers));
+        expect(game.descendants().whereType<DashBumper>(), equals(bumpers));
 
         bumpers.forEach(_contactedBumper);
         await tester.pump();
