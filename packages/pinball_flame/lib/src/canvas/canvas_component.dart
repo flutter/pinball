@@ -12,7 +12,7 @@ typedef PaintFunction = void Function(Paint);
 /// {@template canvas_component}
 /// Allows listening before the rendering of [Sprite]s.
 ///
-/// The existance of this class is to hack around the fact that Flame doesn't
+/// The existence of this class is to hack around the fact that Flame doesn't
 /// provide a global way to modify the default [Paint] before rendering a
 /// [Sprite].
 /// {@endtemplate}

@@ -77,7 +77,7 @@ class InitialsInputDisplay extends Component with HasGameRef {
     );
   }
 
-  /// Returns the current inputed initials
+  /// Returns the current entered initials
   String get initials => children
       .whereType<InitialsLetterPrompt>()
       .map((prompt) => prompt.char)

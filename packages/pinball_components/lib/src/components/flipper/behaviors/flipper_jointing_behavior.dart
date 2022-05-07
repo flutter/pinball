@@ -40,7 +40,7 @@ class _FlipperAnchor extends JointAnchor {
 }
 
 /// {@template flipper_anchor_revolute_joint_def}
-/// Hinges one end of [Flipper] to a [_FlipperAnchor] to achieve a potivoting
+/// Hinges one end of [Flipper] to a [_FlipperAnchor] to achieve a pivoting
 /// motion.
 /// {@endtemplate}
 class _FlipperAnchorRevoluteJointDef extends RevoluteJointDef {
