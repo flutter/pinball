@@ -11,6 +11,7 @@ class ShareRepository {
 
   final String _appUrl;
 
+  /// Url to the Github Open Source Pinball project.
   static const openSourceUrl = 'https://github.com/VGVentures/pinball';
 
   /// Returns a url to share the [value] on the given [platform].

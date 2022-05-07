@@ -20,6 +20,9 @@ import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart' as theme;
+import 'package:pinball_ui/pinball_ui.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+import 'package:share_repository/share_repository.dart';
 
 class _TestGame extends Forge2DGame
     with HasKeyboardHandlerComponents, HasTappables {
@@ -73,6 +76,10 @@ class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
 }
 
 class _MockTapDownInfo extends Mock implements TapDownInfo {}
+
+class _MockUrlLauncher extends Mock
+    with MockPlatformInterfaceMixin
+    implements UrlLauncherPlatform {}
 
 class _MockAppLocalizations extends Mock implements AppLocalizations {
   @override
@@ -228,60 +235,119 @@ void main() {
       },
     );
 
-    flameTester.test(
-      'adds GameOverInfoDisplay on InitialsSuccessState',
-      (game) async {
-        final state = InitialsSuccessState(
-          score: 100,
-          initials: 'AAA',
-          character: theme.AndroidTheme(),
-        );
-        whenListen(
-          bloc,
-          const Stream<InitialsSuccessState>.empty(),
-          initialState: state,
-        );
-        final backbox = Backbox.test(bloc: bloc);
-        await game.pump(backbox);
+    group('GameOverInfoDisplay', () {
+      late UrlLauncherPlatform urlLauncher;
 
-        expect(
-          game.descendants().whereType<GameOverInfoDisplay>().length,
-          equals(1),
-        );
-      },
-    );
+      setUp(() async {
+        urlLauncher = _MockUrlLauncher();
+        UrlLauncherPlatform.instance = urlLauncher;
+      });
 
-    flameTester.test(
-      'adds ShareScoreRequested event when sharing on GameOverInfoDisplay',
-      (game) async {
-        final state = InitialsSuccessState(
-          score: 100,
-          initials: 'AAA',
-          character: theme.AndroidTheme(),
-        );
-        whenListen(
-          bloc,
-          Stream.value(state),
-          initialState: state,
-        );
-        final backbox = Backbox.test(bloc: bloc);
-        await game.pump(backbox);
+      flameTester.test(
+        'added on InitialsSuccessState',
+        (game) async {
+          final state = InitialsSuccessState(
+            score: 100,
+            initials: 'AAA',
+            character: theme.AndroidTheme(),
+          );
+          whenListen(
+            bloc,
+            const Stream<InitialsSuccessState>.empty(),
+            initialState: state,
+          );
+          final backbox = Backbox.test(bloc: bloc);
+          await game.pump(backbox);
 
-        final shareLink =
-            game.descendants().whereType<ShareLinkComponent>().first;
-        shareLink.onTapDown(_MockTapDownInfo());
+          expect(
+            game.descendants().whereType<GameOverInfoDisplay>().length,
+            equals(1),
+          );
+        },
+      );
 
-        verify(
-          () => bloc.add(
-            ShareScoreRequested(
-              score: state.score,
-              initials: state.initials,
-              character: state.character,
+      flameTester.test(
+        'adds ShareScoreRequested event when sharing',
+        (game) async {
+          final state = InitialsSuccessState(
+            score: 100,
+            initials: 'AAA',
+            character: theme.AndroidTheme(),
+          );
+          whenListen(
+            bloc,
+            Stream.value(state),
+            initialState: state,
+          );
+          final backbox = Backbox.test(bloc: bloc);
+          await game.pump(backbox);
+
+          final shareLink =
+              game.descendants().whereType<ShareLinkComponent>().first;
+          shareLink.onTapDown(_MockTapDownInfo());
+
+          verify(
+            () => bloc.add(
+              ShareScoreRequested(
+                score: state.score,
+                initials: state.initials,
+                character: state.character,
+              ),
             ),
-          ),
-        ).called(1);
-      },
-    );
+          ).called(1);
+        },
+      );
+
+      flameTester.test(
+        'open OpenSource url when navigating',
+        (game) async {
+          when(() => urlLauncher.canLaunch(any()))
+              .thenAnswer((_) async => true);
+          when(
+            () => urlLauncher.launch(
+              any(),
+              useSafariVC: any(named: 'useSafariVC'),
+              useWebView: any(named: 'useWebView'),
+              enableJavaScript: any(named: 'enableJavaScript'),
+              enableDomStorage: any(named: 'enableDomStorage'),
+              universalLinksOnly: any(named: 'universalLinksOnly'),
+              headers: any(named: 'headers'),
+            ),
+          ).thenAnswer((_) async => true);
+
+          final state = InitialsSuccessState(
+            score: 100,
+            initials: 'AAA',
+            character: theme.AndroidTheme(),
+          );
+          whenListen(
+            bloc,
+            Stream.value(state),
+            initialState: state,
+          );
+          final backbox = Backbox.test(bloc: bloc);
+          await game.pump(backbox);
+
+          final shareLink =
+              game.descendants().whereType<GoogleIOLinkComponent>().first;
+          shareLink.onTapDown(_MockTapDownInfo());
+
+          await game.ready();
+
+          verify(
+            () => urlLauncher.launch(
+              ShareRepository.openSourceUrl,
+              useSafariVC: any(named: 'useSafariVC'),
+              useWebView: any(named: 'useWebView'),
+              enableJavaScript: any(named: 'enableJavaScript'),
+              enableDomStorage: any(named: 'enableDomStorage'),
+              universalLinksOnly: any(named: 'universalLinksOnly'),
+              headers: any(named: 'headers'),
+            ),
+          );
+        },
+      );
+    });
 
     flameTester.test(
       'adds InitialsSubmissionFailureDisplay on InitialsFailureState',

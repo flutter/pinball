@@ -98,7 +98,7 @@ void main() {
     );
 
     flameTester.testGameWidget(
-      'calls onNavigate when go to IO link is tapped',
+      'calls onNavigate when go to Google IO link is tapped',
       setUp: (game, tester) async {
         var tapped = false;
 

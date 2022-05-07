@@ -87,7 +87,10 @@ class Backbox extends PositionComponent with ZIndex {
               ),
             );
           },
-          onNavigate: () => launchUrl(Uri.parse(ShareRepository.openSourceUrl)),
+          onNavigate: () {
+            print("OPEN ${ShareRepository.openSourceUrl}");
+            openLink(ShareRepository.openSourceUrl);
+          },
         ),
       );
     } else if (state is InitialsFailureState) {
