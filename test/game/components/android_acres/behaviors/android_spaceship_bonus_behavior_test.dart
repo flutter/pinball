@@ -1,5 +1,8 @@
 // ignore_for_file: cascade_invocations
 
+import 'dart:async';
+
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
@@ -41,13 +44,21 @@ class _TestGame extends Forge2DGame {
   Future<void> pump(
     AndroidAcres child, {
     required GameBloc gameBloc,
+    required AndroidSpaceshipCubit androidSpaceshipCubit,
   }) async {
     // Not needed once https://github.com/flame-engine/flame/issues/1607
     // is fixed
     await onLoad();
     await ensureAdd(
-      FlameBlocProvider<GameBloc, GameState>.value(
-        value: gameBloc,
+      FlameMultiBlocProvider(
+        providers: [
+          FlameBlocProvider<GameBloc, GameState>.value(
+            value: gameBloc,
+          ),
+          FlameBlocProvider<AndroidSpaceshipCubit, AndroidSpaceshipState>.value(
+            value: androidSpaceshipCubit,
+          ),
+        ],
         children: [child],
       ),
     );
@@ -55,6 +66,9 @@ class _TestGame extends Forge2DGame {
 }
 
 class _MockGameBloc extends Mock implements GameBloc {}
+
+class _MockAndroidSpaceshipCubit extends Mock implements AndroidSpaceshipCubit {
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -70,20 +84,30 @@ void main() {
 
     flameTester.testGameWidget(
       'adds GameBonus.androidSpaceship to the game '
-      'when android spacehship has a bonus',
+      'when android spaceship has a bonus',
       setUp: (game, tester) async {
         final behavior = AndroidSpaceshipBonusBehavior();
         final parent = AndroidAcres.test();
         final androidSpaceship = AndroidSpaceship(position: Vector2.zero());
+        final androidSpaceshipCubit = _MockAndroidSpaceshipCubit();
+        final streamController = StreamController<AndroidSpaceshipState>();
+
+        whenListen(
+          androidSpaceshipCubit,
+          streamController.stream,
+          initialState: AndroidSpaceshipState.withoutBonus,
+        );
 
         await parent.add(androidSpaceship);
         await game.pump(
           parent,
+          androidSpaceshipCubit: androidSpaceshipCubit,
           gameBloc: gameBloc,
         );
         await parent.ensureAdd(behavior);
 
-        androidSpaceship.bloc.onBallEntered();
+        streamController.add(AndroidSpaceshipState.withBonus);
+
         await tester.pump();
 
         verify(
