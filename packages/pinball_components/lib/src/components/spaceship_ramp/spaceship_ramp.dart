@@ -428,7 +428,7 @@ class _SpaceshipRampForegroundRailingSpriteComponent extends SpriteComponent
 }
 
 class _SpaceshipRampBase extends BodyComponent with Layered, InitialPosition {
-  _SpaceshipRampBase() : super(renderBody: true) {
+  _SpaceshipRampBase() : super(renderBody: false) {
     layer = Layer.board;
   }
 
