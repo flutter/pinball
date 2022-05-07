@@ -82,14 +82,26 @@ void main() {
       );
     });
 
-    testWidgets('renders PinballGameView', (tester) async {
-      await tester.pumpApp(
-        PinballGamePage(),
-        characterThemeCubit: characterThemeCubit,
-        gameBloc: gameBloc,
-      );
+    group('renders PinballGameView', () {
+      testWidgets('with debug mode turned on', (tester) async {
+        await tester.pumpApp(
+          PinballGamePage(),
+          characterThemeCubit: characterThemeCubit,
+          gameBloc: gameBloc,
+        );
 
-      expect(find.byType(PinballGameView), findsOneWidget);
+        expect(find.byType(PinballGameView), findsOneWidget);
+      });
+
+      testWidgets('with debug mode turned off', (tester) async {
+        await tester.pumpApp(
+          PinballGamePage(isDebugMode: false),
+          characterThemeCubit: characterThemeCubit,
+          gameBloc: gameBloc,
+        );
+
+        expect(find.byType(PinballGameView), findsOneWidget);
+      });
     });
 
     testWidgets(
@@ -106,9 +118,7 @@ void main() {
           initialState: initialAssetsState,
         );
         await tester.pumpApp(
-          PinballGameView(
-            game: game,
-          ),
+          PinballGameView(game),
           assetsManagerCubit: assetsManagerCubit,
           characterThemeCubit: characterThemeCubit,
         );
@@ -138,9 +148,7 @@ void main() {
       );
 
       await tester.pumpApp(
-        PinballGameView(
-          game: game,
-        ),
+        PinballGameView(game),
         assetsManagerCubit: assetsManagerCubit,
         characterThemeCubit: characterThemeCubit,
         gameBloc: gameBloc,
@@ -150,61 +158,6 @@ void main() {
       await tester.pump();
 
       expect(find.byType(PinballGameLoadedView), findsOneWidget);
-    });
-
-    group('route', () {
-      Future<void> pumpRoute({
-        required WidgetTester tester,
-        required bool isDebugMode,
-      }) async {
-        await tester.pumpApp(
-          Scaffold(
-            body: Builder(
-              builder: (context) {
-                return ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push<void>(
-                      PinballGamePage.route(
-                        isDebugMode: isDebugMode,
-                      ),
-                    );
-                  },
-                  child: const Text('Tap me'),
-                );
-              },
-            ),
-          ),
-          characterThemeCubit: characterThemeCubit,
-          gameBloc: gameBloc,
-        );
-
-        await tester.tap(find.text('Tap me'));
-
-        // We can't use pumpAndSettle here because the page renders a Flame game
-        // which is an infinity animation, so it will timeout
-        await tester.pump(); // Runs the button action
-        await tester.pump(); // Runs the navigation
-      }
-
-      testWidgets('route creates the correct non debug game', (tester) async {
-        await pumpRoute(tester: tester, isDebugMode: false);
-        expect(
-          find.byWidgetPredicate(
-            (w) => w is PinballGameView && w.game is! DebugPinballGame,
-          ),
-          findsOneWidget,
-        );
-      });
-
-      testWidgets('route creates the correct debug game', (tester) async {
-        await pumpRoute(tester: tester, isDebugMode: true);
-        expect(
-          find.byWidgetPredicate(
-            (w) => w is PinballGameView && w.game is DebugPinballGame,
-          ),
-          findsOneWidget,
-        );
-      });
     });
   });
 
@@ -230,7 +183,7 @@ void main() {
 
     testWidgets('renders game', (tester) async {
       await tester.pumpApp(
-        PinballGameView(game: game),
+        PinballGameView(game),
         gameBloc: gameBloc,
         startGameBloc: startGameBloc,
       );
@@ -258,7 +211,7 @@ void main() {
       );
 
       await tester.pumpApp(
-        PinballGameView(game: game),
+        PinballGameView(game),
         gameBloc: gameBloc,
         startGameBloc: startGameBloc,
       );
@@ -276,7 +229,6 @@ void main() {
       final gameState = GameState.initial().copyWith(
         status: GameStatus.gameOver,
       );
-
       whenListen(
         startGameBloc,
         Stream.value(startGameState),
@@ -287,17 +239,12 @@ void main() {
         Stream.value(gameState),
         initialState: gameState,
       );
-
       await tester.pumpApp(
-        PinballGameView(game: game),
+        Material(child: PinballGameView(game)),
         gameBloc: gameBloc,
         startGameBloc: startGameBloc,
       );
-
-      expect(
-        find.byType(GameHud),
-        findsNothing,
-      );
+      expect(find.byType(GameHud), findsNothing);
     });
 
     testWidgets('keep focus on game when mouse hovers over it', (tester) async {
@@ -307,7 +254,6 @@ void main() {
       final gameState = GameState.initial().copyWith(
         status: GameStatus.gameOver,
       );
-
       whenListen(
         startGameBloc,
         Stream.value(startGameState),
@@ -319,28 +265,24 @@ void main() {
         initialState: gameState,
       );
       await tester.pumpApp(
-        PinballGameView(game: game),
+        Material(child: PinballGameView(game)),
         gameBloc: gameBloc,
         startGameBloc: startGameBloc,
       );
-
       game.focusNode.unfocus();
       await tester.pump();
-
       expect(game.focusNode.hasFocus, isFalse);
-
       final gesture = await tester.createGesture(kind: PointerDeviceKind.mouse);
       await gesture.addPointer(location: Offset.zero);
       addTearDown(gesture.removePointer);
       await gesture.moveTo((game.size / 2).toOffset());
       await tester.pump();
-
       expect(game.focusNode.hasFocus, isTrue);
     });
 
     testWidgets('mobile controls when the overlay is added', (tester) async {
       await tester.pumpApp(
-        PinballGameView(game: game),
+        PinballGameView(game),
         gameBloc: gameBloc,
         startGameBloc: startGameBloc,
       );
@@ -357,23 +299,17 @@ void main() {
         final gameState = GameState.initial().copyWith(
           status: GameStatus.gameOver,
         );
-
         whenListen(
           gameBloc,
           Stream.value(gameState),
           initialState: gameState,
         );
-
         await tester.pumpApp(
-          PinballGameView(game: game),
+          Material(child: PinballGameView(game)),
           gameBloc: gameBloc,
           startGameBloc: startGameBloc,
         );
-
-        expect(
-          find.image(Assets.images.linkBox.infoIcon),
-          findsOneWidget,
-        );
+        expect(find.image(Assets.images.linkBox.infoIcon), findsOneWidget);
       });
 
       testWidgets('opens MoreInformationDialog when tapped', (tester) async {
@@ -386,16 +322,13 @@ void main() {
           initialState: gameState,
         );
         await tester.pumpApp(
-          PinballGameView(game: game),
+          Material(child: PinballGameView(game)),
           gameBloc: gameBloc,
           startGameBloc: startGameBloc,
         );
         await tester.tap(find.byType(IconButton));
         await tester.pump();
-        expect(
-          find.byType(MoreInformationDialog),
-          findsOneWidget,
-        );
+        expect(find.byType(MoreInformationDialog), findsOneWidget);
       });
     });
   });
