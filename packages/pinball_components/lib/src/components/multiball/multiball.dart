@@ -80,7 +80,6 @@ class Multiball extends Component {
     required this.bloc,
   });
 
-  // ignore: public_member_api_docs
   final MultiballCubit bloc;
 
   @override
