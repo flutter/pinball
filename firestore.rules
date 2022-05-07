@@ -17,7 +17,7 @@ service cloud.firestore {
       }
    
       // Leaderboard can be read if it doesn't contain any prohibited initials
-      allow read: if !prohibited(resource.data.playerInitials);
+      allow read: if isAuthedUser(request.auth);
       
       // A leaderboard entry can be created if the user is authenticated,
       // it's 3 characters long, and not a prohibited combination.
