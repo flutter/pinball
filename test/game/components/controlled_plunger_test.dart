@@ -28,15 +28,15 @@ class _TestGame extends Forge2DGame with HasKeyboardHandlerComponents {
   Future<void> pump(
     Plunger child, {
     GameBloc? gameBloc,
-    PinballPlayer? pinballPlayer,
+    PinballAudioPlayer? pinballAudioPlayer,
   }) {
     return ensureAdd(
       FlameBlocProvider<GameBloc, GameState>.value(
         value: gameBloc ?? GameBloc()
           ..add(const GameStarted()),
         children: [
-          FlameProvider<PinballPlayer>.value(
-            pinballPlayer ?? _MockPinballPlayer(),
+          FlameProvider<PinballAudioPlayer>.value(
+            pinballAudioPlayer ?? _MockPinballAudioPlayer(),
             children: [child],
           )
         ],
@@ -47,7 +47,7 @@ class _TestGame extends Forge2DGame with HasKeyboardHandlerComponents {
 
 class _MockGameBloc extends Mock implements GameBloc {}
 
-class _MockPinballPlayer extends Mock implements PinballPlayer {}
+class _MockPinballAudioPlayer extends Mock implements PinballAudioPlayer {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -158,17 +158,17 @@ void main() {
   });
 
   group('PlungerNoiseBehavior', () {
-    late PinballPlayer player;
+    late PinballAudioPlayer audioPlayer;
 
     setUp(() {
-      player = _MockPinballPlayer();
+      audioPlayer = _MockPinballAudioPlayer();
     });
 
     flameTester.test('plays the correct sound on load', (game) async {
       final parent = ControlledPlunger(compressionDistance: 10);
-      await game.pump(parent, pinballPlayer: player);
+      await game.pump(parent, pinballAudioPlayer: audioPlayer);
       await parent.ensureAdd(PlungerNoiseBehavior());
-      verify(() => player.play(PinballAudio.launcher)).called(1);
+      verify(() => audioPlayer.play(PinballAudio.launcher)).called(1);
     });
 
     test('is removed on the first update', () {

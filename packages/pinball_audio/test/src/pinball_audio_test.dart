@@ -51,7 +51,7 @@ void main() {
     late _MockLoopSingleAudio loopSingleAudio;
     late _PreCacheSingleAudio preCacheSingleAudio;
     late Random seed;
-    late PinballPlayer player;
+    late PinballAudioPlayer audioPlayer;
 
     setUpAll(() {
       registerFallbackValue(_MockAudioCache());
@@ -81,7 +81,7 @@ void main() {
 
       seed = _MockRandom();
 
-      player = PinballPlayer(
+      audioPlayer = PinballAudioPlayer(
         configureAudioCache: configureAudioCache.onCall,
         createAudioPool: createAudioPool.onCall,
         playSingleAudio: playSingleAudio.onCall,
@@ -92,12 +92,12 @@ void main() {
     });
 
     test('can be instantiated', () {
-      expect(PinballPlayer(), isNotNull);
+      expect(PinballAudioPlayer(), isNotNull);
     });
 
     group('load', () {
       test('creates the bumpers pools', () async {
-        await Future.wait(player.load());
+        await Future.wait(audioPlayer.load());
 
         verify(
           () => createAudioPool.onCall(
@@ -117,25 +117,25 @@ void main() {
       });
 
       test('configures the audio cache instance', () async {
-        await Future.wait(player.load());
+        await Future.wait(audioPlayer.load());
 
         verify(() => configureAudioCache.onCall(FlameAudio.audioCache))
             .called(1);
       });
 
       test('sets the correct prefix', () async {
-        player = PinballPlayer(
+        audioPlayer = PinballAudioPlayer(
           createAudioPool: createAudioPool.onCall,
           playSingleAudio: playSingleAudio.onCall,
           preCacheSingleAudio: preCacheSingleAudio.onCall,
         );
-        await Future.wait(player.load());
+        await Future.wait(audioPlayer.load());
 
         expect(FlameAudio.audioCache.prefix, equals(''));
       });
 
       test('pre cache the assets', () async {
-        await Future.wait(player.load());
+        await Future.wait(audioPlayer.load());
 
         verify(
           () => preCacheSingleAudio
@@ -209,8 +209,8 @@ void main() {
       group('when seed is true', () {
         test('plays the bumper A sound pool', () async {
           when(seed.nextBool).thenReturn(true);
-          await Future.wait(player.load());
-          player.play(PinballAudio.bumper);
+          await Future.wait(audioPlayer.load());
+          audioPlayer.play(PinballAudio.bumper);
 
           verify(() => bumperAPool.start(volume: 0.6)).called(1);
         });
@@ -219,8 +219,8 @@ void main() {
       group('when seed is false', () {
         test('plays the bumper B sound pool', () async {
           when(seed.nextBool).thenReturn(false);
-          await Future.wait(player.load());
-          player.play(PinballAudio.bumper);
+          await Future.wait(audioPlayer.load());
+          audioPlayer.play(PinballAudio.bumper);
 
           verify(() => bumperBPool.start(volume: 0.6)).called(1);
         });
@@ -229,8 +229,8 @@ void main() {
 
     group('google', () {
       test('plays the correct file', () async {
-        await Future.wait(player.load());
-        player.play(PinballAudio.google);
+        await Future.wait(audioPlayer.load());
+        audioPlayer.play(PinballAudio.google);
 
         verify(
           () => playSingleAudio
@@ -241,8 +241,8 @@ void main() {
 
     group('sparky', () {
       test('plays the correct file', () async {
-        await Future.wait(player.load());
-        player.play(PinballAudio.sparky);
+        await Future.wait(audioPlayer.load());
+        audioPlayer.play(PinballAudio.sparky);
 
         verify(
           () => playSingleAudio
@@ -253,8 +253,8 @@ void main() {
 
     group('dino', () {
       test('plays the correct file', () async {
-        await Future.wait(player.load());
-        player.play(PinballAudio.dino);
+        await Future.wait(audioPlayer.load());
+        audioPlayer.play(PinballAudio.dino);
 
         verify(
           () => playSingleAudio
@@ -265,8 +265,8 @@ void main() {
 
     group('android', () {
       test('plays the correct file', () async {
-        await Future.wait(player.load());
-        player.play(PinballAudio.android);
+        await Future.wait(audioPlayer.load());
+        audioPlayer.play(PinballAudio.android);
 
         verify(
           () => playSingleAudio
@@ -277,8 +277,8 @@ void main() {
 
     group('dash', () {
       test('plays the correct file', () async {
-        await Future.wait(player.load());
-        player.play(PinballAudio.dash);
+        await Future.wait(audioPlayer.load());
+        audioPlayer.play(PinballAudio.dash);
 
         verify(
           () => playSingleAudio
@@ -289,8 +289,8 @@ void main() {
 
     group('launcher', () {
       test('plays the correct file', () async {
-        await Future.wait(player.load());
-        player.play(PinballAudio.launcher);
+        await Future.wait(audioPlayer.load());
+        audioPlayer.play(PinballAudio.launcher);
 
         verify(
           () => playSingleAudio
@@ -301,8 +301,8 @@ void main() {
 
     group('ioPinballVoiceOver', () {
       test('plays the correct file', () async {
-        await Future.wait(player.load());
-        player.play(PinballAudio.ioPinballVoiceOver);
+        await Future.wait(audioPlayer.load());
+        audioPlayer.play(PinballAudio.ioPinballVoiceOver);
 
         verify(
           () => playSingleAudio.onCall(
@@ -314,8 +314,8 @@ void main() {
 
     group('gameOverVoiceOver', () {
       test('plays the correct file', () async {
-        await Future.wait(player.load());
-        player.play(PinballAudio.gameOverVoiceOver);
+        await Future.wait(audioPlayer.load());
+        audioPlayer.play(PinballAudio.gameOverVoiceOver);
 
         verify(
           () => playSingleAudio.onCall(
@@ -327,8 +327,8 @@ void main() {
 
     group('backgroundMusic', () {
       test('plays the correct file', () async {
-        await Future.wait(player.load());
-        player.play(PinballAudio.backgroundMusic);
+        await Future.wait(audioPlayer.load());
+        audioPlayer.play(PinballAudio.backgroundMusic);
 
         verify(
           () => loopSingleAudio
@@ -340,10 +340,13 @@ void main() {
     test(
       'throws assertions error when playing an unregistered audio',
       () async {
-        player.audios.remove(PinballAudio.google);
-        await Future.wait(player.load());
+        audioPlayer.audios.remove(PinballAudio.google);
+        await Future.wait(audioPlayer.load());
 
-        expect(() => player.play(PinballAudio.google), throwsAssertionError);
+        expect(
+          () => audioPlayer.play(PinballAudio.google),
+          throwsAssertionError,
+        );
       },
     );
   });
