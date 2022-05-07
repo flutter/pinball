@@ -18,7 +18,11 @@ class Backbox extends PositionComponent with ZIndex, HasGameRef {
   /// {@macro backbox}
   Backbox({
     required LeaderboardRepository leaderboardRepository,
-  })  : _bloc = BackboxBloc(leaderboardRepository: leaderboardRepository),
+    required List<LeaderboardEntryData>? entries,
+  })  : _bloc = BackboxBloc(
+          leaderboardRepository: leaderboardRepository,
+          initialEntries: entries,
+        ),
         _platformHelper = PlatformHelper();
 
   /// {@macro backbox}
@@ -39,8 +43,6 @@ class Backbox extends PositionComponent with ZIndex, HasGameRef {
     position = Vector2(0, -87);
     anchor = Anchor.bottomCenter;
     zIndex = ZIndexes.backbox;
-
-    _bloc.add(LeaderboardRequested());
 
     await add(_BackboxSpriteComponent());
     await add(_display = Component());
