@@ -9,8 +9,10 @@ import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 class _TestGame extends Forge2DGame {
-  Future<void> pump(_TestBodyComponent child,
-      {required PinballAudioPlayer player}) {
+  Future<void> pump(
+    _TestBodyComponent child, {
+    required PinballAudioPlayer player,
+  }) {
     return ensureAdd(
       FlameProvider<PinballAudioPlayer>.value(
         player,
