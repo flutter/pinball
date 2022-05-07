@@ -13,7 +13,7 @@ class $AssetsImagesGen {
   $AssetsImagesBallGen get ball => const $AssetsImagesBallGen();
   $AssetsImagesBaseboardGen get baseboard => const $AssetsImagesBaseboardGen();
   AssetGenImage get boardBackground =>
-      const AssetGenImage('assets/images/board-background.png');
+      const AssetGenImage('assets/images/board_background.png');
   $AssetsImagesBoundaryGen get boundary => const $AssetsImagesBoundaryGen();
   $AssetsImagesDashGen get dash => const $AssetsImagesDashGen();
   $AssetsImagesDinoGen get dino => const $AssetsImagesDinoGen();
@@ -52,7 +52,7 @@ class $AssetsImagesBackboxGen {
   const $AssetsImagesBackboxGen();
 
   AssetGenImage get displayDivider =>
-      const AssetGenImage('assets/images/backbox/display-divider.png');
+      const AssetGenImage('assets/images/backbox/display_divider.png');
   AssetGenImage get marquee =>
       const AssetGenImage('assets/images/backbox/marquee.png');
 }
@@ -79,7 +79,7 @@ class $AssetsImagesBoundaryGen {
   AssetGenImage get bottom =>
       const AssetGenImage('assets/images/boundary/bottom.png');
   AssetGenImage get outerBottom =>
-      const AssetGenImage('assets/images/boundary/outer-bottom.png');
+      const AssetGenImage('assets/images/boundary/outer_bottom.png');
   AssetGenImage get outer =>
       const AssetGenImage('assets/images/boundary/outer.png');
 }
@@ -98,22 +98,22 @@ class $AssetsImagesDinoGen {
   $AssetsImagesDinoAnimatronicGen get animatronic =>
       const $AssetsImagesDinoAnimatronicGen();
   AssetGenImage get bottomWall =>
-      const AssetGenImage('assets/images/dino/bottom-wall.png');
+      const AssetGenImage('assets/images/dino/bottom_wall.png');
   AssetGenImage get topWallTunnel =>
-      const AssetGenImage('assets/images/dino/top-wall-tunnel.png');
+      const AssetGenImage('assets/images/dino/top_wall_tunnel.png');
   AssetGenImage get topWall =>
-      const AssetGenImage('assets/images/dino/top-wall.png');
+      const AssetGenImage('assets/images/dino/top_wall.png');
 }
 
 class $AssetsImagesFlapperGen {
   const $AssetsImagesFlapperGen();
 
   AssetGenImage get backSupport =>
-      const AssetGenImage('assets/images/flapper/back-support.png');
+      const AssetGenImage('assets/images/flapper/back_support.png');
   AssetGenImage get flap =>
       const AssetGenImage('assets/images/flapper/flap.png');
   AssetGenImage get frontSupport =>
-      const AssetGenImage('assets/images/flapper/front-support.png');
+      const AssetGenImage('assets/images/flapper/front_support.png');
 }
 
 class $AssetsImagesFlipperGen {
@@ -153,9 +153,9 @@ class $AssetsImagesLaunchRampGen {
   const $AssetsImagesLaunchRampGen();
 
   AssetGenImage get backgroundRailing =>
-      const AssetGenImage('assets/images/launch_ramp/background-railing.png');
+      const AssetGenImage('assets/images/launch_ramp/background_railing.png');
   AssetGenImage get foregroundRailing =>
-      const AssetGenImage('assets/images/launch_ramp/foreground-railing.png');
+      const AssetGenImage('assets/images/launch_ramp/foreground_railing.png');
   AssetGenImage get ramp =>
       const AssetGenImage('assets/images/launch_ramp/ramp.png');
 }
@@ -192,13 +192,13 @@ class $AssetsImagesScoreGen {
   const $AssetsImagesScoreGen();
 
   AssetGenImage get fiveThousand =>
-      const AssetGenImage('assets/images/score/five-thousand.png');
+      const AssetGenImage('assets/images/score/five_thousand.png');
   AssetGenImage get oneMillion =>
-      const AssetGenImage('assets/images/score/one-million.png');
+      const AssetGenImage('assets/images/score/one_million.png');
   AssetGenImage get twentyThousand =>
-      const AssetGenImage('assets/images/score/twenty-thousand.png');
+      const AssetGenImage('assets/images/score/twenty_thousand.png');
   AssetGenImage get twoHundredThousand =>
-      const AssetGenImage('assets/images/score/two-hundred-thousand.png');
+      const AssetGenImage('assets/images/score/two_hundred_thousand.png');
 }
 
 class $AssetsImagesSignpostGen {
@@ -273,13 +273,13 @@ class $AssetsImagesAndroidRampGen {
   $AssetsImagesAndroidRampArrowGen get arrow =>
       const $AssetsImagesAndroidRampArrowGen();
   AssetGenImage get boardOpening =>
-      const AssetGenImage('assets/images/android/ramp/board-opening.png');
+      const AssetGenImage('assets/images/android/ramp/board_opening.png');
   AssetGenImage get main =>
       const AssetGenImage('assets/images/android/ramp/main.png');
   AssetGenImage get railingBackground =>
-      const AssetGenImage('assets/images/android/ramp/railing-background.png');
+      const AssetGenImage('assets/images/android/ramp/railing_background.png');
   AssetGenImage get railingForeground =>
-      const AssetGenImage('assets/images/android/ramp/railing-foreground.png');
+      const AssetGenImage('assets/images/android/ramp/railing_foreground.png');
 }
 
 class $AssetsImagesAndroidSpaceshipGen {
@@ -288,7 +288,7 @@ class $AssetsImagesAndroidSpaceshipGen {
   AssetGenImage get animatronic =>
       const AssetGenImage('assets/images/android/spaceship/animatronic.png');
   AssetGenImage get lightBeam =>
-      const AssetGenImage('assets/images/android/spaceship/light-beam.png');
+      const AssetGenImage('assets/images/android/spaceship/light_beam.png');
   AssetGenImage get saucer =>
       const AssetGenImage('assets/images/android/spaceship/saucer.png');
 }
