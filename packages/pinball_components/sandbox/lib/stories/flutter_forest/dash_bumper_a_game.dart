@@ -14,7 +14,7 @@ class DashBumperAGame extends BallGame {
         );
 
   static const description = '''
-    Shows how the "a: DashBumper is rendered.
+    Shows how the "a" DashBumper is rendered.
 
     - Activate the "trace" parameter to overlay the body.
 ''';
