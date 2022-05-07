@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flame/game.dart';
 import 'package:flutter/services.dart';
 
 /// The signature for a key handle function
@@ -18,6 +19,17 @@ class KeyboardInputController extends Component with KeyboardHandler {
   final Map<LogicalKeyboardKey, KeyHandlerCallback> _keyUp;
   final Map<LogicalKeyboardKey, KeyHandlerCallback> _keyDown;
 
+  /// Trigger a virtual key up event.
+  bool onVirtualKeyUp(LogicalKeyboardKey key) {
+    final handler = _keyUp[key];
+
+    if (handler != null) {
+      return handler();
+    }
+
+    return true;
+  }
+
   @override
   bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
     final isUp = event is RawKeyUpEvent;
@@ -30,5 +42,20 @@ class KeyboardInputController extends Component with KeyboardHandler {
     }
 
     return true;
+  }
+}
+
+/// Add the ability to virtually trigger key events to a [FlameGame]'s
+/// [KeyboardInputController].
+extension VirtualKeyEvents on FlameGame {
+  /// Trigger a key up
+  void triggerVirtualKeyUp(LogicalKeyboardKey key) {
+    final keyControllers = descendants().whereType<KeyboardInputController>();
+
+    for (final controller in keyControllers) {
+      if (!controller.onVirtualKeyUp(key)) {
+        break;
+      }
+    }
   }
 }

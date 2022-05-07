@@ -183,5 +183,9 @@
   "openSourceCode": "open source code.",
   "@openSourceCode": {
     "description": "Text shown on description of info screen"
+  },
+  "enter": "Enter",
+  "@enter": {
+    "description": "Text shown on the mobile controls enter button"
   }
 }

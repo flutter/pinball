@@ -91,23 +91,23 @@ void main() {
       );
 
       flameTester.test(
-        'three DashNestBumper',
+        'three DashBumper',
         (game) async {
           final component = FlutterForest();
           await game.pump(component);
           expect(
-            game.descendants().whereType<DashNestBumper>().length,
+            game.descendants().whereType<DashBumper>().length,
             equals(3),
           );
         },
       );
 
       flameTester.test(
-        'three DashNestBumpers with BumperNoiseBehavior',
+        'three DashBumpers with BumperNoiseBehavior',
         (game) async {
           final component = FlutterForest();
           await game.pump(component);
-          final bumpers = game.descendants().whereType<DashNestBumper>();
+          final bumpers = game.descendants().whereType<DashBumper>();
           for (final bumper in bumpers) {
             expect(
               bumper.firstChild<BumperNoiseBehavior>(),

@@ -28,6 +28,15 @@ enum PinballAudio {
 
   /// Sparky
   sparky,
+
+  /// Android
+  android,
+
+  /// Dino
+  dino,
+
+  /// Dash
+  dash,
 }
 
 /// Defines the contract of the creation of an [AudioPool].
@@ -168,6 +177,21 @@ class PinballPlayer {
         preCacheSingleAudio: _preCacheSingleAudio,
         playSingleAudio: _playSingleAudio,
         path: Assets.sfx.sparky,
+      ),
+      PinballAudio.dino: _SimplePlayAudio(
+        preCacheSingleAudio: _preCacheSingleAudio,
+        playSingleAudio: _playSingleAudio,
+        path: Assets.sfx.dino,
+      ),
+      PinballAudio.dash: _SimplePlayAudio(
+        preCacheSingleAudio: _preCacheSingleAudio,
+        playSingleAudio: _playSingleAudio,
+        path: Assets.sfx.dash,
+      ),
+      PinballAudio.android: _SimplePlayAudio(
+        preCacheSingleAudio: _preCacheSingleAudio,
+        playSingleAudio: _playSingleAudio,
+        path: Assets.sfx.android,
       ),
       PinballAudio.launcher: _SimplePlayAudio(
         preCacheSingleAudio: _preCacheSingleAudio,

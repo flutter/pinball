@@ -37,8 +37,8 @@ class PinballGame extends PinballForge2DGame
   /// Identifier of the play button overlay
   static const playButtonOverlay = 'play_button';
 
-  /// Identifier of the replay button overlay
-  static const replayButtonOverlay = 'replay_button';
+  /// Identifier of the mobile controls overlay
+  static const mobileControlsOverlay = 'mobile_controls';
 
   @override
   Color backgroundColor() => Colors.transparent;
@@ -54,6 +54,18 @@ class PinballGame extends PinballForge2DGame
   final AppLocalizations _l10n;
 
   final GameBloc _gameBloc;
+
+  List<LeaderboardEntryData>? _entries;
+
+  Future<void> preFetchLeaderboard() async {
+    try {
+      _entries = await leaderboardRepository.fetchTop10Leaderboard();
+    } catch (_) {
+      // An initial null leaderboard means that we couldn't fetch
+      // the entries for the [Backbox] and it will show the relevant display.
+      _entries = null;
+    }
+  }
 
   @override
   Future<void> onLoad() async {
@@ -93,6 +105,7 @@ class PinballGame extends PinballForge2DGame
                       Boundaries(),
                       Backbox(
                         leaderboardRepository: leaderboardRepository,
+                        entries: _entries,
                       ),
                       GoogleWord(position: Vector2(-4.45, 1.8)),
                       Multipliers(),
