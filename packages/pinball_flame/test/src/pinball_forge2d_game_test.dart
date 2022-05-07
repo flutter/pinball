@@ -19,7 +19,7 @@ void main() {
     });
 
     flameTester.test(
-      'screenToFlameWorld throws UnimpelementedError',
+      'screenToFlameWorld throws UnimplementedError',
       (game) async {
         expect(
           () => game.screenToFlameWorld(Vector2.zero()),
@@ -29,7 +29,7 @@ void main() {
     );
 
     flameTester.test(
-      'screenToWorld throws UnimpelementedError',
+      'screenToWorld throws UnimplementedError',
       (game) async {
         expect(
           () => game.screenToWorld(Vector2.zero()),
@@ -39,7 +39,7 @@ void main() {
     );
 
     flameTester.test(
-      'worldToScreen throws UnimpelementedError',
+      'worldToScreen throws UnimplementedError',
       (game) async {
         expect(
           () => game.worldToScreen(Vector2.zero()),

@@ -37,7 +37,7 @@ class Slingshot extends BodyComponent with InitialPosition {
   })  : _angle = angle,
         super(
           children: [
-            _SlinghsotSpriteComponent(spritePath, angle: angle),
+            _SlingshotSpriteComponent(spritePath, angle: angle),
             BumpingBehavior(strength: 20),
           ],
           renderBody: false,
@@ -90,8 +90,8 @@ class Slingshot extends BodyComponent with InitialPosition {
   }
 }
 
-class _SlinghsotSpriteComponent extends SpriteComponent with HasGameRef {
-  _SlinghsotSpriteComponent(
+class _SlingshotSpriteComponent extends SpriteComponent with HasGameRef {
+  _SlingshotSpriteComponent(
     String path, {
     required double angle,
   })  : _path = path,
