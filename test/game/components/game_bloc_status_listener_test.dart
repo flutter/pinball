@@ -162,7 +162,7 @@ void main() {
         );
 
         flameTester.test(
-          'removes FlipperKeyControllingBehavior from Fipper',
+          'removes FlipperKeyControllingBehavior from Flipper',
           (game) async {
             final component = GameBlocStatusListener();
             final repository = _MockLeaderboardRepository();
@@ -242,7 +242,7 @@ void main() {
         );
 
         flameTester.test(
-          'adds key controlling behavior to Fippers when the game is started',
+          'adds key controlling behavior to Flippers when the game is started',
           (game) async {
             final component = GameBlocStatusListener();
             final repository = _MockLeaderboardRepository();

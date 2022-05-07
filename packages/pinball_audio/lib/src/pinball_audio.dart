@@ -244,7 +244,7 @@ class PinballAudioPlayer {
     return audios.values.map((a) => a.load()).toList();
   }
 
-  /// Plays the received auido
+  /// Plays the received audio
   void play(PinballAudio audio) {
     assert(
       audios.containsKey(audio),

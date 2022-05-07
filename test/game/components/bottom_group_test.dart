@@ -95,9 +95,9 @@ void main() {
             ),
           );
 
-          final basebottomGroups =
+          final baseBottomGroups =
               bottomGroup.descendants().whereType<Baseboard>();
-          expect(basebottomGroups.length, equals(2));
+          expect(baseBottomGroups.length, equals(2));
         },
       );
 

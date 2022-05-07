@@ -1,0 +1,41 @@
+{
+    "version": "0.2",
+    "enabled": true,
+    "language": "en",
+    "words": [
+        "animatronic",
+        "argb",
+        "audioplayers",
+        "backbox",
+        "bezier",
+        "cupertino",
+        "dashbook",
+        "deserialization",
+        "dpad",
+        "endtemplate",
+        "firestore",
+        "gapless",
+        "goldens",
+        "leaderboard",
+        "loadables",
+        "mixins",
+        "mocktail",
+        "multiball",
+        "multiballs",
+        "occluder",
+        "pixelated",
+        "pixeloid",
+        "rects",
+        "rrect",
+        "serializable",
+        "sparky's",
+        "theming",
+        "unawaited",
+        "unfocus",
+        "unlayered",
+        "vsync"
+    ],
+    "ignorePaths": [
+        ".github/workflows/**"
+    ]
+}
