@@ -55,6 +55,18 @@ class PinballGame extends PinballForge2DGame
 
   final GameBloc _gameBloc;
 
+  List<LeaderboardEntryData>? _entries;
+
+  Future<void> preFetchLeaderboard() async {
+    try {
+      _entries = await leaderboardRepository.fetchTop10Leaderboard();
+    } catch (_) {
+      // An initial null leaderboard means that we couldn't fetch
+      // the entries for the [Backbox] and it will show the relevant display.
+      _entries = null;
+    }
+  }
+
   @override
   Future<void> onLoad() async {
     await add(
@@ -91,7 +103,10 @@ class PinballGame extends PinballForge2DGame
                     children: [
                       BoardBackgroundSpriteComponent(),
                       Boundaries(),
-                      Backbox(leaderboardRepository: leaderboardRepository),
+                      Backbox(
+                        leaderboardRepository: leaderboardRepository,
+                        entries: _entries,
+                      ),
                       GoogleWord(position: Vector2(-4.45, 1.8)),
                       Multipliers(),
                       Multiballs(),

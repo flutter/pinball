@@ -14,8 +14,13 @@ class BackboxBloc extends Bloc<BackboxEvent, BackboxState> {
   /// {@macro backbox_bloc}
   BackboxBloc({
     required LeaderboardRepository leaderboardRepository,
+    required List<LeaderboardEntryData>? initialEntries,
   })  : _leaderboardRepository = leaderboardRepository,
-        super(LoadingState()) {
+        super(
+          initialEntries != null
+              ? LeaderboardSuccessState(entries: initialEntries)
+              : LeaderboardFailureState(),
+        ) {
     on<PlayerInitialsRequested>(_onPlayerInitialsRequested);
     on<PlayerInitialsSubmitted>(_onPlayerInitialsSubmitted);
     on<LeaderboardRequested>(_onLeaderboardRequested);

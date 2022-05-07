@@ -133,19 +133,6 @@ void main() {
       },
     );
 
-    flameTester.test(
-      'adds LeaderboardRequested when loaded',
-      (game) async {
-        final backbox = Backbox.test(
-          bloc: bloc,
-          platformHelper: platformHelper,
-        );
-        await game.pump(backbox);
-
-        verify(() => bloc.add(LeaderboardRequested())).called(1);
-      },
-    );
-
     flameTester.testGameWidget(
       'renders correctly',
       setUp: (game, tester) async {
@@ -175,6 +162,7 @@ void main() {
         final backbox = Backbox.test(
           bloc: BackboxBloc(
             leaderboardRepository: _MockLeaderboardRepository(),
+            initialEntries: [LeaderboardEntryData.empty],
           ),
           platformHelper: platformHelper,
         );

@@ -32,7 +32,10 @@ class _TestPinballGame extends PinballGame {
   @override
   Future<void> onLoad() async {
     images.prefix = '';
-    final futures = preLoadAssets();
+    final futures = [
+      ...preLoadAssets(),
+      preFetchLeaderboard(),
+    ];
     await Future.wait<void>(futures);
 
     return super.onLoad();
