@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
@@ -23,7 +24,8 @@ import 'package:pinball_ui/pinball_ui.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:share_repository/share_repository.dart';
 
-class _TestGame extends Forge2DGame with HasKeyboardHandlerComponents {
+class _TestGame extends Forge2DGame
+    with HasKeyboardHandlerComponents, HasTappables {
   final character = theme.DashTheme();
 
   @override
@@ -337,13 +339,13 @@ void main() {
           );
 
           final shareRepository = _MockShareRepository();
-          const fakeUrl = 'fakeUrl';
+          const fakeUrl = 'http://fakeUrl';
           when(
-            () => () => shareRepository.shareText(
-                  value: any(),
-                  platform: SharePlatform.facebook,
-                ),
-          ).thenReturn(() => fakeUrl);
+            () => shareRepository.shareText(
+              value: any(named: 'value'),
+              platform: SharePlatform.facebook,
+            ),
+          ).thenReturn(fakeUrl);
           when(() => urlLauncher.canLaunch(any()))
               .thenAnswer((_) async => true);
           when(
@@ -367,6 +369,8 @@ void main() {
           final facebookButton =
               game.descendants().whereType<FacebookButtonComponent>().first;
           facebookButton.onTapDown(_MockTapDownInfo());
+
+          await game.ready();
 
           verify(
             () => shareRepository.shareText(
@@ -403,13 +407,13 @@ void main() {
           );
 
           final shareRepository = _MockShareRepository();
-          const fakeUrl = 'fakeUrl';
+          const fakeUrl = 'http://fakeUrl';
           when(
-            () => () => shareRepository.shareText(
-                  value: any(),
-                  platform: SharePlatform.twitter,
-                ),
-          ).thenReturn(() => fakeUrl);
+            () => shareRepository.shareText(
+              value: any(named: 'value'),
+              platform: SharePlatform.twitter,
+            ),
+          ).thenReturn(fakeUrl);
           when(() => urlLauncher.canLaunch(any()))
               .thenAnswer((_) async => true);
           when(
@@ -433,6 +437,8 @@ void main() {
           final facebookButton =
               game.descendants().whereType<TwitterButtonComponent>().first;
           facebookButton.onTapDown(_MockTapDownInfo());
+
+          await game.ready();
 
           verify(
             () => shareRepository.shareText(
