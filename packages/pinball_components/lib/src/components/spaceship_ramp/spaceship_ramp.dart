@@ -27,8 +27,6 @@ class SpaceshipRamp extends Component {
     required this.bloc,
   }) : super(
           children: [
-            // TODO(ruimiguel): refactor RampScoringSensor and
-            // _SpaceshipRampOpening to be in only one sensor if possible.
             RampScoringSensor(
               children: [
                 RampBallAscendingContactBehavior(),
@@ -68,8 +66,6 @@ class SpaceshipRamp extends Component {
     required this.bloc,
   }) : super();
 
-  // TODO(alestiago): Consider refactoring once the following is merged:
-  // https://github.com/flame-engine/flame/pull/1538
   // ignore: public_member_api_docs
   final SpaceshipRampCubit bloc;
 

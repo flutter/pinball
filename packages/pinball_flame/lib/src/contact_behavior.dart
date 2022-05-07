@@ -10,8 +10,6 @@ import 'package:pinball_flame/pinball_flame.dart';
 ///
 /// It does so by grouping the userData in a [_UserData], and resetting the
 /// parent's userData accordingly.
-// TODO(alestiago): Make use of generics to infer the type of the contact.
-// https://github.com/VGVentures/pinball/pull/234#discussion_r859182267
 class ContactBehavior<T extends BodyComponent> extends Component
     with ContactCallbacks, ParentIsA<T> {
   final _fixturesUserData = <Object>{};

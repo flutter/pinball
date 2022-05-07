@@ -142,6 +142,10 @@ void main() {
               .onCall('packages/pinball_audio/assets/sfx/google.mp3'),
         ).called(1);
         verify(
+          () => preCacheSingleAudio
+              .onCall('packages/pinball_audio/assets/sfx/sparky.mp3'),
+        ).called(1);
+        verify(
           () => preCacheSingleAudio.onCall(
             'packages/pinball_audio/assets/sfx/io_pinball_voice_over.mp3',
           ),
@@ -211,7 +215,7 @@ void main() {
       });
     });
 
-    group('googleBonus', () {
+    group('google', () {
       test('plays the correct file', () async {
         await Future.wait(player.load());
         player.play(PinballAudio.google);
@@ -219,6 +223,18 @@ void main() {
         verify(
           () => playSingleAudio
               .onCall('packages/pinball_audio/${Assets.sfx.google}'),
+        ).called(1);
+      });
+    });
+
+    group('sparky', () {
+      test('plays the correct file', () async {
+        await Future.wait(player.load());
+        player.play(PinballAudio.sparky);
+
+        verify(
+          () => playSingleAudio
+              .onCall('packages/pinball_audio/${Assets.sfx.sparky}'),
         ).called(1);
       });
     });

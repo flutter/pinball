@@ -32,9 +32,6 @@ class _LaunchRampBase extends BodyComponent with Layered, ZIndex {
     layer = Layer.launcher;
   }
 
-  // TODO(ruimiguel): final asset differs slightly from the current shape. We
-  // need to fix shape with correct vertices, but right now merge them to have
-  // final assets at game and not be blocked.
   List<FixtureDef> _createFixtureDefs() {
     final fixturesDef = <FixtureDef>[];
 

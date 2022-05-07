@@ -9,8 +9,6 @@ import 'package:flutter/material.dart' hide Animation;
 /// {@template flame.widgets.sprite_animation_widget}
 /// A [StatelessWidget] that renders a [SpriteAnimation].
 /// {@endtemplate}
-// TODO(arturplaczek): Remove when this PR will be merged.
-// https://github.com/flame-engine/flame/pull/1552
 class SpriteAnimationWidget extends StatelessWidget {
   /// {@macro flame.widgets.sprite_animation_widget}
   const SpriteAnimationWidget({
