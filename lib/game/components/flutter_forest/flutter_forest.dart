@@ -9,7 +9,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template flutter_forest}
 /// Area positioned at the top right of the board where the [Ball] can bounce
-/// off [DashNestBumper]s.
+/// off [DashBumper]s.
 /// {@endtemplate}
 class FlutterForest extends Component with ZIndex {
   /// {@macro flutter_forest}
@@ -22,19 +22,19 @@ class FlutterForest extends Component with ZIndex {
                 BumperNoiseBehavior(),
               ],
             )..initialPosition = Vector2(7.95, -58.35),
-            DashNestBumper.main(
+            DashBumper.main(
               children: [
                 ScoringContactBehavior(points: Points.twoHundredThousand),
                 BumperNoiseBehavior(),
               ],
             )..initialPosition = Vector2(18.55, -59.35),
-            DashNestBumper.a(
+            DashBumper.a(
               children: [
                 ScoringContactBehavior(points: Points.twentyThousand),
                 BumperNoiseBehavior(),
               ],
             )..initialPosition = Vector2(8.95, -51.95),
-            DashNestBumper.b(
+            DashBumper.b(
               children: [
                 ScoringContactBehavior(points: Points.twentyThousand),
                 BumperNoiseBehavior(),

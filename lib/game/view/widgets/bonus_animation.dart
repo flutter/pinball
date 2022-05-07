@@ -22,7 +22,7 @@ class BonusAnimation extends StatefulWidget {
     Key? key,
     VoidCallback? onCompleted,
   }) : this._(
-          Assets.images.bonusAnimation.dashNest.keyName,
+          Assets.images.bonusAnimation.DashBumper.keyName,
           onCompleted: onCompleted,
           key: key,
         );
@@ -75,7 +75,7 @@ class BonusAnimation extends StatefulWidget {
   static List<Future> loadAssets() {
     Flame.images.prefix = '';
     return [
-      Flame.images.load(Assets.images.bonusAnimation.dashNest.keyName),
+      Flame.images.load(Assets.images.bonusAnimation.DashBumper.keyName),
       Flame.images.load(Assets.images.bonusAnimation.sparkyTurboCharge.keyName),
       Flame.images.load(Assets.images.bonusAnimation.dinoChomp.keyName),
       Flame.images.load(Assets.images.bonusAnimation.androidSpaceship.keyName),

@@ -26,7 +26,7 @@ class $AssetsImagesBonusAnimationGen {
       'assets/images/bonus_animation/android_spaceship.png');
 
   /// File path: assets/images/bonus_animation/dash_nest.png
-  AssetGenImage get dashNest =>
+  AssetGenImage get DashBumper =>
       const AssetGenImage('assets/images/bonus_animation/dash_nest.png');
 
   /// File path: assets/images/bonus_animation/dino_chomp.png

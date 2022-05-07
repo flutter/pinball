@@ -13,18 +13,18 @@ void addFlutterForestStories(Dashbook dashbook) {
       gameBuilder: (_) => SignpostGame(),
     )
     ..addGame(
-      title: 'Big Dash Nest Bumper',
-      description: BigDashNestBumperGame.description,
-      gameBuilder: (_) => BigDashNestBumperGame(),
+      title: 'Big Dash Bumper',
+      description: BigDashBumperGame.description,
+      gameBuilder: (_) => BigDashBumperGame(),
     )
     ..addGame(
-      title: 'Small Dash Nest Bumper A',
-      description: SmallDashNestBumperAGame.description,
-      gameBuilder: (_) => SmallDashNestBumperAGame(),
+      title: 'Small Dash Bumper A',
+      description: SmallDashBumperAGame.description,
+      gameBuilder: (_) => SmallDashBumperAGame(),
     )
     ..addGame(
-      title: 'Small Dash Nest Bumper B',
-      description: SmallDashNestBumperBGame.description,
-      gameBuilder: (_) => SmallDashNestBumperBGame(),
+      title: 'Small Dash Bumper B',
+      description: SmallDashBumperBGame.description,
+      gameBuilder: (_) => SmallDashBumperBGame(),
     );
 }

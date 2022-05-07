@@ -22,7 +22,7 @@ void main() {
   });
 
   group('loads SpriteAnimationWidget correctly for', () {
-    testWidgets('dashNest', (tester) async {
+    testWidgets('DashBumper', (tester) async {
       await tester.pumpApp(
         BonusAnimation.dashNest(),
       );

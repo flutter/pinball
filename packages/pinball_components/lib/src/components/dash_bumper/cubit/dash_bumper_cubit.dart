@@ -2,18 +2,18 @@
 
 import 'package:bloc/bloc.dart';
 
-part 'dash_nest_bumper_state.dart';
+part 'dash_bumper_state.dart';
 
-class DashNestBumperCubit extends Cubit<DashNestBumperState> {
-  DashNestBumperCubit() : super(DashNestBumperState.inactive);
+class DashBumperCubit extends Cubit<DashBumperState> {
+  DashBumperCubit() : super(DashBumperState.inactive);
 
   /// Event added when the bumper contacts with a ball.
   void onBallContacted() {
-    emit(DashNestBumperState.active);
+    emit(DashBumperState.active);
   }
 
   /// Event added when the bumper should return to its initial configuration.
   void onReset() {
-    emit(DashNestBumperState.inactive);
+    emit(DashBumperState.inactive);
   }
 }

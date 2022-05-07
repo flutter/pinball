@@ -4,8 +4,8 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class SmallDashNestBumperBGame extends BallGame {
-  SmallDashNestBumperBGame()
+class SmallDashBumperBGame extends BallGame {
+  SmallDashBumperBGame()
       : super(
           imagesFileNames: [
             Assets.images.dash.bumper.b.active.keyName,
@@ -14,7 +14,7 @@ class SmallDashNestBumperBGame extends BallGame {
         );
 
   static const description = '''
-    Shows how a SmallDashNestBumper ("b") is rendered.
+    Shows how a SmallDashBumper ("b") is rendered.
 
     - Activate the "trace" parameter to overlay the body.
 ''';
@@ -24,7 +24,7 @@ class SmallDashNestBumperBGame extends BallGame {
     await super.onLoad();
 
     camera.followVector2(Vector2.zero());
-    await add(DashNestBumper.b()..priority = 1);
+    await add(DashBumper.b()..priority = 1);
     await traceAllBodies();
   }
 }

@@ -9,7 +9,7 @@ export 'cubit/signpost_cubit.dart';
 /// {@template signpost}
 /// A sign, found in the Flutter Forest.
 ///
-/// Lights up a new sign whenever all three [DashNestBumper]s are hit.
+/// Lights up a new sign whenever all three [DashBumper]s are hit.
 /// {@endtemplate}
 class Signpost extends BodyComponent with InitialPosition {
   /// {@macro signpost}
