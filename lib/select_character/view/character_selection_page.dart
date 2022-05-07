@@ -69,9 +69,9 @@ class _CharacterGrid extends StatelessWidget {
               child: Column(
                 children: [
                   _Character(
-                    key: const Key('sparky_character_selection'),
-                    character: const SparkyTheme(),
-                    isSelected: state.isSparkySelected,
+                    key: const Key('dash_character_selection'),
+                    character: const DashTheme(),
+                    isSelected: state.isDashSelected,
                   ),
                   const SizedBox(height: 6),
                   _Character(
@@ -87,9 +87,9 @@ class _CharacterGrid extends StatelessWidget {
               child: Column(
                 children: [
                   _Character(
-                    key: const Key('dash_character_selection'),
-                    character: const DashTheme(),
-                    isSelected: state.isDashSelected,
+                    key: const Key('sparky_character_selection'),
+                    character: const SparkyTheme(),
+                    isSelected: state.isSparkySelected,
                   ),
                   const SizedBox(height: 6),
                   _Character(
