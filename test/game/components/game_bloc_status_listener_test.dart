@@ -191,18 +191,25 @@ void main() {
         flameTester.test(
           'plays the game over voice over',
           (game) async {
-            final player = _MockPinballAudioPlayer();
+            final audioPlayer = _MockPinballAudioPlayer();
             final component = GameBlocStatusListener();
             final repository = _MockLeaderboardRepository();
             final backbox = Backbox(
               leaderboardRepository: repository,
               entries: const [],
             );
-            await game.pump([component, backbox], pinballAudioPlayer: player);
+            await game.pump(
+              [component, backbox],
+              pinballAudioPlayer: audioPlayer,
+            );
 
             component.onNewState(state);
 
-            verify(() => player.play(PinballAudio.gameOverVoiceOver)).called(1);
+            verify(
+              () => audioPlayer.play(
+                PinballAudio.gameOverVoiceOver,
+              ),
+            ).called(1);
           },
         );
       });
@@ -219,14 +226,18 @@ void main() {
         flameTester.test(
           'plays the background music on start',
           (game) async {
-            final player = _MockPinballAudioPlayer();
+            final audioPlayer = _MockPinballAudioPlayer();
             final component = GameBlocStatusListener();
-            await game.pump([component], pinballAudioPlayer: player);
+            await game.pump([component], pinballAudioPlayer: audioPlayer);
 
             expect(state.status, equals(GameStatus.playing));
             component.onNewState(state);
 
-            verify(() => player.play(PinballAudio.backgroundMusic)).called(1);
+            verify(
+              () => audioPlayer.play(
+                PinballAudio.backgroundMusic,
+              ),
+            ).called(1);
           },
         );
 
