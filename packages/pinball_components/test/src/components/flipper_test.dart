@@ -18,8 +18,6 @@ void main() {
   final flameTester = FlameTester(() => TestGame(assets));
 
   group('Flipper', () {
-    // TODO(alestiago): Consider testing always both left and right Flipper.
-
     flameTester.testGameWidget(
       'renders correctly',
       setUp: (game, tester) async {

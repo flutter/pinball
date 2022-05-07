@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs
 
 /// Z-Indexes for the component rendering order in the pinball game.
-// TODO(allisonryan0002): find alternative to section comments.
 abstract class ZIndexes {
   static const _base = 0;
   static const _above = 1;
@@ -21,8 +20,6 @@ abstract class ZIndexes {
 
   // Background
 
-  // TODO(allisonryan0002): fix this magic zindex. Could bump all priorities so
-  // there are no negatives.
   static const boardBackground = 5 * _below + _base;
 
   static const decal = _above + boardBackground;

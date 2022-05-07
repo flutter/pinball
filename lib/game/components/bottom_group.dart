@@ -9,7 +9,6 @@ import 'package:pinball_flame/pinball_flame.dart';
 ///
 /// The [BottomGroup] consists of [Flipper]s, [Baseboard]s and [Kicker]s.
 /// {@endtemplate}
-// TODO(allisonryan0002): Consider renaming.
 class BottomGroup extends Component with ZIndex {
   /// {@macro bottom_group}
   BottomGroup()

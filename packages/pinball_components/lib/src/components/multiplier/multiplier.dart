@@ -81,8 +81,6 @@ class Multiplier extends Component {
   /// Creates a [Multiplier] without any children.
   ///
   /// This can be used for testing [Multiplier]'s behaviors in isolation.
-  // TODO(alestiago): Refactor injecting bloc once the following is merged:
-  // https://github.com/flame-engine/flame/pull/1538
   @visibleForTesting
   Multiplier.test({
     required MultiplierValue value,
@@ -91,8 +89,6 @@ class Multiplier extends Component {
         _position = Vector2.zero(),
         _angle = 0;
 
-// TODO(ruimiguel): Consider refactoring once the following is merged:
-  // https://github.com/flame-engine/flame/pull/1538
   final MultiplierCubit bloc;
 
   final MultiplierValue _value;

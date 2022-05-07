@@ -11,10 +11,6 @@ class AndroidSpaceshipBonusBehavior extends Component
   void onMount() {
     super.onMount();
     final androidSpaceship = parent.firstChild<AndroidSpaceship>()!;
-
-    // TODO(alestiago): Refactor subscription management once the following is
-    // merged:
-    // https://github.com/flame-engine/flame/pull/1538
     androidSpaceship.bloc.stream.listen((state) {
       final listenWhen = state == AndroidSpaceshipState.withBonus;
       if (!listenWhen) return;

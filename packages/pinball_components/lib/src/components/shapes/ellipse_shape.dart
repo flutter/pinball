@@ -26,7 +26,6 @@ class EllipseShape extends ChainShape {
   /// The top left corner of the ellipse.
   ///
   /// Where the initial painting begins.
-  // TODO(ruialonso): Change to use appropiate center.
   final Vector2 center;
 
   /// Major radius is specified by [majorRadius].
