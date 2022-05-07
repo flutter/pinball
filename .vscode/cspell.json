@@ -3,8 +3,12 @@
     "enabled": true,
     "language": "en",
     "words": [
+        "endtemplate",
         "firestore",
         "leaderboard",
+        "loadables",
+        "mocktail",
+        "theming",
         "unawaited"
     ],
     "ignorePaths": [
