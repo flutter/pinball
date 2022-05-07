@@ -37,12 +37,12 @@ class MobileDpad extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Expanded(child: SizedBox()),
+              const Spacer(),
               PinballDpadButton(
                 direction: PinballDpadDirection.up,
                 onTap: onTapUp,
               ),
-              const Expanded(child: SizedBox()),
+              const Spacer(),
             ],
           ),
           Row(
@@ -51,7 +51,7 @@ class MobileDpad extends StatelessWidget {
                 direction: PinballDpadDirection.left,
                 onTap: onTapLeft,
               ),
-              const Expanded(child: SizedBox()),
+              const Spacer(),
               PinballDpadButton(
                 direction: PinballDpadDirection.right,
                 onTap: onTapRight,
@@ -60,12 +60,12 @@ class MobileDpad extends StatelessWidget {
           ),
           Row(
             children: [
-              const Expanded(child: SizedBox()),
+              const Spacer(),
               PinballDpadButton(
                 direction: PinballDpadDirection.down,
                 onTap: onTapDown,
               ),
-              const Expanded(child: SizedBox()),
+              const Spacer(),
             ],
           ),
         ],

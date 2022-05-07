@@ -77,7 +77,7 @@ void main() {
       });
     });
 
-    group('when it is down', () {
+    group('down', () {
       testWidgets('renders the correct image', (tester) async {
         await tester.pumpButton(
           direction: PinballDpadDirection.down,
@@ -91,7 +91,7 @@ void main() {
       });
     });
 
-    group('when it is left', () {
+    group('left', () {
       testWidgets('renders the correct image', (tester) async {
         await tester.pumpButton(
           direction: PinballDpadDirection.left,
@@ -105,7 +105,7 @@ void main() {
       });
     });
 
-    group('when it is right', () {
+    group('right', () {
       testWidgets('renders the correct image', (tester) async {
         await tester.pumpButton(
           direction: PinballDpadDirection.right,
