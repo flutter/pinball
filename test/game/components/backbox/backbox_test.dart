@@ -374,7 +374,7 @@ void main() {
           platformHelper: platformHelper,
         );
         await game.pump(backbox);
-        game.update(2);
+        game.update(3);
 
         verify(
           () => bloc.add(

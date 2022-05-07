@@ -41,7 +41,7 @@ class InitialsSubmissionFailureDisplay extends Component {
         position: Vector2(0, -12),
         textRenderer: _bodyTextPaint,
       ),
-      TimerComponent(period: 2, onTick: onDismissed),
+      TimerComponent(period: 3, onTick: onDismissed),
     ]);
   }
 }
