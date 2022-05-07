@@ -36,7 +36,7 @@ class _TestGame extends Forge2DGame {
         value: _MockGameBloc(),
         children: [
           FlameProvider.value(
-            _MockPinballPlayer(),
+            _MockPinballAudioPlayer(),
             children: [
               ZCanvasComponent(children: [child]),
             ],
@@ -47,7 +47,7 @@ class _TestGame extends Forge2DGame {
   }
 }
 
-class _MockPinballPlayer extends Mock implements PinballPlayer {}
+class _MockPinballAudioPlayer extends Mock implements PinballAudioPlayer {}
 
 class _MockGameBloc extends Mock implements GameBloc {}
 

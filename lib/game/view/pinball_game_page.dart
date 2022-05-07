@@ -24,30 +24,31 @@ class PinballGamePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final characterThemeBloc = context.read<CharacterThemeCubit>();
-    final player = context.read<PinballPlayer>();
+    final audioPlayer = context.read<PinballAudioPlayer>();
     final leaderboardRepository = context.read<LeaderboardRepository>();
     final gameBloc = context.read<GameBloc>();
     final game = isDebugMode
         ? DebugPinballGame(
             characterThemeBloc: characterThemeBloc,
-            player: player,
+            audioPlayer: audioPlayer,
             leaderboardRepository: leaderboardRepository,
             l10n: context.l10n,
             gameBloc: gameBloc,
           )
         : PinballGame(
             characterThemeBloc: characterThemeBloc,
-            player: player,
+            audioPlayer: audioPlayer,
             leaderboardRepository: leaderboardRepository,
             l10n: context.l10n,
             gameBloc: gameBloc,
           );
+
     return Container(
       decoration: const CrtBackground(),
       child: Scaffold(
         backgroundColor: PinballColors.transparent,
         body: BlocProvider(
-          create: (_) => AssetsManagerCubit(game, player)..load(),
+          create: (_) => AssetsManagerCubit(game, audioPlayer)..load(),
           child: PinballGameView(game),
         ),
       ),
