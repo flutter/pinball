@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-/// {@tempalte animated_ellipsis_text}
+/// {@template animated_ellipsis_text}
 /// Every 500 milliseconds, it will add a new `.` at the end of the given
 /// [text]. Once 3 `.` have been added (e.g. `Loading...`), it will reset to
 /// zero ellipsis and start over again.

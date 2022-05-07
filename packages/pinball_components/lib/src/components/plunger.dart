@@ -6,7 +6,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template plunger}
 /// [Plunger] serves as a spring, that shoots the ball on the right side of the
-/// playfield.
+/// play field.
 ///
 /// [Plunger] ignores gravity so the player controls its downward [pull].
 /// {@endtemplate}
