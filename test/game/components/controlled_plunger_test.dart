@@ -158,17 +158,17 @@ void main() {
   });
 
   group('PlungerNoiseBehavior', () {
-    late PinballAudioPlayer player;
+    late PinballAudioPlayer audioPlayer;
 
     setUp(() {
-      player = _MockPinballAudioPlayer();
+      audioPlayer = _MockPinballAudioPlayer();
     });
 
     flameTester.test('plays the correct sound on load', (game) async {
       final parent = ControlledPlunger(compressionDistance: 10);
-      await game.pump(parent, pinballAudioPlayer: player);
+      await game.pump(parent, pinballAudioPlayer: audioPlayer);
       await parent.ensureAdd(PlungerNoiseBehavior());
-      verify(() => player.play(PinballAudio.launcher)).called(1);
+      verify(() => audioPlayer.play(PinballAudio.launcher)).called(1);
     });
 
     test('is removed on the first update', () {
