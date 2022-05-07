@@ -7,7 +7,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// Display showing an error message when the leaderboard couldn't be loaded
 /// {@endtemplate}
 class LeaderboardFailureDisplay extends Component {
-  /// {@macro
+  /// {@macro leaderboard_failure_display}
   LeaderboardFailureDisplay();
 
   @override
