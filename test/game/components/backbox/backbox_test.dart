@@ -106,6 +106,7 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {
   @override
   String get initialsErrorMessage => '';
 
+  @override
   String get leaderboardErrorMessage => '';
 }
 
