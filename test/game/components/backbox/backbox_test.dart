@@ -99,6 +99,9 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {
 
   @override
   String get loading => '';
+
+  @override
+  String get leaderboardErrorMessage => '';
 }
 
 void main() {
@@ -305,6 +308,28 @@ void main() {
 
         expect(
           game.descendants().whereType<LeaderboardDisplay>().length,
+          equals(1),
+        );
+      },
+    );
+
+    flameTester.test(
+      'adds LeaderboardFailureDisplay on LeaderboardFailureState',
+      (game) async {
+        whenListen(
+          bloc,
+          Stream<BackboxState>.empty(),
+          initialState: LeaderboardFailureState(),
+        );
+
+        final backbox = Backbox.test(
+          bloc: bloc,
+          platformHelper: platformHelper,
+        );
+        await game.pump(backbox);
+
+        expect(
+          game.descendants().whereType<LeaderboardFailureDisplay>().length,
           equals(1),
         );
       },

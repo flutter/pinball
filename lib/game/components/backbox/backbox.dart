@@ -65,6 +65,8 @@ class Backbox extends PositionComponent with ZIndex, HasGameRef {
       _display.add(LoadingDisplay());
     } else if (state is LeaderboardSuccessState) {
       _display.add(LeaderboardDisplay(entries: state.entries));
+    } else if (state is LeaderboardFailureState) {
+      _display.add(LeaderboardFailureDisplay());
     } else if (state is InitialsFormState) {
       if (_platformHelper.isMobile) {
         gameRef.overlays.add(PinballGame.mobileControlsOverlay);

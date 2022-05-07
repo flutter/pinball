@@ -50,7 +50,10 @@ class _MockAssetsManagerCubit extends Mock implements AssetsManagerCubit {}
 
 class _MockStartGameBloc extends Mock implements StartGameBloc {}
 
-class _MockAppLocalizations extends Mock implements AppLocalizations {}
+class _MockAppLocalizations extends Mock implements AppLocalizations {
+  @override
+  String get leaderboardErrorMessage => '';
+}
 
 class _MockPinballAudioPlayer extends Mock implements PinballAudioPlayer {}
 
