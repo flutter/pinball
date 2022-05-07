@@ -80,15 +80,11 @@ class Backbox extends PositionComponent with ZIndex {
         GameOverInfoDisplay(
           onShare: () {
             _bloc.add(
-              ShareScoreRequested(
-                score: state.score,
-                initials: state.initials,
-                character: state.character,
-              ),
+              ShareScoreRequested(score: state.score),
             );
           },
           onNavigate: () {
-            openLink(ShareRepository.openSourceUrl);
+            openLink(ShareRepository.googleIOEvent);
           },
         ),
       );

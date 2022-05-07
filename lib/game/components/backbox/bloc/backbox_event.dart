@@ -53,27 +53,19 @@ class PlayerInitialsSubmitted extends BackboxEvent {
 }
 
 /// {@template share_score_requested}
-/// Event that request the user to share score and initials.
+/// Event when user requests to share their score.
 /// {@endtemplate}
 class ShareScoreRequested extends BackboxEvent {
   /// {@macro share_score_requested}
   const ShareScoreRequested({
     required this.score,
-    required this.initials,
-    required this.character,
   });
 
   /// Player's score.
   final int score;
 
-  /// Player's initials.
-  final String initials;
-
-  /// Player's character.
-  final CharacterTheme character;
-
   @override
-  List<Object?> get props => [score, initials, character];
+  List<Object?> get props => [score];
 }
 
 /// Event that triggers the fetching of the leaderboard

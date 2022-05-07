@@ -51,9 +51,7 @@ class BackboxBloc extends Bloc<BackboxEvent, BackboxState> {
       );
       emit(
         InitialsSuccessState(
-          initials: event.initials,
           score: event.score,
-          character: event.character,
         ),
       );
     } catch (error, stackTrace) {
@@ -68,9 +66,7 @@ class BackboxBloc extends Bloc<BackboxEvent, BackboxState> {
   ) async {
     emit(
       ShareState(
-        initials: event.initials,
         score: event.score,
-        character: event.character,
       ),
     );
   }

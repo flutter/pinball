@@ -59,12 +59,13 @@ class $AssetsImagesAndroidGen {
 class $AssetsImagesBackboxGen {
   const $AssetsImagesBackboxGen();
 
-  $AssetsImagesBackboxButtonGen get button =>
-      const $AssetsImagesBackboxButtonGen();
-
   /// File path: assets/images/backbox/display-divider.png
   AssetGenImage get displayDivider =>
       const AssetGenImage('assets/images/backbox/display-divider.png');
+
+  /// File path: assets/images/backbox/display_title_decoration.png
+  AssetGenImage get displayTitleDecoration =>
+      const AssetGenImage('assets/images/backbox/display_title_decoration.png');
 
   /// File path: assets/images/backbox/marquee.png
   AssetGenImage get marquee =>
@@ -383,14 +384,6 @@ class $AssetsImagesAndroidSpaceshipGen {
   /// File path: assets/images/android/spaceship/saucer.png
   AssetGenImage get saucer =>
       const AssetGenImage('assets/images/android/spaceship/saucer.png');
-}
-
-class $AssetsImagesBackboxButtonGen {
-  const $AssetsImagesBackboxButtonGen();
-
-  /// File path: assets/images/backbox/button/share.png
-  AssetGenImage get share =>
-      const AssetGenImage('assets/images/backbox/button/share.png');
 }
 
 class $AssetsImagesDashBumperGen {

@@ -20,7 +20,7 @@ class _TestGame extends Forge2DGame with HasTappables {
     images.prefix = '';
     await images.loadAll(
       [
-        Assets.images.backbox.button.share.keyName,
+        Assets.images.backbox.displayTitleDecoration.keyName,
       ],
     );
   }

@@ -56,11 +56,7 @@ void main() {
         ),
         expect: () => [
           LoadingState(),
-          InitialsSuccessState(
-            score: 10,
-            initials: 'AAA',
-            character: DashTheme(),
-          ),
+          InitialsSuccessState(score: 10),
         ],
       );
 
@@ -101,18 +97,10 @@ void main() {
         },
         build: () => BackboxBloc(leaderboardRepository: leaderboardRepository),
         act: (bloc) => bloc.add(
-          ShareScoreRequested(
-            score: 100,
-            initials: 'AAA',
-            character: AndroidTheme(),
-          ),
+          ShareScoreRequested(score: 100),
         ),
         expect: () => [
-          ShareState(
-            score: 100,
-            initials: 'AAA',
-            character: AndroidTheme(),
-          ),
+          ShareState(score: 100),
         ],
       );
     });

@@ -140,7 +140,8 @@ class _TitleBackgroundSpriteComponent extends SpriteComponent with HasGameRef {
   Future<void> onLoad() async {
     await super.onLoad();
     final sprite = Sprite(
-      gameRef.images.fromCache(Assets.images.backbox.button.share.keyName),
+      gameRef.images
+          .fromCache(Assets.images.backbox.displayTitleDecoration.keyName),
     );
     this.sprite = sprite;
     size = sprite.originalSize / 22;

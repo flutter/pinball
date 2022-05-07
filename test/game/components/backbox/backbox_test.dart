@@ -38,7 +38,7 @@ class _TestGame extends Forge2DGame
       character.leaderboardIcon.keyName,
       Assets.images.backbox.marquee.keyName,
       Assets.images.backbox.displayDivider.keyName,
-      Assets.images.backbox.button.share.keyName,
+      Assets.images.backbox.displayTitleDecoration.keyName,
     ]);
   }
 
@@ -299,6 +299,56 @@ void main() {
       );
 
       flameTester.test(
+        'open Google IO Event url when navigating',
+        (game) async {
+          when(() => urlLauncher.canLaunch(any()))
+              .thenAnswer((_) async => true);
+          when(
+            () => urlLauncher.launch(
+              any(),
+              useSafariVC: any(named: 'useSafariVC'),
+              useWebView: any(named: 'useWebView'),
+              enableJavaScript: any(named: 'enableJavaScript'),
+              enableDomStorage: any(named: 'enableDomStorage'),
+              universalLinksOnly: any(named: 'universalLinksOnly'),
+              headers: any(named: 'headers'),
+            ),
+          ).thenAnswer((_) async => true);
+
+          final state = InitialsSuccessState(
+            score: 100,
+            initials: 'AAA',
+            character: theme.AndroidTheme(),
+          );
+          whenListen(
+            bloc,
+            Stream.value(state),
+            initialState: state,
+          );
+          final backbox = Backbox.test(bloc: bloc);
+          await game.pump(backbox);
+
+          final shareLink =
+              game.descendants().whereType<GoogleIOLinkComponent>().first;
+          shareLink.onTapDown(_MockTapDownInfo());
+
+          await game.ready();
+
+          verify(
+            () => urlLauncher.launch(
+              ShareRepository.googleIOEvent,
+              useSafariVC: any(named: 'useSafariVC'),
+              useWebView: any(named: 'useWebView'),
+              enableJavaScript: any(named: 'enableJavaScript'),
+              enableDomStorage: any(named: 'enableDomStorage'),
+              universalLinksOnly: any(named: 'universalLinksOnly'),
+              headers: any(named: 'headers'),
+            ),
+          );
+        },
+      );
+
+      flameTester.test(
         'open OpenSource url when navigating',
         (game) async {
           when(() => urlLauncher.canLaunch(any()))
@@ -336,7 +386,7 @@ void main() {
 
           verify(
             () => urlLauncher.launch(
-              ShareRepository.openSourceUrl,
+              ShareRepository.openSourceCode,
               useSafariVC: any(named: 'useSafariVC'),
               useWebView: any(named: 'useWebView'),
               enableJavaScript: any(named: 'enableJavaScript'),

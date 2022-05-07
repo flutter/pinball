@@ -126,78 +126,42 @@ void main() {
     group('ScoreShareRequested', () {
       test('can be instantiated', () {
         expect(
-          ShareScoreRequested(
-            score: 0,
-            initials: 'AAA',
-            character: AndroidTheme(),
-          ),
+          ShareScoreRequested(score: 0),
           isNotNull,
         );
       });
 
       test('supports value comparison', () {
         expect(
-          ShareScoreRequested(
-            score: 0,
-            initials: 'AAA',
-            character: AndroidTheme(),
-          ),
+          ShareScoreRequested(score: 0),
           equals(
-            ShareScoreRequested(
-              score: 0,
-              initials: 'AAA',
-              character: AndroidTheme(),
+            ShareScoreRequested(score: 0),
+          ),
+        );
+
+        expect(
+          ShareScoreRequested(score: 0),
+          isNot(
+            equals(
+              ShareScoreRequested(score: 1),
             ),
           ),
         );
 
         expect(
-          ShareScoreRequested(
-            score: 0,
-            initials: 'AAA',
-            character: AndroidTheme(),
-          ),
+          ShareScoreRequested(score: 0),
           isNot(
             equals(
-              ShareScoreRequested(
-                score: 1,
-                initials: 'AAA',
-                character: AndroidTheme(),
-              ),
+              ShareScoreRequested(score: 0),
             ),
           ),
         );
 
         expect(
-          ShareScoreRequested(
-            score: 0,
-            initials: 'AAA',
-            character: AndroidTheme(),
-          ),
+          ShareScoreRequested(score: 0),
           isNot(
             equals(
-              ShareScoreRequested(
-                score: 0,
-                initials: 'AAA',
-                character: SparkyTheme(),
-              ),
-            ),
-          ),
-        );
-
-        expect(
-          ShareScoreRequested(
-            score: 0,
-            initials: 'AAA',
-            character: AndroidTheme(),
-          ),
-          isNot(
-            equals(
-              ShareScoreRequested(
-                score: 0,
-                initials: 'BBB',
-                character: AndroidTheme(),
-              ),
+              ShareScoreRequested(score: 0),
             ),
           ),
         );

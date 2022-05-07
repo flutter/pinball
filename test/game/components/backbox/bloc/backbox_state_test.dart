@@ -116,28 +116,16 @@ void main() {
     group('InitialsSuccessState', () {
       test('can be instantiated', () {
         expect(
-          InitialsSuccessState(
-            score: 0,
-            initials: 'AAA',
-            character: AndroidTheme(),
-          ),
+          InitialsSuccessState(score: 0),
           isNotNull,
         );
       });
 
       test('supports value comparison', () {
         expect(
-          InitialsSuccessState(
-            score: 0,
-            initials: 'AAA',
-            character: AndroidTheme(),
-          ),
+          InitialsSuccessState(score: 0),
           equals(
-            InitialsSuccessState(
-              score: 0,
-              initials: 'AAA',
-              character: AndroidTheme(),
-            ),
+            InitialsSuccessState(score: 0),
           ),
         );
       });
@@ -155,28 +143,16 @@ void main() {
       group('ShareState', () {
         test('can be instantiated', () {
           expect(
-            ShareState(
-              score: 0,
-              initials: 'AAA',
-              character: AndroidTheme(),
-            ),
+            ShareState(score: 0),
             isNotNull,
           );
         });
 
         test('supports value comparison', () {
           expect(
-            ShareState(
-              score: 0,
-              initials: 'AAA',
-              character: AndroidTheme(),
-            ),
+            ShareState(score: 0),
             equals(
-              ShareState(
-                score: 0,
-                initials: 'AAA',
-                character: AndroidTheme(),
-              ),
+              ShareState(score: 0),
             ),
           );
         });
