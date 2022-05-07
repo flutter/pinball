@@ -8,6 +8,7 @@
         "backbox",
         "bezier",
         "cupertino",
+        "dashbook",
         "deserialization",
         "endtemplate",
         "firestore",
@@ -18,7 +19,8 @@
         "multiball",
         "multiballs",
         "theming",
-        "unawaited"
+        "unawaited",
+        "unlayered"
     ],
     "ignorePaths": [
         ".github/workflows/**"
