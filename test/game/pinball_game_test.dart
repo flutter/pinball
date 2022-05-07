@@ -57,7 +57,10 @@ class _TestDebugPinballGame extends DebugPinballGame {
 
 class _MockGameBloc extends Mock implements GameBloc {}
 
-class _MockAppLocalizations extends Mock implements AppLocalizations {}
+class _MockAppLocalizations extends Mock implements AppLocalizations {
+  @override
+  String get leaderboardErrorMessage => '';
+}
 
 class _MockEventPosition extends Mock implements EventPosition {}
 
