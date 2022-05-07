@@ -61,7 +61,10 @@ void main() {
 
           behavior.beginContact(ball, contact);
 
-          expect(ball.firstChild<SpriteComponent>()!.getOpacity(), isZero);
+          expect(
+            ball.descendants().whereType<SpriteComponent>().single.getOpacity(),
+            isZero,
+          );
 
           verify(() => bloc.onChomp(ball)).called(1);
         },

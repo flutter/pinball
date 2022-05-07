@@ -1,10 +1,12 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -34,6 +36,8 @@ class _TestGame extends Forge2DGame {
   }
 }
 
+class _MockBallCubit extends Mock implements BallCubit {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -59,26 +63,29 @@ void main() {
       );
 
       flameTester.test(
-        'onNewState replaces the current ball with a new ball',
+        'onNewState calls onThemeChanged on the ball bloc',
         (game) async {
+          final ballBloc = _MockBallCubit();
+          whenListen(
+            ballBloc,
+            const Stream<BallState>.empty(),
+            initialState: const BallState.initial(),
+          );
+          final ball = Ball.test(bloc: ballBloc);
           final behavior = BallThemingBehavior();
           await game.pump([
+            ball,
             behavior,
             ZCanvasComponent(),
             Plunger.test(compressionDistance: 10),
-            Ball(),
           ]);
-          expect(game.descendants().whereType<Ball>(), isNotEmpty);
-          final dashBall = game.descendants().whereType<Ball>().single;
 
-          const dinoTheme = CharacterThemeState(theme.DinoTheme());
-          behavior.onNewState(dinoTheme);
+          const dinoThemeState = CharacterThemeState(theme.DinoTheme());
+          behavior.onNewState(dinoThemeState);
           await game.ready();
 
-          expect(game.descendants().whereType<Ball>(), isNotEmpty);
-          final dinoBall = game.descendants().whereType<Ball>().single;
-
-          expect(dinoBall != dashBall, isTrue);
+          verify(() => ballBloc.onThemeChanged(dinoThemeState.characterTheme))
+              .called(1);
         },
       );
     },
