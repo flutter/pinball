@@ -5,27 +5,33 @@ import 'package:flutter/material.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/game/components/backbox/bloc/backbox_bloc.dart';
 import 'package:pinball/game/components/backbox/displays/displays.dart';
+import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart' hide Assets;
+import 'package:platform_helper/platform_helper.dart';
 
 /// {@template backbox}
 /// The [Backbox] of the pinball machine.
 /// {@endtemplate}
-class Backbox extends PositionComponent with ZIndex {
+class Backbox extends PositionComponent with ZIndex, HasGameRef {
   /// {@macro backbox}
   Backbox({
     required LeaderboardRepository leaderboardRepository,
-  }) : _bloc = BackboxBloc(leaderboardRepository: leaderboardRepository);
+  })  : _bloc = BackboxBloc(leaderboardRepository: leaderboardRepository),
+        _platformHelper = PlatformHelper();
 
   /// {@macro backbox}
   @visibleForTesting
   Backbox.test({
     required BackboxBloc bloc,
-  }) : _bloc = bloc;
+    required PlatformHelper platformHelper,
+  })  : _bloc = bloc,
+        _platformHelper = platformHelper;
 
   late final Component _display;
   final BackboxBloc _bloc;
+  final PlatformHelper _platformHelper;
   late StreamSubscription<BackboxState> _subscription;
 
   @override
@@ -58,6 +64,9 @@ class Backbox extends PositionComponent with ZIndex {
     } else if (state is LeaderboardSuccessState) {
       _display.add(LeaderboardDisplay(entries: state.entries));
     } else if (state is InitialsFormState) {
+      if (_platformHelper.isMobile) {
+        gameRef.overlays.add(PinballGame.mobileControlsOverlay);
+      }
       _display.add(
         InitialsInputDisplay(
           score: state.score,
