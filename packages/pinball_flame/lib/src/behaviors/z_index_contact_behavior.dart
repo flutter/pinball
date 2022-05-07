@@ -14,6 +14,7 @@ class ZIndexContactBehavior extends ContactBehavior<BodyComponent> {
   void beginContact(Object other, Contact contact) {
     super.beginContact(other, contact);
     if (other is! ZIndex) return;
+    if (other.zIndex == _zIndex) return;
     other.zIndex = _zIndex;
   }
 }
