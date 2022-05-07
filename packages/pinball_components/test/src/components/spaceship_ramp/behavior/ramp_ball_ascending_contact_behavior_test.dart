@@ -67,16 +67,16 @@ void main() {
               initialState: const SpaceshipRampState.initial(),
             );
 
-            final rampSensor = RampScoringSensor.test();
+            final parent = SpaceshipRampBoardOpening.test();
             final spaceshipRamp = SpaceshipRamp.test(
               bloc: bloc,
             );
 
             when(() => body.linearVelocity).thenReturn(Vector2(0, -1));
 
-            await spaceshipRamp.add(rampSensor);
+            await spaceshipRamp.add(parent);
             await game.ensureAddAll([spaceshipRamp, ball]);
-            await rampSensor.add(behavior);
+            await parent.add(behavior);
 
             behavior.beginContact(ball, _MockContact());
 
@@ -95,16 +95,16 @@ void main() {
               initialState: const SpaceshipRampState.initial(),
             );
 
-            final rampSensor = RampScoringSensor.test();
+            final parent = SpaceshipRampBoardOpening.test();
             final spaceshipRamp = SpaceshipRamp.test(
               bloc: bloc,
             );
 
             when(() => body.linearVelocity).thenReturn(Vector2(0, 1));
 
-            await spaceshipRamp.add(rampSensor);
+            await spaceshipRamp.add(parent);
             await game.ensureAddAll([spaceshipRamp, ball]);
-            await rampSensor.add(behavior);
+            await parent.add(behavior);
 
             behavior.beginContact(ball, _MockContact());
 
