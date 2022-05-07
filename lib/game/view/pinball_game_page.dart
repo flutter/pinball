@@ -122,6 +122,14 @@ class PinballGameLoadedView extends StatelessWidget {
                       child: PlayButtonOverlay(),
                     );
                   },
+                  PinballGame.mobileControlsOverlay: (context, game) {
+                    return Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: MobileControls(game: game),
+                    );
+                  },
                 },
               ),
             ),

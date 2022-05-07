@@ -335,6 +335,20 @@ void main() {
       expect(game.focusNode.hasFocus, isTrue);
     });
 
+    testWidgets('mobile controls when the overlay is added', (tester) async {
+      await tester.pumpApp(
+        PinballGameView(game: game),
+        gameBloc: gameBloc,
+        startGameBloc: startGameBloc,
+      );
+
+      game.overlays.add(PinballGame.mobileControlsOverlay);
+
+      await tester.pump();
+
+      expect(find.byType(MobileControls), findsOneWidget);
+    });
+
     group('info icon', () {
       testWidgets('renders on game over', (tester) async {
         final gameState = GameState.initial().copyWith(
