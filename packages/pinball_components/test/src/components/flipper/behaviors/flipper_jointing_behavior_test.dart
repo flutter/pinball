@@ -26,7 +26,7 @@ void main() {
       expect(parent.contains(behavior), isTrue);
     });
 
-    flameTester.test('joints', (game) async {
+    flameTester.test('creates a joint', (game) async {
       final behavior = FlipperJointingBehavior();
       final parent = Flipper.test(side: BoardSide.left);
       await game.ensureAdd(parent);
