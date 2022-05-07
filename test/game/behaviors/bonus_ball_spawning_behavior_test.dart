@@ -40,7 +40,8 @@ void main() {
     final flameTester = FlameTester(_TestGame.new);
 
     flameTester.test(
-      'adds a ball with a BallImpulsingBehavior to the game onTick',
+      'adds a ball with a BallImpulsingBehavior to the game onTick '
+      'resulting in a -40 x impulse',
       (game) async {
         await game.onLoad();
         final behavior = BonusBallSpawningBehavior();
@@ -52,10 +53,8 @@ void main() {
 
         final ball = game.descendants().whereType<Ball>().single;
 
-        expect(
-          ball.firstChild<BallImpulsingBehavior>(),
-          isA<BallImpulsingBehavior>(),
-        );
+        expect(ball.body.linearVelocity.x, equals(-40));
+        expect(ball.body.linearVelocity.y, equals(0));
       },
     );
   });
