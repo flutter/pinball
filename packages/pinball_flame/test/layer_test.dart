@@ -4,9 +4,9 @@ import 'dart:math' as math;
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
-class TestLayeredBodyComponent extends BodyComponent with Layered {
+class _TestLayeredBodyComponent extends BodyComponent with Layered {
   @override
   Body createBody() {
     final fixtureDef = FixtureDef(CircleShape());
@@ -14,7 +14,7 @@ class TestLayeredBodyComponent extends BodyComponent with Layered {
   }
 }
 
-class TestBodyComponent extends BodyComponent {
+class _TestBodyComponent extends BodyComponent {
   @override
   Body createBody() {
     final fixtureDef = FixtureDef(CircleShape());
@@ -41,12 +41,12 @@ void main() {
     }
 
     flameTester.test('TestBodyComponent has fixtures', (game) async {
-      final component = TestBodyComponent();
+      final component = _TestBodyComponent();
       await game.ensureAdd(component);
     });
 
     test('correctly sets and gets', () {
-      final component = TestLayeredBodyComponent()
+      final component = _TestLayeredBodyComponent()
         ..layer = Layer.spaceshipEntranceRamp;
       expect(component.layer, Layer.spaceshipEntranceRamp);
     });
@@ -55,7 +55,7 @@ void main() {
       'layers correctly before being loaded',
       (game) async {
         const expectedLayer = Layer.spaceshipEntranceRamp;
-        final component = TestLayeredBodyComponent()..layer = expectedLayer;
+        final component = _TestLayeredBodyComponent()..layer = expectedLayer;
         await game.ensureAdd(component);
 
         _expectLayerOnFixtures(
@@ -70,7 +70,7 @@ void main() {
       'when multiple different sets',
       (game) async {
         const expectedLayer = Layer.launcher;
-        final component = TestLayeredBodyComponent()
+        final component = _TestLayeredBodyComponent()
           ..layer = Layer.spaceshipEntranceRamp;
 
         expect(component.layer, isNot(equals(expectedLayer)));
@@ -89,7 +89,7 @@ void main() {
       'layers correctly after being loaded',
       (game) async {
         const expectedLayer = Layer.spaceshipEntranceRamp;
-        final component = TestLayeredBodyComponent();
+        final component = _TestLayeredBodyComponent();
         await game.ensureAdd(component);
         component.layer = expectedLayer;
         _expectLayerOnFixtures(
@@ -104,7 +104,7 @@ void main() {
       'when multiple different sets',
       (game) async {
         const expectedLayer = Layer.launcher;
-        final component = TestLayeredBodyComponent();
+        final component = _TestLayeredBodyComponent();
         await game.ensureAdd(component);
 
         component.layer = Layer.spaceshipEntranceRamp;
@@ -122,7 +122,7 @@ void main() {
       'defaults to Layer.all '
       'when no layer is given',
       (game) async {
-        final component = TestLayeredBodyComponent();
+        final component = _TestLayeredBodyComponent();
         await game.ensureAdd(component);
         expect(component.layer, equals(Layer.all));
       },
@@ -134,15 +134,18 @@ void main() {
         const parentLayer = Layer.spaceshipEntranceRamp;
         const childLayer = Layer.board;
 
-        final component = TestLayeredBodyComponent()..layer = parentLayer;
-        final childComponent = TestLayeredBodyComponent()..layer = childLayer;
+        final component = _TestLayeredBodyComponent()..layer = parentLayer;
+        final childComponent = _TestLayeredBodyComponent()..layer = childLayer;
         await component.add(childComponent);
 
         await game.ensureAdd(component);
         expect(childLayer, isNot(equals(parentLayer)));
 
         for (final child in component.children) {
-          expect((child as TestLayeredBodyComponent).layer, equals(childLayer));
+          expect(
+            (child as _TestLayeredBodyComponent).layer,
+            equals(childLayer),
+          );
         }
       },
     );
@@ -152,15 +155,15 @@ void main() {
       (game) async {
         const parentLayer = Layer.spaceshipEntranceRamp;
 
-        final component = TestLayeredBodyComponent()..layer = parentLayer;
-        final childComponent = TestBodyComponent();
+        final component = _TestLayeredBodyComponent()..layer = parentLayer;
+        final childComponent = _TestBodyComponent();
         await component.add(childComponent);
 
         await game.ensureAdd(component);
 
         for (final child in component.children) {
           expect(
-            (child as TestBodyComponent)
+            (child as _TestBodyComponent)
                 .body
                 .fixtures
                 .first
