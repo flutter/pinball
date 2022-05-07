@@ -1,6 +1,7 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_components/src/components/layer_sensor/behaviors/layer_filtering_behavior.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template layer_entrance_orientation}
 /// Determines if a layer entrance is oriented [up] or [down] on the board.
