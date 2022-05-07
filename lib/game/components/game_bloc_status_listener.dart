@@ -45,8 +45,11 @@ class GameBlocStatusListener extends Component
     }
   }
 
-  void _addFlipperKeyControls(Flipper flipper) =>
-      flipper.add(FlipperKeyControllingBehavior());
+  void _addFlipperKeyControls(Flipper flipper) {
+    flipper
+      ..add(FlipperKeyControllingBehavior())
+      ..moveDown();
+  }
 
   void _removeFlipperKeyControls(Flipper flipper) => flipper
       .descendants()
