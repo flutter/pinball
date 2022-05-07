@@ -146,6 +146,18 @@ void main() {
               .onCall('packages/pinball_audio/assets/sfx/sparky.mp3'),
         ).called(1);
         verify(
+          () => preCacheSingleAudio
+              .onCall('packages/pinball_audio/assets/sfx/dino.mp3'),
+        ).called(1);
+        verify(
+          () => preCacheSingleAudio
+              .onCall('packages/pinball_audio/assets/sfx/android.mp3'),
+        ).called(1);
+        verify(
+          () => preCacheSingleAudio
+              .onCall('packages/pinball_audio/assets/sfx/dash.mp3'),
+        ).called(1);
+        verify(
           () => preCacheSingleAudio.onCall(
             'packages/pinball_audio/assets/sfx/io_pinball_voice_over.mp3',
           ),
@@ -235,6 +247,42 @@ void main() {
         verify(
           () => playSingleAudio
               .onCall('packages/pinball_audio/${Assets.sfx.sparky}'),
+        ).called(1);
+      });
+    });
+
+    group('dino', () {
+      test('plays the correct file', () async {
+        await Future.wait(player.load());
+        player.play(PinballAudio.dino);
+
+        verify(
+          () => playSingleAudio
+              .onCall('packages/pinball_audio/${Assets.sfx.dino}'),
+        ).called(1);
+      });
+    });
+
+    group('android', () {
+      test('plays the correct file', () async {
+        await Future.wait(player.load());
+        player.play(PinballAudio.android);
+
+        verify(
+          () => playSingleAudio
+              .onCall('packages/pinball_audio/${Assets.sfx.android}'),
+        ).called(1);
+      });
+    });
+
+    group('dash', () {
+      test('plays the correct file', () async {
+        await Future.wait(player.load());
+        player.play(PinballAudio.dash);
+
+        verify(
+          () => playSingleAudio
+              .onCall('packages/pinball_audio/${Assets.sfx.dash}'),
         ).called(1);
       });
     });

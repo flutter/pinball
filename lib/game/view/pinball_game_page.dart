@@ -50,6 +50,7 @@ class PinballGamePage extends StatelessWidget {
           );
 
     final loadables = [
+      game.preFetchLeaderboard(),
       ...game.preLoadAssets(),
       ...player.load(),
       ...BonusAnimation.loadAssets(),
@@ -120,6 +121,14 @@ class PinballGameLoadedView extends StatelessWidget {
                       right: 0,
                       left: 0,
                       child: PlayButtonOverlay(),
+                    );
+                  },
+                  PinballGame.mobileControlsOverlay: (context, game) {
+                    return Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: MobileControls(game: game),
                     );
                   },
                 },

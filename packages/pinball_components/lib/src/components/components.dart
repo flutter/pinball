@@ -15,7 +15,7 @@ export 'dino_walls.dart';
 export 'error_component.dart';
 export 'fire_effect.dart';
 export 'flapper/flapper.dart';
-export 'flipper.dart';
+export 'flipper/flipper.dart';
 export 'google_letter/google_letter.dart';
 export 'initial_position.dart';
 export 'joint_anchor.dart';
