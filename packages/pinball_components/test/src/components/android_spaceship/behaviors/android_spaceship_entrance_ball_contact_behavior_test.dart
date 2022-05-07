@@ -1,6 +1,7 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -43,16 +44,19 @@ void main() {
           );
 
           final entrance = AndroidSpaceshipEntrance();
-          final androidSpaceship = AndroidSpaceship.test(
-            bloc: bloc,
-            children: [entrance],
+          final androidSpaceship = FlameBlocProvider<AndroidSpaceshipCubit,
+              AndroidSpaceshipState>.value(
+            value: bloc,
+            children: [
+              AndroidSpaceship.test(children: [entrance])
+            ],
           );
           await entrance.add(behavior);
           await game.ensureAdd(androidSpaceship);
 
           behavior.beginContact(_MockBall(), _MockContact());
 
-          verify(androidSpaceship.bloc.onBallEntered).called(1);
+          verify(bloc.onBallEntered).called(1);
         },
       );
     },

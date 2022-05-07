@@ -4,20 +4,20 @@ import 'package:pinball_components/pinball_components.dart';
 
 void main() {
   group(
-    'DashNestBumperCubit',
+    'DashBumperCubit',
     () {
-      blocTest<DashNestBumperCubit, DashNestBumperState>(
+      blocTest<DashBumperCubit, DashBumperState>(
         'onBallContacted emits active',
-        build: DashNestBumperCubit.new,
+        build: DashBumperCubit.new,
         act: (bloc) => bloc.onBallContacted(),
-        expect: () => [DashNestBumperState.active],
+        expect: () => [DashBumperState.active],
       );
 
-      blocTest<DashNestBumperCubit, DashNestBumperState>(
+      blocTest<DashBumperCubit, DashBumperState>(
         'onReset emits inactive',
-        build: DashNestBumperCubit.new,
+        build: DashBumperCubit.new,
         act: (bloc) => bloc.onReset(),
-        expect: () => [DashNestBumperState.inactive],
+        expect: () => [DashBumperState.inactive],
       );
     },
   );
