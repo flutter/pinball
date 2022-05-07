@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_renaming_method_parameters, public_member_api_docs
-
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_components/src/components/layer_sensor/behaviors/layer_filtering_behavior.dart';

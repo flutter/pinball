@@ -59,7 +59,6 @@ class SpaceshipRamp extends Component {
     required this.bloc,
   }) : super();
 
-  // ignore: public_member_api_docs
   final SpaceshipRampCubit bloc;
 
   @override
