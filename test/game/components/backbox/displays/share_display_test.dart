@@ -90,7 +90,7 @@ void main() {
     );
 
     flameTester.test(
-      'calls onShare when tap on Twitter button',
+      'calls onShare when Twitter button is tapped',
       (game) async {
         var tapped = false;
 
