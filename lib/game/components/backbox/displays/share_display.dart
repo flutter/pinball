@@ -115,7 +115,7 @@ class _SocialNetworksComponent extends PositionComponent with HasGameRef {
     OnSocialShareTap? onShare,
   }) : super(
           anchor: Anchor.center,
-          position: Vector2(0, 10),
+          position: Vector2(0, 12),
           children: [
             FacebookButtonComponent(onTap: onShare),
             TwitterButtonComponent(onTap: onShare),
