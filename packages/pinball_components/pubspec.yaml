@@ -90,6 +90,7 @@ flutter:
     - assets/images/multiplier/x6/
     - assets/images/score/
     - assets/images/backbox/
+    - assets/images/backbox/button/
     - assets/images/flapper/
     - assets/images/skill_shot/
 

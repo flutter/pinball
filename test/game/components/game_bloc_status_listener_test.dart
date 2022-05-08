@@ -14,6 +14,7 @@ import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart' as theme;
+import 'package:share_repository/share_repository.dart';
 
 class _TestGame extends Forge2DGame {
   @override
@@ -64,6 +65,8 @@ class _MockPinballAudioPlayer extends Mock implements PinballAudioPlayer {}
 
 class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
 }
+
+class _MockShareRepository extends Mock implements ShareRepository {}
 
 class _MockAppLocalizations extends Mock implements AppLocalizations {
   @override
@@ -149,9 +152,11 @@ void main() {
           'changes the backbox display',
           (game) async {
             final component = GameBlocStatusListener();
-            final repository = _MockLeaderboardRepository();
+            final leaderboardRepository = _MockLeaderboardRepository();
+            final shareRepository = _MockShareRepository();
             final backbox = Backbox(
-              leaderboardRepository: repository,
+              leaderboardRepository: leaderboardRepository,
+              shareRepository: shareRepository,
               entries: const [],
             );
 
@@ -165,9 +170,11 @@ void main() {
           'removes FlipperKeyControllingBehavior from Flipper',
           (game) async {
             final component = GameBlocStatusListener();
-            final repository = _MockLeaderboardRepository();
+            final leaderboardRepository = _MockLeaderboardRepository();
+            final shareRepository = _MockShareRepository();
             final backbox = Backbox(
-              leaderboardRepository: repository,
+              leaderboardRepository: leaderboardRepository,
+              shareRepository: shareRepository,
               entries: const [],
             );
             final flipper = Flipper.test(side: BoardSide.left);
@@ -193,9 +200,11 @@ void main() {
           (game) async {
             final audioPlayer = _MockPinballAudioPlayer();
             final component = GameBlocStatusListener();
-            final repository = _MockLeaderboardRepository();
+            final leaderboardRepository = _MockLeaderboardRepository();
+            final shareRepository = _MockShareRepository();
             final backbox = Backbox(
-              leaderboardRepository: repository,
+              leaderboardRepository: leaderboardRepository,
+              shareRepository: shareRepository,
               entries: const [],
             );
             await game.pump(
@@ -245,9 +254,11 @@ void main() {
           'adds key controlling behavior to Flippers when the game is started',
           (game) async {
             final component = GameBlocStatusListener();
-            final repository = _MockLeaderboardRepository();
+            final leaderboardRepository = _MockLeaderboardRepository();
+            final shareRepository = _MockShareRepository();
             final backbox = Backbox(
-              leaderboardRepository: repository,
+              leaderboardRepository: leaderboardRepository,
+              shareRepository: shareRepository,
               entries: const [],
             );
             final flipper = Flipper.test(side: BoardSide.left);

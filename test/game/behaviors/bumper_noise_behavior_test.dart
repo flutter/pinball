@@ -16,9 +16,7 @@ class _TestGame extends Forge2DGame {
     return ensureAdd(
       FlameProvider<PinballAudioPlayer>.value(
         audioPlayer,
-        children: [
-          child,
-        ],
+        children: [child],
       ),
     );
   }

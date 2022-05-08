@@ -75,9 +75,7 @@ class BackboxBloc extends Bloc<BackboxEvent, BackboxState> {
     Emitter<BackboxState> emit,
   ) async {
     emit(
-      ShareState(
-        score: event.score,
-      ),
+      ShareState(score: event.score),
     );
   }
 

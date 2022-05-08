@@ -203,5 +203,23 @@ void main() {
         });
       });
     });
+
+    group('ShareState', () {
+      test('can be instantiated', () {
+        expect(
+          ShareState(score: 0),
+          isNotNull,
+        );
+      });
+
+      test('supports value comparison', () {
+        expect(
+          ShareState(score: 0),
+          equals(
+            ShareState(score: 0),
+          ),
+        );
+      });
+    });
   });
 }
