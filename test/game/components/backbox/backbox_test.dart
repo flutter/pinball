@@ -516,7 +516,7 @@ void main() {
       );
 
       flameTester.test(
-        'open Twitter link when sharing with Twitter',
+        'opens Twitter link when sharing with Twitter',
         (game) async {
           final state = ShareState(score: 100);
           whenListen(
