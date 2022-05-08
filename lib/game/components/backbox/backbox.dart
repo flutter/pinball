@@ -6,6 +6,7 @@ import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/game/components/backbox/bloc/backbox_bloc.dart';
 import 'package:pinball/game/components/backbox/displays/displays.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart' hide Assets;
@@ -107,8 +108,10 @@ class Backbox extends PositionComponent with ZIndex, HasGameRef {
       _display.add(
         ShareDisplay(
           onShare: (platform) {
+            final message = readProvider<AppLocalizations>()
+                .iGotScoreAtPinball(state.score);
             final url = _shareRepository.shareText(
-              value: state.score.toString(),
+              value: message,
               platform: platform,
             );
             openLink(url);

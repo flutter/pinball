@@ -154,6 +154,9 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {
 
   @override
   String get leaderboardErrorMessage => '';
+
+  @override
+  String iGotScoreAtPinball(int _) => '';
 }
 
 void main() {
@@ -508,7 +511,7 @@ void main() {
 
           verify(
             () => shareRepository.shareText(
-              value: state.score.toString(),
+              value: any(named: 'value'),
               platform: SharePlatform.facebook,
             ),
           ).called(1);
@@ -562,7 +565,7 @@ void main() {
 
           verify(
             () => shareRepository.shareText(
-              value: state.score.toString(),
+              value: any(named: 'value'),
               platform: SharePlatform.twitter,
             ),
           ).called(1);

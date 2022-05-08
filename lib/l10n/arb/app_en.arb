@@ -189,7 +189,7 @@
     "description": "Text shown on the mobile controls enter button"
   },
   "initialsErrorTitle": "Uh-oh... well, that didn’t work",
-  "@enter": {
+  "@initialsErrorTitle": {
     "description": "Title shown when the initials submission fails"
   },
   "initialsErrorMessage": "Please try a different combination of letters",
@@ -212,5 +212,14 @@
   "socialMediaAccount": "social media account!",
   "@socialMediaAccount": {
     "description": "Text displayed on share screen for description"
+  },
+  "iGotScoreAtPinball": "I got {score} at the #IOPinball machine, can you beat my score? See you at #GoogleIO!",
+  "@iGotScoreAtPinball": {
+    "description": "Text to share score on Social Network",
+    "placeholders": {
+      "score": {
+          "type": "int"
+      }
+    }
   }
 }

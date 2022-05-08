@@ -12,7 +12,7 @@ void main() {
   bootstrap((firestore, firebaseAuth) async {
     final leaderboardRepository = LeaderboardRepository(firestore);
     const shareRepository =
-        ShareRepository(appUrl: ShareRepository.googleIOEvent);
+        ShareRepository(appUrl: ShareRepository.pinballGameUrl);
     final authenticationRepository = AuthenticationRepository(firebaseAuth);
     final pinballAudioPlayer = PinballAudioPlayer();
     unawaited(
