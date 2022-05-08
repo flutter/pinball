@@ -141,6 +141,8 @@ extension PinballGameAssetsX on PinballGame {
       images.load(components.Assets.images.skillShot.pin.keyName),
       images.load(components.Assets.images.skillShot.lit.keyName),
       images.load(components.Assets.images.skillShot.dimmed.keyName),
+      images.load(components.Assets.images.displayArrows.arrowLeft.keyName),
+      images.load(components.Assets.images.displayArrows.arrowRight.keyName),
       images.load(androidTheme.leaderboardIcon.keyName),
       images.load(androidTheme.background.keyName),
       images.load(androidTheme.ball.keyName),
