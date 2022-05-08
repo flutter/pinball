@@ -115,11 +115,19 @@ void main() {
 
     group('InitialsSuccessState', () {
       test('can be instantiated', () {
-        expect(InitialsSuccessState(), isNotNull);
+        expect(
+          InitialsSuccessState(score: 0),
+          isNotNull,
+        );
       });
 
       test('supports value comparison', () {
-        expect(InitialsSuccessState(), equals(InitialsSuccessState()));
+        expect(
+          InitialsSuccessState(score: 0),
+          equals(
+            InitialsSuccessState(score: 0),
+          ),
+        );
       });
 
       group('InitialsFailureState', () {
@@ -172,6 +180,24 @@ void main() {
                   character: DashTheme(),
                 ),
               ),
+            ),
+          );
+        });
+      });
+
+      group('ShareState', () {
+        test('can be instantiated', () {
+          expect(
+            ShareState(score: 0),
+            isNotNull,
+          );
+        });
+
+        test('supports value comparison', () {
+          expect(
+            ShareState(score: 0),
+            equals(
+              ShareState(score: 0),
             ),
           );
         });
