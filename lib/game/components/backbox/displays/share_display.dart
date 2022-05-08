@@ -22,7 +22,7 @@ final _descriptionTextPaint = TextPaint(
 );
 
 /// {@template share_display}
-/// Display that allows to share score on social networks.
+/// Display that allows users to share their score to social networks.
 /// {@endtemplate}
 class ShareDisplay extends Component with HasGameRef {
   /// {@macro share_display}
