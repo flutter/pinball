@@ -132,7 +132,7 @@ class _SingleLoopAudio extends _LoopAudio {
   @override
   void play() {
     if (!semaphore) {
-      loopSingleAudio(prefixFile(path));
+      super.play();
       semaphore = true;
     }
   }
