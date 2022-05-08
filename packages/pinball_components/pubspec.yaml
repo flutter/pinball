@@ -93,6 +93,7 @@ flutter:
     - assets/images/backbox/button/
     - assets/images/flapper/
     - assets/images/skill_shot/
+    - assets/images/display_arrows/
 
 flutter_gen:
   line_length: 80
