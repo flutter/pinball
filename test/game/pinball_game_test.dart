@@ -113,11 +113,11 @@ void main() {
       );
 
       flameTester.test(
-        'has only one BallThemingBehavior',
+        'has only one CharacterSelectionBehavior',
         (game) async {
           await game.ready();
           expect(
-            game.descendants().whereType<BallThemingBehavior>().length,
+            game.descendants().whereType<CharacterSelectionBehavior>().length,
             equals(1),
           );
         },

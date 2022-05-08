@@ -43,14 +43,11 @@ class PinballGamePage extends StatelessWidget {
             gameBloc: gameBloc,
           );
 
-    return Container(
-      decoration: const CrtBackground(),
-      child: Scaffold(
-        backgroundColor: PinballColors.transparent,
-        body: BlocProvider(
-          create: (_) => AssetsManagerCubit(game, audioPlayer)..load(),
-          child: PinballGameView(game),
-        ),
+    return Scaffold(
+      backgroundColor: PinballColors.black,
+      body: BlocProvider(
+        create: (_) => AssetsManagerCubit(game, audioPlayer)..load(),
+        child: PinballGameView(game),
       ),
     );
   }
