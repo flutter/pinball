@@ -9,7 +9,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_ui/pinball_ui.dart';
 import 'package:share_repository/share_repository.dart';
 
-/// Signature for the callback called when the used tries to share the score
+/// Signature for the callback called when the user tries to share their score
 /// on the [ShareDisplay].
 typedef OnSocialShareTap = void Function(SharePlatform);
 
