@@ -83,7 +83,7 @@ class _PinSpriteAnimationComponent extends SpriteAnimationComponent
     await super.onLoad();
 
     final spriteSheet = gameRef.images.fromCache(
-      (_side.isLeft)
+      _side.isLeft
           ? Assets.images.googleRollover.left.pin.keyName
           : Assets.images.googleRollover.right.pin.keyName,
     );
