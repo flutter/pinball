@@ -2,12 +2,11 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_components/src/components/google_rollover/behaviors/behaviors.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template google_rollover}
 /// Rollover that lights up [GoogleLetter]s.
 /// {@endtemplate}
-class GoogleRollover extends BodyComponent with ZIndex {
+class GoogleRollover extends BodyComponent {
   /// {@macro google_rollover}
   GoogleRollover({
     required BoardSide side,
@@ -21,9 +20,7 @@ class GoogleRollover extends BodyComponent with ZIndex {
             _PinSpriteAnimationComponent(side: side),
             ...?children,
           ],
-        ) {
-    zIndex = ZIndexes.decal;
-  }
+        );
 
   final BoardSide _side;
 

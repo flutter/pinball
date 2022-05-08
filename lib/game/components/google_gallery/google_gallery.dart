@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/components/google_gallery/behaviors/behaviors.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template google_gallery}
 /// Middle section of the board containing the [GoogleWord] and the
 /// [GoogleRollover]s.
 /// {@endtemplate}
-class GoogleGallery extends Component {
+class GoogleGallery extends Component with ZIndex {
   /// {@macro google_gallery}
   GoogleGallery()
       : super(
@@ -34,7 +35,9 @@ class GoogleGallery extends Component {
               ],
             ),
           ],
-        );
+        ) {
+    zIndex = ZIndexes.decal;
+  }
 
   /// Creates a [GoogleGallery] without any children.
   ///
