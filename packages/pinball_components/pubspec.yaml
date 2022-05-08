@@ -17,8 +17,6 @@ dependencies:
       ref: a50d4a1e7d9eaf66726ed1bb9894c9d495547d8f
   flutter:
     sdk: flutter
-  geometry:
-    path: ../geometry
   intl: ^0.17.0
   pinball_flame:
     path: ../pinball_flame
