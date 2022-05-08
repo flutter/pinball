@@ -160,7 +160,7 @@ class FacebookButtonComponent extends SpriteComponent
 /// Button for sharing on Twitter.
 /// {@endtemplate}
 class TwitterButtonComponent extends SpriteComponent with HasGameRef, Tappable {
-  /// {@macro twitter_button_component
+  /// {@macro twitter_button_component}
   TwitterButtonComponent({
     OnSocialShareTap? onTap,
   })  : _onTap = onTap,
