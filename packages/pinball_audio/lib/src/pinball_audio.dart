@@ -30,6 +30,9 @@ enum PinballAudio {
   /// Launcher.
   launcher,
 
+  /// Kicker.
+  kicker,
+
   /// Sparky.
   sparky,
 
@@ -113,39 +116,45 @@ class _LoopAudio extends _Audio {
   }
 }
 
-class _BumperAudio extends _Audio {
-  _BumperAudio({
+class _RandomABAudio extends _Audio {
+  _RandomABAudio({
     required this.createAudioPool,
     required this.seed,
+    required this.audioAssetA,
+    required this.audioAssetB,
+    this.volume,
   });
 
   final CreateAudioPool createAudioPool;
   final Random seed;
+  final String audioAssetA;
+  final String audioAssetB;
+  final double? volume;
 
-  late AudioPool bumperA;
-  late AudioPool bumperB;
+  late AudioPool audioA;
+  late AudioPool audioB;
 
   @override
   Future<void> load() async {
     await Future.wait(
       [
         createAudioPool(
-          prefixFile(Assets.sfx.bumperA),
+          prefixFile(audioAssetA),
           maxPlayers: 4,
           prefix: '',
-        ).then((pool) => bumperA = pool),
+        ).then((pool) => audioA = pool),
         createAudioPool(
-          prefixFile(Assets.sfx.bumperB),
+          prefixFile(audioAssetB),
           maxPlayers: 4,
           prefix: '',
-        ).then((pool) => bumperB = pool),
+        ).then((pool) => audioB = pool),
       ],
     );
   }
 
   @override
   void play() {
-    (seed.nextBool() ? bumperA : bumperB).start(volume: 0.6);
+    (seed.nextBool() ? audioA : audioB).start(volume: volume ?? 1);
   }
 }
 
@@ -241,9 +250,19 @@ class PinballAudioPlayer {
         playSingleAudio: _playSingleAudio,
         path: Assets.sfx.gameOverVoiceOver,
       ),
-      PinballAudio.bumper: _BumperAudio(
+      PinballAudio.bumper: _RandomABAudio(
         createAudioPool: _createAudioPool,
         seed: _seed,
+        audioAssetA: Assets.sfx.bumperA,
+        audioAssetB: Assets.sfx.bumperB,
+        volume: 0.6,
+      ),
+      PinballAudio.kicker: _RandomABAudio(
+        createAudioPool: _createAudioPool,
+        seed: _seed,
+        audioAssetA: Assets.sfx.kickerA,
+        audioAssetB: Assets.sfx.kickerB,
+        volume: 0.6,
       ),
       PinballAudio.cowMoo: _ThrottledAudio(
         preCacheSingleAudio: _preCacheSingleAudio,
