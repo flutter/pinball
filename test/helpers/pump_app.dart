@@ -12,11 +12,14 @@ import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_ui/pinball_ui.dart';
+import 'package:share_repository/share_repository.dart';
 
 class _MockAssetsManagerCubit extends Mock implements AssetsManagerCubit {}
 
 class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
 }
+
+class _MockShareRepository extends Mock implements ShareRepository {}
 
 class _MockCharacterThemeCubit extends Mock implements CharacterThemeCubit {}
 
@@ -55,6 +58,7 @@ extension PumpApp on WidgetTester {
     AssetsManagerCubit? assetsManagerCubit,
     CharacterThemeCubit? characterThemeCubit,
     LeaderboardRepository? leaderboardRepository,
+    ShareRepository? shareRepository,
     PinballAudioPlayer? pinballAudioPlayer,
   }) {
     return runAsync(() {
@@ -63,6 +67,9 @@ extension PumpApp on WidgetTester {
           providers: [
             RepositoryProvider.value(
               value: leaderboardRepository ?? _MockLeaderboardRepository(),
+            ),
+            RepositoryProvider.value(
+              value: shareRepository ?? _MockShareRepository(),
             ),
             RepositoryProvider.value(
               value: pinballAudioPlayer ?? _buildDefaultPinballAudioPlayer(),
