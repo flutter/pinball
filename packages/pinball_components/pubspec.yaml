@@ -81,6 +81,8 @@ flutter:
     - assets/images/google_word/letter4/
     - assets/images/google_word/letter5/
     - assets/images/google_word/letter6/
+    - assets/images/google_rollover/left/
+    - assets/images/google_rollover/right/
     - assets/images/signpost/
     - assets/images/multiball/
     - assets/images/multiplier/x2/
