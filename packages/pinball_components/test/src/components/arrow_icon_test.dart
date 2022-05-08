@@ -1,4 +1,4 @@
-// ignore_for_file: cascade_invocations
+// ignore_for_file: cascade_invocations, one_member_abstracts
 
 import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
