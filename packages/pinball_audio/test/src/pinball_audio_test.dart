@@ -2,6 +2,7 @@
 import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:clock/clock.dart';
 import 'package:flame_audio/audio_pool.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -42,6 +43,8 @@ abstract class _PreCacheSingleAudio {
 class _MockPreCacheSingleAudio extends Mock implements _PreCacheSingleAudio {}
 
 class _MockRandom extends Mock implements Random {}
+
+class _MockClock extends Mock implements Clock {}
 
 void main() {
   group('PinballAudio', () {
@@ -173,6 +176,10 @@ void main() {
         ).called(1);
         verify(
           () => preCacheSingleAudio
+              .onCall('packages/pinball_audio/assets/sfx/cow_moo.mp3'),
+        ).called(1);
+        verify(
+          () => preCacheSingleAudio
               .onCall('packages/pinball_audio/assets/music/background.mp3'),
         ).called(1);
       });
@@ -223,6 +230,42 @@ void main() {
           audioPlayer.play(PinballAudio.bumper);
 
           verify(() => bumperBPool.start(volume: 0.6)).called(1);
+        });
+      });
+    });
+
+    group('cow moo', () {
+      test('plays the correct file', () async {
+        await Future.wait(audioPlayer.load());
+        audioPlayer.play(PinballAudio.cowMoo);
+
+        verify(
+          () => playSingleAudio
+              .onCall('packages/pinball_audio/${Assets.sfx.cowMoo}'),
+        ).called(1);
+      });
+
+      test('only plays the sound again after 2 seconds', () async {
+        final clock = _MockClock();
+        await withClock(clock, () async {
+          when(clock.now).thenReturn(DateTime(2022));
+          await Future.wait(audioPlayer.load());
+          audioPlayer
+            ..play(PinballAudio.cowMoo)
+            ..play(PinballAudio.cowMoo);
+
+          verify(
+            () => playSingleAudio
+                .onCall('packages/pinball_audio/${Assets.sfx.cowMoo}'),
+          ).called(1);
+
+          when(clock.now).thenReturn(DateTime(2022, 1, 1, 1, 2));
+          audioPlayer.play(PinballAudio.cowMoo);
+
+          verify(
+            () => playSingleAudio
+                .onCall('packages/pinball_audio/${Assets.sfx.cowMoo}'),
+          ).called(1);
         });
       });
     });
