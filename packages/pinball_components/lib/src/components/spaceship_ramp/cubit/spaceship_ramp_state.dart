@@ -20,6 +20,10 @@ class SpaceshipRampState extends Equatable {
   final ArrowLightState lightState;
   final ArrowAnimationState animationState;
 
+  bool get fullArrowLit =>
+      lightState == ArrowLightState.active5 &&
+      animationState == ArrowAnimationState.idle;
+
   SpaceshipRampState copyWith({
     int? hits,
     ArrowLightState? lightState,

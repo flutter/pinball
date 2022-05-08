@@ -24,13 +24,10 @@ class SpaceshipRampCubit extends Cubit<SpaceshipRampState> {
     );
   }
 
-  bool isFullyProgressed() =>
-      state.lightState == ArrowLightState.active5 &&
-      state.animationState == ArrowAnimationState.idle;
-
   void onReset() {
     emit(
-      state.copyWith(
+      const SpaceshipRampState(
+        hits: 0,
         lightState: ArrowLightState.inactive,
         animationState: ArrowAnimationState.idle,
       ),

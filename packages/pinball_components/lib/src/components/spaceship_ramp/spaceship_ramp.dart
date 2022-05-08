@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flame/components.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/gen/assets.gen.dart';
@@ -19,12 +20,10 @@ class SpaceshipRamp extends Component {
     Iterable<Component>? children,
   }) : this._(
           children: children,
-          bloc: SpaceshipRampCubit(),
         );
 
   SpaceshipRamp._({
     Iterable<Component>? children,
-    required this.bloc,
   }) : super(
           children: [
             _SpaceshipRampOpening(
@@ -39,9 +38,7 @@ class SpaceshipRamp extends Component {
             _SpaceshipRampForegroundRailing(),
             SpaceshipRampBase()..initialPosition = Vector2(3.4, -42.5),
             _SpaceshipRampBackgroundRailingSpriteComponent(),
-            SpaceshipRampArrowSpriteComponent(
-              current: bloc.state.lightState,
-            ),
+            SpaceshipRampArrowSpriteComponent(),
             RampArrowBlinkingBehavior(),
             ...?children,
           ],
@@ -51,17 +48,7 @@ class SpaceshipRamp extends Component {
   ///
   /// This can be used for testing [SpaceshipRamp]'s behaviors in isolation.
   @visibleForTesting
-  SpaceshipRamp.test({
-    required this.bloc,
-  }) : super();
-
-  final SpaceshipRampCubit bloc;
-
-  @override
-  void onRemove() {
-    bloc.close();
-    super.onRemove();
-  }
+  SpaceshipRamp.test() : super();
 }
 
 class _SpaceshipRampBackground extends BodyComponent
@@ -172,12 +159,10 @@ class SpaceshipRampArrowSpriteComponent
     extends SpriteGroupComponent<ArrowLightState>
     with HasGameRef, ParentIsA<SpaceshipRamp>, ZIndex {
   /// {@macro spaceship_ramp_arrow_sprite_component}
-  SpaceshipRampArrowSpriteComponent({
-    required ArrowLightState current,
-  }) : super(
+  SpaceshipRampArrowSpriteComponent()
+      : super(
           anchor: Anchor.center,
           position: Vector2(-3.9, -56.5),
-          current: current,
         ) {
     zIndex = ZIndexes.spaceshipRampArrow;
   }
@@ -185,15 +170,17 @@ class SpaceshipRampArrowSpriteComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    parent.bloc.stream.listen((state) {
-      print("STATE $state");
-      current = state.lightState;
-    });
+    await add(
+      FlameBlocListener<SpaceshipRampCubit, SpaceshipRampState>(
+        listenWhen: (previousState, newState) =>
+            previousState.lightState != newState.lightState,
+        onNewState: (state) => current = state.lightState,
+      ),
+    );
 
     final sprites = <ArrowLightState, Sprite>{};
     this.sprites = sprites;
     for (final spriteState in ArrowLightState.values) {
-      print("SPRITE $spriteState");
       sprites[spriteState] = Sprite(
         gameRef.images.fromCache(spriteState.path),
       );

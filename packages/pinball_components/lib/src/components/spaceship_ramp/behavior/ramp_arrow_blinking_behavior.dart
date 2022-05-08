@@ -1,16 +1,18 @@
 import 'package:flame/components.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template ramp_arrow_blinking_behavior}
-/// Makes a [SpaceshipRampArrowSpriteComponent] blink between [ArrowLightState.values].
+/// Makes a [SpaceshipRampArrowSpriteComponent] blink between
+/// [ArrowLightState.values].
 /// {@endtemplate}
 class RampArrowBlinkingBehavior extends TimerComponent
     with ParentIsA<SpaceshipRamp> {
   /// {@macro ramp_arrow_blinking_behavior}
   RampArrowBlinkingBehavior() : super(period: 0.05);
 
-  final _maxBlinks = 15;
+  final _maxBlinks = 20;
 
   int _blinksCounter = 0;
 
@@ -39,7 +41,7 @@ class RampArrowBlinkingBehavior extends TimerComponent
   }
 
   void _animate() {
-    parent.bloc.onBlink();
+    readBloc<SpaceshipRampCubit, SpaceshipRampState>().onBlink();
     _blinksCounter++;
   }
 
@@ -48,14 +50,18 @@ class RampArrowBlinkingBehavior extends TimerComponent
       _isAnimating = false;
       timer.stop();
       _blinksCounter = 0;
-      parent.bloc.onStop();
+      readBloc<SpaceshipRampCubit, SpaceshipRampState>().onStop();
     }
   }
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    parent.bloc.stream.listen(_onNewState);
+    await add(
+      FlameBlocListener<SpaceshipRampCubit, SpaceshipRampState>(
+        onNewState: _onNewState,
+      ),
+    );
   }
 
   @override
