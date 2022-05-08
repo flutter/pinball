@@ -46,12 +46,14 @@ void main() {
       });
 
       testWidgets(
-        'calls onGameStarted event',
+        'calls GameStarted event',
         (tester) async {
           whenListen(
             startGameBloc,
             Stream.value(
-              const StartGameState(status: StartGameStatus.selectCharacter),
+              const StartGameState(
+                status: StartGameStatus.selectCharacter,
+              ),
             ),
             initialState: const StartGameState.initial(),
           );
