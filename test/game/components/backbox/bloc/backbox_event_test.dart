@@ -123,6 +123,33 @@ void main() {
       });
     });
 
+    group('ScoreShareRequested', () {
+      test('can be instantiated', () {
+        expect(
+          ShareScoreRequested(score: 0),
+          isNotNull,
+        );
+      });
+
+      test('supports value comparison', () {
+        expect(
+          ShareScoreRequested(score: 0),
+          equals(
+            ShareScoreRequested(score: 0),
+          ),
+        );
+
+        expect(
+          ShareScoreRequested(score: 0),
+          isNot(
+            equals(
+              ShareScoreRequested(score: 1),
+            ),
+          ),
+        );
+      });
+    });
+
     group('LeaderboardRequested', () {
       test('can be instantiated', () {
         expect(LeaderboardRequested(), isNotNull);

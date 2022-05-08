@@ -11,12 +11,24 @@ class StartGameBloc extends Bloc<StartGameEvent, StartGameState> {
   /// {@macro start_game_bloc}
   StartGameBloc() : super(const StartGameState.initial()) {
     on<PlayTapped>(_onPlayTapped);
+    on<ReplayTapped>(_onReplayTapped);
     on<CharacterSelected>(_onCharacterSelected);
     on<HowToPlayFinished>(_onHowToPlayFinished);
   }
 
   void _onPlayTapped(
     PlayTapped event,
+    Emitter<StartGameState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        status: StartGameStatus.selectCharacter,
+      ),
+    );
+  }
+
+  void _onReplayTapped(
+    ReplayTapped event,
     Emitter<StartGameState> emit,
   ) {
     emit(

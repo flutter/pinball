@@ -11,6 +11,12 @@ class ShareRepository {
 
   final String _appUrl;
 
+  /// Url to the Github Open Source Pinball project.
+  static const openSourceCode = 'https://github.com/VGVentures/pinball';
+
+  /// Url to the Google IO Event.
+  static const googleIOEvent = 'https://events.google.com/io/';
+
   /// Returns a url to share the [value] on the given [platform].
   ///
   /// The returned url can be opened using the [url_launcher](https://pub.dev/packages/url_launcher) package.

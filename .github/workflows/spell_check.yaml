@@ -17,5 +17,5 @@ jobs:
       - name: Check spelling
         uses: zwaldowski/cspell-action@v1
         with:
-          paths: '**/*.{dart,arb}'
+          paths: '**/*.{dart,arb,md}'
           config: .vscode/cspell.json

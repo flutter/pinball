@@ -12,6 +12,13 @@ void main() {
       );
     });
 
+    test('ReplayTapped supports value equality', () {
+      expect(
+        ReplayTapped(),
+        equals(ReplayTapped()),
+      );
+    });
+
     test('CharacterSelected supports value equality', () {
       expect(
         CharacterSelected(),

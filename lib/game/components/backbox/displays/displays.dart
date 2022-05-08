@@ -1,3 +1,4 @@
+export 'game_over_info_display.dart';
 export 'initials_input_display.dart';
 export 'initials_submission_failure_display.dart';
 export 'initials_submission_success_display.dart';
