@@ -316,7 +316,7 @@ void main() {
           gameBloc: gameBloc,
           startGameBloc: startGameBloc,
         );
-        expect(find.image(Assets.images.linkBox.infoIcon), findsOneWidget);
+        expect(find.byIcon(Icons.info), findsOneWidget);
       });
 
       testWidgets('opens MoreInformationDialog when tapped', (tester) async {
