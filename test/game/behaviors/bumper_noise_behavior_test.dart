@@ -36,26 +36,26 @@ class _MockContact extends Mock implements Contact {}
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  group('BumperNoiseBehavior', () {});
+  group('BumperNoiseBehavior', () {
+    late PinballAudioPlayer audioPlayer;
+    final flameTester = FlameTester(_TestGame.new);
 
-  late PinballAudioPlayer audioPlayer;
-  final flameTester = FlameTester(_TestGame.new);
+    setUp(() {
+      audioPlayer = _MockPinballAudioPlayer();
+    });
 
-  setUp(() {
-    audioPlayer = _MockPinballAudioPlayer();
+    flameTester.testGameWidget(
+      'plays bumper sound',
+      setUp: (game, _) async {
+        final behavior = BumperNoiseBehavior();
+        final parent = _TestBodyComponent();
+        await game.pump(parent, audioPlayer: audioPlayer);
+        await parent.ensureAdd(behavior);
+        behavior.beginContact(Object(), _MockContact());
+      },
+      verify: (_, __) async {
+        verify(() => audioPlayer.play(PinballAudio.bumper)).called(1);
+      },
+    );
   });
-
-  flameTester.testGameWidget(
-    'plays bumper sound',
-    setUp: (game, _) async {
-      final behavior = BumperNoiseBehavior();
-      final parent = _TestBodyComponent();
-      await game.pump(parent, audioPlayer: audioPlayer);
-      await parent.ensureAdd(behavior);
-      behavior.beginContact(Object(), _MockContact());
-    },
-    verify: (_, __) async {
-      verify(() => audioPlayer.play(PinballAudio.bumper)).called(1);
-    },
-  );
 }
