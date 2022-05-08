@@ -107,7 +107,7 @@ void main() {
       expect(() => GoogleLetter(6), throwsA(isA<RangeError>()));
     });
 
-    group('GoogleLetterSpriteGroupComponent', () {
+    group('sprite', () {
       const firstLetterLitState = GoogleWordState(
         letterSpriteStates: {
           0: GoogleLetterSpriteState.lit,
@@ -125,11 +125,8 @@ void main() {
           final googleLetter = GoogleLetter(0);
           await game.pump(googleLetter);
 
-          final googleLetterSpriteGroup =
-              googleLetter.firstChild<GoogleLetterSpriteGroupComponent>()!;
-
           expect(
-            googleLetterSpriteGroup.listenWhen(
+            googleLetter.listenWhen(
               GoogleWordState.initial(),
               firstLetterLitState,
             ),
@@ -144,14 +141,12 @@ void main() {
           final googleLetter = GoogleLetter(0);
           await game.pump(googleLetter);
 
-          final googleLetterSpriteGroup =
-              googleLetter.firstChild<GoogleLetterSpriteGroupComponent>()!;
-          final originalSprite = googleLetterSpriteGroup.current;
+          final originalSprite = googleLetter.current;
 
-          googleLetterSpriteGroup.onNewState(firstLetterLitState);
+          googleLetter.onNewState(firstLetterLitState);
           await game.ready();
 
-          final newSprite = googleLetterSpriteGroup.current;
+          final newSprite = googleLetter.current;
           expect(newSprite != originalSprite, isTrue);
         },
       );

@@ -1,6 +1,5 @@
 import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
@@ -12,31 +11,12 @@ enum GoogleLetterSpriteState {
 /// {@template google_letter}
 /// Circular decal that represents a letter in "GOOGLE" for a given index.
 /// {@endtemplate}
-class GoogleLetter extends PositionComponent {
+class GoogleLetter extends SpriteGroupComponent<GoogleLetterSpriteState>
+    with HasGameRef, FlameBlocListenable<GoogleWordCubit, GoogleWordState> {
   /// {@macro google_letter}
   GoogleLetter(int index)
-      : super(
-          children: [
-            GoogleLetterSpriteGroupComponent(
-              litAssetPath: _spritePaths[index][GoogleLetterSpriteState.lit]!,
-              dimmedAssetPath: _spritePaths[index]
-                  [GoogleLetterSpriteState.dimmed]!,
-              index: index,
-            ),
-          ],
-        );
-}
-
-@visibleForTesting
-class GoogleLetterSpriteGroupComponent
-    extends SpriteGroupComponent<GoogleLetterSpriteState>
-    with HasGameRef, FlameBlocListenable<GoogleWordCubit, GoogleWordState> {
-  GoogleLetterSpriteGroupComponent({
-    required String litAssetPath,
-    required String dimmedAssetPath,
-    required int index,
-  })  : _litAssetPath = litAssetPath,
-        _dimmedAssetPath = dimmedAssetPath,
+      : _litAssetPath = _spritePaths[index][GoogleLetterSpriteState.lit]!,
+        _dimmedAssetPath = _spritePaths[index][GoogleLetterSpriteState.dimmed]!,
         _index = index,
         super(anchor: Anchor.center);
 
