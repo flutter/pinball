@@ -10,7 +10,6 @@ import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/assets_manager/assets_manager.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball/gen/gen.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/more_information/more_information.dart';
 import 'package:pinball/select_character/select_character.dart';
@@ -316,7 +315,7 @@ void main() {
           gameBloc: gameBloc,
           startGameBloc: startGameBloc,
         );
-        expect(find.image(Assets.images.linkBox.infoIcon), findsOneWidget);
+        expect(find.byIcon(Icons.info), findsOneWidget);
       });
 
       testWidgets('opens MoreInformationDialog when tapped', (tester) async {
