@@ -8,6 +8,7 @@ environment:
 
 dependencies:
   audioplayers: ^0.20.1
+  clock: ^1.1.0
   flame_audio: ^1.0.1
   flutter:
     sdk: flutter
