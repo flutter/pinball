@@ -30,7 +30,7 @@ class _TestGame extends Forge2DGame {
 
   Future<void> pump(
     Iterable<Component> children, {
-    PinballPlayer? pinballPlayer,
+    PinballAudioPlayer? pinballAudioPlayer,
   }) async {
     return ensureAdd(
       FlameMultiBlocProvider(
@@ -45,8 +45,8 @@ class _TestGame extends Forge2DGame {
         children: [
           MultiFlameProvider(
             providers: [
-              FlameProvider<PinballPlayer>.value(
-                pinballPlayer ?? _MockPinballPlayer(),
+              FlameProvider<PinballAudioPlayer>.value(
+                pinballAudioPlayer ?? _MockPinballAudioPlayer(),
               ),
               FlameProvider<AppLocalizations>.value(
                 _MockAppLocalizations(),
@@ -60,7 +60,7 @@ class _TestGame extends Forge2DGame {
   }
 }
 
-class _MockPinballPlayer extends Mock implements PinballPlayer {}
+class _MockPinballAudioPlayer extends Mock implements PinballAudioPlayer {}
 
 class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
 }
@@ -150,7 +150,10 @@ void main() {
           (game) async {
             final component = GameBlocStatusListener();
             final repository = _MockLeaderboardRepository();
-            final backbox = Backbox(leaderboardRepository: repository);
+            final backbox = Backbox(
+              leaderboardRepository: repository,
+              entries: const [],
+            );
 
             await game.pump([component, backbox]);
 
@@ -159,11 +162,14 @@ void main() {
         );
 
         flameTester.test(
-          'removes FlipperKeyControllingBehavior from Fipper',
+          'removes FlipperKeyControllingBehavior from Flipper',
           (game) async {
             final component = GameBlocStatusListener();
             final repository = _MockLeaderboardRepository();
-            final backbox = Backbox(leaderboardRepository: repository);
+            final backbox = Backbox(
+              leaderboardRepository: repository,
+              entries: const [],
+            );
             final flipper = Flipper.test(side: BoardSide.left);
             final behavior = FlipperKeyControllingBehavior();
 
@@ -185,15 +191,25 @@ void main() {
         flameTester.test(
           'plays the game over voice over',
           (game) async {
-            final player = _MockPinballPlayer();
+            final audioPlayer = _MockPinballAudioPlayer();
             final component = GameBlocStatusListener();
             final repository = _MockLeaderboardRepository();
-            final backbox = Backbox(leaderboardRepository: repository);
-            await game.pump([component, backbox], pinballPlayer: player);
+            final backbox = Backbox(
+              leaderboardRepository: repository,
+              entries: const [],
+            );
+            await game.pump(
+              [component, backbox],
+              pinballAudioPlayer: audioPlayer,
+            );
 
             component.onNewState(state);
 
-            verify(() => player.play(PinballAudio.gameOverVoiceOver)).called(1);
+            verify(
+              () => audioPlayer.play(
+                PinballAudio.gameOverVoiceOver,
+              ),
+            ).called(1);
           },
         );
       });
@@ -210,23 +226,30 @@ void main() {
         flameTester.test(
           'plays the background music on start',
           (game) async {
-            final player = _MockPinballPlayer();
+            final audioPlayer = _MockPinballAudioPlayer();
             final component = GameBlocStatusListener();
-            await game.pump([component], pinballPlayer: player);
+            await game.pump([component], pinballAudioPlayer: audioPlayer);
 
             expect(state.status, equals(GameStatus.playing));
             component.onNewState(state);
 
-            verify(() => player.play(PinballAudio.backgroundMusic)).called(1);
+            verify(
+              () => audioPlayer.play(
+                PinballAudio.backgroundMusic,
+              ),
+            ).called(1);
           },
         );
 
         flameTester.test(
-          'adds key controlling behavior to Fippers when the game is started',
+          'adds key controlling behavior to Flippers when the game is started',
           (game) async {
             final component = GameBlocStatusListener();
             final repository = _MockLeaderboardRepository();
-            final backbox = Backbox(leaderboardRepository: repository);
+            final backbox = Backbox(
+              leaderboardRepository: repository,
+              entries: const [],
+            );
             final flipper = Flipper.test(side: BoardSide.left);
 
             await game.pump([component, backbox, flipper]);

@@ -16,16 +16,16 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 class PinballGame extends PinballForge2DGame
-    with HasKeyboardHandlerComponents, MultiTouchTapDetector {
+    with HasKeyboardHandlerComponents, MultiTouchTapDetector, HasTappables {
   PinballGame({
     required CharacterThemeCubit characterThemeBloc,
     required this.leaderboardRepository,
     required GameBloc gameBloc,
     required AppLocalizations l10n,
-    required PinballPlayer player,
+    required PinballAudioPlayer audioPlayer,
   })  : focusNode = FocusNode(),
         _gameBloc = gameBloc,
-        _player = player,
+        _audioPlayer = audioPlayer,
         _characterThemeBloc = characterThemeBloc,
         _l10n = l10n,
         super(
@@ -37,6 +37,9 @@ class PinballGame extends PinballForge2DGame
   /// Identifier of the play button overlay
   static const playButtonOverlay = 'play_button';
 
+  /// Identifier of the mobile controls overlay
+  static const mobileControlsOverlay = 'mobile_controls';
+
   @override
   Color backgroundColor() => Colors.transparent;
 
@@ -44,13 +47,25 @@ class PinballGame extends PinballForge2DGame
 
   final CharacterThemeCubit _characterThemeBloc;
 
-  final PinballPlayer _player;
+  final PinballAudioPlayer _audioPlayer;
 
   final LeaderboardRepository leaderboardRepository;
 
   final AppLocalizations _l10n;
 
   final GameBloc _gameBloc;
+
+  List<LeaderboardEntryData>? _entries;
+
+  Future<void> preFetchLeaderboard() async {
+    try {
+      _entries = await leaderboardRepository.fetchTop10Leaderboard();
+    } catch (_) {
+      // An initial null leaderboard means that we couldn't fetch
+      // the entries for the [Backbox] and it will show the relevant display.
+      _entries = null;
+    }
+  }
 
   @override
   Future<void> onLoad() async {
@@ -67,7 +82,7 @@ class PinballGame extends PinballForge2DGame
         children: [
           MultiFlameProvider(
             providers: [
-              FlameProvider<PinballPlayer>.value(_player),
+              FlameProvider<PinballAudioPlayer>.value(_audioPlayer),
               FlameProvider<LeaderboardRepository>.value(leaderboardRepository),
               FlameProvider<AppLocalizations>.value(_l10n),
             ],
@@ -88,7 +103,10 @@ class PinballGame extends PinballForge2DGame
                     children: [
                       BoardBackgroundSpriteComponent(),
                       Boundaries(),
-                      Backbox(leaderboardRepository: leaderboardRepository),
+                      Backbox(
+                        leaderboardRepository: leaderboardRepository,
+                        entries: _entries,
+                      ),
                       GoogleGallery(),
                       Multipliers(),
                       Multiballs(),
@@ -125,7 +143,7 @@ class PinballGame extends PinballForge2DGame
       final rocket = descendants().whereType<RocketSpriteComponent>().first;
       final bounds = rocket.topLeftPosition & rocket.size;
 
-      // NOTE(wolfen): As long as Flame does not have https://github.com/flame-engine/flame/issues/1586 we need to check it at the highest level manually.
+      // NOTE: As long as Flame does not have https://github.com/flame-engine/flame/issues/1586 we need to check it at the highest level manually.
       if (bounds.contains(info.eventPosition.game.toOffset())) {
         descendants().whereType<Plunger>().single.pullFor(2);
       } else {
@@ -170,11 +188,11 @@ class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
     required CharacterThemeCubit characterThemeBloc,
     required LeaderboardRepository leaderboardRepository,
     required AppLocalizations l10n,
-    required PinballPlayer player,
+    required PinballAudioPlayer audioPlayer,
     required GameBloc gameBloc,
   }) : super(
           characterThemeBloc: characterThemeBloc,
-          player: player,
+          audioPlayer: audioPlayer,
           leaderboardRepository: leaderboardRepository,
           l10n: l10n,
           gameBloc: gameBloc,

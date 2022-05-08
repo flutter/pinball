@@ -27,7 +27,7 @@ void main() {
       });
 
       test(
-        'returns false when defaultTargetPlatform is niether iOS nor android',
+        'returns false when defaultTargetPlatform is neither iOS nor android',
         () async {
           debugDefaultTargetPlatformOverride = TargetPlatform.macOS;
           expect(PlatformHelper().isMobile, isFalse);

@@ -1,7 +1,7 @@
 // ignore_for_file: cascade_invocations
 
-import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/components.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -21,9 +21,18 @@ void main() {
       Assets.images.android.spaceship.lightBeam.keyName,
     ];
     final flameTester = FlameTester(() => TestGame(assets));
+    late AndroidSpaceshipCubit bloc;
+
+    setUp(() {
+      bloc = _MockAndroidSpaceshipCubit();
+    });
 
     flameTester.test('loads correctly', (game) async {
-      final component = AndroidSpaceship(position: Vector2.zero());
+      final component =
+          FlameBlocProvider<AndroidSpaceshipCubit, AndroidSpaceshipState>.value(
+        value: bloc,
+        children: [AndroidSpaceship(position: Vector2.zero())],
+      );
       await game.ensureAdd(component);
       expect(game.contains(component), isTrue);
     });
@@ -33,7 +42,13 @@ void main() {
       setUp: (game, tester) async {
         await game.images.loadAll(assets);
         final canvas = ZCanvasComponent(
-          children: [AndroidSpaceship(position: Vector2.zero())],
+          children: [
+            FlameBlocProvider<AndroidSpaceshipCubit,
+                AndroidSpaceshipState>.value(
+              value: bloc,
+              children: [AndroidSpaceship(position: Vector2.zero())],
+            ),
+          ],
         );
         await game.ensureAdd(canvas);
         game.camera.followVector2(Vector2.zero());
@@ -70,28 +85,16 @@ void main() {
       },
     );
 
-    flameTester.test('closes bloc when removed', (game) async {
-      final bloc = _MockAndroidSpaceshipCubit();
-      whenListen(
-        bloc,
-        const Stream<AndroidSpaceshipState>.empty(),
-        initialState: AndroidSpaceshipState.withoutBonus,
-      );
-      when(bloc.close).thenAnswer((_) async {});
-      final androidSpaceship = AndroidSpaceship.test(bloc: bloc);
-
-      await game.ensureAdd(androidSpaceship);
-      game.remove(androidSpaceship);
-      await game.ready();
-
-      verify(bloc.close).called(1);
-    });
-
     flameTester.test(
         'AndroidSpaceshipEntrance has an '
         'AndroidSpaceshipEntranceBallContactBehavior', (game) async {
       final androidSpaceship = AndroidSpaceship(position: Vector2.zero());
-      await game.ensureAdd(androidSpaceship);
+      final provider =
+          FlameBlocProvider<AndroidSpaceshipCubit, AndroidSpaceshipState>.value(
+        value: bloc,
+        children: [androidSpaceship],
+      );
+      await game.ensureAdd(provider);
 
       final androidSpaceshipEntrance =
           androidSpaceship.firstChild<AndroidSpaceshipEntrance>();

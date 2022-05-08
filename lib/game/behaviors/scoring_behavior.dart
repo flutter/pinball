@@ -15,7 +15,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@endtemplate}
 class ScoringBehavior extends Component
     with HasGameRef, FlameBlocReader<GameBloc, GameState> {
-  /// {@macto scoring_behavior}
+  /// {@macro scoring_behavior}
   ScoringBehavior({
     required Points points,
     required Vector2 position,

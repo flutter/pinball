@@ -106,7 +106,7 @@ abstract class ZIndexes {
 
   // Score
 
-  static const score = _above + spaceshipRampForegroundRailing;
+  static const score = _above + sparkyAnimatronic;
 
   // Debug information
 

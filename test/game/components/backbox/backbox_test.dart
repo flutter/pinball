@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
@@ -19,8 +20,10 @@ import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart' as theme;
+import 'package:platform_helper/platform_helper.dart';
 
-class _TestGame extends Forge2DGame with HasKeyboardHandlerComponents {
+class _TestGame extends Forge2DGame
+    with HasKeyboardHandlerComponents, HasTappables {
   final character = theme.DashTheme();
 
   @override
@@ -33,6 +36,7 @@ class _TestGame extends Forge2DGame with HasKeyboardHandlerComponents {
       character.leaderboardIcon.keyName,
       Assets.images.backbox.marquee.keyName,
       Assets.images.backbox.displayDivider.keyName,
+      Assets.images.backbox.displayTitleDecoration.keyName,
     ]);
   }
 
@@ -64,10 +68,14 @@ RawKeyUpEvent _mockKeyUp(LogicalKeyboardKey key) {
   return event;
 }
 
+class _MockPlatformHelper extends Mock implements PlatformHelper {}
+
 class _MockBackboxBloc extends Mock implements BackboxBloc {}
 
 class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
 }
+
+class _MockTapDownInfo extends Mock implements TapDownInfo {}
 
 class _MockAppLocalizations extends Mock implements AppLocalizations {
   @override
@@ -96,6 +104,36 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {
 
   @override
   String get loading => '';
+
+  @override
+  String get shareYourScore => '';
+
+  @override
+  String get andChallengeYourFriends => '';
+
+  @override
+  String get share => '';
+
+  @override
+  String get gotoIO => '';
+
+  @override
+  String get learnMore => '';
+
+  @override
+  String get firebaseOr => '';
+
+  @override
+  String get openSourceCode => '';
+
+  @override
+  String get initialsErrorTitle => '';
+
+  @override
+  String get initialsErrorMessage => '';
+
+  @override
+  String get leaderboardErrorMessage => '';
 }
 
 void main() {
@@ -104,33 +142,29 @@ void main() {
   final flameTester = FlameTester(_TestGame.new);
 
   late BackboxBloc bloc;
+  late PlatformHelper platformHelper;
 
   setUp(() {
     bloc = _MockBackboxBloc();
+    platformHelper = _MockPlatformHelper();
     whenListen(
       bloc,
       Stream<BackboxState>.empty(),
       initialState: LoadingState(),
     );
+    when(() => platformHelper.isMobile).thenReturn(false);
   });
 
   group('Backbox', () {
     flameTester.test(
       'loads correctly',
       (game) async {
-        final backbox = Backbox.test(bloc: bloc);
+        final backbox = Backbox.test(
+          bloc: bloc,
+          platformHelper: platformHelper,
+        );
         await game.pump(backbox);
         expect(game.descendants(), contains(backbox));
-      },
-    );
-
-    flameTester.test(
-      'adds LeaderboardRequested when loaded',
-      (game) async {
-        final backbox = Backbox.test(bloc: bloc);
-        await game.pump(backbox);
-
-        verify(() => bloc.add(LeaderboardRequested())).called(1);
       },
     );
 
@@ -142,7 +176,10 @@ void main() {
           ..followVector2(Vector2(0, -130))
           ..zoom = 6;
         await game.pump(
-          Backbox.test(bloc: bloc),
+          Backbox.test(
+            bloc: bloc,
+            platformHelper: platformHelper,
+          ),
         );
         await tester.pump();
       },
@@ -160,7 +197,9 @@ void main() {
         final backbox = Backbox.test(
           bloc: BackboxBloc(
             leaderboardRepository: _MockLeaderboardRepository(),
+            initialEntries: [LeaderboardEntryData.empty],
           ),
+          platformHelper: platformHelper,
         );
         await game.pump(backbox);
         backbox.requestInitials(
@@ -189,7 +228,10 @@ void main() {
           Stream<BackboxState>.empty(),
           initialState: state,
         );
-        final backbox = Backbox.test(bloc: bloc);
+        final backbox = Backbox.test(
+          bloc: bloc,
+          platformHelper: platformHelper,
+        );
         await game.pump(backbox);
 
         game.onKeyEvent(_mockKeyUp(LogicalKeyboardKey.enter), {});
@@ -206,23 +248,101 @@ void main() {
     );
 
     flameTester.test(
-      'adds InitialsSubmissionSuccessDisplay on InitialsSuccessState',
+      'adds GameOverInfoDisplay when InitialsSuccessState',
       (game) async {
+        final state = InitialsSuccessState(score: 100);
         whenListen(
           bloc,
-          Stream<BackboxState>.empty(),
-          initialState: InitialsSuccessState(),
+          const Stream<InitialsSuccessState>.empty(),
+          initialState: state,
         );
-        final backbox = Backbox.test(bloc: bloc);
+        final backbox = Backbox.test(
+          bloc: bloc,
+          platformHelper: platformHelper,
+        );
         await game.pump(backbox);
 
         expect(
-          game
-              .descendants()
-              .whereType<InitialsSubmissionSuccessDisplay>()
-              .length,
+          game.descendants().whereType<GameOverInfoDisplay>().length,
           equals(1),
         );
+      },
+    );
+
+    flameTester.test(
+      'adds the mobile controls overlay when platform is mobile',
+      (game) async {
+        final bloc = _MockBackboxBloc();
+        final platformHelper = _MockPlatformHelper();
+        final state = InitialsFormState(
+          score: 10,
+          character: game.character,
+        );
+        whenListen(
+          bloc,
+          Stream<BackboxState>.empty(),
+          initialState: state,
+        );
+        when(() => platformHelper.isMobile).thenReturn(true);
+        final backbox = Backbox.test(
+          bloc: bloc,
+          platformHelper: platformHelper,
+        );
+        await game.pump(backbox);
+
+        expect(
+          game.overlays.value,
+          contains(PinballGame.mobileControlsOverlay),
+        );
+      },
+    );
+
+    flameTester.test(
+      'adds InitialsSubmissionSuccessDisplay on InitialsSuccessState',
+      (game) async {
+        final state = InitialsSuccessState(score: 100);
+        whenListen(
+          bloc,
+          const Stream<InitialsSuccessState>.empty(),
+          initialState: state,
+        );
+        final backbox = Backbox.test(
+          bloc: bloc,
+          platformHelper: platformHelper,
+        );
+        await game.pump(backbox);
+
+        expect(
+          game.descendants().whereType<GameOverInfoDisplay>().length,
+          equals(1),
+        );
+      },
+    );
+
+    flameTester.test(
+      'adds ShareScoreRequested event when sharing',
+      (game) async {
+        final state = InitialsSuccessState(score: 100);
+        whenListen(
+          bloc,
+          Stream.value(state),
+          initialState: state,
+        );
+        final backbox = Backbox.test(
+          bloc: bloc,
+          platformHelper: platformHelper,
+        );
+        await game.pump(backbox);
+
+        final shareLink =
+            game.descendants().whereType<ShareLinkComponent>().first;
+        shareLink.onTapDown(_MockTapDownInfo());
+
+        verify(
+          () => bloc.add(
+            ShareScoreRequested(score: state.score),
+          ),
+        ).called(1);
       },
     );
 
@@ -232,9 +352,15 @@ void main() {
         whenListen(
           bloc,
           Stream<BackboxState>.empty(),
-          initialState: InitialsFailureState(),
+          initialState: InitialsFailureState(
+            score: 0,
+            character: theme.DashTheme(),
+          ),
         );
-        final backbox = Backbox.test(bloc: bloc);
+        final backbox = Backbox.test(
+          bloc: bloc,
+          platformHelper: platformHelper,
+        );
         await game.pump(backbox);
 
         expect(
@@ -256,11 +382,36 @@ void main() {
           initialState: LeaderboardSuccessState(entries: const []),
         );
 
-        final backbox = Backbox.test(bloc: bloc);
+        final backbox = Backbox.test(
+          bloc: bloc,
+          platformHelper: platformHelper,
+        );
         await game.pump(backbox);
 
         expect(
           game.descendants().whereType<LeaderboardDisplay>().length,
+          equals(1),
+        );
+      },
+    );
+
+    flameTester.test(
+      'adds LeaderboardFailureDisplay on LeaderboardFailureState',
+      (game) async {
+        whenListen(
+          bloc,
+          Stream<BackboxState>.empty(),
+          initialState: LeaderboardFailureState(),
+        );
+
+        final backbox = Backbox.test(
+          bloc: bloc,
+          platformHelper: platformHelper,
+        );
+        await game.pump(backbox);
+
+        expect(
+          game.descendants().whereType<LeaderboardFailureDisplay>().length,
           equals(1),
         );
       },
@@ -276,13 +427,21 @@ void main() {
           initialState: LoadingState(),
         );
 
-        final backbox = Backbox.test(bloc: bloc);
+        final backbox = Backbox.test(
+          bloc: bloc,
+          platformHelper: platformHelper,
+        );
         await game.pump(backbox);
 
         backbox.removeFromParent();
         await game.ready();
 
-        streamController.add(InitialsFailureState());
+        streamController.add(
+          InitialsFailureState(
+            score: 10,
+            character: theme.DashTheme(),
+          ),
+        );
         await game.ready();
 
         expect(
@@ -292,6 +451,37 @@ void main() {
               .isEmpty,
           isTrue,
         );
+      },
+    );
+
+    flameTester.test(
+      'adds PlayerInitialsSubmitted when the timer is finished',
+      (game) async {
+        final initialState = InitialsFailureState(
+          score: 10,
+          character: theme.DashTheme(),
+        );
+        whenListen(
+          bloc,
+          Stream<BackboxState>.fromIterable([]),
+          initialState: initialState,
+        );
+
+        final backbox = Backbox.test(
+          bloc: bloc,
+          platformHelper: platformHelper,
+        );
+        await game.pump(backbox);
+        game.update(4);
+
+        verify(
+          () => bloc.add(
+            PlayerInitialsRequested(
+              score: 10,
+              character: theme.DashTheme(),
+            ),
+          ),
+        ).called(1);
       },
     );
   });

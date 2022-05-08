@@ -131,11 +131,28 @@ void main() {
       );
     });
 
-    flameTester.test('adds an AndroidSpaceshipBonusBehavior', (game) async {
+    flameTester.test('adds a FlameBlocProvider', (game) async {
       final androidAcres = AndroidAcres();
       await game.pump(androidAcres);
       expect(
-        androidAcres.children.whereType<AndroidSpaceshipBonusBehavior>().single,
+        androidAcres.children
+            .whereType<
+                FlameBlocProvider<AndroidSpaceshipCubit,
+                    AndroidSpaceshipState>>()
+            .single,
+        isNotNull,
+      );
+    });
+
+    flameTester.test('adds an AndroidSpaceshipBonusBehavior', (game) async {
+      final androidAcres = AndroidAcres();
+      await game.pump(androidAcres);
+      final provider = androidAcres.children
+          .whereType<
+              FlameBlocProvider<AndroidSpaceshipCubit, AndroidSpaceshipState>>()
+          .single;
+      expect(
+        provider.children.whereType<AndroidSpaceshipBonusBehavior>().single,
         isNotNull,
       );
     });

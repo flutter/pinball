@@ -65,7 +65,7 @@ class SparkyComputer extends BodyComponent {
       ..setAsBox(
         1,
         0.1,
-        Vector2(-13.2, -49.9),
+        Vector2(-13.1, -49.7),
         -0.18,
       );
 

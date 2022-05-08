@@ -21,7 +21,7 @@ jobs:
       - name: Build Flutter App
         run: |
           flutter packages get
-          flutter build web --target lib/main_development.dart --web-renderer canvaskit --release
+          flutter build web --target lib/main.dart --web-renderer canvaskit --release
       
       - name: Deploy to Firebase
         uses: FirebaseExtended/action-hosting-deploy@v0
