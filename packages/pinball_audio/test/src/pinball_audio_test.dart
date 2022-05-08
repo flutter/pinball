@@ -447,6 +447,18 @@ void main() {
               .onCall('packages/pinball_audio/${Assets.music.background}'),
         ).called(1);
       });
+
+      test('plays only once', () async {
+        await Future.wait(audioPlayer.load());
+        audioPlayer
+          ..play(PinballAudio.backgroundMusic)
+          ..play(PinballAudio.backgroundMusic);
+
+        verify(
+          () => loopSingleAudio
+              .onCall('packages/pinball_audio/${Assets.music.background}'),
+        ).called(1);
+      });
     });
 
     test(

@@ -116,6 +116,28 @@ class _LoopAudio extends _Audio {
   }
 }
 
+class _SingleLoopAudio extends _LoopAudio {
+  _SingleLoopAudio({
+    required PreCacheSingleAudio preCacheSingleAudio,
+    required LoopSingleAudio loopSingleAudio,
+    required String path,
+  }) : super(
+          preCacheSingleAudio: preCacheSingleAudio,
+          loopSingleAudio: loopSingleAudio,
+          path: path,
+        );
+
+  bool semaphore = false;
+
+  @override
+  void play() {
+    if (!semaphore) {
+      loopSingleAudio(prefixFile(path));
+      semaphore = true;
+    }
+  }
+}
+
 class _RandomABAudio extends _Audio {
   _RandomABAudio({
     required this.createAudioPool,
@@ -270,7 +292,7 @@ class PinballAudioPlayer {
         path: Assets.sfx.cowMoo,
         duration: const Duration(seconds: 2),
       ),
-      PinballAudio.backgroundMusic: _LoopAudio(
+      PinballAudio.backgroundMusic: _SingleLoopAudio(
         preCacheSingleAudio: _preCacheSingleAudio,
         loopSingleAudio: _loopSingleAudio,
         path: Assets.music.background,
