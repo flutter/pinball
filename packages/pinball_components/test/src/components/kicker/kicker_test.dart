@@ -9,7 +9,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_components/src/components/bumping_behavior.dart';
 import 'package:pinball_components/src/components/kicker/behaviors/behaviors.dart';
 
-import '../../helpers/helpers.dart';
+import '../../../helpers/helpers.dart';
 
 class _MockKickerCubit extends Mock implements KickerCubit {}
 
@@ -43,7 +43,7 @@ void main() {
       verify: (game, tester) async {
         await expectLater(
           find.byGame<TestGame>(),
-          matchesGoldenFile('golden/kickers.png'),
+          matchesGoldenFile('../golden/kickers.png'),
         );
       },
     );
@@ -61,6 +61,9 @@ void main() {
       },
     );
 
+    // TODO(alestiago): Consider refactoring once the following is merged:
+    // https://github.com/flame-engine/flame/pull/1538
+    // ignore: public_member_api_docs
     flameTester.test('closes bloc when removed', (game) async {
       final bloc = _MockKickerCubit();
       whenListen(
@@ -114,13 +117,13 @@ void main() {
         );
       });
 
-      flameTester.test('a KickerBlinkingBehavior', (game) async {
+      flameTester.test('a BlinkingBehavior', (game) async {
         final kicker = Kicker(
           side: BoardSide.left,
         );
         await game.ensureAdd(kicker);
         expect(
-          kicker.children.whereType<KickerBlinkingBehavior>().single,
+          kicker.children.whereType<BlinkingBehavior>().single,
           isNotNull,
         );
       });

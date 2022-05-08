@@ -65,11 +65,11 @@ void main() {
         );
       });
 
-      flameTester.test('a SkillShotBlinkingBehavior', (game) async {
+      flameTester.test('a BlinkingBehavior', (game) async {
         final skillShot = SkillShot();
         await game.ensureAdd(skillShot);
         expect(
-          skillShot.children.whereType<SkillShotBlinkingBehavior>().single,
+          skillShot.children.whereType<BlinkingBehavior>().single,
           isNotNull,
         );
       });

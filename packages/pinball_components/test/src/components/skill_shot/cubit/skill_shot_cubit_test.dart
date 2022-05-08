@@ -51,9 +51,9 @@ void main() {
       );
 
       blocTest<SkillShotCubit, SkillShotState>(
-        'onBlinkingFinished emits dimmed and false',
+        'finishedBlinking emits dimmed and false',
         build: SkillShotCubit.new,
-        act: (bloc) => bloc.onBlinkingFinished(),
+        act: (bloc) => bloc.finishedBlinking(),
         expect: () => [
           SkillShotState(
             spriteState: SkillShotSpriteState.dimmed,

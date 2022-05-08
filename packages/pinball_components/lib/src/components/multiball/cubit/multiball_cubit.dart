@@ -7,27 +7,23 @@ class MultiballCubit extends Cubit<MultiballState> {
   MultiballCubit() : super(const MultiballState.initial());
 
   void onAnimate() {
-    emit(
-      state.copyWith(animationState: MultiballAnimationState.blinking),
-    );
+    emit(state.copyWith(isAnimating: true));
   }
 
   void onStop() {
-    emit(
-      state.copyWith(animationState: MultiballAnimationState.idle),
-    );
+    emit(state.copyWith(isAnimating: false));
   }
 
-  void onBlink() {
-    switch (state.lightState) {
-      case MultiballLightState.lit:
+  void onBlinked() {
+    switch (state.spriteState) {
+      case MultiballSpriteState.lit:
         emit(
-          state.copyWith(lightState: MultiballLightState.dimmed),
+          state.copyWith(lightState: MultiballSpriteState.dimmed),
         );
         break;
-      case MultiballLightState.dimmed:
+      case MultiballSpriteState.dimmed:
         emit(
-          state.copyWith(lightState: MultiballLightState.lit),
+          state.copyWith(lightState: MultiballSpriteState.lit),
         );
         break;
     }

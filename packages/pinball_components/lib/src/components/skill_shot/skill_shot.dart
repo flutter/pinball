@@ -25,7 +25,17 @@ class SkillShot extends BodyComponent with ZIndex {
           renderBody: false,
           children: [
             SkillShotBallContactBehavior(),
-            SkillShotBlinkingBehavior(),
+            BlinkingBehavior<SkillShotState>(
+              loopDuration: 0.15,
+              loops: 8,
+              onLoop: bloc.switched,
+              onFinished: bloc.finishedBlinking,
+              stream: bloc.stream,
+              listenWhen: (previousState, newState) {
+                final isAlreadyBlinking = previousState?.isBlinking ?? false;
+                return !isAlreadyBlinking && newState.isBlinking;
+              },
+            ),
             _RolloverDecalSpriteComponent(),
             PinSpriteAnimationComponent(),
             _TextDecalSpriteGroupComponent(state: bloc.state.spriteState),

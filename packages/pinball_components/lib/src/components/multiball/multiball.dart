@@ -2,7 +2,6 @@ import 'dart:math' as math;
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/gen/assets.gen.dart';
-import 'package:pinball_components/src/components/multiball/behaviors/behaviors.dart';
 import 'package:pinball_components/src/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
@@ -20,13 +19,23 @@ class Multiball extends Component {
     required this.bloc,
   }) : super(
           children: [
-            MultiballBlinkingBehavior(),
+            BlinkingBehavior<MultiballState>(
+              loopDuration: 0.1,
+              loops: 20,
+              onLoop: bloc.onBlinked,
+              onFinished: bloc.onStop,
+              stream: bloc.stream,
+              listenWhen: (previousState, newState) {
+                final isAlreadyAnimating = previousState?.isAnimating ?? false;
+                return !isAlreadyAnimating && newState.isAnimating;
+              },
+            ),
             MultiballSpriteGroupComponent(
               position: position,
               litAssetPath: Assets.images.multiball.lit.keyName,
               dimmedAssetPath: Assets.images.multiball.dimmed.keyName,
               rotation: rotation,
-              state: bloc.state.lightState,
+              state: bloc.state.spriteState,
             ),
             ...?children,
           ],
@@ -94,7 +103,7 @@ class Multiball extends Component {
 /// {@endtemplate}
 @visibleForTesting
 class MultiballSpriteGroupComponent
-    extends SpriteGroupComponent<MultiballLightState>
+    extends SpriteGroupComponent<MultiballSpriteState>
     with HasGameRef, ParentIsA<Multiball> {
   /// {@macro multiball_sprite_group_component}
   MultiballSpriteGroupComponent({
@@ -102,7 +111,7 @@ class MultiballSpriteGroupComponent
     required String litAssetPath,
     required String dimmedAssetPath,
     required double rotation,
-    required MultiballLightState state,
+    required MultiballSpriteState state,
   })  : _litAssetPath = litAssetPath,
         _dimmedAssetPath = dimmedAssetPath,
         super(
@@ -118,13 +127,13 @@ class MultiballSpriteGroupComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    parent.bloc.stream.listen((state) => current = state.lightState);
+    parent.bloc.stream.listen((state) => current = state.spriteState);
 
     final sprites = {
-      MultiballLightState.lit: Sprite(
+      MultiballSpriteState.lit: Sprite(
         gameRef.images.fromCache(_litAssetPath),
       ),
-      MultiballLightState.dimmed:
+      MultiballSpriteState.dimmed:
           Sprite(gameRef.images.fromCache(_dimmedAssetPath)),
     };
     this.sprites = sprites;

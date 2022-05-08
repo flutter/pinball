@@ -29,7 +29,13 @@ class SparkyBumper extends BodyComponent with InitialPosition, ZIndex {
           renderBody: false,
           children: [
             SparkyBumperBallContactBehavior(),
-            SparkyBumperBlinkingBehavior(),
+            BlinkingBehavior<SparkyBumperState>(
+              loopDuration: 0.05,
+              onFinished: bloc.onBlinked,
+              stream: bloc.stream,
+              listenWhen: (previousState, newState) =>
+                  previousState != newState,
+            ),
             _SparkyBumperSpriteGroupComponent(
               litAssetPath: litAssetPath,
               dimmedAssetPath: dimmedAssetPath,

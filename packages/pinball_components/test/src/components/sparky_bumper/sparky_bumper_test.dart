@@ -73,13 +73,11 @@ void main() {
         );
       });
 
-      flameTester.test('a SparkyBumperBlinkingBehavior', (game) async {
+      flameTester.test('a BlinkingBehavior', (game) async {
         final sparkyBumper = SparkyBumper.a();
         await game.ensureAdd(sparkyBumper);
         expect(
-          sparkyBumper.children
-              .whereType<SparkyBumperBlinkingBehavior>()
-              .single,
+          sparkyBumper.children.whereType<BlinkingBehavior>().single,
           isNotNull,
         );
       });

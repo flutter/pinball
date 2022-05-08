@@ -45,7 +45,7 @@ class MultiballGame extends BallGame with KeyboardEvents {
     if (event is RawKeyDownEvent &&
         event.logicalKey == LogicalKeyboardKey.space) {
       for (final multiball in multiballs) {
-        multiball.bloc.onBlink();
+        multiball.bloc.onBlinked();
       }
 
       return KeyEventResult.handled;

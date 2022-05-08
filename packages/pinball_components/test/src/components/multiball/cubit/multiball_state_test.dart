@@ -8,13 +8,13 @@ void main() {
     test('supports value equality', () {
       expect(
         MultiballState(
-          animationState: MultiballAnimationState.idle,
-          lightState: MultiballLightState.dimmed,
+          isAnimating: false,
+          spriteState: MultiballSpriteState.dimmed,
         ),
         equals(
           MultiballState(
-            animationState: MultiballAnimationState.idle,
-            lightState: MultiballLightState.dimmed,
+            isAnimating: false,
+            spriteState: MultiballSpriteState.dimmed,
           ),
         ),
       );
@@ -24,8 +24,8 @@ void main() {
       test('can be instantiated', () {
         expect(
           MultiballState(
-            animationState: MultiballAnimationState.idle,
-            lightState: MultiballLightState.dimmed,
+            isAnimating: false,
+            spriteState: MultiballSpriteState.dimmed,
           ),
           isNotNull,
         );
@@ -38,8 +38,8 @@ void main() {
         'when no argument specified',
         () {
           final multiballState = MultiballState(
-            animationState: MultiballAnimationState.idle,
-            lightState: MultiballLightState.dimmed,
+            isAnimating: false,
+            spriteState: MultiballSpriteState.dimmed,
           );
           expect(
             multiballState.copyWith(),
@@ -53,19 +53,19 @@ void main() {
         'when all arguments specified',
         () {
           final multiballState = MultiballState(
-            animationState: MultiballAnimationState.idle,
-            lightState: MultiballLightState.dimmed,
+            isAnimating: false,
+            spriteState: MultiballSpriteState.dimmed,
           );
           final otherMultiballState = MultiballState(
-            animationState: MultiballAnimationState.blinking,
-            lightState: MultiballLightState.lit,
+            isAnimating: true,
+            spriteState: MultiballSpriteState.lit,
           );
           expect(multiballState, isNot(equals(otherMultiballState)));
 
           expect(
             multiballState.copyWith(
-              animationState: MultiballAnimationState.blinking,
-              lightState: MultiballLightState.lit,
+              isAnimating: true,
+              lightState: MultiballSpriteState.lit,
             ),
             equals(otherMultiballState),
           );

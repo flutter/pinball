@@ -6,7 +6,6 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_components/src/components/multiball/behaviors/behaviors.dart';
 
 import '../../../helpers/helpers.dart';
 
@@ -55,8 +54,8 @@ void main() {
         final bloc = _MockMultiballCubit();
         whenListen(
           bloc,
-          const Stream<MultiballLightState>.empty(),
-          initialState: MultiballLightState.dimmed,
+          const Stream<MultiballSpriteState>.empty(),
+          initialState: MultiballSpriteState.dimmed,
         );
         when(bloc.close).thenAnswer((_) async {});
         final multiball = Multiball.test(bloc: bloc);
@@ -79,11 +78,11 @@ void main() {
         expect(multiball.children, contains(component));
       });
 
-      flameTester.test('a MultiballBlinkingBehavior', (game) async {
+      flameTester.test('a BlinkingBehavior', (game) async {
         final multiball = Multiball.a();
         await game.ensureAdd(multiball);
         expect(
-          multiball.children.whereType<MultiballBlinkingBehavior>().single,
+          multiball.children.whereType<BlinkingBehavior>().single,
           isNotNull,
         );
       });

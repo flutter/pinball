@@ -1,5 +1,7 @@
 // ignore_for_file: cascade_invocations
 
+import 'dart:async';
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
@@ -73,16 +75,27 @@ void main() {
         );
       });
 
-      flameTester.test('an AndroidBumperBlinkingBehavior', (game) async {
+      flameTester.test('a BlinkingBehavior', (game) async {
         final androidBumper = AndroidBumper.a();
         await game.ensureAdd(androidBumper);
         expect(
-          androidBumper.children
-              .whereType<AndroidBumperBlinkingBehavior>()
-              .single,
+          androidBumper.children.whereType<BlinkingBehavior>().single,
           isNotNull,
         );
       });
+    });
+
+    flameTester.test('BlinkingBehavior triggers when the state changes',
+        (game) async {
+      final bloc = _MockAndroidBumperCubit();
+
+      final androidBumper = AndroidBumper.a();
+
+      await game.ensureAdd(androidBumper);
+
+
+
+      expect(androidBumper.descendants()., matcher)
     });
 
     group("'a' adds", () {

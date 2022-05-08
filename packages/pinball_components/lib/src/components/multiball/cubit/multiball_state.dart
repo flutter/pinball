@@ -1,41 +1,35 @@
 part of 'multiball_cubit.dart';
 
-enum MultiballLightState {
+enum MultiballSpriteState {
   lit,
   dimmed,
 }
 
-// Indicates if the blinking animation is running.
-enum MultiballAnimationState {
-  idle,
-  blinking,
-}
-
 class MultiballState extends Equatable {
   const MultiballState({
-    required this.lightState,
-    required this.animationState,
+    required this.spriteState,
+    required this.isAnimating,
   });
 
   const MultiballState.initial()
       : this(
-          lightState: MultiballLightState.dimmed,
-          animationState: MultiballAnimationState.idle,
+          spriteState: MultiballSpriteState.dimmed,
+          isAnimating: false,
         );
 
-  final MultiballLightState lightState;
-  final MultiballAnimationState animationState;
+  final MultiballSpriteState spriteState;
+  final bool isAnimating;
 
   MultiballState copyWith({
-    MultiballLightState? lightState,
-    MultiballAnimationState? animationState,
+    MultiballSpriteState? lightState,
+    bool? isAnimating,
   }) {
     return MultiballState(
-      lightState: lightState ?? this.lightState,
-      animationState: animationState ?? this.animationState,
+      spriteState: lightState ?? this.spriteState,
+      isAnimating: isAnimating ?? this.isAnimating,
     );
   }
 
   @override
-  List<Object> get props => [lightState, animationState];
+  List<Object> get props => [spriteState, isAnimating];
 }

@@ -7,58 +7,58 @@ void main() {
     'MultiballCubit',
     () {
       blocTest<MultiballCubit, MultiballState>(
-        'onAnimate emits animationState [animate]',
+        'onAnimate emits isAnimating true',
         build: MultiballCubit.new,
         act: (bloc) => bloc.onAnimate(),
         expect: () => [
           isA<MultiballState>()
             ..having(
-              (state) => state.animationState,
-              'animationState',
-              MultiballAnimationState.blinking,
+              (state) => state.isAnimating,
+              'isAnimating',
+              true,
             )
         ],
       );
 
       blocTest<MultiballCubit, MultiballState>(
-        'onStop emits animationState [stopped]',
+        'onStop emits isAnimating false',
         build: MultiballCubit.new,
         act: (bloc) => bloc.onStop(),
         expect: () => [
           isA<MultiballState>()
             ..having(
-              (state) => state.animationState,
-              'animationState',
-              MultiballAnimationState.idle,
+              (state) => state.isAnimating,
+              'isAnimating',
+              false,
             )
         ],
       );
 
       blocTest<MultiballCubit, MultiballState>(
-        'onBlink emits lightState [lit, dimmed, lit]',
+        'onBlinked emits lightState [lit, dimmed, lit]',
         build: MultiballCubit.new,
         act: (bloc) => bloc
-          ..onBlink()
-          ..onBlink()
-          ..onBlink(),
+          ..onBlinked()
+          ..onBlinked()
+          ..onBlinked(),
         expect: () => [
           isA<MultiballState>()
             ..having(
-              (state) => state.lightState,
+              (state) => state.spriteState,
               'lightState',
-              MultiballLightState.lit,
+              MultiballSpriteState.lit,
             ),
           isA<MultiballState>()
             ..having(
-              (state) => state.lightState,
+              (state) => state.spriteState,
               'lightState',
-              MultiballLightState.dimmed,
+              MultiballSpriteState.dimmed,
             ),
           isA<MultiballState>()
             ..having(
-              (state) => state.lightState,
+              (state) => state.spriteState,
               'lightState',
-              MultiballLightState.lit,
+              MultiballSpriteState.lit,
             )
         ],
       );

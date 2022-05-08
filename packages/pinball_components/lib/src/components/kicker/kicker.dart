@@ -38,7 +38,13 @@ class Kicker extends BodyComponent with InitialPosition {
           children: [
             BumpingBehavior(strength: 25)..applyTo(['bouncy_edge']),
             KickerBallContactBehavior()..applyTo(['bouncy_edge']),
-            KickerBlinkingBehavior(),
+            BlinkingBehavior<KickerState>(
+              loopDuration: 0.05,
+              onFinished: bloc.onBlinked,
+              stream: bloc.stream,
+              listenWhen: (previousState, newState) =>
+                  previousState != newState,
+            ),
             _KickerSpriteGroupComponent(
               side: side,
               state: bloc.state,

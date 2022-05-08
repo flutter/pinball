@@ -29,7 +29,13 @@ class AndroidBumper extends BodyComponent with InitialPosition, ZIndex {
           renderBody: false,
           children: [
             AndroidBumperBallContactBehavior(),
-            AndroidBumperBlinkingBehavior(),
+            BlinkingBehavior<AndroidBumperState>(
+              loopDuration: 0.05,
+              onFinished: bloc.onBlinked,
+              stream: bloc.stream,
+              listenWhen: (previousState, newState) =>
+                  previousState != newState,
+            ),
             _AndroidBumperSpriteGroupComponent(
               dimmedAssetPath: dimmedAssetPath,
               litAssetPath: litAssetPath,
