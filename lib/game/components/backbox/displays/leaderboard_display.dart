@@ -231,11 +231,13 @@ class _MovePageArrow extends PositionComponent {
   bool get active => children.whereType<ArrowIcon>().isNotEmpty;
   set active(bool value) {
     if (value) {
-      add(ArrowIcon(
-        position: Vector2.zero(),
-        direction: direction,
-        onTap: onTap,
-      ),);
+      add(
+        ArrowIcon(
+          position: Vector2.zero(),
+          direction: direction,
+          onTap: onTap,
+        ),
+      );
     } else {
       firstChild<ArrowIcon>()?.removeFromParent();
     }
