@@ -1,4 +1,3 @@
-import 'package:flame/extensions.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:geometry/geometry.dart';
 
@@ -18,9 +17,4 @@ class BezierCurveShape extends ChainShape {
   /// First and last [controlPoints] set the beginning and end of the curve,
   /// inner points between them set its final shape.
   final List<Vector2> controlPoints;
-
-  /// Rotates the bezier curve by a given [angle] in radians.
-  void rotate(double angle) {
-    vertices.map((vector) => vector..rotate(angle)).toList();
-  }
 }
