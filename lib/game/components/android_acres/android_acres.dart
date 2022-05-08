@@ -47,6 +47,7 @@ class AndroidAcres extends Component {
                 AndroidBumper.cow(
                   children: [
                     ScoringContactBehavior(points: Points.twentyThousand),
+                    BumperNoiseBehavior(),
                     CowBumperNoiseBehavior(),
                   ],
                 )..initialPosition = Vector2(-20.7, -13),

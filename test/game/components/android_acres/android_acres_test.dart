@@ -117,18 +117,16 @@ void main() {
       );
 
       flameTester.test(
-        'two AndroidBumpers with BumperNoiseBehavior',
+        'three AndroidBumpers with BumperNoiseBehavior',
         (game) async {
           await game.pump(AndroidAcres());
           final bumpers = game.descendants().whereType<AndroidBumper>();
-          var behaviorCount = 0;
           for (final bumper in bumpers) {
-            if (bumper.firstChild<BumperNoiseBehavior>() != null) {
-              behaviorCount++;
-            }
+            expect(
+              bumper.firstChild<BumperNoiseBehavior>(),
+              isA<BumperNoiseBehavior>(),
+            );
           }
-
-          expect(behaviorCount, equals(2));
         },
       );
 
