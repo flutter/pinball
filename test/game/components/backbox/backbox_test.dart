@@ -20,7 +20,10 @@ import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart' as theme;
+import 'package:pinball_ui/pinball_ui.dart';
 import 'package:platform_helper/platform_helper.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+import 'package:share_repository/share_repository.dart';
 
 class _TestGame extends Forge2DGame
     with HasKeyboardHandlerComponents, HasTappables {
@@ -36,6 +39,8 @@ class _TestGame extends Forge2DGame
       character.leaderboardIcon.keyName,
       Assets.images.backbox.marquee.keyName,
       Assets.images.backbox.displayDivider.keyName,
+      Assets.images.backbox.button.facebook.keyName,
+      Assets.images.backbox.button.twitter.keyName,
       Assets.images.backbox.displayTitleDecoration.keyName,
     ]);
   }
@@ -75,7 +80,13 @@ class _MockBackboxBloc extends Mock implements BackboxBloc {}
 class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
 }
 
+class _MockShareRepository extends Mock implements ShareRepository {}
+
 class _MockTapDownInfo extends Mock implements TapDownInfo {}
+
+class _MockUrlLauncher extends Mock
+    with MockPlatformInterfaceMixin
+    implements UrlLauncherPlatform {}
 
 class _MockAppLocalizations extends Mock implements AppLocalizations {
   @override
@@ -106,6 +117,15 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {
   String get loading => '';
 
   @override
+  String get letEveryone => '';
+
+  @override
+  String get bySharingYourScore => '';
+
+  @override
+  String get socialMediaAccount => '';
+
+  @override
   String get shareYourScore => '';
 
   @override
@@ -134,6 +154,9 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {
 
   @override
   String get leaderboardErrorMessage => '';
+
+  @override
+  String iGotScoreAtPinball(int _) => '';
 }
 
 void main() {
@@ -143,6 +166,7 @@ void main() {
 
   late BackboxBloc bloc;
   late PlatformHelper platformHelper;
+  late UrlLauncherPlatform urlLauncher;
 
   setUp(() {
     bloc = _MockBackboxBloc();
@@ -161,6 +185,7 @@ void main() {
       (game) async {
         final backbox = Backbox.test(
           bloc: bloc,
+          shareRepository: _MockShareRepository(),
           platformHelper: platformHelper,
         );
         await game.pump(backbox);
@@ -178,6 +203,7 @@ void main() {
         await game.pump(
           Backbox.test(
             bloc: bloc,
+            shareRepository: _MockShareRepository(),
             platformHelper: platformHelper,
           ),
         );
@@ -199,6 +225,7 @@ void main() {
             leaderboardRepository: _MockLeaderboardRepository(),
             initialEntries: [LeaderboardEntryData.empty],
           ),
+          shareRepository: _MockShareRepository(),
           platformHelper: platformHelper,
         );
         await game.pump(backbox);
@@ -230,6 +257,7 @@ void main() {
         );
         final backbox = Backbox.test(
           bloc: bloc,
+          shareRepository: _MockShareRepository(),
           platformHelper: platformHelper,
         );
         await game.pump(backbox);
@@ -258,6 +286,7 @@ void main() {
         );
         final backbox = Backbox.test(
           bloc: bloc,
+          shareRepository: _MockShareRepository(),
           platformHelper: platformHelper,
         );
         await game.pump(backbox);
@@ -270,7 +299,8 @@ void main() {
     );
 
     flameTester.test(
-      'adds the mobile controls overlay when platform is mobile',
+      'adds the mobile controls overlay '
+      'when platform is mobile at InitialsFormState',
       (game) async {
         final bloc = _MockBackboxBloc();
         final platformHelper = _MockPlatformHelper();
@@ -286,6 +316,7 @@ void main() {
         when(() => platformHelper.isMobile).thenReturn(true);
         final backbox = Backbox.test(
           bloc: bloc,
+          shareRepository: _MockShareRepository(),
           platformHelper: platformHelper,
         );
         await game.pump(backbox);
@@ -293,6 +324,33 @@ void main() {
         expect(
           game.overlays.value,
           contains(PinballGame.mobileControlsOverlay),
+        );
+      },
+    );
+
+    flameTester.test(
+      'remove the mobile controls overlay '
+      'when InitialsSuccessState',
+      (game) async {
+        final bloc = _MockBackboxBloc();
+        final platformHelper = _MockPlatformHelper();
+        final state = InitialsSuccessState(score: 10);
+        whenListen(
+          bloc,
+          Stream<BackboxState>.empty(),
+          initialState: state,
+        );
+        when(() => platformHelper.isMobile).thenReturn(true);
+        final backbox = Backbox.test(
+          bloc: bloc,
+          shareRepository: _MockShareRepository(),
+          platformHelper: platformHelper,
+        );
+        await game.pump(backbox);
+
+        expect(
+          game.overlays.value,
+          isNot(contains(PinballGame.mobileControlsOverlay)),
         );
       },
     );
@@ -308,6 +366,7 @@ void main() {
         );
         final backbox = Backbox.test(
           bloc: bloc,
+          shareRepository: _MockShareRepository(),
           platformHelper: platformHelper,
         );
         await game.pump(backbox);
@@ -330,6 +389,7 @@ void main() {
         );
         final backbox = Backbox.test(
           bloc: bloc,
+          shareRepository: _MockShareRepository(),
           platformHelper: platformHelper,
         );
         await game.pump(backbox);
@@ -359,6 +419,7 @@ void main() {
         );
         final backbox = Backbox.test(
           bloc: bloc,
+          shareRepository: _MockShareRepository(),
           platformHelper: platformHelper,
         );
         await game.pump(backbox);
@@ -373,6 +434,145 @@ void main() {
       },
     );
 
+    group('ShareDisplay', () {
+      setUp(() async {
+        urlLauncher = _MockUrlLauncher();
+        UrlLauncherPlatform.instance = urlLauncher;
+      });
+
+      flameTester.test(
+        'adds ShareDisplay on ShareState',
+        (game) async {
+          final state = ShareState(score: 100);
+          whenListen(
+            bloc,
+            const Stream<InitialsSuccessState>.empty(),
+            initialState: state,
+          );
+          final backbox = Backbox.test(
+            bloc: bloc,
+            shareRepository: _MockShareRepository(),
+            platformHelper: platformHelper,
+          );
+          await game.pump(backbox);
+
+          expect(
+            game.descendants().whereType<ShareDisplay>().length,
+            equals(1),
+          );
+        },
+      );
+
+      flameTester.test(
+        'opens Facebook link when sharing with Facebook',
+        (game) async {
+          when(() => urlLauncher.canLaunch(any()))
+              .thenAnswer((_) async => true);
+          when(
+            () => urlLauncher.launch(
+              any(),
+              useSafariVC: any(named: 'useSafariVC'),
+              useWebView: any(named: 'useWebView'),
+              enableJavaScript: any(named: 'enableJavaScript'),
+              enableDomStorage: any(named: 'enableDomStorage'),
+              universalLinksOnly: any(named: 'universalLinksOnly'),
+              headers: any(named: 'headers'),
+            ),
+          ).thenAnswer((_) async => true);
+
+          final state = ShareState(score: 100);
+          whenListen(
+            bloc,
+            const Stream<ShareState>.empty(),
+            initialState: state,
+          );
+
+          final shareRepository = _MockShareRepository();
+          const fakeUrl = 'http://fakeUrl';
+          when(
+            () => shareRepository.shareText(
+              value: any(named: 'value'),
+              platform: SharePlatform.facebook,
+            ),
+          ).thenReturn(fakeUrl);
+
+          final backbox = Backbox.test(
+            bloc: bloc,
+            shareRepository: shareRepository,
+            platformHelper: platformHelper,
+          );
+          await game.pump(backbox);
+
+          final facebookButton =
+              game.descendants().whereType<FacebookButtonComponent>().first;
+          facebookButton.onTapDown(_MockTapDownInfo());
+
+          await game.ready();
+
+          verify(
+            () => shareRepository.shareText(
+              value: any(named: 'value'),
+              platform: SharePlatform.facebook,
+            ),
+          ).called(1);
+        },
+      );
+
+      flameTester.test(
+        'opens Twitter link when sharing with Twitter',
+        (game) async {
+          final state = ShareState(score: 100);
+          whenListen(
+            bloc,
+            Stream.value(state),
+            initialState: state,
+          );
+
+          final shareRepository = _MockShareRepository();
+          const fakeUrl = 'http://fakeUrl';
+          when(
+            () => shareRepository.shareText(
+              value: any(named: 'value'),
+              platform: SharePlatform.twitter,
+            ),
+          ).thenReturn(fakeUrl);
+          when(() => urlLauncher.canLaunch(any()))
+              .thenAnswer((_) async => true);
+          when(
+            () => urlLauncher.launch(
+              any(),
+              useSafariVC: any(named: 'useSafariVC'),
+              useWebView: any(named: 'useWebView'),
+              enableJavaScript: any(named: 'enableJavaScript'),
+              enableDomStorage: any(named: 'enableDomStorage'),
+              universalLinksOnly: any(named: 'universalLinksOnly'),
+              headers: any(named: 'headers'),
+            ),
+          ).thenAnswer((_) async => true);
+
+          final backbox = Backbox.test(
+            bloc: bloc,
+            shareRepository: shareRepository,
+            platformHelper: platformHelper,
+          );
+          await game.pump(backbox);
+
+          final facebookButton =
+              game.descendants().whereType<TwitterButtonComponent>().first;
+          facebookButton.onTapDown(_MockTapDownInfo());
+
+          await game.ready();
+
+          verify(
+            () => shareRepository.shareText(
+              value: any(named: 'value'),
+              platform: SharePlatform.twitter,
+            ),
+          ).called(1);
+        },
+      );
+    });
+
     flameTester.test(
       'adds LeaderboardDisplay on LeaderboardSuccessState',
       (game) async {
@@ -384,6 +584,7 @@ void main() {
 
         final backbox = Backbox.test(
           bloc: bloc,
+          shareRepository: _MockShareRepository(),
           platformHelper: platformHelper,
         );
         await game.pump(backbox);
@@ -406,6 +607,7 @@ void main() {
 
         final backbox = Backbox.test(
           bloc: bloc,
+          shareRepository: _MockShareRepository(),
           platformHelper: platformHelper,
         );
         await game.pump(backbox);
@@ -429,6 +631,7 @@ void main() {
 
         final backbox = Backbox.test(
           bloc: bloc,
+          shareRepository: _MockShareRepository(),
           platformHelper: platformHelper,
         );
         await game.pump(backbox);
@@ -469,6 +672,7 @@ void main() {
 
         final backbox = Backbox.test(
           bloc: bloc,
+          shareRepository: _MockShareRepository(),
           platformHelper: platformHelper,
         );
         await game.pump(backbox);

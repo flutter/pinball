@@ -8,6 +8,10 @@ void main() {
       expect(PinballColors.white, const Color(0xFFFFFFFF));
     });
 
+    test('black is 0xFF000000', () {
+      expect(PinballColors.black, const Color(0xFF000000));
+    });
+
     test('darkBlue is 0xFF0C32A4', () {
       expect(PinballColors.darkBlue, const Color(0xFF0C32A4));
     });

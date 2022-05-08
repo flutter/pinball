@@ -6,10 +6,13 @@ import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/game/components/backbox/bloc/backbox_bloc.dart';
 import 'package:pinball/game/components/backbox/displays/displays.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart' hide Assets;
+import 'package:pinball_ui/pinball_ui.dart';
 import 'package:platform_helper/platform_helper.dart';
+import 'package:share_repository/share_repository.dart';
 
 /// {@template backbox}
 /// The [Backbox] of the pinball machine.
@@ -18,21 +21,26 @@ class Backbox extends PositionComponent with ZIndex, HasGameRef {
   /// {@macro backbox}
   Backbox({
     required LeaderboardRepository leaderboardRepository,
+    required ShareRepository shareRepository,
     required List<LeaderboardEntryData>? entries,
   })  : _bloc = BackboxBloc(
           leaderboardRepository: leaderboardRepository,
           initialEntries: entries,
         ),
+        _shareRepository = shareRepository,
         _platformHelper = PlatformHelper();
 
   /// {@macro backbox}
   @visibleForTesting
   Backbox.test({
     required BackboxBloc bloc,
+    required ShareRepository shareRepository,
     required PlatformHelper platformHelper,
   })  : _bloc = bloc,
+        _shareRepository = shareRepository,
         _platformHelper = platformHelper;
 
+  final ShareRepository _shareRepository;
   late final Component _display;
   final BackboxBloc _bloc;
   final PlatformHelper _platformHelper;
@@ -87,10 +95,26 @@ class Backbox extends PositionComponent with ZIndex, HasGameRef {
         ),
       );
     } else if (state is InitialsSuccessState) {
+      gameRef.overlays.remove(PinballGame.mobileControlsOverlay);
+
       _display.add(
         GameOverInfoDisplay(
           onShare: () {
             _bloc.add(ShareScoreRequested(score: state.score));
+          },
+        ),
+      );
+    } else if (state is ShareState) {
+      _display.add(
+        ShareDisplay(
+          onShare: (platform) {
+            final message = readProvider<AppLocalizations>()
+                .iGotScoreAtPinball(state.score);
+            final url = _shareRepository.shareText(
+              value: message,
+              platform: platform,
+            );
+            openLink(url);
           },
         ),
       );
