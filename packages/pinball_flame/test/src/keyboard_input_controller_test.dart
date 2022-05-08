@@ -1,10 +1,35 @@
 // ignore_for_file: cascade_invocations, one_member_abstracts
 
+import 'package:flame/game.dart';
+import 'package:flame_test/flame_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_flame/pinball_flame.dart';
+
+class _TestGame extends FlameGame {
+  bool pressed = false;
+
+  @override
+  Future<void>? onLoad() async {
+    await super.onLoad();
+
+    await add(
+      KeyboardInputController(
+        keyUp: {
+          LogicalKeyboardKey.enter: () {
+            pressed = true;
+            return true;
+          },
+          LogicalKeyboardKey.escape: () {
+            return false;
+          },
+        },
+      ),
+    );
+  }
+}
 
 abstract class _KeyCall {
   bool onCall();
@@ -74,5 +99,16 @@ void main() {
         );
       },
     );
+  });
+  group('VirtualKeyEvents', () {
+    final flameTester = FlameTester(_TestGame.new);
+
+    group('onVirtualKeyUp', () {
+      flameTester.test('triggers the event', (game) async {
+        await game.ready();
+        game.triggerVirtualKeyUp(LogicalKeyboardKey.enter);
+        expect(game.pressed, isTrue);
+      });
+    });
   });
 }

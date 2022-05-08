@@ -67,7 +67,7 @@ void main() {
       },
     );
 
-    flameTester.test('adds a FlapperSpiningBehavior to FlapperEntrance',
+    flameTester.test('adds a FlapperSpinningBehavior to FlapperEntrance',
         (game) async {
       final flapper = Flapper();
       await game.ensureAdd(flapper);

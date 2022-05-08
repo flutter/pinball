@@ -2,15 +2,23 @@
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/components.dart';
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/src/components/spaceship_ramp/behavior/behavior.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 import '../../../helpers/helpers.dart';
 
 class _MockSpaceshipRampCubit extends Mock implements SpaceshipRampCubit {}
+
+class _MockBall extends Mock implements Ball {}
+
+class _MockContact extends Mock implements Contact {}
+
+class _MockManifold extends Mock implements Manifold {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -273,6 +281,73 @@ void main() {
         await game.ensureAdd(ramp);
         expect(ramp.children, contains(component));
       });
+    });
+  });
+
+  group('SpaceshipRampBase', () {
+    test('can be instantiated', () {
+      expect(SpaceshipRampBase(), isA<SpaceshipRampBase>());
+    });
+
+    flameTester.test('can be loaded', (game) async {
+      final component = SpaceshipRampBase();
+      await game.ensureAdd(component);
+      expect(game.children, contains(component));
+    });
+
+    flameTester.test(
+      'postSolves disables contact when ball is not on Layer.board',
+      (game) async {
+        final ball = _MockBall();
+        final contact = _MockContact();
+        when(() => ball.layer).thenReturn(Layer.spaceshipEntranceRamp);
+        final component = SpaceshipRampBase();
+        await game.ensureAdd(component);
+
+        component.preSolve(ball, contact, _MockManifold());
+
+        verify(() => contact.setEnabled(false)).called(1);
+      },
+    );
+
+    flameTester.test(
+      'postSolves enables contact when ball is on Layer.board',
+      (game) async {
+        final ball = _MockBall();
+        final contact = _MockContact();
+        when(() => ball.layer).thenReturn(Layer.board);
+        final component = SpaceshipRampBase();
+        await game.ensureAdd(component);
+
+        component.preSolve(ball, contact, _MockManifold());
+
+        verify(() => contact.setEnabled(true)).called(1);
+      },
+    );
+  });
+
+  group('SpaceshipRampBoardOpening', () {
+    test('can be instantiated', () {
+      expect(SpaceshipRampBoardOpening(), isA<SpaceshipRampBoardOpening>());
+    });
+
+    flameTester.test('can be loaded', (game) async {
+      final parent = SpaceshipRamp.test(bloc: _MockSpaceshipRampCubit());
+      final component = SpaceshipRampBoardOpening();
+      await game.ensureAdd(parent);
+      await parent.ensureAdd(component);
+      expect(parent.children, contains(component));
+    });
+
+    flameTester.test('adds a RampBallAscendingContactBehavior', (game) async {
+      final parent = SpaceshipRamp.test(bloc: _MockSpaceshipRampCubit());
+      final component = SpaceshipRampBoardOpening();
+      await game.ensureAdd(parent);
+      await parent.ensureAdd(component);
+      expect(
+        component.children.whereType<RampBallAscendingContactBehavior>().length,
+        equals(1),
+      );
     });
   });
 }

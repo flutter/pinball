@@ -10,7 +10,7 @@ import 'package:share_repository/share_repository.dart';
 class _MockAuthenticationRepository extends Mock
     implements AuthenticationRepository {}
 
-class _MockPinballPlayer extends Mock implements PinballPlayer {}
+class _MockPinballAudioPlayer extends Mock implements PinballAudioPlayer {}
 
 class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
 }
@@ -22,14 +22,14 @@ void main() {
     late AuthenticationRepository authenticationRepository;
     late LeaderboardRepository leaderboardRepository;
     late ShareRepository shareRepository;
-    late PinballPlayer pinballPlayer;
+    late PinballAudioPlayer pinballAudioPlayer;
 
     setUp(() {
       authenticationRepository = _MockAuthenticationRepository();
       leaderboardRepository = _MockLeaderboardRepository();
       shareRepository = _MockShareRepository();
-      pinballPlayer = _MockPinballPlayer();
-      when(pinballPlayer.load).thenAnswer((_) => [Future.value()]);
+      pinballAudioPlayer = _MockPinballAudioPlayer();
+      when(pinballAudioPlayer.load).thenAnswer((_) => [Future.value()]);
     });
 
     testWidgets('renders PinballGamePage', (tester) async {
@@ -38,9 +38,10 @@ void main() {
           authenticationRepository: authenticationRepository,
           leaderboardRepository: leaderboardRepository,
           shareRepository: shareRepository,
-          pinballPlayer: pinballPlayer,
+          pinballAudioPlayer: pinballAudioPlayer,
         ),
       );
+      await tester.pump(const Duration(milliseconds: 400));
       expect(find.byType(PinballGamePage), findsOneWidget);
     });
   });

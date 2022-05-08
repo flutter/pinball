@@ -28,6 +28,15 @@ enum PinballAudio {
 
   /// Sparky
   sparky,
+
+  /// Android
+  android,
+
+  /// Dino
+  dino,
+
+  /// Dash
+  dash,
 }
 
 /// Defines the contract of the creation of an [AudioPool].
@@ -136,12 +145,12 @@ class _BumperAudio extends _Audio {
   }
 }
 
-/// {@template pinball_player}
+/// {@template pinball_audio_player}
 /// Sound manager for the pinball game
 /// {@endtemplate}
-class PinballPlayer {
-  /// {@macro pinball_player}
-  PinballPlayer({
+class PinballAudioPlayer {
+  /// {@macro pinball_audio_player}
+  PinballAudioPlayer({
     CreateAudioPool? createAudioPool,
     PlaySingleAudio? playSingleAudio,
     LoopSingleAudio? loopSingleAudio,
@@ -168,6 +177,21 @@ class PinballPlayer {
         preCacheSingleAudio: _preCacheSingleAudio,
         playSingleAudio: _playSingleAudio,
         path: Assets.sfx.sparky,
+      ),
+      PinballAudio.dino: _SimplePlayAudio(
+        preCacheSingleAudio: _preCacheSingleAudio,
+        playSingleAudio: _playSingleAudio,
+        path: Assets.sfx.dino,
+      ),
+      PinballAudio.dash: _SimplePlayAudio(
+        preCacheSingleAudio: _preCacheSingleAudio,
+        playSingleAudio: _playSingleAudio,
+        path: Assets.sfx.dash,
+      ),
+      PinballAudio.android: _SimplePlayAudio(
+        preCacheSingleAudio: _preCacheSingleAudio,
+        playSingleAudio: _playSingleAudio,
+        path: Assets.sfx.android,
       ),
       PinballAudio.launcher: _SimplePlayAudio(
         preCacheSingleAudio: _preCacheSingleAudio,
@@ -220,7 +244,7 @@ class PinballPlayer {
     return audios.values.map((a) => a.load()).toList();
   }
 
-  /// Plays the received auido
+  /// Plays the received audio
   void play(PinballAudio audio) {
     assert(
       audios.containsKey(audio),

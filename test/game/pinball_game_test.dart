@@ -26,7 +26,7 @@ class _TestPinballGame extends PinballGame {
           shareRepository: _MockShareRepository(),
           gameBloc: GameBloc(),
           l10n: _MockAppLocalizations(),
-          player: _MockPinballPlayer(),
+          audioPlayer: _MockPinballAudioPlayer(),
         );
 
   @override
@@ -46,7 +46,7 @@ class _TestDebugPinballGame extends DebugPinballGame {
           shareRepository: _MockShareRepository(),
           gameBloc: GameBloc(),
           l10n: _MockAppLocalizations(),
-          player: _MockPinballPlayer(),
+          audioPlayer: _MockPinballAudioPlayer(),
         );
 
   @override
@@ -60,7 +60,10 @@ class _TestDebugPinballGame extends DebugPinballGame {
 
 class _MockGameBloc extends Mock implements GameBloc {}
 
-class _MockAppLocalizations extends Mock implements AppLocalizations {}
+class _MockAppLocalizations extends Mock implements AppLocalizations {
+  @override
+  String get leaderboardErrorMessage => '';
+}
 
 class _MockEventPosition extends Mock implements EventPosition {}
 
@@ -83,7 +86,7 @@ class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
 
 class _MockShareRepository extends Mock implements ShareRepository {}
 
-class _MockPinballPlayer extends Mock implements PinballPlayer {}
+class _MockPinballAudioPlayer extends Mock implements PinballAudioPlayer {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

@@ -10,8 +10,9 @@ import '../../../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final asset = theme.Assets.images.dash.ball.keyName;
-  final flameTester = FlameTester(() => TestGame([asset]));
+  final flameTester = FlameTester(
+    () => TestGame([theme.Assets.images.dash.ball.keyName]),
+  );
 
   group('BallScalingBehavior', () {
     test('can be instantiated', () {

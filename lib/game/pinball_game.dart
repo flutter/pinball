@@ -24,10 +24,10 @@ class PinballGame extends PinballForge2DGame
     required this.shareRepository,
     required GameBloc gameBloc,
     required AppLocalizations l10n,
-    required PinballPlayer player,
+    required PinballAudioPlayer audioPlayer,
   })  : focusNode = FocusNode(),
         _gameBloc = gameBloc,
-        _player = player,
+        _audioPlayer = audioPlayer,
         _characterThemeBloc = characterThemeBloc,
         _l10n = l10n,
         super(
@@ -39,6 +39,9 @@ class PinballGame extends PinballForge2DGame
   /// Identifier of the play button overlay
   static const playButtonOverlay = 'play_button';
 
+  /// Identifier of the mobile controls overlay
+  static const mobileControlsOverlay = 'mobile_controls';
+
   @override
   Color backgroundColor() => Colors.transparent;
 
@@ -46,7 +49,7 @@ class PinballGame extends PinballForge2DGame
 
   final CharacterThemeCubit _characterThemeBloc;
 
-  final PinballPlayer _player;
+  final PinballAudioPlayer _audioPlayer;
 
   final LeaderboardRepository leaderboardRepository;
 
@@ -55,6 +58,18 @@ class PinballGame extends PinballForge2DGame
   final AppLocalizations _l10n;
 
   final GameBloc _gameBloc;
+
+  List<LeaderboardEntryData>? _entries;
+
+  Future<void> preFetchLeaderboard() async {
+    try {
+      _entries = await leaderboardRepository.fetchTop10Leaderboard();
+    } catch (_) {
+      // An initial null leaderboard means that we couldn't fetch
+      // the entries for the [Backbox] and it will show the relevant display.
+      _entries = null;
+    }
+  }
 
   @override
   Future<void> onLoad() async {
@@ -71,7 +86,7 @@ class PinballGame extends PinballForge2DGame
         children: [
           MultiFlameProvider(
             providers: [
-              FlameProvider<PinballPlayer>.value(_player),
+              FlameProvider<PinballAudioPlayer>.value(_audioPlayer),
               FlameProvider<LeaderboardRepository>.value(leaderboardRepository),
               FlameProvider<ShareRepository>.value(shareRepository),
               FlameProvider<AppLocalizations>.value(_l10n),
@@ -96,6 +111,7 @@ class PinballGame extends PinballForge2DGame
                       Backbox(
                         leaderboardRepository: leaderboardRepository,
                         shareRepository: shareRepository,
+                        entries: _entries,
                       ),
                       GoogleWord(position: Vector2(-4.45, 1.8)),
                       Multipliers(),
@@ -133,7 +149,7 @@ class PinballGame extends PinballForge2DGame
       final rocket = descendants().whereType<RocketSpriteComponent>().first;
       final bounds = rocket.topLeftPosition & rocket.size;
 
-      // NOTE(wolfen): As long as Flame does not have https://github.com/flame-engine/flame/issues/1586 we need to check it at the highest level manually.
+      // NOTE: As long as Flame does not have https://github.com/flame-engine/flame/issues/1586 we need to check it at the highest level manually.
       if (bounds.contains(info.eventPosition.game.toOffset())) {
         descendants().whereType<Plunger>().single.pullFor(2);
       } else {
@@ -179,11 +195,11 @@ class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
     required LeaderboardRepository leaderboardRepository,
     required ShareRepository shareRepository,
     required AppLocalizations l10n,
-    required PinballPlayer player,
+    required PinballAudioPlayer audioPlayer,
     required GameBloc gameBloc,
   }) : super(
           characterThemeBloc: characterThemeBloc,
-          player: player,
+          audioPlayer: audioPlayer,
           leaderboardRepository: leaderboardRepository,
           shareRepository: shareRepository,
           l10n: l10n,

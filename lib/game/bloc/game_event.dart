@@ -40,13 +40,6 @@ class BonusActivated extends GameEvent {
   List<Object?> get props => [bonus];
 }
 
-class SparkyTurboChargeActivated extends GameEvent {
-  const SparkyTurboChargeActivated();
-
-  @override
-  List<Object?> get props => [];
-}
-
 /// {@template multiplier_increased_game_event}
 /// Added when a multiplier is gained.
 /// {@endtemplate}

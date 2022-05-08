@@ -66,6 +66,10 @@ class $AssetsImagesBackboxGen {
   AssetGenImage get displayDivider =>
       const AssetGenImage('assets/images/backbox/display-divider.png');
 
+  /// File path: assets/images/backbox/display_title_decoration.png
+  AssetGenImage get displayTitleDecoration =>
+      const AssetGenImage('assets/images/backbox/display_title_decoration.png');
+
   /// File path: assets/images/backbox/marquee.png
   AssetGenImage get marquee =>
       const AssetGenImage('assets/images/backbox/marquee.png');

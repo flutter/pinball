@@ -115,20 +115,91 @@ void main() {
 
     group('InitialsSuccessState', () {
       test('can be instantiated', () {
-        expect(InitialsSuccessState(), isNotNull);
+        expect(
+          InitialsSuccessState(score: 0),
+          isNotNull,
+        );
       });
 
       test('supports value comparison', () {
-        expect(InitialsSuccessState(), equals(InitialsSuccessState()));
+        expect(
+          InitialsSuccessState(score: 0),
+          equals(
+            InitialsSuccessState(score: 0),
+          ),
+        );
       });
 
       group('InitialsFailureState', () {
         test('can be instantiated', () {
-          expect(InitialsFailureState(), isNotNull);
+          expect(
+            InitialsFailureState(
+              score: 10,
+              character: AndroidTheme(),
+            ),
+            isNotNull,
+          );
         });
 
         test('supports value comparison', () {
-          expect(InitialsFailureState(), equals(InitialsFailureState()));
+          expect(
+            InitialsFailureState(
+              score: 10,
+              character: AndroidTheme(),
+            ),
+            equals(
+              InitialsFailureState(
+                score: 10,
+                character: AndroidTheme(),
+              ),
+            ),
+          );
+          expect(
+            InitialsFailureState(
+              score: 10,
+              character: AndroidTheme(),
+            ),
+            isNot(
+              equals(
+                InitialsFailureState(
+                  score: 12,
+                  character: AndroidTheme(),
+                ),
+              ),
+            ),
+          );
+          expect(
+            InitialsFailureState(
+              score: 10,
+              character: AndroidTheme(),
+            ),
+            isNot(
+              equals(
+                InitialsFailureState(
+                  score: 10,
+                  character: DashTheme(),
+                ),
+              ),
+            ),
+          );
+        });
+      });
+
+      group('ShareState', () {
+        test('can be instantiated', () {
+          expect(
+            ShareState(score: 0),
+            isNotNull,
+          );
+        });
+
+        test('supports value comparison', () {
+          expect(
+            ShareState(score: 0),
+            equals(
+              ShareState(score: 0),
+            ),
+          );
         });
       });
     });
@@ -136,28 +207,16 @@ void main() {
     group('ShareState', () {
       test('can be instantiated', () {
         expect(
-          ShareState(
-            score: 0,
-            initials: 'AAA',
-            character: AndroidTheme(),
-          ),
+          ShareState(score: 0),
           isNotNull,
         );
       });
 
       test('supports value comparison', () {
         expect(
-          ShareState(
-            score: 0,
-            initials: 'AAA',
-            character: AndroidTheme(),
-          ),
+          ShareState(score: 0),
           equals(
-            ShareState(
-              score: 0,
-              initials: 'AAA',
-              character: AndroidTheme(),
-            ),
+            ShareState(score: 0),
           ),
         );
       });

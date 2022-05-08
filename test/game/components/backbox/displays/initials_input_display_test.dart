@@ -129,7 +129,7 @@ void main() {
       },
     );
 
-    String? submitedInitials;
+    String? submittedInitials;
     flameTester.testGameWidget(
       'submits the initials',
       setUp: (game, tester) async {
@@ -138,7 +138,7 @@ void main() {
           score: 1000,
           characterIconPath: game.characterIconPath,
           onSubmit: (value) {
-            submitedInitials = value;
+            submittedInitials = value;
           },
         );
         await game.pump(component);
@@ -147,7 +147,7 @@ void main() {
         await tester.pump();
       },
       verify: (game, tester) async {
-        expect(submitedInitials, equals('AAA'));
+        expect(submittedInitials, equals('AAA'));
       },
     );
 
