@@ -125,6 +125,7 @@ void main() {
         verify(
           () => createAudioPool.onCall(
             'packages/pinball_audio/${Assets.sfx.kickerA}',
+            maxPlayers: 4,
             prefix: '',
           ),
         ).called(1);
@@ -132,6 +133,7 @@ void main() {
         verify(
           () => createAudioPool.onCall(
             'packages/pinball_audio/${Assets.sfx.kickerB}',
+            maxPlayers: 4,
             prefix: '',
           ),
         ).called(1);
@@ -263,6 +265,7 @@ void main() {
         when(
           () => createAudioPool.onCall(
             'packages/pinball_audio/${Assets.sfx.kickerA}',
+            maxPlayers: any(named: 'maxPlayers'),
             prefix: any(named: 'prefix'),
           ),
         ).thenAnswer((_) async => kickerAPool);
@@ -273,6 +276,7 @@ void main() {
         when(
           () => createAudioPool.onCall(
             'packages/pinball_audio/${Assets.sfx.kickerB}',
+            maxPlayers: any(named: 'maxPlayers'),
             prefix: any(named: 'prefix'),
           ),
         ).thenAnswer((_) async => kickerBPool);
