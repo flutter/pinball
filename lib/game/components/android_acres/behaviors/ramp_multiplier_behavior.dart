@@ -11,8 +11,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// Increases the multiplier when a [Ball] is shot 5 times into the
 /// [SpaceshipRamp].
 /// {@endtemplate}
-class RampMultiplierBehavior extends Component
-    with ParentIsA<SpaceshipRamp>, FlameBlocReader<GameBloc, GameState> {
+class RampMultiplierBehavior extends Component with ParentIsA<SpaceshipRamp> {
   /// {@macro ramp_multiplier_behavior}
   RampMultiplierBehavior() : super();
 
@@ -20,39 +19,25 @@ class RampMultiplierBehavior extends Component
   ///
   /// This can be used for testing [RampMultiplierBehavior] in isolation.
   @visibleForTesting
-  RampMultiplierBehavior.test({
-    required this.subscription,
-  }) : super();
-
-  /// Subscription to [SpaceshipRampState] at [SpaceshipRamp].
-  @visibleForTesting
-  StreamSubscription? subscription;
+  RampMultiplierBehavior.test() : super();
 
   @override
-  void onMount() {
-    super.onMount();
-
-    var previousState = const SpaceshipRampState.initial();
-
-    subscription = subscription ??
-        parent.bloc.stream.listen((state) {
-          final listenWhen =
-              previousState.hits != state.hits && state.hits != 0;
-          if (listenWhen) {
-            final achievedFiveShots = state.hits % 5 == 0;
-
-            if (achievedFiveShots) {
-              bloc.add(const MultiplierIncreased());
-            }
-
-            previousState = state;
-          }
-        });
-  }
-
-  @override
-  void onRemove() {
-    subscription?.cancel();
-    super.onRemove();
+  Future<void> onLoad() async {
+    await super.onLoad();
+    await add(
+      FlameBlocListener<SpaceshipRampCubit, SpaceshipRampState>(
+        listenWhen: (previousState, newState) {
+          final hasChanged =
+              previousState.hits != newState.hits && newState.hits != 0;
+          final achievedFiveShots = newState.hits % 5 == 0;
+          final canIncrease =
+              readBloc<GameBloc, GameState>().state.multiplier != 6;
+          return hasChanged && achievedFiveShots && canIncrease;
+        },
+        onNewState: (state) {
+          readBloc<GameBloc, GameState>().add(const MultiplierIncreased());
+        },
+      ),
+    );
   }
 }
