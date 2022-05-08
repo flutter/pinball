@@ -1,6 +1,7 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:flame/components.dart';
+import 'package:flame/game.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
@@ -16,7 +17,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart' as theme;
 import 'package:share_repository/share_repository.dart';
 
-class _TestGame extends Forge2DGame {
+class _TestGame extends Forge2DGame with HasTappables {
   @override
   Future<void> onLoad() async {
     images.prefix = '';
@@ -25,6 +26,8 @@ class _TestGame extends Forge2DGame {
         const theme.DashTheme().leaderboardIcon.keyName,
         Assets.images.backbox.marquee.keyName,
         Assets.images.backbox.displayDivider.keyName,
+        Assets.images.displayArrows.arrowLeft.keyName,
+        Assets.images.displayArrows.arrowRight.keyName,
       ],
     );
   }

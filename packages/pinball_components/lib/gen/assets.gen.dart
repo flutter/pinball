@@ -23,6 +23,9 @@ class $AssetsImagesGen {
   $AssetsImagesDashGen get dash => const $AssetsImagesDashGen();
   $AssetsImagesDinoGen get dino => const $AssetsImagesDinoGen();
 
+  $AssetsImagesDisplayArrowsGen get displayArrows =>
+      const $AssetsImagesDisplayArrowsGen();
+
   /// File path: assets/images/error_background.png
   AssetGenImage get errorBackground =>
       const AssetGenImage('assets/images/error_background.png');
@@ -138,6 +141,15 @@ class $AssetsImagesDinoGen {
   /// File path: assets/images/dino/top_wall_tunnel.png
   AssetGenImage get topWallTunnel =>
       const AssetGenImage('assets/images/dino/top_wall_tunnel.png');
+}
+
+class $AssetsImagesDisplayArrowsGen {
+  const $AssetsImagesDisplayArrowsGen();
+
+  AssetGenImage get arrowLeft =>
+      const AssetGenImage('assets/images/display_arrows/arrow_left.png');
+  AssetGenImage get arrowRight =>
+      const AssetGenImage('assets/images/display_arrows/arrow_right.png');
 }
 
 class $AssetsImagesFlapperGen {
