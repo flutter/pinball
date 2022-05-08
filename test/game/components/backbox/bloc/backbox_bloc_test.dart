@@ -82,7 +82,7 @@ void main() {
         ),
         expect: () => [
           LoadingState(),
-          InitialsSuccessState(),
+          InitialsSuccessState(score: 10),
         ],
       );
 
@@ -113,7 +113,26 @@ void main() {
         ),
         expect: () => [
           LoadingState(),
-          InitialsFailureState(),
+          InitialsFailureState(score: 10, character: DashTheme()),
+        ],
+      );
+    });
+
+    group('ShareScoreRequested', () {
+      blocTest<BackboxBloc, BackboxState>(
+        'emits ShareState',
+        setUp: () {
+          leaderboardRepository = _MockLeaderboardRepository();
+        },
+        build: () => BackboxBloc(
+          leaderboardRepository: leaderboardRepository,
+          initialEntries: emptyEntries,
+        ),
+        act: (bloc) => bloc.add(
+          ShareScoreRequested(score: 100),
+        ),
+        expect: () => [
+          ShareState(score: 100),
         ],
       );
     });

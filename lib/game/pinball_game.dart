@@ -16,7 +16,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 class PinballGame extends PinballForge2DGame
-    with HasKeyboardHandlerComponents, MultiTouchTapDetector {
+    with HasKeyboardHandlerComponents, MultiTouchTapDetector, HasTappables {
   PinballGame({
     required CharacterThemeCubit characterThemeBloc,
     required this.leaderboardRepository,
@@ -143,7 +143,7 @@ class PinballGame extends PinballForge2DGame
       final rocket = descendants().whereType<RocketSpriteComponent>().first;
       final bounds = rocket.topLeftPosition & rocket.size;
 
-      // NOTE(wolfen): As long as Flame does not have https://github.com/flame-engine/flame/issues/1586 we need to check it at the highest level manually.
+      // NOTE: As long as Flame does not have https://github.com/flame-engine/flame/issues/1586 we need to check it at the highest level manually.
       if (bounds.contains(info.eventPosition.game.toOffset())) {
         descendants().whereType<Plunger>().single.pullFor(2);
       } else {

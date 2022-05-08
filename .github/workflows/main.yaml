@@ -14,3 +14,4 @@ jobs:
       flutter_version: 2.10.5
       coverage_excludes: "lib/gen/*.dart"
       test_optimization: false
+      

@@ -87,9 +87,26 @@ class Backbox extends PositionComponent with ZIndex, HasGameRef {
         ),
       );
     } else if (state is InitialsSuccessState) {
-      _display.add(InitialsSubmissionSuccessDisplay());
+      _display.add(
+        GameOverInfoDisplay(
+          onShare: () {
+            _bloc.add(ShareScoreRequested(score: state.score));
+          },
+        ),
+      );
     } else if (state is InitialsFailureState) {
-      _display.add(InitialsSubmissionFailureDisplay());
+      _display.add(
+        InitialsSubmissionFailureDisplay(
+          onDismissed: () {
+            _bloc.add(
+              PlayerInitialsRequested(
+                score: state.score,
+                character: state.character,
+              ),
+            );
+          },
+        ),
+      );
     }
   }
 
