@@ -64,7 +64,6 @@ flutter:
     - assets/images/components/
     - assets/images/bonus_animation/
     - assets/images/score/
-    - assets/images/link_box/
     - assets/images/loading_game/
 
 flutter_gen:
