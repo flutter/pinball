@@ -23,6 +23,9 @@ class _TestGame extends Forge2DGame {
     GoogleRollover child, {
     GoogleWordCubit? bloc,
   }) async {
+    // Not needed once https://github.com/flame-engine/flame/issues/1607
+    // is fixed
+    await onLoad();
     await ensureAdd(
       FlameBlocProvider<GoogleWordCubit, GoogleWordState>.value(
         value: bloc ?? GoogleWordCubit(),
