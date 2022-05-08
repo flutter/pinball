@@ -59,6 +59,9 @@ class $AssetsImagesAndroidGen {
 class $AssetsImagesBackboxGen {
   const $AssetsImagesBackboxGen();
 
+  $AssetsImagesBackboxButtonGen get button =>
+      const $AssetsImagesBackboxButtonGen();
+
   /// File path: assets/images/backbox/display_divider.png
   AssetGenImage get displayDivider =>
       const AssetGenImage('assets/images/backbox/display_divider.png');
@@ -384,6 +387,18 @@ class $AssetsImagesAndroidSpaceshipGen {
   /// File path: assets/images/android/spaceship/saucer.png
   AssetGenImage get saucer =>
       const AssetGenImage('assets/images/android/spaceship/saucer.png');
+}
+
+class $AssetsImagesBackboxButtonGen {
+  const $AssetsImagesBackboxButtonGen();
+
+  /// File path: assets/images/backbox/button/facebook.png
+  AssetGenImage get facebook =>
+      const AssetGenImage('assets/images/backbox/button/facebook.png');
+
+  /// File path: assets/images/backbox/button/twitter.png
+  AssetGenImage get twitter =>
+      const AssetGenImage('assets/images/backbox/button/twitter.png');
 }
 
 class $AssetsImagesDashBumperGen {

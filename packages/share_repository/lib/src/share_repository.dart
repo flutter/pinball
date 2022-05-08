@@ -17,6 +17,9 @@ class ShareRepository {
   /// Url to the Google IO Event.
   static const googleIOEvent = 'https://events.google.com/io/';
 
+  /// Url to the Pinball game.
+  static const pinballGameUrl = 'https://ashehwkdkdjruejdnensjsjdne.web.app/#/';
+
   /// Returns a url to share the [value] on the given [platform].
   ///
   /// The returned url can be opened using the [url_launcher](https://pub.dev/packages/url_launcher) package.

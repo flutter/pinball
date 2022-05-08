@@ -14,12 +14,14 @@ import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
+import 'package:share_repository/share_repository.dart';
 
 class PinballGame extends PinballForge2DGame
     with HasKeyboardHandlerComponents, MultiTouchTapDetector, HasTappables {
   PinballGame({
     required CharacterThemeCubit characterThemeBloc,
     required this.leaderboardRepository,
+    required this.shareRepository,
     required GameBloc gameBloc,
     required AppLocalizations l10n,
     required PinballAudioPlayer audioPlayer,
@@ -50,6 +52,8 @@ class PinballGame extends PinballForge2DGame
   final PinballAudioPlayer _audioPlayer;
 
   final LeaderboardRepository leaderboardRepository;
+
+  final ShareRepository shareRepository;
 
   final AppLocalizations _l10n;
 
@@ -84,6 +88,7 @@ class PinballGame extends PinballForge2DGame
             providers: [
               FlameProvider<PinballAudioPlayer>.value(_audioPlayer),
               FlameProvider<LeaderboardRepository>.value(leaderboardRepository),
+              FlameProvider<ShareRepository>.value(shareRepository),
               FlameProvider<AppLocalizations>.value(_l10n),
             ],
             children: [
@@ -106,6 +111,7 @@ class PinballGame extends PinballForge2DGame
                       Boundaries(),
                       Backbox(
                         leaderboardRepository: leaderboardRepository,
+                        shareRepository: shareRepository,
                         entries: _entries,
                       ),
                       GoogleWord(position: Vector2(-4.45, 1.8)),
@@ -188,6 +194,7 @@ class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
   DebugPinballGame({
     required CharacterThemeCubit characterThemeBloc,
     required LeaderboardRepository leaderboardRepository,
+    required ShareRepository shareRepository,
     required AppLocalizations l10n,
     required PinballAudioPlayer audioPlayer,
     required GameBloc gameBloc,
@@ -195,6 +202,7 @@ class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
           characterThemeBloc: characterThemeBloc,
           audioPlayer: audioPlayer,
           leaderboardRepository: leaderboardRepository,
+          shareRepository: shareRepository,
           l10n: l10n,
           gameBloc: gameBloc,
         );
