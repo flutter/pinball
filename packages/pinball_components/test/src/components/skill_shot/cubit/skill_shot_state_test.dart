@@ -45,13 +45,13 @@ void main() {
         'copies correctly '
         'when no argument specified',
         () {
-          const skillshotState = SkillShotState(
+          const skillShotState = SkillShotState(
             spriteState: SkillShotSpriteState.lit,
             isBlinking: true,
           );
           expect(
-            skillshotState.copyWith(),
-            equals(skillshotState),
+            skillShotState.copyWith(),
+            equals(skillShotState),
           );
         },
       );
@@ -60,7 +60,7 @@ void main() {
         'copies correctly '
         'when all arguments specified',
         () {
-          const skillshotState = SkillShotState(
+          const skillShotState = SkillShotState(
             spriteState: SkillShotSpriteState.lit,
             isBlinking: true,
           );
@@ -68,10 +68,10 @@ void main() {
             spriteState: SkillShotSpriteState.dimmed,
             isBlinking: false,
           );
-          expect(skillshotState, isNot(equals(otherSkillShotState)));
+          expect(skillShotState, isNot(equals(otherSkillShotState)));
 
           expect(
-            skillshotState.copyWith(
+            skillShotState.copyWith(
               spriteState: SkillShotSpriteState.dimmed,
               isBlinking: false,
             ),
