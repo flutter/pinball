@@ -35,17 +35,4 @@ class ArcShape extends ChainShape {
 
   /// Angle in radians to rotate the arc around its [center].
   final double rotation;
-
-  ArcShape copyWith({
-    Vector2? center,
-    double? arcRadius,
-    double? angle,
-    double? rotation,
-  }) =>
-      ArcShape(
-        center: center ?? this.center,
-        arcRadius: arcRadius ?? this.arcRadius,
-        angle: angle ?? this.angle,
-        rotation: rotation ?? this.rotation,
-      );
 }
