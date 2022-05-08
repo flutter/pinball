@@ -94,6 +94,8 @@ class Backbox extends PositionComponent with ZIndex, HasGameRef {
         ),
       );
     } else if (state is InitialsSuccessState) {
+      gameRef.overlays.remove(PinballGame.mobileControlsOverlay);
+
       _display.add(
         GameOverInfoDisplay(
           onShare: () {

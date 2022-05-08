@@ -163,6 +163,7 @@ void main() {
 
   late BackboxBloc bloc;
   late PlatformHelper platformHelper;
+  late UrlLauncherPlatform urlLauncher;
 
   setUp(() {
     bloc = _MockBackboxBloc();
@@ -295,7 +296,8 @@ void main() {
     );
 
     flameTester.test(
-      'adds the mobile controls overlay when platform is mobile',
+      'adds the mobile controls overlay '
+      'when platform is mobile at InitialsFormState',
       (game) async {
         final bloc = _MockBackboxBloc();
         final platformHelper = _MockPlatformHelper();
@@ -319,6 +321,33 @@ void main() {
         expect(
           game.overlays.value,
           contains(PinballGame.mobileControlsOverlay),
+        );
+      },
+    );
+
+    flameTester.test(
+      'remove the mobile controls overlay '
+      'when InitialsSuccessState',
+      (game) async {
+        final bloc = _MockBackboxBloc();
+        final platformHelper = _MockPlatformHelper();
+        final state = InitialsSuccessState(score: 10);
+        whenListen(
+          bloc,
+          Stream<BackboxState>.empty(),
+          initialState: state,
+        );
+        when(() => platformHelper.isMobile).thenReturn(true);
+        final backbox = Backbox.test(
+          bloc: bloc,
+          shareRepository: _MockShareRepository(),
+          platformHelper: platformHelper,
+        );
+        await game.pump(backbox);
+
+        expect(
+          game.overlays.value,
+          isNot(contains(PinballGame.mobileControlsOverlay)),
         );
       },
     );
@@ -403,15 +432,13 @@ void main() {
     );
 
     group('ShareDisplay', () {
-      late UrlLauncherPlatform urlLauncher;
-
       setUp(() async {
         urlLauncher = _MockUrlLauncher();
         UrlLauncherPlatform.instance = urlLauncher;
       });
 
       flameTester.test(
-        'added on ShareState',
+        'added ShareDisplay on ShareState',
         (game) async {
           final state = ShareState(score: 100);
           whenListen(
@@ -436,21 +463,6 @@ void main() {
       flameTester.test(
         'open Facebook link when sharing with Facebook',
         (game) async {
-          final state = ShareState(score: 100);
-          whenListen(
-            bloc,
-            Stream.value(state),
-            initialState: state,
-          );
-
-          final shareRepository = _MockShareRepository();
-          const fakeUrl = 'http://fakeUrl';
-          when(
-            () => shareRepository.shareText(
-              value: any(named: 'value'),
-              platform: SharePlatform.facebook,
-            ),
-          ).thenReturn(fakeUrl);
           when(() => urlLauncher.canLaunch(any()))
               .thenAnswer((_) async => true);
           when(
@@ -464,6 +476,22 @@ void main() {
               headers: any(named: 'headers'),
             ),
           ).thenAnswer((_) async => true);
+
+          final state = ShareState(score: 100);
+          whenListen(
+            bloc,
+            const Stream<ShareState>.empty(),
+            initialState: state,
+          );
+
+          final shareRepository = _MockShareRepository();
+          const fakeUrl = 'http://fakeUrl';
+          when(
+            () => shareRepository.shareText(
+              value: any(named: 'value'),
+              platform: SharePlatform.facebook,
+            ),
+          ).thenReturn(fakeUrl);
 
           final backbox = Backbox.test(
             bloc: bloc,
@@ -484,17 +512,6 @@ void main() {
               platform: SharePlatform.facebook,
             ),
           ).called(1);
-          verify(
-            () => urlLauncher.launch(
-              fakeUrl,
-              useSafariVC: any(named: 'useSafariVC'),
-              useWebView: any(named: 'useWebView'),
-              enableJavaScript: any(named: 'enableJavaScript'),
-              enableDomStorage: any(named: 'enableDomStorage'),
-              universalLinksOnly: any(named: 'universalLinksOnly'),
-              headers: any(named: 'headers'),
-            ),
-          );
         },
       );
 
@@ -549,17 +566,6 @@ void main() {
               platform: SharePlatform.twitter,
             ),
           ).called(1);
-          verify(
-            () => urlLauncher.launch(
-              fakeUrl,
-              useSafariVC: any(named: 'useSafariVC'),
-              useWebView: any(named: 'useWebView'),
-              enableJavaScript: any(named: 'enableJavaScript'),
-              enableDomStorage: any(named: 'enableDomStorage'),
-              universalLinksOnly: any(named: 'universalLinksOnly'),
-              headers: any(named: 'headers'),
-            ),
-          );
         },
       );
     });
