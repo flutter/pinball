@@ -44,6 +44,9 @@ dependencies:
     path: packages/pinball_ui
   platform_helper:
     path: packages/platform_helper
+  share_repository:
+    path: packages/share_repository
+  url_launcher: ^6.1.0
 
 dev_dependencies:
   bloc_test: ^9.0.2

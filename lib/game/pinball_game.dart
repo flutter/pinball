@@ -16,7 +16,7 @@ import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 class PinballGame extends PinballForge2DGame
-    with HasKeyboardHandlerComponents, MultiTouchTapDetector {
+    with HasKeyboardHandlerComponents, MultiTouchTapDetector, HasTappables {
   PinballGame({
     required CharacterThemeCubit characterThemeBloc,
     required this.leaderboardRepository,
