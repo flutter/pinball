@@ -30,7 +30,7 @@ class GoogleRollover extends BodyComponent {
       ..setAsBox(
         0.1,
         3.4,
-        (_side.isLeft) ? Vector2(-14.8, -11) : Vector2(5.9, -11),
+        Vector2(_side.isLeft ? -14.8 : 5.9, -11),
         0.19 * _side.direction,
       );
     final fixtureDef = FixtureDef(shape, isSensor: true);
@@ -43,7 +43,7 @@ class _RolloverDecalSpriteComponent extends SpriteComponent with HasGameRef {
       : _side = side,
         super(
           anchor: Anchor.center,
-          position: (side.isLeft) ? Vector2(-14.8, -11) : Vector2(5.9, -11),
+          position: Vector2(side.isLeft ? -14.8 : 5.9, -11),
           angle: 0.18 * side.direction,
         );
 
@@ -71,7 +71,7 @@ class _PinSpriteAnimationComponent extends SpriteAnimationComponent
       : _side = side,
         super(
           anchor: Anchor.center,
-          position: (side.isLeft) ? Vector2(-14.9, -11) : Vector2(5.95, -11),
+          position: Vector2(side.isLeft ? -14.9 : 5.95, -11),
           angle: 0,
           playing: false,
         );

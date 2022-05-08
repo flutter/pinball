@@ -7,8 +7,9 @@ part 'google_word_state.dart';
 class GoogleWordCubit extends Cubit<GoogleWordState> {
   GoogleWordCubit() : super(GoogleWordState.initial());
 
-  int _lastLitLetter = 0;
   static const _lettersInGoogle = 6;
+
+  int _lastLitLetter = 0;
 
   void onRolloverContacted() {
     final spriteStatesMap = {...state.letterSpriteStates};

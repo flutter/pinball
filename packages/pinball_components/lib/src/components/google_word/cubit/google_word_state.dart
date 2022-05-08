@@ -5,13 +5,8 @@ class GoogleWordState extends Equatable {
 
   GoogleWordState.initial()
       : this(
-          letterSpriteStates: <int, GoogleLetterSpriteState>{
-            0: GoogleLetterSpriteState.dimmed,
-            1: GoogleLetterSpriteState.dimmed,
-            2: GoogleLetterSpriteState.dimmed,
-            3: GoogleLetterSpriteState.dimmed,
-            4: GoogleLetterSpriteState.dimmed,
-            5: GoogleLetterSpriteState.dimmed,
+          letterSpriteStates: {
+            for (var i = 0; i <= 5; i++) i: GoogleLetterSpriteState.dimmed
           },
         );
 
