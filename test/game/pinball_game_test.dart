@@ -16,6 +16,7 @@ import 'package:pinball/game/game.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_audio/src/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:platform_helper/platform_helper.dart';
 import 'package:share_repository/share_repository.dart';
 
 class _TestPinballGame extends PinballGame {
@@ -27,6 +28,7 @@ class _TestPinballGame extends PinballGame {
           gameBloc: GameBloc(),
           l10n: _MockAppLocalizations(),
           audioPlayer: _MockPinballAudioPlayer(),
+          platformHelper: _MockPlatformHelper(),
         );
 
   @override
@@ -47,6 +49,7 @@ class _TestDebugPinballGame extends DebugPinballGame {
           gameBloc: GameBloc(),
           l10n: _MockAppLocalizations(),
           audioPlayer: _MockPinballAudioPlayer(),
+          platformHelper: _MockPlatformHelper(),
         );
 
   @override
@@ -87,6 +90,11 @@ class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
 class _MockShareRepository extends Mock implements ShareRepository {}
 
 class _MockPinballAudioPlayer extends Mock implements PinballAudioPlayer {}
+
+class _MockPlatformHelper extends Mock implements PlatformHelper {
+  @override
+  bool get isMobile => false;
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
