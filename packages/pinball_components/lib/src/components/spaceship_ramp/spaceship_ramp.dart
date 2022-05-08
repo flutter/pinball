@@ -27,19 +27,6 @@ class SpaceshipRamp extends Component {
     required this.bloc,
   }) : super(
           children: [
-            // TODO(ruimiguel): refactor RampScoringSensor and
-            // _SpaceshipRampOpening to be in only one sensor if possible.
-            RampScoringSensor(
-              children: [
-                RampBallAscendingContactBehavior(),
-              ],
-            )..initialPosition = Vector2(1.7, -20.4),
-            _SpaceshipRampOpening(
-              outsidePriority: ZIndexes.ballOnBoard,
-              rotation: math.pi,
-            )
-              ..initialPosition = Vector2(1.7, -19.8)
-              ..layer = Layer.opening,
             _SpaceshipRampOpening(
               outsideLayer: Layer.spaceship,
               outsidePriority: ZIndexes.ballOnSpaceship,
@@ -48,10 +35,9 @@ class SpaceshipRamp extends Component {
               ..initialPosition = Vector2(-13.7, -18.6)
               ..layer = Layer.spaceshipEntranceRamp,
             _SpaceshipRampBackground(),
-            _SpaceshipRampBoardOpeningSpriteComponent()
-              ..position = Vector2(3.4, -39.5),
+            SpaceshipRampBoardOpening()..initialPosition = Vector2(3.4, -39.5),
             _SpaceshipRampForegroundRailing(),
-            _SpaceshipRampBase()..initialPosition = Vector2(1.7, -20),
+            SpaceshipRampBase()..initialPosition = Vector2(3.4, -42.5),
             _SpaceshipRampBackgroundRailingSpriteComponent(),
             SpaceshipRampArrowSpriteComponent(
               current: bloc.state.hits,
@@ -68,9 +54,6 @@ class SpaceshipRamp extends Component {
     required this.bloc,
   }) : super();
 
-  // TODO(alestiago): Consider refactoring once the following is merged:
-  // https://github.com/flame-engine/flame/pull/1538
-  // ignore: public_member_api_docs
   final SpaceshipRampCubit bloc;
 
   @override
@@ -258,11 +241,115 @@ extension on SpaceshipRampArrowSpriteState {
   }
 }
 
-class _SpaceshipRampBoardOpeningSpriteComponent extends SpriteComponent
-    with HasGameRef, ZIndex {
-  _SpaceshipRampBoardOpeningSpriteComponent() : super(anchor: Anchor.center) {
+class SpaceshipRampBoardOpening extends BodyComponent
+    with Layered, ZIndex, InitialPosition, ParentIsA<SpaceshipRamp> {
+  SpaceshipRampBoardOpening()
+      : super(
+          renderBody: false,
+          children: [
+            _SpaceshipRampBoardOpeningSpriteComponent(),
+            RampBallAscendingContactBehavior()..applyTo(['inside']),
+            LayerContactBehavior(layer: Layer.spaceshipEntranceRamp)
+              ..applyTo(['inside']),
+            LayerContactBehavior(
+              layer: Layer.board,
+              onBegin: false,
+            )..applyTo(['outside']),
+            ZIndexContactBehavior(
+              zIndex: ZIndexes.ballOnBoard,
+              onBegin: false,
+            )..applyTo(['outside']),
+            ZIndexContactBehavior(zIndex: ZIndexes.ballOnSpaceshipRamp)
+              ..applyTo(['middle', 'inside']),
+          ],
+        ) {
     zIndex = ZIndexes.spaceshipRampBoardOpening;
+    layer = Layer.opening;
   }
+
+  /// Creates a [SpaceshipRampBoardOpening] without any children.
+  ///
+  /// This can be used for testing [SpaceshipRampBoardOpening]'s behaviors in
+  /// isolation.
+  @visibleForTesting
+  SpaceshipRampBoardOpening.test();
+
+  List<FixtureDef> _createFixtureDefs() {
+    final topEdge = EdgeShape()
+      ..set(
+        Vector2(-3.4, -1.2),
+        Vector2(3.4, -1.6),
+      );
+    final bottomEdge = EdgeShape()
+      ..set(
+        Vector2(-6.2, 1.5),
+        Vector2(6.2, 1.5),
+      );
+    final middleCurve = BezierCurveShape(
+      controlPoints: [
+        topEdge.vertex1,
+        Vector2(0, 2.3),
+        Vector2(7.5, 2.3),
+        topEdge.vertex2,
+      ],
+    );
+    final leftCurve = BezierCurveShape(
+      controlPoints: [
+        Vector2(-4.4, -1.2),
+        Vector2(-4.65, 0),
+        bottomEdge.vertex1,
+      ],
+    );
+    final rightCurve = BezierCurveShape(
+      controlPoints: [
+        Vector2(4.4, -1.6),
+        Vector2(4.65, 0),
+        bottomEdge.vertex2,
+      ],
+    );
+
+    const outsideKey = 'outside';
+    return [
+      FixtureDef(
+        topEdge,
+        isSensor: true,
+        userData: 'inside',
+      ),
+      FixtureDef(
+        bottomEdge,
+        isSensor: true,
+        userData: outsideKey,
+      ),
+      FixtureDef(
+        middleCurve,
+        isSensor: true,
+        userData: 'middle',
+      ),
+      FixtureDef(
+        leftCurve,
+        isSensor: true,
+        userData: outsideKey,
+      ),
+      FixtureDef(
+        rightCurve,
+        isSensor: true,
+        userData: outsideKey,
+      ),
+    ];
+  }
+
+  @override
+  Body createBody() {
+    final bodyDef = BodyDef(position: initialPosition);
+    final body = world.createBody(bodyDef);
+    _createFixtureDefs().forEach(body.createFixture);
+    return body;
+  }
+}
+
+class _SpaceshipRampBoardOpeningSpriteComponent extends SpriteComponent
+    with HasGameRef {
+  _SpaceshipRampBoardOpeningSpriteComponent() : super(anchor: Anchor.center);
 
   @override
   Future<void> onLoad() async {
@@ -347,28 +434,33 @@ class _SpaceshipRampForegroundRailingSpriteComponent extends SpriteComponent
   }
 }
 
-class _SpaceshipRampBase extends BodyComponent with InitialPosition, Layered {
-  _SpaceshipRampBase() : super(renderBody: false) {
-    layer = Layer.board;
+@visibleForTesting
+class SpaceshipRampBase extends BodyComponent
+    with InitialPosition, ContactCallbacks {
+  SpaceshipRampBase() : super(renderBody: false);
+
+  @override
+  void preSolve(Object other, Contact contact, Manifold oldManifold) {
+    super.preSolve(other, contact, oldManifold);
+    if (other is! Layered) return;
+    // Although, the Layer should already be taking care of the contact
+    // filtering, this is to ensure the ball doesn't collide with the ramp base
+    // when the filtering is calculated on different time steps.
+    contact.setEnabled(other.layer == Layer.board);
   }
 
   @override
   Body createBody() {
-    const baseWidth = 9;
-    final baseShape = BezierCurveShape(
+    final shape = BezierCurveShape(
       controlPoints: [
-        Vector2(initialPosition.x - baseWidth / 2, initialPosition.y),
-        Vector2(initialPosition.x - baseWidth / 2, initialPosition.y) +
-            Vector2(2, -5),
-        Vector2(initialPosition.x + baseWidth / 2, initialPosition.y) +
-            Vector2(-2, -5),
-        Vector2(initialPosition.x + baseWidth / 2, initialPosition.y)
+        Vector2(-4.25, 1.75),
+        Vector2(-2, -2.1),
+        Vector2(2, -2.3),
+        Vector2(4.1, 1.5),
       ],
     );
-    final fixtureDef = FixtureDef(baseShape);
-    final bodyDef = BodyDef(position: initialPosition);
-
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
+    final bodyDef = BodyDef(position: initialPosition, userData: this);
+    return world.createBody(bodyDef)..createFixtureFromShape(shape);
   }
 }
 
@@ -404,49 +496,5 @@ class _SpaceshipRampOpening extends LayerSensor {
         initialPosition,
         _rotation,
       );
-  }
-}
-
-/// {@template ramp_scoring_sensor}
-/// Small sensor body used to detect when a ball has entered the
-/// [SpaceshipRamp].
-/// {@endtemplate}
-class RampScoringSensor extends BodyComponent
-    with ParentIsA<SpaceshipRamp>, InitialPosition, Layered {
-  /// {@macro ramp_scoring_sensor}
-  RampScoringSensor({
-    Iterable<Component>? children,
-  }) : super(
-          children: children,
-          renderBody: false,
-        ) {
-    layer = Layer.spaceshipEntranceRamp;
-  }
-
-  /// Creates a [RampScoringSensor] without any children.
-  ///
-  @visibleForTesting
-  RampScoringSensor.test();
-
-  @override
-  Body createBody() {
-    final shape = PolygonShape()
-      ..setAsBox(
-        2.6,
-        .5,
-        initialPosition,
-        -5 * math.pi / 180,
-      );
-
-    final fixtureDef = FixtureDef(
-      shape,
-      isSensor: true,
-    );
-    final bodyDef = BodyDef(
-      position: initialPosition,
-      userData: this,
-    );
-
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }

@@ -4,7 +4,7 @@ import 'package:flame/game.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_forge2d/world_contact_listener.dart';
 
-// NOTE(wolfen): This should be removed when https://github.com/flame-engine/flame/pull/1597 is solved.
+// NOTE: This should be removed when https://github.com/flame-engine/flame/pull/1597 is solved.
 /// {@template pinball_forge2d_game}
 /// A [Game] that uses the Forge2D physics engine.
 /// {@endtemplate}

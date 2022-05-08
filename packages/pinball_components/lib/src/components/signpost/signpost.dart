@@ -9,7 +9,7 @@ export 'cubit/signpost_cubit.dart';
 /// {@template signpost}
 /// A sign, found in the Flutter Forest.
 ///
-/// Lights up a new sign whenever all three [DashNestBumper]s are hit.
+/// Lights up a new sign whenever all three [DashBumper]s are hit.
 /// {@endtemplate}
 class Signpost extends BodyComponent with InitialPosition {
   /// {@macro signpost}
@@ -36,16 +36,11 @@ class Signpost extends BodyComponent with InitialPosition {
   /// Creates a [Signpost] without any children.
   ///
   /// This can be used for testing [Signpost]'s behaviors in isolation.
-  // TODO(alestiago): Refactor injecting bloc once the following is merged:
-  // https://github.com/flame-engine/flame/pull/1538
   @visibleForTesting
   Signpost.test({
     required this.bloc,
   });
 
-  // TODO(alestiago): Consider refactoring once the following is merged:
-  // https://github.com/flame-engine/flame/pull/1538
-  // ignore: public_member_api_docs
   final SignpostCubit bloc;
 
   @override

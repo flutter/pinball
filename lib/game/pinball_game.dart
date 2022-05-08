@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs
 import 'dart:async';
 
 import 'package:flame/components.dart';
@@ -11,23 +10,25 @@ import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
+import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
-import 'package:pinball_theme/pinball_theme.dart';
+import 'package:share_repository/share_repository.dart';
 
 class PinballGame extends PinballForge2DGame
-    with HasKeyboardHandlerComponents, MultiTouchTapDetector {
+    with HasKeyboardHandlerComponents, MultiTouchTapDetector, HasTappables {
   PinballGame({
-    required CharacterTheme characterTheme,
+    required CharacterThemeCubit characterThemeBloc,
     required this.leaderboardRepository,
+    required this.shareRepository,
     required GameBloc gameBloc,
     required AppLocalizations l10n,
-    required PinballPlayer player,
+    required PinballAudioPlayer audioPlayer,
   })  : focusNode = FocusNode(),
         _gameBloc = gameBloc,
-        _player = player,
-        _characterTheme = characterTheme,
+        _audioPlayer = audioPlayer,
+        _characterThemeBloc = characterThemeBloc,
         _l10n = l10n,
         super(
           gravity: Vector2(0, 30),
@@ -38,38 +39,63 @@ class PinballGame extends PinballForge2DGame
   /// Identifier of the play button overlay
   static const playButtonOverlay = 'play_button';
 
+  /// Identifier of the mobile controls overlay
+  static const mobileControlsOverlay = 'mobile_controls';
+
   @override
   Color backgroundColor() => Colors.transparent;
 
   final FocusNode focusNode;
 
-  final CharacterTheme _characterTheme;
+  final CharacterThemeCubit _characterThemeBloc;
 
-  final PinballPlayer _player;
+  final PinballAudioPlayer _audioPlayer;
 
   final LeaderboardRepository leaderboardRepository;
+
+  final ShareRepository shareRepository;
 
   final AppLocalizations _l10n;
 
   final GameBloc _gameBloc;
 
+  List<LeaderboardEntryData>? _entries;
+
+  Future<void> preFetchLeaderboard() async {
+    try {
+      _entries = await leaderboardRepository.fetchTop10Leaderboard();
+    } catch (_) {
+      // An initial null leaderboard means that we couldn't fetch
+      // the entries for the [Backbox] and it will show the relevant display.
+      _entries = null;
+    }
+  }
+
   @override
   Future<void> onLoad() async {
     await add(
-      FlameBlocProvider<GameBloc, GameState>.value(
-        value: _gameBloc,
+      FlameMultiBlocProvider(
+        providers: [
+          FlameBlocProvider<GameBloc, GameState>.value(
+            value: _gameBloc,
+          ),
+          FlameBlocProvider<CharacterThemeCubit, CharacterThemeState>.value(
+            value: _characterThemeBloc,
+          ),
+        ],
         children: [
           MultiFlameProvider(
             providers: [
-              FlameProvider<PinballPlayer>.value(_player),
-              FlameProvider<CharacterTheme>.value(_characterTheme),
+              FlameProvider<PinballAudioPlayer>.value(_audioPlayer),
               FlameProvider<LeaderboardRepository>.value(leaderboardRepository),
+              FlameProvider<ShareRepository>.value(shareRepository),
               FlameProvider<AppLocalizations>.value(_l10n),
             ],
             children: [
               BonusNoiseBehavior(),
               GameBlocStatusListener(),
               BallSpawningBehavior(),
+              CharacterSelectionBehavior(),
               CameraFocusingBehavior(),
               CanvasComponent(
                 onSpritePainted: (paint) {
@@ -80,9 +106,14 @@ class PinballGame extends PinballForge2DGame
                 children: [
                   ZCanvasComponent(
                     children: [
+                      ArcadeBackground(),
                       BoardBackgroundSpriteComponent(),
                       Boundaries(),
-                      Backbox(leaderboardRepository: leaderboardRepository),
+                      Backbox(
+                        leaderboardRepository: leaderboardRepository,
+                        shareRepository: shareRepository,
+                        entries: _entries,
+                      ),
                       GoogleWord(position: Vector2(-4.45, 1.8)),
                       Multipliers(),
                       Multiballs(),
@@ -119,7 +150,7 @@ class PinballGame extends PinballForge2DGame
       final rocket = descendants().whereType<RocketSpriteComponent>().first;
       final bounds = rocket.topLeftPosition & rocket.size;
 
-      // NOTE(wolfen): As long as Flame does not have https://github.com/flame-engine/flame/issues/1586 we need to check it at the highest level manually.
+      // NOTE: As long as Flame does not have https://github.com/flame-engine/flame/issues/1586 we need to check it at the highest level manually.
       if (bounds.contains(info.eventPosition.game.toOffset())) {
         descendants().whereType<Plunger>().single.pullFor(2);
       } else {
@@ -161,15 +192,17 @@ class PinballGame extends PinballForge2DGame
 
 class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
   DebugPinballGame({
-    required CharacterTheme characterTheme,
+    required CharacterThemeCubit characterThemeBloc,
     required LeaderboardRepository leaderboardRepository,
+    required ShareRepository shareRepository,
     required AppLocalizations l10n,
-    required PinballPlayer player,
+    required PinballAudioPlayer audioPlayer,
     required GameBloc gameBloc,
   }) : super(
-          characterTheme: characterTheme,
-          player: player,
+          characterThemeBloc: characterThemeBloc,
+          audioPlayer: audioPlayer,
           leaderboardRepository: leaderboardRepository,
+          shareRepository: shareRepository,
           l10n: l10n,
           gameBloc: gameBloc,
         );
@@ -246,7 +279,6 @@ class PreviewLine extends PositionComponent with HasGameRef<DebugPinballGame> {
   }
 }
 
-// TODO(wolfenrain): investigate this CI failure.
 class _DebugInformation extends Component with HasGameRef<DebugPinballGame> {
   @override
   PositionType get positionType => PositionType.widget;

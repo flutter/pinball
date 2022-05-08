@@ -14,10 +14,16 @@ class BackboxBloc extends Bloc<BackboxEvent, BackboxState> {
   /// {@macro backbox_bloc}
   BackboxBloc({
     required LeaderboardRepository leaderboardRepository,
+    required List<LeaderboardEntryData>? initialEntries,
   })  : _leaderboardRepository = leaderboardRepository,
-        super(LoadingState()) {
+        super(
+          initialEntries != null
+              ? LeaderboardSuccessState(entries: initialEntries)
+              : LeaderboardFailureState(),
+        ) {
     on<PlayerInitialsRequested>(_onPlayerInitialsRequested);
     on<PlayerInitialsSubmitted>(_onPlayerInitialsSubmitted);
+    on<ShareScoreRequested>(_onScoreShareRequested);
     on<LeaderboardRequested>(_onLeaderboardRequested);
   }
 
@@ -48,11 +54,29 @@ class BackboxBloc extends Bloc<BackboxEvent, BackboxState> {
           character: event.character.toType,
         ),
       );
-      emit(InitialsSuccessState());
+      emit(
+        InitialsSuccessState(
+          score: event.score,
+        ),
+      );
     } catch (error, stackTrace) {
       addError(error, stackTrace);
-      emit(InitialsFailureState());
+      emit(
+        InitialsFailureState(
+          score: event.score,
+          character: event.character,
+        ),
+      );
     }
+  }
+
+  Future<void> _onScoreShareRequested(
+    ShareScoreRequested event,
+    Emitter<BackboxState> emit,
+  ) async {
+    emit(
+      ShareState(score: event.score),
+    );
   }
 
   Future<void> _onLeaderboardRequested(

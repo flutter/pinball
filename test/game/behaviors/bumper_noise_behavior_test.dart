@@ -9,13 +9,14 @@ import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 class _TestGame extends Forge2DGame {
-  Future<void> pump(_TestBodyComponent child, {required PinballPlayer player}) {
+  Future<void> pump(
+    _TestBodyComponent child, {
+    required PinballAudioPlayer audioPlayer,
+  }) {
     return ensureAdd(
-      FlameProvider<PinballPlayer>.value(
-        player,
-        children: [
-          child,
-        ],
+      FlameProvider<PinballAudioPlayer>.value(
+        audioPlayer,
+        children: [child],
       ),
     );
   }
@@ -26,33 +27,33 @@ class _TestBodyComponent extends BodyComponent {
   Body createBody() => world.createBody(BodyDef());
 }
 
-class _MockPinballPlayer extends Mock implements PinballPlayer {}
+class _MockPinballAudioPlayer extends Mock implements PinballAudioPlayer {}
 
 class _MockContact extends Mock implements Contact {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  group('BumperNoiseBehavior', () {});
+  group('BumperNoiseBehavior', () {
+    late PinballAudioPlayer audioPlayer;
+    final flameTester = FlameTester(_TestGame.new);
 
-  late PinballPlayer player;
-  final flameTester = FlameTester(_TestGame.new);
+    setUp(() {
+      audioPlayer = _MockPinballAudioPlayer();
+    });
 
-  setUp(() {
-    player = _MockPinballPlayer();
+    flameTester.testGameWidget(
+      'plays bumper sound',
+      setUp: (game, _) async {
+        final behavior = BumperNoiseBehavior();
+        final parent = _TestBodyComponent();
+        await game.pump(parent, audioPlayer: audioPlayer);
+        await parent.ensureAdd(behavior);
+        behavior.beginContact(Object(), _MockContact());
+      },
+      verify: (_, __) async {
+        verify(() => audioPlayer.play(PinballAudio.bumper)).called(1);
+      },
+    );
   });
-
-  flameTester.testGameWidget(
-    'plays bumper sound',
-    setUp: (game, _) async {
-      final behavior = BumperNoiseBehavior();
-      final parent = _TestBodyComponent();
-      await game.pump(parent, player: player);
-      await parent.ensureAdd(behavior);
-      behavior.beginContact(Object(), _MockContact());
-    },
-    verify: (_, __) async {
-      verify(() => player.play(PinballAudio.bumper)).called(1);
-    },
-  );
 }

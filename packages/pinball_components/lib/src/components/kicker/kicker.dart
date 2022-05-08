@@ -51,17 +51,12 @@ class Kicker extends BodyComponent with InitialPosition {
   /// Creates a [Kicker] without any children.
   ///
   /// This can be used for testing [Kicker]'s behaviors in isolation.
-  // TODO(alestiago): Refactor injecting bloc once the following is merged:
-  // https://github.com/flame-engine/flame/pull/1538
   @visibleForTesting
   Kicker.test({
     required this.bloc,
     required BoardSide side,
   }) : _side = side;
 
-  // TODO(alestiago): Consider refactoring once the following is merged:
-  // https://github.com/flame-engine/flame/pull/1538
-  // ignore: public_member_api_docs
   final KickerCubit bloc;
 
   @override
@@ -129,7 +124,6 @@ class Kicker extends BodyComponent with InitialPosition {
       FixtureDef(bouncyEdge, userData: 'bouncy_edge'),
     ];
 
-    // TODO(alestiago): Evaluate if there is value on centering the fixtures.
     final centroid = geometry.centroid(
       [
         upperCircle.position + Vector2(0, -upperCircle.radius),
@@ -177,9 +171,6 @@ class _KickerSpriteGroupComponent extends SpriteGroupComponent<KickerState>
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    // TODO(alestiago): Consider refactoring once the following is merged:
-    // https://github.com/flame-engine/flame/pull/1538
-    // ignore: public_member_api_docs
     parent.bloc.stream.listen((state) => current = state);
 
     final sprites = {
@@ -203,8 +194,6 @@ class _KickerSpriteGroupComponent extends SpriteGroupComponent<KickerState>
   }
 }
 
-// TODO(alestiago): Evaluate if there's value on generalising this to
-// all shapes.
 extension on Shape {
   void moveBy(Vector2 offset) {
     if (this is CircleShape) {

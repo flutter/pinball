@@ -13,12 +13,11 @@ void main() {
     });
 
     test('has the correct initial state', () {
-      final future = Future<void>.value();
       expect(
-        AssetsManagerState.initial(loadables: [future]),
+        AssetsManagerState.initial(),
         equals(
           AssetsManagerState(
-            loadables: [future],
+            loadables: const [],
             loaded: const [],
           ),
         ),

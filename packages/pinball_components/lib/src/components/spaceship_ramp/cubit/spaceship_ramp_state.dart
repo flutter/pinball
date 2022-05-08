@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs
-
 part of 'spaceship_ramp_cubit.dart';
 
 class SpaceshipRampState extends Equatable {

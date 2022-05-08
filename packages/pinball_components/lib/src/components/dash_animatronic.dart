@@ -2,7 +2,7 @@ import 'package:flame/components.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template dash_animatronic}
-/// Animated Dash that sits on top of the [DashNestBumper.main].
+/// Animated Dash that sits on top of the [DashBumper.main].
 /// {@endtemplate}
 class DashAnimatronic extends SpriteAnimationComponent with HasGameRef {
   /// {@macro dash_animatronic}

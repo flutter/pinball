@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs
-
 import 'dart:async';
 import 'dart:math' as math;
 
@@ -13,10 +11,8 @@ import 'package:pinball_flame/pinball_flame.dart';
 export 'cubit/android_spaceship_cubit.dart';
 
 class AndroidSpaceship extends Component {
-  AndroidSpaceship({
-    required Vector2 position,
-  })  : bloc = AndroidSpaceshipCubit(),
-        super(
+  AndroidSpaceship({required Vector2 position})
+      : super(
           children: [
             _SpaceshipSaucer()..initialPosition = position,
             _SpaceshipSaucerSpriteAnimationComponent()..position = position,
@@ -38,23 +34,10 @@ class AndroidSpaceship extends Component {
   /// Creates an [AndroidSpaceship] without any children.
   ///
   /// This can be used for testing [AndroidSpaceship]'s behaviors in isolation.
-  // TODO(alestiago): Refactor injecting bloc once the following is merged:
-  // https://github.com/flame-engine/flame/pull/1538
   @visibleForTesting
   AndroidSpaceship.test({
-    required this.bloc,
     Iterable<Component>? children,
   }) : super(children: children);
-
-  // TODO(alestiago): Consider refactoring once the following is merged:
-  // https://github.com/flame-engine/flame/pull/1538
-  final AndroidSpaceshipCubit bloc;
-
-  @override
-  void onRemove() {
-    bloc.close();
-    super.onRemove();
-  }
 }
 
 class _SpaceshipSaucer extends BodyComponent with InitialPosition, Layered {
@@ -129,7 +112,6 @@ class _SpaceshipSaucerSpriteAnimationComponent extends SpriteAnimationComponent
   }
 }
 
-// TODO(allisonryan0002): add pulsing behavior.
 class _LightBeamSpriteComponent extends SpriteComponent
     with HasGameRef, ZIndex {
   _LightBeamSpriteComponent()

@@ -14,11 +14,17 @@ class $AssetsMusicGen {
 class $AssetsSfxGen {
   const $AssetsSfxGen();
 
+  String get android => 'assets/sfx/android.mp3';
   String get bumperA => 'assets/sfx/bumper_a.mp3';
   String get bumperB => 'assets/sfx/bumper_b.mp3';
+  String get cowMoo => 'assets/sfx/cow_moo.mp3';
+  String get dash => 'assets/sfx/dash.mp3';
+  String get dino => 'assets/sfx/dino.mp3';
   String get gameOverVoiceOver => 'assets/sfx/game_over_voice_over.mp3';
   String get google => 'assets/sfx/google.mp3';
   String get ioPinballVoiceOver => 'assets/sfx/io_pinball_voice_over.mp3';
+  String get kickerA => 'assets/sfx/kicker_a.mp3';
+  String get kickerB => 'assets/sfx/kicker_b.mp3';
   String get launcher => 'assets/sfx/launcher.mp3';
   String get sparky => 'assets/sfx/sparky.mp3';
 }

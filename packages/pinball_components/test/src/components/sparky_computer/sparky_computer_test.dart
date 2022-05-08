@@ -42,14 +42,11 @@ void main() {
       verify: (game, tester) async {
         await expectLater(
           find.byGame<TestGame>(),
-          matchesGoldenFile('../golden/sparky-computer.png'),
+          matchesGoldenFile('../golden/sparky_computer.png'),
         );
       },
     );
 
-    // TODO(alestiago): Consider refactoring once the following is merged:
-    // https://github.com/flame-engine/flame/pull/1538
-    // ignore: public_member_api_docs
     flameTester.test('closes bloc when removed', (game) async {
       final bloc = _MockSparkyComputerCubit();
       whenListen(

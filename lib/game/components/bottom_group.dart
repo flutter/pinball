@@ -1,6 +1,5 @@
 import 'package:flame/components.dart';
 import 'package:pinball/game/behaviors/behaviors.dart';
-import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
@@ -9,7 +8,6 @@ import 'package:pinball_flame/pinball_flame.dart';
 ///
 /// The [BottomGroup] consists of [Flipper]s, [Baseboard]s and [Kicker]s.
 /// {@endtemplate}
-// TODO(allisonryan0002): Consider renaming.
 class BottomGroup extends Component with ZIndex {
   /// {@macro bottom_group}
   BottomGroup()
@@ -41,7 +39,7 @@ class _BottomGroupSide extends Component {
     final direction = _side.direction;
     final centerXAdjustment = _side.isLeft ? -0.45 : -6.8;
 
-    final flipper = ControlledFlipper(
+    final flipper = Flipper(
       side: _side,
     )..initialPosition = Vector2((11.6 * direction) + centerXAdjustment, 43.6);
     final baseboard = Baseboard(side: _side)
@@ -54,6 +52,7 @@ class _BottomGroupSide extends Component {
       children: [
         ScoringContactBehavior(points: Points.fiveThousand)
           ..applyTo(['bouncy_edge']),
+        KickerNoiseBehavior()..applyTo(['bouncy_edge']),
       ],
     )..initialPosition = Vector2(
         (22.44 * direction) + centerXAdjustment,

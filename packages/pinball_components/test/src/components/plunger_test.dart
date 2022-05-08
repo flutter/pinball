@@ -329,7 +329,7 @@ void main() {
       );
 
       flameTester.test(
-        'connected body collison enabled',
+        'connected body collision enabled',
         (game) async {
           await game.ensureAdd(plunger);
           await game.ensureAdd(anchor);

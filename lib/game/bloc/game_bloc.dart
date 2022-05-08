@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs
 import 'dart:math' as math;
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -13,10 +12,11 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     on<Scored>(_onScored);
     on<MultiplierIncreased>(_onIncreasedMultiplier);
     on<BonusActivated>(_onBonusActivated);
-    on<SparkyTurboChargeActivated>(_onSparkyTurboChargeActivated);
     on<GameOver>(_onGameOver);
     on<GameStarted>(_onGameStarted);
   }
+
+  static const _maxScore = 9999999999;
 
   void _onGameStarted(GameStarted _, Emitter emit) {
     emit(state.copyWith(status: GameStatus.playing));
@@ -27,7 +27,10 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   void _onRoundLost(RoundLost event, Emitter emit) {
-    final score = state.totalScore + state.roundScore * state.multiplier;
+    final score = math.min(
+      state.totalScore + state.roundScore * state.multiplier,
+      _maxScore,
+    );
     final roundsLeft = math.max(state.rounds - 1, 0);
 
     emit(
@@ -43,9 +46,11 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
   void _onScored(Scored event, Emitter emit) {
     if (state.status.isPlaying) {
-      emit(
-        state.copyWith(roundScore: state.roundScore + event.points),
+      final combinedScore = math.min(
+        state.totalScore + state.roundScore + event.points,
+        _maxScore,
       );
+      emit(state.copyWith(roundScore: combinedScore - state.totalScore));
     }
   }
 
@@ -63,20 +68,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     emit(
       state.copyWith(
         bonusHistory: [...state.bonusHistory, event.bonus],
-      ),
-    );
-  }
-
-  Future<void> _onSparkyTurboChargeActivated(
-    SparkyTurboChargeActivated event,
-    Emitter emit,
-  ) async {
-    emit(
-      state.copyWith(
-        bonusHistory: [
-          ...state.bonusHistory,
-          GameBonus.sparkyTurboCharge,
-        ],
       ),
     );
   }

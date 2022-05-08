@@ -12,7 +12,7 @@ class BumpingBehavior extends ContactBehavior {
   /// Determines how strong the bump is.
   final double _strength;
 
-  /// This is used to recoginze the current state of a contact manifold in world
+  /// This is used to recognize the current state of a contact manifold in world
   /// coordinates.
   @visibleForTesting
   final WorldManifold worldManifold = WorldManifold();

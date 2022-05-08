@@ -25,10 +25,41 @@ void main() {
       expect(testState, secondState);
     });
 
-    test('supports copyWith', () {
-      final secondState = testState.copyWith();
+    group('copyWith', () {
+      test(
+        'copies correctly '
+        'when no argument specified',
+        () {
+          const state = StartGameState(
+            status: StartGameStatus.initial,
+          );
+          expect(
+            state.copyWith(),
+            equals(state),
+          );
+        },
+      );
 
-      expect(testState, secondState);
+      test(
+        'copies correctly '
+        'when all arguments specified',
+        () {
+          const state = StartGameState(
+            status: StartGameStatus.initial,
+          );
+          final otherState = StartGameState(
+            status: StartGameStatus.play,
+          );
+          expect(state, isNot(equals(otherState)));
+
+          expect(
+            state.copyWith(
+              status: otherState.status,
+            ),
+            equals(otherState),
+          );
+        },
+      );
     });
 
     test('has correct props', () {

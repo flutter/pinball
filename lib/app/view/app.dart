@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs
-
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,21 +9,25 @@ import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_ui/pinball_ui.dart';
+import 'package:share_repository/share_repository.dart';
 
 class App extends StatelessWidget {
   const App({
     Key? key,
     required AuthenticationRepository authenticationRepository,
     required LeaderboardRepository leaderboardRepository,
-    required PinballPlayer pinballPlayer,
+    required ShareRepository shareRepository,
+    required PinballAudioPlayer pinballAudioPlayer,
   })  : _authenticationRepository = authenticationRepository,
         _leaderboardRepository = leaderboardRepository,
-        _pinballPlayer = pinballPlayer,
+        _shareRepository = shareRepository,
+        _pinballAudioPlayer = pinballAudioPlayer,
         super(key: key);
 
   final AuthenticationRepository _authenticationRepository;
   final LeaderboardRepository _leaderboardRepository;
-  final PinballPlayer _pinballPlayer;
+  final ShareRepository _shareRepository;
+  final PinballAudioPlayer _pinballAudioPlayer;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,8 @@ class App extends StatelessWidget {
       providers: [
         RepositoryProvider.value(value: _authenticationRepository),
         RepositoryProvider.value(value: _leaderboardRepository),
-        RepositoryProvider.value(value: _pinballPlayer),
+        RepositoryProvider.value(value: _shareRepository),
+        RepositoryProvider.value(value: _pinballAudioPlayer),
       ],
       child: MultiBlocProvider(
         providers: [

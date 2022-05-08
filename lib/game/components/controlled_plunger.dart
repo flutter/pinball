@@ -30,7 +30,7 @@ class PlungerNoiseBehavior extends Component {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    readProvider<PinballPlayer>().play(PinballAudio.launcher);
+    readProvider<PinballAudioPlayer>().play(PinballAudio.launcher);
   }
 
   @override

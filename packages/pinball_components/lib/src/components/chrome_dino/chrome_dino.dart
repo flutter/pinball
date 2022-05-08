@@ -38,16 +38,11 @@ class ChromeDino extends BodyComponent
   /// Creates a [ChromeDino] without any children.
   ///
   /// This can be used for testing [ChromeDino]'s behaviors in isolation.
-  // TODO(alestiago): Refactor injecting bloc once the following is merged:
-  // https://github.com/flame-engine/flame/pull/1538
   @visibleForTesting
   ChromeDino.test({
     required this.bloc,
   });
 
-  // TODO(alestiago): Consider refactoring once the following is merged:
-  // https://github.com/flame-engine/flame/pull/1538
-  // ignore: public_member_api_docs
   final ChromeDinoCubit bloc;
 
   /// Angle to rotate the dino up or down from the starting horizontal position.

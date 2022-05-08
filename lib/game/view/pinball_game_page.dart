@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs
-
 import 'package:flame/game.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,13 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/assets_manager/assets_manager.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball/gen/gen.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/more_information/more_information.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_ui/pinball_ui.dart';
+import 'package:share_repository/share_repository.dart';
 
 class PinballGamePage extends StatelessWidget {
   const PinballGamePage({
@@ -23,80 +21,61 @@ class PinballGamePage extends StatelessWidget {
 
   final bool isDebugMode;
 
-  static Route route({bool isDebugMode = kDebugMode}) {
-    return MaterialPageRoute<void>(
-      builder: (_) => PinballGamePage(isDebugMode: isDebugMode),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    final characterTheme =
-        context.read<CharacterThemeCubit>().state.characterTheme;
-    final player = context.read<PinballPlayer>();
+    final characterThemeBloc = context.read<CharacterThemeCubit>();
+    final audioPlayer = context.read<PinballAudioPlayer>();
     final leaderboardRepository = context.read<LeaderboardRepository>();
+    final shareRepository = context.read<ShareRepository>();
     final gameBloc = context.read<GameBloc>();
     final game = isDebugMode
         ? DebugPinballGame(
-            characterTheme: characterTheme,
-            player: player,
+            characterThemeBloc: characterThemeBloc,
+            audioPlayer: audioPlayer,
             leaderboardRepository: leaderboardRepository,
+            shareRepository: shareRepository,
             l10n: context.l10n,
             gameBloc: gameBloc,
           )
         : PinballGame(
-            characterTheme: characterTheme,
-            player: player,
+            characterThemeBloc: characterThemeBloc,
+            audioPlayer: audioPlayer,
             leaderboardRepository: leaderboardRepository,
+            shareRepository: shareRepository,
             l10n: context.l10n,
             gameBloc: gameBloc,
           );
 
-    final loadables = [
-      ...game.preLoadAssets(),
-      ...player.load(),
-      ...BonusAnimation.loadAssets(),
-      ...SelectedCharacter.loadAssets(),
-    ];
-
-    return BlocProvider(
-      create: (_) => AssetsManagerCubit(loadables)..load(),
-      child: PinballGameView(game: game),
+    return Scaffold(
+      backgroundColor: PinballColors.black,
+      body: BlocProvider(
+        create: (_) => AssetsManagerCubit(game, audioPlayer)..load(),
+        child: PinballGameView(game),
+      ),
     );
   }
 }
 
 class PinballGameView extends StatelessWidget {
-  const PinballGameView({
-    Key? key,
-    required this.game,
-  }) : super(key: key);
+  const PinballGameView(this.game, {Key? key}) : super(key: key);
 
   final PinballGame game;
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = context.select(
-      (AssetsManagerCubit bloc) => bloc.state.progress != 1,
-    );
-    return Container(
-      decoration: const CrtBackground(),
-      child: Scaffold(
-        backgroundColor: PinballColors.transparent,
-        body: isLoading
+    return BlocBuilder<AssetsManagerCubit, AssetsManagerState>(
+      builder: (context, state) {
+        return state.isLoading
             ? const AssetsLoadingPage()
-            : PinballGameLoadedView(game: game),
-      ),
+            : PinballGameLoadedView(game);
+      },
     );
   }
 }
 
 @visibleForTesting
 class PinballGameLoadedView extends StatelessWidget {
-  const PinballGameLoadedView({
-    Key? key,
-    required this.game,
-  }) : super(key: key);
+  const PinballGameLoadedView(this.game, {Key? key}) : super(key: key);
 
   final PinballGame game;
 
@@ -123,6 +102,14 @@ class PinballGameLoadedView extends StatelessWidget {
                       right: 0,
                       left: 0,
                       child: PlayButtonOverlay(),
+                    );
+                  },
+                  PinballGame.mobileControlsOverlay: (context, game) {
+                    return Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: MobileControls(game: game),
                     );
                   },
                 },
@@ -179,7 +166,7 @@ class _PositionedInfoIcon extends StatelessWidget {
             visible: state.status.isGameOver,
             child: IconButton(
               iconSize: 50,
-              icon: Assets.images.linkBox.infoIcon.image(),
+              icon: const Icon(Icons.info, color: PinballColors.white),
               onPressed: () => showMoreInformationDialog(context),
             ),
           );

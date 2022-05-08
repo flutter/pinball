@@ -36,7 +36,7 @@ class _TestGame extends Forge2DGame {
         value: _MockGameBloc(),
         children: [
           FlameProvider.value(
-            _MockPinballPlayer(),
+            _MockPinballAudioPlayer(),
             children: [
               ZCanvasComponent(children: [child]),
             ],
@@ -47,7 +47,7 @@ class _TestGame extends Forge2DGame {
   }
 }
 
-class _MockPinballPlayer extends Mock implements PinballPlayer {}
+class _MockPinballAudioPlayer extends Mock implements PinballAudioPlayer {}
 
 class _MockGameBloc extends Mock implements GameBloc {}
 
@@ -91,23 +91,23 @@ void main() {
       );
 
       flameTester.test(
-        'three DashNestBumper',
+        'three DashBumper',
         (game) async {
           final component = FlutterForest();
           await game.pump(component);
           expect(
-            game.descendants().whereType<DashNestBumper>().length,
+            game.descendants().whereType<DashBumper>().length,
             equals(3),
           );
         },
       );
 
       flameTester.test(
-        'three DashNestBumpers with BumperNoiseBehavior',
+        'three DashBumpers with BumperNoiseBehavior',
         (game) async {
           final component = FlutterForest();
           await game.pump(component);
-          final bumpers = game.descendants().whereType<DashNestBumper>();
+          final bumpers = game.descendants().whereType<DashBumper>();
           for (final bumper in bumpers) {
             expect(
               bumper.firstChild<BumperNoiseBehavior>(),

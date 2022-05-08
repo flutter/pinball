@@ -10,8 +10,9 @@ import '../../../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final asset = theme.Assets.images.dash.ball.keyName;
-  final flameTester = FlameTester(() => TestGame([asset]));
+  final flameTester = FlameTester(
+    () => TestGame([theme.Assets.images.dash.ball.keyName]),
+  );
 
   group('BallScalingBehavior', () {
     test('can be instantiated', () {
@@ -62,8 +63,8 @@ void main() {
         await game.ensureAddAll([ball1, ball2]);
         game.update(1);
 
-        final sprite1 = ball1.firstChild<SpriteComponent>()!;
-        final sprite2 = ball2.firstChild<SpriteComponent>()!;
+        final sprite1 = ball1.descendants().whereType<SpriteComponent>().single;
+        final sprite2 = ball2.descendants().whereType<SpriteComponent>().single;
         expect(
           sprite1.scale.x,
           greaterThan(sprite2.scale.x),

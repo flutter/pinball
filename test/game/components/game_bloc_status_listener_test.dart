@@ -8,33 +8,49 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/game.dart';
+import 'package:pinball/l10n/l10n.dart';
+import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart' as theme;
+import 'package:share_repository/share_repository.dart';
 
 class _TestGame extends Forge2DGame {
   @override
   Future<void> onLoad() async {
     images.prefix = '';
-    await images.load(Assets.images.backbox.marquee.keyName);
+    await images.loadAll(
+      [
+        const theme.DashTheme().leaderboardIcon.keyName,
+        Assets.images.backbox.marquee.keyName,
+        Assets.images.backbox.displayDivider.keyName,
+      ],
+    );
   }
 
   Future<void> pump(
     Iterable<Component> children, {
-    PinballPlayer? pinballPlayer,
+    PinballAudioPlayer? pinballAudioPlayer,
   }) async {
     return ensureAdd(
-      FlameBlocProvider<GameBloc, GameState>.value(
-        value: GameBloc(),
+      FlameMultiBlocProvider(
+        providers: [
+          FlameBlocProvider<GameBloc, GameState>.value(
+            value: GameBloc(),
+          ),
+          FlameBlocProvider<CharacterThemeCubit, CharacterThemeState>.value(
+            value: CharacterThemeCubit(),
+          ),
+        ],
         children: [
           MultiFlameProvider(
             providers: [
-              FlameProvider<PinballPlayer>.value(
-                pinballPlayer ?? _MockPinballPlayer(),
+              FlameProvider<PinballAudioPlayer>.value(
+                pinballAudioPlayer ?? _MockPinballAudioPlayer(),
               ),
-              FlameProvider<theme.CharacterTheme>.value(
-                const theme.DashTheme(),
+              FlameProvider<AppLocalizations>.value(
+                _MockAppLocalizations(),
               ),
             ],
             children: children,
@@ -45,9 +61,40 @@ class _TestGame extends Forge2DGame {
   }
 }
 
-class _MockPinballPlayer extends Mock implements PinballPlayer {}
+class _MockPinballAudioPlayer extends Mock implements PinballAudioPlayer {}
 
 class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
+}
+
+class _MockShareRepository extends Mock implements ShareRepository {}
+
+class _MockAppLocalizations extends Mock implements AppLocalizations {
+  @override
+  String get score => '';
+
+  @override
+  String get name => '';
+
+  @override
+  String get rank => '';
+
+  @override
+  String get enterInitials => '';
+
+  @override
+  String get arrows => '';
+
+  @override
+  String get andPress => '';
+
+  @override
+  String get enterReturn => '';
+
+  @override
+  String get toSubmit => '';
+
+  @override
+  String get loading => '';
 }
 
 void main() {
@@ -92,54 +139,144 @@ void main() {
     });
 
     group('onNewState', () {
-      flameTester.test(
-        'changes the backbox display when the game is over',
-        (game) async {
-          final component = GameBlocStatusListener();
-          final repository = _MockLeaderboardRepository();
-          final backbox = Backbox(leaderboardRepository: repository);
-          final state = const GameState.initial()
-            ..copyWith(
-              status: GameStatus.gameOver,
+      group('on game over', () {
+        late GameState state;
+
+        setUp(() {
+          state = const GameState.initial().copyWith(
+            status: GameStatus.gameOver,
+          );
+        });
+
+        flameTester.test(
+          'changes the backbox display',
+          (game) async {
+            final component = GameBlocStatusListener();
+            final leaderboardRepository = _MockLeaderboardRepository();
+            final shareRepository = _MockShareRepository();
+            final backbox = Backbox(
+              leaderboardRepository: leaderboardRepository,
+              shareRepository: shareRepository,
+              entries: const [],
             );
 
-          await game.pump([component, backbox]);
+            await game.pump([component, backbox]);
 
-          expect(() => component.onNewState(state), returnsNormally);
-        },
-      );
+            expect(() => component.onNewState(state), returnsNormally);
+          },
+        );
 
-      flameTester.test(
-        'plays the background music on start',
-        (game) async {
-          final player = _MockPinballPlayer();
-          final component = GameBlocStatusListener();
-          await game.pump([component], pinballPlayer: player);
+        flameTester.test(
+          'removes FlipperKeyControllingBehavior from Flipper',
+          (game) async {
+            final component = GameBlocStatusListener();
+            final leaderboardRepository = _MockLeaderboardRepository();
+            final shareRepository = _MockShareRepository();
+            final backbox = Backbox(
+              leaderboardRepository: leaderboardRepository,
+              shareRepository: shareRepository,
+              entries: const [],
+            );
+            final flipper = Flipper.test(side: BoardSide.left);
+            final behavior = FlipperKeyControllingBehavior();
 
-          component.onNewState(
-            const GameState.initial().copyWith(status: GameStatus.playing),
+            await game.pump([component, backbox, flipper]);
+            await flipper.ensureAdd(behavior);
+
+            expect(state.status, GameStatus.gameOver);
+
+            component.onNewState(state);
+            await game.ready();
+
+            expect(
+              flipper.children.whereType<FlipperKeyControllingBehavior>(),
+              isEmpty,
+            );
+          },
+        );
+
+        flameTester.test(
+          'plays the game over voice over',
+          (game) async {
+            final audioPlayer = _MockPinballAudioPlayer();
+            final component = GameBlocStatusListener();
+            final leaderboardRepository = _MockLeaderboardRepository();
+            final shareRepository = _MockShareRepository();
+            final backbox = Backbox(
+              leaderboardRepository: leaderboardRepository,
+              shareRepository: shareRepository,
+              entries: const [],
+            );
+            await game.pump(
+              [component, backbox],
+              pinballAudioPlayer: audioPlayer,
+            );
+
+            component.onNewState(state);
+
+            verify(
+              () => audioPlayer.play(
+                PinballAudio.gameOverVoiceOver,
+              ),
+            ).called(1);
+          },
+        );
+      });
+
+      group('on playing', () {
+        late GameState state;
+
+        setUp(() {
+          state = const GameState.initial().copyWith(
+            status: GameStatus.playing,
           );
+        });
 
-          verify(() => player.play(PinballAudio.backgroundMusic)).called(1);
-        },
-      );
+        flameTester.test(
+          'plays the background music on start',
+          (game) async {
+            final audioPlayer = _MockPinballAudioPlayer();
+            final component = GameBlocStatusListener();
+            await game.pump([component], pinballAudioPlayer: audioPlayer);
 
-      flameTester.test(
-        'plays the game over voice over when it is game over',
-        (game) async {
-          final player = _MockPinballPlayer();
-          final component = GameBlocStatusListener();
-          final repository = _MockLeaderboardRepository();
-          final backbox = Backbox(leaderboardRepository: repository);
-          await game.pump([component, backbox], pinballPlayer: player);
+            expect(state.status, equals(GameStatus.playing));
+            component.onNewState(state);
 
-          component.onNewState(
-            const GameState.initial().copyWith(status: GameStatus.gameOver),
-          );
+            verify(
+              () => audioPlayer.play(
+                PinballAudio.backgroundMusic,
+              ),
+            ).called(1);
+          },
+        );
 
-          verify(() => player.play(PinballAudio.gameOverVoiceOver)).called(1);
-        },
-      );
+        flameTester.test(
+          'adds key controlling behavior to Flippers when the game is started',
+          (game) async {
+            final component = GameBlocStatusListener();
+            final leaderboardRepository = _MockLeaderboardRepository();
+            final shareRepository = _MockShareRepository();
+            final backbox = Backbox(
+              leaderboardRepository: leaderboardRepository,
+              shareRepository: shareRepository,
+              entries: const [],
+            );
+            final flipper = Flipper.test(side: BoardSide.left);
+
+            await game.pump([component, backbox, flipper]);
+
+            component.onNewState(state);
+            await game.ready();
+
+            expect(
+              flipper.children
+                  .whereType<FlipperKeyControllingBehavior>()
+                  .length,
+              equals(1),
+            );
+          },
+        );
+      });
     });
   });
 }

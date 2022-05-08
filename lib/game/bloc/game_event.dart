@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs
-
 part of 'game_bloc.dart';
 
 @immutable
@@ -40,13 +38,6 @@ class BonusActivated extends GameEvent {
 
   @override
   List<Object?> get props => [bonus];
-}
-
-class SparkyTurboChargeActivated extends GameEvent {
-  const SparkyTurboChargeActivated();
-
-  @override
-  List<Object?> get props => [];
 }
 
 /// {@template multiplier_increased_game_event}

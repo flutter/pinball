@@ -135,13 +135,9 @@ void main() {
             Stream.value(state),
             initialState: initialState,
           );
-
           await _pumpAppWithWidget(tester);
           await tester.pump();
-          // TODO(arturplaczek): remove magic number once this is merged:
-          // https://github.com/flame-engine/flame/pull/1564
           await Future<void>.delayed(const Duration(seconds: 6));
-
           await expectLater(find.byType(ScoreView), findsOneWidget);
         });
       },

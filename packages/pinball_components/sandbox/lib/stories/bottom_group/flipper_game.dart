@@ -1,6 +1,4 @@
 import 'package:flame/input.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
@@ -23,16 +21,6 @@ class FlipperGame extends BallGame with KeyboardEvents {
     - Press right arrow key or "D" to move the right flipper.
   ''';
 
-  static const _leftFlipperKeys = [
-    LogicalKeyboardKey.arrowLeft,
-    LogicalKeyboardKey.keyA,
-  ];
-
-  static const _rightFlipperKeys = [
-    LogicalKeyboardKey.arrowRight,
-    LogicalKeyboardKey.keyD,
-  ];
-
   late Flipper leftFlipper;
   late Flipper rightFlipper;
 
@@ -49,33 +37,5 @@ class FlipperGame extends BallGame with KeyboardEvents {
     ]);
 
     await traceAllBodies();
-  }
-
-  @override
-  KeyEventResult onKeyEvent(
-    RawKeyEvent event,
-    Set<LogicalKeyboardKey> keysPressed,
-  ) {
-    final movedLeftFlipper = _leftFlipperKeys.contains(event.logicalKey);
-    if (movedLeftFlipper) {
-      if (event is RawKeyDownEvent) {
-        leftFlipper.moveUp();
-      } else if (event is RawKeyUpEvent) {
-        leftFlipper.moveDown();
-      }
-    }
-
-    final movedRightFlipper = _rightFlipperKeys.contains(event.logicalKey);
-    if (movedRightFlipper) {
-      if (event is RawKeyDownEvent) {
-        rightFlipper.moveUp();
-      } else if (event is RawKeyUpEvent) {
-        rightFlipper.moveDown();
-      }
-    }
-
-    return movedLeftFlipper || movedRightFlipper
-        ? KeyEventResult.handled
-        : KeyEventResult.ignored;
   }
 }
