@@ -64,7 +64,7 @@ class _FakeGameEvent extends Fake implements GameEvent {}
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  group('RampMultiplierBehavior', () {
+  group('RampProgressBehavior', () {
     late GameBloc gameBloc;
 
     setUp(() {
@@ -75,8 +75,8 @@ void main() {
     final flameTester = FlameTester(_TestGame.new);
 
     flameTester.test(
-      'adds MultiplierIncreased '
-      'when hits are multiples of 5 times and multiplier is less than 6',
+      'adds onProgressed '
+      'when hits and multiplier is less than 6',
       (game) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
@@ -88,12 +88,11 @@ void main() {
         );
         when(() => gameBloc.state).thenReturn(
           GameState.initial().copyWith(
-            multiplier: 5,
+            multiplier: 1,
           ),
         );
-        when(() => gameBloc.add(any())).thenAnswer((_) async {});
 
-        final behavior = RampMultiplierBehavior();
+        final behavior = RampProgressBehavior();
         final parent = SpaceshipRamp.test();
 
         await game.pump(
@@ -107,13 +106,13 @@ void main() {
 
         await game.ready();
 
-        verify(() => gameBloc.add(const MultiplierIncreased())).called(1);
+        verify(bloc.onProgressed).called(1);
       },
     );
 
     flameTester.test(
-      "doesn't add MultiplierIncreased "
-      'when hits are multiples of 5 times but multiplier is 6',
+      'adds onProgressed '
+      'when hits and multiplier is 6 but arrow is not full lit',
       (game) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
@@ -129,7 +128,7 @@ void main() {
           ),
         );
 
-        final behavior = RampMultiplierBehavior();
+        final behavior = RampProgressBehavior();
         final parent = SpaceshipRamp.test();
 
         await game.pump(
@@ -143,13 +142,54 @@ void main() {
 
         await game.ready();
 
-        verifyNever(() => gameBloc.add(const MultiplierIncreased()));
+        verify(bloc.onProgressed).called(1);
       },
     );
 
     flameTester.test(
-      "doesn't add MultiplierIncreased "
-      "when hits aren't multiples of 5 times",
+      "doesn't add onProgressed "
+      'when hits and multiplier is 6 and arrow is full lit',
+      (game) async {
+        final bloc = _MockSpaceshipRampCubit();
+        final state = SpaceshipRampState.initial();
+        final streamController = StreamController<SpaceshipRampState>();
+        whenListen(
+          bloc,
+          streamController.stream,
+          initialState: state,
+        );
+        when(() => gameBloc.state).thenReturn(
+          GameState.initial().copyWith(
+            multiplier: 6,
+          ),
+        );
+
+        final behavior = RampProgressBehavior();
+        final parent = SpaceshipRamp.test();
+
+        await game.pump(
+          parent,
+          gameBloc: gameBloc,
+          spaceshipRampCubit: bloc,
+        );
+        await parent.ensureAdd(behavior);
+
+        streamController.add(
+          state.copyWith(
+            hits: 5,
+            lightState: ArrowLightState.active5,
+          ),
+        );
+
+        await game.ready();
+
+        verifyNever(bloc.onProgressed);
+      },
+    );
+
+    flameTester.test(
+      'adds onAnimate '
+      'when arrow is full lit after hit and multiplier is less than 6',
       (game) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
@@ -165,7 +205,7 @@ void main() {
           ),
         );
 
-        final behavior = RampMultiplierBehavior();
+        final behavior = RampProgressBehavior();
         final parent = SpaceshipRamp.test();
 
         await game.pump(
@@ -175,11 +215,95 @@ void main() {
         );
         await parent.ensureAdd(behavior);
 
-        streamController.add(state.copyWith(hits: 1));
+        streamController.add(
+          state.copyWith(
+            hits: 5,
+            lightState: ArrowLightState.active5,
+          ),
+        );
 
         await game.ready();
 
-        verifyNever(() => gameBloc.add(const MultiplierIncreased()));
+        verify(bloc.onAnimate).called(1);
+      },
+    );
+
+    flameTester.test(
+      "doesn't add onAnimate "
+      'when arrow is not full lit after hit',
+      (game) async {
+        final bloc = _MockSpaceshipRampCubit();
+        final state = SpaceshipRampState.initial();
+        final streamController = StreamController<SpaceshipRampState>();
+        whenListen(
+          bloc,
+          streamController.stream,
+          initialState: state,
+        );
+        when(() => gameBloc.state).thenReturn(
+          GameState.initial().copyWith(
+            multiplier: 5,
+          ),
+        );
+
+        final behavior = RampProgressBehavior();
+        final parent = SpaceshipRamp.test();
+
+        await game.pump(
+          parent,
+          gameBloc: gameBloc,
+          spaceshipRampCubit: bloc,
+        );
+        await parent.ensureAdd(behavior);
+
+        streamController.add(
+          state.copyWith(
+            hits: 4,
+            lightState: ArrowLightState.active4,
+          ),
+        );
+
+        await game.ready();
+
+        verifyNever(bloc.onAnimate);
+      },
+    );
+
+    flameTester.test(
+      "doesn't add onAnimate "
+      'when multiplier is 6 after hit',
+      (game) async {
+        final bloc = _MockSpaceshipRampCubit();
+        final state = SpaceshipRampState.initial();
+        final streamController = StreamController<SpaceshipRampState>();
+        whenListen(
+          bloc,
+          streamController.stream,
+          initialState: state,
+        );
+        when(() => gameBloc.state).thenReturn(
+          GameState.initial().copyWith(
+            multiplier: 6,
+          ),
+        );
+
+        final behavior = RampProgressBehavior();
+        final parent = SpaceshipRamp.test();
+
+        await game.pump(
+          parent,
+          gameBloc: gameBloc,
+          spaceshipRampCubit: bloc,
+        );
+        await parent.ensureAdd(behavior);
+
+        streamController.add(
+          state.copyWith(hits: 4),
+        );
+
+        await game.ready();
+
+        verifyNever(bloc.onAnimate);
       },
     );
   });

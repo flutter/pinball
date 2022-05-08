@@ -11,7 +11,6 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_components/src/components/spaceship_ramp/behavior/ramp_arrow_blinking_behavior.dart';
 import 'package:pinball_flame/pinball_flame.dart';
-import 'package:pinball_components/src/components/multiball/behaviors/behaviors.dart';
 
 class _TestGame extends Forge2DGame {
   @override
@@ -133,6 +132,9 @@ void main() {
           );
 
           await streamController.close();
+
+          await game.ready();
+
           verify(bloc.onStop).called(1);
         },
       );
@@ -167,6 +169,8 @@ void main() {
           await tester.pump();
 
           behavior.onTick();
+
+          await game.ready();
 
           expect(behavior.timer.isRunning(), false);
         },
@@ -204,6 +208,8 @@ void main() {
           for (var i = 0; i < 10; i++) {
             behavior.onTick();
           }
+
+          await game.ready();
 
           expect(behavior.timer.isRunning(), false);
         },
