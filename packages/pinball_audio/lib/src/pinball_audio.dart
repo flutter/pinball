@@ -30,6 +30,9 @@ enum PinballAudio {
   /// Launcher.
   launcher,
 
+  /// Kicker.
+  kicker,
+
   /// Sparky.
   sparky,
 
@@ -149,6 +152,40 @@ class _BumperAudio extends _Audio {
   }
 }
 
+class _KickerAudio extends _Audio {
+  _KickerAudio({
+    required this.createAudioPool,
+    required this.seed,
+  });
+
+  final CreateAudioPool createAudioPool;
+  final Random seed;
+
+  late AudioPool kickerA;
+  late AudioPool kickerB;
+
+  @override
+  Future<void> load() async {
+    await Future.wait(
+      [
+        createAudioPool(
+          prefixFile(Assets.sfx.kickerA),
+          prefix: '',
+        ).then((pool) => kickerA = pool),
+        createAudioPool(
+          prefixFile(Assets.sfx.kickerB),
+          prefix: '',
+        ).then((pool) => kickerB = pool),
+      ],
+    );
+  }
+
+  @override
+  void play() {
+    (seed.nextBool() ? kickerA : kickerB).start(volume: 0.6);
+  }
+}
+
 class _ThrottledAudio extends _Audio {
   _ThrottledAudio({
     required this.preCacheSingleAudio,
@@ -242,6 +279,10 @@ class PinballAudioPlayer {
         path: Assets.sfx.gameOverVoiceOver,
       ),
       PinballAudio.bumper: _BumperAudio(
+        createAudioPool: _createAudioPool,
+        seed: _seed,
+      ),
+      PinballAudio.kicker: _KickerAudio(
         createAudioPool: _createAudioPool,
         seed: _seed,
       ),
