@@ -5,7 +5,7 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-import '../../helpers/helpers.dart';
+import '../../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -15,21 +15,23 @@ void main() {
     const compressionDistance = 0.0;
 
     test('can be instantiated', () {
-      expect(
-        Plunger(compressionDistance: compressionDistance),
-        isA<Plunger>(),
-      );
-      expect(
-        Plunger.test(compressionDistance: compressionDistance),
-        isA<Plunger>(),
-      );
+      expect(Plunger(), isA<Plunger>());
+      expect(Plunger.test(), isA<Plunger>());
     });
+
+    flameTester.test(
+      'loads correctly',
+      (game) async {
+        final plunger = Plunger();
+        await game.ensureAdd(plunger);
+        expect(game.children, contains(plunger));
+      },
+    );
 
     flameTester.testGameWidget(
       'renders correctly',
       setUp: (game, tester) async {
-        await game.ensureAdd(Plunger(compressionDistance: compressionDistance));
-
+        await game.ensureAdd(Plunger());
         game.camera.followVector2(Vector2.zero());
         game.camera.zoom = 4.1;
       },
@@ -53,80 +55,32 @@ void main() {
       },
     );
 
-    flameTester.test(
-      'loads correctly',
-      (game) async {
-        await game.ready();
-        final plunger = Plunger(
-          compressionDistance: compressionDistance,
-        );
-        await game.ensureAdd(plunger);
-
-        expect(game.contains(plunger), isTrue);
-      },
-    );
-
     group('body', () {
-      flameTester.test(
-        'is dynamic',
-        (game) async {
-          final plunger = Plunger(
-            compressionDistance: compressionDistance,
-          );
-          await game.ensureAdd(plunger);
+      test('is dynamic', () {
+        final body = Plunger().createBody();
+        expect(body.bodyType, equals(BodyType.dynamic));
+      });
 
-          expect(plunger.body.bodyType, equals(BodyType.dynamic));
-        },
-      );
-
-      flameTester.test(
-        'ignores gravity',
-        (game) async {
-          final plunger = Plunger(
-            compressionDistance: compressionDistance,
-          );
-          await game.ensureAdd(plunger);
-
-          expect(plunger.body.gravityScale, equals(Vector2.zero()));
-        },
-      );
+      test('ignores gravity', () {
+        final body = Plunger().createBody();
+        expect(body.gravityScale, equals(Vector2.zero()));
+      });
     });
 
     group('fixture', () {
-      flameTester.test(
+      test(
         'exists',
-        (game) async {
-          final plunger = Plunger(
-            compressionDistance: compressionDistance,
-          );
-          await game.ensureAdd(plunger);
-
-          expect(plunger.body.fixtures[0], isA<Fixture>());
+        () async {
+          final body = Plunger().createBody();
+          expect(body.fixtures[0], isA<Fixture>());
         },
       );
 
-      flameTester.test(
-        'shape is a polygon',
-        (game) async {
-          final plunger = Plunger(
-            compressionDistance: compressionDistance,
-          );
-          await game.ensureAdd(plunger);
-
-          final fixture = plunger.body.fixtures[0];
-          expect(fixture.shape.shapeType, equals(ShapeType.polygon));
-        },
-      );
-
-      flameTester.test(
+      test(
         'has density',
-        (game) async {
-          final plunger = Plunger(
-            compressionDistance: compressionDistance,
-          );
-          await game.ensureAdd(plunger);
-
-          final fixture = plunger.body.fixtures[0];
+        () {
+          final body = Plunger().createBody();
+          final fixture = body.fixtures[0];
           expect(fixture.density, greaterThan(0));
         },
       );
@@ -136,9 +90,7 @@ void main() {
       late Plunger plunger;
 
       setUp(() {
-        plunger = Plunger(
-          compressionDistance: compressionDistance,
-        );
+        plunger = Plunger();
       });
 
       flameTester.testGameWidget(
@@ -167,9 +119,7 @@ void main() {
       late Plunger plunger;
 
       setUp(() {
-        plunger = Plunger(
-          compressionDistance: compressionDistance,
-        );
+        plunger = Plunger();
       });
 
       flameTester.test(
@@ -200,9 +150,7 @@ void main() {
       late Plunger plunger;
 
       setUp(() {
-        plunger = Plunger(
-          compressionDistance: compressionDistance,
-        );
+        plunger = Plunger();
       });
 
       flameTester.test(

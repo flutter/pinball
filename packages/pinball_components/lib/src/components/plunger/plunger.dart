@@ -2,6 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/src/components/plunger/behaviors/behaviors.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template plunger}
@@ -12,11 +13,14 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@endtemplate}
 class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
   /// {@macro plunger}
-  Plunger({
-    required this.compressionDistance,
-  }) : super(
+  Plunger()
+      : super(
           renderBody: false,
-          children: [_PlungerSpriteAnimationGroupComponent()],
+          children: [
+            _PlungerSpriteAnimationGroupComponent(),
+            PlungerJointingBehavior(compressionDistance: 9.2),
+            PlungerKeyControllingBehavior(),
+          ],
         ) {
     zIndex = ZIndexes.plunger;
     layer = Layer.launcher;
@@ -26,53 +30,47 @@ class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
   ///
   /// This can be used for testing [Plunger]'s behaviors in isolation.
   @visibleForTesting
-  Plunger.test({required this.compressionDistance});
-
-  /// Distance the plunger can lower.
-  final double compressionDistance;
+  Plunger.test();
 
   List<FixtureDef> _createFixtureDefs() {
-    final fixturesDef = <FixtureDef>[];
-
     final leftShapeVertices = [
       Vector2(0, 0),
       Vector2(-1.8, 0),
       Vector2(-1.8, -2.2),
       Vector2(0, -0.3),
-    ]..map((vector) => vector.rotate(BoardDimensions.perspectiveAngle))
-        .toList();
+    ]..forEach((vector) => vector.rotate(BoardDimensions.perspectiveAngle));
     final leftTriangleShape = PolygonShape()..set(leftShapeVertices);
-
-    final leftTriangleFixtureDef = FixtureDef(leftTriangleShape)..density = 80;
-    fixturesDef.add(leftTriangleFixtureDef);
 
     final rightShapeVertices = [
       Vector2(0, 0),
       Vector2(1.8, 0),
       Vector2(1.8, -2.2),
       Vector2(0, -0.3),
-    ]..map((vector) => vector.rotate(BoardDimensions.perspectiveAngle))
-        .toList();
+    ]..forEach((vector) => vector.rotate(BoardDimensions.perspectiveAngle));
     final rightTriangleShape = PolygonShape()..set(rightShapeVertices);
 
-    final rightTriangleFixtureDef = FixtureDef(rightTriangleShape)
-      ..density = 80;
-    fixturesDef.add(rightTriangleFixtureDef);
-
-    return fixturesDef;
+    return [
+      FixtureDef(
+        leftTriangleShape,
+        density: 80,
+      ),
+      FixtureDef(
+        rightTriangleShape,
+        density: 80,
+      ),
+    ];
   }
 
   @override
   Body createBody() {
     final bodyDef = BodyDef(
       position: initialPosition,
-      userData: this,
       type: BodyType.dynamic,
       gravityScale: Vector2.zero(),
     );
-
     final body = world.createBody(bodyDef);
     _createFixtureDefs().forEach(body.createFixture);
+
     return body;
   }
 
@@ -97,6 +95,7 @@ class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
   /// The velocity's magnitude depends on how far the [Plunger] has been pulled
   /// from its original [initialPosition].
   void release() {
+    add(PlungerNoiseBehavior());
     final sprite = firstChild<_PlungerSpriteAnimationGroupComponent>()!;
 
     _pullingDownTime = 0;
@@ -117,28 +116,6 @@ class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
       }
     }
     super.update(dt);
-  }
-
-  /// Anchors the [Plunger] to the [PrismaticJoint] that controls its vertical
-  /// motion.
-  Future<void> _anchorToJoint() async {
-    final anchor = PlungerAnchor(plunger: this);
-    await add(anchor);
-
-    final jointDef = PlungerAnchorPrismaticJointDef(
-      plunger: this,
-      anchor: anchor,
-    );
-
-    world.createJoint(
-      PrismaticJoint(jointDef)..setLimits(-compressionDistance, 0),
-    );
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    await _anchorToJoint();
   }
 }
 
@@ -204,48 +181,5 @@ class _PlungerSpriteAnimationGroupComponent
       _PlungerAnimationState.pull: pullAnimation,
     };
     current = _PlungerAnimationState.release;
-  }
-}
-
-/// {@template plunger_anchor}
-/// [JointAnchor] positioned below a [Plunger].
-/// {@endtemplate}
-class PlungerAnchor extends JointAnchor {
-  /// {@macro plunger_anchor}
-  PlungerAnchor({
-    required Plunger plunger,
-  }) {
-    initialPosition = Vector2(
-      0,
-      plunger.compressionDistance,
-    );
-  }
-}
-
-/// {@template plunger_anchor_prismatic_joint_def}
-/// [PrismaticJointDef] between a [Plunger] and an [JointAnchor] with motion on
-/// the vertical axis.
-///
-/// The [Plunger] is constrained vertically between its starting position and
-/// the [JointAnchor]. The [JointAnchor] must be below the [Plunger].
-/// {@endtemplate}
-class PlungerAnchorPrismaticJointDef extends PrismaticJointDef {
-  /// {@macro plunger_anchor_prismatic_joint_def}
-  PlungerAnchorPrismaticJointDef({
-    required Plunger plunger,
-    required PlungerAnchor anchor,
-  }) {
-    initialize(
-      plunger.body,
-      anchor.body,
-      plunger.body.position + anchor.body.position,
-      Vector2(16, BoardDimensions.bounds.height),
-    );
-    enableLimit = true;
-    lowerTranslation = double.negativeInfinity;
-    enableMotor = true;
-    motorSpeed = 1000;
-    maxMotorForce = motorSpeed;
-    collideConnected = true;
   }
 }

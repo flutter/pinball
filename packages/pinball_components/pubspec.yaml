@@ -20,12 +20,15 @@ dependencies:
   geometry:
     path: ../geometry
   intl: ^0.17.0
+  pinball_audio:
+    path: ../pinball_audio
   pinball_flame:
     path: ../pinball_flame
   pinball_theme:
     path: ../pinball_theme
   pinball_ui:
     path: ../pinball_ui
+
 
 dev_dependencies:
   bloc_test: ^9.0.3

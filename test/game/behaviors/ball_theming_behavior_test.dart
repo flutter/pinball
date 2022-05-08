@@ -77,7 +77,7 @@ void main() {
             ball,
             behavior,
             ZCanvasComponent(),
-            Plunger.test(compressionDistance: 10),
+            Plunger.test(),
           ]);
 
           const dinoThemeState = CharacterThemeState(theme.DinoTheme());
