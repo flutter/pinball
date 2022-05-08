@@ -34,17 +34,8 @@ class EllipseShape extends ChainShape {
 
   /// Rotates the ellipse by a given [angle] in radians.
   void rotate(double angle) {
-    vertices.map((vector) => vector..rotate(angle)).toList();
+    for (final vector in vertices) {
+      vector.rotate(angle);
+    }
   }
-
-  EllipseShape copyWith({
-    Vector2? center,
-    double? majorRadius,
-    double? minorRadius,
-  }) =>
-      EllipseShape(
-        center: center ?? this.center,
-        majorRadius: majorRadius ?? this.majorRadius,
-        minorRadius: minorRadius ?? this.minorRadius,
-      );
 }
