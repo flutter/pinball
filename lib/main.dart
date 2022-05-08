@@ -6,10 +6,13 @@ import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/app/app.dart';
 import 'package:pinball/bootstrap.dart';
 import 'package:pinball_audio/pinball_audio.dart';
+import 'package:share_repository/share_repository.dart';
 
 void main() {
   bootstrap((firestore, firebaseAuth) async {
     final leaderboardRepository = LeaderboardRepository(firestore);
+    const shareRepository =
+        ShareRepository(appUrl: ShareRepository.pinballGameUrl);
     final authenticationRepository = AuthenticationRepository(firebaseAuth);
     final pinballAudioPlayer = PinballAudioPlayer();
     unawaited(
@@ -20,6 +23,7 @@ void main() {
     return App(
       authenticationRepository: authenticationRepository,
       leaderboardRepository: leaderboardRepository,
+      shareRepository: shareRepository,
       pinballAudioPlayer: pinballAudioPlayer,
     );
   });

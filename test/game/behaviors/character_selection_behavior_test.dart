@@ -20,6 +20,8 @@ class _TestGame extends Forge2DGame {
     await images.loadAll([
       theme.Assets.images.dash.ball.keyName,
       theme.Assets.images.dino.ball.keyName,
+      theme.Assets.images.dash.background.keyName,
+      theme.Assets.images.dino.background.keyName,
     ]);
   }
 
@@ -38,32 +40,66 @@ class _TestGame extends Forge2DGame {
 
 class _MockBallCubit extends Mock implements BallCubit {}
 
+class _MockArcadeBackgroundCubit extends Mock implements ArcadeBackgroundCubit {
+}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group(
-    'BallThemingBehavior',
+    'CharacterSelectionBehavior',
     () {
       final flameTester = FlameTester(_TestGame.new);
 
       test('can be instantiated', () {
         expect(
-          BallThemingBehavior(),
-          isA<BallThemingBehavior>(),
+          CharacterSelectionBehavior(),
+          isA<CharacterSelectionBehavior>(),
         );
       });
 
       flameTester.test(
         'loads',
         (game) async {
-          final behavior = BallThemingBehavior();
+          final behavior = CharacterSelectionBehavior();
           await game.pump([behavior]);
           expect(game.descendants(), contains(behavior));
         },
       );
 
       flameTester.test(
-        'onNewState calls onThemeChanged on the ball bloc',
+        'onNewState calls onCharacterSelected on the arcade background bloc',
+        (game) async {
+          final arcadeBackgroundBloc = _MockArcadeBackgroundCubit();
+          whenListen(
+            arcadeBackgroundBloc,
+            const Stream<ArcadeBackgroundState>.empty(),
+            initialState: const ArcadeBackgroundState.initial(),
+          );
+          final arcadeBackground =
+              ArcadeBackground.test(bloc: arcadeBackgroundBloc);
+          final behavior = CharacterSelectionBehavior();
+          await game.pump([
+            arcadeBackground,
+            behavior,
+            ZCanvasComponent(),
+            Plunger.test(compressionDistance: 10),
+            Ball.test(),
+          ]);
+
+          const dinoThemeState = CharacterThemeState(theme.DinoTheme());
+          behavior.onNewState(dinoThemeState);
+          await game.ready();
+
+          verify(
+            () => arcadeBackgroundBloc
+                .onCharacterSelected(dinoThemeState.characterTheme),
+          ).called(1);
+        },
+      );
+
+      flameTester.test(
+        'onNewState calls onCharacterSelected on the ball bloc',
         (game) async {
           final ballBloc = _MockBallCubit();
           whenListen(
@@ -72,20 +108,22 @@ void main() {
             initialState: const BallState.initial(),
           );
           final ball = Ball.test(bloc: ballBloc);
-          final behavior = BallThemingBehavior();
+          final behavior = CharacterSelectionBehavior();
           await game.pump([
             ball,
             behavior,
             ZCanvasComponent(),
             Plunger.test(compressionDistance: 10),
+            ArcadeBackground.test(),
           ]);
 
           const dinoThemeState = CharacterThemeState(theme.DinoTheme());
           behavior.onNewState(dinoThemeState);
           await game.ready();
 
-          verify(() => ballBloc.onThemeChanged(dinoThemeState.characterTheme))
-              .called(1);
+          verify(
+            () => ballBloc.onCharacterSelected(dinoThemeState.characterTheme),
+          ).called(1);
         },
       );
     },

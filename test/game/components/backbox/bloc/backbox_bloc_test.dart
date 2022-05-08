@@ -137,6 +137,25 @@ void main() {
       );
     });
 
+    group('ShareScoreRequested', () {
+      blocTest<BackboxBloc, BackboxState>(
+        'emits ShareState',
+        setUp: () {
+          leaderboardRepository = _MockLeaderboardRepository();
+        },
+        build: () => BackboxBloc(
+          leaderboardRepository: leaderboardRepository,
+          initialEntries: emptyEntries,
+        ),
+        act: (bloc) => bloc.add(
+          ShareScoreRequested(score: 100),
+        ),
+        expect: () => [
+          ShareState(score: 100),
+        ],
+      );
+    });
+
     group('LeaderboardRequested', () {
       blocTest<BackboxBloc, BackboxState>(
         'adds [LoadingState, LeaderboardSuccessState] when request succeeds',

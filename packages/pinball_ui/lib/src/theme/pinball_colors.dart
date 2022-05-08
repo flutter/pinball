@@ -5,6 +5,9 @@ abstract class PinballColors {
   /// Color: 0xFFFFFFFF
   static const Color white = Color(0xFFFFFFFF);
 
+  /// Color: 0xFF000000
+  static const Color black = Color(0xFF000000);
+
   /// Color: 0xFF0C32A4
   static const Color darkBlue = Color(0xFF0C32A4);
 
