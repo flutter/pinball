@@ -18,7 +18,7 @@ class AssetsManagerCubit extends Cubit<AssetsManagerState> {
     /// delay here, which is a bit random in duration but enough to let the UI
     /// do its job without adding too much delay for the user, we are letting
     /// the UI paint first, and then we start loading the assets.
-    await Future<void>.delayed(const Duration(milliseconds: 300));
+    await Future<void>.delayed(const Duration(seconds: 1));
     emit(
       state.copyWith(
         loadables: [
