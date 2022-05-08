@@ -41,7 +41,7 @@ void main() {
           pinballAudioPlayer: pinballAudioPlayer,
         ),
       );
-      await tester.pump(const Duration(milliseconds: 400));
+      await tester.pump(const Duration(milliseconds: 1100));
       expect(find.byType(PinballGamePage), findsOneWidget);
     });
   });
