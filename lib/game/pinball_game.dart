@@ -89,7 +89,7 @@ class PinballGame extends PinballForge2DGame
                       BoardBackgroundSpriteComponent(),
                       Boundaries(),
                       Backbox(leaderboardRepository: leaderboardRepository),
-                      GoogleWord(position: Vector2(-4.45, 1.8)),
+                      GoogleGallery(),
                       Multipliers(),
                       Multiballs(),
                       SkillShot(

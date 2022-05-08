@@ -62,7 +62,7 @@ void main() {
 
     group('loads', () {
       flameTester.test(
-        'an  AndroidSpaceship',
+        'an AndroidSpaceship',
         (game) async {
           await game.pump(AndroidAcres());
           expect(

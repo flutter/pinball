@@ -31,7 +31,7 @@ void main() {
         );
       });
 
-      test('initial is idle with mouth closed', () {
+      test('initial is dimmed and not blinking', () {
         const initialState = SkillShotState(
           spriteState: SkillShotSpriteState.dimmed,
           isBlinking: false,
@@ -45,13 +45,13 @@ void main() {
         'copies correctly '
         'when no argument specified',
         () {
-          const chromeDinoState = SkillShotState(
+          const skillshotState = SkillShotState(
             spriteState: SkillShotSpriteState.lit,
             isBlinking: true,
           );
           expect(
-            chromeDinoState.copyWith(),
-            equals(chromeDinoState),
+            skillshotState.copyWith(),
+            equals(skillshotState),
           );
         },
       );
@@ -60,7 +60,7 @@ void main() {
         'copies correctly '
         'when all arguments specified',
         () {
-          const chromeDinoState = SkillShotState(
+          const skillshotState = SkillShotState(
             spriteState: SkillShotSpriteState.lit,
             isBlinking: true,
           );
@@ -68,10 +68,10 @@ void main() {
             spriteState: SkillShotSpriteState.dimmed,
             isBlinking: false,
           );
-          expect(chromeDinoState, isNot(equals(otherSkillShotState)));
+          expect(skillshotState, isNot(equals(otherSkillShotState)));
 
           expect(
-            chromeDinoState.copyWith(
+            skillshotState.copyWith(
               spriteState: SkillShotSpriteState.dimmed,
               isBlinking: false,
             ),
