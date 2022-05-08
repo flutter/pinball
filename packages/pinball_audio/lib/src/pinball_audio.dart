@@ -127,13 +127,13 @@ class _SingleLoopAudio extends _LoopAudio {
           path: path,
         );
 
-  bool playing = false;
+  bool _playing = false;
 
   @override
   void play() {
-    if (!playing) {
+    if (!_playing) {
       super.play();
-      playing = true;
+      _playing = true;
     }
   }
 }
