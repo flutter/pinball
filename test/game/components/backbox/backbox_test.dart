@@ -438,7 +438,7 @@ void main() {
       });
 
       flameTester.test(
-        'added ShareDisplay on ShareState',
+        'adds ShareDisplay on ShareState',
         (game) async {
           final state = ShareState(score: 100);
           whenListen(
