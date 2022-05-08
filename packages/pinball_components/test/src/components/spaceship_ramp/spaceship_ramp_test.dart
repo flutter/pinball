@@ -263,9 +263,7 @@ void main() {
       );
       when(bloc.close).thenAnswer((_) async {});
 
-      final ramp = SpaceshipRamp.test(
-        bloc: bloc,
-      );
+      final ramp = SpaceshipRamp.test();
 
       await game.ensureAdd(ramp);
       game.remove(ramp);
@@ -332,7 +330,7 @@ void main() {
     });
 
     flameTester.test('can be loaded', (game) async {
-      final parent = SpaceshipRamp.test(bloc: _MockSpaceshipRampCubit());
+      final parent = SpaceshipRamp.test();
       final component = SpaceshipRampBoardOpening();
       await game.ensureAdd(parent);
       await parent.ensureAdd(component);
@@ -340,7 +338,7 @@ void main() {
     });
 
     flameTester.test('adds a RampBallAscendingContactBehavior', (game) async {
-      final parent = SpaceshipRamp.test(bloc: _MockSpaceshipRampCubit());
+      final parent = SpaceshipRamp.test();
       final component = SpaceshipRampBoardOpening();
       await game.ensureAdd(parent);
       await parent.ensureAdd(component);

@@ -1,14 +1,47 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_components/src/components/spaceship_ramp/behavior/behavior.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
-import '../../../../helpers/helpers.dart';
+class _TestGame extends Forge2DGame {
+  @override
+  Future<void> onLoad() async {
+    images.prefix = '';
+    await images.loadAll([
+      Assets.images.android.ramp.boardOpening.keyName,
+      Assets.images.android.ramp.railingForeground.keyName,
+      Assets.images.android.ramp.railingBackground.keyName,
+      Assets.images.android.ramp.main.keyName,
+      Assets.images.android.ramp.arrow.inactive.keyName,
+      Assets.images.android.ramp.arrow.active1.keyName,
+      Assets.images.android.ramp.arrow.active2.keyName,
+      Assets.images.android.ramp.arrow.active3.keyName,
+      Assets.images.android.ramp.arrow.active4.keyName,
+      Assets.images.android.ramp.arrow.active5.keyName,
+    ]);
+  }
+
+  Future<void> pump(
+    SpaceshipRamp child, {
+    required SpaceshipRampCubit spaceshipRampCubit,
+  }) async {
+    await ensureAdd(
+      FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>.value(
+        value: spaceshipRampCubit,
+        children: [
+          ZCanvasComponent(children: [child]),
+        ],
+      ),
+    );
+  }
+}
 
 class _MockSpaceshipRampCubit extends Mock implements SpaceshipRampCubit {}
 
@@ -20,20 +53,8 @@ class _MockContact extends Mock implements Contact {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final assets = [
-    Assets.images.android.ramp.boardOpening.keyName,
-    Assets.images.android.ramp.railingForeground.keyName,
-    Assets.images.android.ramp.railingBackground.keyName,
-    Assets.images.android.ramp.main.keyName,
-    Assets.images.android.ramp.arrow.inactive.keyName,
-    Assets.images.android.ramp.arrow.active1.keyName,
-    Assets.images.android.ramp.arrow.active2.keyName,
-    Assets.images.android.ramp.arrow.active3.keyName,
-    Assets.images.android.ramp.arrow.active4.keyName,
-    Assets.images.android.ramp.arrow.active5.keyName,
-  ];
 
-  final flameTester = FlameTester(() => TestGame(assets));
+  final flameTester = FlameTester(_TestGame.new);
 
   group(
     'RampBallAscendingContactBehavior',
@@ -68,14 +89,15 @@ void main() {
             );
 
             final parent = SpaceshipRampBoardOpening.test();
-            final spaceshipRamp = SpaceshipRamp.test(
-              bloc: bloc,
-            );
+            final spaceshipRamp = SpaceshipRamp.test();
 
             when(() => body.linearVelocity).thenReturn(Vector2(0, -1));
 
             await spaceshipRamp.add(parent);
-            await game.ensureAddAll([spaceshipRamp, ball]);
+            await game.pump(
+              spaceshipRamp,
+              spaceshipRampCubit: bloc,
+            );
             await parent.add(behavior);
 
             behavior.beginContact(ball, _MockContact());
@@ -96,14 +118,15 @@ void main() {
             );
 
             final parent = SpaceshipRampBoardOpening.test();
-            final spaceshipRamp = SpaceshipRamp.test(
-              bloc: bloc,
-            );
+            final spaceshipRamp = SpaceshipRamp.test();
 
             when(() => body.linearVelocity).thenReturn(Vector2(0, 1));
 
             await spaceshipRamp.add(parent);
-            await game.ensureAddAll([spaceshipRamp, ball]);
+            await game.pump(
+              spaceshipRamp,
+              spaceshipRampCubit: bloc,
+            );
             await parent.add(behavior);
 
             behavior.beginContact(ball, _MockContact());

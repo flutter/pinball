@@ -8,7 +8,6 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/components/android_acres/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -60,24 +59,30 @@ class _MockGameBloc extends Mock implements GameBloc {}
 
 class _MockSpaceshipRampCubit extends Mock implements SpaceshipRampCubit {}
 
+class _FakeGameState extends Fake implements GameState {}
+
+class _FakeGameEvent extends Fake implements GameEvent {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  group('RampShotBehavior', () {
-    const shotPoints = Points.fiveThousand;
-
+  group('RampMultiplierBehavior', () {
     late GameBloc gameBloc;
 
     setUp(() {
+      registerFallbackValue(_FakeGameState());
+      registerFallbackValue(_FakeGameEvent());
       gameBloc = _MockGameBloc();
     });
 
     final flameTester = FlameTester(_TestGame.new);
 
     flameTester.test(
-      'when hits adds a ScoringBehavior',
+      'adds MultiplierIncreased '
+      'when hits are multiples of 5 times and multiplier is less than 6',
       (game) async {
         final bloc = _MockSpaceshipRampCubit();
+        final event = MultiplierIncreased();
         final state = SpaceshipRampState.initial();
         final streamController = StreamController<SpaceshipRampState>();
         whenListen(
@@ -85,7 +90,14 @@ void main() {
           streamController.stream,
           initialState: state,
         );
-        final behavior = RampShotBehavior(points: shotPoints);
+        when(() => gameBloc.state).thenReturn(
+          GameState.initial().copyWith(
+            multiplier: 5,
+          ),
+        );
+        when(() => gameBloc.add(event)).thenAnswer((_) async {});
+
+        final behavior = RampMultiplierBehavior();
         final parent = SpaceshipRamp.test();
 
         await game.pump(
@@ -95,12 +107,77 @@ void main() {
         );
         await parent.ensureAdd(behavior);
 
-        streamController.add(state.copyWith(hits: state.hits + 1));
+        streamController.add(state.copyWith(hits: 5));
 
-        final scores = game.descendants().whereType<ScoringBehavior>();
-        await game.ready();
+        verify(() => gameBloc.add(event)).called(1);
+      },
+    );
 
-        expect(scores.length, 1);
+    flameTester.test(
+      "doesn't add MultiplierIncreased "
+      'when hits are multiples of 5 times but multiplier is 6',
+      (game) async {
+        final bloc = _MockSpaceshipRampCubit();
+        final state = SpaceshipRampState.initial();
+        final streamController = StreamController<SpaceshipRampState>();
+        whenListen(
+          bloc,
+          streamController.stream,
+          initialState: state,
+        );
+        when(() => gameBloc.state).thenReturn(
+          GameState.initial().copyWith(
+            multiplier: 6,
+          ),
+        );
+
+        final behavior = RampMultiplierBehavior();
+        final parent = SpaceshipRamp.test();
+
+        await game.pump(
+          parent,
+          gameBloc: gameBloc,
+          spaceshipRampCubit: bloc,
+        );
+        await parent.ensureAdd(behavior);
+
+        streamController.add(state.copyWith(hits: 5));
+
+        verifyNever(() => gameBloc.add(const MultiplierIncreased()));
+      },
+    );
+
+    flameTester.test(
+      "doesn't add MultiplierIncreased "
+      "when hits aren't multiples of 5 times",
+      (game) async {
+        final bloc = _MockSpaceshipRampCubit();
+        final state = SpaceshipRampState.initial();
+        final streamController = StreamController<SpaceshipRampState>();
+        whenListen(
+          bloc,
+          streamController.stream,
+          initialState: state,
+        );
+        when(() => gameBloc.state).thenReturn(
+          GameState.initial().copyWith(
+            multiplier: 5,
+          ),
+        );
+
+        final behavior = RampMultiplierBehavior();
+        final parent = SpaceshipRamp.test();
+
+        await game.pump(
+          parent,
+          gameBloc: gameBloc,
+          spaceshipRampCubit: bloc,
+        );
+        await parent.ensureAdd(behavior);
+
+        streamController.add(state.copyWith(hits: 1));
+
+        verifyNever(() => gameBloc.add(const MultiplierIncreased()));
       },
     );
   });

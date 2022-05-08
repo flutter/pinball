@@ -8,7 +8,6 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/components/android_acres/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -63,9 +62,7 @@ class _MockSpaceshipRampCubit extends Mock implements SpaceshipRampCubit {}
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  group('RampShotBehavior', () {
-    const shotPoints = Points.fiveThousand;
-
+  group('RampResetBehavior', () {
     late GameBloc gameBloc;
 
     setUp(() {
@@ -75,17 +72,17 @@ void main() {
     final flameTester = FlameTester(_TestGame.new);
 
     flameTester.test(
-      'when hits adds a ScoringBehavior',
+      'when round lost call onReset',
       (game) async {
         final bloc = _MockSpaceshipRampCubit();
-        final state = SpaceshipRampState.initial();
-        final streamController = StreamController<SpaceshipRampState>();
+        final state = GameState.initial();
+        final streamController = StreamController<GameState>();
         whenListen(
-          bloc,
+          gameBloc,
           streamController.stream,
           initialState: state,
         );
-        final behavior = RampShotBehavior(points: shotPoints);
+        final behavior = RampResetBehavior();
         final parent = SpaceshipRamp.test();
 
         await game.pump(
@@ -95,12 +92,39 @@ void main() {
         );
         await parent.ensureAdd(behavior);
 
-        streamController.add(state.copyWith(hits: state.hits + 1));
-
-        final scores = game.descendants().whereType<ScoringBehavior>();
+        streamController.add(state.copyWith(rounds: state.rounds - 1));
         await game.ready();
 
-        expect(scores.length, 1);
+        verify(bloc.onReset).called(1);
+      },
+    );
+
+    flameTester.test(
+      "when round doesn't change never call onReset",
+      (game) async {
+        final bloc = _MockSpaceshipRampCubit();
+        final state = GameState.initial();
+        final streamController = StreamController<GameState>();
+        whenListen(
+          gameBloc,
+          streamController.stream,
+          initialState: state,
+        );
+        final behavior = RampResetBehavior();
+        final parent = SpaceshipRamp.test();
+
+        await game.pump(
+          parent,
+          gameBloc: gameBloc,
+          spaceshipRampCubit: bloc,
+        );
+        await parent.ensureAdd(behavior);
+
+        streamController
+            .add(state.copyWith(roundScore: state.roundScore + 100));
+        await game.ready();
+
+        verifyNever(bloc.onReset);
       },
     );
   });

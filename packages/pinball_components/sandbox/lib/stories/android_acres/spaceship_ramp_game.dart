@@ -38,15 +38,26 @@ class SpaceshipRampGame extends BallGame with KeyboardEvents {
   Color backgroundColor() => Colors.white;
 
   late final SpaceshipRamp _spaceshipRamp;
+  late final SpaceshipRampCubit _bloc;
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
 
     camera.followVector2(Vector2(-12, -50));
+    _spaceshipRamp = SpaceshipRamp();
+    /*
     await add(
-      _spaceshipRamp = SpaceshipRamp(),
+      FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>(
+        create: SpaceshipRampCubit.new,
+        children: [
+          SpaceshipRamp(
+            children: [_spaceshipRamp],
+          ),
+        ],
+      ),
     );
+    */
     await traceAllBodies();
   }
 
@@ -57,7 +68,7 @@ class SpaceshipRampGame extends BallGame with KeyboardEvents {
   ) {
     if (event is RawKeyDownEvent &&
         event.logicalKey == LogicalKeyboardKey.space) {
-      _spaceshipRamp.bloc.onAscendingBallEntered();
+      _bloc.onProgressed();
       return KeyEventResult.handled;
     }
 
