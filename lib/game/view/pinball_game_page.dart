@@ -167,7 +167,7 @@ class _PositionedInfoIcon extends StatelessWidget {
             visible: state.status.isGameOver,
             child: IconButton(
               iconSize: 50,
-              icon: Assets.images.linkBox.infoIcon.image(),
+              icon: const Icon(Icons.info, color: PinballColors.white),
               onPressed: () => showMoreInformationDialog(context),
             ),
           );
