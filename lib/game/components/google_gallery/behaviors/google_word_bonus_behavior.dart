@@ -15,9 +15,7 @@ class GoogleWordBonusBehavior extends Component
         listenWhen: (_, state) => state.letterSpriteStates.values
             .every((element) => element == GoogleLetterSpriteState.lit),
         onNewState: (state) {
-          readBloc<GameBloc, GameState>().add(
-            const BonusActivated(GameBonus.googleWord),
-          );
+          bloc.add(const BonusActivated(GameBonus.googleWord));
           readBloc<GoogleWordCubit, GoogleWordState>().onBonusAwarded();
         },
       ),

@@ -42,6 +42,10 @@ void main() {
   final flameTester = FlameTester(_TestGame.new);
 
   group('Google Letter', () {
+    test('can be instantiated', () {
+      expect(GoogleLetter(0), isA<GoogleLetter>());
+    });
+
     flameTester.test(
       '0th loads correctly',
       (game) async {

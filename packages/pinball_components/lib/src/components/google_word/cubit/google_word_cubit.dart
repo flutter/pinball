@@ -8,7 +8,7 @@ class GoogleWordCubit extends Cubit<GoogleWordState> {
   GoogleWordCubit() : super(GoogleWordState.initial());
 
   int _lastLitLetter = 0;
-  final _lettersInGoogle = 6;
+  static const _lettersInGoogle = 6;
 
   void onRolloverContacted() {
     final spriteStatesMap = {...state.letterSpriteStates};
