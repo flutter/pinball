@@ -5,13 +5,17 @@ import 'package:pinball_theme/pinball_theme.dart';
 
 void main() {
   group(
-    'BallCubit',
+    'ArcadeBackgroundCubit',
     () {
-      blocTest<BallCubit, BallState>(
+      blocTest<ArcadeBackgroundCubit, ArcadeBackgroundState>(
         'onCharacterSelected emits new theme',
-        build: BallCubit.new,
+        build: ArcadeBackgroundCubit.new,
         act: (bloc) => bloc.onCharacterSelected(const DinoTheme()),
-        expect: () => [const BallState(characterTheme: DinoTheme())],
+        expect: () => [
+          const ArcadeBackgroundState(
+            characterTheme: DinoTheme(),
+          ),
+        ],
       );
     },
   );
