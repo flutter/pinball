@@ -26,13 +26,12 @@ class PinballGame extends PinballForge2DGame
     required GameBloc gameBloc,
     required AppLocalizations l10n,
     required PinballAudioPlayer audioPlayer,
-    required PlatformHelper platformHelper,
+    required this.platformHelper,
   })  : focusNode = FocusNode(),
         _gameBloc = gameBloc,
         _audioPlayer = audioPlayer,
         _characterThemeBloc = characterThemeBloc,
         _l10n = l10n,
-        _platformHelper = platformHelper,
         super(
           gravity: Vector2(0, 30),
         ) {
@@ -60,7 +59,7 @@ class PinballGame extends PinballForge2DGame
 
   final AppLocalizations _l10n;
 
-  final PlatformHelper _platformHelper;
+  final PlatformHelper platformHelper;
 
   final GameBloc _gameBloc;
 
@@ -95,7 +94,7 @@ class PinballGame extends PinballForge2DGame
               FlameProvider<LeaderboardRepository>.value(leaderboardRepository),
               FlameProvider<ShareRepository>.value(shareRepository),
               FlameProvider<AppLocalizations>.value(_l10n),
-              FlameProvider<PlatformHelper>.value(_platformHelper),
+              FlameProvider<PlatformHelper>.value(platformHelper),
             ],
             children: [
               BonusNoiseBehavior(),
@@ -112,7 +111,7 @@ class PinballGame extends PinballForge2DGame
                 children: [
                   ZCanvasComponent(
                     children: [
-                      if (!_platformHelper.isMobile) ArcadeBackground(),
+                      if (!platformHelper.isMobile) ArcadeBackground(),
                       BoardBackgroundSpriteComponent(),
                       Boundaries(),
                       Backbox(

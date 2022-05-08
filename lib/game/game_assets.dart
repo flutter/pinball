@@ -2,7 +2,6 @@ import 'package:flame/extensions.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart' as components;
 import 'package:pinball_theme/pinball_theme.dart' hide Assets;
-import 'package:platform_helper/platform_helper.dart';
 
 /// Add methods to help loading and caching game assets.
 extension PinballGameAssetsX on PinballGame {
@@ -152,7 +151,7 @@ extension PinballGameAssetsX on PinballGame {
       images.load(sparkyTheme.ball.keyName),
     ];
 
-    return (PlatformHelper().isMobile) ? gameAssets : gameAssets
+    return (platformHelper.isMobile) ? gameAssets : gameAssets
       ..addAll([
         images.load(androidTheme.background.keyName),
         images.load(dashTheme.background.keyName),
