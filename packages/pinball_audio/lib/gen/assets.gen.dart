@@ -23,6 +23,8 @@ class $AssetsSfxGen {
   String get gameOverVoiceOver => 'assets/sfx/game_over_voice_over.mp3';
   String get google => 'assets/sfx/google.mp3';
   String get ioPinballVoiceOver => 'assets/sfx/io_pinball_voice_over.mp3';
+  String get kickerA => 'assets/sfx/kicker_a.mp3';
+  String get kickerB => 'assets/sfx/kicker_b.mp3';
   String get launcher => 'assets/sfx/launcher.mp3';
   String get sparky => 'assets/sfx/sparky.mp3';
 }

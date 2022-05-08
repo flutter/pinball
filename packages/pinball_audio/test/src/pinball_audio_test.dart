@@ -119,6 +119,26 @@ void main() {
         ).called(1);
       });
 
+      test('creates the kicker pools', () async {
+        await Future.wait(audioPlayer.load());
+
+        verify(
+          () => createAudioPool.onCall(
+            'packages/pinball_audio/${Assets.sfx.kickerA}',
+            maxPlayers: 4,
+            prefix: '',
+          ),
+        ).called(1);
+
+        verify(
+          () => createAudioPool.onCall(
+            'packages/pinball_audio/${Assets.sfx.kickerB}',
+            maxPlayers: 4,
+            prefix: '',
+          ),
+        ).called(1);
+      });
+
       test('configures the audio cache instance', () async {
         await Future.wait(audioPlayer.load());
 
@@ -230,6 +250,55 @@ void main() {
           audioPlayer.play(PinballAudio.bumper);
 
           verify(() => bumperBPool.start(volume: 0.6)).called(1);
+        });
+      });
+    });
+
+    group('kicker', () {
+      late AudioPool kickerAPool;
+      late AudioPool kickerBPool;
+
+      setUp(() {
+        kickerAPool = _MockAudioPool();
+        when(() => kickerAPool.start(volume: any(named: 'volume')))
+            .thenAnswer((_) async => () {});
+        when(
+          () => createAudioPool.onCall(
+            'packages/pinball_audio/${Assets.sfx.kickerA}',
+            maxPlayers: any(named: 'maxPlayers'),
+            prefix: any(named: 'prefix'),
+          ),
+        ).thenAnswer((_) async => kickerAPool);
+
+        kickerBPool = _MockAudioPool();
+        when(() => kickerBPool.start(volume: any(named: 'volume')))
+            .thenAnswer((_) async => () {});
+        when(
+          () => createAudioPool.onCall(
+            'packages/pinball_audio/${Assets.sfx.kickerB}',
+            maxPlayers: any(named: 'maxPlayers'),
+            prefix: any(named: 'prefix'),
+          ),
+        ).thenAnswer((_) async => kickerBPool);
+      });
+
+      group('when seed is true', () {
+        test('plays the kicker A sound pool', () async {
+          when(seed.nextBool).thenReturn(true);
+          await Future.wait(audioPlayer.load());
+          audioPlayer.play(PinballAudio.kicker);
+
+          verify(() => kickerAPool.start(volume: 0.6)).called(1);
+        });
+      });
+
+      group('when seed is false', () {
+        test('plays the kicker B sound pool', () async {
+          when(seed.nextBool).thenReturn(false);
+          await Future.wait(audioPlayer.load());
+          audioPlayer.play(PinballAudio.kicker);
+
+          verify(() => kickerBPool.start(volume: 0.6)).called(1);
         });
       });
     });
