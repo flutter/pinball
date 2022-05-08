@@ -37,7 +37,7 @@ void main() {
       verify: (game, tester) async {
         await expectLater(
           find.byGame<TestGame>(),
-          matchesGoldenFile('golden/dino-walls.png'),
+          matchesGoldenFile('golden/dino_walls.png'),
         );
       },
     );
