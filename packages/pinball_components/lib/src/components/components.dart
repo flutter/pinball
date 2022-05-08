@@ -1,6 +1,7 @@
 export 'android_animatronic.dart';
 export 'android_bumper/android_bumper.dart';
 export 'android_spaceship/android_spaceship.dart';
+export 'arcade_background/arcade_background.dart';
 export 'ball/ball.dart';
 export 'baseboard.dart';
 export 'board_background_sprite_component.dart';
@@ -28,7 +29,6 @@ export 'multiplier/multiplier.dart';
 export 'plunger.dart';
 export 'rocket.dart';
 export 'score_component/score_component.dart';
-export 'shapes/shapes.dart';
 export 'signpost/signpost.dart';
 export 'skill_shot/skill_shot.dart';
 export 'slingshot.dart';
