@@ -4,8 +4,6 @@ import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pinball/game/components/google_word/behaviors/behaviors.dart';
-import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 class _TestGame extends Forge2DGame {
@@ -28,10 +26,10 @@ class _TestGame extends Forge2DGame {
     ]);
   }
 
-  Future<void> pump(GoogleWord child, {GameBloc? gameBloc}) {
-    return ensureAdd(
-      FlameBlocProvider<GameBloc, GameState>.value(
-        value: gameBloc ?? GameBloc(),
+  Future<void> pump(GoogleWord child) async {
+    await ensureAdd(
+      FlameBlocProvider<GoogleWordCubit, GoogleWordState>.value(
+        value: GoogleWordCubit(),
         children: [child],
       ),
     );
@@ -44,25 +42,21 @@ void main() {
   final flameTester = FlameTester(_TestGame.new);
 
   group('GoogleWord', () {
+    test('can be instantiated', () {
+      expect(GoogleWord(position: Vector2.zero()), isA<GoogleWord>());
+    });
+
     flameTester.test(
-      'loads the letters correctly',
+      'loads letters correctly',
       (game) async {
-        const word = 'Google';
         final googleWord = GoogleWord(position: Vector2.zero());
         await game.pump(googleWord);
 
-        final letters = googleWord.children.whereType<GoogleLetter>();
-        expect(letters.length, equals(word.length));
+        expect(
+          googleWord.children.whereType<GoogleLetter>().length,
+          equals(6),
+        );
       },
     );
-
-    flameTester.test('adds a GoogleWordBonusBehavior', (game) async {
-      final googleWord = GoogleWord(position: Vector2.zero());
-      await game.pump(googleWord);
-      expect(
-        googleWord.children.whereType<GoogleWordBonusBehavior>().single,
-        isNotNull,
-      );
-    });
   });
 }
