@@ -189,6 +189,33 @@ void main() {
         );
 
         flameTester.test(
+          'removes PlungerKeyControllingBehavior from Plunger',
+          (game) async {
+            final component = GameBlocStatusListener();
+            final repository = _MockLeaderboardRepository();
+            final backbox = Backbox(
+              leaderboardRepository: repository,
+              entries: const [],
+            );
+            final plunger = Plunger.test();
+            final behavior = PlungerKeyControllingBehavior();
+
+            await game.pump([component, backbox, plunger]);
+            await plunger.ensureAdd(behavior);
+
+            expect(state.status, GameStatus.gameOver);
+
+            component.onNewState(state);
+            await game.ready();
+
+            expect(
+              plunger.children.whereType<PlungerKeyControllingBehavior>(),
+              isEmpty,
+            );
+          },
+        );
+
+        flameTester.test(
           'plays the game over voice over',
           (game) async {
             final audioPlayer = _MockPinballAudioPlayer();

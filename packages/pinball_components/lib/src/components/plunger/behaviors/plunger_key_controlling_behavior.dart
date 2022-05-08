@@ -1,11 +1,11 @@
 import 'package:flame/components.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 
 /// Allows controlling the [Plunger]'s movement with keyboard input.
 class PlungerKeyControllingBehavior extends Component
-    with KeyboardHandler, ParentIsA<Plunger> {
+    with KeyboardHandler, FlameBlocReader<PlungerCubit, PlungerState> {
   /// The [LogicalKeyboardKey]s that will control the [Flipper].
   ///
   /// [onKeyEvent] method listens to when one of these keys is pressed.
@@ -23,9 +23,9 @@ class PlungerKeyControllingBehavior extends Component
     if (!_keys.contains(event.logicalKey)) return true;
 
     if (event is RawKeyDownEvent) {
-      parent.pull();
+      bloc.pulled();
     } else if (event is RawKeyUpEvent) {
-      parent.release();
+      bloc.released();
     }
 
     return false;

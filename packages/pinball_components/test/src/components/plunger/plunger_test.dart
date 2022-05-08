@@ -12,8 +12,6 @@ void main() {
   final flameTester = FlameTester(TestGame.new);
 
   group('Plunger', () {
-    const compressionDistance = 0.0;
-
     test('can be instantiated', () {
       expect(Plunger(), isA<Plunger>());
       expect(Plunger.test(), isA<Plunger>());
@@ -68,22 +66,16 @@ void main() {
     });
 
     group('fixture', () {
-      test(
-        'exists',
-        () async {
-          final body = Plunger().createBody();
-          expect(body.fixtures[0], isA<Fixture>());
-        },
-      );
+      test('exists', () async {
+        final body = Plunger().createBody();
+        expect(body.fixtures[0], isA<Fixture>());
+      });
 
-      test(
-        'has density',
-        () {
-          final body = Plunger().createBody();
-          final fixture = body.fixtures[0];
-          expect(fixture.density, greaterThan(0));
-        },
-      );
+      test('has density', () {
+        final body = Plunger().createBody();
+        final fixture = body.fixtures[0];
+        expect(fixture.density, greaterThan(0));
+      });
     });
 
     group('pullFor', () {
@@ -178,162 +170,4 @@ void main() {
     });
   });
 
-  group('PlungerAnchor', () {
-    const compressionDistance = 10.0;
-
-    flameTester.test(
-      'position is a compression distance below the Plunger',
-      (game) async {
-        final plunger = Plunger(
-          compressionDistance: compressionDistance,
-        );
-        await game.ensureAdd(plunger);
-
-        final plungerAnchor = PlungerAnchor(plunger: plunger);
-        await game.ensureAdd(plungerAnchor);
-
-        expect(
-          plungerAnchor.body.position.y,
-          equals(plunger.body.position.y + compressionDistance),
-        );
-      },
-    );
-  });
-
-  group('PlungerAnchorPrismaticJointDef', () {
-    const compressionDistance = 10.0;
-    late Plunger plunger;
-    late PlungerAnchor anchor;
-
-    setUp(() {
-      plunger = Plunger(
-        compressionDistance: compressionDistance,
-      );
-      anchor = PlungerAnchor(plunger: plunger);
-    });
-
-    group('initializes with', () {
-      flameTester.test(
-        'plunger body as bodyA',
-        (game) async {
-          await game.ensureAdd(plunger);
-          await game.ensureAdd(anchor);
-
-          final jointDef = PlungerAnchorPrismaticJointDef(
-            plunger: plunger,
-            anchor: anchor,
-          );
-
-          expect(jointDef.bodyA, equals(plunger.body));
-        },
-      );
-
-      flameTester.test(
-        'anchor body as bodyB',
-        (game) async {
-          await game.ensureAdd(plunger);
-          await game.ensureAdd(anchor);
-
-          final jointDef = PlungerAnchorPrismaticJointDef(
-            plunger: plunger,
-            anchor: anchor,
-          );
-          game.world.createJoint(PrismaticJoint(jointDef));
-
-          expect(jointDef.bodyB, equals(anchor.body));
-        },
-      );
-
-      flameTester.test(
-        'limits enabled',
-        (game) async {
-          await game.ensureAdd(plunger);
-          await game.ensureAdd(anchor);
-
-          final jointDef = PlungerAnchorPrismaticJointDef(
-            plunger: plunger,
-            anchor: anchor,
-          );
-          game.world.createJoint(PrismaticJoint(jointDef));
-
-          expect(jointDef.enableLimit, isTrue);
-        },
-      );
-
-      flameTester.test(
-        'lower translation limit as negative infinity',
-        (game) async {
-          await game.ensureAdd(plunger);
-          await game.ensureAdd(anchor);
-
-          final jointDef = PlungerAnchorPrismaticJointDef(
-            plunger: plunger,
-            anchor: anchor,
-          );
-          game.world.createJoint(PrismaticJoint(jointDef));
-
-          expect(jointDef.lowerTranslation, equals(double.negativeInfinity));
-        },
-      );
-
-      flameTester.test(
-        'connected body collision enabled',
-        (game) async {
-          await game.ensureAdd(plunger);
-          await game.ensureAdd(anchor);
-
-          final jointDef = PlungerAnchorPrismaticJointDef(
-            plunger: plunger,
-            anchor: anchor,
-          );
-          game.world.createJoint(PrismaticJoint(jointDef));
-
-          expect(jointDef.collideConnected, isTrue);
-        },
-      );
-    });
-
-    flameTester.testGameWidget(
-      'plunger cannot go below anchor',
-      setUp: (game, tester) async {
-        await game.ensureAdd(plunger);
-        await game.ensureAdd(anchor);
-
-        // Giving anchor a shape for the plunger to collide with.
-        anchor.body.createFixtureFromShape(PolygonShape()..setAsBoxXY(2, 1));
-
-        final jointDef = PlungerAnchorPrismaticJointDef(
-          plunger: plunger,
-          anchor: anchor,
-        );
-        game.world.createJoint(PrismaticJoint(jointDef));
-
-        await tester.pump(const Duration(seconds: 1));
-      },
-      verify: (game, tester) async {
-        expect(plunger.body.position.y < anchor.body.position.y, isTrue);
-      },
-    );
-
-    flameTester.testGameWidget(
-      'plunger cannot excessively exceed starting position',
-      setUp: (game, tester) async {
-        await game.ensureAdd(plunger);
-        await game.ensureAdd(anchor);
-
-        final jointDef = PlungerAnchorPrismaticJointDef(
-          plunger: plunger,
-          anchor: anchor,
-        );
-        game.world.createJoint(PrismaticJoint(jointDef));
-
-        plunger.body.setTransform(Vector2(0, -1), 0);
-
-        await tester.pump(const Duration(seconds: 1));
-      },
-      verify: (game, tester) async {
-        expect(plunger.body.position.y < 1, isTrue);
-      },
-    );
-  });
-}
+  

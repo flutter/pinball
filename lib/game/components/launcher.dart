@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 
 /// {@template launcher}
@@ -12,7 +13,10 @@ class Launcher extends Component {
           children: [
             LaunchRamp(),
             Flapper(),
-            Plunger()..initialPosition = Vector2(41, 43.7),
+            FlameBlocProvider<PlungerCubit, PlungerState>(
+              create: PlungerCubit.new,
+              children: [Plunger()..initialPosition = Vector2(41, 43.7)],
+            ),
             RocketSpriteComponent()..position = Vector2(42.8, 62.3),
           ],
         );

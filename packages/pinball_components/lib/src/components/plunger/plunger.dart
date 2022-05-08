@@ -1,9 +1,12 @@
 import 'package:flame/components.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_components/src/components/plunger/behaviors/behaviors.dart';
 import 'package:pinball_flame/pinball_flame.dart';
+
+export 'behaviors/behaviors.dart';
+export 'cubit/plunger_cubit.dart';
 
 /// {@template plunger}
 /// [Plunger] serves as a spring, that shoots the ball on the right side of the
@@ -19,7 +22,8 @@ class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
           children: [
             _PlungerSpriteAnimationGroupComponent(),
             PlungerJointingBehavior(compressionDistance: 9.2),
-            PlungerKeyControllingBehavior(),
+            PlungerAutoPullingBehavior(strength: 7),
+            PlungerReleasingBehavior(strength: 11)
           ],
         ) {
     zIndex = ZIndexes.plunger;
@@ -73,83 +77,27 @@ class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
 
     return body;
   }
-
-  var _pullingDownTime = 0.0;
-
-  /// Pulls the plunger down for the given amount of [seconds].
-  // ignore: use_setters_to_change_properties
-  void pullFor(double seconds) {
-    _pullingDownTime = seconds;
-  }
-
-  /// Set a constant downward velocity on the [Plunger].
-  void pull() {
-    final sprite = firstChild<_PlungerSpriteAnimationGroupComponent>()!;
-
-    body.linearVelocity = Vector2(0, 7);
-    sprite.pull();
-  }
-
-  /// Set an upward velocity on the [Plunger].
-  ///
-  /// The velocity's magnitude depends on how far the [Plunger] has been pulled
-  /// from its original [initialPosition].
-  void release() {
-    add(PlungerNoiseBehavior());
-    final sprite = firstChild<_PlungerSpriteAnimationGroupComponent>()!;
-
-    _pullingDownTime = 0;
-    final velocity = (initialPosition.y - body.position.y) * 11;
-    body.linearVelocity = Vector2(0, velocity);
-    sprite.release();
-  }
-
-  @override
-  void update(double dt) {
-    // Ensure that we only pull or release when the time is greater than zero.
-    if (_pullingDownTime > 0) {
-      _pullingDownTime -= PinballForge2DGame.clampDt(dt);
-      if (_pullingDownTime <= 0) {
-        release();
-      } else {
-        pull();
-      }
-    }
-    super.update(dt);
-  }
 }
 
-/// Animation states associated with a [Plunger].
-enum _PlungerAnimationState {
-  /// Pull state.
-  pull,
-
-  /// Release state.
-  release,
-}
-
-/// Animations for pulling and releasing [Plunger].
 class _PlungerSpriteAnimationGroupComponent
-    extends SpriteAnimationGroupComponent<_PlungerAnimationState>
-    with HasGameRef {
+    extends SpriteAnimationGroupComponent<PlungerState>
+    with HasGameRef, FlameBlocListenable<PlungerCubit, PlungerState> {
   _PlungerSpriteAnimationGroupComponent()
       : super(
           anchor: Anchor.center,
           position: Vector2(1.87, 14.9),
         );
 
-  void pull() {
-    if (current != _PlungerAnimationState.pull) {
+  @override
+  void onNewState(PlungerState state) {
+    super.onNewState(state);
+    final startedReleasing = state.isReleasing && !current!.isReleasing;
+    final startedPulling = state.isPulling && !current!.isPulling;
+    if (startedReleasing || startedPulling) {
       animation?.reset();
     }
-    current = _PlungerAnimationState.pull;
-  }
 
-  void release() {
-    if (current != _PlungerAnimationState.release) {
-      animation?.reset();
-    }
-    current = _PlungerAnimationState.release;
+    current = state;
   }
 
   @override
@@ -177,9 +125,10 @@ class _PlungerSpriteAnimationGroupComponent
       ),
     );
     animations = {
-      _PlungerAnimationState.release: pullAnimation.reversed(),
-      _PlungerAnimationState.pull: pullAnimation,
+      PlungerState.releasing: pullAnimation.reversed(),
+      PlungerState.pulling: pullAnimation,
     };
-    current = _PlungerAnimationState.release;
+
+    current = readBloc<PlungerCubit, PlungerState>().state;
   }
 }
