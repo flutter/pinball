@@ -13,7 +13,7 @@ void main() {
           majorRadius: 10,
           minorRadius: 8,
         ),
-        isNotNull,
+        isA<EllipseShape>(),
       );
     });
 

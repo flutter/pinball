@@ -13,7 +13,7 @@ void main() {
           arcRadius: 10,
           angle: 2 * math.pi,
         ),
-        isA<ArcShape>,
+        isA<ArcShape>(),
       );
     });
   });

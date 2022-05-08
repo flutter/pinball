@@ -15,7 +15,7 @@ void main() {
             Vector2(10, 10),
           ],
         ),
-        isA<BezierCurveShape>,
+        isA<BezierCurveShape>(),
       );
     });
   });
