@@ -70,7 +70,7 @@ void main() {
     );
 
     flameTester.test(
-      'calls onShare when tap on Facebook button',
+      'calls onShare when Facebook button is tapped',
       (game) async {
         var tapped = false;
 
