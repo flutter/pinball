@@ -122,7 +122,7 @@ void main() {
 
             await expectLater(
               find.byGame<_TestGame>(),
-              matchesGoldenFile('../golden/multipliers/x2-lit.png'),
+              matchesGoldenFile('../golden/multipliers/x2_lit.png'),
             );
           },
         );
@@ -162,7 +162,7 @@ void main() {
 
             await expectLater(
               find.byGame<_TestGame>(),
-              matchesGoldenFile('../golden/multipliers/x2-dimmed.png'),
+              matchesGoldenFile('../golden/multipliers/x2_dimmed.png'),
             );
           },
         );
@@ -206,7 +206,7 @@ void main() {
 
             await expectLater(
               find.byGame<_TestGame>(),
-              matchesGoldenFile('../golden/multipliers/x3-lit.png'),
+              matchesGoldenFile('../golden/multipliers/x3_lit.png'),
             );
           },
         );
@@ -246,7 +246,7 @@ void main() {
 
             await expectLater(
               find.byGame<_TestGame>(),
-              matchesGoldenFile('../golden/multipliers/x3-dimmed.png'),
+              matchesGoldenFile('../golden/multipliers/x3_dimmed.png'),
             );
           },
         );
@@ -290,7 +290,7 @@ void main() {
 
             await expectLater(
               find.byGame<_TestGame>(),
-              matchesGoldenFile('../golden/multipliers/x4-lit.png'),
+              matchesGoldenFile('../golden/multipliers/x4_lit.png'),
             );
           },
         );
@@ -330,7 +330,7 @@ void main() {
 
             await expectLater(
               find.byGame<_TestGame>(),
-              matchesGoldenFile('../golden/multipliers/x4-dimmed.png'),
+              matchesGoldenFile('../golden/multipliers/x4_dimmed.png'),
             );
           },
         );
@@ -374,7 +374,7 @@ void main() {
 
             await expectLater(
               find.byGame<_TestGame>(),
-              matchesGoldenFile('../golden/multipliers/x5-lit.png'),
+              matchesGoldenFile('../golden/multipliers/x5_lit.png'),
             );
           },
         );
@@ -414,7 +414,7 @@ void main() {
 
             await expectLater(
               find.byGame<_TestGame>(),
-              matchesGoldenFile('../golden/multipliers/x5-dimmed.png'),
+              matchesGoldenFile('../golden/multipliers/x5_dimmed.png'),
             );
           },
         );
@@ -458,7 +458,7 @@ void main() {
 
             await expectLater(
               find.byGame<_TestGame>(),
-              matchesGoldenFile('../golden/multipliers/x6-lit.png'),
+              matchesGoldenFile('../golden/multipliers/x6_lit.png'),
             );
           },
         );
@@ -498,7 +498,7 @@ void main() {
 
             await expectLater(
               find.byGame<_TestGame>(),
-              matchesGoldenFile('../golden/multipliers/x6-dimmed.png'),
+              matchesGoldenFile('../golden/multipliers/x6_dimmed.png'),
             );
           },
         );
