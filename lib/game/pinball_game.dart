@@ -90,7 +90,7 @@ class PinballGame extends PinballForge2DGame
               BonusNoiseBehavior(),
               GameBlocStatusListener(),
               BallSpawningBehavior(),
-              BallThemingBehavior(),
+              CharacterSelectionBehavior(),
               CameraFocusingBehavior(),
               CanvasComponent(
                 onSpritePainted: (paint) {
@@ -101,6 +101,7 @@ class PinballGame extends PinballForge2DGame
                 children: [
                   ZCanvasComponent(
                     children: [
+                      ArcadeBackground(),
                       BoardBackgroundSpriteComponent(),
                       Boundaries(),
                       Backbox(
