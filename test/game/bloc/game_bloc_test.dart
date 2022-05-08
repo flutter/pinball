@@ -92,6 +92,28 @@ void main() {
       );
 
       blocTest<GameBloc, GameState>(
+        "multiplier doesn't increase score above the max score",
+        build: GameBloc.new,
+        seed: () => const GameState(
+          totalScore: 9999999998,
+          roundScore: 1,
+          multiplier: 2,
+          rounds: 1,
+          bonusHistory: [],
+          status: GameStatus.playing,
+        ),
+        act: (bloc) => bloc.add(const RoundLost()),
+        expect: () => [
+          isA<GameState>()
+            ..having(
+              (state) => state.totalScore,
+              'totalScore',
+              9999999999,
+            )
+        ],
+      );
+
+      blocTest<GameBloc, GameState>(
         'resets multiplier when round is lost',
         build: GameBloc.new,
         seed: () => const GameState(
@@ -165,6 +187,23 @@ void main() {
               'status',
               GameStatus.gameOver,
             ),
+        ],
+      );
+
+      blocTest<GameBloc, GameState>(
+        "doesn't increase score above the max score",
+        build: GameBloc.new,
+        seed: () => const GameState(
+          totalScore: 9999999998,
+          roundScore: 0,
+          multiplier: 1,
+          rounds: 1,
+          bonusHistory: [],
+          status: GameStatus.playing,
+        ),
+        act: (bloc) => bloc.add(const Scored(points: 2)),
+        expect: () => [
+          isA<GameState>()..having((state) => state.roundScore, 'roundScore', 1)
         ],
       );
     });
