@@ -7,7 +7,7 @@ part 'ball_state.dart';
 class BallCubit extends Cubit<BallState> {
   BallCubit() : super(const BallState.initial());
 
-  void onThemeChanged(CharacterTheme characterTheme) {
+  void onCharacterSelected(CharacterTheme characterTheme) {
     emit(BallState(characterTheme: characterTheme));
   }
 }

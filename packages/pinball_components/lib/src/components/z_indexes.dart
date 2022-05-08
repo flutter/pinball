@@ -18,6 +18,8 @@ abstract class ZIndexes {
 
   // Background
 
+  static const arcadeBackground = _below + boardBackground;
+
   static const boardBackground = 5 * _below + _base;
 
   static const decal = _above + boardBackground;
