@@ -461,7 +461,7 @@ void main() {
       );
 
       flameTester.test(
-        'open Facebook link when sharing with Facebook',
+        'opens Facebook link when sharing with Facebook',
         (game) async {
           when(() => urlLauncher.canLaunch(any()))
               .thenAnswer((_) async => true);
