@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/assets_manager/assets_manager.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball/gen/gen.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/more_information/more_information.dart';
 import 'package:pinball/select_character/select_character.dart';
