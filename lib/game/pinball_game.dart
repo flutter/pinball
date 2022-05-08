@@ -14,6 +14,7 @@ import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
+import 'package:platform_helper/platform_helper.dart';
 
 class PinballGame extends PinballForge2DGame
     with HasKeyboardHandlerComponents, MultiTouchTapDetector, HasTappables {
@@ -101,7 +102,7 @@ class PinballGame extends PinballForge2DGame
                 children: [
                   ZCanvasComponent(
                     children: [
-                      ArcadeBackground(),
+                      if (!PlatformHelper().isMobile) ArcadeBackground(),
                       BoardBackgroundSpriteComponent(),
                       Boundaries(),
                       Backbox(
