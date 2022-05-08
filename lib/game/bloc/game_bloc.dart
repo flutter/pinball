@@ -16,7 +16,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     on<GameStarted>(_onGameStarted);
   }
 
-  final _maxScore = 9999999999;
+  static const _maxScore = 9999999999;
 
   void _onGameStarted(GameStarted _, Emitter emit) {
     emit(state.copyWith(status: GameStatus.playing));
@@ -27,7 +27,10 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   void _onRoundLost(RoundLost event, Emitter emit) {
-    final score = state.totalScore + state.roundScore * state.multiplier;
+    final score = math.min(
+      state.totalScore + state.roundScore * state.multiplier,
+      _maxScore,
+    );
     final roundsLeft = math.max(state.rounds - 1, 0);
 
     emit(
