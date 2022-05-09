@@ -70,21 +70,14 @@ void main() {
 
     group('onReset', () {
       blocTest<SpaceshipRampCubit, SpaceshipRampState>(
-        'emits state reset to initial values',
+        'emits initial state',
         build: SpaceshipRampCubit.new,
         seed: () => SpaceshipRampState(
           hits: 100,
           lightState: ArrowLightState.active3,
         ),
         act: (bloc) => bloc.onReset(),
-        expect: () => [
-          isA<SpaceshipRampState>()
-            ..having((state) => state.hits, 'hits', 0)
-            ..having(
-              (state) => state.lightState,
-              'lightState',
-              ArrowLightState.inactive,
-            ),
+        expect: () => [SpaceshipRampState.initial(),
         ],
       );
     });
