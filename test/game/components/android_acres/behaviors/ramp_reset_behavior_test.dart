@@ -66,7 +66,7 @@ void main() {
     final flameTester = FlameTester(_TestGame.new);
 
     flameTester.test(
-      'when round lost call onReset',
+      'calls onReset when round lost',
       (game) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = GameState.initial();
