@@ -21,13 +21,13 @@ class RampProgressBehavior extends Component
     final spaceshipCubit = readBloc<SpaceshipRampCubit, SpaceshipRampState>();
 
     final canProgress = !gameBloc.state.isMaxMultiplier ||
-        (gameBloc.state.isMaxMultiplier && !state.fullArrowLit);
+        (gameBloc.state.isMaxMultiplier && !state.arrowFullyLit);
 
     if (canProgress) {
       spaceshipCubit.onProgressed();
     }
 
-    if (spaceshipCubit.state.fullArrowLit && !gameBloc.state.isMaxMultiplier) {
+    if (spaceshipCubit.state.arrowFullyLit && !gameBloc.state.isMaxMultiplier) {
       spaceshipCubit.onProgressed();
     }
   }

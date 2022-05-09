@@ -2,15 +2,12 @@ import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template ramp_shot_behavior}
 /// Increases the score when a [Ball] is shot into the [SpaceshipRamp].
 /// {@endtemplate}
 class RampShotBehavior extends Component
-    with
-        ParentIsA<Component>,
-        FlameBlocListenable<SpaceshipRampCubit, SpaceshipRampState> {
+    with FlameBlocListenable<SpaceshipRampCubit, SpaceshipRampState> {
   /// {@macro ramp_shot_behavior}
   RampShotBehavior({
     required Points points,
@@ -29,7 +26,7 @@ class RampShotBehavior extends Component
 
   @override
   void onNewState(SpaceshipRampState state) {
-    parent.add(
+    parent!.add(
       ScoringBehavior(
         points: _points,
         position: Vector2(0, -45),

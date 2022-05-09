@@ -90,7 +90,7 @@ void main() {
         );
 
         final behavior = RampShotBehavior(points: shotPoints);
-        final parent = SpaceshipRamp.test(bloc: bloc, children: [behavior]);
+        final parent = SpaceshipRamp.test(children: [behavior]);
         await game.pump(
           [parent],
           bloc: bloc,

@@ -47,16 +47,16 @@ void main() {
     });
 
     test(
-      'fullArrowLit returns true when lightState is last one',
+      'arrowFullyLit returns true when lightState is last one',
       () {
         expect(
-          SpaceshipRampState.initial().fullArrowLit,
+          SpaceshipRampState.initial().arrowFullyLit,
           isFalse,
         );
         expect(
           SpaceshipRampState.initial()
               .copyWith(lightState: ArrowLightState.active5)
-              .fullArrowLit,
+              .arrowFullyLit,
           isTrue,
         );
       },

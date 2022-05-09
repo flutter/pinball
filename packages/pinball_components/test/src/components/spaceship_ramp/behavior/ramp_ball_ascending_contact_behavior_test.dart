@@ -1,12 +1,14 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_components/src/components/spaceship_ramp/behavior/behavior.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 class _TestGame extends Forge2DGame {
   @override
@@ -24,6 +26,20 @@ class _TestGame extends Forge2DGame {
       Assets.images.android.ramp.arrow.active4.keyName,
       Assets.images.android.ramp.arrow.active5.keyName,
     ]);
+  }
+
+  Future<void> pump(
+    SpaceshipRamp children, {
+    required SpaceshipRampCubit bloc,
+  }) async {
+    await ensureAdd(
+      FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>.value(
+        value: bloc,
+        children: [
+          ZCanvasComponent(children: [children]),
+        ],
+      ),
+    );
   }
 }
 
@@ -74,13 +90,15 @@ void main() {
 
             final opening = SpaceshipRampBoardOpening.test();
             final spaceshipRamp = SpaceshipRamp.test(
-              bloc: bloc,
               children: [opening],
             );
 
             when(() => body.linearVelocity).thenReturn(Vector2(0, -1));
 
-            await game.ensureAdd(spaceshipRamp);
+            await game.pump(
+              spaceshipRamp,
+              bloc: bloc,
+            );
             await opening.add(behavior);
 
             behavior.beginContact(ball, _MockContact());
@@ -104,13 +122,15 @@ void main() {
 
             final opening = SpaceshipRampBoardOpening.test();
             final spaceshipRamp = SpaceshipRamp.test(
-              bloc: bloc,
               children: [opening],
             );
 
             when(() => body.linearVelocity).thenReturn(Vector2(0, 1));
 
-            await game.ensureAdd(spaceshipRamp);
+            await game.pump(
+              spaceshipRamp,
+              bloc: bloc,
+            );
             await opening.add(behavior);
 
             behavior.beginContact(ball, _MockContact());

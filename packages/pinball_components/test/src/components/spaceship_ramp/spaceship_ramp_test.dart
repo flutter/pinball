@@ -30,6 +30,20 @@ class _TestGame extends Forge2DGame {
       Assets.images.android.ramp.arrow.active5.keyName,
     ]);
   }
+
+  Future<void> pump(
+    SpaceshipRamp children, {
+    required SpaceshipRampCubit bloc,
+  }) async {
+    await ensureAdd(
+      FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>.value(
+        value: bloc,
+        children: [
+          ZCanvasComponent(children: [children]),
+        ],
+      ),
+    );
+  }
 }
 
 class _MockSpaceshipRampCubit extends Mock implements SpaceshipRampCubit {}
@@ -56,8 +70,8 @@ void main() {
           streamController.stream,
           initialState: SpaceshipRampState.initial(),
         );
-        final ramp = SpaceshipRamp.test(bloc: bloc);
-        await game.ensureAdd(ramp);
+        final ramp = SpaceshipRamp.test();
+        await game.pump(ramp, bloc: bloc);
         expect(game.descendants(), contains(ramp));
       },
     );
@@ -163,8 +177,8 @@ void main() {
 
     flameTester.test('can be loaded', (game) async {
       final component = SpaceshipRampBoardOpening();
-      final parent = SpaceshipRamp.test(bloc: _MockSpaceshipRampCubit());
-      await game.ensureAdd(parent);
+      final parent = SpaceshipRamp.test();
+      await game.pump(parent, bloc: _MockSpaceshipRampCubit());
 
       await parent.ensureAdd(component);
       expect(parent.children, contains(component));
@@ -172,8 +186,8 @@ void main() {
 
     flameTester.test('adds a RampBallAscendingContactBehavior', (game) async {
       final component = SpaceshipRampBoardOpening();
-      final parent = SpaceshipRamp.test(bloc: _MockSpaceshipRampCubit());
-      await game.ensureAdd(parent);
+      final parent = SpaceshipRamp.test();
+      await game.pump(parent, bloc: _MockSpaceshipRampCubit());
 
       await parent.ensureAdd(component);
       expect(
@@ -197,8 +211,11 @@ void main() {
           initialState: state,
         );
         final arrow = SpaceshipRampArrowSpriteComponent();
-        final ramp = SpaceshipRamp.test(bloc: bloc, children: [arrow]);
-        await game.ensureAdd(ramp);
+        final ramp = SpaceshipRamp.test(children: [arrow]);
+        await game.pump(
+          ramp,
+          bloc: bloc,
+        );
 
         expect(arrow.current, ArrowLightState.inactive);
 

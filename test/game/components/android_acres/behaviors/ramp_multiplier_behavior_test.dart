@@ -28,16 +28,27 @@ class _TestGame extends Forge2DGame {
       Assets.images.android.ramp.arrow.active3.keyName,
       Assets.images.android.ramp.arrow.active4.keyName,
       Assets.images.android.ramp.arrow.active5.keyName,
+      Assets.images.android.rail.main.keyName,
+      Assets.images.android.rail.exit.keyName,
+      Assets.images.score.fiveThousand.keyName,
     ]);
   }
 
   Future<void> pump(
     SpaceshipRamp child, {
     required GameBloc gameBloc,
+    required SpaceshipRampCubit bloc,
   }) async {
     await ensureAdd(
-      FlameBlocProvider<GameBloc, GameState>.value(
-        value: gameBloc,
+      FlameMultiBlocProvider(
+        providers: [
+          FlameBlocProvider<GameBloc, GameState>.value(
+            value: gameBloc,
+          ),
+          FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>.value(
+            value: bloc,
+          ),
+        ],
         children: [
           ZCanvasComponent(children: [child]),
         ],
@@ -85,14 +96,12 @@ void main() {
         when(() => gameBloc.add(any())).thenAnswer((_) async {});
 
         final behavior = RampMultiplierBehavior();
-        final parent = SpaceshipRamp.test(
-          bloc: bloc,
-          children: [behavior],
-        );
+        final parent = SpaceshipRamp.test(children: [behavior]);
 
         await game.pump(
           parent,
           gameBloc: gameBloc,
+          bloc: bloc,
         );
 
         streamController.add(state.copyWith(hits: 5));
@@ -122,14 +131,12 @@ void main() {
         );
 
         final behavior = RampMultiplierBehavior();
-        final parent = SpaceshipRamp.test(
-          bloc: bloc,
-          children: [behavior],
-        );
+        final parent = SpaceshipRamp.test(children: [behavior]);
 
         await game.pump(
           parent,
           gameBloc: gameBloc,
+          bloc: bloc,
         );
 
         streamController.add(state.copyWith(hits: 5));
@@ -159,14 +166,12 @@ void main() {
         );
 
         final behavior = RampMultiplierBehavior();
-        final parent = SpaceshipRamp.test(
-          bloc: bloc,
-          children: [behavior],
-        );
+        final parent = SpaceshipRamp.test(children: [behavior]);
 
         await game.pump(
           parent,
           gameBloc: gameBloc,
+          bloc: bloc,
         );
 
         streamController.add(state.copyWith(hits: 1));

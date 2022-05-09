@@ -54,16 +54,8 @@ class SpaceshipRamp extends Component {
   /// This can be used for testing [SpaceshipRamp]'s behaviors in isolation.
   @visibleForTesting
   SpaceshipRamp.test({
-    required SpaceshipRampCubit bloc,
     Iterable<Component>? children,
-  }) : super(
-          children: [
-            FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>(
-              create: () => bloc,
-              children: [...?children],
-            ),
-          ],
-        );
+  }) : super(children: children);
 }
 
 class _SpaceshipRampBackground extends BodyComponent
