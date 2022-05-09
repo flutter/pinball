@@ -34,7 +34,7 @@ class AssetsManagerCubit extends Cubit<AssetsManagerState> {
       try {
         await loadable;
         emit(state.copyWith(loaded: [...state.loaded, loadable]));
-      } catch (error, stackTrace) {
+      } catch (error, _) {
         emit(state.copyWith(error: '$error'));
       }
     }).toList();
