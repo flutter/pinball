@@ -6,7 +6,8 @@ class PlungerReleasingBehavior extends Component
     with FlameBlocListenable<PlungerCubit, PlungerState> {
   PlungerReleasingBehavior({
     required double strength,
-  }) : _strength = strength;
+  })  : assert(strength >= 0, "Strength can't be negative."),
+        _strength = strength;
 
   final double _strength;
 
@@ -22,8 +23,8 @@ class PlungerReleasingBehavior extends Component
   void onNewState(PlungerState state) {
     super.onNewState(state);
     if (state.isReleasing) {
-      final velocity = (_plunger.initialPosition.y - _plunger.body.position.y) *
-          _strength.abs();
+      final velocity =
+          (_plunger.initialPosition.y - _plunger.body.position.y) * _strength;
       _plunger.body.linearVelocity = Vector2(0, velocity);
     }
   }

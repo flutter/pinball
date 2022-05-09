@@ -7,7 +7,8 @@ class PlungerPullingBehavior extends Component
     with FlameBlocReader<PlungerCubit, PlungerState> {
   PlungerPullingBehavior({
     required double strength,
-  }) : _strength = strength;
+  })  : assert(strength >= 0, "Strength can't be negative."),
+        _strength = strength;
 
   final double _strength;
 
@@ -22,7 +23,7 @@ class PlungerPullingBehavior extends Component
   @override
   void update(double dt) {
     if (bloc.state.isPulling) {
-      _plunger.body.linearVelocity = Vector2(0, _strength.abs());
+      _plunger.body.linearVelocity = Vector2(0, _strength);
     }
   }
 }

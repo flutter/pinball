@@ -42,6 +42,13 @@ void main() {
       );
     });
 
+    test('throws assertion error when strength is negative ', () {
+      expect(
+        () => PlungerPullingBehavior(strength: -1),
+        throwsAssertionError,
+      );
+    });
+
     flameTester.test('can be loaded', (game) async {
       final behavior = PlungerPullingBehavior(strength: 0);
       await game.pump(behavior);
