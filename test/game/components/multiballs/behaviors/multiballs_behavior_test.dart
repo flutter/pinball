@@ -95,7 +95,7 @@ void main() {
 
       test(
           'is false when the bonusHistory has changed with a bonus other than '
-          'GameBonus.dashNest or GameBonus.googelWord', () {
+          'GameBonus.dashNest or GameBonus.googleWord', () {
         final previous =
             GameState.initial().copyWith(bonusHistory: [GameBonus.dashNest]);
         final state = previous.copyWith(
