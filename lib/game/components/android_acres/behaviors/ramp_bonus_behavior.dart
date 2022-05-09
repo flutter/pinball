@@ -23,10 +23,13 @@ class RampBonusBehavior extends Component with ParentIsA<SpaceshipRamp> {
     await super.onLoad();
     await add(
       FlameBlocListener<SpaceshipRampCubit, SpaceshipRampState>(
-        listenWhen: (previousState, newState) =>
-            previousState.hits != newState.hits &&
-            newState.hits != 0 &&
-            newState.hits % 10 == 0,
+        listenWhen: (previousState, newState) {
+          final hasChanged = previousState.hits != newState.hits;
+          final hasHit = newState.hits != 0;
+          final achievedOneMillionPoints = newState.hits % 10 == 0;
+
+          return hasChanged && hasHit && achievedOneMillionPoints;
+        },
         onNewState: (state) {
           parent.add(
             ScoringBehavior(
