@@ -7,7 +7,7 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_components/src/components/android_spaceship/behaviors/behaviors.dart';
+import 'package:pinball_components/src/components/android_animatronic/behaviors/behaviors.dart';
 
 import '../../../../helpers/helpers.dart';
 
@@ -23,19 +23,19 @@ void main() {
   final flameTester = FlameTester(TestGame.new);
 
   group(
-    'AndroidSpaceshipEntranceBallContactBehavior',
+    'AndroidAnimatronicBallContactBehavior',
     () {
       test('can be instantiated', () {
         expect(
-          AndroidSpaceshipEntranceBallContactBehavior(),
-          isA<AndroidSpaceshipEntranceBallContactBehavior>(),
+          AndroidAnimatronicBallContactBehavior(),
+          isA<AndroidAnimatronicBallContactBehavior>(),
         );
       });
 
       flameTester.test(
-        'beginContact calls onBallEntered when entrance contacts with a ball',
+        'beginContact calls onBallContacted when in contact with a ball',
         (game) async {
-          final behavior = AndroidSpaceshipEntranceBallContactBehavior();
+          final behavior = AndroidAnimatronicBallContactBehavior();
           final bloc = _MockAndroidSpaceshipCubit();
           whenListen(
             bloc,
@@ -43,20 +43,20 @@ void main() {
             initialState: AndroidSpaceshipState.withoutBonus,
           );
 
-          final entrance = AndroidSpaceshipEntrance();
+          final animatronic = AndroidAnimatronic.test();
           final androidSpaceship = FlameBlocProvider<AndroidSpaceshipCubit,
               AndroidSpaceshipState>.value(
             value: bloc,
             children: [
-              AndroidSpaceship.test(children: [entrance])
+              AndroidSpaceship.test(children: [animatronic])
             ],
           );
-          await entrance.add(behavior);
+          await animatronic.add(behavior);
           await game.ensureAdd(androidSpaceship);
 
           behavior.beginContact(_MockBall(), _MockContact());
 
-          verify(bloc.onBallEntered).called(1);
+          verify(bloc.onBallContacted).called(1);
         },
       );
     },
