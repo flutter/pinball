@@ -42,14 +42,19 @@ class _TestGame extends Forge2DGame
       Assets.images.backbox.button.facebook.keyName,
       Assets.images.backbox.button.twitter.keyName,
       Assets.images.backbox.displayTitleDecoration.keyName,
+      Assets.images.displayArrows.arrowLeft.keyName,
+      Assets.images.displayArrows.arrowRight.keyName,
     ]);
   }
 
   Future<void> pump(
     Backbox component, {
     PlatformHelper? platformHelper,
-  }) {
-    return ensureAdd(
+  }) async {
+    // Not needed once https://github.com/flame-engine/flame/issues/1607
+    // is fixed
+    await onLoad();
+    await ensureAdd(
       FlameBlocProvider<GameBloc, GameState>.value(
         value: GameBloc(),
         children: [
