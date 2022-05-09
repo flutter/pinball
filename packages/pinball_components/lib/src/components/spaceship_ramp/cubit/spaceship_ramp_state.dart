@@ -35,7 +35,7 @@ class SpaceshipRampState extends Equatable {
 
 /// Indicates the state of the arrow on the [SpaceshipRamp].
 enum ArrowLightState {
-  /// Arrow with no dashes lit up.
+  /// Arrow with no lights lit up.
   inactive,
 
   /// Arrow with 1 light lit up.
