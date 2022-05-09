@@ -17,33 +17,38 @@ class AssetsLoadingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final headline1 = Theme.of(context).textTheme.headline1;
-    return Container(
-      decoration: const CrtBackground(),
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Assets.images.loadingGame.ioPinball.image(),
+    return BlocBuilder<AssetsManagerCubit, AssetsManagerState>(
+      builder: (context, state) {
+        return Container(
+          decoration: const CrtBackground(),
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Assets.images.loadingGame.ioPinball.image(),
+                ),
+                const SizedBox(height: 40),
+                AnimatedEllipsisText(
+                  l10n.loading,
+                  style: headline1,
+                ),
+                const SizedBox(height: 40),
+                FractionallySizedBox(
+                  widthFactor: 0.8,
+                  child: PinballLoadingIndicator(value: state.progress),
+                ),
+                if (state.error != null)
+                  Text(
+                    state.error!,
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+              ],
             ),
-            const SizedBox(height: 40),
-            AnimatedEllipsisText(
-              l10n.loading,
-              style: headline1,
-            ),
-            const SizedBox(height: 40),
-            FractionallySizedBox(
-              widthFactor: 0.8,
-              child: BlocBuilder<AssetsManagerCubit, AssetsManagerState>(
-                builder: (context, state) {
-                  return PinballLoadingIndicator(value: state.progress);
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

@@ -31,8 +31,12 @@ class AssetsManagerCubit extends Cubit<AssetsManagerState> {
       ),
     );
     final all = state.loadables.map((loadable) async {
-      await loadable;
-      emit(state.copyWith(loaded: [...state.loaded, loadable]));
+      try {
+        await loadable;
+        emit(state.copyWith(loaded: [...state.loaded, loadable]));
+      } catch (error, stackTrace) {
+        emit(state.copyWith(error: '$error'));
+      }
     }).toList();
     await Future.wait(all);
   }

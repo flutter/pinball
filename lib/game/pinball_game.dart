@@ -111,7 +111,7 @@ class PinballGame extends PinballForge2DGame
                 children: [
                   ZCanvasComponent(
                     children: [
-                      if (!platformHelper.isMobile) ArcadeBackground(),
+                      ArcadeBackground(),
                       BoardBackgroundSpriteComponent(),
                       Boundaries(),
                       Backbox(
