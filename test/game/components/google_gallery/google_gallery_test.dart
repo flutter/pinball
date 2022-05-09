@@ -97,6 +97,20 @@ void main() {
         },
       );
 
+      flameTester.test(
+        'RolloverNoiseBehavior to GoogleRollovers',
+        (game) async {
+          await game.pump(GoogleGallery());
+
+          game.descendants().whereType<GoogleRollover>().forEach(
+                (rollover) => expect(
+                  rollover.firstChild<RolloverNoiseBehavior>(),
+                  isNotNull,
+                ),
+              );
+        },
+      );
+
       flameTester.test('a GoogleWordBonusBehavior', (game) async {
         final component = GoogleGallery();
         await game.pump(component);
