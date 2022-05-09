@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
@@ -13,15 +12,6 @@ import 'package:pinball_flame/pinball_flame.dart';
 class RampShotBehavior extends Component with ParentIsA<SpaceshipRamp> {
   /// {@macro ramp_shot_behavior}
   RampShotBehavior({
-    required Points points,
-  })  : _points = points,
-        super();
-
-  /// Creates a [RampShotBehavior].
-  ///
-  /// This can be used for testing [RampShotBehavior] in isolation.
-  @visibleForTesting
-  RampShotBehavior.test({
     required Points points,
   })  : _points = points,
         super();

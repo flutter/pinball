@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
@@ -14,12 +13,6 @@ import 'package:pinball_flame/pinball_flame.dart';
 class RampMultiplierBehavior extends Component with ParentIsA<SpaceshipRamp> {
   /// {@macro ramp_multiplier_behavior}
   RampMultiplierBehavior() : super();
-
-  /// Creates a [RampMultiplierBehavior].
-  ///
-  /// This can be used for testing [RampMultiplierBehavior] in isolation.
-  @visibleForTesting
-  RampMultiplierBehavior.test() : super();
 
   @override
   Future<void> onLoad() async {
