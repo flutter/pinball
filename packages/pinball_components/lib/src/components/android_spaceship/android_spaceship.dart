@@ -5,7 +5,6 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_components/src/components/android_spaceship/behaviors/behaviors.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 export 'cubit/android_spaceship_cubit.dart';
@@ -17,9 +16,6 @@ class AndroidSpaceship extends Component {
             _SpaceshipSaucer()..initialPosition = position,
             _SpaceshipSaucerSpriteAnimationComponent()..position = position,
             _LightBeamSpriteComponent()..position = position + Vector2(2.5, 5),
-            AndroidSpaceshipEntrance(
-              children: [AndroidSpaceshipEntranceBallContactBehavior()],
-            ),
             _SpaceshipHole(
               outsideLayer: Layer.spaceshipExitRail,
               outsidePriority: ZIndexes.ballOnSpaceshipRail,
@@ -131,35 +127,6 @@ class _LightBeamSpriteComponent extends SpriteComponent
     );
     this.sprite = sprite;
     size = sprite.originalSize / 10;
-  }
-}
-
-class AndroidSpaceshipEntrance extends BodyComponent
-    with ParentIsA<AndroidSpaceship>, Layered {
-  AndroidSpaceshipEntrance({Iterable<Component>? children})
-      : super(
-          children: children,
-          renderBody: false,
-        ) {
-    layer = Layer.spaceship;
-  }
-
-  @override
-  Body createBody() {
-    final shape = PolygonShape()
-      ..setAsBox(
-        2,
-        0.1,
-        Vector2(-27.4, -37.2),
-        -0.12,
-      );
-    final fixtureDef = FixtureDef(
-      shape,
-      isSensor: true,
-    );
-    final bodyDef = BodyDef();
-
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
 
