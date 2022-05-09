@@ -9,7 +9,7 @@ void main() {
       blocTest<AndroidSpaceshipCubit, AndroidSpaceshipState>(
         'onBallEntered emits withBonus',
         build: AndroidSpaceshipCubit.new,
-        act: (bloc) => bloc.onBallEntered(),
+        act: (bloc) => bloc.onBallContacted(),
         expect: () => [AndroidSpaceshipState.withBonus],
       );
 
