@@ -1,4 +1,4 @@
-export 'android_animatronic.dart';
+export 'android_animatronic/android_animatronic.dart';
 export 'android_bumper/android_bumper.dart';
 export 'android_spaceship/android_spaceship.dart';
 export 'arcade_background/arcade_background.dart';

@@ -22,6 +22,7 @@ class GameBlocStatusListener extends Component
         break;
       case GameStatus.playing:
         readProvider<PinballAudioPlayer>().play(PinballAudio.backgroundMusic);
+        _resetBonuses();
         gameRef
             .descendants()
             .whereType<Flipper>()
@@ -32,6 +33,7 @@ class GameBlocStatusListener extends Component
             .forEach(_addPlungerBehaviors);
 
         gameRef.overlays.remove(PinballGame.playButtonOverlay);
+        gameRef.overlays.remove(PinballGame.replayButtonOverlay);
         break;
       case GameStatus.gameOver:
         readProvider<PinballAudioPlayer>().play(PinballAudio.gameOverVoiceOver);
@@ -52,6 +54,15 @@ class GameBlocStatusListener extends Component
             .forEach(_removePlungerBehaviors);
         break;
     }
+  }
+
+  void _resetBonuses() {
+    gameRef
+        .descendants()
+        .whereType<FlameBlocProvider<GoogleWordCubit, GoogleWordState>>()
+        .single
+        .bloc
+        .onReset();
   }
 
   void _addPlungerBehaviors(Plunger plunger) {
