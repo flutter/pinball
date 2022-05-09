@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
@@ -17,11 +15,8 @@ void main() {
     final authenticationRepository = AuthenticationRepository(firebaseAuth);
     final pinballAudioPlayer = PinballAudioPlayer();
     final platformHelper = PlatformHelper();
-    unawaited(
-      Firebase.initializeApp().then(
-        (_) => authenticationRepository.authenticateAnonymously(),
-      ),
-    );
+    await Firebase.initializeApp();
+    await authenticationRepository.authenticateAnonymously();
     return App(
       authenticationRepository: authenticationRepository,
       leaderboardRepository: leaderboardRepository,
