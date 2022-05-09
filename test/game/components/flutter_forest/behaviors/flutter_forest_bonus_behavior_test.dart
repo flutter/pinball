@@ -16,10 +16,7 @@ class _TestGame extends Forge2DGame {
   @override
   Future<void> onLoad() async {
     images.prefix = '';
-    await images.loadAll([
-      Assets.images.dash.animatronic.keyName,
-      theme.Assets.images.dash.ball.keyName,
-    ]);
+    await images.load(theme.Assets.images.dash.ball.keyName);
   }
 
   Future<void> pump(
@@ -67,10 +64,9 @@ void main() {
           DashBumper.test(bloc: DashBumperCubit()),
           DashBumper.test(bloc: DashBumperCubit()),
         ];
-        final animatronic = DashAnimatronic();
         final signpost = Signpost.test(bloc: SignpostCubit());
         await game.pump(parent, gameBloc: gameBloc);
-        await parent.ensureAddAll([...bumpers, animatronic, signpost]);
+        await parent.ensureAddAll([...bumpers, signpost]);
         await parent.ensureAdd(behavior);
 
         expect(game.descendants().whereType<DashBumper>(), equals(bumpers));
@@ -99,10 +95,9 @@ void main() {
           DashBumper.test(bloc: DashBumperCubit()),
           DashBumper.test(bloc: DashBumperCubit()),
         ];
-        final animatronic = DashAnimatronic();
         final signpost = Signpost.test(bloc: SignpostCubit());
         await game.pump(parent, gameBloc: gameBloc);
-        await parent.ensureAddAll([...bumpers, animatronic, signpost]);
+        await parent.ensureAddAll([...bumpers, signpost]);
         await parent.ensureAdd(behavior);
 
         expect(game.descendants().whereType<DashBumper>(), equals(bumpers));
@@ -133,10 +128,9 @@ void main() {
           DashBumper.test(bloc: DashBumperCubit()),
           DashBumper.test(bloc: DashBumperCubit()),
         ];
-        final animatronic = DashAnimatronic();
         final signpost = Signpost.test(bloc: SignpostCubit());
         await game.pump(parent, gameBloc: gameBloc);
-        await parent.ensureAddAll([...bumpers, animatronic, signpost]);
+        await parent.ensureAddAll([...bumpers, signpost]);
         await parent.ensureAdd(behavior);
 
         expect(game.descendants().whereType<DashBumper>(), equals(bumpers));
