@@ -14,7 +14,6 @@ class SpaceshipRampCubit extends Cubit<SpaceshipRampState> {
 
   void onProgressed() {
     final index = ArrowLightState.values.indexOf(state.lightState);
-
     emit(
       state.copyWith(
         lightState:
