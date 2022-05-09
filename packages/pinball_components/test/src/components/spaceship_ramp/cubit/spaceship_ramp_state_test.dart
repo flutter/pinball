@@ -30,18 +30,34 @@ void main() {
           isNotNull,
         );
       });
+
+      test(
+        'throws AssertionError '
+        'when hits is negative',
+        () {
+          expect(
+            () => SpaceshipRampState(
+              hits: -1,
+              lightState: ArrowLightState.inactive,
+            ),
+            throwsAssertionError,
+          );
+        },
+      );
     });
 
     test(
-      'throws AssertionError '
-      'when hits is negative',
+      'fullArrowLit returns if lightState is last one',
       () {
         expect(
-          () => SpaceshipRampState(
-            hits: -1,
-            lightState: ArrowLightState.inactive,
-          ),
-          throwsAssertionError,
+          SpaceshipRampState.initial().fullArrowLit,
+          isFalse,
+        );
+        expect(
+          SpaceshipRampState.initial()
+              .copyWith(lightState: ArrowLightState.active5)
+              .fullArrowLit,
+          isTrue,
         );
       },
     );

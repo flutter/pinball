@@ -22,6 +22,52 @@ void main() {
       );
     });
 
+    group('onProgressed', () {
+      blocTest<SpaceshipRampCubit, SpaceshipRampState>(
+        'emits next arrow lightState',
+        build: SpaceshipRampCubit.new,
+        act: (bloc) => bloc
+          ..onProgressed()
+          ..onProgressed()
+          ..onProgressed()
+          ..onProgressed()
+          ..onProgressed()
+          ..onProgressed(),
+        expect: () => [
+          isA<SpaceshipRampState>().having(
+            (state) => state.lightState,
+            'lightState',
+            ArrowLightState.active1,
+          ),
+          isA<SpaceshipRampState>().having(
+            (state) => state.lightState,
+            'lightState',
+            ArrowLightState.active2,
+          ),
+          isA<SpaceshipRampState>().having(
+            (state) => state.lightState,
+            'lightState',
+            ArrowLightState.active3,
+          ),
+          isA<SpaceshipRampState>().having(
+            (state) => state.lightState,
+            'lightState',
+            ArrowLightState.active4,
+          ),
+          isA<SpaceshipRampState>().having(
+            (state) => state.lightState,
+            'lightState',
+            ArrowLightState.active5,
+          ),
+          isA<SpaceshipRampState>().having(
+            (state) => state.lightState,
+            'lightState',
+            ArrowLightState.inactive,
+          ),
+        ],
+      );
+    });
+
     group('onReset', () {
       blocTest<SpaceshipRampCubit, SpaceshipRampState>(
         'emits state reset to initial values',
