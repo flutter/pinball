@@ -35,8 +35,6 @@ class RampMultiplierBehavior extends Component with ParentIsA<SpaceshipRamp> {
           return hasChanged && achievedFiveShots && canIncrease;
         },
         onNewState: (state) {
-          print("onNewState $state");
-
           readBloc<GameBloc, GameState>().add(const MultiplierIncreased());
         },
       ),
