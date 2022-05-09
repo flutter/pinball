@@ -36,19 +36,13 @@ class _TestGame extends Forge2DGame {
 
   Future<void> pump(
     SpaceshipRamp child, {
-    required SpaceshipRampCubit spaceshipRampCubit,
     required GameBloc gameBloc,
   }) async {
     await ensureAdd(
       FlameBlocProvider<GameBloc, GameState>.value(
         value: gameBloc,
         children: [
-          FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>.value(
-            value: spaceshipRampCubit,
-            children: [
-              ZCanvasComponent(children: [child]),
-            ],
-          ),
+          ZCanvasComponent(children: [child]),
         ],
       ),
     );
@@ -83,14 +77,15 @@ void main() {
           initialState: state,
         );
         final behavior = RampResetBehavior();
-        final parent = SpaceshipRamp.test();
+        final parent = SpaceshipRamp.test(
+          bloc: bloc,
+          children: [behavior],
+        );
 
         await game.pump(
           parent,
           gameBloc: gameBloc,
-          spaceshipRampCubit: bloc,
         );
-        await parent.ensureAdd(behavior);
 
         streamController.add(state.copyWith(rounds: state.rounds - 1));
         await game.ready();
@@ -111,14 +106,15 @@ void main() {
           initialState: state,
         );
         final behavior = RampResetBehavior();
-        final parent = SpaceshipRamp.test();
+        final parent = SpaceshipRamp.test(
+          bloc: bloc,
+          children: [behavior],
+        );
 
         await game.pump(
           parent,
           gameBloc: gameBloc,
-          spaceshipRampCubit: bloc,
         );
-        await parent.ensureAdd(behavior);
 
         streamController
             .add(state.copyWith(roundScore: state.roundScore + 100));

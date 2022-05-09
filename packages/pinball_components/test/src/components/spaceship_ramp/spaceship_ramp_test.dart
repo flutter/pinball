@@ -30,20 +30,6 @@ class _TestGame extends Forge2DGame {
       Assets.images.android.ramp.arrow.active5.keyName,
     ]);
   }
-
-  Future<void> pump(
-    SpaceshipRamp child, {
-    required SpaceshipRampCubit spaceshipRampCubit,
-  }) async {
-    await ensureAdd(
-      FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>.value(
-        value: spaceshipRampCubit,
-        children: [
-          ZCanvasComponent(children: [child]),
-        ],
-      ),
-    );
-  }
 }
 
 class _MockSpaceshipRampCubit extends Mock implements SpaceshipRampCubit {}
@@ -82,31 +68,31 @@ void main() {
           streamController.stream,
           initialState: SpaceshipRampState.initial(),
         );
-        final ramp = SpaceshipRamp();
-        await game.pump(
-          ramp,
-          spaceshipRampCubit: bloc,
-        );
+        final ramp = SpaceshipRamp.test(bloc: bloc);
+        await game.ensureAdd(ramp);
         expect(game.descendants(), contains(ramp));
       },
     );
 
     group('loads', () {
+      flameTester.test('adds a FlameBlocProvider', (game) async {
+        final ramp = SpaceshipRamp();
+        await game.ensureAdd(ramp);
+        expect(
+          ramp.children
+              .whereType<
+                  FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>>()
+              .single,
+          isNotNull,
+        );
+      });
+
       flameTester.test(
         'a SpaceshipRampBoardOpening',
         (game) async {
-          final bloc = _MockSpaceshipRampCubit();
-          final streamController = StreamController<SpaceshipRampState>();
-          whenListen(
-            bloc,
-            streamController.stream,
-            initialState: SpaceshipRampState.initial(),
-          );
           final ramp = SpaceshipRamp();
-          await game.pump(
-            ramp,
-            spaceshipRampCubit: bloc,
-          );
+          await game.ensureAdd(ramp);
+
           expect(
             game.descendants().whereType<SpaceshipRampBoardOpening>().length,
             equals(1),
@@ -117,18 +103,9 @@ void main() {
       flameTester.test(
         'a SpaceshipRampArrowSpriteComponent',
         (game) async {
-          final bloc = _MockSpaceshipRampCubit();
-          final streamController = StreamController<SpaceshipRampState>();
-          whenListen(
-            bloc,
-            streamController.stream,
-            initialState: SpaceshipRampState.initial(),
-          );
           final ramp = SpaceshipRamp();
-          await game.pump(
-            ramp,
-            spaceshipRampCubit: bloc,
-          );
+          await game.ensureAdd(ramp);
+
           expect(
             game
                 .descendants()
@@ -155,11 +132,8 @@ void main() {
             streamController.stream,
             initialState: SpaceshipRampState.initial(),
           );
-          final ramp = SpaceshipRamp();
-          await game.pump(
-            ramp,
-            spaceshipRampCubit: bloc,
-          );
+          final ramp = SpaceshipRamp.test(bloc: bloc);
+          await game.ensureAdd(ramp);
 
           await tester.pump();
 
@@ -194,11 +168,8 @@ void main() {
             streamController.stream,
             initialState: state,
           );
-          final ramp = SpaceshipRamp();
-          await game.pump(
-            ramp,
-            spaceshipRampCubit: bloc,
-          );
+          final ramp = SpaceshipRamp.test(bloc: bloc);
+          await game.ensureAdd(ramp);
 
           streamController.add(
             state.copyWith(lightState: ArrowLightState.active1),
@@ -238,11 +209,8 @@ void main() {
             streamController.stream,
             initialState: state,
           );
-          final ramp = SpaceshipRamp();
-          await game.pump(
-            ramp,
-            spaceshipRampCubit: bloc,
-          );
+          final ramp = SpaceshipRamp.test(bloc: bloc);
+          await game.ensureAdd(ramp);
 
           streamController.add(
             state.copyWith(lightState: ArrowLightState.active2),
@@ -282,11 +250,8 @@ void main() {
             streamController.stream,
             initialState: state,
           );
-          final ramp = SpaceshipRamp();
-          await game.pump(
-            ramp,
-            spaceshipRampCubit: bloc,
-          );
+          final ramp = SpaceshipRamp.test(bloc: bloc);
+          await game.ensureAdd(ramp);
 
           streamController.add(
             state.copyWith(lightState: ArrowLightState.active3),
@@ -326,11 +291,8 @@ void main() {
             streamController.stream,
             initialState: state,
           );
-          final ramp = SpaceshipRamp();
-          await game.pump(
-            ramp,
-            spaceshipRampCubit: bloc,
-          );
+          final ramp = SpaceshipRamp.test(bloc: bloc);
+          await game.ensureAdd(ramp);
 
           streamController.add(
             state.copyWith(lightState: ArrowLightState.active4),
@@ -370,11 +332,8 @@ void main() {
             streamController.stream,
             initialState: state,
           );
-          final ramp = SpaceshipRamp();
-          await game.pump(
-            ramp,
-            spaceshipRampCubit: bloc,
-          );
+          final ramp = SpaceshipRamp.test(bloc: bloc);
+          await game.ensureAdd(ramp);
 
           streamController.add(
             state.copyWith(lightState: ArrowLightState.active5),
@@ -413,12 +372,10 @@ void main() {
           initialState: SpaceshipRampState.initial(),
         );
         final component = Component();
-        final ramp = SpaceshipRamp(children: [component]);
-        await game.pump(
-          ramp,
-          spaceshipRampCubit: bloc,
-        );
-        expect(ramp.children, contains(component));
+        final ramp = SpaceshipRamp.test(bloc: bloc, children: [component]);
+        await game.ensureAdd(ramp);
+
+        expect(ramp.descendants(), contains(component));
       });
     });
   });
@@ -472,23 +429,19 @@ void main() {
 
     flameTester.test('can be loaded', (game) async {
       final component = SpaceshipRampBoardOpening();
-      final parent = SpaceshipRamp.test();
-      await game.pump(
-        parent,
-        spaceshipRampCubit: _MockSpaceshipRampCubit(),
-      );
+      final parent = SpaceshipRamp.test(bloc: _MockSpaceshipRampCubit());
+      await game.ensureAdd(parent);
+
       await parent.ensureAdd(component);
       expect(parent.children, contains(component));
     });
 
     flameTester.test('adds a RampBallAscendingContactBehavior', (game) async {
       final component = SpaceshipRampBoardOpening();
-      final ramp = SpaceshipRamp.test();
-      await game.pump(
-        ramp,
-        spaceshipRampCubit: _MockSpaceshipRampCubit(),
-      );
-      await ramp.ensureAdd(component);
+      final parent = SpaceshipRamp.test(bloc: _MockSpaceshipRampCubit());
+      await game.ensureAdd(parent);
+
+      await parent.ensureAdd(component);
       expect(
         component.children.whereType<RampBallAscendingContactBehavior>().length,
         equals(1),
