@@ -37,6 +37,7 @@ class _TestGame extends Forge2DGame with HasTappables {
     Iterable<Component> children, {
     PinballAudioPlayer? pinballAudioPlayer,
     PlatformHelper? platformHelper,
+    GoogleWordCubit? googleWordBloc,
   }) async {
     return ensureAdd(
       FlameMultiBlocProvider(
@@ -46,6 +47,9 @@ class _TestGame extends Forge2DGame with HasTappables {
           ),
           FlameBlocProvider<CharacterThemeCubit, CharacterThemeState>.value(
             value: CharacterThemeCubit(),
+          ),
+          FlameBlocProvider<GoogleWordCubit, GoogleWordState>.value(
+            value: googleWordBloc ?? GoogleWordCubit(),
           ),
         ],
         children: [
@@ -79,6 +83,8 @@ class _MockShareRepository extends Mock implements ShareRepository {}
 class _MockPlatformHelper extends Mock implements PlatformHelper {}
 
 class _MockPlungerCubit extends Mock implements PlungerCubit {}
+
+class _MockGoogleWordCubit extends Mock implements GoogleWordCubit {}
 
 class _MockAppLocalizations extends Mock implements AppLocalizations {
   @override
@@ -329,6 +335,20 @@ void main() {
                 PinballAudio.backgroundMusic,
               ),
             ).called(1);
+          },
+        );
+
+        flameTester.test(
+          'resets the GoogleWordCubit',
+          (game) async {
+            final googleWordBloc = _MockGoogleWordCubit();
+            final component = GameBlocStatusListener();
+            await game.pump([component], googleWordBloc: googleWordBloc);
+
+            expect(state.status, equals(GameStatus.playing));
+            component.onNewState(state);
+
+            verify(googleWordBloc.onReset).called(1);
           },
         );
 
