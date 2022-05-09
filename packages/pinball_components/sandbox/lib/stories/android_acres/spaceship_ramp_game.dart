@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flame/input.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -37,7 +38,6 @@ class SpaceshipRampGame extends BallGame with KeyboardEvents {
   @override
   Color backgroundColor() => Colors.white;
 
-  late final SpaceshipRamp _spaceshipRamp;
   late final SpaceshipRampCubit _bloc;
 
   @override
@@ -45,19 +45,18 @@ class SpaceshipRampGame extends BallGame with KeyboardEvents {
     await super.onLoad();
 
     camera.followVector2(Vector2(-12, -50));
-    _spaceshipRamp = SpaceshipRamp();
-    /*
+
+    _bloc = SpaceshipRampCubit();
     await add(
       FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>(
-        create: SpaceshipRampCubit.new,
+        create: () => _bloc,
         children: [
           SpaceshipRamp(
-            children: [_spaceshipRamp],
+            children: [SpaceshipRamp()],
           ),
         ],
       ),
     );
-    */
     await traceAllBodies();
   }
 
