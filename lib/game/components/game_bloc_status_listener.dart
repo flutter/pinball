@@ -68,7 +68,7 @@ class GameBlocStatusListener extends Component
       provider.addAll(
         [
           PlungerKeyControllingBehavior(),
-          PlungerPullingBehavior(strength: 7),
+          PlungerPullingBehavior(strength: pullingStrength),
         ],
       );
     }
