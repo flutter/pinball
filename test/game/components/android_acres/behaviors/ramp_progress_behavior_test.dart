@@ -180,8 +180,7 @@ void main() {
             lightState: ArrowLightState.active5,
           ),
         );
-
-        await game.ready();
+        await Future<void>.delayed(Duration.zero);
 
         verifyNever(bloc.onProgressed);
       },
@@ -222,8 +221,7 @@ void main() {
             lightState: ArrowLightState.active5,
           ),
         );
-
-        await game.ready();
+        await Future<void>.delayed(Duration.zero);
 
         verify(bloc.onProgressed).called(2);
       },
@@ -264,8 +262,7 @@ void main() {
             lightState: ArrowLightState.active4,
           ),
         );
-
-        await game.ready();
+        await Future<void>.delayed(Duration.zero);
 
         verify(bloc.onProgressed).called(1);
       },
@@ -303,8 +300,7 @@ void main() {
         streamController.add(
           state.copyWith(hits: 4),
         );
-
-        await game.ready();
+        await Future<void>.delayed(Duration.zero);
 
         verify(bloc.onProgressed).called(1);
       },
