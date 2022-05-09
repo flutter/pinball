@@ -62,9 +62,9 @@ void main() {
       );
 
       blocTest<GoogleWordCubit, GoogleWordState>(
-        'onAnimationFinished emits initial state',
+        'onReset emits initial state',
         build: GoogleWordCubit.new,
-        act: (bloc) => bloc.onAnimationFinished(),
+        act: (bloc) => bloc.onReset(),
         expect: () => [GoogleWordState.initial()],
       );
     },

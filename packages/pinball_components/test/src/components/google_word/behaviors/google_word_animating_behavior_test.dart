@@ -41,7 +41,7 @@ void main() {
     );
 
     flameTester.testGameWidget(
-      'calls onAnimationFinished and removes itself '
+      'calls onReset and removes itself '
       'after all blinks complete',
       setUp: (game, tester) async {
         final behavior = GoogleWordAnimatingBehavior();
@@ -53,7 +53,7 @@ void main() {
         }
         await game.ready();
 
-        verify(bloc.onAnimationFinished).called(1);
+        verify(bloc.onReset).called(1);
         expect(
           game.descendants().whereType<GoogleWordAnimatingBehavior>().isEmpty,
           isTrue,
