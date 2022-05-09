@@ -68,6 +68,8 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {
 
 class _MockTapDownInfo extends Mock implements TapDownInfo {}
 
+class _MockTapUpInfo extends Mock implements TapUpInfo {}
+
 class _MockUrlLauncher extends Mock
     with MockPlatformInterfaceMixin
     implements UrlLauncherPlatform {}
@@ -135,7 +137,7 @@ void main() {
 
         final googleLink =
             component.descendants().whereType<GoogleIOLinkComponent>().first;
-        googleLink.onTapDown(_MockTapDownInfo());
+        googleLink.onTapUp(_MockTapUpInfo());
 
         await game.ready();
 

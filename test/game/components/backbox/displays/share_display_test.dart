@@ -52,7 +52,7 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {
   String get socialMediaAccount => '';
 }
 
-class _MockTapDownInfo extends Mock implements TapDownInfo {}
+class _MockTapUpInfo extends Mock implements TapUpInfo {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -74,7 +74,7 @@ void main() {
       (game) async {
         var tapped = false;
 
-        final tapDownInfo = _MockTapDownInfo();
+        final tapUpInfo = _MockTapUpInfo();
         final component = ShareDisplay(
           onShare: (_) => tapped = true,
         );
@@ -83,7 +83,7 @@ void main() {
         final facebookButton =
             component.descendants().whereType<FacebookButtonComponent>().first;
 
-        facebookButton.onTapDown(tapDownInfo);
+        facebookButton.onTapUp(tapUpInfo);
 
         expect(tapped, isTrue);
       },
@@ -94,7 +94,7 @@ void main() {
       (game) async {
         var tapped = false;
 
-        final tapDownInfo = _MockTapDownInfo();
+        final tapUpInfo = _MockTapUpInfo();
         final component = ShareDisplay(
           onShare: (_) => tapped = true,
         );
@@ -103,7 +103,7 @@ void main() {
         final twitterButton =
             component.descendants().whereType<TwitterButtonComponent>().first;
 
-        twitterButton.onTapDown(tapDownInfo);
+        twitterButton.onTapUp(tapUpInfo);
 
         expect(tapped, isTrue);
       },

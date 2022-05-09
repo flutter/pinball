@@ -50,14 +50,11 @@ extension on Control {
 }
 
 class HowToPlayDialog extends StatefulWidget {
-  HowToPlayDialog({
+  const HowToPlayDialog({
     Key? key,
     required this.onDismissCallback,
-    @visibleForTesting PlatformHelper? platformHelper,
-  })  : platformHelper = platformHelper ?? PlatformHelper(),
-        super(key: key);
+  }) : super(key: key);
 
-  final PlatformHelper platformHelper;
   final VoidCallback onDismissCallback;
 
   @override
@@ -85,7 +82,7 @@ class _HowToPlayDialogState extends State<HowToPlayDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final isMobile = widget.platformHelper.isMobile;
+    final isMobile = context.read<PlatformHelper>().isMobile;
     final l10n = context.l10n;
 
     return WillPopScope(

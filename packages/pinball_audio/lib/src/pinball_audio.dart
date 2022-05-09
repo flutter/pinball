@@ -59,7 +59,7 @@ typedef CreateAudioPool = Future<AudioPool> Function(
 typedef PlaySingleAudio = Future<void> Function(String);
 
 /// Defines the contract for looping a single audio.
-typedef LoopSingleAudio = Future<void> Function(String);
+typedef LoopSingleAudio = Future<void> Function(String, {double volume});
 
 /// Defines the contract for pre fetching an audio.
 typedef PreCacheSingleAudio = Future<void> Function(String);
@@ -101,18 +101,44 @@ class _LoopAudio extends _Audio {
     required this.preCacheSingleAudio,
     required this.loopSingleAudio,
     required this.path,
+    this.volume,
   });
 
   final PreCacheSingleAudio preCacheSingleAudio;
   final LoopSingleAudio loopSingleAudio;
   final String path;
+  final double? volume;
 
   @override
   Future<void> load() => preCacheSingleAudio(prefixFile(path));
 
   @override
   void play() {
-    loopSingleAudio(prefixFile(path));
+    loopSingleAudio(prefixFile(path), volume: volume ?? 1);
+  }
+}
+
+class _SingleLoopAudio extends _LoopAudio {
+  _SingleLoopAudio({
+    required PreCacheSingleAudio preCacheSingleAudio,
+    required LoopSingleAudio loopSingleAudio,
+    required String path,
+    double? volume,
+  }) : super(
+          preCacheSingleAudio: preCacheSingleAudio,
+          loopSingleAudio: loopSingleAudio,
+          path: path,
+          volume: volume,
+        );
+
+  bool _playing = false;
+
+  @override
+  void play() {
+    if (!_playing) {
+      super.play();
+      _playing = true;
+    }
   }
 }
 
@@ -270,10 +296,11 @@ class PinballAudioPlayer {
         path: Assets.sfx.cowMoo,
         duration: const Duration(seconds: 2),
       ),
-      PinballAudio.backgroundMusic: _LoopAudio(
+      PinballAudio.backgroundMusic: _SingleLoopAudio(
         preCacheSingleAudio: _preCacheSingleAudio,
         loopSingleAudio: _loopSingleAudio,
         path: Assets.music.background,
+        volume: .6,
       ),
     };
   }

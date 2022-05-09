@@ -3,7 +3,7 @@ import 'package:flame/game.dart';
 import 'package:sandbox/common/common.dart';
 
 const _path =
-    'https://github.com/VGVentures/pinball/tree/main/packages/pinball_components/sandbox/lib/stories/';
+    'https://github.com/flutter/pinball/tree/main/packages/pinball_components/sandbox/lib/stories/';
 
 extension StoryAddGame on Story {
   void addGame({
