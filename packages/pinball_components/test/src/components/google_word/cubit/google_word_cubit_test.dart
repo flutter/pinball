@@ -6,6 +6,21 @@ void main() {
   group(
     'GoogleWordCubit',
     () {
+      final litEvens = {
+        for (int i = 0; i < 6; i++)
+          if (i.isEven)
+            i: GoogleLetterSpriteState.lit
+          else
+            i: GoogleLetterSpriteState.dimmed
+      };
+      final litOdds = {
+        for (int i = 0; i < 6; i++)
+          if (i.isOdd)
+            i: GoogleLetterSpriteState.lit
+          else
+            i: GoogleLetterSpriteState.dimmed
+      };
+
       blocTest<GoogleWordCubit, GoogleWordState>(
         'onRolloverContacted emits first letter lit',
         build: GoogleWordCubit.new,
@@ -25,9 +40,31 @@ void main() {
       );
 
       blocTest<GoogleWordCubit, GoogleWordState>(
-        'onBonusAwarded emits initial state',
+        'switched emits all even letters lit when first letter is dimmed',
+        build: GoogleWordCubit.new,
+        act: (bloc) => bloc.switched(),
+        expect: () => [GoogleWordState(letterSpriteStates: litEvens)],
+      );
+
+      blocTest<GoogleWordCubit, GoogleWordState>(
+        'switched emits all odd letters lit when first letter is lit',
+        build: GoogleWordCubit.new,
+        seed: () => GoogleWordState(letterSpriteStates: litEvens),
+        act: (bloc) => bloc.switched(),
+        expect: () => [GoogleWordState(letterSpriteStates: litOdds)],
+      );
+
+      blocTest<GoogleWordCubit, GoogleWordState>(
+        'onBonusAwarded emits all even letters lit',
         build: GoogleWordCubit.new,
         act: (bloc) => bloc.onBonusAwarded(),
+        expect: () => [GoogleWordState(letterSpriteStates: litEvens)],
+      );
+
+      blocTest<GoogleWordCubit, GoogleWordState>(
+        'onAnimationFinished emits initial state',
+        build: GoogleWordCubit.new,
+        act: (bloc) => bloc.onAnimationFinished(),
         expect: () => [GoogleWordState.initial()],
       );
     },

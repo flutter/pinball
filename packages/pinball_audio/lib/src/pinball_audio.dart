@@ -33,6 +33,9 @@ enum PinballAudio {
   /// Kicker.
   kicker,
 
+  /// Rollover.
+  rollover,
+
   /// Sparky.
   sparky,
 
@@ -56,7 +59,7 @@ typedef CreateAudioPool = Future<AudioPool> Function(
 });
 
 /// Defines the contract for playing a single audio.
-typedef PlaySingleAudio = Future<void> Function(String);
+typedef PlaySingleAudio = Future<void> Function(String, {double volume});
 
 /// Defines the contract for looping a single audio.
 typedef LoopSingleAudio = Future<void> Function(String, {double volume});
@@ -81,18 +84,20 @@ class _SimplePlayAudio extends _Audio {
     required this.preCacheSingleAudio,
     required this.playSingleAudio,
     required this.path,
+    this.volume,
   });
 
   final PreCacheSingleAudio preCacheSingleAudio;
   final PlaySingleAudio playSingleAudio;
   final String path;
+  final double? volume;
 
   @override
   Future<void> load() => preCacheSingleAudio(prefixFile(path));
 
   @override
   void play() {
-    playSingleAudio(prefixFile(path));
+    playSingleAudio(prefixFile(path), volume: volume ?? 1);
   }
 }
 
@@ -265,6 +270,12 @@ class PinballAudioPlayer {
         preCacheSingleAudio: _preCacheSingleAudio,
         playSingleAudio: _playSingleAudio,
         path: Assets.sfx.launcher,
+      ),
+      PinballAudio.rollover: _SimplePlayAudio(
+        preCacheSingleAudio: _preCacheSingleAudio,
+        playSingleAudio: _playSingleAudio,
+        path: Assets.sfx.rollover,
+        volume: 0.3,
       ),
       PinballAudio.ioPinballVoiceOver: _SimplePlayAudio(
         preCacheSingleAudio: _preCacheSingleAudio,

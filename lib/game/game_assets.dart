@@ -11,8 +11,7 @@ extension PinballGameAssetsX on PinballGame {
     const sparkyTheme = SparkyTheme();
     const androidTheme = AndroidTheme();
     const dinoTheme = DinoTheme();
-
-    final gameAssets = [
+    return [
       images.load(components.Assets.images.boardBackground.keyName),
       images.load(components.Assets.images.ball.flameEffect.keyName),
       images.load(components.Assets.images.signpost.inactive.keyName),
@@ -155,14 +154,10 @@ extension PinballGameAssetsX on PinballGame {
       images.load(dinoTheme.ball.keyName),
       images.load(sparkyTheme.leaderboardIcon.keyName),
       images.load(sparkyTheme.ball.keyName),
+      images.load(androidTheme.background.keyName),
+      images.load(dashTheme.background.keyName),
+      images.load(dinoTheme.background.keyName),
+      images.load(sparkyTheme.background.keyName),
     ];
-
-    return (platformHelper.isMobile) ? gameAssets : gameAssets
-      ..addAll([
-        images.load(androidTheme.background.keyName),
-        images.load(dashTheme.background.keyName),
-        images.load(dinoTheme.background.keyName),
-        images.load(sparkyTheme.background.keyName),
-      ]);
   }
 }

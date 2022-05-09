@@ -27,7 +27,7 @@ export 'launch_ramp.dart';
 export 'layer_sensor/layer_sensor.dart';
 export 'multiball/multiball.dart';
 export 'multiplier/multiplier.dart';
-export 'plunger.dart';
+export 'plunger/plunger.dart';
 export 'rocket.dart';
 export 'score_component/score_component.dart';
 export 'signpost/signpost.dart';

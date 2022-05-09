@@ -53,7 +53,7 @@ class PinballDpadButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: PinballColors.transparent,
-      child: InkWell(
+      child: GestureDetector(
         onTap: onTap,
         child: Image.asset(
           direction.toAsset(),
