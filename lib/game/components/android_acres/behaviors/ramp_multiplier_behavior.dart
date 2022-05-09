@@ -13,11 +13,10 @@ class RampMultiplierBehavior extends Component
     SpaceshipRampState previousState,
     SpaceshipRampState newState,
   ) {
-    final hasChanged =
-        previousState.hits != newState.hits && newState.hits != 0;
+    final hitsIncreased = previousState.hits < newState.hits;
     final achievedFiveShots = newState.hits % 5 == 0;
     final canIncrease = readBloc<GameBloc, GameState>().state.multiplier != 6;
-    return hasChanged && achievedFiveShots && canIncrease;
+    return hitsIncreased & achievedFiveShots && canIncrease;
   }
 
   @override

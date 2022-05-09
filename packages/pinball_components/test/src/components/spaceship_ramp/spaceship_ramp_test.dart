@@ -103,9 +103,7 @@ void main() {
           );
         },
       );
-    });
 
-    group('adds', () {
       flameTester.test('new children', (game) async {
         final component = Component();
         final ramp = SpaceshipRamp(children: [component]);

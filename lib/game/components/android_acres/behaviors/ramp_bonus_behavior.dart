@@ -23,11 +23,10 @@ class RampBonusBehavior extends Component
     SpaceshipRampState previousState,
     SpaceshipRampState newState,
   ) {
-    final hasChanged = previousState.hits != newState.hits;
-    final hasHit = newState.hits != 0;
+    final hitsIncreased = previousState.hits < newState.hits;
     final achievedOneMillionPoints = newState.hits % 10 == 0;
 
-    return hasChanged && hasHit && achievedOneMillionPoints;
+    return hitsIncreased && achievedOneMillionPoints;
   }
 
   @override

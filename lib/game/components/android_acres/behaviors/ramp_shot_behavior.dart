@@ -23,7 +23,7 @@ class RampShotBehavior extends Component
     SpaceshipRampState previousState,
     SpaceshipRampState newState,
   ) {
-    return previousState.hits != newState.hits && newState.hits != 0;
+    return previousState.hits < newState.hits;
   }
 
   @override
