@@ -79,8 +79,6 @@ void main() {
       flameTester.test(
         'onNewState calls onCharacterSelected on the arcade background bloc',
         (game) async {
-          final platformHelper = _MockPlatformHelper();
-          when(() => platformHelper.isMobile).thenAnswer((_) => false);
           final arcadeBackgroundBloc = _MockArcadeBackgroundCubit();
           whenListen(
             arcadeBackgroundBloc,
@@ -95,10 +93,9 @@ void main() {
               arcadeBackground,
               behavior,
               ZCanvasComponent(),
-              Plunger.test(compressionDistance: 10),
+              Plunger.test(),
               Ball.test(),
             ],
-            platformHelper: platformHelper,
           );
 
           const dinoThemeState = CharacterThemeState(theme.DinoTheme());
@@ -130,7 +127,7 @@ void main() {
               ball,
               behavior,
               ZCanvasComponent(),
-              Plunger.test(compressionDistance: 10),
+              Plunger.test(),
               ArcadeBackground.test(),
             ],
             platformHelper: platformHelper,

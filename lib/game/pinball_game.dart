@@ -156,9 +156,15 @@ class PinballGame extends PinballForge2DGame
       final rocket = descendants().whereType<RocketSpriteComponent>().first;
       final bounds = rocket.topLeftPosition & rocket.size;
 
-      // NOTE: As long as Flame does not have https://github.com/flame-engine/flame/issues/1586 we need to check it at the highest level manually.
-      if (bounds.contains(info.eventPosition.game.toOffset())) {
-        descendants().whereType<Plunger>().single.pullFor(2);
+      // NOTE: As long as Flame does not have https://github.com/flame-engine/flame/issues/1586
+      // we need to check it at the highest level manually.
+      final tappedRocket = bounds.contains(info.eventPosition.game.toOffset());
+      if (tappedRocket) {
+        descendants()
+            .whereType<FlameBlocProvider<PlungerCubit, PlungerState>>()
+            .first
+            .bloc
+            .pulled();
       } else {
         final leftSide = info.eventPosition.widget.x < canvasSize.x / 2;
         focusedBoardSide[pointerId] =
