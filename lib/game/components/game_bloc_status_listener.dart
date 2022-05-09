@@ -31,7 +31,6 @@ class GameBlocStatusListener extends Component
             .descendants()
             .whereType<Plunger>()
             .forEach(_addPlungerBehaviors);
-
         gameRef.overlays.remove(PinballGame.playButtonOverlay);
         gameRef.overlays.remove(PinballGame.replayButtonOverlay);
         break;
@@ -43,7 +42,6 @@ class GameBlocStatusListener extends Component
                   .state
                   .characterTheme,
             );
-
         gameRef
             .descendants()
             .whereType<Flipper>()
@@ -97,8 +95,8 @@ class GameBlocStatusListener extends Component
   }
 
   void _addFlipperBehaviors(Flipper flipper) => flipper
-    ..add(FlipperKeyControllingBehavior())
-    ..moveDown();
+      .firstChild<FlameBlocProvider<FlipperCubit, FlipperState>>()!
+      .add(FlipperKeyControllingBehavior());
 
   void _removeFlipperBehaviors(Flipper flipper) => flipper
       .descendants()

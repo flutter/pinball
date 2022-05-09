@@ -1,11 +1,11 @@
 import 'package:flame/components.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flutter/services.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 
 /// Allows controlling the [Flipper]'s movement with keyboard input.
 class FlipperKeyControllingBehavior extends Component
-    with KeyboardHandler, ParentIsA<Flipper> {
+    with KeyboardHandler, FlameBlocReader<FlipperCubit, FlipperState> {
   /// The [LogicalKeyboardKey]s that will control the [Flipper].
   ///
   /// [onKeyEvent] method listens to when one of these keys is pressed.
@@ -14,8 +14,8 @@ class FlipperKeyControllingBehavior extends Component
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-
-    switch (parent.side) {
+    final flipper = parent!.parent! as Flipper;
+    switch (flipper.side) {
       case BoardSide.left:
         _keys = [
           LogicalKeyboardKey.arrowLeft,
@@ -39,9 +39,9 @@ class FlipperKeyControllingBehavior extends Component
     if (!_keys.contains(event.logicalKey)) return true;
 
     if (event is RawKeyDownEvent) {
-      parent.moveUp();
+      bloc.moveUp();
     } else if (event is RawKeyUpEvent) {
-      parent.moveDown();
+      bloc.moveDown();
     }
 
     return false;
