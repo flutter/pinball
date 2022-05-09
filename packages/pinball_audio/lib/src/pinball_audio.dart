@@ -151,7 +151,7 @@ class _SingleLoopAudio extends _LoopAudio {
 }
 
 class _SingleAudioPool extends _Audio {
-  _SingleAudioPoll({
+  _SingleAudioPool({
     required this.path,
     required this.createAudioPool,
     required this.maxPlayers,
@@ -307,7 +307,7 @@ class PinballAudioPlayer {
         path: Assets.sfx.rollover,
         volume: 0.3,
       ),
-      PinballAudio.flipper: _SingleAudioPoll(
+      PinballAudio.flipper: _SingleAudioPool(
         path: Assets.sfx.flipper,
         createAudioPool: _createAudioPool,
         maxPlayers: 2,

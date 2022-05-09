@@ -25,7 +25,10 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
             FlipperJointingBehavior(),
             FlameBlocProvider<FlipperCubit, FlipperState>(
               create: FlipperCubit.new,
-              children: [FlipperMovingBehavior(strength: 90)],
+              children: [
+                FlipperMovingBehavior(strength: 90),
+                FlipperNoiseBehavior(),
+              ],
             ),
           ],
         );

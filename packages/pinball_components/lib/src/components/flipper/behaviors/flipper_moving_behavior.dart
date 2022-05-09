@@ -27,9 +27,6 @@ class FlipperMovingBehavior extends Component
   void onNewState(FlipperState state) {
     super.onNewState(state);
     if (bloc.state.isMovingDown) _moveDown();
-    if (bloc.state.isMovingUp) {
-      readProvider<PinballAudioPlayer>().play(PinballAudio.flipper);
-    }
   }
 
   @override

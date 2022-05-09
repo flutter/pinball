@@ -357,7 +357,7 @@ void main() {
         ).thenAnswer((_) async => pool);
       });
 
-      test('plays the bumper A sound pool', () async {
+      test('plays the flipper sound pool', () async {
         when(seed.nextBool).thenReturn(true);
         await Future.wait(
           audioPlayer.load().map((loadableBuilder) => loadableBuilder()),
