@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
@@ -36,14 +37,20 @@ class _TestGame extends Forge2DGame {
   }
 
   Future<void> pump(
-    SpaceshipRamp child, {
+    List<Component> children, {
+    required SpaceshipRampCubit bloc,
     required GameBloc gameBloc,
   }) async {
     await ensureAdd(
       FlameBlocProvider<GameBloc, GameState>.value(
         value: gameBloc,
         children: [
-          ZCanvasComponent(children: [child]),
+          FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>.value(
+            value: bloc,
+            children: [
+              ZCanvasComponent(children: children),
+            ],
+          ),
         ],
       ),
     );
@@ -57,14 +64,14 @@ class _MockSpaceshipRampCubit extends Mock implements SpaceshipRampCubit {}
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
+  late GameBloc gameBloc;
+
+  setUp(() {
+    gameBloc = _MockGameBloc();
+  });
+
   group('RampBonusBehavior', () {
     const shotPoints = Points.oneMillion;
-
-    late GameBloc gameBloc;
-
-    setUp(() {
-      gameBloc = _MockGameBloc();
-    });
 
     final flameTester = FlameTester(_TestGame.new);
 
@@ -79,14 +86,12 @@ void main() {
           streamController.stream,
           initialState: state,
         );
-        final behavior = RampBonusBehavior(points: shotPoints);
-        final parent = SpaceshipRamp.test(
-          bloc: bloc,
-          children: [behavior],
-        );
 
+        final behavior = RampBonusBehavior(points: shotPoints);
+        final parent = SpaceshipRamp.test(bloc: bloc, children: [behavior]);
         await game.pump(
-          parent,
+          [parent],
+          bloc: bloc,
           gameBloc: gameBloc,
         );
 
@@ -110,14 +115,12 @@ void main() {
           streamController.stream,
           initialState: state,
         );
-        final behavior = RampBonusBehavior(points: shotPoints);
-        final parent = SpaceshipRamp.test(
-          bloc: bloc,
-          children: [behavior],
-        );
 
+        final behavior = RampBonusBehavior(points: shotPoints);
+        final parent = SpaceshipRamp.test(bloc: bloc, children: [behavior]);
         await game.pump(
-          parent,
+          [parent],
+          bloc: bloc,
           gameBloc: gameBloc,
         );
 
