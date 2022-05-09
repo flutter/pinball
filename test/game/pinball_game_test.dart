@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/components.dart';
 import 'package:flame/input.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -395,7 +396,7 @@ void main() {
     });
 
     group('plunger control', () {
-      flameTester.test('tap down moves plunger down', (game) async {
+      flameTester.test('tap down emits plunging', (game) async {
         await game.ready();
 
         final eventPosition = _MockEventPosition();
@@ -408,13 +409,15 @@ void main() {
         when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
         when(() => tapDownEvent.raw).thenReturn(raw);
 
-        final plunger = game.descendants().whereType<Plunger>().first;
-
         game.onTapDown(0, tapDownEvent);
 
-        game.update(1);
+        final plungerBloc = game
+            .descendants()
+            .whereType<FlameBlocProvider<PlungerCubit, PlungerState>>()
+            .single
+            .bloc;
 
-        expect(plunger.body.linearVelocity.y, isPositive);
+        expect(plungerBloc.state, PlungerState.pulling);
       });
     });
   });

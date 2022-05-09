@@ -1,4 +1,4 @@
-export 'android_animatronic.dart';
+export 'android_animatronic/android_animatronic.dart';
 export 'android_bumper/android_bumper.dart';
 export 'android_spaceship/android_spaceship.dart';
 export 'arcade_background/arcade_background.dart';
@@ -27,7 +27,7 @@ export 'launch_ramp.dart';
 export 'layer_sensor/layer_sensor.dart';
 export 'multiball/multiball.dart';
 export 'multiplier/multiplier.dart';
-export 'plunger.dart';
+export 'plunger/plunger.dart';
 export 'rocket.dart';
 export 'score_component/score_component.dart';
 export 'signpost/signpost.dart';

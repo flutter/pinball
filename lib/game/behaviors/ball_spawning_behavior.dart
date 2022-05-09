@@ -13,7 +13,8 @@ class BallSpawningBehavior extends Component
   bool listenWhen(GameState? previousState, GameState newState) {
     if (!newState.status.isPlaying) return false;
 
-    final startedGame = previousState?.status.isWaiting ?? true;
+    final startedGame = (previousState?.status.isWaiting ?? true) ||
+        (previousState?.status.isGameOver ?? true);
     final lostRound =
         (previousState?.rounds ?? newState.rounds + 1) > newState.rounds;
     return startedGame || lostRound;

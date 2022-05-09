@@ -7,7 +7,9 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@endtemplate}
 class BumpingBehavior extends ContactBehavior {
   /// {@macro bumping_behavior}
-  BumpingBehavior({required double strength}) : _strength = strength;
+  BumpingBehavior({required double strength})
+      : assert(strength >= 0, "Strength can't be negative."),
+        _strength = strength;
 
   /// Determines how strong the bump is.
   final double _strength;
