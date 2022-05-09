@@ -57,7 +57,7 @@ class _TurboChargeSpriteAnimationComponent extends SpriteAnimationComponent
   Future<void> onLoad() async {
     await super.onLoad();
 
-    final spriteSheet = await gameRef.images.load(
+    final spriteSheet = gameRef.images.fromCache(
       Assets.images.ball.flameEffect.keyName,
     );
 

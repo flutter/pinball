@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 export 'behaviors/behaviors.dart';
+export 'cubit/flipper_cubit.dart';
 
 /// {@template flipper}
 /// A bat, typically found in pairs at the bottom of the board.
@@ -21,6 +23,10 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
           children: [
             _FlipperSpriteComponent(side: side),
             FlipperJointingBehavior(),
+            FlameBlocProvider<FlipperCubit, FlipperState>(
+              create: FlipperCubit.new,
+              children: [FlipperMovingBehavior(strength: 90)],
+            ),
           ],
         );
 
@@ -33,28 +39,11 @@ class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   /// The size of the [Flipper].
   static final size = Vector2(13.5, 4.3);
 
-  /// The speed required to move the [Flipper] to its highest position.
-  ///
-  /// The higher the value, the faster the [Flipper] will move.
-  static const double _speed = 90;
-
   /// Whether the [Flipper] is on the left or right side of the board.
   ///
   /// A [Flipper] with [BoardSide.left] has a counter-clockwise arc motion,
   /// whereas a [Flipper] with [BoardSide.right] has a clockwise arc motion.
   final BoardSide side;
-
-  /// Applies downward linear velocity to the [Flipper], moving it to its
-  /// resting position.
-  void moveDown() {
-    body.linearVelocity = Vector2(0, _speed);
-  }
-
-  /// Applies upward linear velocity to the [Flipper], moving it to its highest
-  /// position.
-  void moveUp() {
-    body.linearVelocity = Vector2(0, -_speed);
-  }
 
   List<FixtureDef> _createFixtureDefs() {
     final direction = side.direction;

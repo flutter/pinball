@@ -10,6 +10,11 @@ class LaunchRampGame extends BallGame {
       : super(
           ballPriority: ZIndexes.ballOnLaunchRamp,
           ballLayer: Layer.launcher,
+          imagesFileNames: [
+            Assets.images.launchRamp.ramp.keyName,
+            Assets.images.launchRamp.backgroundRailing.keyName,
+            Assets.images.launchRamp.foregroundRailing.keyName,
+          ],
         );
 
   static const description = '''
