@@ -21,6 +21,7 @@ class GameBlocStatusListener extends Component
         break;
       case GameStatus.playing:
         readProvider<PinballAudioPlayer>().play(PinballAudio.backgroundMusic);
+        _resetBonuses();
         gameRef
             .descendants()
             .whereType<Flipper>()
@@ -44,6 +45,15 @@ class GameBlocStatusListener extends Component
             .forEach(_removeFlipperKeyControls);
         break;
     }
+  }
+
+  void _resetBonuses() {
+    gameRef
+        .descendants()
+        .whereType<FlameBlocProvider<GoogleWordCubit, GoogleWordState>>()
+        .single
+        .bloc
+        .onReset();
   }
 
   void _addFlipperKeyControls(Flipper flipper) {

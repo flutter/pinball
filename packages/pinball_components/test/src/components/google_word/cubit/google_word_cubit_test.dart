@@ -27,7 +27,7 @@ void main() {
       blocTest<GoogleWordCubit, GoogleWordState>(
         'onBonusAwarded emits initial state',
         build: GoogleWordCubit.new,
-        act: (bloc) => bloc.onBonusAwarded(),
+        act: (bloc) => bloc.onReset(),
         expect: () => [GoogleWordState.initial()],
       );
     },

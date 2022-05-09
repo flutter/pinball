@@ -114,7 +114,7 @@ void main() {
         verify(
           () => gameBloc.add(const BonusActivated(GameBonus.googleWord)),
         ).called(1);
-        verify(googleWordBloc.onBonusAwarded).called(1);
+        verify(googleWordBloc.onReset).called(1);
       },
     );
 

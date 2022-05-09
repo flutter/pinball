@@ -11,6 +11,11 @@ class GoogleWordCubit extends Cubit<GoogleWordState> {
 
   int _lastLitLetter = 0;
 
+  void onReset() {
+    emit(GoogleWordState.initial());
+    _lastLitLetter = 0;
+  }
+
   void onRolloverContacted() {
     final spriteStatesMap = {...state.letterSpriteStates};
     if (_lastLitLetter < _lettersInGoogle) {
@@ -21,10 +26,5 @@ class GoogleWordCubit extends Cubit<GoogleWordState> {
       emit(GoogleWordState(letterSpriteStates: spriteStatesMap));
       _lastLitLetter++;
     }
-  }
-
-  void onBonusAwarded() {
-    emit(GoogleWordState.initial());
-    _lastLitLetter = 0;
   }
 }
