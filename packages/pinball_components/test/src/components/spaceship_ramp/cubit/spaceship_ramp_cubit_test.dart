@@ -77,7 +77,8 @@ void main() {
           lightState: ArrowLightState.active3,
         ),
         act: (bloc) => bloc.onReset(),
-        expect: () => [SpaceshipRampState.initial(),
+        expect: () => [
+          SpaceshipRampState.initial(),
         ],
       );
     });
