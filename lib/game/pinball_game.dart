@@ -14,15 +14,19 @@ import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
+import 'package:platform_helper/platform_helper.dart';
+import 'package:share_repository/share_repository.dart';
 
 class PinballGame extends PinballForge2DGame
     with HasKeyboardHandlerComponents, MultiTouchTapDetector, HasTappables {
   PinballGame({
     required CharacterThemeCubit characterThemeBloc,
     required this.leaderboardRepository,
+    required this.shareRepository,
     required GameBloc gameBloc,
     required AppLocalizations l10n,
     required PinballAudioPlayer audioPlayer,
+    required this.platformHelper,
   })  : focusNode = FocusNode(),
         _gameBloc = gameBloc,
         _audioPlayer = audioPlayer,
@@ -51,7 +55,11 @@ class PinballGame extends PinballForge2DGame
 
   final LeaderboardRepository leaderboardRepository;
 
+  final ShareRepository shareRepository;
+
   final AppLocalizations _l10n;
+
+  final PlatformHelper platformHelper;
 
   final GameBloc _gameBloc;
 
@@ -84,13 +92,15 @@ class PinballGame extends PinballForge2DGame
             providers: [
               FlameProvider<PinballAudioPlayer>.value(_audioPlayer),
               FlameProvider<LeaderboardRepository>.value(leaderboardRepository),
+              FlameProvider<ShareRepository>.value(shareRepository),
               FlameProvider<AppLocalizations>.value(_l10n),
+              FlameProvider<PlatformHelper>.value(platformHelper),
             ],
             children: [
               BonusNoiseBehavior(),
               GameBlocStatusListener(),
               BallSpawningBehavior(),
-              BallThemingBehavior(),
+              CharacterSelectionBehavior(),
               CameraFocusingBehavior(),
               CanvasComponent(
                 onSpritePainted: (paint) {
@@ -101,13 +111,15 @@ class PinballGame extends PinballForge2DGame
                 children: [
                   ZCanvasComponent(
                     children: [
+                      if (!platformHelper.isMobile) ArcadeBackground(),
                       BoardBackgroundSpriteComponent(),
                       Boundaries(),
                       Backbox(
                         leaderboardRepository: leaderboardRepository,
+                        shareRepository: shareRepository,
                         entries: _entries,
                       ),
-                      GoogleWord(position: Vector2(-4.45, 1.8)),
+                      GoogleGallery(),
                       Multipliers(),
                       Multiballs(),
                       SkillShot(
@@ -193,14 +205,18 @@ class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
   DebugPinballGame({
     required CharacterThemeCubit characterThemeBloc,
     required LeaderboardRepository leaderboardRepository,
+    required ShareRepository shareRepository,
     required AppLocalizations l10n,
     required PinballAudioPlayer audioPlayer,
+    required PlatformHelper platformHelper,
     required GameBloc gameBloc,
   }) : super(
           characterThemeBloc: characterThemeBloc,
           audioPlayer: audioPlayer,
           leaderboardRepository: leaderboardRepository,
+          shareRepository: shareRepository,
           l10n: l10n,
+          platformHelper: platformHelper,
           gameBloc: gameBloc,
         );
 

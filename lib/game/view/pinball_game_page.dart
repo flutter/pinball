@@ -5,13 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:pinball/assets_manager/assets_manager.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball/gen/gen.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/more_information/more_information.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_ui/pinball_ui.dart';
+import 'package:platform_helper/platform_helper.dart';
+import 'package:share_repository/share_repository.dart';
 
 class PinballGamePage extends StatelessWidget {
   const PinballGamePage({
@@ -26,31 +27,34 @@ class PinballGamePage extends StatelessWidget {
     final characterThemeBloc = context.read<CharacterThemeCubit>();
     final audioPlayer = context.read<PinballAudioPlayer>();
     final leaderboardRepository = context.read<LeaderboardRepository>();
+    final shareRepository = context.read<ShareRepository>();
+    final platformHelper = context.read<PlatformHelper>();
     final gameBloc = context.read<GameBloc>();
     final game = isDebugMode
         ? DebugPinballGame(
             characterThemeBloc: characterThemeBloc,
             audioPlayer: audioPlayer,
             leaderboardRepository: leaderboardRepository,
+            shareRepository: shareRepository,
             l10n: context.l10n,
+            platformHelper: platformHelper,
             gameBloc: gameBloc,
           )
         : PinballGame(
             characterThemeBloc: characterThemeBloc,
             audioPlayer: audioPlayer,
             leaderboardRepository: leaderboardRepository,
+            shareRepository: shareRepository,
             l10n: context.l10n,
+            platformHelper: platformHelper,
             gameBloc: gameBloc,
           );
 
-    return Container(
-      decoration: const CrtBackground(),
-      child: Scaffold(
-        backgroundColor: PinballColors.transparent,
-        body: BlocProvider(
-          create: (_) => AssetsManagerCubit(game, audioPlayer)..load(),
-          child: PinballGameView(game),
-        ),
+    return Scaffold(
+      backgroundColor: PinballColors.black,
+      body: BlocProvider(
+        create: (_) => AssetsManagerCubit(game, audioPlayer)..load(),
+        child: PinballGameView(game),
       ),
     );
   }
@@ -166,7 +170,7 @@ class _PositionedInfoIcon extends StatelessWidget {
             visible: state.status.isGameOver,
             child: IconButton(
               iconSize: 50,
-              icon: Assets.images.linkBox.infoIcon.image(),
+              icon: const Icon(Icons.info, color: PinballColors.white),
               onPressed: () => showMoreInformationDialog(context),
             ),
           );

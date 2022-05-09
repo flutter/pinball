@@ -78,8 +78,24 @@ void main() {
       );
 
       test(
-          'is false when the bonusHistory has changed '
-          'with a bonus different than GameBonus.dashNest', () {
+        'is true when the bonusHistory has changed '
+        'with a new GameBonus.googleWord',
+        () {
+          final previous = GameState.initial();
+          final state = previous.copyWith(
+            bonusHistory: [GameBonus.googleWord],
+          );
+
+          expect(
+            MultiballsBehavior().listenWhen(previous, state),
+            isTrue,
+          );
+        },
+      );
+
+      test(
+          'is false when the bonusHistory has changed with a bonus other than '
+          'GameBonus.dashNest or GameBonus.googleWord', () {
         final previous =
             GameState.initial().copyWith(bonusHistory: [GameBonus.dashNest]);
         final state = previous.copyWith(

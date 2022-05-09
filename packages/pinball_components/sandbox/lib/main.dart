@@ -21,6 +21,7 @@ void main() {
   addScoreStories(dashbook);
   addMultiballStories(dashbook);
   addMultipliersStories(dashbook);
+  addArrowIconStories(dashbook);
 
   runApp(dashbook);
 }

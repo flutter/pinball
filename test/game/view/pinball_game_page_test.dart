@@ -10,12 +10,13 @@ import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/assets_manager/assets_manager.dart';
 import 'package:pinball/game/game.dart';
-import 'package:pinball/gen/gen.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/more_information/more_information.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
+import 'package:platform_helper/platform_helper.dart';
+import 'package:share_repository/share_repository.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -24,9 +25,11 @@ class _TestPinballGame extends PinballGame {
       : super(
           characterThemeBloc: CharacterThemeCubit(),
           leaderboardRepository: _MockLeaderboardRepository(),
+          shareRepository: _MockShareRepository(),
           gameBloc: GameBloc(),
           l10n: _MockAppLocalizations(),
           audioPlayer: _MockPinballAudioPlayer(),
+          platformHelper: _MockPlatformHelper(),
         );
 
   @override
@@ -58,6 +61,13 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {
 class _MockPinballAudioPlayer extends Mock implements PinballAudioPlayer {}
 
 class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
+}
+
+class _MockShareRepository extends Mock implements ShareRepository {}
+
+class _MockPlatformHelper extends Mock implements PlatformHelper {
+  @override
+  bool get isMobile => false;
 }
 
 void main() {
@@ -312,7 +322,7 @@ void main() {
           gameBloc: gameBloc,
           startGameBloc: startGameBloc,
         );
-        expect(find.image(Assets.images.linkBox.infoIcon), findsOneWidget);
+        expect(find.byIcon(Icons.info), findsOneWidget);
       });
 
       testWidgets('opens MoreInformationDialog when tapped', (tester) async {

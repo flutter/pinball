@@ -16,15 +16,19 @@ import 'package:pinball/game/game.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_audio/src/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:platform_helper/platform_helper.dart';
+import 'package:share_repository/share_repository.dart';
 
 class _TestPinballGame extends PinballGame {
   _TestPinballGame()
       : super(
           characterThemeBloc: CharacterThemeCubit(),
           leaderboardRepository: _MockLeaderboardRepository(),
+          shareRepository: _MockShareRepository(),
           gameBloc: GameBloc(),
           l10n: _MockAppLocalizations(),
           audioPlayer: _MockPinballAudioPlayer(),
+          platformHelper: _MockPlatformHelper(),
         );
 
   @override
@@ -41,9 +45,11 @@ class _TestDebugPinballGame extends DebugPinballGame {
       : super(
           characterThemeBloc: CharacterThemeCubit(),
           leaderboardRepository: _MockLeaderboardRepository(),
+          shareRepository: _MockShareRepository(),
           gameBloc: GameBloc(),
           l10n: _MockAppLocalizations(),
           audioPlayer: _MockPinballAudioPlayer(),
+          platformHelper: _MockPlatformHelper(),
         );
 
   @override
@@ -81,7 +87,14 @@ class _MockDragEndInfo extends Mock implements DragEndInfo {}
 class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
 }
 
+class _MockShareRepository extends Mock implements ShareRepository {}
+
 class _MockPinballAudioPlayer extends Mock implements PinballAudioPlayer {}
+
+class _MockPlatformHelper extends Mock implements PlatformHelper {
+  @override
+  bool get isMobile => false;
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -113,11 +126,11 @@ void main() {
       );
 
       flameTester.test(
-        'has only one BallThemingBehavior',
+        'has only one CharacterSelectionBehavior',
         (game) async {
           await game.ready();
           expect(
-            game.descendants().whereType<BallThemingBehavior>().length,
+            game.descendants().whereType<CharacterSelectionBehavior>().length,
             equals(1),
           );
         },
@@ -179,11 +192,11 @@ void main() {
       );
 
       flameTester.test(
-        'one GoogleWord',
+        'one GoogleGallery',
         (game) async {
           await game.ready();
           expect(
-            game.descendants().whereType<GoogleWord>().length,
+            game.descendants().whereType<GoogleGallery>().length,
             equals(1),
           );
         },

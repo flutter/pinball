@@ -2,6 +2,7 @@
 import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:clock/clock.dart';
 import 'package:flame_audio/audio_pool.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -32,7 +33,7 @@ class _MockPlaySingleAudio extends Mock {
 }
 
 class _MockLoopSingleAudio extends Mock {
-  Future<void> onCall(String url);
+  Future<void> onCall(String url, {double volume});
 }
 
 abstract class _PreCacheSingleAudio {
@@ -42,6 +43,8 @@ abstract class _PreCacheSingleAudio {
 class _MockPreCacheSingleAudio extends Mock implements _PreCacheSingleAudio {}
 
 class _MockRandom extends Mock implements Random {}
+
+class _MockClock extends Mock implements Clock {}
 
 void main() {
   group('PinballAudio', () {
@@ -74,7 +77,8 @@ void main() {
       when(() => playSingleAudio.onCall(any())).thenAnswer((_) async {});
 
       loopSingleAudio = _MockLoopSingleAudio();
-      when(() => loopSingleAudio.onCall(any())).thenAnswer((_) async {});
+      when(() => loopSingleAudio.onCall(any(), volume: any(named: 'volume')))
+          .thenAnswer((_) async {});
 
       preCacheSingleAudio = _MockPreCacheSingleAudio();
       when(() => preCacheSingleAudio.onCall(any())).thenAnswer((_) async {});
@@ -110,6 +114,26 @@ void main() {
         verify(
           () => createAudioPool.onCall(
             'packages/pinball_audio/${Assets.sfx.bumperB}',
+            maxPlayers: 4,
+            prefix: '',
+          ),
+        ).called(1);
+      });
+
+      test('creates the kicker pools', () async {
+        await Future.wait(audioPlayer.load());
+
+        verify(
+          () => createAudioPool.onCall(
+            'packages/pinball_audio/${Assets.sfx.kickerA}',
+            maxPlayers: 4,
+            prefix: '',
+          ),
+        ).called(1);
+
+        verify(
+          () => createAudioPool.onCall(
+            'packages/pinball_audio/${Assets.sfx.kickerB}',
             maxPlayers: 4,
             prefix: '',
           ),
@@ -173,6 +197,10 @@ void main() {
         ).called(1);
         verify(
           () => preCacheSingleAudio
+              .onCall('packages/pinball_audio/assets/sfx/cow_moo.mp3'),
+        ).called(1);
+        verify(
+          () => preCacheSingleAudio
               .onCall('packages/pinball_audio/assets/music/background.mp3'),
         ).called(1);
       });
@@ -223,6 +251,91 @@ void main() {
           audioPlayer.play(PinballAudio.bumper);
 
           verify(() => bumperBPool.start(volume: 0.6)).called(1);
+        });
+      });
+    });
+
+    group('kicker', () {
+      late AudioPool kickerAPool;
+      late AudioPool kickerBPool;
+
+      setUp(() {
+        kickerAPool = _MockAudioPool();
+        when(() => kickerAPool.start(volume: any(named: 'volume')))
+            .thenAnswer((_) async => () {});
+        when(
+          () => createAudioPool.onCall(
+            'packages/pinball_audio/${Assets.sfx.kickerA}',
+            maxPlayers: any(named: 'maxPlayers'),
+            prefix: any(named: 'prefix'),
+          ),
+        ).thenAnswer((_) async => kickerAPool);
+
+        kickerBPool = _MockAudioPool();
+        when(() => kickerBPool.start(volume: any(named: 'volume')))
+            .thenAnswer((_) async => () {});
+        when(
+          () => createAudioPool.onCall(
+            'packages/pinball_audio/${Assets.sfx.kickerB}',
+            maxPlayers: any(named: 'maxPlayers'),
+            prefix: any(named: 'prefix'),
+          ),
+        ).thenAnswer((_) async => kickerBPool);
+      });
+
+      group('when seed is true', () {
+        test('plays the kicker A sound pool', () async {
+          when(seed.nextBool).thenReturn(true);
+          await Future.wait(audioPlayer.load());
+          audioPlayer.play(PinballAudio.kicker);
+
+          verify(() => kickerAPool.start(volume: 0.6)).called(1);
+        });
+      });
+
+      group('when seed is false', () {
+        test('plays the kicker B sound pool', () async {
+          when(seed.nextBool).thenReturn(false);
+          await Future.wait(audioPlayer.load());
+          audioPlayer.play(PinballAudio.kicker);
+
+          verify(() => kickerBPool.start(volume: 0.6)).called(1);
+        });
+      });
+    });
+
+    group('cow moo', () {
+      test('plays the correct file', () async {
+        await Future.wait(audioPlayer.load());
+        audioPlayer.play(PinballAudio.cowMoo);
+
+        verify(
+          () => playSingleAudio
+              .onCall('packages/pinball_audio/${Assets.sfx.cowMoo}'),
+        ).called(1);
+      });
+
+      test('only plays the sound again after 2 seconds', () async {
+        final clock = _MockClock();
+        await withClock(clock, () async {
+          when(clock.now).thenReturn(DateTime(2022));
+          await Future.wait(audioPlayer.load());
+          audioPlayer
+            ..play(PinballAudio.cowMoo)
+            ..play(PinballAudio.cowMoo);
+
+          verify(
+            () => playSingleAudio
+                .onCall('packages/pinball_audio/${Assets.sfx.cowMoo}'),
+          ).called(1);
+
+          when(clock.now).thenReturn(DateTime(2022, 1, 1, 1, 2));
+          audioPlayer.play(PinballAudio.cowMoo);
+
+          verify(
+            () => playSingleAudio
+                .onCall('packages/pinball_audio/${Assets.sfx.cowMoo}'),
+          ).called(1);
         });
       });
     });
@@ -331,8 +444,24 @@ void main() {
         audioPlayer.play(PinballAudio.backgroundMusic);
 
         verify(
-          () => loopSingleAudio
-              .onCall('packages/pinball_audio/${Assets.music.background}'),
+          () => loopSingleAudio.onCall(
+            'packages/pinball_audio/${Assets.music.background}',
+            volume: .6,
+          ),
+        ).called(1);
+      });
+
+      test('plays only once', () async {
+        await Future.wait(audioPlayer.load());
+        audioPlayer
+          ..play(PinballAudio.backgroundMusic)
+          ..play(PinballAudio.backgroundMusic);
+
+        verify(
+          () => loopSingleAudio.onCall(
+            'packages/pinball_audio/${Assets.music.background}',
+            volume: .6,
+          ),
         ).called(1);
       });
     });

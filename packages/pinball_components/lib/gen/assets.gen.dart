@@ -15,13 +15,16 @@ class $AssetsImagesGen {
   $AssetsImagesBallGen get ball => const $AssetsImagesBallGen();
   $AssetsImagesBaseboardGen get baseboard => const $AssetsImagesBaseboardGen();
 
-  /// File path: assets/images/board-background.png
+  /// File path: assets/images/board_background.png
   AssetGenImage get boardBackground =>
-      const AssetGenImage('assets/images/board-background.png');
+      const AssetGenImage('assets/images/board_background.png');
 
   $AssetsImagesBoundaryGen get boundary => const $AssetsImagesBoundaryGen();
   $AssetsImagesDashGen get dash => const $AssetsImagesDashGen();
   $AssetsImagesDinoGen get dino => const $AssetsImagesDinoGen();
+
+  $AssetsImagesDisplayArrowsGen get displayArrows =>
+      const $AssetsImagesDisplayArrowsGen();
 
   /// File path: assets/images/error_background.png
   AssetGenImage get errorBackground =>
@@ -29,6 +32,8 @@ class $AssetsImagesGen {
 
   $AssetsImagesFlapperGen get flapper => const $AssetsImagesFlapperGen();
   $AssetsImagesFlipperGen get flipper => const $AssetsImagesFlipperGen();
+  $AssetsImagesGoogleRolloverGen get googleRollover =>
+      const $AssetsImagesGoogleRolloverGen();
   $AssetsImagesGoogleWordGen get googleWord =>
       const $AssetsImagesGoogleWordGen();
   $AssetsImagesKickerGen get kicker => const $AssetsImagesKickerGen();
@@ -59,9 +64,12 @@ class $AssetsImagesAndroidGen {
 class $AssetsImagesBackboxGen {
   const $AssetsImagesBackboxGen();
 
-  /// File path: assets/images/backbox/display-divider.png
+  $AssetsImagesBackboxButtonGen get button =>
+      const $AssetsImagesBackboxButtonGen();
+
+  /// File path: assets/images/backbox/display_divider.png
   AssetGenImage get displayDivider =>
-      const AssetGenImage('assets/images/backbox/display-divider.png');
+      const AssetGenImage('assets/images/backbox/display_divider.png');
 
   /// File path: assets/images/backbox/display_title_decoration.png
   AssetGenImage get displayTitleDecoration =>
@@ -99,13 +107,13 @@ class $AssetsImagesBoundaryGen {
   AssetGenImage get bottom =>
       const AssetGenImage('assets/images/boundary/bottom.png');
 
-  /// File path: assets/images/boundary/outer-bottom.png
-  AssetGenImage get outerBottom =>
-      const AssetGenImage('assets/images/boundary/outer-bottom.png');
-
   /// File path: assets/images/boundary/outer.png
   AssetGenImage get outer =>
       const AssetGenImage('assets/images/boundary/outer.png');
+
+  /// File path: assets/images/boundary/outer_bottom.png
+  AssetGenImage get outerBottom =>
+      const AssetGenImage('assets/images/boundary/outer_bottom.png');
 }
 
 class $AssetsImagesDashGen {
@@ -124,33 +132,42 @@ class $AssetsImagesDinoGen {
   $AssetsImagesDinoAnimatronicGen get animatronic =>
       const $AssetsImagesDinoAnimatronicGen();
 
-  /// File path: assets/images/dino/bottom-wall.png
+  /// File path: assets/images/dino/bottom_wall.png
   AssetGenImage get bottomWall =>
-      const AssetGenImage('assets/images/dino/bottom-wall.png');
+      const AssetGenImage('assets/images/dino/bottom_wall.png');
 
-  /// File path: assets/images/dino/top-wall-tunnel.png
-  AssetGenImage get topWallTunnel =>
-      const AssetGenImage('assets/images/dino/top-wall-tunnel.png');
-
-  /// File path: assets/images/dino/top-wall.png
+  /// File path: assets/images/dino/top_wall.png
   AssetGenImage get topWall =>
-      const AssetGenImage('assets/images/dino/top-wall.png');
+      const AssetGenImage('assets/images/dino/top_wall.png');
+
+  /// File path: assets/images/dino/top_wall_tunnel.png
+  AssetGenImage get topWallTunnel =>
+      const AssetGenImage('assets/images/dino/top_wall_tunnel.png');
+}
+
+class $AssetsImagesDisplayArrowsGen {
+  const $AssetsImagesDisplayArrowsGen();
+
+  AssetGenImage get arrowLeft =>
+      const AssetGenImage('assets/images/display_arrows/arrow_left.png');
+  AssetGenImage get arrowRight =>
+      const AssetGenImage('assets/images/display_arrows/arrow_right.png');
 }
 
 class $AssetsImagesFlapperGen {
   const $AssetsImagesFlapperGen();
 
-  /// File path: assets/images/flapper/back-support.png
+  /// File path: assets/images/flapper/back_support.png
   AssetGenImage get backSupport =>
-      const AssetGenImage('assets/images/flapper/back-support.png');
+      const AssetGenImage('assets/images/flapper/back_support.png');
 
   /// File path: assets/images/flapper/flap.png
   AssetGenImage get flap =>
       const AssetGenImage('assets/images/flapper/flap.png');
 
-  /// File path: assets/images/flapper/front-support.png
+  /// File path: assets/images/flapper/front_support.png
   AssetGenImage get frontSupport =>
-      const AssetGenImage('assets/images/flapper/front-support.png');
+      const AssetGenImage('assets/images/flapper/front_support.png');
 }
 
 class $AssetsImagesFlipperGen {
@@ -163,6 +180,15 @@ class $AssetsImagesFlipperGen {
   /// File path: assets/images/flipper/right.png
   AssetGenImage get right =>
       const AssetGenImage('assets/images/flipper/right.png');
+}
+
+class $AssetsImagesGoogleRolloverGen {
+  const $AssetsImagesGoogleRolloverGen();
+
+  $AssetsImagesGoogleRolloverLeftGen get left =>
+      const $AssetsImagesGoogleRolloverLeftGen();
+  $AssetsImagesGoogleRolloverRightGen get right =>
+      const $AssetsImagesGoogleRolloverRightGen();
 }
 
 class $AssetsImagesGoogleWordGen {
@@ -192,13 +218,13 @@ class $AssetsImagesKickerGen {
 class $AssetsImagesLaunchRampGen {
   const $AssetsImagesLaunchRampGen();
 
-  /// File path: assets/images/launch_ramp/background-railing.png
+  /// File path: assets/images/launch_ramp/background_railing.png
   AssetGenImage get backgroundRailing =>
-      const AssetGenImage('assets/images/launch_ramp/background-railing.png');
+      const AssetGenImage('assets/images/launch_ramp/background_railing.png');
 
-  /// File path: assets/images/launch_ramp/foreground-railing.png
+  /// File path: assets/images/launch_ramp/foreground_railing.png
   AssetGenImage get foregroundRailing =>
-      const AssetGenImage('assets/images/launch_ramp/foreground-railing.png');
+      const AssetGenImage('assets/images/launch_ramp/foreground_railing.png');
 
   /// File path: assets/images/launch_ramp/ramp.png
   AssetGenImage get ramp =>
@@ -242,21 +268,21 @@ class $AssetsImagesPlungerGen {
 class $AssetsImagesScoreGen {
   const $AssetsImagesScoreGen();
 
-  /// File path: assets/images/score/five-thousand.png
+  /// File path: assets/images/score/five_thousand.png
   AssetGenImage get fiveThousand =>
-      const AssetGenImage('assets/images/score/five-thousand.png');
+      const AssetGenImage('assets/images/score/five_thousand.png');
 
-  /// File path: assets/images/score/one-million.png
+  /// File path: assets/images/score/one_million.png
   AssetGenImage get oneMillion =>
-      const AssetGenImage('assets/images/score/one-million.png');
+      const AssetGenImage('assets/images/score/one_million.png');
 
-  /// File path: assets/images/score/twenty-thousand.png
+  /// File path: assets/images/score/twenty_thousand.png
   AssetGenImage get twentyThousand =>
-      const AssetGenImage('assets/images/score/twenty-thousand.png');
+      const AssetGenImage('assets/images/score/twenty_thousand.png');
 
-  /// File path: assets/images/score/two-hundred-thousand.png
+  /// File path: assets/images/score/two_hundred_thousand.png
   AssetGenImage get twoHundredThousand =>
-      const AssetGenImage('assets/images/score/two-hundred-thousand.png');
+      const AssetGenImage('assets/images/score/two_hundred_thousand.png');
 }
 
 class $AssetsImagesSignpostGen {
@@ -353,21 +379,21 @@ class $AssetsImagesAndroidRampGen {
   $AssetsImagesAndroidRampArrowGen get arrow =>
       const $AssetsImagesAndroidRampArrowGen();
 
-  /// File path: assets/images/android/ramp/board-opening.png
+  /// File path: assets/images/android/ramp/board_opening.png
   AssetGenImage get boardOpening =>
-      const AssetGenImage('assets/images/android/ramp/board-opening.png');
+      const AssetGenImage('assets/images/android/ramp/board_opening.png');
 
   /// File path: assets/images/android/ramp/main.png
   AssetGenImage get main =>
       const AssetGenImage('assets/images/android/ramp/main.png');
 
-  /// File path: assets/images/android/ramp/railing-background.png
+  /// File path: assets/images/android/ramp/railing_background.png
   AssetGenImage get railingBackground =>
-      const AssetGenImage('assets/images/android/ramp/railing-background.png');
+      const AssetGenImage('assets/images/android/ramp/railing_background.png');
 
-  /// File path: assets/images/android/ramp/railing-foreground.png
+  /// File path: assets/images/android/ramp/railing_foreground.png
   AssetGenImage get railingForeground =>
-      const AssetGenImage('assets/images/android/ramp/railing-foreground.png');
+      const AssetGenImage('assets/images/android/ramp/railing_foreground.png');
 }
 
 class $AssetsImagesAndroidSpaceshipGen {
@@ -377,13 +403,25 @@ class $AssetsImagesAndroidSpaceshipGen {
   AssetGenImage get animatronic =>
       const AssetGenImage('assets/images/android/spaceship/animatronic.png');
 
-  /// File path: assets/images/android/spaceship/light-beam.png
+  /// File path: assets/images/android/spaceship/light_beam.png
   AssetGenImage get lightBeam =>
-      const AssetGenImage('assets/images/android/spaceship/light-beam.png');
+      const AssetGenImage('assets/images/android/spaceship/light_beam.png');
 
   /// File path: assets/images/android/spaceship/saucer.png
   AssetGenImage get saucer =>
       const AssetGenImage('assets/images/android/spaceship/saucer.png');
+}
+
+class $AssetsImagesBackboxButtonGen {
+  const $AssetsImagesBackboxButtonGen();
+
+  /// File path: assets/images/backbox/button/facebook.png
+  AssetGenImage get facebook =>
+      const AssetGenImage('assets/images/backbox/button/facebook.png');
+
+  /// File path: assets/images/backbox/button/twitter.png
+  AssetGenImage get twitter =>
+      const AssetGenImage('assets/images/backbox/button/twitter.png');
 }
 
 class $AssetsImagesDashBumperGen {
@@ -405,6 +443,24 @@ class $AssetsImagesDinoAnimatronicGen {
   /// File path: assets/images/dino/animatronic/mouth.png
   AssetGenImage get mouth =>
       const AssetGenImage('assets/images/dino/animatronic/mouth.png');
+}
+
+class $AssetsImagesGoogleRolloverLeftGen {
+  const $AssetsImagesGoogleRolloverLeftGen();
+
+  AssetGenImage get decal =>
+      const AssetGenImage('assets/images/google_rollover/left/decal.png');
+  AssetGenImage get pin =>
+      const AssetGenImage('assets/images/google_rollover/left/pin.png');
+}
+
+class $AssetsImagesGoogleRolloverRightGen {
+  const $AssetsImagesGoogleRolloverRightGen();
+
+  AssetGenImage get decal =>
+      const AssetGenImage('assets/images/google_rollover/right/decal.png');
+  AssetGenImage get pin =>
+      const AssetGenImage('assets/images/google_rollover/right/pin.png');
 }
 
 class $AssetsImagesGoogleWordLetter1Gen {
