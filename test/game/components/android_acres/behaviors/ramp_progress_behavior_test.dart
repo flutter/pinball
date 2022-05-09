@@ -185,8 +185,8 @@ void main() {
     );
 
     flameTester.test(
-      'adds again onProgressed to dimmed all '
-      'when arrow is full lit after hit and multiplier is less than 6',
+      'adds onProgressed to dim arrow '
+      'when arrow is fully lit after hit and multiplier is less than 6',
       (game) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
