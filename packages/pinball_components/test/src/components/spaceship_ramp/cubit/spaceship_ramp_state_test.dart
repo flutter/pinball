@@ -10,13 +10,11 @@ void main() {
         SpaceshipRampState(
           hits: 0,
           lightState: ArrowLightState.inactive,
-          animationState: ArrowAnimationState.idle,
         ),
         equals(
           SpaceshipRampState(
             hits: 0,
             lightState: ArrowLightState.inactive,
-            animationState: ArrowAnimationState.idle,
           ),
         ),
       );
@@ -28,7 +26,6 @@ void main() {
           SpaceshipRampState(
             hits: 0,
             lightState: ArrowLightState.inactive,
-            animationState: ArrowAnimationState.idle,
           ),
           isNotNull,
         );
@@ -43,7 +40,6 @@ void main() {
           () => SpaceshipRampState(
             hits: -1,
             lightState: ArrowLightState.inactive,
-            animationState: ArrowAnimationState.idle,
           ),
           throwsAssertionError,
         );
@@ -58,7 +54,6 @@ void main() {
           const rampState = SpaceshipRampState(
             hits: 0,
             lightState: ArrowLightState.inactive,
-            animationState: ArrowAnimationState.idle,
           );
           expect(
             () => rampState.copyWith(hits: rampState.hits - 1),
@@ -74,7 +69,6 @@ void main() {
           const rampState = SpaceshipRampState(
             hits: 0,
             lightState: ArrowLightState.inactive,
-            animationState: ArrowAnimationState.idle,
           );
           expect(
             rampState.copyWith(),
@@ -90,12 +84,10 @@ void main() {
           const rampState = SpaceshipRampState(
             hits: 0,
             lightState: ArrowLightState.inactive,
-            animationState: ArrowAnimationState.idle,
           );
           final otherRampState = SpaceshipRampState(
             hits: rampState.hits + 1,
             lightState: ArrowLightState.active1,
-            animationState: ArrowAnimationState.blinking,
           );
           expect(rampState, isNot(equals(otherRampState)));
 
@@ -103,7 +95,6 @@ void main() {
             rampState.copyWith(
               hits: otherRampState.hits,
               lightState: otherRampState.lightState,
-              animationState: otherRampState.animationState,
             ),
             equals(otherRampState),
           );

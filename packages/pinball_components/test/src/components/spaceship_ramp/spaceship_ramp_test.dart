@@ -138,28 +138,6 @@ void main() {
           );
         },
       );
-
-      flameTester.test(
-        'a RampArrowBlinkingBehavior',
-        (game) async {
-          final bloc = _MockSpaceshipRampCubit();
-          final streamController = StreamController<SpaceshipRampState>();
-          whenListen(
-            bloc,
-            streamController.stream,
-            initialState: SpaceshipRampState.initial(),
-          );
-          final ramp = SpaceshipRamp();
-          await game.pump(
-            ramp,
-            spaceshipRampCubit: bloc,
-          );
-          expect(
-            game.descendants().whereType<RampArrowBlinkingBehavior>().length,
-            equals(1),
-          );
-        },
-      );
     });
 
     group('renders correctly', () {

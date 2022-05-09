@@ -188,7 +188,7 @@ void main() {
     );
 
     flameTester.test(
-      'adds onAnimate '
+      'adds again onProgressed to dimmed all '
       'when arrow is full lit after hit and multiplier is less than 6',
       (game) async {
         final bloc = _MockSpaceshipRampCubit();
@@ -224,12 +224,12 @@ void main() {
 
         await game.ready();
 
-        verify(bloc.onAnimate).called(1);
+        verify(bloc.onProgressed).called(2);
       },
     );
 
     flameTester.test(
-      "doesn't add onAnimate "
+      "doesn't add again onProgressed to dimmed all "
       'when arrow is not full lit after hit',
       (game) async {
         final bloc = _MockSpaceshipRampCubit();
@@ -265,12 +265,12 @@ void main() {
 
         await game.ready();
 
-        verifyNever(bloc.onAnimate);
+        verify(bloc.onProgressed).called(1);
       },
     );
 
     flameTester.test(
-      "doesn't add onAnimate "
+      "doesn't add again onProgressed to dimmed all "
       'when multiplier is 6 after hit',
       (game) async {
         final bloc = _MockSpaceshipRampCubit();
@@ -303,7 +303,7 @@ void main() {
 
         await game.ready();
 
-        verifyNever(bloc.onAnimate);
+        verify(bloc.onProgressed).called(1);
       },
     );
   });

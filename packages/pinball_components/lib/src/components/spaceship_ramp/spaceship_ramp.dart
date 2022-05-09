@@ -39,7 +39,6 @@ class SpaceshipRamp extends Component {
             SpaceshipRampBase()..initialPosition = Vector2(3.4, -42.5),
             _SpaceshipRampBackgroundRailingSpriteComponent(),
             SpaceshipRampArrowSpriteComponent(),
-            RampArrowBlinkingBehavior(),
             ...?children,
           ],
         );

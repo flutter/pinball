@@ -34,7 +34,7 @@ class RampProgressBehavior extends Component with ParentIsA<SpaceshipRamp> {
 
           if (spaceshipCubit.state.fullArrowLit &&
               !gameBloc.state.isMaxMultiplier) {
-            spaceshipCubit.onAnimate();
+            spaceshipCubit.onProgressed();
           }
         },
       ),
