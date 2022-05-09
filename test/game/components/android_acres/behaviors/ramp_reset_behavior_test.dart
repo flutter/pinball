@@ -96,7 +96,7 @@ void main() {
         );
 
         streamController.add(state.copyWith(rounds: state.rounds - 1));
-        await game.ready();
+        await Future<void>.delayed(Duration.zero);
 
         verify(bloc.onReset).called(1);
       },
@@ -126,7 +126,7 @@ void main() {
 
         streamController
             .add(state.copyWith(roundScore: state.roundScore + 100));
-        await game.ready();
+        await Future<void>.delayed(Duration.zero);
 
         verifyNever(bloc.onReset);
       },
