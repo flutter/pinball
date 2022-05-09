@@ -22,6 +22,13 @@ void main() {
       ],
     );
 
+    blocTest<SignpostCubit, SignpostState>(
+      'onReset emits inactive',
+      build: SignpostCubit.new,
+      act: (bloc) => bloc.onReset(),
+      expect: () => [SignpostState.inactive],
+    );
+
     test('isFullyProgressed when on active3', () {
       final bloc = SignpostCubit();
       expect(bloc.isFullyProgressed(), isFalse);
