@@ -53,6 +53,20 @@ void main() {
         },
       );
 
+      flameTester.test('sets zoom on resize', (game) async {
+        final behavior = CameraFocusingBehavior();
+
+        await game.ensureAdd(
+          FlameBlocProvider<GameBloc, GameState>.value(
+            value: GameBloc(),
+            children: [behavior],
+          ),
+        );
+
+        game.onGameResize(game.canvasSize * 2);
+        expect(game.camera.zoom, equals(6.55));
+      });
+
       flameTester.test(
         'listenWhen only listens when status changes',
         (game) async {
