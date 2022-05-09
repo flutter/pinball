@@ -19,6 +19,7 @@ class GoogleWordBonusBehavior extends Component {
               .add(const BonusActivated(GameBonus.googleWord));
           readBloc<GoogleWordCubit, GoogleWordState>().onBonusAwarded();
           add(BonusBallSpawningBehavior());
+          add(GoogleWordAnimatingBehavior());
         },
       ),
     );
