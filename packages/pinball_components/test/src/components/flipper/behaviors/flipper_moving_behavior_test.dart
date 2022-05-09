@@ -8,12 +8,14 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 class _TestGame extends Forge2DGame {
   Future<void> pump(
     FlipperMovingBehavior behavior, {
     FlipperCubit? flipperBloc,
+    PinballAudioPlayer? audioPlayer,
   }) async {
     final flipper = Flipper.test(side: BoardSide.left);
     await ensureAdd(flipper);
