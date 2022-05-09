@@ -25,11 +25,11 @@ class GameBlocStatusListener extends Component
         gameRef
             .descendants()
             .whereType<Flipper>()
-            .forEach(_addFlipperKeyControls);
+            .forEach(_addFlipperBehaviors);
         gameRef
             .descendants()
             .whereType<Plunger>()
-            .forEach(_addPlungerKeyControls);
+            .forEach(_addPlungerBehaviors);
 
         gameRef.overlays.remove(PinballGame.playButtonOverlay);
         break;
@@ -45,16 +45,16 @@ class GameBlocStatusListener extends Component
         gameRef
             .descendants()
             .whereType<Flipper>()
-            .forEach(_removeFlipperKeyControls);
+            .forEach(_removeFliperBehaviors);
         gameRef
             .descendants()
             .whereType<Plunger>()
-            .forEach(_removePlungerKeyControls);
+            .forEach(_removePlungerBehaviors);
         break;
     }
   }
 
-  void _addPlungerKeyControls(Plunger plunger) {
+  void _addPlungerBehaviors(Plunger plunger) {
     final platformHelper = readProvider<PlatformHelper>();
     const pullingStrength = 7.0;
     final provider =
@@ -74,7 +74,7 @@ class GameBlocStatusListener extends Component
     }
   }
 
-  void _removePlungerKeyControls(Plunger plunger) {
+  void _removePlungerBehaviors(Plunger plunger) {
     plunger
         .descendants()
         .whereType<PlungerPullingBehavior>()
@@ -85,11 +85,11 @@ class GameBlocStatusListener extends Component
         .forEach(plunger.remove);
   }
 
-  void _addFlipperKeyControls(Flipper flipper) => flipper
+  void _addFlipperBehaviors(Flipper flipper) => flipper
     ..add(FlipperKeyControllingBehavior())
     ..moveDown();
 
-  void _removeFlipperKeyControls(Flipper flipper) => flipper
+  void _removeFliperBehaviors(Flipper flipper) => flipper
       .descendants()
       .whereType<FlipperKeyControllingBehavior>()
       .forEach(flipper.remove);
