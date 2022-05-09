@@ -350,10 +350,12 @@ void main() {
         await Future.wait(audioPlayer.load());
         audioPlayer.play(PinballAudio.google);
 
-        verify(() => playSingleAudio.onCall(
-              'packages/pinball_audio/${Assets.sfx.google}',
-              volume: any(named: 'volume'),
-            )).called(1);
+        verify(
+          () => playSingleAudio.onCall(
+            'packages/pinball_audio/${Assets.sfx.google}',
+            volume: any(named: 'volume'),
+          ),
+        ).called(1);
       });
     });
 
