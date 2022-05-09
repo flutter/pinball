@@ -54,7 +54,7 @@ void main() {
     });
 
     flameTester.test(
-      'applies horizontal velocity to flipper when moving down',
+      'applies vertical velocity to flipper when moving down',
       (game) async {
         final bloc = _MockFlipperCubit();
         final streamController = StreamController<FlipperState>();
@@ -78,7 +78,7 @@ void main() {
     );
 
     flameTester.test(
-      'applies horizontal velocity to flipper when moving up',
+      'applies vertical velocity to flipper when moving up',
       (game) async {
         final bloc = _MockFlipperCubit();
         whenListen(
