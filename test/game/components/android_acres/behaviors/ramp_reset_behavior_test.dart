@@ -3,13 +3,11 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/components/android_acres/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -37,9 +35,9 @@ class _TestGame extends Forge2DGame {
   }
 
   Future<void> pump(
-    List<Component> children, {
-    required SpaceshipRampCubit bloc,
+    SpaceshipRamp child, {
     required GameBloc gameBloc,
+    required SpaceshipRampCubit bloc,
   }) async {
     await ensureAdd(
       FlameMultiBlocProvider(
@@ -52,7 +50,7 @@ class _TestGame extends Forge2DGame {
           ),
         ],
         children: [
-          ZCanvasComponent(children: children),
+          ZCanvasComponent(children: [child]),
         ],
       ),
     );
@@ -66,43 +64,71 @@ class _MockSpaceshipRampCubit extends Mock implements SpaceshipRampCubit {}
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  late GameBloc gameBloc;
+  group('RampResetBehavior', () {
+    late GameBloc gameBloc;
 
-  setUp(() {
-    gameBloc = _MockGameBloc();
-  });
-
-  group('RampShotBehavior', () {
-    const shotPoints = Points.fiveThousand;
+    setUp(() {
+      gameBloc = _MockGameBloc();
+    });
 
     final flameTester = FlameTester(_TestGame.new);
 
     flameTester.test(
-      'adds a ScoringBehavior when hit',
+      'calls onReset when round lost',
       (game) async {
         final bloc = _MockSpaceshipRampCubit();
-        final state = SpaceshipRampState.initial();
-        final streamController = StreamController<SpaceshipRampState>();
+        final state = GameState.initial();
+        final streamController = StreamController<GameState>();
         whenListen(
-          bloc,
+          gameBloc,
           streamController.stream,
           initialState: state,
         );
-
-        final behavior = RampShotBehavior(points: shotPoints);
-        final parent = SpaceshipRamp.test(children: [behavior]);
-        await game.pump(
-          [parent],
-          bloc: bloc,
-          gameBloc: gameBloc,
+        final behavior = RampResetBehavior();
+        final parent = SpaceshipRamp.test(
+          children: [behavior],
         );
 
-        streamController.add(state.copyWith(hits: state.hits + 1));
+        await game.pump(
+          parent,
+          gameBloc: gameBloc,
+          bloc: bloc,
+        );
 
-        final scores = game.descendants().whereType<ScoringBehavior>();
-        await game.ready();
+        streamController.add(state.copyWith(rounds: state.rounds - 1));
+        await Future<void>.delayed(Duration.zero);
 
-        expect(scores.length, 1);
+        verify(bloc.onReset).called(1);
+      },
+    );
+
+    flameTester.test(
+      "doesn't call onReset when round stays the same",
+      (game) async {
+        final bloc = _MockSpaceshipRampCubit();
+        final state = GameState.initial();
+        final streamController = StreamController<GameState>();
+        whenListen(
+          gameBloc,
+          streamController.stream,
+          initialState: state,
+        );
+        final behavior = RampResetBehavior();
+        final parent = SpaceshipRamp.test(
+          children: [behavior],
+        );
+
+        await game.pump(
+          parent,
+          gameBloc: gameBloc,
+          bloc: bloc,
+        );
+
+        streamController
+            .add(state.copyWith(roundScore: state.roundScore + 100));
+        await Future<void>.delayed(Duration.zero);
+
+        verifyNever(bloc.onReset);
       },
     );
   });
