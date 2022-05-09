@@ -7,7 +7,6 @@ import 'package:pinball/how_to_play/how_to_play.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
-import 'package:platform_helper/platform_helper.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -19,16 +18,10 @@ class _MockCharacterThemeCubit extends Mock implements CharacterThemeCubit {}
 
 class _MockPinballAudioPlayer extends Mock implements PinballAudioPlayer {}
 
-class _MockPlatformHelper extends Mock implements PlatformHelper {
-  @override
-  bool get isMobile => false;
-}
-
 void main() {
   late StartGameBloc startGameBloc;
   late PinballAudioPlayer pinballAudioPlayer;
   late CharacterThemeCubit characterThemeCubit;
-  late PlatformHelper platformHelper;
 
   group('StartGameListener', () {
     setUp(() async {
@@ -37,7 +30,6 @@ void main() {
       startGameBloc = _MockStartGameBloc();
       pinballAudioPlayer = _MockPinballAudioPlayer();
       characterThemeCubit = _MockCharacterThemeCubit();
-      platformHelper = _MockPlatformHelper();
     });
 
     group('on selectCharacter status', () {
@@ -129,7 +121,6 @@ void main() {
             child: SizedBox.shrink(),
           ),
           startGameBloc: startGameBloc,
-          platformHelper: platformHelper,
         );
 
         await tester.pumpAndSettle();
@@ -222,7 +213,6 @@ void main() {
               child: SizedBox.shrink(),
             ),
             startGameBloc: startGameBloc,
-            platformHelper: platformHelper,
           );
           await tester.pumpAndSettle();
 
@@ -254,7 +244,6 @@ void main() {
             ),
             startGameBloc: startGameBloc,
             pinballAudioPlayer: pinballAudioPlayer,
-            platformHelper: platformHelper,
           );
           await tester.pumpAndSettle();
 

@@ -47,10 +47,7 @@ class _TestGame extends Forge2DGame
     ]);
   }
 
-  Future<void> pump(
-    Backbox component, {
-    PlatformHelper? platformHelper,
-  }) async {
+  Future<void> pump(Backbox component) async {
     // Not needed once https://github.com/flame-engine/flame/issues/1607
     // is fixed
     await onLoad();
@@ -58,15 +55,8 @@ class _TestGame extends Forge2DGame
       FlameBlocProvider<GameBloc, GameState>.value(
         value: GameBloc(),
         children: [
-          MultiFlameProvider(
-            providers: [
-              FlameProvider<AppLocalizations>.value(
-                _MockAppLocalizations(),
-              ),
-              FlameProvider<PlatformHelper>.value(
-                platformHelper ?? _MockPlatformHelper(),
-              ),
-            ],
+          FlameProvider.value(
+            _MockAppLocalizations(),
             children: [component],
           ),
         ],
@@ -203,11 +193,9 @@ void main() {
         final backbox = Backbox.test(
           bloc: bloc,
           shareRepository: _MockShareRepository(),
-        );
-        await game.pump(
-          backbox,
           platformHelper: platformHelper,
         );
+        await game.pump(backbox);
         expect(game.descendants(), contains(backbox));
       },
     );
@@ -223,8 +211,8 @@ void main() {
           Backbox.test(
             bloc: bloc,
             shareRepository: _MockShareRepository(),
+            platformHelper: platformHelper,
           ),
-          platformHelper: platformHelper,
         );
         await tester.pump();
       },
@@ -245,11 +233,9 @@ void main() {
             initialEntries: [LeaderboardEntryData.empty],
           ),
           shareRepository: _MockShareRepository(),
-        );
-        await game.pump(
-          backbox,
           platformHelper: platformHelper,
         );
+        await game.pump(backbox);
         backbox.requestInitials(
           score: 0,
           character: game.character,
@@ -279,11 +265,9 @@ void main() {
         final backbox = Backbox.test(
           bloc: bloc,
           shareRepository: _MockShareRepository(),
-        );
-        await game.pump(
-          backbox,
           platformHelper: platformHelper,
         );
+        await game.pump(backbox);
 
         game.onKeyEvent(_mockKeyUp(LogicalKeyboardKey.enter), {});
         verify(
@@ -310,11 +294,9 @@ void main() {
         final backbox = Backbox.test(
           bloc: bloc,
           shareRepository: _MockShareRepository(),
-        );
-        await game.pump(
-          backbox,
           platformHelper: platformHelper,
         );
+        await game.pump(backbox);
 
         expect(
           game.descendants().whereType<GameOverInfoDisplay>().length,
@@ -342,11 +324,9 @@ void main() {
         final backbox = Backbox.test(
           bloc: bloc,
           shareRepository: _MockShareRepository(),
-        );
-        await game.pump(
-          backbox,
           platformHelper: platformHelper,
         );
+        await game.pump(backbox);
 
         expect(
           game.overlays.value,
@@ -371,11 +351,9 @@ void main() {
         final backbox = Backbox.test(
           bloc: bloc,
           shareRepository: _MockShareRepository(),
-        );
-        await game.pump(
-          backbox,
           platformHelper: platformHelper,
         );
+        await game.pump(backbox);
 
         expect(
           game.overlays.value,
@@ -396,11 +374,9 @@ void main() {
         final backbox = Backbox.test(
           bloc: bloc,
           shareRepository: _MockShareRepository(),
-        );
-        await game.pump(
-          backbox,
           platformHelper: platformHelper,
         );
+        await game.pump(backbox);
 
         expect(
           game.descendants().whereType<GameOverInfoDisplay>().length,
@@ -421,11 +397,9 @@ void main() {
         final backbox = Backbox.test(
           bloc: bloc,
           shareRepository: _MockShareRepository(),
-        );
-        await game.pump(
-          backbox,
           platformHelper: platformHelper,
         );
+        await game.pump(backbox);
 
         final shareLink =
             game.descendants().whereType<ShareLinkComponent>().first;
@@ -453,11 +427,9 @@ void main() {
         final backbox = Backbox.test(
           bloc: bloc,
           shareRepository: _MockShareRepository(),
-        );
-        await game.pump(
-          backbox,
           platformHelper: platformHelper,
         );
+        await game.pump(backbox);
 
         expect(
           game
@@ -487,11 +459,9 @@ void main() {
           final backbox = Backbox.test(
             bloc: bloc,
             shareRepository: _MockShareRepository(),
-          );
-          await game.pump(
-            backbox,
             platformHelper: platformHelper,
           );
+          await game.pump(backbox);
 
           expect(
             game.descendants().whereType<ShareDisplay>().length,
@@ -536,11 +506,9 @@ void main() {
           final backbox = Backbox.test(
             bloc: bloc,
             shareRepository: shareRepository,
-          );
-          await game.pump(
-            backbox,
             platformHelper: platformHelper,
           );
+          await game.pump(backbox);
 
           final facebookButton =
               game.descendants().whereType<FacebookButtonComponent>().first;
@@ -592,11 +560,9 @@ void main() {
           final backbox = Backbox.test(
             bloc: bloc,
             shareRepository: shareRepository,
-          );
-          await game.pump(
-            backbox,
             platformHelper: platformHelper,
           );
+          await game.pump(backbox);
 
           final facebookButton =
               game.descendants().whereType<TwitterButtonComponent>().first;
@@ -626,11 +592,9 @@ void main() {
         final backbox = Backbox.test(
           bloc: bloc,
           shareRepository: _MockShareRepository(),
-        );
-        await game.pump(
-          backbox,
           platformHelper: platformHelper,
         );
+        await game.pump(backbox);
 
         expect(
           game.descendants().whereType<LeaderboardDisplay>().length,
@@ -651,11 +615,9 @@ void main() {
         final backbox = Backbox.test(
           bloc: bloc,
           shareRepository: _MockShareRepository(),
-        );
-        await game.pump(
-          backbox,
           platformHelper: platformHelper,
         );
+        await game.pump(backbox);
 
         expect(
           game.descendants().whereType<LeaderboardFailureDisplay>().length,
@@ -677,11 +639,9 @@ void main() {
         final backbox = Backbox.test(
           bloc: bloc,
           shareRepository: _MockShareRepository(),
-        );
-        await game.pump(
-          backbox,
           platformHelper: platformHelper,
         );
+        await game.pump(backbox);
 
         backbox.removeFromParent();
         await game.ready();
@@ -720,11 +680,9 @@ void main() {
         final backbox = Backbox.test(
           bloc: bloc,
           shareRepository: _MockShareRepository(),
-        );
-        await game.pump(
-          backbox,
           platformHelper: platformHelper,
         );
+        await game.pump(backbox);
         game.update(4);
 
         verify(

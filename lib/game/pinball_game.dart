@@ -14,7 +14,6 @@ import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
-import 'package:platform_helper/platform_helper.dart';
 import 'package:share_repository/share_repository.dart';
 
 class PinballGame extends PinballForge2DGame
@@ -26,7 +25,6 @@ class PinballGame extends PinballForge2DGame
     required GameBloc gameBloc,
     required AppLocalizations l10n,
     required PinballAudioPlayer audioPlayer,
-    required this.platformHelper,
   })  : focusNode = FocusNode(),
         _gameBloc = gameBloc,
         _audioPlayer = audioPlayer,
@@ -58,8 +56,6 @@ class PinballGame extends PinballForge2DGame
   final ShareRepository shareRepository;
 
   final AppLocalizations _l10n;
-
-  final PlatformHelper platformHelper;
 
   final GameBloc _gameBloc;
 
@@ -94,7 +90,6 @@ class PinballGame extends PinballForge2DGame
               FlameProvider<LeaderboardRepository>.value(leaderboardRepository),
               FlameProvider<ShareRepository>.value(shareRepository),
               FlameProvider<AppLocalizations>.value(_l10n),
-              FlameProvider<PlatformHelper>.value(platformHelper),
             ],
             children: [
               BonusNoiseBehavior(),
@@ -111,7 +106,7 @@ class PinballGame extends PinballForge2DGame
                 children: [
                   ZCanvasComponent(
                     children: [
-                      if (!platformHelper.isMobile) ArcadeBackground(),
+                      ArcadeBackground(),
                       BoardBackgroundSpriteComponent(),
                       Boundaries(),
                       Backbox(
@@ -203,7 +198,6 @@ class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
     required ShareRepository shareRepository,
     required AppLocalizations l10n,
     required PinballAudioPlayer audioPlayer,
-    required PlatformHelper platformHelper,
     required GameBloc gameBloc,
   }) : super(
           characterThemeBloc: characterThemeBloc,
@@ -211,7 +205,6 @@ class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
           leaderboardRepository: leaderboardRepository,
           shareRepository: shareRepository,
           l10n: l10n,
-          platformHelper: platformHelper,
           gameBloc: gameBloc,
         );
 

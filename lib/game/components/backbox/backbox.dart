@@ -27,19 +27,23 @@ class Backbox extends PositionComponent with ZIndex, HasGameRef {
           leaderboardRepository: leaderboardRepository,
           initialEntries: entries,
         ),
-        _shareRepository = shareRepository;
+        _shareRepository = shareRepository,
+        _platformHelper = PlatformHelper();
 
   /// {@macro backbox}
   @visibleForTesting
   Backbox.test({
     required BackboxBloc bloc,
     required ShareRepository shareRepository,
+    required PlatformHelper platformHelper,
   })  : _bloc = bloc,
-        _shareRepository = shareRepository;
+        _shareRepository = shareRepository,
+        _platformHelper = platformHelper;
 
   final ShareRepository _shareRepository;
   late final Component _display;
   final BackboxBloc _bloc;
+  final PlatformHelper _platformHelper;
   late StreamSubscription<BackboxState> _subscription;
 
   @override
@@ -72,7 +76,7 @@ class Backbox extends PositionComponent with ZIndex, HasGameRef {
     } else if (state is LeaderboardFailureState) {
       _display.add(LeaderboardFailureDisplay());
     } else if (state is InitialsFormState) {
-      if (readProvider<PlatformHelper>().isMobile) {
+      if (_platformHelper.isMobile) {
         gameRef.overlays.add(PinballGame.mobileControlsOverlay);
       }
       _display.add(

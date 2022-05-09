@@ -15,7 +15,6 @@ import 'package:pinball/more_information/more_information.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
-import 'package:platform_helper/platform_helper.dart';
 import 'package:share_repository/share_repository.dart';
 
 import '../../helpers/helpers.dart';
@@ -29,7 +28,6 @@ class _TestPinballGame extends PinballGame {
           gameBloc: GameBloc(),
           l10n: _MockAppLocalizations(),
           audioPlayer: _MockPinballAudioPlayer(),
-          platformHelper: _MockPlatformHelper(),
         );
 
   @override
@@ -64,11 +62,6 @@ class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
 }
 
 class _MockShareRepository extends Mock implements ShareRepository {}
-
-class _MockPlatformHelper extends Mock implements PlatformHelper {
-  @override
-  bool get isMobile => false;
-}
 
 void main() {
   final game = _TestPinballGame();
