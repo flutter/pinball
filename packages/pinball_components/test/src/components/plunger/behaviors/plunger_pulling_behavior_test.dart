@@ -13,13 +13,13 @@ import 'package:pinball_components/pinball_components.dart';
 class _TestGame extends Forge2DGame {
   Future<void> pump(
     PlungerPullingBehavior behavior, {
-    PlungerCubit? plugerBloc,
+    PlungerCubit? plungerBloc,
   }) async {
     final plunger = Plunger.test();
     await ensureAdd(plunger);
     return plunger.ensureAdd(
       FlameBlocProvider<PlungerCubit, PlungerState>.value(
-        value: plugerBloc ?? _MockPlungerCubit(),
+        value: plungerBloc ?? _MockPlungerCubit(),
         children: [behavior],
       ),
     );
@@ -64,7 +64,7 @@ void main() {
         );
         await game.pump(
           behavior,
-          plugerBloc: plungerBloc,
+          plungerBloc: plungerBloc,
         );
         game.update(0);
 
@@ -105,7 +105,7 @@ void main() {
         );
         await game.pump(
           behavior,
-          plugerBloc: plungerBloc,
+          plungerBloc: plungerBloc,
         );
         final plunger = behavior.ancestors().whereType<Plunger>().single;
         final joint = _MockPrismaticJoint();
@@ -136,7 +136,7 @@ void main() {
         );
         await game.pump(
           behavior,
-          plugerBloc: plungerBloc,
+          plungerBloc: plungerBloc,
         );
         final plunger = behavior.ancestors().whereType<Plunger>().single;
         final joint = _MockPrismaticJoint();
