@@ -12,6 +12,7 @@ import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_ui/pinball_ui.dart';
+import 'package:platform_helper/platform_helper.dart';
 import 'package:share_repository/share_repository.dart';
 
 class _MockAssetsManagerCubit extends Mock implements AssetsManagerCubit {}
@@ -28,6 +29,8 @@ class _MockGameBloc extends Mock implements GameBloc {}
 class _MockStartGameBloc extends Mock implements StartGameBloc {}
 
 class _MockPinballAudioPlayer extends Mock implements PinballAudioPlayer {}
+
+class _MockPlatformHelper extends Mock implements PlatformHelper {}
 
 PinballAudioPlayer _buildDefaultPinballAudioPlayer() {
   final audioPlayer = _MockPinballAudioPlayer();
@@ -60,6 +63,7 @@ extension PumpApp on WidgetTester {
     LeaderboardRepository? leaderboardRepository,
     ShareRepository? shareRepository,
     PinballAudioPlayer? pinballAudioPlayer,
+    PlatformHelper? platformHelper,
   }) {
     return runAsync(() {
       return pumpWidget(
@@ -73,6 +77,9 @@ extension PumpApp on WidgetTester {
             ),
             RepositoryProvider.value(
               value: pinballAudioPlayer ?? _buildDefaultPinballAudioPlayer(),
+            ),
+            RepositoryProvider.value(
+              value: platformHelper ?? _MockPlatformHelper(),
             ),
           ],
           child: MultiBlocProvider(
