@@ -132,10 +132,15 @@ class _Character extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Opacity(
-        opacity: isSelected ? 1 : 0.3,
+        opacity: isSelected ? 1 : 0.4,
         child: TextButton(
           onPressed: () =>
               context.read<CharacterThemeCubit>().characterSelected(character),
+          style: ButtonStyle(
+            overlayColor: MaterialStateProperty.all(
+              PinballColors.transparent,
+            ),
+          ),
           child: character.icon.image(fit: BoxFit.contain),
         ),
       ),

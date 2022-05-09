@@ -23,7 +23,52 @@ class GoogleWordCubit extends Cubit<GoogleWordState> {
     }
   }
 
+  void switched() {
+    switch (state.letterSpriteStates[0]!) {
+      case GoogleLetterSpriteState.lit:
+        emit(
+          GoogleWordState(
+            letterSpriteStates: {
+              for (int i = 0; i < _lettersInGoogle; i++)
+                if (i.isEven)
+                  i: GoogleLetterSpriteState.dimmed
+                else
+                  i: GoogleLetterSpriteState.lit
+            },
+          ),
+        );
+        break;
+      case GoogleLetterSpriteState.dimmed:
+        emit(
+          GoogleWordState(
+            letterSpriteStates: {
+              for (int i = 0; i < _lettersInGoogle; i++)
+                if (i.isEven)
+                  i: GoogleLetterSpriteState.lit
+                else
+                  i: GoogleLetterSpriteState.dimmed
+            },
+          ),
+        );
+        break;
+    }
+  }
+
   void onBonusAwarded() {
+    emit(
+      GoogleWordState(
+        letterSpriteStates: {
+          for (int i = 0; i < _lettersInGoogle; i++)
+            if (i.isEven)
+              i: GoogleLetterSpriteState.lit
+            else
+              i: GoogleLetterSpriteState.dimmed
+        },
+      ),
+    );
+  }
+
+  void onAnimationFinished() {
     emit(GoogleWordState.initial());
     _lastLitLetter = 0;
   }
