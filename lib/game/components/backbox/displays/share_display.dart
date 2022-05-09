@@ -140,7 +140,7 @@ class FacebookButtonComponent extends SpriteComponent
   final OnSocialShareTap? _onTap;
 
   @override
-  bool onTapDown(TapDownInfo info) {
+  bool onTapUp(TapUpInfo info) {
     _onTap?.call(SharePlatform.facebook);
     return true;
   }
@@ -172,7 +172,7 @@ class TwitterButtonComponent extends SpriteComponent with HasGameRef, Tappable {
   final OnSocialShareTap? _onTap;
 
   @override
-  bool onTapDown(TapDownInfo info) {
+  bool onTapUp(TapUpInfo info) {
     _onTap?.call(SharePlatform.twitter);
     return true;
   }

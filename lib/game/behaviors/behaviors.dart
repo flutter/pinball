@@ -6,4 +6,5 @@ export 'camera_focusing_behavior.dart';
 export 'character_selection_behavior.dart';
 export 'cow_bumper_noise_behavior.dart';
 export 'kicker_noise_behavior.dart';
+export 'rollover_noise_behavior.dart';
 export 'scoring_behavior.dart';

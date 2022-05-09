@@ -26,6 +26,7 @@ class $AssetsSfxGen {
   String get kickerA => 'assets/sfx/kicker_a.mp3';
   String get kickerB => 'assets/sfx/kicker_b.mp3';
   String get launcher => 'assets/sfx/launcher.mp3';
+  String get rollover => 'assets/sfx/rollover.mp3';
   String get sparky => 'assets/sfx/sparky.mp3';
 }
 
