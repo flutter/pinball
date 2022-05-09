@@ -101,18 +101,20 @@ class _LoopAudio extends _Audio {
     required this.preCacheSingleAudio,
     required this.loopSingleAudio,
     required this.path,
+    this.volume,
   });
 
   final PreCacheSingleAudio preCacheSingleAudio;
   final LoopSingleAudio loopSingleAudio;
   final String path;
+  final double? volume;
 
   @override
   Future<void> load() => preCacheSingleAudio(prefixFile(path));
 
   @override
-  void play({double volume = 1}) {
-    loopSingleAudio(prefixFile(path), volume: volume);
+  void play() {
+    loopSingleAudio(prefixFile(path), volume: volume ?? 1);
   }
 }
 
@@ -121,36 +123,22 @@ class _SingleLoopAudio extends _LoopAudio {
     required PreCacheSingleAudio preCacheSingleAudio,
     required LoopSingleAudio loopSingleAudio,
     required String path,
+    double? volume,
   }) : super(
           preCacheSingleAudio: preCacheSingleAudio,
           loopSingleAudio: loopSingleAudio,
           path: path,
+          volume: volume,
         );
 
   bool _playing = false;
 
   @override
-  void play({double volume = 1}) {
+  void play() {
     if (!_playing) {
-      super.play(volume: volume);
+      super.play();
       _playing = true;
     }
-  }
-}
-
-class _BackgroundMusicAudio extends _SingleLoopAudio {
-  _BackgroundMusicAudio({
-    required PreCacheSingleAudio preCacheSingleAudio,
-    required LoopSingleAudio loopSingleAudio,
-  }) : super(
-          preCacheSingleAudio: preCacheSingleAudio,
-          loopSingleAudio: loopSingleAudio,
-          path: Assets.music.background,
-        );
-
-  @override
-  void play({double volume = .6}) {
-    super.play(volume: volume);
   }
 }
 
@@ -308,9 +296,11 @@ class PinballAudioPlayer {
         path: Assets.sfx.cowMoo,
         duration: const Duration(seconds: 2),
       ),
-      PinballAudio.backgroundMusic: _BackgroundMusicAudio(
+      PinballAudio.backgroundMusic: _SingleLoopAudio(
         preCacheSingleAudio: _preCacheSingleAudio,
         loopSingleAudio: _loopSingleAudio,
+        path: Assets.music.background,
+        volume: .6,
       ),
     };
   }
