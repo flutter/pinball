@@ -47,7 +47,7 @@ void main() {
     });
 
     test(
-      'fullArrowLit returns if lightState is last one',
+      'fullArrowLit returns true when lightState is last one',
       () {
         expect(
           SpaceshipRampState.initial().fullArrowLit,

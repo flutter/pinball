@@ -67,7 +67,7 @@ void main() {
 
     flameTester.test(
       'adds onProgressed '
-      'when hits and multiplier is less than 6',
+      'when hits and multiplier are less than 6',
       (game) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
@@ -104,7 +104,7 @@ void main() {
 
     flameTester.test(
       'adds onProgressed '
-      'when hits and multiplier is 6 but arrow is not full lit',
+      'when hits and multiplier are 6 but arrow is not fully lit',
       (game) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
@@ -141,7 +141,7 @@ void main() {
 
     flameTester.test(
       "doesn't add onProgressed "
-      'when hits and multiplier is 6 and arrow is full lit',
+      'when hits and multiplier are 6 and arrow is fully lit',
       (game) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
@@ -182,8 +182,8 @@ void main() {
     );
 
     flameTester.test(
-      'adds again onProgressed to dimmed all '
-      'when arrow is full lit after hit and multiplier is less than 6',
+      'adds onProgressed to dim arrow '
+      'when arrow is fully lit after hit and multiplier is less than 6',
       (game) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
@@ -224,8 +224,8 @@ void main() {
     );
 
     flameTester.test(
-      "doesn't add again onProgressed to dimmed all "
-      'when arrow is not full lit after hit',
+      "doesn't add onProgressed to dim arrow "
+      'when arrow is not fully lit after hit',
       (game) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
@@ -266,7 +266,7 @@ void main() {
     );
 
     flameTester.test(
-      "doesn't add again onProgressed to dimmed all "
+      "doesn't add onProgressed to dim arrow "
       'when multiplier is 6 after hit',
       (game) async {
         final bloc = _MockSpaceshipRampCubit();
