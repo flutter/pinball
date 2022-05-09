@@ -70,7 +70,7 @@ void main() {
 
     flameTester.test(
       'adds onProgressed '
-      'when hits and multiplier is less than 6',
+      'when hits and multiplier are less than 6',
       (game) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
