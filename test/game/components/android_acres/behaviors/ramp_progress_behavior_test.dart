@@ -107,7 +107,7 @@ void main() {
 
     flameTester.test(
       'adds onProgressed '
-      'when hits and multiplier is 6 but arrow is not full lit',
+      'when hits and multiplier are 6 but arrow is not fully lit',
       (game) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
