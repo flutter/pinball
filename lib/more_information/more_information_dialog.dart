@@ -204,7 +204,7 @@ class _MadeWithFlutterAndFirebase extends StatelessWidget {
 abstract class _MoreInformationUrl {
   static const flutterWebsite = 'https://flutter.dev';
   static const firebaseWebsite = 'https://firebase.google.com';
-  static const openSourceCode = 'https://github.com/VGVentures/pinball';
+  static const openSourceCode = 'https://github.com/flutter/pinball';
   static const googleIOEvent = 'https://events.google.com/io/';
   static const flutterGamesWebsite = 'http://flutter.dev/games';
   static const howItsMadeArticle =
