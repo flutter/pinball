@@ -45,7 +45,7 @@ class GameBlocStatusListener extends Component
         gameRef
             .descendants()
             .whereType<Flipper>()
-            .forEach(_removeFliperBehaviors);
+            .forEach(_removeFlipperBehaviors);
         gameRef
             .descendants()
             .whereType<Plunger>()
@@ -89,7 +89,7 @@ class GameBlocStatusListener extends Component
     ..add(FlipperKeyControllingBehavior())
     ..moveDown();
 
-  void _removeFliperBehaviors(Flipper flipper) => flipper
+  void _removeFlipperBehaviors(Flipper flipper) => flipper
       .descendants()
       .whereType<FlipperKeyControllingBehavior>()
       .forEach(flipper.remove);
