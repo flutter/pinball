@@ -26,6 +26,44 @@ void main() {
       },
     );
 
+    group('adds', () {
+      flameTester.test(
+        'a PlungerReleasingBehavior',
+        (game) async {
+          final plunger = Plunger();
+          await game.ensureAdd(plunger);
+          expect(
+            game.descendants().whereType<PlungerReleasingBehavior>().length,
+            equals(1),
+          );
+        },
+      );
+
+      flameTester.test(
+        'a PlungerJointingBehavior',
+        (game) async {
+          final plunger = Plunger();
+          await game.ensureAdd(plunger);
+          expect(
+            game.descendants().whereType<PlungerJointingBehavior>().length,
+            equals(1),
+          );
+        },
+      );
+
+      flameTester.test(
+        'a PlungerNoiseBehavior',
+        (game) async {
+          final plunger = Plunger();
+          await game.ensureAdd(plunger);
+          expect(
+            game.descendants().whereType<PlungerNoiseBehavior>().length,
+            equals(1),
+          );
+        },
+      );
+    });
+
     group('renders correctly', () {
       const goldenPath = '../golden/plunger/';
       flameTester.testGameWidget(
@@ -74,30 +112,5 @@ void main() {
         },
       );
     });
-
-    // group('body', () {
-    //   test('is dynamic', () {
-    //     final body = Plunger.test().createBody();
-    //     expect(body.bodyType, equals(BodyType.dynamic));
-    //   });
-
-    //   test('ignores gravity', () {
-    //     final body = Plunger().createBody();
-    //     expect(body.gravityScale, equals(Vector2.zero()));
-    //   });
-    // });
-
-    // group('fixture', () {
-    //   test('exists', () async {
-    //     final body = Plunger().createBody();
-    //     expect(body.fixtures[0], isA<Fixture>());
-    //   });
-
-    //   test('has density', () {
-    //     final body = Plunger().createBody();
-    //     final fixture = body.fixtures[0];
-    //     expect(fixture.density, greaterThan(0));
-    //   });
-    // });
   });
 }

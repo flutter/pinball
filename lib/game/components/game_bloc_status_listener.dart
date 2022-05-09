@@ -5,6 +5,7 @@ import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
+import 'package:platform_helper/platform_helper.dart';
 
 /// Listens to the [GameBloc] and updates the game accordingly.
 class GameBlocStatusListener extends Component
@@ -53,11 +54,36 @@ class GameBlocStatusListener extends Component
     }
   }
 
-  void _addPlungerKeyControls(Plunger plunger) =>
-      plunger.add(PlungerKeyControllingBehavior());
+  void _addPlungerKeyControls(Plunger plunger) {
+    final platformHelper = readProvider<PlatformHelper>();
+    const pullingStrength = 7.0;
+    final provider =
+        plunger.firstChild<FlameBlocProvider<PlungerCubit, PlungerState>>()!;
 
-  void _removePlungerKeyControls(Plunger plunger) =>
-      plunger.remove(PlungerKeyControllingBehavior());
+    if (platformHelper.isMobile) {
+      provider.add(
+        PlungerAutoPullingBehavior(strength: pullingStrength),
+      );
+    } else {
+      provider.addAll(
+        [
+          PlungerKeyControllingBehavior(),
+          PlungerPullingBehavior(strength: 7),
+        ],
+      );
+    }
+  }
+
+  void _removePlungerKeyControls(Plunger plunger) {
+    plunger
+        .descendants()
+        .whereType<PlungerPullingBehavior>()
+        .forEach(plunger.remove);
+    plunger
+        .descendants()
+        .whereType<PlungerKeyControllingBehavior>()
+        .forEach(plunger.remove);
+  }
 
   void _addFlipperKeyControls(Flipper flipper) => flipper
     ..add(FlipperKeyControllingBehavior())

@@ -6,7 +6,7 @@ import 'package:pinball_components/pinball_components.dart';
 /// Allows controlling the [Plunger]'s movement with keyboard input.
 class PlungerKeyControllingBehavior extends Component
     with KeyboardHandler, FlameBlocReader<PlungerCubit, PlungerState> {
-  /// The [LogicalKeyboardKey]s that will control the [Flipper].
+  /// The [LogicalKeyboardKey]s that will control the [Plunger].
   ///
   /// [onKeyEvent] method listens to when one of these keys is pressed.
   static const List<LogicalKeyboardKey> _keys = [

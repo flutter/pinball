@@ -24,8 +24,8 @@ class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
               create: PlungerCubit.new,
               children: [
                 _PlungerSpriteAnimationGroupComponent(),
-                PlungerPullingBehavior(strength: 7),
                 PlungerReleasingBehavior(strength: 11),
+                PlungerNoiseBehavior(),
               ],
             ),
             PlungerJointingBehavior(compressionDistance: 9.2),
