@@ -1,6 +1,8 @@
 import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 class FlipperMovingBehavior extends Component
     with
@@ -15,7 +17,9 @@ class FlipperMovingBehavior extends Component
 
   late final Flipper _flipper;
 
-  void _moveUp() => _flipper.body.linearVelocity = Vector2(0, -_strength);
+  void _moveUp() {
+    _flipper.body.linearVelocity = Vector2(0, -_strength);
+  }
 
   void _moveDown() => _flipper.body.linearVelocity = Vector2(0, _strength);
 
@@ -23,6 +27,9 @@ class FlipperMovingBehavior extends Component
   void onNewState(FlipperState state) {
     super.onNewState(state);
     if (bloc.state.isMovingDown) _moveDown();
+    if (bloc.state.isMovingUp) {
+      readProvider<PinballAudioPlayer>().play(PinballAudio.flipper);
+    }
   }
 
   @override

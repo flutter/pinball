@@ -39,14 +39,17 @@ enum PinballAudio {
   /// Sparky.
   sparky,
 
-  /// Android
+  /// Android.
   android,
 
-  /// Dino
+  /// Dino.
   dino,
 
-  /// Dash
+  /// Dash.
   dash,
+
+  /// Flipper.
+  flipper,
 }
 
 /// Defines the contract of the creation of an [AudioPool].
@@ -144,6 +147,33 @@ class _SingleLoopAudio extends _LoopAudio {
       super.play();
       _playing = true;
     }
+  }
+}
+
+class _SingleAudioPoll extends _Audio {
+  _SingleAudioPoll({
+    required this.path,
+    required this.createAudioPool,
+    required this.maxPlayers,
+  });
+
+  final String path;
+  final CreateAudioPool createAudioPool;
+  final int maxPlayers;
+  late AudioPool pool;
+
+  @override
+  Future<void> load() async {
+    pool = await createAudioPool(
+      prefixFile(path),
+      maxPlayers: maxPlayers,
+      prefix: '',
+    );
+  }
+
+  @override
+  void play() {
+    pool.start();
   }
 }
 
@@ -276,6 +306,11 @@ class PinballAudioPlayer {
         playSingleAudio: _playSingleAudio,
         path: Assets.sfx.rollover,
         volume: 0.3,
+      ),
+      PinballAudio.flipper: _SingleAudioPoll(
+        path: Assets.sfx.flipper,
+        createAudioPool: _createAudioPool,
+        maxPlayers: 2,
       ),
       PinballAudio.ioPinballVoiceOver: _SimplePlayAudio(
         preCacheSingleAudio: _preCacheSingleAudio,

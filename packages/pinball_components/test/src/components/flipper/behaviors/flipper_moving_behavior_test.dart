@@ -8,15 +8,25 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 class _TestGame extends Forge2DGame {
   Future<void> pump(
     FlipperMovingBehavior behavior, {
     FlipperCubit? flipperBloc,
+    PinballAudioPlayer? audioPlayer,
   }) async {
     final flipper = Flipper.test(side: BoardSide.left);
-    await ensureAdd(flipper);
+    await ensureAdd(
+      FlameProvider<PinballAudioPlayer>.value(
+        audioPlayer ?? _MockPinballAudioPlayer(),
+        children: [
+          flipper,
+        ],
+      ),
+    );
     await flipper.ensureAdd(
       FlameBlocProvider<FlipperCubit, FlipperState>.value(
         value: flipperBloc ?? FlipperCubit(),
@@ -25,6 +35,8 @@ class _TestGame extends Forge2DGame {
     );
   }
 }
+
+class _MockPinballAudioPlayer extends Mock implements PinballAudioPlayer {}
 
 class _MockFlipperCubit extends Mock implements FlipperCubit {}
 
@@ -95,6 +107,31 @@ void main() {
         final flipper = behavior.ancestors().whereType<Flipper>().single;
         expect(flipper.body.linearVelocity.x, 0);
         expect(flipper.body.linearVelocity.y, -strength);
+      },
+    );
+
+    flameTester.test(
+      'play the flipper sound when moving up',
+      (game) async {
+        final audioPlayer = _MockPinballAudioPlayer();
+        final bloc = _MockFlipperCubit();
+        whenListen(
+          bloc,
+          Stream.fromIterable([FlipperState.movingUp]),
+          initialState: FlipperState.movingUp,
+        );
+
+        const strength = 10.0;
+        final behavior = FlipperMovingBehavior(strength: strength);
+        await game.pump(
+          behavior,
+          flipperBloc: bloc,
+          audioPlayer: audioPlayer,
+        );
+        behavior.onNewState(FlipperState.movingUp);
+        game.update(0);
+
+        verify(() => audioPlayer.play(PinballAudio.flipper)).called(1);
       },
     );
   });
