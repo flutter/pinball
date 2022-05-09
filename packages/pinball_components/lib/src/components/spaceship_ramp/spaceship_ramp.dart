@@ -276,8 +276,8 @@ class SpaceshipRampBoardOpening extends BodyComponent
   List<FixtureDef> _createFixtureDefs() {
     final topEdge = EdgeShape()
       ..set(
-        Vector2(-3.8, -1.2),
-        Vector2(3.7, -1.6),
+        Vector2(-3.9, -1.2),
+        Vector2(3.8, -1.6),
       );
     final bottomEdge = EdgeShape()
       ..set(
