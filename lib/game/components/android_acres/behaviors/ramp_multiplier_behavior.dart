@@ -16,7 +16,7 @@ class RampMultiplierBehavior extends Component
     final hitsIncreased = previousState.hits < newState.hits;
     final achievedFiveShots = newState.hits % 5 == 0;
     final notMaxMultiplier =
-        readBloc<GameBloc, GameState>().state.isMaxMultiplier;
+        !readBloc<GameBloc, GameState>().state.isMaxMultiplier;
     return hitsIncreased & achievedFiveShots && notMaxMultiplier;
   }
 
