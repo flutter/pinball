@@ -17,7 +17,7 @@ class GoogleWordAnimatingBehavior extends TimerComponent
       _blinks++;
     } else {
       timer.stop();
-      bloc.onAnimationFinished();
+      bloc.onReset();
       shouldRemove = true;
     }
   }
