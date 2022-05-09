@@ -66,7 +66,7 @@ class GameOverInfoDisplay extends Component with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    gameRef.overlays.add(PinballGame.playButtonOverlay);
+    gameRef.overlays.add(PinballGame.replayButtonOverlay);
   }
 }
 

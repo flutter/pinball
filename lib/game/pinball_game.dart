@@ -41,6 +41,9 @@ class PinballGame extends PinballForge2DGame
   /// Identifier of the play button overlay
   static const playButtonOverlay = 'play_button';
 
+  /// Identifier of the play button overlay
+  static const replayButtonOverlay = 'replay_button';
+
   /// Identifier of the mobile controls overlay
   static const mobileControlsOverlay = 'mobile_controls';
 

@@ -27,6 +27,7 @@ class GameBlocStatusListener extends Component
             .forEach(_addFlipperKeyControls);
 
         gameRef.overlays.remove(PinballGame.playButtonOverlay);
+        gameRef.overlays.remove(PinballGame.replayButtonOverlay);
         break;
       case GameStatus.gameOver:
         readProvider<PinballAudioPlayer>().play(PinballAudio.gameOverVoiceOver);

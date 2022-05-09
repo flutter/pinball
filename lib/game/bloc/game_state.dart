@@ -52,7 +52,7 @@ class GameState extends Equatable {
         totalScore = 0,
         roundScore = 0,
         multiplier = 1,
-        rounds = 3,
+        rounds = 1,
         bonusHistory = const [];
 
   /// The score for the current round of the game.

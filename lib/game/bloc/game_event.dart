@@ -64,3 +64,10 @@ class GameOver extends GameEvent {
   @override
   List<Object?> get props => [];
 }
+
+class Replayed extends GameEvent {
+  const Replayed();
+
+  @override
+  List<Object?> get props => [];
+}
