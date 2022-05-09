@@ -4,8 +4,8 @@ import 'package:pinball_flame/pinball_flame.dart';
 class AnimatronicLoopingBehavior extends TimerComponent
     with ParentIsA<SpriteAnimationComponent> {
   AnimatronicLoopingBehavior({
-    required double durationBetweenAnimation,
-  }) : super(period: durationBetweenAnimation);
+    required double animationCooldown,
+  }) : super(period: animationCooldown);
 
   @override
   Future<void> onLoad() async {
