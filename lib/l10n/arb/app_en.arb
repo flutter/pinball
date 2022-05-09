@@ -218,7 +218,7 @@
     "description": "Text to share score on Social Network",
     "placeholders": {
       "score": {
-          "type": "int"
+          "type": "String"
       }
     }
   }
