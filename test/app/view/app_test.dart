@@ -37,7 +37,7 @@ void main() {
       shareRepository = _MockShareRepository();
       pinballAudioPlayer = _MockPinballAudioPlayer();
       platformHelper = _MockPlatformHelper();
-      when(pinballAudioPlayer.load).thenAnswer((_) => [Future.value()]);
+      when(pinballAudioPlayer.load).thenAnswer((_) => [Future.value]);
     });
 
     testWidgets('renders PinballGamePage', (tester) async {

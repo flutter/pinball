@@ -19,21 +19,31 @@ class AssetsManagerCubit extends Cubit<AssetsManagerState> {
     /// do its job without adding too much delay for the user, we are letting
     /// the UI paint first, and then we start loading the assets.
     await Future<void>.delayed(const Duration(seconds: 1));
+    final loadables = <Future<void> Function()>[
+      _game.preFetchLeaderboard,
+      ..._game.preLoadAssets(),
+      ..._audioPlayer.load(),
+      ...BonusAnimation.loadAssets(),
+      ...SelectedCharacter.loadAssets(),
+    ];
     emit(
       state.copyWith(
-        loadables: [
-          _game.preFetchLeaderboard(),
-          ..._game.preLoadAssets(),
-          ..._audioPlayer.load(),
-          ...BonusAnimation.loadAssets(),
-          ...SelectedCharacter.loadAssets(),
-        ],
+        assetsCount: loadables.length,
       ),
     );
-    final all = state.loadables.map((loadable) async {
-      await loadable;
-      emit(state.copyWith(loaded: [...state.loaded, loadable]));
-    }).toList();
-    await Future.wait(all);
+
+    late void Function() _triggerLoad;
+    _triggerLoad = () async {
+      if (loadables.isEmpty) return;
+      final loadable = loadables.removeAt(0);
+      await loadable();
+      _triggerLoad();
+      emit(state.copyWith(loaded: state.loaded + 1));
+    };
+
+    const _throttleSize = 3;
+    for (var i = 0; i < _throttleSize; i++) {
+      _triggerLoad();
+    }
   }
 }
