@@ -82,6 +82,9 @@ class GameState extends Equatable {
   /// The score displayed at the game.
   int get displayScore => roundScore + totalScore;
 
+  /// The max multiplier in game.
+  bool get isMaxMultiplier => multiplier == 6;
+
   GameState copyWith({
     int? totalScore,
     int? roundScore,
