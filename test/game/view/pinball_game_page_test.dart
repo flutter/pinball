@@ -37,9 +37,13 @@ class _TestPinballGame extends PinballGame {
     images.prefix = '';
     final futures = [
       ...preLoadAssets(),
-      preFetchLeaderboard(),
+      ...BonusAnimation.loadAssets(),
+      ...SelectedCharacter.loadAssets(),
+      preFetchLeaderboard,
     ];
-    await Future.wait<void>(futures);
+    await Future.wait<void>(
+      futures.map((loadableBuilder) => loadableBuilder()).toList(),
+    );
 
     return super.onLoad();
   }
@@ -78,7 +82,9 @@ void main() {
     late GameBloc gameBloc;
 
     setUp(() async {
-      await Future.wait<void>(game.preLoadAssets());
+      await Future.wait<void>(
+        game.preLoadAssets().map((loadableBuilder) => loadableBuilder()),
+      );
       characterThemeCubit = _MockCharacterThemeCubit();
       gameBloc = _MockGameBloc();
 
@@ -122,8 +128,8 @@ void main() {
       (tester) async {
         final assetsManagerCubit = _MockAssetsManagerCubit();
         final initialAssetsState = AssetsManagerState(
-          loadables: [Future<void>.value()],
-          loaded: const [],
+          assetsCount: 1,
+          loaded: 0,
         );
         whenListen(
           assetsManagerCubit,
@@ -146,8 +152,8 @@ void main() {
       final startGameBloc = _MockStartGameBloc();
 
       final loadedAssetsState = AssetsManagerState(
-        loadables: [Future<void>.value()],
-        loaded: [Future<void>.value()],
+        assetsCount: 1,
+        loaded: 1,
       );
       whenListen(
         assetsManagerCubit,
@@ -179,7 +185,9 @@ void main() {
     final startGameBloc = _MockStartGameBloc();
 
     setUp(() async {
-      await Future.wait<void>(game.preLoadAssets());
+      await Future.wait<void>(
+        game.preLoadAssets().map((loadableBuilder) => loadableBuilder()),
+      );
 
       whenListen(
         gameBloc,

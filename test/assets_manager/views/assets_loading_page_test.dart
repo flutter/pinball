@@ -12,9 +12,9 @@ void main() {
   late AssetsManagerCubit assetsManagerCubit;
 
   setUp(() {
-    final initialAssetsState = AssetsManagerState(
-      loadables: [Future<void>.value()],
-      loaded: const [],
+    const initialAssetsState = AssetsManagerState(
+      assetsCount: 1,
+      loaded: 0,
     );
     assetsManagerCubit = _MockAssetsManagerCubit();
     whenListen(
