@@ -38,10 +38,13 @@ class PinballGame extends PinballForge2DGame
     images.prefix = '';
   }
 
-  /// Identifier of the play button overlay
+  /// Identifier of the play button overlay.
   static const playButtonOverlay = 'play_button';
 
-  /// Identifier of the mobile controls overlay
+  /// Identifier of the replay button overlay.
+  static const replayButtonOverlay = 'replay_button';
+
+  /// Identifier of the mobile controls overlay.
   static const mobileControlsOverlay = 'mobile_controls';
 
   @override

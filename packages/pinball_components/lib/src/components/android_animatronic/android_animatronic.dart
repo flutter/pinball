@@ -1,6 +1,8 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_components/src/components/android_animatronic/behaviors/behaviors.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template android_animatronic}
@@ -13,6 +15,7 @@ class AndroidAnimatronic extends BodyComponent
       : super(
           children: [
             _AndroidAnimatronicSpriteAnimationComponent(),
+            AndroidAnimatronicBallContactBehavior(),
             ...?children,
           ],
           renderBody: false,
@@ -20,6 +23,13 @@ class AndroidAnimatronic extends BodyComponent
     layer = Layer.spaceship;
     zIndex = ZIndexes.androidHead;
   }
+
+  /// Creates an [AndroidAnimatronic] without any children.
+  ///
+  /// This can be used for testing [AndroidAnimatronic]'s behaviors in
+  /// isolation.
+  @visibleForTesting
+  AndroidAnimatronic.test();
 
   @override
   Body createBody() {

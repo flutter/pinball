@@ -100,22 +100,25 @@ class PinballGameLoadedView extends StatelessWidget {
                 focusNode: game.focusNode,
                 initialActiveOverlays: const [PinballGame.playButtonOverlay],
                 overlayBuilderMap: {
-                  PinballGame.playButtonOverlay: (context, game) {
-                    return const Positioned(
-                      bottom: 20,
-                      right: 0,
-                      left: 0,
-                      child: PlayButtonOverlay(),
-                    );
-                  },
-                  PinballGame.mobileControlsOverlay: (context, game) {
-                    return Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: MobileControls(game: game),
-                    );
-                  },
+                  PinballGame.playButtonOverlay: (_, game) => const Positioned(
+                        bottom: 20,
+                        right: 0,
+                        left: 0,
+                        child: PlayButtonOverlay(),
+                      ),
+                  PinballGame.mobileControlsOverlay: (_, game) => Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: MobileControls(game: game),
+                      ),
+                  PinballGame.replayButtonOverlay: (context, game) =>
+                      const Positioned(
+                        bottom: 20,
+                        right: 0,
+                        left: 0,
+                        child: ReplayButtonOverlay(),
+                      )
                 },
               ),
             ),
