@@ -38,7 +38,7 @@ void main() {
       bloc = _MockMultiplierCubit();
     });
 
-    flameTester.test('"x2" loads correctly', (game) async {
+    flameTester.test('"x2" can be added', (game) async {
       final multiplier = Multiplier.x2(
         position: Vector2.zero(),
         angle: 0,
@@ -47,7 +47,7 @@ void main() {
       expect(game.contains(multiplier), isTrue);
     });
 
-    flameTester.test('"x3" loads correctly', (game) async {
+    flameTester.test('"x3" can be added', (game) async {
       final multiplier = Multiplier.x3(
         position: Vector2.zero(),
         angle: 0,
@@ -56,7 +56,7 @@ void main() {
       expect(game.contains(multiplier), isTrue);
     });
 
-    flameTester.test('"x4" loads correctly', (game) async {
+    flameTester.test('"x4" can be added', (game) async {
       final multiplier = Multiplier.x4(
         position: Vector2.zero(),
         angle: 0,
@@ -65,7 +65,7 @@ void main() {
       expect(game.contains(multiplier), isTrue);
     });
 
-    flameTester.test('"x5" loads correctly', (game) async {
+    flameTester.test('"x5" can be added', (game) async {
       final multiplier = Multiplier.x5(
         position: Vector2.zero(),
         angle: 0,
@@ -74,7 +74,7 @@ void main() {
       expect(game.contains(multiplier), isTrue);
     });
 
-    flameTester.test('"x6" loads correctly', (game) async {
+    flameTester.test('"x6" can be added', (game) async {
       final multiplier = Multiplier.x6(
         position: Vector2.zero(),
         angle: 0,

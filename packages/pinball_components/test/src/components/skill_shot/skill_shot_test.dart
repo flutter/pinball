@@ -23,7 +23,7 @@ void main() {
   final flameTester = FlameTester(() => TestGame(assets));
 
   group('SkillShot', () {
-    flameTester.test('loads correctly', (game) async {
+    flameTester.test('can be added', (game) async {
       final skillShot = SkillShot();
       await game.ensureAdd(skillShot);
       expect(game.contains(skillShot), isTrue);

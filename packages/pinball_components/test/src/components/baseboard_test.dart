@@ -40,7 +40,7 @@ void main() {
     );
 
     flameTester.test(
-      'loads correctly',
+      'can be added',
       (game) async {
         await game.ready();
         final leftBaseboard = Baseboard(

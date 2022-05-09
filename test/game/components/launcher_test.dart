@@ -39,7 +39,7 @@ void main() {
 
   group('Launcher', () {
     flameTester.test(
-      'loads correctly',
+      'can be added',
       (game) async {
         final component = Launcher();
         await game.pump(component);

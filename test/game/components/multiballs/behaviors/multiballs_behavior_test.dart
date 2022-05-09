@@ -50,7 +50,7 @@ void main() {
     });
 
     flameTester.test(
-      'can be loaded',
+      'can be added',
       (game) async {
         final parent = Multiballs.test();
         final behavior = MultiballsBehavior();

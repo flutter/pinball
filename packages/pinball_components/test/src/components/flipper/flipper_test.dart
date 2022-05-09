@@ -42,7 +42,7 @@ void main() {
     );
 
     flameTester.test(
-      'loads correctly',
+      'can be added',
       (game) async {
         final leftFlipper = Flipper(side: BoardSide.left);
         final rightFlipper = Flipper(side: BoardSide.right);

@@ -47,7 +47,7 @@ void main() {
     });
 
     flameTester.test(
-      '0th loads correctly',
+      '0th can be added',
       (game) async {
         final googleLetter = GoogleLetter(0);
         await game.pump(googleLetter);
@@ -57,7 +57,7 @@ void main() {
     );
 
     flameTester.test(
-      '1st loads correctly',
+      '1st can be added',
       (game) async {
         final googleLetter = GoogleLetter(1);
         await game.pump(googleLetter);
@@ -67,7 +67,7 @@ void main() {
     );
 
     flameTester.test(
-      '2nd loads correctly',
+      '2nd can be added',
       (game) async {
         final googleLetter = GoogleLetter(2);
         await game.pump(googleLetter);
@@ -77,7 +77,7 @@ void main() {
     );
 
     flameTester.test(
-      '3d loads correctly',
+      '3d can be added',
       (game) async {
         final googleLetter = GoogleLetter(3);
         await game.pump(googleLetter);
@@ -87,7 +87,7 @@ void main() {
     );
 
     flameTester.test(
-      '4th loads correctly',
+      '4th can be added',
       (game) async {
         final googleLetter = GoogleLetter(4);
         await game.pump(googleLetter);
@@ -97,7 +97,7 @@ void main() {
     );
 
     flameTester.test(
-      '5th loads correctly',
+      '5th can be added',
       (game) async {
         final googleLetter = GoogleLetter(5);
         await game.pump(googleLetter);

@@ -22,7 +22,7 @@ void main() {
 
   group('ChromeDino', () {
     flameTester.test(
-      'loads correctly',
+      'can be added',
       (game) async {
         final chromeDino = ChromeDino();
         await game.ensureAdd(chromeDino);

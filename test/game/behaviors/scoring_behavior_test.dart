@@ -78,7 +78,7 @@ void main() {
     });
 
     flameBlocTester.test(
-      'can be loaded',
+      'can be added',
       (game) async {
         await game.pump(parent);
 

@@ -47,7 +47,7 @@ void main() {
       );
     });
 
-    flameTester.test('can be loaded', (game) async {
+    flameTester.test('can be added', (game) async {
       final behavior = FlipperMovingBehavior(strength: 0);
       await game.pump(behavior);
       expect(game.descendants(), contains(behavior));

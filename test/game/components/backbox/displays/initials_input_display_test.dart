@@ -76,7 +76,7 @@ void main() {
 
   group('InitialsInputDisplay', () {
     flameTester.test(
-      'loads correctly',
+      'can be added',
       (game) async {
         final component = InitialsInputDisplay(
           score: 0,

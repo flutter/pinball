@@ -17,7 +17,7 @@ void main() {
       );
     });
 
-    flameTester.test('can be loaded', (game) async {
+    flameTester.test('can be added', (game) async {
       final parent = Plunger.test();
       final behavior = PlungerJointingBehavior(compressionDistance: 0);
       await game.ensureAdd(parent);

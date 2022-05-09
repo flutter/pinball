@@ -198,7 +198,7 @@ void main() {
 
   group('Backbox', () {
     flameTester.test(
-      'loads correctly',
+      'can be added',
       (game) async {
         final backbox = Backbox.test(
           bloc: bloc,

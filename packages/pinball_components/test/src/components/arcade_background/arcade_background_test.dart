@@ -29,7 +29,7 @@ void main() {
     );
 
     flameTester.test(
-      'loads correctly',
+      'can be added',
       (game) async {
         final ball = ArcadeBackground();
         await game.ready();

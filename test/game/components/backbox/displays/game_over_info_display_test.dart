@@ -88,7 +88,7 @@ void main() {
 
   group('InfoDisplay', () {
     flameTester.test(
-      'loads correctly',
+      'can be added',
       (game) async {
         final component = GameOverInfoDisplay();
         await game.pump(component);

@@ -34,7 +34,7 @@ void main() {
       );
     });
 
-    flameTester.test('can be loaded', (game) async {
+    flameTester.test('can be added', (game) async {
       final behavior = ZIndexContactBehavior(zIndex: 0);
       final parent = _TestBodyComponent();
       await game.ensureAdd(parent);

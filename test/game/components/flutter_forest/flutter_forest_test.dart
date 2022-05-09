@@ -57,7 +57,7 @@ void main() {
 
   group('FlutterForest', () {
     flameTester.test(
-      'loads correctly',
+      'can be added',
       (game) async {
         final component = FlutterForest();
         await game.pump(component);

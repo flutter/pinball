@@ -18,7 +18,7 @@ void main() {
     });
 
     flameTester.test(
-      'loads correctly',
+      'can be added',
       (game) async {
         final plunger = Plunger();
         await game.ensureAdd(plunger);

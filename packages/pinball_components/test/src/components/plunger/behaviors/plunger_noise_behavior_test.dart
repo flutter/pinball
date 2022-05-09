@@ -57,7 +57,7 @@ void main() {
       );
     });
 
-    flameTester.test('can be loaded', (game) async {
+    flameTester.test('can be added', (game) async {
       final behavior = PlungerNoiseBehavior();
       await game.pump(behavior);
       expect(game.descendants(), contains(behavior));

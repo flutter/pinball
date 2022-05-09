@@ -29,7 +29,7 @@ void main() {
       );
     });
 
-    flameTester.test('loads correctly', (game) async {
+    flameTester.test('can be added', (game) async {
       final component = ZCanvasComponent();
       await game.ensureAdd(component);
       expect(game.contains(component), isTrue);

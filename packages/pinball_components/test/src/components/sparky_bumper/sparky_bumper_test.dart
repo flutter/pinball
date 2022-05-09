@@ -26,19 +26,19 @@ void main() {
   final flameTester = FlameTester(() => TestGame(assets));
 
   group('SparkyBumper', () {
-    flameTester.test('"a" loads correctly', (game) async {
+    flameTester.test('"a" can be added', (game) async {
       final sparkyBumper = SparkyBumper.a();
       await game.ensureAdd(sparkyBumper);
       expect(game.contains(sparkyBumper), isTrue);
     });
 
-    flameTester.test('"b" loads correctly', (game) async {
+    flameTester.test('"b" can be added', (game) async {
       final sparkyBumper = SparkyBumper.b();
       await game.ensureAdd(sparkyBumper);
       expect(game.contains(sparkyBumper), isTrue);
     });
 
-    flameTester.test('"c" loads correctly', (game) async {
+    flameTester.test('"c" can be added', (game) async {
       final sparkyBumper = SparkyBumper.c();
       await game.ensureAdd(sparkyBumper);
       expect(game.contains(sparkyBumper), isTrue);

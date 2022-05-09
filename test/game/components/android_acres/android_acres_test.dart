@@ -54,7 +54,7 @@ void main() {
   group('AndroidAcres', () {
     final flameTester = FlameTester(_TestGame.new);
 
-    flameTester.test('loads correctly', (game) async {
+    flameTester.test('can be added', (game) async {
       final component = AndroidAcres();
       await game.pump(component);
       expect(game.descendants(), contains(component));

@@ -12,7 +12,7 @@ void main() {
 
   group('Drain', () {
     flameTester.test(
-      'loads correctly',
+      'can be added',
       (game) async {
         final drain = Drain();
         await game.ensureAdd(drain);

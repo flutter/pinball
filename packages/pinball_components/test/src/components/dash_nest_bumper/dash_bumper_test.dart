@@ -30,20 +30,20 @@ void main() {
       ),
     );
 
-    flameTester.test('"main" loads correctly', (game) async {
+    flameTester.test('"main" can be added', (game) async {
       final bumper = DashBumper.main();
       await game.ensureAdd(bumper);
       expect(game.contains(bumper), isTrue);
     });
 
-    flameTester.test('"a" loads correctly', (game) async {
+    flameTester.test('"a" can be added', (game) async {
       final bumper = DashBumper.a();
       await game.ensureAdd(bumper);
 
       expect(game.contains(bumper), isTrue);
     });
 
-    flameTester.test('"b" loads correctly', (game) async {
+    flameTester.test('"b" can be added', (game) async {
       final bumper = DashBumper.b();
       await game.ensureAdd(bumper);
       expect(game.contains(bumper), isTrue);

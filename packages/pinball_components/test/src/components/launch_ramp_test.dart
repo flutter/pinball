@@ -17,7 +17,7 @@ void main() {
     ];
     final flameTester = FlameTester(() => TestGame(assets));
 
-    flameTester.test('loads correctly', (game) async {
+    flameTester.test('can be added', (game) async {
       final component = LaunchRamp();
       await game.ensureAdd(component);
       expect(game.contains(component), isTrue);

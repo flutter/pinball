@@ -21,7 +21,7 @@ void main() {
   final flameTester = FlameTester(() => TestGame(assets));
 
   group('Multiball', () {
-    group('loads correctly', () {
+    group('can be added', () {
       flameTester.test('"a"', (game) async {
         final multiball = Multiball.a();
         await game.ensureAdd(multiball);

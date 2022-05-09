@@ -28,7 +28,7 @@ void main() {
       );
     });
 
-    flameTester.test('can be loaded', (game) async {
+    flameTester.test('can be added', (game) async {
       final parent = ScoreComponent.test(
         points: Points.fiveThousand,
         position: Vector2.zero(),

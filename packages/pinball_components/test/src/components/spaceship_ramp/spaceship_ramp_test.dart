@@ -38,7 +38,7 @@ void main() {
 
   group('SpaceshipRamp', () {
     flameTester.test(
-      'loads correctly',
+      'can be added',
       (game) async {
         final spaceshipRamp = SpaceshipRamp();
         await game.ensureAdd(spaceshipRamp);
@@ -289,7 +289,7 @@ void main() {
       expect(SpaceshipRampBase(), isA<SpaceshipRampBase>());
     });
 
-    flameTester.test('can be loaded', (game) async {
+    flameTester.test('can be added', (game) async {
       final component = SpaceshipRampBase();
       await game.ensureAdd(component);
       expect(game.children, contains(component));
@@ -331,7 +331,7 @@ void main() {
       expect(SpaceshipRampBoardOpening(), isA<SpaceshipRampBoardOpening>());
     });
 
-    flameTester.test('can be loaded', (game) async {
+    flameTester.test('can be added', (game) async {
       final parent = SpaceshipRamp.test(bloc: _MockSpaceshipRampCubit());
       final component = SpaceshipRampBoardOpening();
       await game.ensureAdd(parent);

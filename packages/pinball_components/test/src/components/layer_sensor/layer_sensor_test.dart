@@ -30,7 +30,7 @@ void main() {
 
   group('LayerSensor', () {
     flameTester.test(
-      'loads correctly',
+      'can be added',
       (game) async {
         final layerSensor = TestLayerSensor(
           orientation: LayerEntranceOrientation.down,

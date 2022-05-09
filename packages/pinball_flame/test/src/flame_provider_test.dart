@@ -24,7 +24,7 @@ void main() {
         );
       });
 
-      flameTester.test('can be loaded', (game) async {
+      flameTester.test('can be added', (game) async {
         final component = FlameProvider<bool>.value(true);
         await game.ensureAdd(component);
         expect(game.children, contains(component));

@@ -43,7 +43,7 @@ void main() {
   final flameTester = FlameTester(_TestGame.new);
 
   group('DinoDesert', () {
-    flameTester.test('loads correctly', (game) async {
+    flameTester.test('can be added', (game) async {
       final component = DinoDesert();
       await game.pump(component);
       expect(game.descendants(), contains(component));

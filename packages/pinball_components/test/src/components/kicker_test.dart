@@ -49,7 +49,7 @@ void main() {
     );
 
     flameTester.test(
-      'loads correctly',
+      'can be added',
       (game) async {
         final kicker = Kicker.test(
           side: BoardSide.left,

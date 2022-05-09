@@ -31,7 +31,7 @@ void main() {
     );
 
     flameTester.test(
-      'loads correctly',
+      'can be added',
       (game) async {
         final ball = Ball();
         await game.ready();

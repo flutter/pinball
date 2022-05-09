@@ -61,7 +61,7 @@ void main() {
 
   group('ShareDisplay', () {
     flameTester.test(
-      'loads correctly',
+      'can be added',
       (game) async {
         final component = ShareDisplay();
         await game.pump(component);

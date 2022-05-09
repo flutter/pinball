@@ -33,7 +33,7 @@ void main() {
     });
 
     flameTester.testGameWidget(
-      'loads correctly',
+      'can be added',
       setUp: (game, tester) async {
         await game.onLoad();
         game.camera.followVector2(Vector2.zero());

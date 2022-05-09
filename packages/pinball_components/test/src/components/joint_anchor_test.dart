@@ -11,7 +11,7 @@ void main() {
 
   group('JointAnchor', () {
     flameTester.test(
-      'loads correctly',
+      'can be added',
       (game) async {
         final anchor = JointAnchor();
         await game.ready();

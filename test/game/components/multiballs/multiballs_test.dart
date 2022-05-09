@@ -37,7 +37,7 @@ void main() {
 
   group('Multiballs', () {
     flameBlocTester.testGameWidget(
-      'loads correctly',
+      'can be added',
       setUp: (game, tester) async {
         final multiballs = Multiballs();
         await game.pump(multiballs);

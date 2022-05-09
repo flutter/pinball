@@ -34,7 +34,7 @@ void main() {
       );
     });
 
-    flameTester.test('can be loaded', (game) async {
+    flameTester.test('can be added', (game) async {
       final behavior = LayerContactBehavior(layer: Layer.all);
       final parent = _TestBodyComponent();
       await game.ensureAdd(parent);

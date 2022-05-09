@@ -131,7 +131,7 @@ void main() {
     final flameTester = FlameTester(_TestGame.new);
 
     flameTester.test(
-      'can be loaded',
+      'can be added',
       (game) async {
         final component = GameBlocStatusListener();
         await game.pump([component]);

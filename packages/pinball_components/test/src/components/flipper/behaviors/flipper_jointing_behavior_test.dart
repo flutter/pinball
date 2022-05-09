@@ -17,7 +17,7 @@ void main() {
       );
     });
 
-    flameTester.test('can be loaded', (game) async {
+    flameTester.test('can be added', (game) async {
       final parent = Flipper.test(side: BoardSide.left);
       final behavior = FlipperJointingBehavior();
       await game.ensureAdd(parent);

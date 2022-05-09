@@ -43,7 +43,7 @@ void main() {
   final flameTester = FlameTester(_TestGame.new);
 
   group('SparkyScorch', () {
-    flameTester.test('loads correctly', (game) async {
+    flameTester.test('can be added', (game) async {
       final component = SparkyScorch();
       await game.pump(component);
       expect(

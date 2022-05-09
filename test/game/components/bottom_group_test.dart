@@ -31,7 +31,7 @@ void main() {
     final flameTester = FlameTester(_TestGame.new);
 
     flameTester.test(
-      'loads correctly',
+      'can be added',
       (game) async {
         final bottomGroup = BottomGroup();
         await game.ensureAdd(

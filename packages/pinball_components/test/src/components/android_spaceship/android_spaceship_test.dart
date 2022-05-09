@@ -26,7 +26,7 @@ void main() {
       bloc = _MockAndroidSpaceshipCubit();
     });
 
-    flameTester.test('loads correctly', (game) async {
+    flameTester.test('can be added', (game) async {
       final component =
           FlameBlocProvider<AndroidSpaceshipCubit, AndroidSpaceshipState>.value(
         value: bloc,

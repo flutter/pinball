@@ -47,7 +47,7 @@ void main() {
     );
 
     flameTester.test(
-      'loads correctly',
+      'can be added',
       (game) async {
         final dashAnimatronic = DashAnimatronic();
         await game.ensureAdd(dashAnimatronic);

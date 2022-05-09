@@ -52,7 +52,7 @@ void main() {
   final flameTester = FlameTester(_TestGame.new);
 
   group('GoogleGallery', () {
-    flameTester.test('loads correctly', (game) async {
+    flameTester.test('can be added', (game) async {
       final component = GoogleGallery();
       await game.pump(component);
       expect(game.descendants(), contains(component));

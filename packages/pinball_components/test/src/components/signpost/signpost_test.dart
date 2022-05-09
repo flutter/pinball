@@ -25,7 +25,7 @@ void main() {
     const goldenPath = '../golden/signpost/';
 
     flameTester.test(
-      'loads correctly',
+      'can be added',
       (game) async {
         final signpost = Signpost();
         await game.ensureAdd(signpost);

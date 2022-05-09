@@ -24,7 +24,7 @@ void main() {
         );
       });
 
-      flameTester.test('can be loaded', (game) async {
+      flameTester.test('can be added', (game) async {
         final ball = Ball.test();
         final behavior = BallTurboChargingBehavior(impulse: Vector2.zero());
         await ball.add(behavior);

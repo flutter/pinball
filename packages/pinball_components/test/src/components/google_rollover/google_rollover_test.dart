@@ -26,13 +26,13 @@ void main() {
       );
     });
 
-    flameTester.test('left loads correctly', (game) async {
+    flameTester.test('left can be added', (game) async {
       final googleRollover = GoogleRollover(side: BoardSide.left);
       await game.ensureAdd(googleRollover);
       expect(game.contains(googleRollover), isTrue);
     });
 
-    flameTester.test('right loads correctly', (game) async {
+    flameTester.test('right can be added', (game) async {
       final googleRollover = GoogleRollover(side: BoardSide.right);
       await game.ensureAdd(googleRollover);
       expect(game.contains(googleRollover), isTrue);

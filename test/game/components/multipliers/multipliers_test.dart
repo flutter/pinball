@@ -42,7 +42,7 @@ void main() {
 
   group('Multipliers', () {
     flameTester.test(
-      'loads correctly',
+      'can be added',
       (game) async {
         final component = Multipliers();
         await game.pump(component);
