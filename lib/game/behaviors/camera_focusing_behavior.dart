@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_bloc/flame_bloc.dart';
@@ -7,9 +9,9 @@ import 'package:pinball_components/pinball_components.dart';
 /// {@template focus_data}
 /// Defines a [Camera] focus point.
 /// {@endtemplate}
-class FocusData {
-  /// {@template focus_data}
-  FocusData({
+class _FocusData {
+  /// {@macro focus_data}
+  const _FocusData({
     required this.zoom,
     required this.position,
   });
@@ -24,7 +26,11 @@ class FocusData {
 /// Changes the game focus when the [GameBloc] status changes.
 class CameraFocusingBehavior extends Component
     with FlameBlocListenable<GameBloc, GameState>, HasGameRef {
-  late final Map<String, FocusData> _foci;
+  final Map<GameStatus, _FocusData> _foci = {};
+
+  GameStatus? _activeFocus;
+
+  final _previousSize = Vector2.zero();
 
   @override
   bool listenWhen(GameState? previousState, GameState newState) {
@@ -32,51 +38,62 @@ class CameraFocusingBehavior extends Component
   }
 
   @override
-  void onNewState(GameState state) {
-    switch (state.status) {
-      case GameStatus.waiting:
-        break;
-      case GameStatus.playing:
-        _zoom(_foci['game']!);
-        break;
-      case GameStatus.gameOver:
-        _zoom(_foci['backbox']!);
-        break;
+  void onNewState(GameState state) => _zoomTo(state.status);
+
+  @override
+  void onGameResize(Vector2 size) {
+    super.onGameResize(size);
+    if (size == _previousSize) {
+      return;
+    }
+    _previousSize.setFrom(size);
+
+    final maxWidth = size.x / 90;
+    final maxHeight = size.y / 160;
+
+    final scale = min(maxHeight, maxWidth);
+
+    _foci.addAll({
+      GameStatus.waiting: _FocusData(
+        zoom: scale + (maxWidth > maxHeight ? 0.3 : -0.5),
+        position: Vector2(0, -112),
+      ),
+      GameStatus.playing: _FocusData(
+        zoom: scale + (maxWidth > maxHeight ? 0.5 : -0.2),
+        position: Vector2(0, -7.8),
+      ),
+      GameStatus.gameOver: _FocusData(
+        zoom: scale + (maxWidth > maxHeight ? 2.8 : 3.3),
+        position: Vector2(0, -111),
+      ),
+    });
+
+    if (_activeFocus != null) {
+      _snap(_activeFocus!);
     }
   }
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    _foci = {
-      'game': FocusData(
-        zoom: gameRef.size.y / 16,
-        position: Vector2(0, -7.8),
-      ),
-      'waiting': FocusData(
-        zoom: gameRef.size.y / 18,
-        position: Vector2(0, -112),
-      ),
-      'backbox': FocusData(
-        zoom: gameRef.size.y / 10,
-        position: Vector2(0, -111),
-      ),
-    };
-
-    _snap(_foci['waiting']!);
+    _snap(GameStatus.waiting);
   }
 
-  void _snap(FocusData data) {
+  void _snap(GameStatus focusKey) {
+    final focusData = _foci[_activeFocus = focusKey]!;
+
     gameRef.camera
       ..speed = 100
-      ..followVector2(data.position)
-      ..zoom = data.zoom;
+      ..followVector2(focusData.position)
+      ..zoom = focusData.zoom;
   }
 
-  void _zoom(FocusData data) {
-    final zoom = CameraZoom(value: data.zoom);
+  void _zoomTo(GameStatus focusKey) {
+    final focusData = _foci[_activeFocus = focusKey]!;
+
+    final zoom = CameraZoom(value: focusData.zoom);
     zoom.completed.then((_) {
-      gameRef.camera.moveTo(data.position);
+      gameRef.camera.moveTo(focusData.position);
     });
     add(zoom);
   }
