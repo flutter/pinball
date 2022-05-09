@@ -102,7 +102,7 @@ void main() {
 
     group('load', () {
       test('creates the bumpers pools', () async {
-        await Future.wait(audioPlayer.load());
+        await Future.wait(audioPlayer.load().map((e) => e()));
 
         verify(
           () => createAudioPool.onCall(
@@ -122,7 +122,7 @@ void main() {
       });
 
       test('creates the kicker pools', () async {
-        await Future.wait(audioPlayer.load());
+        await Future.wait(audioPlayer.load().map((e) => e()));
 
         verify(
           () => createAudioPool.onCall(
@@ -142,7 +142,7 @@ void main() {
       });
 
       test('configures the audio cache instance', () async {
-        await Future.wait(audioPlayer.load());
+        await Future.wait(audioPlayer.load().map((e) => e()));
 
         verify(() => configureAudioCache.onCall(FlameAudio.audioCache))
             .called(1);
@@ -154,13 +154,13 @@ void main() {
           playSingleAudio: playSingleAudio.onCall,
           preCacheSingleAudio: preCacheSingleAudio.onCall,
         );
-        await Future.wait(audioPlayer.load());
+        await Future.wait(audioPlayer.load().map((e) => e()));
 
         expect(FlameAudio.audioCache.prefix, equals(''));
       });
 
       test('pre cache the assets', () async {
-        await Future.wait(audioPlayer.load());
+        await Future.wait(audioPlayer.load().map((e) => e()));
 
         verify(
           () => preCacheSingleAudio
@@ -242,7 +242,7 @@ void main() {
       group('when seed is true', () {
         test('plays the bumper A sound pool', () async {
           when(seed.nextBool).thenReturn(true);
-          await Future.wait(audioPlayer.load());
+          await Future.wait(audioPlayer.load().map((e) => e()));
           audioPlayer.play(PinballAudio.bumper);
 
           verify(() => bumperAPool.start(volume: 0.6)).called(1);
@@ -252,7 +252,7 @@ void main() {
       group('when seed is false', () {
         test('plays the bumper B sound pool', () async {
           when(seed.nextBool).thenReturn(false);
-          await Future.wait(audioPlayer.load());
+          await Future.wait(audioPlayer.load().map((e) => e()));
           audioPlayer.play(PinballAudio.bumper);
 
           verify(() => bumperBPool.start(volume: 0.6)).called(1);
@@ -291,7 +291,7 @@ void main() {
       group('when seed is true', () {
         test('plays the kicker A sound pool', () async {
           when(seed.nextBool).thenReturn(true);
-          await Future.wait(audioPlayer.load());
+          await Future.wait(audioPlayer.load().map((e) => e()));
           audioPlayer.play(PinballAudio.kicker);
 
           verify(() => kickerAPool.start(volume: 0.6)).called(1);
@@ -301,7 +301,7 @@ void main() {
       group('when seed is false', () {
         test('plays the kicker B sound pool', () async {
           when(seed.nextBool).thenReturn(false);
-          await Future.wait(audioPlayer.load());
+          await Future.wait(audioPlayer.load().map((e) => e()));
           audioPlayer.play(PinballAudio.kicker);
 
           verify(() => kickerBPool.start(volume: 0.6)).called(1);
@@ -311,7 +311,7 @@ void main() {
 
     group('cow moo', () {
       test('plays the correct file', () async {
-        await Future.wait(audioPlayer.load());
+        await Future.wait(audioPlayer.load().map((e) => e()));
         audioPlayer.play(PinballAudio.cowMoo);
 
         verify(
@@ -324,7 +324,7 @@ void main() {
         final clock = _MockClock();
         await withClock(clock, () async {
           when(clock.now).thenReturn(DateTime(2022));
-          await Future.wait(audioPlayer.load());
+          await Future.wait(audioPlayer.load().map((e) => e()));
           audioPlayer
             ..play(PinballAudio.cowMoo)
             ..play(PinballAudio.cowMoo);
@@ -347,7 +347,7 @@ void main() {
 
     group('google', () {
       test('plays the correct file', () async {
-        await Future.wait(audioPlayer.load());
+        await Future.wait(audioPlayer.load().map((e) => e()));
         audioPlayer.play(PinballAudio.google);
 
         verify(
@@ -361,7 +361,7 @@ void main() {
 
     group('sparky', () {
       test('plays the correct file', () async {
-        await Future.wait(audioPlayer.load());
+        await Future.wait(audioPlayer.load().map((e) => e()));
         audioPlayer.play(PinballAudio.sparky);
 
         verify(
@@ -375,7 +375,7 @@ void main() {
 
     group('dino', () {
       test('plays the correct file', () async {
-        await Future.wait(audioPlayer.load());
+        await Future.wait(audioPlayer.load().map((e) => e()));
         audioPlayer.play(PinballAudio.dino);
 
         verify(
@@ -389,7 +389,7 @@ void main() {
 
     group('android', () {
       test('plays the correct file', () async {
-        await Future.wait(audioPlayer.load());
+        await Future.wait(audioPlayer.load().map((e) => e()));
         audioPlayer.play(PinballAudio.android);
 
         verify(
@@ -403,7 +403,7 @@ void main() {
 
     group('dash', () {
       test('plays the correct file', () async {
-        await Future.wait(audioPlayer.load());
+        await Future.wait(audioPlayer.load().map((e) => e()));
         audioPlayer.play(PinballAudio.dash);
 
         verify(
@@ -417,7 +417,7 @@ void main() {
 
     group('launcher', () {
       test('plays the correct file', () async {
-        await Future.wait(audioPlayer.load());
+        await Future.wait(audioPlayer.load().map((e) => e()));
         audioPlayer.play(PinballAudio.launcher);
 
         verify(
@@ -431,7 +431,7 @@ void main() {
 
     group('rollover', () {
       test('plays the correct file', () async {
-        await Future.wait(audioPlayer.load());
+        await Future.wait(audioPlayer.load().map((e) => e()));
         audioPlayer.play(PinballAudio.rollover);
 
         verify(
@@ -445,7 +445,7 @@ void main() {
 
     group('ioPinballVoiceOver', () {
       test('plays the correct file', () async {
-        await Future.wait(audioPlayer.load());
+        await Future.wait(audioPlayer.load().map((e) => e()));
         audioPlayer.play(PinballAudio.ioPinballVoiceOver);
 
         verify(
@@ -459,7 +459,7 @@ void main() {
 
     group('gameOverVoiceOver', () {
       test('plays the correct file', () async {
-        await Future.wait(audioPlayer.load());
+        await Future.wait(audioPlayer.load().map((e) => e()));
         audioPlayer.play(PinballAudio.gameOverVoiceOver);
 
         verify(
@@ -473,7 +473,7 @@ void main() {
 
     group('backgroundMusic', () {
       test('plays the correct file', () async {
-        await Future.wait(audioPlayer.load());
+        await Future.wait(audioPlayer.load().map((e) => e()));
         audioPlayer.play(PinballAudio.backgroundMusic);
 
         verify(
@@ -485,7 +485,7 @@ void main() {
       });
 
       test('plays only once', () async {
-        await Future.wait(audioPlayer.load());
+        await Future.wait(audioPlayer.load().map((e) => e()));
         audioPlayer
           ..play(PinballAudio.backgroundMusic)
           ..play(PinballAudio.backgroundMusic);
@@ -503,7 +503,7 @@ void main() {
       'throws assertions error when playing an unregistered audio',
       () async {
         audioPlayer.audios.remove(PinballAudio.google);
-        await Future.wait(audioPlayer.load());
+        await Future.wait(audioPlayer.load().map((e) => e()));
 
         expect(
           () => audioPlayer.play(PinballAudio.google),
