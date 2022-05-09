@@ -99,6 +99,8 @@ class _MockShareRepository extends Mock implements ShareRepository {}
 
 class _MockTapDownInfo extends Mock implements TapDownInfo {}
 
+class _MockTapUpInfo extends Mock implements TapUpInfo {}
+
 class _MockUrlLauncher extends Mock
     with MockPlatformInterfaceMixin
     implements UrlLauncherPlatform {}
@@ -542,7 +544,7 @@ void main() {
 
           final facebookButton =
               game.descendants().whereType<FacebookButtonComponent>().first;
-          facebookButton.onTapDown(_MockTapDownInfo());
+          facebookButton.onTapUp(_MockTapUpInfo());
 
           await game.ready();
 
@@ -598,7 +600,7 @@ void main() {
 
           final facebookButton =
               game.descendants().whereType<TwitterButtonComponent>().first;
-          facebookButton.onTapDown(_MockTapDownInfo());
+          facebookButton.onTapUp(_MockTapUpInfo());
 
           await game.ready();
 
