@@ -8,6 +8,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/components/google_gallery/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -114,6 +115,52 @@ void main() {
           () => gameBloc.add(const BonusActivated(GameBonus.googleWord)),
         ).called(1);
         verify(googleWordBloc.onBonusAwarded).called(1);
+      },
+    );
+
+    flameTester.testGameWidget(
+      'adds BonusBallSpawningBehavior to the game when all letters '
+      'in google word are activated',
+      setUp: (game, tester) async {
+        final behavior = GoogleWordBonusBehavior();
+        final parent = GoogleGallery.test();
+        final googleWord = GoogleWord(position: Vector2.zero());
+        final googleWordBloc = _MockGoogleWordCubit();
+        final streamController = StreamController<GoogleWordState>();
+
+        whenListen(
+          googleWordBloc,
+          streamController.stream,
+          initialState: GoogleWordState.initial(),
+        );
+
+        await parent.add(googleWord);
+        await game.pump(
+          parent,
+          gameBloc: gameBloc,
+          googleWordBloc: googleWordBloc,
+        );
+        await parent.ensureAdd(behavior);
+
+        streamController.add(
+          const GoogleWordState(
+            letterSpriteStates: {
+              0: GoogleLetterSpriteState.lit,
+              1: GoogleLetterSpriteState.lit,
+              2: GoogleLetterSpriteState.lit,
+              3: GoogleLetterSpriteState.lit,
+              4: GoogleLetterSpriteState.lit,
+              5: GoogleLetterSpriteState.lit,
+            },
+          ),
+        );
+        await tester.pump();
+        await game.ready();
+
+        expect(
+          game.descendants().whereType<BonusBallSpawningBehavior>().length,
+          equals(1),
+        );
       },
     );
   });
