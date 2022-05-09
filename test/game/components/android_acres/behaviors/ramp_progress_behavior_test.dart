@@ -103,8 +103,7 @@ void main() {
         );
 
         streamController.add(state.copyWith(hits: 5));
-
-        await game.ready();
+        await Future<void>.delayed(Duration.zero);
 
         verify(bloc.onProgressed).called(1);
       },
@@ -140,8 +139,7 @@ void main() {
         );
 
         streamController.add(state.copyWith(hits: 5));
-
-        await game.ready();
+        await Future<void>.delayed(Duration.zero);
 
         verify(bloc.onProgressed).called(1);
       },
