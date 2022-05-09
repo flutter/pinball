@@ -9,9 +9,9 @@ import 'package:pinball_flame/pinball_flame.dart';
 class MultiballBlinkingBehavior extends TimerComponent
     with ParentIsA<Multiball> {
   /// {@macro multiball_blinking_behavior}
-  MultiballBlinkingBehavior() : super(period: 0.1);
+  MultiballBlinkingBehavior() : super(period: 0.18);
 
-  final _maxBlinks = 10;
+  final _maxBlinks = 28;
 
   int _blinksCounter = 0;
 

@@ -21,7 +21,7 @@ void main() {
     'MultiballBlinkingBehavior',
     () {
       flameTester.testGameWidget(
-        'calls onBlink every 0.1 seconds when animation state is animated',
+        'calls onBlink every 0.18 seconds when animation state is animated',
         setUp: (game, tester) async {
           final behavior = MultiballBlinkingBehavior();
           final bloc = _MockMultiballCubit();
@@ -48,7 +48,7 @@ void main() {
           verify(bloc.onBlink).called(1);
 
           await tester.pump();
-          game.update(0.1);
+          game.update(0.18);
 
           await streamController.close();
           verify(bloc.onBlink).called(1);
@@ -124,7 +124,7 @@ void main() {
       );
 
       flameTester.testGameWidget(
-        'onTick stops after 10 blinks repetitions',
+        'onTick stops after 28 blinks',
         setUp: (game, tester) async {
           final behavior = MultiballBlinkingBehavior();
           final bloc = _MockMultiballCubit();
@@ -148,7 +148,7 @@ void main() {
           );
           await tester.pump();
 
-          for (var i = 0; i < 10; i++) {
+          for (var i = 0; i < 28; i++) {
             behavior.onTick();
           }
 

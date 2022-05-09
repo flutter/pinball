@@ -11,6 +11,7 @@ import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_ui/pinball_ui.dart';
+import 'package:platform_helper/platform_helper.dart';
 import 'package:share_repository/share_repository.dart';
 
 class PinballGamePage extends StatelessWidget {
@@ -27,6 +28,7 @@ class PinballGamePage extends StatelessWidget {
     final audioPlayer = context.read<PinballAudioPlayer>();
     final leaderboardRepository = context.read<LeaderboardRepository>();
     final shareRepository = context.read<ShareRepository>();
+    final platformHelper = context.read<PlatformHelper>();
     final gameBloc = context.read<GameBloc>();
     final game = isDebugMode
         ? DebugPinballGame(
@@ -35,6 +37,7 @@ class PinballGamePage extends StatelessWidget {
             leaderboardRepository: leaderboardRepository,
             shareRepository: shareRepository,
             l10n: context.l10n,
+            platformHelper: platformHelper,
             gameBloc: gameBloc,
           )
         : PinballGame(
@@ -43,6 +46,7 @@ class PinballGamePage extends StatelessWidget {
             leaderboardRepository: leaderboardRepository,
             shareRepository: shareRepository,
             l10n: context.l10n,
+            platformHelper: platformHelper,
             gameBloc: gameBloc,
           );
 

@@ -138,7 +138,7 @@ void main() {
     );
 
     <String, String>{
-      'Open Source Code': 'https://github.com/VGVentures/pinball',
+      'Open Source Code': 'https://github.com/flutter/pinball',
       'Google I/O': 'https://events.google.com/io/',
       'Flutter Games': 'http://flutter.dev/games',
       'How it’s made':

@@ -47,7 +47,10 @@ class _TestGame extends Forge2DGame
     ]);
   }
 
-  Future<void> pump(Backbox component) async {
+  Future<void> pump(
+    Backbox component, {
+    PlatformHelper? platformHelper,
+  }) async {
     // Not needed once https://github.com/flame-engine/flame/issues/1607
     // is fixed
     await onLoad();
@@ -55,8 +58,15 @@ class _TestGame extends Forge2DGame
       FlameBlocProvider<GameBloc, GameState>.value(
         value: GameBloc(),
         children: [
-          FlameProvider.value(
-            _MockAppLocalizations(),
+          MultiFlameProvider(
+            providers: [
+              FlameProvider<AppLocalizations>.value(
+                _MockAppLocalizations(),
+              ),
+              FlameProvider<PlatformHelper>.value(
+                platformHelper ?? _MockPlatformHelper(),
+              ),
+            ],
             children: [component],
           ),
         ],
@@ -88,6 +98,8 @@ class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
 class _MockShareRepository extends Mock implements ShareRepository {}
 
 class _MockTapDownInfo extends Mock implements TapDownInfo {}
+
+class _MockTapUpInfo extends Mock implements TapUpInfo {}
 
 class _MockUrlLauncher extends Mock
     with MockPlatformInterfaceMixin
@@ -161,7 +173,7 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {
   String get leaderboardErrorMessage => '';
 
   @override
-  String iGotScoreAtPinball(int _) => '';
+  String iGotScoreAtPinball(String _) => '';
 }
 
 void main() {
@@ -191,9 +203,11 @@ void main() {
         final backbox = Backbox.test(
           bloc: bloc,
           shareRepository: _MockShareRepository(),
+        );
+        await game.pump(
+          backbox,
           platformHelper: platformHelper,
         );
-        await game.pump(backbox);
         expect(game.descendants(), contains(backbox));
       },
     );
@@ -209,8 +223,8 @@ void main() {
           Backbox.test(
             bloc: bloc,
             shareRepository: _MockShareRepository(),
-            platformHelper: platformHelper,
           ),
+          platformHelper: platformHelper,
         );
         await tester.pump();
       },
@@ -231,9 +245,11 @@ void main() {
             initialEntries: [LeaderboardEntryData.empty],
           ),
           shareRepository: _MockShareRepository(),
+        );
+        await game.pump(
+          backbox,
           platformHelper: platformHelper,
         );
-        await game.pump(backbox);
         backbox.requestInitials(
           score: 0,
           character: game.character,
@@ -263,9 +279,11 @@ void main() {
         final backbox = Backbox.test(
           bloc: bloc,
           shareRepository: _MockShareRepository(),
+        );
+        await game.pump(
+          backbox,
           platformHelper: platformHelper,
         );
-        await game.pump(backbox);
 
         game.onKeyEvent(_mockKeyUp(LogicalKeyboardKey.enter), {});
         verify(
@@ -292,9 +310,11 @@ void main() {
         final backbox = Backbox.test(
           bloc: bloc,
           shareRepository: _MockShareRepository(),
+        );
+        await game.pump(
+          backbox,
           platformHelper: platformHelper,
         );
-        await game.pump(backbox);
 
         expect(
           game.descendants().whereType<GameOverInfoDisplay>().length,
@@ -322,9 +342,11 @@ void main() {
         final backbox = Backbox.test(
           bloc: bloc,
           shareRepository: _MockShareRepository(),
+        );
+        await game.pump(
+          backbox,
           platformHelper: platformHelper,
         );
-        await game.pump(backbox);
 
         expect(
           game.overlays.value,
@@ -349,9 +371,11 @@ void main() {
         final backbox = Backbox.test(
           bloc: bloc,
           shareRepository: _MockShareRepository(),
+        );
+        await game.pump(
+          backbox,
           platformHelper: platformHelper,
         );
-        await game.pump(backbox);
 
         expect(
           game.overlays.value,
@@ -372,9 +396,11 @@ void main() {
         final backbox = Backbox.test(
           bloc: bloc,
           shareRepository: _MockShareRepository(),
+        );
+        await game.pump(
+          backbox,
           platformHelper: platformHelper,
         );
-        await game.pump(backbox);
 
         expect(
           game.descendants().whereType<GameOverInfoDisplay>().length,
@@ -395,9 +421,11 @@ void main() {
         final backbox = Backbox.test(
           bloc: bloc,
           shareRepository: _MockShareRepository(),
+        );
+        await game.pump(
+          backbox,
           platformHelper: platformHelper,
         );
-        await game.pump(backbox);
 
         final shareLink =
             game.descendants().whereType<ShareLinkComponent>().first;
@@ -425,9 +453,11 @@ void main() {
         final backbox = Backbox.test(
           bloc: bloc,
           shareRepository: _MockShareRepository(),
+        );
+        await game.pump(
+          backbox,
           platformHelper: platformHelper,
         );
-        await game.pump(backbox);
 
         expect(
           game
@@ -457,9 +487,11 @@ void main() {
           final backbox = Backbox.test(
             bloc: bloc,
             shareRepository: _MockShareRepository(),
+          );
+          await game.pump(
+            backbox,
             platformHelper: platformHelper,
           );
-          await game.pump(backbox);
 
           expect(
             game.descendants().whereType<ShareDisplay>().length,
@@ -504,13 +536,15 @@ void main() {
           final backbox = Backbox.test(
             bloc: bloc,
             shareRepository: shareRepository,
+          );
+          await game.pump(
+            backbox,
             platformHelper: platformHelper,
           );
-          await game.pump(backbox);
 
           final facebookButton =
               game.descendants().whereType<FacebookButtonComponent>().first;
-          facebookButton.onTapDown(_MockTapDownInfo());
+          facebookButton.onTapUp(_MockTapUpInfo());
 
           await game.ready();
 
@@ -558,13 +592,15 @@ void main() {
           final backbox = Backbox.test(
             bloc: bloc,
             shareRepository: shareRepository,
+          );
+          await game.pump(
+            backbox,
             platformHelper: platformHelper,
           );
-          await game.pump(backbox);
 
           final facebookButton =
               game.descendants().whereType<TwitterButtonComponent>().first;
-          facebookButton.onTapDown(_MockTapDownInfo());
+          facebookButton.onTapUp(_MockTapUpInfo());
 
           await game.ready();
 
@@ -590,9 +626,11 @@ void main() {
         final backbox = Backbox.test(
           bloc: bloc,
           shareRepository: _MockShareRepository(),
+        );
+        await game.pump(
+          backbox,
           platformHelper: platformHelper,
         );
-        await game.pump(backbox);
 
         expect(
           game.descendants().whereType<LeaderboardDisplay>().length,
@@ -613,9 +651,11 @@ void main() {
         final backbox = Backbox.test(
           bloc: bloc,
           shareRepository: _MockShareRepository(),
+        );
+        await game.pump(
+          backbox,
           platformHelper: platformHelper,
         );
-        await game.pump(backbox);
 
         expect(
           game.descendants().whereType<LeaderboardFailureDisplay>().length,
@@ -637,9 +677,11 @@ void main() {
         final backbox = Backbox.test(
           bloc: bloc,
           shareRepository: _MockShareRepository(),
+        );
+        await game.pump(
+          backbox,
           platformHelper: platformHelper,
         );
-        await game.pump(backbox);
 
         backbox.removeFromParent();
         await game.ready();
@@ -678,9 +720,11 @@ void main() {
         final backbox = Backbox.test(
           bloc: bloc,
           shareRepository: _MockShareRepository(),
+        );
+        await game.pump(
+          backbox,
           platformHelper: platformHelper,
         );
-        await game.pump(backbox);
         game.update(4);
 
         verify(
