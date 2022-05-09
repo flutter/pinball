@@ -111,7 +111,7 @@ void main() {
     );
 
     flameTester.test(
-      'play the flipper sound when moving up',
+      'plays the flipper sound when moving up',
       (game) async {
         final audioPlayer = _MockPinballAudioPlayer();
         final bloc = _MockFlipperCubit();

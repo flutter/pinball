@@ -150,7 +150,7 @@ class _SingleLoopAudio extends _LoopAudio {
   }
 }
 
-class _SingleAudioPoll extends _Audio {
+class _SingleAudioPool extends _Audio {
   _SingleAudioPoll({
     required this.path,
     required this.createAudioPool,
