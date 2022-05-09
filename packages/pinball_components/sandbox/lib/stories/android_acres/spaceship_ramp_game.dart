@@ -44,9 +44,9 @@ class SpaceshipRampGame extends BallGame with KeyboardEvents {
     await super.onLoad();
 
     camera.followVector2(Vector2(-12, -50));
-    await add(
-      _spaceshipRamp = SpaceshipRamp(),
-    );
+
+    _spaceshipRamp = SpaceshipRamp();
+    await add(_spaceshipRamp);
     await traceAllBodies();
   }
 
@@ -57,7 +57,9 @@ class SpaceshipRampGame extends BallGame with KeyboardEvents {
   ) {
     if (event is RawKeyDownEvent &&
         event.logicalKey == LogicalKeyboardKey.space) {
-      _spaceshipRamp.bloc.onAscendingBallEntered();
+      _spaceshipRamp
+          .readBloc<SpaceshipRampCubit, SpaceshipRampState>()
+          .onProgressed();
       return KeyEventResult.handled;
     }
 

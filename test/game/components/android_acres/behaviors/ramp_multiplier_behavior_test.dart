@@ -3,13 +3,11 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/components/android_acres/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -32,14 +30,14 @@ class _TestGame extends Forge2DGame {
       Assets.images.android.ramp.arrow.active5.keyName,
       Assets.images.android.rail.main.keyName,
       Assets.images.android.rail.exit.keyName,
-      Assets.images.score.oneMillion.keyName,
+      Assets.images.score.fiveThousand.keyName,
     ]);
   }
 
   Future<void> pump(
-    List<Component> children, {
-    required SpaceshipRampCubit bloc,
+    SpaceshipRamp child, {
     required GameBloc gameBloc,
+    required SpaceshipRampCubit bloc,
   }) async {
     await ensureAdd(
       FlameMultiBlocProvider(
@@ -52,7 +50,7 @@ class _TestGame extends Forge2DGame {
           ),
         ],
         children: [
-          ZCanvasComponent(children: children),
+          ZCanvasComponent(children: [child]),
         ],
       ),
     );
@@ -63,22 +61,24 @@ class _MockGameBloc extends Mock implements GameBloc {}
 
 class _MockSpaceshipRampCubit extends Mock implements SpaceshipRampCubit {}
 
+class _FakeGameEvent extends Fake implements GameEvent {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  late GameBloc gameBloc;
+  group('RampMultiplierBehavior', () {
+    late GameBloc gameBloc;
 
-  setUp(() {
-    gameBloc = _MockGameBloc();
-  });
-
-  group('RampBonusBehavior', () {
-    const shotPoints = Points.oneMillion;
+    setUp(() {
+      registerFallbackValue(_FakeGameEvent());
+      gameBloc = _MockGameBloc();
+    });
 
     final flameTester = FlameTester(_TestGame.new);
 
     flameTester.test(
-      'when hits are multiples of 10 times adds a ScoringBehavior',
+      'adds MultiplierIncreased '
+      'when hits are multiples of 5 times and multiplier is less than 6',
       (game) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
@@ -88,26 +88,32 @@ void main() {
           streamController.stream,
           initialState: state,
         );
+        when(() => gameBloc.state).thenReturn(
+          GameState.initial().copyWith(
+            multiplier: 5,
+          ),
+        );
+        when(() => gameBloc.add(any())).thenAnswer((_) async {});
 
-        final behavior = RampBonusBehavior(points: shotPoints);
+        final behavior = RampMultiplierBehavior();
         final parent = SpaceshipRamp.test(children: [behavior]);
+
         await game.pump(
-          [parent],
-          bloc: bloc,
+          parent,
           gameBloc: gameBloc,
+          bloc: bloc,
         );
 
-        streamController.add(state.copyWith(hits: 10));
+        streamController.add(state.copyWith(hits: 5));
+        await Future<void>.delayed(Duration.zero);
 
-        final scores = game.descendants().whereType<ScoringBehavior>();
-        await game.ready();
-
-        expect(scores.length, 1);
+        verify(() => gameBloc.add(const MultiplierIncreased())).called(1);
       },
     );
 
     flameTester.test(
-      "when hits are not multiple of 10 times doesn't add any ScoringBehavior",
+      "doesn't add MultiplierIncreased "
+      'when hits are multiples of 5 times but multiplier is 6',
       (game) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
@@ -117,21 +123,60 @@ void main() {
           streamController.stream,
           initialState: state,
         );
-
-        final behavior = RampBonusBehavior(points: shotPoints);
-        final parent = SpaceshipRamp.test(children: [behavior]);
-        await game.pump(
-          [parent],
-          bloc: bloc,
-          gameBloc: gameBloc,
+        when(() => gameBloc.state).thenReturn(
+          GameState.initial().copyWith(
+            multiplier: 6,
+          ),
         );
 
-        streamController.add(state.copyWith(hits: 9));
+        final behavior = RampMultiplierBehavior();
+        final parent = SpaceshipRamp.test(children: [behavior]);
 
-        final scores = game.descendants().whereType<ScoringBehavior>();
+        await game.pump(
+          parent,
+          gameBloc: gameBloc,
+          bloc: bloc,
+        );
+
+        streamController.add(state.copyWith(hits: 5));
+        await Future<void>.delayed(Duration.zero);
+
+        verifyNever(() => gameBloc.add(const MultiplierIncreased()));
+      },
+    );
+
+    flameTester.test(
+      "doesn't add MultiplierIncreased "
+      "when hits aren't multiples of 5 times",
+      (game) async {
+        final bloc = _MockSpaceshipRampCubit();
+        final state = SpaceshipRampState.initial();
+        final streamController = StreamController<SpaceshipRampState>();
+        whenListen(
+          bloc,
+          streamController.stream,
+          initialState: state,
+        );
+        when(() => gameBloc.state).thenReturn(
+          GameState.initial().copyWith(
+            multiplier: 5,
+          ),
+        );
+
+        final behavior = RampMultiplierBehavior();
+        final parent = SpaceshipRamp.test(children: [behavior]);
+
+        await game.pump(
+          parent,
+          gameBloc: gameBloc,
+          bloc: bloc,
+        );
+
+        streamController.add(state.copyWith(hits: 1));
+
         await game.ready();
 
-        expect(scores.length, 0);
+        verifyNever(() => gameBloc.add(const MultiplierIncreased()));
       },
     );
   });
