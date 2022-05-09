@@ -30,7 +30,7 @@ class CameraFocusingBehavior extends Component
 
   GameStatus? _activeFocus;
 
-  final Vector2 _previousSize = Vector2.zero();
+  final _previousSize = Vector2.zero();
 
   @override
   bool listenWhen(GameState? previousState, GameState newState) {
