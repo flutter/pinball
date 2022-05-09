@@ -16,7 +16,8 @@ class RampBallAscendingContactBehavior
     if (other is! Ball) return;
 
     if (other.body.linearVelocity.y < 0) {
-      parent.parent.bloc.onAscendingBallEntered();
+      readBloc<SpaceshipRampCubit, SpaceshipRampState>()
+          .onAscendingBallEntered();
     }
   }
 }
