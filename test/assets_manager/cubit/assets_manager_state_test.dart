@@ -7,7 +7,7 @@ void main() {
   group('AssetsManagerState', () {
     test('can be instantiated', () {
       expect(
-        AssetsManagerState(loadables: const [], loaded: const []),
+        AssetsManagerState(assetsCount: 0, loaded: 0),
         isNotNull,
       );
     });
@@ -17,22 +17,19 @@ void main() {
         AssetsManagerState.initial(),
         equals(
           AssetsManagerState(
-            loadables: const [],
-            loaded: const [],
+            assetsCount: 0,
+            loaded: 0,
           ),
         ),
       );
     });
 
     group('progress', () {
-      final future1 = Future<void>.value();
-      final future2 = Future<void>.value();
-
       test('returns 0 when no future is loaded', () {
         expect(
           AssetsManagerState(
-            loadables: [future1, future2],
-            loaded: const [],
+            assetsCount: 2,
+            loaded: 0,
           ).progress,
           equals(0),
         );
@@ -41,8 +38,8 @@ void main() {
       test('returns the correct value when some of the futures are loaded', () {
         expect(
           AssetsManagerState(
-            loadables: [future1, future2],
-            loaded: [future1],
+            assetsCount: 2,
+            loaded: 1,
           ).progress,
           equals(0.5),
         );
@@ -51,8 +48,8 @@ void main() {
       test('returns the 1 when all futures are loaded', () {
         expect(
           AssetsManagerState(
-            loadables: [future1, future2],
-            loaded: [future1, future2],
+            assetsCount: 2,
+            loaded: 2,
           ).progress,
           equals(1),
         );
@@ -60,18 +57,16 @@ void main() {
     });
 
     group('copyWith', () {
-      final future = Future<void>.value();
-
-      test('returns a copy with the updated loadables', () {
+      test('returns a copy with the updated assetsCount', () {
         expect(
           AssetsManagerState(
-            loadables: const [],
-            loaded: const [],
-          ).copyWith(loadables: [future]),
+            assetsCount: 0,
+            loaded: 0,
+          ).copyWith(assetsCount: 1),
           equals(
             AssetsManagerState(
-              loadables: [future],
-              loaded: const [],
+              assetsCount: 1,
+              loaded: 0,
             ),
           ),
         );
@@ -80,13 +75,13 @@ void main() {
       test('returns a copy with the updated loaded', () {
         expect(
           AssetsManagerState(
-            loadables: const [],
-            loaded: const [],
-          ).copyWith(loaded: [future]),
+            assetsCount: 0,
+            loaded: 0,
+          ).copyWith(loaded: 1),
           equals(
             AssetsManagerState(
-              loadables: const [],
-              loaded: [future],
+              assetsCount: 0,
+              loaded: 1,
             ),
           ),
         );
@@ -94,47 +89,29 @@ void main() {
     });
 
     test('supports value comparison', () {
-      final future1 = Future<void>.value();
-      final future2 = Future<void>.value();
-
       expect(
         AssetsManagerState(
-          loadables: const [],
-          loaded: const [],
+          assetsCount: 0,
+          loaded: 0,
         ),
         equals(
           AssetsManagerState(
-            loadables: const [],
-            loaded: const [],
+            assetsCount: 0,
+            loaded: 0,
           ),
         ),
       );
 
       expect(
         AssetsManagerState(
-          loadables: [future1],
-          loaded: const [],
+          assetsCount: 1,
+          loaded: 0,
         ),
         isNot(
           equals(
             AssetsManagerState(
-              loadables: [future2],
-              loaded: const [],
-            ),
-          ),
-        ),
-      );
-
-      expect(
-        AssetsManagerState(
-          loadables: const [],
-          loaded: [future1],
-        ),
-        isNot(
-          equals(
-            AssetsManagerState(
-              loadables: const [],
-              loaded: [future2],
+              assetsCount: 1,
+              loaded: 1,
             ),
           ),
         ),

@@ -35,7 +35,7 @@ class _TestPinballGame extends PinballGame {
   @override
   Future<void> onLoad() async {
     images.prefix = '';
-    final futures = preLoadAssets();
+    final futures = preLoadAssets().map((loadableBuilder) => loadableBuilder());
     await Future.wait<void>(futures);
     await super.onLoad();
   }
@@ -56,7 +56,7 @@ class _TestDebugPinballGame extends DebugPinballGame {
   @override
   Future<void> onLoad() async {
     images.prefix = '';
-    final futures = preLoadAssets();
+    final futures = preLoadAssets().map((loadableBuilder) => loadableBuilder());
     await Future.wait<void>(futures);
     await super.onLoad();
   }
@@ -215,7 +215,8 @@ void main() {
         'paints sprites with FilterQuality.medium',
         setUp: (game, tester) async {
           game.images.prefix = '';
-          final futures = game.preLoadAssets();
+          final futures =
+              game.preLoadAssets().map((loadableBuilder) => loadableBuilder());
           await Future.wait<void>(futures);
 
           await game.ready();
