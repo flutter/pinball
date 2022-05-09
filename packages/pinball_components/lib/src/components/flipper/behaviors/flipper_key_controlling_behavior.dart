@@ -14,7 +14,21 @@ class FlipperKeyControllingBehavior extends Component
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    _keys = parent.side.flipperKeys;
+
+    switch (parent.side) {
+      case BoardSide.left:
+        _keys = [
+          LogicalKeyboardKey.arrowLeft,
+          LogicalKeyboardKey.keyA,
+        ];
+        break;
+      case BoardSide.right:
+        _keys = [
+          LogicalKeyboardKey.arrowRight,
+          LogicalKeyboardKey.keyD,
+        ];
+        break;
+    }
   }
 
   @override
@@ -31,22 +45,5 @@ class FlipperKeyControllingBehavior extends Component
     }
 
     return false;
-  }
-}
-
-extension on BoardSide {
-  List<LogicalKeyboardKey> get flipperKeys {
-    switch (this) {
-      case BoardSide.left:
-        return [
-          LogicalKeyboardKey.arrowLeft,
-          LogicalKeyboardKey.keyA,
-        ];
-      case BoardSide.right:
-        return [
-          LogicalKeyboardKey.arrowRight,
-          LogicalKeyboardKey.keyD,
-        ];
-    }
   }
 }

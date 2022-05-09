@@ -18,6 +18,8 @@ dependencies:
   flutter:
     sdk: flutter
   intl: ^0.17.0
+  pinball_audio:
+    path: ../pinball_audio
   pinball_flame:
     path: ../pinball_flame
   pinball_theme:
