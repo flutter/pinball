@@ -39,7 +39,9 @@ class SpaceshipRamp extends Component {
             _SpaceshipRampForegroundRailing(),
             SpaceshipRampBase()..initialPosition = Vector2(3.4, -42.5),
             _SpaceshipRampBackgroundRailingSpriteComponent(),
-            SpaceshipRampArrowSpriteComponent(current: bloc.state.hits),
+            SpaceshipRampArrowSpriteComponent(
+              current: bloc.state.hits,
+            ),
             ...?children,
           ],
         );
@@ -434,10 +436,7 @@ class _SpaceshipRampForegroundRailingSpriteComponent extends SpriteComponent
 @visibleForTesting
 class SpaceshipRampBase extends BodyComponent
     with InitialPosition, ContactCallbacks {
-  SpaceshipRampBase()
-      : super(
-          renderBody: false,
-        );
+  SpaceshipRampBase() : super(renderBody: false);
 
   @override
   void preSolve(Object other, Contact contact, Manifold oldManifold) {
