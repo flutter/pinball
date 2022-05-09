@@ -23,12 +23,17 @@ class $AssetsImagesGen {
   $AssetsImagesDashGen get dash => const $AssetsImagesDashGen();
   $AssetsImagesDinoGen get dino => const $AssetsImagesDinoGen();
 
+  $AssetsImagesDisplayArrowsGen get displayArrows =>
+      const $AssetsImagesDisplayArrowsGen();
+
   /// File path: assets/images/error_background.png
   AssetGenImage get errorBackground =>
       const AssetGenImage('assets/images/error_background.png');
 
   $AssetsImagesFlapperGen get flapper => const $AssetsImagesFlapperGen();
   $AssetsImagesFlipperGen get flipper => const $AssetsImagesFlipperGen();
+  $AssetsImagesGoogleRolloverGen get googleRollover =>
+      const $AssetsImagesGoogleRolloverGen();
   $AssetsImagesGoogleWordGen get googleWord =>
       const $AssetsImagesGoogleWordGen();
   $AssetsImagesKickerGen get kicker => const $AssetsImagesKickerGen();
@@ -140,6 +145,15 @@ class $AssetsImagesDinoGen {
       const AssetGenImage('assets/images/dino/top_wall_tunnel.png');
 }
 
+class $AssetsImagesDisplayArrowsGen {
+  const $AssetsImagesDisplayArrowsGen();
+
+  AssetGenImage get arrowLeft =>
+      const AssetGenImage('assets/images/display_arrows/arrow_left.png');
+  AssetGenImage get arrowRight =>
+      const AssetGenImage('assets/images/display_arrows/arrow_right.png');
+}
+
 class $AssetsImagesFlapperGen {
   const $AssetsImagesFlapperGen();
 
@@ -166,6 +180,15 @@ class $AssetsImagesFlipperGen {
   /// File path: assets/images/flipper/right.png
   AssetGenImage get right =>
       const AssetGenImage('assets/images/flipper/right.png');
+}
+
+class $AssetsImagesGoogleRolloverGen {
+  const $AssetsImagesGoogleRolloverGen();
+
+  $AssetsImagesGoogleRolloverLeftGen get left =>
+      const $AssetsImagesGoogleRolloverLeftGen();
+  $AssetsImagesGoogleRolloverRightGen get right =>
+      const $AssetsImagesGoogleRolloverRightGen();
 }
 
 class $AssetsImagesGoogleWordGen {
@@ -420,6 +443,24 @@ class $AssetsImagesDinoAnimatronicGen {
   /// File path: assets/images/dino/animatronic/mouth.png
   AssetGenImage get mouth =>
       const AssetGenImage('assets/images/dino/animatronic/mouth.png');
+}
+
+class $AssetsImagesGoogleRolloverLeftGen {
+  const $AssetsImagesGoogleRolloverLeftGen();
+
+  AssetGenImage get decal =>
+      const AssetGenImage('assets/images/google_rollover/left/decal.png');
+  AssetGenImage get pin =>
+      const AssetGenImage('assets/images/google_rollover/left/pin.png');
+}
+
+class $AssetsImagesGoogleRolloverRightGen {
+  const $AssetsImagesGoogleRolloverRightGen();
+
+  AssetGenImage get decal =>
+      const AssetGenImage('assets/images/google_rollover/right/decal.png');
+  AssetGenImage get pin =>
+      const AssetGenImage('assets/images/google_rollover/right/pin.png');
 }
 
 class $AssetsImagesGoogleWordLetter1Gen {

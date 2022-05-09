@@ -114,7 +114,7 @@ class PinballGame extends PinballForge2DGame
                         shareRepository: shareRepository,
                         entries: _entries,
                       ),
-                      GoogleWord(position: Vector2(-4.45, 1.8)),
+                      GoogleGallery(),
                       Multipliers(),
                       Multiballs(),
                       SkillShot(

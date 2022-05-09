@@ -184,11 +184,11 @@ void main() {
       );
 
       flameTester.test(
-        'one GoogleWord',
+        'one GoogleGallery',
         (game) async {
           await game.ready();
           expect(
-            game.descendants().whereType<GoogleWord>().length,
+            game.descendants().whereType<GoogleGallery>().length,
             equals(1),
           );
         },
