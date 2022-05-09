@@ -33,7 +33,11 @@ class SparkyScorch extends Component {
                 BumperNoiseBehavior(),
               ],
             )..initialPosition = Vector2(-3.3, -52.55),
-            SparkyAnimatronic()..position = Vector2(-14, -58.2),
+            SparkyAnimatronic(
+              children: [
+                AnimatronicLoopingBehavior(animationCoolDown: 3),
+              ],
+            )..position = Vector2(-14, -58.2),
             SparkyComputer(
               children: [
                 ScoringContactBehavior(points: Points.twoHundredThousand)
