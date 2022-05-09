@@ -9,50 +9,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-//  testRawKeyDownEvents(downKeys, (event) {
-//         flameTester.test(
-//           'moves down '
-//           'when ${event.logicalKey.keyLabel} is pressed',
-//           (game) async {
-//             await game.pump(plunger);
-//             controller.onKeyEvent(event, {});
-
-//             expect(plunger.body.linearVelocity.y, isPositive);
-//             expect(plunger.body.linearVelocity.x, isZero);
-//           },
-//         );
-//       });
-
-//       testRawKeyUpEvents(downKeys, (event) {
-//         flameTester.test(
-//           'moves up '
-//           'when ${event.logicalKey.keyLabel} is released '
-//           'and plunger is below its starting position',
-//           (game) async {
-//             await game.pump(plunger);
-//             plunger.body.setTransform(Vector2(0, 1), 0);
-//             controller.onKeyEvent(event, {});
-
-//             expect(plunger.body.linearVelocity.y, isNegative);
-//             expect(plunger.body.linearVelocity.x, isZero);
-//           },
-//         );
-//       });
-
-//       testRawKeyUpEvents(downKeys, (event) {
-//         flameTester.test(
-//           'does not move when ${event.logicalKey.keyLabel} is released '
-//           'and plunger is in its starting position',
-//           (game) async {
-//             await game.pump(plunger);
-//             controller.onKeyEvent(event, {});
-
-//             expect(plunger.body.linearVelocity.y, isZero);
-//             expect(plunger.body.linearVelocity.x, isZero);
-//           },
-//         );
-//       });
-
 class _MockRawKeyDownEvent extends Mock implements RawKeyDownEvent {
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
