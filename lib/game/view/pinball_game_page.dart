@@ -28,7 +28,7 @@ class PinballGamePage extends StatelessWidget {
     final audioPlayer = context.read<PinballAudioPlayer>();
     final leaderboardRepository = context.read<LeaderboardRepository>();
     final shareRepository = context.read<ShareRepository>();
-    final platformHelper = PlatformHelper();
+    final platformHelper = context.read<PlatformHelper>();
     final gameBloc = context.read<GameBloc>();
     final game = isDebugMode
         ? DebugPinballGame(

@@ -5,6 +5,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pinball/app/app.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_audio/pinball_audio.dart';
+import 'package:platform_helper/platform_helper.dart';
 import 'package:share_repository/share_repository.dart';
 
 class _MockAuthenticationRepository extends Mock
@@ -17,18 +18,25 @@ class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
 
 class _MockShareRepository extends Mock implements ShareRepository {}
 
+class _MockPlatformHelper extends Mock implements PlatformHelper {
+  @override
+  bool get isMobile => false;
+}
+
 void main() {
   group('App', () {
     late AuthenticationRepository authenticationRepository;
     late LeaderboardRepository leaderboardRepository;
     late ShareRepository shareRepository;
     late PinballAudioPlayer pinballAudioPlayer;
+    late PlatformHelper platformHelper;
 
     setUp(() {
       authenticationRepository = _MockAuthenticationRepository();
       leaderboardRepository = _MockLeaderboardRepository();
       shareRepository = _MockShareRepository();
       pinballAudioPlayer = _MockPinballAudioPlayer();
+      platformHelper = _MockPlatformHelper();
       when(pinballAudioPlayer.load).thenAnswer((_) => [Future.value()]);
     });
 
@@ -39,6 +47,7 @@ void main() {
           leaderboardRepository: leaderboardRepository,
           shareRepository: shareRepository,
           pinballAudioPlayer: pinballAudioPlayer,
+          platformHelper: platformHelper,
         ),
       );
       await tester.pump(const Duration(milliseconds: 1100));
