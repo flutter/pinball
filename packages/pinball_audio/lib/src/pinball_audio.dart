@@ -334,10 +334,10 @@ class PinballAudioPlayer {
   late final Map<PinballAudio, _Audio> audios;
 
   /// Loads the sounds effects into the memory.
-  List<Future<void>> load() {
+  List<Future<void> Function()> load() {
     _configureAudioCache(FlameAudio.audioCache);
 
-    return audios.values.map((a) => a.load()).toList();
+    return audios.values.map((a) => a.load).toList();
   }
 
   /// Plays the received audio.

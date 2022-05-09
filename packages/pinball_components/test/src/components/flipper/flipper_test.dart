@@ -128,31 +128,5 @@ void main() {
         },
       );
     });
-
-    flameTester.test(
-      'moveDown applies downward velocity',
-      (game) async {
-        final flipper = Flipper(side: BoardSide.left);
-        await game.ensureAdd(flipper);
-
-        expect(flipper.body.linearVelocity, equals(Vector2.zero()));
-        flipper.moveDown();
-
-        expect(flipper.body.linearVelocity.y, isPositive);
-      },
-    );
-
-    flameTester.test(
-      'moveUp applies upward velocity',
-      (game) async {
-        final flipper = Flipper(side: BoardSide.left);
-        await game.ensureAdd(flipper);
-
-        expect(flipper.body.linearVelocity, equals(Vector2.zero()));
-        flipper.moveUp();
-
-        expect(flipper.body.linearVelocity.y, isNegative);
-      },
-    );
   });
 }

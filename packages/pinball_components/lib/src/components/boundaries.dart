@@ -109,7 +109,7 @@ class _OuterBoundary extends BodyComponent with InitialPosition, ZIndex {
 
     final topLeftCurve = BezierCurveShape(
       controlPoints: [
-        topWall.vertex1,
+        topWall.vertex2,
         Vector2(-31.5, -69.9),
         Vector2(-32.3, -57.2),
       ],
@@ -123,7 +123,7 @@ class _OuterBoundary extends BodyComponent with InitialPosition, ZIndex {
 
     final upperLeftWallCurve = BezierCurveShape(
       controlPoints: [
-        topLeftWall.vertex1,
+        topLeftWall.vertex2,
         Vector2(-33.9, -40.7),
         Vector2(-32.5, -39),
       ],

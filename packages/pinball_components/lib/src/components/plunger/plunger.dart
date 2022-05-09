@@ -108,7 +108,7 @@ class _PlungerSpriteAnimationGroupComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final spriteSheet = await gameRef.images.load(
+    final spriteSheet = gameRef.images.fromCache(
       Assets.images.plunger.plunger.keyName,
     );
     const amountPerRow = 20;
