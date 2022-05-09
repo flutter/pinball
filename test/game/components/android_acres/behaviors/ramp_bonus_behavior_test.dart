@@ -42,15 +42,17 @@ class _TestGame extends Forge2DGame {
     required GameBloc gameBloc,
   }) async {
     await ensureAdd(
-      FlameBlocProvider<GameBloc, GameState>.value(
-        value: gameBloc,
-        children: [
+      FlameMultiBlocProvider(
+        providers: [
+          FlameBlocProvider<GameBloc, GameState>.value(
+            value: gameBloc,
+          ),
           FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>.value(
             value: bloc,
-            children: [
-              ZCanvasComponent(children: children),
-            ],
           ),
+        ],
+        children: [
+          ZCanvasComponent(children: children),
         ],
       ),
     );
