@@ -12,6 +12,7 @@ import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart' as theme;
+import 'package:platform_helper/platform_helper.dart';
 
 class _TestGame extends Forge2DGame {
   @override
@@ -28,11 +29,17 @@ class _TestGame extends Forge2DGame {
   Future<void> pump(
     List<Component> children, {
     CharacterThemeCubit? characterThemeBloc,
+    PlatformHelper? platformHelper,
   }) async {
     await ensureAdd(
       FlameBlocProvider<CharacterThemeCubit, CharacterThemeState>.value(
         value: characterThemeBloc ?? CharacterThemeCubit(),
-        children: children,
+        children: [
+          FlameProvider.value(
+            platformHelper ?? _MockPlatformHelper(),
+            children: children,
+          ),
+        ],
       ),
     );
   }
@@ -42,6 +49,8 @@ class _MockBallCubit extends Mock implements BallCubit {}
 
 class _MockArcadeBackgroundCubit extends Mock implements ArcadeBackgroundCubit {
 }
+
+class _MockPlatformHelper extends Mock implements PlatformHelper {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -68,8 +77,45 @@ void main() {
       );
 
       flameTester.test(
-        'onNewState calls onCharacterSelected on the arcade background bloc',
+        'onNewState does not call onCharacterSelected on the arcade background '
+        'bloc when platform is mobile',
         (game) async {
+          final platformHelper = _MockPlatformHelper();
+          when(() => platformHelper.isMobile).thenAnswer((_) => true);
+          final arcadeBackgroundBloc = _MockArcadeBackgroundCubit();
+          whenListen(
+            arcadeBackgroundBloc,
+            const Stream<ArcadeBackgroundState>.empty(),
+            initialState: const ArcadeBackgroundState.initial(),
+          );
+          final behavior = CharacterSelectionBehavior();
+          await game.pump(
+            [
+              behavior,
+              ZCanvasComponent(),
+              Plunger.test(compressionDistance: 10),
+              Ball.test(),
+            ],
+            platformHelper: platformHelper,
+          );
+
+          const dinoThemeState = CharacterThemeState(theme.DinoTheme());
+          behavior.onNewState(dinoThemeState);
+          await game.ready();
+
+          verifyNever(
+            () => arcadeBackgroundBloc
+                .onCharacterSelected(dinoThemeState.characterTheme),
+          );
+        },
+      );
+
+      flameTester.test(
+        'onNewState calls onCharacterSelected on the arcade background '
+        'bloc when platform is not mobile',
+        (game) async {
+          final platformHelper = _MockPlatformHelper();
+          when(() => platformHelper.isMobile).thenAnswer((_) => false);
           final arcadeBackgroundBloc = _MockArcadeBackgroundCubit();
           whenListen(
             arcadeBackgroundBloc,
@@ -79,13 +125,16 @@ void main() {
           final arcadeBackground =
               ArcadeBackground.test(bloc: arcadeBackgroundBloc);
           final behavior = CharacterSelectionBehavior();
-          await game.pump([
-            arcadeBackground,
-            behavior,
-            ZCanvasComponent(),
-            Plunger.test(compressionDistance: 10),
-            Ball.test(),
-          ]);
+          await game.pump(
+            [
+              arcadeBackground,
+              behavior,
+              ZCanvasComponent(),
+              Plunger.test(compressionDistance: 10),
+              Ball.test(),
+            ],
+            platformHelper: platformHelper,
+          );
 
           const dinoThemeState = CharacterThemeState(theme.DinoTheme());
           behavior.onNewState(dinoThemeState);
@@ -101,6 +150,8 @@ void main() {
       flameTester.test(
         'onNewState calls onCharacterSelected on the ball bloc',
         (game) async {
+          final platformHelper = _MockPlatformHelper();
+          when(() => platformHelper.isMobile).thenAnswer((_) => false);
           final ballBloc = _MockBallCubit();
           whenListen(
             ballBloc,
@@ -109,13 +160,16 @@ void main() {
           );
           final ball = Ball.test(bloc: ballBloc);
           final behavior = CharacterSelectionBehavior();
-          await game.pump([
-            ball,
-            behavior,
-            ZCanvasComponent(),
-            Plunger.test(compressionDistance: 10),
-            ArcadeBackground.test(),
-          ]);
+          await game.pump(
+            [
+              ball,
+              behavior,
+              ZCanvasComponent(),
+              Plunger.test(compressionDistance: 10),
+              ArcadeBackground.test(),
+            ],
+            platformHelper: platformHelper,
+          );
 
           const dinoThemeState = CharacterThemeState(theme.DinoTheme());
           behavior.onNewState(dinoThemeState);

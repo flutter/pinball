@@ -15,6 +15,7 @@ import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart' as theme;
+import 'package:platform_helper/platform_helper.dart';
 import 'package:share_repository/share_repository.dart';
 
 class _TestGame extends Forge2DGame with HasTappables {
@@ -55,6 +56,9 @@ class _TestGame extends Forge2DGame with HasTappables {
               FlameProvider<AppLocalizations>.value(
                 _MockAppLocalizations(),
               ),
+              FlameProvider<PlatformHelper>.value(
+                _MockPlatformHelper(),
+              ),
             ],
             children: children,
           ),
@@ -70,6 +74,11 @@ class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
 }
 
 class _MockShareRepository extends Mock implements ShareRepository {}
+
+class _MockPlatformHelper extends Mock implements PlatformHelper {
+  @override
+  bool get isMobile => false;
+}
 
 class _MockAppLocalizations extends Mock implements AppLocalizations {
   @override
