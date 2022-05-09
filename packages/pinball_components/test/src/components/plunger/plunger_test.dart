@@ -10,7 +10,8 @@ import '../../../helpers/helpers.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(TestGame.new);
+  final asset = Assets.images.plunger.plunger.keyName;
+  final flameTester = FlameTester(() => TestGame([asset]));
 
   group('Plunger', () {
     test('can be instantiated', () {
@@ -69,6 +70,7 @@ void main() {
       flameTester.testGameWidget(
         'pulling',
         setUp: (game, tester) async {
+          await game.images.load(asset);
           await game.ensureAdd(Plunger());
           game.camera.followVector2(Vector2.zero());
           game.camera.zoom = 4.1;
@@ -92,6 +94,7 @@ void main() {
       flameTester.testGameWidget(
         'releasing',
         setUp: (game, tester) async {
+          await game.images.load(asset);
           await game.ensureAdd(Plunger());
           game.camera.followVector2(Vector2.zero());
           game.camera.zoom = 4.1;
