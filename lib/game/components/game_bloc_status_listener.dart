@@ -5,6 +5,7 @@ import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
+import 'package:platform_helper/platform_helper.dart';
 
 /// Listens to the [GameBloc] and updates the game accordingly.
 class GameBlocStatusListener extends Component
@@ -25,7 +26,11 @@ class GameBlocStatusListener extends Component
         gameRef
             .descendants()
             .whereType<Flipper>()
-            .forEach(_addFlipperKeyControls);
+            .forEach(_addFlipperBehaviors);
+        gameRef
+            .descendants()
+            .whereType<Plunger>()
+            .forEach(_addPlungerBehaviors);
 
         gameRef.overlays.remove(PinballGame.playButtonOverlay);
         gameRef.overlays.remove(PinballGame.replayButtonOverlay);
@@ -42,7 +47,11 @@ class GameBlocStatusListener extends Component
         gameRef
             .descendants()
             .whereType<Flipper>()
-            .forEach(_removeFlipperKeyControls);
+            .forEach(_removeFlipperBehaviors);
+        gameRef
+            .descendants()
+            .whereType<Plunger>()
+            .forEach(_removePlungerBehaviors);
         break;
     }
   }
@@ -56,13 +65,42 @@ class GameBlocStatusListener extends Component
         .onReset();
   }
 
-  void _addFlipperKeyControls(Flipper flipper) {
-    flipper
-      ..add(FlipperKeyControllingBehavior())
-      ..moveDown();
+  void _addPlungerBehaviors(Plunger plunger) {
+    final platformHelper = readProvider<PlatformHelper>();
+    const pullingStrength = 7.0;
+    final provider =
+        plunger.firstChild<FlameBlocProvider<PlungerCubit, PlungerState>>()!;
+
+    if (platformHelper.isMobile) {
+      provider.add(
+        PlungerAutoPullingBehavior(strength: pullingStrength),
+      );
+    } else {
+      provider.addAll(
+        [
+          PlungerKeyControllingBehavior(),
+          PlungerPullingBehavior(strength: pullingStrength),
+        ],
+      );
+    }
   }
 
-  void _removeFlipperKeyControls(Flipper flipper) => flipper
+  void _removePlungerBehaviors(Plunger plunger) {
+    plunger
+        .descendants()
+        .whereType<PlungerPullingBehavior>()
+        .forEach(plunger.remove);
+    plunger
+        .descendants()
+        .whereType<PlungerKeyControllingBehavior>()
+        .forEach(plunger.remove);
+  }
+
+  void _addFlipperBehaviors(Flipper flipper) => flipper
+    ..add(FlipperKeyControllingBehavior())
+    ..moveDown();
+
+  void _removeFlipperBehaviors(Flipper flipper) => flipper
       .descendants()
       .whereType<FlipperKeyControllingBehavior>()
       .forEach(flipper.remove);

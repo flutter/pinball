@@ -29,15 +29,15 @@ class _MockConfigureAudioCache extends Mock {
 }
 
 class _MockPlaySingleAudio extends Mock {
-  Future<void> onCall(String url);
+  Future<void> onCall(String path, {double volume});
 }
 
 class _MockLoopSingleAudio extends Mock {
-  Future<void> onCall(String url, {double volume});
+  Future<void> onCall(String path, {double volume});
 }
 
 abstract class _PreCacheSingleAudio {
-  Future<void> onCall(String url);
+  Future<void> onCall(String path);
 }
 
 class _MockPreCacheSingleAudio extends Mock implements _PreCacheSingleAudio {}
@@ -74,7 +74,8 @@ void main() {
       when(() => configureAudioCache.onCall(any())).thenAnswer((_) {});
 
       playSingleAudio = _MockPlaySingleAudio();
-      when(() => playSingleAudio.onCall(any())).thenAnswer((_) async {});
+      when(() => playSingleAudio.onCall(any(), volume: any(named: 'volume')))
+          .thenAnswer((_) async {});
 
       loopSingleAudio = _MockLoopSingleAudio();
       when(() => loopSingleAudio.onCall(any(), volume: any(named: 'volume')))
@@ -194,6 +195,10 @@ void main() {
         verify(
           () => preCacheSingleAudio
               .onCall('packages/pinball_audio/assets/sfx/launcher.mp3'),
+        ).called(1);
+        verify(
+          () => preCacheSingleAudio
+              .onCall('packages/pinball_audio/assets/sfx/rollover.mp3'),
         ).called(1);
         verify(
           () => preCacheSingleAudio
@@ -346,8 +351,10 @@ void main() {
         audioPlayer.play(PinballAudio.google);
 
         verify(
-          () => playSingleAudio
-              .onCall('packages/pinball_audio/${Assets.sfx.google}'),
+          () => playSingleAudio.onCall(
+            'packages/pinball_audio/${Assets.sfx.google}',
+            volume: any(named: 'volume'),
+          ),
         ).called(1);
       });
     });
@@ -358,8 +365,10 @@ void main() {
         audioPlayer.play(PinballAudio.sparky);
 
         verify(
-          () => playSingleAudio
-              .onCall('packages/pinball_audio/${Assets.sfx.sparky}'),
+          () => playSingleAudio.onCall(
+            'packages/pinball_audio/${Assets.sfx.sparky}',
+            volume: any(named: 'volume'),
+          ),
         ).called(1);
       });
     });
@@ -370,8 +379,10 @@ void main() {
         audioPlayer.play(PinballAudio.dino);
 
         verify(
-          () => playSingleAudio
-              .onCall('packages/pinball_audio/${Assets.sfx.dino}'),
+          () => playSingleAudio.onCall(
+            'packages/pinball_audio/${Assets.sfx.dino}',
+            volume: any(named: 'volume'),
+          ),
         ).called(1);
       });
     });
@@ -382,8 +393,10 @@ void main() {
         audioPlayer.play(PinballAudio.android);
 
         verify(
-          () => playSingleAudio
-              .onCall('packages/pinball_audio/${Assets.sfx.android}'),
+          () => playSingleAudio.onCall(
+            'packages/pinball_audio/${Assets.sfx.android}',
+            volume: any(named: 'volume'),
+          ),
         ).called(1);
       });
     });
@@ -394,8 +407,10 @@ void main() {
         audioPlayer.play(PinballAudio.dash);
 
         verify(
-          () => playSingleAudio
-              .onCall('packages/pinball_audio/${Assets.sfx.dash}'),
+          () => playSingleAudio.onCall(
+            'packages/pinball_audio/${Assets.sfx.dash}',
+            volume: any(named: 'volume'),
+          ),
         ).called(1);
       });
     });
@@ -406,8 +421,24 @@ void main() {
         audioPlayer.play(PinballAudio.launcher);
 
         verify(
-          () => playSingleAudio
-              .onCall('packages/pinball_audio/${Assets.sfx.launcher}'),
+          () => playSingleAudio.onCall(
+            'packages/pinball_audio/${Assets.sfx.launcher}',
+            volume: any(named: 'volume'),
+          ),
+        ).called(1);
+      });
+    });
+
+    group('rollover', () {
+      test('plays the correct file', () async {
+        await Future.wait(audioPlayer.load());
+        audioPlayer.play(PinballAudio.rollover);
+
+        verify(
+          () => playSingleAudio.onCall(
+            'packages/pinball_audio/${Assets.sfx.rollover}',
+            volume: .3,
+          ),
         ).called(1);
       });
     });
@@ -420,6 +451,7 @@ void main() {
         verify(
           () => playSingleAudio.onCall(
             'packages/pinball_audio/${Assets.sfx.ioPinballVoiceOver}',
+            volume: any(named: 'volume'),
           ),
         ).called(1);
       });
@@ -433,6 +465,7 @@ void main() {
         verify(
           () => playSingleAudio.onCall(
             'packages/pinball_audio/${Assets.sfx.gameOverVoiceOver}',
+            volume: any(named: 'volume'),
           ),
         ).called(1);
       });

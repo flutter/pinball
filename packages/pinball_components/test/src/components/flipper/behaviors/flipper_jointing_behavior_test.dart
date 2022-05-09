@@ -19,19 +19,18 @@ void main() {
     });
 
     flameTester.test('can be loaded', (game) async {
-      final behavior = FlipperJointingBehavior();
       final parent = Flipper.test(side: BoardSide.left);
+      final behavior = FlipperJointingBehavior();
       await game.ensureAdd(parent);
       await parent.ensureAdd(behavior);
       expect(parent.contains(behavior), isTrue);
     });
 
     flameTester.test('creates a joint', (game) async {
-      final behavior = FlipperJointingBehavior();
       final parent = Flipper.test(side: BoardSide.left);
+      final behavior = FlipperJointingBehavior();
       await game.ensureAdd(parent);
       await parent.ensureAdd(behavior);
-
       expect(parent.body.joints, isNotEmpty);
     });
   });

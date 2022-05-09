@@ -119,8 +119,8 @@ void main() {
     );
 
     flameTester.testGameWidget(
-      'adds BonusBallSpawningBehavior to the game when all letters '
-      'in google word are activated',
+      'adds BonusBallSpawningBehavior and GoogleWordAnimatingBehavior '
+      'to the game when all letters in google word are activated',
       setUp: (game, tester) async {
         final behavior = GoogleWordBonusBehavior();
         final parent = GoogleGallery.test();
@@ -159,6 +159,10 @@ void main() {
 
         expect(
           game.descendants().whereType<BonusBallSpawningBehavior>().length,
+          equals(1),
+        );
+        expect(
+          game.descendants().whereType<GoogleWordAnimatingBehavior>().length,
           equals(1),
         );
       },
