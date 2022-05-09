@@ -9,19 +9,11 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// It is attached when the plunger is released.
 class PlungerNoiseBehavior extends Component
     with FlameBlocListenable<PlungerCubit, PlungerState> {
-  late final PinballAudioPlayer _audioPlayer;
-
   @override
   void onNewState(PlungerState state) {
     super.onNewState(state);
     if (state.isReleasing) {
-      _audioPlayer.play(PinballAudio.launcher);
+      readProvider<PinballAudioPlayer>().play(PinballAudio.launcher);
     }
-  }
-
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    _audioPlayer = readProvider<PinballAudioPlayer>();
   }
 }

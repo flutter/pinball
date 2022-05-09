@@ -1,23 +1,30 @@
 import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 
 class PlungerReleasingBehavior extends Component
-    with ParentIsA<Plunger>, FlameBlocListenable<PlungerCubit, PlungerState> {
+    with FlameBlocListenable<PlungerCubit, PlungerState> {
   PlungerReleasingBehavior({
     required double strength,
   }) : _strength = strength;
 
-  final double _strength; // 11
+  final double _strength;
+
+  late final Plunger _plunger;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    _plunger = parent!.parent! as Plunger;
+  }
 
   @override
   void onNewState(PlungerState state) {
     super.onNewState(state);
     if (state.isReleasing) {
-      final velocity =
-          (parent.initialPosition.y - parent.body.position.y) * _strength;
-      parent.body.linearVelocity = Vector2(0, velocity);
+      final velocity = (_plunger.initialPosition.y - _plunger.body.position.y) *
+          _strength.abs();
+      _plunger.body.linearVelocity = Vector2(0, velocity);
     }
   }
 }

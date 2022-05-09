@@ -12,7 +12,7 @@ export 'cubit/plunger_cubit.dart';
 /// [Plunger] serves as a spring, that shoots the ball on the right side of the
 /// play field.
 ///
-/// [Plunger] ignores gravity so the player controls its downward [pull].
+/// [Plunger] ignores gravity so the player controls its downward movement.
 /// {@endtemplate}
 class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
   /// {@macro plunger}
@@ -20,10 +20,15 @@ class Plunger extends BodyComponent with InitialPosition, Layered, ZIndex {
       : super(
           renderBody: false,
           children: [
-            _PlungerSpriteAnimationGroupComponent(),
+            FlameBlocProvider<PlungerCubit, PlungerState>(
+              create: PlungerCubit.new,
+              children: [
+                _PlungerSpriteAnimationGroupComponent(),
+                PlungerPullingBehavior(strength: 7),
+                PlungerReleasingBehavior(strength: 11),
+              ],
+            ),
             PlungerJointingBehavior(compressionDistance: 9.2),
-            PlungerAutoPullingBehavior(strength: 7),
-            PlungerReleasingBehavior(strength: 11)
           ],
         ) {
     zIndex = ZIndexes.plunger;

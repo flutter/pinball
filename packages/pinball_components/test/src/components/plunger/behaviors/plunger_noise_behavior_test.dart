@@ -1,5 +1,8 @@
 // ignore_for_file: cascade_invocations
 
+import 'dart:async';
+
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
@@ -14,13 +17,16 @@ class _TestGame extends Forge2DGame {
   Future<void> pump(
     Component child, {
     PinballAudioPlayer? pinballAudioPlayer,
-  }) {
-    return ensureAdd(
+    PlungerCubit? plungerBloc,
+  }) async {
+    final parent = Component();
+    await ensureAdd(parent);
+    return parent.ensureAdd(
       FlameProvider<PinballAudioPlayer>.value(
         pinballAudioPlayer ?? _MockPinballAudioPlayer(),
         children: [
           FlameBlocProvider<PlungerCubit, PlungerState>.value(
-            value: PlungerCubit(),
+            value: plungerBloc ?? PlungerCubit(),
             children: [child],
           ),
         ],
@@ -30,6 +36,8 @@ class _TestGame extends Forge2DGame {
 }
 
 class _MockPinballAudioPlayer extends Mock implements PinballAudioPlayer {}
+
+class _MockPlungerCubit extends Mock implements PlungerCubit {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -50,25 +58,34 @@ void main() {
     });
 
     flameTester.test('can be loaded', (game) async {
-      final parent = Component();
       final behavior = PlungerNoiseBehavior();
-      await game.pump(parent);
-      await parent.ensureAdd(behavior);
-      expect(parent.children, contains(behavior));
+      await game.pump(behavior);
+      expect(game.descendants(), contains(behavior));
     });
 
-    flameTester.test('plays the correct sound on when released', (game) async {
-      final parent = Component();
-      final behavior = PlungerNoiseBehavior();
-      await game.pump(
-        parent,
-        pinballAudioPlayer: audioPlayer,
-      );
-      await parent.ensureAdd(behavior);
+    flameTester.test(
+      'plays the correct sound when released',
+      (game) async {
+        final plungerBloc = _MockPlungerCubit();
+        final streamController = StreamController<PlungerState>();
+        whenListen<PlungerState>(
+          plungerBloc,
+          streamController.stream,
+          initialState: PlungerState.pulling,
+        );
 
-      behavior.onNewState(PlungerState.releasing);
+        final behavior = PlungerNoiseBehavior();
+        await game.pump(
+          behavior,
+          pinballAudioPlayer: audioPlayer,
+          plungerBloc: plungerBloc,
+        );
 
-      verify(() => audioPlayer.play(PinballAudio.launcher)).called(1);
-    });
+        streamController.add(PlungerState.releasing);
+        await Future<void>.delayed(Duration.zero);
+
+        verify(() => audioPlayer.play(PinballAudio.launcher)).called(1);
+      },
+    );
   });
 }

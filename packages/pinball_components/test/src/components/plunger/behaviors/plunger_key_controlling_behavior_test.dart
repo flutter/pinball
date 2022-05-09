@@ -1,3 +1,6 @@
+// ignore_for_file: cascade_invocations
+
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/foundation.dart';
@@ -5,6 +8,22 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
+
+class _TestGame extends Forge2DGame {
+  Future<void> pump(
+    PlungerKeyControllingBehavior child, {
+    PlungerCubit? plugerBloc,
+  }) async {
+    final plunger = Plunger.test();
+    await ensureAdd(plunger);
+    return plunger.ensureAdd(
+      FlameBlocProvider<PlungerCubit, PlungerState>.value(
+        value: plugerBloc ?? _MockPlungerCubit(),
+        children: [child],
+      ),
+    );
+  }
+}
 
 class _MockRawKeyDownEvent extends Mock implements RawKeyDownEvent {
   @override
@@ -20,9 +39,11 @@ class _MockRawKeyUpEvent extends Mock implements RawKeyUpEvent {
   }
 }
 
+class _MockPlungerCubit extends Mock implements PlungerCubit {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final flameTester = FlameTester(Forge2DGame.new);
+  final flameTester = FlameTester(_TestGame.new);
 
   group('PlungerKeyControllingBehavior', () {
     test('can be instantiated', () {
@@ -33,39 +54,141 @@ void main() {
     });
 
     flameTester.test('can be loaded', (game) async {
-      final parent = Plunger.test();
       final behavior = PlungerKeyControllingBehavior();
-      await game.ensureAdd(parent);
-      await parent.ensureAdd(behavior);
-      expect(parent.children, contains(behavior));
+      await game.pump(behavior);
+      expect(game.descendants(), contains(behavior));
     });
 
     group('onKeyEvent', () {
-      late Plunger plunger;
+      late PlungerCubit plungerBloc;
 
       setUp(() {
-        plunger = Plunger.test();
+        plungerBloc = _MockPlungerCubit();
       });
 
-      flameTester.test(
-        'pulls when down arrow is pressed',
-        (game) async {
-          final plunger = Plunger.test();
-          await game.ensureAdd(plunger);
-          final behavior = PlungerKeyControllingBehavior();
-          await plunger.ensureAdd(behavior);
+      group('pulls when', () {
+        flameTester.test(
+          'down arrow is pressed',
+          (game) async {
+            final behavior = PlungerKeyControllingBehavior();
+            await game.pump(
+              behavior,
+              plugerBloc: plungerBloc,
+            );
 
-          final event = _MockRawKeyDownEvent();
-          when(() => event.logicalKey).thenReturn(
-            LogicalKeyboardKey.arrowDown,
-          );
+            final event = _MockRawKeyDownEvent();
+            when(() => event.logicalKey).thenReturn(
+              LogicalKeyboardKey.arrowDown,
+            );
 
-          behavior.onKeyEvent(event, {});
+            behavior.onKeyEvent(event, {});
 
-          // expect(plunger.body.linearVelocity.y, isPositive);
-          // expect(plunger.body.linearVelocity.x, isZero);
-        },
-      );
+            verify(() => plungerBloc.pulled()).called(1);
+          },
+        );
+
+        flameTester.test(
+          '"s" is pressed',
+          (game) async {
+            final behavior = PlungerKeyControllingBehavior();
+            await game.pump(
+              behavior,
+              plugerBloc: plungerBloc,
+            );
+
+            final event = _MockRawKeyDownEvent();
+            when(() => event.logicalKey).thenReturn(
+              LogicalKeyboardKey.keyS,
+            );
+
+            behavior.onKeyEvent(event, {});
+
+            verify(() => plungerBloc.pulled()).called(1);
+          },
+        );
+
+        flameTester.test(
+          'space is pressed',
+          (game) async {
+            final behavior = PlungerKeyControllingBehavior();
+            await game.pump(
+              behavior,
+              plugerBloc: plungerBloc,
+            );
+
+            final event = _MockRawKeyDownEvent();
+            when(() => event.logicalKey).thenReturn(
+              LogicalKeyboardKey.space,
+            );
+
+            behavior.onKeyEvent(event, {});
+
+            verify(() => plungerBloc.pulled()).called(1);
+          },
+        );
+      });
+
+      group('releases when', () {
+        flameTester.test(
+          'down arrow is released',
+          (game) async {
+            final behavior = PlungerKeyControllingBehavior();
+            await game.pump(
+              behavior,
+              plugerBloc: plungerBloc,
+            );
+
+            final event = _MockRawKeyUpEvent();
+            when(() => event.logicalKey).thenReturn(
+              LogicalKeyboardKey.arrowDown,
+            );
+
+            behavior.onKeyEvent(event, {});
+
+            verify(() => plungerBloc.released()).called(1);
+          },
+        );
+
+        flameTester.test(
+          '"s" is released',
+          (game) async {
+            final behavior = PlungerKeyControllingBehavior();
+            await game.pump(
+              behavior,
+              plugerBloc: plungerBloc,
+            );
+
+            final event = _MockRawKeyUpEvent();
+            when(() => event.logicalKey).thenReturn(
+              LogicalKeyboardKey.keyS,
+            );
+
+            behavior.onKeyEvent(event, {});
+
+            verify(() => plungerBloc.released()).called(1);
+          },
+        );
+
+        flameTester.test(
+          'space is released',
+          (game) async {
+            final behavior = PlungerKeyControllingBehavior();
+            await game.pump(
+              behavior,
+              plugerBloc: plungerBloc,
+            );
+
+            final event = _MockRawKeyUpEvent();
+            when(() => event.logicalKey).thenReturn(
+              LogicalKeyboardKey.space,
+            );
+
+            behavior.onKeyEvent(event, {});
+
+            verify(() => plungerBloc.released()).called(1);
+          },
+        );
+      });
     });
   });
 }
