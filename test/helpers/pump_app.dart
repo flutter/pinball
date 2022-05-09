@@ -34,15 +34,15 @@ class _MockPlatformHelper extends Mock implements PlatformHelper {}
 
 PinballAudioPlayer _buildDefaultPinballAudioPlayer() {
   final audioPlayer = _MockPinballAudioPlayer();
-  when(audioPlayer.load).thenAnswer((_) => [Future.value()]);
+  when(audioPlayer.load).thenAnswer((_) => [Future.value]);
   return audioPlayer;
 }
 
 AssetsManagerCubit _buildDefaultAssetsManagerCubit() {
   final cubit = _MockAssetsManagerCubit();
-  final state = AssetsManagerState(
-    loadables: [Future<void>.value()],
-    loaded: [Future<void>.value()],
+  const state = AssetsManagerState(
+    assetsCount: 1,
+    loaded: 1,
   );
   whenListen(
     cubit,

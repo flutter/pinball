@@ -14,8 +14,11 @@ void main() {
   group(
     'BallTurboChargingBehavior',
     () {
-      final asset = theme.Assets.images.dash.ball.keyName;
-      final flameTester = FlameTester(() => TestGame([asset]));
+      final assets = [
+        theme.Assets.images.dash.ball.keyName,
+        Assets.images.ball.flameEffect.keyName,
+      ];
+      final flameTester = FlameTester(() => TestGame(assets));
 
       test('can be instantiated', () {
         expect(

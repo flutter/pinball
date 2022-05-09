@@ -22,12 +22,12 @@ class SelectedCharacter extends StatefulWidget {
   State<SelectedCharacter> createState() => _SelectedCharacterState();
 
   /// Returns a list of assets to be loaded.
-  static List<Future> loadAssets() {
+  static List<Future Function()> loadAssets() {
     return [
-      Flame.images.load(const DashTheme().animation.keyName),
-      Flame.images.load(const AndroidTheme().animation.keyName),
-      Flame.images.load(const DinoTheme().animation.keyName),
-      Flame.images.load(const SparkyTheme().animation.keyName),
+      () => Flame.images.load(const DashTheme().animation.keyName),
+      () => Flame.images.load(const AndroidTheme().animation.keyName),
+      () => Flame.images.load(const DinoTheme().animation.keyName),
+      () => Flame.images.load(const SparkyTheme().animation.keyName),
     ];
   }
 }
