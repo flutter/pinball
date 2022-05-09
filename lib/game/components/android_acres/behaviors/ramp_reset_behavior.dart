@@ -4,24 +4,16 @@ import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
-/// {@template ramp_reset_behavior}
 /// Reset [SpaceshipRamp] state when GameState.rounds changes.
-/// /// {@endtemplate}
-class RampResetBehavior extends Component {
-  /// {@macro ramp_reset_behavior}
-  RampResetBehavior() : super();
+class RampResetBehavior extends Component
+    with FlameBlocListenable<GameBloc, GameState> {
+  @override
+  bool listenWhen(GameState previousState, GameState newState) {
+    return previousState.rounds != newState.rounds;
+  }
 
   @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    await add(
-      FlameBlocListener<GameBloc, GameState>(
-        listenWhen: (previousState, newState) =>
-            previousState.rounds != newState.rounds,
-        onNewState: (state) {
-          readBloc<SpaceshipRampCubit, SpaceshipRampState>().onReset();
-        },
-      ),
-    );
+  void onNewState(GameState state) {
+    readBloc<SpaceshipRampCubit, SpaceshipRampState>().onReset();
   }
 }

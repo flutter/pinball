@@ -25,10 +25,7 @@ class SpaceshipRampCubit extends Cubit<SpaceshipRampState> {
 
   void onReset() {
     emit(
-      const SpaceshipRampState(
-        hits: 0,
-        lightState: ArrowLightState.inactive,
-      ),
+      const SpaceshipRampState.initial(),
     );
   }
 }

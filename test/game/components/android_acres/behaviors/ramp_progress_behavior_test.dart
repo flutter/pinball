@@ -28,9 +28,6 @@ class _TestGame extends Forge2DGame {
       Assets.images.android.ramp.arrow.active3.keyName,
       Assets.images.android.ramp.arrow.active4.keyName,
       Assets.images.android.ramp.arrow.active5.keyName,
-      Assets.images.android.rail.main.keyName,
-      Assets.images.android.rail.exit.keyName,
-      Assets.images.score.fiveThousand.keyName,
     ]);
   }
 

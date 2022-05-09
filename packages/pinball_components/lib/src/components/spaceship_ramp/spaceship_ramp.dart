@@ -171,7 +171,11 @@ class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
 /// {@endtemplate}
 @visibleForTesting
 class SpaceshipRampArrowSpriteComponent
-    extends SpriteGroupComponent<ArrowLightState> with HasGameRef, ZIndex {
+    extends SpriteGroupComponent<ArrowLightState>
+    with
+        HasGameRef,
+        ZIndex,
+        FlameBlocListenable<SpaceshipRampCubit, SpaceshipRampState> {
   /// {@macro spaceship_ramp_arrow_sprite_component}
   SpaceshipRampArrowSpriteComponent()
       : super(
@@ -182,16 +186,21 @@ class SpaceshipRampArrowSpriteComponent
   }
 
   @override
+  bool listenWhen(
+    SpaceshipRampState previousState,
+    SpaceshipRampState newState,
+  ) {
+    return previousState.lightState != newState.lightState;
+  }
+
+  @override
+  void onNewState(SpaceshipRampState state) {
+    current = state.lightState;
+  }
+
+  @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await add(
-      FlameBlocListener<SpaceshipRampCubit, SpaceshipRampState>(
-        listenWhen: (previousState, newState) =>
-            previousState.lightState != newState.lightState,
-        onNewState: (state) => current = state.lightState,
-      ),
-    );
-
     final sprites = <ArrowLightState, Sprite>{};
     this.sprites = sprites;
     for (final spriteState in ArrowLightState.values) {
