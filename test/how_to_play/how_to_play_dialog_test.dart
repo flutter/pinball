@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/how_to_play/how_to_play.dart';
@@ -30,10 +31,12 @@ void main() {
     testWidgets('displays content for desktop', (tester) async {
       when(() => platformHelper.isMobile).thenAnswer((_) => false);
       await tester.pumpApp(
-        HowToPlayDialog(
-          onDismissCallback: () {},
+        RepositoryProvider.value(
+          value: platformHelper,
+          child: HowToPlayDialog(
+            onDismissCallback: () {},
+          ),
         ),
-        platformHelper: platformHelper,
       );
       expect(find.text(l10n.howToPlay), findsOneWidget);
       expect(find.text(l10n.tipsForFlips), findsOneWidget);
@@ -45,10 +48,12 @@ void main() {
     testWidgets('displays content for mobile', (tester) async {
       when(() => platformHelper.isMobile).thenAnswer((_) => true);
       await tester.pumpApp(
-        HowToPlayDialog(
-          onDismissCallback: () {},
+        RepositoryProvider.value(
+          value: platformHelper,
+          child: HowToPlayDialog(
+            onDismissCallback: () {},
+          ),
         ),
-        platformHelper: platformHelper,
       );
       expect(find.text(l10n.howToPlay), findsOneWidget);
       expect(find.text(l10n.tipsForFlips), findsOneWidget);
@@ -63,15 +68,17 @@ void main() {
             return TextButton(
               onPressed: () => showDialog<void>(
                 context: context,
-                builder: (_) => HowToPlayDialog(
-                  onDismissCallback: () {},
+                builder: (_) => RepositoryProvider.value(
+                  value: platformHelper,
+                  child: HowToPlayDialog(
+                    onDismissCallback: () {},
+                  ),
                 ),
               ),
               child: const Text('test'),
             );
           },
         ),
-        platformHelper: platformHelper,
       );
       expect(find.byType(HowToPlayDialog), findsNothing);
       await tester.tap(find.text('test'));
@@ -89,15 +96,17 @@ void main() {
             return TextButton(
               onPressed: () => showDialog<void>(
                 context: context,
-                builder: (_) => HowToPlayDialog(
-                  onDismissCallback: () {},
+                builder: (_) => RepositoryProvider.value(
+                  value: platformHelper,
+                  child: HowToPlayDialog(
+                    onDismissCallback: () {},
+                  ),
                 ),
               ),
               child: const Text('test'),
             );
           },
         ),
-        platformHelper: platformHelper,
       );
       expect(find.byType(HowToPlayDialog), findsNothing);
       await tester.tap(find.text('test'));
