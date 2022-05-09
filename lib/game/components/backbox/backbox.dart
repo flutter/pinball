@@ -109,7 +109,7 @@ class Backbox extends PositionComponent with ZIndex, HasGameRef {
         ShareDisplay(
           onShare: (platform) {
             final message = readProvider<AppLocalizations>()
-                .iGotScoreAtPinball(state.score);
+                .iGotScoreAtPinball(state.score.formatScore());
             final url = _shareRepository.shareText(
               value: message,
               platform: platform,

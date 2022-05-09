@@ -161,7 +161,7 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {
   String get leaderboardErrorMessage => '';
 
   @override
-  String iGotScoreAtPinball(int _) => '';
+  String iGotScoreAtPinball(String _) => '';
 }
 
 void main() {
