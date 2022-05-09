@@ -107,15 +107,8 @@ void main() {
 
     group('adds', () {
       flameTester.test('new children', (game) async {
-        final bloc = _MockSpaceshipRampCubit();
-        final streamController = StreamController<SpaceshipRampState>();
-        whenListen(
-          bloc,
-          streamController.stream,
-          initialState: SpaceshipRampState.initial(),
-        );
         final component = Component();
-        final ramp = SpaceshipRamp.test(bloc: bloc, children: [component]);
+        final ramp = SpaceshipRamp(children: [component]);
         await game.ensureAdd(ramp);
 
         expect(ramp.descendants(), contains(component));
@@ -190,5 +183,34 @@ void main() {
         equals(1),
       );
     });
+  });
+
+  group('SpaceshipRampArrowSpriteComponent', () {
+    flameTester.test(
+      'changes current state '
+      'when SpaceshipRampState changes lightState',
+      (game) async {
+        final bloc = _MockSpaceshipRampCubit();
+        final state = SpaceshipRampState.initial();
+        final streamController = StreamController<SpaceshipRampState>();
+        whenListen(
+          bloc,
+          streamController.stream,
+          initialState: state,
+        );
+        final arrow = SpaceshipRampArrowSpriteComponent();
+        final ramp = SpaceshipRamp.test(bloc: bloc, children: [arrow]);
+        await game.ensureAdd(ramp);
+
+        expect(arrow.current, ArrowLightState.inactive);
+
+        streamController
+            .add(state.copyWith(lightState: ArrowLightState.active1));
+
+        await game.ready();
+
+        expect(arrow.current, ArrowLightState.active1);
+      },
+    );
   });
 }
