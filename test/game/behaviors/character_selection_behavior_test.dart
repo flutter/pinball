@@ -77,42 +77,7 @@ void main() {
       );
 
       flameTester.test(
-        'onNewState does not call onCharacterSelected on the arcade background '
-        'bloc when platform is mobile',
-        (game) async {
-          final platformHelper = _MockPlatformHelper();
-          when(() => platformHelper.isMobile).thenAnswer((_) => true);
-          final arcadeBackgroundBloc = _MockArcadeBackgroundCubit();
-          whenListen(
-            arcadeBackgroundBloc,
-            const Stream<ArcadeBackgroundState>.empty(),
-            initialState: const ArcadeBackgroundState.initial(),
-          );
-          final behavior = CharacterSelectionBehavior();
-          await game.pump(
-            [
-              behavior,
-              ZCanvasComponent(),
-              Plunger.test(compressionDistance: 10),
-              Ball.test(),
-            ],
-            platformHelper: platformHelper,
-          );
-
-          const dinoThemeState = CharacterThemeState(theme.DinoTheme());
-          behavior.onNewState(dinoThemeState);
-          await game.ready();
-
-          verifyNever(
-            () => arcadeBackgroundBloc
-                .onCharacterSelected(dinoThemeState.characterTheme),
-          );
-        },
-      );
-
-      flameTester.test(
-        'onNewState calls onCharacterSelected on the arcade background '
-        'bloc when platform is not mobile',
+        'onNewState calls onCharacterSelected on the arcade background bloc',
         (game) async {
           final platformHelper = _MockPlatformHelper();
           when(() => platformHelper.isMobile).thenAnswer((_) => false);
