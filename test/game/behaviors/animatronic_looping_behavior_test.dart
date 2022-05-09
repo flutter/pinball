@@ -28,7 +28,7 @@ void main() {
   group('AnimatronicLoopingBehavior', () {
     test('can be instantiated', () {
       expect(
-        AnimatronicLoopingBehavior(animationCooldown: 1),
+        AnimatronicLoopingBehavior(animationCoolDown: 1),
         isA<AnimatronicLoopingBehavior>(),
       );
     });
@@ -36,7 +36,7 @@ void main() {
     flameTester.test(
       'can be added',
       (game) async {
-        final behavior = AnimatronicLoopingBehavior(animationCooldown: 1);
+        final behavior = AnimatronicLoopingBehavior(animationCoolDown: 1);
         final animation = _MockSpriteAnimation();
         final spriteAnimationComponent = _TestSpriteAnimationComponent()
           ..animation = animation;
@@ -52,7 +52,7 @@ void main() {
     flameTester.test(
       'onTick starts playing the animation',
       (game) async {
-        final behavior = AnimatronicLoopingBehavior(animationCooldown: 1);
+        final behavior = AnimatronicLoopingBehavior(animationCoolDown: 1);
         final spriteAnimationComponent = _TestSpriteAnimationComponent();
         await game.ensureAdd(spriteAnimationComponent);
         await spriteAnimationComponent.add(behavior);
@@ -67,7 +67,7 @@ void main() {
     flameTester.test(
       'animation onComplete resets and stops playing the animation',
       (game) async {
-        final behavior = AnimatronicLoopingBehavior(animationCooldown: 1);
+        final behavior = AnimatronicLoopingBehavior(animationCoolDown: 1);
         final spriteAnimationComponent = DashAnimatronic();
 
         await game.ensureAdd(spriteAnimationComponent);
@@ -86,7 +86,7 @@ void main() {
     flameTester.test(
       'animation onComplete resets and starts the timer',
       (game) async {
-        final behavior = AnimatronicLoopingBehavior(animationCooldown: 1);
+        final behavior = AnimatronicLoopingBehavior(animationCoolDown: 1);
         final spriteAnimationComponent = DashAnimatronic();
 
         await game.ensureAdd(spriteAnimationComponent);

@@ -35,7 +35,7 @@ class SparkyScorch extends Component {
             )..initialPosition = Vector2(-3.3, -52.55),
             SparkyAnimatronic(
               children: [
-                AnimatronicLoopingBehavior(animationCooldown: 3),
+                AnimatronicLoopingBehavior(animationCoolDown: 3),
               ],
             )..position = Vector2(-14, -58.2),
             SparkyComputer(
