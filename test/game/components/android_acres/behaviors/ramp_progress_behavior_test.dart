@@ -227,8 +227,8 @@ void main() {
     );
 
     flameTester.test(
-      "doesn't add again onProgressed to dimmed all "
-      'when arrow is not full lit after hit',
+      "doesn't add onProgressed to dim arrow "
+      'when arrow is not fully lit after hit',
       (game) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
