@@ -37,6 +37,8 @@ class _TestPinballGame extends PinballGame {
     images.prefix = '';
     final futures = [
       ...preLoadAssets(),
+      ...BonusAnimation.loadAssets(),
+      ...SelectedCharacter.loadAssets(),
       preFetchLeaderboard,
     ];
     await Future.wait<void>(futures.map((e) => e()).toList());
