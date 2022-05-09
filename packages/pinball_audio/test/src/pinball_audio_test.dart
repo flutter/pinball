@@ -357,15 +357,15 @@ void main() {
         ).thenAnswer((_) async => pool);
       });
 
-        test('plays the bumper A sound pool', () async {
-          when(seed.nextBool).thenReturn(true);
-          await Future.wait(
-            audioPlayer.load().map((loadableBuilder) => loadableBuilder()),
-          );
-          audioPlayer.play(PinballAudio.flipper);
+      test('plays the bumper A sound pool', () async {
+        when(seed.nextBool).thenReturn(true);
+        await Future.wait(
+          audioPlayer.load().map((loadableBuilder) => loadableBuilder()),
+        );
+        audioPlayer.play(PinballAudio.flipper);
 
-          verify(() => pool.start()).called(1);
-        });
+        verify(() => pool.start()).called(1);
+      });
     });
 
     group('cow moo', () {
