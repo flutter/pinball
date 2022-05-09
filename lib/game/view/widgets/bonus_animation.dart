@@ -76,9 +76,11 @@ class BonusAnimation extends StatefulWidget {
     Flame.images.prefix = '';
     return [
       () => Flame.images.load(Assets.images.bonusAnimation.dashNest.keyName),
-      () => Flame.images.load(Assets.images.bonusAnimation.sparkyTurboCharge.keyName),
+      () => Flame.images
+          .load(Assets.images.bonusAnimation.sparkyTurboCharge.keyName),
       () => Flame.images.load(Assets.images.bonusAnimation.dinoChomp.keyName),
-      () => Flame.images.load(Assets.images.bonusAnimation.androidSpaceship.keyName),
+      () => Flame.images
+          .load(Assets.images.bonusAnimation.androidSpaceship.keyName),
       () => Flame.images.load(Assets.images.bonusAnimation.googleWord.keyName),
     ];
   }

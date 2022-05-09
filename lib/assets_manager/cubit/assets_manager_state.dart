@@ -11,8 +11,7 @@ class AssetsManagerState extends Equatable {
   });
 
   /// {@macro assets_manager_state}
-  const AssetsManagerState.initial()
-      : this(assetsCount: 0, loaded: 0);
+  const AssetsManagerState.initial() : this(assetsCount: 0, loaded: 0);
 
   /// Number of assets to load.
   final int assetsCount;
@@ -21,8 +20,7 @@ class AssetsManagerState extends Equatable {
   final int loaded;
 
   /// Returns a value between 0 and 1 to indicate the loading progress.
-  double get progress =>
-      loaded == 0 ? 0 : loaded / assetsCount;
+  double get progress => loaded == 0 ? 0 : loaded / assetsCount;
 
   /// Only returns false if all the assets have been loaded.
   bool get isLoading => progress != 1;
