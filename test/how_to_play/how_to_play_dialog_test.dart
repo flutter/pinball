@@ -17,27 +17,23 @@ void main() {
     setUp(() async {
       l10n = await AppLocalizations.delegate.load(const Locale('en'));
       platformHelper = _MockPlatformHelper();
+      when(() => platformHelper.isMobile).thenAnswer((_) => false);
     });
 
-    testWidgets(
-      'can be instantiated without passing in a platform helper',
-      (tester) async {
-        await tester.pumpApp(
-          HowToPlayDialog(
-            onDismissCallback: () {},
-          ),
-        );
-        expect(find.byType(HowToPlayDialog), findsOneWidget);
-      },
-    );
+    test('can be instantiated', () {
+      expect(
+        HowToPlayDialog(onDismissCallback: () {}),
+        isA<HowToPlayDialog>(),
+      );
+    });
 
     testWidgets('displays content for desktop', (tester) async {
       when(() => platformHelper.isMobile).thenAnswer((_) => false);
       await tester.pumpApp(
         HowToPlayDialog(
-          platformHelper: platformHelper,
           onDismissCallback: () {},
         ),
+        platformHelper: platformHelper,
       );
       expect(find.text(l10n.howToPlay), findsOneWidget);
       expect(find.text(l10n.tipsForFlips), findsOneWidget);
@@ -50,9 +46,9 @@ void main() {
       when(() => platformHelper.isMobile).thenAnswer((_) => true);
       await tester.pumpApp(
         HowToPlayDialog(
-          platformHelper: platformHelper,
           onDismissCallback: () {},
         ),
+        platformHelper: platformHelper,
       );
       expect(find.text(l10n.howToPlay), findsOneWidget);
       expect(find.text(l10n.tipsForFlips), findsOneWidget);
@@ -75,6 +71,7 @@ void main() {
             );
           },
         ),
+        platformHelper: platformHelper,
       );
       expect(find.byType(HowToPlayDialog), findsNothing);
       await tester.tap(find.text('test'));
@@ -100,6 +97,7 @@ void main() {
             );
           },
         ),
+        platformHelper: platformHelper,
       );
       expect(find.byType(HowToPlayDialog), findsNothing);
       await tester.tap(find.text('test'));

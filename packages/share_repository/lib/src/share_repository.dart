@@ -18,7 +18,7 @@ class ShareRepository {
   static const googleIOEvent = 'https://events.google.com/io/';
 
   /// Url to the Pinball game.
-  static const pinballGameUrl = 'https://ashehwkdkdjruejdnensjsjdne.web.app/#/';
+  static const pinballGameUrl = 'https://pinball.flutter.dev';
 
   /// Returns a url to share the [value] on the given [platform].
   ///
