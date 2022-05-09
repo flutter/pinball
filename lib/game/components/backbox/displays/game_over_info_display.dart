@@ -290,7 +290,7 @@ class OpenSourceTextComponent extends TextComponent with HasGameRef, Tappable {
         );
 
   @override
-  bool onTapDown(TapDownInfo info) {
+  bool onTapUp(TapUpInfo info) {
     openLink(ShareRepository.openSourceCode);
     return true;
   }

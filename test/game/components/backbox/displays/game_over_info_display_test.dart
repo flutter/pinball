@@ -176,7 +176,7 @@ void main() {
 
         final openSourceLink =
             component.descendants().whereType<OpenSourceTextComponent>().first;
-        openSourceLink.onTapDown(_MockTapDownInfo());
+        openSourceLink.onTapUp(_MockTapUpInfo());
 
         await game.ready();
 
