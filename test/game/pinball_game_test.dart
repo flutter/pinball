@@ -259,13 +259,19 @@ void main() {
         when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
         when(() => tapDownEvent.raw).thenReturn(raw);
 
-        final flippers = game.descendants().whereType<Flipper>().where(
-              (flipper) => flipper.side == BoardSide.left,
-            );
-
         game.onTapDown(0, tapDownEvent);
+        await Future<void>.delayed(Duration.zero);
 
-        expect(flippers.first.body.linearVelocity.y, isNegative);
+        final flipperBloc = game
+            .descendants()
+            .whereType<Flipper>()
+            .where((flipper) => flipper.side == BoardSide.left)
+            .single
+            .descendants()
+            .whereType<FlameBlocProvider<FlipperCubit, FlipperState>>()
+            .first
+            .bloc;
+        expect(flipperBloc.state, FlipperState.movingUp);
       });
 
       flameTester.test('tap down moves right flipper up', (game) async {
@@ -282,13 +288,19 @@ void main() {
         when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
         when(() => tapDownEvent.raw).thenReturn(raw);
 
-        final flippers = game.descendants().whereType<Flipper>().where(
-              (flipper) => flipper.side == BoardSide.right,
-            );
-
         game.onTapDown(0, tapDownEvent);
+        final flipperBloc = game
+            .descendants()
+            .whereType<Flipper>()
+            .where((flipper) => flipper.side == BoardSide.right)
+            .single
+            .descendants()
+            .whereType<FlameBlocProvider<FlipperCubit, FlipperState>>()
+            .first
+            .bloc;
 
-        expect(flippers.first.body.linearVelocity.y, isNegative);
+        await Future<void>.delayed(Duration.zero);
+        expect(flipperBloc.state, FlipperState.movingUp);
       });
 
       flameTester.test('tap up moves flipper down', (game) async {
@@ -298,28 +310,22 @@ void main() {
         when(() => eventPosition.game).thenReturn(Vector2.zero());
         when(() => eventPosition.widget).thenReturn(Vector2.zero());
 
-        final raw = _MockTapDownDetails();
-        when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
-
-        final tapDownEvent = _MockTapDownInfo();
-        when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
-        when(() => tapDownEvent.raw).thenReturn(raw);
-
-        final flippers = game.descendants().whereType<Flipper>().where(
-              (flipper) => flipper.side == BoardSide.left,
-            );
-
-        game.onTapDown(0, tapDownEvent);
-
-        expect(flippers.first.body.linearVelocity.y, isNegative);
-
         final tapUpEvent = _MockTapUpInfo();
         when(() => tapUpEvent.eventPosition).thenReturn(eventPosition);
 
         game.onTapUp(0, tapUpEvent);
         await game.ready();
 
-        expect(flippers.first.body.linearVelocity.y, isPositive);
+        final flipperBloc = game
+            .descendants()
+            .whereType<Flipper>()
+            .where((flipper) => flipper.side == BoardSide.left)
+            .single
+            .descendants()
+            .whereType<FlameBlocProvider<FlipperCubit, FlipperState>>()
+            .first
+            .bloc;
+        expect(flipperBloc.state, FlipperState.movingDown);
       });
 
       flameTester.test('tap cancel moves flipper down', (game) async {
@@ -336,17 +342,19 @@ void main() {
         when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
         when(() => tapDownEvent.raw).thenReturn(raw);
 
-        final flippers = game.descendants().whereType<Flipper>().where(
-              (flipper) => flipper.side == BoardSide.left,
-            );
+        final flipperBloc = game
+            .descendants()
+            .whereType<Flipper>()
+            .where((flipper) => flipper.side == BoardSide.left)
+            .single
+            .descendants()
+            .whereType<FlameBlocProvider<FlipperCubit, FlipperState>>()
+            .first
+            .bloc;
 
         game.onTapDown(0, tapDownEvent);
-
-        expect(flippers.first.body.linearVelocity.y, isNegative);
-
         game.onTapCancel(0);
-
-        expect(flippers.first.body.linearVelocity.y, isPositive);
+        expect(flipperBloc.state, FlipperState.movingDown);
       });
 
       flameTester.test(
@@ -375,17 +383,25 @@ void main() {
               .thenReturn(rightEventPosition);
           when(() => rightTapDownEvent.raw).thenReturn(raw);
 
-          final flippers = game.descendants().whereType<Flipper>();
-          final rightFlipper = flippers.elementAt(0);
-          final leftFlipper = flippers.elementAt(1);
-
           game.onTapDown(0, leftTapDownEvent);
           game.onTapDown(1, rightTapDownEvent);
 
-          expect(leftFlipper.body.linearVelocity.y, isNegative);
-          expect(leftFlipper.side, equals(BoardSide.left));
-          expect(rightFlipper.body.linearVelocity.y, isNegative);
-          expect(rightFlipper.side, equals(BoardSide.right));
+          final flippers = game.descendants().whereType<Flipper>();
+          final rightFlipper = flippers.elementAt(0);
+          final leftFlipper = flippers.elementAt(1);
+          final leftFlipperBloc = leftFlipper
+              .descendants()
+              .whereType<FlameBlocProvider<FlipperCubit, FlipperState>>()
+              .first
+              .bloc;
+          final rightFlipperBloc = rightFlipper
+              .descendants()
+              .whereType<FlameBlocProvider<FlipperCubit, FlipperState>>()
+              .first
+              .bloc;
+
+          expect(leftFlipperBloc.state, equals(FlipperState.movingUp));
+          expect(rightFlipperBloc.state, equals(FlipperState.movingUp));
 
           expect(
             game.focusedBoardSide,
@@ -396,7 +412,7 @@ void main() {
     });
 
     group('plunger control', () {
-      flameTester.test('tap down emits plunging', (game) async {
+      flameTester.test('plunger control tap down emits plunging', (game) async {
         await game.ready();
 
         final eventPosition = _MockEventPosition();
