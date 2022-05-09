@@ -61,6 +61,11 @@ class GameBlocStatusListener extends Component
         .single
         .bloc
         .onReset();
+    gameRef
+        .descendants()
+        .whereType<DashBumper>()
+        .forEach((bumper) => bumper.bloc.onReset());
+    gameRef.descendants().whereType<Signpost>().single.bloc.onReset();
   }
 
   void _addPlungerBehaviors(Plunger plunger) {
