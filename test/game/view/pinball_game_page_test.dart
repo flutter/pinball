@@ -307,6 +307,23 @@ void main() {
       expect(find.byType(MobileControls), findsOneWidget);
     });
 
+    testWidgets(
+      'ReplayButtonOverlay when the overlay is added',
+      (tester) async {
+        await tester.pumpApp(
+          PinballGameView(game),
+          gameBloc: gameBloc,
+          startGameBloc: startGameBloc,
+        );
+
+        game.overlays.add(PinballGame.replayButtonOverlay);
+
+        await tester.pump();
+
+        expect(find.byType(ReplayButtonOverlay), findsOneWidget);
+      },
+    );
+
     group('info icon', () {
       testWidgets('renders on game over', (tester) async {
         final gameState = GameState.initial().copyWith(

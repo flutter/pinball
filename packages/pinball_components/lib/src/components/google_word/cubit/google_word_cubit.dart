@@ -68,7 +68,7 @@ class GoogleWordCubit extends Cubit<GoogleWordState> {
     );
   }
 
-  void onAnimationFinished() {
+  void onReset() {
     emit(GoogleWordState.initial());
     _lastLitLetter = 0;
   }
