@@ -41,7 +41,9 @@ class _TestPinballGame extends PinballGame {
       ...SelectedCharacter.loadAssets(),
       preFetchLeaderboard,
     ];
-    await Future.wait<void>(futures.map((e) => e()).toList());
+    await Future.wait<void>(
+      futures.map((loadableBuilder) => loadableBuilder()).toList(),
+    );
 
     return super.onLoad();
   }
@@ -80,7 +82,9 @@ void main() {
     late GameBloc gameBloc;
 
     setUp(() async {
-      await Future.wait<void>(game.preLoadAssets().map((e) => e()));
+      await Future.wait<void>(
+        game.preLoadAssets().map((loadableBuilder) => loadableBuilder()),
+      );
       characterThemeCubit = _MockCharacterThemeCubit();
       gameBloc = _MockGameBloc();
 
@@ -181,7 +185,9 @@ void main() {
     final startGameBloc = _MockStartGameBloc();
 
     setUp(() async {
-      await Future.wait<void>(game.preLoadAssets().map((e) => e()));
+      await Future.wait<void>(
+        game.preLoadAssets().map((loadableBuilder) => loadableBuilder()),
+      );
 
       whenListen(
         gameBloc,
