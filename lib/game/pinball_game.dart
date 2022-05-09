@@ -125,6 +125,7 @@ class PinballGame extends PinballForge2DGame
                       SkillShot(
                         children: [
                           ScoringContactBehavior(points: Points.oneMillion),
+                          RolloverNoiseBehavior(),
                         ],
                       ),
                       AndroidAcres(),
