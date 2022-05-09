@@ -6,7 +6,6 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_components/src/components/android_spaceship/behaviors/behaviors.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
 import '../../../helpers/helpers.dart';
@@ -84,26 +83,5 @@ void main() {
         );
       },
     );
-
-    flameTester.test(
-        'AndroidSpaceshipEntrance has an '
-        'AndroidSpaceshipEntranceBallContactBehavior', (game) async {
-      final androidSpaceship = AndroidSpaceship(position: Vector2.zero());
-      final provider =
-          FlameBlocProvider<AndroidSpaceshipCubit, AndroidSpaceshipState>.value(
-        value: bloc,
-        children: [androidSpaceship],
-      );
-      await game.ensureAdd(provider);
-
-      final androidSpaceshipEntrance =
-          androidSpaceship.firstChild<AndroidSpaceshipEntrance>();
-      expect(
-        androidSpaceshipEntrance!.children
-            .whereType<AndroidSpaceshipEntranceBallContactBehavior>()
-            .single,
-        isNotNull,
-      );
-    });
   });
 }

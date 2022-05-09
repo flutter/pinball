@@ -19,7 +19,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   static const _maxScore = 9999999999;
 
   void _onGameStarted(GameStarted _, Emitter emit) {
-    emit(state.copyWith(status: GameStatus.playing));
+    emit(const GameState.initial().copyWith(status: GameStatus.playing));
   }
 
   void _onGameOver(GameOver _, Emitter emit) {

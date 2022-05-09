@@ -72,14 +72,16 @@ class BonusAnimation extends StatefulWidget {
   final VoidCallback? _onCompleted;
 
   /// Returns a list of assets to be loaded for animations.
-  static List<Future> loadAssets() {
+  static List<Future Function()> loadAssets() {
     Flame.images.prefix = '';
     return [
-      Flame.images.load(Assets.images.bonusAnimation.dashNest.keyName),
-      Flame.images.load(Assets.images.bonusAnimation.sparkyTurboCharge.keyName),
-      Flame.images.load(Assets.images.bonusAnimation.dinoChomp.keyName),
-      Flame.images.load(Assets.images.bonusAnimation.androidSpaceship.keyName),
-      Flame.images.load(Assets.images.bonusAnimation.googleWord.keyName),
+      () => Flame.images.load(Assets.images.bonusAnimation.dashNest.keyName),
+      () => Flame.images
+          .load(Assets.images.bonusAnimation.sparkyTurboCharge.keyName),
+      () => Flame.images.load(Assets.images.bonusAnimation.dinoChomp.keyName),
+      () => Flame.images
+          .load(Assets.images.bonusAnimation.androidSpaceship.keyName),
+      () => Flame.images.load(Assets.images.bonusAnimation.googleWord.keyName),
     ];
   }
 

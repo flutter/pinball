@@ -1,11 +1,18 @@
 import 'package:flame/input.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/common.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
-class PlungerGame extends BallGame with KeyboardEvents, Traceable {
+class PlungerGame extends BallGame
+    with HasKeyboardHandlerComponents, Traceable {
+  PlungerGame()
+      : super(
+          imagesFileNames: [
+            Assets.images.plunger.plunger.keyName,
+          ],
+        );
+
   static const description = '''
     Shows how Plunger is rendered.
 
@@ -13,39 +20,21 @@ class PlungerGame extends BallGame with KeyboardEvents, Traceable {
     - Tap anywhere on the screen to spawn a ball into the game.
 ''';
 
-  static const _downKeys = [
-    LogicalKeyboardKey.arrowDown,
-    LogicalKeyboardKey.space,
-  ];
-
-  late Plunger plunger;
-
   @override
   Future<void> onLoad() async {
     await super.onLoad();
 
     final center = screenToWorld(camera.viewport.canvasSize! / 2);
+    final plunger = Plunger()
+      ..initialPosition = Vector2(center.x - 8.8, center.y);
     await add(
-      plunger = Plunger(compressionDistance: 29)
-        ..initialPosition = Vector2(center.x - 8.8, center.y),
+      FlameBlocProvider<PlungerCubit, PlungerState>(
+        create: PlungerCubit.new,
+        children: [plunger],
+      ),
     );
-    await traceAllBodies();
-  }
+    await plunger.add(PlungerKeyControllingBehavior());
 
-  @override
-  KeyEventResult onKeyEvent(
-    RawKeyEvent event,
-    Set<LogicalKeyboardKey> keysPressed,
-  ) {
-    final movedPlungerDown = _downKeys.contains(event.logicalKey);
-    if (movedPlungerDown) {
-      if (event is RawKeyDownEvent) {
-        plunger.pull();
-      } else if (event is RawKeyUpEvent) {
-        plunger.release();
-      }
-      return KeyEventResult.handled;
-    }
-    return KeyEventResult.ignored;
+    await traceAllBodies();
   }
 }

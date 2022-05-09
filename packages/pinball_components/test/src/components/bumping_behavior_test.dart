@@ -24,6 +24,20 @@ void main() {
   final flameTester = FlameTester(TestGame.new);
 
   group('BumpingBehavior', () {
+    test('can be instantiated', () {
+      expect(
+        BumpingBehavior(strength: 0),
+        isA<BumpingBehavior>(),
+      );
+    });
+
+    test('throws assertion error when strength is negative ', () {
+      expect(
+        () => BumpingBehavior(strength: -1),
+        throwsAssertionError,
+      );
+    });
+
     flameTester.test('can be added', (game) async {
       final behavior = BumpingBehavior(strength: 0);
       final component = _TestBodyComponent();

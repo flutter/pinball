@@ -75,7 +75,7 @@ void main() {
 
     flameTester.testGameWidget(
       'adds GameBonus.googleWord to the game when all letters '
-      'in google word are activated and calls onBonusAwarded',
+      'in google word are activated and calls onReset',
       setUp: (game, tester) async {
         final behavior = GoogleWordBonusBehavior();
         final parent = GoogleGallery.test();
@@ -114,13 +114,13 @@ void main() {
         verify(
           () => gameBloc.add(const BonusActivated(GameBonus.googleWord)),
         ).called(1);
-        verify(googleWordBloc.onBonusAwarded).called(1);
+        verify(googleWordBloc.onReset).called(1);
       },
     );
 
     flameTester.testGameWidget(
-      'adds BonusBallSpawningBehavior to the game when all letters '
-      'in google word are activated',
+      'adds BonusBallSpawningBehavior and GoogleWordAnimatingBehavior '
+      'to the game when all letters in google word are activated',
       setUp: (game, tester) async {
         final behavior = GoogleWordBonusBehavior();
         final parent = GoogleGallery.test();
@@ -159,6 +159,10 @@ void main() {
 
         expect(
           game.descendants().whereType<BonusBallSpawningBehavior>().length,
+          equals(1),
+        );
+        expect(
+          game.descendants().whereType<GoogleWordAnimatingBehavior>().length,
           equals(1),
         );
       },

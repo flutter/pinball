@@ -1,5 +1,8 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:bloc_test/bloc_test.dart';
+import 'package:flame_bloc/flame_bloc.dart';
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +11,24 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_components/pinball_components.dart';
 
-import '../../../../helpers/helpers.dart';
+class _TestGame extends Forge2DGame {
+  Future<void> pump(
+    FlipperKeyControllingBehavior behavior, {
+    required BoardSide side,
+    FlipperCubit? flipperBloc,
+  }) async {
+    final flipper = Flipper.test(side: side);
+    await ensureAdd(flipper);
+    await flipper.ensureAdd(
+      FlameBlocProvider<FlipperCubit, FlipperState>.value(
+        value: flipperBloc ?? FlipperCubit(),
+        children: [behavior],
+      ),
+    );
+  }
+}
+
+class _MockFlipperCubit extends Mock implements FlipperCubit {}
 
 class _MockRawKeyDownEvent extends Mock implements RawKeyDownEvent {
   @override
@@ -27,26 +47,32 @@ class _MockRawKeyUpEvent extends Mock implements RawKeyUpEvent {
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   group('FlipperKeyControllingBehavior', () {
-    final flameTester = FlameTester(TestGame.new);
+    final flameTester = FlameTester(_TestGame.new);
 
     group(
       'onKeyEvent',
       () {
-        late Flipper rightFlipper;
-        late Flipper leftFlipper;
+        late FlipperCubit flipperBloc;
 
         setUp(() {
-          rightFlipper = Flipper.test(side: BoardSide.right);
-          leftFlipper = Flipper.test(side: BoardSide.left);
+          flipperBloc = _MockFlipperCubit();
+          whenListen<FlipperState>(
+            flipperBloc,
+            const Stream.empty(),
+            initialState: FlipperState.movingDown,
+          );
         });
 
         group('on right Flipper', () {
           flameTester.test(
             'moves upwards when right arrow is pressed',
             (game) async {
-              await game.ensureAdd(rightFlipper);
               final behavior = FlipperKeyControllingBehavior();
-              await rightFlipper.ensureAdd(behavior);
+              await game.pump(
+                behavior,
+                flipperBloc: flipperBloc,
+                side: BoardSide.right,
+              );
 
               final event = _MockRawKeyDownEvent();
               when(() => event.logicalKey).thenReturn(
@@ -55,17 +81,20 @@ void main() {
 
               behavior.onKeyEvent(event, {});
 
-              expect(rightFlipper.body.linearVelocity.y, isNegative);
-              expect(rightFlipper.body.linearVelocity.x, isZero);
+              await Future<void>.delayed(Duration.zero);
+              verify(flipperBloc.moveUp).called(1);
             },
           );
 
           flameTester.test(
             'moves downwards when right arrow is released',
             (game) async {
-              await game.ensureAdd(rightFlipper);
               final behavior = FlipperKeyControllingBehavior();
-              await rightFlipper.ensureAdd(behavior);
+              await game.pump(
+                behavior,
+                side: BoardSide.right,
+                flipperBloc: flipperBloc,
+              );
 
               final event = _MockRawKeyUpEvent();
               when(() => event.logicalKey).thenReturn(
@@ -74,17 +103,20 @@ void main() {
 
               behavior.onKeyEvent(event, {});
 
-              expect(rightFlipper.body.linearVelocity.y, isPositive);
-              expect(rightFlipper.body.linearVelocity.x, isZero);
+              await Future<void>.delayed(Duration.zero);
+              verify(flipperBloc.moveDown).called(1);
             },
           );
 
           flameTester.test(
             'moves upwards when D is pressed',
             (game) async {
-              await game.ensureAdd(rightFlipper);
               final behavior = FlipperKeyControllingBehavior();
-              await rightFlipper.ensureAdd(behavior);
+              await game.pump(
+                behavior,
+                side: BoardSide.right,
+                flipperBloc: flipperBloc,
+              );
 
               final event = _MockRawKeyDownEvent();
               when(() => event.logicalKey).thenReturn(
@@ -93,17 +125,20 @@ void main() {
 
               behavior.onKeyEvent(event, {});
 
-              expect(rightFlipper.body.linearVelocity.y, isNegative);
-              expect(rightFlipper.body.linearVelocity.x, isZero);
+              await Future<void>.delayed(Duration.zero);
+              verify(flipperBloc.moveUp).called(1);
             },
           );
 
           flameTester.test(
             'moves downwards when D is released',
             (game) async {
-              await game.ensureAdd(rightFlipper);
               final behavior = FlipperKeyControllingBehavior();
-              await rightFlipper.ensureAdd(behavior);
+              await game.pump(
+                behavior,
+                side: BoardSide.right,
+                flipperBloc: flipperBloc,
+              );
 
               final event = _MockRawKeyUpEvent();
               when(() => event.logicalKey).thenReturn(
@@ -112,8 +147,8 @@ void main() {
 
               behavior.onKeyEvent(event, {});
 
-              expect(rightFlipper.body.linearVelocity.y, isPositive);
-              expect(rightFlipper.body.linearVelocity.x, isZero);
+              await Future<void>.delayed(Duration.zero);
+              verify(flipperBloc.moveDown).called(1);
             },
           );
 
@@ -121,9 +156,12 @@ void main() {
             flameTester.test(
               'left arrow is pressed',
               (game) async {
-                await game.ensureAdd(rightFlipper);
                 final behavior = FlipperKeyControllingBehavior();
-                await rightFlipper.ensureAdd(behavior);
+                await game.pump(
+                  behavior,
+                  side: BoardSide.right,
+                  flipperBloc: flipperBloc,
+                );
 
                 final event = _MockRawKeyDownEvent();
                 when(() => event.logicalKey).thenReturn(
@@ -132,17 +170,20 @@ void main() {
 
                 behavior.onKeyEvent(event, {});
 
-                expect(rightFlipper.body.linearVelocity.y, isZero);
-                expect(rightFlipper.body.linearVelocity.x, isZero);
+                verifyNever(flipperBloc.moveDown);
+                verifyNever(flipperBloc.moveUp);
               },
             );
 
             flameTester.test(
               'left arrow is released',
               (game) async {
-                await game.ensureAdd(rightFlipper);
                 final behavior = FlipperKeyControllingBehavior();
-                await rightFlipper.ensureAdd(behavior);
+                await game.pump(
+                  behavior,
+                  side: BoardSide.right,
+                  flipperBloc: flipperBloc,
+                );
 
                 final event = _MockRawKeyUpEvent();
                 when(() => event.logicalKey).thenReturn(
@@ -151,17 +192,20 @@ void main() {
 
                 behavior.onKeyEvent(event, {});
 
-                expect(rightFlipper.body.linearVelocity.y, isZero);
-                expect(rightFlipper.body.linearVelocity.x, isZero);
+                verifyNever(flipperBloc.moveDown);
+                verifyNever(flipperBloc.moveUp);
               },
             );
 
             flameTester.test(
               'A is pressed',
               (game) async {
-                await game.ensureAdd(rightFlipper);
                 final behavior = FlipperKeyControllingBehavior();
-                await rightFlipper.ensureAdd(behavior);
+                await game.pump(
+                  behavior,
+                  side: BoardSide.right,
+                  flipperBloc: flipperBloc,
+                );
 
                 final event = _MockRawKeyDownEvent();
                 when(() => event.logicalKey).thenReturn(
@@ -170,17 +214,20 @@ void main() {
 
                 behavior.onKeyEvent(event, {});
 
-                expect(rightFlipper.body.linearVelocity.y, isZero);
-                expect(rightFlipper.body.linearVelocity.x, isZero);
+                verifyNever(flipperBloc.moveDown);
+                verifyNever(flipperBloc.moveUp);
               },
             );
 
             flameTester.test(
               'A is released',
               (game) async {
-                await game.ensureAdd(rightFlipper);
                 final behavior = FlipperKeyControllingBehavior();
-                await rightFlipper.ensureAdd(behavior);
+                await game.pump(
+                  behavior,
+                  side: BoardSide.right,
+                  flipperBloc: flipperBloc,
+                );
 
                 final event = _MockRawKeyUpEvent();
                 when(() => event.logicalKey).thenReturn(
@@ -189,8 +236,8 @@ void main() {
 
                 behavior.onKeyEvent(event, {});
 
-                expect(rightFlipper.body.linearVelocity.y, isZero);
-                expect(rightFlipper.body.linearVelocity.x, isZero);
+                verifyNever(flipperBloc.moveDown);
+                verifyNever(flipperBloc.moveUp);
               },
             );
           });
@@ -200,9 +247,12 @@ void main() {
           flameTester.test(
             'moves upwards when left arrow is pressed',
             (game) async {
-              await game.ensureAdd(leftFlipper);
               final behavior = FlipperKeyControllingBehavior();
-              await leftFlipper.ensureAdd(behavior);
+              await game.pump(
+                behavior,
+                side: BoardSide.left,
+                flipperBloc: flipperBloc,
+              );
 
               final event = _MockRawKeyDownEvent();
               when(() => event.logicalKey).thenReturn(
@@ -211,17 +261,20 @@ void main() {
 
               behavior.onKeyEvent(event, {});
 
-              expect(leftFlipper.body.linearVelocity.y, isNegative);
-              expect(leftFlipper.body.linearVelocity.x, isZero);
+              await Future<void>.delayed(Duration.zero);
+              verify(flipperBloc.moveUp).called(1);
             },
           );
 
           flameTester.test(
             'moves downwards when left arrow is released',
             (game) async {
-              await game.ensureAdd(leftFlipper);
               final behavior = FlipperKeyControllingBehavior();
-              await leftFlipper.ensureAdd(behavior);
+              await game.pump(
+                behavior,
+                side: BoardSide.left,
+                flipperBloc: flipperBloc,
+              );
 
               final event = _MockRawKeyUpEvent();
               when(() => event.logicalKey).thenReturn(
@@ -230,17 +283,20 @@ void main() {
 
               behavior.onKeyEvent(event, {});
 
-              expect(leftFlipper.body.linearVelocity.y, isPositive);
-              expect(leftFlipper.body.linearVelocity.x, isZero);
+              await Future<void>.delayed(Duration.zero);
+              verify(flipperBloc.moveDown).called(1);
             },
           );
 
           flameTester.test(
             'moves upwards when A is pressed',
             (game) async {
-              await game.ensureAdd(leftFlipper);
               final behavior = FlipperKeyControllingBehavior();
-              await leftFlipper.ensureAdd(behavior);
+              await game.pump(
+                behavior,
+                side: BoardSide.left,
+                flipperBloc: flipperBloc,
+              );
 
               final event = _MockRawKeyDownEvent();
               when(() => event.logicalKey).thenReturn(
@@ -249,17 +305,20 @@ void main() {
 
               behavior.onKeyEvent(event, {});
 
-              expect(leftFlipper.body.linearVelocity.y, isNegative);
-              expect(leftFlipper.body.linearVelocity.x, isZero);
+              await Future<void>.delayed(Duration.zero);
+              verify(flipperBloc.moveUp).called(1);
             },
           );
 
           flameTester.test(
             'moves downwards when A is released',
             (game) async {
-              await game.ensureAdd(leftFlipper);
               final behavior = FlipperKeyControllingBehavior();
-              await leftFlipper.ensureAdd(behavior);
+              await game.pump(
+                behavior,
+                side: BoardSide.left,
+                flipperBloc: flipperBloc,
+              );
 
               final event = _MockRawKeyUpEvent();
               when(() => event.logicalKey).thenReturn(
@@ -268,8 +327,8 @@ void main() {
 
               behavior.onKeyEvent(event, {});
 
-              expect(leftFlipper.body.linearVelocity.y, isPositive);
-              expect(leftFlipper.body.linearVelocity.x, isZero);
+              await Future<void>.delayed(Duration.zero);
+              verify(flipperBloc.moveDown).called(1);
             },
           );
 
@@ -277,9 +336,12 @@ void main() {
             flameTester.test(
               'right arrow is pressed',
               (game) async {
-                await game.ensureAdd(leftFlipper);
                 final behavior = FlipperKeyControllingBehavior();
-                await leftFlipper.ensureAdd(behavior);
+                await game.pump(
+                  behavior,
+                  side: BoardSide.left,
+                  flipperBloc: flipperBloc,
+                );
 
                 final event = _MockRawKeyDownEvent();
                 when(() => event.logicalKey).thenReturn(
@@ -288,17 +350,20 @@ void main() {
 
                 behavior.onKeyEvent(event, {});
 
-                expect(leftFlipper.body.linearVelocity.y, isZero);
-                expect(leftFlipper.body.linearVelocity.x, isZero);
+                verifyNever(flipperBloc.moveDown);
+                verifyNever(flipperBloc.moveUp);
               },
             );
 
             flameTester.test(
               'right arrow is released',
               (game) async {
-                await game.ensureAdd(leftFlipper);
                 final behavior = FlipperKeyControllingBehavior();
-                await leftFlipper.ensureAdd(behavior);
+                await game.pump(
+                  behavior,
+                  side: BoardSide.left,
+                  flipperBloc: flipperBloc,
+                );
 
                 final event = _MockRawKeyUpEvent();
                 when(() => event.logicalKey).thenReturn(
@@ -307,17 +372,20 @@ void main() {
 
                 behavior.onKeyEvent(event, {});
 
-                expect(leftFlipper.body.linearVelocity.y, isZero);
-                expect(leftFlipper.body.linearVelocity.x, isZero);
+                verifyNever(flipperBloc.moveDown);
+                verifyNever(flipperBloc.moveUp);
               },
             );
 
             flameTester.test(
               'D is pressed',
               (game) async {
-                await game.ensureAdd(leftFlipper);
                 final behavior = FlipperKeyControllingBehavior();
-                await leftFlipper.ensureAdd(behavior);
+                await game.pump(
+                  behavior,
+                  side: BoardSide.left,
+                  flipperBloc: flipperBloc,
+                );
 
                 final event = _MockRawKeyDownEvent();
                 when(() => event.logicalKey).thenReturn(
@@ -326,17 +394,20 @@ void main() {
 
                 behavior.onKeyEvent(event, {});
 
-                expect(leftFlipper.body.linearVelocity.y, isZero);
-                expect(leftFlipper.body.linearVelocity.x, isZero);
+                verifyNever(flipperBloc.moveDown);
+                verifyNever(flipperBloc.moveUp);
               },
             );
 
             flameTester.test(
               'D is released',
               (game) async {
-                await game.ensureAdd(leftFlipper);
                 final behavior = FlipperKeyControllingBehavior();
-                await leftFlipper.ensureAdd(behavior);
+                await game.pump(
+                  behavior,
+                  side: BoardSide.left,
+                  flipperBloc: flipperBloc,
+                );
 
                 final event = _MockRawKeyUpEvent();
                 when(() => event.logicalKey).thenReturn(
@@ -345,8 +416,8 @@ void main() {
 
                 behavior.onKeyEvent(event, {});
 
-                expect(leftFlipper.body.linearVelocity.y, isZero);
-                expect(leftFlipper.body.linearVelocity.x, isZero);
+                verifyNever(flipperBloc.moveDown);
+                verifyNever(flipperBloc.moveUp);
               },
             );
           });

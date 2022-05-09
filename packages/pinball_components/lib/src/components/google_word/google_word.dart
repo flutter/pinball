@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:pinball_components/pinball_components.dart';
 
+export 'behaviors/behaviors.dart';
 export 'cubit/google_word_cubit.dart';
 
 /// {@template google_word}

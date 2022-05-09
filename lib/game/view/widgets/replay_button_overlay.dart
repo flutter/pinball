@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball/start_game/start_game.dart';
 import 'package:pinball_ui/pinball_ui.dart';
@@ -18,6 +19,7 @@ class ReplayButtonOverlay extends StatelessWidget {
     return PinballButton(
       text: l10n.replay,
       onTap: () {
+        context.read<GameBloc>().add(const GameStarted());
         context.read<StartGameBloc>().add(const ReplayTapped());
       },
     );

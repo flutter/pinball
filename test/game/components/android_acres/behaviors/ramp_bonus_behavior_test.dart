@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
@@ -36,14 +37,22 @@ class _TestGame extends Forge2DGame {
   }
 
   Future<void> pump(
-    SpaceshipRamp child, {
+    List<Component> children, {
+    required SpaceshipRampCubit bloc,
     required GameBloc gameBloc,
   }) async {
     await ensureAdd(
-      FlameBlocProvider<GameBloc, GameState>.value(
-        value: gameBloc,
+      FlameMultiBlocProvider(
+        providers: [
+          FlameBlocProvider<GameBloc, GameState>.value(
+            value: gameBloc,
+          ),
+          FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>.value(
+            value: bloc,
+          ),
+        ],
         children: [
-          ZCanvasComponent(children: [child]),
+          ZCanvasComponent(children: children),
         ],
       ),
     );
@@ -54,20 +63,17 @@ class _MockGameBloc extends Mock implements GameBloc {}
 
 class _MockSpaceshipRampCubit extends Mock implements SpaceshipRampCubit {}
 
-class _MockStreamSubscription extends Mock
-    implements StreamSubscription<SpaceshipRampState> {}
-
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
+  late GameBloc gameBloc;
+
+  setUp(() {
+    gameBloc = _MockGameBloc();
+  });
+
   group('RampBonusBehavior', () {
     const shotPoints = Points.oneMillion;
-
-    late GameBloc gameBloc;
-
-    setUp(() {
-      gameBloc = _MockGameBloc();
-    });
 
     final flameTester = FlameTester(_TestGame.new);
 
@@ -75,22 +81,23 @@ void main() {
       'when hits are multiples of 10 times adds a ScoringBehavior',
       (game) async {
         final bloc = _MockSpaceshipRampCubit();
+        final state = SpaceshipRampState.initial();
         final streamController = StreamController<SpaceshipRampState>();
         whenListen(
           bloc,
           streamController.stream,
-          initialState: SpaceshipRampState(hits: 9),
+          initialState: state,
         );
-        final behavior = RampBonusBehavior(points: shotPoints);
-        final parent = SpaceshipRamp.test(bloc: bloc);
 
+        final behavior = RampBonusBehavior(points: shotPoints);
+        final parent = SpaceshipRamp.test(children: [behavior]);
         await game.pump(
-          parent,
+          [parent],
+          bloc: bloc,
           gameBloc: gameBloc,
         );
-        await parent.ensureAdd(behavior);
 
-        streamController.add(SpaceshipRampState(hits: 10));
+        streamController.add(state.copyWith(hits: 10));
 
         final scores = game.descendants().whereType<ScoringBehavior>();
         await game.ready();
@@ -103,60 +110,28 @@ void main() {
       "when hits are not multiple of 10 times doesn't add any ScoringBehavior",
       (game) async {
         final bloc = _MockSpaceshipRampCubit();
+        final state = SpaceshipRampState.initial();
         final streamController = StreamController<SpaceshipRampState>();
         whenListen(
           bloc,
           streamController.stream,
-          initialState: SpaceshipRampState.initial(),
+          initialState: state,
         );
-        final behavior = RampBonusBehavior(points: shotPoints);
-        final parent = SpaceshipRamp.test(bloc: bloc);
 
+        final behavior = RampBonusBehavior(points: shotPoints);
+        final parent = SpaceshipRamp.test(children: [behavior]);
         await game.pump(
-          parent,
+          [parent],
+          bloc: bloc,
           gameBloc: gameBloc,
         );
-        await parent.ensureAdd(behavior);
 
-        streamController.add(SpaceshipRampState(hits: 1));
+        streamController.add(state.copyWith(hits: 9));
 
         final scores = game.descendants().whereType<ScoringBehavior>();
         await game.ready();
 
         expect(scores.length, 0);
-      },
-    );
-
-    flameTester.test(
-      'closes subscription when removed',
-      (game) async {
-        final bloc = _MockSpaceshipRampCubit();
-        whenListen(
-          bloc,
-          const Stream<SpaceshipRampState>.empty(),
-          initialState: SpaceshipRampState.initial(),
-        );
-        when(bloc.close).thenAnswer((_) async {});
-
-        final subscription = _MockStreamSubscription();
-        when(subscription.cancel).thenAnswer((_) async {});
-
-        final behavior = RampBonusBehavior.test(
-          points: shotPoints,
-          subscription: subscription,
-        );
-        final parent = SpaceshipRamp.test(bloc: bloc);
-
-        await game.pump(
-          parent,
-          gameBloc: gameBloc,
-        );
-        await parent.ensureAdd(behavior);
-
-        parent.remove(behavior);
-        await game.ready();
-
-        verify(subscription.cancel).called(1);
       },
     );
   });
