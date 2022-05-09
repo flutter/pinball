@@ -39,9 +39,7 @@ class SpaceshipRamp extends Component {
             _SpaceshipRampForegroundRailing(),
             SpaceshipRampBase()..initialPosition = Vector2(3.4, -42.5),
             _SpaceshipRampBackgroundRailingSpriteComponent(),
-            SpaceshipRampArrowSpriteComponent(
-              current: bloc.state.hits,
-            ),
+            SpaceshipRampArrowSpriteComponent(current: bloc.state.hits),
             ...?children,
           ],
         );
@@ -257,7 +255,6 @@ class SpaceshipRampBoardOpening extends BodyComponent
             )..applyTo(['outside']),
             ZIndexContactBehavior(
               zIndex: ZIndexes.ballOnBoard,
-              onBegin: false,
             )..applyTo(['outside']),
             ZIndexContactBehavior(zIndex: ZIndexes.ballOnSpaceshipRamp)
               ..applyTo(['middle', 'inside']),
@@ -277,8 +274,8 @@ class SpaceshipRampBoardOpening extends BodyComponent
   List<FixtureDef> _createFixtureDefs() {
     final topEdge = EdgeShape()
       ..set(
-        Vector2(-3.4, -1.2),
-        Vector2(3.4, -1.6),
+        Vector2(-3.8, -1.2),
+        Vector2(3.7, -1.6),
       );
     final bottomEdge = EdgeShape()
       ..set(
@@ -437,7 +434,10 @@ class _SpaceshipRampForegroundRailingSpriteComponent extends SpriteComponent
 @visibleForTesting
 class SpaceshipRampBase extends BodyComponent
     with InitialPosition, ContactCallbacks {
-  SpaceshipRampBase() : super(renderBody: false);
+  SpaceshipRampBase()
+      : super(
+          renderBody: false,
+        );
 
   @override
   void preSolve(Object other, Contact contact, Manifold oldManifold) {
