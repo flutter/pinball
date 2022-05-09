@@ -22,12 +22,14 @@ class GoogleGallery extends Component with ZIndex {
                   side: BoardSide.right,
                   children: [
                     ScoringContactBehavior(points: Points.fiveThousand),
+                    RolloverNoiseBehavior(),
                   ],
                 ),
                 GoogleRollover(
                   side: BoardSide.left,
                   children: [
                     ScoringContactBehavior(points: Points.fiveThousand),
+                    RolloverNoiseBehavior(),
                   ],
                 ),
                 GoogleWord(position: Vector2(-4.45, 1.8)),
