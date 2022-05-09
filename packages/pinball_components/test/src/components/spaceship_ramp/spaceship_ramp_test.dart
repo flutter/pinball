@@ -62,8 +62,8 @@ void main() {
       },
     );
 
-    group('loads', () {
-      flameTester.test('adds a FlameBlocProvider', (game) async {
+    group('adds', () {
+      flameTester.test('a FlameBlocProvider', (game) async {
         final ramp = SpaceshipRamp();
         await game.ensureAdd(ramp);
         expect(
