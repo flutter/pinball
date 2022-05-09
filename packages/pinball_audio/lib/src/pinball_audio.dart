@@ -172,9 +172,7 @@ class _SingleAudioPool extends _Audio {
   }
 
   @override
-  void play() {
-    pool.start();
-  }
+  void play() => pool.start();
 }
 
 class _RandomABAudio extends _Audio {
