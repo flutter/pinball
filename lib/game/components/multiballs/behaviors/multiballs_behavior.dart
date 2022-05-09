@@ -11,7 +11,8 @@ class MultiballsBehavior extends Component
   bool listenWhen(GameState? previousState, GameState newState) {
     final hasChanged = previousState?.bonusHistory != newState.bonusHistory;
     final lastBonusIsMultiball = newState.bonusHistory.isNotEmpty &&
-        newState.bonusHistory.last == GameBonus.dashNest;
+        (newState.bonusHistory.last == GameBonus.dashNest ||
+            newState.bonusHistory.last == GameBonus.googleWord);
 
     return hasChanged && lastBonusIsMultiball;
   }
