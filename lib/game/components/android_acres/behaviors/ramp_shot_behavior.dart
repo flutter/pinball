@@ -9,7 +9,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template ramp_shot_behavior}
 /// Increases the score when a [Ball] is shot into the [SpaceshipRamp].
 /// {@endtemplate}
-class RampShotBehavior extends Component with ParentIsA<SpaceshipRamp> {
+class RampShotBehavior extends Component with ParentIsA<FlameBlocProvider> {
   /// {@macro ramp_shot_behavior}
   RampShotBehavior({
     required Points points,

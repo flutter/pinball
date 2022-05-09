@@ -9,7 +9,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template ramp_bonus_behavior}
 /// Increases the score when a [Ball] is shot 10 times into the [SpaceshipRamp].
 /// {@endtemplate}
-class RampBonusBehavior extends Component with ParentIsA<SpaceshipRamp> {
+class RampBonusBehavior extends Component with ParentIsA<FlameBlocProvider> {
   /// {@macro ramp_bonus_behavior}
   RampBonusBehavior({
     required Points points,

@@ -26,20 +26,26 @@ class SpaceshipRamp extends Component {
     Iterable<Component>? children,
   }) : super(
           children: [
-            _SpaceshipRampOpening(
-              outsideLayer: Layer.spaceship,
-              outsidePriority: ZIndexes.ballOnSpaceship,
-              rotation: math.pi,
-            )
-              ..initialPosition = Vector2(-13.7, -18.6)
-              ..layer = Layer.spaceshipEntranceRamp,
-            _SpaceshipRampBackground(),
-            SpaceshipRampBoardOpening()..initialPosition = Vector2(3.4, -39.5),
-            _SpaceshipRampForegroundRailing(),
-            SpaceshipRampBase()..initialPosition = Vector2(3.4, -42.5),
-            _SpaceshipRampBackgroundRailingSpriteComponent(),
-            SpaceshipRampArrowSpriteComponent(),
-            ...?children,
+            FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>(
+              create: SpaceshipRampCubit.new,
+              children: [
+                _SpaceshipRampOpening(
+                  outsideLayer: Layer.spaceship,
+                  outsidePriority: ZIndexes.ballOnSpaceship,
+                  rotation: math.pi,
+                )
+                  ..initialPosition = Vector2(-13.7, -18.6)
+                  ..layer = Layer.spaceshipEntranceRamp,
+                _SpaceshipRampBackground(),
+                SpaceshipRampBoardOpening()
+                  ..initialPosition = Vector2(3.4, -39.5),
+                _SpaceshipRampForegroundRailing(),
+                SpaceshipRampBase()..initialPosition = Vector2(3.4, -42.5),
+                _SpaceshipRampBackgroundRailingSpriteComponent(),
+                SpaceshipRampArrowSpriteComponent(),
+                ...?children,
+              ],
+            ),
           ],
         );
 
@@ -155,8 +161,7 @@ class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
 /// {@endtemplate}
 @visibleForTesting
 class SpaceshipRampArrowSpriteComponent
-    extends SpriteGroupComponent<ArrowLightState>
-    with HasGameRef, ParentIsA<SpaceshipRamp>, ZIndex {
+    extends SpriteGroupComponent<ArrowLightState> with HasGameRef, ZIndex {
   /// {@macro spaceship_ramp_arrow_sprite_component}
   SpaceshipRampArrowSpriteComponent()
       : super(
@@ -210,7 +215,7 @@ extension on ArrowLightState {
 }
 
 class SpaceshipRampBoardOpening extends BodyComponent
-    with Layered, ZIndex, InitialPosition, ParentIsA<SpaceshipRamp> {
+    with Layered, ZIndex, InitialPosition {
   SpaceshipRampBoardOpening()
       : super(
           renderBody: false,

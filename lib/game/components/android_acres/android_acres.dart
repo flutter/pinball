@@ -16,18 +16,13 @@ class AndroidAcres extends Component {
   AndroidAcres()
       : super(
           children: [
-            FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>(
-              create: SpaceshipRampCubit.new,
+            SpaceshipRamp(
               children: [
-                SpaceshipRamp(
-                  children: [
-                    RampShotBehavior(points: Points.fiveThousand),
-                    RampBonusBehavior(points: Points.oneMillion),
-                    RampProgressBehavior(),
-                    RampMultiplierBehavior(),
-                    RampResetBehavior(),
-                  ],
-                ),
+                RampShotBehavior(points: Points.fiveThousand),
+                RampBonusBehavior(points: Points.oneMillion),
+                RampProgressBehavior(),
+                RampMultiplierBehavior(),
+                RampResetBehavior(),
               ],
             ),
             SpaceshipRail(),

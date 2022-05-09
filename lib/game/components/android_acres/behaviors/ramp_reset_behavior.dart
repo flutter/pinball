@@ -7,7 +7,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template ramp_reset_behavior}
 /// Reset [SpaceshipRamp] state when GameState.rounds changes.
 /// /// {@endtemplate}
-class RampResetBehavior extends Component with ParentIsA<SpaceshipRamp> {
+class RampResetBehavior extends Component {
   /// {@macro ramp_reset_behavior}
   RampResetBehavior() : super();
 

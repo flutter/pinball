@@ -9,7 +9,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// {@template ramp_progress_behavior}
 /// Changes arrow lit when a [Ball] is shot into the [SpaceshipRamp].
 /// {@endtemplate}
-class RampProgressBehavior extends Component with ParentIsA<SpaceshipRamp> {
+class RampProgressBehavior extends Component {
   /// {@macro ramp_progress_behavior}
   RampProgressBehavior() : super();
 

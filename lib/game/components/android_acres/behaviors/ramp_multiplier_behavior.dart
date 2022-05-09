@@ -10,7 +10,7 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// Increases the multiplier when a [Ball] is shot 5 times into the
 /// [SpaceshipRamp].
 /// {@endtemplate}
-class RampMultiplierBehavior extends Component with ParentIsA<SpaceshipRamp> {
+class RampMultiplierBehavior extends Component {
   /// {@macro ramp_multiplier_behavior}
   RampMultiplierBehavior() : super();
 
