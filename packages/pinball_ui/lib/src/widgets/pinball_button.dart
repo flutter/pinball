@@ -30,10 +30,8 @@ class PinballButton extends StatelessWidget {
           ),
         ),
         child: Center(
-          child: InkWell(
+          child: GestureDetector(
             onTap: onTap,
-            splashColor: PinballColors.transparent,
-            highlightColor: PinballColors.transparent,
             child: Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 32,
