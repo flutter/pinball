@@ -86,6 +86,8 @@ class _MockPlungerCubit extends Mock implements PlungerCubit {}
 
 class _MockGoogleWordCubit extends Mock implements GoogleWordCubit {}
 
+class _MockFlipperCubit extends Mock implements FlipperCubit {}
+
 class _MockAppLocalizations extends Mock implements AppLocalizations {
   @override
   String get score => '';
@@ -199,7 +201,12 @@ void main() {
             final behavior = FlipperKeyControllingBehavior();
 
             await game.pump([component, backbox, flipper]);
-            await flipper.ensureAdd(behavior);
+            await flipper.ensureAdd(
+              FlameBlocProvider<FlipperCubit, FlipperState>(
+                create: _MockFlipperCubit.new,
+                children: [behavior],
+              ),
+            );
 
             expect(state.status, GameStatus.gameOver);
             component.onNewState(state);
@@ -366,12 +373,18 @@ void main() {
             final flipper = Flipper.test(side: BoardSide.left);
 
             await game.pump([component, backbox, flipper]);
+            await flipper.ensureAdd(
+              FlameBlocProvider<FlipperCubit, FlipperState>(
+                create: _MockFlipperCubit.new,
+              ),
+            );
 
             component.onNewState(state);
             await game.ready();
 
             expect(
-              flipper.children
+              flipper
+                  .descendants()
                   .whereType<FlipperKeyControllingBehavior>()
                   .length,
               equals(1),
