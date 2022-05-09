@@ -269,7 +269,7 @@ void main() {
     );
 
     flameTester.test(
-      "doesn't add again onProgressed to dimmed all "
+      "doesn't add onProgressed to dim arrow "
       'when multiplier is 6 after hit',
       (game) async {
         final bloc = _MockSpaceshipRampCubit();
