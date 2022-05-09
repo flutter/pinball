@@ -99,11 +99,9 @@ void main() {
               spaceshipRamp,
               bloc: bloc,
             );
-            await opening.add(behavior);
+            await opening.ensureAdd(behavior);
 
             behavior.beginContact(ball, _MockContact());
-
-            await game.ready();
 
             verify(bloc.onAscendingBallEntered).called(1);
           },
@@ -131,11 +129,9 @@ void main() {
               spaceshipRamp,
               bloc: bloc,
             );
-            await opening.add(behavior);
+            await opening.ensureAdd(behavior);
 
             behavior.beginContact(ball, _MockContact());
-
-            await game.ready();
 
             verifyNever(bloc.onAscendingBallEntered);
           },
