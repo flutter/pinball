@@ -33,7 +33,7 @@ class _MockPlaySingleAudio extends Mock {
 }
 
 class _MockLoopSingleAudio extends Mock {
-  Future<void> onCall(String url);
+  Future<void> onCall(String url, {double volume});
 }
 
 abstract class _PreCacheSingleAudio {
@@ -77,7 +77,8 @@ void main() {
       when(() => playSingleAudio.onCall(any())).thenAnswer((_) async {});
 
       loopSingleAudio = _MockLoopSingleAudio();
-      when(() => loopSingleAudio.onCall(any())).thenAnswer((_) async {});
+      when(() => loopSingleAudio.onCall(any(), volume: any(named: 'volume')))
+          .thenAnswer((_) async {});
 
       preCacheSingleAudio = _MockPreCacheSingleAudio();
       when(() => preCacheSingleAudio.onCall(any())).thenAnswer((_) async {});
@@ -443,8 +444,10 @@ void main() {
         audioPlayer.play(PinballAudio.backgroundMusic);
 
         verify(
-          () => loopSingleAudio
-              .onCall('packages/pinball_audio/${Assets.music.background}'),
+          () => loopSingleAudio.onCall(
+            'packages/pinball_audio/${Assets.music.background}',
+            volume: .6,
+          ),
         ).called(1);
       });
 
@@ -455,8 +458,10 @@ void main() {
           ..play(PinballAudio.backgroundMusic);
 
         verify(
-          () => loopSingleAudio
-              .onCall('packages/pinball_audio/${Assets.music.background}'),
+          () => loopSingleAudio.onCall(
+            'packages/pinball_audio/${Assets.music.background}',
+            volume: .6,
+          ),
         ).called(1);
       });
     });
