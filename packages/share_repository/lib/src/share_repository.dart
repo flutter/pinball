@@ -12,7 +12,7 @@ class ShareRepository {
   final String _appUrl;
 
   /// Url to the Github Open Source Pinball project.
-  static const openSourceCode = 'https://github.com/VGVentures/pinball';
+  static const openSourceCode = 'https://github.com/flutter/pinball';
 
   /// Url to the Google IO Event.
   static const googleIOEvent = 'https://events.google.com/io/';
