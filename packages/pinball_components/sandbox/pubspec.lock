@@ -128,7 +128,7 @@ packages:
     source: hosted
     version: "1.0.2"
   flame_bloc:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flame_bloc
       url: "https://pub.dartlang.org"
