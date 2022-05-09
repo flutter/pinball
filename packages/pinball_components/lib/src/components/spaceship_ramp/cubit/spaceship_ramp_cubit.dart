@@ -6,11 +6,7 @@ part 'spaceship_ramp_state.dart';
 class SpaceshipRampCubit extends Cubit<SpaceshipRampState> {
   SpaceshipRampCubit() : super(const SpaceshipRampState.initial());
 
-  void onAscendingBallEntered() {
-    emit(
-      state.copyWith(hits: state.hits + 1),
-    );
-  }
+  void onAscendingBallEntered() => emit(state.copyWith(hits: state.hits + 1));
 
   void onProgressed() {
     final index = ArrowLightState.values.indexOf(state.lightState);
@@ -22,9 +18,5 @@ class SpaceshipRampCubit extends Cubit<SpaceshipRampState> {
     );
   }
 
-  void onReset() {
-    emit(
-      const SpaceshipRampState.initial(),
-    );
-  }
+  void onReset() => emit(const SpaceshipRampState.initial());
 }
