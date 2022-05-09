@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flame/components.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/gen/assets.gen.dart';
@@ -19,30 +20,32 @@ class SpaceshipRamp extends Component {
     Iterable<Component>? children,
   }) : this._(
           children: children,
-          bloc: SpaceshipRampCubit(),
         );
 
   SpaceshipRamp._({
     Iterable<Component>? children,
-    required this.bloc,
   }) : super(
           children: [
-            _SpaceshipRampOpening(
-              outsideLayer: Layer.spaceship,
-              outsidePriority: ZIndexes.ballOnSpaceship,
-              rotation: math.pi,
-            )
-              ..initialPosition = Vector2(-13.7, -18.6)
-              ..layer = Layer.spaceshipEntranceRamp,
-            _SpaceshipRampBackground(),
-            SpaceshipRampBoardOpening()..initialPosition = Vector2(3.4, -39.5),
-            _SpaceshipRampForegroundRailing(),
-            SpaceshipRampBase()..initialPosition = Vector2(3.4, -42.5),
-            _SpaceshipRampBackgroundRailingSpriteComponent(),
-            SpaceshipRampArrowSpriteComponent(
-              current: bloc.state.hits,
+            FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>(
+              create: SpaceshipRampCubit.new,
+              children: [
+                _SpaceshipRampOpening(
+                  outsideLayer: Layer.spaceship,
+                  outsidePriority: ZIndexes.ballOnSpaceship,
+                  rotation: math.pi,
+                )
+                  ..initialPosition = Vector2(-13.7, -18.6)
+                  ..layer = Layer.spaceshipEntranceRamp,
+                _SpaceshipRampBackground(),
+                SpaceshipRampBoardOpening()
+                  ..initialPosition = Vector2(3.4, -39.5),
+                _SpaceshipRampForegroundRailing(),
+                SpaceshipRampBase()..initialPosition = Vector2(3.4, -42.5),
+                _SpaceshipRampBackgroundRailingSpriteComponent(),
+                SpaceshipRampArrowSpriteComponent(),
+                ...?children,
+              ],
             ),
-            ...?children,
           ],
         );
 
@@ -51,16 +54,8 @@ class SpaceshipRamp extends Component {
   /// This can be used for testing [SpaceshipRamp]'s behaviors in isolation.
   @visibleForTesting
   SpaceshipRamp.test({
-    required this.bloc,
-  }) : super();
-
-  final SpaceshipRampCubit bloc;
-
-  @override
-  void onRemove() {
-    bloc.close();
-    super.onRemove();
-  }
+    Iterable<Component>? children,
+  }) : super(children: children);
 }
 
 class _SpaceshipRampBackground extends BodyComponent
@@ -167,82 +162,71 @@ class _SpaceshipRampBackgroundRampSpriteComponent extends SpriteComponent
 /// Lights progressively whenever a [Ball] gets into [SpaceshipRamp].
 /// {@endtemplate}
 @visibleForTesting
-class SpaceshipRampArrowSpriteComponent extends SpriteGroupComponent<int>
-    with HasGameRef, ParentIsA<SpaceshipRamp>, ZIndex {
+class SpaceshipRampArrowSpriteComponent
+    extends SpriteGroupComponent<ArrowLightState>
+    with
+        HasGameRef,
+        ZIndex,
+        FlameBlocListenable<SpaceshipRampCubit, SpaceshipRampState> {
   /// {@macro spaceship_ramp_arrow_sprite_component}
-  SpaceshipRampArrowSpriteComponent({
-    required int current,
-  }) : super(
+  SpaceshipRampArrowSpriteComponent()
+      : super(
           anchor: Anchor.center,
           position: Vector2(-3.9, -56.5),
-          current: current,
         ) {
     zIndex = ZIndexes.spaceshipRampArrow;
   }
 
   @override
+  bool listenWhen(
+    SpaceshipRampState previousState,
+    SpaceshipRampState newState,
+  ) {
+    return previousState.lightState != newState.lightState;
+  }
+
+  @override
+  void onNewState(SpaceshipRampState state) {
+    current = state.lightState;
+  }
+
+  @override
   Future<void> onLoad() async {
     await super.onLoad();
-    parent.bloc.stream.listen((state) {
-      current = state.hits % SpaceshipRampArrowSpriteState.values.length;
-    });
-
-    final sprites = <int, Sprite>{};
+    final sprites = <ArrowLightState, Sprite>{};
     this.sprites = sprites;
-    for (final spriteState in SpaceshipRampArrowSpriteState.values) {
-      sprites[spriteState.index] = Sprite(
+    for (final spriteState in ArrowLightState.values) {
+      sprites[spriteState] = Sprite(
         gameRef.images.fromCache(spriteState.path),
       );
     }
 
-    current = 0;
+    current = ArrowLightState.inactive;
     size = sprites[current]!.originalSize / 10;
   }
 }
 
-/// Indicates the state of the arrow on the [SpaceshipRamp].
-@visibleForTesting
-enum SpaceshipRampArrowSpriteState {
-  /// Arrow with no dashes lit up.
-  inactive,
-
-  /// Arrow with 1 light lit up.
-  active1,
-
-  /// Arrow with 2 lights lit up.
-  active2,
-
-  /// Arrow with 3 lights lit up.
-  active3,
-
-  /// Arrow with 4 lights lit up.
-  active4,
-
-  /// Arrow with all 5 lights lit up.
-  active5,
-}
-
-extension on SpaceshipRampArrowSpriteState {
+extension on ArrowLightState {
   String get path {
     switch (this) {
-      case SpaceshipRampArrowSpriteState.inactive:
+      case ArrowLightState.inactive:
         return Assets.images.android.ramp.arrow.inactive.keyName;
-      case SpaceshipRampArrowSpriteState.active1:
+      case ArrowLightState.active1:
         return Assets.images.android.ramp.arrow.active1.keyName;
-      case SpaceshipRampArrowSpriteState.active2:
+      case ArrowLightState.active2:
         return Assets.images.android.ramp.arrow.active2.keyName;
-      case SpaceshipRampArrowSpriteState.active3:
+      case ArrowLightState.active3:
         return Assets.images.android.ramp.arrow.active3.keyName;
-      case SpaceshipRampArrowSpriteState.active4:
+      case ArrowLightState.active4:
         return Assets.images.android.ramp.arrow.active4.keyName;
-      case SpaceshipRampArrowSpriteState.active5:
+      case ArrowLightState.active5:
         return Assets.images.android.ramp.arrow.active5.keyName;
     }
   }
 }
 
 class SpaceshipRampBoardOpening extends BodyComponent
-    with Layered, ZIndex, InitialPosition, ParentIsA<SpaceshipRamp> {
+    with Layered, ZIndex, InitialPosition {
   SpaceshipRampBoardOpening()
       : super(
           renderBody: false,

@@ -213,7 +213,7 @@
   "@socialMediaAccount": {
     "description": "Text displayed on share screen for description"
   },
-  "iGotScoreAtPinball": "I got {score} at the #IOPinball machine, can you beat my score? See you at #GoogleIO!",
+  "iGotScoreAtPinball": "I got {score} points in #IOPinball, can you beat my score? \nSee you at #GoogleIO!",
   "@iGotScoreAtPinball": {
     "description": "Text to share score on Social Network",
     "placeholders": {

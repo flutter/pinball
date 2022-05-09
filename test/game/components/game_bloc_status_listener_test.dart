@@ -36,6 +36,8 @@ class _TestGame extends Forge2DGame with HasTappables {
   Future<void> pump(
     Iterable<Component> children, {
     PinballAudioPlayer? pinballAudioPlayer,
+    PlatformHelper? platformHelper,
+    GoogleWordCubit? googleWordBloc,
   }) async {
     return ensureAdd(
       FlameMultiBlocProvider(
@@ -45,6 +47,9 @@ class _TestGame extends Forge2DGame with HasTappables {
           ),
           FlameBlocProvider<CharacterThemeCubit, CharacterThemeState>.value(
             value: CharacterThemeCubit(),
+          ),
+          FlameBlocProvider<GoogleWordCubit, GoogleWordState>.value(
+            value: googleWordBloc ?? GoogleWordCubit(),
           ),
         ],
         children: [
@@ -57,7 +62,7 @@ class _TestGame extends Forge2DGame with HasTappables {
                 _MockAppLocalizations(),
               ),
               FlameProvider<PlatformHelper>.value(
-                _MockPlatformHelper(),
+                platformHelper ?? PlatformHelper(),
               ),
             ],
             children: children,
@@ -75,10 +80,13 @@ class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
 
 class _MockShareRepository extends Mock implements ShareRepository {}
 
-class _MockPlatformHelper extends Mock implements PlatformHelper {
-  @override
-  bool get isMobile => false;
-}
+class _MockPlatformHelper extends Mock implements PlatformHelper {}
+
+class _MockPlungerCubit extends Mock implements PlungerCubit {}
+
+class _MockGoogleWordCubit extends Mock implements GoogleWordCubit {}
+
+class _MockFlipperCubit extends Mock implements FlipperCubit {}
 
 class _MockAppLocalizations extends Mock implements AppLocalizations {
   @override
@@ -193,15 +201,90 @@ void main() {
             final behavior = FlipperKeyControllingBehavior();
 
             await game.pump([component, backbox, flipper]);
-            await flipper.ensureAdd(behavior);
+            await flipper.ensureAdd(
+              FlameBlocProvider<FlipperCubit, FlipperState>(
+                create: _MockFlipperCubit.new,
+                children: [behavior],
+              ),
+            );
 
             expect(state.status, GameStatus.gameOver);
-
             component.onNewState(state);
             await game.ready();
 
             expect(
               flipper.children.whereType<FlipperKeyControllingBehavior>(),
+              isEmpty,
+            );
+          },
+        );
+
+        flameTester.test(
+          'removes PlungerKeyControllingBehavior from Plunger',
+          (game) async {
+            final component = GameBlocStatusListener();
+            final leaderboardRepository = _MockLeaderboardRepository();
+            final shareRepository = _MockShareRepository();
+            final backbox = Backbox(
+              leaderboardRepository: leaderboardRepository,
+              shareRepository: shareRepository,
+              entries: const [],
+            );
+            final plunger = Plunger.test();
+            await game.pump(
+              [component, backbox, plunger],
+            );
+
+            await plunger.ensureAdd(
+              FlameBlocProvider<PlungerCubit, PlungerState>(
+                create: PlungerCubit.new,
+                children: [PlungerKeyControllingBehavior()],
+              ),
+            );
+
+            expect(state.status, GameStatus.gameOver);
+            component.onNewState(state);
+            await game.ready();
+
+            expect(
+              plunger.children.whereType<PlungerKeyControllingBehavior>(),
+              isEmpty,
+            );
+          },
+        );
+
+        flameTester.test(
+          'removes PlungerPullingBehavior from Plunger',
+          (game) async {
+            final component = GameBlocStatusListener();
+            final leaderboardRepository = _MockLeaderboardRepository();
+            final shareRepository = _MockShareRepository();
+            final backbox = Backbox(
+              leaderboardRepository: leaderboardRepository,
+              shareRepository: shareRepository,
+              entries: const [],
+            );
+            final plunger = Plunger.test();
+            await game.pump(
+              [component, backbox, plunger],
+            );
+
+            await plunger.ensureAdd(
+              FlameBlocProvider<PlungerCubit, PlungerState>(
+                create: PlungerCubit.new,
+                children: [
+                  PlungerPullingBehavior(strength: 0),
+                  PlungerAutoPullingBehavior(strength: 0)
+                ],
+              ),
+            );
+
+            expect(state.status, GameStatus.gameOver);
+            component.onNewState(state);
+            await game.ready();
+
+            expect(
+              plunger.children.whereType<PlungerPullingBehavior>(),
               isEmpty,
             );
           },
@@ -263,7 +346,21 @@ void main() {
         );
 
         flameTester.test(
-          'adds key controlling behavior to Flippers when the game is started',
+          'resets the GoogleWordCubit',
+          (game) async {
+            final googleWordBloc = _MockGoogleWordCubit();
+            final component = GameBlocStatusListener();
+            await game.pump([component], googleWordBloc: googleWordBloc);
+
+            expect(state.status, equals(GameStatus.playing));
+            component.onNewState(state);
+
+            verify(googleWordBloc.onReset).called(1);
+          },
+        );
+
+        flameTester.test(
+          'adds FlipperKeyControllingBehavior to Flippers',
           (game) async {
             final component = GameBlocStatusListener();
             final leaderboardRepository = _MockLeaderboardRepository();
@@ -276,13 +373,133 @@ void main() {
             final flipper = Flipper.test(side: BoardSide.left);
 
             await game.pump([component, backbox, flipper]);
+            await flipper.ensureAdd(
+              FlameBlocProvider<FlipperCubit, FlipperState>(
+                create: _MockFlipperCubit.new,
+              ),
+            );
 
             component.onNewState(state);
             await game.ready();
 
             expect(
-              flipper.children
+              flipper
+                  .descendants()
                   .whereType<FlipperKeyControllingBehavior>()
+                  .length,
+              equals(1),
+            );
+          },
+        );
+
+        flameTester.test(
+          'adds PlungerKeyControllingBehavior to Plunger when on desktop',
+          (game) async {
+            final platformHelper = _MockPlatformHelper();
+            when(() => platformHelper.isMobile).thenReturn(false);
+            final component = GameBlocStatusListener();
+            final leaderboardRepository = _MockLeaderboardRepository();
+            final shareRepository = _MockShareRepository();
+            final backbox = Backbox(
+              leaderboardRepository: leaderboardRepository,
+              shareRepository: shareRepository,
+              entries: const [],
+            );
+            final plunger = Plunger.test();
+            await game.pump(
+              [component, backbox, plunger],
+              platformHelper: platformHelper,
+            );
+            await plunger.ensureAdd(
+              FlameBlocProvider<PlungerCubit, PlungerState>(
+                create: _MockPlungerCubit.new,
+              ),
+            );
+
+            expect(state.status, GameStatus.playing);
+
+            component.onNewState(state);
+            await game.ready();
+
+            expect(
+              plunger
+                  .descendants()
+                  .whereType<PlungerKeyControllingBehavior>()
+                  .length,
+              equals(1),
+            );
+          },
+        );
+
+        flameTester.test(
+          'adds PlungerPullingBehavior to Plunger when on desktop',
+          (game) async {
+            final platformHelper = _MockPlatformHelper();
+            when(() => platformHelper.isMobile).thenReturn(false);
+            final component = GameBlocStatusListener();
+            final leaderboardRepository = _MockLeaderboardRepository();
+            final shareRepository = _MockShareRepository();
+            final backbox = Backbox(
+              leaderboardRepository: leaderboardRepository,
+              shareRepository: shareRepository,
+              entries: const [],
+            );
+            final plunger = Plunger.test();
+            await game.pump(
+              [component, backbox, plunger],
+              platformHelper: platformHelper,
+            );
+            await plunger.ensureAdd(
+              FlameBlocProvider<PlungerCubit, PlungerState>(
+                create: _MockPlungerCubit.new,
+              ),
+            );
+
+            expect(state.status, GameStatus.playing);
+
+            component.onNewState(state);
+            await game.ready();
+
+            expect(
+              plunger.descendants().whereType<PlungerPullingBehavior>().length,
+              equals(1),
+            );
+          },
+        );
+
+        flameTester.test(
+          'adds PlungerAutoPullingBehavior to Plunger when on mobile',
+          (game) async {
+            final platformHelper = _MockPlatformHelper();
+            when(() => platformHelper.isMobile).thenReturn(true);
+            final component = GameBlocStatusListener();
+            final leaderboardRepository = _MockLeaderboardRepository();
+            final shareRepository = _MockShareRepository();
+            final backbox = Backbox(
+              leaderboardRepository: leaderboardRepository,
+              shareRepository: shareRepository,
+              entries: const [],
+            );
+            final plunger = Plunger.test();
+            await game.pump(
+              [component, backbox, plunger],
+              platformHelper: platformHelper,
+            );
+            await plunger.ensureAdd(
+              FlameBlocProvider<PlungerCubit, PlungerState>(
+                create: _MockPlungerCubit.new,
+              ),
+            );
+
+            expect(state.status, GameStatus.playing);
+
+            component.onNewState(state);
+            await game.ready();
+
+            expect(
+              plunger
+                  .descendants()
+                  .whereType<PlungerAutoPullingBehavior>()
                   .length,
               equals(1),
             );

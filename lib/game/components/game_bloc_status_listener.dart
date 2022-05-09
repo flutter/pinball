@@ -5,6 +5,7 @@ import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
+import 'package:platform_helper/platform_helper.dart';
 
 /// Listens to the [GameBloc] and updates the game accordingly.
 class GameBlocStatusListener extends Component
@@ -21,12 +22,17 @@ class GameBlocStatusListener extends Component
         break;
       case GameStatus.playing:
         readProvider<PinballAudioPlayer>().play(PinballAudio.backgroundMusic);
+        _resetBonuses();
         gameRef
             .descendants()
             .whereType<Flipper>()
-            .forEach(_addFlipperKeyControls);
-
+            .forEach(_addFlipperBehaviors);
+        gameRef
+            .descendants()
+            .whereType<Plunger>()
+            .forEach(_addPlungerBehaviors);
         gameRef.overlays.remove(PinballGame.playButtonOverlay);
+        gameRef.overlays.remove(PinballGame.replayButtonOverlay);
         break;
       case GameStatus.gameOver:
         readProvider<PinballAudioPlayer>().play(PinballAudio.gameOverVoiceOver);
@@ -36,22 +42,63 @@ class GameBlocStatusListener extends Component
                   .state
                   .characterTheme,
             );
-
         gameRef
             .descendants()
             .whereType<Flipper>()
-            .forEach(_removeFlipperKeyControls);
+            .forEach(_removeFlipperBehaviors);
+        gameRef
+            .descendants()
+            .whereType<Plunger>()
+            .forEach(_removePlungerBehaviors);
         break;
     }
   }
 
-  void _addFlipperKeyControls(Flipper flipper) {
-    flipper
-      ..add(FlipperKeyControllingBehavior())
-      ..moveDown();
+  void _resetBonuses() {
+    gameRef
+        .descendants()
+        .whereType<FlameBlocProvider<GoogleWordCubit, GoogleWordState>>()
+        .single
+        .bloc
+        .onReset();
   }
 
-  void _removeFlipperKeyControls(Flipper flipper) => flipper
+  void _addPlungerBehaviors(Plunger plunger) {
+    final platformHelper = readProvider<PlatformHelper>();
+    const pullingStrength = 7.0;
+    final provider =
+        plunger.firstChild<FlameBlocProvider<PlungerCubit, PlungerState>>()!;
+
+    if (platformHelper.isMobile) {
+      provider.add(
+        PlungerAutoPullingBehavior(strength: pullingStrength),
+      );
+    } else {
+      provider.addAll(
+        [
+          PlungerKeyControllingBehavior(),
+          PlungerPullingBehavior(strength: pullingStrength),
+        ],
+      );
+    }
+  }
+
+  void _removePlungerBehaviors(Plunger plunger) {
+    plunger
+        .descendants()
+        .whereType<PlungerPullingBehavior>()
+        .forEach(plunger.remove);
+    plunger
+        .descendants()
+        .whereType<PlungerKeyControllingBehavior>()
+        .forEach(plunger.remove);
+  }
+
+  void _addFlipperBehaviors(Flipper flipper) => flipper
+      .firstChild<FlameBlocProvider<FlipperCubit, FlipperState>>()!
+      .add(FlipperKeyControllingBehavior());
+
+  void _removeFlipperBehaviors(Flipper flipper) => flipper
       .descendants()
       .whereType<FlipperKeyControllingBehavior>()
       .forEach(flipper.remove);

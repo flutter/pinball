@@ -55,6 +55,8 @@ class PinballDpadButton extends StatelessWidget {
       color: PinballColors.transparent,
       child: InkWell(
         onTap: onTap,
+        highlightColor: PinballColors.transparent,
+        splashColor: PinballColors.transparent,
         child: Image.asset(
           direction.toAsset(),
           width: 60,

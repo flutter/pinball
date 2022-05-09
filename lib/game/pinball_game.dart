@@ -38,10 +38,13 @@ class PinballGame extends PinballForge2DGame
     images.prefix = '';
   }
 
-  /// Identifier of the play button overlay
+  /// Identifier of the play button overlay.
   static const playButtonOverlay = 'play_button';
 
-  /// Identifier of the mobile controls overlay
+  /// Identifier of the replay button overlay.
+  static const replayButtonOverlay = 'replay_button';
+
+  /// Identifier of the mobile controls overlay.
   static const mobileControlsOverlay = 'mobile_controls';
 
   @override
@@ -125,6 +128,7 @@ class PinballGame extends PinballForge2DGame
                       SkillShot(
                         children: [
                           ScoringContactBehavior(points: Points.oneMillion),
+                          RolloverNoiseBehavior(),
                         ],
                       ),
                       AndroidAcres(),
@@ -155,17 +159,28 @@ class PinballGame extends PinballForge2DGame
       final rocket = descendants().whereType<RocketSpriteComponent>().first;
       final bounds = rocket.topLeftPosition & rocket.size;
 
-      // NOTE: As long as Flame does not have https://github.com/flame-engine/flame/issues/1586 we need to check it at the highest level manually.
-      if (bounds.contains(info.eventPosition.game.toOffset())) {
-        descendants().whereType<Plunger>().single.pullFor(2);
+      // NOTE: As long as Flame does not have https://github.com/flame-engine/flame/issues/1586
+      // we need to check it at the highest level manually.
+      final tappedRocket = bounds.contains(info.eventPosition.game.toOffset());
+      if (tappedRocket) {
+        descendants()
+            .whereType<FlameBlocProvider<PlungerCubit, PlungerState>>()
+            .first
+            .bloc
+            .pulled();
       } else {
-        final leftSide = info.eventPosition.widget.x < canvasSize.x / 2;
+        final tappedLeftSide = info.eventPosition.widget.x < canvasSize.x / 2;
         focusedBoardSide[pointerId] =
-            leftSide ? BoardSide.left : BoardSide.right;
-        final flippers = descendants().whereType<Flipper>().where((flipper) {
-          return flipper.side == focusedBoardSide[pointerId];
-        });
-        flippers.first.moveUp();
+            tappedLeftSide ? BoardSide.left : BoardSide.right;
+        final flippers = descendants()
+            .whereType<Flipper>()
+            .where((flipper) => flipper.side == focusedBoardSide[pointerId]);
+        for (final flipper in flippers) {
+          flipper
+              .descendants()
+              .whereType<FlameBlocProvider<FlipperCubit, FlipperState>>()
+              .forEach((provider) => provider.bloc.moveUp());
+        }
       }
     }
 
@@ -186,11 +201,15 @@ class PinballGame extends PinballForge2DGame
 
   void _moveFlippersDown(int pointerId) {
     if (focusedBoardSide[pointerId] != null) {
-      final flippers = descendants().whereType<Flipper>().where((flipper) {
-        return flipper.side == focusedBoardSide[pointerId];
-      });
-      flippers.first.moveDown();
-      focusedBoardSide.remove(pointerId);
+      final flippers = descendants()
+          .whereType<Flipper>()
+          .where((flipper) => flipper.side == focusedBoardSide[pointerId]);
+      for (final flipper in flippers) {
+        flipper
+            .descendants()
+            .whereType<FlameBlocProvider<FlipperCubit, FlipperState>>()
+            .forEach((provider) => provider.bloc.moveDown());
+      }
     }
   }
 }
@@ -220,9 +239,7 @@ class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await add(PreviewLine());
-
-    await add(_DebugInformation());
+    await addAll([PreviewLine(), _DebugInformation()]);
   }
 
   @override
@@ -237,14 +254,10 @@ class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
   }
 
   @override
-  void onPanStart(DragStartInfo info) {
-    lineStart = info.eventPosition.game;
-  }
+  void onPanStart(DragStartInfo info) => lineStart = info.eventPosition.game;
 
   @override
-  void onPanUpdate(DragUpdateInfo info) {
-    lineEnd = info.eventPosition.game;
-  }
+  void onPanUpdate(DragUpdateInfo info) => lineEnd = info.eventPosition.game;
 
   @override
   void onPanEnd(DragEndInfo info) {

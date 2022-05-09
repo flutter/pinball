@@ -130,7 +130,7 @@ void main() {
           await game.pump([
             behavior,
             ZCanvasComponent(),
-            Plunger.test(compressionDistance: 10),
+            Plunger.test(),
           ]);
           expect(game.descendants().whereType<Ball>(), isEmpty);
 
