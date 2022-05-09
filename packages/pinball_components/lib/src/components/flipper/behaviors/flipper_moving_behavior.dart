@@ -15,7 +15,9 @@ class FlipperMovingBehavior extends Component
 
   late final Flipper _flipper;
 
-  void _moveUp() => _flipper.body.linearVelocity = Vector2(0, -_strength);
+  void _moveUp() {
+    _flipper.body.linearVelocity = Vector2(0, -_strength);
+  }
 
   void _moveDown() => _flipper.body.linearVelocity = Vector2(0, _strength);
 
