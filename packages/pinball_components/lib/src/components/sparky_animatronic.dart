@@ -8,11 +8,10 @@ import 'package:pinball_flame/pinball_flame.dart';
 class SparkyAnimatronic extends SpriteAnimationComponent
     with HasGameRef, ZIndex {
   /// {@macro sparky_animatronic}
-  SparkyAnimatronic({Iterable<Component>? children})
+  SparkyAnimatronic()
       : super(
           anchor: Anchor.center,
           playing: false,
-          children: children,
         ) {
     zIndex = ZIndexes.sparkyAnimatronic;
   }
@@ -42,6 +41,9 @@ class SparkyAnimatronic extends SpriteAnimationComponent
         textureSize: textureSize,
         loop: false,
       ),
-    );
+    )..onComplete = () {
+        animation?.reset();
+        playing = false;
+      };
   }
 }

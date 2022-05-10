@@ -21,6 +21,7 @@ class FlutterForestBonusBehavior extends Component
 
     final bumpers = parent.children.whereType<DashBumper>();
     final signpost = parent.firstChild<Signpost>()!;
+    final animatronic = parent.firstChild<DashAnimatronic>()!;
 
     for (final bumper in bumpers) {
       bumper.bloc.stream.listen((state) {
@@ -37,6 +38,7 @@ class FlutterForestBonusBehavior extends Component
           if (signpost.bloc.isFullyProgressed()) {
             bloc.add(const BonusActivated(GameBonus.dashNest));
             add(BonusBallSpawningBehavior());
+            animatronic.playing = true;
             signpost.bloc.onProgressed();
           }
         }

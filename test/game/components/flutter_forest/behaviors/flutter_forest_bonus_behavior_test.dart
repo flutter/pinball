@@ -16,7 +16,10 @@ class _TestGame extends Forge2DGame {
   @override
   Future<void> onLoad() async {
     images.prefix = '';
-    await images.load(theme.Assets.images.dash.ball.keyName);
+    await images.loadAll([
+      Assets.images.dash.animatronic.keyName,
+      theme.Assets.images.dash.ball.keyName,
+    ]);
   }
 
   Future<void> pump(
@@ -53,7 +56,7 @@ void main() {
     void _contactedBumper(DashBumper bumper) => bumper.bloc.onBallContacted();
 
     flameTester.testGameWidget(
-      'adds GameBonus.dashNest to the game '
+      'adds GameBonus.dashNest to the game and plays animatronic '
       'when bumpers are activated three times',
       setUp: (game, tester) async {
         await game.onLoad();
@@ -64,9 +67,10 @@ void main() {
           DashBumper.test(bloc: DashBumperCubit()),
           DashBumper.test(bloc: DashBumperCubit()),
         ];
+        final animatronic = DashAnimatronic();
         final signpost = Signpost.test(bloc: SignpostCubit());
         await game.pump(parent, gameBloc: gameBloc);
-        await parent.ensureAddAll([...bumpers, signpost]);
+        await parent.ensureAddAll([...bumpers, animatronic, signpost]);
         await parent.ensureAdd(behavior);
 
         expect(game.descendants().whereType<DashBumper>(), equals(bumpers));
@@ -80,6 +84,7 @@ void main() {
         verify(
           () => gameBloc.add(const BonusActivated(GameBonus.dashNest)),
         ).called(1);
+        expect(animatronic.playing, isTrue);
       },
     );
 
@@ -95,9 +100,10 @@ void main() {
           DashBumper.test(bloc: DashBumperCubit()),
           DashBumper.test(bloc: DashBumperCubit()),
         ];
+        final animatronic = DashAnimatronic();
         final signpost = Signpost.test(bloc: SignpostCubit());
         await game.pump(parent, gameBloc: gameBloc);
-        await parent.ensureAddAll([...bumpers, signpost]);
+        await parent.ensureAddAll([...bumpers, animatronic, signpost]);
         await parent.ensureAdd(behavior);
 
         expect(game.descendants().whereType<DashBumper>(), equals(bumpers));
@@ -128,9 +134,10 @@ void main() {
           DashBumper.test(bloc: DashBumperCubit()),
           DashBumper.test(bloc: DashBumperCubit()),
         ];
+        final animatronic = DashAnimatronic();
         final signpost = Signpost.test(bloc: SignpostCubit());
         await game.pump(parent, gameBloc: gameBloc);
-        await parent.ensureAddAll([...bumpers, signpost]);
+        await parent.ensureAddAll([...bumpers, animatronic, signpost]);
         await parent.ensureAdd(behavior);
 
         expect(game.descendants().whereType<DashBumper>(), equals(bumpers));

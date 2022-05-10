@@ -58,13 +58,19 @@ void main() {
       },
     );
 
-    flameTester.test('adds new children', (game) async {
-      final component = Component();
-      final sparkyAnimatronic = SparkyAnimatronic(
-        children: [component],
-      );
-      await game.ensureAdd(sparkyAnimatronic);
-      expect(sparkyAnimatronic.children, contains(component));
-    });
+    flameTester.test(
+      'stops animating after animation completes',
+      (game) async {
+        final sparkyAnimatronic = SparkyAnimatronic();
+        await game.ensureAdd(sparkyAnimatronic);
+
+        sparkyAnimatronic.playing = true;
+        final animationDuration =
+            game.firstChild<SparkyAnimatronic>()!.animation!.totalDuration();
+        game.update(animationDuration);
+
+        expect(sparkyAnimatronic.playing, isFalse);
+      },
+    );
   });
 }

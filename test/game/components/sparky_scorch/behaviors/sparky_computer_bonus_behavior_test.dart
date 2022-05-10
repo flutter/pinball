@@ -17,6 +17,7 @@ class _TestGame extends Forge2DGame {
       Assets.images.sparky.computer.top.keyName,
       Assets.images.sparky.computer.base.keyName,
       Assets.images.sparky.computer.glow.keyName,
+      Assets.images.sparky.animatronic.keyName,
       Assets.images.sparky.bumper.a.lit.keyName,
       Assets.images.sparky.bumper.a.dimmed.keyName,
       Assets.images.sparky.bumper.b.lit.keyName,
@@ -57,14 +58,15 @@ void main() {
     final flameTester = FlameTester(_TestGame.new);
 
     flameTester.testGameWidget(
-      'adds GameBonus.sparkyTurboCharge to the game '
+      'adds GameBonus.sparkyTurboCharge to the game and plays animatronic '
       'when SparkyComputerState.withBall is emitted',
       setUp: (game, tester) async {
         final behavior = SparkyComputerBonusBehavior();
         final parent = SparkyScorch.test();
         final sparkyComputer = SparkyComputer();
+        final animatronic = SparkyAnimatronic();
 
-        await parent.add(sparkyComputer);
+        await parent.addAll([sparkyComputer, animatronic]);
         await game.pump(parent, gameBloc: gameBloc);
         await parent.ensureAdd(behavior);
 
@@ -74,6 +76,7 @@ void main() {
         verify(
           () => gameBloc.add(const BonusActivated(GameBonus.sparkyTurboCharge)),
         ).called(1);
+        expect(animatronic.playing, isTrue);
       },
     );
   });

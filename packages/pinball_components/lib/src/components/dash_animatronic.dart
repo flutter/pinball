@@ -6,11 +6,10 @@ import 'package:pinball_components/pinball_components.dart';
 /// {@endtemplate}
 class DashAnimatronic extends SpriteAnimationComponent with HasGameRef {
   /// {@macro dash_animatronic}
-  DashAnimatronic({Iterable<Component>? children})
+  DashAnimatronic()
       : super(
           anchor: Anchor.center,
           playing: false,
-          children: children,
         );
 
   @override
@@ -38,6 +37,9 @@ class DashAnimatronic extends SpriteAnimationComponent with HasGameRef {
         textureSize: textureSize,
         loop: false,
       ),
-    );
+    )..onComplete = () {
+        animation?.reset();
+        playing = false;
+      };
   }
 }
