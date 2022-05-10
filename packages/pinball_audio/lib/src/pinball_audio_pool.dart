@@ -38,17 +38,17 @@ class PinballAudioPool {
   /// Function to play audios.
   final PlaySingleAudio playSingleAudio;
 
-  /// How long the sound last.
+  /// How long the sound lasts.
   final Duration duration;
 
   final List<_PlayerEntry> _players = [];
 
-  /// Loads the pool
+  /// Loads the pool.
   Future<void> load() async {
     await preCacheSingleAudio(path);
   }
 
-  /// Plays the pool
+  /// Plays the pool.
   Future<void> play({double volume = 1}) async {
     AudioPlayer? player;
     if (_players.length < poolSize) {
