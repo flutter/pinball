@@ -302,15 +302,16 @@ void main() {
     });
 
     testWidgets('mobile controls when the overlay is added', (tester) async {
+      const targetOverlay = PinballGame.mobileControlsOverlay;
       await tester.pumpApp(
         PinballGameView(game),
         gameBloc: gameBloc,
         startGameBloc: startGameBloc,
       );
 
-      game.overlays.remove(PinballGame.playButtonOverlay);
-      game.overlays.add(PinballGame.mobileControlsOverlay);
-
+      game.overlays.clear();
+      await tester.pump();
+      game.overlays.add(targetOverlay);
       await tester.pump();
 
       expect(find.byType(MobileControls), findsOneWidget);
@@ -319,15 +320,16 @@ void main() {
     testWidgets(
       'ReplayButtonOverlay when the overlay is added',
       (tester) async {
+        const targetOverlay = PinballGame.replayButtonOverlay;
         await tester.pumpApp(
           PinballGameView(game),
           gameBloc: gameBloc,
           startGameBloc: startGameBloc,
         );
 
-        game.overlays.remove(PinballGame.playButtonOverlay);
-        game.overlays.add(PinballGame.replayButtonOverlay);
-
+        game.overlays.clear();
+        await tester.pump();
+        game.overlays.add(targetOverlay);
         await tester.pump();
 
         expect(find.byType(ReplayButtonOverlay), findsOneWidget);
