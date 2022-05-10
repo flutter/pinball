@@ -145,6 +145,20 @@ void main() {
         ).called(1);
       });
 
+      test('creates the flipper pool', () async {
+        await Future.wait(
+          audioPlayer.load().map((loadableBuilder) => loadableBuilder()),
+        );
+
+        verify(
+          () => createAudioPool.onCall(
+            'packages/pinball_audio/${Assets.sfx.flipper}',
+            maxPlayers: 2,
+            prefix: '',
+          ),
+        ).called(1);
+      });
+
       test('configures the audio cache instance', () async {
         await Future.wait(
           audioPlayer.load().map((loadableBuilder) => loadableBuilder()),
@@ -324,6 +338,33 @@ void main() {
 
           verify(() => kickerBPool.start(volume: 0.6)).called(1);
         });
+      });
+    });
+
+    group('flipper', () {
+      late AudioPool pool;
+
+      setUp(() {
+        pool = _MockAudioPool();
+        when(() => pool.start(volume: any(named: 'volume')))
+            .thenAnswer((_) async => () {});
+        when(
+          () => createAudioPool.onCall(
+            'packages/pinball_audio/${Assets.sfx.flipper}',
+            maxPlayers: any(named: 'maxPlayers'),
+            prefix: any(named: 'prefix'),
+          ),
+        ).thenAnswer((_) async => pool);
+      });
+
+      test('plays the flipper sound pool', () async {
+        when(seed.nextBool).thenReturn(true);
+        await Future.wait(
+          audioPlayer.load().map((loadableBuilder) => loadableBuilder()),
+        );
+        audioPlayer.play(PinballAudio.flipper);
+
+        verify(() => pool.start()).called(1);
       });
     });
 
