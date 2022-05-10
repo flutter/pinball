@@ -42,8 +42,7 @@
         "unawaited",
         "unfocus",
         "unlayered",
-        "vsync",
-        "microtask"
+        "vsync"
     ],
     "ignorePaths": [
         ".github/workflows/**"
