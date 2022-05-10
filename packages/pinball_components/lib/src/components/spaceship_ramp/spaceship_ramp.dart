@@ -62,6 +62,9 @@ class _SpaceshipRampBackground extends BodyComponent
     with InitialPosition, Layered, ZIndex {
   _SpaceshipRampBackground()
       : super(
+          /*paint: Paint()
+            ..color = Colors.red
+            ..strokeWidth = .3,*/
           renderBody: false,
           children: [
             _SpaceshipRampBackgroundRampSpriteComponent(),
@@ -229,6 +232,9 @@ class SpaceshipRampBoardOpening extends BodyComponent
     with Layered, ZIndex, InitialPosition {
   SpaceshipRampBoardOpening()
       : super(
+          /*paint: Paint()
+            ..color = Colors.amber
+            ..strokeWidth = .3,*/
           renderBody: false,
           children: [
             _SpaceshipRampBoardOpeningSpriteComponent(),
@@ -260,8 +266,8 @@ class SpaceshipRampBoardOpening extends BodyComponent
   List<FixtureDef> _createFixtureDefs() {
     final topEdge = EdgeShape()
       ..set(
-        Vector2(-3.9, -1.2),
-        Vector2(3.8, -1.6),
+        Vector2(-4.8, -1.2),
+        Vector2(4.5, -1.6),
       );
     final bottomEdge = EdgeShape()
       ..set(
@@ -351,8 +357,11 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
     with InitialPosition, Layered, ZIndex {
   _SpaceshipRampForegroundRailing()
       : super(
+          /*paint: Paint()
+            ..color = Colors.red
+            ..strokeWidth = .3,*/
           renderBody: false,
-          children: [_SpaceshipRampForegroundRailingSpriteComponent()],
+          //children: [_SpaceshipRampForegroundRailingSpriteComponent()],
         ) {
     layer = Layer.spaceshipEntranceRamp;
     zIndex = ZIndexes.spaceshipRampForegroundRailing;
