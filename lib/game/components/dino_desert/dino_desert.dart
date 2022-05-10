@@ -5,7 +5,6 @@ import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/components/dino_desert/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template dino_desert}
 /// Area located next to the [Launcher] containing the [ChromeDino],
