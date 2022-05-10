@@ -36,7 +36,6 @@ class _TestGame extends Forge2DGame with HasTappables {
   Future<void> pump(
     Iterable<Component> children, {
     PinballAudioPlayer? pinballAudioPlayer,
-    PlatformHelper? platformHelper,
     GoogleWordCubit? googleWordBloc,
   }) async {
     return ensureAdd(
@@ -62,7 +61,7 @@ class _TestGame extends Forge2DGame with HasTappables {
                 _MockAppLocalizations(),
               ),
               FlameProvider<PlatformHelper>.value(
-                platformHelper ?? PlatformHelper(),
+                PlatformHelper(),
               ),
             ],
             children: children,
@@ -79,8 +78,6 @@ class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
 }
 
 class _MockShareRepository extends Mock implements ShareRepository {}
-
-class _MockPlatformHelper extends Mock implements PlatformHelper {}
 
 class _MockPlungerCubit extends Mock implements PlungerCubit {}
 
@@ -278,7 +275,7 @@ void main() {
                 create: PlungerCubit.new,
                 children: [
                   PlungerPullingBehavior(strength: 0),
-                  PlungerAutoPullingBehavior(strength: 0)
+                  PlungerAutoPullingBehavior()
                 ],
               ),
             );
@@ -460,10 +457,8 @@ void main() {
         );
 
         flameTester.test(
-          'adds PlungerKeyControllingBehavior to Plunger when on desktop',
+          'adds PlungerKeyControllingBehavior to Plunger',
           (game) async {
-            final platformHelper = _MockPlatformHelper();
-            when(() => platformHelper.isMobile).thenReturn(false);
             final component = GameBlocStatusListener();
             final leaderboardRepository = _MockLeaderboardRepository();
             final shareRepository = _MockShareRepository();
@@ -482,7 +477,6 @@ void main() {
                   bloc: _MockSignpostCubit(),
                 ),
               ],
-              platformHelper: platformHelper,
             );
             await plunger.ensureAdd(
               FlameBlocProvider<PlungerCubit, PlungerState>(
@@ -506,10 +500,8 @@ void main() {
         );
 
         flameTester.test(
-          'adds PlungerPullingBehavior to Plunger when on desktop',
+          'adds PlungerPullingBehavior to Plunger',
           (game) async {
-            final platformHelper = _MockPlatformHelper();
-            when(() => platformHelper.isMobile).thenReturn(false);
             final component = GameBlocStatusListener();
             final leaderboardRepository = _MockLeaderboardRepository();
             final shareRepository = _MockShareRepository();
@@ -528,7 +520,6 @@ void main() {
                   bloc: _MockSignpostCubit(),
                 ),
               ],
-              platformHelper: platformHelper,
             );
             await plunger.ensureAdd(
               FlameBlocProvider<PlungerCubit, PlungerState>(
@@ -549,10 +540,8 @@ void main() {
         );
 
         flameTester.test(
-          'adds PlungerAutoPullingBehavior to Plunger when on mobile',
+          'adds PlungerAutoPullingBehavior to Plunger',
           (game) async {
-            final platformHelper = _MockPlatformHelper();
-            when(() => platformHelper.isMobile).thenReturn(true);
             final component = GameBlocStatusListener();
             final leaderboardRepository = _MockLeaderboardRepository();
             final shareRepository = _MockShareRepository();
@@ -571,7 +560,6 @@ void main() {
                   bloc: _MockSignpostCubit(),
                 ),
               ],
-              platformHelper: platformHelper,
             );
             await plunger.ensureAdd(
               FlameBlocProvider<PlungerCubit, PlungerState>(
