@@ -35,9 +35,7 @@ class PlungerAutoPullingBehavior extends PlungerPullingBehavior {
 
   @override
   void update(double dt) {
-    if (bloc.state.isAutopulling) {
-      _plunger.body.linearVelocity = Vector2(0, _strength);
-    }
+    if (!bloc.state.isAutoPulling) return;
 
     final joint = _plunger.body.joints.whereType<PrismaticJoint>().single;
     final reachedBottom = joint.getJointTranslation() <= joint.getLowerLimit();

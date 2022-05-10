@@ -97,8 +97,7 @@ class _PlungerSpriteAnimationGroupComponent
   void onNewState(PlungerState state) {
     super.onNewState(state);
     final startedReleasing = state.isReleasing && !current!.isReleasing;
-    final startedPulling =
-        (state.isPulling || state.isAutopulling) && !current!.isPulling;
+    final startedPulling = state.isPulling && !current!.isPulling;
     if (startedReleasing || startedPulling) {
       animation?.reset();
     }

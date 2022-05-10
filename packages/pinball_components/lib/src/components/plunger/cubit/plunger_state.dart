@@ -9,7 +9,8 @@ enum PlungerState {
 }
 
 extension PlungerStateX on PlungerState {
-  bool get isPulling => this == PlungerState.pulling;
+  bool get isPulling =>
+      this == PlungerState.pulling || this == PlungerState.autopulling;
   bool get isReleasing => this == PlungerState.releasing;
-  bool get isAutopulling => this == PlungerState.autopulling;
+  bool get isAutoPulling => this == PlungerState.autopulling;
 }
