@@ -4,14 +4,11 @@ import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:clock/clock.dart';
-import 'package:flame_audio/audio_pool.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_audio/gen/assets.gen.dart';
 import 'package:pinball_audio/pinball_audio.dart';
-
-class _MockAudioPool extends Mock implements AudioPool {}
 
 class _MockAudioCache extends Mock implements AudioCache {}
 
