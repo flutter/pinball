@@ -1,4 +1,3 @@
-// coverage:ignore-start
 import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
@@ -86,4 +85,3 @@ class PinballAudioPool {
     _players.where((entry) => entry.player == player).single.available = true;
   }
 }
-// coverage:ignore-end

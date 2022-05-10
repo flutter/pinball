@@ -411,7 +411,7 @@ void main() {
 
           verify(
             () => playSingleAudio
-                .onCall('packages/pinball_audio/${Assets.sfx.dino}'),
+                .onCall('packages/pinball_audio/${Assets.sfx.dino}', volume: 1),
           ).called(1);
 
           when(clock.now).thenReturn(DateTime(2022, 1, 1, 1, 6));
@@ -419,7 +419,7 @@ void main() {
 
           verify(
             () => playSingleAudio
-                .onCall('packages/pinball_audio/${Assets.sfx.dino}'),
+                .onCall('packages/pinball_audio/${Assets.sfx.dino}', volume: 1),
           ).called(1);
         });
       });
