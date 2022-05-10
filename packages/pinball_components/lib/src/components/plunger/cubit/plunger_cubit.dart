@@ -9,5 +9,5 @@ class PlungerCubit extends Cubit<PlungerState> {
 
   void released() => emit(PlungerState.releasing);
 
-  void autopulled() => emit(PlungerState.autopulling);
+  void autoPulled() => emit(PlungerState.autoPulling);
 }

@@ -434,7 +434,7 @@ void main() {
             .single
             .bloc;
 
-        expect(plungerBloc.state, PlungerState.autopulling);
+        expect(plungerBloc.state, PlungerState.autoPulling);
       });
     });
   });
