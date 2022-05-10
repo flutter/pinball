@@ -258,7 +258,7 @@ void main() {
         verify(
           () => playSingleAudio.onCall(
             'packages/pinball_audio/${Assets.sfx.flipper}',
-            volume: 1,
+            volume: any(named: 'volume'),
           ),
         ).called(1);
       });
@@ -273,7 +273,7 @@ void main() {
 
         verify(
           () => playSingleAudio
-              .onCall('packages/pinball_audio/${Assets.sfx.cowMoo}', volume: 1),
+              .onCall('packages/pinball_audio/${Assets.sfx.cowMoo}', volume: any(named: 'volume')),
         ).called(1);
       });
 
@@ -296,7 +296,7 @@ void main() {
           verify(
             () => playSingleAudio.onCall(
               'packages/pinball_audio/${Assets.sfx.cowMoo}',
-              volume: 1,
+              volume: any(named: 'volume'),
             ),
           ).called(1);
 
@@ -306,7 +306,7 @@ void main() {
           verify(
             () => playSingleAudio.onCall(
               'packages/pinball_audio/${Assets.sfx.cowMoo}',
-              volume: 1,
+              volume: any(named: 'volume'),
             ),
           ).called(1);
         });
@@ -411,7 +411,7 @@ void main() {
 
           verify(
             () => playSingleAudio
-                .onCall('packages/pinball_audio/${Assets.sfx.dino}', volume: 1),
+                .onCall('packages/pinball_audio/${Assets.sfx.dino}', volume: any(named: 'volume')),
           ).called(1);
 
           when(clock.now).thenReturn(DateTime(2022, 1, 1, 1, 6));
@@ -419,7 +419,7 @@ void main() {
 
           verify(
             () => playSingleAudio
-                .onCall('packages/pinball_audio/${Assets.sfx.dino}', volume: 1),
+                .onCall('packages/pinball_audio/${Assets.sfx.dino}', volume: any(named: 'volume')),
           ).called(1);
         });
       });

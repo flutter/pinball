@@ -7,10 +7,6 @@ import 'package:pinball_audio/src/pinball_audio_pool.dart';
 
 class _MockAudioPlayer extends Mock implements AudioPlayer {}
 
-class _MockConfigureAudioCache extends Mock {
-  void onCall(AudioCache cache);
-}
-
 class _MockPlaySingleAudio extends Mock {
   Future<AudioPlayer> onCall(String path, {double volume});
 }
@@ -58,7 +54,12 @@ void main() {
       await pool.load();
       await pool.play();
 
-      verify(() => playSingleAudio.onCall('path', volume: 1)).called(1);
+      verify(
+        () => playSingleAudio.onCall(
+          'path',
+          volume: any(named: 'volume'),
+        ),
+      ).called(1);
     });
 
     test('plays from the pool after it returned', () async {
