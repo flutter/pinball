@@ -62,9 +62,6 @@ class _SpaceshipRampBackground extends BodyComponent
     with InitialPosition, Layered, ZIndex {
   _SpaceshipRampBackground()
       : super(
-          /*paint: Paint()
-            ..color = Colors.red
-            ..strokeWidth = .3,*/
           renderBody: false,
           children: [
             _SpaceshipRampBackgroundRampSpriteComponent(),
@@ -232,9 +229,6 @@ class SpaceshipRampBoardOpening extends BodyComponent
     with Layered, ZIndex, InitialPosition {
   SpaceshipRampBoardOpening()
       : super(
-          /*paint: Paint()
-            ..color = Colors.amber
-            ..strokeWidth = .3,*/
           renderBody: false,
           children: [
             _SpaceshipRampBoardOpeningSpriteComponent(),
@@ -247,6 +241,7 @@ class SpaceshipRampBoardOpening extends BodyComponent
             )..applyTo(['outside']),
             ZIndexContactBehavior(
               zIndex: ZIndexes.ballOnBoard,
+              //onBegin: false,
             )..applyTo(['outside']),
             ZIndexContactBehavior(zIndex: ZIndexes.ballOnSpaceshipRamp)
               ..applyTo(['middle', 'inside']),
@@ -266,8 +261,8 @@ class SpaceshipRampBoardOpening extends BodyComponent
   List<FixtureDef> _createFixtureDefs() {
     final topEdge = EdgeShape()
       ..set(
-        Vector2(-4.8, -1.2),
-        Vector2(4.5, -1.6),
+        Vector2(-3.9, -1.2),
+        Vector2(-3.9, -1.2),
       );
     final bottomEdge = EdgeShape()
       ..set(
@@ -357,11 +352,8 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
     with InitialPosition, Layered, ZIndex {
   _SpaceshipRampForegroundRailing()
       : super(
-          /*paint: Paint()
-            ..color = Colors.red
-            ..strokeWidth = .3,*/
           renderBody: false,
-          //children: [_SpaceshipRampForegroundRailingSpriteComponent()],
+          children: [_SpaceshipRampForegroundRailingSpriteComponent()],
         ) {
     layer = Layer.spaceshipEntranceRamp;
     zIndex = ZIndexes.spaceshipRampForegroundRailing;
@@ -382,11 +374,13 @@ class _SpaceshipRampForegroundRailing extends BodyComponent
         Vector2(0, -44.5),
       ],
     );
-    final boardOpeningEdgeShape = EdgeShape()
-      ..set(
+    final boardOpeningEdgeShape = BezierCurveShape(
+      controlPoints: [
         innerRightCurveShape.vertices.last,
-        Vector2(-0.85, -40.8),
-      );
+        Vector2(.5, -42),
+        Vector2(-0.83, -40),
+      ],
+    );
 
     return [
       FixtureDef(innerLeftCurveShape),

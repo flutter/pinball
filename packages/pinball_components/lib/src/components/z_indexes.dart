@@ -54,7 +54,7 @@ abstract class ZIndexes {
 
   // Dino Desert
 
-  static const dinoTopWall = _above + ballOnBoard;
+  static const dinoTopWall = _above + spaceshipRamp;
 
   static const dinoTopWallTunnel = _below + ballOnBoard;
 
