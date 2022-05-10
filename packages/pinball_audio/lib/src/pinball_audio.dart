@@ -148,38 +148,6 @@ class _SingleLoopAudio extends _LoopAudio {
   }
 }
 
-class _SingleAudioPool extends _Audio {
-  _SingleAudioPool({
-    required this.path,
-    required this.duration,
-    required this.maxPlayers,
-    required this.preCacheSingleAudio,
-    required this.playSingleAudio,
-  });
-
-  final String path;
-  final int maxPlayers;
-  final Duration duration;
-  final PreCacheSingleAudio preCacheSingleAudio;
-  final PlaySingleAudio playSingleAudio;
-  late PinballAudioPool pool;
-
-  @override
-  Future<void> load() async {
-    pool = PinballAudioPool(
-      path: prefixFile(path),
-      poolSize: maxPlayers,
-      preCacheSingleAudio: preCacheSingleAudio,
-      playSingleAudio: playSingleAudio,
-      duration: duration,
-    );
-    await pool.load();
-  }
-
-  @override
-  void play() => pool.play();
-}
-
 class _RandomABAudio extends _Audio {
   _RandomABAudio({
     required this.preCacheSingleAudio,
@@ -315,12 +283,10 @@ class PinballAudioPlayer {
         path: Assets.sfx.rollover,
         volume: 0.3,
       ),
-      PinballAudio.flipper: _SingleAudioPool(
+      PinballAudio.flipper: _SimplePlayAudio(
         path: Assets.sfx.flipper,
-        maxPlayers: 4,
         preCacheSingleAudio: _preCacheSingleAudio,
         playSingleAudio: _playSingleAudio,
-        duration: const Duration(milliseconds: 200),
       ),
       PinballAudio.ioPinballVoiceOver: _SimplePlayAudio(
         preCacheSingleAudio: _preCacheSingleAudio,

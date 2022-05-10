@@ -247,8 +247,7 @@ void main() {
     });
 
     group('flipper', () {
-      test('plays the flipper sound pool', () async {
-        when(seed.nextBool).thenReturn(true);
+      test('plays the correct file', () async {
         await Future.wait(
           audioPlayer.load().map((loadableBuilder) => loadableBuilder()),
         );
