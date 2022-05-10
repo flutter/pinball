@@ -155,12 +155,11 @@ class PinballGame extends PinballForge2DGame
 
   @override
   void onTapDown(int pointerId, TapDownInfo info) {
-    if (info.raw.kind == PointerDeviceKind.touch) {
+    if (info.raw.kind == PointerDeviceKind.touch &&
+        _gameBloc.state.status.isPlaying) {
       final rocket = descendants().whereType<RocketSpriteComponent>().first;
       final bounds = rocket.topLeftPosition & rocket.size;
 
-      // NOTE: As long as Flame does not have https://github.com/flame-engine/flame/issues/1586
-      // we need to check it at the highest level manually.
       final tappedRocket = bounds.contains(info.eventPosition.game.toOffset());
       if (tappedRocket) {
         descendants()
