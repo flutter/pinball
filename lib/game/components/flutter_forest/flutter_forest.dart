@@ -42,7 +42,7 @@ class FlutterForest extends Component with ZIndex {
             )..initialPosition = Vector2(21.8, -46.75),
             DashAnimatronic(
               children: [
-                AnimatronicLoopingBehavior(animationCoolDown: 4),
+                AnimatronicLoopingBehavior(animationCoolDown: 11),
               ],
             )..position = Vector2(20, -66),
             FlutterForestBonusBehavior(),
