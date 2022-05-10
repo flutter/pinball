@@ -97,7 +97,8 @@ class _PlungerSpriteAnimationGroupComponent
   void onNewState(PlungerState state) {
     super.onNewState(state);
     final startedReleasing = state.isReleasing && !current!.isReleasing;
-    final startedPulling = state.isPulling && !current!.isPulling;
+    final startedPulling =
+        (state.isPulling || state.isAutopulling) && !current!.isPulling;
     if (startedReleasing || startedPulling) {
       animation?.reset();
     }
@@ -132,6 +133,7 @@ class _PlungerSpriteAnimationGroupComponent
     animations = {
       PlungerState.releasing: pullAnimation.reversed(),
       PlungerState.pulling: pullAnimation,
+      PlungerState.autopulling: pullAnimation,
     };
 
     current = readBloc<PlungerCubit, PlungerState>().state;
