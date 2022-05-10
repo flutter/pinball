@@ -14,7 +14,7 @@ class _PlayerEntry {
   final AudioPlayer player;
 }
 
-/// {@tempalte pinball_audio_pool}
+/// {@template pinball_audio_pool}
 /// Creates an audio player pool used to trigger many sounds at the same time.
 /// {@endtemplate}
 class PinballAudioPool {
