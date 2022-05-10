@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors, one_member_abstracts
-// cSpell:ignore microtask
 import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
