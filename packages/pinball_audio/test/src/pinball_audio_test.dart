@@ -454,6 +454,32 @@ void main() {
           ),
         ).called(1);
       });
+
+      test('only plays the sound again after 6 seconds', () async {
+        final clock = _MockClock();
+        await withClock(clock, () async {
+          when(clock.now).thenReturn(DateTime(2022));
+          await Future.wait(
+            audioPlayer.load().map((loadableBuilder) => loadableBuilder()),
+          );
+          audioPlayer
+            ..play(PinballAudio.dino)
+            ..play(PinballAudio.dino);
+
+          verify(
+            () => playSingleAudio
+                .onCall('packages/pinball_audio/${Assets.sfx.dino}'),
+          ).called(1);
+
+          when(clock.now).thenReturn(DateTime(2022, 1, 1, 1, 6));
+          audioPlayer.play(PinballAudio.dino);
+
+          verify(
+            () => playSingleAudio
+                .onCall('packages/pinball_audio/${Assets.sfx.dino}'),
+          ).called(1);
+        });
+      });
     });
 
     group('android', () {
