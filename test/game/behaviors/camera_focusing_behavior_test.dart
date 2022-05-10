@@ -34,6 +34,19 @@ void main() {
         expect(game.descendants(), contains(behavior));
       });
 
+      flameTester.test('resizes and snaps', (game) async {
+        final behavior = CameraFocusingBehavior();
+        await game.ensureAdd(
+          FlameBlocProvider<GameBloc, GameState>.value(
+            value: GameBloc(),
+            children: [behavior],
+          ),
+        );
+
+        behavior.onGameResize(Vector2.all(10));
+        expect(game.camera.zoom, greaterThan(0));
+      });
+
       flameTester.test(
         'changes focus when loaded',
         (game) async {
@@ -52,20 +65,6 @@ void main() {
           expect(game.camera.zoom, isNot(equals(previousZoom)));
         },
       );
-
-      flameTester.test('sets zoom on resize', (game) async {
-        final behavior = CameraFocusingBehavior();
-
-        await game.ensureAdd(
-          FlameBlocProvider<GameBloc, GameState>.value(
-            value: GameBloc(),
-            children: [behavior],
-          ),
-        );
-
-        game.onGameResize(game.canvasSize * 2);
-        expect(game.camera.zoom, equals(6.55));
-      });
 
       flameTester.test(
         'listenWhen only listens when status changes',
