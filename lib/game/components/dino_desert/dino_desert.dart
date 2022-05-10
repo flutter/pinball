@@ -36,10 +36,8 @@ class DinoDesert extends Component {
   DinoDesert.test();
 }
 
-class _BarrierBehindDino extends BodyComponent with ZIndex {
-  _BarrierBehindDino() : super(renderBody: true) {
-    zIndex = 100;
-  }
+class _BarrierBehindDino extends BodyComponent {
+  _BarrierBehindDino() : super(renderBody: false);
 
   @override
   Body createBody() {
