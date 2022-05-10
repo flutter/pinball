@@ -86,6 +86,10 @@ class _MockPlungerCubit extends Mock implements PlungerCubit {}
 
 class _MockGoogleWordCubit extends Mock implements GoogleWordCubit {}
 
+class _MockDashBumperCubit extends Mock implements DashBumperCubit {}
+
+class _MockSignpostCubit extends Mock implements SignpostCubit {}
+
 class _MockFlipperCubit extends Mock implements FlipperCubit {}
 
 class _MockAppLocalizations extends Mock implements AppLocalizations {
@@ -332,7 +336,15 @@ void main() {
           (game) async {
             final audioPlayer = _MockPinballAudioPlayer();
             final component = GameBlocStatusListener();
-            await game.pump([component], pinballAudioPlayer: audioPlayer);
+            await game.pump(
+              [
+                component,
+                Signpost.test(
+                  bloc: _MockSignpostCubit(),
+                ),
+              ],
+              pinballAudioPlayer: audioPlayer,
+            );
 
             expect(state.status, equals(GameStatus.playing));
             component.onNewState(state);
@@ -350,12 +362,60 @@ void main() {
           (game) async {
             final googleWordBloc = _MockGoogleWordCubit();
             final component = GameBlocStatusListener();
-            await game.pump([component], googleWordBloc: googleWordBloc);
+            await game.pump(
+              [
+                component,
+                Signpost.test(
+                  bloc: _MockSignpostCubit(),
+                ),
+              ],
+              googleWordBloc: googleWordBloc,
+            );
 
             expect(state.status, equals(GameStatus.playing));
             component.onNewState(state);
 
             verify(googleWordBloc.onReset).called(1);
+          },
+        );
+
+        flameTester.test(
+          'resets the DashBumperCubits',
+          (game) async {
+            final dashBumper1Bloc = _MockDashBumperCubit();
+            final dashBumper2Bloc = _MockDashBumperCubit();
+            final dashBumper1 = DashBumper.test(bloc: dashBumper1Bloc);
+            final dashBumper2 = DashBumper.test(bloc: dashBumper2Bloc);
+            final component = GameBlocStatusListener();
+            await game.pump([
+              component,
+              dashBumper1,
+              dashBumper2,
+              Signpost.test(
+                bloc: _MockSignpostCubit(),
+              ),
+            ]);
+
+            expect(state.status, equals(GameStatus.playing));
+            component.onNewState(state);
+
+            verify(dashBumper1Bloc.onReset).called(1);
+            verify(dashBumper2Bloc.onReset).called(1);
+          },
+        );
+
+        flameTester.test(
+          'resets the SignpostCubit',
+          (game) async {
+            final signpostBloc = _MockSignpostCubit();
+            final signpost = Signpost.test(bloc: signpostBloc);
+            final component = GameBlocStatusListener();
+            await game.pump([component, signpost]);
+
+            expect(state.status, equals(GameStatus.playing));
+            component.onNewState(state);
+
+            verify(signpostBloc.onReset).called(1);
           },
         );
 
@@ -372,7 +432,14 @@ void main() {
             );
             final flipper = Flipper.test(side: BoardSide.left);
 
-            await game.pump([component, backbox, flipper]);
+            await game.pump([
+              component,
+              backbox,
+              flipper,
+              Signpost.test(
+                bloc: _MockSignpostCubit(),
+              ),
+            ]);
             await flipper.ensureAdd(
               FlameBlocProvider<FlipperCubit, FlipperState>(
                 create: _MockFlipperCubit.new,
@@ -407,7 +474,14 @@ void main() {
             );
             final plunger = Plunger.test();
             await game.pump(
-              [component, backbox, plunger],
+              [
+                component,
+                backbox,
+                plunger,
+                Signpost.test(
+                  bloc: _MockSignpostCubit(),
+                ),
+              ],
               platformHelper: platformHelper,
             );
             await plunger.ensureAdd(
@@ -446,7 +520,14 @@ void main() {
             );
             final plunger = Plunger.test();
             await game.pump(
-              [component, backbox, plunger],
+              [
+                component,
+                backbox,
+                plunger,
+                Signpost.test(
+                  bloc: _MockSignpostCubit(),
+                ),
+              ],
               platformHelper: platformHelper,
             );
             await plunger.ensureAdd(
@@ -482,7 +563,14 @@ void main() {
             );
             final plunger = Plunger.test();
             await game.pump(
-              [component, backbox, plunger],
+              [
+                component,
+                backbox,
+                plunger,
+                Signpost.test(
+                  bloc: _MockSignpostCubit(),
+                ),
+              ],
               platformHelper: platformHelper,
             );
             await plunger.ensureAdd(
