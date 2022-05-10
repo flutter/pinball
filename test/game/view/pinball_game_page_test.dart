@@ -308,7 +308,7 @@ void main() {
         startGameBloc: startGameBloc,
       );
 
-      game.overlays.clear();
+      game.overlays.remove(PinballGame.playButtonOverlay);
       game.overlays.add(PinballGame.mobileControlsOverlay);
 
       await tester.pump();
@@ -325,7 +325,7 @@ void main() {
           startGameBloc: startGameBloc,
         );
 
-        game.overlays.clear();
+        game.overlays.remove(PinballGame.playButtonOverlay);
         game.overlays.add(PinballGame.replayButtonOverlay);
 
         await tester.pump();
