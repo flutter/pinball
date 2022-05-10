@@ -241,7 +241,6 @@ class SpaceshipRampBoardOpening extends BodyComponent
             )..applyTo(['outside']),
             ZIndexContactBehavior(
               zIndex: ZIndexes.ballOnBoard,
-              //onBegin: false,
             )..applyTo(['outside']),
             ZIndexContactBehavior(zIndex: ZIndexes.ballOnSpaceshipRamp)
               ..applyTo(['middle', 'inside']),
