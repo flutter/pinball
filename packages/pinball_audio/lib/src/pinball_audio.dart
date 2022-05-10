@@ -279,10 +279,11 @@ class PinballAudioPlayer {
         playSingleAudio: _playSingleAudio,
         path: Assets.sfx.sparky,
       ),
-      PinballAudio.dino: _SimplePlayAudio(
+      PinballAudio.dino: _ThrottledAudio(
         preCacheSingleAudio: _preCacheSingleAudio,
         playSingleAudio: _playSingleAudio,
         path: Assets.sfx.dino,
+        duration: const Duration(seconds: 6),
       ),
       PinballAudio.dash: _SimplePlayAudio(
         preCacheSingleAudio: _preCacheSingleAudio,
