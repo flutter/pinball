@@ -167,7 +167,7 @@ class PinballGame extends PinballForge2DGame
             .whereType<FlameBlocProvider<PlungerCubit, PlungerState>>()
             .first
             .bloc
-            .pulled();
+            .autoPulled();
       } else {
         final tappedLeftSide = info.eventPosition.widget.x < canvasSize.x / 2;
         focusedBoardSide[pointerId] =
