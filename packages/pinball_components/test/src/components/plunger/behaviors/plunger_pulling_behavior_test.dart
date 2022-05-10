@@ -102,8 +102,8 @@ void main() {
         final plungerBloc = _MockPlungerCubit();
         whenListen<PlungerState>(
           plungerBloc,
-          Stream.value(PlungerState.pulling),
-          initialState: PlungerState.pulling,
+          Stream.value(PlungerState.autoPulling),
+          initialState: PlungerState.autoPulling,
         );
 
         const strength = 2.0;
