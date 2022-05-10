@@ -5,6 +5,7 @@ import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/components/dino_desert/behaviors/behaviors.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template dino_desert}
 /// Area located next to the [Launcher] containing the [ChromeDino],
@@ -35,14 +36,16 @@ class DinoDesert extends Component {
   DinoDesert.test();
 }
 
-class _BarrierBehindDino extends BodyComponent {
-  _BarrierBehindDino() : super(renderBody: false);
+class _BarrierBehindDino extends BodyComponent with ZIndex {
+  _BarrierBehindDino() : super(renderBody: true) {
+    zIndex = 100;
+  }
 
   @override
   Body createBody() {
     final shape = EdgeShape()
       ..set(
-        Vector2(25.3, -14.2),
+        Vector2(24.2, -14.8),
         Vector2(25.3, -7.7),
       );
 
