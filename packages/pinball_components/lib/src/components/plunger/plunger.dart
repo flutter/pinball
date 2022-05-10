@@ -132,6 +132,7 @@ class _PlungerSpriteAnimationGroupComponent
     animations = {
       PlungerState.releasing: pullAnimation.reversed(),
       PlungerState.pulling: pullAnimation,
+      PlungerState.autoPulling: pullAnimation,
     };
 
     current = readBloc<PlungerCubit, PlungerState>().state;
