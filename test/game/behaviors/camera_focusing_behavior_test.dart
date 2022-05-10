@@ -34,6 +34,19 @@ void main() {
         expect(game.descendants(), contains(behavior));
       });
 
+      flameTester.test('resizes and snaps', (game) async {
+        final behavior = CameraFocusingBehavior();
+        await game.ensureAdd(
+          FlameBlocProvider<GameBloc, GameState>.value(
+            value: GameBloc(),
+            children: [behavior],
+          ),
+        );
+
+        behavior.onGameResize(Vector2.all(10));
+        expect(game.camera.zoom, greaterThan(0));
+      });
+
       flameTester.test(
         'changes focus when loaded',
         (game) async {
@@ -110,7 +123,7 @@ void main() {
         flameTester.test(
           'zooms when game is over',
           (game) async {
-            final playing = const GameState.initial().copyWith(
+            final gameOver = const GameState.initial().copyWith(
               status: GameStatus.gameOver,
             );
 
@@ -122,7 +135,7 @@ void main() {
               ),
             );
 
-            behavior.onNewState(playing);
+            behavior.onNewState(gameOver);
             final previousPosition = game.camera.position.clone();
             await game.ready();
 
