@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
@@ -12,7 +13,7 @@ import 'package:pinball_components/pinball_components.dart';
 
 class _TestGame extends Forge2DGame {
   Future<void> pump(
-    PlungerPullingBehavior behavior, {
+    Component behavior, {
     PlungerCubit? plungerBloc,
   }) async {
     final plunger = Plunger.test();
@@ -85,47 +86,16 @@ void main() {
   group('PlungerAutoPullingBehavior', () {
     test('can be instantiated', () {
       expect(
-        PlungerAutoPullingBehavior(strength: 0),
+        PlungerAutoPullingBehavior(),
         isA<PlungerAutoPullingBehavior>(),
       );
     });
 
     flameTester.test('can be loaded', (game) async {
-      final behavior = PlungerAutoPullingBehavior(strength: 0);
+      final behavior = PlungerAutoPullingBehavior();
       await game.pump(behavior);
       expect(game.descendants(), contains(behavior));
     });
-
-    flameTester.test(
-      "pulls while joint hasn't reached limit",
-      (game) async {
-        final plungerBloc = _MockPlungerCubit();
-        whenListen<PlungerState>(
-          plungerBloc,
-          Stream.value(PlungerState.pulling),
-          initialState: PlungerState.pulling,
-        );
-
-        const strength = 2.0;
-        final behavior = PlungerAutoPullingBehavior(
-          strength: strength,
-        );
-        await game.pump(
-          behavior,
-          plungerBloc: plungerBloc,
-        );
-        final plunger = behavior.ancestors().whereType<Plunger>().single;
-        final joint = _MockPrismaticJoint();
-        when(joint.getJointTranslation).thenReturn(2);
-        when(joint.getLowerLimit).thenReturn(0);
-        plunger.body.joints.add(joint);
-
-        game.update(0);
-
-        expect(plunger.body.linearVelocity.x, equals(0));
-        expect(plunger.body.linearVelocity.y, equals(strength));
-      },
-    );
 
     flameTester.test(
       'releases when joint reaches limit',
@@ -133,14 +103,11 @@ void main() {
         final plungerBloc = _MockPlungerCubit();
         whenListen<PlungerState>(
           plungerBloc,
-          Stream.value(PlungerState.pulling),
-          initialState: PlungerState.pulling,
+          Stream.value(PlungerState.autoPulling),
+          initialState: PlungerState.autoPulling,
         );
 
-        const strength = 2.0;
-        final behavior = PlungerAutoPullingBehavior(
-          strength: strength,
-        );
+        final behavior = PlungerAutoPullingBehavior();
         await game.pump(
           behavior,
           plungerBloc: plungerBloc,
