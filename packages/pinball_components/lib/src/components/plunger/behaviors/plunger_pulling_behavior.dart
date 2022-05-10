@@ -28,10 +28,15 @@ class PlungerPullingBehavior extends Component
   }
 }
 
-class PlungerAutoPullingBehavior extends PlungerPullingBehavior {
-  PlungerAutoPullingBehavior({
-    required double strength,
-  }) : super(strength: strength);
+class PlungerAutoPullingBehavior extends Component
+    with FlameBlocReader<PlungerCubit, PlungerState> {
+  late final Plunger _plunger;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    _plunger = parent!.parent! as Plunger;
+  }
 
   @override
   void update(double dt) {

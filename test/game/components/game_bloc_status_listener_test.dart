@@ -275,7 +275,7 @@ void main() {
                 create: PlungerCubit.new,
                 children: [
                   PlungerPullingBehavior(strength: 0),
-                  PlungerAutoPullingBehavior(strength: 0)
+                  PlungerAutoPullingBehavior()
                 ],
               ),
             );
@@ -533,11 +533,7 @@ void main() {
             await game.ready();
 
             expect(
-              plunger
-                  .descendants()
-                  .whereType<PlungerPullingBehavior>()
-                  .where((behavior) => behavior is! PlungerAutoPullingBehavior)
-                  .length,
+              plunger.descendants().whereType<PlungerPullingBehavior>().length,
               equals(1),
             );
           },

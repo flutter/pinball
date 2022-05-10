@@ -67,21 +67,24 @@ class GameBlocStatusListener extends Component
     gameRef.descendants().whereType<Signpost>().single.bloc.onReset();
   }
 
-  void _addPlungerBehaviors(Plunger plunger) {
-    const pullingStrength = 7.0;
-    plunger.firstChild<FlameBlocProvider<PlungerCubit, PlungerState>>()!.addAll(
-      [
-        PlungerPullingBehavior(strength: pullingStrength),
-        PlungerAutoPullingBehavior(strength: pullingStrength),
-        PlungerKeyControllingBehavior()
-      ],
-    );
-  }
+  void _addPlungerBehaviors(Plunger plunger) => plunger
+          .firstChild<FlameBlocProvider<PlungerCubit, PlungerState>>()!
+          .addAll(
+        [
+          PlungerPullingBehavior(strength: 7),
+          PlungerAutoPullingBehavior(),
+          PlungerKeyControllingBehavior()
+        ],
+      );
 
   void _removePlungerBehaviors(Plunger plunger) {
     plunger
         .descendants()
         .whereType<PlungerPullingBehavior>()
+        .forEach(plunger.remove);
+    plunger
+        .descendants()
+        .whereType<PlungerAutoPullingBehavior>()
         .forEach(plunger.remove);
     plunger
         .descendants()
