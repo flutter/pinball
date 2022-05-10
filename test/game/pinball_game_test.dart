@@ -246,8 +246,60 @@ void main() {
     });
 
     group('flipper control', () {
+      flameTester.test('tap control only works if game is playing',
+          (game) async {
+        await game.ready();
+
+        final gameBloc = game
+            .descendants()
+            .whereType<FlameBlocProvider<GameBloc, GameState>>()
+            .first
+            .bloc;
+
+        final eventPosition = _MockEventPosition();
+        when(() => eventPosition.game).thenReturn(Vector2.zero());
+        when(() => eventPosition.widget).thenReturn(Vector2.zero());
+
+        final raw = _MockTapDownDetails();
+        when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
+
+        final tapDownEvent = _MockTapDownInfo();
+        when(() => tapDownEvent.eventPosition).thenReturn(eventPosition);
+        when(() => tapDownEvent.raw).thenReturn(raw);
+
+        final flipperBloc = game
+            .descendants()
+            .whereType<Flipper>()
+            .where((flipper) => flipper.side == BoardSide.left)
+            .single
+            .descendants()
+            .whereType<FlameBlocProvider<FlipperCubit, FlipperState>>()
+            .first
+            .bloc;
+
+        gameBloc.emit(gameBloc.state.copyWith(status: GameStatus.gameOver));
+
+        game.onTapDown(0, tapDownEvent);
+        await Future<void>.delayed(Duration.zero);
+        expect(flipperBloc.state, FlipperState.movingDown);
+
+        gameBloc.emit(gameBloc.state.copyWith(status: GameStatus.playing));
+
+        game.onTapDown(0, tapDownEvent);
+        await Future<void>.delayed(Duration.zero);
+        expect(flipperBloc.state, FlipperState.movingUp);
+      });
+
       flameTester.test('tap down moves left flipper up', (game) async {
         await game.ready();
+
+        final gameBloc = game
+            .descendants()
+            .whereType<FlameBlocProvider<GameBloc, GameState>>()
+            .first
+            .bloc;
+
+        gameBloc.emit(gameBloc.state.copyWith(status: GameStatus.playing));
 
         final eventPosition = _MockEventPosition();
         when(() => eventPosition.game).thenReturn(Vector2.zero());
@@ -278,6 +330,14 @@ void main() {
       flameTester.test('tap down moves right flipper up', (game) async {
         await game.ready();
 
+        final gameBloc = game
+            .descendants()
+            .whereType<FlameBlocProvider<GameBloc, GameState>>()
+            .first
+            .bloc;
+
+        gameBloc.emit(gameBloc.state.copyWith(status: GameStatus.playing));
+
         final eventPosition = _MockEventPosition();
         when(() => eventPosition.game).thenReturn(Vector2.zero());
         when(() => eventPosition.widget).thenReturn(game.canvasSize);
@@ -307,6 +367,14 @@ void main() {
       flameTester.test('tap up moves flipper down', (game) async {
         await game.ready();
 
+        final gameBloc = game
+            .descendants()
+            .whereType<FlameBlocProvider<GameBloc, GameState>>()
+            .first
+            .bloc;
+
+        gameBloc.emit(gameBloc.state.copyWith(status: GameStatus.playing));
+
         final eventPosition = _MockEventPosition();
         when(() => eventPosition.game).thenReturn(Vector2.zero());
         when(() => eventPosition.widget).thenReturn(Vector2.zero());
@@ -331,6 +399,14 @@ void main() {
 
       flameTester.test('tap cancel moves flipper down', (game) async {
         await game.ready();
+
+        final gameBloc = game
+            .descendants()
+            .whereType<FlameBlocProvider<GameBloc, GameState>>()
+            .first
+            .bloc;
+
+        gameBloc.emit(gameBloc.state.copyWith(status: GameStatus.playing));
 
         final eventPosition = _MockEventPosition();
         when(() => eventPosition.game).thenReturn(Vector2.zero());
@@ -362,6 +438,14 @@ void main() {
         'multiple touches control both flippers',
         (game) async {
           await game.ready();
+
+          final gameBloc = game
+              .descendants()
+              .whereType<FlameBlocProvider<GameBloc, GameState>>()
+              .first
+              .bloc;
+
+          gameBloc.emit(gameBloc.state.copyWith(status: GameStatus.playing));
 
           final raw = _MockTapDownDetails();
           when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
@@ -415,6 +499,14 @@ void main() {
     group('plunger control', () {
       flameTester.test('plunger control tap down emits plunging', (game) async {
         await game.ready();
+
+        final gameBloc = game
+            .descendants()
+            .whereType<FlameBlocProvider<GameBloc, GameState>>()
+            .first
+            .bloc;
+
+        gameBloc.emit(gameBloc.state.copyWith(status: GameStatus.playing));
 
         final eventPosition = _MockEventPosition();
         when(() => eventPosition.game).thenReturn(Vector2(40, 60));
