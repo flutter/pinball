@@ -2,10 +2,10 @@ import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:clock/clock.dart';
-import 'package:flame_audio/audio_pool.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_audio/gen/assets.gen.dart';
+import 'package:pinball_audio/src/pinball_audio_pool.dart';
 
 /// Sounds available to play.
 enum PinballAudio {
@@ -52,17 +52,8 @@ enum PinballAudio {
   flipper,
 }
 
-/// Defines the contract of the creation of an [AudioPool].
-typedef CreateAudioPool = Future<AudioPool> Function(
-  String sound, {
-  bool? repeating,
-  int? maxPlayers,
-  int? minPlayers,
-  String? prefix,
-});
-
 /// Defines the contract for playing a single audio.
-typedef PlaySingleAudio = Future<void> Function(String, {double volume});
+typedef PlaySingleAudio = Future<AudioPlayer> Function(String, {double volume});
 
 /// Defines the contract for looping a single audio.
 typedef LoopSingleAudio = Future<void> Function(String, {double volume});
@@ -94,13 +85,20 @@ class _SimplePlayAudio extends _Audio {
   final PlaySingleAudio playSingleAudio;
   final String path;
   final double? volume;
+  AudioPlayer? _player;
 
   @override
   Future<void> load() => preCacheSingleAudio(prefixFile(path));
 
   @override
-  void play() {
-    playSingleAudio(prefixFile(path), volume: volume ?? 1);
+  Future<void> play() async {
+    final url = prefixFile(path);
+    final volume = this.volume ?? 1;
+    if (_player == null) {
+      _player = await playSingleAudio(url, volume: volume);
+    } else {
+      await _player!.play(url, volume: volume);
+    }
   }
 }
 
@@ -153,81 +151,94 @@ class _SingleLoopAudio extends _LoopAudio {
 class _SingleAudioPool extends _Audio {
   _SingleAudioPool({
     required this.path,
-    required this.createAudioPool,
+    required this.duration,
     required this.maxPlayers,
+    required this.preCacheSingleAudio,
+    required this.playSingleAudio,
   });
 
   final String path;
-  final CreateAudioPool createAudioPool;
   final int maxPlayers;
-  late AudioPool pool;
+  final Duration duration;
+  final PreCacheSingleAudio preCacheSingleAudio;
+  final PlaySingleAudio playSingleAudio;
+  late PinballAudioPool pool;
 
   @override
   Future<void> load() async {
-    pool = await createAudioPool(
-      prefixFile(path),
-      maxPlayers: maxPlayers,
-      prefix: '',
+    pool = PinballAudioPool(
+      path: prefixFile(path),
+      poolSize: maxPlayers,
+      preCacheSingleAudio: preCacheSingleAudio,
+      playSingleAudio: playSingleAudio,
+      duration: duration,
     );
+    await pool.load();
   }
 
   @override
-  void play() => pool.start();
+  void play() => pool.play();
 }
 
 class _RandomABAudio extends _Audio {
   _RandomABAudio({
-    required this.createAudioPool,
+    required this.preCacheSingleAudio,
+    required this.playSingleAudio,
     required this.seed,
     required this.audioAssetA,
     required this.audioAssetB,
-    this.volume,
-  });
-
-  final CreateAudioPool createAudioPool;
-  final Random seed;
-  final String audioAssetA;
-  final String audioAssetB;
-  final double? volume;
-
-  late AudioPool audioA;
-  late AudioPool audioB;
-
-  @override
-  Future<void> load() async {
-    await Future.wait(
-      [
-        createAudioPool(
-          prefixFile(audioAssetA),
-          maxPlayers: 4,
-          prefix: '',
-        ).then((pool) => audioA = pool),
-        createAudioPool(
-          prefixFile(audioAssetB),
-          maxPlayers: 4,
-          prefix: '',
-        ).then((pool) => audioB = pool),
-      ],
-    );
-  }
-
-  @override
-  void play() {
-    (seed.nextBool() ? audioA : audioB).start(volume: volume ?? 1);
-  }
-}
-
-class _ThrottledAudio extends _Audio {
-  _ThrottledAudio({
-    required this.preCacheSingleAudio,
-    required this.playSingleAudio,
-    required this.path,
     required this.duration,
+    this.volume,
   });
 
   final PreCacheSingleAudio preCacheSingleAudio;
   final PlaySingleAudio playSingleAudio;
-  final String path;
+  final Random seed;
+  final String audioAssetA;
+  final String audioAssetB;
+  final Duration duration;
+  final double? volume;
+
+  late PinballAudioPool audioA;
+  late PinballAudioPool audioB;
+
+  @override
+  Future<void> load() async {
+    audioA = PinballAudioPool(
+      path: prefixFile(audioAssetA),
+      poolSize: 4,
+      preCacheSingleAudio: preCacheSingleAudio,
+      playSingleAudio: playSingleAudio,
+      duration: duration,
+    );
+    audioB = PinballAudioPool(
+      path: prefixFile(audioAssetB),
+      poolSize: 4,
+      preCacheSingleAudio: preCacheSingleAudio,
+      playSingleAudio: playSingleAudio,
+      duration: duration,
+    );
+    await Future.wait([audioA.load(), audioB.load()]);
+  }
+
+  @override
+  void play() {
+    (seed.nextBool() ? audioA : audioB).play(volume: volume ?? 1);
+  }
+}
+
+class _ThrottledAudio extends _SimplePlayAudio {
+  _ThrottledAudio({
+    required PreCacheSingleAudio preCacheSingleAudio,
+    required PlaySingleAudio playSingleAudio,
+    required String path,
+    required this.duration,
+  }) : super(
+          preCacheSingleAudio: preCacheSingleAudio,
+          playSingleAudio: playSingleAudio,
+          path: path,
+        );
+
   final Duration duration;
 
   DateTime? _lastPlayed;
@@ -236,12 +247,12 @@ class _ThrottledAudio extends _Audio {
   Future<void> load() => preCacheSingleAudio(prefixFile(path));
 
   @override
-  void play() {
+  Future<void> play() async {
     final now = clock.now();
     if (_lastPlayed == null ||
         (_lastPlayed != null && now.difference(_lastPlayed!) > duration)) {
       _lastPlayed = now;
-      playSingleAudio(prefixFile(path));
+      await super.play();
     }
   }
 }
@@ -252,14 +263,12 @@ class _ThrottledAudio extends _Audio {
 class PinballAudioPlayer {
   /// {@macro pinball_audio_player}
   PinballAudioPlayer({
-    CreateAudioPool? createAudioPool,
     PlaySingleAudio? playSingleAudio,
     LoopSingleAudio? loopSingleAudio,
     PreCacheSingleAudio? preCacheSingleAudio,
     ConfigureAudioCache? configureAudioCache,
     Random? seed,
-  })  : _createAudioPool = createAudioPool ?? AudioPool.create,
-        _playSingleAudio = playSingleAudio ?? FlameAudio.audioCache.play,
+  })  : _playSingleAudio = playSingleAudio ?? FlameAudio.audioCache.play,
         _loopSingleAudio = loopSingleAudio ?? FlameAudio.audioCache.loop,
         _preCacheSingleAudio =
             preCacheSingleAudio ?? FlameAudio.audioCache.load,
@@ -308,8 +317,10 @@ class PinballAudioPlayer {
       ),
       PinballAudio.flipper: _SingleAudioPool(
         path: Assets.sfx.flipper,
-        createAudioPool: _createAudioPool,
-        maxPlayers: 2,
+        maxPlayers: 4,
+        preCacheSingleAudio: _preCacheSingleAudio,
+        playSingleAudio: _playSingleAudio,
+        duration: const Duration(milliseconds: 200),
       ),
       PinballAudio.ioPinballVoiceOver: _SimplePlayAudio(
         preCacheSingleAudio: _preCacheSingleAudio,
@@ -322,17 +333,21 @@ class PinballAudioPlayer {
         path: Assets.sfx.gameOverVoiceOver,
       ),
       PinballAudio.bumper: _RandomABAudio(
-        createAudioPool: _createAudioPool,
+        preCacheSingleAudio: _preCacheSingleAudio,
+        playSingleAudio: _playSingleAudio,
         seed: _seed,
         audioAssetA: Assets.sfx.bumperA,
         audioAssetB: Assets.sfx.bumperB,
+        duration: const Duration(seconds: 1),
         volume: 0.6,
       ),
       PinballAudio.kicker: _RandomABAudio(
-        createAudioPool: _createAudioPool,
+        preCacheSingleAudio: _preCacheSingleAudio,
+        playSingleAudio: _playSingleAudio,
         seed: _seed,
         audioAssetA: Assets.sfx.kickerA,
         audioAssetB: Assets.sfx.kickerB,
+        duration: const Duration(seconds: 1),
         volume: 0.6,
       ),
       PinballAudio.cowMoo: _ThrottledAudio(
@@ -349,8 +364,6 @@ class PinballAudioPlayer {
       ),
     };
   }
-
-  final CreateAudioPool _createAudioPool;
 
   final PlaySingleAudio _playSingleAudio;
 

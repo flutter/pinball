@@ -3,33 +3,22 @@ import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:clock/clock.dart';
-import 'package:flame_audio/audio_pool.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_audio/gen/assets.gen.dart';
 import 'package:pinball_audio/pinball_audio.dart';
 
-class _MockAudioPool extends Mock implements AudioPool {}
-
 class _MockAudioCache extends Mock implements AudioCache {}
 
-class _MockCreateAudioPool extends Mock {
-  Future<AudioPool> onCall(
-    String sound, {
-    bool? repeating,
-    int? maxPlayers,
-    int? minPlayers,
-    String? prefix,
-  });
-}
+class _MockAudioPlayer extends Mock implements AudioPlayer {}
 
 class _MockConfigureAudioCache extends Mock {
   void onCall(AudioCache cache);
 }
 
 class _MockPlaySingleAudio extends Mock {
-  Future<void> onCall(String path, {double volume});
+  Future<AudioPlayer> onCall(String path, {double volume});
 }
 
 class _MockLoopSingleAudio extends Mock {
@@ -48,7 +37,6 @@ class _MockClock extends Mock implements Clock {}
 
 void main() {
   group('PinballAudio', () {
-    late _MockCreateAudioPool createAudioPool;
     late _MockConfigureAudioCache configureAudioCache;
     late _MockPlaySingleAudio playSingleAudio;
     late _MockLoopSingleAudio loopSingleAudio;
@@ -61,21 +49,12 @@ void main() {
     });
 
     setUp(() {
-      createAudioPool = _MockCreateAudioPool();
-      when(
-        () => createAudioPool.onCall(
-          any(),
-          maxPlayers: any(named: 'maxPlayers'),
-          prefix: any(named: 'prefix'),
-        ),
-      ).thenAnswer((_) async => _MockAudioPool());
-
       configureAudioCache = _MockConfigureAudioCache();
       when(() => configureAudioCache.onCall(any())).thenAnswer((_) {});
 
       playSingleAudio = _MockPlaySingleAudio();
       when(() => playSingleAudio.onCall(any(), volume: any(named: 'volume')))
-          .thenAnswer((_) async {});
+          .thenAnswer((_) async => _MockAudioPlayer());
 
       loopSingleAudio = _MockLoopSingleAudio();
       when(() => loopSingleAudio.onCall(any(), volume: any(named: 'volume')))
@@ -88,7 +67,6 @@ void main() {
 
       audioPlayer = PinballAudioPlayer(
         configureAudioCache: configureAudioCache.onCall,
-        createAudioPool: createAudioPool.onCall,
         playSingleAudio: playSingleAudio.onCall,
         loopSingleAudio: loopSingleAudio.onCall,
         preCacheSingleAudio: preCacheSingleAudio.onCall,
@@ -101,64 +79,6 @@ void main() {
     });
 
     group('load', () {
-      test('creates the bumpers pools', () async {
-        await Future.wait(
-          audioPlayer.load().map((loadableBuilder) => loadableBuilder()),
-        );
-
-        verify(
-          () => createAudioPool.onCall(
-            'packages/pinball_audio/${Assets.sfx.bumperA}',
-            maxPlayers: 4,
-            prefix: '',
-          ),
-        ).called(1);
-
-        verify(
-          () => createAudioPool.onCall(
-            'packages/pinball_audio/${Assets.sfx.bumperB}',
-            maxPlayers: 4,
-            prefix: '',
-          ),
-        ).called(1);
-      });
-
-      test('creates the kicker pools', () async {
-        await Future.wait(
-          audioPlayer.load().map((loadableBuilder) => loadableBuilder()),
-        );
-
-        verify(
-          () => createAudioPool.onCall(
-            'packages/pinball_audio/${Assets.sfx.kickerA}',
-            maxPlayers: 4,
-            prefix: '',
-          ),
-        ).called(1);
-
-        verify(
-          () => createAudioPool.onCall(
-            'packages/pinball_audio/${Assets.sfx.kickerB}',
-            maxPlayers: 4,
-            prefix: '',
-          ),
-        ).called(1);
-      });
-
-      test('creates the flipper pool', () async {
-        await Future.wait(
-          audioPlayer.load().map((loadableBuilder) => loadableBuilder()),
-        );
-
-        verify(
-          () => createAudioPool.onCall(
-            'packages/pinball_audio/${Assets.sfx.flipper}',
-            maxPlayers: 2,
-            prefix: '',
-          ),
-        ).called(1);
-      });
-
       test('configures the audio cache instance', () async {
         await Future.wait(
           audioPlayer.load().map((loadableBuilder) => loadableBuilder()),
@@ -170,7 +90,6 @@ void main() {
 
       test('sets the correct prefix', () async {
         audioPlayer = PinballAudioPlayer(
-          createAudioPool: createAudioPool.onCall,
           playSingleAudio: playSingleAudio.onCall,
           preCacheSingleAudio: preCacheSingleAudio.onCall,
         );
@@ -186,6 +105,26 @@ void main() {
           audioPlayer.load().map((loadableBuilder) => loadableBuilder()),
         );
 
+        verify(
+          () => preCacheSingleAudio
+              .onCall('packages/pinball_audio/assets/sfx/bumper_a.mp3'),
+        ).called(1);
+        verify(
+          () => preCacheSingleAudio
+              .onCall('packages/pinball_audio/assets/sfx/bumper_b.mp3'),
+        ).called(1);
+        verify(
+          () => preCacheSingleAudio
+              .onCall('packages/pinball_audio/assets/sfx/kicker_a.mp3'),
+        ).called(1);
+        verify(
+          () => preCacheSingleAudio
+              .onCall('packages/pinball_audio/assets/sfx/kicker_b.mp3'),
+        ).called(1);
+        verify(
+          () => preCacheSingleAudio
+              .onCall('packages/pinball_audio/assets/sfx/flipper.mp3'),
+        ).called(1);
         verify(
           () => preCacheSingleAudio
               .onCall('packages/pinball_audio/assets/sfx/google.mp3'),
@@ -236,33 +175,6 @@ void main() {
     });
 
     group('bumper', () {
-      late AudioPool bumperAPool;
-      late AudioPool bumperBPool;
-
-      setUp(() {
-        bumperAPool = _MockAudioPool();
-        when(() => bumperAPool.start(volume: any(named: 'volume')))
-            .thenAnswer((_) async => () {});
-        when(
-          () => createAudioPool.onCall(
-            'packages/pinball_audio/${Assets.sfx.bumperA}',
-            maxPlayers: any(named: 'maxPlayers'),
-            prefix: any(named: 'prefix'),
-          ),
-        ).thenAnswer((_) async => bumperAPool);
-
-        bumperBPool = _MockAudioPool();
-        when(() => bumperBPool.start(volume: any(named: 'volume')))
-            .thenAnswer((_) async => () {});
-        when(
-          () => createAudioPool.onCall(
-            'packages/pinball_audio/${Assets.sfx.bumperB}',
-            maxPlayers: any(named: 'maxPlayers'),
-            prefix: any(named: 'prefix'),
-          ),
-        ).thenAnswer((_) async => bumperBPool);
-      });
-
       group('when seed is true', () {
         test('plays the bumper A sound pool', () async {
           when(seed.nextBool).thenReturn(true);
@@ -271,7 +183,12 @@ void main() {
           );
           audioPlayer.play(PinballAudio.bumper);
 
-          verify(() => bumperAPool.start(volume: 0.6)).called(1);
+          verify(
+            () => playSingleAudio.onCall(
+              'packages/pinball_audio/${Assets.sfx.bumperA}',
+              volume: 0.6,
+            ),
+          ).called(1);
         });
       });
 
@@ -283,39 +200,17 @@ void main() {
           );
           audioPlayer.play(PinballAudio.bumper);
 
-          verify(() => bumperBPool.start(volume: 0.6)).called(1);
+          verify(
+            () => playSingleAudio.onCall(
+              'packages/pinball_audio/${Assets.sfx.bumperB}',
+              volume: 0.6,
+            ),
+          ).called(1);
         });
       });
     });
 
     group('kicker', () {
-      late AudioPool kickerAPool;
-      late AudioPool kickerBPool;
-
-      setUp(() {
-        kickerAPool = _MockAudioPool();
-        when(() => kickerAPool.start(volume: any(named: 'volume')))
-            .thenAnswer((_) async => () {});
-        when(
-          () => createAudioPool.onCall(
-            'packages/pinball_audio/${Assets.sfx.kickerA}',
-            maxPlayers: any(named: 'maxPlayers'),
-            prefix: any(named: 'prefix'),
-          ),
-        ).thenAnswer((_) async => kickerAPool);
-
-        kickerBPool = _MockAudioPool();
-        when(() => kickerBPool.start(volume: any(named: 'volume')))
-            .thenAnswer((_) async => () {});
-        when(
-          () => createAudioPool.onCall(
-            'packages/pinball_audio/${Assets.sfx.kickerB}',
-            maxPlayers: any(named: 'maxPlayers'),
-            prefix: any(named: 'prefix'),
-          ),
-        ).thenAnswer((_) async => kickerBPool);
-      });
-
       group('when seed is true', () {
         test('plays the kicker A sound pool', () async {
           when(seed.nextBool).thenReturn(true);
@@ -324,7 +219,12 @@ void main() {
           );
           audioPlayer.play(PinballAudio.kicker);
 
-          verify(() => kickerAPool.start(volume: 0.6)).called(1);
+          verify(
+            () => playSingleAudio.onCall(
+              'packages/pinball_audio/${Assets.sfx.kickerA}',
+              volume: 0.6,
+            ),
+          ).called(1);
         });
       });
 
@@ -336,27 +236,17 @@ void main() {
           );
           audioPlayer.play(PinballAudio.kicker);
 
-          verify(() => kickerBPool.start(volume: 0.6)).called(1);
+          verify(
+            () => playSingleAudio.onCall(
+              'packages/pinball_audio/${Assets.sfx.kickerB}',
+              volume: 0.6,
+            ),
+          ).called(1);
         });
       });
     });
 
     group('flipper', () {
-      late AudioPool pool;
-
-      setUp(() {
-        pool = _MockAudioPool();
-        when(() => pool.start(volume: any(named: 'volume')))
-            .thenAnswer((_) async => () {});
-        when(
-          () => createAudioPool.onCall(
-            'packages/pinball_audio/${Assets.sfx.flipper}',
-            maxPlayers: any(named: 'maxPlayers'),
-            prefix: any(named: 'prefix'),
-          ),
-        ).thenAnswer((_) async => pool);
-      });
-
       test('plays the flipper sound pool', () async {
         when(seed.nextBool).thenReturn(true);
         await Future.wait(
@@ -364,7 +254,12 @@ void main() {
         );
         audioPlayer.play(PinballAudio.flipper);
 
-        verify(() => pool.start()).called(1);
+        verify(
+          () => playSingleAudio.onCall(
+            'packages/pinball_audio/${Assets.sfx.flipper}',
+            volume: any(named: 'volume'),
+          ),
+        ).called(1);
       });
     });
 
@@ -376,14 +271,21 @@ void main() {
         audioPlayer.play(PinballAudio.cowMoo);
 
         verify(
-          () => playSingleAudio
-              .onCall('packages/pinball_audio/${Assets.sfx.cowMoo}'),
+          () => playSingleAudio.onCall(
+            'packages/pinball_audio/${Assets.sfx.cowMoo}',
+            volume: any(named: 'volume'),
+          ),
         ).called(1);
       });
 
       test('only plays the sound again after 2 seconds', () async {
         final clock = _MockClock();
         await withClock(clock, () async {
+          final audioPlayerInstance = _MockAudioPlayer();
+          when(
+            () => playSingleAudio.onCall(any(), volume: any(named: 'volume')),
+          ).thenAnswer((_) async => audioPlayerInstance);
+
           when(clock.now).thenReturn(DateTime(2022));
           await Future.wait(
             audioPlayer.load().map((loadableBuilder) => loadableBuilder()),
@@ -393,16 +295,20 @@ void main() {
             ..play(PinballAudio.cowMoo);
 
           verify(
-            () => playSingleAudio
-                .onCall('packages/pinball_audio/${Assets.sfx.cowMoo}'),
+            () => playSingleAudio.onCall(
+              'packages/pinball_audio/${Assets.sfx.cowMoo}',
+              volume: any(named: 'volume'),
+            ),
           ).called(1);
 
           when(clock.now).thenReturn(DateTime(2022, 1, 1, 1, 2));
           audioPlayer.play(PinballAudio.cowMoo);
 
           verify(
-            () => playSingleAudio
-                .onCall('packages/pinball_audio/${Assets.sfx.cowMoo}'),
+            () => playSingleAudio.onCall(
+              'packages/pinball_audio/${Assets.sfx.cowMoo}',
+              volume: any(named: 'volume'),
+            ),
           ).called(1);
         });
       });
@@ -417,6 +323,44 @@ void main() {
 
         verify(
           () => playSingleAudio.onCall(
+            'packages/pinball_audio/${Assets.sfx.google}',
+            volume: any(named: 'volume'),
+          ),
+        ).called(1);
+      });
+
+      test('uses the cached player on the second time', () async {
+        final audioPlayerCache = _MockAudioPlayer();
+        when(() => audioPlayerCache.play(any(), volume: any(named: 'volume')))
+            .thenAnswer((_) async => 0);
+
+        when(() => playSingleAudio.onCall(any(), volume: any(named: 'volume')))
+            .thenAnswer((_) async => audioPlayerCache);
+        audioPlayer = PinballAudioPlayer(
+          configureAudioCache: configureAudioCache.onCall,
+          playSingleAudio: playSingleAudio.onCall,
+          loopSingleAudio: loopSingleAudio.onCall,
+          preCacheSingleAudio: preCacheSingleAudio.onCall,
+          seed: seed,
+        );
+
+        await Future.wait(
+          audioPlayer.load().map((loadableBuilder) => loadableBuilder()),
+        );
+        audioPlayer.play(PinballAudio.google);
+
+        verify(
+          () => playSingleAudio.onCall(
+            'packages/pinball_audio/${Assets.sfx.google}',
+            volume: any(named: 'volume'),
+          ),
+        ).called(1);
+
+        await Future.microtask(() {});
+
+        audioPlayer.play(PinballAudio.google);
+        verify(
+          () => audioPlayerCache.play(
             'packages/pinball_audio/${Assets.sfx.google}',
             volume: any(named: 'volume'),
           ),
@@ -467,16 +411,20 @@ void main() {
             ..play(PinballAudio.dino);
 
           verify(
-            () => playSingleAudio
-                .onCall('packages/pinball_audio/${Assets.sfx.dino}'),
+            () => playSingleAudio.onCall(
+              'packages/pinball_audio/${Assets.sfx.dino}',
+              volume: any(named: 'volume'),
+            ),
           ).called(1);
 
           when(clock.now).thenReturn(DateTime(2022, 1, 1, 1, 6));
           audioPlayer.play(PinballAudio.dino);
 
           verify(
-            () => playSingleAudio
-                .onCall('packages/pinball_audio/${Assets.sfx.dino}'),
+            () => playSingleAudio.onCall(
+              'packages/pinball_audio/${Assets.sfx.dino}',
+              volume: any(named: 'volume'),
+            ),
           ).called(1);
         });
       });
