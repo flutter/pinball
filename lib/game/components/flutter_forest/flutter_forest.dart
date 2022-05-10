@@ -40,7 +40,11 @@ class FlutterForest extends Component with ZIndex {
                 BumperNoiseBehavior(),
               ],
             )..initialPosition = Vector2(21.8, -46.75),
-            DashAnimatronic()..position = Vector2(20, -66),
+            DashAnimatronic(
+              children: [
+                AnimatronicLoopingBehavior(animationCoolDown: 4),
+              ],
+            )..position = Vector2(20, -66),
             FlutterForestBonusBehavior(),
           ],
         ) {

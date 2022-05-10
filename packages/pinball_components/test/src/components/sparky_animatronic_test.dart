@@ -1,6 +1,6 @@
 // ignore_for_file: cascade_invocations
 
-import 'package:flame/extensions.dart';
+import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -58,19 +58,13 @@ void main() {
       },
     );
 
-    flameTester.test(
-      'stops animating after animation completes',
-      (game) async {
-        final sparkyAnimatronic = SparkyAnimatronic();
-        await game.ensureAdd(sparkyAnimatronic);
-
-        sparkyAnimatronic.playing = true;
-        final animationDuration =
-            game.firstChild<SparkyAnimatronic>()!.animation!.totalDuration();
-        game.update(animationDuration);
-
-        expect(sparkyAnimatronic.playing, isFalse);
-      },
-    );
+    flameTester.test('adds new children', (game) async {
+      final component = Component();
+      final sparkyAnimatronic = SparkyAnimatronic(
+        children: [component],
+      );
+      await game.ensureAdd(sparkyAnimatronic);
+      expect(sparkyAnimatronic.children, contains(component));
+    });
   });
 }

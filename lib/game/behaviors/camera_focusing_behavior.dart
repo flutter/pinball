@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_bloc/flame_bloc.dart';
@@ -43,30 +41,25 @@ class CameraFocusingBehavior extends Component
   @override
   void onGameResize(Vector2 size) {
     super.onGameResize(size);
-    if (size == _previousSize) {
-      return;
-    }
+    if (size == _previousSize) return;
     _previousSize.setFrom(size);
 
-    final maxWidth = size.x / 90;
-    final maxHeight = size.y / 160;
-
-    final scale = min(maxHeight, maxWidth);
-
-    _foci.addAll({
-      GameStatus.waiting: _FocusData(
-        zoom: scale + (maxWidth > maxHeight ? 0.3 : -0.5),
-        position: Vector2(0, -112),
-      ),
-      GameStatus.playing: _FocusData(
-        zoom: scale + (maxWidth > maxHeight ? 0.5 : -0.2),
-        position: Vector2(0, -7.8),
-      ),
-      GameStatus.gameOver: _FocusData(
-        zoom: scale + (maxWidth > maxHeight ? 2.8 : 3.3),
-        position: Vector2(0, -111),
-      ),
-    });
+    _foci.addAll(
+      {
+        GameStatus.waiting: _FocusData(
+          zoom: size.y / 175,
+          position: _foci[GameStatus.waiting]?.position ?? Vector2(0, -112),
+        ),
+        GameStatus.playing: _FocusData(
+          zoom: size.y / 165,
+          position: _foci[GameStatus.playing]?.position ?? Vector2(0, -7.8),
+        ),
+        GameStatus.gameOver: _FocusData(
+          zoom: size.y / 100,
+          position: _foci[GameStatus.gameOver]?.position ?? Vector2(0, -111),
+        ),
+      },
+    );
 
     if (_activeFocus != null) {
       _snap(_activeFocus!);
