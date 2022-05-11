@@ -32,7 +32,7 @@
   "@launch": {
     "description": "Texto exibido para a palavra lançar"
   },
-  "tapLeftRightScreen": "Toque na Tela esquerda/direita",
+  "tapLeftRightScreen": "Toque no lado esquerdo/direito da Tela",
   "@tapLeftRightScreen": {
     "description": "Texto exibido em como fazer o flip no celular"
   },
