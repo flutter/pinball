@@ -9,7 +9,7 @@ service cloud.firestore {
       }
       
       function inCharLimit(initials) {
-        return initials.size() == 3 && initials.matches('[A-Z][A-Z][A-Z]');
+        return initials.matches('[A-Z]{3}');
       }
 
       function isValidScore(score) {
@@ -28,7 +28,9 @@ service cloud.firestore {
       allow read: if isAuthedUser(request.auth);
       
       // A leaderboard entry can be created if the user is authenticated,
-      // it's 3 characters long, and not a prohibited combination.
+      // it's 3 characters long and capital letters only, not a 
+      // prohibited combination, the score is within the accepted score window
+      // and the character is in the valid list
       allow create: if isAuthedUser(request.auth) &&
                        inCharLimit(request.resource.data.playerInitials) && 
                        !prohibited(request.resource.data.playerInitials) &&
