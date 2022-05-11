@@ -201,7 +201,7 @@
     "description": "Texto mostrado quando a tabela de classificação teve um erro ao carregar"
   }
 ,
-  "letEveryone": "Deixe todos saberem sobre o I/O Pinball",
+  "letEveryone": "Mostre o I/O Pinball a todos",
   "@letEveryone": {
     "description": "Texto exibido na tela de compartilhamento para descrição"
   },
