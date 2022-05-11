@@ -18,7 +18,7 @@
   },
   "flipperControls": "Controles do Flipper",
   "@flipperControls": {
-    "description": "Texto exibido na caixa de diálogo de como jogar com os controles de largada"
+    "description": "Texto exibido na caixa de diálogo de como jogar com os controles de flippers"
   },
   "tapAndHoldRocket": "Toque no Foguete",
   "@tapAndHoldRocket": {
