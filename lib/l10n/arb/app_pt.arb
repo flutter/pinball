@@ -8,7 +8,7 @@
   "@howToPlay": {
     "description": "Texto exibido no botão de como jogar da página inicial"
   },
-  "tipsForFlips": "Dicas para flips",
+  "tipsForFlips": "Dicas para arremesso",
   "@tipsForFlips": {
     "description": "Texto exibido na página inicial no botão de como jogar"
   },
