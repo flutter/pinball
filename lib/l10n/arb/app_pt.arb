@@ -34,7 +34,7 @@
   },
   "tapLeftRightScreen": "Toque no lado esquerdo/direito da Tela",
   "@tapLeftRightScreen": {
-    "description": "Texto exibido em como fazer o flip no celular"
+    "description": "Texto exibido em como usar os flippers no celular"
   },
   "flip": "FLIP",
   "@flip": {
