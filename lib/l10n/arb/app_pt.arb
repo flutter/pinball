@@ -120,7 +120,7 @@
   "@linkBoxFirebaseLinkText": {
     "description": "Texto no link mostrado na caixa de link que leva à página do Firebase"
   },
-  "linkBoxOpenSourceCode": "Código-fonte aberto",
+  "linkBoxOpenSourceCode": "Código Aberto",
   "@linkBoxOpenSourceCode": {
     "description": "Texto mostrado na caixa de link que redireciona para o projeto github"
   },
