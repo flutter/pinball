@@ -38,4 +38,4 @@ service cloud.firestore {
                        isValidCharacter(request.resource.data.character);
     }
   }
-} 
+}
