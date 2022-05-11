@@ -213,7 +213,7 @@
   "@socialMediaAccount": {
     "description": "Texto exibido na tela de compartilhamento para descrição"
   },
-  "iGotScoreAtPinball": "Eu tenho {score} pontos no #IOPinball, você pode bater minha pontuação?\nNos vemos no #GoogleIO!",
+  "iGotScoreAtPinball": "Consegui {score} pontos no #IOPinball, você pode bater minha pontuação?\nNos vemos no #GoogleIO!",
   "@iGotScoreAtPinball": {
     "description": "Texto para compartilhar pontuação na rede social",
     "placeholders": {
