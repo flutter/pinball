@@ -9,7 +9,11 @@ service cloud.firestore {
       }
       
       function inCharLimit(initials) {
-        return initials.size() < 4;
+        return initials.size() == 3;
+      }
+
+      function isValidCharacter(character) {
+        return character == 'android' || character == 'dash' || character == 'dino' || character == 'sparky';
       }
       
       function isAuthedUser(auth) {
