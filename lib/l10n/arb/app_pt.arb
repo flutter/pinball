@@ -36,7 +36,7 @@
   "@tapLeftRightScreen": {
     "description": "Texto exibido em como usar os flippers no celular"
   },
-  "flip": "FLIP",
+  "flip": "ARREMESSAR",
   "@flip": {
     "description": "Texto exibido para a palavra FLIP"
   },
