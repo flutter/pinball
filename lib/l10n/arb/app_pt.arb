@@ -6,7 +6,7 @@
   },
   "howToPlay": "Como Jogar",
   "@howToPlay": {
-    "description": "Texto exibido no botão de como jogar da página de inicial"
+    "description": "Texto exibido no botão de como jogar da página inicial"
   },
   "tipsForFlips": "Dicas para flips",
   "@tipsForFlips": {
