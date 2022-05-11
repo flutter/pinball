@@ -1,0 +1,225 @@
+{
+  "@@locale": "pt",
+  "play": "Jogar",
+  "@play": {
+    "description": ""
+  },
+  "howToPlay": "Como Jogar",
+  "@howToPlay": {
+    "description": "Texto exibido no botão de como jogar da página de inicial"
+  },
+  "tipsForFlips": "Dicas para flips",
+  "@tipsForFlips": {
+    "description": "Texto exibido na página de inicial no botão de como jogar"
+  },
+  "launchControls": "Controles de Largada",
+  "@launchControls": {
+    "description": "Texto exibido na caixa de diálogo de como jogar com os controles de largada"
+  },
+  "flipperControls": "Controles do Flipper",
+  "@flipperControls": {
+    "description": "Texto exibido na caixa de diálogo de como jogar com os controles de largada"
+  },
+  "tapAndHoldRocket": "Toque no Foguete",
+  "@tapAndHoldRocket": {
+    "description": "Texto exibido em como iniciar no celular"
+  },
+  "to": "Para",
+  "@to": {
+    "description": "Texto exibido para a palavra para"
+  },
+  "launch": "LANÇAR",
+  "@launch": {
+    "description": "Texto exibido para a palavra lançar"
+  },
+  "tapLeftRightScreen": "Toque na Tela esquerda/direita",
+  "@tapLeftRightScreen": {
+    "description": "Texto exibido em como fazer o flip no celular"
+  },
+  "flip": "FLIP",
+  "@flip": {
+    "description": "Texto exibido para a palavra FLIP"
+  },
+  "start": "Começar",
+  "@start": {
+    "description": "Texto exibido no botão de iniciar na página de seleção de personagem"
+  },
+  "select": "Selecionar",
+  "@select": {
+    "description": "Texto exibido no botão selecionar personagem na caixa de diálogo de seleção de personagens - "
+  },
+  "space": "Espaço",
+  "@space": {
+    "description": "Texto exibido no botão de controle - espaço"
+  },
+  "characterSelectionTitle": "Selecione um Personagem",
+  "@characterSelectionTitle": {
+    "description": "Título exibido na caixa de diálogo de seleção de personagens"
+  },
+  "characterSelectionSubtitle": "Não há escolha errada!",
+  "@characterSelectionSubtitle": {
+    "description": "Subtítulo exibido na caixa de diálogo de seleção de personagens"
+  },
+  "gameOver": "Fim de jogo",
+  "@gameOver": {
+    "description": "Texto exibido na caixa de diálogo final quando o jogo termina"
+  },
+  "rounds": "Nr. de Bolas",
+  "@rounds": {
+    "description": "Texto exibido no widget do placar para indicar as rodadas restantes"
+  },
+  "topPlayers": "Melhores Jogadores",
+  "@topPlayers": {
+    "description": "Texto do título exibido na tela do placar"
+  },
+  "rank": "classificação",
+  "@rank": {
+    "description": "Texto do rótulo exibido acima da classificação do jogador"
+  },
+  "name": "nome",
+  "@name": {
+    "description": "Texto do rótulo exibido acima das iniciais do jogador"
+  },
+  "score": "pontuação",
+  "@score": {
+    "description": "Texto do rótulo exibido acima da pontuação do jogador"
+  },
+  "enterInitials": "Insira suas iniciais usando as",
+  "@enterInitials": {
+    "description": "Texto informativo exibido na tela de entrada de iniciais"
+  },
+  "arrows": "setas",
+  "@arrows": {
+    "description": "Texto exibido na tela de entrada de iniciais indicando as teclas de seta"
+  },
+  "andPress": "e pressione",
+  "@andPress": {
+    "description": "Conectando o texto exibido na tela de entrada de iniciais - extensão do texto informativo"
+  },
+  "enterReturn": "enter/return",
+  "@enterReturn": {
+    "description": "Texto exibido na tela de entrada de iniciais indicando a tecla de retorno"
+  },
+  "toSubmit": "para submeter",
+  "@toSubmit": {
+    "description": "Texto final exibido na tela de entrada de iniciais extensão do texto informativo"
+  },
+  "linkBoxTitle": "Recursos",
+  "@linkBoxTitle": {
+    "description": "Texto mostrado na seção de título da caixa de link."
+  },
+  "linkBoxMadeWithText": "Feito com ",
+  "@linkBoxMadeWithText": {
+    "description": "Texto mostrado na caixa de link que menciona as tecnologias usadas para criar o aplicativo."
+  },
+  "linkBoxFlutterLinkText": "Flutter",
+  "@linkBoxFlutterLinkText": {
+    "description": "Texto no link mostrado na caixa de link que navega para a página do Flutter"
+  },
+  "linkBoxFirebaseLinkText": "Firebase",
+  "@linkBoxFirebaseLinkText": {
+    "description": "Texto no link mostrado na caixa de link que leva à página do Firebase"
+  },
+  "linkBoxOpenSourceCode": "Código-fonte aberto",
+  "@linkBoxOpenSourceCode": {
+    "description": "Texto mostrado na caixa de link que redireciona para o projeto github"
+  },
+  "linkBoxGoogleIOText": "Google I/O",
+  "@linkBoxGoogleIOText": {
+    "description": "Texto mostrado na caixa de link que menciona o Google I/O"
+  },
+  "linkBoxFlutterGames": "Jogos Flutter",
+  "@linkBoxFlutterGames": {
+    "description": "Texto mostrado na caixa de link que redireciona para o artigo de jogos em flutter"
+  },
+  "linkBoxHowItsMade": "Como é feito",
+  "@linkBoxHowItsMade": {
+    "description": "Texto mostrado na caixa do link que redireciona para o artigo do Very Good Blog"
+  },
+  "linkBoxTermsOfService": "Termos de serviço",
+  "@linkBoxTermsOfService": {
+    "description": "Texto mostrado na caixa de link que redireciona para os termos de serviço"
+  },
+  "linkBoxPrivacyPolicy": "Política de Privacidade",
+  "@linkBoxPrivacyPolicy": {
+    "description": "Texto mostrado na caixa de link que redireciona para a política de privacidade"
+  },
+  "loading": "Carregando",
+  "@loading": {
+    "description": "Texto mostrado para indicar o carregamento"
+  },
+  "replay": "Repetir",
+  "@replay": {
+    "description": "Texto exibido na página de compartilhamento para botão de repetição"
+  },
+  "ioPinball": "I/O Pinball",
+  "@ioPinball": {
+    "description": "I/O Pinball - Nome do jogo"
+  },
+  "shareYourScore": "Partilhe sua pontuação",
+  "@shareYourScore": {
+    "description": "Texto mostrado no título da tela de informações"
+  },
+  "andChallengeYourFriends": "E DESAFIE SEUS AMIGOS",
+  "@challengeYourFriends": {
+    "description": "Texto mostrado no título da tela de informações"
+  },
+  "share": "PARTILHAR",
+  "@share": {
+    "description": "Texto para link de compartilhamento na tela de informações."
+  },
+  "gotoIO": "IR PARA I/O",
+  "@gotoIO": {
+    "description": "Texto para acessar o link do site de I/O na tela de informações."
+  },
+  "learnMore": "Saiba mais sobre como construir jogos no Flutter com",
+  "@learnMore": {
+    "description": "Texto mostrado na descrição da tela de informações"
+  },
+  "firebaseOr": "Firebase ou mergulhe direto no",
+  "@firebaseOr": {
+    "description": "Text shown on description of info screen"
+  },
+  "openSourceCode": "código-fonte aberto.",
+  "@openSourceCode": {
+    "description": "Texto mostrado na descrição da tela de informações"
+  },
+  "enter": "Enter",
+  "@enter": {
+    "description": "Texto mostrado no botão Enter dos controles móveis"
+  },
+  "initialsErrorTitle": "Uh-oh... bem, isso não funcionou",
+  "@initialsErrorTitle": {
+    "description": "Título mostrado quando o envio das iniciais falha"
+  },
+  "initialsErrorMessage": "Por favor, tente uma combinação diferente de letras",
+  "@initialsErrorMessage": {
+    "description": "Mensagem exibida quando o envio das iniciais falha"
+  },
+  "leaderboardErrorMessage": "Sem conexão. A funcionalidade de placar e compartilhamento não está disponível.",
+  "@leaderboardErrorMessage": {
+    "description": "Texto mostrado quando a tabela de classificação teve um erro ao carregar"
+  }
+,
+  "letEveryone": "Deixe todos saberem sobre o I/O Pinball",
+  "@letEveryone": {
+    "description": "Texto exibido na tela de compartilhamento para descrição"
+  },
+  "bySharingYourScore": "compartilhando sua pontuação com sua preferida",
+  "@bySharingYourScore": {
+    "description": "Texto exibido na tela de compartilhamento para descrição"
+  },
+  "socialMediaAccount": "conta nas redes sociais!",
+  "@socialMediaAccount": {
+    "description": "Texto exibido na tela de compartilhamento para descrição"
+  },
+  "iGotScoreAtPinball": "Eu tenho {score} pontos no #IOPinball, você pode bater minha pontuação?\nNos vemos no #GoogleIO!",
+  "@iGotScoreAtPinball": {
+    "description": "Texto para compartilhar pontuação na rede social",
+    "placeholders": {
+      "score": {
+        "type": "String"
+      }
+    }
+  }
+}
