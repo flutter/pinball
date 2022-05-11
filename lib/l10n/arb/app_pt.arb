@@ -46,7 +46,7 @@
   },
   "select": "Selecionar",
   "@select": {
-    "description": "Texto exibido no botão selecionar personagem na caixa de diálogo de seleção de personagens - "
+    "description": "Texto exibido no botão selecionar personagem na caixa de diálogo de seleção de personagens"
   },
   "space": "Espaço",
   "@space": {
