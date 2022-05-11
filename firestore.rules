@@ -9,7 +9,7 @@ service cloud.firestore {
       }
       
       function inCharLimit(initials) {
-        return initials.size() == 3;
+        return initials.size() == 3 && initials.matches('[A-Z][A-Z][A-Z]');
       }
 
       function isValidScore(score) {
@@ -17,7 +17,7 @@ service cloud.firestore {
       }
       
       function isAuthedUser(auth) {
-      	return request.auth.uid != null && auth.token.firebase.sign_in_provider == "anonymous"
+      	return request.auth.uid != null && auth.token.firebase.sign_in_provider == 'anonymous'
       }
 
       function isValidCharacter(character) {
