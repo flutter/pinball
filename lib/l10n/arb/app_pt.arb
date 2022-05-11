@@ -2,7 +2,7 @@
   "@@locale": "pt",
   "play": "Jogar",
   "@play": {
-    "description": ""
+    "description": "Texto exibido no botão de jogar da página de inicial"
   },
   "howToPlay": "Como Jogar",
   "@howToPlay": {
