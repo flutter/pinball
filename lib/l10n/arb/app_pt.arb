@@ -10,7 +10,7 @@
   },
   "tipsForFlips": "Dicas para flips",
   "@tipsForFlips": {
-    "description": "Texto exibido na página de inicial no botão de como jogar"
+    "description": "Texto exibido na página inicial no botão de como jogar"
   },
   "launchControls": "Controles de Largada",
   "@launchControls": {
