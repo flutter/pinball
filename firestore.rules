@@ -26,7 +26,8 @@ service cloud.firestore {
       // A leaderboard entry can be created if the user is authenticated,
       // it's 3 characters long, and not a prohibited combination.
       allow create: if isAuthedUser(request.auth) &&
-                       inCharLimit(request.resource.data.playerInitials) && 
+                       inCharLimit(request.resource.data.playerInitials) &&
+                       isValidCharacter(request.resource.data.character) &&
                        !prohibited(request.resource.data.playerInitials);
     }
   }
