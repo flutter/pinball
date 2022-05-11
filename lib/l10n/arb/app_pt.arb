@@ -205,11 +205,11 @@
   "@letEveryone": {
     "description": "Texto exibido na tela de compartilhamento para descrição"
   },
-  "bySharingYourScore": "compartilhando sua pontuação com sua preferida",
+  "bySharingYourScore": "compartilhando sua pontuação na sua",
   "@bySharingYourScore": {
     "description": "Texto exibido na tela de compartilhamento para descrição"
   },
-  "socialMediaAccount": "conta nas redes sociais!",
+  "socialMediaAccount": "rede social preferida!",
   "@socialMediaAccount": {
     "description": "Texto exibido na tela de compartilhamento para descrição"
   },
