@@ -37,6 +37,8 @@ class _TestGame extends Forge2DGame with HasTappables {
     Iterable<Component> children, {
     PinballAudioPlayer? pinballAudioPlayer,
     GoogleWordCubit? googleWordBloc,
+    DashBumpersCubit? dashBumpersBloc,
+    SignpostCubit? signpostBloc,
   }) async {
     return ensureAdd(
       FlameMultiBlocProvider(
@@ -49,6 +51,12 @@ class _TestGame extends Forge2DGame with HasTappables {
           ),
           FlameBlocProvider<GoogleWordCubit, GoogleWordState>.value(
             value: googleWordBloc ?? GoogleWordCubit(),
+          ),
+          FlameBlocProvider<DashBumpersCubit, DashBumpersState>.value(
+            value: dashBumpersBloc ?? DashBumpersCubit(),
+          ),
+          FlameBlocProvider<SignpostCubit, SignpostState>.value(
+            value: signpostBloc ?? SignpostCubit(),
           ),
         ],
         children: [
@@ -83,7 +91,7 @@ class _MockPlungerCubit extends Mock implements PlungerCubit {}
 
 class _MockGoogleWordCubit extends Mock implements GoogleWordCubit {}
 
-class _MockDashBumperCubit extends Mock implements DashBumperCubit {}
+class _MockDashBumpersCubit extends Mock implements DashBumpersCubit {}
 
 class _MockSignpostCubit extends Mock implements SignpostCubit {}
 
@@ -334,12 +342,7 @@ void main() {
             final audioPlayer = _MockPinballAudioPlayer();
             final component = GameBlocStatusListener();
             await game.pump(
-              [
-                component,
-                Signpost.test(
-                  bloc: _MockSignpostCubit(),
-                ),
-              ],
+              [component],
               pinballAudioPlayer: audioPlayer,
             );
 
@@ -360,12 +363,7 @@ void main() {
             final googleWordBloc = _MockGoogleWordCubit();
             final component = GameBlocStatusListener();
             await game.pump(
-              [
-                component,
-                Signpost.test(
-                  bloc: _MockSignpostCubit(),
-                ),
-              ],
+              [component],
               googleWordBloc: googleWordBloc,
             );
 
@@ -377,27 +375,19 @@ void main() {
         );
 
         flameTester.test(
-          'resets the DashBumperCubits',
+          'resets the DashBumpersCubit',
           (game) async {
-            final dashBumper1Bloc = _MockDashBumperCubit();
-            final dashBumper2Bloc = _MockDashBumperCubit();
-            final dashBumper1 = DashBumper.test(bloc: dashBumper1Bloc);
-            final dashBumper2 = DashBumper.test(bloc: dashBumper2Bloc);
+            final dashBumpersBloc = _MockDashBumpersCubit();
             final component = GameBlocStatusListener();
-            await game.pump([
-              component,
-              dashBumper1,
-              dashBumper2,
-              Signpost.test(
-                bloc: _MockSignpostCubit(),
-              ),
-            ]);
+            await game.pump(
+              [component],
+              dashBumpersBloc: dashBumpersBloc,
+            );
 
             expect(state.status, equals(GameStatus.playing));
             component.onNewState(state);
 
-            verify(dashBumper1Bloc.onReset).called(1);
-            verify(dashBumper2Bloc.onReset).called(1);
+            verify(dashBumpersBloc.onReset).called(1);
           },
         );
 
@@ -405,9 +395,8 @@ void main() {
           'resets the SignpostCubit',
           (game) async {
             final signpostBloc = _MockSignpostCubit();
-            final signpost = Signpost.test(bloc: signpostBloc);
             final component = GameBlocStatusListener();
-            await game.pump([component, signpost]);
+            await game.pump([component], signpostBloc: signpostBloc);
 
             expect(state.status, equals(GameStatus.playing));
             component.onNewState(state);
@@ -429,14 +418,7 @@ void main() {
             );
             final flipper = Flipper.test(side: BoardSide.left);
 
-            await game.pump([
-              component,
-              backbox,
-              flipper,
-              Signpost.test(
-                bloc: _MockSignpostCubit(),
-              ),
-            ]);
+            await game.pump([component, backbox, flipper]);
             await flipper.ensureAdd(
               FlameBlocProvider<FlipperCubit, FlipperState>(
                 create: _MockFlipperCubit.new,
@@ -468,16 +450,7 @@ void main() {
               entries: const [],
             );
             final plunger = Plunger.test();
-            await game.pump(
-              [
-                component,
-                backbox,
-                plunger,
-                Signpost.test(
-                  bloc: _MockSignpostCubit(),
-                ),
-              ],
-            );
+            await game.pump([component, backbox, plunger]);
             await plunger.ensureAdd(
               FlameBlocProvider<PlungerCubit, PlungerState>(
                 create: _MockPlungerCubit.new,
@@ -511,16 +484,7 @@ void main() {
               entries: const [],
             );
             final plunger = Plunger.test();
-            await game.pump(
-              [
-                component,
-                backbox,
-                plunger,
-                Signpost.test(
-                  bloc: _MockSignpostCubit(),
-                ),
-              ],
-            );
+            await game.pump([component, backbox, plunger]);
             await plunger.ensureAdd(
               FlameBlocProvider<PlungerCubit, PlungerState>(
                 create: _MockPlungerCubit.new,
@@ -551,16 +515,7 @@ void main() {
               entries: const [],
             );
             final plunger = Plunger.test();
-            await game.pump(
-              [
-                component,
-                backbox,
-                plunger,
-                Signpost.test(
-                  bloc: _MockSignpostCubit(),
-                ),
-              ],
-            );
+            await game.pump([component, backbox, plunger]);
             await plunger.ensureAdd(
               FlameBlocProvider<PlungerCubit, PlungerState>(
                 create: _MockPlungerCubit.new,
