@@ -9,21 +9,33 @@ service cloud.firestore {
       }
       
       function inCharLimit(initials) {
-        return initials.size() < 4;
+        return initials.matches('[A-Z]{3}');
+      }
+
+      function isValidScore(score) {
+        return score > 0 && score < 9999999999;
       }
       
       function isAuthedUser(auth) {
-      	return request.auth.uid != null && auth.token.firebase.sign_in_provider == "anonymous"
+      	return request.auth.uid != null && auth.token.firebase.sign_in_provider == 'anonymous'
       }
+
+      function isValidCharacter(character) {
+         return character == 'android' || character == 'dash' || character == 'dino' || character == 'sparky';
+       }
    
       // Leaderboard can be read if it doesn't contain any prohibited initials
       allow read: if isAuthedUser(request.auth);
       
       // A leaderboard entry can be created if the user is authenticated,
-      // it's 3 characters long, and not a prohibited combination.
+      // it's 3 characters long and capital letters only, not a 
+      // prohibited combination, the score is within the accepted score window
+      // and the character is in the valid list
       allow create: if isAuthedUser(request.auth) &&
                        inCharLimit(request.resource.data.playerInitials) && 
-                       !prohibited(request.resource.data.playerInitials);
+                       !prohibited(request.resource.data.playerInitials) &&
+                       isValidScore(request.resource.data.score) &&
+                       isValidCharacter(request.resource.data.character);
     }
   }
-}
+} 
