@@ -42,7 +42,8 @@
         "unawaited",
         "unfocus",
         "unlayered",
-        "vsync"
+        "vsync",
+        "zh_Hant"
     ],
     "ignorePaths": [
         ".github/workflows/**"
