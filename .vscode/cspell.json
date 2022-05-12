@@ -43,7 +43,7 @@
         "unfocus",
         "unlayered",
         "vsync",
-        "zh_Hant"
+        "Hant"
     ],
     "ignorePaths": [
         ".github/workflows/**"
