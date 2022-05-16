@@ -1,5 +1,8 @@
 // ignore_for_file: cascade_invocations
 
+import 'dart:async';
+
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flame_test/flame_test.dart';
@@ -22,10 +25,22 @@ class _TestGame extends Forge2DGame {
   Future<void> pump(
     FlutterForest child, {
     required GameBloc gameBloc,
+    required SignpostCubit signpostBloc,
+    DashBumpersCubit? dashBumpersBloc,
   }) async {
     await ensureAdd(
-      FlameBlocProvider<GameBloc, GameState>.value(
-        value: gameBloc,
+      FlameMultiBlocProvider(
+        providers: [
+          FlameBlocProvider<GameBloc, GameState>.value(
+            value: gameBloc,
+          ),
+          FlameBlocProvider<SignpostCubit, SignpostState>.value(
+            value: signpostBloc,
+          ),
+          FlameBlocProvider<DashBumpersCubit, DashBumpersState>.value(
+            value: dashBumpersBloc ?? DashBumpersCubit(),
+          ),
+        ],
         children: [
           ZCanvasComponent(
             children: [child],
@@ -37,6 +52,10 @@ class _TestGame extends Forge2DGame {
 }
 
 class _MockGameBloc extends Mock implements GameBloc {}
+
+class _MockSignpostCubit extends Mock implements SignpostCubit {}
+
+class _MockDashBumpersCubit extends Mock implements DashBumpersCubit {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -50,31 +69,33 @@ void main() {
 
     final flameTester = FlameTester(_TestGame.new);
 
-    void _contactedBumper(DashBumper bumper) => bumper.bloc.onBallContacted();
+    test('can be instantiated', () {
+      expect(FlutterForestBonusBehavior(), isA<FlutterForestBonusBehavior>());
+    });
 
     flameTester.testGameWidget(
       'adds GameBonus.dashNest to the game '
-      'when bumpers are activated three times',
+      'when signpost becomes fully activated',
       setUp: (game, tester) async {
-        await game.onLoad();
         final behavior = FlutterForestBonusBehavior();
         final parent = FlutterForest.test();
-        final bumpers = [
-          DashBumper.test(bloc: DashBumperCubit()),
-          DashBumper.test(bloc: DashBumperCubit()),
-          DashBumper.test(bloc: DashBumperCubit()),
-        ];
-        final signpost = Signpost.test(bloc: SignpostCubit());
-        await game.pump(parent, gameBloc: gameBloc);
-        await parent.ensureAddAll([...bumpers, signpost]);
+        final signpostBloc = _MockSignpostCubit();
+        final streamController = StreamController<SignpostState>();
+
+        whenListen(
+          signpostBloc,
+          streamController.stream,
+          initialState: SignpostState.inactive,
+        );
+
+        await game.pump(
+          parent,
+          gameBloc: gameBloc,
+          signpostBloc: signpostBloc,
+        );
         await parent.ensureAdd(behavior);
 
-        expect(game.descendants().whereType<DashBumper>(), equals(bumpers));
-        bumpers.forEach(_contactedBumper);
-        await tester.pump();
-        bumpers.forEach(_contactedBumper);
-        await tester.pump();
-        bumpers.forEach(_contactedBumper);
+        streamController.add(SignpostState.active3);
         await tester.pump();
 
         verify(
@@ -84,76 +105,66 @@ void main() {
     );
 
     flameTester.testGameWidget(
-      'adds BonusBallSpawningBehavior to the game '
-      'when bumpers are activated three times',
+      'calls onProgressed and onReset '
+      'when signpost becomes fully activated',
       setUp: (game, tester) async {
-        await game.onLoad();
         final behavior = FlutterForestBonusBehavior();
         final parent = FlutterForest.test();
-        final bumpers = [
-          DashBumper.test(bloc: DashBumperCubit()),
-          DashBumper.test(bloc: DashBumperCubit()),
-          DashBumper.test(bloc: DashBumperCubit()),
-        ];
-        final signpost = Signpost.test(bloc: SignpostCubit());
-        await game.pump(parent, gameBloc: gameBloc);
-        await parent.ensureAddAll([...bumpers, signpost]);
+        final dashBumpersBloc = _MockDashBumpersCubit();
+        final signpostBloc = _MockSignpostCubit();
+        final streamController = StreamController<SignpostState>();
+
+        whenListen(
+          signpostBloc,
+          streamController.stream,
+          initialState: SignpostState.inactive,
+        );
+
+        await game.pump(
+          parent,
+          gameBloc: gameBloc,
+          signpostBloc: signpostBloc,
+          dashBumpersBloc: dashBumpersBloc,
+        );
         await parent.ensureAdd(behavior);
 
-        expect(game.descendants().whereType<DashBumper>(), equals(bumpers));
-        bumpers.forEach(_contactedBumper);
-        await tester.pump();
-        bumpers.forEach(_contactedBumper);
-        await tester.pump();
-        bumpers.forEach(_contactedBumper);
+        streamController.add(SignpostState.active3);
         await tester.pump();
 
-        await game.ready();
-        expect(
-          game.descendants().whereType<BonusBallSpawningBehavior>().length,
-          equals(1),
-        );
+        verify(signpostBloc.onProgressed).called(1);
+        verify(dashBumpersBloc.onReset).called(1);
       },
     );
 
     flameTester.testGameWidget(
-      'progress the signpost '
-      'when bumpers are activated',
+      'adds BonusBallSpawningBehavior to the game '
+      'when signpost becomes fully activated',
       setUp: (game, tester) async {
-        await game.onLoad();
         final behavior = FlutterForestBonusBehavior();
         final parent = FlutterForest.test();
-        final bumpers = [
-          DashBumper.test(bloc: DashBumperCubit()),
-          DashBumper.test(bloc: DashBumperCubit()),
-          DashBumper.test(bloc: DashBumperCubit()),
-        ];
-        final signpost = Signpost.test(bloc: SignpostCubit());
-        await game.pump(parent, gameBloc: gameBloc);
-        await parent.ensureAddAll([...bumpers, signpost]);
+        final signpostBloc = _MockSignpostCubit();
+        final streamController = StreamController<SignpostState>();
+
+        whenListen(
+          signpostBloc,
+          streamController.stream,
+          initialState: SignpostState.inactive,
+        );
+
+        await game.pump(
+          parent,
+          gameBloc: gameBloc,
+          signpostBloc: signpostBloc,
+        );
         await parent.ensureAdd(behavior);
 
-        expect(game.descendants().whereType<DashBumper>(), equals(bumpers));
-
-        bumpers.forEach(_contactedBumper);
+        streamController.add(SignpostState.active3);
         await tester.pump();
-        expect(
-          signpost.bloc.state,
-          equals(SignpostState.active1),
-        );
+        await game.ready();
 
-        bumpers.forEach(_contactedBumper);
-        await tester.pump();
         expect(
-          signpost.bloc.state,
-          equals(SignpostState.active2),
-        );
-
-        bumpers.forEach(_contactedBumper);
-        await tester.pump();
-        expect(
-          signpost.bloc.state,
-          equals(SignpostState.inactive),
+          game.descendants().whereType<BonusBallSpawningBehavior>().length,
+          equals(1),
         );
       },
     );
