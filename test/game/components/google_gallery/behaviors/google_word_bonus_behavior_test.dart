@@ -73,6 +73,10 @@ void main() {
 
     final flameTester = FlameTester(_TestGame.new);
 
+    test('can be instantiated', () {
+      expect(GoogleWordBonusBehavior(), isA<GoogleWordBonusBehavior>());
+    });
+
     flameTester.testGameWidget(
       'adds GameBonus.googleWord to the game when all letters '
       'in google word are activated and calls onReset',

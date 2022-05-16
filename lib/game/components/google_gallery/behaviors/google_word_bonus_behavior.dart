@@ -14,7 +14,7 @@ class GoogleWordBonusBehavior extends Component {
       FlameBlocListener<GoogleWordCubit, GoogleWordState>(
         listenWhen: (_, state) => state.letterSpriteStates.values
             .every((element) => element == GoogleLetterSpriteState.lit),
-        onNewState: (state) {
+        onNewState: (_) {
           readBloc<GameBloc, GameState>()
               .add(const BonusActivated(GameBonus.googleWord));
           readBloc<GoogleWordCubit, GoogleWordState>().onReset();

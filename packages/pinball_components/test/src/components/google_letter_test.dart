@@ -151,7 +151,7 @@ void main() {
           await game.ready();
 
           final newSprite = googleLetter.current;
-          expect(newSprite != originalSprite, isTrue);
+          expect(newSprite, isNot(equals(originalSprite)));
         },
       );
     });

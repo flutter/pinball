@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flame/input.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
@@ -22,18 +23,35 @@ class SignpostGame extends BallGame {
     - Tap to progress the sprite.
 ''';
 
+  late final SignpostCubit _bloc;
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    _bloc = SignpostCubit();
 
     camera.followVector2(Vector2.zero());
-    await add(Signpost());
+    await add(
+      FlameMultiBlocProvider(
+        providers: [
+          FlameBlocProvider<SignpostCubit, SignpostState>.value(
+            value: _bloc,
+          ),
+          FlameBlocProvider<DashBumpersCubit, DashBumpersState>(
+            create: DashBumpersCubit.new,
+          ),
+        ],
+        children: [
+          Signpost(),
+        ],
+      ),
+    );
     await traceAllBodies();
   }
 
   @override
   void onTap() {
     super.onTap();
-    firstChild<Signpost>()!.bloc.onProgressed();
+    _bloc.onProgressed();
   }
 }

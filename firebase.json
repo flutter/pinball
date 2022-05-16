@@ -4,12 +4,8 @@
   },
   "hosting": {
     "public": "build/web",
-    "site": "ashehwkdkdjruejdnensjsjdne",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
+    "site": "",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "headers": [
       {
         "source": "**/*.@(jpg|jpeg|gif|png)",

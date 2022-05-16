@@ -1,6 +1,7 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -10,7 +11,7 @@ import 'package:pinball_components/src/components/dash_bumper/behaviors/behavior
 
 import '../../../../helpers/helpers.dart';
 
-class _MockDashBumperCubit extends Mock implements DashBumperCubit {}
+class _MockDashBumpersCubit extends Mock implements DashBumpersCubit {}
 
 class _MockBall extends Mock implements Ball {}
 
@@ -31,23 +32,30 @@ void main() {
       });
 
       flameTester.test(
-        'beginContact emits onBallContacted when contacts with a ball',
+        'beginContact emits onBallContacted with the bumper ID '
+        'when contacts with a ball',
         (game) async {
           final behavior = DashBumperBallContactBehavior();
-          final bloc = _MockDashBumperCubit();
+          final bloc = _MockDashBumpersCubit();
+          const id = DashBumperId.main;
           whenListen(
             bloc,
-            const Stream<DashBumperState>.empty(),
-            initialState: DashBumperState.active,
+            const Stream<DashBumperSpriteState>.empty(),
+            initialState: DashBumperSpriteState.active,
           );
 
-          final bumper = DashBumper.test(bloc: bloc);
+          final bumper = DashBumper.test(id: id);
           await bumper.add(behavior);
-          await game.ensureAdd(bumper);
+          await game.ensureAdd(
+            FlameBlocProvider<DashBumpersCubit, DashBumpersState>.value(
+              value: bloc,
+              children: [bumper],
+            ),
+          );
 
           behavior.beginContact(_MockBall(), _MockContact());
 
-          verify(bumper.bloc.onBallContacted).called(1);
+          verify(() => bloc.onBallContacted(id)).called(1);
         },
       );
     },
