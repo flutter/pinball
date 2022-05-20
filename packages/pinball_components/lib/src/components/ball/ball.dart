@@ -66,7 +66,13 @@ class Ball extends BodyComponent with Layered, InitialPosition, ZIndex {
       bullet: true,
     );
 
-    return world.createBody(bodyDef)..createFixtureFromShape(shape, 1);
+    final fixtureDef = FixtureDef(
+      shape,
+      restitution: 0.35,
+      density: 1,
+    );
+
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 
   /// Immediately and completely [stop]s the ball.
