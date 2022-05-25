@@ -1,0 +1,225 @@
+{
+  "@@locale": "ko",
+  "play": "시작",
+  "@play": {
+    "description": "랜딩 페이지 재생 버튼에 표시되는 텍스트"
+  },
+  "howToPlay": "게임 방법",
+  "@howToPlay": {
+    "description": "랜딩 페이지에 표시되는 텍스트 재생 방법 버튼"
+  },
+  "tipsForFlips": "조작 키 설명",
+  "@tipsForFlips": {
+    "description": "랜딩 페이지에 표시되는 텍스트 재생 방법 버튼"
+  },
+  "launchControls": "구슬 발사하기",
+  "@launchControls": {
+    "description": "실행 컨트롤이 있는 재생 방법 대화 상자에 표시되는 텍스트"
+  },
+  "flipperControls": "플리퍼 움직이기",
+  "@flipperControls": {
+    "description": "플리퍼 컨트롤이 있는 재생 방법 대화 상자에 표시되는 텍스트"
+  },
+  "tapAndHoldRocket": "로켓을 클릭하여",
+  "@tapAndHoldRocket": {
+    "description": "모바일에서 시작하는 방법에 표시되는 텍스트"
+  },
+  "to": "구슬",
+  "@to": {
+    "description": "다음 단어에 대해 표시되는 텍스트"
+  },
+  "launch": "발사!",
+  "@launch": {
+    "description": "실행 단어에 대해 표시되는 텍스트"
+  },
+  "tapLeftRightScreen": "화면 좌우를 눌러",
+  "@tapLeftRightScreen": {
+    "description": "모바일에서 플립하는 방법에 표시되는 텍스트"
+  },
+  "flip": "튕기기!",
+  "@flip": {
+    "description": "FLIP 단어에 대해 표시되는 텍스트"
+  },
+  "start": "시작",
+  "@start": {
+    "description": "문자 선택 페이지 시작 버튼에 표시되는 텍스트"
+  },
+  "select": "선택",
+  "@select": {
+    "description": "문자 선택 대화상자에 표시되는 텍스트 - 선택 버튼"
+  },
+  "space": "스페이스 바",
+  "@space": {
+    "description": "공간 제어 버튼에 표시되는 텍스트"
+  },
+  "characterSelectionTitle": "캐릭터를 고르세요",
+  "@characterSelectionTitle": {
+    "description": "문자 선택 대화 상자에 표시되는 제목 텍스트"
+  },
+  "characterSelectionSubtitle": "잘못된 선택이란 없습니다!",
+  "@characterSelectionSubtitle": {
+    "description": "문자 선택 대화 상자에 표시되는 자막 텍스트"
+  },
+  "gameOver": "게임 오버",
+  "@gameOver": {
+    "description": "게임 종료 시 종료 대화상자에 표시되는 텍스트"
+  },
+  "rounds": "남은 공:",
+  "@rounds": {
+    "description": "스코어보드 위젯에 표시된 텍스트로 남은 라운드를 표시합니다."
+  },
+  "topPlayers": "상위 플레이어",
+  "@topPlayers": {
+    "description": "리더보드 화면에 표시되는 제목 텍스트"
+  },
+  "rank": "순위",
+  "@rank": {
+    "description": "플레이어 순위 위에 표시되는 레이블 텍스트"
+  },
+  "name": "이름",
+  "@name": {
+    "description": "플레이어 이니셜 위에 표시된 레이블 텍스트"
+  },
+  "score": "점수",
+  "@score": {
+    "description": "플레이어 점수 위에 표시된 레이블 텍스트"
+  },
+  "enterInitials": "초성을 입력해주세요.",
+  "@enterInitials": {
+    "description": "이니셜 입력 화면에 표시되는 정보 텍스트"
+  },
+  "arrows": "방향 키",
+  "@arrows": {
+    "description": "이니셜 입력 화면에 화살표 키를 나타내는 텍스트 표시"
+  },
+  "andPress": "로 선택, 저장은 ",
+  "@andPress": {
+    "description": "이니셜 입력 화면에 표시되는 연결 텍스트 정보 텍스트 범위"
+  },
+  "enterReturn": "엔터 키",
+  "@enterReturn": {
+    "description": "이니셜 입력 화면에 반환 키를 나타내는 텍스트 표시"
+  },
+  "toSubmit": " ",
+  "@toSubmit": {
+    "description": "이니셜 입력 화면에 표시되는 끝 텍스트 정보 텍스트 범위"
+  },
+  "linkBoxTitle": "더보기",
+  "@linkBoxTitle": {
+    "description": "링크 상자 제목 섹션에 표시되는 텍스트입니다."
+  },
+  "linkBoxMadeWithText": "제작 툴:",
+  "@linkBoxMadeWithText": {
+    "description": "링크 상자에 표시된 텍스트로, 앱을 빌드하는 데 사용된 기술을 언급합니다."
+  },
+  "linkBoxFlutterLinkText": "Flutter",
+  "@linkBoxFlutterLinkText": {
+    "description": "Flutter 페이지로 이동하는 링크 상자에 표시된 링크의 텍스트"
+  },
+  "linkBoxFirebaseLinkText": "Firebase",
+  "@linkBoxFirebaseLinkText": {
+    "description": "Firebase 페이지로 이동하는 링크 상자에 표시된 링크의 텍스트"
+  },
+  "linkBoxOpenSourceCode": "오픈소스 코드",
+  "@linkBoxOpenSourceCode": {
+    "description": "github 프로젝트로 리디렉션되는 링크 상자에 표시되는 텍스트"
+  },
+  "linkBoxGoogleIOText": "구글 I/O",
+  "@linkBoxGoogleIOText": {
+    "description": "Google I/O를 언급하는 링크 상자에 표시된 텍스트"
+  },
+  "linkBoxFlutterGames": "Flutter games",
+  "@linkBoxFlutterGames": {
+    "description": "링크 상자에 표시된 텍스트로 flutter 게임 기사를 리디렉션합니다."
+  },
+  "linkBoxHowItsMade": "제작 방법",
+  "@linkBoxHowItsMade": {
+    "description": "매우 우수한 블로그 기사로 리디렉션되는 링크 상자에 표시되는 텍스트"
+  },
+  "linkBoxTermsOfService": "서비스 이용약관",
+  "@linkBoxTermsOfService": {
+    "description": "서비스 약관으로 리디렉션되는 링크 상자에 표시되는 텍스트"
+  },
+  "linkBoxPrivacyPolicy": "개인정보 보호 정책",
+  "@linkBoxPrivacyPolicy": {
+    "description": "개인 정보 보호 정책으로 리디렉션되는 링크 상자에 표시되는 텍스트"
+  },
+  "loading": "로딩 중",
+  "@loading": {
+    "description": "로드 시간을 나타내는 텍스트 표시"
+  },
+  "replay": "다시하기",
+  "@replay": {
+    "description": "재생 버튼을 위해 공유 페이지에 표시되는 텍스트"
+  },
+  "ioPinball": "I/O 핀볼",
+  "@ioPinball": {
+    "description": "I/O 핀볼 - 게임 이름"
+  },
+  "shareYourScore": "점수 공유하고",
+  "@shareYourScore": {
+    "description": "정보 화면 제목에 표시되는 텍스트"
+  },
+  "andChallengeYourFriends": "친구들에게 도전해보아요!",
+  "@challengeYourFriends": {
+    "description": "정보 화면 제목에 표시되는 텍스트"
+  },
+  "share": "공유하기",
+  "@share": {
+    "description": "정보 화면의 공유 링크에 대한 텍스트입니다."
+  },
+  "gotoIO": "I/O로 이동",
+  "@gotoIO": {
+    "description": "정보 화면의 I/O 사이트 링크로 이동하기 위한 텍스트입니다."
+  },
+  "learnMore": "Firebase와 Flutter로 게임을 만들어볼까요?",
+  "@learnMore": {
+    "description": "정보 화면 설명에 표시된 텍스트"
+  },
+  "firebaseOr": "바로 지금 PINBALL의 ",
+  "@firebaseOr": {
+    "description": "정보 화면 설명에 표시된 텍스트"
+  },
+  "openSourceCode": "오픈소스 코드 보기!",
+  "@openSourceCode": {
+    "description": "정보 화면 설명에 표시된 텍스트"
+  },
+  "enter": "입력하기",
+  "@enter": {
+    "description": "모바일 컨트롤에 표시되는 텍스트 입력 버튼"
+  },
+  "initialsErrorTitle": "오, 이런... 실패했어요.",
+  "@initialsErrorTitle": {
+    "description": "이니셜 제출이 실패할 때 표시되는 제목"
+  },
+  "initialsErrorMessage": "글자를 다르게 조합해보세요",
+  "@initialsErrorMessage": {
+    "description": "이니셜 제출이 실패할 때 표시되는 메시지"
+  },
+  "leaderboardErrorMessage": "연결되지 않음. 리더보드와 공유 기능을 사용할 수 없어요.",
+  "@leaderboardErrorMessage": {
+    "description": "리더보드를 로드하는 동안 오류가 발생한 경우 표시되는 텍스트"
+  }
+  ,
+  "letEveryone": "모두에게 I/O 핀볼을 알려보세요",
+  "@letEveryone": {
+    "description": "설명을 위해 공유 화면에 표시되는 텍스트"
+  },
+  "bySharingYourScore": "게임 기록을 SNS를 통해",
+  "@bySharingYourScore": {
+    "description": "설명을 위해 공유 화면에 표시되는 텍스트"
+  },
+  "socialMediaAccount": "공유해보세요!",
+  "@socialMediaAccount": {
+    "description": "설명을 위해 공유 화면에 표시되는 텍스트"
+  },
+  "iGotScoreAtPinball": "#IO 핀볼 {score}점 기록했는데, 날 이길 수 있겠어요? \n#구글IO에서 만나요!",
+  "@iGotScoreAtPinball": {
+    "description": "소셜 네트워크에서 점수를 공유하는 텍스트",
+    "placeholders": {
+      "score": {
+          "type": "String"
+      }
+    }
+  }
+}
