@@ -7,6 +7,9 @@ environment:
   sdk: ">=2.16.0 <3.0.0"
   flutter: 2.10.5
 
+dependency_overrides: 
+  flame: 1.1.1
+  
 dependencies:
   authentication_repository:
     path: packages/authentication_repository
