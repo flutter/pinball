@@ -1,0 +1,224 @@
+{
+  "@@locale": "zh_Hant",
+  "play": "開始遊戲",
+  "@play": {
+    "description": "顯示在著陸頁的開始遊戲按鈕上的文本"
+  },
+  "howToPlay": "遊戲指南",
+  "@howToPlay": {
+    "description": "顯示在著陸頁的遊戲指南按鈕上的文本"
+  },
+  "tipsForFlips": "彈球小技巧",
+  "@tipsForFlips": {
+    "description": "顯示在著陸頁的遊戲指南按鈕上的文本"
+  },
+  "launchControls": "控制發射彈球",
+  "@launchControls": {
+    "description": "顯示在遊戲指南對話框裡的介紹控制發射彈球的文本"
+  },
+  "flipperControls": "控制下方左右擋板",
+  "@flipperControls": {
+    "description": "顯示在遊戲指南對話框裡的介紹控制下方左右擋板的文本"
+  },
+  "tapAndHoldRocket": "點擊左下角的火箭按鈕",
+  "@tapAndHoldRocket": {
+    "description": "顯示在介紹如何在移動設備上發射彈球的文本"
+  },
+  "to": "以",
+  "@to": {
+    "description": "顯示「以」這個文本"
+  },
+  "launch": "發射彈球",
+  "@launch": {
+    "description": "顯示「發射彈球」這個文本"
+  },
+  "tapLeftRightScreen": "輕觸屏幕左右兩側",
+  "@tapLeftRightScreen": {
+    "description": "顯示在手機端關於如何發控制擋板的文本"
+  },
+  "flip": "控制下方左右擋板",
+  "@flip": {
+    "description": "顯示「控制下方左右擋板」這個文本"
+  },
+  "start": "開始遊戲",
+  "@start": {
+    "description": "在選擇角色頁面上顯示的開始遊戲按鈕上的文本"
+  },
+  "select": "就是 TA 啦",
+  "@select": {
+    "description": "在選擇角色對話框上顯示的確定選擇角色按鈕上的文本"
+  },
+  "space": "空格鍵",
+  "@space": {
+    "description": "在控制說明按鈕上顯示「空格鍵」這個文本"
+  },
+  "characterSelectionTitle": "選擇一個遊戲角色",
+  "@characterSelectionTitle": {
+    "description": "角色選擇對話框的標題文字"
+  },
+  "characterSelectionSubtitle": "選定之後就不能更改了哦~",
+  "@characterSelectionSubtitle": {
+    "description": "角色選擇對話框的副標題文字"
+  },
+  "gameOver": "遊戲結束",
+  "@gameOver": {
+    "description": "遊戲結束時在結局對話框中顯示的文本"
+  },
+  "rounds": "彈球剩餘:",
+  "@rounds": {
+    "description": "顯示在記分牌上顯示剩餘彈球數量的文本"
+  },
+  "topPlayers": "高排名玩家",
+  "@topPlayers": {
+    "description": "顯示在排行榜頁面的標題文字"
+  },
+  "rank": "排名",
+  "@rank": {
+    "description": "顯示在玩家排名上方的標籤文字"
+  },
+  "name": "名字",
+  "@name": {
+    "description": "顯示在玩家名字首字母上方的標籤文字"
+  },
+  "score": "分數",
+  "@score": {
+    "description": "顯示在玩家分數上方的標籤文字"
+  },
+  "enterInitials": "鍵入一個名字首字母，使用鍵盤或",
+  "@enterInitials": {
+    "description": "名字首字母輸入頁面的說明文本"
+  },
+  "arrows": "方向箭頭",
+  "@arrows": {
+    "description": "名字首字母輸入頁面顯示的方向箭頭文本"
+  },
+  "andPress": "然後點按",
+  "@andPress": {
+    "description": "名字首字母輸入頁面顯示的然後點按文本"
+  },
+  "enterReturn": "回車或提交按鈕",
+  "@enterReturn": {
+    "description": "名字首字母輸入頁面顯示的回車或提交按鈕文本"
+  },
+  "toSubmit": "將成績發送至排行榜",
+  "@toSubmit": {
+    "description": "名字首字母輸入頁面的結束文字"
+  },
+  "linkBoxTitle": "資源列表",
+  "@linkBoxTitle": {
+    "description": "資源列錶框裡的標題文字。"
+  },
+  "linkBoxMadeWithText": "使用 ",
+  "@linkBoxMadeWithText": {
+    "description": "資源列錶框裡提到這個 App 是使用什麼技術構建的文字。"
+  },
+  "linkBoxFlutterLinkText": "Flutter",
+  "@linkBoxFlutterLinkText": {
+    "description": "資源列錶框裡導航到 Flutter 網站的鏈接文字"
+  },
+  "linkBoxFirebaseLinkText": "Firebase 構建",
+  "@linkBoxFirebaseLinkText": {
+    "description": "資源列錶框裡導航到 Firebase 網站的鏈接文字"
+  },
+  "linkBoxOpenSourceCode": "開源代碼地址",
+  "@linkBoxOpenSourceCode": {
+    "description": "資源列錶框裡跳轉到 GitHub 倉庫地址的鏈接文字"
+  },
+  "linkBoxGoogleIOText": "參與 Google I/O 大會",
+  "@linkBoxGoogleIOText": {
+    "description": "資源列錶框裡 Google I/O 大會的鏈接文字"
+  },
+  "linkBoxFlutterGames": "使用 Flutter 開發遊戲",
+  "@linkBoxFlutterGames": {
+    "description": "顯示可以轉到使用 Flutter 開發遊戲鏈接文字"
+  },
+  "linkBoxHowItsMade": "這個 App 是如何構建的",
+  "@linkBoxHowItsMade": {
+    "description": "顯示可以轉到 VGV 博文的鏈接文字"
+  },
+  "linkBoxTermsOfService": "服務條款",
+  "@linkBoxTermsOfService": {
+    "description": "顯示可以轉到服務條款的鏈接文字"
+  },
+  "linkBoxPrivacyPolicy": "隱私權政策",
+  "@linkBoxPrivacyPolicy": {
+    "description": "顯示可以轉到隱私政策的鏈接文字"
+  },
+  "loading": "加載中",
+  "@loading": {
+    "description": "顯示文字表示加載中"
+  },
+  "replay": "再玩一次",
+  "@replay": {
+    "description": "在分享頁面顯示再玩一次的文本"
+  },
+  "ioPinball": "I/O 彈球遊戲",
+  "@ioPinball": {
+    "description": "遊戲名稱 I/O 彈球遊戲"
+  },
+  "shareYourScore": "分享你的分數",
+  "@shareYourScore": {
+    "description": "在分數信息頁面的標題"
+  },
+  "andChallengeYourFriends": "挑戰一下你的朋友們吧！",
+  "@challengeYourFriends": {
+    "description": "在分數信息頁面的標題"
+  },
+  "share": "分享分數",
+  "@share": {
+    "description": "在分數信息頁面顯示的分享分數的文本。"
+  },
+  "gotoIO": "來 I/O 大會",
+  "@gotoIO": {
+    "description": "在分數信息頁面顯示的 I/O 網址的文字。"
+  },
+  "learnMore": "了解更多關於如何使用 Flutter 和 Firebase",
+  "@learnMore": {
+    "description": "在分數信息頁面顯示的文字"
+  },
+  "firebaseOr": "開發遊戲或者查看本應用的",
+  "@firebaseOr": {
+    "description": "在分數信息頁面顯示的文字"
+  },
+  "openSourceCode": "開源代碼",
+  "@openSourceCode": {
+    "description": "在分數信息頁面顯示的文字"
+  },
+  "enter": "提交",
+  "@enter": {
+    "description": "手機端提交彈球遊戲分數的文字"
+  },
+  "initialsErrorTitle": "提交失敗.. 這個名字已經被其他玩家使用了",
+  "@initialsErrorTitle": {
+    "description": "名字提交失敗顯示的消息標題"
+  },
+  "initialsErrorMessage": "請嘗試一個不同的字母組合吧",
+  "@initialsErrorMessage": {
+    "description": "名字提交失敗時顯示的消息"
+  },
+  "leaderboardErrorMessage": "連接失敗，排行榜和分享功能暫不可用。",
+  "@leaderboardErrorMessage": {
+    "description": "在排行榜無法顯示時候顯示的文字"
+  },
+  "letEveryone": "為了讓更多的人了解 I/O 彈球遊戲，",
+  "@letEveryone": {
+    "description": "在分享頁面顯示的文字"
+  },
+  "bySharingYourScore": "請將您此次的彈球遊戲分數分享到您鍾愛的",
+  "@bySharingYourScore": {
+    "description": "在分享頁面顯示的文字"
+  },
+  "socialMediaAccount": "社交媒體平台吧！",
+  "@socialMediaAccount": {
+    "description": "在分享頁面顯示的文字"
+  },
+  "iGotScoreAtPinball": "我在 #IOPinball 遊戲裡得了 {score} 分，你能超越我的分數嗎？ \nI/O 大會見！ #GoogleIO",
+  "@iGotScoreAtPinball": {
+    "description": "分享到社交網絡的一段文字",
+    "placeholders": {
+      "score": {
+          "type": "String"
+      }
+    }
+  }
+}
