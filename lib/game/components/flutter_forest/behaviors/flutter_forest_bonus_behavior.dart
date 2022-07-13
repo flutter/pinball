@@ -10,37 +10,21 @@ import 'package:pinball_flame/pinball_flame.dart';
 /// When all [DashBumper]s are hit at least once three times, the [Signpost]
 /// progresses. When the [Signpost] fully progresses, the [GameBonus.dashNest]
 /// is awarded, and the [DashBumper.main] releases a new [Ball].
-class FlutterForestBonusBehavior extends Component
-    with
-        ParentIsA<FlutterForest>,
-        HasGameRef,
-        FlameBlocReader<GameBloc, GameState> {
+class FlutterForestBonusBehavior extends Component {
   @override
-  void onMount() {
-    super.onMount();
-
-    final bumpers = parent.children.whereType<DashBumper>();
-    final signpost = parent.firstChild<Signpost>()!;
-
-    for (final bumper in bumpers) {
-      bumper.bloc.stream.listen((state) {
-        final activatedAllBumpers = bumpers.every(
-          (bumper) => bumper.bloc.state == DashBumperState.active,
-        );
-
-        if (activatedAllBumpers) {
-          signpost.bloc.onProgressed();
-          for (final bumper in bumpers) {
-            bumper.bloc.onReset();
-          }
-
-          if (signpost.bloc.isFullyProgressed()) {
-            bloc.add(const BonusActivated(GameBonus.dashNest));
-            add(BonusBallSpawningBehavior());
-            signpost.bloc.onProgressed();
-          }
-        }
-      });
-    }
+  Future<void> onLoad() async {
+    await super.onLoad();
+    await add(
+      FlameBlocListener<SignpostCubit, SignpostState>(
+        listenWhen: (_, state) => state == SignpostState.active3,
+        onNewState: (_) {
+          readBloc<GameBloc, GameState>()
+              .add(const BonusActivated(GameBonus.dashNest));
+          readBloc<SignpostCubit, SignpostState>().onProgressed();
+          readBloc<DashBumpersCubit, DashBumpersState>().onReset();
+          add(BonusBallSpawningBehavior());
+        },
+      ),
+    );
   }
 }

@@ -63,6 +63,7 @@ class Ball extends BodyComponent with Layered, InitialPosition, ZIndex {
       position: initialPosition,
       type: BodyType.dynamic,
       userData: this,
+      bullet: true,
     );
 
     return world.createBody(bodyDef)..createFixtureFromShape(shape, 1);

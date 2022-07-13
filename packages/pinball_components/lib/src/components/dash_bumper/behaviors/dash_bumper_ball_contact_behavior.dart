@@ -7,6 +7,6 @@ class DashBumperBallContactBehavior extends ContactBehavior<DashBumper> {
   void beginContact(Object other, Contact contact) {
     super.beginContact(other, contact);
     if (other is! Ball) return;
-    parent.bloc.onBallContacted();
+    readBloc<DashBumpersCubit, DashBumpersState>().onBallContacted(parent.id);
   }
 }
