@@ -178,7 +178,7 @@
   },
   "firebaseOr": "Firebase ou mergulhe direto no",
   "@firebaseOr": {
-    "description": "Text shown on description of info screen"
+    "description": "Texto exibido na descrição da tela de informações"
   },
   "openSourceCode": "código-fonte aberto.",
   "@openSourceCode": {
