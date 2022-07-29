@@ -6,9 +6,6 @@ publish_to: none
 environment:
   sdk: ">=2.16.0 <3.0.0"
   flutter: 2.10.5
-
-dependency_overrides: 
-  flame: 1.1.1
   
 dependencies:
   authentication_repository:
@@ -18,7 +15,7 @@ dependencies:
   equatable: ^2.0.3
   firebase_auth: ^3.3.16
   firebase_core: ^1.15.0
-  flame: ^1.1.1
+  flame: 1.1.1
   flame_bloc: ^1.4.0
   flame_forge2d:
     git:
