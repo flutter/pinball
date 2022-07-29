@@ -156,7 +156,7 @@
   "@ioPinball": {
     "description": "I/O Pinball - Nome do jogo"
   },
-  "shareYourScore": "Partilhe sua pontuação",
+  "shareYourScore": "Compartilhe sua pontuação",
   "@shareYourScore": {
     "description": "Texto mostrado no título da tela de informações"
   },
