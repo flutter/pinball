@@ -8,7 +8,7 @@ environment:
 
 dependencies:
   bloc: ^8.0.0
-  flame: ^1.1.1
+  flame: 1.1.1
   flame_bloc: ^1.4.0
   flame_forge2d:
     git: 
