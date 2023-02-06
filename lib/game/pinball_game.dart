@@ -100,6 +100,7 @@ class PinballGame extends PinballForge2DGame
               FlameProvider<PlatformHelper>.value(platformHelper),
             ],
             children: [
+              FpsComponent(),
               BonusNoiseBehavior(),
               GameBlocStatusListener(),
               BallSpawningBehavior(),
@@ -213,7 +214,7 @@ class PinballGame extends PinballForge2DGame
   }
 }
 
-class DebugPinballGame extends PinballGame with FPSCounter, PanDetector {
+class DebugPinballGame extends PinballGame with PanDetector {
   DebugPinballGame({
     required CharacterThemeCubit characterThemeBloc,
     required LeaderboardRepository leaderboardRepository,
@@ -314,7 +315,7 @@ class _DebugInformation extends Component with HasGameRef<DebugPinballGame> {
   @override
   void render(Canvas canvas) {
     final debugText = [
-      'FPS: ${gameRef.fps().toStringAsFixed(1)}',
+      'FPS: ${gameRef.descendants().whereType<FpsComponent>().first.fps}',
       'BALLS: ${gameRef.descendants().whereType<Ball>().length}',
     ].join(' | ');
 
