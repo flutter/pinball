@@ -349,7 +349,7 @@ void main() {
         );
 
         expect(
-          game.overlays.value,
+          game.overlays.activeOverlays,
           contains(PinballGame.mobileControlsOverlay),
         );
       },
@@ -378,7 +378,7 @@ void main() {
         );
 
         expect(
-          game.overlays.value,
+          game.overlays.activeOverlays,
           isNot(contains(PinballGame.mobileControlsOverlay)),
         );
       },
