@@ -100,7 +100,6 @@ class PinballGame extends PinballForge2DGame
               FlameProvider<PlatformHelper>.value(platformHelper),
             ],
             children: [
-              FpsComponent(),
               BonusNoiseBehavior(),
               GameBlocStatusListener(),
               BallSpawningBehavior(),
@@ -239,7 +238,12 @@ class DebugPinballGame extends PinballGame with PanDetector {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    await addAll([PreviewLine(), _DebugInformation()]);
+    final fpsComponent = FpsComponent();
+    await addAll([
+      PreviewLine(),
+      fpsComponent,
+      _DebugInformation(fpsComponent: fpsComponent)
+    ]);
   }
 
   @override
@@ -300,6 +304,7 @@ class PreviewLine extends PositionComponent with HasGameRef<DebugPinballGame> {
 }
 
 class _DebugInformation extends Component with HasGameRef<DebugPinballGame> {
+  _DebugInformation({required this.fpsComponent});
   @override
   PositionType get positionType => PositionType.widget;
 
@@ -311,11 +316,12 @@ class _DebugInformation extends Component with HasGameRef<DebugPinballGame> {
   );
 
   final _debugBackgroundPaint = Paint()..color = Colors.white;
+  final FpsComponent fpsComponent;
 
   @override
   void render(Canvas canvas) {
     final debugText = [
-      'FPS: ${gameRef.descendants().whereType<FpsComponent>().first.fps}',
+      'FPS: ${fpsComponent.fps}',
       'BALLS: ${gameRef.descendants().whereType<Ball>().length}',
     ].join(' | ');
 
