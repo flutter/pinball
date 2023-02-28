@@ -1,6 +1,6 @@
 import 'dart:ui';
-
 import 'package:collection/collection.dart' as collection;
+
 import 'package:flame/components.dart';
 import 'package:pinball_flame/src/canvas/canvas_wrapper.dart';
 

@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:pinball_components/pinball_components.dart';
+import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template ball_impulsing_behavior}
 /// Impulses the [Ball] in a given direction.
@@ -16,5 +17,6 @@ class BallImpulsingBehavior extends Component with ParentIsA<Ball> {
   Future<void> onLoad() async {
     await super.onLoad();
     parent.body.linearVelocity = _impulse;
+    shouldRemove = true;
   }
 }

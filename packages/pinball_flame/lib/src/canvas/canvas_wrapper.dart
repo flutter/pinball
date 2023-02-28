@@ -174,16 +174,4 @@ class CanvasWrapper implements Canvas {
 
   @override
   void translate(double dx, double dy) => canvas.translate(dx, dy);
-
-  @override
-  Rect getDestinationClipBounds() => canvas.getDestinationClipBounds();
-
-  @override
-  Rect getLocalClipBounds() => canvas.getLocalClipBounds();
-
-  @override
-  Float64List getTransform() => canvas.getTransform();
-
-  @override
-  void restoreToCount(int count) => canvas.restoreToCount(count);
 }

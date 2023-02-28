@@ -4,9 +4,7 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
-import 'package:pinball/firebase_options.dart';
 
 class AppBlocObserver extends BlocObserver {
   @override
@@ -32,7 +30,6 @@ Future<void> bootstrap(BootstrapBuilder builder) async {
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   await runZonedGuarded(
     () async {

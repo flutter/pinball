@@ -72,7 +72,7 @@ class LeaderboardDisplay extends PositionComponent with HasGameRef {
           duration: 0.5,
           curve: Curves.easeIn,
         ),
-      )..onComplete = () {
+      )..onFinishCallback = () {
           current.removeFromParent();
           inactiveArrow.active = true;
           firstChild<PositionComponent>()?.add(
