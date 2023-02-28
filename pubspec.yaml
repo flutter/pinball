@@ -11,11 +11,11 @@ dependencies:
   authentication_repository:
     path: packages/authentication_repository
   bloc: ^8.0.2
-  cloud_firestore: ^4.4.0
+  cloud_firestore: ^3.1.10
   equatable: ^2.0.3
-  firebase_auth: ^4.2.6
-  firebase_core: ^2.5.0
-  flame: ^1.6.0
+  firebase_auth: ^3.3.16
+  firebase_core: ^1.15.0
+  flame: ^1.1.1
   flame_bloc: ^1.4.0
   flame_forge2d:
     git:
