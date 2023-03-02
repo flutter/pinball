@@ -5,18 +5,18 @@ publish_to: none
 
 environment:
   sdk: ">=2.16.0 <3.0.0"
-  flutter: 2.10.5
+  flutter: 3.7.4
 
 dependencies:
   authentication_repository:
     path: packages/authentication_repository
   bloc: ^8.0.2
-  cloud_firestore: ^3.1.10
+  cloud_firestore: ^4.4.0
   equatable: ^2.0.3
-  firebase_auth: ^3.3.16
-  firebase_core: ^1.15.0
-  flame: ^1.1.1
-  flame_bloc: ^1.4.0
+  firebase_auth: ^4.2.9
+  firebase_core: ^2.7.0
+  flame: ^1.6.0
+  flame_bloc: ^1.8.2
   flame_forge2d:
     git:
       url: https://github.com/flame-engine/flame
