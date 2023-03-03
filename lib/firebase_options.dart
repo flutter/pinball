@@ -53,12 +53,12 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBgMVAvYccjNypCDdpW0ol6syCcISU2yjM',
-    appId: '1:725488140557:web:7c61a0755fc23436fe7044',
-    messagingSenderId: '725488140557',
-    projectId: 'pinball-dev',
-    authDomain: 'pinball-dev.firebaseapp.com',
-    storageBucket: 'pinball-dev.appspot.com',
-    measurementId: 'G-9NW8SZRFJR',
+    apiKey: '',
+    appId: '',
+    messagingSenderId: '',
+    projectId: '',
+    authDomain: '',
+    storageBucket: '',
+    measurementId: '',
   );
 }
