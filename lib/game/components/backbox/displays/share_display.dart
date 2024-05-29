@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
-import 'package:flame/input.dart';
+import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -127,7 +127,7 @@ class _SocialNetworksComponent extends PositionComponent with HasGameRef {
 /// Button for sharing on Facebook.
 /// {@endtemplate}
 class FacebookButtonComponent extends SpriteComponent
-    with HasGameRef, Tappable {
+    with HasGameRef, TapCallbacks {
   /// {@macro facebook_button_component}
   FacebookButtonComponent({
     OnSocialShareTap? onTap,
@@ -140,7 +140,7 @@ class FacebookButtonComponent extends SpriteComponent
   final OnSocialShareTap? _onTap;
 
   @override
-  bool onTapUp(TapUpInfo info) {
+  bool onTapUp(TapUpEvent event) {
     _onTap?.call(SharePlatform.facebook);
     return true;
   }
@@ -159,7 +159,8 @@ class FacebookButtonComponent extends SpriteComponent
 /// {@template twitter_button_component}
 /// Button for sharing on Twitter.
 /// {@endtemplate}
-class TwitterButtonComponent extends SpriteComponent with HasGameRef, Tappable {
+class TwitterButtonComponent extends SpriteComponent
+    with HasGameRef, TapCallbacks {
   /// {@macro twitter_button_component}
   TwitterButtonComponent({
     OnSocialShareTap? onTap,
@@ -172,7 +173,7 @@ class TwitterButtonComponent extends SpriteComponent with HasGameRef, Tappable {
   final OnSocialShareTap? _onTap;
 
   @override
-  bool onTapUp(TapUpInfo info) {
+  bool onTapUp(TapUpEvent event) {
     _onTap?.call(SharePlatform.twitter);
     return true;
   }

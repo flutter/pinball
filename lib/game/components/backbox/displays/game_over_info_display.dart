@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
-import 'package:flame/input.dart';
+import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
@@ -164,7 +164,7 @@ class _LinksComponent extends PositionComponent with HasGameRef {
 /// {@template share_link_component}
 /// Link button to navigate to sharing score display.
 /// {@endtemplate}
-class ShareLinkComponent extends TextComponent with HasGameRef, Tappable {
+class ShareLinkComponent extends TextComponent with HasGameRef, TapCallbacks {
   /// {@macro share_link_component}
   ShareLinkComponent({
     OnShareTap? onTap,
@@ -178,7 +178,7 @@ class ShareLinkComponent extends TextComponent with HasGameRef, Tappable {
   final OnShareTap? _onTap;
 
   @override
-  bool onTapDown(TapDownInfo info) {
+  bool onTapDown(TapDownEvent event) {
     _onTap?.call();
     return true;
   }
@@ -202,7 +202,8 @@ class ShareLinkComponent extends TextComponent with HasGameRef, Tappable {
 /// {@template google_io_link_component}
 /// Link button to navigate to Google I/O site.
 /// {@endtemplate}
-class GoogleIOLinkComponent extends TextComponent with HasGameRef, Tappable {
+class GoogleIOLinkComponent extends TextComponent
+    with HasGameRef, TapCallbacks {
   /// {@macro google_io_link_component}
   GoogleIOLinkComponent()
       : super(
@@ -212,7 +213,7 @@ class GoogleIOLinkComponent extends TextComponent with HasGameRef, Tappable {
         );
 
   @override
-  bool onTapUp(TapUpInfo info) {
+  bool onTapUp(TapUpEvent event) {
     openLink(ShareRepository.googleIOEvent);
     return true;
   }
@@ -280,7 +281,8 @@ class _FirebaseTextComponent extends TextComponent with HasGameRef {
 /// Link text to navigate to Open Source site.
 /// {@endtemplate}
 @visibleForTesting
-class OpenSourceTextComponent extends TextComponent with HasGameRef, Tappable {
+class OpenSourceTextComponent extends TextComponent
+    with HasGameRef, TapCallbacks {
   /// {@macro open_source_link_component}
   OpenSourceTextComponent()
       : super(
@@ -290,7 +292,7 @@ class OpenSourceTextComponent extends TextComponent with HasGameRef, Tappable {
         );
 
   @override
-  bool onTapUp(TapUpInfo info) {
+  bool onTapUp(TapUpEvent event) {
     openLink(ShareRepository.openSourceCode);
     return true;
   }

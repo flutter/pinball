@@ -100,12 +100,14 @@ unlinked_spec.ds
 # Coverage
 coverage/
 
+# Golden tests related
+**/failures
+
 # Submodules
 !pubspec.lock
 packages/**/pubspec.lock
 
 # Web related
-lib/generated_plugin_registrant.dart
 
 # Symbolication related
 app.*.symbols

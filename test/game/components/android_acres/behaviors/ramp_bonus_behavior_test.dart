@@ -77,9 +77,9 @@ void main() {
 
     final flameTester = FlameTester(_TestGame.new);
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'when hits are multiples of 10 times adds a ScoringBehavior',
-      (game) async {
+      setUp: (game, _) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
         final streamController = StreamController<SpaceshipRampState>();
@@ -99,16 +99,17 @@ void main() {
 
         streamController.add(state.copyWith(hits: 10));
 
-        final scores = game.descendants().whereType<ScoringBehavior>();
         await game.ready();
-
+      },
+      verify: (game, _) async {
+        final scores = game.descendants().whereType<ScoringBehavior>();
         expect(scores.length, 1);
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       "when hits are not multiple of 10 times doesn't add any ScoringBehavior",
-      (game) async {
+      setUp: (game, _) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
         final streamController = StreamController<SpaceshipRampState>();
@@ -128,9 +129,10 @@ void main() {
 
         streamController.add(state.copyWith(hits: 9));
 
-        final scores = game.descendants().whereType<ScoringBehavior>();
         await game.ready();
-
+      },
+      verify: (game, _) async {
+        final scores = game.descendants().whereType<ScoringBehavior>();
         expect(scores.length, 0);
       },
     );

@@ -56,21 +56,27 @@ void main() {
   final flameTester = FlameTester(_TestGame.new);
 
   group('FlutterForest', () {
-    flameTester.test(
+    flameTester.testGameWidget(
       'loads correctly',
-      (game) async {
+      setUp: (game, _) async {
+        await game.onLoad();
         final component = FlutterForest();
         await game.pump(component);
-        expect(game.descendants(), contains(component));
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<FlutterForest>(), isNotEmpty);
       },
     );
 
     group('loads', () {
-      flameTester.test(
+      flameTester.testGameWidget(
         'a Signpost',
-        (game) async {
+        setUp: (game, _) async {
+          await game.onLoad();
           final component = FlutterForest();
           await game.pump(component);
+        },
+        verify: (game, _) async {
           expect(
             game.descendants().whereType<Signpost>().length,
             equals(1),
@@ -78,11 +84,14 @@ void main() {
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'a DashAnimatronic',
-        (game) async {
+        setUp: (game, _) async {
+          await game.onLoad();
           final component = FlutterForest();
           await game.pump(component);
+        },
+        verify: (game, _) async {
           expect(
             game.descendants().whereType<DashAnimatronic>().length,
             equals(1),
@@ -90,11 +99,14 @@ void main() {
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'three DashBumper',
-        (game) async {
+        setUp: (game, _) async {
+          await game.onLoad();
           final component = FlutterForest();
           await game.pump(component);
+        },
+        verify: (game, _) async {
           expect(
             game.descendants().whereType<DashBumper>().length,
             equals(3),
@@ -102,11 +114,14 @@ void main() {
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'three DashBumpers with BumperNoiseBehavior',
-        (game) async {
+        setUp: (game, _) async {
+          await game.onLoad();
           final component = FlutterForest();
           await game.pump(component);
+        },
+        verify: (game, _) async {
           final bumpers = game.descendants().whereType<DashBumper>();
           for (final bumper in bumpers) {
             expect(

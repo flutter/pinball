@@ -12,7 +12,7 @@ class ChromeDinoMouthOpeningBehavior extends ContactBehavior<ChromeDino> {
     if (other is! Ball) return;
 
     if (parent.bloc.state.isMouthOpen && parent.firstChild<Ball>() == null) {
-      contact.setEnabled(false);
+      contact.isEnabled = false;
     }
   }
 }

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flame/input.dart';
+import 'package:flame/components.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
@@ -29,8 +29,8 @@ class LaunchRampGame extends BallGame {
     await super.onLoad();
 
     camera
-      ..followVector2(Vector2.zero())
-      ..zoom = 7.5;
+      ..follow(PositionComponent(position: Vector2.zero()))
+      ..viewfinder.zoom = 7.5;
     await add(LaunchRamp());
     await ready();
     await traceAllBodies();

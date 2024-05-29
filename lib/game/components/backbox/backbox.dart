@@ -53,7 +53,11 @@ class Backbox extends PositionComponent with ZIndex, HasGameRef {
     _build(_bloc.state);
 
     _subscription = _bloc.stream.listen((state) {
-      _display.children.removeWhere((_) => true);
+      final removals = _display.children.map((child) {
+        _display.remove(child);
+        return child.removed;
+      });
+      Future.wait(removals);
       _build(state);
     });
   }
@@ -157,6 +161,6 @@ class _BackboxSpriteComponent extends SpriteComponent with HasGameRef {
       ),
     );
     this.sprite = sprite;
-    size = sprite.originalSize / 20;
+    size = sprite.originalSize / 10;
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template chrome_dino_swivel_behavior}
 /// Swivels the [ChromeDino] up and down periodically to match its animation
@@ -51,7 +50,7 @@ class ChromeDinoSwivelingBehavior extends TimerComponent
   @override
   void onTick() {
     super.onTick();
-    _joint.setMotorSpeed(-_joint.motorSpeed);
+    _joint.motorSpeed = -_joint.motorSpeed;
   }
 }
 
@@ -63,8 +62,8 @@ class _ChromeDinoAnchor extends JointAnchor
     parent.parent.children
         .whereType<SpriteAnimationComponent>()
         .forEach((sprite) {
-      sprite.animation!.currentIndex = 45;
-      sprite.changeParent(this);
+      sprite.animationTicker!.currentIndex = 45;
+      sprite.parent = this;
     });
   }
 }

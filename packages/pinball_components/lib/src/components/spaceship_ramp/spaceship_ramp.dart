@@ -430,7 +430,7 @@ class SpaceshipRampBase extends BodyComponent
     // Although, the Layer should already be taking care of the contact
     // filtering, this is to ensure the ball doesn't collide with the ramp base
     // when the filtering is calculated on different time steps.
-    contact.setEnabled(other.layer == Layer.board);
+    contact.isEnabled = other.layer == Layer.board;
   }
 
   @override

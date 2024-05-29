@@ -75,16 +75,21 @@ void main() {
   final flameTester = FlameTester(_TestGame.new);
 
   group('InitialsInputDisplay', () {
-    flameTester.test(
+    flameTester.testGameWidget(
       'loads correctly',
-      (game) async {
+      setUp: (game, _) async {
         final component = InitialsInputDisplay(
           score: 0,
           characterIconPath: game.characterIconPath,
           onSubmit: (_) {},
         );
         await game.pump(component);
-        expect(game.descendants(), contains(component));
+      },
+      verify: (game, _) async {
+        expect(
+          game.descendants().whereType<InitialsInputDisplay>(),
+          isNotEmpty,
+        );
       },
     );
 

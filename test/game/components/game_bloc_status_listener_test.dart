@@ -1,7 +1,8 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flame/components.dart';
-import 'package:flame/game.dart';
+import 'package:flame/events.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
@@ -15,10 +16,11 @@ import 'package:pinball_audio/pinball_audio.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 import 'package:pinball_theme/pinball_theme.dart' as theme;
+import 'package:pinball_ui/pinball_ui.dart';
 import 'package:platform_helper/platform_helper.dart';
 import 'package:share_repository/share_repository.dart';
 
-class _TestGame extends Forge2DGame with HasTappables {
+class _TestGame extends Forge2DGame with TapCallbacks {
   @override
   Future<void> onLoad() async {
     images.prefix = '';
@@ -40,6 +42,15 @@ class _TestGame extends Forge2DGame with HasTappables {
     DashBumpersCubit? dashBumpersBloc,
     SignpostCubit? signpostBloc,
   }) async {
+    overlays.addEntry(
+      'mobile_controls',
+      (context, game) {
+        return PinballButton(
+          text: 'enter',
+          onTap: () => {},
+        );
+      },
+    );
     return ensureAdd(
       FlameMultiBlocProvider(
         providers: [
@@ -82,8 +93,8 @@ class _TestGame extends Forge2DGame with HasTappables {
 
 class _MockPinballAudioPlayer extends Mock implements PinballAudioPlayer {}
 
-class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
-}
+class _MockLeaderboardRepository extends Mock
+    implements LeaderboardRepository {}
 
 class _MockShareRepository extends Mock implements ShareRepository {}
 
@@ -139,12 +150,17 @@ void main() {
 
     final flameTester = FlameTester(_TestGame.new);
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'can be loaded',
-      (game) async {
+      setUp: (game, _) async {
         final component = GameBlocStatusListener();
         await game.pump([component]);
-        expect(game.descendants(), contains(component));
+      },
+      verify: (game, _) async {
+        expect(
+          game.descendants().whereType<GameBlocStatusListener>().length,
+          equals(1),
+        );
       },
     );
 
@@ -177,9 +193,9 @@ void main() {
           );
         });
 
-        flameTester.test(
+        flameTester.testGameWidget(
           'changes the backbox display',
-          (game) async {
+          setUp: (game, _) async {
             final component = GameBlocStatusListener();
             final leaderboardRepository = _MockLeaderboardRepository();
             final shareRepository = _MockShareRepository();
@@ -190,14 +206,17 @@ void main() {
             );
 
             await game.pump([component, backbox]);
-
+          },
+          verify: (game, _) async {
+            final component =
+                game.descendants().whereType<GameBlocStatusListener>().single;
             expect(() => component.onNewState(state), returnsNormally);
           },
         );
 
-        flameTester.test(
+        flameTester.testGameWidget(
           'removes FlipperKeyControllingBehavior from Flipper',
-          (game) async {
+          setUp: (game, _) async {
             final component = GameBlocStatusListener();
             final leaderboardRepository = _MockLeaderboardRepository();
             final shareRepository = _MockShareRepository();
@@ -220,7 +239,9 @@ void main() {
             expect(state.status, GameStatus.gameOver);
             component.onNewState(state);
             await game.ready();
-
+          },
+          verify: (game, _) async {
+            final flipper = game.descendants().whereType<Flipper>().single;
             expect(
               flipper.children.whereType<FlipperKeyControllingBehavior>(),
               isEmpty,
@@ -228,9 +249,9 @@ void main() {
           },
         );
 
-        flameTester.test(
+        flameTester.testGameWidget(
           'removes PlungerKeyControllingBehavior from Plunger',
-          (game) async {
+          setUp: (game, _) async {
             final component = GameBlocStatusListener();
             final leaderboardRepository = _MockLeaderboardRepository();
             final shareRepository = _MockShareRepository();
@@ -254,6 +275,9 @@ void main() {
             expect(state.status, GameStatus.gameOver);
             component.onNewState(state);
             await game.ready();
+          },
+          verify: (game, _) async {
+            final plunger = game.descendants().whereType<Plunger>().single;
 
             expect(
               plunger.children.whereType<PlungerKeyControllingBehavior>(),
@@ -262,9 +286,9 @@ void main() {
           },
         );
 
-        flameTester.test(
+        flameTester.testGameWidget(
           'removes PlungerPullingBehavior from Plunger',
-          (game) async {
+          setUp: (game, _) async {
             final component = GameBlocStatusListener();
             final leaderboardRepository = _MockLeaderboardRepository();
             final shareRepository = _MockShareRepository();
@@ -283,7 +307,7 @@ void main() {
                 create: PlungerCubit.new,
                 children: [
                   PlungerPullingBehavior(strength: 0),
-                  PlungerAutoPullingBehavior()
+                  PlungerAutoPullingBehavior(),
                 ],
               ),
             );
@@ -291,7 +315,9 @@ void main() {
             expect(state.status, GameStatus.gameOver);
             component.onNewState(state);
             await game.ready();
-
+          },
+          verify: (game, _) async {
+            final plunger = game.descendants().whereType<Plunger>().single;
             expect(
               plunger.children.whereType<PlungerPullingBehavior>(),
               isEmpty,
@@ -299,9 +325,9 @@ void main() {
           },
         );
 
-        flameTester.test(
+        flameTester.testGameWidget(
           'plays the game over voice over',
-          (game) async {
+          setUp: (game, _) async {
             final audioPlayer = _MockPinballAudioPlayer();
             final component = GameBlocStatusListener();
             final leaderboardRepository = _MockLeaderboardRepository();
@@ -315,6 +341,15 @@ void main() {
               [component, backbox],
               pinballAudioPlayer: audioPlayer,
             );
+          },
+          verify: (game, _) async {
+            final component =
+                game.descendants().whereType<GameBlocStatusListener>().single;
+            final audioPlayer = game
+                .descendants()
+                .whereType<FlameProvider<PinballAudioPlayer>>()
+                .single
+                .provider;
 
             component.onNewState(state);
 
@@ -336,16 +371,24 @@ void main() {
           );
         });
 
-        flameTester.test(
+        flameTester.testGameWidget(
           'plays the background music on start',
-          (game) async {
+          setUp: (game, _) async {
             final audioPlayer = _MockPinballAudioPlayer();
             final component = GameBlocStatusListener();
             await game.pump(
               [component],
               pinballAudioPlayer: audioPlayer,
             );
-
+          },
+          verify: (game, _) async {
+            final component =
+                game.descendants().whereType<GameBlocStatusListener>().single;
+            final audioPlayer = game
+                .descendants()
+                .whereType<FlameProvider<PinballAudioPlayer>>()
+                .single
+                .provider;
             expect(state.status, equals(GameStatus.playing));
             component.onNewState(state);
 
@@ -357,16 +400,25 @@ void main() {
           },
         );
 
-        flameTester.test(
+        flameTester.testGameWidget(
           'resets the GoogleWordCubit',
-          (game) async {
+          setUp: (game, _) async {
             final googleWordBloc = _MockGoogleWordCubit();
             final component = GameBlocStatusListener();
             await game.pump(
               [component],
               googleWordBloc: googleWordBloc,
             );
-
+          },
+          verify: (game, _) async {
+            final component =
+                game.descendants().whereType<GameBlocStatusListener>().single;
+            final googleWordBloc = game
+                .descendants()
+                .whereType<
+                    FlameBlocProvider<GoogleWordCubit, GoogleWordState>>()
+                .single
+                .bloc;
             expect(state.status, equals(GameStatus.playing));
             component.onNewState(state);
 
@@ -374,15 +426,25 @@ void main() {
           },
         );
 
-        flameTester.test(
+        flameTester.testGameWidget(
           'resets the DashBumpersCubit',
-          (game) async {
+          setUp: (game, _) async {
             final dashBumpersBloc = _MockDashBumpersCubit();
             final component = GameBlocStatusListener();
             await game.pump(
               [component],
               dashBumpersBloc: dashBumpersBloc,
             );
+          },
+          verify: (game, _) async {
+            final component =
+                game.descendants().whereType<GameBlocStatusListener>().single;
+            final dashBumpersBloc = game
+                .descendants()
+                .whereType<
+                    FlameBlocProvider<DashBumpersCubit, DashBumpersState>>()
+                .single
+                .bloc;
 
             expect(state.status, equals(GameStatus.playing));
             component.onNewState(state);
@@ -391,13 +453,21 @@ void main() {
           },
         );
 
-        flameTester.test(
+        flameTester.testGameWidget(
           'resets the SignpostCubit',
-          (game) async {
+          setUp: (game, _) async {
             final signpostBloc = _MockSignpostCubit();
             final component = GameBlocStatusListener();
             await game.pump([component], signpostBloc: signpostBloc);
-
+          },
+          verify: (game, _) async {
+            final component =
+                game.descendants().whereType<GameBlocStatusListener>().single;
+            final signpostBloc = game
+                .descendants()
+                .whereType<FlameBlocProvider<SignpostCubit, SignpostState>>()
+                .single
+                .bloc;
             expect(state.status, equals(GameStatus.playing));
             component.onNewState(state);
 
@@ -405,9 +475,9 @@ void main() {
           },
         );
 
-        flameTester.test(
+        flameTester.testGameWidget(
           'adds FlipperKeyControllingBehavior to Flippers',
-          (game) async {
+          setUp: (game, _) async {
             final component = GameBlocStatusListener();
             final leaderboardRepository = _MockLeaderboardRepository();
             final shareRepository = _MockShareRepository();
@@ -427,7 +497,9 @@ void main() {
 
             component.onNewState(state);
             await game.ready();
-
+          },
+          verify: (game, _) async {
+            final flipper = game.descendants().whereType<Flipper>().single;
             expect(
               flipper
                   .descendants()
@@ -438,9 +510,9 @@ void main() {
           },
         );
 
-        flameTester.test(
+        flameTester.testGameWidget(
           'adds PlungerKeyControllingBehavior to Plunger',
-          (game) async {
+          setUp: (game, _) async {
             final component = GameBlocStatusListener();
             final leaderboardRepository = _MockLeaderboardRepository();
             final shareRepository = _MockShareRepository();
@@ -450,10 +522,16 @@ void main() {
               entries: const [],
             );
             final plunger = Plunger.test();
+            final bloc = _MockPlungerCubit();
+            whenListen(
+              bloc,
+              const Stream<PlungerState>.empty(),
+              initialState: PlungerState.releasing,
+            );
             await game.pump([component, backbox, plunger]);
             await plunger.ensureAdd(
-              FlameBlocProvider<PlungerCubit, PlungerState>(
-                create: _MockPlungerCubit.new,
+              FlameBlocProvider<PlungerCubit, PlungerState>.value(
+                value: bloc,
               ),
             );
 
@@ -461,7 +539,9 @@ void main() {
 
             component.onNewState(state);
             await game.ready();
-
+          },
+          verify: (game, _) async {
+            final plunger = game.descendants().whereType<Plunger>().single;
             expect(
               plunger
                   .descendants()
@@ -472,9 +552,9 @@ void main() {
           },
         );
 
-        flameTester.test(
+        flameTester.testGameWidget(
           'adds PlungerPullingBehavior to Plunger',
-          (game) async {
+          setUp: (game, _) async {
             final component = GameBlocStatusListener();
             final leaderboardRepository = _MockLeaderboardRepository();
             final shareRepository = _MockShareRepository();
@@ -484,10 +564,16 @@ void main() {
               entries: const [],
             );
             final plunger = Plunger.test();
+            final bloc = _MockPlungerCubit();
+            whenListen(
+              bloc,
+              const Stream<PlungerState>.empty(),
+              initialState: PlungerState.releasing,
+            );
             await game.pump([component, backbox, plunger]);
             await plunger.ensureAdd(
-              FlameBlocProvider<PlungerCubit, PlungerState>(
-                create: _MockPlungerCubit.new,
+              FlameBlocProvider<PlungerCubit, PlungerState>.value(
+                value: bloc,
               ),
             );
 
@@ -495,7 +581,9 @@ void main() {
 
             component.onNewState(state);
             await game.ready();
-
+          },
+          verify: (game, _) async {
+            final plunger = game.descendants().whereType<Plunger>().single;
             expect(
               plunger.descendants().whereType<PlungerPullingBehavior>().length,
               equals(1),
@@ -503,9 +591,9 @@ void main() {
           },
         );
 
-        flameTester.test(
+        flameTester.testGameWidget(
           'adds PlungerAutoPullingBehavior to Plunger',
-          (game) async {
+          setUp: (game, _) async {
             final component = GameBlocStatusListener();
             final leaderboardRepository = _MockLeaderboardRepository();
             final shareRepository = _MockShareRepository();
@@ -514,11 +602,17 @@ void main() {
               shareRepository: shareRepository,
               entries: const [],
             );
+            final bloc = _MockPlungerCubit();
+            whenListen(
+              bloc,
+              const Stream<PlungerState>.empty(),
+              initialState: PlungerState.releasing,
+            );
             final plunger = Plunger.test();
             await game.pump([component, backbox, plunger]);
             await plunger.ensureAdd(
-              FlameBlocProvider<PlungerCubit, PlungerState>(
-                create: _MockPlungerCubit.new,
+              FlameBlocProvider<PlungerCubit, PlungerState>.value(
+                value: bloc,
               ),
             );
 
@@ -526,7 +620,9 @@ void main() {
 
             component.onNewState(state);
             await game.ready();
-
+          },
+          verify: (game, _) async {
+            final plunger = game.descendants().whereType<Plunger>().single;
             expect(
               plunger
                   .descendants()

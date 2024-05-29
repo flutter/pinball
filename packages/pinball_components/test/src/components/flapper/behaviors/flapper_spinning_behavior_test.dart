@@ -32,9 +32,9 @@ void main() {
         );
       });
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'beginContact plays the flapper animation',
-        (game) async {
+        setUp: (game, _) async {
           final behavior = FlapperSpinningBehavior();
           final entrance = FlapperEntrance();
           final flap = FlapSpriteAnimationComponent();
@@ -42,7 +42,17 @@ void main() {
           await flapper.addAll([entrance, flap]);
           await entrance.add(behavior);
           await game.ensureAdd(flapper);
-
+        },
+        verify: (game, _) async {
+          final behavior =
+              game.descendants().whereType<FlapperSpinningBehavior>().single;
+          final flap = game
+              .descendants()
+              .whereType<Flapper>()
+              .single
+              .children
+              .whereType<FlapSpriteAnimationComponent>()
+              .single;
           behavior.beginContact(_MockBall(), _MockContact());
 
           expect(flap.playing, isTrue);

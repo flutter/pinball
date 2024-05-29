@@ -1,7 +1,7 @@
 // ignore_for_file: cascade_invocations
 
+import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
-import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -18,21 +18,25 @@ void main() {
       expect(Plunger(), isA<Plunger>());
     });
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'loads correctly',
-      (game) async {
+      setUp: (game, _) async {
         final plunger = Plunger();
         await game.ensureAdd(plunger);
-        expect(game.children, contains(plunger));
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<Plunger>().length, equals(1));
       },
     );
 
     group('adds', () {
-      flameTester.test(
+      flameTester.testGameWidget(
         'a PlungerReleasingBehavior',
-        (game) async {
+        setUp: (game, _) async {
           final plunger = Plunger();
           await game.ensureAdd(plunger);
+        },
+        verify: (game, _) async {
           expect(
             game.descendants().whereType<PlungerReleasingBehavior>().length,
             equals(1),
@@ -40,11 +44,13 @@ void main() {
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'a PlungerJointingBehavior',
-        (game) async {
+        setUp: (game, _) async {
           final plunger = Plunger();
           await game.ensureAdd(plunger);
+        },
+        verify: (game, _) async {
           expect(
             game.descendants().whereType<PlungerJointingBehavior>().length,
             equals(1),
@@ -52,11 +58,13 @@ void main() {
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'a PlungerNoiseBehavior',
-        (game) async {
+        setUp: (game, _) async {
           final plunger = Plunger();
           await game.ensureAdd(plunger);
+        },
+        verify: (game, _) async {
           expect(
             game.descendants().whereType<PlungerNoiseBehavior>().length,
             equals(1),
@@ -71,9 +79,9 @@ void main() {
         'pulling',
         setUp: (game, tester) async {
           await game.images.load(asset);
-          await game.ensureAdd(Plunger());
-          game.camera.followVector2(Vector2.zero());
-          game.camera.zoom = 4.1;
+          await game.world.ensureAdd(Plunger());
+          game.camera.moveTo(Vector2.zero());
+          game.camera.viewfinder.zoom = 4.1;
         },
         verify: (game, tester) async {
           final plunger = game.descendants().whereType<Plunger>().first;
@@ -95,9 +103,9 @@ void main() {
         'releasing',
         setUp: (game, tester) async {
           await game.images.load(asset);
-          await game.ensureAdd(Plunger());
-          game.camera.followVector2(Vector2.zero());
-          game.camera.zoom = 4.1;
+          await game.world.ensureAdd(Plunger());
+          game.camera.moveTo(Vector2.zero());
+          game.camera.viewfinder.zoom = 4.1;
         },
         verify: (game, tester) async {
           final plunger = game.descendants().whereType<Plunger>().first;

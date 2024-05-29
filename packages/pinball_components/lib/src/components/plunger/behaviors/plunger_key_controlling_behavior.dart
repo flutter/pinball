@@ -17,14 +17,14 @@ class PlungerKeyControllingBehavior extends Component
 
   @override
   bool onKeyEvent(
-    RawKeyEvent event,
+    KeyEvent event,
     Set<LogicalKeyboardKey> keysPressed,
   ) {
     if (!_keys.contains(event.logicalKey)) return true;
 
-    if (event is RawKeyDownEvent) {
+    if (event is KeyDownEvent) {
       bloc.pulled();
-    } else if (event is RawKeyUpEvent) {
+    } else if (event is KeyUpEvent) {
       bloc.released();
     }
 

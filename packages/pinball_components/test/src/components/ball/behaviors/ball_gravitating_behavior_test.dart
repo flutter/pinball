@@ -21,20 +21,26 @@ void main() {
       );
     });
 
-    flameTester.test('can be loaded', (game) async {
-      final ball = Ball.test();
-      final behavior = BallGravitatingBehavior();
-      await ball.add(behavior);
-      await game.ensureAdd(ball);
-      expect(
-        ball.firstChild<BallGravitatingBehavior>(),
-        equals(behavior),
-      );
-    });
+    flameTester.testGameWidget(
+      'can be loaded',
+      setUp: (game, _) async {
+        final ball = Ball.test();
+        final behavior = BallGravitatingBehavior();
+        await ball.add(behavior);
+        await game.ensureAdd(ball);
+      },
+      verify: (game, _) async {
+        final ball = game.descendants().whereType<Ball>().single;
+        expect(
+          ball.firstChild<BallGravitatingBehavior>(),
+          isNotNull,
+        );
+      },
+    );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       "overrides the body's horizontal gravity symmetrically",
-      (game) async {
+      setUp: (game, _) async {
         final ball1 = Ball.test()..initialPosition = Vector2(10, 0);
         await ball1.add(BallGravitatingBehavior());
 
@@ -42,15 +48,18 @@ void main() {
         await ball2.add(BallGravitatingBehavior());
 
         await game.ensureAddAll([ball1, ball2]);
+      },
+      verify: (game, _) async {
+        final balls = game.descendants().whereType<Ball>().toList();
         game.update(1);
 
         expect(
-          ball1.body.gravityOverride!.x,
-          equals(-ball2.body.gravityOverride!.x),
+          balls[0].body.gravityOverride!.x,
+          equals(-balls[1].body.gravityOverride!.x),
         );
         expect(
-          ball1.body.gravityOverride!.y,
-          equals(ball2.body.gravityOverride!.y),
+          balls[0].body.gravityOverride!.y,
+          equals(balls[1].body.gravityOverride!.y),
         );
       },
     );

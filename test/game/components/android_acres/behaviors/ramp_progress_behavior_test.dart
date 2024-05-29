@@ -73,10 +73,10 @@ void main() {
 
     final flameTester = FlameTester(_TestGame.new);
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'adds onProgressed '
       'when hits and multiplier are less than 6',
-      (game) async {
+      setUp: (game, _) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
         final streamController = StreamController<SpaceshipRampState>();
@@ -104,15 +104,22 @@ void main() {
 
         streamController.add(state.copyWith(hits: 5));
         await Future<void>.delayed(Duration.zero);
-
+      },
+      verify: (game, _) async {
+        final bloc = game
+            .descendants()
+            .whereType<
+                FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>>()
+            .single
+            .bloc;
         verify(bloc.onProgressed).called(1);
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'adds onProgressed '
       'when hits and multiplier are 6 but arrow is not fully lit',
-      (game) async {
+      setUp: (game, _) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
         final streamController = StreamController<SpaceshipRampState>();
@@ -140,15 +147,22 @@ void main() {
 
         streamController.add(state.copyWith(hits: 5));
         await Future<void>.delayed(Duration.zero);
-
+      },
+      verify: (game, _) async {
+        final bloc = game
+            .descendants()
+            .whereType<
+                FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>>()
+            .single
+            .bloc;
         verify(bloc.onProgressed).called(1);
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       "doesn't add onProgressed "
       'when hits and multiplier are 6 and arrow is fully lit',
-      (game) async {
+      setUp: (game, _) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
         final streamController = StreamController<SpaceshipRampState>();
@@ -181,15 +195,23 @@ void main() {
           ),
         );
         await Future<void>.delayed(Duration.zero);
+      },
+      verify: (game, _) async {
+        final bloc = game
+            .descendants()
+            .whereType<
+                FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>>()
+            .single
+            .bloc;
 
         verifyNever(bloc.onProgressed);
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'adds onProgressed to dim arrow '
       'when arrow is fully lit after hit and multiplier is less than 6',
-      (game) async {
+      setUp: (game, _) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
         final streamController = StreamController<SpaceshipRampState>();
@@ -222,15 +244,22 @@ void main() {
           ),
         );
         await Future<void>.delayed(Duration.zero);
-
+      },
+      verify: (game, _) async {
+        final bloc = game
+            .descendants()
+            .whereType<
+                FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>>()
+            .single
+            .bloc;
         verify(bloc.onProgressed).called(2);
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       "doesn't add onProgressed to dim arrow "
       'when arrow is not fully lit after hit',
-      (game) async {
+      setUp: (game, _) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
         final streamController = StreamController<SpaceshipRampState>();
@@ -263,15 +292,22 @@ void main() {
           ),
         );
         await Future<void>.delayed(Duration.zero);
-
+      },
+      verify: (game, _) async {
+        final bloc = game
+            .descendants()
+            .whereType<
+                FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>>()
+            .single
+            .bloc;
         verify(bloc.onProgressed).called(1);
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       "doesn't add onProgressed to dim arrow "
       'when multiplier is 6 after hit',
-      (game) async {
+      setUp: (game, _) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
         final streamController = StreamController<SpaceshipRampState>();
@@ -301,6 +337,14 @@ void main() {
           state.copyWith(hits: 4),
         );
         await Future<void>.delayed(Duration.zero);
+      },
+      verify: (game, _) async {
+        final bloc = game
+            .descendants()
+            .whereType<
+                FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>>()
+            .single
+            .bloc;
 
         verify(bloc.onProgressed).called(1);
       },

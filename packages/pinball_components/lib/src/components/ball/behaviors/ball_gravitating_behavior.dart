@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 
 /// Scales the ball's gravity according to its position on the board.
 class BallGravitatingBehavior extends Component

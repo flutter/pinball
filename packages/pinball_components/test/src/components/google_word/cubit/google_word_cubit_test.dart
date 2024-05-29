@@ -11,14 +11,14 @@ void main() {
           if (i.isEven)
             i: GoogleLetterSpriteState.lit
           else
-            i: GoogleLetterSpriteState.dimmed
+            i: GoogleLetterSpriteState.dimmed,
       };
       final litOdds = {
         for (int i = 0; i < 6; i++)
           if (i.isOdd)
             i: GoogleLetterSpriteState.lit
           else
-            i: GoogleLetterSpriteState.dimmed
+            i: GoogleLetterSpriteState.dimmed,
       };
 
       blocTest<GoogleWordCubit, GoogleWordState>(

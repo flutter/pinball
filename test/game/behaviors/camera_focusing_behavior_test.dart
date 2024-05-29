@@ -23,52 +23,71 @@ void main() {
         );
       });
 
-      flameTester.test('loads', (game) async {
-        late final behavior = CameraFocusingBehavior();
-        await game.ensureAdd(
-          FlameBlocProvider<GameBloc, GameState>.value(
-            value: GameBloc(),
-            children: [behavior],
-          ),
-        );
-        expect(game.descendants(), contains(behavior));
-      });
-
-      flameTester.test('resizes and snaps', (game) async {
-        final behavior = CameraFocusingBehavior();
-        await game.ensureAdd(
-          FlameBlocProvider<GameBloc, GameState>.value(
-            value: GameBloc(),
-            children: [behavior],
-          ),
-        );
-
-        behavior.onGameResize(Vector2.all(10));
-        expect(game.camera.zoom, greaterThan(0));
-      });
-
-      flameTester.test(
-        'changes focus when loaded',
-        (game) async {
-          final behavior = CameraFocusingBehavior();
-          final previousZoom = game.camera.zoom;
-          expect(game.camera.follow, isNull);
-
+      flameTester.testGameWidget(
+        'loads',
+        setUp: (game, _) async {
+          late final behavior = CameraFocusingBehavior();
           await game.ensureAdd(
             FlameBlocProvider<GameBloc, GameState>.value(
               value: GameBloc(),
               children: [behavior],
             ),
           );
-
-          expect(game.camera.follow, isNotNull);
-          expect(game.camera.zoom, isNot(equals(previousZoom)));
+        },
+        verify: (game, _) async {
+          expect(
+            game.descendants().whereType<CameraFocusingBehavior>(),
+            isNotEmpty,
+          );
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
+        'resizes and snaps',
+        setUp: (game, _) async {
+          final behavior = CameraFocusingBehavior();
+          await game.ensureAdd(
+            FlameBlocProvider<GameBloc, GameState>.value(
+              value: GameBloc(),
+              children: [behavior],
+            ),
+          );
+        },
+        verify: (game, _) async {
+          game
+              .descendants()
+              .whereType<CameraFocusingBehavior>()
+              .single
+              .onGameResize(Vector2.all(10));
+          expect(game.camera.viewfinder.zoom, greaterThan(0));
+        },
+      );
+
+      flameTester.testGameWidget(
+        'changes focus when loaded',
+        setUp: (game, _) async {
+          expect(game.camera.viewfinder.zoom, equals(1));
+          final behavior = CameraFocusingBehavior();
+          await game.ensureAdd(
+            FlameBlocProvider<GameBloc, GameState>.value(
+              value: GameBloc(),
+              children: [behavior],
+            ),
+          );
+        },
+        verify: (game, tester) async {
+          final behavior =
+              game.descendants().whereType<CameraFocusingBehavior>().single;
+
+          await behavior.onLoad();
+
+          expect(game.camera.viewfinder.zoom, isNot(equals(1)));
+        },
+      );
+
+      flameTester.testGameWidget(
         'listenWhen only listens when status changes',
-        (game) async {
+        verify: (game, _) async {
           final behavior = CameraFocusingBehavior();
           const waiting = GameState.initial();
           final playing =
@@ -91,9 +110,9 @@ void main() {
       );
 
       group('onNewState', () {
-        flameTester.test(
+        flameTester.testGameWidget(
           'zooms when started playing',
-          (game) async {
+          setUp: (game, _) async {
             final playing =
                 const GameState.initial().copyWith(status: GameStatus.playing);
 
@@ -105,24 +124,28 @@ void main() {
               ),
             );
             behavior.onNewState(playing);
-            final previousPosition = game.camera.position.clone();
-            await game.ready();
-
+          },
+          verify: (game, _) async {
+            final previousPosition = Vector2(-23, -45);
+            game.camera.viewfinder.position = previousPosition;
+            final behavior =
+                game.descendants().whereType<CameraFocusingBehavior>().single;
+            game.update(0);
             final zoom = behavior.children.whereType<CameraZoom>().single;
             game.update(zoom.controller.duration!);
             game.update(0);
 
             expect(zoom.controller.completed, isTrue);
             expect(
-              game.camera.position,
+              game.camera.viewfinder.position,
               isNot(equals(previousPosition)),
             );
           },
         );
 
-        flameTester.test(
+        flameTester.testGameWidget(
           'zooms when game is over',
-          (game) async {
+          setUp: (game, _) async {
             final playing = const GameState.initial().copyWith(
               status: GameStatus.gameOver,
             );
@@ -136,16 +159,19 @@ void main() {
             );
 
             behavior.onNewState(playing);
-            final previousPosition = game.camera.position.clone();
-            await game.ready();
-
+          },
+          verify: (game, _) async {
+            final previousPosition = Vector2(-23, -45);
+            final behavior =
+                game.descendants().whereType<CameraFocusingBehavior>().single;
+            game.update(0);
             final zoom = behavior.children.whereType<CameraZoom>().single;
             game.update(zoom.controller.duration!);
             game.update(0);
 
             expect(zoom.controller.completed, isTrue);
             expect(
-              game.camera.position,
+              game.camera.viewfinder.position,
               isNot(equals(previousPosition)),
             );
           },

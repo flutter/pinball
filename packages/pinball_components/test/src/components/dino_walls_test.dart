@@ -1,6 +1,6 @@
 // ignore_for_file: cascade_invocations
 
-import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -17,21 +17,27 @@ void main() {
     ];
     final flameTester = FlameTester(() => TestGame(assets));
 
-    flameTester.test('loads correctly', (game) async {
-      final component = DinoWalls();
-      await game.ensureAdd(component);
-      expect(game.contains(component), isTrue);
-    });
+    flameTester.testGameWidget(
+      'loads correctly',
+      setUp: (game, _) async {
+        final component = DinoWalls();
+        await game.ensureAdd(component);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<DinoWalls>().length, equals(1));
+      },
+    );
 
     flameTester.testGameWidget(
       'renders correctly',
       setUp: (game, tester) async {
+        await game.onLoad();
         await game.images.loadAll(assets);
-        await game.ensureAdd(DinoWalls());
+        await game.world.ensureAdd(DinoWalls());
 
-        game.camera.followVector2(Vector2.zero());
-        game.camera.zoom = 6.5;
-
+        game.camera.moveTo(Vector2.zero());
+        game.camera.viewfinder.zoom = 6.5;
+        await game.ready();
         await tester.pump();
       },
       verify: (game, tester) async {

@@ -73,9 +73,9 @@ void main() {
 
     final flameTester = FlameTester(_TestGame.new);
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'calls onReset when round lost',
-      (game) async {
+      setUp: (game, _) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = GameState.initial();
         final streamController = StreamController<GameState>();
@@ -97,14 +97,21 @@ void main() {
 
         streamController.add(state.copyWith(rounds: state.rounds - 1));
         await Future<void>.delayed(Duration.zero);
-
+      },
+      verify: (game, _) async {
+        final bloc = game
+            .descendants()
+            .whereType<
+                FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>>()
+            .single
+            .bloc;
         verify(bloc.onReset).called(1);
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       "doesn't call onReset when round stays the same",
-      (game) async {
+      setUp: (game, _) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = GameState.initial();
         final streamController = StreamController<GameState>();
@@ -127,7 +134,14 @@ void main() {
         streamController
             .add(state.copyWith(roundScore: state.roundScore + 100));
         await Future<void>.delayed(Duration.zero);
-
+      },
+      verify: (game, tester) async {
+        final bloc = game
+            .descendants()
+            .whereType<
+                FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>>()
+            .single
+            .bloc;
         verifyNever(bloc.onReset);
       },
     );

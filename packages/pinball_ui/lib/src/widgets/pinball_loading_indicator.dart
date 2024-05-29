@@ -27,7 +27,7 @@ class PinballLoadingIndicator extends StatelessWidget {
         _InnerIndicator(value: value),
         _InnerIndicator(value: value),
         _InnerIndicator(value: value, widthFactor: 0.98),
-        _InnerIndicator(value: value, widthFactor: 0.95)
+        _InnerIndicator(value: value, widthFactor: 0.95),
       ],
     );
   }

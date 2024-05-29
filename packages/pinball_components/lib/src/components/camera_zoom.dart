@@ -28,17 +28,18 @@ class CameraZoom extends Effect with HasGameRef {
   @override
   Future<void> onLoad() async {
     _tween = Tween(
-      begin: gameRef.camera.zoom,
+      begin: gameRef.camera.viewfinder.zoom,
       end: value,
     );
   }
 
   @override
   void apply(double progress) {
-    gameRef.camera.zoom = _tween.transform(progress);
+    gameRef.camera.viewfinder.zoom = _tween.transform(progress);
   }
 
   /// Returns a [Future] that completes once the zoom is finished
+  @override
   Future<void> get completed {
     if (controller.completed) {
       return Future.value();

@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flame/sprite.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball_flame/pinball_flame.dart';
@@ -8,23 +9,33 @@ class _MockSpriteAnimationController extends Mock
 
 class _MockSpriteAnimation extends Mock implements SpriteAnimation {}
 
+class _MockSpriteAnimationTicker extends Mock implements SpriteAnimationTicker {
+  @override
+  double totalDuration() {
+    return 1;
+  }
+}
+
 class _MockSprite extends Mock implements Sprite {}
 
 void main() {
   group('PinballSpriteAnimationWidget', () {
     late SpriteAnimationController controller;
     late SpriteAnimation animation;
+    late SpriteAnimationTicker animationTicker;
     late Sprite sprite;
 
     setUp(() {
       controller = _MockSpriteAnimationController();
       animation = _MockSpriteAnimation();
+      animationTicker = _MockSpriteAnimationTicker();
       sprite = _MockSprite();
 
-      when(() => controller.animation).thenAnswer((_) => animation);
+      when(() => animationTicker.getSprite()).thenAnswer((_) => sprite);
 
-      when(() => animation.totalDuration()).thenAnswer((_) => 1);
-      when(() => animation.getSprite()).thenAnswer((_) => sprite);
+      when(() => controller.animation).thenAnswer((_) => animation);
+      when(() => controller.animationTicker).thenAnswer((_) => animationTicker);
+
       when(() => sprite.srcSize).thenAnswer((_) => Vector2(1, 1));
       when(() => sprite.srcSize).thenAnswer((_) => Vector2(1, 1));
     });
@@ -46,9 +57,10 @@ void main() {
       SpriteAnimationController(
         vsync: const TestVSync(),
         animation: animation,
+        animationTicker: animationTicker,
       ).notifyListeners();
 
-      verify(() => animation.update(any())).called(1);
+      verify(() => animationTicker.update(any())).called(1);
     });
 
     testWidgets('SpritePainter shouldRepaint returns true when Sprite changed',

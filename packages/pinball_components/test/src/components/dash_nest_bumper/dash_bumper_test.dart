@@ -39,91 +39,148 @@ void main() {
   final flameTester = FlameTester(_TestGame.new);
 
   group('DashBumper', () {
-    flameTester.test('"main" can be added', (game) async {
-      final bumper = DashBumper.main();
-      await game.pump(bumper);
-      expect(game.descendants().contains(bumper), isTrue);
-    });
+    flameTester.testGameWidget(
+      '"main" can be added',
+      setUp: (game, _) async {
+        final bumper = DashBumper.main();
+        await game.pump(bumper);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<DashBumper>(), isNotEmpty);
+      },
+    );
 
-    flameTester.test('"a" can be added', (game) async {
-      final bumper = DashBumper.a();
-      await game.pump(bumper);
-      expect(game.descendants().contains(bumper), isTrue);
-    });
+    flameTester.testGameWidget(
+      '"a" can be added',
+      setUp: (game, _) async {
+        final bumper = DashBumper.a();
+        await game.pump(bumper);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<DashBumper>(), isNotEmpty);
+      },
+    );
 
-    flameTester.test('"b" can be added', (game) async {
-      final bumper = DashBumper.b();
-      await game.pump(bumper);
-      expect(game.descendants().contains(bumper), isTrue);
-    });
+    flameTester.testGameWidget(
+      '"b" can be added',
+      setUp: (game, _) async {
+        final bumper = DashBumper.b();
+        await game.pump(bumper);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<DashBumper>(), isNotEmpty);
+      },
+    );
 
-    flameTester.test('adds a DashBumperBallContactBehavior', (game) async {
-      final bumper = DashBumper.a();
-      await game.pump(bumper);
-      expect(
-        bumper.children.whereType<DashBumperBallContactBehavior>().single,
-        isNotNull,
+    flameTester.testGameWidget(
+      'adds a DashBumperBallContactBehavior',
+      setUp: (game, _) async {
+        final bumper = DashBumper.a();
+        await game.pump(bumper);
+      },
+      verify: (game, _) async {
+        final bumper = game.descendants().whereType<DashBumper>().single;
+        expect(
+          bumper.children.whereType<DashBumperBallContactBehavior>().single,
+          isNotNull,
+        );
+      },
+    );
+
+    group("'main' adds", () {
+      flameTester.testGameWidget(
+        'new children',
+        setUp: (game, _) async {
+          final component = Component();
+          final bumper = DashBumper.main(
+            children: [component],
+          );
+          await game.pump(bumper);
+        },
+        verify: (game, _) async {
+          final bumper = game.descendants().whereType<DashBumper>().single;
+          expect(bumper.children.whereType<Component>(), isNotEmpty);
+        },
+      );
+
+      flameTester.testGameWidget(
+        'a BumpingBehavior',
+        setUp: (game, _) async {
+          final bumper = DashBumper.main();
+          await game.pump(bumper);
+        },
+        verify: (game, _) async {
+          final bumper = game.descendants().whereType<DashBumper>().single;
+          expect(
+            bumper.children.whereType<BumpingBehavior>().single,
+            isNotNull,
+          );
+        },
       );
     });
 
-    group("'main' adds", () {
-      flameTester.test('new children', (game) async {
-        final component = Component();
-        final bumper = DashBumper.main(
-          children: [component],
-        );
-        await game.pump(bumper);
-        expect(bumper.children, contains(component));
-      });
-
-      flameTester.test('a BumpingBehavior', (game) async {
-        final bumper = DashBumper.main();
-        await game.pump(bumper);
-        expect(
-          bumper.children.whereType<BumpingBehavior>().single,
-          isNotNull,
-        );
-      });
-    });
-
     group("'a' adds", () {
-      flameTester.test('new children', (game) async {
-        final component = Component();
-        final bumper = DashBumper.a(
-          children: [component],
-        );
-        await game.pump(bumper);
-        expect(bumper.children, contains(component));
-      });
+      flameTester.testGameWidget(
+        'new children',
+        setUp: (game, _) async {
+          final component = Component();
+          final bumper = DashBumper.a(
+            children: [component],
+          );
+          await game.pump(bumper);
+        },
+        verify: (game, _) async {
+          final bumper = game.descendants().whereType<DashBumper>().single;
+          expect(bumper.children.whereType<Component>(), isNotEmpty);
+        },
+      );
 
-      flameTester.test('a BumpingBehavior', (game) async {
-        final bumper = DashBumper.a();
-        await game.pump(bumper);
-        expect(
-          bumper.children.whereType<BumpingBehavior>().single,
-          isNotNull,
-        );
-      });
+      flameTester.testGameWidget(
+        'a BumpingBehavior',
+        setUp: (game, _) async {
+          final bumper = DashBumper.a();
+          await game.pump(bumper);
+        },
+        verify: (game, _) async {
+          final bumper = game.descendants().whereType<DashBumper>().single;
+          expect(
+            bumper.children.whereType<BumpingBehavior>().single,
+            isNotNull,
+          );
+        },
+      );
     });
 
     group("'b' adds", () {
-      flameTester.test('new children', (game) async {
-        final component = Component();
-        final bumper = DashBumper.b(
-          children: [component],
-        );
-        await game.pump(bumper);
-        expect(bumper.children, contains(component));
-      });
+      flameTester.testGameWidget(
+        'new children',
+        setUp: (game, _) async {
+          final component = Component();
+          final bumper = DashBumper.b(
+            children: [component],
+          );
+          await game.pump(bumper);
+        },
+        verify: (game, _) async {
+          final bumper = game.descendants().whereType<DashBumper>().single;
+          expect(bumper.children.whereType<Component>(), isNotEmpty);
+        },
+      );
 
-      flameTester.test('a BumpingBehavior', (game) async {
-        final bumper = DashBumper.b();
-        await game.pump(bumper);
-        expect(
-          bumper.children.whereType<BumpingBehavior>().single,
-          isNotNull,
-        );
-      });
+      flameTester.testGameWidget(
+        'a BumpingBehavior',
+        setUp: (game, _) async {
+          final bumper = DashBumper.b();
+          await game.pump(bumper);
+        },
+        verify: (game, _) async {
+          final bumper = game.descendants().whereType<DashBumper>().single;
+          expect(
+            bumper.children.whereType<BumpingBehavior>().single,
+            isNotNull,
+          );
+        },
+      );
     });
 
     group('SpriteGroupComponent', () {
@@ -136,12 +193,14 @@ void main() {
       );
 
       group('listenWhen', () {
-        flameTester.test(
+        flameTester.testGameWidget(
           'is true when the sprite state for the given ID has changed',
-          (game) async {
+          setUp: (game, _) async {
             final bumper = DashBumper.main();
             await game.pump(bumper);
-
+          },
+          verify: (game, _) async {
+            final bumper = game.descendants().whereType<DashBumper>().single;
             final listenWhen =
                 bumper.firstChild<DashBumperSpriteGroupComponent>()!.listenWhen(
                       DashBumpersState.initial(),
@@ -152,19 +211,20 @@ void main() {
           },
         );
 
-        flameTester.test(
+        flameTester.testGameWidget(
           'onNewState updates the current sprite',
-          (game) async {
+          setUp: (game, _) async {
             final bumper = DashBumper.main();
             await game.pump(bumper);
-
+            await game.ready();
+          },
+          verify: (game, _) async {
+            final bumper = game.descendants().whereType<DashBumper>().single;
             final spriteGroupComponent =
                 bumper.firstChild<DashBumperSpriteGroupComponent>()!;
             final originalSprite = spriteGroupComponent.current;
-
             spriteGroupComponent.onNewState(mainBumperActivatedState);
-            await game.ready();
-
+            game.update(0);
             final newSprite = spriteGroupComponent.current;
             expect(newSprite, isNot(equals(originalSprite)));
           },

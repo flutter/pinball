@@ -43,17 +43,24 @@ void main() {
   final flameTester = FlameTester(_TestGame.new);
 
   group('DinoDesert', () {
-    flameTester.test('loads correctly', (game) async {
-      final component = DinoDesert();
-      await game.pump(component);
-      expect(game.descendants(), contains(component));
-    });
+    flameTester.testGameWidget(
+      'loads correctly',
+      setUp: (game, _) async {
+        final component = DinoDesert();
+        await game.pump(component);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<DinoDesert>(), isNotEmpty);
+      },
+    );
 
     group('loads', () {
-      flameTester.test(
+      flameTester.testGameWidget(
         'a ChromeDino',
-        (game) async {
+        setUp: (game, _) async {
           await game.pump(DinoDesert());
+        },
+        verify: (game, _) async {
           expect(
             game.descendants().whereType<ChromeDino>().length,
             equals(1),
@@ -61,10 +68,12 @@ void main() {
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'DinoWalls',
-        (game) async {
+        setUp: (game, _) async {
           await game.pump(DinoDesert());
+        },
+        verify: (game, _) async {
           expect(
             game.descendants().whereType<DinoWalls>().length,
             equals(1),
@@ -72,10 +81,12 @@ void main() {
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'Slingshots',
-        (game) async {
+        setUp: (game, _) async {
           await game.pump(DinoDesert());
+        },
+        verify: (game, _) async {
           expect(
             game.descendants().whereType<Slingshots>().length,
             equals(1),
@@ -85,11 +96,12 @@ void main() {
     });
 
     group('adds', () {
-      flameTester.test(
+      flameTester.testGameWidget(
         'ScoringContactBehavior to ChromeDino',
-        (game) async {
+        setUp: (game, _) async {
           await game.pump(DinoDesert());
-
+        },
+        verify: (game, _) async {
           final chromeDino = game.descendants().whereType<ChromeDino>().single;
           expect(
             chromeDino.firstChild<ScoringContactBehavior>(),
@@ -98,14 +110,19 @@ void main() {
         },
       );
 
-      flameTester.test('a ChromeDinoBonusBehavior', (game) async {
-        final component = DinoDesert();
-        await game.pump(component);
-        expect(
-          component.children.whereType<ChromeDinoBonusBehavior>().single,
-          isNotNull,
-        );
-      });
+      flameTester.testGameWidget(
+        'a ChromeDinoBonusBehavior',
+        setUp: (game, _) async {
+          await game.pump(DinoDesert());
+        },
+        verify: (game, _) async {
+          final chromeDino = game.descendants().whereType<DinoDesert>().single;
+          expect(
+            chromeDino.children.whereType<ChromeDinoBonusBehavior>().single,
+            isNotNull,
+          );
+        },
+      );
     });
   });
 }

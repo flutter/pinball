@@ -30,7 +30,7 @@ void main() {
     });
 
     test('can be instantiated', () {
-      expect(LeaderboardRepository(firestore), isNotNull);
+      expect(LeaderboardRepository(), isNotNull);
     });
 
     group('fetchTop10Leaderboard', () {
@@ -66,7 +66,7 @@ void main() {
           .toList();
 
       setUp(() {
-        leaderboardRepository = LeaderboardRepository(firestore);
+        leaderboardRepository = LeaderboardRepository();
         collectionReference = _MockCollectionReference();
         query = _MockQuery();
         querySnapshot = _MockQuerySnapshot();
@@ -75,7 +75,7 @@ void main() {
           when(queryDocumentSnapshot.data).thenReturn(<String, dynamic>{
             'character': 'dash',
             'playerInitials': 'user$score',
-            'score': score
+            'score': score,
           });
           return queryDocumentSnapshot;
         }).toList();
@@ -152,7 +152,7 @@ void main() {
       const entryDocumentId = 'id$entryScore';
 
       setUp(() {
-        leaderboardRepository = LeaderboardRepository(firestore);
+        leaderboardRepository = LeaderboardRepository();
         collectionReference = _MockCollectionReference();
         documentReference = _MockDocumentReference();
         query = _MockQuery();
@@ -162,7 +162,7 @@ void main() {
           when(queryDocumentSnapshot.data).thenReturn(<String, dynamic>{
             'character': 'dash',
             'playerInitials': 'AAA',
-            'score': score
+            'score': score,
           });
           when(() => queryDocumentSnapshot.id).thenReturn('id$score');
           return queryDocumentSnapshot;
@@ -222,14 +222,14 @@ void main() {
           6500,
           6000,
           5500,
-          5000
+          5000,
         ];
         final queryDocumentSnapshots = leaderboardScores.map((score) {
           final queryDocumentSnapshot = _MockQueryDocumentSnapshot();
           when(queryDocumentSnapshot.data).thenReturn(<String, dynamic>{
             'character': 'dash',
             'playerInitials': 'AAA',
-            'score': score
+            'score': score,
           });
           when(() => queryDocumentSnapshot.id).thenReturn('id$score');
           return queryDocumentSnapshot;
@@ -269,7 +269,7 @@ void main() {
           when(queryDocumentSnapshot.data).thenReturn(<String, dynamic>{
             'character': 'dash',
             'playerInitials': 'AAA',
-            'score': score
+            'score': score,
           });
           when(() => queryDocumentSnapshot.id).thenReturn('id$score');
           when(() => queryDocumentSnapshot.reference)

@@ -46,12 +46,14 @@ void main() {
       expect(GoogleWord(position: Vector2.zero()), isA<GoogleWord>());
     });
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'loads letters correctly',
-      (game) async {
+      setUp: (game, _) async {
         final googleWord = GoogleWord(position: Vector2.zero());
         await game.pump(googleWord);
-
+      },
+      verify: (game, _) async {
+        final googleWord = game.descendants().whereType<GoogleWord>().single;
         expect(
           googleWord.children.whereType<GoogleLetter>().length,
           equals(6),

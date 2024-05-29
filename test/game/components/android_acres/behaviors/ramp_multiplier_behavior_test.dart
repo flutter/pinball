@@ -76,10 +76,10 @@ void main() {
 
     final flameTester = FlameTester(_TestGame.new);
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'adds MultiplierIncreased '
       'when hits are multiples of 5 times and multiplier is less than 6',
-      (game) async {
+      setUp: (game, _) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
         final streamController = StreamController<SpaceshipRampState>();
@@ -106,15 +106,16 @@ void main() {
 
         streamController.add(state.copyWith(hits: 5));
         await Future<void>.delayed(Duration.zero);
-
+      },
+      verify: (game, _) async {
         verify(() => gameBloc.add(const MultiplierIncreased())).called(1);
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       "doesn't add MultiplierIncreased "
       'when hits are multiples of 5 times but multiplier is 6',
-      (game) async {
+      setUp: (game, _) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
         final streamController = StreamController<SpaceshipRampState>();
@@ -140,15 +141,16 @@ void main() {
 
         streamController.add(state.copyWith(hits: 5));
         await Future<void>.delayed(Duration.zero);
-
+      },
+      verify: (game, _) async {
         verifyNever(() => gameBloc.add(const MultiplierIncreased()));
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       "doesn't add MultiplierIncreased "
       "when hits aren't multiples of 5 times",
-      (game) async {
+      setUp: (game, _) async {
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
         final streamController = StreamController<SpaceshipRampState>();
@@ -175,7 +177,8 @@ void main() {
         streamController.add(state.copyWith(hits: 1));
 
         await game.ready();
-
+      },
+      verify: (game, _) async {
         verifyNever(() => gameBloc.add(const MultiplierIncreased()));
       },
     );

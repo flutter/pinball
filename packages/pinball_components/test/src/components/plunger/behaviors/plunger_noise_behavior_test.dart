@@ -57,15 +57,23 @@ void main() {
       );
     });
 
-    flameTester.test('can be loaded', (game) async {
-      final behavior = PlungerNoiseBehavior();
-      await game.pump(behavior);
-      expect(game.descendants(), contains(behavior));
-    });
+    flameTester.testGameWidget(
+      'can be loaded',
+      setUp: (game, _) async {
+        final behavior = PlungerNoiseBehavior();
+        await game.pump(behavior);
+      },
+      verify: (game, _) async {
+        expect(
+          game.descendants().whereType<PlungerNoiseBehavior>(),
+          isNotEmpty,
+        );
+      },
+    );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'plays the correct sound when released',
-      (game) async {
+      setUp: (game, _) async {
         final plungerBloc = _MockPlungerCubit();
         final streamController = StreamController<PlungerState>();
         whenListen<PlungerState>(
@@ -80,9 +88,10 @@ void main() {
           pinballAudioPlayer: audioPlayer,
           plungerBloc: plungerBloc,
         );
-
         streamController.add(PlungerState.releasing);
-        await Future<void>.delayed(Duration.zero);
+      },
+      verify: (game, _) async {
+        game.update(0);
 
         verify(() => audioPlayer.play(PinballAudio.launcher)).called(1);
       },

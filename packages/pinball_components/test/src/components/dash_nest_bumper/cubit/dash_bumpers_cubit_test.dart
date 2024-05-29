@@ -26,7 +26,8 @@ void main() {
         build: DashBumpersCubit.new,
         seed: () => DashBumpersState(
           bumperSpriteStates: {
-            for (var id in DashBumperId.values) id: DashBumperSpriteState.active
+            for (final id in DashBumperId.values)
+              id: DashBumperSpriteState.active,
           },
         ),
         act: (bloc) => bloc.onReset(),

@@ -14,8 +14,6 @@ class _MockPicture extends Mock implements Picture {}
 
 class _MockParagraph extends Mock implements Paragraph {}
 
-class _MockVertices extends Mock implements Vertices {}
-
 void main() {
   group('CanvasWrapper', () {
     group('CanvasWrapper', () {
@@ -33,7 +31,6 @@ void main() {
       late Int32List int32list;
       late Picture picture;
       late Paragraph paragraph;
-      late Vertices vertices;
 
       setUp(() {
         canvas = _MockCanvas();
@@ -50,7 +47,6 @@ void main() {
         int32list = Int32List(1);
         picture = _MockPicture();
         paragraph = _MockParagraph();
-        vertices = _MockVertices();
       });
 
       test("clipPath calls Canvas's clipPath", () {
@@ -273,15 +269,6 @@ void main() {
           ..drawShadow(path, color, 0, false);
         verify(
           () => canvas.drawShadow(path, color, 0, false),
-        ).called(1);
-      });
-
-      test("drawVertices calls Canvas's drawVertices", () {
-        CanvasWrapper()
-          ..canvas = canvas
-          ..drawVertices(vertices, blendMode, paint);
-        verify(
-          () => canvas.drawVertices(vertices, blendMode, paint),
         ).called(1);
       });
 

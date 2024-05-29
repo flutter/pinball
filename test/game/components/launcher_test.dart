@@ -38,58 +38,73 @@ void main() {
   final flameTester = FlameTester(_TestGame.new);
 
   group('Launcher', () {
-    flameTester.test(
+    flameTester.testGameWidget(
       'loads correctly',
-      (game) async {
+      setUp: (game, _) async {
         final component = Launcher();
         await game.pump(component);
-        expect(game.descendants(), contains(component));
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<Launcher>().length, equals(1));
       },
     );
 
     group('loads', () {
-      flameTester.test(
+      flameTester.testGameWidget(
         'a LaunchRamp',
-        (game) async {
+        setUp: (game, _) async {
           final component = Launcher();
           await game.pump(component);
-
-          final descendantsQuery =
-              component.descendants().whereType<LaunchRamp>();
+        },
+        verify: (game, _) async {
+          final descendantsQuery = game
+              .descendants()
+              .whereType<Launcher>()
+              .single
+              .descendants()
+              .whereType<LaunchRamp>();
           expect(descendantsQuery.length, equals(1));
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'a Flapper',
-        (game) async {
+        setUp: (game, _) async {
           final component = Launcher();
           await game.pump(component);
-
-          final descendantsQuery = component.descendants().whereType<Flapper>();
+        },
+        verify: (game, _) async {
+          final launcher = game.descendants().whereType<Launcher>().single;
+          final descendantsQuery = launcher.descendants().whereType<Flapper>();
           expect(descendantsQuery.length, equals(1));
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'a Plunger',
-        (game) async {
+        setUp: (game, _) async {
           final component = Launcher();
           await game.pump(component);
+        },
+        verify: (game, _) async {
+          final launcher = game.descendants().whereType<Launcher>().single;
 
-          final descendantsQuery = component.descendants().whereType<Plunger>();
+          final descendantsQuery = launcher.descendants().whereType<Plunger>();
           expect(descendantsQuery.length, equals(1));
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'a RocketSpriteComponent',
-        (game) async {
+        setUp: (game, _) async {
           final component = Launcher();
           await game.pump(component);
+        },
+        verify: (game, _) async {
+          final launcher = game.descendants().whereType<Launcher>().single;
 
           final descendantsQuery =
-              component.descendants().whereType<RocketSpriteComponent>();
+              launcher.descendants().whereType<RocketSpriteComponent>();
           expect(descendantsQuery.length, equals(1));
         },
       );

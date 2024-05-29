@@ -40,10 +40,13 @@ void main() {
       }
     }
 
-    flameTester.test('TestBodyComponent has fixtures', (game) async {
-      final component = _TestBodyComponent();
-      await game.ensureAdd(component);
-    });
+    flameTester.testGameWidget(
+      'TestBodyComponent has fixtures',
+      setUp: (game, _) async {
+        final component = _TestBodyComponent();
+        await game.ensureAdd(component);
+      },
+    );
 
     test('correctly sets and gets', () {
       final component = _TestLayeredBodyComponent()
@@ -51,24 +54,27 @@ void main() {
       expect(component.layer, Layer.spaceshipEntranceRamp);
     });
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'layers correctly before being loaded',
-      (game) async {
-        const expectedLayer = Layer.spaceshipEntranceRamp;
-        final component = _TestLayeredBodyComponent()..layer = expectedLayer;
+      setUp: (game, _) async {
+        final component = _TestLayeredBodyComponent()
+          ..layer = Layer.spaceshipEntranceRamp;
         await game.ensureAdd(component);
-
+      },
+      verify: (game, _) async {
+        final component =
+            game.descendants().whereType<_TestLayeredBodyComponent>().single;
         _expectLayerOnFixtures(
           fixtures: component.body.fixtures,
-          layer: expectedLayer,
+          layer: Layer.spaceshipEntranceRamp,
         );
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'layers correctly before being loaded '
       'when multiple different sets',
-      (game) async {
+      setUp: (game, _) async {
         const expectedLayer = Layer.launcher;
         final component = _TestLayeredBodyComponent()
           ..layer = Layer.spaceshipEntranceRamp;
@@ -77,32 +83,39 @@ void main() {
         component.layer = expectedLayer;
 
         await game.ensureAdd(component);
-
+      },
+      verify: (game, _) async {
+        final component =
+            game.descendants().whereType<_TestLayeredBodyComponent>().single;
         _expectLayerOnFixtures(
           fixtures: component.body.fixtures,
-          layer: expectedLayer,
+          layer: Layer.launcher,
         );
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'layers correctly after being loaded',
-      (game) async {
+      setUp: (game, _) async {
         const expectedLayer = Layer.spaceshipEntranceRamp;
         final component = _TestLayeredBodyComponent();
         await game.ensureAdd(component);
         component.layer = expectedLayer;
+      },
+      verify: (game, _) async {
+        final component =
+            game.descendants().whereType<_TestLayeredBodyComponent>().single;
         _expectLayerOnFixtures(
           fixtures: component.body.fixtures,
-          layer: expectedLayer,
+          layer: Layer.spaceshipEntranceRamp,
         );
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'layers correctly after being loaded '
       'when multiple different sets',
-      (game) async {
+      setUp: (game, _) async {
         const expectedLayer = Layer.launcher;
         final component = _TestLayeredBodyComponent();
         await game.ensureAdd(component);
@@ -110,27 +123,34 @@ void main() {
         component.layer = Layer.spaceshipEntranceRamp;
         expect(component.layer, isNot(equals(expectedLayer)));
         component.layer = expectedLayer;
-
+      },
+      verify: (game, _) async {
+        final component =
+            game.descendants().whereType<_TestLayeredBodyComponent>().single;
         _expectLayerOnFixtures(
           fixtures: component.body.fixtures,
-          layer: expectedLayer,
+          layer: Layer.launcher,
         );
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'defaults to Layer.all '
       'when no layer is given',
-      (game) async {
+      setUp: (game, _) async {
         final component = _TestLayeredBodyComponent();
         await game.ensureAdd(component);
+      },
+      verify: (game, _) async {
+        final component =
+            game.descendants().whereType<_TestLayeredBodyComponent>().single;
         expect(component.layer, equals(Layer.all));
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'nested Layered children will keep their layer',
-      (game) async {
+      setUp: (game, _) async {
         const parentLayer = Layer.spaceshipEntranceRamp;
         const childLayer = Layer.board;
 
@@ -140,19 +160,22 @@ void main() {
 
         await game.ensureAdd(component);
         expect(childLayer, isNot(equals(parentLayer)));
-
+      },
+      verify: (game, _) async {
+        final component =
+            game.children.whereType<_TestLayeredBodyComponent>().single;
         for (final child in component.children) {
           expect(
             (child as _TestLayeredBodyComponent).layer,
-            equals(childLayer),
+            equals(Layer.board),
           );
         }
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'nested children will keep their layer',
-      (game) async {
+      setUp: (game, _) async {
         const parentLayer = Layer.spaceshipEntranceRamp;
 
         final component = _TestLayeredBodyComponent()..layer = parentLayer;
@@ -160,7 +183,10 @@ void main() {
         await component.add(childComponent);
 
         await game.ensureAdd(component);
-
+      },
+      verify: (game, _) async {
+        final component =
+            game.descendants().whereType<_TestLayeredBodyComponent>().single;
         for (final child in component.children) {
           expect(
             (child as _TestBodyComponent)

@@ -1,6 +1,6 @@
 // ignore_for_file: cascade_invocations
 
-import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -19,21 +19,26 @@ void main() {
     ];
     final flameTester = FlameTester(() => TestGame(assets));
 
-    flameTester.test('loads correctly', (game) async {
-      final component = Boundaries();
-      await game.ensureAdd(component);
-      expect(game.contains(component), isTrue);
-    });
+    flameTester.testGameWidget(
+      'loads correctly',
+      setUp: (game, _) async {
+        final component = Boundaries();
+        await game.ensureAdd(component);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<Boundaries>().length, equals(1));
+      },
+    );
 
     flameTester.testGameWidget(
       'render correctly',
       setUp: (game, tester) async {
         await game.images.loadAll(assets);
         final canvas = ZCanvasComponent(children: [Boundaries()]);
-        await game.ensureAdd(canvas);
+        await game.world.ensureAdd(canvas);
 
-        game.camera.followVector2(Vector2.zero());
-        game.camera.zoom = 3.2;
+        game.camera.moveTo(Vector2.zero());
+        game.camera.viewfinder.zoom = 3.2;
         await tester.pump();
       },
       verify: (game, tester) async {

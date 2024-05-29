@@ -29,8 +29,8 @@ void main() {
           side: BoardSide.right,
         )..initialPosition = Vector2(10, 0);
 
-        await game.ensureAddAll([leftFlipper, rightFlipper]);
-        game.camera.followVector2(Vector2.zero());
+        await game.world.ensureAddAll([leftFlipper, rightFlipper]);
+        game.camera.moveTo(Vector2.zero());
         await tester.pump();
       },
       verify: (game, tester) async {
@@ -41,16 +41,16 @@ void main() {
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'loads correctly',
-      (game) async {
+      setUp: (game, _) async {
         final leftFlipper = Flipper(side: BoardSide.left);
         final rightFlipper = Flipper(side: BoardSide.right);
         await game.ready();
         await game.ensureAddAll([leftFlipper, rightFlipper]);
-
-        expect(game.contains(leftFlipper), isTrue);
-        expect(game.contains(rightFlipper), isTrue);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<Flipper>().length, equals(2));
       },
     );
 
@@ -65,33 +65,42 @@ void main() {
     });
 
     group('body', () {
-      flameTester.test(
+      flameTester.testGameWidget(
         'is dynamic',
-        (game) async {
+        setUp: (game, _) async {
           final flipper = Flipper(side: BoardSide.left);
           await game.ensureAdd(flipper);
+        },
+        verify: (game, _) async {
+          final flipper = game.descendants().whereType<Flipper>().single;
           expect(flipper.body.bodyType, equals(BodyType.dynamic));
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'ignores gravity',
-        (game) async {
+        setUp: (game, _) async {
           final flipper = Flipper(side: BoardSide.left);
           await game.ensureAdd(flipper);
+        },
+        verify: (game, _) async {
+          final flipper = game.descendants().whereType<Flipper>().single;
 
           expect(flipper.body.gravityScale, equals(Vector2.zero()));
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'has greater mass than Ball',
-        (game) async {
+        setUp: (game, _) async {
           final flipper = Flipper(side: BoardSide.left);
           final ball = Ball();
-
           await game.ready();
           await game.ensureAddAll([flipper, ball]);
+        },
+        verify: (game, _) async {
+          final flipper = game.descendants().whereType<Flipper>().single;
+          final ball = game.descendants().whereType<Ball>().single;
 
           expect(
             flipper.body.getMassData().mass,
@@ -102,21 +111,26 @@ void main() {
     });
 
     group('fixtures', () {
-      flameTester.test(
+      flameTester.testGameWidget(
         'has three',
-        (game) async {
+        setUp: (game, _) async {
           final flipper = Flipper(side: BoardSide.left);
           await game.ensureAdd(flipper);
-
+        },
+        verify: (game, _) async {
+          final flipper = game.descendants().whereType<Flipper>().single;
           expect(flipper.body.fixtures.length, equals(3));
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'has density',
-        (game) async {
+        setUp: (game, _) async {
           final flipper = Flipper(side: BoardSide.left);
           await game.ensureAdd(flipper);
+        },
+        verify: (game, _) async {
+          final flipper = game.descendants().whereType<Flipper>().single;
 
           final fixtures = flipper.body.fixtures;
           final density = fixtures.fold<double>(
