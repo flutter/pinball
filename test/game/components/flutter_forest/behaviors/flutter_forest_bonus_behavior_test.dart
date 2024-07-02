@@ -165,7 +165,7 @@ void main() {
         streamController.add(SignpostState.active3);
         await game.ready();
         await tester.pump();
-        
+
         expect(
           game.descendants().whereType<BonusBallSpawningBehavior>().length,
           equals(1),
