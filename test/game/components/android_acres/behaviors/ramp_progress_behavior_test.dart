@@ -77,6 +77,7 @@ void main() {
       'adds onProgressed '
       'when hits and multiplier are less than 6',
       setUp: (game, _) async {
+        await game.onLoad();
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
         final streamController = StreamController<SpaceshipRampState>();
@@ -105,7 +106,9 @@ void main() {
         streamController.add(state.copyWith(hits: 5));
         await Future<void>.delayed(Duration.zero);
       },
-      verify: (game, _) async {
+      verify: (game, tester) async {
+        game.update(0);
+        await tester.pump();
         final bloc = game
             .descendants()
             .whereType<
@@ -120,6 +123,7 @@ void main() {
       'adds onProgressed '
       'when hits and multiplier are 6 but arrow is not fully lit',
       setUp: (game, _) async {
+        await game.onLoad();
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
         final streamController = StreamController<SpaceshipRampState>();
@@ -148,7 +152,9 @@ void main() {
         streamController.add(state.copyWith(hits: 5));
         await Future<void>.delayed(Duration.zero);
       },
-      verify: (game, _) async {
+      verify: (game, tester) async {
+        game.update(0);
+        await tester.pump();
         final bloc = game
             .descendants()
             .whereType<
@@ -163,6 +169,7 @@ void main() {
       "doesn't add onProgressed "
       'when hits and multiplier are 6 and arrow is fully lit',
       setUp: (game, _) async {
+        await game.onLoad();
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
         final streamController = StreamController<SpaceshipRampState>();
@@ -194,9 +201,10 @@ void main() {
             lightState: ArrowLightState.active5,
           ),
         );
-        await Future<void>.delayed(Duration.zero);
       },
-      verify: (game, _) async {
+      verify: (game, tester) async {
+        game.update(0);
+        await tester.pump();
         final bloc = game
             .descendants()
             .whereType<
@@ -212,6 +220,7 @@ void main() {
       'adds onProgressed to dim arrow '
       'when arrow is fully lit after hit and multiplier is less than 6',
       setUp: (game, _) async {
+        await game.onLoad();
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
         final streamController = StreamController<SpaceshipRampState>();
@@ -243,9 +252,10 @@ void main() {
             lightState: ArrowLightState.active5,
           ),
         );
-        await Future<void>.delayed(Duration.zero);
       },
-      verify: (game, _) async {
+      verify: (game, tester) async {
+        game.update(0);
+        await tester.pump();
         final bloc = game
             .descendants()
             .whereType<
@@ -260,6 +270,7 @@ void main() {
       "doesn't add onProgressed to dim arrow "
       'when arrow is not fully lit after hit',
       setUp: (game, _) async {
+        await game.onLoad();
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
         final streamController = StreamController<SpaceshipRampState>();
@@ -291,9 +302,10 @@ void main() {
             lightState: ArrowLightState.active4,
           ),
         );
-        await Future<void>.delayed(Duration.zero);
       },
-      verify: (game, _) async {
+      verify: (game, tester) async {
+        game.update(0);
+        await tester.pump();
         final bloc = game
             .descendants()
             .whereType<
@@ -308,6 +320,7 @@ void main() {
       "doesn't add onProgressed to dim arrow "
       'when multiplier is 6 after hit',
       setUp: (game, _) async {
+        await game.onLoad();
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
         final streamController = StreamController<SpaceshipRampState>();
@@ -336,9 +349,10 @@ void main() {
         streamController.add(
           state.copyWith(hits: 4),
         );
-        await Future<void>.delayed(Duration.zero);
       },
-      verify: (game, _) async {
+      verify: (game, tester) async {
+        game.update(0);
+        await tester.pump();
         final bloc = game
             .descendants()
             .whereType<

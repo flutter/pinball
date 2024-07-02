@@ -80,6 +80,7 @@ void main() {
     flameTester.testGameWidget(
       'adds a ScoringBehavior when hit',
       setUp: (game, _) async {
+        await game.onLoad();
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
         final streamController = StreamController<SpaceshipRampState>();

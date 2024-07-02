@@ -80,6 +80,7 @@ void main() {
       'adds MultiplierIncreased '
       'when hits are multiples of 5 times and multiplier is less than 6',
       setUp: (game, _) async {
+        await game.onLoad();
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
         final streamController = StreamController<SpaceshipRampState>();
@@ -105,9 +106,10 @@ void main() {
         );
 
         streamController.add(state.copyWith(hits: 5));
-        await Future<void>.delayed(Duration.zero);
       },
-      verify: (game, _) async {
+      verify: (game, tester) async {
+        game.update(0);
+        await tester.pump();
         verify(() => gameBloc.add(const MultiplierIncreased())).called(1);
       },
     );
@@ -116,6 +118,7 @@ void main() {
       "doesn't add MultiplierIncreased "
       'when hits are multiples of 5 times but multiplier is 6',
       setUp: (game, _) async {
+        await game.onLoad();
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
         final streamController = StreamController<SpaceshipRampState>();
@@ -140,9 +143,10 @@ void main() {
         );
 
         streamController.add(state.copyWith(hits: 5));
-        await Future<void>.delayed(Duration.zero);
       },
-      verify: (game, _) async {
+      verify: (game, tester) async {
+        game.update(0);
+        await tester.pump();
         verifyNever(() => gameBloc.add(const MultiplierIncreased()));
       },
     );
@@ -178,7 +182,9 @@ void main() {
 
         await game.ready();
       },
-      verify: (game, _) async {
+      verify: (game, tester) async {
+        game.update(0);
+        await tester.pump();
         verifyNever(() => gameBloc.add(const MultiplierIncreased()));
       },
     );
