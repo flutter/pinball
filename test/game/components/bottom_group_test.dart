@@ -33,6 +33,7 @@ void main() {
     flameTester.testGameWidget(
       'loads correctly',
       setUp: (game, _) async {
+        await game.onLoad();
         final bottomGroup = BottomGroup();
         await game.ensureAdd(
           FlameBlocProvider<GameBloc, GameState>.value(
@@ -40,6 +41,7 @@ void main() {
             children: [bottomGroup],
           ),
         );
+        await game.ready();
       },
       verify: (game, _) async {
         expect(game.descendants().whereType<BottomGroup>().length, equals(1));
@@ -50,6 +52,7 @@ void main() {
       flameTester.testGameWidget(
         'one left flipper',
         setUp: (game, _) async {
+          await game.onLoad();
           final bottomGroup = BottomGroup();
           await game.ensureAdd(
             FlameBlocProvider<GameBloc, GameState>.value(
@@ -76,6 +79,7 @@ void main() {
       flameTester.testGameWidget(
         'one right flipper',
         setUp: (game, _) async {
+          await game.onLoad();
           final bottomGroup = BottomGroup();
           await game.ensureAdd(
             FlameBlocProvider<GameBloc, GameState>.value(
@@ -102,6 +106,7 @@ void main() {
       flameTester.testGameWidget(
         'two Baseboards',
         setUp: (game, _) async {
+          await game.onLoad();
           final bottomGroup = BottomGroup();
           await game.ensureAdd(
             FlameBlocProvider<GameBloc, GameState>.value(
@@ -123,6 +128,7 @@ void main() {
       flameTester.testGameWidget(
         'two Kickers',
         setUp: (game, _) async {
+          await game.onLoad();
           final bottomGroup = BottomGroup();
           await game.ensureAdd(
             FlameBlocProvider<GameBloc, GameState>.value(

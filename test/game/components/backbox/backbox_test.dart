@@ -655,6 +655,7 @@ void main() {
     flameTester.testGameWidget(
       'adds LeaderboardDisplay on LeaderboardSuccessState',
       setUp: (game, _) async {
+        await game.onLoad();
         whenListen(
           bloc,
           Stream<BackboxState>.empty(),
@@ -669,6 +670,7 @@ void main() {
           backbox,
           platformHelper: platformHelper,
         );
+        await game.ready();
       },
       verify: (game, _) async {
         expect(
@@ -681,6 +683,7 @@ void main() {
     flameTester.testGameWidget(
       'adds LeaderboardFailureDisplay on LeaderboardFailureState',
       setUp: (game, _) async {
+        await game.onLoad();
         whenListen(
           bloc,
           Stream<BackboxState>.empty(),
@@ -695,6 +698,7 @@ void main() {
           backbox,
           platformHelper: platformHelper,
         );
+        await game.ready();
       },
       verify: (game, _) async {
         expect(
