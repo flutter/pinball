@@ -130,6 +130,8 @@ app.*.map.json
 
 # Firebase related
 .firebase
+firebase.json
+lib/firebase_options.dart
 
 test/.test_runner.dart
 web/__/firebase/init.js
