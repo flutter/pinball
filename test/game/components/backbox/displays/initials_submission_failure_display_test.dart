@@ -48,6 +48,7 @@ void main() {
     flameTester.testGameWidget(
       'renders correctly',
       setUp: (game, _) async {
+        await game.onLoad();
         await game.pump(
           InitialsSubmissionFailureDisplay(
             onDismissed: () {},
