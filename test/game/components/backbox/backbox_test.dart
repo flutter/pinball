@@ -300,6 +300,7 @@ void main() {
     flameTester.testGameWidget(
       'adds PlayerInitialsSubmitted when initials are submitted',
       setUp: (game, _) async {
+        await game.onLoad();
         final state = InitialsFormState(
           score: 10,
           character: game.character,
@@ -336,6 +337,7 @@ void main() {
     flameTester.testGameWidget(
       'adds GameOverInfoDisplay when InitialsSuccessState',
       setUp: (game, _) async {
+        await game.onLoad();
         final state = InitialsSuccessState(score: 100);
         whenListen(
           bloc,
@@ -350,6 +352,7 @@ void main() {
           backbox,
           platformHelper: platformHelper,
         );
+        await game.ready();
       },
       verify: (game, _) async {
         expect(
@@ -363,6 +366,7 @@ void main() {
       'adds the mobile controls overlay '
       'when platform is mobile at InitialsFormState',
       setUp: (game, _) async {
+        await game.onLoad();
         final platformHelper = _MockPlatformHelper();
         final state = InitialsFormState(
           score: 10,
@@ -382,6 +386,7 @@ void main() {
           backbox,
           platformHelper: platformHelper,
         );
+        await game.ready();
       },
       verify: (game, _) async {
         expect(
@@ -395,6 +400,7 @@ void main() {
       'remove the mobile controls overlay '
       'when InitialsSuccessState',
       setUp: (game, _) async {
+        await game.onLoad();
         final platformHelper = _MockPlatformHelper();
         final state = InitialsSuccessState(score: 10);
         whenListen(
@@ -411,6 +417,7 @@ void main() {
           backbox,
           platformHelper: platformHelper,
         );
+        await game.ready();
       },
       verify: (game, _) async {
         expect(
@@ -423,6 +430,7 @@ void main() {
     flameTester.testGameWidget(
       'adds InitialsSubmissionSuccessDisplay on InitialsSuccessState',
       setUp: (game, _) async {
+        await game.onLoad();
         final state = InitialsSuccessState(score: 100);
         whenListen(
           bloc,
@@ -437,6 +445,7 @@ void main() {
           backbox,
           platformHelper: platformHelper,
         );
+        await game.ready();
       },
       verify: (game, _) async {
         expect(
@@ -449,6 +458,7 @@ void main() {
     flameTester.testGameWidget(
       'adds ShareScoreRequested event when sharing',
       setUp: (game, _) async {
+        await game.onLoad();
         final state = InitialsSuccessState(score: 100);
         whenListen(
           bloc,
@@ -484,6 +494,7 @@ void main() {
     flameTester.testGameWidget(
       'adds InitialsSubmissionFailureDisplay on InitialsFailureState',
       setUp: (game, _) async {
+        await game.onLoad();
         whenListen(
           bloc,
           Stream<BackboxState>.empty(),
@@ -500,6 +511,7 @@ void main() {
           backbox,
           platformHelper: platformHelper,
         );
+        await game.ready();
       },
       verify: (game, _) async {
         expect(
@@ -521,6 +533,7 @@ void main() {
       flameTester.testGameWidget(
         'adds ShareDisplay on ShareState',
         setUp: (game, _) async {
+          await game.onLoad();
           final state = ShareState(score: 100);
           whenListen(
             bloc,
@@ -535,6 +548,7 @@ void main() {
             backbox,
             platformHelper: platformHelper,
           );
+          await game.ready();
         },
         verify: (game, _) async {
           expect(
@@ -547,6 +561,7 @@ void main() {
       flameTester.testGameWidget(
         'opens Facebook link when sharing with Facebook',
         setUp: (game, _) async {
+          await game.onLoad();
           when(() => urlLauncher.canLaunch(any()))
               .thenAnswer((_) async => true);
           when(
@@ -711,6 +726,7 @@ void main() {
     flameTester.testGameWidget(
       'closes the subscription when it is removed',
       setUp: (game, _) async {
+        await game.onLoad();
         final streamController = StreamController<BackboxState>();
         whenListen(
           bloc,
@@ -751,6 +767,7 @@ void main() {
     flameTester.testGameWidget(
       'adds PlayerInitialsSubmitted when the timer is finished',
       setUp: (game, _) async {
+        await game.onLoad();
         final initialState = InitialsFailureState(
           score: 10,
           character: theme.DashTheme(),
@@ -769,6 +786,7 @@ void main() {
           backbox,
           platformHelper: platformHelper,
         );
+        await game.ready();
       },
       verify: (game, _) async {
         game.update(4);
