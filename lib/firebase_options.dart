@@ -60,5 +60,4 @@ class DefaultFirebaseOptions {
     authDomain: '',
     storageBucket: '',
   );
-
 }

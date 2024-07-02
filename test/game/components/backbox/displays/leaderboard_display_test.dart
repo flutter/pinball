@@ -108,6 +108,7 @@ void main() {
     flameTester.testGameWidget(
       'renders the titles',
       setUp: (game, _) async {
+        await game.onLoad();
         await game.pump(LeaderboardDisplay(entries: const []));
         await game.ready();
       },
@@ -124,7 +125,9 @@ void main() {
     flameTester.testGameWidget(
       'renders the first 5 entries',
       setUp: (game, _) async {
+        await game.onLoad();
         await game.pump(LeaderboardDisplay(entries: leaderboard));
+        await game.ready();
       },
       verify: (game, _) async {
         for (final text in [
@@ -154,6 +157,7 @@ void main() {
     flameTester.testGameWidget(
       'can open the second page',
       setUp: (game, _) async {
+        await game.onLoad();
         final display = LeaderboardDisplay(entries: leaderboard);
         await game.pump(display);
         final arrow = game
@@ -165,7 +169,7 @@ void main() {
         // Tap the arrow
         arrow.onTap();
         // Wait for the transition to finish
-        display.updateTree(5);
+        game.update(5);
         await game.ready();
       },
       verify: (game, _) async {
@@ -196,6 +200,7 @@ void main() {
     flameTester.testGameWidget(
       'can open the second page and go back to the first',
       setUp: (game, _) async {
+        await game.onLoad();
         final display = LeaderboardDisplay(entries: leaderboard);
         await game.pump(display);
 
@@ -208,10 +213,10 @@ void main() {
         // Tap the arrow
         arrow.onTap();
         // Wait for the transition to finish
-        display.updateTree(5);
+        game.update(5);
         await game.ready();
       },
-      verify: (game, _) async {
+      verify: (game, tester) async {
         for (final text in [
           'FFF',
           'GGG',
@@ -244,9 +249,8 @@ void main() {
         arrow.onTap();
 
         // Wait for the transition to finish
-        final display = LeaderboardDisplay(entries: leaderboard);
-        display.updateTree(5);
-        await game.ready();
+        game.update(5);
+        await tester.pump();
 
         for (final text in [
           'AAA',
