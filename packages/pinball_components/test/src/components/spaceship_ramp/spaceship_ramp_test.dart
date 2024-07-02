@@ -156,8 +156,10 @@ void main() {
         await game.ensureAdd(component);
       },
       verify: (game, _) async {
-        expect(game.descendants().whereType<SpaceshipRampBase>().length,
-            equals(1),);
+        expect(
+          game.descendants().whereType<SpaceshipRampBase>().length,
+          equals(1),
+        );
       },
     );
 

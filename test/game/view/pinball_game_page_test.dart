@@ -64,8 +64,8 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {
 
 class _MockPinballAudioPlayer extends Mock implements PinballAudioPlayer {}
 
-class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
-}
+class _MockLeaderboardRepository extends Mock
+    implements LeaderboardRepository {}
 
 class _MockShareRepository extends Mock implements ShareRepository {}
 

@@ -54,8 +54,10 @@ void main() {
         await game.pump(behavior);
       },
       verify: (game, _) async {
-        expect(game.descendants().whereType<PlungerReleasingBehavior>(),
-            isNotEmpty,);
+        expect(
+          game.descendants().whereType<PlungerReleasingBehavior>(),
+          isNotEmpty,
+        );
       },
     );
 

@@ -194,11 +194,13 @@ class _RandomABAudio extends _Audio {
     await Future.wait(
       [
         createAudioPool(
-          source: DeviceFileSource(prefixFile(audioAssetA), mimeType: 'audio/mpeg'),
+          source:
+              DeviceFileSource(prefixFile(audioAssetA), mimeType: 'audio/mpeg'),
           maxPlayers: 4,
         ).then((pool) => audioA = pool),
         createAudioPool(
-          source: DeviceFileSource(prefixFile(audioAssetB), mimeType: 'audio/mpeg'),
+          source:
+              DeviceFileSource(prefixFile(audioAssetB), mimeType: 'audio/mpeg'),
           maxPlayers: 4,
         ).then((pool) => audioB = pool),
       ],
