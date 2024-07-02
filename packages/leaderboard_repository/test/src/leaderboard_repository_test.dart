@@ -30,7 +30,7 @@ void main() {
     });
 
     test('can be instantiated', () {
-      expect(LeaderboardRepository(), isNotNull);
+      expect(LeaderboardRepository(firestore), isNotNull);
     });
 
     group('fetchTop10Leaderboard', () {
@@ -66,7 +66,7 @@ void main() {
           .toList();
 
       setUp(() {
-        leaderboardRepository = LeaderboardRepository();
+        leaderboardRepository = LeaderboardRepository(firestore);
         collectionReference = _MockCollectionReference();
         query = _MockQuery();
         querySnapshot = _MockQuerySnapshot();
@@ -152,7 +152,7 @@ void main() {
       const entryDocumentId = 'id$entryScore';
 
       setUp(() {
-        leaderboardRepository = LeaderboardRepository();
+        leaderboardRepository = LeaderboardRepository(firestore);
         collectionReference = _MockCollectionReference();
         documentReference = _MockDocumentReference();
         query = _MockQuery();

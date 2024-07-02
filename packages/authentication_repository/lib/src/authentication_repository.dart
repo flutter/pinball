@@ -19,18 +19,18 @@ class AuthenticationException implements Exception {
 /// {@endtemplate}
 class AuthenticationRepository {
   /// {@macro authentication_repository}
-  AuthenticationRepository(/*this._firebaseAuth*/);
+  AuthenticationRepository(this._firebaseAuth);
 
-  // final FirebaseAuth _firebaseAuth;
+  final FirebaseAuth _firebaseAuth;
 
   /// Sign in the existing user anonymously using [FirebaseAuth]. If the
   /// authentication process can't be completed, it will throw an
   /// [AuthenticationException].
   Future<void> authenticateAnonymously() async {
-    // try {
-    //   await _firebaseAuth.signInAnonymously();
-    // } on Exception catch (error, stackTrace) {
-    //   throw AuthenticationException(error, stackTrace);
-    // }
+    try {
+      await _firebaseAuth.signInAnonymously();
+    } on Exception catch (error, stackTrace) {
+      throw AuthenticationException(error, stackTrace);
+    }
   }
 }

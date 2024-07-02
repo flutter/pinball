@@ -11,7 +11,7 @@ class TestGame extends Forge2DGame {
   @override
   Future<void> onLoad() async {
     if (_assets != null) {
-      await images.loadAll(_assets!);
+      await images.loadAll(_assets);
     }
     await super.onLoad();
   }
