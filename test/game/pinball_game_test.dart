@@ -9,7 +9,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:leaderboard_repository/leaderboard_repository.dart';
-import 'package:leaderboard_repository/src/leaderboard_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/behaviors/behaviors.dart';
 import 'package:pinball/game/components/backbox/displays/displays.dart';
