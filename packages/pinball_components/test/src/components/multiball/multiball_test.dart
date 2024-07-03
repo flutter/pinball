@@ -70,6 +70,7 @@ void main() {
     flameTester.testGameWidget(
       'closes bloc when removed',
       setUp: (game, _) async {
+        await game.onLoad();
         final bloc = _MockMultiballCubit();
         whenListen(
           bloc,
@@ -80,6 +81,7 @@ void main() {
         final multiball = Multiball.test(bloc: bloc);
 
         await game.ensureAdd(multiball);
+        await game.ready();
       },
       verify: (game, _) async {
         final multiball = game.descendants().whereType<Multiball>().single;

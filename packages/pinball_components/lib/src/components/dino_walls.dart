@@ -142,7 +142,7 @@ class _DinoTopWallTunnelSpriteComponent extends SpriteComponent
       ),
     );
     this.sprite = sprite;
-    size = sprite.originalSize;
+    size = sprite.originalSize / 10;
   }
 }
 

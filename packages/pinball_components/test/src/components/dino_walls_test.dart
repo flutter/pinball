@@ -38,9 +38,9 @@ void main() {
         game.camera.moveTo(Vector2.zero());
         game.camera.viewfinder.zoom = 6.5;
         await game.ready();
-        await tester.pump();
       },
       verify: (game, tester) async {
+        await tester.pump();
         await expectLater(
           find.byGame<TestGame>(),
           matchesGoldenFile('golden/dino_walls.png'),
