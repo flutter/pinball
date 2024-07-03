@@ -31,6 +31,7 @@ void main() {
       late Int32List int32list;
       late Picture picture;
       late Paragraph paragraph;
+      late Vertices vertices;
 
       setUp(() {
         canvas = _MockCanvas();
@@ -47,6 +48,7 @@ void main() {
         int32list = Int32List(1);
         picture = _MockPicture();
         paragraph = _MockParagraph();
+        vertices = Vertices(VertexMode.triangles, [Offset.zero]);
       });
 
       test("clipPath calls Canvas's clipPath", () {
@@ -329,11 +331,40 @@ void main() {
         verify(() => canvas.transform(float64list)).called(1);
       });
 
+      test("drawVertices calls Canvas's drawVertices", () {
+        CanvasWrapper()
+          ..canvas = canvas
+          ..drawVertices(vertices, blendMode, paint);
+        verify(
+          () => canvas.drawVertices(vertices, blendMode, paint),
+        ).called(1);
+      });
+
       test("translate calls Canvas's translate", () {
         CanvasWrapper()
           ..canvas = canvas
           ..translate(0, 0);
         verify(() => canvas.translate(0, 0)).called(1);
+      });
+
+      test('throws exception for unimplemented methods', () {
+        final canvasWrapper = CanvasWrapper()..canvas = canvas;
+        expect(
+          canvasWrapper.getDestinationClipBounds,
+          throwsUnimplementedError,
+        );
+        expect(
+          canvasWrapper.getLocalClipBounds,
+          throwsUnimplementedError,
+        );
+        expect(
+          canvasWrapper.getTransform,
+          throwsUnimplementedError,
+        );
+        expect(
+          () => canvasWrapper.restoreToCount(0),
+          throwsUnimplementedError,
+        );
       });
     });
   });
