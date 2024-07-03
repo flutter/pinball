@@ -131,6 +131,7 @@ void main() {
       flameTester.testGameWidget(
         'onNewState adds a ball',
         setUp: (game, _) async {
+          await game.onLoad();
           final behavior = BallSpawningBehavior();
           await game.pump([
             behavior,
