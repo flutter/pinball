@@ -76,9 +76,8 @@ class _LinkBoxHeader extends StatelessWidget {
 
 class _LinkBoxDecoration extends StatelessWidget {
   const _LinkBoxDecoration({
-    Key? key,
     required this.child,
-  }) : super(key: key);
+  });
 
   final Widget child;
 
