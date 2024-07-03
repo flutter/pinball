@@ -28,11 +28,13 @@ void main() {
         'impulses the ball with the given velocity when loaded '
         'and then removes itself',
         setUp: (game, _) async {
+          await game.onLoad();
           final ball = Ball.test();
           await game.ensureAdd(ball);
           final impulse = Vector2.all(1);
           final behavior = BallImpulsingBehavior(impulse: impulse);
           await ball.ensureAdd(behavior);
+          await game.ready();
         },
         verify: (game, _) async {
           final ball = game.descendants().whereType<Ball>().single;

@@ -101,6 +101,7 @@ void main() {
               bloc: bloc,
             );
             await opening.ensureAdd(behavior);
+            await game.ready();
           },
           verify: (game, _) async {
             final behavior = game
@@ -121,6 +122,7 @@ void main() {
         flameTester.testGameWidget(
           "doesn't call 'onAscendingBallEntered' when a ball goes out the ramp",
           setUp: (game, _) async {
+            await game.onLoad();
             final behavior = RampBallAscendingContactBehavior();
             final bloc = _MockSpaceshipRampCubit();
             whenListen(
@@ -141,6 +143,7 @@ void main() {
               bloc: bloc,
             );
             await opening.ensureAdd(behavior);
+            await game.ready();
           },
           verify: (game, _) async {
             final behavior = game

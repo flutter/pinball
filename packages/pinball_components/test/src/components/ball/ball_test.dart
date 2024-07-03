@@ -33,9 +33,10 @@ void main() {
     flameTester.testGameWidget(
       'loads correctly',
       setUp: (game, _) async {
+        await game.onLoad();
         final ball = Ball();
-        await game.ready();
         await game.ensureAdd(ball);
+        await game.ready();
       },
       verify: (game, _) async {
         expect(game.descendants().whereType<Ball>(), isNotEmpty);
@@ -45,9 +46,10 @@ void main() {
     flameTester.testGameWidget(
       'has only one SpriteComponent',
       setUp: (game, _) async {
+        await game.onLoad();
         final ball = Ball();
-        await game.ready();
         await game.ensureAdd(ball);
+        await game.ready();
       },
       verify: (game, _) async {
         final ball = game.descendants().whereType<Ball>().single;
@@ -61,9 +63,10 @@ void main() {
     flameTester.testGameWidget(
       'BallSpriteComponent changes sprite onNewState',
       setUp: (game, _) async {
+        await game.onLoad();
         final ball = Ball();
-        await game.ready();
         await game.ensureAdd(ball);
+        await game.ready();
       },
       verify: (game, _) async {
         final ball = game.descendants().whereType<Ball>().single;

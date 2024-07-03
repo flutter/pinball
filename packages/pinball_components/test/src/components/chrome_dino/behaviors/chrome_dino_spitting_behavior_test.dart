@@ -36,6 +36,7 @@ void main() {
         flameTester.testGameWidget(
           'sets ball sprite to visible and sets a linear velocity',
           setUp: (game, _) async {
+            await game.onLoad();
             final ball = Ball();
             final behavior = ChromeDinoSpittingBehavior();
             final bloc = _MockChromeDinoCubit();
@@ -82,6 +83,7 @@ void main() {
         flameTester.testGameWidget(
           'calls onSpit',
           setUp: (game, _) async {
+            await game.onLoad();
             final ball = Ball();
             final behavior = ChromeDinoSpittingBehavior();
             final bloc = _MockChromeDinoCubit();

@@ -29,8 +29,10 @@ void main() {
     flameTester.testGameWidget(
       'left loads correctly',
       setUp: (game, _) async {
+        await game.onLoad();
         final googleRollover = GoogleRollover(side: BoardSide.left);
         await game.ensureAdd(googleRollover);
+        await game.ready();
       },
       verify: (game, _) async {
         final googleRollover =
@@ -42,8 +44,10 @@ void main() {
     flameTester.testGameWidget(
       'right loads correctly',
       setUp: (game, _) async {
+        await game.onLoad();
         final googleRollover = GoogleRollover(side: BoardSide.right);
         await game.ensureAdd(googleRollover);
+        await game.ready();
       },
       verify: (game, _) async {
         final googleRollover =
@@ -56,12 +60,14 @@ void main() {
       flameTester.testGameWidget(
         'new children',
         setUp: (game, _) async {
+          await game.onLoad();
           final component = Component();
           final googleRollover = GoogleRollover(
             side: BoardSide.left,
             children: [component],
           );
           await game.ensureAdd(googleRollover);
+          await game.ready();
         },
         verify: (game, _) async {
           final googleRollover =
@@ -73,8 +79,10 @@ void main() {
       flameTester.testGameWidget(
         'a GoogleRolloverBallContactBehavior',
         setUp: (game, _) async {
+          await game.onLoad();
           final googleRollover = GoogleRollover(side: BoardSide.left);
           await game.ensureAdd(googleRollover);
+          await game.ready();
         },
         verify: (game, _) async {
           final googleRollover =
@@ -92,6 +100,7 @@ void main() {
     flameTester.testGameWidget(
       'pin stops animating after animation completes',
       setUp: (game, _) async {
+        await game.onLoad();
         final googleRollover = GoogleRollover(side: BoardSide.left);
         await game.ensureAdd(googleRollover);
         await game.ready();

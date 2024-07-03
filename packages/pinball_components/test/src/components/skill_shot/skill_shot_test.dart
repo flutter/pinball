@@ -26,8 +26,10 @@ void main() {
     flameTester.testGameWidget(
       'loads correctly',
       setUp: (game, _) async {
+        await game.onLoad();
         final skillShot = SkillShot();
         await game.ensureAdd(skillShot);
+        await game.ready();
       },
       verify: (game, _) async {
         expect(game.descendants().whereType<SkillShot>().length, equals(1));
@@ -37,6 +39,7 @@ void main() {
     flameTester.testGameWidget(
       'closes bloc when removed',
       setUp: (game, _) async {
+        await game.onLoad();
         final bloc = _MockSkillShotCubit();
         whenListen(
           bloc,
@@ -61,11 +64,13 @@ void main() {
       flameTester.testGameWidget(
         'new children',
         setUp: (game, _) async {
+          await game.onLoad();
           final component = Component();
           final skillShot = SkillShot(
             children: [component],
           );
           await game.ensureAdd(skillShot);
+          await game.ready();
         },
         verify: (game, _) async {
           final skillShot = game.descendants().whereType<SkillShot>().single;
@@ -76,8 +81,10 @@ void main() {
       flameTester.testGameWidget(
         'a SkillShotBallContactBehavior',
         setUp: (game, _) async {
+          await game.onLoad();
           final skillShot = SkillShot();
           await game.ensureAdd(skillShot);
+          await game.ready();
         },
         verify: (game, _) async {
           final skillShot = game.descendants().whereType<SkillShot>().single;
@@ -91,8 +98,10 @@ void main() {
       flameTester.testGameWidget(
         'a SkillShotBlinkingBehavior',
         setUp: (game, _) async {
+          await game.onLoad();
           final skillShot = SkillShot();
           await game.ensureAdd(skillShot);
+          await game.ready();
         },
         verify: (game, _) async {
           final skillShot = game.descendants().whereType<SkillShot>().single;
@@ -107,9 +116,10 @@ void main() {
     flameTester.testGameWidget(
       'pin stops animating after animation completes',
       setUp: (game, _) async {
+        await game.onLoad();
         final skillShot = SkillShot();
-        await game.ready();
         await game.ensureAdd(skillShot);
+        await game.ready();
       },
       verify: (game, _) async {
         final skillShot = game.descendants().whereType<SkillShot>().single;
