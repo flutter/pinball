@@ -75,8 +75,10 @@ void main() {
     flameTester.testGameWidget(
       'adds a FlapperSpinningBehavior to FlapperEntrance',
       setUp: (game, _) async {
+        await game.onLoad();
         final flapper = Flapper();
         await game.ensureAdd(flapper);
+        await game.ready();
       },
       verify: (game, _) async {
         final flapper = game.descendants().whereType<Flapper>().single;
@@ -91,6 +93,7 @@ void main() {
     flameTester.testGameWidget(
       'flap stops animating after animation completes',
       setUp: (game, _) async {
+        await game.onLoad();
         final flapper = Flapper();
         await game.ensureAdd(flapper);
         await game.ready();
