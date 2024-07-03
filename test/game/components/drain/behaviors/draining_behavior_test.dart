@@ -49,10 +49,12 @@ void main() {
       flameTester.testGameWidget(
         'loads',
         setUp: (game, _) async {
+          await game.onLoad();
           final parent = Drain.test();
           final behavior = DrainingBehavior();
           await parent.add(behavior);
           await game.ensureAdd(parent);
+          await game.ready();
         },
         verify: (game, _) async {
           final parent = game.descendants().whereType<Drain>().single;
@@ -75,6 +77,7 @@ void main() {
         flameBlocTester.testGameWidget(
           'adds RoundLost when no balls left',
           setUp: (game, _) async {
+            await game.onLoad();
             final drain = Drain.test();
             final behavior = DrainingBehavior();
             final ball = Ball.test();
@@ -97,6 +100,7 @@ void main() {
         flameBlocTester.testGameWidget(
           "doesn't add RoundLost when there are balls left",
           setUp: (game, _) async {
+            await game.onLoad();
             final drain = Drain.test();
             final behavior = DrainingBehavior();
             final ball1 = Ball.test();
@@ -120,6 +124,7 @@ void main() {
         flameBlocTester.testGameWidget(
           'removes the Ball',
           setUp: (game, _) async {
+            await game.onLoad();
             final drain = Drain.test();
             final behavior = DrainingBehavior();
             final ball = Ball.test();
