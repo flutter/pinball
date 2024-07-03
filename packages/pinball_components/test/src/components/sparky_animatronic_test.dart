@@ -70,11 +70,13 @@ void main() {
     flameTester.testGameWidget(
       'adds new children',
       setUp: (game, _) async {
+        await game.onLoad();
         final component = Component();
         final sparkyAnimatronic = SparkyAnimatronic(
           children: [component],
         );
         await game.ensureAdd(sparkyAnimatronic);
+        await game.ready();
       },
       verify: (game, _) async {
         final sparkyAnimatronic =
