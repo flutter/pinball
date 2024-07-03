@@ -29,8 +29,10 @@ void main() {
     flameTester.testGameWidget(
       '"a" loads correctly',
       setUp: (game, _) async {
+        await game.onLoad();
         final androidBumper = AndroidBumper.a();
         await game.ensureAdd(androidBumper);
+        await game.ready();
       },
       verify: (game, _) async {
         expect(game.descendants().whereType<AndroidBumper>(), isNotEmpty);
@@ -40,8 +42,10 @@ void main() {
     flameTester.testGameWidget(
       '"b" loads correctly',
       setUp: (game, _) async {
+        await game.onLoad();
         final androidBumper = AndroidBumper.b();
         await game.ensureAdd(androidBumper);
+        await game.ready();
       },
       verify: (game, _) async {
         expect(game.descendants().whereType<AndroidBumper>(), isNotEmpty);
@@ -51,8 +55,10 @@ void main() {
     flameTester.testGameWidget(
       '"cow" loads correctly',
       setUp: (game, _) async {
+        await game.onLoad();
         final androidBumper = AndroidBumper.cow();
         await game.ensureAdd(androidBumper);
+        await game.ready();
       },
       verify: (game, _) async {
         expect(game.descendants().whereType<AndroidBumper>(), isNotEmpty);
@@ -62,6 +68,7 @@ void main() {
     flameTester.testGameWidget(
       'closes bloc when removed',
       setUp: (game, _) async {
+        await game.onLoad();
         final bloc = _MockAndroidBumperCubit();
         whenListen(
           bloc,
@@ -89,8 +96,10 @@ void main() {
       flameTester.testGameWidget(
         'an AndroidBumperBallContactBehavior',
         setUp: (game, _) async {
+          await game.onLoad();
           final androidBumper = AndroidBumper.a();
           await game.ensureAdd(androidBumper);
+          await game.ready();
         },
         verify: (game, _) async {
           final androidBumper =
@@ -106,8 +115,10 @@ void main() {
       flameTester.testGameWidget(
         'an AndroidBumperBlinkingBehavior',
         setUp: (game, _) async {
+          await game.onLoad();
           final androidBumper = AndroidBumper.a();
           await game.ensureAdd(androidBumper);
+          await game.ready();
         },
         verify: (game, _) async {
           final androidBumper =
@@ -126,6 +137,7 @@ void main() {
       flameTester.testGameWidget(
         'new children',
         setUp: (game, _) async {
+          await game.onLoad();
           final component = Component();
           final androidBumper = AndroidBumper.a(
             children: [component],
@@ -143,8 +155,10 @@ void main() {
       flameTester.testGameWidget(
         'a BumpingBehavior',
         setUp: (game, _) async {
+          await game.onLoad();
           final androidBumper = AndroidBumper.a();
           await game.ensureAdd(androidBumper);
+          await game.ready();
         },
         verify: (game, _) async {
           final androidBumper =
@@ -161,11 +175,13 @@ void main() {
       flameTester.testGameWidget(
         'new children',
         setUp: (game, _) async {
+          await game.onLoad();
           final component = Component();
           final androidBumper = AndroidBumper.b(
             children: [component],
           );
           await game.ensureAdd(androidBumper);
+          await game.ready();
         },
         verify: (game, _) async {
           final androidBumper =
@@ -177,8 +193,10 @@ void main() {
       flameTester.testGameWidget(
         'a BumpingBehavior',
         setUp: (game, _) async {
+          await game.onLoad();
           final androidBumper = AndroidBumper.b();
           await game.ensureAdd(androidBumper);
+          await game.ready();
         },
         verify: (game, _) async {
           final androidBumper =
@@ -195,11 +213,13 @@ void main() {
       flameTester.testGameWidget(
         'new children',
         setUp: (game, _) async {
+          await game.onLoad();
           final component = Component();
           final androidBumper = AndroidBumper.cow(
             children: [component],
           );
           await game.ensureAdd(androidBumper);
+          await game.ready();
         },
         verify: (game, _) async {
           final androidBumper =
@@ -211,8 +231,10 @@ void main() {
       flameTester.testGameWidget(
         'a BumpingBehavior',
         setUp: (game, _) async {
+          await game.onLoad();
           final androidBumper = AndroidBumper.cow();
           await game.ensureAdd(androidBumper);
+          await game.ready();
         },
         verify: (game, _) async {
           final androidBumper =
