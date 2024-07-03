@@ -29,8 +29,10 @@ void main() {
     flameTester.testGameWidget(
       '"a" loads correctly',
       setUp: (game, _) async {
+        await game.onLoad();
         final sparkyBumper = SparkyBumper.a();
         await game.ensureAdd(sparkyBumper);
+        await game.ready();
       },
       verify: (game, _) async {
         expect(game.descendants().whereType<SparkyBumper>().length, equals(1));
@@ -40,8 +42,10 @@ void main() {
     flameTester.testGameWidget(
       '"b" loads correctly',
       setUp: (game, _) async {
+        await game.onLoad();
         final sparkyBumper = SparkyBumper.b();
         await game.ensureAdd(sparkyBumper);
+        await game.ready();
       },
       verify: (game, _) async {
         expect(game.descendants().whereType<SparkyBumper>().length, equals(1));
@@ -51,8 +55,10 @@ void main() {
     flameTester.testGameWidget(
       '"c" loads correctly',
       setUp: (game, _) async {
+        await game.onLoad();
         final sparkyBumper = SparkyBumper.c();
         await game.ensureAdd(sparkyBumper);
+        await game.ready();
       },
       verify: (game, _) async {
         expect(game.descendants().whereType<SparkyBumper>().length, equals(1));
@@ -62,6 +68,7 @@ void main() {
     flameTester.testGameWidget(
       'closes bloc when removed',
       setUp: (game, _) async {
+        await game.onLoad();
         final bloc = _MockSparkyBumperCubit();
         whenListen(
           bloc,
@@ -87,8 +94,10 @@ void main() {
       flameTester.testGameWidget(
         'a SparkyBumperBallContactBehavior',
         setUp: (game, _) async {
+          await game.onLoad();
           final sparkyBumper = SparkyBumper.a();
           await game.ensureAdd(sparkyBumper);
+          await game.ready();
         },
         verify: (game, _) async {
           final sparkyBumper =
@@ -105,8 +114,10 @@ void main() {
       flameTester.testGameWidget(
         'a SparkyBumperBlinkingBehavior',
         setUp: (game, _) async {
+          await game.onLoad();
           final sparkyBumper = SparkyBumper.a();
           await game.ensureAdd(sparkyBumper);
+          await game.ready();
         },
         verify: (game, _) async {
           final sparkyBumper =
@@ -125,11 +136,13 @@ void main() {
       flameTester.testGameWidget(
         'new children',
         setUp: (game, _) async {
+          await game.onLoad();
           final component = Component();
           final sparkyBumper = SparkyBumper.a(
             children: [component],
           );
           await game.ensureAdd(sparkyBumper);
+          await game.ready();
         },
         verify: (game, _) async {
           final sparkyBumper =
@@ -141,8 +154,10 @@ void main() {
       flameTester.testGameWidget(
         'a BumpingBehavior',
         setUp: (game, _) async {
+          await game.onLoad();
           final sparkyBumper = SparkyBumper.a();
           await game.ensureAdd(sparkyBumper);
+          await game.ready();
         },
         verify: (game, _) async {
           final sparkyBumper =
@@ -159,11 +174,13 @@ void main() {
       flameTester.testGameWidget(
         'new children',
         setUp: (game, _) async {
+          await game.onLoad();
           final component = Component();
           final sparkyBumper = SparkyBumper.b(
             children: [component],
           );
           await game.ensureAdd(sparkyBumper);
+          await game.ready();
         },
         verify: (game, _) async {
           final sparkyBumper =
@@ -175,8 +192,10 @@ void main() {
       flameTester.testGameWidget(
         'a BumpingBehavior',
         setUp: (game, _) async {
+          await game.onLoad();
           final sparkyBumper = SparkyBumper.b();
           await game.ensureAdd(sparkyBumper);
+          await game.ready();
         },
         verify: (game, _) async {
           final sparkyBumper =
@@ -192,11 +211,13 @@ void main() {
         flameTester.testGameWidget(
           'new children',
           setUp: (game, _) async {
+            await game.onLoad();
             final component = Component();
             final sparkyBumper = SparkyBumper.c(
               children: [component],
             );
             await game.ensureAdd(sparkyBumper);
+            await game.ready();
           },
           verify: (game, _) async {
             final sparkyBumper =
@@ -208,8 +229,10 @@ void main() {
         flameTester.testGameWidget(
           'a BumpingBehavior',
           setUp: (game, _) async {
+            await game.onLoad();
             final sparkyBumper = SparkyBumper.c();
             await game.ensureAdd(sparkyBumper);
+            await game.ready();
           },
           verify: (game, _) async {
             final sparkyBumper =
