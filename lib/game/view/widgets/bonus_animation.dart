@@ -111,7 +111,7 @@ class _BonusAnimationState extends State<BonusAnimation>
     shouldRunBuildCallback = oldWidget._imagePath == widget._imagePath;
 
     Future<void>.delayed(
-      Duration(seconds: animation.createTicker().totalDuration().ceil()),
+      Duration(seconds: duration()),
       () {
         widget._onCompleted?.call();
       },
@@ -140,7 +140,7 @@ class _BonusAnimationState extends State<BonusAnimation>
     animationTicker = animation.createTicker();
 
     Future<void>.delayed(
-      Duration(seconds: animationTicker.totalDuration().ceil()),
+      Duration(seconds: duration()),
       () {
         if (shouldRunBuildCallback) {
           widget._onCompleted?.call();

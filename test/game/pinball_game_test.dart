@@ -8,9 +8,11 @@ import 'package:flame_test/flame_test.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:leaderboard_repository/leaderboard_repository.dart';
 import 'package:leaderboard_repository/src/leaderboard_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/behaviors/behaviors.dart';
+import 'package:pinball/game/components/backbox/displays/displays.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball/select_character/select_character.dart';
 import 'package:pinball_audio/src/pinball_audio.dart';
@@ -61,6 +63,15 @@ class _MockGameBloc extends Mock implements GameBloc {}
 class _MockAppLocalizations extends Mock implements AppLocalizations {
   @override
   String get leaderboardErrorMessage => '';
+
+  @override
+  String get rank => 'rank';
+
+  @override
+  String get score => 'score';
+
+  @override
+  String get name => 'name';
 }
 
 class _MockEventPosition extends Mock implements EventPosition {}
@@ -231,6 +242,70 @@ void main() {
           expect(
             game.descendants().whereType<SkillShot>().length,
             equals(1),
+          );
+        },
+      );
+
+      flameTester.testGameWidget(
+        'creates initial leaderboard if there are entries.',
+        setUp: (game, _) async {
+          final top10Scores = [
+            2500,
+            2200,
+            2200,
+            2000,
+            1800,
+            1400,
+            1300,
+            1000,
+            600,
+            300,
+            100,
+          ];
+          final top10Leaderboard = top10Scores
+              .map(
+                (score) => LeaderboardEntryData(
+                  playerInitials: 'user$score',
+                  score: score,
+                  character: CharacterType.dash,
+                ),
+              )
+              .toList();
+          when(game.leaderboardRepository.fetchTop10Leaderboard)
+              .thenAnswer((_) async => top10Leaderboard);
+          await game.preFetchLeaderboard();
+          await game.preLoad();
+          await game.onLoad();
+          await game.ready();
+        },
+        verify: (game, _) async {
+          expect(
+            game
+                .descendants()
+                .whereType<LeaderboardDisplay>()
+                .single
+                .descendants()
+                .whereType<TextComponent>()
+                .length,
+            equals(18),
+          );
+        },
+      );
+
+      flameTester.testGameWidget(
+        'creates empty leaderboard if there is an error loading.',
+        setUp: (game, _) async {
+          when(game.leaderboardRepository.fetchTop10Leaderboard)
+              .thenThrow(Exception());
+          await game.preFetchLeaderboard();
+          await game.preLoad();
+          await game.onLoad();
+          await game.ready();
+        },
+        verify: (game, _) async {
+          expect(
+            game.descendants().whereType<LeaderboardDisplay>(),
+            isEmpty,
           );
         },
       );
