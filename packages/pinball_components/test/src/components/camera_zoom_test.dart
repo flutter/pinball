@@ -78,10 +78,11 @@ void main() {
       },
       verify: (game, _) async {
         final cameraZoom = game.descendants().whereType<CameraZoom>().single;
+        final completed = cameraZoom.completed;
         game.update(10);
         game.update(0);
 
-        expect(cameraZoom.completed, completes);
+        expect(completed, completes);
       },
     );
   });
