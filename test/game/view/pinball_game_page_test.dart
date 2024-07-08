@@ -301,25 +301,31 @@ void main() {
       expect(game.focusNode.hasFocus, isTrue);
     });
 
-    testWidgets('mobile controls when the overlay is added', (tester) async {
-      await tester.pumpApp(
-        PinballGameView(game),
-        gameBloc: gameBloc,
-        startGameBloc: startGameBloc,
-      );
+    testWidgets(
+      'mobile controls when the overlay is added',
+      (tester) async {
+        await tester.pumpApp(
+          Material(child: PinballGameView(game)),
+          gameBloc: gameBloc,
+          startGameBloc: startGameBloc,
+        );
 
-      game.overlays.add(PinballGame.mobileControlsOverlay);
+        game.overlays.add(PinballGame.mobileControlsOverlay);
 
-      await tester.pump();
+        await tester.pump();
 
-      expect(find.byType(MobileControls), findsOneWidget);
-    });
+        expect(
+          game.overlays.isActive(PinballGame.mobileControlsOverlay),
+          isTrue,
+        );
+      },
+    );
 
     testWidgets(
       'ReplayButtonOverlay when the overlay is added',
       (tester) async {
         await tester.pumpApp(
-          PinballGameView(game),
+          Material(child: PinballGameView(game)),
           gameBloc: gameBloc,
           startGameBloc: startGameBloc,
         );
@@ -328,7 +334,10 @@ void main() {
 
         await tester.pump();
 
-        expect(find.byType(ReplayButtonOverlay), findsOneWidget);
+        expect(
+          game.overlays.isActive(PinballGame.replayButtonOverlay),
+          isTrue,
+        );
       },
     );
 

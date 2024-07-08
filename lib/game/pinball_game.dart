@@ -159,7 +159,7 @@ class PinballGame extends Forge2DGame
       final bounds = rocket.topLeftPosition & rocket.size;
 
       final tappedRocket =
-          bounds.contains(info.eventPosition.global.toOffset());
+          bounds.contains(screenToWorld(info.eventPosition.widget).toOffset());
       if (tappedRocket) {
         descendants()
             .whereType<FlameBlocProvider<PlungerCubit, PlungerState>>()

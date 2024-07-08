@@ -604,7 +604,9 @@ void main() {
           gameBloc.emit(gameBloc.state.copyWith(status: GameStatus.playing));
 
           final eventPosition = _MockEventPosition();
-          when(() => eventPosition.global).thenReturn(Vector2(40, 60));
+          when(() => eventPosition.widget).thenReturn(
+            game.worldToScreen(Vector2(40, 60)),
+          );
 
           final raw = _MockTapDownDetails();
           when(() => raw.kind).thenReturn(PointerDeviceKind.touch);
