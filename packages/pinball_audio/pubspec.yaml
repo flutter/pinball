@@ -4,20 +4,21 @@ version: 1.0.0+1
 publish_to: none
 
 environment:
-  sdk: ">=2.16.0 <3.0.0"
+  sdk: "^3.4.3"
 
 dependencies:
-  audioplayers: ^0.20.1
+  audioplayers: ^6.0.0
   clock: ^1.1.0
-  flame_audio: ^1.0.1
+  equatable: ^2.0.3
+  flame_audio: ^2.10.2
   flutter:
     sdk: flutter
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  mocktail: ^0.3.0
-  very_good_analysis: ^2.4.0
+  mocktail: ^1.0.4
+  very_good_analysis: ^6.0.0
 
 flutter_gen:
   line_length: 80

@@ -41,20 +41,26 @@ void main() {
   final flameTester = FlameTester(_TestGame.new);
 
   group('Multipliers', () {
-    flameTester.test(
+    flameTester.testGameWidget(
       'loads correctly',
-      (game) async {
+      setUp: (game, _) async {
         final component = Multipliers();
         await game.pump(component);
-        expect(game.descendants(), contains(component));
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<Multipliers>(), isNotEmpty);
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'loads five Multiplier',
-      (game) async {
+      setUp: (game, _) async {
         final multipliersGroup = Multipliers();
         await game.pump(multipliersGroup);
+      },
+      verify: (game, _) async {
+        final multipliersGroup =
+            game.descendants().whereType<Multipliers>().single;
         expect(
           multipliersGroup.descendants().whereType<Multiplier>().length,
           equals(5),

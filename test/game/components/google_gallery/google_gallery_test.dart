@@ -52,17 +52,24 @@ void main() {
   final flameTester = FlameTester(_TestGame.new);
 
   group('GoogleGallery', () {
-    flameTester.test('loads correctly', (game) async {
-      final component = GoogleGallery();
-      await game.pump(component);
-      expect(game.descendants(), contains(component));
-    });
+    flameTester.testGameWidget(
+      'loads correctly',
+      setUp: (game, _) async {
+        final component = GoogleGallery();
+        await game.pump(component);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<GoogleGallery>(), isNotEmpty);
+      },
+    );
 
     group('loads', () {
-      flameTester.test(
+      flameTester.testGameWidget(
         'two GoogleRollovers',
-        (game) async {
+        setUp: (game, _) async {
           await game.pump(GoogleGallery());
+        },
+        verify: (game, _) async {
           expect(
             game.descendants().whereType<GoogleRollover>().length,
             equals(2),
@@ -70,10 +77,12 @@ void main() {
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'a GoogleWord',
-        (game) async {
+        setUp: (game, _) async {
           await game.pump(GoogleGallery());
+        },
+        verify: (game, _) async {
           expect(
             game.descendants().whereType<GoogleWord>().length,
             equals(1),
@@ -83,11 +92,12 @@ void main() {
     });
 
     group('adds', () {
-      flameTester.test(
+      flameTester.testGameWidget(
         'ScoringContactBehavior to GoogleRollovers',
-        (game) async {
+        setUp: (game, _) async {
           await game.pump(GoogleGallery());
-
+        },
+        verify: (game, _) async {
           game.descendants().whereType<GoogleRollover>().forEach(
                 (rollover) => expect(
                   rollover.firstChild<ScoringContactBehavior>(),
@@ -97,11 +107,12 @@ void main() {
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'RolloverNoiseBehavior to GoogleRollovers',
-        (game) async {
+        setUp: (game, _) async {
           await game.pump(GoogleGallery());
-
+        },
+        verify: (game, _) async {
           game.descendants().whereType<GoogleRollover>().forEach(
                 (rollover) => expect(
                   rollover.firstChild<RolloverNoiseBehavior>(),
@@ -111,14 +122,20 @@ void main() {
         },
       );
 
-      flameTester.test('a GoogleWordBonusBehavior', (game) async {
-        final component = GoogleGallery();
-        await game.pump(component);
-        expect(
-          component.descendants().whereType<GoogleWordBonusBehavior>().single,
-          isNotNull,
-        );
-      });
+      flameTester.testGameWidget(
+        'a GoogleWordBonusBehavior',
+        setUp: (game, _) async {
+          await game.pump(GoogleGallery());
+        },
+        verify: (game, _) async {
+          final component =
+              game.descendants().whereType<GoogleGallery>().single;
+          expect(
+            component.descendants().whereType<GoogleWordBonusBehavior>().single,
+            isNotNull,
+          );
+        },
+      );
     });
   });
 }

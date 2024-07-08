@@ -1,6 +1,5 @@
 import 'package:flame/components.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 
 /// Scales a [ScoreComponent] according to its position on the board.
 class ScoreComponentScalingBehavior extends Component

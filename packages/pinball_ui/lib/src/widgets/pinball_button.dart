@@ -43,7 +43,7 @@ class PinballButton extends StatelessWidget {
                 text,
                 style: Theme.of(context)
                     .textTheme
-                    .headline3!
+                    .displaySmall!
                     .copyWith(color: PinballColors.white),
               ),
             ),

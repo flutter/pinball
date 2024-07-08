@@ -16,7 +16,7 @@ class _TestBodyComponent extends BodyComponent {
   @override
   Body createBody() => world.createBody(
         BodyDef(type: BodyType.dynamic),
-      )..createFixtureFromShape(CircleShape(), 1);
+      )..createFixtureFromShape(CircleShape());
 }
 
 void main() {
@@ -38,12 +38,21 @@ void main() {
       );
     });
 
-    flameTester.test('can be added', (game) async {
-      final behavior = BumpingBehavior(strength: 0);
-      final component = _TestBodyComponent();
-      await component.add(behavior);
-      await game.ensureAdd(component);
-    });
+    flameTester.testGameWidget(
+      'can be added',
+      setUp: (game, _) async {
+        final behavior = BumpingBehavior(strength: 0);
+        final component = _TestBodyComponent();
+        await component.add(behavior);
+        await game.ensureAdd(component);
+      },
+      verify: (game, _) async {
+        expect(
+          game.descendants().whereType<BumpingBehavior>().length,
+          equals(1),
+        );
+      },
+    );
 
     flameTester.testGameWidget(
       'the bump is greater when the strength is greater',

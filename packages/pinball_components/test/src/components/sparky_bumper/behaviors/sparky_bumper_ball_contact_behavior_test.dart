@@ -30,9 +30,9 @@ void main() {
         );
       });
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'beginContact emits onBallContacted when contacts with a ball',
-        (game) async {
+        setUp: (game, _) async {
           final behavior = SparkyBumperBallContactBehavior();
           final bloc = _MockSparkyBumperCubit();
           whenListen(
@@ -44,7 +44,14 @@ void main() {
           final sparkyBumper = SparkyBumper.test(bloc: bloc);
           await sparkyBumper.add(behavior);
           await game.ensureAdd(sparkyBumper);
-
+        },
+        verify: (game, _) async {
+          final behavior = game
+              .descendants()
+              .whereType<SparkyBumperBallContactBehavior>()
+              .single;
+          final sparkyBumper =
+              game.descendants().whereType<SparkyBumper>().single;
           behavior.beginContact(_MockBall(), _MockContact());
 
           verify(sparkyBumper.bloc.onBallContacted).called(1);

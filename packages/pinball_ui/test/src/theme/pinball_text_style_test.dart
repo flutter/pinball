@@ -3,31 +3,37 @@ import 'package:pinball_ui/pinball_ui.dart';
 
 void main() {
   group('PinballTextStyle', () {
-    test('headline1 has fontSize 28 and white color', () {
-      const style = PinballTextStyle.headline1;
+    test('displayLarge has fontSize 28 and white color', () {
+      const style = PinballTextStyle.displayLarge;
       expect(style.fontSize, 28);
       expect(style.color, PinballColors.white);
     });
 
-    test('headline2 has fontSize 24', () {
-      const style = PinballTextStyle.headline2;
+    test('displayMedium has fontSize 24', () {
+      const style = PinballTextStyle.displayMedium;
       expect(style.fontSize, 24);
     });
 
-    test('headline3 has fontSize 20 and dark blue color', () {
-      const style = PinballTextStyle.headline3;
+    test('displaySmall has fontSize 20 and dark blue color', () {
+      const style = PinballTextStyle.displaySmall;
       expect(style.fontSize, 20);
       expect(style.color, PinballColors.darkBlue);
     });
 
-    test('headline4 has fontSize 16 and white color', () {
-      const style = PinballTextStyle.headline4;
+    test('headlineMedium has fontSize 16 and white color', () {
+      const style = PinballTextStyle.headlineMedium;
       expect(style.fontSize, 16);
       expect(style.color, PinballColors.white);
     });
 
-    test('subtitle1 has fontSize 12 and yellow color', () {
-      const style = PinballTextStyle.subtitle1;
+    test('headlineSmall has fontSize 14 and white color', () {
+      const style = PinballTextStyle.headlineSmall;
+      expect(style.fontSize, 14);
+      expect(style.color, PinballColors.white);
+    });
+
+    test('titleMedium has fontSize 12 and yellow color', () {
+      const style = PinballTextStyle.titleMedium;
       expect(style.fontSize, 12);
       expect(style.color, PinballColors.yellow);
     });

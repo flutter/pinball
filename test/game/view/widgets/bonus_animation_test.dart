@@ -85,7 +85,7 @@ void main() {
 
       await tester.pump();
 
-      await Future<void>.delayed(const Duration(seconds: animationDuration));
+      await Future.delayed(const Duration(seconds: animationDuration + 1));
 
       await tester.pump();
 
@@ -116,7 +116,7 @@ void main() {
           .state(find.byType(BonusAnimation))
           .didUpdateWidget(secondAnimation);
 
-      await Future<void>.delayed(const Duration(seconds: animationDuration));
+      await Future.delayed(const Duration(seconds: animationDuration + 1));
 
       await tester.pump();
 

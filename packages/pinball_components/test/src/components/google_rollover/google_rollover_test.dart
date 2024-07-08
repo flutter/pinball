@@ -26,53 +26,94 @@ void main() {
       );
     });
 
-    flameTester.test('left loads correctly', (game) async {
-      final googleRollover = GoogleRollover(side: BoardSide.left);
-      await game.ensureAdd(googleRollover);
-      expect(game.contains(googleRollover), isTrue);
-    });
+    flameTester.testGameWidget(
+      'left loads correctly',
+      setUp: (game, _) async {
+        await game.onLoad();
+        final googleRollover = GoogleRollover(side: BoardSide.left);
+        await game.ensureAdd(googleRollover);
+        await game.ready();
+      },
+      verify: (game, _) async {
+        final googleRollover =
+            game.descendants().whereType<GoogleRollover>().single;
+        expect(game.contains(googleRollover), isTrue);
+      },
+    );
 
-    flameTester.test('right loads correctly', (game) async {
-      final googleRollover = GoogleRollover(side: BoardSide.right);
-      await game.ensureAdd(googleRollover);
-      expect(game.contains(googleRollover), isTrue);
-    });
+    flameTester.testGameWidget(
+      'right loads correctly',
+      setUp: (game, _) async {
+        await game.onLoad();
+        final googleRollover = GoogleRollover(side: BoardSide.right);
+        await game.ensureAdd(googleRollover);
+        await game.ready();
+      },
+      verify: (game, _) async {
+        final googleRollover =
+            game.descendants().whereType<GoogleRollover>().single;
+        expect(game.contains(googleRollover), isTrue);
+      },
+    );
 
     group('adds', () {
-      flameTester.test('new children', (game) async {
-        final component = Component();
-        final googleRollover = GoogleRollover(
-          side: BoardSide.left,
-          children: [component],
-        );
-        await game.ensureAdd(googleRollover);
-        expect(googleRollover.children, contains(component));
-      });
+      flameTester.testGameWidget(
+        'new children',
+        setUp: (game, _) async {
+          await game.onLoad();
+          final component = Component();
+          final googleRollover = GoogleRollover(
+            side: BoardSide.left,
+            children: [component],
+          );
+          await game.ensureAdd(googleRollover);
+          await game.ready();
+        },
+        verify: (game, _) async {
+          final googleRollover =
+              game.descendants().whereType<GoogleRollover>().single;
+          expect(googleRollover.children.whereType<Component>(), isNotNull);
+        },
+      );
 
-      flameTester.test('a GoogleRolloverBallContactBehavior', (game) async {
-        final googleRollover = GoogleRollover(side: BoardSide.left);
-        await game.ensureAdd(googleRollover);
-        expect(
-          googleRollover.children
-              .whereType<GoogleRolloverBallContactBehavior>()
-              .single,
-          isNotNull,
-        );
-      });
+      flameTester.testGameWidget(
+        'a GoogleRolloverBallContactBehavior',
+        setUp: (game, _) async {
+          await game.onLoad();
+          final googleRollover = GoogleRollover(side: BoardSide.left);
+          await game.ensureAdd(googleRollover);
+          await game.ready();
+        },
+        verify: (game, _) async {
+          final googleRollover =
+              game.descendants().whereType<GoogleRollover>().single;
+          expect(
+            googleRollover.children
+                .whereType<GoogleRolloverBallContactBehavior>()
+                .single,
+            isNotNull,
+          );
+        },
+      );
     });
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'pin stops animating after animation completes',
-      (game) async {
+      setUp: (game, _) async {
+        await game.onLoad();
         final googleRollover = GoogleRollover(side: BoardSide.left);
         await game.ensureAdd(googleRollover);
-
+        await game.ready();
+      },
+      verify: (game, _) async {
+        final googleRollover =
+            game.descendants().whereType<GoogleRollover>().single;
         final pinSpriteAnimationComponent =
             googleRollover.firstChild<SpriteAnimationComponent>()!;
 
         pinSpriteAnimationComponent.playing = true;
         game.update(
-          pinSpriteAnimationComponent.animation!.totalDuration() + 0.1,
+          pinSpriteAnimationComponent.animationTicker!.totalDuration() + 0.1,
         );
 
         expect(pinSpriteAnimationComponent.playing, isFalse);

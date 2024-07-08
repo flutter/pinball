@@ -27,6 +27,8 @@ class _MockUrlLauncher extends Mock
     with MockPlatformInterfaceMixin
     implements UrlLauncherPlatform {}
 
+class _MockLaunchOptions extends Mock implements LaunchOptions {}
+
 void main() {
   group('MoreInformationDialog', () {
     late UrlLauncherPlatform urlLauncher;
@@ -34,6 +36,10 @@ void main() {
     setUp(() async {
       urlLauncher = _MockUrlLauncher();
       UrlLauncherPlatform.instance = urlLauncher;
+    });
+
+    setUpAll(() {
+      registerFallbackValue(_MockLaunchOptions());
     });
 
     group('showMoreInformationDialog', () {
@@ -72,16 +78,8 @@ void main() {
       (tester) async {
         when(() => urlLauncher.canLaunch(any())).thenAnswer((_) async => true);
         when(
-          () => urlLauncher.launch(
-            any(),
-            useSafariVC: any(named: 'useSafariVC'),
-            useWebView: any(named: 'useWebView'),
-            enableJavaScript: any(named: 'enableJavaScript'),
-            enableDomStorage: any(named: 'enableDomStorage'),
-            universalLinksOnly: any(named: 'universalLinksOnly'),
-            headers: any(named: 'headers'),
-          ),
-        ).thenAnswer((_) async => true);
+          () => urlLauncher.launchUrl(any(), any()),
+        ).thenAnswer((_) async => Future.value(true));
         await tester.pumpApp(const MoreInformationDialog());
         final flutterTextFinder = find.byWidgetPredicate(
           (widget) => widget is RichText && _tapTextSpan(widget, 'Flutter'),
@@ -89,14 +87,9 @@ void main() {
         await tester.tap(flutterTextFinder);
         await tester.pumpAndSettle();
         verify(
-          () => urlLauncher.launch(
+          () => urlLauncher.launchUrl(
             'https://flutter.dev',
-            useSafariVC: any(named: 'useSafariVC'),
-            useWebView: any(named: 'useWebView'),
-            enableJavaScript: any(named: 'enableJavaScript'),
-            enableDomStorage: any(named: 'enableDomStorage'),
-            universalLinksOnly: any(named: 'universalLinksOnly'),
-            headers: any(named: 'headers'),
+            any(),
           ),
         );
       },
@@ -107,16 +100,8 @@ void main() {
       (tester) async {
         when(() => urlLauncher.canLaunch(any())).thenAnswer((_) async => true);
         when(
-          () => urlLauncher.launch(
-            any(),
-            useSafariVC: any(named: 'useSafariVC'),
-            useWebView: any(named: 'useWebView'),
-            enableJavaScript: any(named: 'enableJavaScript'),
-            enableDomStorage: any(named: 'enableDomStorage'),
-            universalLinksOnly: any(named: 'universalLinksOnly'),
-            headers: any(named: 'headers'),
-          ),
-        ).thenAnswer((_) async => true);
+          () => urlLauncher.launchUrl(any(), any()),
+        ).thenAnswer((_) async => Future.value(true));
         await tester.pumpApp(const MoreInformationDialog());
         final firebaseTextFinder = find.byWidgetPredicate(
           (widget) => widget is RichText && _tapTextSpan(widget, 'Firebase'),
@@ -124,15 +109,7 @@ void main() {
         await tester.tap(firebaseTextFinder);
         await tester.pumpAndSettle();
         verify(
-          () => urlLauncher.launch(
-            'https://firebase.google.com',
-            useSafariVC: any(named: 'useSafariVC'),
-            useWebView: any(named: 'useWebView'),
-            enableJavaScript: any(named: 'enableJavaScript'),
-            enableDomStorage: any(named: 'enableDomStorage'),
-            universalLinksOnly: any(named: 'universalLinksOnly'),
-            headers: any(named: 'headers'),
-          ),
+          () => urlLauncher.launchUrl('https://firebase.google.com', any()),
         );
       },
     );
@@ -152,30 +129,17 @@ void main() {
           when(() => urlLauncher.canLaunch(any()))
               .thenAnswer((_) async => true);
           when(
-            () => urlLauncher.launch(
-              link,
-              useSafariVC: any(named: 'useSafariVC'),
-              useWebView: any(named: 'useWebView'),
-              enableJavaScript: any(named: 'enableJavaScript'),
-              enableDomStorage: any(named: 'enableDomStorage'),
-              universalLinksOnly: any(named: 'universalLinksOnly'),
-              headers: any(named: 'headers'),
-            ),
-          ).thenAnswer((_) async => true);
+            () => urlLauncher.launchUrl(any(), any()),
+          ).thenAnswer((_) async => Future.value(true));
 
           await tester.pumpApp(const MoreInformationDialog());
           await tester.tap(find.text(text));
           await tester.pumpAndSettle();
 
           verify(
-            () => urlLauncher.launch(
+            () => urlLauncher.launchUrl(
               link,
-              useSafariVC: any(named: 'useSafariVC'),
-              useWebView: any(named: 'useWebView'),
-              enableJavaScript: any(named: 'enableJavaScript'),
-              enableDomStorage: any(named: 'enableDomStorage'),
-              universalLinksOnly: any(named: 'universalLinksOnly'),
-              headers: any(named: 'headers'),
+              any(),
             ),
           );
         },

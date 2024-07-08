@@ -1,8 +1,6 @@
 import 'dart:math';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:clock/clock.dart';
-import 'package:flame_audio/audio_pool.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_audio/gen/assets.gen.dart';
@@ -53,12 +51,11 @@ enum PinballAudio {
 }
 
 /// Defines the contract of the creation of an [AudioPool].
-typedef CreateAudioPool = Future<AudioPool> Function(
-  String sound, {
-  bool? repeating,
-  int? maxPlayers,
-  int? minPlayers,
-  String? prefix,
+typedef CreateAudioPool = Future<AudioPool> Function({
+  required Source source,
+  required int maxPlayers,
+  AudioCache? audioCache,
+  int minPlayers,
 });
 
 /// Defines the contract for playing a single audio.
@@ -165,9 +162,8 @@ class _SingleAudioPool extends _Audio {
   @override
   Future<void> load() async {
     pool = await createAudioPool(
-      prefixFile(path),
+      source: DeviceFileSource(prefixFile(path), mimeType: 'audio/mpeg'),
       maxPlayers: maxPlayers,
-      prefix: '',
     );
   }
 
@@ -198,14 +194,14 @@ class _RandomABAudio extends _Audio {
     await Future.wait(
       [
         createAudioPool(
-          prefixFile(audioAssetA),
+          source:
+              DeviceFileSource(prefixFile(audioAssetA), mimeType: 'audio/mpeg'),
           maxPlayers: 4,
-          prefix: '',
         ).then((pool) => audioA = pool),
         createAudioPool(
-          prefixFile(audioAssetB),
+          source:
+              DeviceFileSource(prefixFile(audioAssetB), mimeType: 'audio/mpeg'),
           maxPlayers: 4,
-          prefix: '',
         ).then((pool) => audioB = pool),
       ],
     );
@@ -259,8 +255,8 @@ class PinballAudioPlayer {
     ConfigureAudioCache? configureAudioCache,
     Random? seed,
   })  : _createAudioPool = createAudioPool ?? AudioPool.create,
-        _playSingleAudio = playSingleAudio ?? FlameAudio.audioCache.play,
-        _loopSingleAudio = loopSingleAudio ?? FlameAudio.audioCache.loop,
+        _playSingleAudio = playSingleAudio ?? FlameAudio.play,
+        _loopSingleAudio = loopSingleAudio ?? FlameAudio.loop,
         _preCacheSingleAudio =
             preCacheSingleAudio ?? FlameAudio.audioCache.load,
         _configureAudioCache = configureAudioCache ??

@@ -43,20 +43,27 @@ void main() {
   final flameTester = FlameTester(_TestGame.new);
 
   group('SparkyScorch', () {
-    flameTester.test('loads correctly', (game) async {
-      final component = SparkyScorch();
-      await game.pump(component);
-      expect(
-        game.descendants().whereType<SparkyScorch>().length,
-        equals(1),
-      );
-    });
+    flameTester.testGameWidget(
+      'loads correctly',
+      setUp: (game, _) async {
+        final component = SparkyScorch();
+        await game.pump(component);
+      },
+      verify: (game, _) async {
+        expect(
+          game.descendants().whereType<SparkyScorch>().length,
+          equals(1),
+        );
+      },
+    );
 
     group('loads', () {
-      flameTester.test(
+      flameTester.testGameWidget(
         'a SparkyComputer',
-        (game) async {
+        setUp: (game, _) async {
           await game.pump(SparkyScorch());
+        },
+        verify: (game, _) async {
           expect(
             game.descendants().whereType<SparkyComputer>().length,
             equals(1),
@@ -64,10 +71,12 @@ void main() {
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'a SparkyAnimatronic',
-        (game) async {
+        setUp: (game, _) async {
           await game.pump(SparkyScorch());
+        },
+        verify: (game, _) async {
           expect(
             game.descendants().whereType<SparkyAnimatronic>().length,
             equals(1),
@@ -75,10 +84,12 @@ void main() {
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'three SparkyBumper',
-        (game) async {
+        setUp: (game, _) async {
           await game.pump(SparkyScorch());
+        },
+        verify: (game, _) async {
           expect(
             game.descendants().whereType<SparkyBumper>().length,
             equals(3),
@@ -86,10 +97,12 @@ void main() {
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'three SparkyBumpers with BumperNoiseBehavior',
-        (game) async {
+        setUp: (game, _) async {
           await game.pump(SparkyScorch());
+        },
+        verify: (game, _) async {
           final bumpers = game.descendants().whereType<SparkyBumper>();
           for (final bumper in bumpers) {
             expect(
@@ -102,11 +115,12 @@ void main() {
     });
 
     group('adds', () {
-      flameTester.test(
+      flameTester.testGameWidget(
         'ScoringContactBehavior to SparkyComputer',
-        (game) async {
+        setUp: (game, _) async {
           await game.pump(SparkyScorch());
-
+        },
+        verify: (game, _) async {
           final sparkyComputer =
               game.descendants().whereType<SparkyComputer>().single;
           expect(
@@ -116,14 +130,23 @@ void main() {
         },
       );
 
-      flameTester.test('a SparkyComputerBonusBehavior', (game) async {
-        final sparkyScorch = SparkyScorch();
-        await game.pump(sparkyScorch);
-        expect(
-          sparkyScorch.children.whereType<SparkyComputerBonusBehavior>().single,
-          isNotNull,
-        );
-      });
+      flameTester.testGameWidget(
+        'a SparkyComputerBonusBehavior',
+        setUp: (game, _) async {
+          final sparkyScorch = SparkyScorch();
+          await game.pump(sparkyScorch);
+        },
+        verify: (game, _) async {
+          final sparkyScorch =
+              game.descendants().whereType<SparkyScorch>().single;
+          expect(
+            sparkyScorch.children
+                .whereType<SparkyComputerBonusBehavior>()
+                .single,
+            isNotNull,
+          );
+        },
+      );
     });
   });
 }

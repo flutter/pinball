@@ -17,8 +17,8 @@ import 'package:share_repository/share_repository.dart';
 
 class _MockAssetsManagerCubit extends Mock implements AssetsManagerCubit {}
 
-class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
-}
+class _MockLeaderboardRepository extends Mock
+    implements LeaderboardRepository {}
 
 class _MockShareRepository extends Mock implements ShareRepository {}
 

@@ -49,14 +49,17 @@ void main() {
       );
     });
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'can be loaded',
-      (game) async {
+      setUp: (game, _) async {
         final parent = Multiballs.test();
         final behavior = MultiballsBehavior();
         await game.pump(parent);
         await parent.ensureAdd(behavior);
-        expect(parent.children, contains(behavior));
+      },
+      verify: (game, _) async {
+        final parent = game.descendants().whereType<Multiballs>().single;
+        expect(parent.children.whereType<MultiballsBehavior>(), isNotEmpty);
       },
     );
 

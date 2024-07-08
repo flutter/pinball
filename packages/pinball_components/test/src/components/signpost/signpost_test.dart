@@ -29,7 +29,7 @@ class _TestGame extends Forge2DGame {
     DashBumpersCubit? dashBumpersBloc,
   }) async {
     await onLoad();
-    await ensureAdd(
+    await world.ensureAdd(
       FlameMultiBlocProvider(
         providers: [
           FlameBlocProvider<SignpostCubit, SignpostState>.value(
@@ -61,12 +61,17 @@ void main() {
       expect(Signpost(), isA<Signpost>());
     });
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'can be added',
-      (game) async {
+      setUp: (game, _) async {
         final signpost = Signpost();
         await game.pump(signpost);
-        expect(game.descendants().contains(signpost), isTrue);
+      },
+      verify: (game, _) async {
+        expect(
+          game.descendants().whereType<Signpost>().length,
+          equals(1),
+        );
       },
     );
 
@@ -83,7 +88,7 @@ void main() {
             equals(SignpostState.inactive),
           );
 
-          game.camera.followVector2(Vector2.zero());
+          game.camera.moveTo(Vector2.zero());
         },
         verify: (game, tester) async {
           await expectLater(
@@ -107,7 +112,7 @@ void main() {
             equals(SignpostState.active1),
           );
 
-          game.camera.followVector2(Vector2.zero());
+          game.camera.moveTo(Vector2.zero());
         },
         verify: (game, tester) async {
           await expectLater(
@@ -133,7 +138,7 @@ void main() {
             equals(SignpostState.active2),
           );
 
-          game.camera.followVector2(Vector2.zero());
+          game.camera.moveTo(Vector2.zero());
         },
         verify: (game, tester) async {
           await expectLater(
@@ -160,7 +165,7 @@ void main() {
             equals(SignpostState.active3),
           );
 
-          game.camera.followVector2(Vector2.zero());
+          game.camera.moveTo(Vector2.zero());
         },
         verify: (game, tester) async {
           await expectLater(
@@ -176,7 +181,8 @@ void main() {
       setUp: (game, tester) async {
         final activatedBumpersState = DashBumpersState(
           bumperSpriteStates: {
-            for (var id in DashBumperId.values) id: DashBumperSpriteState.active
+            for (final id in DashBumperId.values)
+              id: DashBumperSpriteState.active,
           },
         );
         final signpost = Signpost();
@@ -201,9 +207,9 @@ void main() {
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'onNewState calls onProgressed and onReset',
-      (game) async {
+      setUp: (game, _) async {
         final signpost = Signpost();
         final signpostBloc = _MockSignpostCubit();
         whenListen(
@@ -222,7 +228,18 @@ void main() {
           signpostBloc: signpostBloc,
           dashBumpersBloc: dashBumpersBloc,
         );
-
+      },
+      verify: (game, _) async {
+        final signpostBloc = game
+            .descendants()
+            .whereType<FlameBlocProvider<SignpostCubit, SignpostState>>()
+            .single
+            .bloc;
+        final dashBumpersBloc = game
+            .descendants()
+            .whereType<FlameBlocProvider<DashBumpersCubit, DashBumpersState>>()
+            .single
+            .bloc;
         game
             .descendants()
             .whereType<FlameBlocListener<DashBumpersCubit, DashBumpersState>>()
@@ -234,13 +251,19 @@ void main() {
       },
     );
 
-    flameTester.test('adds new children', (game) async {
-      final component = Component();
-      final signpost = Signpost(
-        children: [component],
-      );
-      await game.pump(signpost);
-      expect(signpost.children, contains(component));
-    });
+    flameTester.testGameWidget(
+      'adds new children',
+      setUp: (game, _) async {
+        final component = Component();
+        final signpost = Signpost(
+          children: [component],
+        );
+        await game.pump(signpost);
+      },
+      verify: (game, _) async {
+        final signpost = game.descendants().whereType<Signpost>().single;
+        expect(signpost.children.whereType<Component>(), isNotEmpty);
+      },
+    );
   });
 }

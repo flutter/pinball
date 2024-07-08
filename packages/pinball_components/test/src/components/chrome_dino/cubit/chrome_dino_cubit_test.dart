@@ -17,7 +17,7 @@ void main() {
             (state) => state.isMouthOpen,
             'isMouthOpen',
             true,
-          )
+          ),
         ],
       );
 
@@ -30,7 +30,7 @@ void main() {
             (state) => state.isMouthOpen,
             'isMouthOpen',
             false,
-          )
+          ),
         ],
       );
 
@@ -41,16 +41,16 @@ void main() {
         act: (bloc) => bloc.onChomp(ball),
         expect: () => [
           isA<ChromeDinoState>()
-            ..having(
-              (state) => state.status,
-              'status',
-              ChromeDinoStatus.chomping,
-            )
-            ..having(
-              (state) => state.ball,
-              'ball',
-              ball,
-            )
+              .having(
+                (state) => state.status,
+                'status',
+                ChromeDinoStatus.chomping,
+              )
+              .having(
+                (state) => state.ball,
+                'ball',
+                ball,
+              ),
         ],
       );
 
@@ -67,15 +67,17 @@ void main() {
         build: ChromeDinoCubit.new,
         act: (bloc) => bloc.onSpit(),
         expect: () => [
-          isA<ChromeDinoState>().having(
-            (state) => state.status,
-            'status',
-            ChromeDinoStatus.idle,
-          )..having(
-              (state) => state.ball,
-              'ball',
-              null,
-            )
+          isA<ChromeDinoState>()
+              .having(
+                (state) => state.status,
+                'status',
+                ChromeDinoStatus.idle,
+              )
+              .having(
+                (state) => state.ball,
+                'ball',
+                null,
+              ),
         ],
       );
     },

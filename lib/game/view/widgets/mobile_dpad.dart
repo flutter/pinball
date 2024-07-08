@@ -6,6 +6,7 @@ import 'package:pinball_ui/pinball_ui.dart';
 /// {@endtemplate}
 class MobileDpad extends StatelessWidget {
   /// {@template mobile_dpad}
+  /// {@endtemplate}
   const MobileDpad({
     Key? key,
     required this.onTapUp,

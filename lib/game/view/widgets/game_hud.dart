@@ -22,7 +22,7 @@ class _GameHudState extends State<GameHud> {
   bool showAnimation = false;
 
   /// Ratio from sprite frame (width 500, height 144) w / h = ratio
-  static const _ratio = 3.47;
+  static const _ratio = 3.47222222222;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class _GameHudState extends State<GameHud> {
     return _ScoreViewDecoration(
       child: SizedBox(
         height: height,
-        width: height * _ratio,
+        width: (height * _ratio) + 16,
         child: BlocListener<GameBloc, GameState>(
           listenWhen: (previous, current) =>
               previous.bonusHistory.length != current.bonusHistory.length,

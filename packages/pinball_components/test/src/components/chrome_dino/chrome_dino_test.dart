@@ -21,13 +21,16 @@ void main() {
   final flameTester = FlameTester(() => TestGame(assets));
 
   group('ChromeDino', () {
-    flameTester.test(
+    flameTester.testGameWidget(
       'loads correctly',
-      (game) async {
+      setUp: (game, _) async {
+        await game.onLoad();
         final chromeDino = ChromeDino();
         await game.ensureAdd(chromeDino);
-
-        expect(game.contains(chromeDino), isTrue);
+        await game.ready();
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<ChromeDino>(), isNotEmpty);
       },
     );
 
@@ -35,8 +38,8 @@ void main() {
       'renders correctly',
       setUp: (game, tester) async {
         await game.images.loadAll(assets);
-        await game.ensureAdd(ChromeDino());
-        game.camera.followVector2(Vector2.zero());
+        await game.world.ensureAdd(ChromeDino());
+        game.camera.moveTo(Vector2.zero());
         await tester.pump();
       },
       verify: (game, tester) async {
@@ -44,9 +47,10 @@ void main() {
                 .descendants()
                 .whereType<SpriteAnimationComponent>()
                 .first
-                .animation!
+                .animationTicker!
                 .totalDuration() /
             2;
+
         game.update(swivelAnimationDuration);
         await tester.pump();
 
@@ -71,70 +75,117 @@ void main() {
       },
     );
 
-    flameTester.test('closes bloc when removed', (game) async {
-      final bloc = _MockChromeDinoCubit();
-      whenListen(
-        bloc,
-        const Stream<ChromeDinoState>.empty(),
-        initialState: const ChromeDinoState.initial(),
-      );
-      when(bloc.close).thenAnswer((_) async {});
-      final chromeDino = ChromeDino.test(bloc: bloc);
+    flameTester.testGameWidget(
+      'closes bloc when removed',
+      setUp: (game, _) async {
+        await game.onLoad();
+        final bloc = _MockChromeDinoCubit();
+        whenListen(
+          bloc,
+          const Stream<ChromeDinoState>.empty(),
+          initialState: const ChromeDinoState.initial(),
+        );
+        when(bloc.close).thenAnswer((_) async {});
+        final chromeDino = ChromeDino.test(bloc: bloc);
 
-      await game.ensureAdd(chromeDino);
-      game.remove(chromeDino);
-      await game.ready();
-
-      verify(bloc.close).called(1);
-    });
+        await game.ensureAdd(chromeDino);
+        await game.ready();
+      },
+      verify: (game, _) async {
+        final chromeDino = game.descendants().whereType<ChromeDino>().single;
+        game.remove(chromeDino);
+        game.update(0);
+        verify(chromeDino.bloc.close).called(1);
+      },
+    );
 
     group('adds', () {
-      flameTester.test('a ChromeDinoMouthOpeningBehavior', (game) async {
-        final chromeDino = ChromeDino();
-        await game.ensureAdd(chromeDino);
-        expect(
-          chromeDino.children
-              .whereType<ChromeDinoMouthOpeningBehavior>()
-              .single,
-          isNotNull,
-        );
-      });
+      flameTester.testGameWidget(
+        'a ChromeDinoMouthOpeningBehavior',
+        setUp: (game, _) async {
+          await game.onLoad();
+          final chromeDino = ChromeDino();
+          await game.ensureAdd(chromeDino);
+          await game.ready();
+        },
+        verify: (game, _) async {
+          final chromeDino = game.descendants().whereType<ChromeDino>().single;
+          expect(
+            chromeDino.children
+                .whereType<ChromeDinoMouthOpeningBehavior>()
+                .single,
+            isNotNull,
+          );
+        },
+      );
 
-      flameTester.test('a ChromeDinoSwivelingBehavior', (game) async {
-        final chromeDino = ChromeDino();
-        await game.ensureAdd(chromeDino);
-        expect(
-          chromeDino.children.whereType<ChromeDinoSwivelingBehavior>().single,
-          isNotNull,
-        );
-      });
+      flameTester.testGameWidget(
+        'a ChromeDinoSwivelingBehavior',
+        setUp: (game, _) async {
+          await game.onLoad();
+          final chromeDino = ChromeDino();
+          await game.ensureAdd(chromeDino);
+          await game.ready();
+        },
+        verify: (game, _) async {
+          final chromeDino = game.descendants().whereType<ChromeDino>().single;
+          expect(
+            chromeDino.children.whereType<ChromeDinoSwivelingBehavior>().single,
+            isNotNull,
+          );
+        },
+      );
 
-      flameTester.test('a ChromeDinoChompingBehavior', (game) async {
-        final chromeDino = ChromeDino();
-        await game.ensureAdd(chromeDino);
-        expect(
-          chromeDino.children.whereType<ChromeDinoChompingBehavior>().single,
-          isNotNull,
-        );
-      });
+      flameTester.testGameWidget(
+        'a ChromeDinoChompingBehavior',
+        setUp: (game, _) async {
+          await game.onLoad();
+          final chromeDino = ChromeDino();
+          await game.ensureAdd(chromeDino);
+          await game.ready();
+        },
+        verify: (game, _) async {
+          final chromeDino = game.descendants().whereType<ChromeDino>().single;
+          expect(
+            chromeDino.children.whereType<ChromeDinoChompingBehavior>().single,
+            isNotNull,
+          );
+        },
+      );
 
-      flameTester.test('a ChromeDinoSpittingBehavior', (game) async {
-        final chromeDino = ChromeDino();
-        await game.ensureAdd(chromeDino);
-        expect(
-          chromeDino.children.whereType<ChromeDinoSpittingBehavior>().single,
-          isNotNull,
-        );
-      });
+      flameTester.testGameWidget(
+        'a ChromeDinoSpittingBehavior',
+        setUp: (game, _) async {
+          await game.onLoad();
+          final chromeDino = ChromeDino();
+          await game.ensureAdd(chromeDino);
+          await game.ready();
+        },
+        verify: (game, _) async {
+          final chromeDino = game.descendants().whereType<ChromeDino>().single;
+          expect(
+            chromeDino.children.whereType<ChromeDinoSpittingBehavior>().single,
+            isNotNull,
+          );
+        },
+      );
 
-      flameTester.test('new children', (game) async {
-        final component = Component();
-        final chromeDino = ChromeDino(
-          children: [component],
-        );
-        await game.ensureAdd(chromeDino);
-        expect(chromeDino.children, contains(component));
-      });
+      flameTester.testGameWidget(
+        'new children',
+        setUp: (game, _) async {
+          await game.onLoad();
+          final component = Component();
+          final chromeDino = ChromeDino(
+            children: [component],
+          );
+          await game.ensureAdd(chromeDino);
+          await game.ready();
+        },
+        verify: (game, _) async {
+          final chromeDino = game.descendants().whereType<ChromeDino>().single;
+          expect(chromeDino.children.whereType<Component>(), isNotEmpty);
+        },
+      );
     });
   });
 }

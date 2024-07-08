@@ -17,20 +17,34 @@ void main() {
       );
     });
 
-    flameTester.test('can be loaded', (game) async {
-      final parent = Flipper.test(side: BoardSide.left);
-      final behavior = FlipperJointingBehavior();
-      await game.ensureAdd(parent);
-      await parent.ensureAdd(behavior);
-      expect(parent.contains(behavior), isTrue);
-    });
+    flameTester.testGameWidget(
+      'can be loaded',
+      setUp: (game, _) async {
+        final parent = Flipper.test(side: BoardSide.left);
+        final behavior = FlipperJointingBehavior();
+        await game.ensureAdd(parent);
+        await parent.ensureAdd(behavior);
+      },
+      verify: (game, _) async {
+        final parent = game.descendants().whereType<Flipper>().single;
+        final behavior =
+            game.descendants().whereType<FlipperJointingBehavior>().single;
+        expect(parent.contains(behavior), isTrue);
+      },
+    );
 
-    flameTester.test('creates a joint', (game) async {
-      final parent = Flipper.test(side: BoardSide.left);
-      final behavior = FlipperJointingBehavior();
-      await game.ensureAdd(parent);
-      await parent.ensureAdd(behavior);
-      expect(parent.body.joints, isNotEmpty);
-    });
+    flameTester.testGameWidget(
+      'creates a joint',
+      setUp: (game, _) async {
+        final parent = Flipper.test(side: BoardSide.left);
+        final behavior = FlipperJointingBehavior();
+        await game.ensureAdd(parent);
+        await parent.ensureAdd(behavior);
+      },
+      verify: (game, _) async {
+        final parent = game.descendants().whereType<Flipper>().single;
+        expect(parent.body.joints, isNotEmpty);
+      },
+    );
   });
 }

@@ -15,7 +15,7 @@ class SpaceshipRail extends Component {
           children: [
             _SpaceshipRail(),
             _SpaceshipRailExit(),
-            _SpaceshipRailExitSpriteComponent()
+            _SpaceshipRailExitSpriteComponent(),
           ],
         );
 }

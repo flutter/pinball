@@ -32,9 +32,9 @@ void main() {
       });
 
       group('beginContact', () {
-        flameTester.test(
+        flameTester.testGameWidget(
           'stops a ball',
-          (game) async {
+          setUp: (game, _) async {
             final behavior = SparkyComputerSensorBallContactBehavior();
             final bloc = _MockSparkyComputerCubit();
             whenListen(
@@ -48,7 +48,13 @@ void main() {
             );
             await sparkyComputer.add(behavior);
             await game.ensureAdd(sparkyComputer);
-
+            await game.ready();
+          },
+          verify: (game, _) async {
+            final behavior = game
+                .descendants()
+                .whereType<SparkyComputerSensorBallContactBehavior>()
+                .single;
             final ball = _MockBall();
             await behavior.beginContact(ball, _MockContact());
 
@@ -56,9 +62,9 @@ void main() {
           },
         );
 
-        flameTester.test(
+        flameTester.testGameWidget(
           'emits onBallEntered when contacts with a ball',
-          (game) async {
+          setUp: (game, _) async {
             final behavior = SparkyComputerSensorBallContactBehavior();
             final bloc = _MockSparkyComputerCubit();
             whenListen(
@@ -72,16 +78,23 @@ void main() {
             );
             await sparkyComputer.add(behavior);
             await game.ensureAdd(sparkyComputer);
-
+          },
+          verify: (game, _) async {
+            final behavior = game
+                .descendants()
+                .whereType<SparkyComputerSensorBallContactBehavior>()
+                .single;
+            final sparkyComputer =
+                game.descendants().whereType<SparkyComputer>().single;
             await behavior.beginContact(_MockBall(), _MockContact());
 
             verify(sparkyComputer.bloc.onBallEntered).called(1);
           },
         );
 
-        flameTester.test(
+        flameTester.testGameWidget(
           'adds TimerComponent when contacts with a ball',
-          (game) async {
+          setUp: (game, _) async {
             final behavior = SparkyComputerSensorBallContactBehavior();
             final bloc = _MockSparkyComputerCubit();
             whenListen(
@@ -98,7 +111,10 @@ void main() {
 
             await behavior.beginContact(_MockBall(), _MockContact());
             await game.ready();
-
+          },
+          verify: (game, _) async {
+            final sparkyComputer =
+                game.descendants().whereType<SparkyComputer>().single;
             expect(
               sparkyComputer.firstChild<TimerComponent>(),
               isA<TimerComponent>(),
@@ -106,9 +122,10 @@ void main() {
           },
         );
 
-        flameTester.test(
+        flameTester.testGameWidget(
           'TimerComponent resumes ball and calls onBallTurboCharged onTick',
-          (game) async {
+          setUp: (game, _) async {
+            await game.onLoad();
             final behavior = SparkyComputerSensorBallContactBehavior();
             final bloc = _MockSparkyComputerCubit();
             whenListen(
@@ -122,16 +139,26 @@ void main() {
             );
             await sparkyComputer.add(behavior);
             await game.ensureAdd(sparkyComputer);
-
-            final ball = _MockBall();
-            await behavior.beginContact(ball, _MockContact());
             await game.ready();
+          },
+          verify: (game, tester) async {
+            final ball = _MockBall();
+            final behavior = game
+                .descendants()
+                .whereType<SparkyComputerSensorBallContactBehavior>()
+                .single;
+            final sparkyComputer =
+                game.descendants().whereType<SparkyComputer>().single;
+            await behavior.beginContact(ball, _MockContact());
+            game.update(0);
+
             game.update(
               sparkyComputer.firstChild<TimerComponent>()!.timer.limit,
             );
-            await game.ready();
+            game.update(1);
 
             verify(ball.resume).called(1);
+            await tester.pump();
             verify(sparkyComputer.bloc.onBallTurboCharged).called(1);
           },
         );

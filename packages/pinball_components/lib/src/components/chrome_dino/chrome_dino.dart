@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
-import 'package:flame_forge2d/flame_forge2d.dart' hide Timer;
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_components/src/components/chrome_dino/behaviors/behaviors.dart';

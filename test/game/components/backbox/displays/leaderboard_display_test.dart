@@ -1,7 +1,7 @@
 // ignore_for_file: cascade_invocations
 
 import 'package:flame/components.dart';
-import 'package:flame/game.dart';
+import 'package:flame/events.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -24,7 +24,7 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {
   String get name => 'name';
 }
 
-class _TestGame extends Forge2DGame with HasTappables {
+class _TestGame extends Forge2DGame with TapCallbacks {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -105,89 +105,62 @@ void main() {
 
     final flameTester = FlameTester(_TestGame.new);
 
-    flameTester.test('renders the titles', (game) async {
-      await game.pump(LeaderboardDisplay(entries: const []));
+    flameTester.testGameWidget(
+      'renders the titles',
+      setUp: (game, _) async {
+        await game.onLoad();
+        await game.pump(LeaderboardDisplay(entries: const []));
+        await game.ready();
+      },
+      verify: (game, _) async {
+        final textComponents =
+            game.descendants().whereType<TextComponent>().toList();
+        expect(textComponents.length, equals(3));
+        expect(textComponents[0].text, equals('rank'));
+        expect(textComponents[1].text, equals('score'));
+        expect(textComponents[2].text, equals('name'));
+      },
+    );
 
-      final textComponents =
-          game.descendants().whereType<TextComponent>().toList();
-      expect(textComponents.length, equals(3));
-      expect(textComponents[0].text, equals('rank'));
-      expect(textComponents[1].text, equals('score'));
-      expect(textComponents[2].text, equals('name'));
-    });
+    flameTester.testGameWidget(
+      'renders the first 5 entries',
+      setUp: (game, _) async {
+        await game.onLoad();
+        await game.pump(LeaderboardDisplay(entries: leaderboard));
+        await game.ready();
+      },
+      verify: (game, _) async {
+        for (final text in [
+          'AAA',
+          'BBB',
+          'CCC',
+          'DDD',
+          'EEE',
+          '1st',
+          '2nd',
+          '3rd',
+          '4th',
+          '5th',
+        ]) {
+          expect(
+            game
+                .descendants()
+                .whereType<TextComponent>()
+                .where((textComponent) => textComponent.text == text)
+                .length,
+            equals(1),
+          );
+        }
+      },
+    );
 
-    flameTester.test('renders the first 5 entries', (game) async {
-      await game.pump(LeaderboardDisplay(entries: leaderboard));
-
-      for (final text in [
-        'AAA',
-        'BBB',
-        'CCC',
-        'DDD',
-        'EEE',
-        '1st',
-        '2nd',
-        '3rd',
-        '4th',
-        '5th',
-      ]) {
-        expect(
-          game
-              .descendants()
-              .whereType<TextComponent>()
-              .where((textComponent) => textComponent.text == text)
-              .length,
-          equals(1),
-        );
-      }
-    });
-
-    flameTester.test('can open the second page', (game) async {
-      final display = LeaderboardDisplay(entries: leaderboard);
-      await game.pump(display);
-
-      final arrow = game
-          .descendants()
-          .whereType<ArrowIcon>()
-          .where((arrow) => arrow.direction == ArrowIconDirection.right)
-          .single;
-
-      // Tap the arrow
-      arrow.onTap();
-      // Wait for the transition to finish
-      display.updateTree(5);
-      await game.ready();
-
-      for (final text in [
-        'FFF',
-        'GGG',
-        'HHH',
-        'III',
-        'JJJ',
-        '6th',
-        '7th',
-        '8th',
-        '9th',
-        '10th',
-      ]) {
-        expect(
-          game
-              .descendants()
-              .whereType<TextComponent>()
-              .where((textComponent) => textComponent.text == text)
-              .length,
-          equals(1),
-        );
-      }
-    });
-
-    flameTester.test(
-      'can open the second page and go back to the first',
-      (game) async {
+    flameTester.testGameWidget(
+      'can open the second page',
+      setUp: (game, _) async {
+        await game.onLoad();
         final display = LeaderboardDisplay(entries: leaderboard);
         await game.pump(display);
-
-        var arrow = game
+        final arrow = game
             .descendants()
             .whereType<ArrowIcon>()
             .where((arrow) => arrow.direction == ArrowIconDirection.right)
@@ -196,9 +169,54 @@ void main() {
         // Tap the arrow
         arrow.onTap();
         // Wait for the transition to finish
-        display.updateTree(5);
+        game.update(5);
         await game.ready();
+      },
+      verify: (game, _) async {
+        for (final text in [
+          'FFF',
+          'GGG',
+          'HHH',
+          'III',
+          'JJJ',
+          '6th',
+          '7th',
+          '8th',
+          '9th',
+          '10th',
+        ]) {
+          expect(
+            game
+                .descendants()
+                .whereType<TextComponent>()
+                .where((textComponent) => textComponent.text == text)
+                .length,
+            equals(1),
+          );
+        }
+      },
+    );
 
+    flameTester.testGameWidget(
+      'can open the second page and go back to the first',
+      setUp: (game, _) async {
+        await game.onLoad();
+        final display = LeaderboardDisplay(entries: leaderboard);
+        await game.pump(display);
+
+        final arrow = game
+            .descendants()
+            .whereType<ArrowIcon>()
+            .where((arrow) => arrow.direction == ArrowIconDirection.right)
+            .single;
+
+        // Tap the arrow
+        arrow.onTap();
+        // Wait for the transition to finish
+        game.update(5);
+        await game.ready();
+      },
+      verify: (game, tester) async {
         for (final text in [
           'FFF',
           'GGG',
@@ -221,7 +239,7 @@ void main() {
           );
         }
 
-        arrow = game
+        final arrow = game
             .descendants()
             .whereType<ArrowIcon>()
             .where((arrow) => arrow.direction == ArrowIconDirection.left)
@@ -229,9 +247,10 @@ void main() {
 
         // Tap the arrow
         arrow.onTap();
+
         // Wait for the transition to finish
-        display.updateTree(5);
-        await game.ready();
+        game.update(5);
+        await tester.pump();
 
         for (final text in [
           'AAA',

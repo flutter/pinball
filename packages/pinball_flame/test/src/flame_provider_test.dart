@@ -24,21 +24,39 @@ void main() {
         );
       });
 
-      flameTester.test('can be loaded', (game) async {
-        final component = FlameProvider<bool>.value(true);
-        await game.ensureAdd(component);
-        expect(game.children, contains(component));
-      });
+      flameTester.testGameWidget(
+        'can be loaded',
+        setUp: (game, _) async {
+          final component = FlameProvider<bool>.value(true);
+          await game.ensureAdd(component);
+        },
+        verify: (game, _) async {
+          expect(
+            game.children.whereType<FlameProvider<bool>>().length,
+            equals(1),
+          );
+        },
+      );
 
-      flameTester.test('adds children', (game) async {
-        final component = Component();
-        final provider = FlameProvider<bool>.value(
-          true,
-          children: [component],
-        );
-        await game.ensureAdd(provider);
-        expect(provider.children, contains(component));
-      });
+      flameTester.testGameWidget(
+        'adds children',
+        setUp: (game, _) async {
+          final component = Component();
+          final provider = FlameProvider<bool>.value(
+            true,
+            children: [component],
+          );
+          await game.ensureAdd(provider);
+        },
+        verify: (game, _) async {
+          final provider =
+              game.descendants().whereType<FlameProvider<bool>>().single;
+          expect(
+            provider.children.whereType<Component>().length,
+            equals(1),
+          );
+        },
+      );
     },
   );
 
@@ -54,48 +72,80 @@ void main() {
       );
     });
 
-    flameTester.test('adds multiple providers', (game) async {
-      final provider1 = FlameProvider<bool>.value(true);
-      final provider2 = FlameProvider<bool>.value(true);
-      final providers = MultiFlameProvider(
-        providers: [provider1, provider2],
-      );
-      await game.ensureAdd(providers);
-      expect(providers.children, contains(provider1));
-      expect(provider1.children, contains(provider2));
-    });
+    flameTester.testGameWidget(
+      'adds multiple providers',
+      setUp: (game, _) async {
+        final provider1 = FlameProvider<bool>.value(true);
+        final provider2 = FlameProvider<bool>.value(true);
+        final providers = MultiFlameProvider(
+          providers: [provider1, provider2],
+        );
+        await game.ensureAdd(providers);
+      },
+      verify: (game, _) async {
+        final providers =
+            game.descendants().whereType<MultiFlameProvider>().single;
+        expect(
+          providers.children.whereType<FlameProvider<bool>>().length,
+          equals(1),
+        );
+        final provider1 =
+            providers.children.whereType<FlameProvider<bool>>().single;
+        expect(
+          provider1.children.whereType<FlameProvider<bool>>().length,
+          equals(1),
+        );
+      },
+    );
 
-    flameTester.test('adds children under provider', (game) async {
-      final component = Component();
-      final provider = FlameProvider<bool>.value(true);
-      final providers = MultiFlameProvider(
-        providers: [provider],
-        children: [component],
-      );
-      await game.ensureAdd(providers);
-      expect(provider.children, contains(component));
-    });
+    flameTester.testGameWidget(
+      'adds children under provider',
+      setUp: (game, _) async {
+        final component = Component();
+        final provider = FlameProvider<bool>.value(true);
+        final providers = MultiFlameProvider(
+          providers: [provider],
+          children: [component],
+        );
+        await game.ensureAdd(providers);
+      },
+      verify: (game, _) async {
+        final provider =
+            game.descendants().whereType<FlameProvider<bool>>().single;
+        expect(provider.children.whereType<Component>().length, equals(1));
+      },
+    );
   });
 
   group(
     'ReadFlameProvider',
     () {
-      flameTester.test('loads provider', (game) async {
-        final component = Component();
-        final provider = FlameProvider<bool>.value(
-          true,
-          children: [component],
-        );
-        await game.ensureAdd(provider);
-        expect(component.readProvider<bool>(), isTrue);
-      });
+      flameTester.testGameWidget(
+        'loads provider',
+        setUp: (game, _) async {
+          final component = Component();
+          final provider = FlameProvider<bool>.value(
+            true,
+            children: [component],
+          );
+          await game.ensureAdd(provider);
+        },
+        verify: (game, _) async {
+          final component = game
+              .descendants()
+              .whereType<FlameProvider<bool>>()
+              .single
+              .children
+              .first;
+          expect(component.readProvider<bool>(), isTrue);
+        },
+      );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'throws assertionError when no provider is found',
-        (game) async {
+        setUp: (game, _) async {
           final component = Component();
           await game.ensureAdd(component);
-
           expect(
             () => component.readProvider<bool>(),
             throwsAssertionError,
@@ -108,23 +158,37 @@ void main() {
   group(
     'ReadFlameBlocProvider',
     () {
-      flameTester.test('loads provider', (game) async {
-        final component = Component();
-        final bloc = _FakeCubit();
-        final provider = FlameBlocProvider<_FakeCubit, Object>.value(
-          value: bloc,
-          children: [component],
-        );
-        await game.ensureAdd(provider);
-        expect(component.readBloc<_FakeCubit, Object>(), equals(bloc));
-      });
+      flameTester.testGameWidget(
+        'loads provider',
+        setUp: (game, _) async {
+          final component = Component();
+          final bloc = _FakeCubit();
+          final provider = FlameBlocProvider<_FakeCubit, Object>.value(
+            value: bloc,
+            children: [component],
+          );
+          await game.ensureAdd(provider);
+        },
+        verify: (game, _) async {
+          final provider = game
+              .descendants()
+              .whereType<FlameBlocProvider<_FakeCubit, Object>>()
+              .single;
+          expect(
+            provider.children.first.readBloc<_FakeCubit, Object>(),
+            equals(provider.bloc),
+          );
+        },
+      );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'throws assertionError when no provider is found',
-        (game) async {
+        setUp: (game, _) async {
           final component = Component();
           await game.ensureAdd(component);
-
+        },
+        verify: (game, _) async {
+          final component = game.descendants().whereType<Component>().first;
           expect(
             () => component.readBloc<_FakeCubit, Object>(),
             throwsAssertionError,

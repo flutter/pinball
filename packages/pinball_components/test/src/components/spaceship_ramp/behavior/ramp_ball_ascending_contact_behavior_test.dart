@@ -77,9 +77,10 @@ void main() {
           when(() => ball.body).thenReturn(body);
         });
 
-        flameTester.test(
+        flameTester.testGameWidget(
           "calls 'onAscendingBallEntered' when a ball enters into the ramp",
-          (game) async {
+          setUp: (game, _) async {
+            await game.onLoad();
             final behavior = RampBallAscendingContactBehavior();
             final bloc = _MockSpaceshipRampCubit();
             whenListen(
@@ -100,16 +101,28 @@ void main() {
               bloc: bloc,
             );
             await opening.ensureAdd(behavior);
-
+            await game.ready();
+          },
+          verify: (game, _) async {
+            final behavior = game
+                .descendants()
+                .whereType<RampBallAscendingContactBehavior>()
+                .single;
+            final bloc = game
+                .descendants()
+                .whereType<
+                    FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>>()
+                .single
+                .bloc;
             behavior.beginContact(ball, _MockContact());
-
             verify(bloc.onAscendingBallEntered).called(1);
           },
         );
 
-        flameTester.test(
+        flameTester.testGameWidget(
           "doesn't call 'onAscendingBallEntered' when a ball goes out the ramp",
-          (game) async {
+          setUp: (game, _) async {
+            await game.onLoad();
             final behavior = RampBallAscendingContactBehavior();
             final bloc = _MockSpaceshipRampCubit();
             whenListen(
@@ -130,7 +143,19 @@ void main() {
               bloc: bloc,
             );
             await opening.ensureAdd(behavior);
-
+            await game.ready();
+          },
+          verify: (game, _) async {
+            final behavior = game
+                .descendants()
+                .whereType<RampBallAscendingContactBehavior>()
+                .single;
+            final bloc = game
+                .descendants()
+                .whereType<
+                    FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>>()
+                .single
+                .bloc;
             behavior.beginContact(ball, _MockContact());
 
             verifyNever(bloc.onAscendingBallEntered);

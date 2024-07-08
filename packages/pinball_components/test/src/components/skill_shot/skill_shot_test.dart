@@ -23,70 +23,113 @@ void main() {
   final flameTester = FlameTester(() => TestGame(assets));
 
   group('SkillShot', () {
-    flameTester.test('loads correctly', (game) async {
-      final skillShot = SkillShot();
-      await game.ensureAdd(skillShot);
-      expect(game.contains(skillShot), isTrue);
-    });
+    flameTester.testGameWidget(
+      'loads correctly',
+      setUp: (game, _) async {
+        await game.onLoad();
+        final skillShot = SkillShot();
+        await game.ensureAdd(skillShot);
+        await game.ready();
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<SkillShot>().length, equals(1));
+      },
+    );
 
-    flameTester.test('closes bloc when removed', (game) async {
-      final bloc = _MockSkillShotCubit();
-      whenListen(
-        bloc,
-        const Stream<SkillShotState>.empty(),
-        initialState: const SkillShotState.initial(),
-      );
-      when(bloc.close).thenAnswer((_) async {});
-      final skillShot = SkillShot.test(bloc: bloc);
+    flameTester.testGameWidget(
+      'closes bloc when removed',
+      setUp: (game, _) async {
+        await game.onLoad();
+        final bloc = _MockSkillShotCubit();
+        whenListen(
+          bloc,
+          const Stream<SkillShotState>.empty(),
+          initialState: const SkillShotState.initial(),
+        );
+        when(bloc.close).thenAnswer((_) async {});
+        final skillShot = SkillShot.test(bloc: bloc);
 
-      await game.ensureAdd(skillShot);
-      game.remove(skillShot);
-      await game.ready();
-
-      verify(bloc.close).called(1);
-    });
+        await game.ensureAdd(skillShot);
+        await game.ready();
+      },
+      verify: (game, _) async {
+        final skillShot = game.descendants().whereType<SkillShot>().single;
+        game.remove(skillShot);
+        game.update(0);
+        verify(skillShot.bloc.close).called(1);
+      },
+    );
 
     group('adds', () {
-      flameTester.test('new children', (game) async {
-        final component = Component();
-        final skillShot = SkillShot(
-          children: [component],
-        );
-        await game.ensureAdd(skillShot);
-        expect(skillShot.children, contains(component));
-      });
+      flameTester.testGameWidget(
+        'new children',
+        setUp: (game, _) async {
+          await game.onLoad();
+          final component = Component();
+          final skillShot = SkillShot(
+            children: [component],
+          );
+          await game.ensureAdd(skillShot);
+          await game.ready();
+        },
+        verify: (game, _) async {
+          final skillShot = game.descendants().whereType<SkillShot>().single;
+          expect(skillShot.children.whereType<Component>(), isNotEmpty);
+        },
+      );
 
-      flameTester.test('a SkillShotBallContactBehavior', (game) async {
-        final skillShot = SkillShot();
-        await game.ensureAdd(skillShot);
-        expect(
-          skillShot.children.whereType<SkillShotBallContactBehavior>().single,
-          isNotNull,
-        );
-      });
+      flameTester.testGameWidget(
+        'a SkillShotBallContactBehavior',
+        setUp: (game, _) async {
+          await game.onLoad();
+          final skillShot = SkillShot();
+          await game.ensureAdd(skillShot);
+          await game.ready();
+        },
+        verify: (game, _) async {
+          final skillShot = game.descendants().whereType<SkillShot>().single;
+          expect(
+            skillShot.children.whereType<SkillShotBallContactBehavior>().single,
+            isNotNull,
+          );
+        },
+      );
 
-      flameTester.test('a SkillShotBlinkingBehavior', (game) async {
-        final skillShot = SkillShot();
-        await game.ensureAdd(skillShot);
-        expect(
-          skillShot.children.whereType<SkillShotBlinkingBehavior>().single,
-          isNotNull,
-        );
-      });
+      flameTester.testGameWidget(
+        'a SkillShotBlinkingBehavior',
+        setUp: (game, _) async {
+          await game.onLoad();
+          final skillShot = SkillShot();
+          await game.ensureAdd(skillShot);
+          await game.ready();
+        },
+        verify: (game, _) async {
+          final skillShot = game.descendants().whereType<SkillShot>().single;
+          expect(
+            skillShot.children.whereType<SkillShotBlinkingBehavior>().single,
+            isNotNull,
+          );
+        },
+      );
     });
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'pin stops animating after animation completes',
-      (game) async {
+      setUp: (game, _) async {
+        await game.onLoad();
         final skillShot = SkillShot();
         await game.ensureAdd(skillShot);
+        await game.ready();
+      },
+      verify: (game, _) async {
+        final skillShot = game.descendants().whereType<SkillShot>().single;
 
         final pinSpriteAnimationComponent =
             skillShot.firstChild<PinSpriteAnimationComponent>()!;
 
         pinSpriteAnimationComponent.playing = true;
         game.update(
-          pinSpriteAnimationComponent.animation!.totalDuration() + 0.1,
+          pinSpriteAnimationComponent.animationTicker!.totalDuration() + 0.1,
         );
 
         expect(pinSpriteAnimationComponent.playing, isFalse);

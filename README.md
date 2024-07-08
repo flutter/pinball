@@ -19,6 +19,17 @@ _Created using [Very Good CLI][very_good_cli_link] 🤖_
 
 ## Getting Started 🚀
 
+### Firebase
+First, please create a Firebase project for development. 
+After you create your project, remember to activate the following features:
+    - **Authentication** with the **anonymous** option
+    - **Firestore** with the rules in firestore.rules.
+
+Next, use the instructions on [Firebase website](https://firebase.google.com/docs/flutter/setup?platform=web) to set up the **flutterfire_cli**.
+
+Allow it to override the **lib/firebase_options.dart** file with your project settings.
+
+### Running locally
 To run the desired project either use the launch configuration in VSCode/Android Studio or use the following commands:
 
 ```sh

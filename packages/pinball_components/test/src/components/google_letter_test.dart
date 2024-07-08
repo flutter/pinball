@@ -46,63 +46,69 @@ void main() {
       expect(GoogleLetter(0), isA<GoogleLetter>());
     });
 
-    flameTester.test(
+    flameTester.testGameWidget(
       '0th loads correctly',
-      (game) async {
+      setUp: (game, _) async {
         final googleLetter = GoogleLetter(0);
         await game.pump(googleLetter);
-
-        expect(game.descendants().contains(googleLetter), isTrue);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<GoogleLetter>().length, equals(1));
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       '1st loads correctly',
-      (game) async {
+      setUp: (game, _) async {
         final googleLetter = GoogleLetter(1);
         await game.pump(googleLetter);
-
-        expect(game.descendants().contains(googleLetter), isTrue);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<GoogleLetter>().length, equals(1));
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       '2nd loads correctly',
-      (game) async {
+      setUp: (game, _) async {
         final googleLetter = GoogleLetter(2);
         await game.pump(googleLetter);
-
-        expect(game.descendants().contains(googleLetter), isTrue);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<GoogleLetter>().length, equals(1));
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       '3d loads correctly',
-      (game) async {
+      setUp: (game, _) async {
         final googleLetter = GoogleLetter(3);
         await game.pump(googleLetter);
-
-        expect(game.descendants().contains(googleLetter), isTrue);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<GoogleLetter>().length, equals(1));
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       '4th loads correctly',
-      (game) async {
+      setUp: (game, _) async {
         final googleLetter = GoogleLetter(4);
         await game.pump(googleLetter);
-
-        expect(game.descendants().contains(googleLetter), isTrue);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<GoogleLetter>().length, equals(1));
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       '5th loads correctly',
-      (game) async {
+      setUp: (game, _) async {
         final googleLetter = GoogleLetter(5);
         await game.pump(googleLetter);
-
-        expect(game.descendants().contains(googleLetter), isTrue);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<GoogleLetter>().length, equals(1));
       },
     );
 
@@ -123,12 +129,15 @@ void main() {
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         "listens when its index's state changes",
-        (game) async {
+        setUp: (game, _) async {
           final googleLetter = GoogleLetter(0);
           await game.pump(googleLetter);
-
+        },
+        verify: (game, _) async {
+          final googleLetter =
+              game.descendants().whereType<GoogleLetter>().single;
           expect(
             googleLetter.listenWhen(
               GoogleWordState.initial(),
@@ -139,16 +148,20 @@ void main() {
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'changes current sprite onNewState',
-        (game) async {
+        setUp: (game, _) async {
           final googleLetter = GoogleLetter(0);
           await game.pump(googleLetter);
+        },
+        verify: (game, _) async {
+          final googleLetter =
+              game.descendants().whereType<GoogleLetter>().single;
 
           final originalSprite = googleLetter.current;
 
           googleLetter.onNewState(firstLetterLitState);
-          await game.ready();
+          game.update(0);
 
           final newSprite = googleLetter.current;
           expect(newSprite, isNot(equals(originalSprite)));

@@ -49,15 +49,23 @@ void main() {
       );
     });
 
-    flameTester.test('can be loaded', (game) async {
-      final behavior = FlipperMovingBehavior(strength: 0);
-      await game.pump(behavior);
-      expect(game.descendants(), contains(behavior));
-    });
+    flameTester.testGameWidget(
+      'can be loaded',
+      setUp: (game, _) async {
+        final behavior = FlipperMovingBehavior(strength: 0);
+        await game.pump(behavior);
+      },
+      verify: (game, _) async {
+        expect(
+          game.descendants().whereType<FlipperMovingBehavior>(),
+          isNotEmpty,
+        );
+      },
+    );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'applies vertical velocity to flipper when moving down',
-      (game) async {
+      setUp: (game, _) async {
         final bloc = _MockFlipperCubit();
         final streamController = StreamController<FlipperState>();
         whenListen(
@@ -71,17 +79,19 @@ void main() {
         await game.pump(behavior, flipperBloc: bloc);
 
         streamController.add(FlipperState.movingDown);
-        await Future<void>.delayed(Duration.zero);
+      },
+      verify: (game, _) async {
+        game.update(0);
 
-        final flipper = behavior.ancestors().whereType<Flipper>().single;
+        final flipper = game.descendants().whereType<Flipper>().single;
         expect(flipper.body.linearVelocity.x, 0);
-        expect(flipper.body.linearVelocity.y, strength);
+        expect(flipper.body.linearVelocity.y, 10.0);
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'applies vertical velocity to flipper when moving up',
-      (game) async {
+      setUp: (game, _) async {
         final bloc = _MockFlipperCubit();
         whenListen(
           bloc,
@@ -92,11 +102,13 @@ void main() {
         const strength = 10.0;
         final behavior = FlipperMovingBehavior(strength: strength);
         await game.pump(behavior, flipperBloc: bloc);
+      },
+      verify: (game, _) async {
         game.update(0);
 
-        final flipper = behavior.ancestors().whereType<Flipper>().single;
+        final flipper = game.descendants().whereType<Flipper>().single;
         expect(flipper.body.linearVelocity.x, 0);
-        expect(flipper.body.linearVelocity.y, -strength);
+        expect(flipper.body.linearVelocity.y, -10.0);
       },
     );
   });

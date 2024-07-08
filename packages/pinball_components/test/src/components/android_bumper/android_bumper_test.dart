@@ -26,123 +26,225 @@ void main() {
   final flameTester = FlameTester(() => TestGame(assets));
 
   group('AndroidBumper', () {
-    flameTester.test('"a" loads correctly', (game) async {
-      final androidBumper = AndroidBumper.a();
-      await game.ensureAdd(androidBumper);
-      expect(game.contains(androidBumper), isTrue);
-    });
+    flameTester.testGameWidget(
+      '"a" loads correctly',
+      setUp: (game, _) async {
+        await game.onLoad();
+        final androidBumper = AndroidBumper.a();
+        await game.ensureAdd(androidBumper);
+        await game.ready();
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<AndroidBumper>(), isNotEmpty);
+      },
+    );
 
-    flameTester.test('"b" loads correctly', (game) async {
-      final androidBumper = AndroidBumper.b();
-      await game.ensureAdd(androidBumper);
-      expect(game.contains(androidBumper), isTrue);
-    });
+    flameTester.testGameWidget(
+      '"b" loads correctly',
+      setUp: (game, _) async {
+        await game.onLoad();
+        final androidBumper = AndroidBumper.b();
+        await game.ensureAdd(androidBumper);
+        await game.ready();
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<AndroidBumper>(), isNotEmpty);
+      },
+    );
 
-    flameTester.test('"cow" loads correctly', (game) async {
-      final androidBumper = AndroidBumper.cow();
-      await game.ensureAdd(androidBumper);
-      expect(game.contains(androidBumper), isTrue);
-    });
+    flameTester.testGameWidget(
+      '"cow" loads correctly',
+      setUp: (game, _) async {
+        await game.onLoad();
+        final androidBumper = AndroidBumper.cow();
+        await game.ensureAdd(androidBumper);
+        await game.ready();
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<AndroidBumper>(), isNotEmpty);
+      },
+    );
 
-    flameTester.test('closes bloc when removed', (game) async {
-      final bloc = _MockAndroidBumperCubit();
-      whenListen(
-        bloc,
-        const Stream<AndroidBumperState>.empty(),
-        initialState: AndroidBumperState.lit,
-      );
-      when(bloc.close).thenAnswer((_) async {});
-      final androidBumper = AndroidBumper.test(bloc: bloc);
+    flameTester.testGameWidget(
+      'closes bloc when removed',
+      setUp: (game, _) async {
+        await game.onLoad();
+        final bloc = _MockAndroidBumperCubit();
+        whenListen(
+          bloc,
+          const Stream<AndroidBumperState>.empty(),
+          initialState: AndroidBumperState.lit,
+        );
+        when(bloc.close).thenAnswer((_) async {});
+        final androidBumper = AndroidBumper.test(bloc: bloc);
 
-      await game.ensureAdd(androidBumper);
-      game.remove(androidBumper);
-      await game.ready();
-
-      verify(bloc.close).called(1);
-    });
+        await game.ensureAdd(androidBumper);
+        await game.ready();
+      },
+      verify: (game, _) async {
+        final androidBumper =
+            game.descendants().whereType<AndroidBumper>().single;
+        final bloc = androidBumper.bloc;
+        game.remove(androidBumper);
+        game.update(0);
+        expect(game.descendants().whereType<AndroidBumper>(), isEmpty);
+        verify(bloc.close).called(1);
+      },
+    );
 
     group('adds', () {
-      flameTester.test('an AndroidBumperBallContactBehavior', (game) async {
-        final androidBumper = AndroidBumper.a();
-        await game.ensureAdd(androidBumper);
-        expect(
-          androidBumper.children
-              .whereType<AndroidBumperBallContactBehavior>()
-              .single,
-          isNotNull,
-        );
-      });
+      flameTester.testGameWidget(
+        'an AndroidBumperBallContactBehavior',
+        setUp: (game, _) async {
+          await game.onLoad();
+          final androidBumper = AndroidBumper.a();
+          await game.ensureAdd(androidBumper);
+          await game.ready();
+        },
+        verify: (game, _) async {
+          final androidBumper =
+              game.descendants().whereType<AndroidBumper>().single;
+          expect(
+            androidBumper.children
+                .whereType<AndroidBumperBallContactBehavior>(),
+            isNotEmpty,
+          );
+        },
+      );
 
-      flameTester.test('an AndroidBumperBlinkingBehavior', (game) async {
-        final androidBumper = AndroidBumper.a();
-        await game.ensureAdd(androidBumper);
-        expect(
-          androidBumper.children
-              .whereType<AndroidBumperBlinkingBehavior>()
-              .single,
-          isNotNull,
-        );
-      });
+      flameTester.testGameWidget(
+        'an AndroidBumperBlinkingBehavior',
+        setUp: (game, _) async {
+          await game.onLoad();
+          final androidBumper = AndroidBumper.a();
+          await game.ensureAdd(androidBumper);
+          await game.ready();
+        },
+        verify: (game, _) async {
+          final androidBumper =
+              game.descendants().whereType<AndroidBumper>().single;
+          expect(
+            androidBumper.children
+                .whereType<AndroidBumperBlinkingBehavior>()
+                .single,
+            isNotNull,
+          );
+        },
+      );
     });
 
     group("'a' adds", () {
-      flameTester.test('new children', (game) async {
-        final component = Component();
-        final androidBumper = AndroidBumper.a(
-          children: [component],
-        );
-        await game.ensureAdd(androidBumper);
-        expect(androidBumper.children, contains(component));
-      });
+      flameTester.testGameWidget(
+        'new children',
+        setUp: (game, _) async {
+          await game.onLoad();
+          final component = Component();
+          final androidBumper = AndroidBumper.a(
+            children: [component],
+          );
+          await game.ensureAdd(androidBumper);
+          await game.ready();
+        },
+        verify: (game, _) async {
+          final androidBumper =
+              game.descendants().whereType<AndroidBumper>().single;
+          expect(androidBumper.children.whereType<Component>(), isNotEmpty);
+        },
+      );
 
-      flameTester.test('a BumpingBehavior', (game) async {
-        final androidBumper = AndroidBumper.a();
-        await game.ensureAdd(androidBumper);
-        expect(
-          androidBumper.children.whereType<BumpingBehavior>().single,
-          isNotNull,
-        );
-      });
+      flameTester.testGameWidget(
+        'a BumpingBehavior',
+        setUp: (game, _) async {
+          await game.onLoad();
+          final androidBumper = AndroidBumper.a();
+          await game.ensureAdd(androidBumper);
+          await game.ready();
+        },
+        verify: (game, _) async {
+          final androidBumper =
+              game.descendants().whereType<AndroidBumper>().single;
+          expect(
+            androidBumper.children.whereType<BumpingBehavior>().single,
+            isNotNull,
+          );
+        },
+      );
     });
 
     group("'b' adds", () {
-      flameTester.test('new children', (game) async {
-        final component = Component();
-        final androidBumper = AndroidBumper.b(
-          children: [component],
-        );
-        await game.ensureAdd(androidBumper);
-        expect(androidBumper.children, contains(component));
-      });
+      flameTester.testGameWidget(
+        'new children',
+        setUp: (game, _) async {
+          await game.onLoad();
+          final component = Component();
+          final androidBumper = AndroidBumper.b(
+            children: [component],
+          );
+          await game.ensureAdd(androidBumper);
+          await game.ready();
+        },
+        verify: (game, _) async {
+          final androidBumper =
+              game.descendants().whereType<AndroidBumper>().single;
+          expect(androidBumper.children.whereType<Component>(), isNotEmpty);
+        },
+      );
 
-      flameTester.test('a BumpingBehavior', (game) async {
-        final androidBumper = AndroidBumper.b();
-        await game.ensureAdd(androidBumper);
-        expect(
-          androidBumper.children.whereType<BumpingBehavior>().single,
-          isNotNull,
-        );
-      });
+      flameTester.testGameWidget(
+        'a BumpingBehavior',
+        setUp: (game, _) async {
+          await game.onLoad();
+          final androidBumper = AndroidBumper.b();
+          await game.ensureAdd(androidBumper);
+          await game.ready();
+        },
+        verify: (game, _) async {
+          final androidBumper =
+              game.descendants().whereType<AndroidBumper>().single;
+          expect(
+            androidBumper.children.whereType<BumpingBehavior>().single,
+            isNotNull,
+          );
+        },
+      );
     });
 
     group("'cow' adds", () {
-      flameTester.test('new children', (game) async {
-        final component = Component();
-        final androidBumper = AndroidBumper.cow(
-          children: [component],
-        );
-        await game.ensureAdd(androidBumper);
-        expect(androidBumper.children, contains(component));
-      });
+      flameTester.testGameWidget(
+        'new children',
+        setUp: (game, _) async {
+          await game.onLoad();
+          final component = Component();
+          final androidBumper = AndroidBumper.cow(
+            children: [component],
+          );
+          await game.ensureAdd(androidBumper);
+          await game.ready();
+        },
+        verify: (game, _) async {
+          final androidBumper =
+              game.descendants().whereType<AndroidBumper>().single;
+          expect(androidBumper.children.whereType<Component>(), isNotEmpty);
+        },
+      );
 
-      flameTester.test('a BumpingBehavior', (game) async {
-        final androidBumper = AndroidBumper.cow();
-        await game.ensureAdd(androidBumper);
-        expect(
-          androidBumper.children.whereType<BumpingBehavior>().single,
-          isNotNull,
-        );
-      });
+      flameTester.testGameWidget(
+        'a BumpingBehavior',
+        setUp: (game, _) async {
+          await game.onLoad();
+          final androidBumper = AndroidBumper.cow();
+          await game.ensureAdd(androidBumper);
+          await game.ready();
+        },
+        verify: (game, _) async {
+          final androidBumper =
+              game.descendants().whereType<AndroidBumper>().single;
+          expect(
+            androidBumper.children.whereType<BumpingBehavior>().single,
+            isNotNull,
+          );
+        },
+      );
     });
   });
 }

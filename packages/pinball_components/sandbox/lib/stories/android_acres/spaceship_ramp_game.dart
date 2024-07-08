@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -43,7 +44,7 @@ class SpaceshipRampGame extends BallGame with KeyboardEvents {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    camera.followVector2(Vector2(-12, -50));
+    camera.follow(PositionComponent(position: Vector2(-12, -50)));
 
     _spaceshipRamp = SpaceshipRamp();
     await add(_spaceshipRamp);
@@ -52,11 +53,10 @@ class SpaceshipRampGame extends BallGame with KeyboardEvents {
 
   @override
   KeyEventResult onKeyEvent(
-    RawKeyEvent event,
+    KeyEvent event,
     Set<LogicalKeyboardKey> keysPressed,
   ) {
-    if (event is RawKeyDownEvent &&
-        event.logicalKey == LogicalKeyboardKey.space) {
+    if (event is KeyDownEvent && event.logicalKey == LogicalKeyboardKey.space) {
       _spaceshipRamp
           .readBloc<SpaceshipRampCubit, SpaceshipRampState>()
           .onProgressed();

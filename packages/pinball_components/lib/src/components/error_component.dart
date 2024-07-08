@@ -51,7 +51,7 @@ class ErrorComponent extends SpriteComponent with HasGameRef {
     while (words.isNotEmpty) {
       final word = words.removeAt(0);
 
-      if (_textPaint.measureTextWidth('$currentLine $word') <= maxWidth) {
+      if (_textPaint.getLineMetrics('$currentLine $word').width <= maxWidth) {
         currentLine = '$currentLine $word'.trim();
       } else {
         lines.add(currentLine);

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 import 'package:flame/input.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ abstract class AssetsGame extends Forge2DGame {
   Future<void> onLoad() async {
     await super.onLoad();
     if (_imagesFileNames != null) {
-      await images.loadAll(_imagesFileNames!);
+      await images.loadAll(_imagesFileNames);
     }
   }
 }
@@ -37,19 +38,18 @@ abstract class LineGame extends AssetsGame with PanDetector {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-
-    camera.followVector2(Vector2.zero());
-    unawaited(add(_PreviewLine()));
+    camera.follow(PositionComponent(position: Vector2.zero()));
+    add(_PreviewLine());
   }
 
   @override
   void onPanStart(DragStartInfo info) {
-    _lineEnd = info.eventPosition.game;
+    _lineEnd = info.eventPosition.global;
   }
 
   @override
   void onPanUpdate(DragUpdateInfo info) {
-    _lineEnd = info.eventPosition.game;
+    _lineEnd = info.eventPosition.global;
   }
 
   @override
