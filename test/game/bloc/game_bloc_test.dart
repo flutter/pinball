@@ -15,12 +15,11 @@ void main() {
       build: GameBloc.new,
       act: (bloc) => bloc.add(const GameStarted()),
       expect: () => [
-        isA<GameState>()
-          ..having(
-            (state) => state.status,
-            'status',
-            GameStatus.playing,
-          ),
+        isA<GameState>().having(
+          (state) => state.status,
+          'status',
+          GameStatus.playing,
+        ),
       ],
     );
 
@@ -29,12 +28,11 @@ void main() {
       build: GameBloc.new,
       act: (bloc) => bloc.add(const GameOver()),
       expect: () => [
-        isA<GameState>()
-          ..having(
-            (state) => state.status,
-            'status',
-            GameStatus.gameOver,
-          ),
+        isA<GameState>().having(
+          (state) => state.status,
+          'status',
+          GameStatus.gameOver,
+        ),
       ],
     );
 
@@ -47,7 +45,7 @@ void main() {
           bloc.add(const RoundLost());
         },
         expect: () => [
-          isA<GameState>()..having((state) => state.rounds, 'rounds', 2),
+          isA<GameState>().having((state) => state.rounds, 'rounds', 2),
         ],
       );
 
@@ -61,11 +59,11 @@ void main() {
             ..add(const RoundLost());
         },
         expect: () => [
-          isA<GameState>()..having((state) => state.rounds, 'rounds', 2),
-          isA<GameState>()..having((state) => state.rounds, 'rounds', 1),
+          isA<GameState>().having((state) => state.rounds, 'rounds', 2),
+          isA<GameState>().having((state) => state.rounds, 'rounds', 1),
           isA<GameState>()
-            ..having((state) => state.rounds, 'rounds', 0)
-            ..having((state) => state.status, 'status', GameStatus.gameOver),
+              .having((state) => state.rounds, 'rounds', 0)
+              .having((state) => state.status, 'status', GameStatus.gameOver),
         ],
       );
 
@@ -86,8 +84,8 @@ void main() {
         },
         expect: () => [
           isA<GameState>()
-            ..having((state) => state.totalScore, 'totalScore', 25)
-            ..having((state) => state.roundScore, 'roundScore', 0)
+              .having((state) => state.totalScore, 'totalScore', 25)
+              .having((state) => state.roundScore, 'roundScore', 0),
         ],
       );
 
@@ -104,12 +102,11 @@ void main() {
         ),
         act: (bloc) => bloc.add(const RoundLost()),
         expect: () => [
-          isA<GameState>()
-            ..having(
-              (state) => state.totalScore,
-              'totalScore',
-              9999999999,
-            )
+          isA<GameState>().having(
+            (state) => state.totalScore,
+            'totalScore',
+            9999999999,
+          ),
         ],
       );
 
@@ -128,7 +125,7 @@ void main() {
           bloc.add(const RoundLost());
         },
         expect: () => [
-          isA<GameState>()..having((state) => state.multiplier, 'multiplier', 1)
+          isA<GameState>().having((state) => state.multiplier, 'multiplier', 1),
         ],
       );
     });
@@ -143,13 +140,13 @@ void main() {
           ..add(const Scored(points: 3)),
         expect: () => [
           isA<GameState>()
-            ..having((state) => state.status, 'status', GameStatus.playing),
+              .having((state) => state.status, 'status', GameStatus.playing),
           isA<GameState>()
-            ..having((state) => state.roundScore, 'roundScore', 2)
-            ..having((state) => state.status, 'status', GameStatus.playing),
+              .having((state) => state.roundScore, 'roundScore', 2)
+              .having((state) => state.status, 'status', GameStatus.playing),
           isA<GameState>()
-            ..having((state) => state.roundScore, 'roundScore', 5)
-            ..having((state) => state.status, 'status', GameStatus.playing),
+              .having((state) => state.roundScore, 'roundScore', 5)
+              .having((state) => state.status, 'status', GameStatus.playing),
         ],
       );
 
@@ -164,29 +161,29 @@ void main() {
         },
         expect: () => [
           isA<GameState>()
-            ..having((state) => state.roundScore, 'roundScore', 0)
-            ..having((state) => state.rounds, 'rounds', 2)
-            ..having(
-              (state) => state.status,
-              'status',
-              GameStatus.gameOver,
-            ),
+              .having((state) => state.roundScore, 'roundScore', 0)
+              .having((state) => state.rounds, 'rounds', 2)
+              .having(
+                (state) => state.status,
+                'status',
+                GameStatus.waiting,
+              ),
           isA<GameState>()
-            ..having((state) => state.roundScore, 'roundScore', 0)
-            ..having((state) => state.rounds, 'rounds', 1)
-            ..having(
-              (state) => state.status,
-              'status',
-              GameStatus.gameOver,
-            ),
+              .having((state) => state.roundScore, 'roundScore', 0)
+              .having((state) => state.rounds, 'rounds', 1)
+              .having(
+                (state) => state.status,
+                'status',
+                GameStatus.waiting,
+              ),
           isA<GameState>()
-            ..having((state) => state.roundScore, 'roundScore', 0)
-            ..having((state) => state.rounds, 'rounds', 0)
-            ..having(
-              (state) => state.status,
-              'status',
-              GameStatus.gameOver,
-            ),
+              .having((state) => state.roundScore, 'roundScore', 0)
+              .having((state) => state.rounds, 'rounds', 0)
+              .having(
+                (state) => state.status,
+                'status',
+                GameStatus.gameOver,
+              ),
         ],
       );
 
@@ -203,7 +200,7 @@ void main() {
         ),
         act: (bloc) => bloc.add(const Scored(points: 2)),
         expect: () => [
-          isA<GameState>()..having((state) => state.roundScore, 'roundScore', 1)
+          isA<GameState>().having((state) => state.roundScore, 'roundScore', 1),
         ],
       );
     });
@@ -219,21 +216,21 @@ void main() {
           ..add(const MultiplierIncreased()),
         expect: () => [
           isA<GameState>()
-            ..having((state) => state.status, 'status', GameStatus.playing),
+              .having((state) => state.status, 'status', GameStatus.playing),
           isA<GameState>()
-            ..having((state) => state.multiplier, 'multiplier', 2)
-            ..having(
-              (state) => state.status,
-              'status',
-              GameStatus.gameOver,
-            ),
+              .having((state) => state.multiplier, 'multiplier', 2)
+              .having(
+                (state) => state.status,
+                'status',
+                GameStatus.playing,
+              ),
           isA<GameState>()
-            ..having((state) => state.multiplier, 'multiplier', 3)
-            ..having(
-              (state) => state.status,
-              'status',
-              GameStatus.gameOver,
-            ),
+              .having((state) => state.multiplier, 'multiplier', 3)
+              .having(
+                (state) => state.status,
+                'status',
+                GameStatus.playing,
+              ),
         ],
       );
 
@@ -266,28 +263,28 @@ void main() {
         },
         expect: () => [
           isA<GameState>()
-            ..having((state) => state.status, 'status', GameStatus.playing),
+              .having((state) => state.status, 'status', GameStatus.playing),
           isA<GameState>()
-            ..having((state) => state.multiplier, 'multiplier', 1)
-            ..having(
-              (state) => state.status,
-              'status',
-              GameStatus.gameOver,
-            ),
+              .having((state) => state.multiplier, 'multiplier', 1)
+              .having(
+                (state) => state.status,
+                'status',
+                GameStatus.playing,
+              ),
           isA<GameState>()
-            ..having((state) => state.multiplier, 'multiplier', 1)
-            ..having(
-              (state) => state.status,
-              'status',
-              GameStatus.gameOver,
-            ),
+              .having((state) => state.multiplier, 'multiplier', 1)
+              .having(
+                (state) => state.status,
+                'status',
+                GameStatus.playing,
+              ),
           isA<GameState>()
-            ..having((state) => state.multiplier, 'multiplier', 1)
-            ..having(
-              (state) => state.status,
-              'status',
-              GameStatus.gameOver,
-            ),
+              .having((state) => state.multiplier, 'multiplier', 1)
+              .having(
+                (state) => state.status,
+                'status',
+                GameStatus.gameOver,
+              ),
         ],
       );
     });
@@ -302,18 +299,16 @@ void main() {
             ..add(const BonusActivated(GameBonus.googleWord))
             ..add(const BonusActivated(GameBonus.dashNest)),
           expect: () => [
-            isA<GameState>()
-              ..having(
-                (state) => state.bonusHistory,
-                'bonusHistory',
-                [GameBonus.googleWord],
-              ),
-            isA<GameState>()
-              ..having(
-                (state) => state.bonusHistory,
-                'bonusHistory',
-                [GameBonus.googleWord, GameBonus.dashNest],
-              ),
+            isA<GameState>().having(
+              (state) => state.bonusHistory,
+              'bonusHistory',
+              [GameBonus.googleWord],
+            ),
+            isA<GameState>().having(
+              (state) => state.bonusHistory,
+              'bonusHistory',
+              [GameBonus.googleWord, GameBonus.dashNest],
+            ),
           ],
         );
       },

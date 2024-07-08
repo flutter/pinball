@@ -1,7 +1,6 @@
 // ignore_for_file: cascade_invocations
 
-import 'package:flame/game.dart';
-import 'package:flame/input.dart';
+import 'package:flame/events.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
@@ -13,7 +12,7 @@ import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
 
-class _TestGame extends Forge2DGame with HasTappables {
+class _TestGame extends Forge2DGame with TapCallbacks {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -52,7 +51,7 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {
   String get socialMediaAccount => '';
 }
 
-class _MockTapUpInfo extends Mock implements TapUpInfo {}
+class _MockTapUpEvent extends Mock implements TapUpEvent {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -60,46 +59,50 @@ void main() {
   final flameTester = FlameTester(_TestGame.new);
 
   group('ShareDisplay', () {
-    flameTester.test(
+    var tapped = false;
+    flameTester.testGameWidget(
       'loads correctly',
-      (game) async {
+      setUp: (game, _) async {
         final component = ShareDisplay();
         await game.pump(component);
-        expect(game.descendants(), contains(component));
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<ShareDisplay>(), isNotEmpty);
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'calls onShare when Facebook button is tapped',
-      (game) async {
-        var tapped = false;
-
-        final tapUpInfo = _MockTapUpInfo();
+      setUp: (game, _) async {
+        tapped = false;
         final component = ShareDisplay(
           onShare: (_) => tapped = true,
         );
         await game.pump(component);
-
+      },
+      verify: (game, _) async {
+        final tapUpEvent = _MockTapUpEvent();
+        final component = game.descendants().whereType<ShareDisplay>().single;
         final facebookButton =
             component.descendants().whereType<FacebookButtonComponent>().first;
 
-        facebookButton.onTapUp(tapUpInfo);
+        facebookButton.onTapUp(tapUpEvent);
 
         expect(tapped, isTrue);
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'calls onShare when Twitter button is tapped',
-      (game) async {
-        var tapped = false;
-
-        final tapUpInfo = _MockTapUpInfo();
+      setUp: (game, _) async {
         final component = ShareDisplay(
           onShare: (_) => tapped = true,
         );
         await game.pump(component);
-
+      },
+      verify: (game, _) async {
+        final tapUpInfo = _MockTapUpEvent();
+        final component = game.descendants().whereType<ShareDisplay>().single;
         final twitterButton =
             component.descendants().whereType<TwitterButtonComponent>().first;
 

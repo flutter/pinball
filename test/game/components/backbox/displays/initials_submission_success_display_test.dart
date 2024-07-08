@@ -10,12 +10,16 @@ void main() {
   group('InitialsSubmissionSuccessDisplay', () {
     final flameTester = FlameTester(Forge2DGame.new);
 
-    flameTester.test('renders correctly', (game) async {
-      await game.ensureAdd(InitialsSubmissionSuccessDisplay());
-
-      final component = game.firstChild<TextComponent>();
-      expect(component, isNotNull);
-      expect(component?.text, equals('Success!'));
-    });
+    flameTester.testGameWidget(
+      'renders correctly',
+      setUp: (game, _) async {
+        await game.ensureAdd(InitialsSubmissionSuccessDisplay());
+      },
+      verify: (game, _) async {
+        final component = game.firstChild<TextComponent>();
+        expect(component, isNotNull);
+        expect(component?.text, equals('Success!'));
+      },
+    );
   });
 }

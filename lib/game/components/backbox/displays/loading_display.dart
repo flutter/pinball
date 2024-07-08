@@ -18,6 +18,7 @@ final _bodyTextPaint = TextPaint(
 /// {@endtemplate}
 class LoadingDisplay extends TextComponent {
   /// {@template loading_display}
+  /// {@endtemplate}
   LoadingDisplay();
 
   late final String _label;

@@ -10,8 +10,8 @@ import 'package:pinball_flame/pinball_flame.dart';
 
 import '../../../helpers/helpers.dart';
 
-class _MockAndroidSpaceshipCubit extends Mock implements AndroidSpaceshipCubit {
-}
+class _MockAndroidSpaceshipCubit extends Mock
+    implements AndroidSpaceshipCubit {}
 
 void main() {
   group('AndroidSpaceship', () {
@@ -26,15 +26,25 @@ void main() {
       bloc = _MockAndroidSpaceshipCubit();
     });
 
-    flameTester.test('loads correctly', (game) async {
-      final component =
-          FlameBlocProvider<AndroidSpaceshipCubit, AndroidSpaceshipState>.value(
-        value: bloc,
-        children: [AndroidSpaceship(position: Vector2.zero())],
-      );
-      await game.ensureAdd(component);
-      expect(game.contains(component), isTrue);
-    });
+    flameTester.testGameWidget(
+      'loads correctly',
+      setUp: (game, _) async {
+        final component = FlameBlocProvider<AndroidSpaceshipCubit,
+            AndroidSpaceshipState>.value(
+          value: bloc,
+          children: [AndroidSpaceship(position: Vector2.zero())],
+        );
+        await game.ensureAdd(component);
+      },
+      verify: (game, _) async {
+        expect(
+          game.descendants().whereType<
+              FlameBlocProvider<AndroidSpaceshipCubit,
+                  AndroidSpaceshipState>>(),
+          isNotEmpty,
+        );
+      },
+    );
 
     flameTester.testGameWidget(
       'renders correctly',
@@ -49,8 +59,8 @@ void main() {
             ),
           ],
         );
-        await game.ensureAdd(canvas);
-        game.camera.followVector2(Vector2.zero());
+        await game.world.ensureAdd(canvas);
+        game.camera.moveTo(Vector2.zero());
         await game.ready();
         await tester.pump();
       },
@@ -60,7 +70,7 @@ void main() {
             .descendants()
             .whereType<SpriteAnimationComponent>()
             .single
-            .animation!
+            .animationTicker!
             .totalDuration();
 
         await expectLater(

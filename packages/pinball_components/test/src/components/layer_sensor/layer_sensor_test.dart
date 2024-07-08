@@ -29,31 +29,35 @@ void main() {
   const insidePriority = 1;
 
   group('LayerSensor', () {
-    flameTester.test(
+    flameTester.testGameWidget(
       'loads correctly',
-      (game) async {
+      setUp: (game, _) async {
         final layerSensor = TestLayerSensor(
           orientation: LayerEntranceOrientation.down,
           insideZIndex: insidePriority,
           insideLayer: Layer.spaceshipEntranceRamp,
         );
         await game.ensureAdd(layerSensor);
-
-        expect(game.contains(layerSensor), isTrue);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<TestLayerSensor>(), isNotEmpty);
       },
     );
 
     group('body', () {
-      flameTester.test(
+      flameTester.testGameWidget(
         'is static',
-        (game) async {
+        setUp: (game, _) async {
           final layerSensor = TestLayerSensor(
             orientation: LayerEntranceOrientation.down,
             insideZIndex: insidePriority,
             insideLayer: Layer.spaceshipEntranceRamp,
           );
           await game.ensureAdd(layerSensor);
-
+        },
+        verify: (game, _) async {
+          final layerSensor =
+              game.descendants().whereType<TestLayerSensor>().single;
           expect(layerSensor.body.bodyType, equals(BodyType.static));
         },
       );
@@ -62,44 +66,55 @@ void main() {
         const pathwayLayer = Layer.spaceshipEntranceRamp;
         const openingLayer = Layer.opening;
 
-        flameTester.test(
+        flameTester.testGameWidget(
           'exists',
-          (game) async {
+          setUp: (game, _) async {
             final layerSensor = TestLayerSensor(
               orientation: LayerEntranceOrientation.down,
               insideZIndex: insidePriority,
               insideLayer: pathwayLayer,
             )..layer = openingLayer;
             await game.ensureAdd(layerSensor);
-
+          },
+          verify: (game, _) async {
+            final layerSensor =
+                game.descendants().whereType<TestLayerSensor>().single;
             expect(layerSensor.body.fixtures[0], isA<Fixture>());
           },
         );
 
-        flameTester.test(
+        flameTester.testGameWidget(
           'shape is a polygon',
-          (game) async {
+          setUp: (game, _) async {
             final layerSensor = TestLayerSensor(
               orientation: LayerEntranceOrientation.down,
               insideZIndex: insidePriority,
               insideLayer: pathwayLayer,
             )..layer = openingLayer;
             await game.ensureAdd(layerSensor);
+          },
+          verify: (game, _) async {
+            final layerSensor =
+                game.descendants().whereType<TestLayerSensor>().single;
 
             final fixture = layerSensor.body.fixtures[0];
             expect(fixture.shape.shapeType, equals(ShapeType.polygon));
           },
         );
 
-        flameTester.test(
+        flameTester.testGameWidget(
           'is sensor',
-          (game) async {
+          setUp: (game, _) async {
             final layerSensor = TestLayerSensor(
               orientation: LayerEntranceOrientation.down,
               insideZIndex: insidePriority,
               insideLayer: pathwayLayer,
             )..layer = openingLayer;
             await game.ensureAdd(layerSensor);
+          },
+          verify: (game, _) async {
+            final layerSensor =
+                game.descendants().whereType<TestLayerSensor>().single;
 
             final fixture = layerSensor.body.fixtures[0];
             expect(fixture.isSensor, isTrue);
@@ -108,16 +123,19 @@ void main() {
       });
     });
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'adds a LayerFilteringBehavior',
-      (game) async {
+      setUp: (game, _) async {
         final layerSensor = TestLayerSensor(
           orientation: LayerEntranceOrientation.down,
           insideZIndex: insidePriority,
           insideLayer: Layer.spaceshipEntranceRamp,
         );
         await game.ensureAdd(layerSensor);
-
+      },
+      verify: (game, _) async {
+        final layerSensor =
+            game.descendants().whereType<TestLayerSensor>().single;
         expect(
           layerSensor.children.whereType<LayerFilteringBehavior>().length,
           equals(1),

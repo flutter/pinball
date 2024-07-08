@@ -16,7 +16,7 @@ class AssetsLoadingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final headline1 = Theme.of(context).textTheme.headline1;
+    final displayLarge = Theme.of(context).textTheme.displayLarge;
     return Container(
       decoration: const CrtBackground(),
       child: Center(
@@ -30,7 +30,7 @@ class AssetsLoadingPage extends StatelessWidget {
             const SizedBox(height: 40),
             AnimatedEllipsisText(
               l10n.loading,
-              style: headline1,
+              style: displayLarge,
             ),
             const SizedBox(height: 40),
             FractionallySizedBox(

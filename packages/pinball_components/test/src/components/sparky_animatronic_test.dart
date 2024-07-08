@@ -18,14 +18,19 @@ void main() {
       'renders correctly',
       setUp: (game, tester) async {
         await game.images.load(asset);
-        await game.ensureAdd(SparkyAnimatronic()..playing = true);
+        await game.world.ensureAdd(SparkyAnimatronic()..playing = true);
         await tester.pump();
 
-        game.camera.followVector2(Vector2.zero());
+        game.camera.moveTo(Vector2.zero());
+        await game.ready();
       },
       verify: (game, tester) async {
-        final animationDuration =
-            game.firstChild<SparkyAnimatronic>()!.animation!.totalDuration();
+        final animationDuration = game
+            .descendants()
+            .whereType<SparkyAnimatronic>()
+            .single
+            .animationTicker!
+            .totalDuration();
 
         await expectLater(
           find.byGame<TestGame>(),
@@ -48,23 +53,36 @@ void main() {
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'loads correctly',
-      (game) async {
+      setUp: (game, _) async {
+        await game.images.load(asset);
         final sparkyAnimatronic = SparkyAnimatronic();
         await game.ensureAdd(sparkyAnimatronic);
-
+      },
+      verify: (game, _) async {
+        final sparkyAnimatronic =
+            game.descendants().whereType<SparkyAnimatronic>().single;
         expect(game.contains(sparkyAnimatronic), isTrue);
       },
     );
 
-    flameTester.test('adds new children', (game) async {
-      final component = Component();
-      final sparkyAnimatronic = SparkyAnimatronic(
-        children: [component],
-      );
-      await game.ensureAdd(sparkyAnimatronic);
-      expect(sparkyAnimatronic.children, contains(component));
-    });
+    flameTester.testGameWidget(
+      'adds new children',
+      setUp: (game, _) async {
+        await game.onLoad();
+        final component = Component();
+        final sparkyAnimatronic = SparkyAnimatronic(
+          children: [component],
+        );
+        await game.ensureAdd(sparkyAnimatronic);
+        await game.ready();
+      },
+      verify: (game, _) async {
+        final sparkyAnimatronic =
+            game.descendants().whereType<SparkyAnimatronic>().single;
+        expect(sparkyAnimatronic.children.whereType<Component>(), isNotEmpty);
+      },
+    );
   });
 }

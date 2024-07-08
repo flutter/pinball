@@ -4,20 +4,20 @@ version: 1.0.0+1
 publish_to: none
 
 environment:
-  sdk: ">=2.16.0 <3.0.0"
+  sdk: "^3.4.3"
 
 dependencies:
-  cloud_firestore: ^3.1.10
+  cloud_firestore: ^5.0.2
   equatable: ^2.0.3
   flutter:
     sdk: flutter
   json_annotation: ^4.4.0
 
 dev_dependencies:
-  build_runner: ^2.1.8
+  build_runner: ^2.4.11
   flutter_test:
     sdk: flutter
   json_serializable: ^6.1.5
-  mocktail: ^0.2.0
-  test: ^1.19.2
-  very_good_analysis: ^2.4.0
+  mocktail: ^1.0.4
+  test: ^1.25.2
+  very_good_analysis: ^6.0.0

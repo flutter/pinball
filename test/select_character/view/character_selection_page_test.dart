@@ -105,7 +105,7 @@ class _TestCharacterPreviewState extends State<_TestCharacterPreview> {
             });
           },
           child: const Text('test'),
-        )
+        ),
       ],
     );
   }

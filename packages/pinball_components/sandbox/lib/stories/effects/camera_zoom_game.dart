@@ -24,7 +24,7 @@ class CameraZoomGame extends AssetsGame with TapDetector {
       ),
     );
 
-    camera.followVector2(Vector2.zero());
+    camera.follow(PositionComponent(position: Vector2.zero()));
   }
 
   @override

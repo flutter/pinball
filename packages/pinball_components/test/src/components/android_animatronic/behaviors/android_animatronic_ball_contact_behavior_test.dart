@@ -11,8 +11,8 @@ import 'package:pinball_components/src/components/android_animatronic/behaviors/
 
 import '../../../../helpers/helpers.dart';
 
-class _MockAndroidSpaceshipCubit extends Mock implements AndroidSpaceshipCubit {
-}
+class _MockAndroidSpaceshipCubit extends Mock
+    implements AndroidSpaceshipCubit {}
 
 class _MockBall extends Mock implements Ball {}
 
@@ -32,9 +32,9 @@ void main() {
         );
       });
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'beginContact calls onBallContacted when in contact with a ball',
-        (game) async {
+        setUp: (game, _) async {
           final behavior = AndroidAnimatronicBallContactBehavior();
           final bloc = _MockAndroidSpaceshipCubit();
           whenListen(
@@ -48,12 +48,24 @@ void main() {
               AndroidSpaceshipState>.value(
             value: bloc,
             children: [
-              AndroidSpaceship.test(children: [animatronic])
+              AndroidSpaceship.test(children: [animatronic]),
             ],
           );
           await animatronic.add(behavior);
           await game.ensureAdd(androidSpaceship);
-
+        },
+        verify: (game, _) async {
+          final behavior = game
+              .descendants()
+              .whereType<AndroidAnimatronicBallContactBehavior>()
+              .single;
+          final bloc = game
+              .descendants()
+              .whereType<
+                  FlameBlocProvider<AndroidSpaceshipCubit,
+                      AndroidSpaceshipState>>()
+              .single
+              .bloc;
           behavior.beginContact(_MockBall(), _MockContact());
 
           verify(bloc.onBallContacted).called(1);

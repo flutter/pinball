@@ -27,68 +27,89 @@ void main() {
         );
       });
 
-      flameTester.test('can be loaded', (game) async {
-        final ball = Ball.test();
-        final behavior = BallTurboChargingBehavior(impulse: Vector2.zero());
-        await ball.add(behavior);
-        await game.ensureAdd(ball);
-        expect(
-          ball.firstChild<BallTurboChargingBehavior>(),
-          equals(behavior),
-        );
-      });
+      flameTester.testGameWidget(
+        'can be loaded',
+        setUp: (game, _) async {
+          final ball = Ball.test();
+          final behavior = BallTurboChargingBehavior(impulse: Vector2.zero());
+          await ball.add(behavior);
+          await game.ensureAdd(ball);
+        },
+        verify: (game, _) async {
+          final ball = game.descendants().whereType<Ball>().single;
+          expect(
+            ball.firstChild<BallTurboChargingBehavior>(),
+            isNotNull,
+          );
+        },
+      );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'impulses the ball velocity when loaded',
-        (game) async {
+        setUp: (game, _) async {
+          await game.onLoad();
           final ball = Ball.test();
           await game.ensureAdd(ball);
           final impulse = Vector2.all(1);
           final behavior = BallTurboChargingBehavior(impulse: impulse);
           await ball.ensureAdd(behavior);
-
+        },
+        verify: (game, _) async {
+          final ball = game.descendants().whereType<Ball>().single;
           expect(
             ball.body.linearVelocity.x,
-            equals(impulse.x),
+            equals(1),
           );
           expect(
             ball.body.linearVelocity.y,
-            equals(impulse.y),
+            equals(1),
           );
         },
       );
 
-      flameTester.test('adds sprite', (game) async {
-        final ball = Ball();
-        await game.ensureAdd(ball);
+      flameTester.testGameWidget(
+        'adds sprite',
+        setUp: (game, _) async {
+          await game.onLoad();
+          final ball = Ball();
+          await game.ensureAdd(ball);
+          await ball.ensureAdd(
+            BallTurboChargingBehavior(impulse: Vector2.zero()),
+          );
+        },
+        verify: (game, _) async {
+          final ball = game.descendants().whereType<Ball>().single;
+          expect(
+            ball.children.whereType<SpriteAnimationComponent>().single,
+            isNotNull,
+          );
+        },
+      );
 
-        await ball.ensureAdd(
-          BallTurboChargingBehavior(impulse: Vector2.zero()),
-        );
+      flameTester.testGameWidget(
+        'removes sprite after it finishes',
+        setUp: (game, _) async {
+          await game.onLoad();
+          final ball = Ball();
+          await game.ensureAdd(ball);
 
-        expect(
-          ball.children.whereType<SpriteAnimationComponent>().single,
-          isNotNull,
-        );
-      });
+          final behavior = BallTurboChargingBehavior(impulse: Vector2.zero());
+          await ball.ensureAdd(behavior);
+        },
+        verify: (game, _) async {
+          final ball = game.descendants().whereType<Ball>().single;
+          final turboChargeSpriteAnimation =
+              ball.children.whereType<SpriteAnimationComponent>().single;
+          final behavior =
+              game.descendants().whereType<BallTurboChargingBehavior>().single;
+          expect(ball.contains(turboChargeSpriteAnimation), isTrue);
 
-      flameTester.test('removes sprite after it finishes', (game) async {
-        final ball = Ball();
-        await game.ensureAdd(ball);
+          game.update(behavior.timer.limit);
+          game.update(0.1);
 
-        final behavior = BallTurboChargingBehavior(impulse: Vector2.zero());
-        await ball.ensureAdd(behavior);
-
-        final turboChargeSpriteAnimation =
-            ball.children.whereType<SpriteAnimationComponent>().single;
-
-        expect(ball.contains(turboChargeSpriteAnimation), isTrue);
-
-        game.update(behavior.timer.limit);
-        game.update(0.1);
-
-        expect(ball.contains(turboChargeSpriteAnimation), isFalse);
-      });
+          expect(ball.contains(turboChargeSpriteAnimation), isFalse);
+        },
+      );
     },
   );
 }

@@ -27,8 +27,8 @@ void main() {
           side: BoardSide.right,
         )..initialPosition = Vector2(20, 0);
 
-        await game.ensureAddAll([leftBaseboard, rightBaseboard]);
-        game.camera.followVector2(Vector2.zero());
+        await game.world.ensureAddAll([leftBaseboard, rightBaseboard]);
+        game.camera.moveTo(Vector2.zero());
         await tester.pump();
       },
       verify: (game, tester) async {
@@ -39,9 +39,9 @@ void main() {
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'loads correctly',
-      (game) async {
+      setUp: (game, _) async {
         await game.ready();
         final leftBaseboard = Baseboard(
           side: BoardSide.left,
@@ -51,29 +51,31 @@ void main() {
         );
 
         await game.ensureAddAll([leftBaseboard, rightBaseboard]);
-
-        expect(game.contains(leftBaseboard), isTrue);
-        expect(game.contains(rightBaseboard), isTrue);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<Baseboard>().length, equals(2));
       },
     );
 
     group('body', () {
-      flameTester.test(
+      flameTester.testGameWidget(
         'is static',
-        (game) async {
+        setUp: (game, _) async {
           final baseboard = Baseboard(
             side: BoardSide.left,
           );
 
           await game.ensureAdd(baseboard);
-
+        },
+        verify: (game, _) async {
+          final baseboard = game.descendants().whereType<Baseboard>().single;
           expect(baseboard.body.bodyType, equals(BodyType.static));
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'is at an angle',
-        (game) async {
+        setUp: (game, _) async {
           final leftBaseboard = Baseboard(
             side: BoardSide.left,
           );
@@ -81,22 +83,27 @@ void main() {
             side: BoardSide.right,
           );
           await game.ensureAddAll([leftBaseboard, rightBaseboard]);
+        },
+        verify: (game, _) async {
+          final baseboards = game.descendants().whereType<Baseboard>().toList();
 
-          expect(leftBaseboard.body.angle, isPositive);
-          expect(rightBaseboard.body.angle, isNegative);
+          expect(baseboards[0].body.angle, isPositive);
+          expect(baseboards[1].body.angle, isNegative);
         },
       );
     });
 
     group('fixtures', () {
-      flameTester.test(
+      flameTester.testGameWidget(
         'has seven',
-        (game) async {
+        setUp: (game, _) async {
           final baseboard = Baseboard(
             side: BoardSide.left,
           );
           await game.ensureAdd(baseboard);
-
+        },
+        verify: (game, _) async {
+          final baseboard = game.descendants().whereType<Baseboard>().single;
           expect(baseboard.body.fixtures.length, equals(7));
         },
       );

@@ -14,8 +14,6 @@ class _MockPicture extends Mock implements Picture {}
 
 class _MockParagraph extends Mock implements Paragraph {}
 
-class _MockVertices extends Mock implements Vertices {}
-
 void main() {
   group('CanvasWrapper', () {
     group('CanvasWrapper', () {
@@ -50,7 +48,7 @@ void main() {
         int32list = Int32List(1);
         picture = _MockPicture();
         paragraph = _MockParagraph();
-        vertices = _MockVertices();
+        vertices = Vertices(VertexMode.triangles, [Offset.zero]);
       });
 
       test("clipPath calls Canvas's clipPath", () {
@@ -276,15 +274,6 @@ void main() {
         ).called(1);
       });
 
-      test("drawVertices calls Canvas's drawVertices", () {
-        CanvasWrapper()
-          ..canvas = canvas
-          ..drawVertices(vertices, blendMode, paint);
-        verify(
-          () => canvas.drawVertices(vertices, blendMode, paint),
-        ).called(1);
-      });
-
       test("getSaveCount calls Canvas's getSaveCount", () {
         final canvasWrapper = CanvasWrapper()..canvas = canvas;
         when(() => canvas.getSaveCount()).thenReturn(1);
@@ -342,11 +331,40 @@ void main() {
         verify(() => canvas.transform(float64list)).called(1);
       });
 
+      test("drawVertices calls Canvas's drawVertices", () {
+        CanvasWrapper()
+          ..canvas = canvas
+          ..drawVertices(vertices, blendMode, paint);
+        verify(
+          () => canvas.drawVertices(vertices, blendMode, paint),
+        ).called(1);
+      });
+
       test("translate calls Canvas's translate", () {
         CanvasWrapper()
           ..canvas = canvas
           ..translate(0, 0);
         verify(() => canvas.translate(0, 0)).called(1);
+      });
+
+      test('throws exception for unimplemented methods', () {
+        final canvasWrapper = CanvasWrapper()..canvas = canvas;
+        expect(
+          canvasWrapper.getDestinationClipBounds,
+          throwsUnimplementedError,
+        );
+        expect(
+          canvasWrapper.getLocalClipBounds,
+          throwsUnimplementedError,
+        );
+        expect(
+          canvasWrapper.getTransform,
+          throwsUnimplementedError,
+        );
+        expect(
+          () => canvasWrapper.restoreToCount(0),
+          throwsUnimplementedError,
+        );
       });
     });
   });

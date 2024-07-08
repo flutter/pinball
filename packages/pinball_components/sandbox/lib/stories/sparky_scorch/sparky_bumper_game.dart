@@ -25,7 +25,7 @@ class SparkyBumperGame extends BallGame {
       Assets.images.sparky.bumper.c.dimmed.keyName,
     ]);
 
-    final center = screenToWorld(camera.viewport.canvasSize! / 2);
+    final center = screenToWorld(camera.viewport.size / 2);
     final sparkyBumperA = SparkyBumper.a()
       ..initialPosition = Vector2(center.x - 20, center.y + 20)
       ..priority = 1;

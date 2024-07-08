@@ -1,6 +1,5 @@
 import 'package:flame/components.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template skill_shot_blinking_behavior}
 /// Makes a [SkillShot] blink between [SkillShotSpriteState.lit] and

@@ -93,6 +93,7 @@ class _BonusAnimationState extends State<BonusAnimation>
     with TickerProviderStateMixin {
   late SpriteAnimationController controller;
   late SpriteAnimation animation;
+  late SpriteAnimationTicker animationTicker;
   bool shouldRunBuildCallback = true;
 
   @override
@@ -110,13 +111,17 @@ class _BonusAnimationState extends State<BonusAnimation>
     shouldRunBuildCallback = oldWidget._imagePath == widget._imagePath;
 
     Future<void>.delayed(
-      Duration(seconds: animation.totalDuration().ceil()),
+      Duration(seconds: duration()),
       () {
         widget._onCompleted?.call();
       },
     );
 
     super.didUpdateWidget(oldWidget);
+  }
+
+  int duration() {
+    return animationTicker.totalDuration().ceil();
   }
 
   @override
@@ -132,9 +137,10 @@ class _BonusAnimationState extends State<BonusAnimation>
       to: spriteSheet.rows * spriteSheet.columns,
       loop: false,
     );
+    animationTicker = animation.createTicker();
 
     Future<void>.delayed(
-      Duration(seconds: animation.totalDuration().ceil()),
+      Duration(seconds: duration()),
       () {
         if (shouldRunBuildCallback) {
           widget._onCompleted?.call();
@@ -144,6 +150,7 @@ class _BonusAnimationState extends State<BonusAnimation>
 
     controller = SpriteAnimationController(
       animation: animation,
+      animationTicker: animationTicker,
       vsync: this,
     )..forward();
 

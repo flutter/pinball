@@ -34,45 +34,63 @@ void main() {
       );
     });
 
-    flameTester.test('can be loaded', (game) async {
-      final behavior = LayerContactBehavior(layer: Layer.all);
-      final parent = _TestBodyComponent();
-      await game.ensureAdd(parent);
-      await parent.ensureAdd(behavior);
-      expect(parent.children, contains(behavior));
-    });
+    flameTester.testGameWidget(
+      'can be loaded',
+      setUp: (game, _) async {
+        final behavior = LayerContactBehavior(layer: Layer.all);
+        final parent = _TestBodyComponent();
+        await game.ensureAdd(parent);
+        await parent.ensureAdd(behavior);
+      },
+      verify: (game, _) async {
+        final parent =
+            game.descendants().whereType<_TestBodyComponent>().single;
+        expect(
+          parent.children.whereType<LayerContactBehavior>().length,
+          equals(1),
+        );
+      },
+    );
 
-    flameTester.test('beginContact changes layer', (game) async {
-      const oldLayer = Layer.all;
-      const newLayer = Layer.board;
-      final behavior = LayerContactBehavior(layer: newLayer);
-      final parent = _TestBodyComponent();
-      await game.ensureAdd(parent);
-      await parent.ensureAdd(behavior);
+    flameTester.testGameWidget(
+      'beginContact changes layer',
+      setUp: (game, _) async {
+        final behavior = LayerContactBehavior(layer: Layer.board);
+        final parent = _TestBodyComponent();
+        await game.ensureAdd(parent);
+        await parent.ensureAdd(behavior);
+      },
+      verify: (game, _) async {
+        final component = _TestLayeredBodyComponent(layer: Layer.all);
+        final behavior =
+            game.descendants().whereType<LayerContactBehavior>().single;
 
-      final component = _TestLayeredBodyComponent(layer: oldLayer);
+        behavior.beginContact(component, _MockContact());
 
-      behavior.beginContact(component, _MockContact());
+        expect(component.layer, Layer.board);
+      },
+    );
 
-      expect(component.layer, newLayer);
-    });
+    flameTester.testGameWidget(
+      'endContact changes layer',
+      setUp: (game, _) async {
+        final behavior = LayerContactBehavior(
+          layer: Layer.board,
+          onBegin: false,
+        );
+        final parent = _TestBodyComponent();
+        await game.ensureAdd(parent);
+        await parent.ensureAdd(behavior);
+      },
+      verify: (game, _) async {
+        final component = _TestLayeredBodyComponent(layer: Layer.all);
+        final behavior =
+            game.descendants().whereType<LayerContactBehavior>().single;
 
-    flameTester.test('endContact changes layer', (game) async {
-      const oldLayer = Layer.all;
-      const newLayer = Layer.board;
-      final behavior = LayerContactBehavior(
-        layer: newLayer,
-        onBegin: false,
-      );
-      final parent = _TestBodyComponent();
-      await game.ensureAdd(parent);
-      await parent.ensureAdd(behavior);
+        behavior.endContact(component, _MockContact());
 
-      final component = _TestLayeredBodyComponent(layer: oldLayer);
-
-      behavior.endContact(component, _MockContact());
-
-      expect(component.layer, newLayer);
-    });
+        expect(component.layer, Layer.board);
+      },
+    );
   });
 }

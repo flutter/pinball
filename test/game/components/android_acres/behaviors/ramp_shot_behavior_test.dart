@@ -41,7 +41,7 @@ class _TestGame extends Forge2DGame {
     required SpaceshipRampCubit bloc,
     required GameBloc gameBloc,
   }) async {
-    await ensureAdd(
+    await world.ensureAdd(
       FlameMultiBlocProvider(
         providers: [
           FlameBlocProvider<GameBloc, GameState>.value(
@@ -77,9 +77,10 @@ void main() {
 
     final flameTester = FlameTester(_TestGame.new);
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'adds a ScoringBehavior when hit',
-      (game) async {
+      setUp: (game, _) async {
+        await game.onLoad();
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
         final streamController = StreamController<SpaceshipRampState>();
@@ -99,9 +100,10 @@ void main() {
 
         streamController.add(state.copyWith(hits: state.hits + 1));
 
-        final scores = game.descendants().whereType<ScoringBehavior>();
         await game.ready();
-
+      },
+      verify: (game, _) async {
+        final scores = game.descendants().whereType<ScoringBehavior>();
         expect(scores.length, 1);
       },
     );

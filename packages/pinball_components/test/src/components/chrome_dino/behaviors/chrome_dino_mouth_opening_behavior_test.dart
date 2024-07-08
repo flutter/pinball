@@ -32,10 +32,10 @@ void main() {
         );
       });
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'preSolve disables contact when the mouth is open '
         'and there is not ball in the mouth',
-        (game) async {
+        setUp: (game, _) async {
           final behavior = ChromeDinoMouthOpeningBehavior();
           final bloc = _MockChromeDinoCubit();
           whenListen(
@@ -50,15 +50,19 @@ void main() {
           final chromeDino = ChromeDino.test(bloc: bloc);
           await chromeDino.add(behavior);
           await game.ensureAdd(chromeDino);
-
+        },
+        verify: (game, _) async {
           final contact = _MockContact();
           final fixture = _MockFixture();
           when(() => contact.fixtureA).thenReturn(fixture);
           when(() => fixture.userData).thenReturn('mouth_opening');
+          final behavior = game
+              .descendants()
+              .whereType<ChromeDinoMouthOpeningBehavior>()
+              .single;
 
           behavior.preSolve(_MockBall(), contact, Manifold());
-
-          verify(() => contact.setEnabled(false)).called(1);
+          verify(() => contact.isEnabled = false).called(1);
         },
       );
     },

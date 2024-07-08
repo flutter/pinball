@@ -36,7 +36,7 @@ void main() {
       'loads correctly',
       setUp: (game, tester) async {
         await game.onLoad();
-        game.camera.followVector2(Vector2.zero());
+        game.camera.follow(PositionComponent(position: Vector2.zero()));
         await game.ensureAdd(
           ScoreComponent(
             points: Points.oneMillion,
@@ -51,20 +51,25 @@ void main() {
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'adds a ScoreComponentScalingBehavior',
-      (game) async {
+      setUp: (game, _) async {
         await game.onLoad();
-        game.camera.followVector2(Vector2.zero());
+        game.camera.moveTo(Vector2.zero());
         final component = ScoreComponent(
           points: Points.oneMillion,
           position: Vector2.zero(),
           effectController: EffectController(duration: 1),
         );
         await game.ensureAdd(component);
-
+      },
+      verify: (game, _) async {
+        final scoreComponent =
+            game.descendants().whereType<ScoreComponent>().single;
         expect(
-          component.children.whereType<ScoreComponentScalingBehavior>().length,
+          scoreComponent.children
+              .whereType<ScoreComponentScalingBehavior>()
+              .length,
           equals(1),
         );
       },
@@ -74,7 +79,7 @@ void main() {
       'has a movement effect',
       setUp: (game, tester) async {
         await game.onLoad();
-        game.camera.followVector2(Vector2.zero());
+        game.camera.follow(PositionComponent(position: Vector2.zero()));
         await game.ensureAdd(
           ScoreComponent.test(
             points: Points.oneMillion,
@@ -96,7 +101,7 @@ void main() {
       'is removed once finished',
       setUp: (game, tester) async {
         await game.onLoad();
-        game.camera.followVector2(Vector2.zero());
+        game.camera.moveTo(Vector2.zero());
         await game.ensureAdd(
           ScoreComponent.test(
             points: Points.oneMillion,
@@ -110,7 +115,7 @@ void main() {
         await tester.pump();
       },
       verify: (game, tester) async {
-        expect(game.children.length, equals(0));
+        expect(game.children.whereType<ScoreComponent>().length, equals(0));
       },
     );
 
@@ -121,7 +126,7 @@ void main() {
         '5000 points',
         setUp: (game, tester) async {
           await game.onLoad();
-          await game.ensureAdd(
+          await game.world.ensureAdd(
             ScoreComponent.test(
               points: Points.fiveThousand,
               position: Vector2.zero(),
@@ -130,8 +135,8 @@ void main() {
           );
 
           game.camera
-            ..followVector2(Vector2.zero())
-            ..zoom = 8;
+            ..moveTo(Vector2.zero())
+            ..viewfinder.zoom = 8;
 
           await tester.pump();
         },
@@ -147,7 +152,7 @@ void main() {
         '20000 points',
         setUp: (game, tester) async {
           await game.onLoad();
-          await game.ensureAdd(
+          await game.world.ensureAdd(
             ScoreComponent.test(
               points: Points.twentyThousand,
               position: Vector2.zero(),
@@ -156,8 +161,8 @@ void main() {
           );
 
           game.camera
-            ..followVector2(Vector2.zero())
-            ..zoom = 8;
+            ..moveTo(Vector2.zero())
+            ..viewfinder.zoom = 8;
 
           await tester.pump();
         },
@@ -173,7 +178,7 @@ void main() {
         '200000 points',
         setUp: (game, tester) async {
           await game.onLoad();
-          await game.ensureAdd(
+          await game.world.ensureAdd(
             ScoreComponent.test(
               points: Points.twoHundredThousand,
               position: Vector2.zero(),
@@ -182,8 +187,8 @@ void main() {
           );
 
           game.camera
-            ..followVector2(Vector2.zero())
-            ..zoom = 8;
+            ..moveTo(Vector2.zero())
+            ..viewfinder.zoom = 8;
 
           await tester.pump();
         },
@@ -199,7 +204,7 @@ void main() {
         '1000000 points',
         setUp: (game, tester) async {
           await game.onLoad();
-          await game.ensureAdd(
+          await game.world.ensureAdd(
             ScoreComponent.test(
               points: Points.oneMillion,
               position: Vector2.zero(),
@@ -208,8 +213,8 @@ void main() {
           );
 
           game.camera
-            ..followVector2(Vector2.zero())
-            ..zoom = 8;
+            ..moveTo(Vector2.zero())
+            ..viewfinder.zoom = 8;
 
           await tester.pump();
         },

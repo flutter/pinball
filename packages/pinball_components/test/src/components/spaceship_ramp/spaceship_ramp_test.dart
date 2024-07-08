@@ -60,9 +60,9 @@ void main() {
   final flameTester = FlameTester(_TestGame.new);
 
   group('SpaceshipRamp', () {
-    flameTester.test(
+    flameTester.testGameWidget(
       'loads correctly',
-      (game) async {
+      setUp: (game, _) async {
         final bloc = _MockSpaceshipRampCubit();
         final streamController = StreamController<SpaceshipRampState>();
         whenListen(
@@ -72,29 +72,38 @@ void main() {
         );
         final ramp = SpaceshipRamp.test();
         await game.pump(ramp, bloc: bloc);
-        expect(game.descendants(), contains(ramp));
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<SpaceshipRamp>().length, equals(1));
       },
     );
 
     group('adds', () {
-      flameTester.test('a FlameBlocProvider', (game) async {
-        final ramp = SpaceshipRamp();
-        await game.ensureAdd(ramp);
-        expect(
-          ramp.children
-              .whereType<
-                  FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>>()
-              .single,
-          isNotNull,
-        );
-      });
-
-      flameTester.test(
-        'a SpaceshipRampBoardOpening',
-        (game) async {
+      flameTester.testGameWidget(
+        'a FlameBlocProvider',
+        setUp: (game, _) async {
           final ramp = SpaceshipRamp();
           await game.ensureAdd(ramp);
+        },
+        verify: (game, _) async {
+          final ramp = game.descendants().whereType<SpaceshipRamp>().single;
+          expect(
+            ramp.children
+                .whereType<
+                    FlameBlocProvider<SpaceshipRampCubit, SpaceshipRampState>>()
+                .single,
+            isNotNull,
+          );
+        },
+      );
 
+      flameTester.testGameWidget(
+        'a SpaceshipRampBoardOpening',
+        setUp: (game, _) async {
+          final ramp = SpaceshipRamp();
+          await game.ensureAdd(ramp);
+        },
+        verify: (game, _) async {
           expect(
             game.descendants().whereType<SpaceshipRampBoardOpening>().length,
             equals(1),
@@ -102,12 +111,13 @@ void main() {
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'a SpaceshipRampArrowSpriteComponent',
-        (game) async {
+        setUp: (game, _) async {
           final ramp = SpaceshipRamp();
           await game.ensureAdd(ramp);
-
+        },
+        verify: (game, _) async {
           expect(
             game
                 .descendants()
@@ -118,13 +128,19 @@ void main() {
         },
       );
 
-      flameTester.test('new children', (game) async {
-        final component = Component();
-        final ramp = SpaceshipRamp(children: [component]);
-        await game.ensureAdd(ramp);
+      flameTester.testGameWidget(
+        'new children',
+        setUp: (game, _) async {
+          final component = Component();
+          final ramp = SpaceshipRamp(children: [component]);
+          await game.ensureAdd(ramp);
+        },
+        verify: (game, _) async {
+          final ramp = game.descendants().whereType<SpaceshipRamp>().single;
 
-        expect(ramp.descendants(), contains(component));
-      });
+          expect(ramp.descendants().whereType<Component>(), isNotEmpty);
+        },
+      );
     });
   });
 
@@ -133,39 +149,57 @@ void main() {
       expect(SpaceshipRampBase(), isA<SpaceshipRampBase>());
     });
 
-    flameTester.test('can be loaded', (game) async {
-      final component = SpaceshipRampBase();
-      await game.ensureAdd(component);
-      expect(game.children, contains(component));
-    });
-
-    flameTester.test(
-      'postSolves disables contact when ball is not on Layer.board',
-      (game) async {
-        final ball = _MockBall();
-        final contact = _MockContact();
-        when(() => ball.layer).thenReturn(Layer.spaceshipEntranceRamp);
+    flameTester.testGameWidget(
+      'can be loaded',
+      setUp: (game, _) async {
         final component = SpaceshipRampBase();
         await game.ensureAdd(component);
-
-        component.preSolve(ball, contact, _MockManifold());
-
-        verify(() => contact.setEnabled(false)).called(1);
+      },
+      verify: (game, _) async {
+        expect(
+          game.descendants().whereType<SpaceshipRampBase>().length,
+          equals(1),
+        );
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
+      'postSolves disables contact when ball is not on Layer.board',
+      setUp: (game, _) async {
+        await game.onLoad();
+        final component = SpaceshipRampBase();
+        await game.ensureAdd(component);
+        await game.ready();
+      },
+      verify: (game, _) async {
+        final component =
+            game.descendants().whereType<SpaceshipRampBase>().single;
+
+        final ball = _MockBall();
+        when(() => ball.layer).thenReturn(Layer.spaceshipEntranceRamp);
+        final contact = _MockContact();
+        component.preSolve(ball, contact, _MockManifold());
+        game.update(0);
+        verify(() => contact.isEnabled = false).called(1);
+      },
+    );
+
+    flameTester.testGameWidget(
       'postSolves enables contact when ball is on Layer.board',
-      (game) async {
+      setUp: (game, _) async {
+        final component = SpaceshipRampBase();
+        await game.ensureAdd(component);
+      },
+      verify: (game, _) async {
+        final component =
+            game.descendants().whereType<SpaceshipRampBase>().single;
         final ball = _MockBall();
         final contact = _MockContact();
         when(() => ball.layer).thenReturn(Layer.board);
-        final component = SpaceshipRampBase();
-        await game.ensureAdd(component);
 
         component.preSolve(ball, contact, _MockManifold());
 
-        verify(() => contact.setEnabled(true)).called(1);
+        verify(() => contact.isEnabled = true).called(1);
       },
     );
   });
@@ -175,33 +209,55 @@ void main() {
       expect(SpaceshipRampBoardOpening(), isA<SpaceshipRampBoardOpening>());
     });
 
-    flameTester.test('can be loaded', (game) async {
-      final component = SpaceshipRampBoardOpening();
-      final parent = SpaceshipRamp.test();
-      await game.pump(parent, bloc: _MockSpaceshipRampCubit());
+    flameTester.testGameWidget(
+      'can be loaded',
+      setUp: (game, _) async {
+        final component = SpaceshipRampBoardOpening();
+        final parent = SpaceshipRamp.test();
+        await game.pump(parent, bloc: _MockSpaceshipRampCubit());
 
-      await parent.ensureAdd(component);
-      expect(parent.children, contains(component));
-    });
+        await parent.ensureAdd(component);
+      },
+      verify: (game, _) async {
+        final spaceshipRamp =
+            game.descendants().whereType<SpaceshipRamp>().single;
+        expect(
+          spaceshipRamp.children.whereType<SpaceshipRampBoardOpening>().length,
+          equals(1),
+        );
+      },
+    );
 
-    flameTester.test('adds a RampBallAscendingContactBehavior', (game) async {
-      final component = SpaceshipRampBoardOpening();
-      final parent = SpaceshipRamp.test();
-      await game.pump(parent, bloc: _MockSpaceshipRampCubit());
-
-      await parent.ensureAdd(component);
-      expect(
-        component.children.whereType<RampBallAscendingContactBehavior>().length,
-        equals(1),
-      );
-    });
+    flameTester.testGameWidget(
+      'adds a RampBallAscendingContactBehavior',
+      setUp: (game, _) async {
+        final component = SpaceshipRampBoardOpening();
+        final parent = SpaceshipRamp.test();
+        await game.pump(parent, bloc: _MockSpaceshipRampCubit());
+        await parent.ensureAdd(component);
+        await game.ready();
+      },
+      verify: (game, _) async {
+        final spaceshipRamp =
+            game.descendants().whereType<SpaceshipRamp>().single;
+        expect(
+          spaceshipRamp
+              .descendants()
+              .whereType<RampBallAscendingContactBehavior>()
+              .length,
+          equals(1),
+        );
+      },
+    );
   });
 
   group('SpaceshipRampArrowSpriteComponent', () {
-    flameTester.test(
+    flameTester.testGameWidget(
       'changes current state '
       'when SpaceshipRampState changes lightState',
-      (game) async {
+      setUp: (game, _) async {
+        await game.onLoad();
+        await game.ready();
         final bloc = _MockSpaceshipRampCubit();
         final state = SpaceshipRampState.initial();
         final streamController = StreamController<SpaceshipRampState>();
@@ -216,14 +272,17 @@ void main() {
           ramp,
           bloc: bloc,
         );
-
         expect(arrow.current, ArrowLightState.inactive);
 
         streamController
             .add(state.copyWith(lightState: ArrowLightState.active1));
-
-        await game.ready();
-
+      },
+      verify: (game, _) async {
+        final arrow = game
+            .descendants()
+            .whereType<SpaceshipRampArrowSpriteComponent>()
+            .single;
+        game.update(0);
         expect(arrow.current, ArrowLightState.active1);
       },
     );

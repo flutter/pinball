@@ -1,6 +1,5 @@
 import 'package:flame/components.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template android_bumper_blinking_behavior}
 /// Makes an [AndroidBumper] blink back to [AndroidBumperState.lit] when

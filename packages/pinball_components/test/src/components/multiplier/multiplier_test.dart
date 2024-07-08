@@ -38,50 +38,80 @@ void main() {
       bloc = _MockMultiplierCubit();
     });
 
-    flameTester.test('"x2" loads correctly', (game) async {
-      final multiplier = Multiplier.x2(
-        position: Vector2.zero(),
-        angle: 0,
-      );
-      await game.ensureAdd(multiplier);
-      expect(game.contains(multiplier), isTrue);
-    });
+    flameTester.testGameWidget(
+      '"x2" loads correctly',
+      setUp: (game, _) async {
+        await game.onLoad();
+        final multiplier = Multiplier.x2(
+          position: Vector2.zero(),
+          angle: 0,
+        );
+        await game.ensureAdd(multiplier);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<Multiplier>(), isNotEmpty);
+      },
+    );
 
-    flameTester.test('"x3" loads correctly', (game) async {
-      final multiplier = Multiplier.x3(
-        position: Vector2.zero(),
-        angle: 0,
-      );
-      await game.ensureAdd(multiplier);
-      expect(game.contains(multiplier), isTrue);
-    });
+    flameTester.testGameWidget(
+      '"x3" loads correctly',
+      setUp: (game, _) async {
+        await game.onLoad();
+        final multiplier = Multiplier.x3(
+          position: Vector2.zero(),
+          angle: 0,
+        );
+        await game.ensureAdd(multiplier);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<Multiplier>(), isNotEmpty);
+      },
+    );
 
-    flameTester.test('"x4" loads correctly', (game) async {
-      final multiplier = Multiplier.x4(
-        position: Vector2.zero(),
-        angle: 0,
-      );
-      await game.ensureAdd(multiplier);
-      expect(game.contains(multiplier), isTrue);
-    });
+    flameTester.testGameWidget(
+      '"x4" loads correctly',
+      setUp: (game, _) async {
+        await game.onLoad();
+        final multiplier = Multiplier.x4(
+          position: Vector2.zero(),
+          angle: 0,
+        );
+        await game.ensureAdd(multiplier);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<Multiplier>(), isNotEmpty);
+      },
+    );
 
-    flameTester.test('"x5" loads correctly', (game) async {
-      final multiplier = Multiplier.x5(
-        position: Vector2.zero(),
-        angle: 0,
-      );
-      await game.ensureAdd(multiplier);
-      expect(game.contains(multiplier), isTrue);
-    });
+    flameTester.testGameWidget(
+      '"x5" loads correctly',
+      setUp: (game, _) async {
+        await game.onLoad();
+        final multiplier = Multiplier.x5(
+          position: Vector2.zero(),
+          angle: 0,
+        );
+        await game.ensureAdd(multiplier);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<Multiplier>(), isNotEmpty);
+      },
+    );
 
-    flameTester.test('"x6" loads correctly', (game) async {
-      final multiplier = Multiplier.x6(
-        position: Vector2.zero(),
-        angle: 0,
-      );
-      await game.ensureAdd(multiplier);
-      expect(game.contains(multiplier), isTrue);
-    });
+    flameTester.testGameWidget(
+      '"x6" loads correctly',
+      setUp: (game, _) async {
+        await game.onLoad();
+        final multiplier = Multiplier.x6(
+          position: Vector2.zero(),
+          angle: 0,
+        );
+        await game.ensureAdd(multiplier);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<Multiplier>(), isNotEmpty);
+      },
+    );
 
     group('renders correctly', () {
       group('x2', () {
@@ -105,10 +135,10 @@ void main() {
               value: multiplierValue,
               bloc: bloc,
             );
-            await game.ensureAdd(multiplier);
+            await game.world.ensureAdd(multiplier);
             await tester.pump();
 
-            game.camera.followVector2(Vector2.zero());
+            game.camera.moveTo(Vector2.zero());
           },
           verify: (game, tester) async {
             expect(
@@ -145,10 +175,10 @@ void main() {
               value: multiplierValue,
               bloc: bloc,
             );
-            await game.ensureAdd(multiplier);
+            await game.world.ensureAdd(multiplier);
             await tester.pump();
 
-            game.camera.followVector2(Vector2.zero());
+            game.camera.moveTo(Vector2.zero());
           },
           verify: (game, tester) async {
             expect(
@@ -189,10 +219,10 @@ void main() {
               value: multiplierValue,
               bloc: bloc,
             );
-            await game.ensureAdd(multiplier);
+            await game.world.ensureAdd(multiplier);
             await tester.pump();
 
-            game.camera.followVector2(Vector2.zero());
+            game.camera.moveTo(Vector2.zero());
           },
           verify: (game, tester) async {
             expect(
@@ -229,10 +259,10 @@ void main() {
               value: multiplierValue,
               bloc: bloc,
             );
-            await game.ensureAdd(multiplier);
+            await game.world.ensureAdd(multiplier);
             await tester.pump();
 
-            game.camera.followVector2(Vector2.zero());
+            game.camera.moveTo(Vector2.zero());
           },
           verify: (game, tester) async {
             expect(
@@ -273,10 +303,10 @@ void main() {
               value: multiplierValue,
               bloc: bloc,
             );
-            await game.ensureAdd(multiplier);
+            await game.world.ensureAdd(multiplier);
             await tester.pump();
 
-            game.camera.followVector2(Vector2.zero());
+            game.camera.moveTo(Vector2.zero());
           },
           verify: (game, tester) async {
             expect(
@@ -313,10 +343,10 @@ void main() {
               value: multiplierValue,
               bloc: bloc,
             );
-            await game.ensureAdd(multiplier);
+            await game.world.ensureAdd(multiplier);
             await tester.pump();
 
-            game.camera.followVector2(Vector2.zero());
+            game.camera.moveTo(Vector2.zero());
           },
           verify: (game, tester) async {
             expect(
@@ -357,10 +387,10 @@ void main() {
               value: multiplierValue,
               bloc: bloc,
             );
-            await game.ensureAdd(multiplier);
+            await game.world.ensureAdd(multiplier);
             await tester.pump();
 
-            game.camera.followVector2(Vector2.zero());
+            game.camera.moveTo(Vector2.zero());
           },
           verify: (game, tester) async {
             expect(
@@ -397,10 +427,10 @@ void main() {
               value: multiplierValue,
               bloc: bloc,
             );
-            await game.ensureAdd(multiplier);
+            await game.world.ensureAdd(multiplier);
             await tester.pump();
 
-            game.camera.followVector2(Vector2.zero());
+            game.camera.moveTo(Vector2.zero());
           },
           verify: (game, tester) async {
             expect(
@@ -441,10 +471,10 @@ void main() {
               value: multiplierValue,
               bloc: bloc,
             );
-            await game.ensureAdd(multiplier);
+            await game.world.ensureAdd(multiplier);
             await tester.pump();
 
-            game.camera.followVector2(Vector2.zero());
+            game.camera.moveTo(Vector2.zero());
           },
           verify: (game, tester) async {
             expect(
@@ -481,10 +511,10 @@ void main() {
               value: multiplierValue,
               bloc: bloc,
             );
-            await game.ensureAdd(multiplier);
+            await game.world.ensureAdd(multiplier);
             await tester.pump();
 
-            game.camera.followVector2(Vector2.zero());
+            game.camera.moveTo(Vector2.zero());
           },
           verify: (game, tester) async {
             expect(
@@ -505,23 +535,30 @@ void main() {
       });
     });
 
-    flameTester.test('closes bloc when removed', (game) async {
-      whenListen(
-        bloc,
-        const Stream<MultiplierState>.empty(),
-        initialState: MultiplierState(
-          value: MultiplierValue.x2,
-          spriteState: MultiplierSpriteState.dimmed,
-        ),
-      );
-      when(bloc.close).thenAnswer((_) async {});
-      final multiplier = Multiplier.test(value: MultiplierValue.x2, bloc: bloc);
+    flameTester.testGameWidget(
+      'closes bloc when removed',
+      setUp: (game, _) async {
+        whenListen(
+          bloc,
+          const Stream<MultiplierState>.empty(),
+          initialState: MultiplierState(
+            value: MultiplierValue.x2,
+            spriteState: MultiplierSpriteState.dimmed,
+          ),
+        );
+        when(bloc.close).thenAnswer((_) async {});
+        final multiplier =
+            Multiplier.test(value: MultiplierValue.x2, bloc: bloc);
 
-      await game.ensureAdd(multiplier);
-      game.remove(multiplier);
-      await game.ready();
+        await game.ensureAdd(multiplier);
+      },
+      verify: (game, _) async {
+        final multiplier = game.descendants().whereType<Multiplier>().single;
+        game.remove(multiplier);
+        game.update(0);
 
-      verify(bloc.close).called(1);
-    });
+        verify(bloc.close).called(1);
+      },
+    );
   });
 }
