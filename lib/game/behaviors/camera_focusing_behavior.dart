@@ -1,11 +1,10 @@
 import 'package:flame/components.dart';
-import 'package:flame/game.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:pinball/game/game.dart';
 import 'package:pinball_components/pinball_components.dart';
 
 /// {@template focus_data}
-/// Defines a [Camera] focus point.
+/// Defines a [CameraComponent] focus point.
 /// {@endtemplate}
 class _FocusData {
   /// {@macro focus_data}
@@ -69,16 +68,14 @@ class CameraFocusingBehavior extends Component
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    onGameResize(gameRef.camera.viewport.size);
     _snap(GameStatus.waiting);
   }
 
   void _snap(GameStatus focusKey) {
     final focusData = _foci[_activeFocus = focusKey]!;
-
-    gameRef.camera
-      ..speed = 100
-      ..followVector2(focusData.position)
-      ..zoom = focusData.zoom;
+    gameRef.camera.moveTo(focusData.position, speed: 100);
+    gameRef.camera.viewfinder.zoom = focusData.zoom;
   }
 
   void _zoomTo(GameStatus focusKey) {

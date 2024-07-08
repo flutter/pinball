@@ -17,20 +17,35 @@ void main() {
       );
     });
 
-    flameTester.test('can be loaded', (game) async {
-      final parent = Plunger.test();
-      final behavior = PlungerJointingBehavior(compressionDistance: 0);
-      await game.ensureAdd(parent);
-      await parent.ensureAdd(behavior);
-      expect(parent.children, contains(behavior));
-    });
+    flameTester.testGameWidget(
+      'can be loaded',
+      setUp: (game, _) async {
+        final parent = Plunger.test();
+        final behavior = PlungerJointingBehavior(compressionDistance: 0);
+        await game.ensureAdd(parent);
+        await parent.ensureAdd(behavior);
+      },
+      verify: (game, _) async {
+        final plunger = game.descendants().whereType<Plunger>().single;
+        expect(
+          plunger.children.whereType<PlungerJointingBehavior>().length,
+          equals(1),
+        );
+      },
+    );
 
-    flameTester.test('creates a joint', (game) async {
-      final behavior = PlungerJointingBehavior(compressionDistance: 0);
-      final parent = Plunger.test();
-      await game.ensureAdd(parent);
-      await parent.ensureAdd(behavior);
-      expect(parent.body.joints, isNotEmpty);
-    });
+    flameTester.testGameWidget(
+      'creates a joint',
+      setUp: (game, _) async {
+        final parent = Plunger.test();
+        final behavior = PlungerJointingBehavior(compressionDistance: 0);
+        await game.ensureAdd(parent);
+        await parent.ensureAdd(behavior);
+      },
+      verify: (game, _) async {
+        final plunger = game.descendants().whereType<Plunger>().single;
+        expect(plunger.body.joints, isNotEmpty);
+      },
+    );
   });
 }

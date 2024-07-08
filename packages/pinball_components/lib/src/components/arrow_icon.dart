@@ -1,5 +1,5 @@
 import 'package:flame/components.dart';
-import 'package:flame/input.dart';
+import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball_components/pinball_components.dart';
 
@@ -15,7 +15,7 @@ enum ArrowIconDirection {
 /// {@template arrow_icon}
 /// A [SpriteComponent] that renders a simple arrow icon.
 /// {@endtemplate}
-class ArrowIcon extends SpriteComponent with Tappable, HasGameRef {
+class ArrowIcon extends SpriteComponent with TapCallbacks, HasGameRef {
   /// {@macro arrow_icon}
   ArrowIcon({
     required Vector2 position,
@@ -42,7 +42,7 @@ class ArrowIcon extends SpriteComponent with Tappable, HasGameRef {
   }
 
   @override
-  bool onTapUp(TapUpInfo info) {
+  bool onTapUp(TapUpEvent event) {
     onTap();
     return true;
   }

@@ -7,8 +7,8 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pinball/game/components/backbox/bloc/backbox_bloc.dart';
 import 'package:pinball_theme/pinball_theme.dart';
 
-class _MockLeaderboardRepository extends Mock implements LeaderboardRepository {
-}
+class _MockLeaderboardRepository extends Mock
+    implements LeaderboardRepository {}
 
 void main() {
   late LeaderboardRepository leaderboardRepository;

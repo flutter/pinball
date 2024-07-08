@@ -13,12 +13,11 @@ void main() {
         build: () => MultiplierCubit(MultiplierValue.x2),
         act: (bloc) => bloc.next(2),
         expect: () => [
-          isA<MultiplierState>()
-            ..having(
-              (state) => state.spriteState,
-              'spriteState',
-              MultiplierSpriteState.lit,
-            ),
+          isA<MultiplierState>().having(
+            (state) => state.spriteState,
+            'spriteState',
+            MultiplierSpriteState.lit,
+          ),
         ],
       );
 
@@ -27,12 +26,11 @@ void main() {
         build: () => MultiplierCubit(MultiplierValue.x3),
         act: (bloc) => bloc.next(3),
         expect: () => [
-          isA<MultiplierState>()
-            ..having(
-              (state) => state.spriteState,
-              'spriteState',
-              MultiplierSpriteState.lit,
-            ),
+          isA<MultiplierState>().having(
+            (state) => state.spriteState,
+            'spriteState',
+            MultiplierSpriteState.lit,
+          ),
         ],
       );
 
@@ -41,12 +39,11 @@ void main() {
         build: () => MultiplierCubit(MultiplierValue.x4),
         act: (bloc) => bloc.next(4),
         expect: () => [
-          isA<MultiplierState>()
-            ..having(
-              (state) => state.spriteState,
-              'spriteState',
-              MultiplierSpriteState.lit,
-            ),
+          isA<MultiplierState>().having(
+            (state) => state.spriteState,
+            'spriteState',
+            MultiplierSpriteState.lit,
+          ),
         ],
       );
 
@@ -55,12 +52,11 @@ void main() {
         build: () => MultiplierCubit(MultiplierValue.x5),
         act: (bloc) => bloc.next(5),
         expect: () => [
-          isA<MultiplierState>()
-            ..having(
-              (state) => state.spriteState,
-              'spriteState',
-              MultiplierSpriteState.lit,
-            ),
+          isA<MultiplierState>().having(
+            (state) => state.spriteState,
+            'spriteState',
+            MultiplierSpriteState.lit,
+          ),
         ],
       );
 
@@ -69,12 +65,11 @@ void main() {
         build: () => MultiplierCubit(MultiplierValue.x6),
         act: (bloc) => bloc.next(6),
         expect: () => [
-          isA<MultiplierState>()
-            ..having(
-              (state) => state.spriteState,
-              'spriteState',
-              MultiplierSpriteState.lit,
-            ),
+          isA<MultiplierState>().having(
+            (state) => state.spriteState,
+            'spriteState',
+            MultiplierSpriteState.lit,
+          ),
         ],
       );
 
@@ -87,12 +82,11 @@ void main() {
         ),
         act: (bloc) => bloc.next(3),
         expect: () => [
-          isA<MultiplierState>()
-            ..having(
-              (state) => state.spriteState,
-              'spriteState',
-              MultiplierSpriteState.dimmed,
-            ),
+          isA<MultiplierState>().having(
+            (state) => state.spriteState,
+            'spriteState',
+            MultiplierSpriteState.dimmed,
+          ),
         ],
       );
 

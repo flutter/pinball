@@ -19,6 +19,7 @@ class AssetsManagerCubit extends Cubit<AssetsManagerState> {
     /// do its job without adding too much delay for the user, we are letting
     /// the UI paint first, and then we start loading the assets.
     await Future<void>.delayed(const Duration(seconds: 1));
+    if (isClosed) return;
     final loadables = <Future<void> Function()>[
       _game.preFetchLeaderboard,
       ..._game.preLoadAssets(),

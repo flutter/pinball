@@ -3,7 +3,6 @@
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -25,14 +24,14 @@ class _TestGame extends Forge2DGame {
   }
 }
 
-class _MockRawKeyDownEvent extends Mock implements RawKeyDownEvent {
+class _MockKeyDownEvent extends Mock implements KeyDownEvent {
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return super.toString();
   }
 }
 
-class _MockRawKeyUpEvent extends Mock implements RawKeyUpEvent {
+class _MockKeyUpEvent extends Mock implements KeyUpEvent {
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return super.toString();
@@ -53,11 +52,19 @@ void main() {
       );
     });
 
-    flameTester.test('can be loaded', (game) async {
-      final behavior = PlungerKeyControllingBehavior();
-      await game.pump(behavior);
-      expect(game.descendants(), contains(behavior));
-    });
+    flameTester.testGameWidget(
+      'can be loaded',
+      setUp: (game, _) async {
+        final behavior = PlungerKeyControllingBehavior();
+        await game.pump(behavior);
+      },
+      verify: (game, _) async {
+        expect(
+          game.descendants().whereType<PlungerKeyControllingBehavior>(),
+          isNotEmpty,
+        );
+      },
+    );
 
     group('onKeyEvent', () {
       late PlungerCubit plungerBloc;
@@ -67,16 +74,21 @@ void main() {
       });
 
       group('pulls when', () {
-        flameTester.test(
+        flameTester.testGameWidget(
           'down arrow is pressed',
-          (game) async {
+          setUp: (game, _) async {
             final behavior = PlungerKeyControllingBehavior();
             await game.pump(
               behavior,
               plungerBloc: plungerBloc,
             );
-
-            final event = _MockRawKeyDownEvent();
+          },
+          verify: (game, _) async {
+            final behavior = game
+                .descendants()
+                .whereType<PlungerKeyControllingBehavior>()
+                .single;
+            final event = _MockKeyDownEvent();
             when(() => event.logicalKey).thenReturn(
               LogicalKeyboardKey.arrowDown,
             );
@@ -87,16 +99,22 @@ void main() {
           },
         );
 
-        flameTester.test(
+        flameTester.testGameWidget(
           '"s" is pressed',
-          (game) async {
+          setUp: (game, _) async {
             final behavior = PlungerKeyControllingBehavior();
             await game.pump(
               behavior,
               plungerBloc: plungerBloc,
             );
+          },
+          verify: (game, _) async {
+            final behavior = game
+                .descendants()
+                .whereType<PlungerKeyControllingBehavior>()
+                .single;
 
-            final event = _MockRawKeyDownEvent();
+            final event = _MockKeyDownEvent();
             when(() => event.logicalKey).thenReturn(
               LogicalKeyboardKey.keyS,
             );
@@ -107,16 +125,22 @@ void main() {
           },
         );
 
-        flameTester.test(
+        flameTester.testGameWidget(
           'space is pressed',
-          (game) async {
+          setUp: (game, _) async {
             final behavior = PlungerKeyControllingBehavior();
             await game.pump(
               behavior,
               plungerBloc: plungerBloc,
             );
+          },
+          verify: (game, _) async {
+            final behavior = game
+                .descendants()
+                .whereType<PlungerKeyControllingBehavior>()
+                .single;
 
-            final event = _MockRawKeyDownEvent();
+            final event = _MockKeyDownEvent();
             when(() => event.logicalKey).thenReturn(
               LogicalKeyboardKey.space,
             );
@@ -129,16 +153,22 @@ void main() {
       });
 
       group('releases when', () {
-        flameTester.test(
+        flameTester.testGameWidget(
           'down arrow is released',
-          (game) async {
+          setUp: (game, _) async {
             final behavior = PlungerKeyControllingBehavior();
             await game.pump(
               behavior,
               plungerBloc: plungerBloc,
             );
+          },
+          verify: (game, _) async {
+            final behavior = game
+                .descendants()
+                .whereType<PlungerKeyControllingBehavior>()
+                .single;
 
-            final event = _MockRawKeyUpEvent();
+            final event = _MockKeyUpEvent();
             when(() => event.logicalKey).thenReturn(
               LogicalKeyboardKey.arrowDown,
             );
@@ -149,16 +179,22 @@ void main() {
           },
         );
 
-        flameTester.test(
+        flameTester.testGameWidget(
           '"s" is released',
-          (game) async {
+          setUp: (game, _) async {
             final behavior = PlungerKeyControllingBehavior();
             await game.pump(
               behavior,
               plungerBloc: plungerBloc,
             );
+          },
+          verify: (game, _) async {
+            final behavior = game
+                .descendants()
+                .whereType<PlungerKeyControllingBehavior>()
+                .single;
 
-            final event = _MockRawKeyUpEvent();
+            final event = _MockKeyUpEvent();
             when(() => event.logicalKey).thenReturn(
               LogicalKeyboardKey.keyS,
             );
@@ -169,16 +205,22 @@ void main() {
           },
         );
 
-        flameTester.test(
+        flameTester.testGameWidget(
           'space is released',
-          (game) async {
+          setUp: (game, _) async {
             final behavior = PlungerKeyControllingBehavior();
             await game.pump(
               behavior,
               plungerBloc: plungerBloc,
             );
+          },
+          verify: (game, _) async {
+            final behavior = game
+                .descendants()
+                .whereType<PlungerKeyControllingBehavior>()
+                .single;
 
-            final event = _MockRawKeyUpEvent();
+            final event = _MockKeyUpEvent();
             when(() => event.logicalKey).thenReturn(
               LogicalKeyboardKey.space,
             );

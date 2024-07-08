@@ -1,7 +1,7 @@
 import 'dart:async';
 
+import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
-import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
@@ -24,7 +24,7 @@ class DashBumperBGame extends BallGame {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    camera.followVector2(Vector2.zero());
+    camera.follow(PositionComponent(position: Vector2.zero()));
     await add(
       FlameBlocProvider<DashBumpersCubit, DashBumpersState>(
         create: DashBumpersCubit.new,

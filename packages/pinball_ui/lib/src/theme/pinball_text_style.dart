@@ -8,7 +8,7 @@ const _primaryFontFamily = FontFamily.pixeloidSans;
 /// Different [TextStyle] used in the game
 abstract class PinballTextStyle {
   /// Font size: 28 | Color: white
-  static const headline1 = TextStyle(
+  static const displayLarge = TextStyle(
     fontSize: 28,
     package: _fontPackage,
     fontFamily: _primaryFontFamily,
@@ -16,7 +16,7 @@ abstract class PinballTextStyle {
   );
 
   /// Font size: 24 | Color: white
-  static const headline2 = TextStyle(
+  static const displayMedium = TextStyle(
     fontSize: 24,
     package: _fontPackage,
     fontFamily: _primaryFontFamily,
@@ -24,7 +24,7 @@ abstract class PinballTextStyle {
   );
 
   /// Font size: 20 | Color: darkBlue
-  static const headline3 = TextStyle(
+  static const displaySmall = TextStyle(
     color: PinballColors.darkBlue,
     fontSize: 20,
     package: _fontPackage,
@@ -33,7 +33,7 @@ abstract class PinballTextStyle {
   );
 
   /// Font size: 16 | Color: white
-  static const headline4 = TextStyle(
+  static const headlineMedium = TextStyle(
     color: PinballColors.white,
     fontSize: 16,
     package: _fontPackage,
@@ -41,7 +41,7 @@ abstract class PinballTextStyle {
   );
 
   /// Font size: 214| Color: white
-  static const headline5 = TextStyle(
+  static const headlineSmall = TextStyle(
     color: PinballColors.white,
     fontSize: 14,
     package: _fontPackage,
@@ -49,7 +49,7 @@ abstract class PinballTextStyle {
   );
 
   /// Font size: 12 | Color: white
-  static const subtitle1 = TextStyle(
+  static const titleMedium = TextStyle(
     fontSize: 12,
     fontFamily: _primaryFontFamily,
     package: _fontPackage,

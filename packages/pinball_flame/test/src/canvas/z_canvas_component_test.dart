@@ -29,11 +29,19 @@ void main() {
       );
     });
 
-    flameTester.test('loads correctly', (game) async {
-      final component = ZCanvasComponent();
-      await game.ensureAdd(component);
-      expect(game.contains(component), isTrue);
-    });
+    flameTester.testGameWidget(
+      'loads correctly',
+      setUp: (game, _) async {
+        final component = ZCanvasComponent();
+        await game.ensureAdd(component);
+      },
+      verify: (game, _) async {
+        expect(
+          game.descendants().whereType<ZCanvasComponent>().single,
+          isNotNull,
+        );
+      },
+    );
 
     flameTester.testGameWidget(
       'red circle renders behind blue circle',
@@ -44,9 +52,9 @@ void main() {
             _TestCircleComponent(Colors.red)..zIndex = 0,
           ],
         );
-        await game.ensureAdd(canvas);
+        await game.world.ensureAdd(canvas);
 
-        game.camera.followVector2(Vector2.zero());
+        game.camera.moveTo(Vector2.zero());
       },
       verify: (game, tester) async {
         await expectLater(
@@ -62,12 +70,12 @@ void main() {
         final canvas = ZCanvasComponent(
           children: [
             _TestCircleComponent(Colors.blue)..zIndex = 0,
-            _TestCircleComponent(Colors.red)..zIndex = 1
+            _TestCircleComponent(Colors.red)..zIndex = 1,
           ],
         );
-        await game.ensureAdd(canvas);
+        await game.world.ensureAdd(canvas);
 
-        game.camera.followVector2(Vector2.zero());
+        game.camera.moveTo(Vector2.zero());
       },
       verify: (game, tester) async {
         await expectLater(

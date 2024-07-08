@@ -52,9 +52,9 @@ void main() {
       );
     });
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'plays the flipper sound when moving up',
-      (game) async {
+      setUp: (game, _) async {
         final audioPlayer = _MockPinballAudioPlayer();
         final bloc = _MockFlipperCubit();
         whenListen(
@@ -69,6 +69,16 @@ void main() {
           flipperBloc: bloc,
           audioPlayer: audioPlayer,
         );
+        await game.ready();
+      },
+      verify: (game, _) async {
+        final behavior =
+            game.descendants().whereType<FlipperNoiseBehavior>().single;
+        final audioPlayer = game
+            .descendants()
+            .whereType<FlameProvider<PinballAudioPlayer>>()
+            .single
+            .provider;
         behavior.onNewState(FlipperState.movingUp);
         game.update(0);
 

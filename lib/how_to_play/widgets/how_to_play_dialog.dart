@@ -85,13 +85,12 @@ class _HowToPlayDialogState extends State<HowToPlayDialog> {
     final isMobile = context.read<PlatformHelper>().isMobile;
     final l10n = context.l10n;
 
-    return WillPopScope(
-      onWillPop: () {
+    return PopScope(
+      onPopInvoked: (_) {
         widget.onDismissCallback.call();
         context
             .read<PinballAudioPlayer>()
             .play(PinballAudio.ioPinballVoiceOver);
-        return Future.value(true);
       },
       child: PinballDialog(
         title: l10n.howToPlay,
@@ -132,20 +131,20 @@ class _MobileLaunchControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final headline3 = Theme.of(context)
+    final displaySmall = Theme.of(context)
         .textTheme
-        .headline3!
+        .displaySmall!
         .copyWith(color: PinballColors.white);
     return Column(
       children: [
-        Text(l10n.tapAndHoldRocket, style: headline3),
+        Text(l10n.tapAndHoldRocket, style: displaySmall),
         Text.rich(
           TextSpan(
             children: [
-              TextSpan(text: '${l10n.to} ', style: headline3),
+              TextSpan(text: '${l10n.to} ', style: displaySmall),
               TextSpan(
                 text: l10n.launch,
-                style: headline3.copyWith(color: PinballColors.blue),
+                style: displaySmall.copyWith(color: PinballColors.blue),
               ),
             ],
           ),
@@ -163,7 +162,7 @@ class _MobileFlipperControls extends StatelessWidget {
     final l10n = context.l10n;
     final headline3 = Theme.of(context)
         .textTheme
-        .headline3!
+        .displaySmall!
         .copyWith(color: PinballColors.white);
     return Column(
       children: [
@@ -189,10 +188,10 @@ class _DesktopBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
+    return const Padding(
+      padding: EdgeInsets.all(16),
       child: Column(
-        children: const [
+        children: [
           _DesktopLaunchControls(),
           SizedBox(height: 16),
           _DesktopFlipperControls(),
@@ -212,18 +211,18 @@ class _DesktopLaunchControls extends StatelessWidget {
       children: [
         Text(
           l10n.launchControls,
-          style: Theme.of(context).textTheme.headline4,
+          style: Theme.of(context).textTheme.headlineMedium,
         ),
         const SizedBox(height: 10),
-        Wrap(
-          children: const [
+        const Wrap(
+          children: [
             _KeyButton(control: Control.down),
             SizedBox(width: 10),
             _KeyButton(control: Control.space),
             SizedBox(width: 10),
             _KeyButton(control: Control.s),
           ],
-        )
+        ),
       ],
     );
   }
@@ -239,30 +238,30 @@ class _DesktopFlipperControls extends StatelessWidget {
       children: [
         Text(
           l10n.flipperControls,
-          style: Theme.of(context).textTheme.headline4,
+          style: Theme.of(context).textTheme.headlineMedium,
         ),
         const SizedBox(height: 10),
-        Column(
+        const Column(
           children: [
             Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 _KeyButton(control: Control.left),
                 SizedBox(width: 20),
                 _KeyButton(control: Control.right),
               ],
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
             Wrap(
-              children: const [
+              children: [
                 _KeyButton(control: Control.a),
                 SizedBox(width: 20),
                 _KeyButton(control: Control.d),
               ],
-            )
+            ),
           ],
-        )
+        ),
       ],
     );
   }
@@ -277,7 +276,7 @@ class _KeyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final textStyle =
-        control.isArrow ? textTheme.headline1 : textTheme.headline3;
+        control.isArrow ? textTheme.displayLarge : textTheme.displaySmall;
     const height = 60.0;
     final width = control.isSpace ? height * 2.83 : height;
     return DecoratedBox(

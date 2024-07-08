@@ -33,7 +33,7 @@ class GoogleWordCubit extends Cubit<GoogleWordState> {
                 if (i.isEven)
                   i: GoogleLetterSpriteState.dimmed
                 else
-                  i: GoogleLetterSpriteState.lit
+                  i: GoogleLetterSpriteState.lit,
             },
           ),
         );
@@ -46,7 +46,7 @@ class GoogleWordCubit extends Cubit<GoogleWordState> {
                 if (i.isEven)
                   i: GoogleLetterSpriteState.lit
                 else
-                  i: GoogleLetterSpriteState.dimmed
+                  i: GoogleLetterSpriteState.dimmed,
             },
           ),
         );
@@ -62,7 +62,7 @@ class GoogleWordCubit extends Cubit<GoogleWordState> {
             if (i.isEven)
               i: GoogleLetterSpriteState.lit
             else
-              i: GoogleLetterSpriteState.dimmed
+              i: GoogleLetterSpriteState.dimmed,
         },
       ),
     );

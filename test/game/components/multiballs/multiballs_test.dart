@@ -47,11 +47,14 @@ void main() {
       },
     );
 
-    flameBlocTester.test(
+    flameBlocTester.testGameWidget(
       'loads four Multiball',
-      (game) async {
+      setUp: (game, _) async {
         final multiballs = Multiballs();
         await game.pump(multiballs);
+      },
+      verify: (game, _) async {
+        final multiballs = game.descendants().whereType<Multiballs>().single;
         expect(
           multiballs.descendants().whereType<Multiball>().length,
           equals(4),

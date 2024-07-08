@@ -23,7 +23,7 @@ class _TestGame extends Forge2DGame {
   }
 
   Future<void> pump(LeaderboardFailureDisplay component) {
-    return ensureAdd(
+    return world.ensureAdd(
       FlameProvider.value(
         _MockAppLocalizations(),
         children: [component],
@@ -42,19 +42,25 @@ void main() {
   group('LeaderboardFailureDisplay', () {
     final flameTester = FlameTester(_TestGame.new);
 
-    flameTester.test('renders correctly', (game) async {
-      await game.pump(LeaderboardFailureDisplay());
-
-      expect(
-        game
-            .descendants()
-            .where(
-              (component) =>
-                  component is TextComponent && component.text == 'Message',
-            )
-            .length,
-        equals(1),
-      );
-    });
+    flameTester.testGameWidget(
+      'renders correctly',
+      setUp: (game, _) async {
+        await game.onLoad();
+        await game.pump(LeaderboardFailureDisplay());
+        await game.ready();
+      },
+      verify: (game, _) async {
+        expect(
+          game
+              .descendants()
+              .where(
+                (component) =>
+                    component is TextComponent && component.text == 'Message',
+              )
+              .length,
+          equals(1),
+        );
+      },
+    );
   });
 }

@@ -25,7 +25,7 @@ class ArcadeBackground extends Component with ZIndex {
                 ArcadeBackgroundState>.value(
               value: bloc,
               children: [ArcadeBackgroundSpriteComponent(assetPath: assetPath)],
-            )
+            ),
           ],
         ) {
     zIndex = ZIndexes.arcadeBackground;
@@ -45,7 +45,7 @@ class ArcadeBackground extends Component with ZIndex {
                 ArcadeBackgroundState>.value(
               value: bloc ?? ArcadeBackgroundCubit(),
               children: [ArcadeBackgroundSpriteComponent(assetPath: assetPath)],
-            )
+            ),
           ],
         );
 

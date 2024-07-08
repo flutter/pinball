@@ -24,7 +24,7 @@ class PlungerGame extends BallGame
   Future<void> onLoad() async {
     await super.onLoad();
 
-    final center = screenToWorld(camera.viewport.canvasSize! / 2);
+    final center = screenToWorld(camera.viewport.size / 2);
     final plunger = Plunger()
       ..initialPosition = Vector2(center.x - 8.8, center.y);
     await add(

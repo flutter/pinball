@@ -2,7 +2,7 @@ part of 'backbox_bloc.dart';
 
 /// {@template backbox_state}
 /// The base state for all [BackboxState].
-/// {@endtemplate backbox_state}
+/// {@endtemplate}
 abstract class BackboxState extends Equatable {
   /// {@macro backbox_state}
   const BackboxState();

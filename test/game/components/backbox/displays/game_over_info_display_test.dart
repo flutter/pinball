@@ -1,14 +1,13 @@
 // ignore_for_file: cascade_invocations
 
-import 'package:flame/game.dart';
-import 'package:flame/input.dart';
+import 'package:flame/events.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pinball/game/bloc/game_bloc.dart';
 import 'package:pinball/game/components/backbox/displays/game_over_info_display.dart';
+import 'package:pinball/game/game.dart';
 import 'package:pinball/l10n/l10n.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
@@ -16,7 +15,7 @@ import 'package:pinball_ui/pinball_ui.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:share_repository/share_repository.dart';
 
-class _TestGame extends Forge2DGame with HasTappables {
+class _TestGame extends Forge2DGame with TapCallbacks {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -29,6 +28,15 @@ class _TestGame extends Forge2DGame with HasTappables {
   }
 
   Future<void> pump(GameOverInfoDisplay component) {
+    overlays.addEntry(
+      'replay_button',
+      (context, game) {
+        return PinballButton(
+          text: 'replay',
+          onTap: () {},
+        );
+      },
+    );
     return ensureAdd(
       FlameBlocProvider<GameBloc, GameState>.value(
         value: GameBloc(),
@@ -66,9 +74,11 @@ class _MockAppLocalizations extends Mock implements AppLocalizations {
   String get openSourceCode => '';
 }
 
-class _MockTapDownInfo extends Mock implements TapDownInfo {}
+class _MockTapDownEvent extends Mock implements TapDownEvent {}
 
-class _MockTapUpInfo extends Mock implements TapUpInfo {}
+class _MockTapUpEvent extends Mock implements TapUpEvent {}
+
+class _MockLaunchOptions extends Mock implements LaunchOptions {}
 
 class _MockUrlLauncher extends Mock
     with MockPlatformInterfaceMixin
@@ -86,110 +96,104 @@ void main() {
     UrlLauncherPlatform.instance = urlLauncher;
   });
 
+  setUpAll(() {
+    registerFallbackValue(_MockLaunchOptions());
+  });
+
   group('InfoDisplay', () {
-    flameTester.test(
+    var tapped = false;
+    flameTester.testGameWidget(
       'loads correctly',
-      (game) async {
+      setUp: (game, _) async {
         final component = GameOverInfoDisplay();
         await game.pump(component);
-        expect(game.descendants(), contains(component));
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<GameOverInfoDisplay>(), isNotEmpty);
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'calls onShare when Share link is tapped',
-      (game) async {
-        var tapped = false;
-
-        final tapDownInfo = _MockTapDownInfo();
+      setUp: (game, _) async {
+        await game.onLoad();
+        tapped = false;
         final component = GameOverInfoDisplay(
           onShare: () => tapped = true,
         );
         await game.pump(component);
-
+        await game.ready();
+      },
+      verify: (game, _) async {
+        final tapDownEvent = _MockTapDownEvent();
+        final component =
+            game.descendants().whereType<GameOverInfoDisplay>().single;
         final shareLink =
             component.descendants().whereType<ShareLinkComponent>().first;
 
-        shareLink.onTapDown(tapDownInfo);
+        shareLink.onTapDown(tapDownEvent);
 
         expect(tapped, isTrue);
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'open Google IO Event url when navigating',
-      (game) async {
+      setUp: (game, _) async {
         when(() => urlLauncher.canLaunch(any())).thenAnswer((_) async => true);
         when(
-          () => urlLauncher.launch(
-            any(),
-            useSafariVC: any(named: 'useSafariVC'),
-            useWebView: any(named: 'useWebView'),
-            enableJavaScript: any(named: 'enableJavaScript'),
-            enableDomStorage: any(named: 'enableDomStorage'),
-            universalLinksOnly: any(named: 'universalLinksOnly'),
-            headers: any(named: 'headers'),
-          ),
-        ).thenAnswer((_) async => true);
+          () => urlLauncher.launchUrl(any(), any()),
+        ).thenAnswer((_) => Future<bool>.value(true));
 
         final component = GameOverInfoDisplay();
         await game.pump(component);
-
+        await game.ready();
+      },
+      verify: (game, tester) async {
+        final component =
+            game.descendants().whereType<GameOverInfoDisplay>().single;
         final googleLink =
             component.descendants().whereType<GoogleIOLinkComponent>().first;
-        googleLink.onTapUp(_MockTapUpInfo());
+        googleLink.onTapUp(_MockTapUpEvent());
 
-        await game.ready();
+        game.update(0);
+
+        await tester.pump();
 
         verify(
-          () => urlLauncher.launch(
+          () => urlLauncher.launchUrl(
             ShareRepository.googleIOEvent,
-            useSafariVC: any(named: 'useSafariVC'),
-            useWebView: any(named: 'useWebView'),
-            enableJavaScript: any(named: 'enableJavaScript'),
-            enableDomStorage: any(named: 'enableDomStorage'),
-            universalLinksOnly: any(named: 'universalLinksOnly'),
-            headers: any(named: 'headers'),
+            any(),
           ),
         );
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'open OpenSource url when navigating',
-      (game) async {
+      setUp: (game, _) async {
         when(() => urlLauncher.canLaunch(any())).thenAnswer((_) async => true);
         when(
-          () => urlLauncher.launch(
-            any(),
-            useSafariVC: any(named: 'useSafariVC'),
-            useWebView: any(named: 'useWebView'),
-            enableJavaScript: any(named: 'enableJavaScript'),
-            enableDomStorage: any(named: 'enableDomStorage'),
-            universalLinksOnly: any(named: 'universalLinksOnly'),
-            headers: any(named: 'headers'),
-          ),
+          () => urlLauncher.launchUrl(any(), any()),
         ).thenAnswer((_) async => true);
 
         final component = GameOverInfoDisplay();
         await game.pump(component);
 
+        await game.ready();
+      },
+      verify: (game, tester) async {
+        final component =
+            game.descendants().whereType<GameOverInfoDisplay>().single;
         final openSourceLink =
             component.descendants().whereType<OpenSourceTextComponent>().first;
-        openSourceLink.onTapUp(_MockTapUpInfo());
+        openSourceLink.onTapUp(_MockTapUpEvent());
 
-        await game.ready();
+        game.update(0);
+        await tester.pump();
 
         verify(
-          () => urlLauncher.launch(
-            ShareRepository.openSourceCode,
-            useSafariVC: any(named: 'useSafariVC'),
-            useWebView: any(named: 'useWebView'),
-            enableJavaScript: any(named: 'enableJavaScript'),
-            enableDomStorage: any(named: 'enableDomStorage'),
-            universalLinksOnly: any(named: 'universalLinksOnly'),
-            headers: any(named: 'headers'),
-          ),
+          () => urlLauncher.launchUrl(ShareRepository.openSourceCode, any()),
         );
       },
     );

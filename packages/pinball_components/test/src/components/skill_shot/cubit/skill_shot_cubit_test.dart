@@ -29,7 +29,7 @@ void main() {
             (state) => state.spriteState,
             'spriteState',
             SkillShotSpriteState.lit,
-          )
+          ),
         ],
       );
 
@@ -46,7 +46,7 @@ void main() {
             (state) => state.spriteState,
             'spriteState',
             SkillShotSpriteState.dimmed,
-          )
+          ),
         ],
       );
 

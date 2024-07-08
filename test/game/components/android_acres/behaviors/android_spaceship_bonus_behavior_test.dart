@@ -67,8 +67,8 @@ class _TestGame extends Forge2DGame {
 
 class _MockGameBloc extends Mock implements GameBloc {}
 
-class _MockAndroidSpaceshipCubit extends Mock implements AndroidSpaceshipCubit {
-}
+class _MockAndroidSpaceshipCubit extends Mock
+    implements AndroidSpaceshipCubit {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

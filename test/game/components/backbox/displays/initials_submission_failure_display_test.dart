@@ -23,7 +23,7 @@ class _TestGame extends Forge2DGame {
   }
 
   Future<void> pump(InitialsSubmissionFailureDisplay component) {
-    return ensureAdd(
+    return world.ensureAdd(
       FlameProvider.value(
         _MockAppLocalizations(),
         children: [component],
@@ -45,33 +45,40 @@ void main() {
   group('InitialsSubmissionFailureDisplay', () {
     final flameTester = FlameTester(_TestGame.new);
 
-    flameTester.test('renders correctly', (game) async {
-      await game.pump(
-        InitialsSubmissionFailureDisplay(
-          onDismissed: () {},
-        ),
-      );
-
-      expect(
-        game
-            .descendants()
-            .where(
-              (component) =>
-                  component is TextComponent && component.text == 'Title',
-            )
-            .length,
-        equals(1),
-      );
-      expect(
-        game
-            .descendants()
-            .where(
-              (component) =>
-                  component is TextComponent && component.text == 'Message',
-            )
-            .length,
-        equals(1),
-      );
-    });
+    flameTester.testGameWidget(
+      'renders correctly',
+      setUp: (game, _) async {
+        await game.onLoad();
+        await game.pump(
+          InitialsSubmissionFailureDisplay(
+            onDismissed: () {},
+          ),
+        );
+        await game.ready();
+      },
+      verify: (game, tester) async {
+        await tester.pump();
+        expect(
+          game
+              .descendants()
+              .where(
+                (component) =>
+                    component is TextComponent && component.text == 'Title',
+              )
+              .length,
+          equals(1),
+        );
+        expect(
+          game
+              .descendants()
+              .where(
+                (component) =>
+                    component is TextComponent && component.text == 'Message',
+              )
+              .length,
+          equals(1),
+        );
+      },
+    );
   });
 }

@@ -21,8 +21,7 @@ class BaseboardGame extends BallGame {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-
-    final center = screenToWorld(camera.viewport.canvasSize! / 2);
+    final center = screenToWorld(camera.viewport.size / 2);
     await addAll([
       Baseboard(side: BoardSide.left)
         ..initialPosition = center - Vector2(25, 0)

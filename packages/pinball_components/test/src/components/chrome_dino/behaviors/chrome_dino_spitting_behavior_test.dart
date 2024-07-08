@@ -33,9 +33,10 @@ void main() {
       });
 
       group('on the next time the mouth opens and status is chomping', () {
-        flameTester.test(
+        flameTester.testGameWidget(
           'sets ball sprite to visible and sets a linear velocity',
-          (game) async {
+          setUp: (game, _) async {
+            await game.onLoad();
             final ball = Ball();
             final behavior = ChromeDinoSpittingBehavior();
             final bloc = _MockChromeDinoCubit();
@@ -54,11 +55,12 @@ void main() {
             final chromeDino = ChromeDino.test(bloc: bloc);
             await chromeDino.add(behavior);
             await game.ensureAddAll([chromeDino, ball]);
-
             streamController.add(chompingState.copyWith(isMouthOpen: false));
             streamController.add(chompingState.copyWith(isMouthOpen: true));
             await game.ready();
-
+          },
+          verify: (game, _) async {
+            final ball = game.descendants().whereType<Ball>().single;
             game
                 .descendants()
                 .whereType<TimerComponent>()
@@ -78,9 +80,10 @@ void main() {
           },
         );
 
-        flameTester.test(
+        flameTester.testGameWidget(
           'calls onSpit',
-          (game) async {
+          setUp: (game, _) async {
+            await game.onLoad();
             final ball = Ball();
             final behavior = ChromeDinoSpittingBehavior();
             final bloc = _MockChromeDinoCubit();
@@ -103,7 +106,9 @@ void main() {
             streamController.add(chompingState.copyWith(isMouthOpen: false));
             streamController.add(chompingState.copyWith(isMouthOpen: true));
             await game.ready();
-
+          },
+          verify: (game, _) async {
+            final bloc = game.descendants().whereType<ChromeDino>().single.bloc;
             game
                 .descendants()
                 .whereType<TimerComponent>()

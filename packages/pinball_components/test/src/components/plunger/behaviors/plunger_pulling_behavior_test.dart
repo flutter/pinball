@@ -20,7 +20,7 @@ class _TestGame extends Forge2DGame {
     await ensureAdd(plunger);
     return plunger.ensureAdd(
       FlameBlocProvider<PlungerCubit, PlungerState>.value(
-        value: plungerBloc ?? _MockPlungerCubit(),
+        value: plungerBloc ?? PlungerCubit(),
         children: [behavior],
       ),
     );
@@ -50,15 +50,23 @@ void main() {
       );
     });
 
-    flameTester.test('can be loaded', (game) async {
-      final behavior = PlungerPullingBehavior(strength: 0);
-      await game.pump(behavior);
-      expect(game.descendants(), contains(behavior));
-    });
+    flameTester.testGameWidget(
+      'can be loaded',
+      setUp: (game, _) async {
+        final behavior = PlungerPullingBehavior(strength: 0);
+        await game.pump(behavior);
+      },
+      verify: (game, _) async {
+        expect(
+          game.descendants().whereType<PlungerPullingBehavior>().length,
+          equals(1),
+        );
+      },
+    );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'applies vertical linear velocity when pulled',
-      (game) async {
+      setUp: (game, _) async {
         final plungerBloc = _MockPlungerCubit();
         whenListen<PlungerState>(
           plungerBloc,
@@ -66,19 +74,22 @@ void main() {
           initialState: PlungerState.pulling,
         );
 
-        const strength = 2.0;
         final behavior = PlungerPullingBehavior(
-          strength: strength,
+          strength: 2,
         );
         await game.pump(
           behavior,
           plungerBloc: plungerBloc,
         );
+      },
+      verify: (game, _) async {
+        final behavior =
+            game.descendants().whereType<PlungerPullingBehavior>().single;
         game.update(0);
 
         final plunger = behavior.ancestors().whereType<Plunger>().single;
         expect(plunger.body.linearVelocity.x, equals(0));
-        expect(plunger.body.linearVelocity.y, equals(strength));
+        expect(plunger.body.linearVelocity.y, equals(2));
       },
     );
   });
@@ -91,15 +102,23 @@ void main() {
       );
     });
 
-    flameTester.test('can be loaded', (game) async {
-      final behavior = PlungerAutoPullingBehavior();
-      await game.pump(behavior);
-      expect(game.descendants(), contains(behavior));
-    });
+    flameTester.testGameWidget(
+      'can be loaded',
+      setUp: (game, _) async {
+        final behavior = PlungerAutoPullingBehavior();
+        await game.pump(behavior);
+      },
+      verify: (game, _) async {
+        expect(
+          game.descendants().whereType<PlungerAutoPullingBehavior>().length,
+          equals(1),
+        );
+      },
+    );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'releases when joint reaches limit',
-      (game) async {
+      setUp: (game, _) async {
         final plungerBloc = _MockPlungerCubit();
         whenListen<PlungerState>(
           plungerBloc,
@@ -108,17 +127,22 @@ void main() {
         );
 
         final behavior = PlungerAutoPullingBehavior();
+        final joint = _MockPrismaticJoint();
+        when(joint.getJointTranslation).thenReturn(0);
+        when(joint.getLowerLimit).thenReturn(0);
         await game.pump(
           behavior,
           plungerBloc: plungerBloc,
         );
-        final plunger = behavior.ancestors().whereType<Plunger>().single;
-        final joint = _MockPrismaticJoint();
-        when(joint.getJointTranslation).thenReturn(0);
-        when(joint.getLowerLimit).thenReturn(0);
+        final plunger = game.descendants().whereType<Plunger>().single;
         plunger.body.joints.add(joint);
-
-        game.update(0);
+      },
+      verify: (game, _) async {
+        final plungerBloc = game
+            .descendants()
+            .whereType<FlameBlocProvider<PlungerCubit, PlungerState>>()
+            .single
+            .bloc;
 
         verify(plungerBloc.released).called(1);
       },

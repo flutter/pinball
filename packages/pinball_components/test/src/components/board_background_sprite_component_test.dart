@@ -15,13 +15,18 @@ void main() {
   final flameTester = FlameTester(() => TestGame(assets));
 
   group('BoardBackgroundSpriteComponent', () {
-    flameTester.test(
+    flameTester.testGameWidget(
       'loads correctly',
-      (game) async {
+      setUp: (game, _) async {
+        await game.images.loadAll(assets);
         final boardBackground = BoardBackgroundSpriteComponent();
         await game.ensureAdd(boardBackground);
-
-        expect(game.contains(boardBackground), isTrue);
+      },
+      verify: (game, _) async {
+        expect(
+          game.descendants().whereType<BoardBackgroundSpriteComponent>(),
+          isNotEmpty,
+        );
       },
     );
 
@@ -30,12 +35,12 @@ void main() {
       setUp: (game, tester) async {
         await game.images.loadAll(assets);
         final boardBackground = BoardBackgroundSpriteComponent();
-        await game.ensureAdd(boardBackground);
+        await game.world.ensureAdd(boardBackground);
         await tester.pump();
 
         game.camera
-          ..followVector2(Vector2.zero())
-          ..zoom = 3.7;
+          ..moveTo(Vector2.zero())
+          ..viewfinder.zoom = 3.7;
       },
       verify: (game, tester) async {
         await expectLater(

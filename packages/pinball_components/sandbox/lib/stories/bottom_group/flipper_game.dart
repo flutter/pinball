@@ -28,7 +28,7 @@ class FlipperGame extends BallGame with KeyboardEvents {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    final center = screenToWorld(camera.viewport.canvasSize! / 2);
+    final center = screenToWorld(camera.viewport.size / 2);
     await addAll([
       leftFlipper = Flipper(side: BoardSide.left)
         ..initialPosition = center - Vector2(Flipper.size.x, 0),

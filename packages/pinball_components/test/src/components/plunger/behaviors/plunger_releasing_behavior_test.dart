@@ -47,33 +47,48 @@ void main() {
       );
     });
 
-    flameTester.test('can be loaded', (game) async {
-      final behavior = PlungerReleasingBehavior(strength: 0);
-      await game.pump(behavior);
-      expect(game.descendants(), contains(behavior));
-    });
+    flameTester.testGameWidget(
+      'can be loaded',
+      setUp: (game, _) async {
+        final behavior = PlungerReleasingBehavior(strength: 0);
+        await game.pump(behavior);
+      },
+      verify: (game, _) async {
+        expect(
+          game.descendants().whereType<PlungerReleasingBehavior>(),
+          isNotEmpty,
+        );
+      },
+    );
 
-    flameTester.test('applies vertical linear velocity', (game) async {
-      final plungerBloc = _MockPlungerCubit();
-      final streamController = StreamController<PlungerState>();
-      whenListen<PlungerState>(
-        plungerBloc,
-        streamController.stream,
-        initialState: PlungerState.pulling,
-      );
+    flameTester.testGameWidget(
+      'applies vertical linear velocity',
+      setUp: (game, _) async {
+        final plungerBloc = _MockPlungerCubit();
+        final streamController = StreamController<PlungerState>();
+        whenListen<PlungerState>(
+          plungerBloc,
+          streamController.stream,
+          initialState: PlungerState.pulling,
+        );
 
-      final behavior = PlungerReleasingBehavior(strength: 2);
-      await game.pump(
-        behavior,
-        plungerBloc: plungerBloc,
-      );
+        final behavior = PlungerReleasingBehavior(strength: 2);
+        await game.pump(
+          behavior,
+          plungerBloc: plungerBloc,
+        );
 
-      streamController.add(PlungerState.releasing);
-      await Future<void>.delayed(Duration.zero);
+        streamController.add(PlungerState.releasing);
+      },
+      verify: (game, _) async {
+        final behavior =
+            game.descendants().whereType<PlungerReleasingBehavior>().single;
+        game.update(0);
 
-      final plunger = behavior.ancestors().whereType<Plunger>().single;
-      expect(plunger.body.linearVelocity.x, equals(0));
-      expect(plunger.body.linearVelocity.y, isNot(greaterThan(0)));
-    });
+        final plunger = behavior.ancestors().whereType<Plunger>().single;
+        expect(plunger.body.linearVelocity.x, equals(0));
+        expect(plunger.body.linearVelocity.y, isNot(greaterThan(0)));
+      },
+    );
   });
 }

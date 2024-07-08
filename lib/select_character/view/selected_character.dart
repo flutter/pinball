@@ -60,7 +60,7 @@ class _SelectedCharacterState extends State<SelectedCharacter>
       children: [
         Text(
           widget.currentCharacter.name,
-          style: Theme.of(context).textTheme.headline2,
+          style: Theme.of(context).textTheme.displayMedium,
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.center,
         ),
@@ -95,7 +95,11 @@ class _SelectedCharacterState extends State<SelectedCharacter>
       to: spriteSheet.rows * spriteSheet.columns,
     );
     if (_controller != null) _controller?.dispose();
-    _controller = SpriteAnimationController(vsync: this, animation: animation)
+    _controller = SpriteAnimationController(
+      vsync: this,
+      animation: animation,
+      animationTicker: animation.createTicker(),
+    )
       ..forward()
       ..repeat();
   }

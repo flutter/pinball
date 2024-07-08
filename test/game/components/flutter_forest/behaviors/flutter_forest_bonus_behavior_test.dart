@@ -77,6 +77,7 @@ void main() {
       'adds GameBonus.dashNest to the game '
       'when signpost becomes fully activated',
       setUp: (game, tester) async {
+        await game.onLoad();
         final behavior = FlutterForestBonusBehavior();
         final parent = FlutterForest.test();
         final signpostBloc = _MockSignpostCubit();
@@ -94,6 +95,7 @@ void main() {
           signpostBloc: signpostBloc,
         );
         await parent.ensureAdd(behavior);
+        await game.ready();
 
         streamController.add(SignpostState.active3);
         await tester.pump();
@@ -108,6 +110,7 @@ void main() {
       'calls onProgressed and onReset '
       'when signpost becomes fully activated',
       setUp: (game, tester) async {
+        await game.onLoad();
         final behavior = FlutterForestBonusBehavior();
         final parent = FlutterForest.test();
         final dashBumpersBloc = _MockDashBumpersCubit();
@@ -127,6 +130,7 @@ void main() {
           dashBumpersBloc: dashBumpersBloc,
         );
         await parent.ensureAdd(behavior);
+        await game.ready();
 
         streamController.add(SignpostState.active3);
         await tester.pump();
@@ -140,6 +144,7 @@ void main() {
       'adds BonusBallSpawningBehavior to the game '
       'when signpost becomes fully activated',
       setUp: (game, tester) async {
+        await game.onLoad();
         final behavior = FlutterForestBonusBehavior();
         final parent = FlutterForest.test();
         final signpostBloc = _MockSignpostCubit();
@@ -157,10 +162,9 @@ void main() {
           signpostBloc: signpostBloc,
         );
         await parent.ensureAdd(behavior);
-
         streamController.add(SignpostState.active3);
-        await tester.pump();
         await game.ready();
+        await tester.pump();
 
         expect(
           game.descendants().whereType<BonusBallSpawningBehavior>().length,

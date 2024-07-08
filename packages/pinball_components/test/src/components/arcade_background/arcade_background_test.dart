@@ -28,50 +28,56 @@ void main() {
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'loads correctly',
-      (game) async {
-        final ball = ArcadeBackground();
+      setUp: (game, _) async {
+        final background = ArcadeBackground();
         await game.ready();
-        await game.ensureAdd(ball);
-
-        expect(game.contains(ball), isTrue);
+        await game.ensureAdd(background);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<ArcadeBackground>(), isNotEmpty);
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'has only one SpriteComponent',
-      (game) async {
-        final ball = ArcadeBackground();
+      setUp: (game, _) async {
+        final background = ArcadeBackground();
         await game.ready();
-        await game.ensureAdd(ball);
-
+        await game.ensureAdd(background);
+      },
+      verify: (game, _) async {
+        final background =
+            game.descendants().whereType<ArcadeBackground>().single;
         expect(
-          ball.descendants().whereType<SpriteComponent>().length,
+          background.descendants().whereType<SpriteComponent>().length,
           equals(1),
         );
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'ArcadeBackgroundSpriteComponent changes sprite onNewState',
-      (game) async {
-        final ball = ArcadeBackground();
+      setUp: (game, _) async {
+        final background = ArcadeBackground();
+        await game.onLoad();
         await game.ready();
-        await game.ensureAdd(ball);
-
-        final ballSprite = ball
+        await game.ensureAdd(background);
+      },
+      verify: (game, _) async {
+        final background =
+            game.descendants().whereType<ArcadeBackground>().single;
+        final backgroundSprite = background
             .descendants()
             .whereType<ArcadeBackgroundSpriteComponent>()
             .single;
-        final originalSprite = ballSprite.sprite;
-
-        ballSprite.onNewState(
+        final originalSprite = backgroundSprite.sprite;
+        backgroundSprite.onNewState(
           const ArcadeBackgroundState(characterTheme: theme.DinoTheme()),
         );
-        await game.ready();
-
-        final newSprite = ballSprite.sprite;
+        game.update(0);
+        final newSprite = backgroundSprite.sprite;
         expect(newSprite != originalSprite, isTrue);
       },
     );

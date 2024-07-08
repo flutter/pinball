@@ -30,9 +30,9 @@ void main() {
         );
       });
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'beginContact emits onBallContacted when contacts with a ball',
-        (game) async {
+        setUp: (game, _) async {
           final behavior = KickerBallContactBehavior();
           final bloc = _MockKickerCubit();
           whenListen(
@@ -47,6 +47,11 @@ void main() {
           );
           await kicker.add(behavior);
           await game.ensureAdd(kicker);
+        },
+        verify: (game, _) async {
+          final behavior =
+              game.descendants().whereType<KickerBallContactBehavior>().single;
+          final kicker = game.descendants().whereType<Kicker>().single;
 
           behavior.beginContact(_MockBall(), _MockContact());
 

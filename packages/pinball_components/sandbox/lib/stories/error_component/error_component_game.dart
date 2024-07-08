@@ -11,7 +11,7 @@ class ErrorComponentGame extends AssetsGame {
 
   @override
   Future<void> onLoad() async {
-    camera.followVector2(Vector2.zero());
+    camera.follow(PositionComponent(position: Vector2.zero()));
 
     await add(ErrorComponent(label: text));
     await add(

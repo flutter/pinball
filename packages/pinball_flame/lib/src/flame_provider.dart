@@ -17,7 +17,7 @@ class FlameProvider<T> extends Component {
   final T provider;
 }
 
-//// {@template multi_flame_provider}
+/// {@template multi_flame_provider}
 /// MultiProvider-style component, similar to MultiProvider in Flutter,
 /// but used to retrieve more than one [Component] object previously provided
 /// {@endtemplate}

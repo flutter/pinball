@@ -36,33 +36,41 @@ void main() {
   group('LoadingDisplay', () {
     final flameTester = FlameTester(_TestGame.new);
 
-    flameTester.test('renders correctly', (game) async {
-      await game.pump(LoadingDisplay());
+    flameTester.testGameWidget(
+      'renders correctly',
+      setUp: (game, _) async {
+        await game.pump(LoadingDisplay());
+      },
+      verify: (game, _) async {
+        final component = game.descendants().whereType<TextComponent>().first;
+        expect(component, isNotNull);
+        expect(component.text, equals('Loading'));
+      },
+    );
 
-      final component = game.descendants().whereType<TextComponent>().first;
-      expect(component, isNotNull);
-      expect(component.text, equals('Loading'));
-    });
+    flameTester.testGameWidget(
+      'use ellipses as animation',
+      setUp: (game, _) async {
+        await game.pump(LoadingDisplay());
+      },
+      verify: (game, _) async {
+        final component = game.descendants().whereType<TextComponent>().first;
+        expect(component.text, equals('Loading'));
 
-    flameTester.test('use ellipses as animation', (game) async {
-      await game.pump(LoadingDisplay());
+        final timer = component.firstChild<TimerComponent>();
 
-      final component = game.descendants().whereType<TextComponent>().first;
-      expect(component.text, equals('Loading'));
+        timer?.update(1.1);
+        expect(component.text, equals('Loading.'));
 
-      final timer = component.firstChild<TimerComponent>();
+        timer?.update(1.1);
+        expect(component.text, equals('Loading..'));
 
-      timer?.update(1.1);
-      expect(component.text, equals('Loading.'));
+        timer?.update(1.1);
+        expect(component.text, equals('Loading...'));
 
-      timer?.update(1.1);
-      expect(component.text, equals('Loading..'));
-
-      timer?.update(1.1);
-      expect(component.text, equals('Loading...'));
-
-      timer?.update(1.1);
-      expect(component.text, equals('Loading'));
-    });
+        timer?.update(1.1);
+        expect(component.text, equals('Loading'));
+      },
+    );
   });
 }

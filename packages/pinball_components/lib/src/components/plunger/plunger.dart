@@ -99,7 +99,7 @@ class _PlungerSpriteAnimationGroupComponent
     final startedReleasing = state.isReleasing && !current!.isReleasing;
     final startedPulling = state.isPulling && !current!.isPulling;
     if (startedReleasing || startedPulling) {
-      animation?.reset();
+      animationTicker?.reset();
     }
 
     current = state;

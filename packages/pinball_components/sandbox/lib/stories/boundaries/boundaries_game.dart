@@ -1,4 +1,4 @@
-import 'package:flame/extensions.dart';
+import 'package:flame/components.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
@@ -24,8 +24,8 @@ class BoundariesGame extends BallGame {
     await super.onLoad();
 
     camera
-      ..followVector2(Vector2.zero())
-      ..zoom = 6;
+      ..follow(PositionComponent(position: Vector2.zero()))
+      ..viewfinder.zoom = 6;
     await add(Boundaries());
     await ready();
     await traceAllBodies();

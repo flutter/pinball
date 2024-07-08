@@ -46,7 +46,7 @@ class Ball extends BodyComponent with Layered, InitialPosition, ZIndex {
             FlameBlocProvider<BallCubit, BallState>.value(
               value: bloc ?? BallCubit(),
               children: [BallSpriteComponent(assetPath: assetPath)],
-            )
+            ),
           ],
         );
 
@@ -66,7 +66,7 @@ class Ball extends BodyComponent with Layered, InitialPosition, ZIndex {
       bullet: true,
     );
 
-    return world.createBody(bodyDef)..createFixtureFromShape(shape, 1);
+    return world.createBody(bodyDef)..createFixtureFromShape(shape);
   }
 
   /// Immediately and completely [stop]s the ball.

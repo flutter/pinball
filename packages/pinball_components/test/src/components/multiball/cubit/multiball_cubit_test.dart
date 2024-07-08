@@ -11,12 +11,11 @@ void main() {
         build: MultiballCubit.new,
         act: (bloc) => bloc.onAnimate(),
         expect: () => [
-          isA<MultiballState>()
-            ..having(
-              (state) => state.animationState,
-              'animationState',
-              MultiballAnimationState.blinking,
-            )
+          isA<MultiballState>().having(
+            (state) => state.animationState,
+            'animationState',
+            MultiballAnimationState.blinking,
+          ),
         ],
       );
 
@@ -25,12 +24,11 @@ void main() {
         build: MultiballCubit.new,
         act: (bloc) => bloc.onStop(),
         expect: () => [
-          isA<MultiballState>()
-            ..having(
-              (state) => state.animationState,
-              'animationState',
-              MultiballAnimationState.idle,
-            )
+          isA<MultiballState>().having(
+            (state) => state.animationState,
+            'animationState',
+            MultiballAnimationState.idle,
+          ),
         ],
       );
 
@@ -42,24 +40,21 @@ void main() {
           ..onBlink()
           ..onBlink(),
         expect: () => [
-          isA<MultiballState>()
-            ..having(
-              (state) => state.lightState,
-              'lightState',
-              MultiballLightState.lit,
-            ),
-          isA<MultiballState>()
-            ..having(
-              (state) => state.lightState,
-              'lightState',
-              MultiballLightState.dimmed,
-            ),
-          isA<MultiballState>()
-            ..having(
-              (state) => state.lightState,
-              'lightState',
-              MultiballLightState.lit,
-            )
+          isA<MultiballState>().having(
+            (state) => state.lightState,
+            'lightState',
+            MultiballLightState.lit,
+          ),
+          isA<MultiballState>().having(
+            (state) => state.lightState,
+            'lightState',
+            MultiballLightState.dimmed,
+          ),
+          isA<MultiballState>().having(
+            (state) => state.lightState,
+            'lightState',
+            MultiballLightState.lit,
+          ),
         ],
       );
     },

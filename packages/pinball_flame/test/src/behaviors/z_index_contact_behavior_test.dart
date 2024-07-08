@@ -34,42 +34,60 @@ void main() {
       );
     });
 
-    flameTester.test('can be loaded', (game) async {
-      final behavior = ZIndexContactBehavior(zIndex: 0);
-      final parent = _TestBodyComponent();
-      await game.ensureAdd(parent);
-      await parent.ensureAdd(behavior);
-      expect(parent.children, contains(behavior));
-    });
+    flameTester.testGameWidget(
+      'can be loaded',
+      setUp: (game, _) async {
+        final behavior = ZIndexContactBehavior(zIndex: 0);
+        final parent = _TestBodyComponent();
+        await game.ensureAdd(parent);
+        await parent.ensureAdd(behavior);
+      },
+      verify: (game, _) async {
+        final parent =
+            game.descendants().whereType<_TestBodyComponent>().single;
+        expect(
+          parent.children.whereType<ZIndexContactBehavior>().length,
+          equals(1),
+        );
+      },
+    );
 
-    flameTester.test('beginContact changes zIndex', (game) async {
-      const oldIndex = 0;
-      const newIndex = 1;
-      final behavior = ZIndexContactBehavior(zIndex: newIndex);
-      final parent = _TestBodyComponent();
-      await game.ensureAdd(parent);
-      await parent.ensureAdd(behavior);
+    flameTester.testGameWidget(
+      'beginContact changes zIndex',
+      setUp: (game, _) async {
+        final behavior = ZIndexContactBehavior(zIndex: 1);
+        final parent = _TestBodyComponent();
+        await game.ensureAdd(parent);
+        await parent.ensureAdd(behavior);
+      },
+      verify: (game, _) async {
+        final behavior =
+            game.descendants().whereType<ZIndexContactBehavior>().single;
+        final component = _TestZIndexBodyComponent(zIndex: 0);
 
-      final component = _TestZIndexBodyComponent(zIndex: oldIndex);
+        behavior.beginContact(component, _MockContact());
 
-      behavior.beginContact(component, _MockContact());
+        expect(component.zIndex, 1);
+      },
+    );
 
-      expect(component.zIndex, newIndex);
-    });
+    flameTester.testGameWidget(
+      'endContact changes zIndex',
+      setUp: (game, _) async {
+        final behavior = ZIndexContactBehavior(zIndex: 1, onBegin: false);
+        final parent = _TestBodyComponent();
+        await game.ensureAdd(parent);
+        await parent.ensureAdd(behavior);
+      },
+      verify: (game, _) async {
+        final behavior =
+            game.descendants().whereType<ZIndexContactBehavior>().single;
+        final component = _TestZIndexBodyComponent(zIndex: 0);
 
-    flameTester.test('endContact changes zIndex', (game) async {
-      const oldIndex = 0;
-      const newIndex = 1;
-      final behavior = ZIndexContactBehavior(zIndex: newIndex, onBegin: false);
-      final parent = _TestBodyComponent();
-      await game.ensureAdd(parent);
-      await parent.ensureAdd(behavior);
+        behavior.endContact(component, _MockContact());
 
-      final component = _TestZIndexBodyComponent(zIndex: oldIndex);
-
-      behavior.endContact(component, _MockContact());
-
-      expect(component.zIndex, newIndex);
-    });
+        expect(component.zIndex, 1);
+      },
+    );
   });
 }

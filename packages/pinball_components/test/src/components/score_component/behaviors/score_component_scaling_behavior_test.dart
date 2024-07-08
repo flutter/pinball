@@ -28,22 +28,35 @@ void main() {
       );
     });
 
-    flameTester.test('can be loaded', (game) async {
-      final parent = ScoreComponent.test(
-        points: Points.fiveThousand,
-        position: Vector2.zero(),
-        effectController: EffectController(duration: 1),
-      );
-      final behavior = ScoreComponentScalingBehavior();
-      await game.ensureAdd(parent);
-      await parent.ensureAdd(behavior);
+    flameTester.testGameWidget(
+      'can be loaded',
+      setUp: (game, _) async {
+        await game.onLoad();
+        final parent = ScoreComponent.test(
+          points: Points.fiveThousand,
+          position: Vector2.zero(),
+          effectController: EffectController(duration: 1),
+        );
+        final behavior = ScoreComponentScalingBehavior();
+        await game.ensureAdd(parent);
+        await parent.ensureAdd(behavior);
+      },
+      verify: (game, _) async {
+        final scoreComponent =
+            game.descendants().whereType<ScoreComponent>().single;
+        expect(
+          scoreComponent.children
+              .whereType<ScoreComponentScalingBehavior>()
+              .length,
+          equals(1),
+        );
+      },
+    );
 
-      expect(parent.children, contains(behavior));
-    });
-
-    flameTester.test(
+    flameTester.testGameWidget(
       'scales the sprite',
-      (game) async {
+      setUp: (game, _) async {
+        await game.onLoad();
         final parent1 = ScoreComponent.test(
           points: Points.fiveThousand,
           position: Vector2(0, 10),
@@ -58,15 +71,19 @@ void main() {
 
         await parent1.ensureAdd(ScoreComponentScalingBehavior());
         await parent2.ensureAdd(ScoreComponentScalingBehavior());
+      },
+      verify: (game, _) async {
+        final scoreComponents =
+            game.descendants().whereType<ScoreComponent>().toList();
         game.update(1);
 
         expect(
-          parent1.scale.x,
-          greaterThan(parent2.scale.x),
+          scoreComponents[0].scale.x,
+          greaterThan(scoreComponents[1].scale.x),
         );
         expect(
-          parent1.scale.y,
-          greaterThan(parent2.scale.y),
+          scoreComponents[0].scale.y,
+          greaterThan(scoreComponents[1].scale.y),
         );
       },
     );

@@ -1,7 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball_components/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 
 /// {@template chrome_dino_spitting_behavior}
 /// Spits the [Ball] from the [ChromeDino] the next time the mouth opens.

@@ -28,9 +28,9 @@ void main() {
         );
       });
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'creates a RevoluteJoint',
-        (game) async {
+        setUp: (game, _) async {
           final behavior = ChromeDinoSwivelingBehavior();
           final bloc = _MockChromeDinoCubit();
           whenListen(
@@ -42,17 +42,18 @@ void main() {
           final chromeDino = ChromeDino.test(bloc: bloc);
           await chromeDino.add(behavior);
           await game.ensureAdd(chromeDino);
-
+        },
+        verify: (game, _) async {
           expect(
-            game.world.joints.whereType<RevoluteJoint>().single,
+            game.world.physicsWorld.joints.whereType<RevoluteJoint>().single,
             isNotNull,
           );
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'reverses swivel direction on each timer tick',
-        (game) async {
+        setUp: (game, _) async {
           final behavior = ChromeDinoSwivelingBehavior();
           final bloc = _MockChromeDinoCubit();
           whenListen(
@@ -64,9 +65,15 @@ void main() {
           final chromeDino = ChromeDino.test(bloc: bloc);
           await chromeDino.add(behavior);
           await game.ensureAdd(chromeDino);
-
+        },
+        verify: (game, _) async {
+          final behavior = game
+              .descendants()
+              .whereType<ChromeDinoSwivelingBehavior>()
+              .single;
           final timer = behavior.timer;
-          final joint = game.world.joints.whereType<RevoluteJoint>().single;
+          final joint =
+              game.world.physicsWorld.joints.whereType<RevoluteJoint>().single;
 
           expect(joint.motorSpeed, isPositive);
 
@@ -98,7 +105,9 @@ void main() {
             await chromeDino.add(behavior);
             await game.ensureAdd(chromeDino);
 
-            final joint = game.world.joints.whereType<RevoluteJoint>().single;
+            final joint = game.world.physicsWorld.joints
+                .whereType<RevoluteJoint>()
+                .single;
             final angle = joint.jointAngle();
             expect(
               angle < joint.upperLimit && angle > joint.lowerLimit,
@@ -122,17 +131,20 @@ void main() {
               initialState:
                   const ChromeDinoState.initial().copyWith(isMouthOpen: false),
             );
-
             final chromeDino = ChromeDino.test(bloc: bloc);
             await chromeDino.add(behavior);
-            await game.ensureAdd(chromeDino);
-
-            final joint = game.world.joints.whereType<RevoluteJoint>().single;
-
+            await game.world.ensureAdd(chromeDino);
+            await game.ready();
+          },
+          verify: (game, _) async {
+            final bloc =
+                game.world.descendants().whereType<ChromeDino>().single.bloc;
             game.update(swivelPeriod / 2);
-            await tester.pump();
+            final joint = game.world.physicsWorld.joints
+                .whereType<RevoluteJoint>()
+                .single;
             final angle = joint.jointAngle();
-            expect(angle >= joint.upperLimit, isTrue);
+            expect(angle, greaterThanOrEqualTo(joint.upperLimit));
 
             verify(bloc.onOpenMouth).called(1);
           },
@@ -153,15 +165,24 @@ void main() {
 
             final chromeDino = ChromeDino.test(bloc: bloc);
             await chromeDino.add(behavior);
-            await game.ensureAdd(chromeDino);
-
-            final joint = game.world.joints.whereType<RevoluteJoint>().single;
-
+            await game.world.ensureAdd(chromeDino);
+            await game.ready();
+          },
+          verify: (game, _) async {
+            final bloc =
+                game.world.descendants().whereType<ChromeDino>().single.bloc;
+            final behavior = game
+                .descendants()
+                .whereType<ChromeDinoSwivelingBehavior>()
+                .single;
+            behavior.timer.onTick!();
             game.update(swivelPeriod * 1.5);
-            await tester.pump();
+            final joint = game.world.physicsWorld.joints
+                .whereType<RevoluteJoint>()
+                .single;
             final angle = joint.jointAngle();
-            expect(angle <= joint.lowerLimit, isTrue);
 
+            expect(angle, lessThanOrEqualTo(joint.lowerLimit));
             verify(bloc.onOpenMouth).called(1);
           },
         );

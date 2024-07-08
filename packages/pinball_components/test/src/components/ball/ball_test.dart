@@ -30,24 +30,29 @@ void main() {
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'loads correctly',
-      (game) async {
+      setUp: (game, _) async {
+        await game.onLoad();
         final ball = Ball();
-        await game.ready();
         await game.ensureAdd(ball);
-
-        expect(game.contains(ball), isTrue);
+        await game.ready();
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<Ball>(), isNotEmpty);
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'has only one SpriteComponent',
-      (game) async {
+      setUp: (game, _) async {
+        await game.onLoad();
         final ball = Ball();
-        await game.ready();
         await game.ensureAdd(ball);
-
+        await game.ready();
+      },
+      verify: (game, _) async {
+        final ball = game.descendants().whereType<Ball>().single;
         expect(
           ball.descendants().whereType<SpriteComponent>().length,
           equals(1),
@@ -55,13 +60,16 @@ void main() {
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'BallSpriteComponent changes sprite onNewState',
-      (game) async {
+      setUp: (game, _) async {
+        await game.onLoad();
         final ball = Ball();
-        await game.ready();
         await game.ensureAdd(ball);
-
+        await game.ready();
+      },
+      verify: (game, _) async {
+        final ball = game.descendants().whereType<Ball>().single;
         final ballSprite =
             ball.descendants().whereType<BallSpriteComponent>().single;
         final originalSprite = ballSprite.sprite;
@@ -69,7 +77,7 @@ void main() {
         ballSprite.onNewState(
           const BallState(characterTheme: theme.DinoTheme()),
         );
-        await game.ready();
+        game.update(0);
 
         final newSprite = ballSprite.sprite;
         expect(newSprite != originalSprite, isTrue);
@@ -77,84 +85,120 @@ void main() {
     );
 
     group('adds', () {
-      flameTester.test('a BallScalingBehavior', (game) async {
-        final ball = Ball();
-        await game.ensureAdd(ball);
-        expect(
-          ball.descendants().whereType<BallScalingBehavior>().length,
-          equals(1),
-        );
-      });
+      flameTester.testGameWidget(
+        'a BallScalingBehavior',
+        setUp: (game, _) async {
+          final ball = Ball();
+          await game.ensureAdd(ball);
+        },
+        verify: (game, _) async {
+          final ball = game.descendants().whereType<Ball>().single;
+          expect(
+            ball.descendants().whereType<BallScalingBehavior>().length,
+            equals(1),
+          );
+        },
+      );
 
-      flameTester.test('a BallGravitatingBehavior', (game) async {
-        final ball = Ball();
-        await game.ensureAdd(ball);
-        expect(
-          ball.descendants().whereType<BallGravitatingBehavior>().length,
-          equals(1),
-        );
-      });
+      flameTester.testGameWidget(
+        'a BallGravitatingBehavior',
+        setUp: (game, _) async {
+          final ball = Ball();
+          await game.ensureAdd(ball);
+        },
+        verify: (game, _) async {
+          final ball = game.descendants().whereType<Ball>().single;
+          expect(
+            ball.descendants().whereType<BallGravitatingBehavior>().length,
+            equals(1),
+          );
+        },
+      );
     });
 
     group('body', () {
-      flameTester.test(
+      flameTester.testGameWidget(
         'is dynamic',
-        (game) async {
+        setUp: (game, _) async {
           final ball = Ball();
           await game.ensureAdd(ball);
-
+        },
+        verify: (game, _) async {
+          final ball = game.descendants().whereType<Ball>().single;
           expect(ball.body.bodyType, equals(BodyType.dynamic));
         },
       );
 
       group('can be moved', () {
-        flameTester.test('by its weight', (game) async {
-          final ball = Ball();
-          await game.ensureAdd(ball);
+        flameTester.testGameWidget(
+          'by its weight',
+          setUp: (game, _) async {
+            final ball = Ball();
+            await game.ensureAdd(ball);
+          },
+          verify: (game, _) async {
+            final ball = game.descendants().whereType<Ball>().single;
 
-          game.update(1);
-          expect(ball.body.position, isNot(equals(ball.initialPosition)));
-        });
+            game.update(1);
+            expect(ball.body.position, isNot(equals(ball.initialPosition)));
+          },
+        );
 
-        flameTester.test('by applying velocity', (game) async {
-          final ball = Ball();
-          await game.ensureAdd(ball);
+        flameTester.testGameWidget(
+          'by applying velocity',
+          setUp: (game, _) async {
+            final ball = Ball();
+            await game.ensureAdd(ball);
+          },
+          verify: (game, _) async {
+            final ball = game.descendants().whereType<Ball>().single;
 
-          ball.body.gravityScale = Vector2.zero();
-          ball.body.linearVelocity.setValues(10, 10);
-          game.update(1);
-          expect(ball.body.position, isNot(equals(ball.initialPosition)));
-        });
+            ball.body.gravityScale = Vector2.zero();
+            ball.body.linearVelocity.setValues(10, 10);
+            game.update(1);
+            expect(ball.body.position, isNot(equals(ball.initialPosition)));
+          },
+        );
       });
     });
 
     group('fixture', () {
-      flameTester.test(
+      flameTester.testGameWidget(
         'exists',
-        (game) async {
+        setUp: (game, _) async {
           final ball = Ball();
           await game.ensureAdd(ball);
+        },
+        verify: (game, _) async {
+          final ball = game.descendants().whereType<Ball>().single;
 
           expect(ball.body.fixtures[0], isA<Fixture>());
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'is dense',
-        (game) async {
+        setUp: (game, _) async {
           final ball = Ball();
           await game.ensureAdd(ball);
+        },
+        verify: (game, _) async {
+          final ball = game.descendants().whereType<Ball>().single;
 
           final fixture = ball.body.fixtures[0];
           expect(fixture.density, greaterThan(0));
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'shape is circular',
-        (game) async {
-          final ball = Ball();
-          await game.ensureAdd(ball);
+        setUp: (game, _) async {
+          final ball = Ball.test();
+          await game.world.ensureAdd(ball);
+          await game.ready();
+        },
+        verify: (game, _) async {
+          final ball = game.descendants().whereType<Ball>().single;
 
           final fixture = ball.body.fixtures[0];
           expect(fixture.shape.shapeType, equals(ShapeType.circle));
@@ -162,13 +206,14 @@ void main() {
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'has Layer.all as default filter maskBits',
-        (game) async {
+        setUp: (game, _) async {
           final ball = Ball();
-          await game.ready();
           await game.ensureAdd(ball);
-          await game.ready();
+        },
+        verify: (game, _) async {
+          final ball = game.descendants().whereType<Ball>().single;
 
           final fixture = ball.body.fixtures[0];
           expect(fixture.filterData.maskBits, equals(Layer.board.maskBits));
@@ -178,24 +223,33 @@ void main() {
 
     group('stop', () {
       group("can't be moved", () {
-        flameTester.test('by its weight', (game) async {
-          final ball = Ball();
-          await game.ensureAdd(ball);
-          ball.stop();
+        flameTester.testGameWidget(
+          'by its weight',
+          setUp: (game, _) async {
+            final ball = Ball();
+            await game.ensureAdd(ball);
+          },
+          verify: (game, _) async {
+            final ball = game.descendants().whereType<Ball>().single;
+            ball.stop();
 
-          game.update(1);
-          expect(ball.body.position, equals(ball.initialPosition));
-        });
+            game.update(1);
+            expect(ball.body.position, equals(ball.initialPosition));
+          },
+        );
       });
     });
 
     group('resume', () {
       group('can move', () {
-        flameTester.test(
+        flameTester.testGameWidget(
           'by its weight when previously stopped',
-          (game) async {
+          setUp: (game, _) async {
             final ball = Ball();
             await game.ensureAdd(ball);
+          },
+          verify: (game, _) async {
+            final ball = game.descendants().whereType<Ball>().single;
             ball.stop();
             ball.resume();
 
@@ -204,11 +258,14 @@ void main() {
           },
         );
 
-        flameTester.test(
+        flameTester.testGameWidget(
           'by applying velocity when previously stopped',
-          (game) async {
+          setUp: (game, _) async {
             final ball = Ball();
             await game.ensureAdd(ball);
+          },
+          verify: (game, _) async {
+            final ball = game.descendants().whereType<Ball>().single;
             ball.stop();
             ball.resume();
 

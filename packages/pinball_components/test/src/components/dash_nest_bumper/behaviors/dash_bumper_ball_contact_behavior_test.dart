@@ -31,10 +31,10 @@ void main() {
         );
       });
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'beginContact emits onBallContacted with the bumper ID '
         'when contacts with a ball',
-        (game) async {
+        setUp: (game, _) async {
           final behavior = DashBumperBallContactBehavior();
           final bloc = _MockDashBumpersCubit();
           const id = DashBumperId.main;
@@ -52,10 +52,21 @@ void main() {
               children: [bumper],
             ),
           );
-
+        },
+        verify: (game, _) async {
+          final behavior = game
+              .descendants()
+              .whereType<DashBumperBallContactBehavior>()
+              .single;
+          final bloc = game
+              .descendants()
+              .whereType<
+                  FlameBlocProvider<DashBumpersCubit, DashBumpersState>>()
+              .single
+              .bloc;
           behavior.beginContact(_MockBall(), _MockContact());
 
-          verify(() => bloc.onBallContacted(id)).called(1);
+          verify(() => bloc.onBallContacted(DashBumperId.main)).called(1);
         },
       );
     },

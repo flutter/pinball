@@ -30,9 +30,9 @@ void main() {
         );
       });
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'beginContact emits onBallContacted when contacts with a ball',
-        (game) async {
+        setUp: (game, _) async {
           final behavior = AndroidBumperBallContactBehavior();
           final bloc = _MockAndroidBumperCubit();
           whenListen(
@@ -44,7 +44,14 @@ void main() {
           final androidBumper = AndroidBumper.test(bloc: bloc);
           await androidBumper.add(behavior);
           await game.ensureAdd(androidBumper);
-
+        },
+        verify: (game, _) async {
+          final androidBumper =
+              game.descendants().whereType<AndroidBumper>().single;
+          final behavior = game
+              .descendants()
+              .whereType<AndroidBumperBallContactBehavior>()
+              .single;
           behavior.beginContact(_MockBall(), _MockContact());
 
           verify(androidBumper.bloc.onBallContacted).called(1);

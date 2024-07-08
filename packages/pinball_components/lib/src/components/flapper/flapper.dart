@@ -161,10 +161,11 @@ class FlapSpriteAnimationComponent extends SpriteAnimationComponent
         textureSize: textureSize,
         loop: false,
       ),
-    )..onComplete = () {
-        animation?.reset();
-        playing = false;
-      };
+    );
+    animationTicker?.onComplete = () {
+      animationTicker?.reset();
+      playing = false;
+    };
   }
 }
 

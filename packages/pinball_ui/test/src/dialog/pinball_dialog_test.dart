@@ -8,8 +8,8 @@ void main() {
   group('PinballDialog', () {
     group('with title only', () {
       testWidgets('renders the title and the body', (tester) async {
-        tester.binding.window.physicalSizeTestValue = const Size(2000, 4000);
-        addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
+        tester.view.physicalSize = const Size(2000, 4000);
+        addTearDown(tester.view.resetPhysicalSize);
         await tester.pumpWidget(
           const MaterialApp(
             home: PinballDialog(title: 'title', child: Placeholder()),
@@ -23,8 +23,8 @@ void main() {
 
     group('with title and subtitle', () {
       testWidgets('renders the title, subtitle and the body', (tester) async {
-        tester.binding.window.physicalSizeTestValue = const Size(2000, 4000);
-        addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
+        tester.view.physicalSize = const Size(2000, 4000);
+        addTearDown(tester.view.resetPhysicalSize);
         await tester.pumpWidget(
           MaterialApp(
             home: PinballDialog(
