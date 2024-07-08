@@ -161,6 +161,6 @@ class _BackboxSpriteComponent extends SpriteComponent with HasGameRef {
       ),
     );
     this.sprite = sprite;
-    size = sprite.originalSize / 10;
+    size = sprite.originalSize / 20;
   }
 }
