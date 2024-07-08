@@ -7,7 +7,7 @@ class DashBumpersState extends Equatable {
       : this(
           bumperSpriteStates: {
             for (var id in DashBumperId.values)
-              id: DashBumperSpriteState.inactive
+              id: DashBumperSpriteState.inactive,
           },
         );
 

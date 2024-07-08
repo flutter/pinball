@@ -1,8 +1,9 @@
-import 'package:flame/game.dart';
+import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/common/games.dart';
 
-class ArrowIconGame extends AssetsGame with HasTappables {
+class ArrowIconGame extends AssetsGame with TapCallbacks {
   ArrowIconGame()
       : super(
           imagesFileNames: [
@@ -16,7 +17,7 @@ class ArrowIconGame extends AssetsGame with HasTappables {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    camera.followVector2(Vector2.zero());
+    camera.follow(PositionComponent(position: Vector2.zero()));
 
     await add(
       ArrowIcon(

@@ -30,9 +30,10 @@ void main() {
   group('BottomGroup', () {
     final flameTester = FlameTester(_TestGame.new);
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'loads correctly',
-      (game) async {
+      setUp: (game, _) async {
+        await game.onLoad();
         final bottomGroup = BottomGroup();
         await game.ensureAdd(
           FlameBlocProvider<GameBloc, GameState>.value(
@@ -40,15 +41,18 @@ void main() {
             children: [bottomGroup],
           ),
         );
-
-        expect(game.descendants(), contains(bottomGroup));
+        await game.ready();
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<BottomGroup>().length, equals(1));
       },
     );
 
     group('loads', () {
-      flameTester.test(
+      flameTester.testGameWidget(
         'one left flipper',
-        (game) async {
+        setUp: (game, _) async {
+          await game.onLoad();
           final bottomGroup = BottomGroup();
           await game.ensureAdd(
             FlameBlocProvider<GameBloc, GameState>.value(
@@ -56,18 +60,26 @@ void main() {
               children: [bottomGroup],
             ),
           );
-
-          final leftFlippers =
-              bottomGroup.descendants().whereType<Flipper>().where(
-                    (flipper) => flipper.side.isLeft,
-                  );
+          await game.ready();
+        },
+        verify: (game, _) async {
+          final leftFlippers = game
+              .descendants()
+              .whereType<BottomGroup>()
+              .single
+              .descendants()
+              .whereType<Flipper>()
+              .where(
+                (flipper) => flipper.side.isLeft,
+              );
           expect(leftFlippers.length, equals(1));
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'one right flipper',
-        (game) async {
+        setUp: (game, _) async {
+          await game.onLoad();
           final bottomGroup = BottomGroup();
           await game.ensureAdd(
             FlameBlocProvider<GameBloc, GameState>.value(
@@ -75,18 +87,26 @@ void main() {
               children: [bottomGroup],
             ),
           );
-
-          final rightFlippers =
-              bottomGroup.descendants().whereType<Flipper>().where(
-                    (flipper) => flipper.side.isRight,
-                  );
+          await game.ready();
+        },
+        verify: (game, _) async {
+          final rightFlippers = game
+              .descendants()
+              .whereType<BottomGroup>()
+              .single
+              .descendants()
+              .whereType<Flipper>()
+              .where(
+                (flipper) => flipper.side.isRight,
+              );
           expect(rightFlippers.length, equals(1));
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'two Baseboards',
-        (game) async {
+        setUp: (game, _) async {
+          await game.onLoad();
           final bottomGroup = BottomGroup();
           await game.ensureAdd(
             FlameBlocProvider<GameBloc, GameState>.value(
@@ -94,16 +114,21 @@ void main() {
               children: [bottomGroup],
             ),
           );
-
+          await game.ready();
+        },
+        verify: (game, _) async {
+          final bottomGroup =
+              game.descendants().whereType<BottomGroup>().single;
           final baseBottomGroups =
               bottomGroup.descendants().whereType<Baseboard>();
           expect(baseBottomGroups.length, equals(2));
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'two Kickers',
-        (game) async {
+        setUp: (game, _) async {
+          await game.onLoad();
           final bottomGroup = BottomGroup();
           await game.ensureAdd(
             FlameBlocProvider<GameBloc, GameState>.value(
@@ -111,7 +136,11 @@ void main() {
               children: [bottomGroup],
             ),
           );
-
+          await game.ready();
+        },
+        verify: (game, _) async {
+          final bottomGroup =
+              game.descendants().whereType<BottomGroup>().single;
           final kickers = bottomGroup.descendants().whereType<Kicker>();
           expect(kickers.length, equals(2));
         },

@@ -13,7 +13,7 @@ export 'cubit/flipper_cubit.dart';
 /// A bat, typically found in pairs at the bottom of the board.
 ///
 /// [Flipper] can be controlled by the player in an arc motion.
-/// {@endtemplate flipper}
+/// {@endtemplate}
 class Flipper extends BodyComponent with KeyboardHandler, InitialPosition {
   /// {@macro flipper}
   Flipper({

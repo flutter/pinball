@@ -10,24 +10,28 @@ void main() {
   final flameTester = FlameTester(Forge2DGame.new);
 
   group('JointAnchor', () {
-    flameTester.test(
+    flameTester.testGameWidget(
       'loads correctly',
-      (game) async {
+      setUp: (game, _) async {
         final anchor = JointAnchor();
         await game.ready();
         await game.ensureAdd(anchor);
-
-        expect(game.contains(anchor), isTrue);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<JointAnchor>().length, equals(1));
       },
     );
 
     group('body', () {
-      flameTester.test(
+      flameTester.testGameWidget(
         'is static',
-        (game) async {
+        setUp: (game, _) async {
           await game.ready();
           final anchor = JointAnchor();
           await game.ensureAdd(anchor);
+        },
+        verify: (game, _) async {
+          final anchor = game.descendants().whereType<JointAnchor>().single;
 
           expect(anchor.body.bodyType, equals(BodyType.static));
         },
@@ -35,11 +39,14 @@ void main() {
     });
 
     group('fixtures', () {
-      flameTester.test(
+      flameTester.testGameWidget(
         'has none',
-        (game) async {
+        setUp: (game, _) async {
           final anchor = JointAnchor();
           await game.ensureAdd(anchor);
+        },
+        verify: (game, _) async {
+          final anchor = game.descendants().whereType<JointAnchor>().single;
 
           expect(anchor.body.fixtures, isEmpty);
         },

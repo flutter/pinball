@@ -55,12 +55,17 @@ void main() {
         );
       });
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'loads',
-        (game) async {
+        setUp: (game, _) async {
           final behavior = BallSpawningBehavior();
           await game.pump([behavior]);
-          expect(game.descendants(), contains(behavior));
+        },
+        verify: (game, _) async {
+          expect(
+            game.descendants().whereType<BallSpawningBehavior>().length,
+            equals(1),
+          );
         },
       );
 
@@ -123,20 +128,27 @@ void main() {
         );
       });
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'onNewState adds a ball',
-        (game) async {
+        setUp: (game, _) async {
+          await game.onLoad();
           final behavior = BallSpawningBehavior();
           await game.pump([
             behavior,
             ZCanvasComponent(),
             Plunger.test(),
           ]);
-          expect(game.descendants().whereType<Ball>(), isEmpty);
-
-          behavior.onNewState(_MockGameState());
           await game.ready();
-
+        },
+        verify: (game, tester) async {
+          expect(game.descendants().whereType<Ball>(), isEmpty);
+          game
+              .descendants()
+              .whereType<BallSpawningBehavior>()
+              .single
+              .onNewState(_MockGameState());
+          game.update(0);
+          await tester.pump();
           expect(game.descendants().whereType<Ball>(), isNotEmpty);
         },
       );

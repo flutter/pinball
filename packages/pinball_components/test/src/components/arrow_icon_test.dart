@@ -50,8 +50,8 @@ void main() {
         'renders correctly',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          game.camera.followVector2(Vector2.zero());
-          await game.add(
+          game.camera.moveTo(Vector2.zero());
+          await game.world.add(
             ArrowIcon(
               position: Vector2.zero(),
               direction: ArrowIconDirection.left,
@@ -74,8 +74,8 @@ void main() {
         'renders correctly',
         setUp: (game, tester) async {
           await game.images.loadAll(assets);
-          game.camera.followVector2(Vector2.zero());
-          await game.add(
+          game.camera.moveTo(Vector2.zero());
+          await game.world.add(
             ArrowIcon(
               position: Vector2.zero(),
               direction: ArrowIconDirection.right,

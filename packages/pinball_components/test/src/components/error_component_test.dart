@@ -23,35 +23,49 @@ void main() {
     ];
     final flameTester = FlameTester(() => TestGame(assets));
 
-    flameTester.test('renders correctly', (game) async {
-      await game.ensureAdd(ErrorComponent(label: 'Error Message'));
-      final count = game.descendants().countTexts('Error Message');
-
-      expect(count, equals(1));
-    });
+    flameTester.testGameWidget(
+      'renders correctly',
+      setUp: (game, _) async {
+        await game.ensureAdd(ErrorComponent(label: 'Error Message'));
+      },
+      verify: (game, _) async {
+        final count = game.descendants().countTexts('Error Message');
+        expect(count, equals(1));
+      },
+    );
 
     group('when the text is longer than one line', () {
-      flameTester.test('renders correctly', (game) async {
-        await game.ensureAdd(
-          ErrorComponent(
-            label: 'Error With A Longer Message',
-          ),
-        );
-        final count1 = game.descendants().countTexts('Error With A');
-        final count2 = game.descendants().countTexts('Longer Message');
+      flameTester.testGameWidget(
+        'renders correctly',
+        setUp: (game, _) async {
+          await game.ensureAdd(
+            ErrorComponent(
+              label: 'Error With A Longer Message',
+            ),
+          );
+        },
+        verify: (game, _) async {
+          final count1 = game.descendants().countTexts('Error With A');
+          final count2 = game.descendants().countTexts('Longer Message');
 
-        expect(count1, equals(1));
-        expect(count2, equals(1));
-      });
+          expect(count1, equals(1));
+          expect(count2, equals(1));
+        },
+      );
     });
 
     group('when using the bold font', () {
-      flameTester.test('renders correctly', (game) async {
-        await game.ensureAdd(ErrorComponent.bold(label: 'Error Message'));
-        final count = game.descendants().countTexts('Error Message');
+      flameTester.testGameWidget(
+        'renders correctly',
+        setUp: (game, _) async {
+          await game.ensureAdd(ErrorComponent.bold(label: 'Error Message'));
+        },
+        verify: (game, _) async {
+          final count = game.descendants().countTexts('Error Message');
 
-        expect(count, equals(1));
-      });
+          expect(count, equals(1));
+        },
+      );
     });
   });
 }

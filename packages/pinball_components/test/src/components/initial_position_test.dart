@@ -27,10 +27,10 @@ void main() {
       expect(component.initialPosition, Vector2(1, 2));
     });
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'throws AssertionError '
       'when BodyDef is not positioned with initialPosition',
-      (game) async {
+      setUp: (game, _) async {
         final component = TestBodyComponent()
           ..initialPosition = Vector2.all(
             10,
@@ -42,31 +42,39 @@ void main() {
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'positions correctly',
-      (game) async {
+      setUp: (game, _) async {
         final position = Vector2.all(10);
         final component = TestPositionedBodyComponent()
           ..initialPosition = position;
         await game.ensureAdd(component);
-        expect(component.body.position, equals(position));
+      },
+      verify: (game, _) async {
+        final component =
+            game.descendants().whereType<TestPositionedBodyComponent>().single;
+        expect(component.body.position, equals(Vector2.all(10)));
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'defaults to zero '
       'when no initialPosition is given',
-      (game) async {
+      setUp: (game, _) async {
         final component = TestBodyComponent();
         await game.ensureAdd(component);
+      },
+      verify: (game, _) async {
+        final component =
+            game.descendants().whereType<TestBodyComponent>().single;
         expect(component.body.position, equals(Vector2.zero()));
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'setting throws AssertionError '
       'when component has loaded',
-      (game) async {
+      setUp: (game, _) async {
         final component = TestBodyComponent();
         await game.ensureAdd(component);
 

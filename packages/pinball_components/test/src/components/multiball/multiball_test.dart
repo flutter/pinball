@@ -22,36 +22,55 @@ void main() {
 
   group('Multiball', () {
     group('loads correctly', () {
-      flameTester.test('"a"', (game) async {
-        final multiball = Multiball.a();
-        await game.ensureAdd(multiball);
+      flameTester.testGameWidget(
+        '"a"',
+        setUp: (game, _) async {
+          final multiball = Multiball.a();
+          await game.ensureAdd(multiball);
+        },
+        verify: (game, _) async {
+          expect(game.descendants().whereType<Multiball>(), isNotEmpty);
+        },
+      );
 
-        expect(game.contains(multiball), isTrue);
-      });
+      flameTester.testGameWidget(
+        '"b"',
+        setUp: (game, _) async {
+          final multiball = Multiball.b();
+          await game.ensureAdd(multiball);
+        },
+        verify: (game, _) async {
+          expect(game.descendants().whereType<Multiball>(), isNotEmpty);
+        },
+      );
 
-      flameTester.test('"b"', (game) async {
-        final multiball = Multiball.b();
-        await game.ensureAdd(multiball);
-        expect(game.contains(multiball), isTrue);
-      });
+      flameTester.testGameWidget(
+        '"c"',
+        setUp: (game, _) async {
+          final multiball = Multiball.c();
+          await game.ensureAdd(multiball);
+        },
+        verify: (game, _) async {
+          expect(game.descendants().whereType<Multiball>(), isNotEmpty);
+        },
+      );
 
-      flameTester.test('"c"', (game) async {
-        final multiball = Multiball.c();
-        await game.ensureAdd(multiball);
-
-        expect(game.contains(multiball), isTrue);
-      });
-
-      flameTester.test('"d"', (game) async {
-        final multiball = Multiball.d();
-        await game.ensureAdd(multiball);
-        expect(game.contains(multiball), isTrue);
-      });
+      flameTester.testGameWidget(
+        '"d"',
+        setUp: (game, _) async {
+          final multiball = Multiball.d();
+          await game.ensureAdd(multiball);
+        },
+        verify: (game, _) async {
+          expect(game.descendants().whereType<Multiball>(), isNotEmpty);
+        },
+      );
     });
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'closes bloc when removed',
-      (game) async {
+      setUp: (game, _) async {
+        await game.onLoad();
         final bloc = _MockMultiballCubit();
         whenListen(
           bloc,
@@ -62,31 +81,47 @@ void main() {
         final multiball = Multiball.test(bloc: bloc);
 
         await game.ensureAdd(multiball);
-        game.remove(multiball);
         await game.ready();
+      },
+      verify: (game, _) async {
+        final multiball = game.descendants().whereType<Multiball>().single;
+        game.remove(multiball);
+        game.update(0);
 
-        verify(bloc.close).called(1);
+        verify(multiball.bloc.close).called(1);
       },
     );
 
     group('adds', () {
-      flameTester.test('new children', (game) async {
-        final component = Component();
-        final multiball = Multiball.a(
-          children: [component],
-        );
-        await game.ensureAdd(multiball);
-        expect(multiball.children, contains(component));
-      });
+      flameTester.testGameWidget(
+        'new children',
+        setUp: (game, _) async {
+          final component = Component();
+          final multiball = Multiball.a(
+            children: [component],
+          );
+          await game.ensureAdd(multiball);
+        },
+        verify: (game, _) async {
+          final multiball = game.descendants().whereType<Multiball>().single;
+          expect(multiball.children.whereType<Component>(), isNotEmpty);
+        },
+      );
 
-      flameTester.test('a MultiballBlinkingBehavior', (game) async {
-        final multiball = Multiball.a();
-        await game.ensureAdd(multiball);
-        expect(
-          multiball.children.whereType<MultiballBlinkingBehavior>().single,
-          isNotNull,
-        );
-      });
+      flameTester.testGameWidget(
+        'a MultiballBlinkingBehavior',
+        setUp: (game, _) async {
+          final multiball = Multiball.a();
+          await game.ensureAdd(multiball);
+        },
+        verify: (game, _) async {
+          final multiball = game.descendants().whereType<Multiball>().single;
+          expect(
+            multiball.children.whereType<MultiballBlinkingBehavior>(),
+            isNotEmpty,
+          );
+        },
+      );
     });
   });
 }

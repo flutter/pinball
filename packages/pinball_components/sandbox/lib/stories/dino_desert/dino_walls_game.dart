@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flame/input.dart';
+import 'package:flame/components.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:sandbox/stories/ball/basic_ball_game.dart';
 
@@ -25,7 +25,7 @@ class DinoWallsGame extends BallGame {
     ]);
 
     await add(DinoWalls());
-    camera.followVector2(Vector2.zero());
+    camera.follow(PositionComponent(position: Vector2.zero()));
     await traceAllBodies();
   }
 }

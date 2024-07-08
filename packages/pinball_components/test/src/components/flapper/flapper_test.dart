@@ -1,6 +1,6 @@
 // ignore_for_file: cascade_invocations
 
-import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pinball_components/pinball_components.dart';
@@ -19,21 +19,26 @@ void main() {
     ];
     final flameTester = FlameTester(() => TestGame(assets));
 
-    flameTester.test('loads correctly', (game) async {
-      final component = Flapper();
-      await game.ensureAdd(component);
-      expect(game.contains(component), isTrue);
-    });
+    flameTester.testGameWidget(
+      'loads correctly',
+      setUp: (game, _) async {
+        final component = Flapper();
+        await game.ensureAdd(component);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<Flapper>(), isNotEmpty);
+      },
+    );
 
     flameTester.testGameWidget(
       'renders correctly',
       setUp: (game, tester) async {
         await game.images.loadAll(assets);
         final canvas = ZCanvasComponent(children: [Flapper()]);
-        await game.ensureAdd(canvas);
+        await game.world.ensureAdd(canvas);
         game.camera
-          ..followVector2(Vector2(3, -70))
-          ..zoom = 25;
+          ..moveTo(Vector2(3, -70))
+          ..viewfinder.zoom = 25;
         await tester.pump();
       },
       verify: (game, tester) async {
@@ -44,7 +49,7 @@ void main() {
             .first
           ..playing = true;
         final animationDuration =
-            flapSpriteAnimationComponent.animation!.totalDuration();
+            flapSpriteAnimationComponent.animationTicker!.totalDuration();
 
         await expectLater(
           find.byGame<TestGame>(),
@@ -67,30 +72,43 @@ void main() {
       },
     );
 
-    flameTester.test('adds a FlapperSpinningBehavior to FlapperEntrance',
-        (game) async {
-      final flapper = Flapper();
-      await game.ensureAdd(flapper);
-
-      final flapperEntrance = flapper.firstChild<FlapperEntrance>()!;
-      expect(
-        flapperEntrance.firstChild<FlapperSpinningBehavior>(),
-        isNotNull,
-      );
-    });
-
-    flameTester.test(
-      'flap stops animating after animation completes',
-      (game) async {
+    flameTester.testGameWidget(
+      'adds a FlapperSpinningBehavior to FlapperEntrance',
+      setUp: (game, _) async {
+        await game.onLoad();
         final flapper = Flapper();
         await game.ensureAdd(flapper);
+        await game.ready();
+      },
+      verify: (game, _) async {
+        final flapper = game.descendants().whereType<Flapper>().single;
+        final flapperEntrance = flapper.firstChild<FlapperEntrance>()!;
+        expect(
+          flapperEntrance.firstChild<FlapperSpinningBehavior>(),
+          isNotNull,
+        );
+      },
+    );
 
-        final flapSpriteAnimationComponent =
-            flapper.firstChild<FlapSpriteAnimationComponent>()!;
+    flameTester.testGameWidget(
+      'flap stops animating after animation completes',
+      setUp: (game, _) async {
+        await game.onLoad();
+        final flapper = Flapper();
+        await game.ensureAdd(flapper);
+        await game.ready();
+      },
+      verify: (game, _) async {
+        final flapper = game.descendants().whereType<Flapper>().single;
+
+        final flapSpriteAnimationComponent = flapper
+            .descendants()
+            .whereType<FlapSpriteAnimationComponent>()
+            .single;
 
         flapSpriteAnimationComponent.playing = true;
         game.update(
-          flapSpriteAnimationComponent.animation!.totalDuration() + 0.1,
+          flapSpriteAnimationComponent.animationTicker!.totalDuration() + 0.1,
         );
 
         expect(flapSpriteAnimationComponent.playing, isFalse);

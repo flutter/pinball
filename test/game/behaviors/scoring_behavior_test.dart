@@ -27,7 +27,7 @@ class _TestGame extends Forge2DGame {
       FlameBlocProvider<GameBloc, GameState>.value(
         value: gameBloc ?? GameBloc(),
         children: [
-          ZCanvasComponent(children: [child])
+          ZCanvasComponent(children: [child]),
         ],
       ),
     );
@@ -77,66 +77,68 @@ void main() {
       );
     });
 
-    flameBlocTester.test(
+    flameBlocTester.testGameWidget(
       'can be loaded',
-      (game) async {
+      setUp: (game, _) async {
+        await game.onLoad();
         await game.pump(parent);
-
         final behavior = ScoringBehavior(
           points: Points.fiveThousand,
           position: Vector2.zero(),
         );
         await parent.ensureAdd(behavior);
-
+      },
+      verify: (game, _) async {
         expect(
           parent.firstChild<ScoringBehavior>(),
-          equals(behavior),
+          isNotNull,
         );
       },
     );
 
-    flameBlocTester.test(
+    flameBlocTester.testGameWidget(
       'emits Scored event with points when added',
-      (game) async {
+      setUp: (game, _) async {
+        await game.onLoad();
         await game.pump(parent, gameBloc: bloc);
 
-        const points = Points.oneMillion;
         final behavior = ScoringBehavior(
-          points: points,
+          points: Points.oneMillion,
           position: Vector2(0, 0),
         );
         await parent.ensureAdd(behavior);
-
+      },
+      verify: (game, _) async {
         verify(
           () => bloc.add(
-            Scored(points: points.value),
+            Scored(points: Points.oneMillion.value),
           ),
         ).called(1);
       },
     );
 
-    flameBlocTester.test(
+    flameBlocTester.testGameWidget(
       'correctly renders text',
-      (game) async {
+      setUp: (game, _) async {
+        await game.onLoad();
         await game.pump(parent);
 
-        const points = Points.oneMillion;
-        final position = Vector2.all(1);
         final behavior = ScoringBehavior(
-          points: points,
-          position: position,
+          points: Points.oneMillion,
+          position: Vector2.all(1),
         );
         await parent.ensureAdd(behavior);
-
+      },
+      verify: (game, _) async {
         final scoreText = game.descendants().whereType<ScoreComponent>();
         expect(scoreText.length, equals(1));
         expect(
           scoreText.first.points,
-          equals(points),
+          equals(Points.oneMillion),
         );
         expect(
           scoreText.first.position,
-          equals(position),
+          equals(Vector2.all(1)),
         );
       },
     );

@@ -46,14 +46,22 @@ void main() {
         expect(DrainingBehavior(), isA<DrainingBehavior>());
       });
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'loads',
-        (game) async {
+        setUp: (game, _) async {
+          await game.onLoad();
           final parent = Drain.test();
           final behavior = DrainingBehavior();
           await parent.add(behavior);
           await game.ensureAdd(parent);
-          expect(parent.contains(behavior), isTrue);
+          await game.ready();
+        },
+        verify: (game, _) async {
+          final parent = game.descendants().whereType<Drain>().single;
+          expect(
+            parent.descendants().whereType<DrainingBehavior>(),
+            isNotEmpty,
+          );
         },
       );
 
@@ -66,9 +74,10 @@ void main() {
 
         final flameBlocTester = FlameTester(_TestGame.new);
 
-        flameBlocTester.test(
+        flameBlocTester.testGameWidget(
           'adds RoundLost when no balls left',
-          (game) async {
+          setUp: (game, _) async {
+            await game.onLoad();
             final drain = Drain.test();
             final behavior = DrainingBehavior();
             final ball = Ball.test();
@@ -81,15 +90,17 @@ void main() {
 
             behavior.beginContact(ball, _MockContact());
             await game.ready();
-
+          },
+          verify: (game, _) async {
             expect(game.descendants().whereType<Ball>(), isEmpty);
             verify(() => gameBloc.add(const RoundLost())).called(1);
           },
         );
 
-        flameBlocTester.test(
+        flameBlocTester.testGameWidget(
           "doesn't add RoundLost when there are balls left",
-          (game) async {
+          setUp: (game, _) async {
+            await game.onLoad();
             final drain = Drain.test();
             final behavior = DrainingBehavior();
             final ball1 = Ball.test();
@@ -103,15 +114,17 @@ void main() {
 
             behavior.beginContact(ball1, _MockContact());
             await game.ready();
-
+          },
+          verify: (game, _) async {
             expect(game.descendants().whereType<Ball>(), isNotEmpty);
             verifyNever(() => gameBloc.add(const RoundLost()));
           },
         );
 
-        flameBlocTester.test(
+        flameBlocTester.testGameWidget(
           'removes the Ball',
-          (game) async {
+          setUp: (game, _) async {
+            await game.onLoad();
             final drain = Drain.test();
             final behavior = DrainingBehavior();
             final ball = Ball.test();
@@ -124,7 +137,8 @@ void main() {
 
             behavior.beginContact(ball, _MockContact());
             await game.ready();
-
+          },
+          verify: (game, _) async {
             expect(game.descendants().whereType<Ball>(), isEmpty);
           },
         );

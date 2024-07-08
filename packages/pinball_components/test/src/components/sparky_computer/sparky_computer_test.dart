@@ -22,22 +22,29 @@ void main() {
     ];
     final flameTester = FlameTester(() => TestGame(assets));
 
-    flameTester.test('loads correctly', (game) async {
-      final component = SparkyComputer();
-      await game.ensureAdd(component);
-      expect(game.contains(component), isTrue);
-    });
+    flameTester.testGameWidget(
+      'loads correctly',
+      setUp: (game, _) async {
+        await game.onLoad();
+        final component = SparkyComputer();
+        await game.ensureAdd(component);
+        await game.ready();
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<SparkyComputer>().length, 1);
+      },
+    );
 
     flameTester.testGameWidget(
       'renders correctly',
       setUp: (game, tester) async {
         await game.images.loadAll(assets);
-        await game.ensureAdd(SparkyComputer());
+        await game.world.ensureAdd(SparkyComputer());
         await tester.pump();
 
         game.camera
-          ..followVector2(Vector2(0, -20))
-          ..zoom = 7;
+          ..moveTo(Vector2(0, -20))
+          ..viewfinder.zoom = 7;
       },
       verify: (game, tester) async {
         await expectLater(
@@ -47,44 +54,70 @@ void main() {
       },
     );
 
-    flameTester.test('closes bloc when removed', (game) async {
-      final bloc = _MockSparkyComputerCubit();
-      whenListen(
-        bloc,
-        const Stream<SparkyComputerState>.empty(),
-        initialState: SparkyComputerState.withoutBall,
-      );
-      when(bloc.close).thenAnswer((_) async {});
-      final sparkyComputer = SparkyComputer.test(bloc: bloc);
+    flameTester.testGameWidget(
+      'closes bloc when removed',
+      setUp: (game, _) async {
+        await game.onLoad();
+        final bloc = _MockSparkyComputerCubit();
+        whenListen(
+          bloc,
+          const Stream<SparkyComputerState>.empty(),
+          initialState: SparkyComputerState.withoutBall,
+        );
+        when(bloc.close).thenAnswer((_) async {});
+        final sparkyComputer = SparkyComputer.test(bloc: bloc);
 
-      await game.ensureAdd(sparkyComputer);
-      game.remove(sparkyComputer);
-      await game.ready();
+        await game.ensureAdd(sparkyComputer);
+        await game.ready();
+      },
+      verify: (game, _) async {
+        final sparkyComputer =
+            game.descendants().whereType<SparkyComputer>().single;
+        game.remove(sparkyComputer);
+        game.update(0);
 
-      verify(bloc.close).called(1);
-    });
+        verify(sparkyComputer.bloc.close).called(1);
+      },
+    );
 
     group('adds', () {
-      flameTester.test('new children', (game) async {
-        final component = Component();
-        final sparkyComputer = SparkyComputer(
-          children: [component],
-        );
-        await game.ensureAdd(sparkyComputer);
-        expect(sparkyComputer.children, contains(component));
-      });
+      flameTester.testGameWidget(
+        'new children',
+        setUp: (game, _) async {
+          await game.onLoad();
+          final component = Component();
+          final sparkyComputer = SparkyComputer(
+            children: [component],
+          );
+          await game.ensureAdd(sparkyComputer);
+          await game.ready();
+        },
+        verify: (game, _) async {
+          final sparkyComputer =
+              game.descendants().whereType<SparkyComputer>().single;
+          expect(sparkyComputer.children.whereType<Component>(), isNotEmpty);
+        },
+      );
 
-      flameTester.test('a SparkyComputerSensorBallContactBehavior',
-          (game) async {
-        final sparkyComputer = SparkyComputer();
-        await game.ensureAdd(sparkyComputer);
-        expect(
-          sparkyComputer.children
-              .whereType<SparkyComputerSensorBallContactBehavior>()
-              .single,
-          isNotNull,
-        );
-      });
+      flameTester.testGameWidget(
+        'a SparkyComputerSensorBallContactBehavior',
+        setUp: (game, _) async {
+          await game.onLoad();
+          final sparkyComputer = SparkyComputer();
+          await game.ensureAdd(sparkyComputer);
+          await game.ready();
+        },
+        verify: (game, _) async {
+          final sparkyComputer =
+              game.descendants().whereType<SparkyComputer>().single;
+          expect(
+            sparkyComputer.children
+                .whereType<SparkyComputerSensorBallContactBehavior>()
+                .single,
+            isNotNull,
+          );
+        },
+      );
     });
   });
 }

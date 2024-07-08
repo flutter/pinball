@@ -28,7 +28,7 @@
   <meta property="og:title" content="Google I/O Pinball">
   <meta property="og:url" content="https://pinball.flutter.dev">
   <meta property="og:image"
-  content="https://firebasestorage.googleapis.com/v0/b/io-pinball.appspot.com/o/images%2Fpinball_share_image.png?alt=media">
+    content="https://firebasestorage.googleapis.com/v0/b/io-pinball.appspot.com/o/images%2Fpinball_share_image.png?alt=media">
 
   <!-- Twitter Share Data -->
   <meta name="twitter:image"
@@ -51,17 +51,22 @@
   <title>I/O Pinball Machine - Flutter</title>
   <link rel="manifest" href="manifest.json">
   <script>
-    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-ND4LWWZ');
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-ND4LWWZ');
   </script>
   <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
     ga('create', 'UA-67589403-1', 'auto');
     ga('send', 'pageview');
   </script>
@@ -80,7 +85,6 @@
       console.warn(e);
     });
 
-    var serviceWorkerVersion = null;
     var scriptLoaded = false;
     function loadMainDartJs() {
       if (scriptLoaded) {
@@ -99,7 +103,7 @@
         // Wait for registration to finish before dropping the <script> tag.
         // Otherwise, the browser will load the script multiple times,
         // potentially different versions.
-        var serviceWorkerUrl = 'flutter_service_worker.js?v=' + serviceWorkerVersion;
+        var serviceWorkerUrl = 'flutter_service_worker.js?v={{flutter_service_worker_version}}"';
         navigator.serviceWorker.register(serviceWorkerUrl)
           .then((reg) => {
             function waitForActivation(serviceWorker) {
@@ -114,8 +118,8 @@
               // No active web worker and we have installed or are installing
               // one for the first time. Simply wait for it to activate.
               waitForActivation(reg.installing || reg.waiting);
-            } else if (!reg.active.scriptURL.endsWith(serviceWorkerVersion)) {
-              // When the app updates the serviceWorkerVersion changes, so we
+            } else if (!reg.active.scriptURL.endsWith("{{flutter_service_worker_version}}")) {
+              // When the app updates the service worker version changes, so we
               // need to ask the service worker to update.
               console.log('New service worker available.');
               reg.update();

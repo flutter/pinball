@@ -1,5 +1,4 @@
 import 'package:flame/components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 
 class AnimatronicLoopingBehavior extends TimerComponent
     with ParentIsA<SpriteAnimationComponent> {
@@ -10,8 +9,8 @@ class AnimatronicLoopingBehavior extends TimerComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    parent.animation?.onComplete = () {
-      parent.animation?.reset();
+    parent.animationTicker?.onComplete = () {
+      parent.animationTicker?.reset();
       parent.playing = false;
       timer
         ..reset()

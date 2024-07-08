@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flame/input.dart';
+import 'package:flame/components.dart';
 import 'package:flame_bloc/flame_bloc.dart';
 import 'package:pinball_components/pinball_components.dart';
 import 'package:pinball_flame/pinball_flame.dart';
@@ -29,7 +29,7 @@ class AndroidSpaceshipGame extends BallGame {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    camera.followVector2(Vector2.zero());
+    camera.follow(PositionComponent(position: Vector2.zero()));
     await add(
       FlameBlocProvider<AndroidSpaceshipCubit, AndroidSpaceshipState>(
         create: AndroidSpaceshipCubit.new,

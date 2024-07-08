@@ -25,15 +25,20 @@ void main() {
       );
     });
 
-    flameTester.test('loads correctly', (game) async {
-      final component = CanvasComponent();
-      await game.ensureAdd(component);
-      expect(game.contains(component), isTrue);
-    });
+    flameTester.testGameWidget(
+      'loads correctly',
+      setUp: (game, _) async {
+        final component = CanvasComponent();
+        await game.ensureAdd(component);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<CanvasComponent>(), isNotEmpty);
+      },
+    );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'adds children',
-      (game) async {
+      setUp: (game, _) async {
         final component = Component();
         final canvas = CanvasComponent(
           onSpritePainted: (paint) => paint.filterQuality = FilterQuality.high,
@@ -41,10 +46,12 @@ void main() {
         );
 
         await game.ensureAdd(canvas);
-
+      },
+      verify: (game, _) async {
+        final canvas = game.descendants().whereType<CanvasComponent>().single;
         expect(
-          canvas.children.contains(component),
-          isTrue,
+          canvas.children.whereType<Component>(),
+          isNotEmpty,
         );
       },
     );

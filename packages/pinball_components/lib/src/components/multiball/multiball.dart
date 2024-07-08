@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/src/components/multiball/behaviors/behaviors.dart';
 import 'package:pinball_components/src/pinball_components.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 
 export 'cubit/multiball_cubit.dart';
 

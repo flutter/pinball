@@ -14,13 +14,13 @@ void main() {
     tester.testGameWidget(
       'renders correctly',
       setUp: (game, tester) async {
-        game.camera.followVector2(Vector2.zero());
-        game.camera.zoom = 10;
+        game.camera.moveTo(Vector2.zero());
+        game.camera.viewfinder.zoom = 10;
         final sprite = await game.loadSprite(
           Assets.images.signpost.inactive.keyName,
         );
 
-        await game.add(
+        await game.world.add(
           SpriteComponent(
             sprite: sprite,
             size: Vector2(4, 8),
@@ -56,29 +56,33 @@ void main() {
       },
     );
 
-    tester.test(
+    tester.testGameWidget(
       'completes when checked after it is finished',
-      (game) async {
+      setUp: (game, _) async {
         await game.add(CameraZoom(value: 40));
+      },
+      verify: (game, _) async {
         game.update(10);
-        final cameraZoom = game.firstChild<CameraZoom>();
-        final future = cameraZoom!.completed;
+        final cameraZoom = game.descendants().whereType<CameraZoom>().single;
+        final future = cameraZoom.completed;
 
         expect(future, completes);
       },
     );
 
-    tester.test(
+    tester.testGameWidget(
       'completes when checked before it is finished',
-      (game) async {
+      setUp: (game, _) async {
         final zoom = CameraZoom(value: 40);
-        final future = zoom.completed;
-
         await game.add(zoom);
+      },
+      verify: (game, _) async {
+        final cameraZoom = game.descendants().whereType<CameraZoom>().single;
+        final completed = cameraZoom.completed;
         game.update(10);
         game.update(0);
 
-        expect(future, completes);
+        expect(completed, completes);
       },
     );
   });

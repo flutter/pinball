@@ -68,44 +68,50 @@ void main() {
       fixtureDef = FixtureDef(CircleShape());
     });
 
-    flameTester.test(
+    flameTester.testGameWidget(
       "should add a new ContactCallbacks to the parent's body userData "
       'when not applied to fixtures',
-      (game) async {
+      setUp: (game, _) async {
         final parent = _TestBodyComponent();
         final contactBehavior = ContactBehavior();
         await parent.add(contactBehavior);
         await game.ensureAdd(parent);
-
+      },
+      verify: (game, _) async {
+        final parent =
+            game.descendants().whereType<_TestBodyComponent>().single;
         expect(parent.body.userData, isA<ContactCallbacks>());
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'should add a new ContactCallbacks to the targeted fixture ',
-      (game) async {
+      setUp: (game, _) async {
         final parent = _TestBodyComponent();
 
         await game.ensureAdd(parent);
         final fixture1 =
             parent.body.createFixture(fixtureDef..userData = 'foo');
-        final fixture2 = parent.body.createFixture(fixtureDef..userData = null);
+        parent.body.createFixture(fixtureDef..userData = null);
         final contactBehavior = ContactBehavior()
           ..applyTo(
             [fixture1.userData!],
           );
 
         await parent.ensureAdd(contactBehavior);
-
+      },
+      verify: (game, _) async {
+        final parent =
+            game.descendants().whereType<_TestBodyComponent>().single;
         expect(parent.body.userData, isNull);
-        expect(fixture1.userData, isA<ContactCallbacks>());
-        expect(fixture2.userData, isNull);
+        expect(parent.body.fixtures[0].userData, isA<ContactCallbacks>());
+        expect(parent.body.fixtures[1].userData, isNull);
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'should add a new ContactCallbacks to the targeted fixtures ',
-      (game) async {
+      setUp: (game, _) async {
         final parent = _TestBodyComponent();
 
         await game.ensureAdd(parent);
@@ -120,17 +126,20 @@ void main() {
           ]);
 
         await parent.ensureAdd(contactBehavior);
-
+      },
+      verify: (game, _) async {
+        final parent =
+            game.descendants().whereType<_TestBodyComponent>().single;
         expect(parent.body.userData, isNull);
-        expect(fixture1.userData, isA<ContactCallbacks>());
-        expect(fixture2.userData, isA<ContactCallbacks>());
+        expect(parent.body.fixtures[0].userData, isA<ContactCallbacks>());
+        expect(parent.body.fixtures[1].userData, isA<ContactCallbacks>());
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       "should respect the previous ContactCallbacks in the parent's userData "
       'when not applied to fixtures',
-      (game) async {
+      setUp: (game, _) async {
         final parent = _TestBodyComponent();
         await game.ensureAdd(parent);
         final contactCallbacks1 = _MockContactCallbacks();
@@ -163,9 +172,9 @@ void main() {
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'can group multiple ContactBehaviors and keep listening',
-      (game) async {
+      setUp: (game, _) async {
         final parent = _TestBodyComponent();
         await game.ensureAdd(parent);
 
@@ -202,10 +211,10 @@ void main() {
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'can group multiple ContactBehaviors and keep listening '
       'when applied to a fixture',
-      (game) async {
+      setUp: (game, _) async {
         final parent = _TestBodyComponent();
         await game.ensureAdd(parent);
 

@@ -8,7 +8,6 @@ import 'package:pinball_components/gen/assets.gen.dart';
 import 'package:pinball_components/pinball_components.dart' hide Assets;
 import 'package:pinball_components/src/components/bumping_behavior.dart';
 import 'package:pinball_components/src/components/kicker/behaviors/behaviors.dart';
-import 'package:pinball_flame/pinball_flame.dart';
 
 export 'cubit/kicker_cubit.dart';
 
@@ -17,7 +16,7 @@ export 'cubit/kicker_cubit.dart';
 /// opposite side.
 ///
 /// [Kicker]s are usually positioned above each [Flipper].
-/// {@endtemplate kicker}
+/// {@endtemplate}
 class Kicker extends BodyComponent with InitialPosition {
   /// {@macro kicker}
   Kicker({

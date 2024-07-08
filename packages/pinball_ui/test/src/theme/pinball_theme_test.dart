@@ -4,78 +4,78 @@ import 'package:pinball_ui/pinball_ui.dart';
 void main() {
   group('PinballTheme', () {
     group('standard', () {
-      test('headline1 matches PinballTextStyle#headline1', () {
+      test('displayLarge matches PinballTextStyle#displayLarge', () {
         expect(
-          PinballTheme.standard.textTheme.headline1!.fontSize,
-          PinballTextStyle.headline1.fontSize,
+          PinballTheme.standard.textTheme.displayLarge!.fontSize,
+          PinballTextStyle.displayLarge.fontSize,
         );
         expect(
-          PinballTheme.standard.textTheme.headline1!.color,
-          PinballTextStyle.headline1.color,
+          PinballTheme.standard.textTheme.displayLarge!.color,
+          PinballTextStyle.displayLarge.color,
         );
         expect(
-          PinballTheme.standard.textTheme.headline1!.fontFamily,
-          PinballTextStyle.headline1.fontFamily,
-        );
-      });
-
-      test('headline2 matches PinballTextStyle#headline2', () {
-        expect(
-          PinballTheme.standard.textTheme.headline2!.fontSize,
-          PinballTextStyle.headline2.fontSize,
-        );
-        expect(
-          PinballTheme.standard.textTheme.headline2!.fontFamily,
-          PinballTextStyle.headline2.fontFamily,
-        );
-        expect(
-          PinballTheme.standard.textTheme.headline2!.fontWeight,
-          PinballTextStyle.headline2.fontWeight,
+          PinballTheme.standard.textTheme.displayLarge!.fontFamily,
+          PinballTextStyle.displayLarge.fontFamily,
         );
       });
 
-      test('headline3 matches PinballTextStyle#headline3', () {
+      test('displayMedium matches PinballTextStyle#displayMedium', () {
         expect(
-          PinballTheme.standard.textTheme.headline3!.fontSize,
-          PinballTextStyle.headline3.fontSize,
+          PinballTheme.standard.textTheme.displayMedium!.fontSize,
+          PinballTextStyle.displayMedium.fontSize,
         );
         expect(
-          PinballTheme.standard.textTheme.headline3!.color,
-          PinballTextStyle.headline3.color,
+          PinballTheme.standard.textTheme.displayMedium!.fontFamily,
+          PinballTextStyle.displayMedium.fontFamily,
         );
         expect(
-          PinballTheme.standard.textTheme.headline3!.fontFamily,
-          PinballTextStyle.headline3.fontFamily,
-        );
-      });
-
-      test('headline4 matches PinballTextStyle#headline4', () {
-        expect(
-          PinballTheme.standard.textTheme.headline4!.fontSize,
-          PinballTextStyle.headline4.fontSize,
-        );
-        expect(
-          PinballTheme.standard.textTheme.headline4!.color,
-          PinballTextStyle.headline4.color,
-        );
-        expect(
-          PinballTheme.standard.textTheme.headline4!.fontFamily,
-          PinballTextStyle.headline4.fontFamily,
+          PinballTheme.standard.textTheme.displayMedium!.fontWeight,
+          PinballTextStyle.displayMedium.fontWeight,
         );
       });
 
-      test('subtitle1 matches PinballTextStyle#subtitle1', () {
+      test('displaySmall matches PinballTextStyle#displaySmall', () {
         expect(
-          PinballTheme.standard.textTheme.subtitle1!.fontSize,
-          PinballTextStyle.subtitle1.fontSize,
+          PinballTheme.standard.textTheme.displaySmall!.fontSize,
+          PinballTextStyle.displaySmall.fontSize,
         );
         expect(
-          PinballTheme.standard.textTheme.subtitle1!.color,
-          PinballTextStyle.subtitle1.color,
+          PinballTheme.standard.textTheme.displaySmall!.color,
+          PinballTextStyle.displaySmall.color,
         );
         expect(
-          PinballTheme.standard.textTheme.subtitle1!.fontFamily,
-          PinballTextStyle.subtitle1.fontFamily,
+          PinballTheme.standard.textTheme.displaySmall!.fontFamily,
+          PinballTextStyle.displaySmall.fontFamily,
+        );
+      });
+
+      test('headlineMedium matches PinballTextStyle#headlineMedium', () {
+        expect(
+          PinballTheme.standard.textTheme.headlineMedium!.fontSize,
+          PinballTextStyle.headlineMedium.fontSize,
+        );
+        expect(
+          PinballTheme.standard.textTheme.headlineMedium!.color,
+          PinballTextStyle.headlineMedium.color,
+        );
+        expect(
+          PinballTheme.standard.textTheme.headlineMedium!.fontFamily,
+          PinballTextStyle.headlineMedium.fontFamily,
+        );
+      });
+
+      test('titleMedium matches PinballTextStyle#titleMedium', () {
+        expect(
+          PinballTheme.standard.textTheme.titleMedium!.fontSize,
+          PinballTextStyle.titleMedium.fontSize,
+        );
+        expect(
+          PinballTheme.standard.textTheme.titleMedium!.color,
+          PinballTextStyle.titleMedium.color,
+        );
+        expect(
+          PinballTheme.standard.textTheme.titleMedium!.fontFamily,
+          PinballTextStyle.titleMedium.fontFamily,
         );
       });
     });

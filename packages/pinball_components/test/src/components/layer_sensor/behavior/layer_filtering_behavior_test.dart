@@ -45,9 +45,9 @@ void main() {
         );
       });
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'loads',
-        (game) async {
+        setUp: (game, _) async {
           final behavior = LayerFilteringBehavior();
           final parent = _TestLayerSensor(
             orientation: LayerEntranceOrientation.down,
@@ -57,8 +57,9 @@ void main() {
 
           await parent.add(behavior);
           await game.ensureAdd(parent);
-
-          expect(game.contains(parent), isTrue);
+        },
+        verify: (game, _) async {
+          expect(game.descendants().whereType<_TestLayerSensor>(), isNotEmpty);
         },
       );
 
@@ -78,59 +79,61 @@ void main() {
           when(() => ball.layer).thenReturn(Layer.board);
         });
 
-        flameTester.test(
-            'changes ball layer and zIndex '
-            'when a ball enters and exits a downward oriented LayerSensor',
-            (game) async {
-          final parent = _TestLayerSensor(
-            orientation: LayerEntranceOrientation.down,
-            insideZIndex: 1,
-            insideLayer: insideLayer,
-          )..initialPosition = Vector2(0, 10);
-          final behavior = LayerFilteringBehavior();
+        flameTester.testGameWidget(
+          'changes ball layer and zIndex '
+          'when a ball enters and exits a downward oriented LayerSensor',
+          setUp: (game, _) async {
+            final parent = _TestLayerSensor(
+              orientation: LayerEntranceOrientation.down,
+              insideZIndex: 1,
+              insideLayer: insideLayer,
+            )..initialPosition = Vector2(0, 10);
+            await game.ensureAdd(parent);
+          },
+          verify: (game, _) async {
+            when(() => body.linearVelocity).thenReturn(Vector2(0, -1));
+            final behavior =
+                game.descendants().whereType<LayerFilteringBehavior>().single;
 
-          await parent.add(behavior);
-          await game.ensureAdd(parent);
+            behavior.beginContact(ball, _MockContact());
+            verify(() => ball.layer = insideLayer).called(1);
+            verify(() => ball.zIndex = insideZIndex).called(1);
 
-          when(() => body.linearVelocity).thenReturn(Vector2(0, -1));
+            when(() => ball.layer).thenReturn(insideLayer);
 
-          behavior.beginContact(ball, _MockContact());
-          verify(() => ball.layer = insideLayer).called(1);
-          verify(() => ball.zIndex = insideZIndex).called(1);
+            behavior.beginContact(ball, _MockContact());
+            verify(() => ball.layer = Layer.board);
+            verify(() => ball.zIndex = ZIndexes.ballOnBoard).called(1);
+          },
+        );
 
-          when(() => ball.layer).thenReturn(insideLayer);
+        flameTester.testGameWidget(
+          'changes ball layer and zIndex '
+          'when a ball enters and exits an upward oriented LayerSensor',
+          setUp: (game, _) async {
+            final parent = _TestLayerSensor(
+              orientation: LayerEntranceOrientation.up,
+              insideZIndex: 1,
+              insideLayer: insideLayer,
+            )..initialPosition = Vector2(0, 10);
+            await game.ensureAdd(parent);
+          },
+          verify: (game, _) async {
+            final behavior =
+                game.descendants().whereType<LayerFilteringBehavior>().single;
+            when(() => body.linearVelocity).thenReturn(Vector2(0, 1));
 
-          behavior.beginContact(ball, _MockContact());
-          verify(() => ball.layer = Layer.board);
-          verify(() => ball.zIndex = ZIndexes.ballOnBoard).called(1);
-        });
+            behavior.beginContact(ball, _MockContact());
+            verify(() => ball.layer = insideLayer).called(1);
+            verify(() => ball.zIndex = 1).called(1);
 
-        flameTester.test(
-            'changes ball layer and zIndex '
-            'when a ball enters and exits an upward oriented LayerSensor',
-            (game) async {
-          final parent = _TestLayerSensor(
-            orientation: LayerEntranceOrientation.up,
-            insideZIndex: 1,
-            insideLayer: insideLayer,
-          )..initialPosition = Vector2(0, 10);
-          final behavior = LayerFilteringBehavior();
+            when(() => ball.layer).thenReturn(insideLayer);
 
-          await parent.add(behavior);
-          await game.ensureAdd(parent);
-
-          when(() => body.linearVelocity).thenReturn(Vector2(0, 1));
-
-          behavior.beginContact(ball, _MockContact());
-          verify(() => ball.layer = insideLayer).called(1);
-          verify(() => ball.zIndex = 1).called(1);
-
-          when(() => ball.layer).thenReturn(insideLayer);
-
-          behavior.beginContact(ball, _MockContact());
-          verify(() => ball.layer = Layer.board);
-          verify(() => ball.zIndex = ZIndexes.ballOnBoard).called(1);
-        });
+            behavior.beginContact(ball, _MockContact());
+            verify(() => ball.layer = Layer.board);
+            verify(() => ball.zIndex = ZIndexes.ballOnBoard).called(1);
+          },
+        );
       });
     },
   );

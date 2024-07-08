@@ -48,7 +48,7 @@ class _Title extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Text(
         title,
-        style: Theme.of(context).textTheme.headline3!.copyWith(
+        style: Theme.of(context).textTheme.displaySmall!.copyWith(
               fontWeight: FontWeight.bold,
               color: PinballColors.darkBlue,
             ),
@@ -79,7 +79,8 @@ class _TitleAndSubtitle extends StatelessWidget {
           subtitle,
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.center,
-          style: textTheme.headline3!.copyWith(fontWeight: FontWeight.normal),
+          style:
+              textTheme.displaySmall!.copyWith(fontWeight: FontWeight.normal),
         ),
       ],
     );

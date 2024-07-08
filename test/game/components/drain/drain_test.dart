@@ -11,29 +11,37 @@ void main() {
   final flameTester = FlameTester(Forge2DGame.new);
 
   group('Drain', () {
-    flameTester.test(
+    flameTester.testGameWidget(
       'loads correctly',
-      (game) async {
+      setUp: (game, _) async {
         final drain = Drain();
         await game.ensureAdd(drain);
-        expect(game.contains(drain), isTrue);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<Drain>(), isNotEmpty);
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'body is static',
-      (game) async {
+      setUp: (game, _) async {
         final drain = Drain();
         await game.ensureAdd(drain);
+      },
+      verify: (game, _) async {
+        final drain = game.descendants().whereType<Drain>().single;
         expect(drain.body.bodyType, equals(BodyType.static));
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'is sensor',
-      (game) async {
+      setUp: (game, _) async {
         final drain = Drain();
         await game.ensureAdd(drain);
+      },
+      verify: (game, _) async {
+        final drain = game.descendants().whereType<Drain>().single;
         expect(drain.body.fixtures.first.isSensor, isTrue);
       },
     );

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flame/image_composition.dart';
+import 'package:flame/sprite.dart';
 import 'package:flutter/material.dart' hide Animation;
 
 /// {@template flame.widgets.sprite_animation_widget}
@@ -28,7 +29,7 @@ class SpriteAnimationWidget extends StatelessWidget {
       builder: (_, __) {
         return CustomPaint(
           painter: SpritePainter(
-            controller.animation.getSprite(),
+            controller.animationTicker.getSprite(),
             anchor,
           ),
         );
@@ -45,12 +46,16 @@ class SpriteAnimationController extends AnimationController {
   SpriteAnimationController({
     required TickerProvider vsync,
     required this.animation,
+    required this.animationTicker,
   }) : super(vsync: vsync) {
-    duration = Duration(seconds: animation.totalDuration().ceil());
+    duration = Duration(seconds: animationTicker.totalDuration().ceil());
   }
 
   /// [SpriteAnimation] associated to this controller
   final SpriteAnimation animation;
+
+  /// [SpriteAnimationTicker] associated to this controller
+  final SpriteAnimationTicker animationTicker;
 
   double? _lastUpdated;
 
@@ -60,7 +65,7 @@ class SpriteAnimationController extends AnimationController {
 
     final now = DateTime.now().millisecond.toDouble();
     final dt = max<double>(0, (now - (_lastUpdated ?? 0)) / 1000);
-    animation.update(dt);
+    animationTicker.update(dt);
     _lastUpdated = now;
   }
 }

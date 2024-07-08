@@ -11,7 +11,7 @@ void main() {
       expect: () => [
         const StartGameState(
           status: StartGameStatus.selectCharacter,
-        )
+        ),
       ],
     );
 
@@ -22,7 +22,7 @@ void main() {
       expect: () => [
         const StartGameState(
           status: StartGameStatus.selectCharacter,
-        )
+        ),
       ],
     );
 
@@ -33,7 +33,7 @@ void main() {
       expect: () => [
         const StartGameState(
           status: StartGameStatus.howToPlay,
-        )
+        ),
       ],
     );
 
@@ -44,7 +44,7 @@ void main() {
       expect: () => [
         const StartGameState(
           status: StartGameStatus.play,
-        )
+        ),
       ],
     );
   });

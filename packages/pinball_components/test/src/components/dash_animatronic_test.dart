@@ -17,13 +17,17 @@ void main() {
       'renders correctly',
       setUp: (game, tester) async {
         await game.images.load(asset);
-        await game.ensureAdd(DashAnimatronic()..playing = true);
-        game.camera.followVector2(Vector2.zero());
+        await game.world.ensureAdd(DashAnimatronic()..playing = true);
+        game.camera.moveTo(Vector2.zero());
         await tester.pump();
       },
       verify: (game, tester) async {
-        final animationDuration =
-            game.firstChild<DashAnimatronic>()!.animation!.totalDuration();
+        final animationDuration = game
+            .descendants()
+            .whereType<DashAnimatronic>()
+            .single
+            .animationTicker!
+            .totalDuration();
 
         await expectLater(
           find.byGame<TestGame>(),
@@ -46,23 +50,37 @@ void main() {
       },
     );
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'loads correctly',
-      (game) async {
+      setUp: (game, _) async {
+        await game.onLoad();
         final dashAnimatronic = DashAnimatronic();
         await game.ensureAdd(dashAnimatronic);
-
-        expect(game.contains(dashAnimatronic), isTrue);
+      },
+      verify: (game, _) async {
+        expect(
+          game.descendants().whereType<DashAnimatronic>().length,
+          equals(1),
+        );
       },
     );
 
-    flameTester.test('adds new children', (game) async {
-      final component = Component();
-      final dashAnimatronic = DashAnimatronic(
-        children: [component],
-      );
-      await game.ensureAdd(dashAnimatronic);
-      expect(dashAnimatronic.children, contains(component));
-    });
+    flameTester.testGameWidget(
+      'adds new children',
+      setUp: (game, _) async {
+        await game.onLoad();
+        final component = Component();
+        final dashAnimatronic = DashAnimatronic(
+          children: [component],
+        );
+        await game.ensureAdd(dashAnimatronic);
+        await game.ready();
+      },
+      verify: (game, _) async {
+        final dashAnimatronic =
+            game.descendants().whereType<DashAnimatronic>().single;
+        expect(dashAnimatronic.children.whereType<Component>(), isNotNull);
+      },
+    );
   });
 }

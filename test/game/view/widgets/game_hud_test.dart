@@ -137,7 +137,9 @@ void main() {
           );
           await _pumpAppWithWidget(tester);
           await tester.pump();
-          await Future<void>.delayed(const Duration(seconds: 6));
+          expect(find.byType(BonusAnimation), findsOneWidget);
+          await Future.delayed(const Duration(seconds: 6));
+          await tester.pump();
           await expectLater(find.byType(ScoreView), findsOneWidget);
         });
       },

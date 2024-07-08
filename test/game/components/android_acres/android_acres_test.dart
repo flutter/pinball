@@ -54,17 +54,25 @@ void main() {
   group('AndroidAcres', () {
     final flameTester = FlameTester(_TestGame.new);
 
-    flameTester.test('loads correctly', (game) async {
-      final component = AndroidAcres();
-      await game.pump(component);
-      expect(game.descendants(), contains(component));
-    });
+    flameTester.testGameWidget(
+      'loads correctly',
+      setUp: (game, _) async {
+        final component = AndroidAcres();
+        await game.pump(component);
+      },
+      verify: (game, _) async {
+        expect(game.descendants().whereType<AndroidAcres>(), isNotEmpty);
+      },
+    );
 
     group('loads', () {
-      flameTester.test(
+      flameTester.testGameWidget(
         'an AndroidSpaceship',
-        (game) async {
-          await game.pump(AndroidAcres());
+        setUp: (game, _) async {
+          final component = AndroidAcres();
+          await game.pump(component);
+        },
+        verify: (game, _) async {
           expect(
             game.descendants().whereType<AndroidSpaceship>().length,
             equals(1),
@@ -72,10 +80,13 @@ void main() {
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'an AndroidAnimatronic',
-        (game) async {
-          await game.pump(AndroidAcres());
+        setUp: (game, _) async {
+          final component = AndroidAcres();
+          await game.pump(component);
+        },
+        verify: (game, _) async {
           expect(
             game.descendants().whereType<AndroidAnimatronic>().length,
             equals(1),
@@ -83,10 +94,13 @@ void main() {
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'a SpaceshipRamp',
-        (game) async {
-          await game.pump(AndroidAcres());
+        setUp: (game, _) async {
+          final component = AndroidAcres();
+          await game.pump(component);
+        },
+        verify: (game, _) async {
           expect(
             game.descendants().whereType<SpaceshipRamp>().length,
             equals(1),
@@ -94,10 +108,13 @@ void main() {
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'a SpaceshipRail',
-        (game) async {
-          await game.pump(AndroidAcres());
+        setUp: (game, _) async {
+          final component = AndroidAcres();
+          await game.pump(component);
+        },
+        verify: (game, _) async {
           expect(
             game.descendants().whereType<SpaceshipRail>().length,
             equals(1),
@@ -105,10 +122,13 @@ void main() {
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'three AndroidBumper',
-        (game) async {
-          await game.pump(AndroidAcres());
+        setUp: (game, _) async {
+          final component = AndroidAcres();
+          await game.pump(component);
+        },
+        verify: (game, _) async {
           expect(
             game.descendants().whereType<AndroidBumper>().length,
             equals(3),
@@ -116,10 +136,13 @@ void main() {
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'three AndroidBumpers with BumperNoiseBehavior',
-        (game) async {
-          await game.pump(AndroidAcres());
+        setUp: (game, _) async {
+          final component = AndroidAcres();
+          await game.pump(component);
+        },
+        verify: (game, _) async {
           final bumpers = game.descendants().whereType<AndroidBumper>();
           for (final bumper in bumpers) {
             expect(
@@ -130,10 +153,13 @@ void main() {
         },
       );
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'one AndroidBumper with CowBumperNoiseBehavior',
-        (game) async {
-          await game.pump(AndroidAcres());
+        setUp: (game, _) async {
+          final component = AndroidAcres();
+          await game.pump(component);
+        },
+        verify: (game, _) async {
           final bumpers = game.descendants().whereType<AndroidBumper>();
 
           expect(
@@ -146,30 +172,45 @@ void main() {
       );
     });
 
-    flameTester.test('adds a FlameBlocProvider', (game) async {
-      final androidAcres = AndroidAcres();
-      await game.pump(androidAcres);
-      expect(
-        androidAcres.children
+    flameTester.testGameWidget(
+      'adds a FlameBlocProvider',
+      setUp: (game, _) async {
+        final component = AndroidAcres();
+        await game.pump(component);
+      },
+      verify: (game, _) async {
+        final androidAcres =
+            game.descendants().whereType<AndroidAcres>().single;
+        expect(
+          androidAcres.children
+              .whereType<
+                  FlameBlocProvider<AndroidSpaceshipCubit,
+                      AndroidSpaceshipState>>()
+              .single,
+          isNotNull,
+        );
+      },
+    );
+
+    flameTester.testGameWidget(
+      'adds an AndroidSpaceshipBonusBehavior',
+      setUp: (game, _) async {
+        final component = AndroidAcres();
+        await game.pump(component);
+      },
+      verify: (game, _) async {
+        final androidAcres =
+            game.descendants().whereType<AndroidAcres>().single;
+        final provider = androidAcres.children
             .whereType<
                 FlameBlocProvider<AndroidSpaceshipCubit,
                     AndroidSpaceshipState>>()
-            .single,
-        isNotNull,
-      );
-    });
-
-    flameTester.test('adds an AndroidSpaceshipBonusBehavior', (game) async {
-      final androidAcres = AndroidAcres();
-      await game.pump(androidAcres);
-      final provider = androidAcres.children
-          .whereType<
-              FlameBlocProvider<AndroidSpaceshipCubit, AndroidSpaceshipState>>()
-          .single;
-      expect(
-        provider.children.whereType<AndroidSpaceshipBonusBehavior>().single,
-        isNotNull,
-      );
-    });
+            .single;
+        expect(
+          provider.children.whereType<AndroidSpaceshipBonusBehavior>().single,
+          isNotNull,
+        );
+      },
+    );
   });
 }

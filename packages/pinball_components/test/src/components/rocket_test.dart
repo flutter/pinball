@@ -19,11 +19,11 @@ void main() {
       'renders correctly',
       setUp: (game, tester) async {
         await game.images.loadAll(assets);
-        await game.ensureAdd(RocketSpriteComponent());
+        await game.world.ensureAdd(RocketSpriteComponent());
 
         game.camera
-          ..followVector2(Vector2.zero())
-          ..zoom = 8;
+          ..moveTo(Vector2.zero())
+          ..viewfinder.zoom = 8;
 
         await tester.pump();
       },

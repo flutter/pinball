@@ -39,18 +39,27 @@ void main() {
   group('FlutterForestBonusBehavior', () {
     final flameTester = FlameTester(_TestGame.new);
 
-    flameTester.test(
+    flameTester.testGameWidget(
       'adds a ball with a BallImpulsingBehavior to the game onTick '
       'resulting in a -40 x impulse',
-      (game) async {
+      setUp: (game, _) async {
         await game.onLoad();
         final behavior = BonusBallSpawningBehavior();
 
         await game.pump(behavior);
-
-        game.update(behavior.timer.limit);
         await game.ready();
+      },
+      verify: (game, tester) async {
+        expect(
+          game.descendants().whereType<BonusBallSpawningBehavior>(),
+          isNotEmpty,
+        );
+        final behavior =
+            game.descendants().whereType<BonusBallSpawningBehavior>().single;
+        game.update(behavior.timer.limit);
+        await tester.pump();
 
+        expect(game.descendants().whereType<Ball>(), isNotEmpty);
         final ball = game.descendants().whereType<Ball>().single;
 
         expect(ball.body.linearVelocity.x, equals(-40));

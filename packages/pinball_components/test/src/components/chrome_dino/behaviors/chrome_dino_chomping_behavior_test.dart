@@ -35,9 +35,9 @@ void main() {
         );
       });
 
-      flameTester.test(
+      flameTester.testGameWidget(
         'beginContact sets ball sprite to be invisible and calls onChomp',
-        (game) async {
+        setUp: (game, _) async {
           final ball = Ball();
           final behavior = ChromeDinoChompingBehavior();
           final bloc = _MockChromeDinoCubit();
@@ -53,11 +53,16 @@ void main() {
           final chromeDino = ChromeDino.test(bloc: bloc);
           await chromeDino.add(behavior);
           await game.ensureAddAll([chromeDino, ball]);
-
+        },
+        verify: (game, _) async {
           final contact = _MockContact();
           final fixture = _MockFixture();
           when(() => contact.fixtureA).thenReturn(fixture);
           when(() => fixture.userData).thenReturn('inside_mouth');
+          final behavior =
+              game.descendants().whereType<ChromeDinoChompingBehavior>().single;
+          final ball = game.descendants().whereType<Ball>().single;
+          final bloc = game.descendants().whereType<ChromeDino>().single.bloc;
 
           behavior.beginContact(ball, contact);
 
