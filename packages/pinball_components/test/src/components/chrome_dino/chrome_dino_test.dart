@@ -24,8 +24,10 @@ void main() {
     flameTester.testGameWidget(
       'loads correctly',
       setUp: (game, _) async {
+        await game.onLoad();
         final chromeDino = ChromeDino();
         await game.ensureAdd(chromeDino);
+        await game.ready();
       },
       verify: (game, _) async {
         expect(game.descendants().whereType<ChromeDino>(), isNotEmpty);
@@ -76,6 +78,7 @@ void main() {
     flameTester.testGameWidget(
       'closes bloc when removed',
       setUp: (game, _) async {
+        await game.onLoad();
         final bloc = _MockChromeDinoCubit();
         whenListen(
           bloc,
@@ -100,8 +103,10 @@ void main() {
       flameTester.testGameWidget(
         'a ChromeDinoMouthOpeningBehavior',
         setUp: (game, _) async {
+          await game.onLoad();
           final chromeDino = ChromeDino();
           await game.ensureAdd(chromeDino);
+          await game.ready();
         },
         verify: (game, _) async {
           final chromeDino = game.descendants().whereType<ChromeDino>().single;
@@ -117,8 +122,10 @@ void main() {
       flameTester.testGameWidget(
         'a ChromeDinoSwivelingBehavior',
         setUp: (game, _) async {
+          await game.onLoad();
           final chromeDino = ChromeDino();
           await game.ensureAdd(chromeDino);
+          await game.ready();
         },
         verify: (game, _) async {
           final chromeDino = game.descendants().whereType<ChromeDino>().single;
@@ -132,8 +139,10 @@ void main() {
       flameTester.testGameWidget(
         'a ChromeDinoChompingBehavior',
         setUp: (game, _) async {
+          await game.onLoad();
           final chromeDino = ChromeDino();
           await game.ensureAdd(chromeDino);
+          await game.ready();
         },
         verify: (game, _) async {
           final chromeDino = game.descendants().whereType<ChromeDino>().single;
@@ -147,8 +156,10 @@ void main() {
       flameTester.testGameWidget(
         'a ChromeDinoSpittingBehavior',
         setUp: (game, _) async {
+          await game.onLoad();
           final chromeDino = ChromeDino();
           await game.ensureAdd(chromeDino);
+          await game.ready();
         },
         verify: (game, _) async {
           final chromeDino = game.descendants().whereType<ChromeDino>().single;
@@ -162,11 +173,13 @@ void main() {
       flameTester.testGameWidget(
         'new children',
         setUp: (game, _) async {
+          await game.onLoad();
           final component = Component();
           final chromeDino = ChromeDino(
             children: [component],
           );
           await game.ensureAdd(chromeDino);
+          await game.ready();
         },
         verify: (game, _) async {
           final chromeDino = game.descendants().whereType<ChromeDino>().single;

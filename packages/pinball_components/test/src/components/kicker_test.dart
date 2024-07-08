@@ -51,11 +51,13 @@ void main() {
     flameTester.testGameWidget(
       'loads correctly',
       setUp: (game, _) async {
+        await game.onLoad();
         final kicker = Kicker.test(
           side: BoardSide.left,
           bloc: KickerCubit(),
         );
         await game.ensureAdd(kicker);
+        await game.ready();
       },
       verify: (game, _) async {
         expect(game.descendants().whereType<Kicker>().length, equals(1));
@@ -65,6 +67,7 @@ void main() {
     flameTester.testGameWidget(
       'closes bloc when removed',
       setUp: (game, _) async {
+        await game.onLoad();
         final bloc = _MockKickerCubit();
         whenListen(
           bloc,
@@ -93,12 +96,14 @@ void main() {
       flameTester.testGameWidget(
         'new children',
         setUp: (game, _) async {
+          await game.onLoad();
           final component = Component();
           final kicker = Kicker(
             side: BoardSide.left,
             children: [component],
           );
           await game.ensureAdd(kicker);
+          await game.ready();
         },
         verify: (game, _) async {
           final kicker = game.descendants().whereType<Kicker>().single;
@@ -109,10 +114,12 @@ void main() {
       flameTester.testGameWidget(
         'a BumpingBehavior',
         setUp: (game, _) async {
+          await game.onLoad();
           final kicker = Kicker(
             side: BoardSide.left,
           );
           await game.ensureAdd(kicker);
+          await game.ready();
         },
         verify: (game, _) async {
           final kicker = game.descendants().whereType<Kicker>().single;
@@ -126,10 +133,12 @@ void main() {
       flameTester.testGameWidget(
         'a KickerBallContactBehavior',
         setUp: (game, _) async {
+          await game.onLoad();
           final kicker = Kicker(
             side: BoardSide.left,
           );
           await game.ensureAdd(kicker);
+          await game.ready();
         },
         verify: (game, _) async {
           final kicker = game.descendants().whereType<Kicker>().single;
@@ -143,10 +152,12 @@ void main() {
       flameTester.testGameWidget(
         'a KickerBlinkingBehavior',
         setUp: (game, _) async {
+          await game.onLoad();
           final kicker = Kicker(
             side: BoardSide.left,
           );
           await game.ensureAdd(kicker);
+          await game.ready();
         },
         verify: (game, _) async {
           final kicker = game.descendants().whereType<Kicker>().single;

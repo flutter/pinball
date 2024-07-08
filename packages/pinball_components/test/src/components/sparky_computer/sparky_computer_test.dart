@@ -25,8 +25,10 @@ void main() {
     flameTester.testGameWidget(
       'loads correctly',
       setUp: (game, _) async {
+        await game.onLoad();
         final component = SparkyComputer();
         await game.ensureAdd(component);
+        await game.ready();
       },
       verify: (game, _) async {
         expect(game.descendants().whereType<SparkyComputer>().length, 1);
@@ -55,6 +57,7 @@ void main() {
     flameTester.testGameWidget(
       'closes bloc when removed',
       setUp: (game, _) async {
+        await game.onLoad();
         final bloc = _MockSparkyComputerCubit();
         whenListen(
           bloc,
@@ -81,11 +84,13 @@ void main() {
       flameTester.testGameWidget(
         'new children',
         setUp: (game, _) async {
+          await game.onLoad();
           final component = Component();
           final sparkyComputer = SparkyComputer(
             children: [component],
           );
           await game.ensureAdd(sparkyComputer);
+          await game.ready();
         },
         verify: (game, _) async {
           final sparkyComputer =
@@ -97,8 +102,10 @@ void main() {
       flameTester.testGameWidget(
         'a SparkyComputerSensorBallContactBehavior',
         setUp: (game, _) async {
+          await game.onLoad();
           final sparkyComputer = SparkyComputer();
           await game.ensureAdd(sparkyComputer);
+          await game.ready();
         },
         verify: (game, _) async {
           final sparkyComputer =
