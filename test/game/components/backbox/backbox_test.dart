@@ -241,8 +241,8 @@ void main() {
       setUp: (game, tester) async {
         await game.onLoad();
         game.camera
-          ..moveTo(Vector2(0, -173))
-          ..viewfinder.zoom = 3;
+          ..moveTo(Vector2(0, -130))
+          ..viewfinder.zoom = 6;
         await game.pump(
           Backbox.test(
             bloc: bloc,
